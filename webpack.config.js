@@ -2,7 +2,7 @@ var entry = require.resolve('./src/index.js');
 
 var path = require('path');
 var webpack = require('webpack');
-var loaders = require('./node_modules/vtk.js/Utilities/config/webpack.loaders.js');
+var vtkLoaders = require('vtk.js/Utilities/config/dependency.js').webpack.v1.loaders;
 var pluginList = [];
 
 if (process.env.NODE_ENV === 'production') {
@@ -29,7 +29,7 @@ module.exports = {
     }],
     loaders: [
       { test: entry, loader: 'expose?itkVtkImageViewer' },
-    ].concat(loaders),
+    ].concat(vtkLoaders),
   },
   postcss: [
     require('autoprefixer')({ browsers: ['last 2 versions'] }),
@@ -39,7 +39,6 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'vtk.js': path.resolve('.'),
     },
   },
 };

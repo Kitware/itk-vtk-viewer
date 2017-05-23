@@ -18,6 +18,7 @@ module.exports = {
     // Not for us ;-)
     'jsx-a11y/label-has-for': 0,
     'no-console': 0,
+    'no-alert': 0,
     'no-plusplus': 0,
     'linebreak-style': 0,
 

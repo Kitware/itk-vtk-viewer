@@ -29,6 +29,11 @@ module.exports = {
     }],
     loaders: [
       { test: entry, loader: 'expose?itkVtkImageViewer' },
+      { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' },
+      { test: /\.html$/, loader: 'html-loader' },
+      { test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader' },
+      { test: /\.mcss$/, loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]!postcss-loader' },
+      { test: /\.js$/, loader: 'babel-loader?presets[]=es2015' },
     ].concat(vtkLoaders),
   },
   postcss: [

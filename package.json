@@ -20,7 +20,7 @@
     },
     "devDependencies": {
         "kw-web-suite": "2.2.1",
-        "kw-doc": "1.0.19",
+        "kw-doc": "1.0.20",
         "vtk.js": "2.24.1",
 
         "babel-polyfill": "6.13.0",
@@ -34,6 +34,9 @@
         "build"         : "webpack --progress --colors",
         "build:debug"   : "webpack --progress --colors --display-modules",
         "build:release" : "export NODE_ENV=production && npm run build -- -p",
+        "postbuild:release" : "npm run bundle",
+
+        "bundle"        : "StandaloneHTML ./dist/index.html ./dist/ItkVtkImageViewer.html",
 
         "commit"        : "git cz",
         "semantic-release": "semantic-release pre && npm publish && semantic-release post"

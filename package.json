@@ -47,5 +47,6 @@
         }
     },
     "bin": {
+      "ItkVtkImageViewer": "./bin/ItkVtkImageViewer-cli.js"
     }
 }

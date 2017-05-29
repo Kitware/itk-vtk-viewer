@@ -35,7 +35,7 @@
     "build": "webpack --progress --colors",
     "build:debug": "webpack --progress --colors --display-modules",
     "build:release": "export NODE_ENV=production && npm run build -- -p",
-    "postbuild:release": "npm run bundle",
+    "postbuild:release": "npm run bundle && cp -r ./node_modules/itk/dist/* ./dist/",
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkImageViewer.html",
     "commit": "git cz",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"

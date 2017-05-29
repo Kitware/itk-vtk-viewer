@@ -32,7 +32,7 @@ const processData = (container, { file, ext }) => {
     // Create VTK Image Data
     const imageData = vtkImageData.newInstance(vtkImage);
     const scalar = vtkDataArray.newInstance(array);
-    imageData.setDimension(...dimensions);
+    imageData.setDimensions(...dimensions);
     imageData.getPointData().setScalars(scalar);
 
     viewer.createViewer(container, {

@@ -1,53 +1,51 @@
 {
-    "name": "itk-vtk-image-viewer",
-    "version": "0.0.0-semantically-release",
-    "description": "ITK/VTK Image Viewer",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/kitware/itk-vtk-image-viewer.git"
-    },
-    "license": "BSD-3-Clause",
-    "bugs": { "url": "https://github.com/kitware/itk-vtk-image-viewer/issues" },
-    "homepage": "https://github.com/kitware/itk-vtk-image-viewer#readme",
-    "main": "./dist/itkVtkImageViewer.js",
-    "dependencies": {
-        "commander": "2.9.0",
-        "shelljs": "0.7.4",
-        "gh-pages": "0.10.0",
-        "blueimp-md5": "2.3.0",
-        "seedrandom": "2.4.2",
-        "gl-matrix": "2.3.1"
-    },
-    "devDependencies": {
-        "kw-web-suite": "2.2.1",
-        "kw-doc": "1.0.20",
-        "vtk.js": "2.24.1",
-        "itk": "1.0.1",
-
-        "babel-polyfill": "6.13.0",
-        "normalize.css": "5.0.0"
-    },
-    "scripts": {
-        "doc"           : "kw-doc -c ./doc/config.js",
-        "doc:www"       : "npm t -- --single-run && kw-doc -c ./doc/config.js -s",
-        "doc:publish"   : "kw-doc -c ./doc/config.js -mp",
-
-        "build"         : "webpack --progress --colors",
-        "build:debug"   : "webpack --progress --colors --display-modules",
-        "build:release" : "export NODE_ENV=production && npm run build -- -p",
-        "postbuild:release" : "npm run bundle",
-
-        "bundle"        : "StandaloneHTML ./dist/index.html ./dist/ItkVtkImageViewer.html",
-
-        "commit"        : "git cz",
-        "semantic-release": "semantic-release pre && npm publish && semantic-release post"
-    },
-    "config": {
-        "commitizen": {
-            "path": "node_modules/cz-conventional-changelog"
-        }
-    },
-    "bin": {
-      "ItkVtkImageViewer": "./bin/ItkVtkImageViewer-cli.js"
+  "name": "itk-vtk-image-viewer",
+  "version": "0.0.0-semantically-release",
+  "description": "ITK/VTK Image Viewer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitware/itk-vtk-image-viewer.git"
+  },
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/kitware/itk-vtk-image-viewer/issues"
+  },
+  "homepage": "https://github.com/kitware/itk-vtk-image-viewer#readme",
+  "main": "./dist/itkVtkImageViewer.js",
+  "dependencies": {
+    "commander": "2.9.0",
+    "shelljs": "0.7.4",
+    "gh-pages": "0.10.0",
+    "blueimp-md5": "2.3.0",
+    "seedrandom": "2.4.2",
+    "gl-matrix": "2.3.1"
+  },
+  "devDependencies": {
+    "babel-polyfill": "6.13.0",
+    "itk": "^2.0.0",
+    "kw-doc": "1.0.20",
+    "kw-web-suite": "2.2.1",
+    "normalize.css": "5.0.0",
+    "vtk.js": "2.24.1"
+  },
+  "scripts": {
+    "doc": "kw-doc -c ./doc/config.js",
+    "doc:www": "npm t -- --single-run && kw-doc -c ./doc/config.js -s",
+    "doc:publish": "kw-doc -c ./doc/config.js -mp",
+    "build": "webpack --progress --colors",
+    "build:debug": "webpack --progress --colors --display-modules",
+    "build:release": "export NODE_ENV=production && npm run build -- -p",
+    "postbuild:release": "npm run bundle",
+    "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkImageViewer.html",
+    "commit": "git cz",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
     }
+  },
+  "bin": {
+    "ItkVtkImageViewer": "./bin/ItkVtkImageViewer-cli.js"
+  }
 }

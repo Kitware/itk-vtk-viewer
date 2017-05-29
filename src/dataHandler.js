@@ -5,10 +5,14 @@ import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray';
 import itkreadImageFile from 'itk/dist/itkreadImageFile';
 
 import viewer from './viewer';
+import helper from './helper';
 
 const fetchZip = url => vtkHttpDataAccessHelper.fetchZipFile(url);
 
 const processData = (container, { file, ext }) => {
+  helper.emptyContainer(container);
+  helper.createLoadingProgress(container);
+
   /* eslint-disable new-cap */
   itkreadImageFile(file).then((itkImage) => {
     const array = {

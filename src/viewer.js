@@ -64,8 +64,7 @@ const VIEWER_MAPPING = {
 
 function createViewer(container, data) {
   helper.emptyContainer(container);
-
-  const config = { rootContainer: container };
+  const config = { rootContainer: container, background: [0, 0, 0] };
   if (container) {
     config.containerStyle = {
       position: 'relative',
@@ -76,7 +75,7 @@ function createViewer(container, data) {
       overflow: 'hidden',
     };
     // config.controlPanelStyle = {};
-    config.listenWindowResize = false;
+    config.listenWindowResize = true;
   }
 
   const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance(config);

@@ -44,6 +44,16 @@ function applyStyle(el, style) {
   });
 }
 
+function createLoadingProgress(container) {
+  const workContainer = document.querySelector('.content');
+  const rootBody = document.querySelector('body');
+  const myContainer = container || workContainer || rootBody;
+
+  const loading = document.createElement('div');
+  loading.setAttribute('class', 'loading');
+  myContainer.appendChild(loading);
+}
+
 function createFileDragAndDrop(container, onDataChange) {
   const workContainer = document.querySelector('.content');
   const rootBody = document.querySelector('body');
@@ -70,6 +80,7 @@ function createFileDragAndDrop(container, onDataChange) {
 }
 
 export default {
+  createLoadingProgress,
   emptyContainer,
   applyStyle,
   createFileDragAndDrop,

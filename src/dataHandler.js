@@ -1,57 +1,46 @@
 import vtkHttpDataAccessHelper from 'vtk.js/Sources/IO/Core/DataAccessHelper/HttpDataAccessHelper';
 import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData';
-import vtkDataArray from 'vtk.js/Sources/Common/Core/ImageData';
+import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray';
 
-import NrrdReader from 'itk/dist/itkImageIOs/itkNrrdImageIOJSBinding';
+import itkreadImageFile from 'itk/dist/itkreadImageFile';
 
 import viewer from './viewer';
 
-function fetchZip(url) {
-  return vtkHttpDataAccessHelper.fetchZipFile(url);
-}
+const fetchZip = url => vtkHttpDataAccessHelper.fetchZipFile(url);
 
-function processData(container, { file, ext }) {
+const processData = (container, { file, ext }) => {
   /* eslint-disable new-cap */
-  // FIXME --------------------------------------------------------------------
-  const filePath = '';
-  NrrdReader.mountContainingDirectory(filePath);
+  itkreadImageFile(file).then((itkImage) => {
+    const array = {
+      values: itkImage.buffer,
+      numberOfComponents: itkImage.imageType.components,
+    };
 
-  const reader = new NrrdReader.ITKImageIO();
-  reader.SetFileName(filePath);
-  // reader.SetFileContent(file); // <--- Something like that for web
-  reader.ReadImageInformation();
+    const vtkImage = {
+      origin: [0, 0, 0],
+      spacing: [1, 1, 1],
+    };
 
-  const array = {
-    values: reader.Read(),
-    numberOfComponents: reader.GetNumberOfComponents(),
-  };
+    const dimensions = [1, 1, 1];
 
-  const image = {
-    origin: [0, 0, 0],
-    spacing: [1, 1, 1],
-  };
+    for (let idx = 0; idx < itkImage.imageType.dimension; ++idx) {
+      vtkImage.origin[idx] = itkImage.origin[idx];
+      vtkImage.spacing[idx] = itkImage.spacing[idx];
+      dimensions[idx] = itkImage.size[idx];
+    }
 
-  const dimensions = [1, 1, 1];
+    // Create VTK Image Data
+    const imageData = vtkImageData.newInstance(vtkImage);
+    const scalar = vtkDataArray.newInstance(array);
+    imageData.setDimension(...dimensions);
+    imageData.getPointData().setScalars(scalar);
 
-  for (let idx = 0; idx < reader.GetNumberOfDimensions(); idx++) {
-    image.origin[idx] = reader.GetOrigin(idx);
-    image.spacing[idx] = reader.GetSpacing(idx);
-    dimensions[idx] = reader.GetDimensions(idx);
-  }
-  NrrdReader.unmountContainingDirectory(filePath);
-
-  // Create VTK Image Data
-  const imageData = vtkImageData.newInstance(image);
-  const scalar = vtkDataArray.newInstance(array);
-  imageData.setDimension(...dimensions);
-  imageData.getPointData().setScalars(scalar);
-  // FIXME --------------------------------------------------------------------
-
-  viewer.createViewer(container, {
-    type: 'volumeRenderering',
-    image: imageData,
+    viewer.createViewer(container, {
+      type: 'volumeRenderering',
+      image: imageData,
+    });
   });
-}
+};
 
 export default {
   fetchZip,

@@ -19,8 +19,7 @@
     "gh-pages": "0.10.0",
     "gl-matrix": "2.3.1",
     "open": "0.0.5",
-    "seedrandom": "2.4.2",
-    "shelljs": "0.7.4"
+    "seedrandom": "2.4.2"
   },
   "devDependencies": {
     "babel-polyfill": "6.13.0",
@@ -28,6 +27,8 @@
     "kw-doc": "1.0.20",
     "kw-web-suite": "2.2.1",
     "normalize.css": "5.0.0",
+    "shelljs": "^0.7.4",
+    "shx": "^0.2.2",
     "vtk.js": "2.24.1"
   },
   "scripts": {
@@ -37,7 +38,7 @@
     "build": "webpack --progress --colors",
     "build:debug": "webpack --progress --colors --display-modules",
     "build:release": "export NODE_ENV=production && npm run build -- -p",
-    "postbuild:release": "npm run bundle && cp -r ./node_modules/itk/dist/* ./dist/",
+    "postbuild:release": "npm run bundle && shx cp -r ./node_modules/itk/dist/* ./dist/",
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkImageViewer.html",
     "commit": "git cz",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"

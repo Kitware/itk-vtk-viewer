@@ -5,7 +5,7 @@
   <link href="/itk-vtk-image-viewer/atom.xml" rel="self"/>
   
   <link href="https://kitware.github.io/itk-vtk-image-viewer/"/>
-  <updated>2017-05-29T22:50:47.943Z</updated>
+  <updated>2017-05-29T22:50:22.349Z</updated>
   <id>https://kitware.github.io/itk-vtk-image-viewer/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://kitware.github.io/itk-vtk-image-viewer/2016/04/29/kw-doc/"/>
     <id>https://kitware.github.io/itk-vtk-image-viewer/2016/04/29/kw-doc/</id>
     <published>2016-04-29T00:00:00.000Z</published>
-    <updated>2017-05-29T22:50:47.943Z</updated>
+    <updated>2017-05-29T22:50:22.349Z</updated>
     
     <content type="html"><![CDATA[<p>Thanks for using kw-doc which is based on Hexo and its template from its own documentation.</p>
 ]]></content>

@@ -18,10 +18,8 @@ export function createViewer(el, url) {
   helper.emptyContainer(el);
   helper.createLoadingProgress(el);
 
-  // FIXME need to get ITK to read a Blob (missing name/type?)
   return helper.fetchBinaryContent(url).then((arrayBuffer) => {
-    const file = new Blob([arrayBuffer]);
-    file.name = url;
+    const file = new File([new Blob([arrayBuffer])], url.split('/').slice(-1)[0]);
     return dataHandler.processData(el, { file });
   });
 }

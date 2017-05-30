@@ -1,11 +1,9 @@
 import 'babel-polyfill';
 
+import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
+
 import dataHandler from './dataHandler';
 import helper from './helper';
-
-// import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
-// const userParams = vtkURLExtract.extractURLParameters();
-// console.log(userParams);
 
 let doNotInitViewers = false;
 
@@ -34,6 +32,7 @@ export function initializeViewers() {
     const el = viewers[count];
     if (!el.dataset.loaded) {
       el.dataset.loaded = true;
+      // Apply size to conatiner
       const [width, height] = (el.dataset.viewport || '500x500').split('x');
       el.style.position = 'relative';
       el.style.width = Number.isFinite(Number(width)) ? `${width}px` : width;
@@ -41,17 +40,37 @@ export function initializeViewers() {
       createViewer(el, el.dataset.url)
         .then((viewer) => {
           // Background color handling
-          if (el.dataset.backgroundColor && viewer.geometryBuilder) {
+          if (el.dataset.backgroundColor && viewer.renderWindow) {
             const color = el.dataset.backgroundColor;
             const bgColor = [color.slice(0, 2), color.slice(2, 4), color.slice(4, 6)].map(v => (parseInt(v, 16) / 255));
-            viewer.renderWindow.setBackground(bgColor);
+            viewer.renderer.setBackground(bgColor);
           }
 
-          // Update size
+          // Render
+          if (viewer.renderWindow && viewer.renderWindow.render) {
+            viewer.renderWindow.render();
+          }
         });
     }
   }
 }
 
+export function processParameters(container, addOnParameters = {}, keyName = 'fileToLoad') {
+  const userParams = Object.assign({}, vtkURLExtract.extractURLParameters(), addOnParameters);
+
+  const workContainer = document.querySelector('.content');
+  const rootBody = document.querySelector('body');
+  const myContainer = container || workContainer || rootBody;
+
+  if (userParams[keyName]) {
+    if (userParams.fullscreen) {
+      helper.applyStyle(myContainer, helper.STYLES.fullScreen);
+    }
+    return createViewer(myContainer, userParams[keyName]);
+  }
+  return null;
+}
+
 // Ensure processing of viewers
 setTimeout(initializeViewers, 100);
+setTimeout(processParameters, 100);

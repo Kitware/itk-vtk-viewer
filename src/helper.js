@@ -96,4 +96,5 @@ export default {
   applyStyle,
   createFileDragAndDrop,
   fetchBinaryContent,
+  STYLES,
 };

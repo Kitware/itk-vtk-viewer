@@ -8,6 +8,7 @@
   left: calc(50% - 60px);
   top: calc(50% - 60px);
   animation: spin 2s linear infinite;
+  box-sizing: border-box;
 }
 
 @keyframes spin {

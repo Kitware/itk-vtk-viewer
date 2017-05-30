@@ -88,6 +88,7 @@ function createViewer(container, data) {
   } else {
     window.alert(`No viewer found for ${data.type}`);
   }
+  return pipeline;
 }
 
 function getPipeline() {

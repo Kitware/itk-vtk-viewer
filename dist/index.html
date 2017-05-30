@@ -10,7 +10,11 @@
     <script type="text/javascript" src="itkVtkImageViewer.js">
     </script>
     <script>
-        itkVtkImageViewer.createLocalFileReader(document.querySelector('.content'));
+      var container = document.querySelector('.content');
+      var viewer = itkVtkImageViewer.processParameters(container, { fullscreen: true });
+      if (!viewer) {
+        itkVtkImageViewer.createLocalFileReader(container);
+      }
     </script>
   </body>
 </html>

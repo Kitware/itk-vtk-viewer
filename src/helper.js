@@ -33,8 +33,8 @@ const STYLES = {
     backgroundPosition: 'center',
     backgroundSize: 'contain',
     borderRadius: '10px',
-    width: '300px',
-    padding: 'calc(50vh - 2em) calc(50vw - 150px - 1em)',
+    width: '50px',
+    padding: 'calc(50vh - 2em) calc(50vw - 25px - 2em)',
   },
 };
 

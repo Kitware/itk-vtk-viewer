@@ -1,3 +1,5 @@
+import vtkHttpDataAccessHelper from 'vtk.js/Sources/IO/Core/DataAccessHelper/HttpDataAccessHelper';
+
 import dropBG from './dropBG.jpg';
 
 const STYLES = {
@@ -35,6 +37,8 @@ const STYLES = {
     padding: 'calc(50vh - 2em) calc(50vw - 150px - 1em)',
   },
 };
+
+const fetchBinaryContent = url => vtkHttpDataAccessHelper.fetchZipFile(url);
 
 function emptyContainer(container) {
   if (container) {
@@ -90,4 +94,5 @@ export default {
   emptyContainer,
   applyStyle,
   createFileDragAndDrop,
+  fetchBinaryContent,
 };

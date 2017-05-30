@@ -13,5 +13,7 @@ module.exports = {
     github: 'kitware/itk-vtk-image-viewer',
     google_analytics: 'UA-90338862-7',
   },
-  copy: [],
+  copy: [
+    // { src: '../dist/*', dest: './build-tmp/public/app' },
+  ],
 };

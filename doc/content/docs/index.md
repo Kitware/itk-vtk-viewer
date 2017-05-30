@@ -1,4 +1,4 @@
 title: Overview
 ---
 
-Please add some text here...
+![How it works](./howToUse.jpg)

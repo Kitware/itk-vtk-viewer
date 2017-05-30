@@ -1,3 +1,5 @@
+import dropBG from './dropBG.jpg';
+
 const STYLES = {
   fullScreen: {
     position: 'absolute',
@@ -23,7 +25,11 @@ const STYLES = {
     left: '50%',
     top: '50%',
     transform: 'translate(-50%, -50%)',
-    background: 'lightgray',
+    backgroundColor: 'white',
+    backgroundImage: `url(${dropBG})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'contain',
     borderRadius: '10px',
     width: '300px',
     padding: 'calc(50vh - 2em) calc(50vw - 150px - 1em)',

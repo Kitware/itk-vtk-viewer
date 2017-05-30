@@ -9,9 +9,9 @@ import helper from './helper';
 
 let doNotInitViewers = false;
 
-export function createLocalFileReader() {
+export function createLocalFileReader(container) {
   doNotInitViewers = true;
-  helper.createFileDragAndDrop(null, dataHandler.processData);
+  helper.createFileDragAndDrop(container, dataHandler.processData);
 }
 
 export function createViewer(el, url) {

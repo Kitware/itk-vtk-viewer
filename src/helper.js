@@ -1,6 +1,7 @@
 import vtkHttpDataAccessHelper from 'vtk.js/Sources/IO/Core/DataAccessHelper/HttpDataAccessHelper';
 
 import dropBG from './dropBG.jpg';
+import appStyle from './ItkVtkImageViewer.mcss';
 
 const STYLES = {
   fullScreen: {
@@ -60,7 +61,7 @@ function createLoadingProgress(container) {
   const myContainer = container || workContainer || rootBody;
 
   const loading = document.createElement('div');
-  loading.setAttribute('class', 'loading');
+  loading.setAttribute('class', appStyle.loading);
   myContainer.appendChild(loading);
 }
 

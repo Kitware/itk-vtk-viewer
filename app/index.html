@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="favicon-32x32.png">
+  </head>
+  <body>
+    <div class="content"></div>
+    <script type="text/javascript" src="itkVtkImageViewer.js">
+    </script>
+    <script>
+      var container = document.querySelector('.content');
+      var viewer = itkVtkImageViewer.processParameters(container, { fullscreen: true });
+      if (!viewer) {
+        itkVtkImageViewer.createLocalFileReader(container);
+      }
+    </script>
+  </body>
+</html>

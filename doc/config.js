@@ -14,6 +14,6 @@ module.exports = {
     google_analytics: 'UA-90338862-7',
   },
   copy: [
-    // { src: '../dist/*', dest: './build-tmp/public/app' },
+    { src: '../dist/*', dest: './build-tmp/public/app' },
   ],
 };

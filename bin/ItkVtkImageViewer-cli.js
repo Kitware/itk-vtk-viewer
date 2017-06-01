@@ -5,6 +5,7 @@ var ipList = require('./network');
 var server = require('./server');
 var pkg = require('../package.json');
 var openFn = require('open');
+var shell = require('shelljs');
 
 var app = null;
 var version = /semantically-release/.test(pkg.version) ? 'development version' : pkg.version;
@@ -24,8 +25,9 @@ function printIP(l) {
 program
   .version(version)
   .option('-p, --port [3000]', 'Start web server with given port', handlePort, 3000)
-  .option('-d, --data [directory/http]', 'Data directory to serve')
-  .option('-s, --server-only', 'Do not open the web browser')
+  .option('-d, --data [directory]', 'Data directory to serve')
+  .option('-s, --server-only', 'Do not open the web browser\n')
+  .option('-f, --filter [nrrd,png,tiff,bmp]', 'List files with those extensions in data directory', 'nrrd,png,tiff,bmp')
   .parse(process.argv);
 
 if (!process.argv.slice(2).length || !program.help) {
@@ -47,6 +49,16 @@ if (ipList.length === 1) {
 } else {
   console.log(['\nItkVtkImageViewer\n  => Serve ', dataPath, ' on port ', program.port, '\n'].join(''));
   ipList.forEach(printIP);
+  console.log();
+}
+
+// Show data files
+if (program.data) {
+  console.log('  => Available data files:\n');
+  var regexp = new RegExp(program.filter.split(',').map(t => `(?:\.${t.trim()}$)`).join('|'));
+  shell.ls('-R', dataPath).filter(t => t.match(regexp)).forEach((name) => {
+    console.log(`    /?fileToLoad=/data/${name.replace(/ /g, '%20')}`);
+  });
   console.log();
 }
 

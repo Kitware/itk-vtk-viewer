@@ -1,7 +1,7 @@
 layout: index
 description: ITK/VTK Image Viewer
 subtitle: Load your data with ITK and Visualize it with vtk.js
-cmd: npm install -g itk-vtk-image-viewer
+cmd: ItkVtkImageViewer --help
 comments: false
 ---
 
@@ -12,6 +12,7 @@ ul#intro-feature-list
         i.fa.fa-cloud-download
       h3.intro-feature-title
         a(href="https://www.npmjs.com/package/itk-vtk-image-viewer").link Releases
+        img(style="padding-left: 25px",src="https://badge.fury.io/js/itk-vtk-image-viewer.svg")
       p.intro-feature-desc ITK/VTK Image Viewer is a Web based viewer for loading DICOM images and more...
 
   li.intro-feature-wrap
@@ -22,18 +23,9 @@ ul#intro-feature-list
         a(href="http://www.vtk.org/services/").link Support and Services
       p.intro-feature-desc Kitware offers advanced software R&D solutions and services. Find out how we can help with your next project.
 
-  li.intro-feature-wrap
-    .intro-feature
-      .intro-feature-icon
-        i.fa.fa-graduation-cap
-      h3.intro-feature-title
-        a(href="http://www.kitware.com/products/protraining.php").link Training Courses
-      p.intro-feature-desc Attend an upcoming training course
+ul#intro-cmd-wrap(style='margin-top: 25px;border-radius: 10px;')
+  li.intro-cmd-item npm install itk-vtk-image-viewer -g
+  li.intro-cmd-item ItkVtkImageViewer -s
 
-  li.intro-feature-wrap
-    .intro-feature
-      .intro-feature-icon
-        i.fa.fa-comments-o
-      h3.intro-feature-title
-        a(href="http://vtk.uservoice.com/forums/31508-general").link Request a Feature
-      p.intro-feature-desc Tell us what you think
+p(style='text-align: center; margin: 20px auto; max-width: 700px;')
+  img(src='./docs/howToUse.jpg', width='100%')

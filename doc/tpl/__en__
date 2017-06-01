@@ -28,3 +28,7 @@ sidebar:
     testing: Testing
     tests: Tests
     coverage: Coverage
+    cli: Command Line
+    viewer: Viewer
+    embeddedViewer: Inline Viewer
+

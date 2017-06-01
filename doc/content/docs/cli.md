@@ -68,6 +68,3 @@ $ ItkVtkImageViewer -p
 ### Force 2D viewer
 
 To force the 2D viewer on 3D dataset, just add `?use2D` at the end of the URL. 
-
-![ItkVtkImageViewer](./2dViewer.jpg)
-

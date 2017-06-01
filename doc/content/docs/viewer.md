@@ -9,3 +9,5 @@ The extra argument to provide is `?fileToLoad=[...]` where the path provided can
 ![ItkVtkImageViewer](./dataViewer.jpg)
 
 Moreover an additional parameter could be added to force the slice viewing mode. To do that just add `?use2D` or `?fileToLoad=[..]&use2D` inside the URL. 
+
+![ItkVtkImageViewer2D](./2dViewer.jpg)

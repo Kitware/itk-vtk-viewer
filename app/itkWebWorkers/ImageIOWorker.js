@@ -9,7 +9,7 @@ function isPromise(o){return!!o&&("object"==typeof o||"function"==typeof o)&&"fu
 "use strict";var config={imageIOsPath:"/itkImageIOs",webWorkersPath:"/itkWebWorkers"};module.exports=config;
 
 },{}],5:[function(require,module,exports){
-"use strict";var extensionToIO={};extensionToIO.dcm="itkGDCMImageIOJSBinding",extensionToIO.nrrd="itkNrrdImageIOJSBinding",extensionToIO.NRRD="itkNrrdImageIOJSBinding",extensionToIO.nhdr="itkNrrdImageIOJSBinding",extensionToIO.NHDR="itkNrrdImageIOJSBinding",extensionToIO.png="itkPNGImageIOJSBinding",extensionToIO.PNG="itkPNGImageIOJSBinding",module.exports=extensionToIO;
+"use strict";var extensionToIO={};extensionToIO.dcm="itkGDCMImageIOJSBinding",extensionToIO.DCM="itkGDCMImageIOJSBinding",extensionToIO.mha="itkMetaImageIOJSBinding",extensionToIO.mhd="itkMetaImageIOJSBinding",extensionToIO.nrrd="itkNrrdImageIOJSBinding",extensionToIO.NRRD="itkNrrdImageIOJSBinding",extensionToIO.nhdr="itkNrrdImageIOJSBinding",extensionToIO.NHDR="itkNrrdImageIOJSBinding",extensionToIO.png="itkPNGImageIOJSBinding",extensionToIO.PNG="itkPNGImageIOJSBinding",extensionToIO.tif="itkTIFFImageIOJSBinding",extensionToIO.TIF="itkTIFFImageIOJSBinding",extensionToIO.tiff="itkTIFFImageIOJSBinding",extensionToIO.TIFF="itkTIFFImageIOJSBinding",extensionToIO.vtk="itkVTKImageIOJSBinding",extensionToIO.VTK="itkVTKImageIOJSBinding",module.exports=extensionToIO;
 
 },{}],6:[function(require,module,exports){
 "use strict";var Float32="float",Float64="double",SpacePrecisionType="double";module.exports={Float32:Float32,Float64:Float64,SpacePrecisionType:SpacePrecisionType};
@@ -27,7 +27,7 @@ function isPromise(o){return!!o&&("object"==typeof o||"function"==typeof o)&&"fu
 "use strict";function Matrix(t,s){if(t instanceof Matrix){var i=t;this.rows=i.rows,this.columns=i.columns,this.data=i.data.slice()}else this.rows=t,this.columns=s,this.data=new Array(t*s),this.data.fill(0)}Matrix.prototype.setIdentity=function(){for(var t=0;t<this.rows;++t)for(var s=0;s<this.columns;++s)this.data[s+t*this.columns]=t===s?1:0},Matrix.prototype.setElement=function(t,s,i){this.data[s+t*this.columns]=i},Matrix.prototype.getElement=function(t,s){return this.data[s+t*this.columns]},module.exports=Matrix;
 
 },{}],11:[function(require,module,exports){
-"use strict";var mimeToIO={};mimeToIO["image/png"]="itkPNGImageIOJSBinding",mimeToIO["application/dicom"]="itkGDCMImageIOJSBinding",module.exports=mimeToIO;
+"use strict";var mimeToIO={};mimeToIO["image/png"]="itkPNGImageIOJSBinding",mimeToIO["image/tiff"]="itkTIFFImageIOJSBinding",mimeToIO["application/dicom"]="itkGDCMImageIOJSBinding",module.exports=mimeToIO;
 
 },{}],12:[function(require,module,exports){
 "use strict";var Unknown=0,Scalar=1,RGB=2,RGBA=3,Offset=4,Vector=5,Point=6,CovariantVector=7,SymmetricSecondRankTensor=8,DiffusionTensor3D=9,Complex=10,FixedArray=11,Matrix=12;module.exports={Unknown:Unknown,Scalar:Scalar,RGB:RGB,RGBA:RGBA,Offset:Offset,Vector:Vector,Point:Point,CovariantVector:CovariantVector,SymmetricSecondRankTensor:SymmetricSecondRankTensor,DiffusionTensor3D:DiffusionTensor3D,Complex:Complex,FixedArray:FixedArray,Matrix:Matrix};

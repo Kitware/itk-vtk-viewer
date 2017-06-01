@@ -66,7 +66,7 @@ export function processParameters(container, addOnParameters = {}, keyName = 'fi
     if (userParams.fullscreen) {
       helper.applyStyle(myContainer, helper.STYLES.fullScreen);
     }
-    return createViewer(myContainer, userParams[keyName]);
+    return createViewer(myContainer, userParams[keyName], !!userParams.use2D);
   }
   return null;
 }

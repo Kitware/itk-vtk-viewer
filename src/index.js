@@ -12,13 +12,13 @@ export function createLocalFileReader(container) {
   helper.createFileDragAndDrop(container, dataHandler.processData);
 }
 
-export function createViewer(el, url) {
+export function createViewer(el, url, use2D = false) {
   helper.emptyContainer(el);
   helper.createLoadingProgress(el);
 
   return helper.fetchBinaryContent(url).then((arrayBuffer) => {
     const file = new File([new Blob([arrayBuffer])], url.split('/').slice(-1)[0]);
-    return dataHandler.processData(el, { file });
+    return dataHandler.processData(el, { file, use2D });
   });
 }
 
@@ -37,7 +37,7 @@ export function initializeViewers() {
       el.style.position = 'relative';
       el.style.width = Number.isFinite(Number(width)) ? `${width}px` : width;
       el.style.height = Number.isFinite(Number(height)) ? `${height}px` : height;
-      createViewer(el, el.dataset.url)
+      createViewer(el, el.dataset.url, !!el.dataset.slice)
         .then((viewer) => {
           // Background color handling
           if (el.dataset.backgroundColor && viewer.renderWindow) {

@@ -1,4 +1,5 @@
 import vtkHttpDataAccessHelper from 'vtk.js/Sources/IO/Core/DataAccessHelper/HttpDataAccessHelper';
+import vtkURLExtract           from 'vtk.js/Sources/Common/Core/URLExtract';
 
 import dropBG from './dropBG.jpg';
 import appStyle from './ItkVtkImageViewer.mcss';
@@ -82,8 +83,8 @@ function createFileDragAndDrop(container, onDataChange) {
     var files = this.files;
     if (files.length === 1) {
       myContainer.removeChild(fileSelector);
-      const ext = files[0].name.split('.').slice(-1)[0];
-      onDataChange(myContainer, { file: files[0], ext });
+      const use2D = !!vtkURLExtract.extractURLParameters().use2D;
+      onDataChange(myContainer, { file: files[0], use2D });
     }
   }
 

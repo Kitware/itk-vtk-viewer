@@ -6,7 +6,7 @@ import itkreadImageFile from 'itk/dist/itkreadImageFile';
 import viewer from './viewer';
 import helper from './helper';
 
-const processData = (container, { file, ext }) => {
+const processData = (container, { file, use2D }) => {
   helper.emptyContainer(container);
   helper.createLoadingProgress(container);
 
@@ -37,8 +37,10 @@ const processData = (container, { file, ext }) => {
       imageData.setDimensions(...dimensions);
       imageData.getPointData().setScalars(scalar);
 
+      const is3D = !dimensions.filter(i => i === 1).length && !use2D;
+
       resolve(viewer.createViewer(container, {
-        type: 'volumeRenderering',
+        type: is3D ? 'volumeRendering' : 'imageRendering',
         image: imageData,
       }));
     });

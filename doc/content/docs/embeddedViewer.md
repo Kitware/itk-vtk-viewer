@@ -24,9 +24,10 @@ or
 
 The container `<div/>` can be extended with the following set of attributes:
 
-- (Mandatory) data-url="/data/005_36months_T2_RegT1_Reg2Atlas_ManualBrainMask_Stripped.nrrd"
-- (Optinal) data-viewport="300x200" | default is 500x500
-- (Optinal) data-background-color="00aa00" | default is black
+- (Mandatory) __data-url__="/data/005_36months_T2_RegT1_Reg2Atlas_ManualBrainMask_Stripped.nrrd"
+- (Optinal) __data-viewport__="300x200" | default is 500x500
+- (Optinal) __data-background-color__="00aa00" | default is black
+- (Optinal) __data-slice__="true"
 
 
 ![ItkVtkImageViewer-embedded](./embeddedViewer.jpg)

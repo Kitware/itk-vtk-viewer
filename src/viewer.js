@@ -1,16 +1,19 @@
 import vtkFullScreenRenderWindow  from 'vtk.js/Sources/Rendering/Misc/FullScreenRenderWindow';
 
+import vtkColorTransferFunction   from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction';
+import vtkImageMapper             from 'vtk.js/Sources/Rendering/Core/ImageMapper';
+import vtkImageSlice              from 'vtk.js/Sources/Rendering/Core/ImageSlice';
+import vtkInteractorStyleImage    from 'vtk.js/Sources/Interaction/Style/InteractorStyleImage';
 import vtkPiecewiseFunction       from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction';
 import vtkVolume                  from 'vtk.js/Sources/Rendering/Core/Volume';
 import vtkVolumeMapper            from 'vtk.js/Sources/Rendering/Core/VolumeMapper';
-import vtkColorTransferFunction   from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction';
 
 import helper from './helper';
 
 let pipeline = null;
 
 const VIEWER_MAPPING = {
-  volumeRenderering(data, renderer, renderWindow) {
+  volumeRendering(data, renderer, renderWindow) {
     const internalPipeline = { renderer, renderWindow };
     const dataArray = data.image.getPointData().getScalars();
     if (!dataArray) {
@@ -57,6 +60,38 @@ const VIEWER_MAPPING = {
     renderWindow.render();
 
     Object.assign(internalPipeline, { actor, mapper, ofun, ctfun });
+
+    return internalPipeline;
+  },
+  imageRendering(data, renderer, renderWindow) {
+    const internalPipeline = { renderer, renderWindow };
+    const dataArray = data.image.getPointData().getScalars();
+    if (!dataArray) {
+      window.alert('No data array available in dataset');
+      return internalPipeline;
+    }
+
+    const mapper = vtkImageMapper.newInstance();
+    mapper.setInputData(data.image);
+    mapper.setSliceAtFocalPoint(true);
+
+    const actor = vtkImageSlice.newInstance();
+    actor.getProperty().setColorWindow(255);
+    actor.getProperty().setColorLevel(127);
+    actor.setMapper(mapper);
+    const iStyle = vtkInteractorStyleImage.newInstance();
+    iStyle.setInteractionMode('IMAGE_SLICING');
+    renderWindow.getInteractor().setInteractorStyle(iStyle);
+    renderer.addActor(actor);
+    renderer.resetCamera();
+    renderWindow.render();
+
+    renderer.addVolume(actor);
+    renderer.resetCamera();
+    renderer.updateLightsGeometryToFollowCamera();
+    renderWindow.render();
+
+    Object.assign(internalPipeline, { actor, mapper });
 
     return internalPipeline;
   },

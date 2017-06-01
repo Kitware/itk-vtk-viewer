@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "babel-polyfill": "6.13.0",
-    "itk": "^2.0.0",
+    "itk": "2.2.0",
     "kw-doc": "1.0.20",
     "kw-web-suite": "2.2.1",
     "normalize.css": "5.0.0",

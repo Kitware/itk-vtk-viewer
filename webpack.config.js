@@ -1,49 +1,31 @@
-var entry = require.resolve('./src/index.js');
+const webpack = require('webpack');
+const path = require('path');
 
-var path = require('path');
-var webpack = require('webpack');
-var vtkLoaders = require('vtk.js/Utilities/config/dependency.js').webpack.v1.loaders;
-var pluginList = [];
+const entry = path.join(__dirname, './src/index.js');
+const sourcePath = path.join(__dirname, './source');
+const outputPath = path.join(__dirname, './dist');
 
-if (process.env.NODE_ENV === 'production') {
-  console.log('==> Production build');
-  pluginList.push(new webpack.DefinePlugin({
-    'process.env': {
-      NODE_ENV: JSON.stringify('production'),
-    },
-  }));
-}
+const vtkRules = require('vtk.js/Utilities/config/dependency').webpack.v2.rules;
+const linterRules = require('vtk.js/Utilities/config/rules-linter.js');
+const commonRules = require('vtk.js/Utilities/config/rules-examples.js');
 
 module.exports = {
-  plugins: pluginList,
-  entry: entry,
+  entry,
   output: {
-    path: './dist',
+    path: outputPath,
     filename: 'itkVtkImageViewer.js',
   },
   module: {
-    preLoaders: [{
-      test: /\.js$/,
-      loader: 'eslint-loader',
-      exclude: /node_modules/,
-    }],
-    loaders: [
-      { test: entry, loader: 'expose?itkVtkImageViewer' },
-      { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' },
-      { test: /\.html$/, loader: 'html-loader' },
-      { test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader' },
-      { test: /\.mcss$/, loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]!postcss-loader' },
-      { test: /\.js$/, loader: 'babel-loader?presets[]=es2015' },
-    ].concat(vtkLoaders),
-  },
-  postcss: [
-    require('autoprefixer')({ browsers: ['last 2 versions'] }),
-  ],
-  eslint: {
-    configFile: '.eslintrc.js',
+    rules: [
+      { test: entry, loader: 'expose-loader?itkVtkImageViewer' },
+      { test: /\.js$/, loader: 'babel-loader', options: { presets: ['es2015'] } },
+    ].concat(vtkRules, linterRules, commonRules),
   },
   resolve: {
-    alias: {
-    },
+    extensions: ['.webpack-loader.js', '.web-loader.js', '.loader.js', '.js', '.jsx'],
+    modules: [
+      path.resolve(__dirname, 'node_modules'),
+      sourcePath,
+    ],
   },
 };

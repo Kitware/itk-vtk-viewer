@@ -15,21 +15,17 @@
   "dependencies": {
     "blueimp-md5": "2.3.0",
     "commander": "2.9.0",
-    "express": "^4.15.3",
-    "gh-pages": "0.10.0",
+    "express": "4.15.3",
     "gl-matrix": "2.3.1",
     "open": "0.0.5",
     "seedrandom": "2.4.2",
-    "shelljs": "0.7.4"
+    "shelljs": "0.7.7"
   },
   "devDependencies": {
-    "babel-polyfill": "6.13.0",
     "itk": "2.2.0",
-    "kw-doc": "1.0.20",
-    "kw-web-suite": "2.2.1",
-    "normalize.css": "5.0.0",
-    "shx": "0.2.2",
-    "vtk.js": "2.24.1"
+    "kw-doc": "1.1.1",
+    "kw-web-suite": "3.0.0",
+    "vtk.js": "3.0.0"
   },
   "scripts": {
     "doc": "kw-doc -c ./doc/config.js",
@@ -37,7 +33,7 @@
     "doc:publish": "kw-doc -c ./doc/config.js -mp",
     "build": "webpack --progress --colors",
     "build:debug": "webpack --progress --colors --display-modules",
-    "build:release": "export NODE_ENV=production && npm run build -- -p",
+    "build:release": "npm run build -- -p",
     "postbuild:release": "npm run bundle && shx cp -r ./node_modules/itk/dist/* ./dist/",
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkImageViewer.html",
     "commit": "git cz",

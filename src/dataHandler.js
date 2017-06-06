@@ -1,7 +1,8 @@
 import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData';
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray';
 
-import itkreadImageFile from 'itk/dist/itkreadImageFile';
+// import itkreadImageFile from 'itk/dist/itkreadImageFile';
+import itkreadImageFile from './itkFileReader';
 
 import viewer from './viewer';
 import helper from './helper';
@@ -13,6 +14,10 @@ const processData = (container, { file, use2D }) => {
   /* eslint-disable new-cap */
   return new Promise((resolve, reject) => {
     itkreadImageFile(file).then((itkImage) => {
+      if (!itkImage) {
+        reject('Reader could not load file');
+        return;
+      }
       const array = {
         values: itkImage.buffer,
         numberOfComponents: itkImage.imageType.components,

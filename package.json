@@ -22,19 +22,20 @@
     "shelljs": "0.7.7"
   },
   "devDependencies": {
+    "babel-plugin-minify-guarded-expressions": "0.1.1",
     "itk": "2.2.0",
     "kw-doc": "1.1.1",
-    "kw-web-suite": "3.0.0",
+    "kw-web-suite": "3.1.0",
     "vtk.js": "3.0.0"
   },
   "scripts": {
     "doc": "kw-doc -c ./doc/config.js",
     "doc:www": "kw-doc -c ./doc/config.js -s",
     "doc:publish": "kw-doc -c ./doc/config.js -mp",
-    "build": "webpack --progress --colors",
-    "build:debug": "webpack --progress --colors --display-modules",
+    "build": "node --max-old-space-size=4096 ./node_modules/.bin/webpack --progress --colors",
+    "build:debug": "node --max-old-space-size=4096 ./node_modules/.bin/webpack --progress --colors --display-modules",
     "build:release": "npm run build -- -p",
-    "postbuild:release": "npm run bundle && shx cp -r ./node_modules/itk/dist/* ./dist/",
+    "postbuild:release": "npm run bundle",
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkImageViewer.html",
     "commit": "git cz",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"

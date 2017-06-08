@@ -2,7 +2,7 @@
   presets: ['es2015'],
   env: {
     test: {
-      plugins: [],
+      plugins: ["minify-guarded-expressions"],
     }
   }
 }

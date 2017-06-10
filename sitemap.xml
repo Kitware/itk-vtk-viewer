@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kitware.github.io/itk-vtk-image-viewer/docs/viewer.html</loc>
+    
+    <lastmod>2017-06-10T21:55:28.397Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://kitware.github.io/itk-vtk-image-viewer/index.html</loc>
     
     <lastmod>2017-06-10T21:49:13.653Z</lastmod>
@@ -17,13 +24,6 @@
   
   <url>
     <loc>https://kitware.github.io/itk-vtk-image-viewer/docs/index.html</loc>
-    
-    <lastmod>2017-06-10T21:49:13.653Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-image-viewer/docs/viewer.html</loc>
     
     <lastmod>2017-06-10T21:49:13.653Z</lastmod>
     

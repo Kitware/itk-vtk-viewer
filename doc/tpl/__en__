@@ -1,9 +1,10 @@
 menu:
-  docs: Docs
+  docs: Documentation
   api: API
   examples: Examples
   news: News
   search: Search
+  app: Application
 
 index:
   get_started: Get started

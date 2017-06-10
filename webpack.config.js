@@ -10,6 +10,9 @@ const linterRules = require('vtk.js/Utilities/config/rules-linter.js');
 const commonRules = require('vtk.js/Utilities/config/rules-examples.js');
 
 module.exports = {
+  node: {
+    fs: 'empty',
+  },
   entry,
   output: {
     path: outputPath,
@@ -27,5 +30,8 @@ module.exports = {
       path.resolve(__dirname, 'node_modules'),
       sourcePath,
     ],
+  },
+  externals: {
+    config: '{}',
   },
 };

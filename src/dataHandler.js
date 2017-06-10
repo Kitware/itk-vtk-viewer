@@ -1,7 +1,7 @@
 import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData';
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray';
 
-import itkreadImageFile from 'itk/dist/itkreadImageFile';
+import itkreadImageFile from 'itk/readImageFile';
 
 import viewer from './viewer';
 import helper from './helper';

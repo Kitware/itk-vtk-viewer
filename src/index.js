@@ -73,4 +73,3 @@ export function processParameters(container, addOnParameters = {}, keyName = 'fi
 
 // Ensure processing of viewers
 setTimeout(initializeViewers, 100);
-setTimeout(processParameters, 100);

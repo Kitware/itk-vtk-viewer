@@ -17,3 +17,9 @@ This can be used also as a [link](https://kitware.github.io/itk-vtk-image-viewer
 ```
 https://kitware.github.io/itk-vtk-image-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/564a65d58d777f7522dbfb61/download/data.nrrd
 ```
+
+Or with nicer data (27MB) with the [slice view](https://kitware.github.io/itk-vtk-image-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/554a926e8d777f082b592194/download/data.nrrd&use2D).
+
+```
+https://kitware.github.io/itk-vtk-image-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/554a926e8d777f082b592194/download/data.nrrd&use2D
+```

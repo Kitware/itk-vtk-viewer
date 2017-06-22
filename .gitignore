@@ -2,6 +2,7 @@
 *.swp
 .npm-packages
 .npmrc
+yarn.lock
 npm-debug.log
 node_modules
 Data

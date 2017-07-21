@@ -60,6 +60,7 @@ const VIEWER_MAPPING = {
     renderer.addVolume(actor);
     renderer.resetCamera();
     renderer.updateLightsGeometryToFollowCamera();
+    renderWindow.getInteractor().setDesiredUpdateRate(15);
     renderWindow.render();
 
     Object.assign(internalPipeline, { actor, mapper, ofun, ctfun });

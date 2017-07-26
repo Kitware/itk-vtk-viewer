@@ -24,7 +24,10 @@ const VIEWER_MAPPING = {
 
     const actor = vtkVolume.newInstance();
     const mapper = vtkVolumeMapper.newInstance();
-    mapper.setSampleDistance(0.7);
+    let sampleDistance = 0.7;
+    sampleDistance = Math.min(...data.image.getSpacing());
+    mapper.setInputData(data.image);
+    mapper.setSampleDistance(sampleDistance);
     actor.setMapper(mapper);
 
     // create color and opacity transfer functions
@@ -57,6 +60,7 @@ const VIEWER_MAPPING = {
     renderer.addVolume(actor);
     renderer.resetCamera();
     renderer.updateLightsGeometryToFollowCamera();
+    renderWindow.getInteractor().setDesiredUpdateRate(15);
     renderWindow.render();
 
     Object.assign(internalPipeline, { actor, mapper, ofun, ctfun });

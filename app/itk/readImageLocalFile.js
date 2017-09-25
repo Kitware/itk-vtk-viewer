@@ -6,6 +6,7 @@ var config = require('./itkConfig.js');
 var mimeToIO = require('./MimeToIO.js');
 var getFileExtension = require('./getFileExtension.js');
 var extensionToIO = require('./extensionToIO.js');
+var ImageIOIndex = require('./ImageIOIndex.js');
 
 var loadEmscriptenModule = require('./loadEmscriptenModule.js');
 var readImageEmscriptenFSFile = require('./readImageEmscriptenFSFile.js');
@@ -27,8 +28,19 @@ var readImageLocalFile = function readImageLocalFile(filePath) {
       } else if (extensionToIO.hasOwnProperty(extension)) {
         io = extensionToIO[extension];
       } else {
-        // todo: Iterate through available IO's and have them run
-        // .CanReadFile(filePath)
+        for (var idx = 0; idx < ImageIOIndex.length; ++idx) {
+          var _modulePath = path.join(config.imageIOsPath, ImageIOIndex[idx]);
+          var _Module = loadEmscriptenModule(_modulePath);
+          var imageIO = new _Module.ITKImageIO();
+          _Module.mountContainingDirectory(filePath);
+          imageIO.SetFileName(filePath);
+          if (imageIO.CanReadFile(filePath)) {
+            io = ImageIOIndex[idx];
+            _Module.unmountContainingDirectory(filePath);
+            break;
+          }
+          _Module.unmountContainingDirectory(filePath);
+        }
       }
       if (io === null) {
         reject(Error('Could not find IO for: ' + filePath));

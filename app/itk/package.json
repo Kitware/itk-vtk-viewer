@@ -2,48 +2,48 @@
   "_args": [
     [
       {
-        "raw": "itk@3.0.0",
+        "raw": "itk@5.0.0",
         "scope": null,
         "escapedName": "itk",
         "name": "itk",
-        "rawSpec": "3.0.0",
-        "spec": "3.0.0",
+        "rawSpec": "5.0.0",
+        "spec": "5.0.0",
         "type": "version"
       },
       "/home/travis/build/Kitware/itk-vtk-image-viewer"
     ]
   ],
-  "_from": "itk@3.0.0",
-  "_id": "itk@3.0.0",
+  "_from": "itk@5.0.0",
+  "_id": "itk@5.0.0",
   "_inCache": true,
   "_location": "/itk",
-  "_nodeVersion": "6.10.3",
+  "_nodeVersion": "6.1.0",
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/itk-3.0.0.tgz_1496804420935_0.38654365250840783"
+    "tmp": "tmp/itk-5.0.0.tgz_1505762898985_0.61930251121521"
   },
   "_npmUser": {
     "name": "thewtex",
     "email": "matt@mmmccormick.com"
   },
-  "_npmVersion": "3.10.10",
+  "_npmVersion": "3.8.6",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "itk@3.0.0",
+    "raw": "itk@5.0.0",
     "scope": null,
     "escapedName": "itk",
     "name": "itk",
-    "rawSpec": "3.0.0",
-    "spec": "3.0.0",
+    "rawSpec": "5.0.0",
+    "spec": "5.0.0",
     "type": "version"
   },
   "_requiredBy": [
     "#DEV:/"
   ],
-  "_resolved": "https://registry.npmjs.org/itk/-/itk-3.0.0.tgz",
-  "_shasum": "12b5a7014e3ee5d04b24eb7eeaeebb953d014d84",
+  "_resolved": "https://registry.npmjs.org/itk/-/itk-5.0.0.tgz",
+  "_shasum": "196dcb76bff0e25da9da3dbc2f43b067c583a19d",
   "_shrinkwrap": null,
-  "_spec": "itk@3.0.0",
+  "_spec": "itk@5.0.0",
   "_where": "/home/travis/build/Kitware/itk-vtk-image-viewer",
   "aliasify": {
     "aliases": {
@@ -76,7 +76,7 @@
   "devDependencies": {
     "aliasify": "^2.1.0",
     "async": "^2.0.1",
-    "ava": "^0.19.1",
+    "ava": "^0.22.0",
     "babel-core": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "babelify": "^7.3.0",
@@ -103,8 +103,8 @@
     "test": "test"
   },
   "dist": {
-    "shasum": "12b5a7014e3ee5d04b24eb7eeaeebb953d014d84",
-    "tarball": "https://registry.npmjs.org/itk/-/itk-3.0.0.tgz"
+    "shasum": "196dcb76bff0e25da9da3dbc2f43b067c583a19d",
+    "tarball": "https://registry.npmjs.org/itk/-/itk-5.0.0.tgz"
   },
   "homepage": "https://github.com/InsightSoftwareConsortium/ITKBridgeJavaScript#readme",
   "keywords": [
@@ -144,12 +144,12 @@
     "doc:publish": "kw-doc -c ./doc/config.js -mp",
     "doc:www": "kw-doc -c ./doc/config.js -s",
     "semantic-release": "semantic-release pre && cp LICENSE README.md package.json dist/ && cd dist && npm publish && cd .. && semantic-release post",
-    "test": "./build/dockcross bash -c \"cd build && ctest -V\" && standard \"src/*.js\" \"test/**/*.js\" && ava \"test/*.js\" && NODE_PATH=$PWD/dist browserify test/Browser/*.js | tape-run --render=\"tap-spec\" --static \"dist/\" --browser firefox"
+    "test": "./build/dockcross bash -c \"cd build && ctest -V\" && standard \"src/*.js\" \"test/**/*.js\" && ava \"test/*.js\" && NODE_PATH=$PWD/dist browserify test/Browser/*.js | tape-run --render=\"tap-spec\" --static \"dist/\" --browser chrome"
   },
   "standard": {
     "ignore": [
       "itkJSImageIOPost.js"
     ]
   },
-  "version": "3.0.0"
+  "version": "5.0.0"
 }

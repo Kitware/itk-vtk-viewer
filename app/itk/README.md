@@ -1,4 +1,5 @@
-# ITK Bridge JavaScript
+ITK Bridge JavaScript
+=====================
 
 [![CircleCI](https://circleci.com/gh/InsightSoftwareConsortium/ITKBridgeJavaScript.svg?style=svg)](https://circleci.com/gh/InsightSoftwareConsortium/ITKBridgeJavaScript)
 
@@ -6,19 +7,36 @@ Provides general scientific image IO capability and bridges
 [ITK](https://itk.org) code running in the
 [Emscripten](http://emscripten.org/) runtime environment.
 
-## Supported file formats
+Supported file formats
+----------------------
 
+- [BioRad](http://www.bio-rad.com/)
 - [BMP](https://en.wikipedia.org/wiki/BMP_file_format)
 - [DICOM](http://dicom.nema.org/)
+- [ITK HDF5](https://support.hdfgroup.org/HDF5/)
 - [JPEG](https://en.wikipedia.org/wiki/JPEG_File_Interchange_Format)
+- [GE4,GE5,GEAdw](http://www3.gehealthcare.com)
+- [Gipl (Guys Image Processing Lab)](https://www.ncbi.nlm.nih.gov/pubmed/12956259)
+- [LSM](http://www.openwetware.org/wiki/Dissecting_LSM_files)
 - [MetaImage](https://itk.org/Wiki/ITK/MetaIO/Documentation)
+- [MINC 2.0](https://en.wikibooks.org/wiki/MINC/SoftwareDevelopment/MINC2.0_File_Format_Reference)
+- [MGH](https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/MghFormat)
+- [MRC](https://en.wikipedia.org/wiki/MRC_(file_format))
 - [NifTi](https://nifti.nimh.nih.gov/nifti-1)
 - [NRRD](http://teem.sourceforge.net/nrrd/format.html)
 - [Portable Network Graphics (PNG)](https://en.wikipedia.org/wiki/Portable_Network_Graphics)
 - [Tagged Image File Format (TIFF)](https://en.wikipedia.org/wiki/TIFF)
 - [VTK legacy image file format](http://www.vtk.org/VTK/img/file-formats.pdf)
 
-## Hacking ITKBridgeJavaScript
+Installation
+------------
+
+```bash
+npm install --save itk
+```
+
+Hacking ITKBridgeJavaScript
+---------------------------
 
 ### Build dependencies
 

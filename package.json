@@ -25,7 +25,8 @@
     "itk": "5.0.0",
     "kw-doc": "1.1.1",
     "kw-web-suite": "3.0.0",
-    "vtk.js": "3.0.4"
+    "vtk.js": "3.0.4",
+    "workbox-build": "^2.0.3"
   },
   "scripts": {
     "doc": "kw-doc -c ./doc/config.js",
@@ -34,8 +35,9 @@
     "build": "webpack --progress --colors",
     "build:debug": "webpack --progress --colors --display-modules",
     "build:release": "npm run build -- -p",
-    "postbuild:release": "npm run itk",
+    "postbuild:release": "npm run itk && npm run service-worker",
     "itk": "shx rm -rf ./dist/itk && shx cp -r ./node_modules/itk ./dist/",
+    "service-worker": "node generate-sw.js",
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkImageViewer.html",
     "commit": "git cz",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"

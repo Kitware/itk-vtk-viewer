@@ -3,6 +3,19 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('./serviceWorker.js').then(function (registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ', registration.scope)
+          }, function (err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err)
+          })
+        })
+      }
+    </script>
     <link rel="icon" type="image/png" href="favicon-32x32.png">
   </head>
   <body>

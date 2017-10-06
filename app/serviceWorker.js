@@ -3,10 +3,6 @@ importScripts('workbox-sw.prod.v2.0.1.js');
 const workboxSW = new self.WorkboxSW({clientsClaim: true})
 workboxSW.precache([
   {
-    "url": "5a5c11b4d55ab3a86a26a147af7b9bdf.jpg",
-    "revision": "5a5c11b4d55ab3a86a26a147af7b9bdf"
-  },
-  {
     "url": "favicon-32x32.png",
     "revision": "7b1da026f1c9dc9d8caadbe4bdb7b2a8"
   },
@@ -16,7 +12,7 @@ workboxSW.precache([
   },
   {
     "url": "itkVtkImageViewer.js",
-    "revision": "9d04c5b01360f46ccba358069cd85657"
+    "revision": "c7487cdefaf1079d2e951b6dfa03222f"
   },
   {
     "url": "test.html",

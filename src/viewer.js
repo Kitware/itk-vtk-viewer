@@ -66,8 +66,11 @@ const VIEWER_MAPPING = {
     mapper.setSliceAtFocalPoint(true);
 
     const actor = vtkImageSlice.newInstance();
-    actor.getProperty().setColorWindow(255);
-    actor.getProperty().setColorLevel(127);
+    const dataArray = data.image.getPointData().getScalars();
+    const dataRange = dataArray.getRange();
+    const window = dataRange[1] - dataRange[0];
+    actor.getProperty().setColorWindow(window);
+    actor.getProperty().setColorLevel(dataRange[0] + (window / 2.0));
     actor.setMapper(mapper);
     const iStyle = vtkInteractorStyleImage.newInstance();
     iStyle.setInteractionMode('IMAGE_SLICING');

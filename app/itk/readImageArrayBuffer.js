@@ -13,7 +13,7 @@ var promiseWorker = new PromiseWorker(worker);
  * @param: mimeType optional mime-type string
  */
 var readImageArrayBuffer = function readImageArrayBuffer(arrayBuffer, fileName, mimeType) {
-  return promiseWorker.postMessage({ name: fileName, type: mimeType, buffer: arrayBuffer, config: config }, [arrayBuffer]);
+  return promiseWorker.postMessage({ operation: 'readImage', name: fileName, type: mimeType, buffer: arrayBuffer, config: config }, [arrayBuffer]);
 };
 
 module.exports = readImageArrayBuffer;

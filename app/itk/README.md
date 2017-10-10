@@ -1,11 +1,12 @@
-ITK Bridge JavaScript
-=====================
+itk.js
+======
 
-[![CircleCI](https://circleci.com/gh/InsightSoftwareConsortium/ITKBridgeJavaScript.svg?style=svg)](https://circleci.com/gh/InsightSoftwareConsortium/ITKBridgeJavaScript)
+[![CircleCI](https://circleci.com/gh/InsightSoftwareConsortium/itk-js.svg?style=svg)](https://circleci.com/gh/InsightSoftwareConsortium/itk-js)
 
 Provides general scientific image IO capability and bridges
-[ITK](https://itk.org) code running in the
-[Emscripten](http://emscripten.org/) runtime environment.
+[ITK](https://itk.org) code running in an
+[asm.js](http://asmjs.org/) or [WebAssembly](http://webassembly.org/)
+runtime environment.
 
 Supported file formats
 ----------------------
@@ -35,8 +36,8 @@ Installation
 npm install --save itk
 ```
 
-Hacking ITKBridgeJavaScript
----------------------------
+Hacking itk.js
+--------------
 
 ### Build dependencies
 
@@ -45,7 +46,7 @@ Hacking ITKBridgeJavaScript
 
 ### Building
 
-To build ITKBridgeJavaScript itself:
+To build itk.js itself:
 
 ```bash
 npm install

@@ -9,7 +9,7 @@ var readImageEmscriptenFSFile = function readImageEmscriptenFSFile(module, fileP
   var imageIO = new module.ITKImageIO();
   imageIO.SetFileName(filePath);
   if (!imageIO.CanReadFile(filePath)) {
-    return null;
+    throw new Error('Could not read file: ' + filePath);
   }
   imageIO.ReadImageInformation();
 
@@ -69,8 +69,7 @@ var readImageEmscriptenFSFile = function readImageEmscriptenFSFile(module, fileP
         break;
       }
     default:
-      console.error('Unknown IO component type');
-      return null;
+      throw new Error('Unknown IO component type');
   }
 
   var ioPixelType = imageIO.GetPixelType();
@@ -141,8 +140,7 @@ var readImageEmscriptenFSFile = function readImageEmscriptenFSFile(module, fileP
         break;
       }
     default:
-      console.error('Unknown IO pixel type');
-      return null;
+      throw new Error('Unknown IO pixel type');
   }
 
   imageType.components = imageIO.GetNumberOfComponents();

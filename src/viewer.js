@@ -1,26 +1,23 @@
 import vtkFullScreenRenderWindow  from 'vtk.js/Sources/Rendering/Misc/FullScreenRenderWindow';
 
 import vtkColorTransferFunction   from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction';
+import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps.json';
 import vtkImageMapper             from 'vtk.js/Sources/Rendering/Core/ImageMapper';
 import vtkImageSlice              from 'vtk.js/Sources/Rendering/Core/ImageSlice';
 import vtkInteractorStyleImage    from 'vtk.js/Sources/Interaction/Style/InteractorStyleImage';
 import vtkPiecewiseFunction       from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction';
+import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
 import vtkVolume                  from 'vtk.js/Sources/Rendering/Core/Volume';
 import vtkVolumeMapper            from 'vtk.js/Sources/Rendering/Core/VolumeMapper';
+import macro                      from 'vtk.js/Sources/macro';
 
 import helper from './helper';
 
 let pipeline = null;
 
 const VIEWER_MAPPING = {
-  volumeRendering(data, renderer, renderWindow) {
+  volumeRendering(data, renderer, renderWindow, piecewiseFunction, lookupTable) {
     const internalPipeline = { renderer, renderWindow };
-    const dataArray = data.image.getPointData().getScalars();
-    if (!dataArray) {
-      window.alert('No data array available in dataset');
-      return internalPipeline;
-    }
-    const dataRange = dataArray.getRange();
 
     const actor = vtkVolume.newInstance();
     const mapper = vtkVolumeMapper.newInstance();
@@ -30,58 +27,50 @@ const VIEWER_MAPPING = {
     mapper.setSampleDistance(sampleDistance);
     actor.setMapper(mapper);
 
-    // create color and opacity transfer functions
-    const ctfun = vtkColorTransferFunction.newInstance();
-    ctfun.addRGBPoint(dataRange[0], 0.4, 0.2, 0.0);
-    ctfun.addRGBPoint(dataRange[1], 1.0, 1.0, 1.0);
+    actor.getProperty().setRGBTransferFunction(0, lookupTable);
+    actor.getProperty().setScalarOpacity(0, piecewiseFunction);
+    actor.getProperty().setInterpolationTypeToFastLinear();
+    // actor.getProperty().setInterpolationTypeToLinear();
 
-    const ofun = vtkPiecewiseFunction.newInstance();
-    ofun.addPoint(dataRange[0], 0.0);
-    ofun.addPoint((dataRange[0] + dataRange[1]) * 0.5, 0.5);
-    ofun.addPoint(dataRange[1], 0.8);
-
-    actor.getProperty().setRGBTransferFunction(0, ctfun);
-    actor.getProperty().setScalarOpacity(0, ofun);
-    actor.getProperty().setScalarOpacityUnitDistance(0, 4.5);
-    actor.getProperty().setInterpolationTypeToLinear();
-    actor.getProperty().setUseGradientOpacity(0, true);
-    actor.getProperty().setGradientOpacityMinimumValue(0, 15);
-    actor.getProperty().setGradientOpacityMinimumOpacity(0, 0.0);
-    actor.getProperty().setGradientOpacityMaximumValue(0, 100);
-    actor.getProperty().setGradientOpacityMaximumOpacity(0, 1.0);
-    actor.getProperty().setShade(true);
-    actor.getProperty().setAmbient(0.2);
-    actor.getProperty().setDiffuse(0.7);
-    actor.getProperty().setSpecular(0.3);
-    actor.getProperty().setSpecularPower(8.0);
+    // actor.getProperty().setScalarOpacityUnitDistance(0, 4.5);
+    // actor.getProperty().setUseGradientOpacity(0, true);
+    // actor.getProperty().setGradientOpacityMinimumValue(0, 15);
+    // actor.getProperty().setGradientOpacityMinimumOpacity(0, 0.0);
+    // actor.getProperty().setGradientOpacityMaximumValue(0, 100);
+    // actor.getProperty().setGradientOpacityMaximumOpacity(0, 1.0);
+    // actor.getProperty().setShade(true);
+    // actor.getProperty().setAmbient(0.2);
+    // actor.getProperty().setDiffuse(0.7);
+    // actor.getProperty().setSpecular(0.3);
+    // actor.getProperty().setSpecularPower(8.0);
 
     mapper.setInputData(data.image);
 
     renderer.addVolume(actor);
     renderer.resetCamera();
+    renderer.getActiveCamera().elevation(20);
+    renderer.getActiveCamera().azimuth(30);
     renderer.updateLightsGeometryToFollowCamera();
     renderWindow.getInteractor().setDesiredUpdateRate(15);
     renderWindow.render();
 
-    Object.assign(internalPipeline, { actor, mapper, ofun, ctfun });
+    Object.assign(internalPipeline, { actor, mapper });
 
     return internalPipeline;
   },
-  imageRendering(data, renderer, renderWindow) {
+  imageRendering(data, renderer, renderWindow, piecewiseFunction, lookupTable) {
     const internalPipeline = { renderer, renderWindow };
-    const dataArray = data.image.getPointData().getScalars();
-    if (!dataArray) {
-      window.alert('No data array available in dataset');
-      return internalPipeline;
-    }
 
     const mapper = vtkImageMapper.newInstance();
     mapper.setInputData(data.image);
     mapper.setSliceAtFocalPoint(true);
 
     const actor = vtkImageSlice.newInstance();
-    actor.getProperty().setColorWindow(255);
-    actor.getProperty().setColorLevel(127);
+    const dataArray = data.image.getPointData().getScalars();
+    const dataRange = dataArray.getRange();
+    const window = dataRange[1] - dataRange[0];
+    actor.getProperty().setColorWindow(window);
+    actor.getProperty().setColorLevel(dataRange[0] + (window / 2.0));
     actor.setMapper(mapper);
     const iStyle = vtkInteractorStyleImage.newInstance();
     iStyle.setInteractionMode('IMAGE_SLICING');
@@ -121,12 +110,69 @@ function createViewer(container, data) {
   const renderer = fullScreenRenderer.getRenderer();
   const renderWindow = fullScreenRenderer.getRenderWindow();
 
+  const dataArray = data.image.getPointData().getScalars();
+  if (!dataArray) {
+    window.alert('No data array available in dataset');
+  }
+  const dataRange = dataArray.getRange();
+
+  const lookupTable = vtkColorTransferFunction.newInstance();
+  // TODO: Make colormap selectable
+  lookupTable.applyColorMap(vtkColorMaps[2]);
+  lookupTable.setMappingRange(...dataRange);
+  lookupTable.updateRange();
+
+  const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({ numberOfBins: 256, size: [400, 150] });
+  transferFunctionWidget.updateStyle({
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    histogramColor: 'rgba(100, 100, 100, 0.5)',
+    strokeColor: 'rgb(0, 0, 0)',
+    activeColor: 'rgb(255, 255, 255)',
+    handleColor: 'rgb(50, 150, 50)',
+    buttonDisableFillColor: 'rgba(255, 255, 255, 0.5)',
+    buttonDisableStrokeColor: 'rgba(0, 0, 0, 0.5)',
+    buttonStrokeColor: 'rgba(0, 0, 0, 1)',
+    buttonFillColor: 'rgba(255, 255, 255, 1)',
+    strokeWidth: 2,
+    activeStrokeWidth: 3,
+    buttonStrokeWidth: 1.5,
+    handleWidth: 3,
+    iconSize: 20, // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
+    padding: 10,
+  });
+  transferFunctionWidget.setDataArray(dataArray.getData(), 1.5);
+  const piecewiseFunction = vtkPiecewiseFunction.newInstance();
+  transferFunctionWidget.setColorTransferFunction(lookupTable);
+  transferFunctionWidget.addGaussian(0.5, 0.30, 0.5, 0.5, 0.4);
+  transferFunctionWidget.applyOpacity(piecewiseFunction);
+  const widgetContainer = document.createElement('div');
+  widgetContainer.style.position = 'absolute';
+  widgetContainer.style.top = 'calc(10px + 1em)';
+  widgetContainer.style.left = '5px';
+  widgetContainer.style.background = 'rgba(255, 255, 255, 0.3)';
+  transferFunctionWidget.setContainer(widgetContainer);
+  transferFunctionWidget.bindMouseListeners();
+  transferFunctionWidget.onOpacityChange(macro.debounce(() => {
+    transferFunctionWidget.applyOpacity(piecewiseFunction);
+    renderWindow.render();
+  }), 1000);
+  lookupTable.onModified(() => {
+    transferFunctionWidget.render();
+    renderWindow.render();
+  });
+  // todo: use the transfer function widget for 2D images, too
+  if (data.type.toString() === 'volumeRendering') {
+    container.appendChild(widgetContainer);
+    transferFunctionWidget.render();
+  }
+
   const pipelineBuilder = VIEWER_MAPPING[data.type];
   if (pipelineBuilder) {
-    pipeline = pipelineBuilder(data, renderer, renderWindow);
+    pipeline = pipelineBuilder(data, renderer, renderWindow, piecewiseFunction, lookupTable);
   } else {
     window.alert(`No viewer found for ${data.type}`);
   }
+  renderWindow.render();
   return pipeline;
 }
 

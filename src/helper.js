@@ -40,7 +40,14 @@ const STYLES = {
   },
 };
 
-const fetchBinaryContent = url => vtkHttpDataAccessHelper.fetchBinary(url);
+const progressContainer = document.createElement('div');
+
+function progressCallback(progressEvent) {
+  const percent = Math.floor(100 * progressEvent.loaded / progressEvent.total);
+  progressContainer.innerHTML = `${percent}%`;
+}
+
+const fetchBinaryContent = url => vtkHttpDataAccessHelper.fetchBinary(url, { progressCallback });
 
 function emptyContainer(container) {
   if (container) {
@@ -60,10 +67,12 @@ function createLoadingProgress(container) {
   const workContainer = document.querySelector('.content');
   const rootBody = document.querySelector('body');
   const myContainer = container || workContainer || rootBody;
-
   const loading = document.createElement('div');
   loading.setAttribute('class', appStyle.loading);
   myContainer.appendChild(loading);
+
+  progressContainer.setAttribute('class', appStyle.progress);
+  myContainer.appendChild(progressContainer);
 }
 
 function createFileDragAndDrop(container, onDataChange) {

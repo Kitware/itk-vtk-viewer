@@ -15,3 +15,47 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.progress {
+  color: white;
+  font-size: 200%;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100vh;
+}
+
+.piecewiseWidget {
+  position: absolute;
+  top: calc(10px + 1em);
+  left: 5px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+}
+
+.toggleButton {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: 1em;
+  width: 1em;
+  cursor: pointer;
+}
+
+.selector {
+  position: absolute;
+  top: 5px;
+  left: calc(1em + 20px);
+  width: calc(400px - 1em - 15px);
+  background: rgba(255,255,255,0.5);
+  border: none;
+  background: transparent;
+  color: white;
+  border: none;
+}
+
+.selector:focus {
+  outline: none;
+  border: none;
+}

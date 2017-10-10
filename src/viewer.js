@@ -1,7 +1,7 @@
 import vtkFullScreenRenderWindow  from 'vtk.js/Sources/Rendering/Misc/FullScreenRenderWindow';
 
 import vtkColorTransferFunction   from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction';
-import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps.json';
+import vtkColorMaps               from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps.json';
 import vtkImageMapper             from 'vtk.js/Sources/Rendering/Core/ImageMapper';
 import vtkImageSlice              from 'vtk.js/Sources/Rendering/Core/ImageSlice';
 import vtkInteractorStyleImage    from 'vtk.js/Sources/Interaction/Style/InteractorStyleImage';
@@ -11,9 +11,20 @@ import vtkVolume                  from 'vtk.js/Sources/Rendering/Core/Volume';
 import vtkVolumeMapper            from 'vtk.js/Sources/Rendering/Core/VolumeMapper';
 import macro                      from 'vtk.js/Sources/macro';
 
-import helper from './helper';
+import toggleIcon from './toggleIcon.png';
+import appStyle   from './ItkVtkImageViewer.mcss';
+import helper     from './helper';
 
 let pipeline = null;
+
+const presetNames = vtkColorMaps.filter(p => p.RGBPoints).map(p => p.Name);
+const presetSelector = document.createElement('select');
+presetSelector.setAttribute('class', appStyle.selector);
+presetSelector.innerHTML = presetNames.map(name => `<option value="${name}">${name}</option>`).join('');
+
+function getPreset(name) {
+  return vtkColorMaps.find(p => p.Name === name);
+}
 
 const VIEWER_MAPPING = {
   volumeRendering(data, renderer, renderWindow, piecewiseFunction, lookupTable) {
@@ -117,10 +128,15 @@ function createViewer(container, data) {
   const dataRange = dataArray.getRange();
 
   const lookupTable = vtkColorTransferFunction.newInstance();
-  // TODO: Make colormap selectable
-  lookupTable.applyColorMap(vtkColorMaps[2]);
-  lookupTable.setMappingRange(...dataRange);
-  lookupTable.updateRange();
+
+  function applyPreset() {
+    const preset = getPreset(presetSelector.value);
+    lookupTable.applyColorMap(preset);
+    lookupTable.setMappingRange(...dataRange);
+    lookupTable.updateRange();
+  }
+  applyPreset();
+  presetSelector.addEventListener('change', applyPreset);
 
   const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({ numberOfBins: 256, size: [400, 150] });
   transferFunctionWidget.updateStyle({
@@ -140,16 +156,30 @@ function createViewer(container, data) {
     iconSize: 20, // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
     padding: 10,
   });
-  transferFunctionWidget.setDataArray(dataArray.getData(), 1.5);
+  transferFunctionWidget.setDataArray(dataArray.getData());
   const piecewiseFunction = vtkPiecewiseFunction.newInstance();
   transferFunctionWidget.setColorTransferFunction(lookupTable);
   transferFunctionWidget.addGaussian(0.5, 0.30, 0.5, 0.5, 0.4);
   transferFunctionWidget.applyOpacity(piecewiseFunction);
+
   const widgetContainer = document.createElement('div');
-  widgetContainer.style.position = 'absolute';
-  widgetContainer.style.top = 'calc(10px + 1em)';
-  widgetContainer.style.left = '5px';
-  widgetContainer.style.background = 'rgba(255, 255, 255, 0.3)';
+  widgetContainer.setAttribute('class', appStyle.piecewiseWidget);
+
+  function toggleWidgetVisibility() {
+    if (widgetContainer.style.display === 'none') {
+      widgetContainer.style.display = 'block';
+      presetSelector.style.display = 'block';
+    } else {
+      widgetContainer.style.display = 'none';
+      presetSelector.style.display = 'none';
+    }
+  }
+
+  const toggleButton = new Image();
+  toggleButton.src = toggleIcon;
+  toggleButton.setAttribute('class', appStyle.toggleButton);
+  toggleButton.addEventListener('click', toggleWidgetVisibility);
+
   transferFunctionWidget.setContainer(widgetContainer);
   transferFunctionWidget.bindMouseListeners();
   transferFunctionWidget.onOpacityChange(macro.debounce(() => {
@@ -163,6 +193,8 @@ function createViewer(container, data) {
   // todo: use the transfer function widget for 2D images, too
   if (data.type.toString() === 'volumeRendering') {
     container.appendChild(widgetContainer);
+    container.appendChild(toggleButton);
+    container.appendChild(presetSelector);
     transferFunctionWidget.render();
   }
 

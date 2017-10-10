@@ -40,7 +40,7 @@ const STYLES = {
   },
 };
 
-const fetchBinaryContent = url => vtkHttpDataAccessHelper.fetchZipFile(url);
+const fetchBinaryContent = url => vtkHttpDataAccessHelper.fetchBinary(url);
 
 function emptyContainer(container) {
   if (container) {

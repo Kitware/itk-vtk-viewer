@@ -22,7 +22,7 @@
     "shelljs": "0.7.7"
   },
   "devDependencies": {
-    "itk": "5.0.0",
+    "itk": "5.1.0",
     "kw-doc": "1.1.1",
     "kw-web-suite": "3.0.0",
     "vtk.js": "5.0.0",

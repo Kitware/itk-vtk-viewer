@@ -4,6 +4,7 @@ import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 
 import dataHandler from './dataHandler';
 import helper from './helper';
+import style from './ItkVtkImageViewer.mcss';
 
 let doNotInitViewers = false;
 
@@ -57,15 +58,13 @@ export function initializeViewers() {
 
 export function processParameters(container, addOnParameters = {}, keyName = 'fileToLoad') {
   const userParams = Object.assign({}, vtkURLExtract.extractURLParameters(), addOnParameters);
+  const myContainer = helper.getRootContainer(container);
 
-  const workContainer = document.querySelector('.content');
-  const rootBody = document.querySelector('body');
-  const myContainer = container || workContainer || rootBody;
+  if (userParams.fullscreen) {
+    myContainer.classList.add(style.fullscreenContainer);
+  }
 
   if (userParams[keyName]) {
-    if (userParams.fullscreen) {
-      helper.applyStyle(myContainer, helper.STYLES.fullScreen);
-    }
     return createViewer(myContainer, userParams[keyName], !!userParams.use2D);
   }
   return null;

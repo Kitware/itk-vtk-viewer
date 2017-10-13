@@ -1,53 +1,178 @@
-import vtkHttpDataAccessHelper from 'vtk.js/Sources/IO/Core/DataAccessHelper/HttpDataAccessHelper';
-import vtkURLExtract           from 'vtk.js/Sources/Common/Core/URLExtract';
+import vtkColorMaps               from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps.json';
+import vtkHttpDataAccessHelper    from 'vtk.js/Sources/IO/Core/DataAccessHelper/HttpDataAccessHelper';
+import vtkURLExtract              from 'vtk.js/Sources/Common/Core/URLExtract';
+import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
 
-import dropBG from './dropBG.jpg';
-import appStyle from './ItkVtkImageViewer.mcss';
+import style from './ItkVtkImageViewer.mcss';
+import toggleIcon from './toggleIcon.png';
 
-const STYLES = {
-  fullScreen: {
-    position: 'absolute',
-    width: '100vw',
-    height: '100vh',
-    top: '0',
-    left: '0',
-    overflow: 'hidden',
-    background: 'black',
-    margin: '0',
-    padding: '0',
-  },
-  fullParentSize: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    top: '0',
-    left: '0',
-    overflow: 'hidden',
-  },
-  bigFileDrop: {
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    backgroundColor: 'white',
-    backgroundImage: `url(${dropBG})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    backgroundSize: 'contain',
-    borderRadius: '10px',
-    width: '50px',
-    padding: 'calc(50vh - 2em) calc(50vw - 25px - 2em)',
-  },
-};
+const domElements = {};
 
-const progressContainer = document.createElement('div');
+// ----------------------------------------------------------------------------
+
+function getPreset(name) {
+  return vtkColorMaps.find(p => p.Name === name);
+}
+
+// ----------------------------------------------------------------------------
+
+function getRootContainer(container) {
+  const workContainer = document.querySelector('.content');
+  const rootBody = document.querySelector('body');
+  return container || workContainer || rootBody;
+}
+
+// ----------------------------------------------------------------------------
+
+function createLoadingProgress(container) {
+  const myContainer = getRootContainer(container);
+
+  domElements.loading = document.createElement('div');
+  domElements.loading.setAttribute('class', style.loading);
+  myContainer.appendChild(domElements.loading);
+
+  domElements.progressContainer = document.createElement('div');
+  domElements.progressContainer.setAttribute('class', style.progress);
+  myContainer.appendChild(domElements.progressContainer);
+}
+
+// ----------------------------------------------------------------------------
+
+function createPiecewiseWidget(container, lookupTable, piecewiseFunction, dataArray, renderWindow) {
+  const myContainer = getRootContainer(container);
+
+  const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({ numberOfBins: 256, size: [400, 150] });
+  transferFunctionWidget.updateStyle({
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    histogramColor: 'rgba(100, 100, 100, 0.5)',
+    strokeColor: 'rgb(0, 0, 0)',
+    activeColor: 'rgb(255, 255, 255)',
+    handleColor: 'rgb(50, 150, 50)',
+    buttonDisableFillColor: 'rgba(255, 255, 255, 0.5)',
+    buttonDisableStrokeColor: 'rgba(0, 0, 0, 0.5)',
+    buttonStrokeColor: 'rgba(0, 0, 0, 1)',
+    buttonFillColor: 'rgba(255, 255, 255, 1)',
+    strokeWidth: 2,
+    activeStrokeWidth: 3,
+    buttonStrokeWidth: 1.5,
+    handleWidth: 3,
+    iconSize: 20, // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
+    padding: 10,
+  });
+  transferFunctionWidget.setDataArray(dataArray.getData());
+
+  transferFunctionWidget.setColorTransferFunction(lookupTable);
+  transferFunctionWidget.addGaussian(0.5, 1.0, 0.5, 0.5, 0.4);
+  transferFunctionWidget.applyOpacity(piecewiseFunction);
+
+  domElements.widgetContainer = document.createElement('div');
+  domElements.widgetContainer.setAttribute('class', style.piecewiseWidget);
+
+  transferFunctionWidget.setContainer(domElements.widgetContainer);
+  transferFunctionWidget.bindMouseListeners();
+
+  // Manage update when opacity change
+  transferFunctionWidget.onAnimation((start) => {
+    if (start) {
+      renderWindow.getInteractor().requestAnimation(transferFunctionWidget);
+    } else {
+      renderWindow.getInteractor().cancelAnimation(transferFunctionWidget);
+      renderWindow.render();
+    }
+  });
+  transferFunctionWidget.onOpacityChange(() => {
+    transferFunctionWidget.applyOpacity(piecewiseFunction);
+    if (!renderWindow.getInteractor().isAnimating()) {
+      renderWindow.render();
+    }
+  });
+
+  // Manage update when lookupTable change
+  lookupTable.onModified(() => {
+    transferFunctionWidget.render();
+    if (!renderWindow.getInteractor().isAnimating()) {
+      renderWindow.render();
+    }
+  });
+
+  transferFunctionWidget.render();
+
+  myContainer.appendChild(domElements.widgetContainer);
+}
+
+// ----------------------------------------------------------------------------
+
+function createColorPresetSelector(container, lookupTable, dataRangeToUse) {
+  const myContainer = getRootContainer(container);
+  const presetNames = vtkColorMaps.filter(p => p.RGBPoints).filter(p => p.ColorSpace !== 'CIELAB').map(p => p.Name);
+
+  domElements.presetSelector = document.createElement('select');
+  domElements.presetSelector.setAttribute('class', style.selector);
+  domElements.presetSelector.innerHTML = presetNames.map(name => `<option value="${name}">${name}</option>`).join('');
+
+  function applyPreset() {
+    lookupTable.applyColorMap(getPreset(domElements.presetSelector.value));
+    lookupTable.setMappingRange(...dataRangeToUse);
+    lookupTable.updateRange();
+  }
+  applyPreset();
+
+  domElements.presetSelector.addEventListener('change', applyPreset);
+  myContainer.appendChild(domElements.presetSelector);
+}
+
+// ----------------------------------------------------------------------------
+
+function createVolumeToggleUI(container, lookupTable, piecewiseFunction, actor, dataArray, renderWindow) {
+  const myContainer = getRootContainer(container);
+  createColorPresetSelector(myContainer, lookupTable, dataArray.getRange());
+  createPiecewiseWidget(myContainer, lookupTable, piecewiseFunction, dataArray, renderWindow);
+
+  domElements.shadowContainer = document.createElement('select');
+  domElements.shadowContainer.setAttribute('class', style.shadow);
+  domElements.shadowContainer.innerHTML = '<option value="1">Use shadow</option><option value="0">No shadow</option>';
+
+  // Shadow management
+  domElements.shadowContainer.addEventListener('change', (event) => {
+    const useShadow = !!Number(event.target.value);
+    actor.getProperty().setShade(useShadow);
+    actor.getProperty().setUseGradientOpacity(0, useShadow);
+    renderWindow.render();
+  });
+
+  function toggleWidgetVisibility() {
+    if (domElements.widgetContainer.style.display === 'none') {
+      domElements.widgetContainer.style.display = 'block';
+      domElements.presetSelector.style.display = 'block';
+      domElements.shadowContainer.style.display = 'block';
+    } else {
+      domElements.widgetContainer.style.display = 'none';
+      domElements.presetSelector.style.display = 'none';
+      domElements.shadowContainer.style.display = 'none';
+    }
+  }
+
+  const toggleButton = new Image();
+  toggleButton.src = toggleIcon;
+  toggleButton.setAttribute('class', style.toggleButton);
+  toggleButton.addEventListener('click', toggleWidgetVisibility);
+
+  myContainer.appendChild(toggleButton);
+  myContainer.appendChild(domElements.shadowContainer);
+}
+
+// ----------------------------------------------------------------------------
 
 function progressCallback(progressEvent) {
   const percent = Math.floor(100 * progressEvent.loaded / progressEvent.total);
-  progressContainer.innerHTML = `${percent}%`;
+  domElements.progressContainer.innerHTML = `${percent}%`;
 }
 
+// ----------------------------------------------------------------------------
+
 const fetchBinaryContent = url => vtkHttpDataAccessHelper.fetchBinary(url, { progressCallback });
+
+// ----------------------------------------------------------------------------
 
 function emptyContainer(container) {
   if (container) {
@@ -57,54 +182,52 @@ function emptyContainer(container) {
   }
 }
 
-function applyStyle(el, style) {
-  Object.keys(style).forEach((key) => {
-    el.style[key] = style[key];
-  });
+// ----------------------------------------------------------------------------
+
+function preventDefaults(e) {
+  e.preventDefault();
+  e.stopPropagation();
 }
 
-function createLoadingProgress(container) {
-  const workContainer = document.querySelector('.content');
-  const rootBody = document.querySelector('body');
-  const myContainer = container || workContainer || rootBody;
-  const loading = document.createElement('div');
-  loading.setAttribute('class', appStyle.loading);
-  myContainer.appendChild(loading);
-
-  progressContainer.setAttribute('class', appStyle.progress);
-  myContainer.appendChild(progressContainer);
-}
+// ----------------------------------------------------------------------------
 
 function createFileDragAndDrop(container, onDataChange) {
-  const workContainer = document.querySelector('.content');
-  const rootBody = document.querySelector('body');
-  const myContainer = container || workContainer || rootBody;
+  const myContainer = getRootContainer(container);
 
-  const fileSelector = document.createElement('input');
-  fileSelector.setAttribute('type', 'file');
-  applyStyle(fileSelector, STYLES.bigFileDrop);
-  fileSelector.setAttribute('class', 'js-file-selector');
-  myContainer.appendChild(fileSelector);
-  applyStyle(myContainer, STYLES.fullScreen);
-  myContainer.setAttribute('class', 'js-file-selector-container');
+  domElements.fileContainer = document.createElement('div');
+  domElements.fileContainer.innerHTML = `<div class="${style.bigFileDrop}"/><input type="file" class="file" style="display: none;"/>`;
+  myContainer.appendChild(domElements.fileContainer);
+
+  const fileInput = domElements.fileContainer.querySelector('input');
 
   function handleFile(e) {
-    var files = this.files;
+    preventDefaults(e);
+    const dataTransfer = e.dataTransfer;
+    const files = e.target.files || dataTransfer.files;
     if (files.length === 1) {
-      myContainer.removeChild(fileSelector);
+      myContainer.removeChild(domElements.fileContainer);
       const use2D = !!vtkURLExtract.extractURLParameters().use2D;
       onDataChange(myContainer, { file: files[0], use2D });
     }
   }
 
-  fileSelector.onchange = handleFile;
+  fileInput.addEventListener('change', handleFile);
+  domElements.fileContainer.addEventListener('drop', handleFile);
+  domElements.fileContainer.addEventListener('click', e => fileInput.click());
+  domElements.fileContainer.addEventListener('dragover', preventDefaults);
 }
 
+// ----------------------------------------------------------------------------
+
 export default {
-  createLoadingProgress,
-  emptyContainer,
-  applyStyle,
+  createColorPresetSelector,
   createFileDragAndDrop,
+  createLoadingProgress,
+  createPiecewiseWidget,
+  createVolumeToggleUI,
+  domElements,
+  emptyContainer,
   fetchBinaryContent,
-  STYLES,
+  getPreset,
+  getRootContainer,
 };

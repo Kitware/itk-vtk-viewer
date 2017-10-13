@@ -5,7 +5,7 @@ import itkreadImageFile from 'itk/readImageFile';
 import Matrix from 'itk/Matrix';
 import getMatrixElement from 'itk/getMatrixElement';
 
-import viewer from './viewer';
+import viewers from './viewers';
 import helper from './helper';
 
 const processData = (container, { file, use2D }) => {
@@ -48,7 +48,7 @@ const processData = (container, { file, use2D }) => {
 
       const is3D = !dimensions.filter(i => i === 1).length && !use2D;
 
-      resolve(viewer.createViewer(container, {
+      resolve(viewers.createViewer(container, {
         type: is3D ? 'volumeRendering' : 'imageRendering',
         image: imageData,
       }));

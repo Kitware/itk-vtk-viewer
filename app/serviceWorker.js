@@ -8,11 +8,11 @@ workboxSW.precache([
   },
   {
     "url": "index.html",
-    "revision": "0811d78702c85fe08f9beed09f58ec00"
+    "revision": "57cef5539b7a89a70858d97948c68d32"
   },
   {
     "url": "itkVtkImageViewer.js",
-    "revision": "a72415d4f5eb65fb77afdbdca245fefb"
+    "revision": "3ed0e83bf9f40c2b7cc63040e58e9332"
   },
   {
     "url": "test.html",

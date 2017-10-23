@@ -3,7 +3,7 @@ import 'babel-polyfill';
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 
 import fetchBinaryContent from './fetchBinaryContent';
-import dataHandler from './dataHandler';
+import processFile from './processFile';
 import userInterface from './userInterface';
 import style from './ItkVtkImageViewer.mcss';
 
@@ -11,7 +11,7 @@ let doNotInitViewers = false;
 
 export function createLocalFileReader(container) {
   doNotInitViewers = true;
-  userInterface.createFileDragAndDrop(container, dataHandler.processData);
+  userInterface.createFileDragAndDrop(container, processFile);
 }
 
 export function createViewer(el, url, use2D = false) {
@@ -20,7 +20,7 @@ export function createViewer(el, url, use2D = false) {
 
   return fetchBinaryContent(url, userInterface.progressCallback).then((arrayBuffer) => {
     const file = new File([new Blob([arrayBuffer])], url.split('/').slice(-1)[0]);
-    return dataHandler.processData(el, { file, use2D });
+    return processFile(el, { file, use2D });
   });
 }
 

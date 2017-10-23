@@ -5,7 +5,7 @@ import userInterface from './userInterface';
 import convertItkImageToVtkImage from './convertItkImageToVtkImage';
 
 
-const processData = (container, { file, use2D }) => {
+const processFile = (container, { file, use2D }) => {
   userInterface.emptyContainer(container);
   userInterface.createLoadingProgress(container);
 
@@ -23,6 +23,4 @@ const processData = (container, { file, use2D }) => {
   });
 };
 
-export default {
-  processData,
-};
+export default processFile;

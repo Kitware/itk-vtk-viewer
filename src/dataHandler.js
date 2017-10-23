@@ -12,7 +12,6 @@ const processData = (container, { file, use2D }) => {
   /* eslint-disable new-cap */
   return new Promise((resolve, reject) => {
     itkreadImageFile(file).then((itkImage) => {
-      console.log(convertItkImageToVtkImage);
       const imageData = convertItkImageToVtkImage(itkImage);
       const is3D = itkImage.imageType.dimension === 3 && !use2D;
 

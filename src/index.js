@@ -2,6 +2,7 @@ import 'babel-polyfill';
 
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 
+import fetchBinaryContent from './fetchBinaryContent';
 import dataHandler from './dataHandler';
 import userInterface from './userInterface';
 import style from './ItkVtkImageViewer.mcss';
@@ -17,7 +18,7 @@ export function createViewer(el, url, use2D = false) {
   userInterface.emptyContainer(el);
   userInterface.createLoadingProgress(el);
 
-  return userInterface.fetchBinaryContent(url).then((arrayBuffer) => {
+  return fetchBinaryContent(url, userInterface.progressCallback).then((arrayBuffer) => {
     const file = new File([new Blob([arrayBuffer])], url.split('/').slice(-1)[0]);
     return dataHandler.processData(el, { file, use2D });
   });

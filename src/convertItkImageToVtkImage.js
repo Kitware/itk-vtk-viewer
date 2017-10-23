@@ -1,12 +1,8 @@
 import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData';
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray';
 
-import itkreadImageFile from 'itk/readImageFile';
 import Matrix from 'itk/Matrix';
 import getMatrixElement from 'itk/getMatrixElement';
-
-import viewers from './viewers';
-import helper from './helper';
 
 const convertItkImageToVtkImage = (itkImage) => {
   const array = {
@@ -43,26 +39,4 @@ const convertItkImageToVtkImage = (itkImage) => {
   return imageData;
 };
 
-const processData = (container, { file, use2D }) => {
-  helper.emptyContainer(container);
-  helper.createLoadingProgress(container);
-
-  /* eslint-disable new-cap */
-  return new Promise((resolve, reject) => {
-    itkreadImageFile(file).then((itkImage) => {
-      const imageData = convertItkImageToVtkImage(itkImage);
-      const dimensions = imageData.getDimensions();
-      const is3D = !dimensions.filter(i => i === 1).length && !use2D;
-
-      resolve(viewers.createViewer(container, {
-        type: is3D ? 'volumeRendering' : 'imageRendering',
-        image: imageData,
-      }));
-    });
-  });
-};
-
-export default {
-  convertItkImageToVtkImage,
-  processData,
-};
+export default convertItkImageToVtkImage;

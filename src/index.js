@@ -2,24 +2,25 @@ import 'babel-polyfill';
 
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 
-import dataHandler from './dataHandler';
-import helper from './helper';
+import fetchBinaryContent from './fetchBinaryContent';
+import processFile from './processFile';
+import userInterface from './userInterface';
 import style from './ItkVtkImageViewer.mcss';
 
 let doNotInitViewers = false;
 
 export function createLocalFileReader(container) {
   doNotInitViewers = true;
-  helper.createFileDragAndDrop(container, dataHandler.processData);
+  userInterface.createFileDragAndDrop(container, processFile);
 }
 
 export function createViewer(el, url, use2D = false) {
-  helper.emptyContainer(el);
-  helper.createLoadingProgress(el);
+  userInterface.emptyContainer(el);
+  userInterface.createLoadingProgress(el);
 
-  return helper.fetchBinaryContent(url).then((arrayBuffer) => {
+  return fetchBinaryContent(url, userInterface.progressCallback).then((arrayBuffer) => {
     const file = new File([new Blob([arrayBuffer])], url.split('/').slice(-1)[0]);
-    return dataHandler.processData(el, { file, use2D });
+    return processFile(el, { file, use2D });
   });
 }
 
@@ -58,7 +59,7 @@ export function initializeViewers() {
 
 export function processParameters(container, addOnParameters = {}, keyName = 'fileToLoad') {
   const userParams = Object.assign({}, vtkURLExtract.extractURLParameters(), addOnParameters);
-  const myContainer = helper.getRootContainer(container);
+  const myContainer = userInterface.getRootContainer(container);
 
   if (userParams.fullscreen) {
     myContainer.classList.add(style.fullscreenContainer);

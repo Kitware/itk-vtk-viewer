@@ -2,7 +2,7 @@ import vtkFullScreenRenderWindow  from 'vtk.js/Sources/Rendering/Misc/FullScreen
 import vtkColorTransferFunction   from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction';
 import vtkPiecewiseFunction       from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction';
 
-import helper from '../helper';
+import userInterface from '../userInterface';
 
 import imageRendering from './imageRendering';
 import volumeRendering from './volumeRendering';
@@ -16,7 +16,7 @@ function getPipeline() {
 }
 
 function createViewer(container, data) {
-  helper.emptyContainer(container);
+  userInterface.emptyContainer(container);
   const config = { rootContainer: container, background: [0, 0, 0] };
   if (container) {
     config.containerStyle = {
@@ -48,7 +48,7 @@ function createViewer(container, data) {
     pipeline = pipelineBuilder(data, renderer, renderWindow, piecewiseFunction, lookupTable);
 
     if (data.type.toString() === 'volumeRendering') {
-      helper.createVolumeToggleUI(container, lookupTable, piecewiseFunction, pipeline.actor, dataArray, renderWindow);
+      userInterface.createVolumeToggleUI(container, lookupTable, piecewiseFunction, pipeline.actor, dataArray, renderWindow);
     }
   } else {
     window.alert(`No viewer found for ${data.type}`);

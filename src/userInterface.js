@@ -1,5 +1,4 @@
 import vtkColorMaps               from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps.json';
-import vtkHttpDataAccessHelper    from 'vtk.js/Sources/IO/Core/DataAccessHelper/HttpDataAccessHelper';
 import vtkURLExtract              from 'vtk.js/Sources/Common/Core/URLExtract';
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
 
@@ -170,10 +169,6 @@ function progressCallback(progressEvent) {
 
 // ----------------------------------------------------------------------------
 
-const fetchBinaryContent = url => vtkHttpDataAccessHelper.fetchBinary(url, { progressCallback });
-
-// ----------------------------------------------------------------------------
-
 function emptyContainer(container) {
   if (container) {
     while (container.firstChild) {
@@ -227,7 +222,7 @@ export default {
   createVolumeToggleUI,
   domElements,
   emptyContainer,
-  fetchBinaryContent,
   getPreset,
   getRootContainer,
+  progressCallback,
 };

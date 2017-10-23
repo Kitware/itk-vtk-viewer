@@ -1,13 +1,13 @@
 import itkreadImageFile from 'itk/readImageFile';
 
 import viewers from './viewers';
-import helper from './helper';
+import userInterface from './userInterface';
 import convertItkImageToVtkImage from './convertItkImageToVtkImage';
 
 
 const processData = (container, { file, use2D }) => {
-  helper.emptyContainer(container);
-  helper.createLoadingProgress(container);
+  userInterface.emptyContainer(container);
+  userInterface.createLoadingProgress(container);
 
   /* eslint-disable new-cap */
   return new Promise((resolve, reject) => {

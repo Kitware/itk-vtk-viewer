@@ -26,7 +26,7 @@
   "devDependencies": {
     "kw-doc": "1.1.1",
     "kw-web-suite": "3.0.0",
-    "workbox-build": "^2.0.3"
+    "workbox-build": "^2.1.0"
   },
   "scripts": {
     "doc": "kw-doc -c ./doc/config.js",

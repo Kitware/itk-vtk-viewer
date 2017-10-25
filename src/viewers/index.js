@@ -37,7 +37,7 @@ function createViewer(container, data) {
 
   const dataArray = data.image.getPointData().getScalars();
   if (!dataArray) {
-    window.alert('No data array available in dataset');
+    console.error('No data array available in dataset');
   }
 
   const lookupTable = vtkColorTransferFunction.newInstance();
@@ -51,7 +51,7 @@ function createViewer(container, data) {
       userInterface.createVolumeToggleUI(container, lookupTable, piecewiseFunction, pipeline.actor, dataArray, renderWindow);
     }
   } else {
-    window.alert(`No viewer found for ${data.type}`);
+    console.error(`No viewer found for ${data.type}`);
   }
   renderWindow.render();
   return pipeline;

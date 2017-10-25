@@ -17,7 +17,7 @@
     "commander": "2.9.0",
     "express": "4.15.3",
     "gl-matrix": "2.3.1",
-    "itk": "5.1.0",
+    "itk": "6.0.0",
     "open": "0.0.5",
     "seedrandom": "2.4.2",
     "shelljs": "0.7.7",

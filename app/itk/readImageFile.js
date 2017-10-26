@@ -8,7 +8,7 @@ var promiseWorker = new PromiseWorker(worker);
 
 var readImageFile = function readImageFile(file) {
   return PromiseFileReader.readAsArrayBuffer(file).then(function (arrayBuffer) {
-    return promiseWorker.postMessage({ operation: 'readImage', name: file.name, type: file.type, buffer: arrayBuffer, config: config }, [arrayBuffer]);
+    return promiseWorker.postMessage({ operation: 'readImage', name: file.name, type: file.type, data: arrayBuffer, config: config }, [arrayBuffer]);
   });
 };
 

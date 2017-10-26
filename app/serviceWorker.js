@@ -1,4 +1,4 @@
-importScripts('workbox-sw.prod.v2.0.1.js');
+importScripts('workbox-sw.prod.v2.1.0.js');
 
 const workboxSW = new self.WorkboxSW({clientsClaim: true})
 workboxSW.precache([
@@ -12,15 +12,15 @@ workboxSW.precache([
   },
   {
     "url": "itkVtkImageViewer.js",
-    "revision": "3685f8003048e81210fdbda1ef9b357a"
+    "revision": "19edcc81c7c66637ae93216e685beeff"
   },
   {
     "url": "test.html",
     "revision": "a7927ae23ec755b9f0b3110a5d316f80"
   },
   {
-    "url": "workbox-sw.prod.v2.0.1.js",
-    "revision": "679d4e73dc756b21e46ee8f1bb52c882"
+    "url": "workbox-sw.prod.v2.1.0.js",
+    "revision": "e5f207838d7fd9c81835d5705a73cfa2"
   }
 ])
 

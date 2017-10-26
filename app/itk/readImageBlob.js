@@ -13,7 +13,7 @@ var promiseWorker = new PromiseWorker(worker);
  */
 var readImageBlob = function readImageBlob(blob, fileName, mimeType) {
   return PromiseFileReader.readAsArrayBuffer(blob).then(function (arrayBuffer) {
-    return promiseWorker.postMessage({ operation: 'readImage', name: fileName, type: mimeType, buffer: arrayBuffer, config: config }, [arrayBuffer]);
+    return promiseWorker.postMessage({ operation: 'readImage', name: fileName, type: mimeType, data: arrayBuffer, config: config }, [arrayBuffer]);
   });
 };
 

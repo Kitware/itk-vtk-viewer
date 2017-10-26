@@ -157,14 +157,14 @@ var writeImageEmscriptenFSFile = function writeImageEmscriptenFSFile(module, use
   imageIO.SetUseCompression(useCompression);
 
   // Copy data to Emscripten heap (directly accessed from Module.HEAPU8)
-  var numberOfBytes = image.buffer.length * image.buffer.BYTES_PER_ELEMENT;
-  var bufferPtr = module._malloc(numberOfBytes);
-  var bufferHeap = new Uint8Array(module.HEAPU8.buffer, bufferPtr, numberOfBytes);
-  bufferHeap.set(new Uint8Array(image.buffer.buffer));
+  var numberOfBytes = image.data.length * image.data.BYTES_PER_ELEMENT;
+  var dataPtr = module._malloc(numberOfBytes);
+  var dataHeap = new Uint8Array(module.HEAPU8.buffer, dataPtr, numberOfBytes);
+  dataHeap.set(new Uint8Array(image.data.buffer));
 
-  imageIO.Write(bufferHeap.byteOffset);
+  imageIO.Write(dataHeap.byteOffset);
 
-  module._free(bufferHeap.byteOffset);
+  module._free(dataHeap.byteOffset);
 };
 
 module.exports = writeImageEmscriptenFSFile;

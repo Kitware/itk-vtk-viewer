@@ -14,7 +14,7 @@ var writeImageEmscriptenFSFile = require('./writeImageEmscriptenFSFile.js');
 /**
  * Write an image to a file on the local filesystem in Node.js.
  *
- * @param: useCompression compression the pixel buffer when possible
+ * @param: useCompression compression the pixel data when possible
  * @param: image itk.Image instance to write
  * @param: filePath path to the file on the local filesystem.
  */

@@ -19,7 +19,7 @@ var Image = function Image() {
   this.size = new Array(dimension);
   this.size.fill(0);
 
-  this.buffer = new ArrayBuffer(0);
+  this.data = new ArrayBuffer(0);
 };
 
 module.exports = Image;

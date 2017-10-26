@@ -187,7 +187,7 @@ var readImageEmscriptenFSFile = function readImageEmscriptenFSFile(module, fileP
     }
   }
 
-  image.buffer = imageIO.Read();
+  image.data = imageIO.Read();
 
   return image;
 };

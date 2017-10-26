@@ -2,48 +2,48 @@
   "_args": [
     [
       {
-        "raw": "itk@5.1.0",
+        "raw": "itk@6.0.0",
         "scope": null,
         "escapedName": "itk",
         "name": "itk",
-        "rawSpec": "5.1.0",
-        "spec": "5.1.0",
+        "rawSpec": "6.0.0",
+        "spec": "6.0.0",
         "type": "version"
       },
       "/home/travis/build/Kitware/itk-vtk-image-viewer"
     ]
   ],
-  "_from": "itk@5.1.0",
-  "_id": "itk@5.1.0",
+  "_from": "itk@6.0.0",
+  "_id": "itk@6.0.0",
   "_inCache": true,
   "_location": "/itk",
-  "_nodeVersion": "6.11.3",
+  "_nodeVersion": "6.11.5",
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/itk-5.1.0.tgz_1507001505904_0.33187815244309604"
+    "tmp": "tmp/itk-6.0.0.tgz_1508955524990_0.05454902537167072"
   },
   "_npmUser": {
     "name": "thewtex",
     "email": "matt@mmmccormick.com"
   },
-  "_npmVersion": "5.4.2",
+  "_npmVersion": "3.10.10",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "itk@5.1.0",
+    "raw": "itk@6.0.0",
     "scope": null,
     "escapedName": "itk",
     "name": "itk",
-    "rawSpec": "5.1.0",
-    "spec": "5.1.0",
+    "rawSpec": "6.0.0",
+    "spec": "6.0.0",
     "type": "version"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "/"
   ],
-  "_resolved": "https://registry.npmjs.org/itk/-/itk-5.1.0.tgz",
-  "_shasum": "14d5b733ac1f0886fe85764d4188042ca184a48a",
+  "_resolved": "https://registry.npmjs.org/itk/-/itk-6.0.0.tgz",
+  "_shasum": "32131dd84831201775cde6486a8e3bb73daecb67",
   "_shrinkwrap": null,
-  "_spec": "itk@5.1.0",
+  "_spec": "itk@6.0.0",
   "_where": "/home/travis/build/Kitware/itk-vtk-image-viewer",
   "aliasify": {
     "aliases": {
@@ -102,9 +102,8 @@
     "test": "test"
   },
   "dist": {
-    "integrity": "sha512-IMs1CvVNsdSIj1qUoSld3F/1d/pKJ2KiY0A4b4hvLxVSguyke0WTkUO0GMmL+p6EXmYjvMfWt9lIcPVn+L+d5w==",
-    "shasum": "14d5b733ac1f0886fe85764d4188042ca184a48a",
-    "tarball": "https://registry.npmjs.org/itk/-/itk-5.1.0.tgz"
+    "shasum": "32131dd84831201775cde6486a8e3bb73daecb67",
+    "tarball": "https://registry.npmjs.org/itk/-/itk-6.0.0.tgz"
   },
   "homepage": "https://github.com/InsightSoftwareConsortium/itk-js#readme",
   "keywords": [
@@ -134,7 +133,7 @@
     "url": "git+https://github.com/InsightSoftwareConsortium/itk-js.git"
   },
   "scripts": {
-    "browser-test": "NODE_PATH=$PWD/dist browserify test/Browser/*.js | tape-run --render=\"tap-spec\" --static \"dist/\" --browser chrome",
+    "browser-test": "NODE_PATH=$PWD/dist browserify test/Browser/*.js | tape-run --render=\"tap-spec\" --static \"dist/\" --browser firefox",
     "build": "node ./build.js",
     "commit": "git cz",
     "doc": "kw-doc -c ./doc/config.js",
@@ -147,5 +146,5 @@
       "itkJSImageIOPost.js"
     ]
   },
-  "version": "5.1.0"
+  "version": "6.0.0"
 }

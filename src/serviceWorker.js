@@ -1,4 +1,4 @@
-importScripts('workbox-sw.prod.v2.0.1.js');
+importScripts('workbox-sw.prod.v2.1.0.js');
 
 const workboxSW = new self.WorkboxSW({clientsClaim: true})
 workboxSW.precache([])

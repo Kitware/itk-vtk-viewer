@@ -6,7 +6,7 @@ import getMatrixElement from 'itk/getMatrixElement';
 
 const convertItkImageToVtkImage = (itkImage) => {
   const array = {
-    values: itkImage.buffer,
+    values: itkImage.data,
     numberOfComponents: itkImage.imageType.components,
   };
 

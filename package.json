@@ -17,16 +17,16 @@
     "commander": "2.9.0",
     "express": "4.15.3",
     "gl-matrix": "2.3.1",
-    "itk": "5.1.0",
+    "itk": "6.0.0",
     "open": "0.0.5",
     "seedrandom": "2.4.2",
     "shelljs": "0.7.7",
-    "vtk.js": "5.1.11"
+    "vtk.js": "5.1.15"
   },
   "devDependencies": {
     "kw-doc": "1.1.1",
     "kw-web-suite": "3.0.0",
-    "workbox-build": "^2.0.3"
+    "workbox-build": "^2.1.0"
   },
   "scripts": {
     "doc": "kw-doc -c ./doc/config.js",

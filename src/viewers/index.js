@@ -15,11 +15,11 @@ function getPipeline() {
   return pipeline;
 }
 
-function createViewer(container, data) {
+function createViewer(container, data, config) {
   userInterface.emptyContainer(container);
-  const config = { rootContainer: container, background: [0, 0, 0] };
+  const defaultConfig = { rootContainer: container, background: [0, 0, 0] };
   if (container) {
-    config.containerStyle = {
+    defaultConfig.containerStyle = {
       position: 'relative',
       width: '100%',
       height: '100%',
@@ -27,10 +27,11 @@ function createViewer(container, data) {
       minWidth: '200px',
       overflow: 'hidden',
     };
-    config.listenWindowResize = true;
+    defaultConfig.listenWindowResize = true;
   }
+  const renderWindowConfiguration = config || defaultConfig;
 
-  const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance(config);
+  const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance(renderWindowConfiguration);
   const renderer = fullScreenRenderer.getRenderer();
   const renderWindow = fullScreenRenderer.getRenderWindow();
   renderWindow.getInteractor().setDesiredUpdateRate(15);
@@ -53,6 +54,7 @@ function createViewer(container, data) {
   } else {
     console.error(`No viewer found for ${data.type}`);
   }
+  setImmediate(fullScreenRenderer.resize);
   renderWindow.render();
   return pipeline;
 }

@@ -5,7 +5,7 @@ const entry = path.join(__dirname, './src/index.js');
 const sourcePath = path.join(__dirname, './source');
 const outputPath = path.join(__dirname, './dist');
 
-const vtkRules = require('vtk.js/Utilities/config/dependency').webpack.v2.rules;
+const vtkRules = require('vtk.js/Utilities/config/rules-vtk.js');
 const linterRules = require('vtk.js/Utilities/config/rules-linter.js');
 const commonRules = require('vtk.js/Utilities/config/rules-examples.js');
 

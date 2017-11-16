@@ -21,7 +21,7 @@
     "open": "0.0.5",
     "seedrandom": "2.4.2",
     "shelljs": "0.7.7",
-    "vtk.js": "5.3.5"
+    "vtk.js": "5.5.0"
   },
   "devDependencies": {
     "kw-doc": "1.1.1",

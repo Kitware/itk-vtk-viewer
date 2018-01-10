@@ -31,7 +31,4 @@ module.exports = {
       sourcePath,
     ],
   },
-  externals: {
-    config: '{}',
-  },
 };

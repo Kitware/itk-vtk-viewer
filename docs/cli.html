@@ -47,7 +47,7 @@
 <meta property="og:description" content="ITK/VTK Image Viewer can be used as a command line tool for opening and visualizing your local data file. InstallationFirst of all, you will need to install the tool on you system which will require N">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://kitware.github.io/itk-vtk-image-viewer/docs/viewer.jpg">
-<meta property="og:updated_time" content="2017-10-13T05:02:36.884Z">
+<meta property="og:updated_time" content="2018-01-10T16:56:19.325Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Command Line Interface">
 <meta name="twitter:description" content="ITK/VTK Image Viewer can be used as a command line tool for opening and visualizing your local data file. InstallationFirst of all, you will need to install the tool on you system which will require N">
@@ -104,23 +104,23 @@
               <div class="article-content" itemprop="articleBody">
                 <p>ITK/VTK Image Viewer can be used as a command line tool for opening and visualizing your local data file.</p>
 <h2 id="Installation" class="article-heading"><a href="#Installation" class="headerlink" title="Installation"></a>Installation<a class="article-anchor" href="#Installation" aria-hidden="true"></a></h2><p>First of all, you will need to install the tool on you system which will require Node.js.<br>Assumming your environment already has node, you should be able to run the following command line.</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ npm install itk-vtk-image-viewer -g</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ npm install itk-vtk-image-viewer -g</span><br></pre></td></tr></table></figure>
 <p>The command line will install globally the application which should enable a new command line:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ ItkVtkImageViewer</div><div class="line"></div><div class="line">  Usage: ItkVtkImageViewer [options]</div><div class="line"></div><div class="line">  Options:</div><div class="line"></div><div class="line">    -h, --<span class="built_in">help</span>                        output usage information</div><div class="line">    -V, --version                     output the version number</div><div class="line">    -p, --port [3000]                 Start web server with given port</div><div class="line">    -d, --data [directory]            Data directory to serve</div><div class="line">    -s, --server-only                 Do not open the web browser</div><div class="line">    </div><div class="line">    -f, --filter [nrrd,png,tiff,bmp]  List files with those extensions <span class="keyword">in</span> data directory</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ ItkVtkImageViewer</span><br><span class="line"></span><br><span class="line">  Usage: ItkVtkImageViewer [options]</span><br><span class="line"></span><br><span class="line">  Options:</span><br><span class="line"></span><br><span class="line">    -h, --<span class="built_in">help</span>                        output usage information</span><br><span class="line">    -V, --version                     output the version number</span><br><span class="line">    -p, --port [3000]                 Start web server with given port</span><br><span class="line">    -d, --data [directory]            Data directory to serve</span><br><span class="line">    -s, --server-only                 Do not open the web browser</span><br><span class="line">    </span><br><span class="line">    -f, --filter [nrrd,png,tiff,bmp]  List files with those extensions <span class="keyword">in</span> data directory</span><br></pre></td></tr></table></figure>
 <h2 id="Usage" class="article-heading"><a href="#Usage" class="headerlink" title="Usage"></a>Usage<a class="article-anchor" href="#Usage" aria-hidden="true"></a></h2><p>Listed above are the various options available, but below are commonly used commands:</p>
 <h3 id="Quick-start" class="article-heading"><a href="#Quick-start" class="headerlink" title="Quick start"></a>Quick start<a class="article-anchor" href="#Quick-start" aria-hidden="true"></a></h3><p>Start a server on default port without automatically opening a browser and sharing your local <code>~/itk-data</code> directory as <code>/data</code>.</p>
 <p>This allow to visualize file on the local file system via a given URL: </p>
 <ul>
 <li><code>http://10.21.3.245:3000/?fileToLoad=/data/005_20months_T2_Reg2Atlas.nrrd</code></li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ ItkVtkImageViewer -sd ~/itk-data</div><div class="line"></div><div class="line">ItkVtkImageViewer</div><div class="line">  =&gt; Serve /home/ItkConsortium/itk-data on port 3000</div><div class="line"></div><div class="line">     en0 =&gt; http://10.21.3.245:3000/</div><div class="line"></div><div class="line">  =&gt; Available data files:</div><div class="line"></div><div class="line">    /?fileToLoad=/data/005_20months_T2_Reg2Atlas.nrrd</div><div class="line">    /?fileToLoad=/data/005_32months_Reg2Atlas_ManualBrainMask.nrrd</div><div class="line">    /?fileToLoad=/data/ScreenShot2017.png</div></pre></td></tr></table></figure>
-<h3 id="Drag-and-drop-viewer" class="article-heading"><a href="#Drag-and-drop-viewer" class="headerlink" title="Drag and drop viewer"></a>Drag and drop viewer<a class="article-anchor" href="#Drag-and-drop-viewer" aria-hidden="true"></a></h3><figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ ItkVtkImageViewer -p</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ ItkVtkImageViewer -sd ~/itk-data</span><br><span class="line"></span><br><span class="line">ItkVtkImageViewer</span><br><span class="line">  =&gt; Serve /home/ItkConsortium/itk-data on port 3000</span><br><span class="line"></span><br><span class="line">     en0 =&gt; http://10.21.3.245:3000/</span><br><span class="line"></span><br><span class="line">  =&gt; Available data files:</span><br><span class="line"></span><br><span class="line">    /?fileToLoad=/data/005_20months_T2_Reg2Atlas.nrrd</span><br><span class="line">    /?fileToLoad=/data/005_32months_Reg2Atlas_ManualBrainMask.nrrd</span><br><span class="line">    /?fileToLoad=/data/ScreenShot2017.png</span><br></pre></td></tr></table></figure>
+<h3 id="Drag-and-drop-viewer" class="article-heading"><a href="#Drag-and-drop-viewer" class="headerlink" title="Drag and drop viewer"></a>Drag and drop viewer<a class="article-anchor" href="#Drag-and-drop-viewer" aria-hidden="true"></a></h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ ItkVtkImageViewer -p</span><br></pre></td></tr></table></figure>
 <p><img src="./viewer.jpg" alt="ItkVtkImageViewer"></p>
 <h3 id="Force-2D-viewer" class="article-heading"><a href="#Force-2D-viewer" class="headerlink" title="Force 2D viewer"></a>Force 2D viewer<a class="article-anchor" href="#Force-2D-viewer" aria-hidden="true"></a></h3><p>To force the 2D viewer on 3D dataset, just add <code>?use2D</code> at the end of the URL. </p>
 
               </div>
               <footer class="article-footer">
-                <time class="article-footer-updated" datetime="2017-10-13T05:02:36.884Z" itemprop="dateModified">Last updated: 2017-10-13</time>
+                <time class="article-footer-updated" datetime="2018-01-10T16:56:19.325Z" itemprop="dateModified">Last updated: 2018-01-10</time>
                 <a href="index.html" class="article-footer-prev" title="Overview"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="viewer.html" class="article-footer-next" title="Viewer"><span>Next</span><i class="fa fa-chevron-right"></i></a>
               </footer>
               
@@ -145,7 +145,7 @@
     <footer id="footer" class="wrapper">
   <div class="inner">
     <div id="footer-copyright">
-      &copy; 2017 <a href="http://www.kitware.com" target="_blank">Kitware Inc.</a>
+      &copy; 2018 <a href="http://www.kitware.com" target="_blank">Kitware Inc.</a>
     </div>
     <div id="footer-links">
       <a href="https://github.com/kitware/itk-vtk-image-viewer" class="footer-link" target="_blank"><i class="fa fa-github-alt"></i></a>

@@ -1,8 +1,6 @@
 var path = require('path');
 var mime = require('mime-types');
 
-var config = require('./itkConfig.js');
-
 var mimeToIO = require('./MimeToIO.js');
 var getFileExtension = require('./getFileExtension.js');
 var extensionToIO = require('./extensionToIO.js');
@@ -18,6 +16,7 @@ var readImageEmscriptenFSFile = require('./readImageEmscriptenFSFile.js');
  */
 var readImageLocalFile = function readImageLocalFile(filePath) {
   return new Promise(function (resolve, reject) {
+    var imageIOsPath = path.resolve(__dirname, '..', 'dist', 'ImageIOs');
     try {
       var mimeType = mime.lookup(filePath);
       var extension = getFileExtension(filePath);
@@ -29,7 +28,7 @@ var readImageLocalFile = function readImageLocalFile(filePath) {
         io = extensionToIO[extension];
       } else {
         for (var idx = 0; idx < ImageIOIndex.length; ++idx) {
-          var _modulePath = path.join(config.imageIOsPath, ImageIOIndex[idx]);
+          var _modulePath = path.join(imageIOsPath, ImageIOIndex[idx]);
           var _Module = loadEmscriptenModule(_modulePath);
           var imageIO = new _Module.ITKImageIO();
           _Module.mountContainingDirectory(filePath);
@@ -46,7 +45,7 @@ var readImageLocalFile = function readImageLocalFile(filePath) {
         reject(Error('Could not find IO for: ' + filePath));
       }
 
-      var modulePath = path.join(config.imageIOsPath, io);
+      var modulePath = path.join(imageIOsPath, io);
       var Module = loadEmscriptenModule(modulePath);
       Module.mountContainingDirectory(filePath);
       var image = readImageEmscriptenFSFile(Module, filePath);

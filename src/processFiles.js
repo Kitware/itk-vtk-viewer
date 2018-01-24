@@ -1,17 +1,26 @@
 import itkreadImageFile from 'itk/readImageFile';
+import itkreadImageDICOMFileSeries from 'itk/readImageDICOMFileSeries';
 
 import viewers from './viewers';
 import userInterface from './userInterface';
 import convertItkImageToVtkImage from './convertItkImageToVtkImage';
 
 
-const processFile = (container, { file, use2D }) => {
+const processFiles = (container, { files, use2D }) => {
   userInterface.emptyContainer(container);
   userInterface.createLoadingProgress(container);
 
   /* eslint-disable new-cap */
   return new Promise((resolve, reject) => {
-    itkreadImageFile(file).then((itkImage) => {
+    let reader = null;
+    let arg = files;
+    if (files.length === 1) {
+      reader = itkreadImageFile;
+      arg = files[0];
+    } else {
+      reader = itkreadImageDICOMFileSeries;
+    }
+    reader(arg).then((itkImage) => {
       const imageData = convertItkImageToVtkImage(itkImage);
       const is3D = itkImage.imageType.dimension === 3 && !use2D;
 
@@ -23,4 +32,4 @@ const processFile = (container, { file, use2D }) => {
   });
 };
 
-export default processFile;
+export default processFiles;

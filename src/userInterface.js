@@ -190,7 +190,7 @@ function createFileDragAndDrop(container, onDataChange) {
   const myContainer = getRootContainer(container);
 
   domElements.fileContainer = document.createElement('div');
-  domElements.fileContainer.innerHTML = `<div class="${style.bigFileDrop}"/><input type="file" class="file" style="display: none;"/>`;
+  domElements.fileContainer.innerHTML = `<div class="${style.bigFileDrop}"/><input type="file" class="file" style="display: none;" multiple/>`;
   myContainer.appendChild(domElements.fileContainer);
 
   const fileInput = domElements.fileContainer.querySelector('input');
@@ -199,11 +199,9 @@ function createFileDragAndDrop(container, onDataChange) {
     preventDefaults(e);
     const dataTransfer = e.dataTransfer;
     const files = e.target.files || dataTransfer.files;
-    if (files.length === 1) {
-      myContainer.removeChild(domElements.fileContainer);
-      const use2D = !!vtkURLExtract.extractURLParameters().use2D;
-      onDataChange(myContainer, { file: files[0], use2D });
-    }
+    myContainer.removeChild(domElements.fileContainer);
+    const use2D = !!vtkURLExtract.extractURLParameters().use2D;
+    onDataChange(myContainer, { files, use2D });
   }
 
   fileInput.addEventListener('change', handleFile);

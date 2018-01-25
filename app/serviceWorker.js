@@ -17,6 +17,10 @@ workboxSW.precache([
   {
     "url": "test.html",
     "revision": "a7927ae23ec755b9f0b3110a5d316f80"
+  },
+  {
+    "url": "workbox-sw.prod.v2.1.2.js",
+    "revision": "685d1ceb6b9a9f94aacf71d6aeef8b51"
   }
 ])
 

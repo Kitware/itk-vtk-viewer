@@ -12,7 +12,7 @@ workboxSW.precache([
   },
   {
     "url": "itkVtkImageViewer.js",
-    "revision": "f6edd0c06a3a8dea558ae6b0ed179530"
+    "revision": "22c46afe91a2fca698e69031b043d6f3"
   },
   {
     "url": "test.html",

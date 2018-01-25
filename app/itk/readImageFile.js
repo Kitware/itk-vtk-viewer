@@ -1,15 +1,17 @@
-var PromiseWorker = require('promise-worker-transferable');
-var PromiseFileReader = require('promise-file-reader');
+const PromiseWorker = require('promise-worker-transferable')
+const PromiseFileReader = require('promise-file-reader')
 
-var config = require('./itkConfig.js');
+const config = require('./itkConfig.js')
 
-var worker = new window.Worker(config.webWorkersPath + '/ImageIOWorker.js');
-var promiseWorker = new PromiseWorker(worker);
+const worker = new window.Worker(config.webWorkersPath + '/ImageIOWorker.js')
+const promiseWorker = new PromiseWorker(worker)
 
-var readImageFile = function readImageFile(file) {
-  return PromiseFileReader.readAsArrayBuffer(file).then(function (arrayBuffer) {
-    return promiseWorker.postMessage({ operation: 'readImage', name: file.name, type: file.type, data: arrayBuffer, config: config }, [arrayBuffer]);
-  });
-};
+const readImageFile = (file) => {
+  return PromiseFileReader.readAsArrayBuffer(file)
+    .then(arrayBuffer => {
+      return promiseWorker.postMessage({ operation: 'readImage', name: file.name, type: file.type, data: arrayBuffer, config: config },
+        [arrayBuffer])
+    })
+}
 
-module.exports = readImageFile;
+module.exports = readImageFile

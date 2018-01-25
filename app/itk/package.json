@@ -2,25 +2,25 @@
   "_args": [
     [
       {
-        "raw": "itk@7.0.0",
+        "raw": "itk@7.1.0",
         "scope": null,
         "escapedName": "itk",
         "name": "itk",
-        "rawSpec": "7.0.0",
-        "spec": "7.0.0",
+        "rawSpec": "7.1.0",
+        "spec": "7.1.0",
         "type": "version"
       },
       "/home/travis/build/Kitware/itk-vtk-image-viewer"
     ]
   ],
-  "_from": "itk@7.0.0",
-  "_id": "itk@7.0.0",
+  "_from": "itk@7.1.0",
+  "_id": "itk@7.1.0",
   "_inCache": true,
   "_location": "/itk",
   "_nodeVersion": "6.12.3",
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/itk-7.0.0.tgz_1515594140015_0.267882710788399"
+    "tmp": "tmp/itk-7.1.0.tgz_1516810890101_0.9856534423306584"
   },
   "_npmUser": {
     "name": "thewtex",
@@ -29,21 +29,21 @@
   "_npmVersion": "5.6.0",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "itk@7.0.0",
+    "raw": "itk@7.1.0",
     "scope": null,
     "escapedName": "itk",
     "name": "itk",
-    "rawSpec": "7.0.0",
-    "spec": "7.0.0",
+    "rawSpec": "7.1.0",
+    "spec": "7.1.0",
     "type": "version"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/itk/-/itk-7.0.0.tgz",
-  "_shasum": "32f0e4bd0117f6fb79b0020cf6e8ab253e5e64ef",
+  "_resolved": "https://registry.npmjs.org/itk/-/itk-7.1.0.tgz",
+  "_shasum": "b026929e162e85de5cb8b5f79a4a7f04fa3e5164",
   "_shrinkwrap": null,
-  "_spec": "itk@7.0.0",
+  "_spec": "itk@7.1.0",
   "_where": "/home/travis/build/Kitware/itk-vtk-image-viewer",
   "author": {
     "name": "Insight Software Consortium"
@@ -63,11 +63,13 @@
   },
   "description": "Read and write 2D, 3D, and ND images with the Insight Toolkit (ITK)",
   "devDependencies": {
-    "async": "^2.0.1",
+    "async": "^2.6.0",
     "ava": "^0.22.0",
+    "axios": "^0.17.1",
     "babel-core": "^6.24.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2017": "^6.24.1",
     "babelify": "^7.3.0",
     "browserify": "^15.0.0",
     "commitizen": "2.9.6",
@@ -88,7 +90,6 @@
     "standard": "^8.6.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.8.0",
-    "tape-run": "^3.0.0",
     "uglifyify": "^3.0.4",
     "webpack": "^3.10.0"
   },
@@ -97,9 +98,9 @@
     "test": "test"
   },
   "dist": {
-    "integrity": "sha512-fNrJIDhR/rShTam9ei0ze3o+lYLzmiRO/9NojNzNxgH6n7Wk5riBtqByEJxWemi0ImFOh/6fUw5iAeoGLRT4uw==",
-    "shasum": "32f0e4bd0117f6fb79b0020cf6e8ab253e5e64ef",
-    "tarball": "https://registry.npmjs.org/itk/-/itk-7.0.0.tgz"
+    "integrity": "sha512-iPxTVU4McljctkeP+OZNveF3leSqgTu/2OWpe9x6u47/Snb1Bur3R9MdgAeGjnCYcEIwJdZaFktisnYkEnvd+Q==",
+    "shasum": "b026929e162e85de5cb8b5f79a4a7f04fa3e5164",
+    "tarball": "https://registry.npmjs.org/itk/-/itk-7.1.0.tgz"
   },
   "homepage": "https://github.com/InsightSoftwareConsortium/itk-js#readme",
   "keywords": [
@@ -142,5 +143,5 @@
       "itkJSImageIOPost.js"
     ]
   },
-  "version": "7.0.0"
+  "version": "7.1.0"
 }

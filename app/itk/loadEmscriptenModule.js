@@ -1,5 +1,5 @@
-var loadEmscriptenModule = function loadEmscriptenModule(modulePath) {
-  return require(modulePath);
-};
+const loadEmscriptenModule = modulePath => {
+  return require(modulePath)
+}
 
-module.exports = loadEmscriptenModule;
+module.exports = loadEmscriptenModule

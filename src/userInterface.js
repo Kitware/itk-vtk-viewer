@@ -1,5 +1,5 @@
-import vtkColorMaps               from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps.json';
-import vtkURLExtract              from 'vtk.js/Sources/Common/Core/URLExtract';
+import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps.json';
+import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
 
 import style from './ItkVtkImageViewer.mcss';
@@ -10,7 +10,7 @@ const domElements = {};
 // ----------------------------------------------------------------------------
 
 function getPreset(name) {
-  return vtkColorMaps.find(p => p.Name === name);
+  return vtkColorMaps.find((p) => p.Name === name);
 }
 
 // ----------------------------------------------------------------------------
@@ -37,10 +37,19 @@ function createLoadingProgress(container) {
 
 // ----------------------------------------------------------------------------
 
-function createPiecewiseWidget(container, lookupTable, piecewiseFunction, dataArray, renderWindow) {
+function createPiecewiseWidget(
+  container,
+  lookupTable,
+  piecewiseFunction,
+  dataArray,
+  renderWindow
+) {
   const myContainer = getRootContainer(container);
 
-  const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({ numberOfBins: 256, size: [400, 150] });
+  const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({
+    numberOfBins: 256,
+    size: [400, 150],
+  });
   transferFunctionWidget.updateStyle({
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
     histogramColor: 'rgba(100, 100, 100, 0.5)',
@@ -103,11 +112,16 @@ function createPiecewiseWidget(container, lookupTable, piecewiseFunction, dataAr
 
 function createColorPresetSelector(container, lookupTable, dataRangeToUse) {
   const myContainer = getRootContainer(container);
-  const presetNames = vtkColorMaps.filter(p => p.RGBPoints).filter(p => p.ColorSpace !== 'CIELAB').map(p => p.Name);
+  const presetNames = vtkColorMaps
+    .filter((p) => p.RGBPoints)
+    .filter((p) => p.ColorSpace !== 'CIELAB')
+    .map((p) => p.Name);
 
   domElements.presetSelector = document.createElement('select');
   domElements.presetSelector.setAttribute('class', style.selector);
-  domElements.presetSelector.innerHTML = presetNames.map(name => `<option value="${name}">${name}</option>`).join('');
+  domElements.presetSelector.innerHTML = presetNames
+    .map((name) => `<option value="${name}">${name}</option>`)
+    .join('');
 
   function applyPreset() {
     lookupTable.applyColorMap(getPreset(domElements.presetSelector.value));
@@ -122,14 +136,28 @@ function createColorPresetSelector(container, lookupTable, dataRangeToUse) {
 
 // ----------------------------------------------------------------------------
 
-function createVolumeToggleUI(container, lookupTable, piecewiseFunction, actor, dataArray, renderWindow) {
+function createVolumeToggleUI(
+  container,
+  lookupTable,
+  piecewiseFunction,
+  actor,
+  dataArray,
+  renderWindow
+) {
   const myContainer = getRootContainer(container);
   createColorPresetSelector(myContainer, lookupTable, dataArray.getRange());
-  createPiecewiseWidget(myContainer, lookupTable, piecewiseFunction, dataArray, renderWindow);
+  createPiecewiseWidget(
+    myContainer,
+    lookupTable,
+    piecewiseFunction,
+    dataArray,
+    renderWindow
+  );
 
   domElements.shadowContainer = document.createElement('select');
   domElements.shadowContainer.setAttribute('class', style.shadow);
-  domElements.shadowContainer.innerHTML = '<option value="1">Use shadow</option><option value="0">No shadow</option>';
+  domElements.shadowContainer.innerHTML =
+    '<option value="1">Use shadow</option><option value="0">No shadow</option>';
 
   // Shadow management
   domElements.shadowContainer.addEventListener('change', (event) => {
@@ -190,7 +218,9 @@ function createFileDragAndDrop(container, onDataChange) {
   const myContainer = getRootContainer(container);
 
   domElements.fileContainer = document.createElement('div');
-  domElements.fileContainer.innerHTML = `<div class="${style.bigFileDrop}"/><input type="file" class="file" style="display: none;" multiple/>`;
+  domElements.fileContainer.innerHTML = `<div class="${
+    style.bigFileDrop
+  }"/><input type="file" class="file" style="display: none;" multiple/>`;
   myContainer.appendChild(domElements.fileContainer);
 
   const fileInput = domElements.fileContainer.querySelector('input');
@@ -206,7 +236,7 @@ function createFileDragAndDrop(container, onDataChange) {
 
   fileInput.addEventListener('change', handleFile);
   domElements.fileContainer.addEventListener('drop', handleFile);
-  domElements.fileContainer.addEventListener('click', e => fileInput.click());
+  domElements.fileContainer.addEventListener('click', (e) => fileInput.click());
   domElements.fileContainer.addEventListener('dragover', preventDefaults);
 }
 

@@ -1,20 +1,36 @@
-import vtkVolume       from 'vtk.js/Sources/Rendering/Core/Volume';
+import vtkVolume from 'vtk.js/Sources/Rendering/Core/Volume';
 import vtkVolumeMapper from 'vtk.js/Sources/Rendering/Core/VolumeMapper';
-import vtkBoundingBox             from 'vtk.js/Sources/Common/DataModel/BoundingBox';
+import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox';
 
-export default function volumeRendering(data, renderer, renderWindow, piecewiseFunction, lookupTable) {
+export default function volumeRendering(
+  data,
+  renderer,
+  renderWindow,
+  piecewiseFunction,
+  lookupTable
+) {
   const internalPipeline = { renderer, renderWindow };
 
   const actor = vtkVolume.newInstance();
   const mapper = vtkVolumeMapper.newInstance();
   const source = data.image;
-  const dataRange = data.image.getPointData().getScalars().getRange();
+  const dataRange = data.image
+    .getPointData()
+    .getScalars()
+    .getRange();
 
   // Pipeline handling
   mapper.setInputData(data.image);
   actor.setMapper(mapper);
 
-  const sampleDistance = 0.7 * Math.sqrt(source.getSpacing().map(v => v * v).reduce((a, b) => a + b, 0));
+  const sampleDistance =
+    0.7 *
+    Math.sqrt(
+      source
+        .getSpacing()
+        .map((v) => v * v)
+        .reduce((a, b) => a + b, 0)
+    );
   mapper.setSampleDistance(sampleDistance);
   actor.getProperty().setRGBTransferFunction(0, lookupTable);
   actor.getProperty().setScalarOpacity(0, piecewiseFunction);
@@ -22,7 +38,13 @@ export default function volumeRendering(data, renderer, renderWindow, piecewiseF
 
   // For better looking volume rendering
   // - distance in world coordinates a scalar opacity of 1.0
-  actor.getProperty().setScalarOpacityUnitDistance(0, vtkBoundingBox.getDiagonalLength(source.getBounds()) / Math.max(...source.getDimensions()));
+  actor
+    .getProperty()
+    .setScalarOpacityUnitDistance(
+      0,
+      vtkBoundingBox.getDiagonalLength(source.getBounds()) /
+        Math.max(...source.getDimensions())
+    );
   // - control how we emphasize surface boundaries
   //  => max should be around the average gradient magnitude for the
   //     volume or maybe average plus one std dev of the gradient magnitude
@@ -30,7 +52,9 @@ export default function volumeRendering(data, renderer, renderWindow, piecewiseF
   //     pixel gradient)
   //  => max hack: (dataRange[1] - dataRange[0]) * 0.05
   actor.getProperty().setGradientOpacityMinimumValue(0, 0);
-  actor.getProperty().setGradientOpacityMaximumValue(0, (dataRange[1] - dataRange[0]) * 0.05);
+  actor
+    .getProperty()
+    .setGradientOpacityMaximumValue(0, (dataRange[1] - dataRange[0]) * 0.05);
   // - Use shading based on gradient
   actor.getProperty().setShade(true);
   actor.getProperty().setUseGradientOpacity(0, true);

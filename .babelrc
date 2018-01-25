@@ -1,8 +1,9 @@
 {
-  presets: ['es2015'],
-  env: {
-    test: {
-      plugins: [],
-    }
-  }
+  presets: [
+    ['env', {
+      targets: {
+        browsers: ['last 2 versions'],
+      },
+    }],
+  ],
 }

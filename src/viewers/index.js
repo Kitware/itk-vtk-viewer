@@ -1,6 +1,6 @@
-import vtkFullScreenRenderWindow  from 'vtk.js/Sources/Rendering/Misc/FullScreenRenderWindow';
-import vtkColorTransferFunction   from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction';
-import vtkPiecewiseFunction       from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction';
+import vtkFullScreenRenderWindow from 'vtk.js/Sources/Rendering/Misc/FullScreenRenderWindow';
+import vtkColorTransferFunction from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction';
+import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction';
 
 import userInterface from '../userInterface';
 
@@ -31,7 +31,9 @@ function createViewer(container, data, config) {
   }
   const renderWindowConfiguration = config || defaultConfig;
 
-  const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance(renderWindowConfiguration);
+  const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance(
+    renderWindowConfiguration
+  );
   const renderer = fullScreenRenderer.getRenderer();
   const renderWindow = fullScreenRenderer.getRenderWindow();
   renderWindow.getInteractor().setDesiredUpdateRate(15);
@@ -46,10 +48,23 @@ function createViewer(container, data, config) {
 
   const pipelineBuilder = viewers[data.type];
   if (pipelineBuilder) {
-    pipeline = pipelineBuilder(data, renderer, renderWindow, piecewiseFunction, lookupTable);
+    pipeline = pipelineBuilder(
+      data,
+      renderer,
+      renderWindow,
+      piecewiseFunction,
+      lookupTable
+    );
 
     if (data.type.toString() === 'volumeRendering') {
-      userInterface.createVolumeToggleUI(container, lookupTable, piecewiseFunction, pipeline.actor, dataArray, renderWindow);
+      userInterface.createVolumeToggleUI(
+        container,
+        lookupTable,
+        piecewiseFunction,
+        pipeline.actor,
+        dataArray,
+        renderWindow
+      );
     }
   } else {
     console.error(`No viewer found for ${data.type}`);

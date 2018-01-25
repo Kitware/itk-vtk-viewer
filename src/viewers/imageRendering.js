@@ -1,8 +1,14 @@
-import vtkImageMapper          from 'vtk.js/Sources/Rendering/Core/ImageMapper';
-import vtkImageSlice           from 'vtk.js/Sources/Rendering/Core/ImageSlice';
+import vtkImageMapper from 'vtk.js/Sources/Rendering/Core/ImageMapper';
+import vtkImageSlice from 'vtk.js/Sources/Rendering/Core/ImageSlice';
 import vtkInteractorStyleImage from 'vtk.js/Sources/Interaction/Style/InteractorStyleImage';
 
-export default function imageRendering(data, renderer, renderWindow, piecewiseFunction, lookupTable) {
+export default function imageRendering(
+  data,
+  renderer,
+  renderWindow,
+  piecewiseFunction,
+  lookupTable
+) {
   const internalPipeline = { renderer, renderWindow };
 
   const mapper = vtkImageMapper.newInstance();
@@ -14,7 +20,7 @@ export default function imageRendering(data, renderer, renderWindow, piecewiseFu
   const dataRange = dataArray.getRange();
   const window = dataRange[1] - dataRange[0];
   actor.getProperty().setColorWindow(window);
-  actor.getProperty().setColorLevel(dataRange[0] + (window / 2.0));
+  actor.getProperty().setColorLevel(dataRange[0] + window / 2.0);
   actor.setMapper(mapper);
   const iStyle = vtkInteractorStyleImage.newInstance();
   iStyle.setInteractionMode('IMAGE_SLICING');

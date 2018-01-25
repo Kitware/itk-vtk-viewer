@@ -25,7 +25,11 @@ const convertItkImageToVtkImage = (itkImage) => {
     vtkImage.spacing[idx] = itkImage.spacing[idx];
     dimensions[idx] = itkImage.size[idx];
     for (let col = 0; col < itkImage.imageType.dimension; ++col) {
-      direction.setElement(idx, col, getMatrixElement(itkImage.direction, idx, col));
+      direction.setElement(
+        idx,
+        col,
+        getMatrixElement(itkImage.direction, idx, col)
+      );
     }
   }
 

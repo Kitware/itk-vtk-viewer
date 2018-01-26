@@ -14,7 +14,7 @@ Moreover, the JavaScript library should also be added to the web page. Only one 
 <script type="text/javascript" src="https://kitware.github.io/itk-vtk-image-viewer/app/itkVtkImageViewer.js">
 ```
 
-or 
+or
 
 ```html
 <script type="text/javascript" src="https://unpkg.com/itk-vtk-image-viewer/dist/itkVtkImageViewer.js">
@@ -25,9 +25,9 @@ or
 The container `<div/>` can be extended with the following set of attributes:
 
 - (Mandatory) __data-url__="/data/005_36months_T2_RegT1_Reg2Atlas_ManualBrainMask_Stripped.nrrd"
-- (Optinal) __data-viewport__="300x200" | default is 500x500
-- (Optinal) __data-background-color__="00aa00" | default is black
-- (Optinal) __data-slice__="true"
+- (Optional) __data-viewport__="300x200" | default is 500x500
+- (Optional) __data-background-color__="00aa00" | default is black
+- (Optional) __data-slice__="true"
 
 
 ![ItkVtkImageViewer-embedded](./embeddedViewer.jpg)

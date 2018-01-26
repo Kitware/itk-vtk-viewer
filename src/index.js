@@ -29,7 +29,7 @@ export function createViewer(el, url, use2D = false) {
   );
 }
 
-export function initializeViewers() {
+export function initializeEmbeddedViewers() {
   if (doNotInitViewers) {
     return;
   }
@@ -89,5 +89,5 @@ export function processParameters(
   return null;
 }
 
-// Ensure processing of viewers
-setTimeout(initializeViewers, 100);
+// Ensure processing of embedded viewers
+setTimeout(initializeEmbeddedViewers, 100);

@@ -23,7 +23,7 @@
     <link rel="apple-touch-icon" type="image/png" sizes="50x50" href="/itk-vtk-image-viewer/logo.png">
 
     <script>
-      if ('serviceWorker' in navigator) {
+      if ('serviceWorker' in navigator && document.location.protocol !== 'http:') {
         window.addEventListener('load', function () {
           navigator.serviceWorker.register('./serviceWorker.js').then(function (registration) {
             // Registration was successful

@@ -40,6 +40,7 @@
     "tap-spec": "^4.1.1",
     "tape": "^4.8.0",
     "tape-catch": "^1.0.6",
+    "webpack-dev-server": "^2.11.1",
     "workbox-build": "^2.1.2"
   },
   "scripts": {
@@ -54,6 +55,7 @@
     "service-worker": "node generate-sw.js",
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkImageViewer.html",
     "commit": "git cz",
+    "start": "webpack-dev-server --content-base ./dist/ --watch-content-base",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "karma start ./karma.conf.js",
     "test:travis": "karma start ./karma.conf.js --browsers ChromeHeadless --single-run",

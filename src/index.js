@@ -9,12 +9,12 @@ import style from './ItkVtkImageViewer.mcss';
 
 let doNotInitViewers = false;
 
-export function createLocalFileReader(container) {
+export function createViewerFromLocalFiles(container) {
   doNotInitViewers = true;
   userInterface.createFileDragAndDrop(container, processFiles);
 }
 
-export function createViewer(el, url, use2D = false) {
+export function createViewerFromUrl(el, url, use2D = false) {
   userInterface.emptyContainer(el);
   userInterface.createLoadingProgress(el);
 
@@ -46,7 +46,7 @@ export function initializeEmbeddedViewers() {
       el.style.height = Number.isFinite(Number(height))
         ? `${height}px`
         : height;
-      createViewer(el, el.dataset.url, !!el.dataset.slice).then((viewer) => {
+      createViewerFromUrl(el, el.dataset.url, !!el.dataset.slice).then((viewer) => {
         // Background color handling
         if (el.dataset.backgroundColor && viewer.renderWindow) {
           const color = el.dataset.backgroundColor;
@@ -84,7 +84,7 @@ export function processParameters(
   }
 
   if (userParams[keyName]) {
-    return createViewer(myContainer, userParams[keyName], !!userParams.use2D);
+    return createViewerFromUrl(myContainer, userParams[keyName], !!userParams.use2D);
   }
   return null;
 }

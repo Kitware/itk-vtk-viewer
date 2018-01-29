@@ -46,23 +46,25 @@ export function initializeEmbeddedViewers() {
       el.style.height = Number.isFinite(Number(height))
         ? `${height}px`
         : height;
-      createViewerFromUrl(el, el.dataset.url, !!el.dataset.slice).then((viewer) => {
-        // Background color handling
-        if (el.dataset.backgroundColor && viewer.renderWindow) {
-          const color = el.dataset.backgroundColor;
-          const bgColor = [
-            color.slice(0, 2),
-            color.slice(2, 4),
-            color.slice(4, 6),
-          ].map((v) => parseInt(v, 16) / 255);
-          viewer.renderer.setBackground(bgColor);
-        }
+      createViewerFromUrl(el, el.dataset.url, !!el.dataset.slice).then(
+        (viewer) => {
+          // Background color handling
+          if (el.dataset.backgroundColor && viewer.renderWindow) {
+            const color = el.dataset.backgroundColor;
+            const bgColor = [
+              color.slice(0, 2),
+              color.slice(2, 4),
+              color.slice(4, 6),
+            ].map((v) => parseInt(v, 16) / 255);
+            viewer.renderer.setBackground(bgColor);
+          }
 
-        // Render
-        if (viewer.renderWindow && viewer.renderWindow.render) {
-          viewer.renderWindow.render();
+          // Render
+          if (viewer.renderWindow && viewer.renderWindow.render) {
+            viewer.renderWindow.render();
+          }
         }
-      });
+      );
     }
   }
 }
@@ -84,7 +86,11 @@ export function processParameters(
   }
 
   if (userParams[keyName]) {
-    return createViewerFromUrl(myContainer, userParams[keyName], !!userParams.use2D);
+    return createViewerFromUrl(
+      myContainer,
+      userParams[keyName],
+      !!userParams.use2D
+    );
   }
   return null;
 }

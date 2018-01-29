@@ -1,9 +1,9 @@
 import itkreadImageFile from 'itk/readImageFile';
 import itkreadImageDICOMFileSeries from 'itk/readImageDICOMFileSeries';
 
-import viewers from './viewers';
 import userInterface from './userInterface';
 import convertItkImageToVtkImage from './convertItkImageToVtkImage';
+import createViewer from './createViewer';
 
 const processFiles = (container, { files, use2D }) => {
   userInterface.emptyContainer(container);
@@ -24,9 +24,9 @@ const processFiles = (container, { files, use2D }) => {
       const is3D = itkImage.imageType.dimension === 3 && !use2D;
 
       resolve(
-        viewers.createViewer(container, {
-          type: is3D ? 'volumeRendering' : 'imageRendering',
+        createViewer(container, {
           image: imageData,
+          use2D: !is3D,
         })
       );
     });

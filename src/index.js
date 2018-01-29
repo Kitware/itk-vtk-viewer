@@ -9,12 +9,12 @@ import style from './ItkVtkImageViewer.mcss';
 
 let doNotInitViewers = false;
 
-export function createLocalFileReader(container) {
+export function createViewerFromLocalFiles(container) {
   doNotInitViewers = true;
   userInterface.createFileDragAndDrop(container, processFiles);
 }
 
-export function createViewer(el, url, use2D = false) {
+export function createViewerFromUrl(el, url, use2D = false) {
   userInterface.emptyContainer(el);
   userInterface.createLoadingProgress(el);
 
@@ -46,23 +46,25 @@ export function initializeEmbeddedViewers() {
       el.style.height = Number.isFinite(Number(height))
         ? `${height}px`
         : height;
-      createViewer(el, el.dataset.url, !!el.dataset.slice).then((viewer) => {
-        // Background color handling
-        if (el.dataset.backgroundColor && viewer.renderWindow) {
-          const color = el.dataset.backgroundColor;
-          const bgColor = [
-            color.slice(0, 2),
-            color.slice(2, 4),
-            color.slice(4, 6),
-          ].map((v) => parseInt(v, 16) / 255);
-          viewer.renderer.setBackground(bgColor);
-        }
+      createViewerFromUrl(el, el.dataset.url, !!el.dataset.slice).then(
+        (viewer) => {
+          // Background color handling
+          if (el.dataset.backgroundColor && viewer.renderWindow) {
+            const color = el.dataset.backgroundColor;
+            const bgColor = [
+              color.slice(0, 2),
+              color.slice(2, 4),
+              color.slice(4, 6),
+            ].map((v) => parseInt(v, 16) / 255);
+            viewer.renderer.setBackground(bgColor);
+          }
 
-        // Render
-        if (viewer.renderWindow && viewer.renderWindow.render) {
-          viewer.renderWindow.render();
+          // Render
+          if (viewer.renderWindow && viewer.renderWindow.render) {
+            viewer.renderWindow.render();
+          }
         }
-      });
+      );
     }
   }
 }
@@ -84,7 +86,11 @@ export function processParameters(
   }
 
   if (userParams[keyName]) {
-    return createViewer(myContainer, userParams[keyName], !!userParams.use2D);
+    return createViewerFromUrl(
+      myContainer,
+      userParams[keyName],
+      !!userParams.use2D
+    );
   }
   return null;
 }

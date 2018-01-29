@@ -1,4 +1,4 @@
-import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps.json';
+import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps';
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
 
@@ -38,13 +38,13 @@ function createLoadingProgress(container) {
 // ----------------------------------------------------------------------------
 
 function createPiecewiseWidget(
-  container,
-  lookupTable,
-  piecewiseFunction,
+  rootContainer,
+  lookupTableProxy,
+  piecewiseFunctionProxy,
   dataArray,
   renderWindow
 ) {
-  const myContainer = getRootContainer(container);
+  const piecewiseFunction = piecewiseFunctionProxy.getPiecewiseFunction();
 
   const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({
     numberOfBins: 256,
@@ -69,7 +69,9 @@ function createPiecewiseWidget(
   });
   transferFunctionWidget.setDataArray(dataArray.getData());
 
-  transferFunctionWidget.setColorTransferFunction(lookupTable);
+  transferFunctionWidget.setColorTransferFunction(
+    lookupTableProxy.getLookupTable()
+  );
   transferFunctionWidget.addGaussian(0.5, 1.0, 0.5, 0.5, 0.4);
   transferFunctionWidget.applyOpacity(piecewiseFunction);
 
@@ -79,7 +81,7 @@ function createPiecewiseWidget(
   transferFunctionWidget.setContainer(domElements.widgetContainer);
   transferFunctionWidget.bindMouseListeners();
 
-  // Manage update when opacity change
+  // Manage update when opacity changes
   transferFunctionWidget.onAnimation((start) => {
     if (start) {
       renderWindow.getInteractor().requestAnimation(transferFunctionWidget);
@@ -95,8 +97,8 @@ function createPiecewiseWidget(
     }
   });
 
-  // Manage update when lookupTable change
-  lookupTable.onModified(() => {
+  // Manage update when lookupTable changes
+  lookupTableProxy.getLookupTable().onModified(() => {
     transferFunctionWidget.render();
     if (!renderWindow.getInteractor().isAnimating()) {
       renderWindow.render();
@@ -104,18 +106,15 @@ function createPiecewiseWidget(
   });
 
   transferFunctionWidget.render();
-
-  myContainer.appendChild(domElements.widgetContainer);
+  rootContainer.appendChild(domElements.widgetContainer);
 }
 
-// ----------------------------------------------------------------------------
-
-function createColorPresetSelector(container, lookupTable, dataRangeToUse) {
-  const myContainer = getRootContainer(container);
-  const presetNames = vtkColorMaps
-    .filter((p) => p.RGBPoints)
-    .filter((p) => p.ColorSpace !== 'CIELAB')
-    .map((p) => p.Name);
+function createColorPresetSelector(
+  rootContainer,
+  lookupTableProxy,
+  renderWindow
+) {
+  const presetNames = vtkColorMaps.rgbPresetNames;
 
   domElements.presetSelector = document.createElement('select');
   domElements.presetSelector.setAttribute('class', style.selector);
@@ -123,37 +122,21 @@ function createColorPresetSelector(container, lookupTable, dataRangeToUse) {
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');
 
-  function applyPreset() {
-    lookupTable.applyColorMap(getPreset(domElements.presetSelector.value));
-    lookupTable.setMappingRange(...dataRangeToUse);
-    lookupTable.updateRange();
+  function applyPreset(event) {
+    lookupTableProxy.setPresetName(event.target.value);
+    renderWindow.render();
   }
-  applyPreset();
 
   domElements.presetSelector.addEventListener('change', applyPreset);
-  myContainer.appendChild(domElements.presetSelector);
+  rootContainer.appendChild(domElements.presetSelector);
+  domElements.presetSelector.value = lookupTableProxy.getPresetName();
 }
 
-// ----------------------------------------------------------------------------
-
-function createVolumeToggleUI(
-  container,
-  lookupTable,
-  piecewiseFunction,
-  actor,
-  dataArray,
+function createUseShadowToggle(
+  rootContainer,
+  volumeRepresentation,
   renderWindow
 ) {
-  const myContainer = getRootContainer(container);
-  createColorPresetSelector(myContainer, lookupTable, dataArray.getRange());
-  createPiecewiseWidget(
-    myContainer,
-    lookupTable,
-    piecewiseFunction,
-    dataArray,
-    renderWindow
-  );
-
   domElements.shadowContainer = document.createElement('select');
   domElements.shadowContainer.setAttribute('class', style.shadow);
   domElements.shadowContainer.innerHTML =
@@ -162,11 +145,13 @@ function createVolumeToggleUI(
   // Shadow management
   domElements.shadowContainer.addEventListener('change', (event) => {
     const useShadow = !!Number(event.target.value);
-    actor.getProperty().setShade(useShadow);
-    actor.getProperty().setUseGradientOpacity(0, useShadow);
+    volumeRepresentation.setUseShadow(useShadow);
     renderWindow.render();
   });
+  rootContainer.appendChild(domElements.shadowContainer);
+}
 
+function createToggleUI(rootContainer) {
   function toggleWidgetVisibility() {
     if (domElements.widgetContainer.style.display === 'none') {
       domElements.widgetContainer.style.display = 'block';
@@ -184,8 +169,30 @@ function createVolumeToggleUI(
   toggleButton.setAttribute('class', style.toggleButton);
   toggleButton.addEventListener('click', toggleWidgetVisibility);
 
-  myContainer.appendChild(toggleButton);
-  myContainer.appendChild(domElements.shadowContainer);
+  rootContainer.appendChild(toggleButton);
+}
+
+function createVolumeUI(
+  container,
+  lookupTableProxy,
+  piecewiseFunctionProxy,
+  volumeRepresentation,
+  dataArray,
+  renderWindow
+) {
+  const rootContainer = getRootContainer(container);
+
+  createUseShadowToggle(rootContainer, volumeRepresentation, renderWindow);
+
+  createColorPresetSelector(rootContainer, lookupTableProxy, renderWindow);
+
+  createPiecewiseWidget(
+    rootContainer,
+    lookupTableProxy,
+    piecewiseFunctionProxy,
+    dataArray,
+    renderWindow
+  );
 }
 
 // ----------------------------------------------------------------------------
@@ -247,7 +254,9 @@ export default {
   createFileDragAndDrop,
   createLoadingProgress,
   createPiecewiseWidget,
-  createVolumeToggleUI,
+  createToggleUI,
+  createUseShadowToggle,
+  createVolumeUI,
   domElements,
   emptyContainer,
   getPreset,

@@ -32,6 +32,7 @@
   left: 5px;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 5px;
+  z-index: 100;
 }
 
 .toggleButton {
@@ -41,6 +42,7 @@
   height: 1em;
   width: 1em;
   cursor: pointer;
+  z-index: 100;
 }
 
 .selector {
@@ -52,6 +54,7 @@
   background: transparent;
   color: white;
   border: none;
+  z-index: 100;
 }
 
 select {
@@ -75,6 +78,7 @@ select:focus {
   background: transparent;
   color: white;
   border: none;
+  z-index: 100;
 }
 
 .bigFileDrop {

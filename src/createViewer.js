@@ -45,6 +45,7 @@ const createViewer = (rootContainer, { image, use2D, viewerState, config }) => {
   view.setContainer(container);
   view.resize();
 
+  userInterface.createToggleUI(rootContainer)
 
   let imageSource = null;
   let lookupTable = null;
@@ -61,7 +62,7 @@ const createViewer = (rootContainer, { image, use2D, viewerState, config }) => {
     let piecewiseFunction = representation.getPiecewiseFunctionProxy();
 
     const dataArray = image.getPointData().getScalars();
-    userInterface.createVolumeToggleUI(
+    userInterface.createVolumeUI(
       rootContainer,
       lookupTable,
       piecewiseFunction,

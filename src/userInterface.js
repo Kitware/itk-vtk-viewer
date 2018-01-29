@@ -38,13 +38,12 @@ function createLoadingProgress(container) {
 // ----------------------------------------------------------------------------
 
 function createPiecewiseWidget(
-  container,
+  rootContainer,
   lookupTableProxy,
   piecewiseFunctionProxy,
   dataArray,
   renderWindow
 ) {
-  const rootContainer = getRootContainer(container);
   const piecewiseFunction = piecewiseFunctionProxy.getPiecewiseFunction();
 
   const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({
@@ -108,8 +107,7 @@ function createPiecewiseWidget(
   rootContainer.appendChild(domElements.widgetContainer);
 }
 
-function createColorPresetSelector(container, lookupTableProxy, renderWindow) {
-  const rootContainer = getRootContainer(container);
+function createColorPresetSelector(rootContainer, lookupTableProxy, renderWindow) {
   const presetNames = vtkColorMaps.rgbPresetNames;
 
   domElements.presetSelector = document.createElement('select');
@@ -128,11 +126,9 @@ function createColorPresetSelector(container, lookupTableProxy, renderWindow) {
   domElements.presetSelector.value = lookupTableProxy.getPresetName();
 }
 
-function createUseShadowToggle(container,
+function createUseShadowToggle(rootContainer,
   volumeRepresentation,
   renderWindow) {
-  const rootContainer = getRootContainer(container);
-
   domElements.shadowContainer = document.createElement('select');
   domElements.shadowContainer.setAttribute('class', style.shadow);
   domElements.shadowContainer.innerHTML =
@@ -147,9 +143,7 @@ function createUseShadowToggle(container,
   rootContainer.appendChild(domElements.shadowContainer);
 }
 
-function createToggleUI(container) {
-  const rootContainer = getRootContainer(container);
-
+function createToggleUI(rootContainer) {
   function toggleWidgetVisibility() {
     if (domElements.widgetContainer.style.display === 'none') {
       domElements.widgetContainer.style.display = 'block';
@@ -170,7 +164,7 @@ function createToggleUI(container) {
   rootContainer.appendChild(toggleButton);
 }
 
-function createVolumeToggleUI(
+function createVolumeUI(
   container,
   lookupTableProxy,
   piecewiseFunctionProxy,
@@ -179,6 +173,11 @@ function createVolumeToggleUI(
   renderWindow
 ) {
   const rootContainer = getRootContainer(container);
+
+  createUseShadowToggle(rootContainer,
+    volumeRepresentation,
+    renderWindow
+  );
 
   createColorPresetSelector(rootContainer, lookupTableProxy, renderWindow);
 
@@ -189,13 +188,6 @@ function createVolumeToggleUI(
     dataArray,
     renderWindow
   );
-
-  createUseShadowToggle(container,
-    volumeRepresentation,
-    renderWindow
-  );
-
-  createToggleUI(container);
 }
 
 // ----------------------------------------------------------------------------
@@ -257,7 +249,9 @@ export default {
   createFileDragAndDrop,
   createLoadingProgress,
   createPiecewiseWidget,
-  createVolumeToggleUI,
+  createToggleUI,
+  createUseShadowToggle,
+  createVolumeUI,
   domElements,
   emptyContainer,
   getPreset,

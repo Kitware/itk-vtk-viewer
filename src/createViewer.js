@@ -51,17 +51,18 @@ const createViewer = (rootContainer, { image, use2D, viewerState, config }) => {
   let lookupTable = null;
   let piecewiseFunction = null;
   if (image) {
-    imageSource = proxyManager.createProxy('Sources', 'TrivialProducer');
+    imageSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
+      name: 'Image',
+    });
     imageSource.setInputData(image);
-    imageSource.setName('Image');
 
     proxyManager.createRepresentationInAllViews(imageSource);
     const representation = proxyManager.getRepresentation(imageSource, view);
-    lookupTable = representation.getLookupTableProxy();
-    lookupTable.setPresetName('Viridis (matplotlib)');
-    piecewiseFunction = representation.getPiecewiseFunctionProxy();
-
     const dataArray = image.getPointData().getScalars();
+    lookupTable = proxyManager.getLookupTable(dataArray.getName());
+    lookupTable.setPresetName('Viridis (matplotlib)');
+    piecewiseFunction = proxyManager.getPiecewiseFunction(dataArray.getName());
+
     userInterface.createVolumeUI(
       rootContainer,
       lookupTable,

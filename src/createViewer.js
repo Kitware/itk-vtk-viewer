@@ -8,7 +8,7 @@ const STYLE_CONTAINER = {
   width: '100%',
   height: '100%',
   minHeight: '200px',
-  minWidth: '200px',
+  minWidth: '450px',
   margin: '0',
   padding: '0',
   top: '0',
@@ -45,15 +45,35 @@ const createViewer = (rootContainer, { image, use2D, viewerState, config }) => {
   view.setContainer(container);
   view.resize();
 
-  const imageSource = proxyManager.createProxy('Sources', 'TrivialProducer');
-  imageSource.setInputData(image);
-  imageSource.setName('Image');
 
-  proxyManager.createRepresentationInAllViews(imageSource);
+  let imageSource = null;
+  let lookupTable = null;
+  let piecewiseFunction = null;
+  if(image) {
+    imageSource = proxyManager.createProxy('Sources', 'TrivialProducer');
+    imageSource.setInputData(image);
+    imageSource.setName('Image');
+
+    proxyManager.createRepresentationInAllViews(imageSource);
+    const representation = proxyManager.getRepresentation(imageSource, view);
+    let lookupTable = representation.getLookupTableProxy();
+    lookupTable.setPresetName('Viridis (matplotlib)');
+    let piecewiseFunction = representation.getPiecewiseFunctionProxy();
+
+    const dataArray = image.getPointData().getScalars();
+    userInterface.createVolumeToggleUI(
+      rootContainer,
+      lookupTable,
+      piecewiseFunction,
+      representation,
+      dataArray,
+      view.getRenderWindow()
+    );
+  }
 
   proxyManager.renderAllViews();
 
-  return { view, imageSource };
+  return { view, imageSource, lookupTable, piecewiseFunction };
 };
 
 export default createViewer;

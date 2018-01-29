@@ -69,7 +69,9 @@ function createPiecewiseWidget(
   });
   transferFunctionWidget.setDataArray(dataArray.getData());
 
-  transferFunctionWidget.setColorTransferFunction(lookupTableProxy.getLookupTable());
+  transferFunctionWidget.setColorTransferFunction(
+    lookupTableProxy.getLookupTable()
+  );
   transferFunctionWidget.addGaussian(0.5, 1.0, 0.5, 0.5, 0.4);
   transferFunctionWidget.applyOpacity(piecewiseFunction);
 
@@ -107,7 +109,11 @@ function createPiecewiseWidget(
   rootContainer.appendChild(domElements.widgetContainer);
 }
 
-function createColorPresetSelector(rootContainer, lookupTableProxy, renderWindow) {
+function createColorPresetSelector(
+  rootContainer,
+  lookupTableProxy,
+  renderWindow
+) {
   const presetNames = vtkColorMaps.rgbPresetNames;
 
   domElements.presetSelector = document.createElement('select');
@@ -126,9 +132,11 @@ function createColorPresetSelector(rootContainer, lookupTableProxy, renderWindow
   domElements.presetSelector.value = lookupTableProxy.getPresetName();
 }
 
-function createUseShadowToggle(rootContainer,
+function createUseShadowToggle(
+  rootContainer,
   volumeRepresentation,
-  renderWindow) {
+  renderWindow
+) {
   domElements.shadowContainer = document.createElement('select');
   domElements.shadowContainer.setAttribute('class', style.shadow);
   domElements.shadowContainer.innerHTML =
@@ -174,10 +182,7 @@ function createVolumeUI(
 ) {
   const rootContainer = getRootContainer(container);
 
-  createUseShadowToggle(rootContainer,
-    volumeRepresentation,
-    renderWindow
-  );
+  createUseShadowToggle(rootContainer, volumeRepresentation, renderWindow);
 
   createColorPresetSelector(rootContainer, lookupTableProxy, renderWindow);
 

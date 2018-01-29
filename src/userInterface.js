@@ -147,6 +147,29 @@ function createUseShadowToggle(container,
   rootContainer.appendChild(domElements.shadowContainer);
 }
 
+function createToggleUI(container) {
+  const rootContainer = getRootContainer(container);
+
+  function toggleWidgetVisibility() {
+    if (domElements.widgetContainer.style.display === 'none') {
+      domElements.widgetContainer.style.display = 'block';
+      domElements.presetSelector.style.display = 'block';
+      domElements.shadowContainer.style.display = 'block';
+    } else {
+      domElements.widgetContainer.style.display = 'none';
+      domElements.presetSelector.style.display = 'none';
+      domElements.shadowContainer.style.display = 'none';
+    }
+  }
+
+  const toggleButton = new Image();
+  toggleButton.src = toggleIcon;
+  toggleButton.setAttribute('class', style.toggleButton);
+  toggleButton.addEventListener('click', toggleWidgetVisibility);
+
+  rootContainer.appendChild(toggleButton);
+}
+
 function createVolumeToggleUI(
   container,
   lookupTableProxy,
@@ -172,25 +195,7 @@ function createVolumeToggleUI(
     renderWindow
   );
 
-
-  function toggleWidgetVisibility() {
-    if (domElements.widgetContainer.style.display === 'none') {
-      domElements.widgetContainer.style.display = 'block';
-      domElements.presetSelector.style.display = 'block';
-      domElements.shadowContainer.style.display = 'block';
-    } else {
-      domElements.widgetContainer.style.display = 'none';
-      domElements.presetSelector.style.display = 'none';
-      domElements.shadowContainer.style.display = 'none';
-    }
-  }
-
-  const toggleButton = new Image();
-  toggleButton.src = toggleIcon;
-  toggleButton.setAttribute('class', style.toggleButton);
-  toggleButton.addEventListener('click', toggleWidgetVisibility);
-
-  rootContainer.appendChild(toggleButton);
+  createToggleUI(container);
 }
 
 // ----------------------------------------------------------------------------

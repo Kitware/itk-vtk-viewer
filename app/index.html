@@ -45,7 +45,7 @@
       var container = document.querySelector('.content');
       var viewer = itkVtkImageViewer.processParameters(container, { fullscreen: true });
       if (!viewer) {
-        itkVtkImageViewer.createLocalFileReader(container);
+        itkVtkImageViewer.createViewerFromLocalFiles(container);
       }
     </script>
   </body>

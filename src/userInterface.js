@@ -128,6 +128,25 @@ function createColorPresetSelector(container, lookupTableProxy, renderWindow) {
   domElements.presetSelector.value = lookupTableProxy.getPresetName();
 }
 
+function createUseShadowToggle(container,
+  volumeRepresentation,
+  renderWindow) {
+  const rootContainer = getRootContainer(container);
+
+  domElements.shadowContainer = document.createElement('select');
+  domElements.shadowContainer.setAttribute('class', style.shadow);
+  domElements.shadowContainer.innerHTML =
+    '<option value="1">Use shadow</option><option value="0">No shadow</option>';
+
+  // Shadow management
+  domElements.shadowContainer.addEventListener('change', (event) => {
+    const useShadow = !!Number(event.target.value);
+    volumeRepresentation.setUseShadow(useShadow);
+    renderWindow.render();
+  });
+  rootContainer.appendChild(domElements.shadowContainer);
+}
+
 function createVolumeToggleUI(
   container,
   lookupTableProxy,
@@ -148,18 +167,10 @@ function createVolumeToggleUI(
     renderWindow
   );
 
-  domElements.shadowContainer = document.createElement('select');
-  domElements.shadowContainer.setAttribute('class', style.shadow);
-  domElements.shadowContainer.innerHTML =
-    '<option value="1">Use shadow</option><option value="0">No shadow</option>';
-
-  // Shadow management
-  domElements.shadowContainer.addEventListener('change', (event) => {
-    const useShadow = !!Number(event.target.value);
-    volumeRepresentation.setUseShadow(useShadow);
-    renderWindow.render();
-  });
-  rootContainer.appendChild(domElements.shadowContainer);
+  createUseShadowToggle(container,
+    volumeRepresentation,
+    renderWindow
+  );
 
 
   function toggleWidgetVisibility() {

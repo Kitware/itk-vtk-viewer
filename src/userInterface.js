@@ -92,7 +92,6 @@ function createPiecewiseWidget(
 
   const piecewiseWidgetContainer = document.createElement('div');
   piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget);
-  piecewiseWidgetContainer.className += ' js-toggle';
 
   transferFunctionWidget.setContainer(piecewiseWidgetContainer);
   transferFunctionWidget.bindMouseListeners();
@@ -124,6 +123,7 @@ function createPiecewiseWidget(
   transferFunctionWidget.render();
   const transferFunctionWidgetRow = document.createElement('div');
   transferFunctionWidgetRow.setAttribute('class', style.uiRow);
+  transferFunctionWidgetRow.className += ' js-toggle';
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer);
   uiContainer.appendChild(transferFunctionWidgetRow);
 }
@@ -192,6 +192,7 @@ function createMainUI(rootContainer, isBackgroundDark, imageSource) {
 
   const mainUIRow = document.createElement('div');
   mainUIRow.setAttribute('class', style.uiRow);
+  mainUIRow.className += ' js-toggle';
   mainUIGroup.appendChild(mainUIRow);
 
   function toggleUIVisibility() {
@@ -214,13 +215,12 @@ function createMainUI(rootContainer, isBackgroundDark, imageSource) {
     contrastSensitiveStyle.toggleButton
   }">${toggleIcon}</div>`;
   toggleButton.addEventListener('click', toggleUIVisibility);
-  mainUIRow.appendChild(toggleButton);
+  uiContainer.appendChild(toggleButton);
 
   const uploadButton = document.createElement('div');
   uploadButton.innerHTML = `<div class="${
     contrastSensitiveStyle.uploadButton
   }">${uploadIcon}</div><input type="file" class="file" style="display: none;" multiple/>`;
-  // toggleButton.addEventListener('click', toggleUIVisibility);
   const fileInput = uploadButton.querySelector('input');
 
   function handleFile(e) {

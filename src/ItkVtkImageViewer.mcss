@@ -27,14 +27,14 @@
   padding: 2px;
   border: 0.5px solid black;
   box-sizing: border-box;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .uiGroup {
   background: rgba(128, 128, 128, 0.5);
   border-radius: 4px;
   margin: 2px;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .uiRow {
@@ -61,7 +61,7 @@
   flex: 1;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 3px;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .logo {
@@ -71,14 +71,14 @@
   height: 2.5em;
   width: 2.5em;
   cursor: pointer;
-  z-index: 80;
+  z-index: 100;
 }
 
 .toggleButton {
   height: 1.5em;
   width: 1.5em;
   cursor: pointer;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .toggleButtonBrightBG {
@@ -96,7 +96,7 @@
   height: 1.5em;
   width: 1.5em;
   cursor: pointer;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .uploadButtonBrightBG {
@@ -115,7 +115,7 @@
   background: transparent;
   color: white;
   border: none;
-  z-index: 100;
+  z-index: 1000;
 }
 
 select {
@@ -136,7 +136,7 @@ select:focus {
   background: transparent;
   color: white;
   border: none;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .bigFileDrop {

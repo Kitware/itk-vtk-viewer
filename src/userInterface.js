@@ -3,14 +3,22 @@ import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
 
 import style from './ItkVtkImageViewer.mcss';
-import toggleIcon from './toggleIcon.png';
+import logoIcon from './icons/logo.png';
+import toggleIcon from './icons/toggle.svg';
 
 const domElements = {};
 
-// ----------------------------------------------------------------------------
-
 function getPreset(name) {
   return vtkColorMaps.find((p) => p.Name === name);
+}
+
+function getLocalStyle(cssClasses, isBackgroundDark) {
+  const stylePostFix = isBackgroundDark ? 'DarkBG' : 'BrightBG';
+  const localStyle = {};
+  cssClasses.forEach((name) => {
+    localStyle[name] = style[`${name}${stylePostFix}`];
+  });
+  return localStyle;
 }
 
 // ----------------------------------------------------------------------------
@@ -151,7 +159,12 @@ function createUseShadowToggle(
   rootContainer.appendChild(domElements.shadowContainer);
 }
 
-function createToggleUI(rootContainer) {
+function createToggleUI(rootContainer, isBackgroundDark) {
+  const logo = new Image();
+  logo.src = logoIcon;
+  logo.setAttribute('class', style.logo);
+  rootContainer.appendChild(logo);
+
   function toggleWidgetVisibility() {
     if (domElements.widgetContainer.style.display === 'none') {
       domElements.widgetContainer.style.display = 'block';
@@ -164,11 +177,12 @@ function createToggleUI(rootContainer) {
     }
   }
 
-  const toggleButton = new Image();
-  toggleButton.src = toggleIcon;
-  toggleButton.setAttribute('class', style.toggleButton);
+  const toggleButton = document.createElement('div');
+  const localStyle = getLocalStyle(['toggleButton'], isBackgroundDark);
+  toggleButton.innerHTML = `<div class="${
+    localStyle.toggleButton
+  }">${toggleIcon}</div>`;
   toggleButton.addEventListener('click', toggleWidgetVisibility);
-
   rootContainer.appendChild(toggleButton);
 }
 
@@ -178,7 +192,8 @@ function createVolumeUI(
   piecewiseFunctionProxy,
   volumeRepresentation,
   dataArray,
-  renderWindow
+  renderWindow,
+  isBackgroundDark
 ) {
   const rootContainer = getRootContainer(container);
 

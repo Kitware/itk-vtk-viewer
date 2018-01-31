@@ -25,27 +25,29 @@ function applyStyle(el, style) {
 const proxyManager = vtkProxyManager.newInstance({ proxyConfiguration });
 window.addEventListener('resize', proxyManager.resizeAllViews);
 
-const createViewer = (rootContainer, { image, use2D, viewerState, config }) => {
+const createViewer = (
+  rootContainer,
+  { viewerConfig, image, use2D, viewerState }
+) => {
   userInterface.emptyContainer(rootContainer);
 
   const container = document.createElement('div');
   const defaultConfig = {
-    background: [0, 0, 0],
+    backgroundColor: [0, 0, 0],
+    isBackgroundDark: true,
     containerStyle: STYLE_CONTAINER,
   };
-  const renderWindowConfiguration = config || defaultConfig;
+  const config = viewerConfig || defaultConfig;
   userInterface.emptyContainer(container);
-  applyStyle(
-    container,
-    renderWindowConfiguration.containerStyle || STYLE_CONTAINER
-  );
+  applyStyle(container, config.containerStyle || STYLE_CONTAINER);
   rootContainer.appendChild(container);
 
   const view = proxyManager.createProxy('Views', 'ItkVtkView');
   view.setContainer(container);
+  view.setBackground(config.backgroundColor);
   view.resize();
 
-  userInterface.createToggleUI(rootContainer);
+  userInterface.createToggleUI(rootContainer, config.isBackgroundDark);
 
   let imageSource = null;
   let lookupTable = null;
@@ -69,7 +71,8 @@ const createViewer = (rootContainer, { image, use2D, viewerState, config }) => {
       piecewiseFunction,
       representation,
       dataArray,
-      view.getRenderWindow()
+      view.getRenderWindow(),
+      config.isBackgroundDark
     );
   }
 

@@ -35,6 +35,16 @@
   z-index: 100;
 }
 
+.logo {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 2em;
+  width: 2em;
+  cursor: pointer;
+  z-index: 100;
+}
+
 .toggleButton {
   position: absolute;
   top: 5px;
@@ -43,6 +53,23 @@
   width: 1em;
   cursor: pointer;
   z-index: 100;
+}
+
+.toggleButtonBrightBG {
+  composes: toggleButton;
+}
+
+.toggleButtonDarkBG {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: 1em;
+  width: 1em;
+  cursor: pointer;
+  z-index: 100;
+  composes: toggleButton;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
 }
 
 .selector {

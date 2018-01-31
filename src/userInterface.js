@@ -2,9 +2,13 @@ import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/Co
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
 
+import processFiles from './processFiles';
+
 import style from './ItkVtkImageViewer.mcss';
+
 import logoIcon from './icons/logo.png';
 import toggleIcon from './icons/toggle.svg';
+import uploadIcon from './icons/upload.svg';
 
 function getContrastSensitiveStyle(cssClasses, isBackgroundDark) {
   const stylePostFix = isBackgroundDark ? 'DarkBG' : 'BrightBG';
@@ -20,6 +24,11 @@ function getRootContainer(container) {
   const rootBody = document.querySelector('body');
 
   return container || workContainer || rootBody;
+}
+
+function preventDefaults(e) {
+  e.preventDefault();
+  e.stopPropagation();
 }
 
 function createLoadingProgress(container) {
@@ -168,8 +177,15 @@ function addLogo(uiContainer) {
   uiContainer.appendChild(logo);
 }
 
-function createMainUI(uiContainer, isBackgroundDark) {
+function createMainUI(rootContainer, isBackgroundDark, imageSource) {
+  const uiContainer = document.createElement('div');
+  rootContainer.appendChild(uiContainer);
   uiContainer.setAttribute('class', style.uiContainer);
+
+  const contrastSensitiveStyle = getContrastSensitiveStyle(
+    ['toggleButton', 'uploadButton'],
+    isBackgroundDark
+  );
 
   const mainUIGroup = document.createElement('div');
   mainUIGroup.setAttribute('class', style.uiGroup);
@@ -193,19 +209,36 @@ function createMainUI(uiContainer, isBackgroundDark) {
       }
     }
   }
-
   const toggleButton = document.createElement('div');
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['toggleButton'],
-    isBackgroundDark
-  );
   toggleButton.innerHTML = `<div class="${
     contrastSensitiveStyle.toggleButton
   }">${toggleIcon}</div>`;
   toggleButton.addEventListener('click', toggleUIVisibility);
   mainUIRow.appendChild(toggleButton);
 
+  const uploadButton = document.createElement('div');
+  uploadButton.innerHTML = `<div class="${
+    contrastSensitiveStyle.uploadButton
+  }">${uploadIcon}</div><input type="file" class="file" style="display: none;" multiple/>`;
+  // toggleButton.addEventListener('click', toggleUIVisibility);
+  const fileInput = uploadButton.querySelector('input');
+
+  function handleFile(e) {
+    preventDefaults(e);
+    const dataTransfer = e.dataTransfer;
+    const files = e.target.files || dataTransfer.files;
+    processFiles(rootContainer, { files });
+  }
+
+  fileInput.addEventListener('change', handleFile);
+  uploadButton.addEventListener('drop', handleFile);
+  uploadButton.addEventListener('click', (e) => fileInput.click());
+  uploadButton.addEventListener('dragover', preventDefaults);
+  mainUIRow.appendChild(uploadButton);
+
   uiContainer.appendChild(mainUIGroup);
+
+  return uiContainer;
 }
 
 function createImageUI(
@@ -244,11 +277,6 @@ function emptyContainer(container) {
       container.removeChild(container.firstChild);
     }
   }
-}
-
-function preventDefaults(e) {
-  e.preventDefault();
-  e.stopPropagation();
 }
 
 function createFileDragAndDrop(container, onDataChange) {

@@ -49,26 +49,32 @@ const createViewer = (
 
   userInterface.addLogo(container);
 
-  const uiContainer = document.createElement('div');
-  rootContainer.appendChild(uiContainer);
-  userInterface.createMainUI(uiContainer, config.isBackgroundDark);
-
-  let imageSource = null;
+  const imageSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
+    name: 'Image',
+  });
   let lookupTable = null;
   let piecewiseFunction = null;
+  let dataArray = null;
+  let representation = null;
   if (image) {
-    imageSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
-      name: 'Image',
-    });
     imageSource.setInputData(image);
 
     proxyManager.createRepresentationInAllViews(imageSource);
-    const representation = proxyManager.getRepresentation(imageSource, view);
-    const dataArray = image.getPointData().getScalars();
+    representation = proxyManager.getRepresentation(imageSource, view);
+
+    dataArray = image.getPointData().getScalars();
     lookupTable = proxyManager.getLookupTable(dataArray.getName());
     lookupTable.setPresetName('Viridis (matplotlib)');
     piecewiseFunction = proxyManager.getPiecewiseFunction(dataArray.getName());
+  }
 
+  const uiContainer = userInterface.createMainUI(
+    rootContainer,
+    config.isBackgroundDark,
+    imageSource
+  );
+
+  if (image) {
     userInterface.createImageUI(
       uiContainer,
       lookupTable,

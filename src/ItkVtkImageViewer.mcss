@@ -59,8 +59,8 @@
 
 .piecewiseWidget {
   flex: 1;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
   z-index: 100;
 }
 
@@ -75,7 +75,6 @@
 }
 
 .toggleButton {
-  flex: 1;
   height: 1.5em;
   width: 1.5em;
   cursor: pointer;
@@ -88,6 +87,24 @@
 
 .toggleButtonDarkBG {
   composes: toggleButton;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
+.uploadButton {
+  flex: 1;
+  height: 1.5em;
+  width: 1.5em;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.uploadButtonBrightBG {
+  composes: uploadButton;
+}
+
+.uploadButtonDarkBG {
+  composes: uploadButton;
   filter: invert(100%);
   -webkit-filter: invert(100%);
 }

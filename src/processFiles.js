@@ -11,13 +11,11 @@ const processFiles = (container, { files, use2D }) => {
 
   /* eslint-disable new-cap */
   return new Promise((resolve, reject) => {
-    let reader = null;
+    let reader = itkreadImageDICOMFileSeries;
     let arg = files;
     if (files.length === 1) {
       reader = itkreadImageFile;
       arg = files[0];
-    } else {
-      reader = itkreadImageDICOMFileSeries;
     }
     reader(arg).then((itkImage) => {
       const imageData = convertItkImageToVtkImage(itkImage);

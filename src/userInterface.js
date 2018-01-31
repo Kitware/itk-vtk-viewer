@@ -31,6 +31,40 @@ function preventDefaults(e) {
   e.stopPropagation();
 }
 
+function emptyContainer(container) {
+  if (container) {
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+  }
+}
+
+function createFileDragAndDrop(container, onDataChange) {
+  const myContainer = getRootContainer(container);
+
+  const fileContainer = document.createElement('div');
+  fileContainer.innerHTML = `<div class="${
+    style.bigFileDrop
+  }"/><input type="file" class="file" style="display: none;" multiple/>`;
+  myContainer.appendChild(fileContainer);
+
+  const fileInput = fileContainer.querySelector('input');
+
+  function handleFile(e) {
+    preventDefaults(e);
+    const dataTransfer = e.dataTransfer;
+    const files = e.target.files || dataTransfer.files;
+    myContainer.removeChild(fileContainer);
+    const use2D = !!vtkURLExtract.extractURLParameters().use2D;
+    onDataChange(myContainer, { files, use2D });
+  }
+
+  fileInput.addEventListener('change', handleFile);
+  fileContainer.addEventListener('drop', handleFile);
+  fileContainer.addEventListener('click', (e) => fileInput.click());
+  fileContainer.addEventListener('dragover', preventDefaults);
+}
+
 function createLoadingProgress(container) {
   const myContainer = getRootContainer(container);
 
@@ -52,7 +86,97 @@ function createLoadingProgress(container) {
   return progressCallback;
 }
 
-function createPiecewiseWidget(
+function addLogo(uiContainer) {
+  const logo = new Image();
+  logo.src = logoIcon;
+  logo.setAttribute('class', style.logo);
+  uiContainer.appendChild(logo);
+}
+
+function createMainUI(rootContainer, isBackgroundDark, imageSource) {
+  const uiContainer = document.createElement('div');
+  rootContainer.appendChild(uiContainer);
+  uiContainer.setAttribute('class', style.uiContainer);
+
+  const contrastSensitiveStyle = getContrastSensitiveStyle(
+    ['toggleButton', 'uploadButton'],
+    isBackgroundDark
+  );
+
+  const mainUIGroup = document.createElement('div');
+  mainUIGroup.setAttribute('class', style.uiGroup);
+
+  const mainUIRow = document.createElement('div');
+  mainUIRow.setAttribute('class', style.uiRow);
+  mainUIRow.className += ' js-toggle';
+  mainUIGroup.appendChild(mainUIRow);
+
+  function toggleUIVisibility() {
+    const elements = uiContainer.querySelectorAll('.js-toggle');
+    let count = elements.length;
+    const toggleElementStyle = window.getComputedStyle(elements[0]);
+    const expanded = toggleElementStyle.getPropertyValue('display') === 'flex';
+    if (!expanded) {
+      while (count--) {
+        elements[count].style.display = 'flex';
+      }
+    } else {
+      while (count--) {
+        elements[count].style.display = 'none';
+      }
+    }
+  }
+  const toggleButton = document.createElement('div');
+  toggleButton.innerHTML = `<div class="${
+    contrastSensitiveStyle.toggleButton
+  }">${toggleIcon}</div>`;
+  toggleButton.addEventListener('click', toggleUIVisibility);
+  uiContainer.appendChild(toggleButton);
+
+  const uploadButton = document.createElement('div');
+  uploadButton.innerHTML = `<div class="${
+    contrastSensitiveStyle.uploadButton
+  }">${uploadIcon}</div><input type="file" class="file" style="display: none;" multiple/>`;
+  const fileInput = uploadButton.querySelector('input');
+
+  function handleFile(e) {
+    preventDefaults(e);
+    const dataTransfer = e.dataTransfer;
+    const files = e.target.files || dataTransfer.files;
+    processFiles(rootContainer, { files });
+  }
+
+  fileInput.addEventListener('change', handleFile);
+  uploadButton.addEventListener('drop', handleFile);
+  uploadButton.addEventListener('click', (e) => fileInput.click());
+  uploadButton.addEventListener('dragover', preventDefaults);
+  mainUIRow.appendChild(uploadButton);
+
+  uiContainer.appendChild(mainUIGroup);
+
+  return uiContainer;
+}
+
+function createUseShadowToggle(
+  uiContainer,
+  volumeRepresentation,
+  renderWindow
+) {
+  const shadowContainer = document.createElement('select');
+  shadowContainer.setAttribute('class', style.shadow);
+  shadowContainer.innerHTML =
+    '<option value="1">Use shadow</option><option value="0">No shadow</option>';
+
+  // Shadow management
+  shadowContainer.addEventListener('change', (event) => {
+    const useShadow = !!Number(event.target.value);
+    volumeRepresentation.setUseShadow(useShadow);
+    renderWindow.render();
+  });
+  uiContainer.appendChild(shadowContainer);
+}
+
+function createTransferFunctionWidget(
   uiContainer,
   lookupTableProxy,
   piecewiseFunctionProxy,
@@ -151,96 +275,6 @@ function createColorPresetSelector(
   presetSelector.value = lookupTableProxy.getPresetName();
 }
 
-function createUseShadowToggle(
-  uiContainer,
-  volumeRepresentation,
-  renderWindow
-) {
-  const shadowContainer = document.createElement('select');
-  shadowContainer.setAttribute('class', style.shadow);
-  shadowContainer.innerHTML =
-    '<option value="1">Use shadow</option><option value="0">No shadow</option>';
-
-  // Shadow management
-  shadowContainer.addEventListener('change', (event) => {
-    const useShadow = !!Number(event.target.value);
-    volumeRepresentation.setUseShadow(useShadow);
-    renderWindow.render();
-  });
-  uiContainer.appendChild(shadowContainer);
-}
-
-function addLogo(uiContainer) {
-  const logo = new Image();
-  logo.src = logoIcon;
-  logo.setAttribute('class', style.logo);
-  uiContainer.appendChild(logo);
-}
-
-function createMainUI(rootContainer, isBackgroundDark, imageSource) {
-  const uiContainer = document.createElement('div');
-  rootContainer.appendChild(uiContainer);
-  uiContainer.setAttribute('class', style.uiContainer);
-
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['toggleButton', 'uploadButton'],
-    isBackgroundDark
-  );
-
-  const mainUIGroup = document.createElement('div');
-  mainUIGroup.setAttribute('class', style.uiGroup);
-
-  const mainUIRow = document.createElement('div');
-  mainUIRow.setAttribute('class', style.uiRow);
-  mainUIRow.className += ' js-toggle';
-  mainUIGroup.appendChild(mainUIRow);
-
-  function toggleUIVisibility() {
-    const elements = uiContainer.querySelectorAll('.js-toggle');
-    let count = elements.length;
-    const toggleElementStyle = window.getComputedStyle(elements[0]);
-    const expanded = toggleElementStyle.getPropertyValue('display') === 'flex';
-    if (!expanded) {
-      while (count--) {
-        elements[count].style.display = 'flex';
-      }
-    } else {
-      while (count--) {
-        elements[count].style.display = 'none';
-      }
-    }
-  }
-  const toggleButton = document.createElement('div');
-  toggleButton.innerHTML = `<div class="${
-    contrastSensitiveStyle.toggleButton
-  }">${toggleIcon}</div>`;
-  toggleButton.addEventListener('click', toggleUIVisibility);
-  uiContainer.appendChild(toggleButton);
-
-  const uploadButton = document.createElement('div');
-  uploadButton.innerHTML = `<div class="${
-    contrastSensitiveStyle.uploadButton
-  }">${uploadIcon}</div><input type="file" class="file" style="display: none;" multiple/>`;
-  const fileInput = uploadButton.querySelector('input');
-
-  function handleFile(e) {
-    preventDefaults(e);
-    const dataTransfer = e.dataTransfer;
-    const files = e.target.files || dataTransfer.files;
-    processFiles(rootContainer, { files });
-  }
-
-  fileInput.addEventListener('change', handleFile);
-  uploadButton.addEventListener('drop', handleFile);
-  uploadButton.addEventListener('click', (e) => fileInput.click());
-  uploadButton.addEventListener('dragover', preventDefaults);
-  mainUIRow.appendChild(uploadButton);
-
-  uiContainer.appendChild(mainUIGroup);
-
-  return uiContainer;
-}
-
 function createImageUI(
   uiContainer,
   lookupTableProxy,
@@ -260,7 +294,7 @@ function createImageUI(
   shadowPresetRow.className += ' js-toggle';
   imageUIGroup.appendChild(shadowPresetRow);
 
-  createPiecewiseWidget(
+  createTransferFunctionWidget(
     imageUIGroup,
     lookupTableProxy,
     piecewiseFunctionProxy,
@@ -270,42 +304,6 @@ function createImageUI(
 
   uiContainer.appendChild(imageUIGroup);
 }
-
-function emptyContainer(container) {
-  if (container) {
-    while (container.firstChild) {
-      container.removeChild(container.firstChild);
-    }
-  }
-}
-
-function createFileDragAndDrop(container, onDataChange) {
-  const myContainer = getRootContainer(container);
-
-  const fileContainer = document.createElement('div');
-  fileContainer.innerHTML = `<div class="${
-    style.bigFileDrop
-  }"/><input type="file" class="file" style="display: none;" multiple/>`;
-  myContainer.appendChild(fileContainer);
-
-  const fileInput = fileContainer.querySelector('input');
-
-  function handleFile(e) {
-    preventDefaults(e);
-    const dataTransfer = e.dataTransfer;
-    const files = e.target.files || dataTransfer.files;
-    myContainer.removeChild(fileContainer);
-    const use2D = !!vtkURLExtract.extractURLParameters().use2D;
-    onDataChange(myContainer, { files, use2D });
-  }
-
-  fileInput.addEventListener('change', handleFile);
-  fileContainer.addEventListener('drop', handleFile);
-  fileContainer.addEventListener('click', (e) => fileInput.click());
-  fileContainer.addEventListener('dragover', preventDefaults);
-}
-
-// ----------------------------------------------------------------------------
 
 export default {
   addLogo,

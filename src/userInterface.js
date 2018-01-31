@@ -49,11 +49,11 @@ function createPiecewiseWidget(
     size: [400, 150],
   });
   transferFunctionWidget.updateStyle({
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    histogramColor: 'rgba(100, 100, 100, 0.5)',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    histogramColor: 'rgba(50, 50, 50, 0.6)',
     strokeColor: 'rgb(0, 0, 0)',
     activeColor: 'rgb(255, 255, 255)',
-    handleColor: 'rgb(50, 150, 50)',
+    handleColor: 'rgb(50, 50, 150)',
     buttonDisableFillColor: 'rgba(255, 255, 255, 0.5)',
     buttonDisableStrokeColor: 'rgba(0, 0, 0, 0.5)',
     buttonStrokeColor: 'rgba(0, 0, 0, 1)',

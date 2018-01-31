@@ -9,6 +9,7 @@ import style from './ItkVtkImageViewer.mcss';
 import logoIcon from './icons/logo.png';
 import toggleIcon from './icons/toggle.svg';
 import uploadIcon from './icons/upload.svg';
+import screenshotIcon from './icons/screenshot.svg';
 
 function getContrastSensitiveStyle(cssClasses, isBackgroundDark) {
   const stylePostFix = isBackgroundDark ? 'DarkBG' : 'BrightBG';
@@ -93,13 +94,13 @@ function addLogo(uiContainer) {
   uiContainer.appendChild(logo);
 }
 
-function createMainUI(rootContainer, isBackgroundDark, imageSource) {
+function createMainUI(rootContainer, isBackgroundDark, imageSource, view) {
   const uiContainer = document.createElement('div');
   rootContainer.appendChild(uiContainer);
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['toggleButton', 'uploadButton'],
+    ['toggleButton', 'uploadButton', 'screenshotButton'],
     isBackgroundDark
   );
 
@@ -151,6 +152,16 @@ function createMainUI(rootContainer, isBackgroundDark, imageSource) {
   uploadButton.addEventListener('click', (e) => fileInput.click());
   uploadButton.addEventListener('dragover', preventDefaults);
   mainUIRow.appendChild(uploadButton);
+
+  const screenshotButton = document.createElement('div');
+  screenshotButton.innerHTML = `<div class="${
+    contrastSensitiveStyle.screenshotButton
+  }">${screenshotIcon}</div>`;
+  function takeScreenshot() {
+    view.openCaptureImage();
+  }
+  screenshotButton.addEventListener('click', takeScreenshot);
+  mainUIRow.appendChild(screenshotButton);
 
   uiContainer.appendChild(mainUIGroup);
 

@@ -109,6 +109,24 @@
   -webkit-filter: invert(100%);
 }
 
+.screenshotButton {
+  flex: 1;
+  height: 1.5em;
+  width: 1.5em;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.screenshotButtonBrightBG {
+  composes: screenshotButton;
+}
+
+.screenshotButtonDarkBG {
+  composes: screenshotButton;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
 .selector {
   flex: 1;
   border: none;

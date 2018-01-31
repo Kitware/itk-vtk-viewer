@@ -71,7 +71,8 @@ const createViewer = (
   const uiContainer = userInterface.createMainUI(
     rootContainer,
     config.isBackgroundDark,
-    imageSource
+    imageSource,
+    view
   );
 
   if (image) {

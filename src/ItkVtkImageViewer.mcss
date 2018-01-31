@@ -16,6 +16,37 @@
   100% { transform: rotate(360deg); }
 }
 
+.uiContainer {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 2px;
+  border: 0.5px solid black;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+.uiGroup {
+  background: rgba(128, 128, 128, 0.5);
+  border-radius: 4px;
+  margin: 2px;
+  z-index: 100;
+}
+
+.uiRow {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px;
+}
+
+
 .progress {
   color: white;
   font-size: 200%;
@@ -27,9 +58,7 @@
 }
 
 .piecewiseWidget {
-  position: absolute;
-  top: calc(10px + 1em);
-  left: 5px;
+  flex: 1;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 5px;
   z-index: 100;
@@ -42,15 +71,13 @@
   height: 2em;
   width: 2em;
   cursor: pointer;
-  z-index: 100;
+  z-index: 80;
 }
 
 .toggleButton {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  height: 1em;
-  width: 1em;
+  flex: 1;
+  height: 1.5em;
+  width: 1.5em;
   cursor: pointer;
   z-index: 100;
 }
@@ -60,23 +87,13 @@
 }
 
 .toggleButtonDarkBG {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  height: 1em;
-  width: 1em;
-  cursor: pointer;
-  z-index: 100;
   composes: toggleButton;
   filter: invert(100%);
   -webkit-filter: invert(100%);
 }
 
 .selector {
-  position: absolute;
-  top: 5px;
-  left: 400px;
-  transform: translate(-100%, 0px);
+  flex: 1;
   border: none;
   background: transparent;
   color: white;
@@ -98,9 +115,6 @@ select:focus {
 }
 
 .shadow {
-  position: absolute;
-  top: 5px;
-  left: calc(1em + 15px);
   border: none;
   background: transparent;
   color: white;

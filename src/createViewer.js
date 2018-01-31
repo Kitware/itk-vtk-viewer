@@ -47,7 +47,11 @@ const createViewer = (
   view.setBackground(config.backgroundColor);
   view.resize();
 
-  userInterface.createToggleUI(rootContainer, config.isBackgroundDark);
+  userInterface.addLogo(container);
+
+  const uiContainer = document.createElement('div');
+  rootContainer.appendChild(uiContainer);
+  userInterface.createMainUI(uiContainer, config.isBackgroundDark);
 
   let imageSource = null;
   let lookupTable = null;
@@ -65,8 +69,8 @@ const createViewer = (
     lookupTable.setPresetName('Viridis (matplotlib)');
     piecewiseFunction = proxyManager.getPiecewiseFunction(dataArray.getName());
 
-    userInterface.createVolumeUI(
-      rootContainer,
+    userInterface.createImageUI(
+      uiContainer,
       lookupTable,
       piecewiseFunction,
       representation,

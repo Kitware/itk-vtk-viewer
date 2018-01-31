@@ -8,28 +8,20 @@ import toggleIcon from './icons/toggle.svg';
 
 const domElements = {};
 
-function getPreset(name) {
-  return vtkColorMaps.find((p) => p.Name === name);
-}
-
-function getLocalStyle(cssClasses, isBackgroundDark) {
+function getContrastSensitiveStyle(cssClasses, isBackgroundDark) {
   const stylePostFix = isBackgroundDark ? 'DarkBG' : 'BrightBG';
-  const localStyle = {};
+  const contrastSensitiveStyle = {};
   cssClasses.forEach((name) => {
-    localStyle[name] = style[`${name}${stylePostFix}`];
+    contrastSensitiveStyle[name] = style[`${name}${stylePostFix}`];
   });
-  return localStyle;
+  return contrastSensitiveStyle;
 }
-
-// ----------------------------------------------------------------------------
 
 function getRootContainer(container) {
   const workContainer = document.querySelector('.content');
   const rootBody = document.querySelector('body');
   return container || workContainer || rootBody;
 }
-
-// ----------------------------------------------------------------------------
 
 function createLoadingProgress(container) {
   const myContainer = getRootContainer(container);
@@ -43,10 +35,8 @@ function createLoadingProgress(container) {
   myContainer.appendChild(domElements.progressContainer);
 }
 
-// ----------------------------------------------------------------------------
-
 function createPiecewiseWidget(
-  rootContainer,
+  uiContainer,
   lookupTableProxy,
   piecewiseFunctionProxy,
   dataArray,
@@ -83,10 +73,14 @@ function createPiecewiseWidget(
   transferFunctionWidget.addGaussian(0.5, 1.0, 0.5, 0.5, 0.4);
   transferFunctionWidget.applyOpacity(piecewiseFunction);
 
-  domElements.widgetContainer = document.createElement('div');
-  domElements.widgetContainer.setAttribute('class', style.piecewiseWidget);
+  domElements.piecewiseWidgetContainer = document.createElement('div');
+  domElements.piecewiseWidgetContainer.setAttribute(
+    'class',
+    style.piecewiseWidget
+  );
+  domElements.piecewiseWidgetContainer.className += ' js-toggle';
 
-  transferFunctionWidget.setContainer(domElements.widgetContainer);
+  transferFunctionWidget.setContainer(domElements.piecewiseWidgetContainer);
   transferFunctionWidget.bindMouseListeners();
 
   // Manage update when opacity changes
@@ -114,11 +108,14 @@ function createPiecewiseWidget(
   });
 
   transferFunctionWidget.render();
-  rootContainer.appendChild(domElements.widgetContainer);
+  const transferFunctionWidgetRow = document.createElement('div');
+  transferFunctionWidgetRow.setAttribute('class', style.uiRow);
+  transferFunctionWidgetRow.appendChild(domElements.piecewiseWidgetContainer);
+  uiContainer.appendChild(transferFunctionWidgetRow);
 }
 
 function createColorPresetSelector(
-  rootContainer,
+  uiContainer,
   lookupTableProxy,
   renderWindow
 ) {
@@ -136,12 +133,12 @@ function createColorPresetSelector(
   }
 
   domElements.presetSelector.addEventListener('change', applyPreset);
-  rootContainer.appendChild(domElements.presetSelector);
+  uiContainer.appendChild(domElements.presetSelector);
   domElements.presetSelector.value = lookupTableProxy.getPresetName();
 }
 
 function createUseShadowToggle(
-  rootContainer,
+  uiContainer,
   volumeRepresentation,
   renderWindow
 ) {
@@ -156,38 +153,58 @@ function createUseShadowToggle(
     volumeRepresentation.setUseShadow(useShadow);
     renderWindow.render();
   });
-  rootContainer.appendChild(domElements.shadowContainer);
+  uiContainer.appendChild(domElements.shadowContainer);
 }
 
-function createToggleUI(rootContainer, isBackgroundDark) {
+function addLogo(uiContainer) {
   const logo = new Image();
   logo.src = logoIcon;
   logo.setAttribute('class', style.logo);
-  rootContainer.appendChild(logo);
+  uiContainer.appendChild(logo);
+}
 
-  function toggleWidgetVisibility() {
-    if (domElements.widgetContainer.style.display === 'none') {
-      domElements.widgetContainer.style.display = 'block';
-      domElements.presetSelector.style.display = 'block';
-      domElements.shadowContainer.style.display = 'block';
+function createMainUI(uiContainer, isBackgroundDark) {
+  uiContainer.setAttribute('class', style.uiContainer);
+
+  const mainUIGroup = document.createElement('div');
+  mainUIGroup.setAttribute('class', style.uiGroup);
+
+  const mainUIRow = document.createElement('div');
+  mainUIRow.setAttribute('class', style.uiRow);
+  mainUIGroup.appendChild(mainUIRow);
+
+  function toggleUIVisibility() {
+    const elements = uiContainer.querySelectorAll('.js-toggle');
+    let count = elements.length;
+    const toggleElementStyle = window.getComputedStyle(elements[0]);
+    const expanded = toggleElementStyle.getPropertyValue('display') === 'flex';
+    if (!expanded) {
+      while (count--) {
+        elements[count].style.display = 'flex';
+      }
     } else {
-      domElements.widgetContainer.style.display = 'none';
-      domElements.presetSelector.style.display = 'none';
-      domElements.shadowContainer.style.display = 'none';
+      while (count--) {
+        elements[count].style.display = 'none';
+      }
     }
   }
 
   const toggleButton = document.createElement('div');
-  const localStyle = getLocalStyle(['toggleButton'], isBackgroundDark);
+  const contrastSensitiveStyle = getContrastSensitiveStyle(
+    ['toggleButton'],
+    isBackgroundDark
+  );
   toggleButton.innerHTML = `<div class="${
-    localStyle.toggleButton
+    contrastSensitiveStyle.toggleButton
   }">${toggleIcon}</div>`;
-  toggleButton.addEventListener('click', toggleWidgetVisibility);
-  rootContainer.appendChild(toggleButton);
+  toggleButton.addEventListener('click', toggleUIVisibility);
+  mainUIRow.appendChild(toggleButton);
+
+  uiContainer.appendChild(mainUIGroup);
 }
 
-function createVolumeUI(
-  container,
+function createImageUI(
+  uiContainer,
   lookupTableProxy,
   piecewiseFunctionProxy,
   volumeRepresentation,
@@ -195,29 +212,31 @@ function createVolumeUI(
   renderWindow,
   isBackgroundDark
 ) {
-  const rootContainer = getRootContainer(container);
+  const imageUIGroup = document.createElement('div');
+  imageUIGroup.setAttribute('class', style.uiGroup);
 
-  createUseShadowToggle(rootContainer, volumeRepresentation, renderWindow);
-
-  createColorPresetSelector(rootContainer, lookupTableProxy, renderWindow);
+  const shadowPresetRow = document.createElement('div');
+  shadowPresetRow.setAttribute('class', style.uiRow);
+  createUseShadowToggle(shadowPresetRow, volumeRepresentation, renderWindow);
+  createColorPresetSelector(shadowPresetRow, lookupTableProxy, renderWindow);
+  shadowPresetRow.className += ' js-toggle';
+  imageUIGroup.appendChild(shadowPresetRow);
 
   createPiecewiseWidget(
-    rootContainer,
+    imageUIGroup,
     lookupTableProxy,
     piecewiseFunctionProxy,
     dataArray,
     renderWindow
   );
-}
 
-// ----------------------------------------------------------------------------
+  uiContainer.appendChild(imageUIGroup);
+}
 
 function progressCallback(progressEvent) {
   const percent = Math.floor(100 * progressEvent.loaded / progressEvent.total);
   domElements.progressContainer.innerHTML = `${percent}%`;
 }
-
-// ----------------------------------------------------------------------------
 
 function emptyContainer(container) {
   if (container) {
@@ -227,14 +246,10 @@ function emptyContainer(container) {
   }
 }
 
-// ----------------------------------------------------------------------------
-
 function preventDefaults(e) {
   e.preventDefault();
   e.stopPropagation();
 }
-
-// ----------------------------------------------------------------------------
 
 function createFileDragAndDrop(container, onDataChange) {
   const myContainer = getRootContainer(container);
@@ -265,16 +280,13 @@ function createFileDragAndDrop(container, onDataChange) {
 // ----------------------------------------------------------------------------
 
 export default {
-  createColorPresetSelector,
+  addLogo,
   createFileDragAndDrop,
   createLoadingProgress,
-  createPiecewiseWidget,
-  createToggleUI,
-  createUseShadowToggle,
-  createVolumeUI,
+  createMainUI,
+  createImageUI,
   domElements,
   emptyContainer,
-  getPreset,
   getRootContainer,
   progressCallback,
 };

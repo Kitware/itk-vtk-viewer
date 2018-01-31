@@ -6,8 +6,6 @@ import style from './ItkVtkImageViewer.mcss';
 import logoIcon from './icons/logo.png';
 import toggleIcon from './icons/toggle.svg';
 
-const domElements = {};
-
 function getContrastSensitiveStyle(cssClasses, isBackgroundDark) {
   const stylePostFix = isBackgroundDark ? 'DarkBG' : 'BrightBG';
   const contrastSensitiveStyle = {};
@@ -20,19 +18,29 @@ function getContrastSensitiveStyle(cssClasses, isBackgroundDark) {
 function getRootContainer(container) {
   const workContainer = document.querySelector('.content');
   const rootBody = document.querySelector('body');
+
   return container || workContainer || rootBody;
 }
 
 function createLoadingProgress(container) {
   const myContainer = getRootContainer(container);
 
-  domElements.loading = document.createElement('div');
-  domElements.loading.setAttribute('class', style.loading);
-  myContainer.appendChild(domElements.loading);
+  const loading = document.createElement('div');
+  loading.setAttribute('class', style.loading);
+  myContainer.appendChild(loading);
 
-  domElements.progressContainer = document.createElement('div');
-  domElements.progressContainer.setAttribute('class', style.progress);
-  myContainer.appendChild(domElements.progressContainer);
+  const progressContainer = document.createElement('div');
+  progressContainer.setAttribute('class', style.progress);
+  myContainer.appendChild(progressContainer);
+
+  function progressCallback(progressEvent) {
+    const percent = Math.floor(
+      100 * progressEvent.loaded / progressEvent.total
+    );
+    progressContainer.innerHTML = `${percent}%`;
+  }
+
+  return progressCallback;
 }
 
 function createPiecewiseWidget(
@@ -73,14 +81,11 @@ function createPiecewiseWidget(
   transferFunctionWidget.addGaussian(0.5, 1.0, 0.5, 0.5, 0.4);
   transferFunctionWidget.applyOpacity(piecewiseFunction);
 
-  domElements.piecewiseWidgetContainer = document.createElement('div');
-  domElements.piecewiseWidgetContainer.setAttribute(
-    'class',
-    style.piecewiseWidget
-  );
-  domElements.piecewiseWidgetContainer.className += ' js-toggle';
+  const piecewiseWidgetContainer = document.createElement('div');
+  piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget);
+  piecewiseWidgetContainer.className += ' js-toggle';
 
-  transferFunctionWidget.setContainer(domElements.piecewiseWidgetContainer);
+  transferFunctionWidget.setContainer(piecewiseWidgetContainer);
   transferFunctionWidget.bindMouseListeners();
 
   // Manage update when opacity changes
@@ -110,7 +115,7 @@ function createPiecewiseWidget(
   transferFunctionWidget.render();
   const transferFunctionWidgetRow = document.createElement('div');
   transferFunctionWidgetRow.setAttribute('class', style.uiRow);
-  transferFunctionWidgetRow.appendChild(domElements.piecewiseWidgetContainer);
+  transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer);
   uiContainer.appendChild(transferFunctionWidgetRow);
 }
 
@@ -121,9 +126,9 @@ function createColorPresetSelector(
 ) {
   const presetNames = vtkColorMaps.rgbPresetNames;
 
-  domElements.presetSelector = document.createElement('select');
-  domElements.presetSelector.setAttribute('class', style.selector);
-  domElements.presetSelector.innerHTML = presetNames
+  const presetSelector = document.createElement('select');
+  presetSelector.setAttribute('class', style.selector);
+  presetSelector.innerHTML = presetNames
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');
 
@@ -132,9 +137,9 @@ function createColorPresetSelector(
     renderWindow.render();
   }
 
-  domElements.presetSelector.addEventListener('change', applyPreset);
-  uiContainer.appendChild(domElements.presetSelector);
-  domElements.presetSelector.value = lookupTableProxy.getPresetName();
+  presetSelector.addEventListener('change', applyPreset);
+  uiContainer.appendChild(presetSelector);
+  presetSelector.value = lookupTableProxy.getPresetName();
 }
 
 function createUseShadowToggle(
@@ -142,18 +147,18 @@ function createUseShadowToggle(
   volumeRepresentation,
   renderWindow
 ) {
-  domElements.shadowContainer = document.createElement('select');
-  domElements.shadowContainer.setAttribute('class', style.shadow);
-  domElements.shadowContainer.innerHTML =
+  const shadowContainer = document.createElement('select');
+  shadowContainer.setAttribute('class', style.shadow);
+  shadowContainer.innerHTML =
     '<option value="1">Use shadow</option><option value="0">No shadow</option>';
 
   // Shadow management
-  domElements.shadowContainer.addEventListener('change', (event) => {
+  shadowContainer.addEventListener('change', (event) => {
     const useShadow = !!Number(event.target.value);
     volumeRepresentation.setUseShadow(useShadow);
     renderWindow.render();
   });
-  uiContainer.appendChild(domElements.shadowContainer);
+  uiContainer.appendChild(shadowContainer);
 }
 
 function addLogo(uiContainer) {
@@ -233,11 +238,6 @@ function createImageUI(
   uiContainer.appendChild(imageUIGroup);
 }
 
-function progressCallback(progressEvent) {
-  const percent = Math.floor(100 * progressEvent.loaded / progressEvent.total);
-  domElements.progressContainer.innerHTML = `${percent}%`;
-}
-
 function emptyContainer(container) {
   if (container) {
     while (container.firstChild) {
@@ -254,27 +254,27 @@ function preventDefaults(e) {
 function createFileDragAndDrop(container, onDataChange) {
   const myContainer = getRootContainer(container);
 
-  domElements.fileContainer = document.createElement('div');
-  domElements.fileContainer.innerHTML = `<div class="${
+  const fileContainer = document.createElement('div');
+  fileContainer.innerHTML = `<div class="${
     style.bigFileDrop
   }"/><input type="file" class="file" style="display: none;" multiple/>`;
-  myContainer.appendChild(domElements.fileContainer);
+  myContainer.appendChild(fileContainer);
 
-  const fileInput = domElements.fileContainer.querySelector('input');
+  const fileInput = fileContainer.querySelector('input');
 
   function handleFile(e) {
     preventDefaults(e);
     const dataTransfer = e.dataTransfer;
     const files = e.target.files || dataTransfer.files;
-    myContainer.removeChild(domElements.fileContainer);
+    myContainer.removeChild(fileContainer);
     const use2D = !!vtkURLExtract.extractURLParameters().use2D;
     onDataChange(myContainer, { files, use2D });
   }
 
   fileInput.addEventListener('change', handleFile);
-  domElements.fileContainer.addEventListener('drop', handleFile);
-  domElements.fileContainer.addEventListener('click', (e) => fileInput.click());
-  domElements.fileContainer.addEventListener('dragover', preventDefaults);
+  fileContainer.addEventListener('drop', handleFile);
+  fileContainer.addEventListener('click', (e) => fileInput.click());
+  fileContainer.addEventListener('dragover', preventDefaults);
 }
 
 // ----------------------------------------------------------------------------
@@ -285,8 +285,6 @@ export default {
   createLoadingProgress,
   createMainUI,
   createImageUI,
-  domElements,
   emptyContainer,
   getRootContainer,
-  progressCallback,
 };

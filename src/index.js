@@ -5,7 +5,7 @@ import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 import fetchBinaryContent from './fetchBinaryContent';
 import processFiles from './processFiles';
 import userInterface from './userInterface';
-import style from './ItkVtkImageViewer.mcss';
+import style from './userInterface/ItkVtkImageViewer.mcss';
 
 let doNotInitViewers = false;
 

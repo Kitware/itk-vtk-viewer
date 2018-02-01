@@ -10,6 +10,9 @@ import logoIcon from './icons/logo.png';
 import toggleIcon from './icons/toggle.svg';
 import uploadIcon from './icons/upload.svg';
 import screenshotIcon from './icons/screenshot.svg';
+import shadowIcon from './icons/shadow.svg';
+import sampleDistanceIcon from './icons/sample-distance.svg';
+import gradientOpacityIcon from './icons/gradient.svg';
 
 function getContrastSensitiveStyle(cssClasses, isBackgroundDark) {
   const stylePostFix = isBackgroundDark ? 'DarkBG' : 'BrightBG';
@@ -100,7 +103,7 @@ function createMainUI(rootContainer, isBackgroundDark, imageSource, view) {
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['toggleButton', 'uploadButton', 'screenshotButton'],
+    ['uiToggleButton', 'uploadButton', 'screenshotButton'],
     isBackgroundDark
   );
 
@@ -108,7 +111,7 @@ function createMainUI(rootContainer, isBackgroundDark, imageSource, view) {
   mainUIGroup.setAttribute('class', style.uiGroup);
 
   const mainUIRow = document.createElement('div');
-  mainUIRow.setAttribute('class', style.uiRow);
+  mainUIRow.setAttribute('class', style.mainUIRow);
   mainUIRow.className += ' js-toggle';
   mainUIGroup.appendChild(mainUIRow);
 
@@ -127,12 +130,12 @@ function createMainUI(rootContainer, isBackgroundDark, imageSource, view) {
       }
     }
   }
-  const toggleButton = document.createElement('div');
-  toggleButton.innerHTML = `<div class="${
-    contrastSensitiveStyle.toggleButton
+  const uiToggleButton = document.createElement('div');
+  uiToggleButton.innerHTML = `<div class="${
+    contrastSensitiveStyle.uiToggleButton
   }">${toggleIcon}</div>`;
-  toggleButton.addEventListener('click', toggleUIVisibility);
-  uiContainer.appendChild(toggleButton);
+  uiToggleButton.addEventListener('click', toggleUIVisibility);
+  uiContainer.appendChild(uiToggleButton);
 
   const uploadButton = document.createElement('div');
   uploadButton.innerHTML = `<div class="${
@@ -171,20 +174,33 @@ function createMainUI(rootContainer, isBackgroundDark, imageSource, view) {
 function createUseShadowToggle(
   uiContainer,
   volumeRepresentation,
-  renderWindow
+  renderWindow,
+  isBackgroundDark
 ) {
-  const shadowContainer = document.createElement('select');
-  shadowContainer.setAttribute('class', style.shadow);
-  shadowContainer.innerHTML =
-    '<option value="1">Use shadow</option><option value="0">No shadow</option>';
+  const contrastSensitiveStyle = getContrastSensitiveStyle(
+    ['shadowButton'],
+    isBackgroundDark
+  );
+
+  const shadowContainer = document.createElement('div');
+  shadowContainer.innerHTML = `<div class="${
+    contrastSensitiveStyle.shadowButton
+  }">${shadowIcon}</div>`;
+  const shadowWidget = document.createElement('label');
+  shadowWidget.setAttribute('class', style.toggleSwitch);
+  shadowWidget.innerHTML = `<input type="checkbox" class="${
+    style.toggleSwitchInput
+  }" checked><span class="${style.toggleWidget}"></span>`;
 
   // Shadow management
-  shadowContainer.addEventListener('change', (event) => {
-    const useShadow = !!Number(event.target.value);
+  let useShadow = true;
+  shadowWidget.addEventListener('change', (event) => {
+    useShadow = !useShadow;
     volumeRepresentation.setUseShadow(useShadow);
     renderWindow.render();
   });
   uiContainer.appendChild(shadowContainer);
+  uiContainer.appendChild(shadowWidget);
 }
 
 function createTransferFunctionWidget(
@@ -202,7 +218,7 @@ function createTransferFunctionWidget(
   });
   transferFunctionWidget.updateStyle({
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    histogramColor: 'rgba(50, 50, 50, 0.6)',
+    histogramColor: 'rgba(30, 30, 30, 0.6)',
     strokeColor: 'rgb(0, 0, 0)',
     activeColor: 'rgb(255, 255, 255)',
     handleColor: 'rgb(50, 50, 150)',
@@ -286,6 +302,66 @@ function createColorPresetSelector(
   presetSelector.value = lookupTableProxy.getPresetName();
 }
 
+function createSampleDistanceSlider(
+  uiContainer,
+  isBackgroundDark,
+  volumeRepresentation,
+  renderWindow
+) {
+  const contrastSensitiveStyle = getContrastSensitiveStyle(
+    ['sampleDistanceButton'],
+    isBackgroundDark
+  );
+
+  const sliderEntry = document.createElement('div');
+  sliderEntry.setAttribute('class', style.sliderEntry);
+  sliderEntry.innerHTML = `
+    <div class="${contrastSensitiveStyle.sampleDistanceButton}">
+      ${sampleDistanceIcon}
+    </div>
+    <input type="range" min="0" max="1" value="0.4" step="0.01"
+      class="${style.slider} js-spacing" />`;
+  const spacingElement = sliderEntry.querySelector('.js-spacing');
+  function updateSpacing() {
+    const value = Number(spacingElement.value);
+    volumeRepresentation.setSampleDistance(value);
+    renderWindow.render();
+  }
+  spacingElement.addEventListener('input', updateSpacing);
+  updateSpacing();
+  uiContainer.appendChild(sliderEntry);
+}
+
+function createGradientOpacitySlider(
+  uiContainer,
+  isBackgroundDark,
+  volumeRepresentation,
+  renderWindow
+) {
+  const contrastSensitiveStyle = getContrastSensitiveStyle(
+    ['gradientOpacityButton'],
+    isBackgroundDark
+  );
+
+  const sliderEntry = document.createElement('div');
+  sliderEntry.setAttribute('class', style.sliderEntry);
+  sliderEntry.innerHTML = `
+    <div class="${contrastSensitiveStyle.gradientOpacityButton}">
+      ${gradientOpacityIcon}
+    </div>
+    <input type="range" min="0" max="1" value="0.2" step="0.01"
+      class="${style.slider} js-edge" />`;
+  const edgeElement = sliderEntry.querySelector('.js-edge');
+  function updateGradientOpacity() {
+    const value = Number(edgeElement.value);
+    volumeRepresentation.setEdgeGradient(value);
+    renderWindow.render();
+  }
+  edgeElement.addEventListener('input', updateGradientOpacity);
+  updateGradientOpacity();
+  uiContainer.appendChild(sliderEntry);
+}
+
 function createImageUI(
   uiContainer,
   lookupTableProxy,
@@ -298,12 +374,11 @@ function createImageUI(
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
-  const shadowPresetRow = document.createElement('div');
-  shadowPresetRow.setAttribute('class', style.uiRow);
-  createUseShadowToggle(shadowPresetRow, volumeRepresentation, renderWindow);
-  createColorPresetSelector(shadowPresetRow, lookupTableProxy, renderWindow);
-  shadowPresetRow.className += ' js-toggle';
-  imageUIGroup.appendChild(shadowPresetRow);
+  const presetRow = document.createElement('div');
+  presetRow.setAttribute('class', style.uiRow);
+  createColorPresetSelector(presetRow, lookupTableProxy, renderWindow);
+  presetRow.className += ' js-toggle';
+  imageUIGroup.appendChild(presetRow);
 
   createTransferFunctionWidget(
     imageUIGroup,
@@ -312,6 +387,29 @@ function createImageUI(
     dataArray,
     renderWindow
   );
+
+  const volumeRenderingRow = document.createElement('div');
+  volumeRenderingRow.setAttribute('class', style.uiRow);
+  volumeRenderingRow.className += ' js-toggle';
+  createUseShadowToggle(
+    volumeRenderingRow,
+    volumeRepresentation,
+    renderWindow,
+    isBackgroundDark
+  );
+  createSampleDistanceSlider(
+    volumeRenderingRow,
+    isBackgroundDark,
+    volumeRepresentation,
+    renderWindow
+  );
+  createGradientOpacitySlider(
+    volumeRenderingRow,
+    isBackgroundDark,
+    volumeRepresentation,
+    renderWindow
+  );
+  imageUIGroup.appendChild(volumeRenderingRow);
 
   uiContainer.appendChild(imageUIGroup);
 }

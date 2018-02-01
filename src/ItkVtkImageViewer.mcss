@@ -46,6 +46,10 @@
   padding: 2px;
 }
 
+.mainUIRow {
+  composes: uiRow;
+  justify-content: flex-start;
+}
 
 .progress {
   color: white;
@@ -68,25 +72,25 @@
   position: absolute;
   top: 5px;
   right: 5px;
-  height: 2.5em;
-  width: 2.5em;
+  height: 2.0em;
+  width: 2.0em;
   cursor: pointer;
   z-index: 100;
 }
 
-.toggleButton {
+.uiToggleButton {
   height: 1.5em;
   width: 1.5em;
   cursor: pointer;
   z-index: 1000;
 }
 
-.toggleButtonBrightBG {
-  composes: toggleButton;
+.uiToggleButtonBrightBG {
+  composes: uiToggleButton;
 }
 
-.toggleButtonDarkBG {
-  composes: toggleButton;
+.uiToggleButtonDarkBG {
+  composes: uiToggleButton;
   filter: invert(100%);
   -webkit-filter: invert(100%);
 }
@@ -95,6 +99,9 @@
   flex: 1;
   height: 1.5em;
   width: 1.5em;
+  padding: 4px;
+  padding-left: 6px;
+  padding-right: 6px;
   cursor: pointer;
   z-index: 1000;
 }
@@ -113,6 +120,10 @@
   flex: 1;
   height: 1.5em;
   width: 1.5em;
+  padding-top: 6px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
   cursor: pointer;
   z-index: 1000;
 }
@@ -127,12 +138,89 @@
   -webkit-filter: invert(100%);
 }
 
+.shadowButton {
+  height: 1.3em;
+  width: 1.3em;
+  padding: 4px;
+  padding-left: 6px;
+  padding-right: 0px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.shadowButtonBrightBG {
+  composes: shadowButton;
+}
+
+.shadowButtonDarkBG {
+  composes: shadowButton;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
+.toggleSwitch {
+  position: relative;
+  display: inline-block;
+  width: 2.8em;
+  height: 1.4em;
+  margin: 4px;
+}
+
+.toggleSwitchInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  box-sizing: content-box;
+}
+
+.toggleWidget {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #aaa;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 1.5em;
+}
+
+.toggleWidget:before {
+  position: absolute;
+  content: "";
+  height: 1.0em;
+  width: 1.0em;
+  left: 0.2em;
+  bottom: 0.2em;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .toggleWidget {
+  background-color: #1975BD;
+}
+
+input:focus + .toggleWidget {
+  box-shadow: 0 0 1px #1975BD;
+}
+
+input:checked + .toggleWidget:before {
+  -webkit-transform: translateX(1.4em);
+  -ms-transform: translateX(1.4em);
+  transform: translateX(1.4em);
+}
+
 .selector {
   flex: 1;
   border: none;
   background: transparent;
   color: white;
   border: none;
+  font-size: 1.2em;
   z-index: 1000;
 }
 
@@ -149,12 +237,63 @@ select:focus {
   border: none;
 }
 
-.shadow {
-  border: none;
-  background: transparent;
-  color: white;
-  border: none;
+.sampleDistanceButton {
+  width: 1.2em;
+  height: 1.2em;
+  padding: 4px;
+  padding-left: 6px;
   z-index: 1000;
+}
+
+.sampleDistanceButton svg {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.sampleDistanceButtonBrightBG {
+  composes: sampleDistanceButton;
+}
+
+.sampleDistanceButtonDarkBG {
+  composes: sampleDistanceButton;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
+.gradientOpacityButton {
+  width: 1.2em;
+  height: 1.2em;
+  padding: 4px;
+  padding-left: 6px;
+  z-index: 1000;
+}
+
+.gradientOpacityButton svg {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.gradientOpacityButtonBrightBG {
+  composes: gradientOpacityButton;
+}
+
+.gradientOpacityButtonDarkBG {
+  composes: gradientOpacityButton;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
+.sliderEntry {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.slider {
+  flex: 1;
+  min-height: 1rem;
+  width: 5px;
 }
 
 .bigFileDrop {

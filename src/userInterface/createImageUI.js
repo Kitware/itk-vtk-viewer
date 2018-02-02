@@ -1,12 +1,13 @@
 import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps';
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
 
+import sampleDistanceIcon from 'vtk.js/Sources/Interaction/UI/Icons/Spacing.svg';
+
 import getContrastSensitiveStyle from './getContrastSensitiveStyle';
 
 import style from './ItkVtkImageViewer.mcss';
 
 import shadowIcon from './icons/shadow.svg';
-import sampleDistanceIcon from './icons/sample-distance.svg';
 import gradientOpacityIcon from './icons/gradient.svg';
 
 function createUseShadowToggle(

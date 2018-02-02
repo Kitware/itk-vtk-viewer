@@ -148,6 +148,12 @@
   z-index: 1000;
 }
 
+.shadowButton svg {
+  width: 1.3em;
+  height: 1.3em;
+}
+
+
 .shadowButtonBrightBG {
   composes: shadowButton;
 }

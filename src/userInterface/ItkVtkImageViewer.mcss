@@ -138,6 +138,23 @@
   -webkit-filter: invert(100%);
 }
 
+.viewModeButton {
+  flex: 1;
+  height: 1.5em;
+  width: 1.5em;
+  padding-top: 6px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.viewModeButton svg {
+  width: 1.3em;
+  height: 1.3em;
+}
+
 .shadowButton {
   height: 1.3em;
   width: 1.3em;

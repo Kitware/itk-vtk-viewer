@@ -7,8 +7,18 @@ import style from './ItkVtkImageViewer.mcss';
 import toggleIcon from './icons/toggle.svg';
 import uploadIcon from './icons/upload.svg';
 import screenshotIcon from './icons/screenshot.svg';
+import volumeRenderingIcon from './icons/volume-rendering.svg';
+import xPlaneIcon from './icons/x-plane.svg';
+import yPlaneIcon from './icons/y-plane.svg';
+import zPlaneIcon from './icons/z-plane.svg';
 
-function createMainUI(rootContainer, isBackgroundDark, imageSource, view) {
+function createMainUI(
+  rootContainer,
+  isBackgroundDark,
+  use2D,
+  imageSource,
+  view
+) {
   const uiContainer = document.createElement('div');
   rootContainer.appendChild(uiContainer);
   uiContainer.setAttribute('class', style.uiContainer);
@@ -76,6 +86,48 @@ function createMainUI(rootContainer, isBackgroundDark, imageSource, view) {
   }
   screenshotButton.addEventListener('click', takeScreenshot);
   mainUIRow.appendChild(screenshotButton);
+
+  function setViewModeXPlane() {
+    view.setViewMode('XPlane');
+  }
+  function setViewModeYPlane() {
+    view.setViewMode('YPlane');
+  }
+  function setViewModeZPlane() {
+    view.setViewMode('ZPlane');
+  }
+  function setViewModeVolumeRendering() {
+    view.setViewMode('VolumeRendering');
+  }
+  if (!use2D) {
+    const xPlaneButton = document.createElement('div');
+    xPlaneButton.innerHTML = `<div class="${
+      style.viewModeButton
+    }">${xPlaneIcon}</div>`;
+    xPlaneButton.addEventListener('click', setViewModeXPlane);
+    mainUIRow.appendChild(xPlaneButton);
+
+    const yPlaneButton = document.createElement('div');
+    yPlaneButton.innerHTML = `<div class="${
+      style.viewModeButton
+    }">${yPlaneIcon}</div>`;
+    yPlaneButton.addEventListener('click', setViewModeYPlane);
+    mainUIRow.appendChild(yPlaneButton);
+
+    const zPlaneButton = document.createElement('div');
+    zPlaneButton.innerHTML = `<div class="${
+      style.viewModeButton
+    }">${zPlaneIcon}</div>`;
+    zPlaneButton.addEventListener('click', setViewModeZPlane);
+    mainUIRow.appendChild(zPlaneButton);
+
+    const volumeRenderingButton = document.createElement('div');
+    volumeRenderingButton.innerHTML = `<div class="${
+      style.viewModeButton
+    }">${volumeRenderingIcon}</div>`;
+    volumeRenderingButton.addEventListener('click', setViewModeVolumeRendering);
+    mainUIRow.appendChild(volumeRenderingButton);
+  }
 
   uiContainer.appendChild(mainUIGroup);
 

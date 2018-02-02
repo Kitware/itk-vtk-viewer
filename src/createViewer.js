@@ -27,7 +27,7 @@ window.addEventListener('resize', proxyManager.resizeAllViews);
 
 const createViewer = (
   rootContainer,
-  { viewerConfig, image, use2D, viewerState }
+  { viewerConfig, image, use2D = false, viewerState }
 ) => {
   userInterface.emptyContainer(rootContainer);
 
@@ -71,6 +71,7 @@ const createViewer = (
   const uiContainer = userInterface.createMainUI(
     rootContainer,
     config.isBackgroundDark,
+    use2D,
     imageSource,
     view
   );

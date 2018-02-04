@@ -34,10 +34,14 @@ const createViewer = (
   const container = document.createElement('div');
   const defaultConfig = {
     backgroundColor: [0, 0, 0],
-    isBackgroundDark: true,
     containerStyle: STYLE_CONTAINER,
   };
   const config = viewerConfig || defaultConfig;
+  const isBackgroundDark =
+    config.backgroundColor[0] +
+      config.backgroundColor[1] +
+      config.backgroundColor[2] <
+    1.5;
   userInterface.emptyContainer(container);
   applyStyle(container, config.containerStyle || STYLE_CONTAINER);
   rootContainer.appendChild(container);
@@ -70,7 +74,7 @@ const createViewer = (
 
   const uiContainer = userInterface.createMainUI(
     rootContainer,
-    config.isBackgroundDark,
+    isBackgroundDark,
     use2D,
     imageSource,
     view
@@ -84,7 +88,7 @@ const createViewer = (
       representation,
       dataArray,
       view.getRenderWindow(),
-      config.isBackgroundDark
+      isBackgroundDark
     );
   }
 

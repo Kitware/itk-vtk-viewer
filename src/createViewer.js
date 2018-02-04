@@ -70,6 +70,13 @@ const createViewer = (
     lookupTable = proxyManager.getLookupTable(dataArray.getName());
     lookupTable.setPresetName('Viridis (matplotlib)');
     piecewiseFunction = proxyManager.getPiecewiseFunction(dataArray.getName());
+
+    // Slices share the same lookup table as the volume rendering.
+    const lut = lookupTable.getLookupTable();
+    const sliceActors = representation.getActors();
+    sliceActors.forEach((actor) => {
+      actor.getProperty().setRGBTransferFunction(lut);
+    });
   }
 
   const uiContainer = userInterface.createMainUI(

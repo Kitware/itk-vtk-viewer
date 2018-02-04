@@ -64,9 +64,11 @@ function ItkVtkViewProxy(publicAPI, model) {
   }
 
   // Setup --------------------------------------------------------------------
-  model.viewMode = 'VolumeRendering';
 
   // todo: set up corner annotation
+  // use the same color map in the planes
+  // colormap changes with window / level
+  // window / level changes piecewise =jk
 
   // API ----------------------------------------------------------------------
 

@@ -21,25 +21,19 @@ function createUseShadowToggle(
     isBackgroundDark
   );
 
-  const shadowContainer = document.createElement('div');
-  shadowContainer.innerHTML = `<div class="${
-    contrastSensitiveStyle.shadowButton
-  }">${shadowIcon}</div>`;
-  const shadowWidget = document.createElement('label');
-  shadowWidget.setAttribute('class', style.toggleSwitch);
-  shadowWidget.innerHTML = `<input type="checkbox" class="${
-    style.toggleSwitchInput
-  }" checked><span class="${style.toggleWidget}"></span>`;
-
-  // Shadow management
+  const useShadowButton = document.createElement('div');
+  useShadowButton.innerHTML = `<input id="useShadow" type="checkbox" class="${
+    style.toggleInput
+  }" checked><label class="${contrastSensitiveStyle.shadowButton} ${
+    style.toggleButton
+  }" for="useShadow">${shadowIcon}</label>`;
   let useShadow = true;
-  shadowWidget.addEventListener('change', (event) => {
+  useShadowButton.addEventListener('change', (event) => {
     useShadow = !useShadow;
     volumeRepresentation.setUseShadow(useShadow);
     renderWindow.render();
   });
-  uiContainer.appendChild(shadowContainer);
-  uiContainer.appendChild(shadowWidget);
+  uiContainer.appendChild(useShadowButton);
 }
 
 function createTransferFunctionWidget(

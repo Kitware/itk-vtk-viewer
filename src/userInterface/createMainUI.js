@@ -135,20 +135,15 @@ function createMainUI(
     mainUIRow.appendChild(volumeRenderingButton);
 
     const viewPlanesButton = document.createElement('div');
-    viewPlanesButton.innerHTML = `<div class="${
-      style.viewModeButton
-    }">${viewPlansIcon}</div>`;
-    viewPlanesButton.addEventListener('click', setViewPlanes);
-    const viewPlanesWidget = document.createElement('label');
-    viewPlanesWidget.setAttribute('class', style.toggleSwitch);
-    viewPlanesWidget.innerHTML = `<input type="checkbox" class="${
-      style.toggleSwitchInput
-    }"><span class="${style.toggleWidget}"></span>`;
-    viewPlanesWidget.addEventListener('change', (event) => {
+    viewPlanesButton.innerHTML = `<input id="viewPlanes" type="checkbox" class="${
+      style.toggleInput
+    }"><label class="${style.viewPlanesButton} ${
+      style.toggleButton
+    }" for="viewPlanes">${viewPlansIcon}</label>`;
+    viewPlanesButton.addEventListener('change', (event) => {
       setViewPlanes();
     });
     mainUIRow.appendChild(viewPlanesButton);
-    mainUIRow.appendChild(viewPlanesWidget);
   }
 
   uiContainer.appendChild(mainUIGroup);

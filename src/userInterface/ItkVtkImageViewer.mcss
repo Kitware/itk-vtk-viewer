@@ -181,15 +181,24 @@
   -webkit-filter: invert(100%);
 }
 
-.toggleSwitch {
-  position: relative;
-  display: inline-block;
-  width: 2.4em;
-  height: 1.4em;
-  margin: 4px;
+.viewPlanesButton {
+  flex: 1;
+  height: 1.3em;
+  width: 1.3em;
+  padding-top: 8px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: pointer;
+  z-index: 1000;
 }
 
-.toggleSwitchInput {
+.viewPlanesButton svg {
+  width: 1.3em;
+  height: 1.3em;
+}
+
+.toggleInput {
   position: absolute;
   top: 0;
   left: 0;
@@ -197,44 +206,14 @@
   box-sizing: content-box;
 }
 
-.toggleWidget {
-  position: absolute;
+.toggleButton {
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #aaa;
-  -webkit-transition: .2s;
-  transition: .2s;
-  border-radius: 1.5em;
+  border-radius: 0.2em;
+  opacity: 0.5;
 }
 
-.toggleWidget:before {
-  position: absolute;
-  content: "";
-  height: 1.0em;
-  width: 1.0em;
-  left: 0.2em;
-  bottom: 0.2em;
-  background-color: white;
-  -webkit-transition: .2s;
-  transition: .2s;
-  border-radius: 50%;
-}
-
-input:checked + .toggleWidget {
-  background-color: #1975BD;
-}
-
-input:focus + .toggleWidget {
-  box-shadow: 0 0 1px #1975BD;
-}
-
-input:checked + .toggleWidget:before {
-  -webkit-transform: translateX(1.0em);
-  -ms-transform: translateX(1.0em);
-  transform: translateX(1.0em);
+input:checked.toggleInput + label {
+  opacity: 1.0;
 }
 
 .selector {

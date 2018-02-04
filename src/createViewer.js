@@ -88,7 +88,8 @@ const createViewer = (
       representation,
       dataArray,
       view.getRenderWindow(),
-      isBackgroundDark
+      isBackgroundDark,
+      use2D
     );
   }
 

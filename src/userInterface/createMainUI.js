@@ -96,6 +96,12 @@ function createMainUI(
     document.getElementById('volumeRenderingButton').checked = false;
     const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
     volumeRenderingRow.style.display = 'none';
+    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
+    xPlaneRow.style.display = 'flex';
+    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
+    yPlaneRow.style.display = 'none';
+    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
+    zPlaneRow.style.display = 'none';
   }
   function setViewModeYPlane() {
     view.setViewMode('YPlane');
@@ -105,6 +111,12 @@ function createMainUI(
     document.getElementById('volumeRenderingButton').checked = false;
     const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
     volumeRenderingRow.style.display = 'none';
+    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
+    xPlaneRow.style.display = 'none';
+    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
+    yPlaneRow.style.display = 'flex';
+    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
+    zPlaneRow.style.display = 'none';
   }
   function setViewModeZPlane() {
     view.setViewMode('ZPlane');
@@ -114,6 +126,12 @@ function createMainUI(
     document.getElementById('volumeRenderingButton').checked = false;
     const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
     volumeRenderingRow.style.display = 'none';
+    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
+    xPlaneRow.style.display = 'flex';
+    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
+    yPlaneRow.style.display = 'none';
+    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
+    zPlaneRow.style.display = 'none';
   }
   function setViewModeVolumeRendering() {
     view.setViewMode('VolumeRendering');
@@ -123,11 +141,38 @@ function createMainUI(
     document.getElementById('volumeRenderingButton').checked = true;
     const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
     volumeRenderingRow.style.display = 'flex';
+    const viewPlanes = document.getElementById('viewPlanes').checked;
+    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
+    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
+    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
+    if (viewPlanes) {
+      xPlaneRow.style.display = 'flex';
+      yPlaneRow.style.display = 'flex';
+      zPlaneRow.style.display = 'flex';
+    } else {
+      xPlaneRow.style.display = 'none';
+      yPlaneRow.style.display = 'none';
+      zPlaneRow.style.display = 'none';
+    }
   }
   let viewPlanes = false;
   function setViewPlanes() {
     viewPlanes = !viewPlanes;
     view.setViewPlanes(viewPlanes);
+    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
+    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
+    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
+    if (view.getViewMode() === 'VolumeRendering') {
+      if (viewPlanes) {
+        xPlaneRow.style.display = 'flex';
+        yPlaneRow.style.display = 'flex';
+        zPlaneRow.style.display = 'flex';
+      } else {
+        xPlaneRow.style.display = 'none';
+        yPlaneRow.style.display = 'none';
+        zPlaneRow.style.display = 'none';
+      }
+    }
   }
   if (!use2D) {
     const xPlaneButton = document.createElement('div');

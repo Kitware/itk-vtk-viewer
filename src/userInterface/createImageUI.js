@@ -112,6 +112,116 @@ function createTransferFunctionWidget(
   uiContainer.appendChild(transferFunctionWidgetRow);
 }
 
+function createPlaneIndexSliders(
+  uiContainer,
+  volumeRepresentation,
+  renderWindow,
+  isBackgroundDark
+) {
+  const contrastSensitiveStyle = getContrastSensitiveStyle(
+    ['sliderLabel'],
+    isBackgroundDark
+  );
+  const size = volumeRepresentation.getInputDataSet().getDimensions();
+  let currentIndex = null;
+
+  const xPlaneRow = document.createElement('div');
+  xPlaneRow.setAttribute('class', style.uiRow);
+  xPlaneRow.className += ' js-toggle js-x-plane-row';
+
+  const xSliderEntry = document.createElement('div');
+  xSliderEntry.setAttribute('class', style.sliderEntry);
+  currentIndex = volumeRepresentation.getXSliceIndex();
+  xSliderEntry.innerHTML = `
+    <label class="${
+      contrastSensitiveStyle.sliderLabel
+    } js-x-index-label">X:</label><input type="range" min="0" max="${
+    size[0]
+  }" value="${currentIndex}" step="1"
+      class="${style.slider} js-x-index" />`;
+  const xIndexElement = xSliderEntry.querySelector('.js-x-index');
+  const xPlaneLabel = xSliderEntry.querySelector('.js-x-index-label');
+  function updateXIndex() {
+    const value = Number(xIndexElement.value);
+    volumeRepresentation.setXSliceIndex(value);
+    const valueString = String(xIndexElement.value);
+    const padLength = valueString.length < 4 ? 4 - valueString.length : 0;
+    const pad = '&nbsp;'.repeat(padLength);
+    xPlaneLabel.innerHTML = `X: ${pad}${valueString}`;
+    renderWindow.render();
+  }
+  xIndexElement.addEventListener('input', updateXIndex);
+  xPlaneRow.appendChild(xSliderEntry);
+  updateXIndex();
+  xPlaneRow.style.display = 'none';
+
+  uiContainer.appendChild(xPlaneRow);
+
+  const yPlaneRow = document.createElement('div');
+  yPlaneRow.setAttribute('class', style.uiRow);
+  yPlaneRow.className += ' js-toggle js-y-plane-row';
+
+  const ySliderEntry = document.createElement('div');
+  ySliderEntry.setAttribute('class', style.sliderEntry);
+  currentIndex = volumeRepresentation.getYSliceIndex();
+  ySliderEntry.innerHTML = `
+    <label class="${
+      contrastSensitiveStyle.sliderLabel
+    } js-y-index-label">Y:</label><input type="range" min="0" max="${
+    size[1]
+  }" value="${currentIndex}" step="1"
+      class="${style.slider} js-y-index" />`;
+  const yIndexElement = ySliderEntry.querySelector('.js-y-index');
+  const yPlaneLabel = ySliderEntry.querySelector('.js-y-index-label');
+  function updateYIndex() {
+    const value = Number(yIndexElement.value);
+    volumeRepresentation.setYSliceIndex(value);
+    const valueString = String(yIndexElement.value);
+    const padLength = valueString.length < 4 ? 4 - valueString.length : 0;
+    const pad = '&nbsp;'.repeat(padLength);
+    yPlaneLabel.innerHTML = `Y: ${pad}${valueString}`;
+    renderWindow.render();
+  }
+  yIndexElement.addEventListener('input', updateYIndex);
+  yPlaneRow.appendChild(ySliderEntry);
+  updateYIndex();
+  yPlaneRow.style.display = 'none';
+
+  uiContainer.appendChild(yPlaneRow);
+
+  const zPlaneRow = document.createElement('div');
+  zPlaneRow.setAttribute('class', style.uiRow);
+  zPlaneRow.className += ' js-toggle js-z-plane-row';
+
+  const zSliderEntry = document.createElement('div');
+  zSliderEntry.setAttribute('class', style.sliderEntry);
+  currentIndex = volumeRepresentation.getZSliceIndex();
+  zSliderEntry.innerHTML = `
+    <label class="${
+      contrastSensitiveStyle.sliderLabel
+    } js-z-index-label">Z:</label><input type="range" min="0" max="${
+    size[2]
+  }" value="${currentIndex}" step="1"
+      class="${style.slider} js-z-index" />`;
+  const zIndexElement = zSliderEntry.querySelector('.js-z-index');
+  const zPlaneLabel = zSliderEntry.querySelector('.js-z-index-label');
+  function updateZIndex() {
+    const value = Number(zIndexElement.value);
+    volumeRepresentation.setZSliceIndex(value);
+    const valueString = String(zIndexElement.value);
+    const padLength = valueString.length < 4 ? 4 - valueString.length : 0;
+    const pad = '&nbsp;'.repeat(padLength);
+    zPlaneLabel.innerHTML = `Z: ${pad}${valueString}`;
+    renderWindow.render();
+  }
+  zIndexElement.addEventListener('input', updateZIndex);
+  zPlaneRow.appendChild(zSliderEntry);
+  updateZIndex();
+  zPlaneRow.style.display = 'none';
+
+  uiContainer.appendChild(zPlaneRow);
+}
+
 function createColorPresetSelector(
   uiContainer,
   lookupTableProxy,
@@ -202,7 +312,8 @@ function createImageUI(
   volumeRepresentation,
   dataArray,
   renderWindow,
-  isBackgroundDark
+  isBackgroundDark,
+  use2D
 ) {
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
@@ -221,28 +332,37 @@ function createImageUI(
     renderWindow
   );
 
-  const volumeRenderingRow = document.createElement('div');
-  volumeRenderingRow.setAttribute('class', style.uiRow);
-  volumeRenderingRow.className += ' js-volumeRendering js-toggle';
-  createUseShadowToggle(
-    volumeRenderingRow,
-    volumeRepresentation,
-    renderWindow,
-    isBackgroundDark
-  );
-  createSampleDistanceSlider(
-    volumeRenderingRow,
-    isBackgroundDark,
-    volumeRepresentation,
-    renderWindow
-  );
-  createGradientOpacitySlider(
-    volumeRenderingRow,
-    isBackgroundDark,
-    volumeRepresentation,
-    renderWindow
-  );
-  imageUIGroup.appendChild(volumeRenderingRow);
+  if (!use2D) {
+    createPlaneIndexSliders(
+      imageUIGroup,
+      volumeRepresentation,
+      renderWindow,
+      isBackgroundDark
+    );
+
+    const volumeRenderingRow = document.createElement('div');
+    volumeRenderingRow.setAttribute('class', style.uiRow);
+    volumeRenderingRow.className += ' js-volumeRendering js-toggle';
+    createUseShadowToggle(
+      volumeRenderingRow,
+      volumeRepresentation,
+      renderWindow,
+      isBackgroundDark
+    );
+    createSampleDistanceSlider(
+      volumeRenderingRow,
+      isBackgroundDark,
+      volumeRepresentation,
+      renderWindow
+    );
+    createGradientOpacitySlider(
+      volumeRenderingRow,
+      isBackgroundDark,
+      volumeRepresentation,
+      renderWindow
+    );
+    imageUIGroup.appendChild(volumeRenderingRow);
+  }
 
   uiContainer.appendChild(imageUIGroup);
 }

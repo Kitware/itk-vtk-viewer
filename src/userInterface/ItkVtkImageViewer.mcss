@@ -159,8 +159,6 @@
   height: 1.3em;
   width: 1.3em;
   padding: 4px;
-  padding-left: 6px;
-  padding-right: 0px;
   cursor: pointer;
   z-index: 1000;
 }
@@ -199,9 +197,8 @@
 }
 
 .toggleInput {
-  position: absolute;
-  top: 0;
-  left: 0;
+  margin: 0px;
+  width: 0%;
   opacity: 0;
   box-sizing: content-box;
 }

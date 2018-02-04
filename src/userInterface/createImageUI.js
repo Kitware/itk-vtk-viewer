@@ -223,7 +223,7 @@ function createImageUI(
 
   const volumeRenderingRow = document.createElement('div');
   volumeRenderingRow.setAttribute('class', style.uiRow);
-  volumeRenderingRow.className += ' js-toggle';
+  volumeRenderingRow.className += ' js-volumeRendering js-toggle';
   createUseShadowToggle(
     volumeRenderingRow,
     volumeRepresentation,

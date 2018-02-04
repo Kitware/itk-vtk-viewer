@@ -94,6 +94,8 @@ function createMainUI(
     document.getElementById('yPlaneButton').checked = false;
     document.getElementById('zPlaneButton').checked = false;
     document.getElementById('volumeRenderingButton').checked = false;
+    const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
+    volumeRenderingRow.style.display = 'none';
   }
   function setViewModeYPlane() {
     view.setViewMode('YPlane');
@@ -101,6 +103,8 @@ function createMainUI(
     document.getElementById('yPlaneButton').checked = true;
     document.getElementById('zPlaneButton').checked = false;
     document.getElementById('volumeRenderingButton').checked = false;
+    const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
+    volumeRenderingRow.style.display = 'none';
   }
   function setViewModeZPlane() {
     view.setViewMode('ZPlane');
@@ -108,6 +112,8 @@ function createMainUI(
     document.getElementById('yPlaneButton').checked = false;
     document.getElementById('zPlaneButton').checked = true;
     document.getElementById('volumeRenderingButton').checked = false;
+    const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
+    volumeRenderingRow.style.display = 'none';
   }
   function setViewModeVolumeRendering() {
     view.setViewMode('VolumeRendering');
@@ -115,6 +121,8 @@ function createMainUI(
     document.getElementById('yPlaneButton').checked = false;
     document.getElementById('zPlaneButton').checked = false;
     document.getElementById('volumeRenderingButton').checked = true;
+    const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
+    volumeRenderingRow.style.display = 'flex';
   }
   let viewPlanes = false;
   function setViewPlanes() {

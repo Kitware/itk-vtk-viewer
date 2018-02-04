@@ -206,7 +206,7 @@
 .toggleButton {
   cursor: pointer;
   border-radius: 0.2em;
-  opacity: 0.5;
+  opacity: 0.35;
 }
 
 input:checked.toggleInput + label {

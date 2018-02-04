@@ -184,7 +184,7 @@
 .toggleSwitch {
   position: relative;
   display: inline-block;
-  width: 2.8em;
+  width: 2.4em;
   height: 1.4em;
   margin: 4px;
 }
@@ -205,8 +205,8 @@
   right: 0;
   bottom: 0;
   background-color: #aaa;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: .2s;
+  transition: .2s;
   border-radius: 1.5em;
 }
 
@@ -218,8 +218,8 @@
   left: 0.2em;
   bottom: 0.2em;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: .2s;
+  transition: .2s;
   border-radius: 50%;
 }
 
@@ -232,9 +232,9 @@ input:focus + .toggleWidget {
 }
 
 input:checked + .toggleWidget:before {
-  -webkit-transform: translateX(1.4em);
-  -ms-transform: translateX(1.4em);
-  transform: translateX(1.4em);
+  -webkit-transform: translateX(1.0em);
+  -ms-transform: translateX(1.0em);
+  transform: translateX(1.0em);
 }
 
 .selector {

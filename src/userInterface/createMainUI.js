@@ -11,6 +11,7 @@ import volumeRenderingIcon from './icons/volume-rendering.svg';
 import xPlaneIcon from './icons/x-plane.svg';
 import yPlaneIcon from './icons/y-plane.svg';
 import zPlaneIcon from './icons/z-plane.svg';
+import viewPlansIcon from './icons/view-planes.svg';
 
 function createMainUI(
   rootContainer,
@@ -99,6 +100,11 @@ function createMainUI(
   function setViewModeVolumeRendering() {
     view.setViewMode('VolumeRendering');
   }
+  let viewPlanes = false;
+  function setViewPlanes() {
+    viewPlanes = !viewPlanes;
+    view.setViewPlanes(viewPlanes);
+  }
   if (!use2D) {
     const xPlaneButton = document.createElement('div');
     xPlaneButton.innerHTML = `<div class="${
@@ -127,6 +133,22 @@ function createMainUI(
     }">${volumeRenderingIcon}</div>`;
     volumeRenderingButton.addEventListener('click', setViewModeVolumeRendering);
     mainUIRow.appendChild(volumeRenderingButton);
+
+    const viewPlanesButton = document.createElement('div');
+    viewPlanesButton.innerHTML = `<div class="${
+      style.viewModeButton
+    }">${viewPlansIcon}</div>`;
+    viewPlanesButton.addEventListener('click', setViewPlanes);
+    const viewPlanesWidget = document.createElement('label');
+    viewPlanesWidget.setAttribute('class', style.toggleSwitch);
+    viewPlanesWidget.innerHTML = `<input type="checkbox" class="${
+      style.toggleSwitchInput
+    }"><span class="${style.toggleWidget}"></span>`;
+    viewPlanesWidget.addEventListener('change', (event) => {
+      setViewPlanes();
+    });
+    mainUIRow.appendChild(viewPlanesButton);
+    mainUIRow.appendChild(viewPlanesWidget);
   }
 
   uiContainer.appendChild(mainUIGroup);

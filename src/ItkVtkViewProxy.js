@@ -29,9 +29,12 @@ function ItkVtkViewProxy(publicAPI, model) {
         model.camera.setParallelScale(
           model.volumeRenderingCameraState.parallelScale
         );
+        model.camera.setPhysicalTranslation(
+          ...model.volumeRenderingCameraState.physicalTranslation
+        );
       }
       model.camera.setParallelProjection(false);
-      volumeRepresentation.setSliceVisibility(false);
+      volumeRepresentation.setSliceVisibility(model.viewPlanes);
       volumeRepresentation.setVolumeVisibility(true);
     } else {
       model.camera.setParallelProjection(true);
@@ -72,10 +75,8 @@ function ItkVtkViewProxy(publicAPI, model) {
       const isVolumeRepresentation = !!rep.getVolumes().length;
       return isVolumeRepresentation;
     });
-    console.log(model.viewMode);
     if (model.viewMode === 'VolumeRendering') {
       model.volumeRenderingCameraState = model.camera.getState();
-      console.log(model.volumeRenderingCameraState);
     }
     switch (mode) {
       case 'XPlane':
@@ -100,6 +101,18 @@ function ItkVtkViewProxy(publicAPI, model) {
     publicAPI.resetCamera();
   };
 
+  publicAPI.setViewPlanes = (viewPlanes) => {
+    model.viewPlanes = viewPlanes;
+    if (model.viewMode === 'VolumeRendering') {
+      const volumeRepresentations = model.representations.filter((rep) => {
+        const isVolumeRepresentation = !!rep.getVolumes().length;
+        return isVolumeRepresentation;
+      });
+      volumeRepresentations[0].setSliceVisibility(viewPlanes);
+      model.renderWindow.render();
+    }
+  };
+
   publicAPI.resetOrientation();
 }
 
@@ -109,9 +122,7 @@ function ItkVtkViewProxy(publicAPI, model) {
 
 const DEFAULT_VALUES = {
   viewMode: 'VolumeRendering',
-  volumeRenderingAxis: 1,
-  volumeRenderingOrientation: 1,
-  volumeRenderingViewUp: [0, 0, 1],
+  viewPlanes: false,
 };
 
 // ----------------------------------------------------------------------------
@@ -120,7 +131,7 @@ export function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues);
 
   vtkViewProxy.extend(publicAPI, model, initialValues);
-  macro.get(publicAPI, model, ['viewMode']);
+  macro.get(publicAPI, model, ['viewMode', 'viewPlanes']);
 
   // Object specific methods
   ItkVtkViewProxy(publicAPI, model);

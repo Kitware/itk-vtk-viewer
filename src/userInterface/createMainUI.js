@@ -127,11 +127,11 @@ function createMainUI(
     const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
     volumeRenderingRow.style.display = 'none';
     const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
-    xPlaneRow.style.display = 'flex';
+    xPlaneRow.style.display = 'none';
     const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
     yPlaneRow.style.display = 'none';
     const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
-    zPlaneRow.style.display = 'none';
+    zPlaneRow.style.display = 'flex';
   }
   function setViewModeVolumeRendering() {
     view.setViewMode('VolumeRendering');

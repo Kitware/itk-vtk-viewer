@@ -98,6 +98,8 @@ const createViewer = (
       isBackgroundDark,
       use2D
     );
+    const annotationContainer = container.querySelector('.js-se');
+    annotationContainer.style.fontFamily = 'monospace';
   }
 
   proxyManager.renderAllViews();

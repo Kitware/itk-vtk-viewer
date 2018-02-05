@@ -6,7 +6,6 @@ const sourcePath = path.join(__dirname, './source');
 const outputPath = path.join(__dirname, './dist');
 
 const vtkRules = require('vtk.js/Utilities/config/rules-vtk.js');
-const linterRules = require('vtk.js/Utilities/config/rules-linter.js');
 const commonRules = require('vtk.js/Utilities/config/rules-examples.js');
 
 module.exports = {
@@ -22,7 +21,7 @@ module.exports = {
     rules: [
       { test: entry, loader: 'expose-loader?itkVtkImageViewer' },
       { test: /\.js$/, loader: 'babel-loader', options: { presets: ['es2015'] } },
-    ].concat(vtkRules, linterRules, commonRules),
+    ].concat(vtkRules, commonRules),
   },
   resolve: {
     extensions: ['.webpack-loader.js', '.web-loader.js', '.loader.js', '.js', '.jsx'],

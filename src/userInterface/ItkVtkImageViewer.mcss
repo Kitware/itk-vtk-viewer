@@ -97,9 +97,10 @@
 
 .uploadButton {
   flex: 1;
-  height: 1.5em;
-  width: 1.5em;
-  padding: 4px;
+  height: 1.2em;
+  width: 1.3em;
+  padding-top: 2px;
+  padding-bottom: 2px;
   padding-left: 6px;
   padding-right: 6px;
   cursor: pointer;
@@ -116,11 +117,16 @@
   -webkit-filter: invert(100%);
 }
 
+.uploadButton svg {
+  height: 1.2em;
+  width: 1.2em;
+}
+
 .screenshotButton {
   flex: 1;
-  height: 1.5em;
-  width: 1.5em;
-  padding-top: 6px;
+  height: 1.3em;
+  width: 1.3em;
+  padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 6px;
   padding-right: 6px;
@@ -134,6 +140,33 @@
 
 .screenshotButtonDarkBG {
   composes: screenshotButton;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
+.annotationButton {
+  flex: 1;
+  height: 1.5em;
+  width: 1.5em;
+  padding-top: 6px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.annotationButton svg {
+  height: 1.2em;
+  width: 1.2em;
+}
+
+.annotationButtonBrightBG {
+  composes: annotationButton;
+}
+
+.annotationButtonDarkBG {
+  composes: annotationButton;
   filter: invert(100%);
   -webkit-filter: invert(100%);
 }

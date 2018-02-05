@@ -12,6 +12,7 @@ import xPlaneIcon from './icons/x-plane.svg';
 import yPlaneIcon from './icons/y-plane.svg';
 import zPlaneIcon from './icons/z-plane.svg';
 import viewPlansIcon from './icons/view-planes.svg';
+import annotationIcon from './icons/annotations.svg';
 
 function createMainUI(
   rootContainer,
@@ -25,7 +26,7 @@ function createMainUI(
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['uiToggleButton', 'uploadButton', 'screenshotButton'],
+    ['uiToggleButton', 'uploadButton', 'screenshotButton', 'annotationButton'],
     isBackgroundDark
   );
 
@@ -87,6 +88,22 @@ function createMainUI(
   }
   screenshotButton.addEventListener('click', takeScreenshot);
   mainUIRow.appendChild(screenshotButton);
+
+  let annotationEnabled = true;
+  function toggleAnnotation() {
+    annotationEnabled = !annotationEnabled;
+    view.setOrientationAnnotationVisibilty(annotationEnabled);
+  }
+  const annotationButton = document.createElement('div');
+  annotationButton.innerHTML = `<input id="toggleAnnotation" type="checkbox" class="${
+    style.toggleInput
+  }" checked><label class="${contrastSensitiveStyle.annotationButton} ${
+    style.toggleButton
+  }" for="toggleAnnotation">${annotationIcon}</label>`;
+  annotationButton.addEventListener('change', (event) => {
+    toggleAnnotation();
+  });
+  mainUIRow.appendChild(annotationButton);
 
   function setViewModeXPlane() {
     view.setViewMode('XPlane');

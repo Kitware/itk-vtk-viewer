@@ -76,7 +76,7 @@ function ItkVtkViewProxy(publicAPI, model) {
   }
 
   function rightPad(value) {
-    let valueString = String(value);
+    const valueString = String(value);
     const padLength = valueString.length < 12 ? 12 - valueString.length : 0;
     const pad = '&nbsp;'.repeat(padLength);
     return `${valueString}${pad}`;
@@ -172,6 +172,20 @@ function ItkVtkViewProxy(publicAPI, model) {
     model.viewPlanes = viewPlanes;
     if (model.viewMode === 'VolumeRendering' && model.volumeRepresentation) {
       model.volumeRepresentation.setSliceVisibility(viewPlanes);
+      model.renderWindow.render();
+    }
+  };
+
+  publicAPI.setOrientationAnnotationVisibilty = (visible) => {
+    if (visible) {
+      if (model.volumeRepresentation) {
+        publicAPI.setAnnotationOpacity(1.0);
+        model.orientationWidget.setEnabled(true);
+        model.renderWindow.render();
+      }
+    } else {
+      publicAPI.setAnnotationOpacity(0.0);
+      model.orientationWidget.setEnabled(false);
       model.renderWindow.render();
     }
   };

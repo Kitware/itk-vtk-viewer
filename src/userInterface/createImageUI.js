@@ -68,9 +68,8 @@ function createTransferFunctionWidget(
   });
   transferFunctionWidget.setDataArray(dataArray.getData());
 
-  transferFunctionWidget.setColorTransferFunction(
-    lookupTableProxy.getLookupTable()
-  );
+  const lookupTable = lookupTableProxy.getLookupTable();
+  transferFunctionWidget.setColorTransferFunction(lookupTable);
   transferFunctionWidget.addGaussian(0.5, 1.0, 0.5, 0.5, 0.4);
   transferFunctionWidget.applyOpacity(piecewiseFunction);
 
@@ -91,13 +90,21 @@ function createTransferFunctionWidget(
   });
   transferFunctionWidget.onOpacityChange(() => {
     transferFunctionWidget.applyOpacity(piecewiseFunction);
+    const colorDataRange = transferFunctionWidget.getOpacityRange();
+    const preset = vtkColorMaps.getPresetByName(
+      lookupTableProxy.getPresetName()
+    );
+    lookupTable.applyColorMap(preset);
+    lookupTable.setMappingRange(...colorDataRange);
+    lookupTable.updateRange();
+
     if (!renderWindow.getInteractor().isAnimating()) {
       renderWindow.render();
     }
   });
 
   // Manage update when lookupTable changes
-  lookupTableProxy.getLookupTable().onModified(() => {
+  lookupTable.onModified(() => {
     transferFunctionWidget.render();
     if (!renderWindow.getInteractor().isAnimating()) {
       renderWindow.render();
@@ -231,6 +238,7 @@ function createColorPresetSelector(
 
   const presetSelector = document.createElement('select');
   presetSelector.setAttribute('class', style.selector);
+  presetSelector.className += ' js-color-preset';
   presetSelector.innerHTML = presetNames
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');

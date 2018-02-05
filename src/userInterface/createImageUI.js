@@ -341,13 +341,6 @@ function createImageUI(
   );
 
   if (!use2D) {
-    createPlaneIndexSliders(
-      imageUIGroup,
-      volumeRepresentation,
-      renderWindow,
-      isBackgroundDark
-    );
-
     const volumeRenderingRow = document.createElement('div');
     volumeRenderingRow.setAttribute('class', style.uiRow);
     volumeRenderingRow.className += ' js-volumeRendering js-toggle';
@@ -370,6 +363,13 @@ function createImageUI(
       renderWindow
     );
     imageUIGroup.appendChild(volumeRenderingRow);
+
+    createPlaneIndexSliders(
+      imageUIGroup,
+      volumeRepresentation,
+      renderWindow,
+      isBackgroundDark
+    );
   }
 
   uiContainer.appendChild(imageUIGroup);

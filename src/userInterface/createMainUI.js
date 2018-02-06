@@ -66,11 +66,11 @@ function createMainUI(
   }">${uploadIcon}</div><input type="file" class="file" style="display: none;" multiple/>`;
   const fileInput = uploadButton.querySelector('input');
 
-  function handleFile(e) {
+  async function handleFile(e) {
     preventDefaults(e);
     const dataTransfer = e.dataTransfer;
     const files = e.target.files || dataTransfer.files;
-    processFiles(rootContainer, { files });
+    await processFiles(rootContainer, { files });
   }
 
   fileInput.addEventListener('change', handleFile);

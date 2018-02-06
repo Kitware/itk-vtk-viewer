@@ -68,7 +68,11 @@ const createViewer = (
 
     dataArray = image.getPointData().getScalars();
     lookupTable = proxyManager.getLookupTable(dataArray.getName());
-    lookupTable.setPresetName('Viridis (matplotlib)');
+    if (dataArray.getNumberOfComponents() > 1) {
+      lookupTable.setPresetName('Grayscale');
+    } else {
+      lookupTable.setPresetName('Viridis (matplotlib)');
+    }
     piecewiseFunction = proxyManager.getPiecewiseFunction(dataArray.getName());
 
     // Slices share the same lookup table as the volume rendering.
@@ -100,6 +104,10 @@ const createViewer = (
     );
     const annotationContainer = container.querySelector('.js-se');
     annotationContainer.style.fontFamily = 'monospace';
+  }
+
+  if (use2D) {
+    view.setViewMode('ZPlane');
   }
 
   proxyManager.renderAllViews();

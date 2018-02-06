@@ -41,7 +41,8 @@ function createTransferFunctionWidget(
   lookupTableProxy,
   piecewiseFunctionProxy,
   dataArray,
-  renderWindow
+  renderWindow,
+  use2D
 ) {
   const piecewiseFunction = piecewiseFunctionProxy.getPiecewiseFunction();
 
@@ -69,9 +70,6 @@ function createTransferFunctionWidget(
   transferFunctionWidget.setDataArray(dataArray.getData());
 
   const lookupTable = lookupTableProxy.getLookupTable();
-  transferFunctionWidget.setColorTransferFunction(lookupTable);
-  transferFunctionWidget.addGaussian(0.5, 1.0, 0.5, 0.5, 0.4);
-  transferFunctionWidget.applyOpacity(piecewiseFunction);
 
   const piecewiseWidgetContainer = document.createElement('div');
   piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget);
@@ -89,7 +87,9 @@ function createTransferFunctionWidget(
     }
   });
   transferFunctionWidget.onOpacityChange(() => {
-    transferFunctionWidget.applyOpacity(piecewiseFunction);
+    if (!use2D) {
+      transferFunctionWidget.applyOpacity(piecewiseFunction);
+    }
     const colorDataRange = transferFunctionWidget.getOpacityRange();
     const preset = vtkColorMaps.getPresetByName(
       lookupTableProxy.getPresetName()
@@ -111,7 +111,18 @@ function createTransferFunctionWidget(
     }
   });
 
+  transferFunctionWidget.setColorTransferFunction(lookupTable);
+  if (use2D) {
+    // Necessary side effect: addGaussian calls invokeOpacityChange, which
+    // calls onOpacityChange, which updates the lut (does not have a low
+    // opacity in 2D)
+    transferFunctionWidget.addGaussian(0.5, 1.0, 0.5, 0.0, 3.0);
+  } else {
+    transferFunctionWidget.addGaussian(0.5, 1.0, 0.5, 0.5, 0.4);
+  }
+  transferFunctionWidget.applyOpacity(piecewiseFunction);
   transferFunctionWidget.render();
+
   const transferFunctionWidgetRow = document.createElement('div');
   transferFunctionWidgetRow.setAttribute('class', style.uiRow);
   transferFunctionWidgetRow.className += ' js-toggle';
@@ -337,7 +348,8 @@ function createImageUI(
     lookupTableProxy,
     piecewiseFunctionProxy,
     dataArray,
-    renderWindow
+    renderWindow,
+    use2D
   );
 
   if (!use2D) {

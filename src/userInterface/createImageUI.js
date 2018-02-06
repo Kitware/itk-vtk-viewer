@@ -50,6 +50,10 @@ function createTransferFunctionWidget(
     numberOfBins: 256,
     size: [400, 150],
   });
+  let iconSize = 20;
+  if (use2D) {
+    iconSize = 0;
+  }
   transferFunctionWidget.updateStyle({
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     histogramColor: 'rgba(30, 30, 30, 0.6)',
@@ -63,8 +67,8 @@ function createTransferFunctionWidget(
     strokeWidth: 2,
     activeStrokeWidth: 3,
     buttonStrokeWidth: 1.5,
-    handleWidth: 3,
-    iconSize: 20, // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
+    handleWidth: 4,
+    iconSize, // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
     padding: 10,
   });
   transferFunctionWidget.setDataArray(dataArray.getData());

@@ -176,7 +176,7 @@ function ItkVtkViewProxy(publicAPI, model) {
     }
   };
 
-  publicAPI.setOrientationAnnotationVisibilty = (visible) => {
+  publicAPI.setOrientationAnnotationVisibility = (visible) => {
     if (visible) {
       if (model.volumeRepresentation) {
         publicAPI.setAnnotationOpacity(1.0);

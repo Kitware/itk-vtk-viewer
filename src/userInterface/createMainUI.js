@@ -92,7 +92,7 @@ function createMainUI(
   let annotationEnabled = true;
   function toggleAnnotation() {
     annotationEnabled = !annotationEnabled;
-    view.setOrientationAnnotationVisibilty(annotationEnabled);
+    view.setOrientationAnnotationVisibility(annotationEnabled);
   }
   const annotationButton = document.createElement('div');
   annotationButton.innerHTML = `<input id="toggleAnnotation" type="checkbox" class="${

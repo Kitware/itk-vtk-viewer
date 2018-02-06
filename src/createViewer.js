@@ -81,6 +81,11 @@ const createViewer = (
     sliceActors.forEach((actor) => {
       actor.getProperty().setRGBTransferFunction(lut);
     });
+
+    if (use2D) {
+      view.setViewMode('ZPlane');
+      view.setOrientationAxes(false);
+    }
   }
 
   const uiContainer = userInterface.createMainUI(
@@ -104,10 +109,6 @@ const createViewer = (
     );
     const annotationContainer = container.querySelector('.js-se');
     annotationContainer.style.fontFamily = 'monospace';
-  }
-
-  if (use2D) {
-    view.setViewMode('ZPlane');
   }
 
   proxyManager.renderAllViews();

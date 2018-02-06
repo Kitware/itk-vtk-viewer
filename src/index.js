@@ -5,7 +5,7 @@ import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 import fetchBinaryContent from './fetchBinaryContent';
 import processFiles from './processFiles';
 import userInterface from './userInterface';
-import style from './ItkVtkImageViewer.mcss';
+import style from './userInterface/ItkVtkImageViewer.mcss';
 
 let doNotInitViewers = false;
 
@@ -16,17 +16,15 @@ export function createViewerFromLocalFiles(container) {
 
 export function createViewerFromUrl(el, url, use2D = false) {
   userInterface.emptyContainer(el);
-  userInterface.createLoadingProgress(el);
+  const progressCallback = userInterface.createLoadingProgress(el);
 
-  return fetchBinaryContent(url, userInterface.progressCallback).then(
-    (arrayBuffer) => {
-      const file = new File(
-        [new Blob([arrayBuffer])],
-        url.split('/').slice(-1)[0]
-      );
-      return processFiles(el, { files: [file], use2D });
-    }
-  );
+  return fetchBinaryContent(url, progressCallback).then((arrayBuffer) => {
+    const file = new File(
+      [new Blob([arrayBuffer])],
+      url.split('/').slice(-1)[0]
+    );
+    return processFiles(el, { files: [file], use2D });
+  });
 }
 
 export function initializeEmbeddedViewers() {

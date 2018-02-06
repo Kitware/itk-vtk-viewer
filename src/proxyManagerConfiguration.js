@@ -1,4 +1,3 @@
-import vtkView from 'vtk.js/Sources/Proxy/Core/ViewProxy';
 import vtkProxySource from 'vtk.js/Sources/Proxy/Core/SourceProxy';
 import vtkGeometryRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/GeometryRepresentationProxy';
 import vtkMoleculeRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/MoleculeRepresentationProxy';
@@ -6,6 +5,8 @@ import vtkVolumeRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/V
 import vtkSliceRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/SliceRepresentationProxy';
 import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy';
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy';
+
+import ItkVtkView from './ItkVtkViewProxy';
 
 const proxyManagerConfiguration = {
   definitions: {
@@ -43,7 +44,7 @@ const proxyManagerConfiguration = {
     },
     Views: {
       ItkVtkView: {
-        class: vtkView,
+        class: ItkVtkView,
         options: {
           axis: 1, // Y
           orientation: -1, // Y- (A)

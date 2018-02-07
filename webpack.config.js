@@ -20,7 +20,7 @@ module.exports = {
   module: {
     rules: [
       { test: entry, loader: 'expose-loader?itkVtkImageViewer' },
-      { test: /\.js$/, loader: 'babel-loader', options: { presets: ['es2015'] } },
+      { test: /\.js$/, loader: 'babel-loader' },
     ].concat(vtkRules, commonRules),
   },
   resolve: {

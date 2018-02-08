@@ -13,10 +13,12 @@
   "homepage": "https://github.com/kitware/itk-vtk-image-viewer#readme",
   "main": "./dist/itkVtkImageViewer.js",
   "dependencies": {
+    "blueimp-md5": "^2.10.0",
     "commander": "^2.14.1",
     "express": "4.16.2",
     "itk": "7.1.0",
     "open": "0.0.5",
+    "seedrandom": "^2.4.3",
     "vtk.js": "5.15.22"
   },
   "devDependencies": {

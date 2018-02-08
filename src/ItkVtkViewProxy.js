@@ -146,15 +146,15 @@ function ItkVtkViewProxy(publicAPI, model) {
       model.volumeRenderingCameraState = model.camera.getState();
     }
     switch (mode) {
-      case 'XPlane':
+      case 'IPlane':
         model.viewMode = mode;
         setVisualizationMode(0);
         break;
-      case 'YPlane':
+      case 'JPlane':
         model.viewMode = mode;
         setVisualizationMode(1);
         break;
-      case 'ZPlane':
+      case 'KPlane':
         model.viewMode = mode;
         setVisualizationMode(2);
         break;

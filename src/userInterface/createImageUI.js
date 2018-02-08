@@ -147,101 +147,101 @@ function createPlaneIndexSliders(
   const size = volumeRepresentation.getInputDataSet().getDimensions();
   let currentIndex = null;
 
-  const xPlaneRow = document.createElement('div');
-  xPlaneRow.setAttribute('class', style.uiRow);
-  xPlaneRow.className += ' js-toggle js-x-plane-row';
+  const iPlaneRow = document.createElement('div');
+  iPlaneRow.setAttribute('class', style.uiRow);
+  iPlaneRow.className += ' js-toggle js-i-plane-row';
 
-  const xSliderEntry = document.createElement('div');
-  xSliderEntry.setAttribute('class', style.sliderEntry);
+  const iSliderEntry = document.createElement('div');
+  iSliderEntry.setAttribute('class', style.sliderEntry);
   currentIndex = volumeRepresentation.getXSliceIndex();
-  xSliderEntry.innerHTML = `
+  iSliderEntry.innerHTML = `
     <label class="${
       contrastSensitiveStyle.sliderLabel
-    } js-x-index-label">X:</label><input type="range" min="0" max="${
+    } js-i-index-label">I:</label><input type="range" min="0" max="${
     size[0]
   }" value="${currentIndex}" step="1"
-      class="${style.slider} js-x-index" />`;
-  const xIndexElement = xSliderEntry.querySelector('.js-x-index');
-  const xPlaneLabel = xSliderEntry.querySelector('.js-x-index-label');
-  function updateXIndex() {
-    const value = Number(xIndexElement.value);
+      class="${style.slider} js-i-index" />`;
+  const iIndexElement = iSliderEntry.querySelector('.js-i-index');
+  const iPlaneLabel = iSliderEntry.querySelector('.js-i-index-label');
+  function updateIIndex() {
+    const value = Number(iIndexElement.value);
     volumeRepresentation.setXSliceIndex(value);
-    const valueString = String(xIndexElement.value);
+    const valueString = String(iIndexElement.value);
     const padLength = valueString.length < 4 ? 4 - valueString.length : 0;
     const pad = '&nbsp;'.repeat(padLength);
-    xPlaneLabel.innerHTML = `X: ${pad}${valueString}`;
+    iPlaneLabel.innerHTML = `I: ${pad}${valueString}`;
     renderWindow.render();
   }
-  xIndexElement.addEventListener('input', updateXIndex);
-  xPlaneRow.appendChild(xSliderEntry);
-  updateXIndex();
-  xPlaneRow.style.display = 'none';
+  iIndexElement.addEventListener('input', updateIIndex);
+  iPlaneRow.appendChild(iSliderEntry);
+  updateIIndex();
+  iPlaneRow.style.display = 'none';
 
-  uiContainer.appendChild(xPlaneRow);
+  uiContainer.appendChild(iPlaneRow);
 
-  const yPlaneRow = document.createElement('div');
-  yPlaneRow.setAttribute('class', style.uiRow);
-  yPlaneRow.className += ' js-toggle js-y-plane-row';
+  const jPlaneRow = document.createElement('div');
+  jPlaneRow.setAttribute('class', style.uiRow);
+  jPlaneRow.className += ' js-toggle js-j-plane-row';
 
-  const ySliderEntry = document.createElement('div');
-  ySliderEntry.setAttribute('class', style.sliderEntry);
+  const jSliderEntry = document.createElement('div');
+  jSliderEntry.setAttribute('class', style.sliderEntry);
   currentIndex = volumeRepresentation.getYSliceIndex();
-  ySliderEntry.innerHTML = `
+  jSliderEntry.innerHTML = `
     <label class="${
       contrastSensitiveStyle.sliderLabel
-    } js-y-index-label">Y:</label><input type="range" min="0" max="${
+    } js-j-index-label">J:</label><input type="range" min="0" max="${
     size[1]
   }" value="${currentIndex}" step="1"
-      class="${style.slider} js-y-index" />`;
-  const yIndexElement = ySliderEntry.querySelector('.js-y-index');
-  const yPlaneLabel = ySliderEntry.querySelector('.js-y-index-label');
-  function updateYIndex() {
-    const value = Number(yIndexElement.value);
+      class="${style.slider} js-j-index" />`;
+  const jIndexElement = jSliderEntry.querySelector('.js-j-index');
+  const jPlaneLabel = jSliderEntry.querySelector('.js-j-index-label');
+  function updateJIndex() {
+    const value = Number(jIndexElement.value);
     volumeRepresentation.setYSliceIndex(value);
-    const valueString = String(yIndexElement.value);
+    const valueString = String(jIndexElement.value);
     const padLength = valueString.length < 4 ? 4 - valueString.length : 0;
     const pad = '&nbsp;'.repeat(padLength);
-    yPlaneLabel.innerHTML = `Y: ${pad}${valueString}`;
+    jPlaneLabel.innerHTML = `J: ${pad}${valueString}`;
     renderWindow.render();
   }
-  yIndexElement.addEventListener('input', updateYIndex);
-  yPlaneRow.appendChild(ySliderEntry);
-  updateYIndex();
-  yPlaneRow.style.display = 'none';
+  jIndexElement.addEventListener('input', updateJIndex);
+  jPlaneRow.appendChild(jSliderEntry);
+  updateJIndex();
+  jPlaneRow.style.display = 'none';
 
-  uiContainer.appendChild(yPlaneRow);
+  uiContainer.appendChild(jPlaneRow);
 
-  const zPlaneRow = document.createElement('div');
-  zPlaneRow.setAttribute('class', style.uiRow);
-  zPlaneRow.className += ' js-toggle js-z-plane-row';
+  const kPlaneRow = document.createElement('div');
+  kPlaneRow.setAttribute('class', style.uiRow);
+  kPlaneRow.className += ' js-toggle js-k-plane-row';
 
-  const zSliderEntry = document.createElement('div');
-  zSliderEntry.setAttribute('class', style.sliderEntry);
+  const kSliderEntry = document.createElement('div');
+  kSliderEntry.setAttribute('class', style.sliderEntry);
   currentIndex = volumeRepresentation.getZSliceIndex();
-  zSliderEntry.innerHTML = `
+  kSliderEntry.innerHTML = `
     <label class="${
       contrastSensitiveStyle.sliderLabel
-    } js-z-index-label">Z:</label><input type="range" min="0" max="${
+    } js-k-index-label">K:</label><input type="range" min="0" max="${
     size[2]
   }" value="${currentIndex}" step="1"
-      class="${style.slider} js-z-index" />`;
-  const zIndexElement = zSliderEntry.querySelector('.js-z-index');
-  const zPlaneLabel = zSliderEntry.querySelector('.js-z-index-label');
-  function updateZIndex() {
-    const value = Number(zIndexElement.value);
+      class="${style.slider} js-k-index" />`;
+  const kIndexElement = kSliderEntry.querySelector('.js-k-index');
+  const kPlaneLabel = kSliderEntry.querySelector('.js-k-index-label');
+  function updateKIndex() {
+    const value = Number(kIndexElement.value);
     volumeRepresentation.setZSliceIndex(value);
-    const valueString = String(zIndexElement.value);
+    const valueString = String(kIndexElement.value);
     const padLength = valueString.length < 4 ? 4 - valueString.length : 0;
     const pad = '&nbsp;'.repeat(padLength);
-    zPlaneLabel.innerHTML = `Z: ${pad}${valueString}`;
+    kPlaneLabel.innerHTML = `K: ${pad}${valueString}`;
     renderWindow.render();
   }
-  zIndexElement.addEventListener('input', updateZIndex);
-  zPlaneRow.appendChild(zSliderEntry);
-  updateZIndex();
-  zPlaneRow.style.display = 'none';
+  kIndexElement.addEventListener('input', updateKIndex);
+  kPlaneRow.appendChild(kSliderEntry);
+  updateKIndex();
+  kPlaneRow.style.display = 'none';
 
-  uiContainer.appendChild(zPlaneRow);
+  uiContainer.appendChild(kPlaneRow);
 }
 
 function createColorPresetSelector(

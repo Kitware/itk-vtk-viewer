@@ -8,9 +8,9 @@ import toggleIcon from './icons/toggle.svg';
 import uploadIcon from './icons/upload.svg';
 import screenshotIcon from './icons/screenshot.svg';
 import volumeRenderingIcon from './icons/volume-rendering.svg';
-import xPlaneIcon from './icons/x-plane.svg';
-import yPlaneIcon from './icons/y-plane.svg';
-import zPlaneIcon from './icons/z-plane.svg';
+import iPlaneIcon from './icons/x-plane.svg';
+import jPlaneIcon from './icons/y-plane.svg';
+import kPlaneIcon from './icons/z-plane.svg';
 import viewPlansIcon from './icons/view-planes.svg';
 import annotationIcon from './icons/annotations.svg';
 
@@ -105,119 +105,119 @@ function createMainUI(
   });
   mainUIRow.appendChild(annotationButton);
 
-  function setViewModeXPlane() {
-    view.setViewMode('XPlane');
-    document.getElementById('xPlaneButton').checked = true;
-    document.getElementById('yPlaneButton').checked = false;
-    document.getElementById('zPlaneButton').checked = false;
+  function setViewModeIPlane() {
+    view.setViewMode('IPlane');
+    document.getElementById('iPlaneButton').checked = true;
+    document.getElementById('jPlaneButton').checked = false;
+    document.getElementById('kPlaneButton').checked = false;
     document.getElementById('volumeRenderingButton').checked = false;
     const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
     volumeRenderingRow.style.display = 'none';
-    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
-    xPlaneRow.style.display = 'flex';
-    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
-    yPlaneRow.style.display = 'none';
-    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
-    zPlaneRow.style.display = 'none';
+    const iPlaneRow = uiContainer.querySelector('.js-i-plane-row');
+    iPlaneRow.style.display = 'flex';
+    const jPlaneRow = uiContainer.querySelector('.js-j-plane-row');
+    jPlaneRow.style.display = 'none';
+    const kPlaneRow = uiContainer.querySelector('.js-k-plane-row');
+    kPlaneRow.style.display = 'none';
   }
-  function setViewModeYPlane() {
-    view.setViewMode('YPlane');
-    document.getElementById('xPlaneButton').checked = false;
-    document.getElementById('yPlaneButton').checked = true;
-    document.getElementById('zPlaneButton').checked = false;
+  function setViewModeJPlane() {
+    view.setViewMode('JPlane');
+    document.getElementById('iPlaneButton').checked = false;
+    document.getElementById('jPlaneButton').checked = true;
+    document.getElementById('kPlaneButton').checked = false;
     document.getElementById('volumeRenderingButton').checked = false;
     const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
     volumeRenderingRow.style.display = 'none';
-    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
-    xPlaneRow.style.display = 'none';
-    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
-    yPlaneRow.style.display = 'flex';
-    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
-    zPlaneRow.style.display = 'none';
+    const iPlaneRow = uiContainer.querySelector('.js-i-plane-row');
+    iPlaneRow.style.display = 'none';
+    const jPlaneRow = uiContainer.querySelector('.js-j-plane-row');
+    jPlaneRow.style.display = 'flex';
+    const kPlaneRow = uiContainer.querySelector('.js-k-plane-row');
+    kPlaneRow.style.display = 'none';
   }
-  function setViewModeZPlane() {
-    view.setViewMode('ZPlane');
-    document.getElementById('xPlaneButton').checked = false;
-    document.getElementById('yPlaneButton').checked = false;
-    document.getElementById('zPlaneButton').checked = true;
+  function setViewModeKPlane() {
+    view.setViewMode('KPlane');
+    document.getElementById('iPlaneButton').checked = false;
+    document.getElementById('jPlaneButton').checked = false;
+    document.getElementById('kPlaneButton').checked = true;
     document.getElementById('volumeRenderingButton').checked = false;
     const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
     volumeRenderingRow.style.display = 'none';
-    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
-    xPlaneRow.style.display = 'none';
-    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
-    yPlaneRow.style.display = 'none';
-    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
-    zPlaneRow.style.display = 'flex';
+    const iPlaneRow = uiContainer.querySelector('.js-i-plane-row');
+    iPlaneRow.style.display = 'none';
+    const jPlaneRow = uiContainer.querySelector('.js-j-plane-row');
+    jPlaneRow.style.display = 'none';
+    const kPlaneRow = uiContainer.querySelector('.js-k-plane-row');
+    kPlaneRow.style.display = 'flex';
   }
   function setViewModeVolumeRendering() {
     view.setViewMode('VolumeRendering');
-    document.getElementById('xPlaneButton').checked = false;
-    document.getElementById('yPlaneButton').checked = false;
-    document.getElementById('zPlaneButton').checked = false;
+    document.getElementById('iPlaneButton').checked = false;
+    document.getElementById('jPlaneButton').checked = false;
+    document.getElementById('kPlaneButton').checked = false;
     document.getElementById('volumeRenderingButton').checked = true;
     const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
     volumeRenderingRow.style.display = 'flex';
     const viewPlanes = document.getElementById('viewPlanes').checked;
-    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
-    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
-    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
+    const iPlaneRow = uiContainer.querySelector('.js-i-plane-row');
+    const jPlaneRow = uiContainer.querySelector('.js-j-plane-row');
+    const kPlaneRow = uiContainer.querySelector('.js-k-plane-row');
     if (viewPlanes) {
-      xPlaneRow.style.display = 'flex';
-      yPlaneRow.style.display = 'flex';
-      zPlaneRow.style.display = 'flex';
+      iPlaneRow.style.display = 'flex';
+      jPlaneRow.style.display = 'flex';
+      kPlaneRow.style.display = 'flex';
     } else {
-      xPlaneRow.style.display = 'none';
-      yPlaneRow.style.display = 'none';
-      zPlaneRow.style.display = 'none';
+      iPlaneRow.style.display = 'none';
+      jPlaneRow.style.display = 'none';
+      kPlaneRow.style.display = 'none';
     }
   }
   let viewPlanes = false;
   function setViewPlanes() {
     viewPlanes = !viewPlanes;
     view.setViewPlanes(viewPlanes);
-    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
-    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
-    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
+    const iPlaneRow = uiContainer.querySelector('.js-i-plane-row');
+    const jPlaneRow = uiContainer.querySelector('.js-j-plane-row');
+    const kPlaneRow = uiContainer.querySelector('.js-k-plane-row');
     if (view.getViewMode() === 'VolumeRendering') {
       if (viewPlanes) {
-        xPlaneRow.style.display = 'flex';
-        yPlaneRow.style.display = 'flex';
-        zPlaneRow.style.display = 'flex';
+        iPlaneRow.style.display = 'flex';
+        jPlaneRow.style.display = 'flex';
+        kPlaneRow.style.display = 'flex';
       } else {
-        xPlaneRow.style.display = 'none';
-        yPlaneRow.style.display = 'none';
-        zPlaneRow.style.display = 'none';
+        iPlaneRow.style.display = 'none';
+        jPlaneRow.style.display = 'none';
+        kPlaneRow.style.display = 'none';
       }
     }
   }
   if (!use2D) {
-    const xPlaneButton = document.createElement('div');
-    xPlaneButton.innerHTML = `<input id="xPlaneButton" type="checkbox" class="${
+    const iPlaneButton = document.createElement('div');
+    iPlaneButton.innerHTML = `<input id="iPlaneButton" type="checkbox" class="${
       style.toggleInput
     }"><label class="${style.viewModeButton} ${
       style.toggleButton
-    }" for="xPlaneButton">${xPlaneIcon}</label>`;
-    xPlaneButton.addEventListener('click', setViewModeXPlane);
-    mainUIRow.appendChild(xPlaneButton);
+    }" for="iPlaneButton">${iPlaneIcon}</label>`;
+    iPlaneButton.addEventListener('click', setViewModeIPlane);
+    mainUIRow.appendChild(iPlaneButton);
 
-    const yPlaneButton = document.createElement('div');
-    yPlaneButton.innerHTML = `<input id="yPlaneButton" type="checkbox" class="${
+    const jPlaneButton = document.createElement('div');
+    jPlaneButton.innerHTML = `<input id="jPlaneButton" type="checkbox" class="${
       style.toggleInput
     }"><label class="${style.viewModeButton} ${
       style.toggleButton
-    }" for="yPlaneButton">${yPlaneIcon}</label>`;
-    yPlaneButton.addEventListener('click', setViewModeYPlane);
-    mainUIRow.appendChild(yPlaneButton);
+    }" for="jPlaneButton">${jPlaneIcon}</label>`;
+    jPlaneButton.addEventListener('click', setViewModeJPlane);
+    mainUIRow.appendChild(jPlaneButton);
 
-    const zPlaneButton = document.createElement('div');
-    zPlaneButton.innerHTML = `<input id="zPlaneButton" type="checkbox" class="${
+    const kPlaneButton = document.createElement('div');
+    kPlaneButton.innerHTML = `<input id="kPlaneButton" type="checkbox" class="${
       style.toggleInput
     }"><label class="${style.viewModeButton} ${
       style.toggleButton
-    }" for="zPlaneButton">${zPlaneIcon}</label>`;
-    zPlaneButton.addEventListener('click', setViewModeZPlane);
-    mainUIRow.appendChild(zPlaneButton);
+    }" for="kPlaneButton">${kPlaneIcon}</label>`;
+    kPlaneButton.addEventListener('click', setViewModeKPlane);
+    mainUIRow.appendChild(kPlaneButton);
 
     const volumeRenderingButton = document.createElement('div');
     volumeRenderingButton.innerHTML = `<input id="volumeRenderingButton" type="checkbox" class="${

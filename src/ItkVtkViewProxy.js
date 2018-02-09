@@ -2,7 +2,6 @@ import macro from 'vtk.js/Sources/macro';
 
 import vtkViewProxy from 'vtk.js/Sources/Proxy/Core/ViewProxy';
 import vtkCellPicker from 'vtk.js/Sources/Rendering/Core/CellPicker';
-// import vtkManipulators from 'vtk.js/Sources/Interaction/Manipulators';
 
 const { vtkErrorMacro } = macro;
 

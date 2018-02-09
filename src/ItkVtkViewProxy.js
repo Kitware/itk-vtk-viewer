@@ -69,23 +69,23 @@ function ItkVtkViewProxy(publicAPI, model) {
 
   function leftPad(value) {
     const valueString = String(value);
-    const padLength = valueString.length < 3 ? 3 - valueString.length : 0;
+    const padLength = valueString.length < 4 ? 4 - valueString.length : 0;
     const pad = '&nbsp;'.repeat(padLength);
     return `${pad}${valueString}`;
   }
 
   function rightPad(value) {
     const valueString = String(value);
-    const padLength = valueString.length < 12 ? 12 - valueString.length : 0;
+    const padLength = valueString.length < 15 ? 15 - valueString.length : 0;
     const pad = '&nbsp;'.repeat(padLength);
     return `${valueString}${pad}`;
   }
 
-  function updateAnnotations(event) {
-    const renderPosition = model.interactor.getEventPosition(0);
+  function updateAnnotations(callData) {
+    const renderPosition = callData.position;
     model.annotationPicker.pick(
       [renderPosition.x, renderPosition.y, 0.0],
-      model.renderer
+      callData.pokedRenderer
     );
     const ijk = model.annotationPicker.getCellIJK();
     if (model.volumeRepresentation) {
@@ -95,13 +95,15 @@ function ItkVtkViewProxy(publicAPI, model) {
       const value = scalarData.getTuple(
         size[0] * size[1] * ijk[2] + size[0] * ijk[1] + ijk[0]
       );
-      // currently broken
-      // const worldPosition = model.annotationPicker.getPickPosition();
+      const worldPosition = model.annotationPicker.getPCoords();
       if (ijk.length > 0) {
         publicAPI.updateCornerAnnotation({
           iIndex: leftPad(ijk[0]),
           jIndex: leftPad(ijk[1]),
           kIndex: leftPad(ijk[2]),
+          xPosition: leftPad(String(worldPosition[0]).substring(0, 4)),
+          yPosition: leftPad(String(worldPosition[1]).substring(0, 4)),
+          zPosition: leftPad(String(worldPosition[2]).substring(0, 4)),
           value: rightPad(value),
         });
       }
@@ -113,12 +115,15 @@ function ItkVtkViewProxy(publicAPI, model) {
   // todo: set up corner annotation
   publicAPI.setCornerAnnotation(
     'se',
-    'Index: ${iIndex}, ${jIndex}, ${kIndex}<br>Value:&nbsp;&nbsp;${value}'
+    'Index: ${iIndex}, ${jIndex}, ${kIndex}<br>Position: ${xPosition}, ${yPosition}, ${zPosition}<br>Value:&nbsp;&nbsp;${value}'
   );
   publicAPI.updateCornerAnnotation({
     iIndex: '&nbsp;N/A',
     jIndex: '&nbsp;N/A',
     kIndex: '&nbsp;N/A',
+    xPosition: '&nbsp;N/A',
+    yPosition: '&nbsp;N/A',
+    zPosition: '&nbsp;N/A',
     value:
       'N/A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
   });
@@ -129,7 +134,7 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.interactor.onMouseMove((event) => {
     updateAnnotations(event);
   });
-  model.interactor.onPinch((event) => {
+  model.interactor.onMouseWheel((event) => {
     updateAnnotations(event);
   });
 

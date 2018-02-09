@@ -11,7 +11,6 @@ import volumeRenderingIcon from './icons/volume-rendering.svg';
 import xPlaneIcon from './icons/x-plane.svg';
 import yPlaneIcon from './icons/y-plane.svg';
 import zPlaneIcon from './icons/z-plane.svg';
-import viewPlansIcon from './icons/view-planes.svg';
 import annotationIcon from './icons/annotations.svg';
 
 function createMainUI(
@@ -172,25 +171,6 @@ function createMainUI(
       zPlaneRow.style.display = 'none';
     }
   }
-  let viewPlanes = false;
-  function setViewPlanes() {
-    viewPlanes = !viewPlanes;
-    view.setViewPlanes(viewPlanes);
-    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
-    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
-    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
-    if (view.getViewMode() === 'VolumeRendering') {
-      if (viewPlanes) {
-        xPlaneRow.style.display = 'flex';
-        yPlaneRow.style.display = 'flex';
-        zPlaneRow.style.display = 'flex';
-      } else {
-        xPlaneRow.style.display = 'none';
-        yPlaneRow.style.display = 'none';
-        zPlaneRow.style.display = 'none';
-      }
-    }
-  }
   if (!use2D) {
     const xPlaneButton = document.createElement('div');
     xPlaneButton.innerHTML = `<input id="xPlaneButton" type="checkbox" class="${
@@ -227,17 +207,6 @@ function createMainUI(
     }" for="volumeRenderingButton">${volumeRenderingIcon}</label>`;
     volumeRenderingButton.addEventListener('click', setViewModeVolumeRendering);
     mainUIRow.appendChild(volumeRenderingButton);
-
-    const viewPlanesButton = document.createElement('div');
-    viewPlanesButton.innerHTML = `<input id="viewPlanes" type="checkbox" class="${
-      style.toggleInput
-    }"><label class="${style.viewPlanesButton} ${
-      style.toggleButton
-    }" for="viewPlanes">${viewPlansIcon}</label>`;
-    viewPlanesButton.addEventListener('change', (event) => {
-      setViewPlanes();
-    });
-    mainUIRow.appendChild(viewPlanesButton);
   }
 
   uiContainer.appendChild(mainUIGroup);

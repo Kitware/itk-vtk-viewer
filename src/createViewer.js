@@ -103,7 +103,7 @@ const createViewer = (
       piecewiseFunction,
       representation,
       dataArray,
-      view.getRenderWindow(),
+      view,
       isBackgroundDark,
       use2D
     );

@@ -9,6 +9,44 @@ import style from './ItkVtkImageViewer.mcss';
 
 import shadowIcon from './icons/shadow.svg';
 import gradientOpacityIcon from './icons/gradient.svg';
+import viewPlansIcon from './icons/view-planes.svg';
+
+function createViewPlanesToggle(
+  imageUIGroup,
+  volumeRenderingRow,
+  view,
+) {
+  let viewPlanes = false;
+  function setViewPlanes() {
+    viewPlanes = !viewPlanes;
+    view.setViewPlanes(viewPlanes);
+    const xPlaneRow = imageUIGroup.querySelector('.js-x-plane-row');
+    const yPlaneRow = imageUIGroup.querySelector('.js-y-plane-row');
+    const zPlaneRow = imageUIGroup.querySelector('.js-z-plane-row');
+    if (view.getViewMode() === 'VolumeRendering') {
+      if (viewPlanes) {
+        xPlaneRow.style.display = 'flex';
+        yPlaneRow.style.display = 'flex';
+        zPlaneRow.style.display = 'flex';
+      } else {
+        xPlaneRow.style.display = 'none';
+        yPlaneRow.style.display = 'none';
+        zPlaneRow.style.display = 'none';
+      }
+    }
+  }
+
+  const viewPlanesButton = document.createElement('div');
+  viewPlanesButton.innerHTML = `<input id="viewPlanes" type="checkbox" class="${
+    style.toggleInput
+  }"><label class="${style.viewPlanesButton} ${
+    style.toggleButton
+  }" for="viewPlanes">${viewPlansIcon}</label>`;
+  viewPlanesButton.addEventListener('change', (event) => {
+    setViewPlanes();
+  });
+  volumeRenderingRow.appendChild(viewPlanesButton);
+}
 
 function createUseShadowToggle(
   uiContainer,
@@ -334,10 +372,12 @@ function createImageUI(
   piecewiseFunctionProxy,
   volumeRepresentation,
   dataArray,
-  renderWindow,
+  view,
   isBackgroundDark,
   use2D
 ) {
+  const renderWindow = view.getRenderWindow();
+
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
@@ -360,6 +400,11 @@ function createImageUI(
     const volumeRenderingRow = document.createElement('div');
     volumeRenderingRow.setAttribute('class', style.uiRow);
     volumeRenderingRow.className += ' js-volumeRendering js-toggle';
+    createViewPlanesToggle(
+      imageUIGroup,
+      volumeRenderingRow,
+      view,
+    );
     createUseShadowToggle(
       volumeRenderingRow,
       volumeRepresentation,

@@ -59,7 +59,7 @@ function ItkVtkViewProxy(publicAPI, model) {
           publicAPI.updateOrientation(1, -1, [0, 0, 1]);
           break;
         case 2:
-          publicAPI.updateOrientation(2, 1, [0, 1, 0]);
+          publicAPI.updateOrientation(2, -1, [0, -1, 0]);
           break;
         default:
           vtkErrorMacro('Unexpected view mode');

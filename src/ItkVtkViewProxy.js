@@ -100,11 +100,8 @@ function ItkVtkViewProxy(publicAPI, model) {
       );
       const worldPosition = model.annotationPicker.getPCoords();
       if (ijk.length > 0) {
-        model.dataProbeSphereSource.modified();
         model.dataProbeSphereSource.setCenter(worldPosition);
-        model.dataProbeMapper.modified();
         model.dataProbeActor.setVisibility(true);
-        model.dataProbeActor.modified();
         publicAPI.updateCornerAnnotation({
           iIndex: leftPad(ijk[0]),
           jIndex: leftPad(ijk[1]),
@@ -122,7 +119,6 @@ function ItkVtkViewProxy(publicAPI, model) {
 
   // Setup --------------------------------------------------------------------
 
-  // todo: set up corner annotation
   publicAPI.setCornerAnnotation(
     'se',
     'Index: ${iIndex}, ${jIndex}, ${kIndex}<br>Position: ${xPosition}, ${yPosition}, ${zPosition}<br>Value:&nbsp;&nbsp;${value}'
@@ -144,8 +140,11 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.interactor.onMouseMove((event) => {
     updateAnnotations(event);
   });
-  model.interactor.onMouseWheel((event) => {
-    updateAnnotations(event);
+  model.interactor.onStartMouseMove((event) => {
+    publicAPI.getInteractor().requestAnimation('annotationMouseMove');
+  });
+  model.interactor.onEndMouseMove((event) => {
+    publicAPI.getInteractor().cancelAnimation('annotationMouseMove');
   });
 
   // use the same color map in the planes

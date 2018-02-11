@@ -3,7 +3,7 @@ import macro from 'vtk.js/Sources/macro';
 import vtkViewProxy from 'vtk.js/Sources/Proxy/Core/ViewProxy';
 import vtkCellPicker from 'vtk.js/Sources/Rendering/Core/CellPicker';
 import vtkActor from 'vtk.js/Sources/Rendering/Core/Actor';
-import vtkSphereSource from 'vtk.js/Sources/Filters/Sources/SphereSource';
+import vtkCubeSource from 'vtk.js/Sources/Filters/Sources/CubeSource';
 import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper';
 
 const { vtkErrorMacro } = macro;
@@ -100,7 +100,7 @@ function ItkVtkViewProxy(publicAPI, model) {
       );
       const worldPosition = model.annotationPicker.getPCoords();
       if (ijk.length > 0) {
-        model.dataProbeSphereSource.setCenter(worldPosition);
+        model.dataProbeCubeSource.setCenter(worldPosition);
         model.dataProbeActor.setVisibility(true);
         publicAPI.updateCornerAnnotation({
           iIndex: leftPad(ijk[0]),
@@ -152,9 +152,9 @@ function ItkVtkViewProxy(publicAPI, model) {
   // window / level changes piecewise =jk
   publicAPI.resetOrientation();
 
-  model.dataProbeSphereSource = vtkSphereSource.newInstance();
+  model.dataProbeCubeSource = vtkCubeSource.newInstance();
   model.dataProbeMapper = vtkMapper.newInstance();
-  model.dataProbeMapper.setInputConnection(model.dataProbeSphereSource.getOutputPort());
+  model.dataProbeMapper.setInputConnection(model.dataProbeCubeSource.getOutputPort());
   model.dataProbeActor = vtkActor.newInstance();
   model.dataProbeActor.setMapper(model.dataProbeMapper);
   model.renderer.addActor(model.dataProbeActor);
@@ -233,7 +233,9 @@ function ItkVtkViewProxy(publicAPI, model) {
         .forEach(model.annotationPicker.addPickList);
       const spacing = model.volumeRepresentation.getInputDataSet().getSpacing();
       const minSpacing = Array.from(spacing).reduce((a, b) => { return Math.min(a, b); });
-      model.dataProbeSphereSource.setRadius(minSpacing / 2.0);
+      model.dataProbeCubeSource.setXLength(spacing[0]);
+      model.dataProbeCubeSource.setYLength(spacing[1]);
+      model.dataProbeCubeSource.setZLength(spacing[2]);
       publicAPI.setAnnotationOpacity(1.0);
     }
   };

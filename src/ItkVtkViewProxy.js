@@ -102,6 +102,7 @@ function ItkVtkViewProxy(publicAPI, model) {
       if (ijk.length > 0) {
         model.dataProbeCubeSource.setCenter(worldPosition);
         model.dataProbeActor.setVisibility(true);
+        model.dataProbeFrameActor.setVisibility(true);
         publicAPI.updateCornerAnnotation({
           iIndex: leftPad(ijk[0]),
           jIndex: leftPad(ijk[1]),
@@ -113,6 +114,7 @@ function ItkVtkViewProxy(publicAPI, model) {
         });
       } else {
         model.dataProbeActor.setVisibility(false);
+        model.dataProbeFrameActor.setVisibility(false);
       }
     }
   }
@@ -157,11 +159,18 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.dataProbeMapper.setInputConnection(model.dataProbeCubeSource.getOutputPort());
   model.dataProbeActor = vtkActor.newInstance();
   model.dataProbeActor.setMapper(model.dataProbeMapper);
+  model.dataProbeFrameActor = vtkActor.newInstance();
+  model.dataProbeFrameActor.setMapper(model.dataProbeMapper);
   model.renderer.addActor(model.dataProbeActor);
   const dataProbeProperty = model.dataProbeActor.getProperty();
   dataProbeProperty.setLighting(false);
-  dataProbeProperty.setColor(0.8, 0.2, 0.2);
+  dataProbeProperty.setColor(1.0, 1.0, 1.0);
+  const dataProbeFrameProperty = model.dataProbeFrameActor.getProperty();
+  dataProbeFrameProperty.setRepresentation(1);
+  dataProbeFrameProperty.setColor(0.0, 0.0, 0.0);
+  model.renderer.addActor(model.dataProbeFrameActor);
   model.dataProbeActor.setVisibility(false);
+  model.dataProbeFrameActor.setVisibility(false);
 
   // API ----------------------------------------------------------------------
 

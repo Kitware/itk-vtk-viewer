@@ -148,6 +148,9 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.interactor.onEndMouseMove((event) => {
     publicAPI.getInteractor().cancelAnimation('annotationMouseMove');
   });
+  model.interactor.onEndMouseWheel((event) => {
+    updateDataProbeSize();
+  });
 
   // use the same color map in the planes
   // colormap changes with window / level
@@ -171,6 +174,22 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.renderer.addActor(model.dataProbeFrameActor);
   model.dataProbeActor.setVisibility(false);
   model.dataProbeFrameActor.setVisibility(false);
+
+  function updateDataProbeSize() {
+    const image = model.volumeRepresentation.getInputDataSet();
+    const spacing = image.getSpacing();
+    let viewableScale = null;
+    if (model.camera.getParallelProjection()) {
+      viewableScale = model.camera.getParallelScale() / 40.;
+    } else {
+      const distance = model.camera.getDistance();
+      // Heuristic assuming a constant view angle
+      viewableScale = distance / 150.;
+    }
+    model.dataProbeCubeSource.setXLength(Math.max(spacing[0], viewableScale));
+    model.dataProbeCubeSource.setYLength(Math.max(spacing[1], viewableScale));
+    model.dataProbeCubeSource.setZLength(Math.max(spacing[2], viewableScale));
+  }
 
   // API ----------------------------------------------------------------------
 
@@ -199,6 +218,7 @@ function ItkVtkViewProxy(publicAPI, model) {
         vtkErrorMacro('Unexpected view mode');
     }
     publicAPI.resetCamera();
+    updateDataProbeSize();
   };
 
   publicAPI.setViewPlanes = (viewPlanes) => {
@@ -240,11 +260,7 @@ function ItkVtkViewProxy(publicAPI, model) {
       model.volumeRepresentation
         .getActors()
         .forEach(model.annotationPicker.addPickList);
-      const spacing = model.volumeRepresentation.getInputDataSet().getSpacing();
-      const minSpacing = Array.from(spacing).reduce((a, b) => { return Math.min(a, b); });
-      model.dataProbeCubeSource.setXLength(spacing[0]);
-      model.dataProbeCubeSource.setYLength(spacing[1]);
-      model.dataProbeCubeSource.setZLength(spacing[2]);
+      updateDataProbeSize();
       publicAPI.setAnnotationOpacity(1.0);
     }
   };

@@ -85,6 +85,8 @@ const createViewer = (
     if (use2D) {
       view.setViewMode('ZPlane');
       view.setOrientationAxes(false);
+    } else {
+      view.setViewMode('VolumeRendering');
     }
   }
 
@@ -103,7 +105,7 @@ const createViewer = (
       piecewiseFunction,
       representation,
       dataArray,
-      view.getRenderWindow(),
+      view,
       isBackgroundDark,
       use2D
     );

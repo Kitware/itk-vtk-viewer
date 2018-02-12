@@ -17,7 +17,7 @@
     "express": "4.16.2",
     "itk": "7.1.0",
     "open": "0.0.5",
-    "vtk.js": "5.15.22"
+    "vtk.js": "6.2.0"
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",

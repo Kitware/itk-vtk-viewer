@@ -1,8 +1,9 @@
 import itkreadImageFile from 'itk/readImageFile';
 import itkreadImageDICOMFileSeries from 'itk/readImageDICOMFileSeries';
 
+import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper';
+
 import userInterface from './userInterface';
-import convertItkImageToVtkImage from './convertItkImageToVtkImage';
 import createViewer from './createViewer';
 
 const processFiles = (container, { files, use2D }) => {
@@ -18,7 +19,7 @@ const processFiles = (container, { files, use2D }) => {
       arg = files[0];
     }
     reader(arg).then((itkImage) => {
-      const imageData = convertItkImageToVtkImage(itkImage);
+      const imageData = vtkITKHelper.convertItkToVtkImage(itkImage);
       const is3D = itkImage.imageType.dimension === 3 && !use2D;
 
       resolve(

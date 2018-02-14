@@ -1,5 +1,7 @@
 import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager';
 
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
+
 import proxyConfiguration from './proxyManagerConfiguration';
 import userInterface from './userInterface';
 
@@ -49,7 +51,6 @@ const createViewer = (
   const view = proxyManager.createProxy('Views', 'ItkVtkView');
   view.setContainer(container);
   view.setBackground(config.backgroundColor);
-  view.resize();
 
   userInterface.addLogo(container);
 
@@ -113,9 +114,13 @@ const createViewer = (
     annotationContainer.style.fontFamily = 'monospace';
   }
 
+  view.resize();
+  const resizeSensor = new ResizeSensor(container, function() {
+    view.resize();
+  });
   proxyManager.renderAllViews();
 
-  return { view, imageSource, lookupTable, piecewiseFunction };
+  return { view, imageSource, lookupTable, piecewiseFunction, resizeSensor };
 };
 
 export default createViewer;

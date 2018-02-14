@@ -25,7 +25,7 @@
   top: 5px;
   left: 5px;
   padding: 2px;
-  border: 0.5px solid black;
+  border: 0px;
   box-sizing: border-box;
   z-index: 1000;
 }
@@ -148,7 +148,7 @@
   flex: 1;
   height: 1.5em;
   width: 1.5em;
-  padding-top: 6px;
+  padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 6px;
   padding-right: 6px;
@@ -175,7 +175,7 @@
   flex: 1;
   height: 1.5em;
   width: 1.5em;
-  padding-top: 6px;
+  padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 6px;
   padding-right: 6px;
@@ -216,7 +216,7 @@
   flex: 1;
   height: 1.3em;
   width: 1.3em;
-  padding-top: 8px;
+  padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 6px;
   padding-right: 6px;
@@ -239,7 +239,7 @@
 .toggleButton {
   cursor: pointer;
   border-radius: 0.2em;
-  opacity: 0.35;
+  opacity: 0.65;
 }
 
 input:checked.toggleInput + label {

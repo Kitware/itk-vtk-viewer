@@ -2,6 +2,7 @@ import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 
 import getRootContainer from './getRootContainer';
 import preventDefaults from './preventDefaults';
+import uploadFileHandler from '../uploadFileHandler';
 
 import style from './ItkVtkImageViewer.mcss';
 
@@ -13,6 +14,7 @@ function createFileDragAndDrop(container, onDataChange) {
     style.bigFileDrop
   }"/><input type="file" class="file" style="display: none;" multiple/>`;
   myContainer.appendChild(fileContainer);
+  const handler = uploadFileHandler(myContainer);
 
   const fileInput = fileContainer.querySelector('input');
 
@@ -22,7 +24,7 @@ function createFileDragAndDrop(container, onDataChange) {
     const files = e.target.files || dataTransfer.files;
     myContainer.removeChild(fileContainer);
     const use2D = !!vtkURLExtract.extractURLParameters().use2D;
-    onDataChange(myContainer, { files, use2D });
+    onDataChange(myContainer, { files, use2D, uploadFileHandler: handler });
   }
 
   fileInput.addEventListener('change', handleFile);

@@ -1,9 +1,8 @@
-import processFiles from '../processFiles';
 import getContrastSensitiveStyle from './getContrastSensitiveStyle';
-import preventDefaults from './preventDefaults';
 
 import style from './ItkVtkImageViewer.mcss';
 
+import preventDefaults from './preventDefaults';
 import toggleIcon from './icons/toggle.svg';
 import uploadIcon from './icons/upload.svg';
 import screenshotIcon from './icons/screenshot.svg';
@@ -18,7 +17,8 @@ function createMainUI(
   isBackgroundDark,
   use2D,
   imageSource,
-  view
+  view,
+  uploadFileHandler
 ) {
   const uiContainer = document.createElement('div');
   rootContainer.appendChild(uiContainer);
@@ -59,24 +59,19 @@ function createMainUI(
   uiToggleButton.addEventListener('click', toggleUIVisibility);
   uiContainer.appendChild(uiToggleButton);
 
-  const uploadButton = document.createElement('div');
-  uploadButton.innerHTML = `<div class="${
-    contrastSensitiveStyle.uploadButton
-  }">${uploadIcon}</div><input type="file" class="file" style="display: none;" multiple/>`;
-  const fileInput = uploadButton.querySelector('input');
+  if (uploadFileHandler) {
+    const uploadButton = document.createElement('div');
+    uploadButton.innerHTML = `<div class="${
+      contrastSensitiveStyle.uploadButton
+    }">${uploadIcon}</div><input type="file" class="file" style="display: none;" multiple/>`;
+    const fileInput = uploadButton.querySelector('input');
 
-  async function handleFile(e) {
-    preventDefaults(e);
-    const dataTransfer = e.dataTransfer;
-    const files = e.target.files || dataTransfer.files;
-    await processFiles(rootContainer, { files });
+    fileInput.addEventListener('change', uploadFileHandler);
+    uploadButton.addEventListener('drop', uploadFileHandler);
+    uploadButton.addEventListener('click', (e) => fileInput.click());
+    uploadButton.addEventListener('dragover', preventDefaults);
+    mainUIRow.appendChild(uploadButton);
   }
-
-  fileInput.addEventListener('change', handleFile);
-  uploadButton.addEventListener('drop', handleFile);
-  uploadButton.addEventListener('click', (e) => fileInput.click());
-  uploadButton.addEventListener('dragover', preventDefaults);
-  mainUIRow.appendChild(uploadButton);
 
   const screenshotButton = document.createElement('div');
   screenshotButton.innerHTML = `<div class="${

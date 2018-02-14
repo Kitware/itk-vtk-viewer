@@ -15,6 +15,7 @@
   "dependencies": {
     "commander": "^2.14.1",
     "css-element-queries": "^1.0.1",
+    "curry": "^1.2.0",
     "express": "4.16.2",
     "itk": "7.1.0",
     "open": "0.0.5",

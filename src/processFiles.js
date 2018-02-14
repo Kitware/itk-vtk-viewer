@@ -6,7 +6,7 @@ import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper';
 import userInterface from './userInterface';
 import createViewer from './createViewer';
 
-const processFiles = (container, { files, use2D }) => {
+const processFiles = (container, { files, use2D, uploadFileHandler }) => {
   userInterface.emptyContainer(container);
   userInterface.createLoadingProgress(container);
 
@@ -26,6 +26,7 @@ const processFiles = (container, { files, use2D }) => {
         createViewer(container, {
           image: imageData,
           use2D: !is3D,
+          uploadFileHandler
         })
       );
     });

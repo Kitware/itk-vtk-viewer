@@ -189,6 +189,15 @@ function createPlaneIndexSliders(
   xPlaneRow.setAttribute('class', style.uiRow);
   xPlaneRow.className += ' js-toggle js-x-plane-row';
 
+  const imageData = volumeRepresentation.getInputDataSet();
+  const spacing = imageData.getSpacing();
+  const bounds = imageData.getBounds();
+
+  const { xIJKAxis } = volumeRepresentation.getMapperX().getClosestIJKAxis();
+  //const { yIJKAxis } = model.mapperY.getClosestIJKAxis();
+  //const { zIJKAxis } = model.mapperZ.getClosestIJKAxis();
+
+
   const xSliderEntry = document.createElement('div');
   xSliderEntry.setAttribute('class', style.sliderEntry);
   currentIndex = volumeRepresentation.getXSliceIndex();
@@ -235,6 +244,7 @@ function createPlaneIndexSliders(
   const yPlaneLabel = ySliderEntry.querySelector('.js-y-index-label');
   function updateYIndex() {
     const value = Number(yIndexElement.value);
+    // volumeRepresentation.setYSliceIndex(34.5v
     volumeRepresentation.setYSliceIndex(value);
     const valueString = String(yIndexElement.value);
     const padLength = valueString.length < 4 ? 4 - valueString.length : 0;

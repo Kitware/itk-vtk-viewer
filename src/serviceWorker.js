@@ -4,7 +4,7 @@ const workboxSW = new self.WorkboxSW({clientsClaim: true})
 workboxSW.precache([])
 
 workboxSW.router.registerRoute(
-  /\.js|\.png$/,
+  /\.js|\.png|\.wasm$/,
   workboxSW.strategies.cacheFirst({
   cacheName: 'cacheFirstContent',
   cacheExpiration: {

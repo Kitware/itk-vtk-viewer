@@ -5,8 +5,8 @@ workboxSW.precache([])
 
 workboxSW.router.registerRoute(
   /\.js|\.png|\.wasm$/,
-  workboxSW.strategies.cacheFirst({
-  cacheName: 'cacheFirstContent',
+  workboxSW.strategies.staleWhileRevalidate({
+  cacheName: 'staleWhileRevalidateContent',
   cacheExpiration: {
     maxEntries: 50,
     maxAgeSeconds: 7 * 24 * 60 * 60 * 26,

@@ -1,49 +1,31 @@
 {
   "_args": [
     [
-      {
-        "raw": "itk@7.2.1",
-        "scope": null,
-        "escapedName": "itk",
-        "name": "itk",
-        "rawSpec": "7.2.1",
-        "spec": "7.2.1",
-        "type": "version"
-      },
+      "itk@7.2.1",
       "/home/travis/build/Kitware/itk-vtk-image-viewer"
     ]
   ],
   "_from": "itk@7.2.1",
   "_id": "itk@7.2.1",
-  "_inCache": true,
+  "_inBundle": false,
+  "_integrity": "sha512-DYkJ+BMpHsS3sFcZieU6bjOpb7oDQmW/v0rYHqtdlKpzCWvtZT+q8WUjk2uccvpt6UCF/Lzy2dwFCzQbZ6qLDQ==",
   "_location": "/itk",
-  "_nodeVersion": "6.12.3",
-  "_npmOperationalInternal": {
-    "host": "s3://npm-registry-packages",
-    "tmp": "tmp/itk_7.2.1_1519360742168_0.7304971789758459"
-  },
-  "_npmUser": {
-    "name": "thewtex",
-    "email": "matt@mmmccormick.com"
-  },
-  "_npmVersion": "5.6.0",
   "_phantomChildren": {},
   "_requested": {
+    "type": "version",
+    "registry": true,
     "raw": "itk@7.2.1",
-    "scope": null,
-    "escapedName": "itk",
     "name": "itk",
+    "escapedName": "itk",
     "rawSpec": "7.2.1",
-    "spec": "7.2.1",
-    "type": "version"
+    "saveSpec": null,
+    "fetchSpec": "7.2.1"
   },
   "_requiredBy": [
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/itk/-/itk-7.2.1.tgz",
-  "_shasum": "4ce5c99e5ee0504508acf216c50735c1cdfb8595",
-  "_shrinkwrap": null,
-  "_spec": "itk@7.2.1",
+  "_spec": "7.2.1",
   "_where": "/home/travis/build/Kitware/itk-vtk-image-viewer",
   "author": {
     "name": "Insight Software Consortium"
@@ -97,13 +79,6 @@
     "doc": "doc",
     "test": "test"
   },
-  "dist": {
-    "integrity": "sha512-DYkJ+BMpHsS3sFcZieU6bjOpb7oDQmW/v0rYHqtdlKpzCWvtZT+q8WUjk2uccvpt6UCF/Lzy2dwFCzQbZ6qLDQ==",
-    "shasum": "4ce5c99e5ee0504508acf216c50735c1cdfb8595",
-    "tarball": "https://registry.npmjs.org/itk/-/itk-7.2.1.tgz",
-    "fileCount": 94,
-    "unpackedSize": 80097548
-  },
   "homepage": "https://github.com/InsightSoftwareConsortium/itk-js#readme",
   "keywords": [
     "itk",
@@ -114,19 +89,7 @@
   ],
   "license": "Apache-2.0",
   "main": "./dist/itk.js",
-  "maintainers": [
-    {
-      "name": "sebastien.jourdain",
-      "email": "sebastien.jourdain@kitware.com"
-    },
-    {
-      "name": "thewtex",
-      "email": "matt@mmmccormick.com"
-    }
-  ],
   "name": "itk",
-  "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/InsightSoftwareConsortium/itk-js.git"

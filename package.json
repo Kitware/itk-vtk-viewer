@@ -24,6 +24,7 @@
   "devDependencies": {
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "copy-webpack-plugin": "^4.4.2",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.0",
     "karma": "^2.0.0",
@@ -41,6 +42,7 @@
     "tape-catch": "^1.0.6",
     "webpack-dev-server": "^2.11.1",
     "workbox-build": "^2.1.2",
+    "workbox-webpack-plugin": "^2.1.2",
     "worker-loader": "^1.1.0"
   },
   "scripts": {
@@ -50,9 +52,6 @@
     "build": "webpack --progress --colors",
     "build:debug": "webpack --progress --colors --display-modules",
     "build:release": "npm run build -- -p",
-    "postbuild:release": "npm run itk && npm run service-worker",
-    "itk": "shx rm -rf ./dist/itk && shx cp -r ./node_modules/itk ./dist/",
-    "service-worker": "node generate-sw.js",
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkImageViewer.html",
     "commit": "git cz",
     "start": "webpack-dev-server --content-base ./dist/ --watch-content-base",

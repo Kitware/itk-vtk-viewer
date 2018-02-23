@@ -182,6 +182,7 @@ function createPlaneIndexSliders(
     ['sliderLabel'],
     isBackgroundDark
   );
+  const numberOfValueChars = 6;
   let currentSlicePosition = null;
 
   const xPlaneRow = document.createElement('div');
@@ -207,8 +208,8 @@ function createPlaneIndexSliders(
   function updateXSlice() {
     const value = Number(xSliceElement.value);
     volumeRepresentation.setXSlice(value);
-    const valueString = String(xSliceElement.value);
-    const padLength = valueString.length < 4 ? 4 - valueString.length : 0;
+    const valueString = String(xSliceElement.value).substring(0, numberOfValueChars);
+    const padLength = valueString.length < numberOfValueChars ? numberOfValueChars - valueString.length : 0;
     const pad = '&nbsp;'.repeat(padLength);
     xPlaneLabel.innerHTML = `X: ${pad}${valueString}`;
     renderWindow.render();
@@ -239,8 +240,8 @@ function createPlaneIndexSliders(
   function updateYSlice() {
     const value = Number(ySliceElement.value);
     volumeRepresentation.setYSlice(value);
-    const valueString = String(ySliceElement.value);
-    const padLength = valueString.length < 4 ? 4 - valueString.length : 0;
+    const valueString = String(ySliceElement.value).substring(0, numberOfValueChars);
+    const padLength = valueString.length < numberOfValueChars ? numberOfValueChars - valueString.length : 0;
     const pad = '&nbsp;'.repeat(padLength);
     yPlaneLabel.innerHTML = `Y: ${pad}${valueString}`;
     renderWindow.render();
@@ -271,8 +272,8 @@ function createPlaneIndexSliders(
   function updateZSlice() {
     const value = Number(zSliceElement.value);
     volumeRepresentation.setZSlice(value);
-    const valueString = String(zSliceElement.value);
-    const padLength = valueString.length < 4 ? 4 - valueString.length : 0;
+    const valueString = String(zSliceElement.value).substring(0, numberOfValueChars);
+    const padLength = valueString.length < numberOfValueChars ? numberOfValueChars - valueString.length : 0;
     const pad = '&nbsp;'.repeat(padLength);
     zPlaneLabel.innerHTML = `Z: ${pad}${valueString}`;
     renderWindow.render();

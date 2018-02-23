@@ -2,25 +2,25 @@
   "_args": [
     [
       {
-        "raw": "itk@7.1.0",
+        "raw": "itk@7.2.1",
         "scope": null,
         "escapedName": "itk",
         "name": "itk",
-        "rawSpec": "7.1.0",
-        "spec": "7.1.0",
+        "rawSpec": "7.2.1",
+        "spec": "7.2.1",
         "type": "version"
       },
       "/home/travis/build/Kitware/itk-vtk-image-viewer"
     ]
   ],
-  "_from": "itk@7.1.0",
-  "_id": "itk@7.1.0",
+  "_from": "itk@7.2.1",
+  "_id": "itk@7.2.1",
   "_inCache": true,
   "_location": "/itk",
   "_nodeVersion": "6.12.3",
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/itk-7.1.0.tgz_1516810890101_0.9856534423306584"
+    "tmp": "tmp/itk_7.2.1_1519360742168_0.7304971789758459"
   },
   "_npmUser": {
     "name": "thewtex",
@@ -29,21 +29,21 @@
   "_npmVersion": "5.6.0",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "itk@7.1.0",
+    "raw": "itk@7.2.1",
     "scope": null,
     "escapedName": "itk",
     "name": "itk",
-    "rawSpec": "7.1.0",
-    "spec": "7.1.0",
+    "rawSpec": "7.2.1",
+    "spec": "7.2.1",
     "type": "version"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/itk/-/itk-7.1.0.tgz",
-  "_shasum": "b026929e162e85de5cb8b5f79a4a7f04fa3e5164",
+  "_resolved": "https://registry.npmjs.org/itk/-/itk-7.2.1.tgz",
+  "_shasum": "4ce5c99e5ee0504508acf216c50735c1cdfb8595",
   "_shrinkwrap": null,
-  "_spec": "itk@7.1.0",
+  "_spec": "itk@7.2.1",
   "_where": "/home/travis/build/Kitware/itk-vtk-image-viewer",
   "author": {
     "name": "Insight Software Consortium"
@@ -59,7 +59,7 @@
   "dependencies": {
     "mime-types": "^2.1.15",
     "promise-file-reader": "^0.3.1",
-    "promise-worker-transferable": "^1.0.4"
+    "webworker-promise": "^0.4.1"
   },
   "description": "Read and write 2D, 3D, and ND images with the Insight Toolkit (ITK)",
   "devDependencies": {
@@ -98,9 +98,11 @@
     "test": "test"
   },
   "dist": {
-    "integrity": "sha512-iPxTVU4McljctkeP+OZNveF3leSqgTu/2OWpe9x6u47/Snb1Bur3R9MdgAeGjnCYcEIwJdZaFktisnYkEnvd+Q==",
-    "shasum": "b026929e162e85de5cb8b5f79a4a7f04fa3e5164",
-    "tarball": "https://registry.npmjs.org/itk/-/itk-7.1.0.tgz"
+    "integrity": "sha512-DYkJ+BMpHsS3sFcZieU6bjOpb7oDQmW/v0rYHqtdlKpzCWvtZT+q8WUjk2uccvpt6UCF/Lzy2dwFCzQbZ6qLDQ==",
+    "shasum": "4ce5c99e5ee0504508acf216c50735c1cdfb8595",
+    "tarball": "https://registry.npmjs.org/itk/-/itk-7.2.1.tgz",
+    "fileCount": 94,
+    "unpackedSize": 80097548
   },
   "homepage": "https://github.com/InsightSoftwareConsortium/itk-js#readme",
   "keywords": [
@@ -140,8 +142,9 @@
   },
   "standard": {
     "ignore": [
-      "itkJSImageIOPost.js"
+      "itkJSImageIOPost.js",
+      "test/Browser/tests.js"
     ]
   },
-  "version": "7.1.0"
+  "version": "7.2.1"
 }

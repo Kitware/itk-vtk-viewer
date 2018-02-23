@@ -55,7 +55,7 @@
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkImageViewer.html",
     "commit": "git cz",
     "start": "webpack-dev-server --content-base ./dist/ --watch-content-base",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "semantic-release": "semantic-release",
     "test": "karma start ./karma.conf.js",
     "test:travis": "karma start ./karma.conf.js --browsers ChromeHeadless --single-run",
     "test:debug": "karma start ./karma.conf.js --no-single-run"

@@ -1,6 +1,5 @@
 import vtkProxySource from 'vtk.js/Sources/Proxy/Core/SourceProxy';
 import vtkGeometryRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/GeometryRepresentationProxy';
-import vtkMoleculeRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/MoleculeRepresentationProxy';
 import vtkVolumeRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/VolumeRepresentationProxy';
 import vtkSliceRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/SliceRepresentationProxy';
 import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy';
@@ -37,10 +36,6 @@ const proxyManagerConfiguration = {
         class: vtkVolumeRepresentationProxy,
         options: {},
       },
-      Molecule: {
-        class: vtkMoleculeRepresentationProxy,
-        options: {},
-      },
     },
     Views: {
       ItkVtkView: {
@@ -58,7 +53,6 @@ const proxyManagerConfiguration = {
     ItkVtkView: {
       vtkPolyData: { name: 'Geometry' },
       vtkImageData: { name: 'Volume' },
-      vtkMolecule: { name: 'Molecule' },
     },
   },
 };

@@ -1,5 +1,6 @@
 import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps';
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
+import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator';
 
 import sampleDistanceIcon from 'vtk.js/Sources/Interaction/UI/Icons/Spacing.svg';
 
@@ -79,6 +80,7 @@ function createTransferFunctionWidget(
   lookupTableProxy,
   piecewiseFunctionProxy,
   dataArray,
+  view,
   renderWindow,
   use2D
 ) {
@@ -170,6 +172,71 @@ function createTransferFunctionWidget(
   transferFunctionWidgetRow.className += ' js-toggle';
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer);
   uiContainer.appendChild(transferFunctionWidgetRow);
+
+  // Create range manipulator
+  const rangeManipulator = vtkMouseRangeManipulator.newInstance({
+    button: 1,
+    alt: true,
+  });
+
+  // Window
+  const windowMotionScale = 100.0;
+  const windowGet = () => {
+    const gaussian = transferFunctionWidget.getGaussians()[0];
+    return gaussian.width * windowMotionScale;
+  }
+  const windowSet = (value) => {
+    const gaussians = transferFunctionWidget.getGaussians();
+    const newGaussians = gaussians.slice();
+    newGaussians[0].width = value / windowMotionScale;
+    transferFunctionWidget.setGaussians(newGaussians);
+  }
+  rangeManipulator.setVerticalListener(0, windowMotionScale, 1, windowGet, windowSet);
+
+  // Level
+  const levelMotionScale = 100.0;
+  const levelGet = () => {
+    const gaussian = transferFunctionWidget.getGaussians()[0];
+    return gaussian.position * levelMotionScale;
+  }
+  const levelSet = (value) => {
+    const gaussians = transferFunctionWidget.getGaussians();
+    const newGaussians = gaussians.slice();
+    newGaussians[0].position = value / levelMotionScale;
+    transferFunctionWidget.setGaussians(newGaussians);
+  }
+  rangeManipulator.setHorizontalListener(0, levelMotionScale, 1, levelGet, levelSet);
+
+  // Add range manipulator
+  view.getInteractorStyle2D().addMouseManipulator(rangeManipulator);
+  view.getInteractorStyle3D().addMouseManipulator(rangeManipulator);
+
+  const opacityRangeManipulator = vtkMouseRangeManipulator.newInstance({
+    button: 3, // Right mouse
+    alt: true,
+  });
+  const opacityRangeManipulatorShift = vtkMouseRangeManipulator.newInstance({
+    button: 1, // Left mouse
+    shift: true, // For the macOS folks
+    alt: true,
+  });
+
+  // Opacity
+  const opacityMotionScale = 100.0;
+  const opacityGet = () => {
+    const gaussian = transferFunctionWidget.getGaussians()[0];
+    return gaussian.height * opacityMotionScale;
+  }
+  const opacitySet = (value) => {
+    const gaussians = transferFunctionWidget.getGaussians();
+    const newGaussians = gaussians.slice();
+    newGaussians[0].height = value / opacityMotionScale;
+    transferFunctionWidget.setGaussians(newGaussians);
+  }
+  opacityRangeManipulator.setVerticalListener(0, opacityMotionScale, 1, opacityGet, opacitySet);
+  opacityRangeManipulatorShift.setVerticalListener(0, opacityMotionScale, 1, opacityGet, opacitySet);
+  view.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulator);
+  view.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulatorShift);
 }
 
 function createPlaneIndexSliders(
@@ -396,6 +463,7 @@ function createImageUI(
     lookupTableProxy,
     piecewiseFunctionProxy,
     dataArray,
+    view,
     renderWindow,
     use2D
   );

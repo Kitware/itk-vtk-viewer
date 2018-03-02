@@ -17,7 +17,6 @@ const commonInteractor = [
 const interactorStyle3D = [
   Array.from(commonInteractor).concat([
     { type: 'rotate', options: { button: 1 } }, // Rotate on Left button drag
-    { type: 'pan', options: { button: 1, alt: true } }, // Pan on Alt + Left button drag
   ]),
 ];
 

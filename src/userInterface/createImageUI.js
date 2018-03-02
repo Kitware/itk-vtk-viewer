@@ -1,5 +1,6 @@
 import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps';
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
+import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator';
 
 import sampleDistanceIcon from 'vtk.js/Sources/Interaction/UI/Icons/Spacing.svg';
 
@@ -79,6 +80,7 @@ function createTransferFunctionWidget(
   lookupTableProxy,
   piecewiseFunctionProxy,
   dataArray,
+  view,
   renderWindow,
   use2D
 ) {
@@ -170,6 +172,24 @@ function createTransferFunctionWidget(
   transferFunctionWidgetRow.className += ' js-toggle';
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer);
   uiContainer.appendChild(transferFunctionWidgetRow);
+
+  // Change the "window / level" of the first transfer function Gaussian
+  // with Shift + Left Mouse Drag
+  const rangeManipulator = vtkMouseRangeManipulator.newInstance({
+    shift: true,
+    button: 1,
+    pinch: true,
+  });
+  function horizontalGet() {
+    console.log(transferFunctionWidget.getSelectedGaussian());
+  };
+  function horizontalSet() {
+  };
+  rangeManipulator.setHorizontalListener(0.0, 1.0, 0.01, horizontalGet, horizontalSet);
+  //rangeManipulator.setVerticalListener(lMin, lMax, 1, lGet, lSet);
+  //rangeManipulator.setScrollListener(sMin, sMax, 1, sGet, sSet);
+  const interactorStyle = view.getInteractorStyle3D();
+  interactorStyle.addMouseManipulator(rangeManipulator);
 }
 
 function createPlaneIndexSliders(
@@ -396,6 +416,7 @@ function createImageUI(
     lookupTableProxy,
     piecewiseFunctionProxy,
     dataArray,
+    view,
     renderWindow,
     use2D
   );

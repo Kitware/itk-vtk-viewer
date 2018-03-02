@@ -29,6 +29,8 @@ const processFiles = (container, { files, use2D, uploadFileHandler }) => {
           uploadFileHandler
         })
       );
+    }).catch((error) => {
+      reject(error);
     });
   });
 };

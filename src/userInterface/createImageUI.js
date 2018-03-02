@@ -1,5 +1,6 @@
 import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps';
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
+import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator';
 
 import sampleDistanceIcon from 'vtk.js/Sources/Interaction/UI/Icons/Spacing.svg';
 
@@ -79,6 +80,7 @@ function createTransferFunctionWidget(
   lookupTableProxy,
   piecewiseFunctionProxy,
   dataArray,
+  view,
   renderWindow,
   use2D
 ) {
@@ -170,6 +172,39 @@ function createTransferFunctionWidget(
   transferFunctionWidgetRow.className += ' js-toggle';
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer);
   uiContainer.appendChild(transferFunctionWidgetRow);
+
+  // Create range manipulator
+  const rangeManipulator = vtkMouseRangeManipulator.newInstance({
+    button: 1,
+    alt: true,
+  });
+
+  // Width
+  const widthGet = () => {
+    const gaussian = transferFunctionWidget.getReferenceByName('gaussians')[0];
+    return gaussian.width * 100;
+  }
+  const widthSet = (value) => {
+    const gaussian = transferFunctionWidget.getReferenceByName('gaussians')[0];
+    gaussian.width = value / 100;
+    transferFunctionWidget.modified();
+  }
+  rangeManipulator.setHorizontalListener(0, 100, 1, widthGet, widthSet);
+
+  // Level
+  const levelGet = () => {
+    const gaussian = transferFunctionWidget.getReferenceByName('gaussians')[0];
+    return gaussian.position * 100;
+  }
+  const levelSet = (value) => {
+    const gaussian = transferFunctionWidget.getReferenceByName('gaussians')[0];
+    gaussian.position = value / 100;
+    transferFunctionWidget.modified();
+  }
+  rangeManipulator.setVerticalListener(0, 100, 1, levelGet, levelSet);
+
+  // Add range manipulator
+  view.getInteractorStyle2D().addMouseManipulator(rangeManipulator);
 }
 
 function createPlaneIndexSliders(
@@ -396,6 +431,7 @@ function createImageUI(
     lookupTableProxy,
     piecewiseFunctionProxy,
     dataArray,
+    view,
     renderWindow,
     use2D
   );

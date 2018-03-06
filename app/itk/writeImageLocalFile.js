@@ -15,13 +15,16 @@ const writeImageEmscriptenFSFile = require('./writeImageEmscriptenFSFile.js')
  * @param: useCompression compression the pixel data when possible
  * @param: image itk.Image instance to write
  * @param: filePath path to the file on the local filesystem.
+ *
+ * @return empty Promise
  */
 const writeImageLocalFile = (useCompression, image, filePath) => {
   return new Promise(function (resolve, reject) {
-    const imageIOsPath = path.resolve(__dirname, '..', 'dist', 'ImageIOs')
+    const imageIOsPath = path.resolve(__dirname, 'ImageIOs')
+    const absoluteFilePath = path.resolve(filePath)
     try {
-      const mimeType = mime.lookup(filePath)
-      const extension = getFileExtension(filePath)
+      const mimeType = mime.lookup(absoluteFilePath)
+      const extension = getFileExtension(absoluteFilePath)
 
       let io = null
       if (mimeToIO.hasOwnProperty(mimeType)) {
@@ -33,25 +36,25 @@ const writeImageLocalFile = (useCompression, image, filePath) => {
           const modulePath = path.join(imageIOsPath, ImageIOIndex[idx])
           const Module = loadEmscriptenModule(modulePath)
           const imageIO = new Module.ITKImageIO()
-          Module.mountContainingDirectory(filePath)
-          imageIO.SetFileName(filePath)
-          if (imageIO.CanWriteFile(filePath)) {
+          Module.mountContainingDirectory(absoluteFilePath)
+          imageIO.SetFileName(absoluteFilePath)
+          if (imageIO.CanWriteFile(absoluteFilePath)) {
             io = ImageIOIndex[idx]
-            Module.unmountContainingDirectory(filePath)
+            Module.unmountContainingDirectory(absoluteFilePath)
             break
           }
-          Module.unmountContainingDirectory(filePath)
+          Module.unmountContainingDirectory(absoluteFilePath)
         }
       }
       if (io === null) {
-        reject(Error('Could not find IO for: ' + filePath))
+        reject(Error('Could not find IO for: ' + absoluteFilePath))
       }
 
       const modulePath = path.join(imageIOsPath, io)
       const Module = loadEmscriptenModule(modulePath)
-      Module.mountContainingDirectory(filePath)
-      writeImageEmscriptenFSFile(Module, useCompression, image, filePath)
-      Module.unmountContainingDirectory(filePath)
+      Module.mountContainingDirectory(absoluteFilePath)
+      writeImageEmscriptenFSFile(Module, useCompression, image, absoluteFilePath)
+      Module.unmountContainingDirectory(absoluteFilePath)
       resolve(null)
     } catch (err) {
       reject(err)

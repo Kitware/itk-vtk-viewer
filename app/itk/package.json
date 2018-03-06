@@ -1,31 +1,31 @@
 {
   "_args": [
     [
-      "itk@7.2.1",
+      "itk@7.2.3",
       "/home/travis/build/Kitware/itk-vtk-image-viewer"
     ]
   ],
-  "_from": "itk@7.2.1",
-  "_id": "itk@7.2.1",
+  "_from": "itk@7.2.3",
+  "_id": "itk@7.2.3",
   "_inBundle": false,
-  "_integrity": "sha512-DYkJ+BMpHsS3sFcZieU6bjOpb7oDQmW/v0rYHqtdlKpzCWvtZT+q8WUjk2uccvpt6UCF/Lzy2dwFCzQbZ6qLDQ==",
+  "_integrity": "sha512-HgA7V8r6pFnx8seSz9aYZAPkBSwpkW2khhCp8f8Riz6lbzrlCM44g9K3n29PQd8+fARmJe1cB2cV4k1NX5hiAA==",
   "_location": "/itk",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "itk@7.2.1",
+    "raw": "itk@7.2.3",
     "name": "itk",
     "escapedName": "itk",
-    "rawSpec": "7.2.1",
+    "rawSpec": "7.2.3",
     "saveSpec": null,
-    "fetchSpec": "7.2.1"
+    "fetchSpec": "7.2.3"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/itk/-/itk-7.2.1.tgz",
-  "_spec": "7.2.1",
+  "_resolved": "https://registry.npmjs.org/itk/-/itk-7.2.3.tgz",
+  "_spec": "7.2.3",
   "_where": "/home/travis/build/Kitware/itk-vtk-image-viewer",
   "author": {
     "name": "Insight Software Consortium"
@@ -109,5 +109,5 @@
       "test/Browser/tests.js"
     ]
   },
-  "version": "7.2.1"
+  "version": "7.2.3"
 }

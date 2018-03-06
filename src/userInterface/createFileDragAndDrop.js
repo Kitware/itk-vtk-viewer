@@ -24,7 +24,12 @@ function createFileDragAndDrop(container, onDataChange) {
     const files = e.target.files || dataTransfer.files;
     myContainer.removeChild(fileContainer);
     const use2D = !!vtkURLExtract.extractURLParameters().use2D;
-    onDataChange(myContainer, { files, use2D, uploadFileHandler: handler });
+    onDataChange(myContainer, { files, use2D, uploadFileHandler: handler })
+      .catch((error) => {
+        const message = 'An error occurred while loading the file:\n\n' + error.message
+        alert(message);
+        createFileDragAndDrop(container, onDataChange);
+      })
   }
 
   fileInput.addEventListener('change', handleFile);

@@ -19,7 +19,7 @@
     "express": "4.16.2",
     "itk": "7.2.3",
     "open": "0.0.5",
-    "vtk.js": "6.3.1"
+    "vtk.js": "6.4.0"
   },
   "devDependencies": {
     "babel-polyfill": "^6.26.0",

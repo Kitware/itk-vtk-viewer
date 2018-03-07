@@ -15,13 +15,13 @@ const commonInteractor = [
 ];
 
 const interactorStyle3D = [
-  Array.from(commonInteractor).concat([
+  commonInteractor.concat([
     { type: 'rotate', options: { button: 1 } }, // Rotate on Left button drag
   ]),
 ];
 
 const interactorStyle2D = [
-  Array.from(commonInteractor).concat([
+  commonInteractor.concat([
     { type: 'pan', options: { button: 1 } }, // Pan on Left button drag
   ]),
 ];

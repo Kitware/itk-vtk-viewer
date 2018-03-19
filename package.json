@@ -14,7 +14,7 @@
   "main": "./dist/itkVtkImageViewer.js",
   "dependencies": {
     "commander": "^2.14.1",
-    "css-element-queries": "^1.0.1",
+    "css-element-queries": "^1.0.2",
     "curry": "^1.2.0",
     "express": "4.16.2",
     "itk": "8.0.2",

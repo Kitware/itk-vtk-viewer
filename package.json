@@ -31,7 +31,7 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-tap": "^4.1.3",
     "karma-tap-pretty-reporter": "^4.0.0",
-    "karma-webpack": "2.0.9",
+    "karma-webpack": "2.0.13",
     "kw-doc": "1.1.1",
     "kw-web-suite": "^5.0.1",
     "prettier": "^1.10.2",

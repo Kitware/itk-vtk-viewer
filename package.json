@@ -17,7 +17,7 @@
     "css-element-queries": "^1.0.1",
     "curry": "^1.2.0",
     "express": "4.16.2",
-    "itk": "7.2.3",
+    "itk": "8.0.2",
     "open": "0.0.5",
     "vtk.js": "6.4.0"
   },

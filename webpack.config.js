@@ -68,4 +68,7 @@ module.exports = {
       sourcePath,
     ],
   },
+  performance: {
+      maxAssetSize: 10000000
+  },
 };

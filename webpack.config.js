@@ -37,8 +37,16 @@ module.exports = {
       to: path.join(__dirname, 'dist'),
       },
       {
-      from: path.join(__dirname, 'node_modules', 'itk'),
-      to: path.join(__dirname, 'dist', 'itk'),
+      from: path.join(__dirname, 'node_modules', 'itk', 'WebWorkers'),
+      to: path.join(__dirname, 'dist', 'itk', 'WebWorkers'),
+      },
+      {
+      from: path.join(__dirname, 'node_modules', 'itk', 'ImageIOs'),
+      to: path.join(__dirname, 'dist', 'itk', 'ImageIOs'),
+      },
+      {
+      from: path.join(__dirname, 'node_modules', 'itk', 'MeshIOs'),
+      to: path.join(__dirname, 'dist', 'itk', 'MeshIOs'),
       },
     ]),
     // workbox plugin should be last plugin
@@ -59,5 +67,8 @@ module.exports = {
       path.resolve(__dirname, 'node_modules'),
       sourcePath,
     ],
+  },
+  performance: {
+      maxAssetSize: 10000000
   },
 };

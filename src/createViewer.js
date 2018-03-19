@@ -85,7 +85,7 @@ const createViewer = (
 
     if (use2D) {
       view.setViewMode('ZPlane');
-      view.setOrientationAxes(false);
+      view.setOrientationAxesVisibility(false);
     } else {
       view.setViewMode('VolumeRendering');
     }

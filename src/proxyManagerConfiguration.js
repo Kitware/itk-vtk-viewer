@@ -1,12 +1,30 @@
 import vtkProxySource from 'vtk.js/Sources/Proxy/Core/SourceProxy';
 import vtkGeometryRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/GeometryRepresentationProxy';
-import vtkMoleculeRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/MoleculeRepresentationProxy';
 import vtkVolumeRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/VolumeRepresentationProxy';
 import vtkSliceRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/SliceRepresentationProxy';
 import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy';
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy';
 
 import ItkVtkView from './ItkVtkViewProxy';
+
+const commonInteractor = [
+  { type: 'pan', options: { button: 3 } }, // Pan on Right button drag
+  { type: 'pan', options: { button: 1, shift: true } }, // Pan on Shift + Left button drag
+  { type: 'zoom', options: { button: 1, control: true } }, // Zoom on Ctrl + Left button drag
+  { type: 'zoom', options: { dragEnabled: false, scrollEnabled: true } }, // Zoom on scroll
+];
+
+const interactorStyle3D = [
+  commonInteractor.concat([
+    { type: 'rotate', options: { button: 1 } }, // Rotate on Left button drag
+  ]),
+];
+
+const interactorStyle2D = [
+  commonInteractor.concat([
+    { type: 'pan', options: { button: 1 } }, // Pan on Left button drag
+  ]),
+];
 
 const proxyManagerConfiguration = {
   definitions: {
@@ -37,10 +55,6 @@ const proxyManagerConfiguration = {
         class: vtkVolumeRepresentationProxy,
         options: {},
       },
-      Molecule: {
-        class: vtkMoleculeRepresentationProxy,
-        options: {},
-      },
     },
     Views: {
       ItkVtkView: {
@@ -51,6 +65,10 @@ const proxyManagerConfiguration = {
           viewUp: [0, 0, 1], // Z+ (S)
           useParallelRendering: false,
         },
+        props: {
+          presetToInteractor3D: interactorStyle3D,
+          presetToInteractor2D: interactorStyle2D,
+        },
       },
     },
   },
@@ -58,7 +76,6 @@ const proxyManagerConfiguration = {
     ItkVtkView: {
       vtkPolyData: { name: 'Geometry' },
       vtkImageData: { name: 'Volume' },
-      vtkMolecule: { name: 'Molecule' },
     },
   },
 };

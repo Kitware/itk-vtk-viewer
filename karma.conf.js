@@ -24,8 +24,9 @@ module.exports = function init(config) {
     files: [
       './node_modules/babel-polyfill/dist/polyfill.min.js',
       './test/tests.js',
-      { pattern: './node_modules/itk/ImageIOs/**', watched: true, served: true, included: false },
-      { pattern: './node_modules/itk/WebWorkers/**', watched: true, served: true, included: false },
+      { pattern: './dist/itk/ImageIOs/**', watched: true, served: true, included: false },
+      { pattern: './dist/itk/MeshIOs/**', watched: true, served: true, included: false },
+      { pattern: './dist/itk/WebWorkers/**', watched: true, served: true, included: false },
       //{ pattern: 'Data/**', watched: false, served: true, included: false },
     ],
 
@@ -46,7 +47,7 @@ module.exports = function init(config) {
           sourcePath,
         ],
         alias: {
-          './itkConfig.js': path.resolve(__dirname, 'test', 'itkConfigBrowserTest.js'),
+          './itkConfig$': path.resolve(__dirname, 'test', 'itkConfigBrowserTest.js'),
         },
       },
       plugins: [

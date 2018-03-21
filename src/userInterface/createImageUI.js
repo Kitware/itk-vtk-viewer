@@ -180,7 +180,7 @@ function createTransferFunctionWidget(
   });
 
   // Window
-  const windowMotionScale = 100.0;
+  const windowMotionScale = 150.0;
   const windowGet = () => {
     const gaussian = transferFunctionWidget.getGaussians()[0];
     return gaussian.width * windowMotionScale;
@@ -194,7 +194,7 @@ function createTransferFunctionWidget(
   rangeManipulator.setVerticalListener(0, windowMotionScale, 1, windowGet, windowSet);
 
   // Level
-  const levelMotionScale = 100.0;
+  const levelMotionScale = 150.0;
   const levelGet = () => {
     const gaussian = transferFunctionWidget.getGaussians()[0];
     return gaussian.position * levelMotionScale;
@@ -222,7 +222,7 @@ function createTransferFunctionWidget(
   });
 
   // Opacity
-  const opacityMotionScale = 100.0;
+  const opacityMotionScale = 200.0;
   const opacityGet = () => {
     const gaussian = transferFunctionWidget.getGaussians()[0];
     return gaussian.height * opacityMotionScale;

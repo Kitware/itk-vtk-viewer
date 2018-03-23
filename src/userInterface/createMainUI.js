@@ -14,6 +14,7 @@ import annotationIcon from './icons/annotations.svg';
 
 function createMainUI(
   rootContainer,
+  viewerCSSIdentifier,
   isBackgroundDark,
   use2D,
   imageSource,
@@ -34,11 +35,11 @@ function createMainUI(
 
   const mainUIRow = document.createElement('div');
   mainUIRow.setAttribute('class', style.mainUIRow);
-  mainUIRow.className += ' js-toggle';
+  mainUIRow.className += ` ${viewerCSSIdentifier}-toggle`;
   mainUIGroup.appendChild(mainUIRow);
 
   function toggleUIVisibility() {
-    const elements = uiContainer.querySelectorAll('.js-toggle');
+    const elements = uiContainer.querySelectorAll(`.${viewerCSSIdentifier}-toggle`);
     let count = elements.length;
     const toggleElementStyle = window.getComputedStyle(elements[0]);
     const expanded = toggleElementStyle.getPropertyValue('display') === 'flex';
@@ -105,13 +106,13 @@ function createMainUI(
     document.getElementById('yPlaneButton').checked = false;
     document.getElementById('zPlaneButton').checked = false;
     document.getElementById('volumeRenderingButton').checked = false;
-    const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
+    const volumeRenderingRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-volumeRendering`);
     volumeRenderingRow.style.display = 'none';
-    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
+    const xPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-x-plane-row`);
     xPlaneRow.style.display = 'flex';
-    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
+    const yPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-y-plane-row`);
     yPlaneRow.style.display = 'none';
-    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
+    const zPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-z-plane-row`);
     zPlaneRow.style.display = 'none';
   }
   function setViewModeYPlane() {
@@ -120,13 +121,13 @@ function createMainUI(
     document.getElementById('yPlaneButton').checked = true;
     document.getElementById('zPlaneButton').checked = false;
     document.getElementById('volumeRenderingButton').checked = false;
-    const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
+    const volumeRenderingRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-volumeRendering`);
     volumeRenderingRow.style.display = 'none';
-    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
+    const xPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-x-plane-row`);
     xPlaneRow.style.display = 'none';
-    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
+    const yPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-y-plane-row`);
     yPlaneRow.style.display = 'flex';
-    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
+    const zPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-z-plane-row`);
     zPlaneRow.style.display = 'none';
   }
   function setViewModeZPlane() {
@@ -135,13 +136,13 @@ function createMainUI(
     document.getElementById('yPlaneButton').checked = false;
     document.getElementById('zPlaneButton').checked = true;
     document.getElementById('volumeRenderingButton').checked = false;
-    const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
+    const volumeRenderingRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-volumeRendering`);
     volumeRenderingRow.style.display = 'none';
-    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
+    const xPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-x-plane-row`);
     xPlaneRow.style.display = 'none';
-    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
+    const yPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-y-plane-row`);
     yPlaneRow.style.display = 'none';
-    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
+    const zPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-z-plane-row`);
     zPlaneRow.style.display = 'flex';
   }
   function setViewModeVolumeRendering() {
@@ -150,12 +151,12 @@ function createMainUI(
     document.getElementById('yPlaneButton').checked = false;
     document.getElementById('zPlaneButton').checked = false;
     document.getElementById('volumeRenderingButton').checked = true;
-    const volumeRenderingRow = uiContainer.querySelector('.js-volumeRendering');
+    const volumeRenderingRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-volumeRendering`);
     volumeRenderingRow.style.display = 'flex';
     const viewPlanes = document.getElementById('viewPlanes').checked;
-    const xPlaneRow = uiContainer.querySelector('.js-x-plane-row');
-    const yPlaneRow = uiContainer.querySelector('.js-y-plane-row');
-    const zPlaneRow = uiContainer.querySelector('.js-z-plane-row');
+    const xPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-x-plane-row`);
+    const yPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-y-plane-row`);
+    const zPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-z-plane-row`);
     if (viewPlanes) {
       xPlaneRow.style.display = 'flex';
       yPlaneRow.style.display = 'flex';

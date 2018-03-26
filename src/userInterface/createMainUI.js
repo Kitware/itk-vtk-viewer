@@ -90,11 +90,11 @@ function createMainUI(
     view.setOrientationAnnotationVisibility(annotationEnabled);
   }
   const annotationButton = document.createElement('div');
-  annotationButton.innerHTML = `<input id="toggleAnnotation" type="checkbox" class="${
+  annotationButton.innerHTML = `<input id="${viewerCSSIdentifier}-toggleAnnotation" type="checkbox" class="${
     style.toggleInput
   }" checked><label class="${contrastSensitiveStyle.annotationButton} ${
     style.toggleButton
-  }" for="toggleAnnotation">${annotationIcon}</label>`;
+  }" for="${viewerCSSIdentifier}-toggleAnnotation">${annotationIcon}</label>`;
   annotationButton.addEventListener('change', (event) => {
     toggleAnnotation();
   });
@@ -102,10 +102,10 @@ function createMainUI(
 
   function setViewModeXPlane() {
     view.setViewMode('XPlane');
-    document.getElementById('xPlaneButton').checked = true;
-    document.getElementById('yPlaneButton').checked = false;
-    document.getElementById('zPlaneButton').checked = false;
-    document.getElementById('volumeRenderingButton').checked = false;
+    document.getElementById(`${viewerCSSIdentifier}-xPlaneButton`).checked = true;
+    document.getElementById(`${viewerCSSIdentifier}-yPlaneButton`).checked = false;
+    document.getElementById(`${viewerCSSIdentifier}-zPlaneButton`).checked = false;
+    document.getElementById(`${viewerCSSIdentifier}-volumeRenderingButton`).checked = false;
     const volumeRenderingRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-volumeRendering`);
     volumeRenderingRow.style.display = 'none';
     const xPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-x-plane-row`);
@@ -117,10 +117,10 @@ function createMainUI(
   }
   function setViewModeYPlane() {
     view.setViewMode('YPlane');
-    document.getElementById('xPlaneButton').checked = false;
-    document.getElementById('yPlaneButton').checked = true;
-    document.getElementById('zPlaneButton').checked = false;
-    document.getElementById('volumeRenderingButton').checked = false;
+    document.getElementById(`${viewerCSSIdentifier}-xPlaneButton`).checked = false;
+    document.getElementById(`${viewerCSSIdentifier}-yPlaneButton`).checked = true;
+    document.getElementById(`${viewerCSSIdentifier}-zPlaneButton`).checked = false;
+    document.getElementById(`${viewerCSSIdentifier}-volumeRenderingButton`).checked = false;
     const volumeRenderingRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-volumeRendering`);
     volumeRenderingRow.style.display = 'none';
     const xPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-x-plane-row`);
@@ -132,10 +132,10 @@ function createMainUI(
   }
   function setViewModeZPlane() {
     view.setViewMode('ZPlane');
-    document.getElementById('xPlaneButton').checked = false;
-    document.getElementById('yPlaneButton').checked = false;
-    document.getElementById('zPlaneButton').checked = true;
-    document.getElementById('volumeRenderingButton').checked = false;
+    document.getElementById(`${viewerCSSIdentifier}-xPlaneButton`).checked = false;
+    document.getElementById(`${viewerCSSIdentifier}-yPlaneButton`).checked = false;
+    document.getElementById(`${viewerCSSIdentifier}-zPlaneButton`).checked = true;
+    document.getElementById(`${viewerCSSIdentifier}-volumeRenderingButton`).checked = false;
     const volumeRenderingRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-volumeRendering`);
     volumeRenderingRow.style.display = 'none';
     const xPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-x-plane-row`);
@@ -147,13 +147,13 @@ function createMainUI(
   }
   function setViewModeVolumeRendering() {
     view.setViewMode('VolumeRendering');
-    document.getElementById('xPlaneButton').checked = false;
-    document.getElementById('yPlaneButton').checked = false;
-    document.getElementById('zPlaneButton').checked = false;
-    document.getElementById('volumeRenderingButton').checked = true;
+    document.getElementById(`${viewerCSSIdentifier}-xPlaneButton`).checked = false;
+    document.getElementById(`${viewerCSSIdentifier}-yPlaneButton`).checked = false;
+    document.getElementById(`${viewerCSSIdentifier}-zPlaneButton`).checked = false;
+    document.getElementById(`${viewerCSSIdentifier}-volumeRenderingButton`).checked = true;
     const volumeRenderingRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-volumeRendering`);
     volumeRenderingRow.style.display = 'flex';
-    const viewPlanes = document.getElementById('viewPlanes').checked;
+    const viewPlanes = document.getElementById(`${viewerCSSIdentifier}-viewPlanes`).checked;
     const xPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-x-plane-row`);
     const yPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-y-plane-row`);
     const zPlaneRow = uiContainer.querySelector(`.${viewerCSSIdentifier}-z-plane-row`);
@@ -169,38 +169,38 @@ function createMainUI(
   }
   if (!use2D) {
     const xPlaneButton = document.createElement('div');
-    xPlaneButton.innerHTML = `<input id="xPlaneButton" type="checkbox" class="${
+    xPlaneButton.innerHTML = `<input id="${viewerCSSIdentifier}-xPlaneButton" type="checkbox" class="${
       style.toggleInput
     }"><label class="${style.viewModeButton} ${
       style.toggleButton
-    }" for="xPlaneButton">${xPlaneIcon}</label>`;
+    }" for="${viewerCSSIdentifier}-xPlaneButton">${xPlaneIcon}</label>`;
     xPlaneButton.addEventListener('click', setViewModeXPlane);
     mainUIRow.appendChild(xPlaneButton);
 
     const yPlaneButton = document.createElement('div');
-    yPlaneButton.innerHTML = `<input id="yPlaneButton" type="checkbox" class="${
+    yPlaneButton.innerHTML = `<input id="${viewerCSSIdentifier}-yPlaneButton" type="checkbox" class="${
       style.toggleInput
     }"><label class="${style.viewModeButton} ${
       style.toggleButton
-    }" for="yPlaneButton">${yPlaneIcon}</label>`;
+    }" for="${viewerCSSIdentifier}-yPlaneButton">${yPlaneIcon}</label>`;
     yPlaneButton.addEventListener('click', setViewModeYPlane);
     mainUIRow.appendChild(yPlaneButton);
 
     const zPlaneButton = document.createElement('div');
-    zPlaneButton.innerHTML = `<input id="zPlaneButton" type="checkbox" class="${
+    zPlaneButton.innerHTML = `<input id="${viewerCSSIdentifier}-zPlaneButton" type="checkbox" class="${
       style.toggleInput
     }"><label class="${style.viewModeButton} ${
       style.toggleButton
-    }" for="zPlaneButton">${zPlaneIcon}</label>`;
+    }" for="${viewerCSSIdentifier}-zPlaneButton">${zPlaneIcon}</label>`;
     zPlaneButton.addEventListener('click', setViewModeZPlane);
     mainUIRow.appendChild(zPlaneButton);
 
     const volumeRenderingButton = document.createElement('div');
-    volumeRenderingButton.innerHTML = `<input id="volumeRenderingButton" type="checkbox" class="${
+    volumeRenderingButton.innerHTML = `<input id="${viewerCSSIdentifier}-volumeRenderingButton" type="checkbox" class="${
       style.toggleInput
     }" checked><label class="${style.viewModeButton} ${
       style.toggleButton
-    }" for="volumeRenderingButton">${volumeRenderingIcon}</label>`;
+    }" for="${viewerCSSIdentifier}-volumeRenderingButton">${volumeRenderingIcon}</label>`;
     volumeRenderingButton.addEventListener('click', setViewModeVolumeRendering);
     mainUIRow.appendChild(volumeRenderingButton);
   }

@@ -91,8 +91,11 @@ const createViewer = (
     }
   }
 
+  const viewerCSSIdentifier = 'itk-vtk-viewer-' + performance.now().toString().replace('.', '')
+
   const uiContainer = userInterface.createMainUI(
     rootContainer,
+    viewerCSSIdentifier,
     isBackgroundDark,
     use2D,
     imageSource,
@@ -103,6 +106,7 @@ const createViewer = (
   if (image) {
     userInterface.createImageUI(
       uiContainer,
+      viewerCSSIdentifier,
       lookupTable,
       piecewiseFunction,
       representation,

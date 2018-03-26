@@ -14,6 +14,7 @@ import viewPlansIcon from './icons/view-planes.svg';
 
 function createViewPlanesToggle(
   imageUIGroup,
+  viewerCSSIdentifier,
   volumeRenderingRow,
   view,
 ) {
@@ -21,9 +22,9 @@ function createViewPlanesToggle(
   function setViewPlanes() {
     viewPlanes = !viewPlanes;
     view.setViewPlanes(viewPlanes);
-    const xPlaneRow = imageUIGroup.querySelector('.js-x-plane-row');
-    const yPlaneRow = imageUIGroup.querySelector('.js-y-plane-row');
-    const zPlaneRow = imageUIGroup.querySelector('.js-z-plane-row');
+    const xPlaneRow = imageUIGroup.querySelector(`.${viewerCSSIdentifier}-x-plane-row`);
+    const yPlaneRow = imageUIGroup.querySelector(`.${viewerCSSIdentifier}-y-plane-row`);
+    const zPlaneRow = imageUIGroup.querySelector(`.${viewerCSSIdentifier}-z-plane-row`);
     if (view.getViewMode() === 'VolumeRendering') {
       if (viewPlanes) {
         xPlaneRow.style.display = 'flex';
@@ -77,6 +78,7 @@ function createUseShadowToggle(
 
 function createTransferFunctionWidget(
   uiContainer,
+  viewerCSSIdentifier,
   lookupTableProxy,
   piecewiseFunctionProxy,
   dataArray,
@@ -169,7 +171,7 @@ function createTransferFunctionWidget(
 
   const transferFunctionWidgetRow = document.createElement('div');
   transferFunctionWidgetRow.setAttribute('class', style.uiRow);
-  transferFunctionWidgetRow.className += ' js-toggle';
+  transferFunctionWidgetRow.className += ` ${viewerCSSIdentifier}-toggle`;
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer);
   uiContainer.appendChild(transferFunctionWidgetRow);
 
@@ -241,6 +243,7 @@ function createTransferFunctionWidget(
 
 function createPlaneIndexSliders(
   uiContainer,
+  viewerCSSIdentifier,
   volumeRepresentation,
   renderWindow,
   isBackgroundDark
@@ -254,7 +257,7 @@ function createPlaneIndexSliders(
 
   const xPlaneRow = document.createElement('div');
   xPlaneRow.setAttribute('class', style.uiRow);
-  xPlaneRow.className += ' js-toggle js-x-plane-row';
+  xPlaneRow.className += ` ${viewerCSSIdentifier}-toggle ${viewerCSSIdentifier}-x-plane-row`;
 
   const xSlice = volumeRepresentation.getPropertyDomainByName('xSlice')
   const ySlice = volumeRepresentation.getPropertyDomainByName('ySlice')
@@ -266,12 +269,12 @@ function createPlaneIndexSliders(
   xSliderEntry.innerHTML = `
     <label class="${
       contrastSensitiveStyle.sliderLabel
-    } js-x-slice-label">X:</label><input type="range" min="${xSlice.min}" max="${
+    } ${viewerCSSIdentifier}-x-slice-label">X:</label><input type="range" min="${xSlice.min}" max="${
     xSlice.max
   }" value="${currentSlicePosition}" step="${xSlice.step}"
-      class="${style.slider} js-x-slice" />`;
-  const xSliceElement = xSliderEntry.querySelector('.js-x-slice');
-  const xPlaneLabel = xSliderEntry.querySelector('.js-x-slice-label');
+      class="${style.slider} ${viewerCSSIdentifier}-x-slice" />`;
+  const xSliceElement = xSliderEntry.querySelector(`.${viewerCSSIdentifier}-x-slice`);
+  const xPlaneLabel = xSliderEntry.querySelector(`.${viewerCSSIdentifier}-x-slice-label`);
   function updateXSlice() {
     const value = Number(xSliceElement.value);
     volumeRepresentation.setXSlice(value);
@@ -290,7 +293,7 @@ function createPlaneIndexSliders(
 
   const yPlaneRow = document.createElement('div');
   yPlaneRow.setAttribute('class', style.uiRow);
-  yPlaneRow.className += ' js-toggle js-y-plane-row';
+  yPlaneRow.className += ` ${viewerCSSIdentifier}-toggle ${viewerCSSIdentifier}-y-plane-row`;
 
   const ySliderEntry = document.createElement('div');
   ySliderEntry.setAttribute('class', style.sliderEntry);
@@ -298,12 +301,12 @@ function createPlaneIndexSliders(
   ySliderEntry.innerHTML = `
     <label class="${
       contrastSensitiveStyle.sliderLabel
-    } js-y-slice-label">Y:</label><input type="range" min="${ySlice.min}" max="${
+    } ${viewerCSSIdentifier}-y-slice-label">Y:</label><input type="range" min="${ySlice.min}" max="${
     ySlice.max
   }" value="${currentSlicePosition}" step="${ySlice.step}"
-      class="${style.slider} js-y-slice" />`;
-  const ySliceElement = ySliderEntry.querySelector('.js-y-slice');
-  const yPlaneLabel = ySliderEntry.querySelector('.js-y-slice-label');
+      class="${style.slider} ${viewerCSSIdentifier}-y-slice" />`;
+  const ySliceElement = ySliderEntry.querySelector(`.${viewerCSSIdentifier}-y-slice`);
+  const yPlaneLabel = ySliderEntry.querySelector(`.${viewerCSSIdentifier}-y-slice-label`);
   function updateYSlice() {
     const value = Number(ySliceElement.value);
     volumeRepresentation.setYSlice(value);
@@ -322,7 +325,7 @@ function createPlaneIndexSliders(
 
   const zPlaneRow = document.createElement('div');
   zPlaneRow.setAttribute('class', style.uiRow);
-  zPlaneRow.className += ' js-toggle js-z-plane-row';
+  zPlaneRow.className += ` ${viewerCSSIdentifier}-toggle ${viewerCSSIdentifier}-z-plane-row`;
 
   const zSliderEntry = document.createElement('div');
   zSliderEntry.setAttribute('class', style.sliderEntry);
@@ -330,12 +333,12 @@ function createPlaneIndexSliders(
   zSliderEntry.innerHTML = `
     <label class="${
       contrastSensitiveStyle.sliderLabel
-    } js-z-slice-label">Z:</label><input type="range" min="${zSlice.min}" max="${
+    } ${viewerCSSIdentifier}-z-slice-label">Z:</label><input type="range" min="${zSlice.min}" max="${
     zSlice.max
   }" value="${currentSlicePosition}" step="${zSlice.step}"
-      class="${style.slider} js-z-slice" />`;
-  const zSliceElement = zSliderEntry.querySelector('.js-z-slice');
-  const zPlaneLabel = zSliderEntry.querySelector('.js-z-slice-label');
+      class="${style.slider} ${viewerCSSIdentifier}-z-slice" />`;
+  const zSliceElement = zSliderEntry.querySelector(`.${viewerCSSIdentifier}-z-slice`);
+  const zPlaneLabel = zSliderEntry.querySelector(`.${viewerCSSIdentifier}-z-slice-label`);
   function updateZSlice() {
     const value = Number(zSliceElement.value);
     volumeRepresentation.setZSlice(value);
@@ -355,6 +358,7 @@ function createPlaneIndexSliders(
 
 function createColorPresetSelector(
   uiContainer,
+  viewerCSSIdentifier,
   lookupTableProxy,
   renderWindow
 ) {
@@ -362,7 +366,7 @@ function createColorPresetSelector(
 
   const presetSelector = document.createElement('select');
   presetSelector.setAttribute('class', style.selector);
-  presetSelector.className += ' js-color-preset';
+  presetSelector.className += ` ${viewerCSSIdentifier}-color-preset`;
   presetSelector.innerHTML = presetNames
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');
@@ -379,6 +383,7 @@ function createColorPresetSelector(
 
 function createSampleDistanceSlider(
   uiContainer,
+  viewerCSSIdentifier,
   isBackgroundDark,
   volumeRepresentation,
   renderWindow
@@ -395,8 +400,8 @@ function createSampleDistanceSlider(
       ${sampleDistanceIcon}
     </div>
     <input type="range" min="0" max="1" value="0.3" step="0.01"
-      class="${style.slider} js-spacing" />`;
-  const spacingElement = sliderEntry.querySelector('.js-spacing');
+      class="${style.slider} ${viewerCSSIdentifier}-spacing" />`;
+  const spacingElement = sliderEntry.querySelector(`.${viewerCSSIdentifier}-spacing`);
   function updateSpacing() {
     const value = Number(spacingElement.value);
     volumeRepresentation.setSampleDistance(value);
@@ -409,6 +414,7 @@ function createSampleDistanceSlider(
 
 function createGradientOpacitySlider(
   uiContainer,
+  viewerCSSIdentifier,
   isBackgroundDark,
   volumeRepresentation,
   renderWindow
@@ -425,8 +431,8 @@ function createGradientOpacitySlider(
       ${gradientOpacityIcon}
     </div>
     <input type="range" min="0" max="1" value="0.2" step="0.01"
-      class="${style.slider} js-edge" />`;
-  const edgeElement = sliderEntry.querySelector('.js-edge');
+      class="${style.slider} ${viewerCSSIdentifier}-edge" />`;
+  const edgeElement = sliderEntry.querySelector(`.${viewerCSSIdentifier}-edge`)
   function updateGradientOpacity() {
     const value = Number(edgeElement.value);
     volumeRepresentation.setEdgeGradient(value);
@@ -439,6 +445,7 @@ function createGradientOpacitySlider(
 
 function createImageUI(
   uiContainer,
+  viewerCSSIdentifier,
   lookupTableProxy,
   piecewiseFunctionProxy,
   volumeRepresentation,
@@ -454,12 +461,13 @@ function createImageUI(
 
   const presetRow = document.createElement('div');
   presetRow.setAttribute('class', style.uiRow);
-  createColorPresetSelector(presetRow, lookupTableProxy, renderWindow);
-  presetRow.className += ' js-toggle';
+  createColorPresetSelector(presetRow, viewerCSSIdentifier, lookupTableProxy, renderWindow);
+  presetRow.className += ` ${viewerCSSIdentifier}-toggle`
   imageUIGroup.appendChild(presetRow);
 
   createTransferFunctionWidget(
     imageUIGroup,
+    viewerCSSIdentifier,
     lookupTableProxy,
     piecewiseFunctionProxy,
     dataArray,
@@ -471,9 +479,10 @@ function createImageUI(
   if (!use2D) {
     const volumeRenderingRow = document.createElement('div');
     volumeRenderingRow.setAttribute('class', style.uiRow);
-    volumeRenderingRow.className += ' js-volumeRendering js-toggle';
+    volumeRenderingRow.className += ` ${viewerCSSIdentifier}-volumeRendering ${viewerCSSIdentifier}-toggle`
     createViewPlanesToggle(
       imageUIGroup,
+      viewerCSSIdentifier,
       volumeRenderingRow,
       view,
     );
@@ -485,12 +494,14 @@ function createImageUI(
     );
     createSampleDistanceSlider(
       volumeRenderingRow,
+      viewerCSSIdentifier,
       isBackgroundDark,
       volumeRepresentation,
       renderWindow
     );
     createGradientOpacitySlider(
       volumeRenderingRow,
+      viewerCSSIdentifier,
       isBackgroundDark,
       volumeRepresentation,
       renderWindow
@@ -499,6 +510,7 @@ function createImageUI(
 
     createPlaneIndexSliders(
       imageUIGroup,
+      viewerCSSIdentifier,
       volumeRepresentation,
       renderWindow,
       isBackgroundDark

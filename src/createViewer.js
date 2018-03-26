@@ -24,14 +24,14 @@ function applyStyle(el, style) {
   });
 }
 
-const proxyManager = vtkProxyManager.newInstance({ proxyConfiguration });
-window.addEventListener('resize', proxyManager.resizeAllViews);
-
 const createViewer = (
   rootContainer,
   { viewerConfig, image, use2D = false, viewerState, uploadFileHandler }
 ) => {
   userInterface.emptyContainer(rootContainer);
+
+  const proxyManager = vtkProxyManager.newInstance({ proxyConfiguration });
+  window.addEventListener('resize', proxyManager.resizeAllViews);
 
   const container = document.createElement('div');
   const defaultConfig = {
@@ -125,7 +125,7 @@ const createViewer = (
   });
   proxyManager.renderAllViews();
 
-  return { view, imageSource, lookupTable, piecewiseFunction, resizeSensor };
+  return { proxyManager, view, imageSource, lookupTable, piecewiseFunction, resizeSensor };
 };
 
 export default createViewer;

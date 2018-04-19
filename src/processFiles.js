@@ -18,7 +18,8 @@ const processFiles = (container, { files, use2D, uploadFileHandler }) => {
       reader = itkreadImageFile;
       arg = files[0];
     }
-    reader(arg).then((itkImage) => {
+    reader(null, arg).then(({ image: itkImage, webWorker }) => {
+      webWorker.terminate()
       const imageData = vtkITKHelper.convertItkToVtkImage(itkImage);
       const is3D = itkImage.imageType.dimension === 3 && !use2D;
 

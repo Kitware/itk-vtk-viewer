@@ -35,7 +35,7 @@ const verifyImage = (t, image) => {
 }
 
 test('readImageBlob reads a Blob', (t) => {
-  return readImageBlob(cthead1SmallBlob, 'cthead1Small.png').then(function (image) {
+  return readImageBlob(null, cthead1SmallBlob, 'cthead1Small.png').then(function ({ image }) {
     verifyImage(t, image)
   })
 })

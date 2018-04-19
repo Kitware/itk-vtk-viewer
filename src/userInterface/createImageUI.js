@@ -460,11 +460,13 @@ function createImageUI(
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
-  const presetRow = document.createElement('div');
-  presetRow.setAttribute('class', style.uiRow);
-  createColorPresetSelector(presetRow, viewerDOMId, lookupTableProxy, renderWindow);
-  presetRow.className += ` ${viewerDOMId}-toggle`
-  imageUIGroup.appendChild(presetRow);
+  if (dataArray.getNumberOfComponents() === 1) {
+    const presetRow = document.createElement('div');
+    presetRow.setAttribute('class', style.uiRow);
+    createColorPresetSelector(presetRow, viewerDOMId, lookupTableProxy, renderWindow);
+    presetRow.className += ` ${viewerDOMId}-toggle`
+    imageUIGroup.appendChild(presetRow);
+  }
 
   createTransferFunctionWidget(
     imageUIGroup,

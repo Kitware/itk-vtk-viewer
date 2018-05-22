@@ -70,20 +70,6 @@ function ItkVtkViewProxy(publicAPI, model) {
     }
   }
 
-  function leftPad(value) {
-    const valueString = String(value);
-    const padLength = valueString.length < 4 ? 4 - valueString.length : 0;
-    const pad = '&nbsp;'.repeat(padLength);
-    return `${pad}${valueString}`;
-  }
-
-  function rightPad(value) {
-    const valueString = String(value);
-    const padLength = valueString.length < 15 ? 15 - valueString.length : 0;
-    const pad = '&nbsp;'.repeat(padLength);
-    return `${valueString}${pad}`;
-  }
-
   function updateAnnotations(callData) {
     const renderPosition = callData.position;
     model.annotationPicker.pick(
@@ -104,13 +90,13 @@ function ItkVtkViewProxy(publicAPI, model) {
         model.dataProbeActor.setVisibility(true);
         model.dataProbeFrameActor.setVisibility(true);
         publicAPI.updateCornerAnnotation({
-          iIndex: leftPad(ijk[0]),
-          jIndex: leftPad(ijk[1]),
-          kIndex: leftPad(ijk[2]),
-          xPosition: leftPad(String(worldPosition[0]).substring(0, 4)),
-          yPosition: leftPad(String(worldPosition[1]).substring(0, 4)),
-          zPosition: leftPad(String(worldPosition[2]).substring(0, 4)),
-          value: rightPad(value),
+          iIndex: ijk[0],
+          jIndex: ijk[1],
+          kIndex: ijk[2],
+          xPosition: String(worldPosition[0]).substring(0, 4),
+          yPosition: String(worldPosition[1]).substring(0, 4),
+          zPosition: String(worldPosition[2]).substring(0, 4),
+          value: value,
         });
       } else {
         model.dataProbeActor.setVisibility(false);
@@ -123,7 +109,7 @@ function ItkVtkViewProxy(publicAPI, model) {
 
   publicAPI.setCornerAnnotation(
     'se',
-    'Index: ${iIndex}, ${jIndex}, ${kIndex}<br>Position: ${xPosition}, ${yPosition}, ${zPosition}<br>Value:&nbsp;&nbsp;${value}'
+    '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td>${value}</td></tr></table>'
   );
   publicAPI.updateCornerAnnotation({
     iIndex: '&nbsp;N/A',
@@ -133,7 +119,7 @@ function ItkVtkViewProxy(publicAPI, model) {
     yPosition: '&nbsp;N/A',
     zPosition: '&nbsp;N/A',
     value:
-      'N/A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+      'N/A&nbsp;',
   });
   publicAPI.setAnnotationOpacity(0.0);
   model.annotationPicker = vtkCellPicker.newInstance();

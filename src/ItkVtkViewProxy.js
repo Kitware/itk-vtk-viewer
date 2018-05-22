@@ -98,8 +98,9 @@ function ItkVtkViewProxy(publicAPI, model) {
       const value = scalarData.getTuple(
         size[0] * size[1] * ijk[2] + size[0] * ijk[1] + ijk[0]
       );
-      const worldPosition = model.annotationPicker.getPCoords();
-      if (ijk.length > 0) {
+      const worldPositions = model.annotationPicker.getPickedPositions();
+      if (ijk.length > 0 && worldPositions.length > 0) {
+        const worldPosition = worldPositions[0];
         model.dataProbeCubeSource.setCenter(worldPosition);
         model.dataProbeActor.setVisibility(true);
         model.dataProbeFrameActor.setVisibility(true);

@@ -230,6 +230,24 @@ function ItkVtkViewProxy(publicAPI, model) {
     }
   };
 
+  publicAPI.setPlanesUseLinearInterpolation = (interpolate) => {
+    if (model.volumeRepresentation) {
+      if (interpolate) {
+        model.volumeRepresentation.getActors().forEach((actor) => {
+          actor.getProperty().setInterpolationTypeToLinear();
+          actor.getRGBTransferFunction().modified();
+        });
+        model.renderWindow.render();
+      } else {
+        model.volumeRepresentation.getActors().forEach((actor) => {
+          actor.getProperty().setInterpolationTypeToNearest();
+          actor.getRGBTransferFunction().modified();
+        });
+        model.renderWindow.render();
+      }
+    }
+  };
+
   const superAddRepresentation = publicAPI.addRepresentation;
   publicAPI.addRepresentation = (representation) => {
     superAddRepresentation(representation);

@@ -171,6 +171,33 @@
   -webkit-filter: invert(100%);
 }
 
+.interpolationButton {
+  flex: 1;
+  height: 1.5em;
+  width: 1.5em;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.interpolationButton svg {
+  height: 1.2em;
+  width: 1.2em;
+}
+
+.interpolationButtonBrightBG {
+  composes: interpolationButton;
+}
+
+.interpolationButtonDarkBG {
+  composes: interpolationButton;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
 .viewModeButton {
   flex: 1;
   height: 1.5em;
@@ -239,7 +266,7 @@
 .toggleButton {
   cursor: pointer;
   border-radius: 0.2em;
-  opacity: 0.65;
+  opacity: 0.45;
 }
 
 input:checked.toggleInput + label {

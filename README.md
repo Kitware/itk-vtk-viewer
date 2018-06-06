@@ -4,8 +4,8 @@
 [![Dependency Status](https://david-dm.org/kitware/itk-vtk-image-viewer.svg)](https://david-dm.org/kitware/itk-vtk-image-viewer)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 ![npm-download](https://img.shields.io/npm/dm/itk-vtk-image-viewer.svg)
-![npm-version-requirement](https://img.shields.io/badge/npm->=3.0.0-brightgreen.svg)
-![node-version-requirement](https://img.shields.io/badge/node->=5.0.0-brightgreen.svg)
+![npm-version-requirement](https://img.shields.io/badge/npm->=5.0.0-brightgreen.svg)
+![node-version-requirement](https://img.shields.io/badge/node->=8.0.0-brightgreen.svg)
 
 Introduction
 ============
@@ -32,8 +32,8 @@ In general ITK/VTK ImageViewer tries to be as portable as possible; the specific
 
 ITK/VTK ImageViewer supports the following development environments:
 
-- Node 5+
-- NPM 3+
+- Node 8+
+- NPM 5+
 
 and the following browsers:
 

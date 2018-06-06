@@ -11,6 +11,7 @@ import xPlaneIcon from './icons/x-plane.svg';
 import yPlaneIcon from './icons/y-plane.svg';
 import zPlaneIcon from './icons/z-plane.svg';
 import annotationIcon from './icons/annotations.svg';
+import interpolationIcon from './icons/interpolation.svg';
 
 function createMainUI(
   rootContainer,
@@ -26,7 +27,7 @@ function createMainUI(
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['uiToggleButton', 'uploadButton', 'screenshotButton', 'annotationButton'],
+    ['uiToggleButton', 'uploadButton', 'screenshotButton', 'annotationButton', 'interpolationButton'],
     isBackgroundDark
   );
 
@@ -99,6 +100,22 @@ function createMainUI(
     toggleAnnotation();
   });
   mainUIRow.appendChild(annotationButton);
+
+  let interpolationEnabled = true;
+  function toggleInterpolation() {
+    interpolationEnabled = !interpolationEnabled;
+    view.setPlanesUseLinearInterpolation(interpolationEnabled);
+  }
+  const interpolationButton = document.createElement('div');
+  interpolationButton.innerHTML = `<input id="${viewerDOMId}-toggleInterpolation" type="checkbox" class="${
+    style.toggleInput
+  }" checked><label class="${contrastSensitiveStyle.interpolationButton} ${
+    style.toggleButton
+  }" for="${viewerDOMId}-toggleInterpolation">${interpolationIcon}</label>`;
+  interpolationButton.addEventListener('change', (event) => {
+    toggleInterpolation();
+  });
+  mainUIRow.appendChild(interpolationButton);
 
   function setViewModeXPlane() {
     view.setViewMode('XPlane');

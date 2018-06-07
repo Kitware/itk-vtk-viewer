@@ -33,17 +33,17 @@
     "karma-tap-pretty-reporter": "^4.0.0",
     "karma-webpack": "2.0.13",
     "kw-doc": "1.1.1",
-    "kw-web-suite": "^5.0.1",
+    "kw-web-suite": "^6.1.0",
     "prettier": "^1.10.2",
     "shelljs": "0.7.7",
     "tap-markdown": "^1.2.1",
     "tap-spec": "^4.1.1",
     "tape": "^4.8.0",
     "tape-catch": "^1.0.6",
-    "webpack-dev-server": "^2.11.1",
+    "webpack-dev-server": "^3.1.4",
     "workbox-build": "^2.1.2",
     "workbox-webpack-plugin": "^2.1.2",
-    "worker-loader": "^1.1.0"
+    "worker-loader": "^2.0.0"
   },
   "scripts": {
     "doc": "kw-doc -c ./doc/config.js",

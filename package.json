@@ -33,7 +33,7 @@
     "karma-tap-pretty-reporter": "^4.0.0",
     "karma-webpack": "2.0.13",
     "kw-doc": "1.1.1",
-    "kw-web-suite": "^5.0.1",
+    "kw-web-suite": "^6.1.0",
     "prettier": "^1.10.2",
     "shelljs": "0.7.7",
     "tap-markdown": "^1.2.1",

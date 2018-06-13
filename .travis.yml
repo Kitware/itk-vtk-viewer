@@ -14,7 +14,7 @@ addons:
 addons:
   chrome: stable
 node_js:
-  - '9'
+  - '10'
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libgif-dev

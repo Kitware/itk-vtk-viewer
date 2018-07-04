@@ -142,7 +142,6 @@ function ItkVtkViewProxy(publicAPI, model) {
   // use the same color map in the planes
   // colormap changes with window / level
   // window / level changes piecewise =jk
-  publicAPI.resetOrientation();
 
   model.dataProbeCubeSource = vtkCubeSource.newInstance();
   model.dataProbeMapper = vtkMapper.newInstance();

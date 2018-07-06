@@ -246,13 +246,13 @@ function ItkVtkViewProxy(publicAPI, model) {
       if (interpolate) {
         model.volumeRepresentation.getActors().forEach((actor) => {
           actor.getProperty().setInterpolationTypeToLinear();
-          actor.getRGBTransferFunction().modified();
+          actor.getProperty().getRGBTransferFunction().modified();
         });
         model.renderWindow.render();
       } else {
         model.volumeRepresentation.getActors().forEach((actor) => {
           actor.getProperty().setInterpolationTypeToNearest();
-          actor.getRGBTransferFunction().modified();
+          actor.getProperty().getRGBTransferFunction().modified();
         });
         model.renderWindow.render();
       }

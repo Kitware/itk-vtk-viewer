@@ -125,6 +125,8 @@ const createViewer = (
   });
   proxyManager.renderAllViews();
 
+  setTimeout(view.resetCamera, 1);
+
   return { proxyManager, view, imageSource, lookupTable, piecewiseFunction, resizeSensor };
 };
 

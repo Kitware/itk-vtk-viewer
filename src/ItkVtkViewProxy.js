@@ -185,18 +185,30 @@ function ItkVtkViewProxy(publicAPI, model) {
     }
     switch (mode) {
       case 'XPlane':
+        if (model.viewMode === 'XPlane') {
+          break;
+        }
         model.viewMode = mode;
         setVisualizationMode(0);
         break;
       case 'YPlane':
+        if (model.viewMode === 'YPlane') {
+          break;
+        }
         model.viewMode = mode;
         setVisualizationMode(1);
         break;
       case 'ZPlane':
+        if (model.viewMode === 'ZPlane') {
+          break;
+        }
         model.viewMode = mode;
         setVisualizationMode(2);
         break;
       case 'VolumeRendering':
+        if (model.viewMode === 'VolumeRendering') {
+          break;
+        }
         model.viewMode = mode;
         setVisualizationMode(-1);
         break;

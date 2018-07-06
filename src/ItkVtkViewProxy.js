@@ -142,7 +142,6 @@ function ItkVtkViewProxy(publicAPI, model) {
   // use the same color map in the planes
   // colormap changes with window / level
   // window / level changes piecewise =jk
-  publicAPI.resetOrientation();
 
   model.dataProbeCubeSource = vtkCubeSource.newInstance();
   model.dataProbeMapper = vtkMapper.newInstance();
@@ -186,18 +185,30 @@ function ItkVtkViewProxy(publicAPI, model) {
     }
     switch (mode) {
       case 'XPlane':
+        if (model.viewMode === 'XPlane') {
+          break;
+        }
         model.viewMode = mode;
         setVisualizationMode(0);
         break;
       case 'YPlane':
+        if (model.viewMode === 'YPlane') {
+          break;
+        }
         model.viewMode = mode;
         setVisualizationMode(1);
         break;
       case 'ZPlane':
+        if (model.viewMode === 'ZPlane') {
+          break;
+        }
         model.viewMode = mode;
         setVisualizationMode(2);
         break;
       case 'VolumeRendering':
+        if (model.viewMode === 'VolumeRendering') {
+          break;
+        }
         model.viewMode = mode;
         setVisualizationMode(-1);
         break;
@@ -235,13 +246,13 @@ function ItkVtkViewProxy(publicAPI, model) {
       if (interpolate) {
         model.volumeRepresentation.getActors().forEach((actor) => {
           actor.getProperty().setInterpolationTypeToLinear();
-          actor.getRGBTransferFunction().modified();
+          actor.getProperty().getRGBTransferFunction().modified();
         });
         model.renderWindow.render();
       } else {
         model.volumeRepresentation.getActors().forEach((actor) => {
           actor.getProperty().setInterpolationTypeToNearest();
-          actor.getRGBTransferFunction().modified();
+          actor.getProperty().getRGBTransferFunction().modified();
         });
         model.renderWindow.render();
       }

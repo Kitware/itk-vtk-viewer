@@ -19,7 +19,7 @@
     "express": "4.16.2",
     "itk": "9.1.1",
     "open": "0.0.5",
-    "vtk.js": "6.6.5"
+    "vtk.js": "7.3.2"
   },
   "devDependencies": {
     "babel-polyfill": "^6.26.0",
@@ -49,12 +49,12 @@
     "doc": "kw-doc -c ./doc/config.js",
     "doc:www": "kw-doc -c ./doc/config.js -s",
     "doc:publish": "kw-doc -c ./doc/config.js -mp",
-    "build": "webpack --progress --colors",
-    "build:debug": "webpack --progress --colors --display-modules",
+    "build": "webpack --progress --colors --mode production",
+    "build:debug": "webpack --progress --colors --display-modules --mode development",
     "build:release": "npm run build -- -p",
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkImageViewer.html",
     "commit": "git cz",
-    "start": "webpack-dev-server --content-base ./dist/ --watch-content-base",
+    "start": "webpack-dev-server --mode development --content-base ./dist/ --watch-content-base",
     "semantic-release": "semantic-release",
     "test": "karma start ./karma.conf.js",
     "test:travis": "karma start ./karma.conf.js --browsers ChromeHeadless --single-run",

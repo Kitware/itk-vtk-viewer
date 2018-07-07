@@ -10,6 +10,7 @@ import yPlaneIcon from './icons/y-plane.svg';
 import zPlaneIcon from './icons/z-plane.svg';
 import annotationIcon from './icons/annotations.svg';
 import interpolationIcon from './icons/interpolation.svg';
+import cropIcon from './icons/crop.svg';
 
 function createMainUI(
   rootContainer,
@@ -24,7 +25,7 @@ function createMainUI(
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['toggleUserInterfaceButton', 'screenshotButton', 'annotationButton', 'interpolationButton'],
+    ['toggleUserInterfaceButton', 'screenshotButton', 'annotationButton', 'interpolationButton', 'cropButton'],
     isBackgroundDark
   );
 
@@ -100,6 +101,22 @@ function createMainUI(
     toggleInterpolation();
   });
   mainUIRow.appendChild(interpolationButton);
+
+  let cropEnabled = false;
+  function toggleCrop() {
+    cropEnabled = !cropEnabled;
+    view.setPlanesUseLinearCrop(cropEnabled);
+  }
+  const cropButton = document.createElement('div');
+  cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCrop" type="checkbox" class="${
+    style.toggleInput
+  }"><label class="${contrastSensitiveStyle.cropButton} ${
+    style.toggleButton
+  }" for="${viewerDOMId}-toggleCrop">${cropIcon}</label>`;
+  cropButton.addEventListener('change', (event) => {
+    toggleCrop();
+  });
+  mainUIRow.appendChild(cropButton);
 
   function setViewModeXPlane() {
     view.setViewMode('XPlane');

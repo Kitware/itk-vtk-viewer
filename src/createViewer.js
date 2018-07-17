@@ -92,7 +92,12 @@ const createViewer = (
     }
   }
 
-  const viewerDOMId = 'itk-vtk-viewer-' + performance.now().toString().replace('.', '')
+  const viewerDOMId =
+    'itk-vtk-viewer-' +
+    performance
+      .now()
+      .toString()
+      .replace('.', '');
 
   const uiContainer = userInterface.createMainUI(
     rootContainer,
@@ -105,7 +110,7 @@ const createViewer = (
   );
 
   if (image) {
-     const imageUI = userInterface.createImageUI(
+    const imageUI = userInterface.createImageUI(
       uiContainer,
       viewerDOMId,
       lookupTable,
@@ -129,7 +134,15 @@ const createViewer = (
 
   setTimeout(view.resetCamera, 1);
 
-  return { proxyManager, view, imageSource, lookupTable, piecewiseFunction, resizeSensor, transferFunctionWidget };
+  return {
+    proxyManager,
+    view,
+    imageSource,
+    lookupTable,
+    piecewiseFunction,
+    resizeSensor,
+    transferFunctionWidget,
+  };
 };
 
 export default createViewer;

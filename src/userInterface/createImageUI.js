@@ -240,6 +240,8 @@ function createTransferFunctionWidget(
   opacityRangeManipulatorShift.setVerticalListener(0, opacityMotionScale, 1, opacityGet, opacitySet);
   view.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulator);
   view.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulatorShift);
+
+  return transferFunctionWidget;
 }
 
 function createPlaneIndexSliders(
@@ -468,7 +470,7 @@ function createImageUI(
     imageUIGroup.appendChild(presetRow);
   }
 
-  createTransferFunctionWidget(
+  const transferFunctionWidget = createTransferFunctionWidget(
     imageUIGroup,
     viewerDOMId,
     lookupTableProxy,
@@ -522,6 +524,8 @@ function createImageUI(
   }
 
   uiContainer.appendChild(imageUIGroup);
+
+  return { transferFunctionWidget };
 }
 
 export default createImageUI;

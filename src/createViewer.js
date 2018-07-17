@@ -61,6 +61,7 @@ const createViewer = (
   let piecewiseFunction = null;
   let dataArray = null;
   let representation = null;
+  let transferFunctionWidget = null;
   if (image) {
     imageSource.setInputData(image);
 
@@ -104,7 +105,7 @@ const createViewer = (
   );
 
   if (image) {
-    userInterface.createImageUI(
+     const imageUI = userInterface.createImageUI(
       uiContainer,
       viewerDOMId,
       lookupTable,
@@ -115,6 +116,7 @@ const createViewer = (
       isBackgroundDark,
       use2D
     );
+    transferFunctionWidget = imageUI.transferFunctionWidget;
     const annotationContainer = container.querySelector('.js-se');
     annotationContainer.style.fontFamily = 'monospace';
   }
@@ -127,7 +129,7 @@ const createViewer = (
 
   setTimeout(view.resetCamera, 1);
 
-  return { proxyManager, view, imageSource, lookupTable, piecewiseFunction, resizeSensor };
+  return { proxyManager, view, imageSource, lookupTable, piecewiseFunction, resizeSensor, transferFunctionWidget };
 };
 
 export default createViewer;

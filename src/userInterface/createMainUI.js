@@ -57,7 +57,7 @@ function createMainUI(
   const uiToggleButton = document.createElement('div');
   uiToggleButton.innerHTML = `<div class="${
     contrastSensitiveStyle.uiToggleButton
-  }">${toggleIcon}</div>`;
+  }" id="${viewerDOMId}-uiToggleButton">${toggleIcon}</div>`;
   uiToggleButton.addEventListener('click', toggleUIVisibility);
   uiContainer.appendChild(uiToggleButton);
 
@@ -91,11 +91,11 @@ function createMainUI(
     view.setOrientationAnnotationVisibility(annotationEnabled);
   }
   const annotationButton = document.createElement('div');
-  annotationButton.innerHTML = `<input id="${viewerDOMId}-toggleAnnotation" type="checkbox" class="${
+  annotationButton.innerHTML = `<input id="${viewerDOMId}-toggleAnnotationButton" type="checkbox" class="${
     style.toggleInput
   }" checked><label class="${contrastSensitiveStyle.annotationButton} ${
     style.toggleButton
-  }" for="${viewerDOMId}-toggleAnnotation">${annotationIcon}</label>`;
+  }" for="${viewerDOMId}-toggleAnnotationButton">${annotationIcon}</label>`;
   annotationButton.addEventListener('change', (event) => {
     toggleAnnotation();
   });
@@ -107,11 +107,11 @@ function createMainUI(
     view.setPlanesUseLinearInterpolation(interpolationEnabled);
   }
   const interpolationButton = document.createElement('div');
-  interpolationButton.innerHTML = `<input id="${viewerDOMId}-toggleInterpolation" type="checkbox" class="${
+  interpolationButton.innerHTML = `<input id="${viewerDOMId}-toggleInterpolationButton" type="checkbox" class="${
     style.toggleInput
   }" checked><label class="${contrastSensitiveStyle.interpolationButton} ${
     style.toggleButton
-  }" for="${viewerDOMId}-toggleInterpolation">${interpolationIcon}</label>`;
+  }" for="${viewerDOMId}-toggleInterpolationButton">${interpolationIcon}</label>`;
   interpolationButton.addEventListener('change', (event) => {
     toggleInterpolation();
   });

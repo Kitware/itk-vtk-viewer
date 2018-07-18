@@ -142,6 +142,8 @@ const createViewer = (
     piecewiseFunction,
     resizeSensor,
     transferFunctionWidget,
+    viewerDOMId,
+    uiContainer,
   };
 };
 

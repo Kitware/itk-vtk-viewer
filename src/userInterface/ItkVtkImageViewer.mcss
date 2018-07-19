@@ -78,19 +78,19 @@
   z-index: 100;
 }
 
-.uiToggleButton {
+.toggleUserInterfaceButton {
   height: 1.5em;
   width: 1.5em;
   cursor: pointer;
   z-index: 1000;
 }
 
-.uiToggleButtonBrightBG {
-  composes: uiToggleButton;
+.toggleUserInterfaceButtonBrightBG {
+  composes: toggleUserInterfaceButton;
 }
 
-.uiToggleButtonDarkBG {
-  composes: uiToggleButton;
+.toggleUserInterfaceButtonDarkBG {
+  composes: toggleUserInterfaceButton;
   filter: invert(100%);
   -webkit-filter: invert(100%);
 }

@@ -134,6 +134,9 @@ const createViewer = (
 
   setTimeout(view.resetCamera, 1);
 
+  console.log(viewerDOMId);
+  console.log(uiContainer)
+
   return {
     proxyManager,
     view,

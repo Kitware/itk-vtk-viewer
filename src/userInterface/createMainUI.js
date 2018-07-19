@@ -27,7 +27,7 @@ function createMainUI(
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['uiToggleButton', 'uploadButton', 'screenshotButton', 'annotationButton', 'interpolationButton'],
+    ['toggleUserInterfaceButton', 'uploadButton', 'screenshotButton', 'annotationButton', 'interpolationButton'],
     isBackgroundDark
   );
 
@@ -39,27 +39,28 @@ function createMainUI(
   mainUIRow.className += ` ${viewerDOMId}-toggle`;
   mainUIGroup.appendChild(mainUIRow);
 
+  const toggleUserInterfaceButton = document.createElement('div');
   function toggleUIVisibility() {
     const elements = uiContainer.querySelectorAll(`.${viewerDOMId}-toggle`);
     let count = elements.length;
-    const toggleElementStyle = window.getComputedStyle(elements[0]);
-    const expanded = toggleElementStyle.getPropertyValue('display') === 'flex';
-    if (!expanded) {
+    const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === '';
+    if (collapsed) {
       while (count--) {
         elements[count].style.display = 'flex';
       }
+      toggleUserInterfaceButton.removeAttribute('collapsed');
     } else {
       while (count--) {
         elements[count].style.display = 'none';
       }
+      toggleUserInterfaceButton.setAttribute('collapsed', '');
     }
   }
-  const uiToggleButton = document.createElement('div');
-  uiToggleButton.innerHTML = `<div class="${
-    contrastSensitiveStyle.uiToggleButton
-  }" id="${viewerDOMId}-uiToggleButton">${toggleIcon}</div>`;
-  uiToggleButton.addEventListener('click', toggleUIVisibility);
-  uiContainer.appendChild(uiToggleButton);
+  toggleUserInterfaceButton.className = `${contrastSensitiveStyle.toggleUserInterfaceButton}`;
+  toggleUserInterfaceButton.id = `${viewerDOMId}-toggleUserInterfaceButton`
+  toggleUserInterfaceButton.innerHTML = `${toggleIcon}`;
+  toggleUserInterfaceButton.addEventListener('click', toggleUIVisibility);
+  uiContainer.appendChild(toggleUserInterfaceButton);
 
   if (uploadFileHandler) {
     const uploadButton = document.createElement('div');

@@ -8,3 +8,4 @@ node_modules
 Data
 dist/
 coverage/
+test/output.html

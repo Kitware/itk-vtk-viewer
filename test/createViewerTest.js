@@ -1,14 +1,18 @@
 import test from 'tape-catch'
 import axios from 'axios'
 
-import itkreadImageBlob from 'itk/readImageBlob';
+import itkreadImageBlob from 'itk/readImageBlob'
+import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
+import testUtils from 'vtk.js/Sources/Testing/testUtils'
 
 import createViewer from '../src/createViewer'
 import userInterface from '../src/userInterface'
 
-const testImage3DPath = 'base/test/data/HeadMRVolume.nrrd'
+const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
 
-test('Test default createViewer', (t) => {
+//import createViewerBaseline from './data/baseline/createViewer.png'
+
+test('Test createViewer', (t) => {
   const container = document.querySelector('body')
   const viewerContainer = document.createElement('div')
   container.appendChild(viewerContainer)
@@ -19,13 +23,16 @@ test('Test default createViewer', (t) => {
       })
     .then(({ image: itkImage, webWorker }) => {
       webWorker.terminate()
-      console.log(itkImage)
-      t.pass()
-      // clean-up
-      userInterface.emptyContainer(container);
-      t.end()
+
+      const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
+      const viewer = createViewer(container, { image: imageData })
+      viewer.captureImage().then((screenshot) => {
+        //testUtils.compareImages(screenshot, [createViewerBaseline], 'Test createViewer', t)
+        // clean-up
+        userInterface.emptyContainer(container)
+        t.pass()
+        t.end()
+      })
+      viewer.renderLater()
     })
-
-
-
 })

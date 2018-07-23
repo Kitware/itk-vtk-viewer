@@ -2,7 +2,6 @@
 /* eslint-disable react/require-extension */
 var path = require('path')
 
-const testsRules = require('vtk.js/Utilities/config/rules-tests.js')
 const vtkRules = require('vtk.js/Utilities/config/rules-vtk.js');
 
 var webpack = require('webpack')
@@ -42,7 +41,7 @@ module.exports = function init(config) {
       module: {
         rules: [
           { test: /\.(png|jpg)$/, use: 'url-loader?limit=81920' },
-        ].concat(testsRules, vtkRules),
+        ].concat(vtkRules),
       },
       resolve: {
         modules: [
@@ -67,6 +66,12 @@ module.exports = function init(config) {
     reporters: [
       'tap-pretty',
     ],
+
+    tapReporter: {
+      outputFile: 'test/output.html',
+      prettifier: 'tap-markdown',
+      separator: '\n=========================================================\n=========================================================\n',
+    },
 
     client: {
       useIframe: true,

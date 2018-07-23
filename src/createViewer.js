@@ -26,7 +26,7 @@ function applyStyle(el, style) {
 
 const createViewer = (
   rootContainer,
-  { viewerConfig, image, use2D = false, viewerState }
+  { image, use2D = false, viewerStyle, viewerState }
 ) => {
   userInterface.emptyContainer(rootContainer);
 
@@ -34,11 +34,11 @@ const createViewer = (
   window.addEventListener('resize', proxyManager.resizeAllViews);
 
   const container = document.createElement('div');
-  const defaultConfig = {
+  const defaultStyle = {
     backgroundColor: [0, 0, 0],
     containerStyle: STYLE_CONTAINER,
   };
-  const config = viewerConfig || defaultConfig;
+  const config = viewerStyle || defaultStyle;
   const isBackgroundDark =
     config.backgroundColor[0] +
       config.backgroundColor[1] +

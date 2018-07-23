@@ -30,8 +30,10 @@ const TEST_VIEWER_STYLE = {
 }
 
 test('Test createViewer', (t) => {
+  const gc = testUtils.createGarbageCollector(t);
+
   const container = document.querySelector('body')
-  const viewerContainer = document.createElement('div')
+  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
   container.appendChild(viewerContainer)
 
   return axios.get(testImage3DPath, {responseType: 'blob'})
@@ -44,9 +46,7 @@ test('Test createViewer', (t) => {
       const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
       const viewer = createViewer(container, { image: imageData, viewerStyle: TEST_VIEWER_STYLE })
       viewer.captureImage().then((screenshot) => {
-        testUtils.compareImages(screenshot, [createViewerBaseline], 'Test createViewer', t)
-        // clean-up
-        userInterface.emptyContainer(container)
+        testUtils.compareImages(screenshot, [createViewerBaseline], 'Test createViewer', t, 1.0, gc.releaseResources)
       })
       viewer.renderLater()
     })

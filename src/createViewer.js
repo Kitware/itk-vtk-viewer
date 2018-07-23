@@ -140,7 +140,7 @@ const createViewer = (
   }
 
   publicAPI.setImage = (image) => {
-    imageSource.SetInputData(image);
+    imageSource.setInputData(image);
     transferFunctionWidget.setDataArray(image.getPointData().getScalars());
   }
 

@@ -27,7 +27,7 @@ module.exports = function init(config) {
       { pattern: './dist/itk/ImageIOs/**', watched: true, served: true, included: false },
       { pattern: './dist/itk/MeshIOs/**', watched: true, served: true, included: false },
       { pattern: './dist/itk/WebWorkers/**', watched: true, served: true, included: false },
-      //{ pattern: 'Data/**', watched: false, served: true, included: false },
+      { pattern: './test/data/**', watched: false, served: true, included: false },
     ],
 
     preprocessors: {

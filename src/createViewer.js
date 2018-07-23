@@ -134,20 +134,35 @@ const createViewer = (
 
   setTimeout(view.resetCamera, 1);
 
-  console.log(viewerDOMId);
-  console.log(uiContainer)
+  const publicAPI = {};
 
-  return {
-    proxyManager,
-    view,
-    imageSource,
-    lookupTable,
-    piecewiseFunction,
-    resizeSensor,
-    transferFunctionWidget,
-    viewerDOMId,
-    uiContainer,
-  };
+  publicAPI.renderLater = () => {
+    view.renderLater();
+  }
+
+  publicAPI.setImage = (image) => {
+    imageSource.SetInputData(image);
+    transferFunctionWidget.setDataArray(image.getPointData().getScalars());
+  }
+
+  publicAPI.setUserInterfaceCollapsed = (collapse) => {
+    const toggleUserInterfaceButton = document.getElementById(`${viewerDOMId}-toggleUserInterfaceButton`);
+    const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === '';
+    if (collapse && !collapsed || !collapse && collapsed) {
+      toggleUserInterfaceButton.click();
+    }
+  }
+
+  publicAPI.saveState = () => {
+    // todo
+  }
+
+  publicAPI.loadState = (state) => {
+    // todo
+  }
+  console.log(publicAPI)
+
+  return publicAPI;
 };
 
 export default createViewer;

@@ -2,7 +2,8 @@
 /* eslint-disable react/require-extension */
 var path = require('path')
 
-const testsRules = require(path.join(__dirname, './node_modules/vtk.js/Utilities/config/rules-tests.js'))
+const testsRules = require('vtk.js/Utilities/config/rules-tests.js')
+const vtkRules = require('vtk.js/Utilities/config/rules-vtk.js');
 
 var webpack = require('webpack')
 
@@ -34,11 +35,14 @@ module.exports = function init(config) {
     },
 
     webpack: {
+      mode: 'development',
       node: {
         fs: 'empty',
       },
       module: {
-        rules: [].concat(testsRules),
+        rules: [
+          { test: /\.(png|jpg)$/, use: 'url-loader?limit=81920' },
+        ].concat(testsRules, vtkRules),
       },
       resolve: {
         modules: [

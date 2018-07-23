@@ -4,7 +4,6 @@ import style from './ItkVtkImageViewer.mcss';
 
 import preventDefaults from './preventDefaults';
 import toggleIcon from './icons/toggle.svg';
-import uploadIcon from './icons/upload.svg';
 import screenshotIcon from './icons/screenshot.svg';
 import volumeRenderingIcon from './icons/volume-rendering.svg';
 import xPlaneIcon from './icons/x-plane.svg';
@@ -20,14 +19,13 @@ function createMainUI(
   use2D,
   imageSource,
   view,
-  uploadFileHandler
 ) {
   const uiContainer = document.createElement('div');
   rootContainer.appendChild(uiContainer);
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['toggleUserInterfaceButton', 'uploadButton', 'screenshotButton', 'annotationButton', 'interpolationButton'],
+    ['toggleUserInterfaceButton', 'screenshotButton', 'annotationButton', 'interpolationButton'],
     isBackgroundDark
   );
 
@@ -61,20 +59,6 @@ function createMainUI(
   toggleUserInterfaceButton.innerHTML = `${toggleIcon}`;
   toggleUserInterfaceButton.addEventListener('click', toggleUIVisibility);
   uiContainer.appendChild(toggleUserInterfaceButton);
-
-  if (uploadFileHandler) {
-    const uploadButton = document.createElement('div');
-    uploadButton.innerHTML = `<div class="${
-      contrastSensitiveStyle.uploadButton
-    }">${uploadIcon}</div><input type="file" class="file" style="display: none;" multiple/>`;
-    const fileInput = uploadButton.querySelector('input');
-
-    fileInput.addEventListener('change', uploadFileHandler);
-    uploadButton.addEventListener('drop', uploadFileHandler);
-    uploadButton.addEventListener('click', (e) => fileInput.click());
-    uploadButton.addEventListener('dragover', preventDefaults);
-    mainUIRow.appendChild(uploadButton);
-  }
 
   const screenshotButton = document.createElement('div');
   screenshotButton.innerHTML = `<div class="${

@@ -26,7 +26,7 @@ function applyStyle(el, style) {
 
 const createViewer = (
   rootContainer,
-  { viewerConfig, image, use2D = false, viewerState, uploadFileHandler }
+  { viewerConfig, image, use2D = false, viewerState }
 ) => {
   userInterface.emptyContainer(rootContainer);
 
@@ -106,7 +106,6 @@ const createViewer = (
     use2D,
     imageSource,
     view,
-    uploadFileHandler
   );
 
   if (image) {

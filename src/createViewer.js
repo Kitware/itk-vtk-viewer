@@ -180,6 +180,14 @@ const createViewer = (
     }
   }
 
+  let interpolationEnabled = true;
+  publicAPI.setInterpolationEnabled = (interpolation) => {
+    const toggleInterpolationButton = document.getElementById(`${viewerDOMId}-toggleInterpolationButton`);
+    if (interpolation && !interpolationEnabled || !interpolation && interpolationEnabled) {
+      interpolationEnabled = !interpolationEnabled;
+      toggleInterpolationButton.click();
+    }
+  }
   publicAPI.captureImage = () => {
     return view.captureImage();
   }

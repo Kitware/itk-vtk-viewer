@@ -221,6 +221,15 @@ const createViewer = (
     }
   }
 
+  let slicingPlanesEnabled = false;
+  publicAPI.setSlicingPlanesEnabled = (slicingPlanes) => {
+    const toggleSlicingPlanesButton = document.getElementById(`${viewerDOMId}-toggleSlicingPlanesButton`);
+    if (slicingPlanes && !slicingPlanesEnabled || !slicingPlanes && slicingPlanesEnabled) {
+      slicingPlanesEnabled = !slicingPlanesEnabled;
+      toggleSlicingPlanesButton.click();
+    }
+  }
+
   publicAPI.captureImage = () => {
     return view.captureImage();
   }

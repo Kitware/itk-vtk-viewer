@@ -157,7 +157,7 @@ function createMainUI(
     document.getElementById(`${viewerDOMId}-volumeRenderingButton`).checked = true;
     const volumeRenderingRow = uiContainer.querySelector(`.${viewerDOMId}-volumeRendering`);
     volumeRenderingRow.style.display = 'flex';
-    const viewPlanes = document.getElementById(`${viewerDOMId}-viewPlanes`).checked;
+    const viewPlanes = document.getElementById(`${viewerDOMId}-toggleSlicingPlanesButton`).checked;
     const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
     const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
     const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`);

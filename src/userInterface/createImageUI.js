@@ -39,11 +39,11 @@ function createViewPlanesToggle(
   }
 
   const viewPlanesButton = document.createElement('div');
-  viewPlanesButton.innerHTML = `<input id="${viewerDOMId}-viewPlanes" type="checkbox" class="${
+  viewPlanesButton.innerHTML = `<input id="${viewerDOMId}-toggleSlicingPlanesButton" type="checkbox" class="${
     style.toggleInput
   }"><label class="${style.viewPlanesButton} ${
     style.toggleButton
-  }" for="${viewerDOMId}-viewPlanes">${viewPlansIcon}</label>`;
+  }" for="${viewerDOMId}-toggleSlicingPlanesButton">${viewPlansIcon}</label>`;
   viewPlanesButton.addEventListener('change', (event) => {
     setViewPlanes();
   });

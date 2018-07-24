@@ -212,6 +212,15 @@ const createViewer = (
     }
   }
 
+  let shadowEnabled = true;
+  publicAPI.setShadowEnabled = (shadow) => {
+    const toggleShadowButton = document.getElementById(`${viewerDOMId}-toggleShadowButton`);
+    if (shadow && !shadowEnabled || !shadow && shadowEnabled) {
+      shadowEnabled = !shadowEnabled;
+      toggleShadowButton.click();
+    }
+  }
+
   publicAPI.captureImage = () => {
     return view.captureImage();
   }

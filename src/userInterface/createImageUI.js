@@ -63,11 +63,11 @@ function createUseShadowToggle(
   );
 
   const useShadowButton = document.createElement('div');
-  useShadowButton.innerHTML = `<input id="${viewerDOMId}-useShadow" type="checkbox" class="${
+  useShadowButton.innerHTML = `<input id="${viewerDOMId}-toggleShadowButton" type="checkbox" class="${
     style.toggleInput
   }" checked><label class="${contrastSensitiveStyle.shadowButton} ${
     style.toggleButton
-  }" for="${viewerDOMId}-useShadow">${shadowIcon}</label>`;
+  }" for="${viewerDOMId}-toggleShadowButton">${shadowIcon}</label>`;
   let useShadow = true;
   useShadowButton.addEventListener('change', (event) => {
     useShadow = !useShadow;

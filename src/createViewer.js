@@ -26,7 +26,7 @@ function applyStyle(el, style) {
 
 const createViewer = (
   rootContainer,
-  { viewerConfig, image, use2D = false, viewerState, uploadFileHandler }
+  { image, use2D = false, viewerStyle, viewerState }
 ) => {
   userInterface.emptyContainer(rootContainer);
 
@@ -34,11 +34,11 @@ const createViewer = (
   window.addEventListener('resize', proxyManager.resizeAllViews);
 
   const container = document.createElement('div');
-  const defaultConfig = {
+  const defaultStyle = {
     backgroundColor: [0, 0, 0],
     containerStyle: STYLE_CONTAINER,
   };
-  const config = viewerConfig || defaultConfig;
+  const config = viewerStyle || defaultStyle;
   const isBackgroundDark =
     config.backgroundColor[0] +
       config.backgroundColor[1] +
@@ -47,6 +47,24 @@ const createViewer = (
   userInterface.emptyContainer(container);
   applyStyle(container, config.containerStyle || STYLE_CONTAINER);
   rootContainer.appendChild(container);
+
+  const testCanvas = document.createElement("canvas");
+  const gl = testCanvas.getContext("webgl")
+      || testCanvas.getContext("experimental-webgl");
+  if (!(gl && gl instanceof WebGLRenderingContext)) {
+    const suggestion = document.createElement("p");
+    const preSuggestionText = document.createTextNode("WebGL could not be loaded. ");
+    suggestion.appendChild(preSuggestionText);
+    const getWebGLA = document.createElement("a");
+    getWebGLA.setAttribute("href", "http://get.webgl.org/troubleshooting");
+    const getWebGLAText = document.createTextNode("Try a different browser or video drivers for WebGL support.");
+    getWebGLA.appendChild(getWebGLAText);
+    suggestion.appendChild(getWebGLA);
+    const suggestionText = document.createTextNode(" This is required to view interactive 3D visualizations.");
+    suggestion.appendChild(suggestionText);
+    container.appendChild(suggestion);
+    return null;
+  }
 
   const view = proxyManager.createProxy('Views', 'ItkVtkView');
   view.setContainer(container);
@@ -106,7 +124,6 @@ const createViewer = (
     use2D,
     imageSource,
     view,
-    uploadFileHandler
   );
 
   if (image) {
@@ -134,17 +151,50 @@ const createViewer = (
 
   setTimeout(view.resetCamera, 1);
 
-  return {
-    proxyManager,
-    view,
-    imageSource,
-    lookupTable,
-    piecewiseFunction,
-    resizeSensor,
-    transferFunctionWidget,
-    viewerDOMId,
-    uiContainer,
-  };
+  const publicAPI = {};
+
+  publicAPI.renderLater = () => {
+    view.renderLater();
+  }
+
+  publicAPI.setImage = (image) => {
+    imageSource.setInputData(image);
+    transferFunctionWidget.setDataArray(image.getPointData().getScalars());
+  }
+
+  publicAPI.setUserInterfaceCollapsed = (collapse) => {
+    const toggleUserInterfaceButton = document.getElementById(`${viewerDOMId}-toggleUserInterfaceButton`);
+    const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === '';
+    if (collapse && !collapsed || !collapse && collapsed) {
+      toggleUserInterfaceButton.click();
+    }
+  }
+
+  let annotationsEnabled = true;
+  publicAPI.setAnnotationsEnabled = (annotations) => {
+    const toggleAnnotationButton = document.getElementById(`${viewerDOMId}-toggleAnnotationButton`);
+    if (annotations && !annotationsEnabled || !annotations && annotationsEnabled
+    ) {
+      annotationsEnabled = !annotationsEnabled;
+      toggleAnnotationButton.click();
+    }
+  }
+
+  publicAPI.captureImage = () => {
+    return view.captureImage();
+  }
+
+  console.log(publicAPI);
+
+  //publicAPI.saveState = () => {
+    //// todo
+  //}
+
+  //publicAPI.loadState = (state) => {
+    //// todo
+  //}
+
+  return publicAPI;
 };
 
 export default createViewer;

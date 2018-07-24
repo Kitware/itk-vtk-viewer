@@ -3,4 +3,3 @@ docs:
     overview: index.html
     cli: cli.html
     viewer: viewer.html
-    embeddedViewer: embeddedViewer.html

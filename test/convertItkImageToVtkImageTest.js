@@ -1,4 +1,4 @@
-import test from 'tape'
+import test from 'tape-catch'
 
 import readImageBlob from 'itk/readImageBlob'
 import IntTypes from 'itk/IntTypes'

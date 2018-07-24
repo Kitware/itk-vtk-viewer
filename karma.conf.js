@@ -2,7 +2,7 @@
 /* eslint-disable react/require-extension */
 var path = require('path')
 
-const testsRules = require(path.join(__dirname, './node_modules/vtk.js/Utilities/config/rules-tests.js'))
+const vtkRules = require('vtk.js/Utilities/config/rules-vtk.js');
 
 var webpack = require('webpack')
 
@@ -16,6 +16,7 @@ module.exports = function init(config) {
       require('karma-webpack'),
       require('karma-tap'),
       require('karma-chrome-launcher'),
+      require('karma-firefox-launcher'),
       require('karma-tap-pretty-reporter'),
     ],
 
@@ -26,7 +27,7 @@ module.exports = function init(config) {
       { pattern: './dist/itk/ImageIOs/**', watched: true, served: true, included: false },
       { pattern: './dist/itk/MeshIOs/**', watched: true, served: true, included: false },
       { pattern: './dist/itk/WebWorkers/**', watched: true, served: true, included: false },
-      //{ pattern: 'Data/**', watched: false, served: true, included: false },
+      { pattern: './test/data/**', watched: false, served: true, included: false },
     ],
 
     preprocessors: {
@@ -34,11 +35,14 @@ module.exports = function init(config) {
     },
 
     webpack: {
+      mode: 'development',
       node: {
         fs: 'empty',
       },
       module: {
-        rules: [].concat(testsRules),
+        rules: [
+          { test: /\.(png|jpg)$/, use: 'url-loader?limit=81920' },
+        ].concat(vtkRules),
       },
       resolve: {
         modules: [
@@ -64,6 +68,12 @@ module.exports = function init(config) {
       'tap-pretty',
     ],
 
+    tapReporter: {
+      outputFile: 'test/output.html',
+      prettifier: 'tap-markdown',
+      separator: '\n=========================================================\n=========================================================\n',
+    },
+
     client: {
       useIframe: true,
     },
@@ -71,7 +81,7 @@ module.exports = function init(config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',
-        flags: ['--no-sandbox'],
+        flags: ['--no-sandbox', '--ignore-gpu-blacklist'],
       },
     },
     // browserNoActivityTimeout: 600000,

@@ -4,7 +4,6 @@ import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 
 import fetchBinaryContent from './fetchBinaryContent';
 import processFiles from './processFiles';
-import uploadFileHandler from './uploadFileHandler';
 import userInterface from './userInterface';
 import createFileDragAndDrop from './userInterface/createFileDragAndDrop';
 import style from './userInterface/ItkVtkImageViewer.mcss';
@@ -25,8 +24,7 @@ export function createViewerFromUrl(el, url, use2D = false) {
       [new Blob([arrayBuffer])],
       url.split('/').slice(-1)[0]
     );
-    const handler = uploadFileHandler(el);
-    return processFiles(el, { files: [file], use2D, uploadFileHandler: handler });
+    return processFiles(el, { files: [file], use2D });
   });
 }
 

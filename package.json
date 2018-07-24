@@ -19,9 +19,11 @@
     "express": "4.16.2",
     "itk": "9.1.1",
     "open": "0.0.5",
-    "vtk.js": "7.4.4"
+    "vtk.js": "7.4.10"
   },
   "devDependencies": {
+    "axios": "^0.18.0",
+    "babel-plugin-istanbul": "^4.1.6",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "copy-webpack-plugin": "^4.5.1",
@@ -29,12 +31,14 @@
     "eslint-plugin-prettier": "^2.6.0",
     "karma": "^2.0.0",
     "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.1.0",
     "karma-tap": "^4.1.3",
     "karma-tap-pretty-reporter": "^4.0.0",
     "karma-webpack": "2.0.13",
     "kw-doc": "1.1.1",
     "kw-web-suite": "^6.1.0",
     "prettier": "^1.10.2",
+    "resemblejs": "^2.10.3",
     "shelljs": "0.7.7",
     "tap-markdown": "^1.2.1",
     "tap-spec": "^4.1.1",
@@ -56,8 +60,8 @@
     "commit": "git cz",
     "start": "webpack-dev-server --mode development --content-base ./dist/ --watch-content-base",
     "semantic-release": "semantic-release",
-    "test": "karma start ./karma.conf.js",
-    "test:travis": "karma start ./karma.conf.js --browsers ChromeHeadless --single-run",
+    "test": "karma start ./karma.conf.js --browsers Chrome,Firefox",
+    "test:travis": "karma start ./karma.conf.js --browsers ChromeHeadlessNoSandbox --single-run",
     "test:debug": "karma start ./karma.conf.js --no-single-run"
   },
   "config": {

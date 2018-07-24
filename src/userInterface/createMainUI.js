@@ -4,7 +4,6 @@ import style from './ItkVtkImageViewer.mcss';
 
 import preventDefaults from './preventDefaults';
 import toggleIcon from './icons/toggle.svg';
-import uploadIcon from './icons/upload.svg';
 import screenshotIcon from './icons/screenshot.svg';
 import volumeRenderingIcon from './icons/volume-rendering.svg';
 import xPlaneIcon from './icons/x-plane.svg';
@@ -20,14 +19,13 @@ function createMainUI(
   use2D,
   imageSource,
   view,
-  uploadFileHandler
 ) {
   const uiContainer = document.createElement('div');
   rootContainer.appendChild(uiContainer);
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['uiToggleButton', 'uploadButton', 'screenshotButton', 'annotationButton', 'interpolationButton'],
+    ['toggleUserInterfaceButton', 'screenshotButton', 'annotationButton', 'interpolationButton'],
     isBackgroundDark
   );
 
@@ -39,41 +37,28 @@ function createMainUI(
   mainUIRow.className += ` ${viewerDOMId}-toggle`;
   mainUIGroup.appendChild(mainUIRow);
 
+  const toggleUserInterfaceButton = document.createElement('div');
   function toggleUIVisibility() {
     const elements = uiContainer.querySelectorAll(`.${viewerDOMId}-toggle`);
     let count = elements.length;
-    const toggleElementStyle = window.getComputedStyle(elements[0]);
-    const expanded = toggleElementStyle.getPropertyValue('display') === 'flex';
-    if (!expanded) {
+    const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === '';
+    if (collapsed) {
       while (count--) {
         elements[count].style.display = 'flex';
       }
+      toggleUserInterfaceButton.removeAttribute('collapsed');
     } else {
       while (count--) {
         elements[count].style.display = 'none';
       }
+      toggleUserInterfaceButton.setAttribute('collapsed', '');
     }
   }
-  const uiToggleButton = document.createElement('div');
-  uiToggleButton.innerHTML = `<div class="${
-    contrastSensitiveStyle.uiToggleButton
-  }" id="${viewerDOMId}-uiToggleButton">${toggleIcon}</div>`;
-  uiToggleButton.addEventListener('click', toggleUIVisibility);
-  uiContainer.appendChild(uiToggleButton);
-
-  if (uploadFileHandler) {
-    const uploadButton = document.createElement('div');
-    uploadButton.innerHTML = `<div class="${
-      contrastSensitiveStyle.uploadButton
-    }">${uploadIcon}</div><input type="file" class="file" style="display: none;" multiple/>`;
-    const fileInput = uploadButton.querySelector('input');
-
-    fileInput.addEventListener('change', uploadFileHandler);
-    uploadButton.addEventListener('drop', uploadFileHandler);
-    uploadButton.addEventListener('click', (e) => fileInput.click());
-    uploadButton.addEventListener('dragover', preventDefaults);
-    mainUIRow.appendChild(uploadButton);
-  }
+  toggleUserInterfaceButton.className = `${contrastSensitiveStyle.toggleUserInterfaceButton}`;
+  toggleUserInterfaceButton.id = `${viewerDOMId}-toggleUserInterfaceButton`
+  toggleUserInterfaceButton.innerHTML = `${toggleIcon}`;
+  toggleUserInterfaceButton.addEventListener('click', toggleUIVisibility);
+  uiContainer.appendChild(toggleUserInterfaceButton);
 
   const screenshotButton = document.createElement('div');
   screenshotButton.innerHTML = `<div class="${

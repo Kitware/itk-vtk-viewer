@@ -188,6 +188,30 @@ const createViewer = (
       toggleInterpolationButton.click();
     }
   }
+
+  publicAPI.setViewMode = (mode) => {
+    switch(mode) {
+    case 'XPlane':
+      const xPlaneButton = document.getElementById(`${viewerDOMId}-xPlaneButton`);
+      xPlaneButton.click();
+      break;
+    case 'YPlane':
+      const yPlaneButton = document.getElementById(`${viewerDOMId}-yPlaneButton`);
+      yPlaneButton.click();
+      break;
+    case 'ZPlane':
+      const zPlaneButton = document.getElementById(`${viewerDOMId}-zPlaneButton`);
+      zPlaneButton.click();
+      break;
+    case 'VolumeRendering':
+      const volumeRenderingButton = document.getElementById(`${viewerDOMId}-volumeRenderingButton`);
+      volumeRenderingButton.click();
+      break;
+    default:
+      console.error('Invalid view mode: ' + mode);
+    }
+  }
+
   publicAPI.captureImage = () => {
     return view.captureImage();
   }

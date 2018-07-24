@@ -152,9 +152,21 @@ const createViewer = (
     }
   }
 
+  let annotationsEnabled = true;
+  publicAPI.setAnnotationsEnabled = (annotations) => {
+    const toggleAnnotationButton = document.getElementById(`${viewerDOMId}-toggleAnnotationButton`);
+    if (annotations && !annotationsEnabled || !annotations && annotationsEnabled
+    ) {
+      annotationsEnabled = !annotationsEnabled;
+      toggleAnnotationButton.click();
+    }
+  }
+
   publicAPI.captureImage = () => {
     return view.captureImage();
   }
+
+  console.log(publicAPI);
 
   //publicAPI.saveState = () => {
     //// todo

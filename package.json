@@ -19,7 +19,7 @@
     "express": "4.16.2",
     "itk": "9.1.1",
     "open": "0.0.5",
-    "vtk.js": "7.4.4"
+    "vtk.js": "7.4.10"
   },
   "devDependencies": {
     "axios": "^0.18.0",

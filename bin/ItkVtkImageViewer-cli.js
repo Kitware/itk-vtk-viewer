@@ -4,7 +4,7 @@ var program = require('commander');
 var ipList = require('./network');
 var server = require('./server');
 var pkg = require('../package.json');
-var openFn = require('open');
+var openFn = require('opn');
 var shell = require('shelljs');
 
 var app = null;

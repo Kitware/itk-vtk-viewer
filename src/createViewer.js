@@ -156,14 +156,13 @@ const createViewer = (
     return view.captureImage();
   }
 
-  publicAPI.saveState = () => {
-    // todo
-  }
+  //publicAPI.saveState = () => {
+    //// todo
+  //}
 
-  publicAPI.loadState = (state) => {
-    // todo
-  }
-  console.log(publicAPI)
+  //publicAPI.loadState = (state) => {
+    //// todo
+  //}
 
   return publicAPI;
 };

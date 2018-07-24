@@ -47,7 +47,14 @@ test('Test createViewer', (t) => {
       webWorker.terminate()
 
       const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
-      const viewer = createViewer(container, { image: imageData, viewerStyle: TEST_VIEWER_STYLE })
+      const viewer = createViewer(viewerContainer, { image: imageData, viewerStyle: TEST_VIEWER_STYLE })
+
+      const uiContainer = viewerContainer.children[viewerContainer.children.length - 1];
+      const toggleUIButton = uiContainer.children[0];
+      t.equal(toggleUIButton.getAttribute('collapsed') === '', false, 'viewer collapsed by default')
+      viewer.setUserInterfaceCollapsed(true)
+      t.equal(toggleUIButton.getAttribute('collapsed') === '', true, 'viewer.setUserInterfaceCollapsed changes collapsed')
+
       viewer.captureImage().then((screenshot) => {
         testUtils.compareImages(screenshot, [createViewerBaseline], 'Test createViewer', t, 1.0, gc.releaseResources)
       })

@@ -234,6 +234,10 @@ const createViewer = (
     return view.captureImage();
   }
 
+  publicAPI.getViewProxy = () => {
+    return view;
+  }
+
   console.log(publicAPI);
 
   //publicAPI.saveState = () => {

@@ -39,11 +39,11 @@ function createViewPlanesToggle(
   }
 
   const viewPlanesButton = document.createElement('div');
-  viewPlanesButton.innerHTML = `<input id="${viewerDOMId}-viewPlanes" type="checkbox" class="${
+  viewPlanesButton.innerHTML = `<input id="${viewerDOMId}-toggleSlicingPlanesButton" type="checkbox" class="${
     style.toggleInput
   }"><label class="${style.viewPlanesButton} ${
     style.toggleButton
-  }" for="${viewerDOMId}-viewPlanes">${viewPlansIcon}</label>`;
+  }" for="${viewerDOMId}-toggleSlicingPlanesButton">${viewPlansIcon}</label>`;
   viewPlanesButton.addEventListener('change', (event) => {
     setViewPlanes();
   });
@@ -63,11 +63,11 @@ function createUseShadowToggle(
   );
 
   const useShadowButton = document.createElement('div');
-  useShadowButton.innerHTML = `<input id="${viewerDOMId}-useShadow" type="checkbox" class="${
+  useShadowButton.innerHTML = `<input id="${viewerDOMId}-toggleShadowButton" type="checkbox" class="${
     style.toggleInput
   }" checked><label class="${contrastSensitiveStyle.shadowButton} ${
     style.toggleButton
-  }" for="${viewerDOMId}-useShadow">${shadowIcon}</label>`;
+  }" for="${viewerDOMId}-toggleShadowButton">${shadowIcon}</label>`;
   let useShadow = true;
   useShadowButton.addEventListener('change', (event) => {
     useShadow = !useShadow;

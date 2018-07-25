@@ -180,8 +180,62 @@ const createViewer = (
     }
   }
 
+  let interpolationEnabled = true;
+  publicAPI.setInterpolationEnabled = (interpolation) => {
+    const toggleInterpolationButton = document.getElementById(`${viewerDOMId}-toggleInterpolationButton`);
+    if (interpolation && !interpolationEnabled || !interpolation && interpolationEnabled) {
+      interpolationEnabled = !interpolationEnabled;
+      toggleInterpolationButton.click();
+    }
+  }
+
+  publicAPI.setViewMode = (mode) => {
+    switch(mode) {
+    case 'XPlane':
+      const xPlaneButton = document.getElementById(`${viewerDOMId}-xPlaneButton`);
+      xPlaneButton.click();
+      break;
+    case 'YPlane':
+      const yPlaneButton = document.getElementById(`${viewerDOMId}-yPlaneButton`);
+      yPlaneButton.click();
+      break;
+    case 'ZPlane':
+      const zPlaneButton = document.getElementById(`${viewerDOMId}-zPlaneButton`);
+      zPlaneButton.click();
+      break;
+    case 'VolumeRendering':
+      const volumeRenderingButton = document.getElementById(`${viewerDOMId}-volumeRenderingButton`);
+      volumeRenderingButton.click();
+      break;
+    default:
+      console.error('Invalid view mode: ' + mode);
+    }
+  }
+
+  let shadowEnabled = true;
+  publicAPI.setShadowEnabled = (shadow) => {
+    const toggleShadowButton = document.getElementById(`${viewerDOMId}-toggleShadowButton`);
+    if (shadow && !shadowEnabled || !shadow && shadowEnabled) {
+      shadowEnabled = !shadowEnabled;
+      toggleShadowButton.click();
+    }
+  }
+
+  let slicingPlanesEnabled = false;
+  publicAPI.setSlicingPlanesEnabled = (slicingPlanes) => {
+    const toggleSlicingPlanesButton = document.getElementById(`${viewerDOMId}-toggleSlicingPlanesButton`);
+    if (slicingPlanes && !slicingPlanesEnabled || !slicingPlanes && slicingPlanesEnabled) {
+      slicingPlanesEnabled = !slicingPlanesEnabled;
+      toggleSlicingPlanesButton.click();
+    }
+  }
+
   publicAPI.captureImage = () => {
     return view.captureImage();
+  }
+
+  publicAPI.getViewProxy = () => {
+    return view;
   }
 
   console.log(publicAPI);

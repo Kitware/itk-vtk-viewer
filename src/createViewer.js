@@ -238,8 +238,6 @@ const createViewer = (
     return view;
   }
 
-  console.log(publicAPI);
-
   //publicAPI.saveState = () => {
     //// todo
   //}

@@ -1,7 +1,7 @@
 import macro from 'vtk.js/Sources/macro';
 
 import vtkViewProxy from 'vtk.js/Sources/Proxy/Core/ViewProxy';
-import vtkCellPicker from 'vtk.js/Sources/Rendering/Core/CellPicker';
+import vtkPointPicker from 'vtk.js/Sources/Rendering/Core/PointPicker';
 import vtkActor from 'vtk.js/Sources/Rendering/Core/Actor';
 import vtkCubeSource from 'vtk.js/Sources/Filters/Sources/CubeSource';
 import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper';
@@ -76,7 +76,7 @@ function ItkVtkViewProxy(publicAPI, model) {
       [renderPosition.x, renderPosition.y, 0.0],
       callData.pokedRenderer
     );
-    const ijk = model.annotationPicker.getCellIJK();
+    const ijk = model.annotationPicker.getPointIJK();
     if (model.volumeRepresentation) {
       const imageData = model.volumeRepresentation.getInputDataSet();
       const size = imageData.getDimensions();
@@ -123,7 +123,7 @@ function ItkVtkViewProxy(publicAPI, model) {
       'N/A&nbsp;',
   });
   publicAPI.setAnnotationOpacity(0.0);
-  model.annotationPicker = vtkCellPicker.newInstance();
+  model.annotationPicker = vtkPointPicker.newInstance();
   model.annotationPicker.setPickFromList(1);
   model.annotationPicker.initializePickList();
   model.interactor.onMouseMove((event) => {

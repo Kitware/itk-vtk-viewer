@@ -1,3 +1,6 @@
+import macro from 'vtk.js/Sources/macro';
+import vtkImageCroppingRegionsWidget from 'vtk.js/Sources/Interaction/Widgets/ImageCroppingRegionsWidget';
+
 import getContrastSensitiveStyle from './getContrastSensitiveStyle';
 
 import style from './ItkVtkImageViewer.mcss';
@@ -18,6 +21,7 @@ function createMainUI(
   isBackgroundDark,
   use2D,
   imageSource,
+  representation,
   view,
 ) {
   const uiContainer = document.createElement('div');
@@ -102,10 +106,31 @@ function createMainUI(
   });
   mainUIRow.appendChild(interpolationButton);
 
+  const croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
+  croppingWidget.setHandleSize(20);
+  croppingWidget.setFaceHandlesEnabled(false);
+  croppingWidget.setEdgeHandlesEnabled(false);
+  croppingWidget.setCornerHandlesEnabled(true);
+  croppingWidget.setInteractor(view.getInteractor());
+  croppingWidget.setEnabled(false)
+  if (representation) {
+    croppingWidget.setVolumeMapper(representation.getMapper());
+  }
+  const debouncedSetCroppingPlanes = macro.debounce(representation.setCroppingPlanes, 100);
+  let croppingUpdateInProgress = false
+  croppingWidget.onModified(() => {
+    if(croppingUpdateInProgress) {
+      return
+    }
+    croppingUpdateInProgress = true;
+    const planes = croppingWidget.getWidgetState().planes;
+    debouncedSetCroppingPlanes(planes);
+    croppingUpdateInProgress = false
+  })
   let cropEnabled = false;
   function toggleCrop() {
     cropEnabled = !cropEnabled;
-    view.setPlanesUseLinearCrop(cropEnabled);
+    croppingWidget.setEnabled(cropEnabled);
   }
   const cropButton = document.createElement('div');
   cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCrop" type="checkbox" class="${
@@ -225,7 +250,7 @@ function createMainUI(
 
   uiContainer.appendChild(mainUIGroup);
 
-  return uiContainer;
+  return { uiContainer, croppingWidget };
 }
 
 export default createMainUI;

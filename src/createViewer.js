@@ -118,12 +118,13 @@ const createViewer = (
       .toString()
       .replace('.', '');
 
-  const uiContainer = userInterface.createMainUI(
+  const { uiContainer, croppingWidget } = userInterface.createMainUI(
     rootContainer,
     viewerDOMId,
     isBackgroundDark,
     use2D,
     imageSource,
+    representation,
     view,
   );
 
@@ -166,6 +167,10 @@ const createViewer = (
     updatingImage = true;
     imageSource.setInputData(image);
     transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
+    croppingWidget.setVolumeMapper(representation.getMapper());
+    const cropFilter = representation.getCropFilter();
+    cropFilter.reset();
+    croppingWidget.resetWidgetState();
     setTimeout(() => {
       transferFunctionWidget.render();
       view.getRenderWindow().render();

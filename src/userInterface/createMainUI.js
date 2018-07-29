@@ -133,11 +133,11 @@ function createMainUI(
     croppingWidget.setEnabled(cropEnabled);
   }
   const cropButton = document.createElement('div');
-  cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCrop" type="checkbox" class="${
+  cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${
     style.toggleInput
   }"><label class="${contrastSensitiveStyle.cropButton} ${
     style.toggleButton
-  }" for="${viewerDOMId}-toggleCrop">${cropIcon}</label>`;
+  }" for="${viewerDOMId}-toggleCroppingPlanesButton">${cropIcon}</label>`;
   cropButton.addEventListener('change', (event) => {
     toggleCrop();
   });

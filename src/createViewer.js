@@ -402,6 +402,34 @@ const createViewer = (
   }
 
 
+  const toggleCroppingPlanesButton = document.getElementById(`${viewerDOMId}-toggleCroppingPlanesButton`);
+
+  const toggleCroppingPlanesHandlers = [];
+  const toggleCroppingPlanesButtonListener = (event) => {
+    const enabled = toggleCroppingPlanesButton.checked;
+    toggleCroppingPlanesHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  }
+  toggleCroppingPlanesButton.addEventListener('click', toggleCroppingPlanesButtonListener)
+
+  publicAPI.subscribeToggleCroppingPlanes = (handler) => {
+    const index = toggleCroppingPlanesHandlers.length;
+    toggleCroppingPlanesHandlers.push(handler);
+    function unsubscribe() {
+      toggleCroppingPlanesHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setCroppingPlanesEnabled = (enabled) => {
+    const shadow = toggleCroppingPlanesButton.checked;
+    if (enabled && !shadow || !enabled && shadow) {
+      toggleCroppingPlanesButton.click();
+    }
+  }
+
+
   publicAPI.getViewProxy = () => {
     return view;
   }

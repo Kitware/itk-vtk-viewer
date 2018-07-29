@@ -251,6 +251,66 @@ const createViewer = (
   }
 
 
+  const xPlaneButton = document.getElementById(`${viewerDOMId}-xPlaneButton`);
+  const yPlaneButton = document.getElementById(`${viewerDOMId}-yPlaneButton`);
+  const zPlaneButton = document.getElementById(`${viewerDOMId}-zPlaneButton`);
+  const volumeRenderingButton = document.getElementById(`${viewerDOMId}-volumeRenderingButton`);
+
+  const viewModeChangedHandlers = [];
+  const xPlaneButtonListener = (event) => {
+    const enabled = xPlaneButton.checked;
+    if (enabled) {
+      viewModeChangedHandlers.forEach((handler) => {
+        handler.call(null, 'XPlane');
+      })
+    }
+  }
+  xPlaneButton.addEventListener('click', xPlaneButtonListener)
+  const yPlaneButtonListener = (event) => {
+    const enabled = yPlaneButton.checked;
+    if (enabled) {
+      viewModeChangedHandlers.forEach((handler) => {
+        handler.call(null, 'YPlane');
+      })
+    }
+  }
+  yPlaneButton.addEventListener('click', yPlaneButtonListener)
+  const zPlaneButtonListener = (event) => {
+    const enabled = zPlaneButton.checked;
+    if (enabled) {
+      viewModeChangedHandlers.forEach((handler) => {
+        handler.call(null, 'ZPlane');
+      })
+    }
+  }
+  zPlaneButton.addEventListener('click', zPlaneButtonListener)
+  const volumeRenderingButtonListener = (event) => {
+    const enabled = volumeRenderingButton.checked;
+    if (enabled) {
+      viewModeChangedHandlers.forEach((handler) => {
+        handler.call(null, 'VolumeRendering');
+      })
+    }
+  }
+  volumeRenderingButton.addEventListener('click', volumeRenderingButtonListener)
+
+  publicAPI.subscribeViewModeChanged = (handler) => {
+    const index = viewModeChangedHandlers.length;
+    viewModeChangedHandlers.push(handler);
+    function unsubscribe() {
+      viewModeChangedHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setInterpolationEnabled = (enabled) => {
+    const interpolation = toggleInterpolationButton.checked;
+    if (enabled && !interpolation || !enabled && interpolation) {
+      toggleInterpolationButton.click();
+    }
+  }
+
+
   publicAPI.setViewMode = (mode) => {
     switch(mode) {
     case 'XPlane':
@@ -273,6 +333,7 @@ const createViewer = (
       console.error('Invalid view mode: ' + mode);
     }
   }
+
 
   let shadowEnabled = true;
   publicAPI.setShadowEnabled = (shadow) => {

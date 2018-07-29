@@ -75,7 +75,7 @@ const createViewer = (
   const imageSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
     name: 'Image',
   });
-  let lookupTable = null;
+  let lookupTableProxy = null;
   let piecewiseFunction = null;
   let dataArray = null;
   let representation = null;
@@ -87,16 +87,16 @@ const createViewer = (
     representation = proxyManager.getRepresentation(imageSource, view);
 
     dataArray = image.getPointData().getScalars();
-    lookupTable = proxyManager.getLookupTable(dataArray.getName());
+    lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
     if (dataArray.getNumberOfComponents() > 1) {
-      lookupTable.setPresetName('Grayscale');
+      lookupTableProxy.setPresetName('Grayscale');
     } else {
-      lookupTable.setPresetName('Viridis (matplotlib)');
+      lookupTableProxy.setPresetName('Viridis (matplotlib)');
     }
     piecewiseFunction = proxyManager.getPiecewiseFunction(dataArray.getName());
 
     // Slices share the same lookup table as the volume rendering.
-    const lut = lookupTable.getLookupTable();
+    const lut = lookupTableProxy.getLookupTable();
     const sliceActors = representation.getActors();
     sliceActors.forEach((actor) => {
       actor.getProperty().setRGBTransferFunction(lut);
@@ -130,7 +130,7 @@ const createViewer = (
     const imageUI = userInterface.createImageUI(
       uiContainer,
       viewerDOMId,
-      lookupTable,
+      lookupTableProxy,
       piecewiseFunction,
       representation,
       dataArray,
@@ -159,7 +159,8 @@ const createViewer = (
 
   publicAPI.setImage = (image) => {
     imageSource.setInputData(image);
-    transferFunctionWidget.setDataArray(image.getPointData().getScalars());
+    transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
+    transferFunctionWidget.render();
   }
 
   const toggleUserInterfaceButton = document.getElementById(`${viewerDOMId}-toggleUserInterfaceButton`);

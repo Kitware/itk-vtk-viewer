@@ -251,134 +251,136 @@ const createViewer = (
   }
 
 
-  const xPlaneButton = document.getElementById(`${viewerDOMId}-xPlaneButton`);
-  const yPlaneButton = document.getElementById(`${viewerDOMId}-yPlaneButton`);
-  const zPlaneButton = document.getElementById(`${viewerDOMId}-zPlaneButton`);
-  const volumeRenderingButton = document.getElementById(`${viewerDOMId}-volumeRenderingButton`);
+  if (!use2D) {
+    const xPlaneButton = document.getElementById(`${viewerDOMId}-xPlaneButton`);
+    const yPlaneButton = document.getElementById(`${viewerDOMId}-yPlaneButton`);
+    const zPlaneButton = document.getElementById(`${viewerDOMId}-zPlaneButton`);
+    const volumeRenderingButton = document.getElementById(`${viewerDOMId}-volumeRenderingButton`);
 
-  const viewModeChangedHandlers = [];
-  const xPlaneButtonListener = (event) => {
-    const enabled = xPlaneButton.checked;
-    if (enabled) {
-      viewModeChangedHandlers.forEach((handler) => {
-        handler.call(null, 'XPlane');
+    const viewModeChangedHandlers = [];
+    const xPlaneButtonListener = (event) => {
+      const enabled = xPlaneButton.checked;
+      if (enabled) {
+        viewModeChangedHandlers.forEach((handler) => {
+          handler.call(null, 'XPlane');
+        })
+      }
+    }
+    xPlaneButton.addEventListener('click', xPlaneButtonListener)
+    const yPlaneButtonListener = (event) => {
+      const enabled = yPlaneButton.checked;
+      if (enabled) {
+        viewModeChangedHandlers.forEach((handler) => {
+          handler.call(null, 'YPlane');
+        })
+      }
+    }
+    yPlaneButton.addEventListener('click', yPlaneButtonListener)
+    const zPlaneButtonListener = (event) => {
+      const enabled = zPlaneButton.checked;
+      if (enabled) {
+        viewModeChangedHandlers.forEach((handler) => {
+          handler.call(null, 'ZPlane');
+        })
+      }
+    }
+    zPlaneButton.addEventListener('click', zPlaneButtonListener)
+    const volumeRenderingButtonListener = (event) => {
+      const enabled = volumeRenderingButton.checked;
+      if (enabled) {
+        viewModeChangedHandlers.forEach((handler) => {
+          handler.call(null, 'VolumeRendering');
+        })
+      }
+    }
+    volumeRenderingButton.addEventListener('click', volumeRenderingButtonListener)
+
+    publicAPI.subscribeViewModeChanged = (handler) => {
+      const index = viewModeChangedHandlers.length;
+      viewModeChangedHandlers.push(handler);
+      function unsubscribe() {
+        viewModeChangedHandlers[index] = null;
+      }
+      return Object.freeze({ unsubscribe });
+    }
+
+    publicAPI.setViewMode = (mode) => {
+      switch(mode) {
+      case 'XPlane':
+        const xPlaneButton = document.getElementById(`${viewerDOMId}-xPlaneButton`);
+        xPlaneButton.click();
+        break;
+      case 'YPlane':
+        const yPlaneButton = document.getElementById(`${viewerDOMId}-yPlaneButton`);
+        yPlaneButton.click();
+        break;
+      case 'ZPlane':
+        const zPlaneButton = document.getElementById(`${viewerDOMId}-zPlaneButton`);
+        zPlaneButton.click();
+        break;
+      case 'VolumeRendering':
+        const volumeRenderingButton = document.getElementById(`${viewerDOMId}-volumeRenderingButton`);
+        volumeRenderingButton.click();
+        break;
+      default:
+        console.error('Invalid view mode: ' + mode);
+      }
+    }
+
+
+    const toggleShadowButton = document.getElementById(`${viewerDOMId}-toggleShadowButton`);
+
+    const toggleShadowHandlers = [];
+    const toggleShadowButtonListener = (event) => {
+      const enabled = toggleShadowButton.checked;
+      toggleShadowHandlers.forEach((handler) => {
+        handler.call(null, enabled);
       })
     }
-  }
-  xPlaneButton.addEventListener('click', xPlaneButtonListener)
-  const yPlaneButtonListener = (event) => {
-    const enabled = yPlaneButton.checked;
-    if (enabled) {
-      viewModeChangedHandlers.forEach((handler) => {
-        handler.call(null, 'YPlane');
+    toggleShadowButton.addEventListener('click', toggleShadowButtonListener)
+
+    publicAPI.subscribeToggleShadow = (handler) => {
+      const index = toggleShadowHandlers.length;
+      toggleShadowHandlers.push(handler);
+      function unsubscribe() {
+        toggleShadowHandlers[index] = null;
+      }
+      return Object.freeze({ unsubscribe });
+    }
+
+    publicAPI.setShadowEnabled = (enabled) => {
+      const shadow = toggleShadowButton.checked;
+      if (enabled && !shadow || !enabled && shadow) {
+        toggleShadowButton.click();
+      }
+    }
+
+
+    const toggleSlicingPlanesButton = document.getElementById(`${viewerDOMId}-toggleSlicingPlanesButton`);
+
+    const toggleSlicingPlanesHandlers = [];
+    const toggleSlicingPlanesButtonListener = (event) => {
+      const enabled = toggleSlicingPlanesButton.checked;
+      toggleSlicingPlanesHandlers.forEach((handler) => {
+        handler.call(null, enabled);
       })
     }
-  }
-  yPlaneButton.addEventListener('click', yPlaneButtonListener)
-  const zPlaneButtonListener = (event) => {
-    const enabled = zPlaneButton.checked;
-    if (enabled) {
-      viewModeChangedHandlers.forEach((handler) => {
-        handler.call(null, 'ZPlane');
-      })
+    toggleSlicingPlanesButton.addEventListener('click', toggleSlicingPlanesButtonListener)
+
+    publicAPI.subscribeToggleSlicingPlanes = (handler) => {
+      const index = toggleSlicingPlanesHandlers.length;
+      toggleSlicingPlanesHandlers.push(handler);
+      function unsubscribe() {
+        toggleSlicingPlanesHandlers[index] = null;
+      }
+      return Object.freeze({ unsubscribe });
     }
-  }
-  zPlaneButton.addEventListener('click', zPlaneButtonListener)
-  const volumeRenderingButtonListener = (event) => {
-    const enabled = volumeRenderingButton.checked;
-    if (enabled) {
-      viewModeChangedHandlers.forEach((handler) => {
-        handler.call(null, 'VolumeRendering');
-      })
-    }
-  }
-  volumeRenderingButton.addEventListener('click', volumeRenderingButtonListener)
 
-  publicAPI.subscribeViewModeChanged = (handler) => {
-    const index = viewModeChangedHandlers.length;
-    viewModeChangedHandlers.push(handler);
-    function unsubscribe() {
-      viewModeChangedHandlers[index] = null;
-    }
-    return Object.freeze({ unsubscribe });
-  }
-
-  publicAPI.setViewMode = (mode) => {
-    switch(mode) {
-    case 'XPlane':
-      const xPlaneButton = document.getElementById(`${viewerDOMId}-xPlaneButton`);
-      xPlaneButton.click();
-      break;
-    case 'YPlane':
-      const yPlaneButton = document.getElementById(`${viewerDOMId}-yPlaneButton`);
-      yPlaneButton.click();
-      break;
-    case 'ZPlane':
-      const zPlaneButton = document.getElementById(`${viewerDOMId}-zPlaneButton`);
-      zPlaneButton.click();
-      break;
-    case 'VolumeRendering':
-      const volumeRenderingButton = document.getElementById(`${viewerDOMId}-volumeRenderingButton`);
-      volumeRenderingButton.click();
-      break;
-    default:
-      console.error('Invalid view mode: ' + mode);
-    }
-  }
-
-
-  const toggleShadowButton = document.getElementById(`${viewerDOMId}-toggleShadowButton`);
-
-  const toggleShadowHandlers = [];
-  const toggleShadowButtonListener = (event) => {
-    const enabled = toggleShadowButton.checked;
-    toggleShadowHandlers.forEach((handler) => {
-      handler.call(null, enabled);
-    })
-  }
-  toggleShadowButton.addEventListener('click', toggleShadowButtonListener)
-
-  publicAPI.subscribeToggleShadow = (handler) => {
-    const index = toggleShadowHandlers.length;
-    toggleShadowHandlers.push(handler);
-    function unsubscribe() {
-      toggleShadowHandlers[index] = null;
-    }
-    return Object.freeze({ unsubscribe });
-  }
-
-  publicAPI.setShadowEnabled = (enabled) => {
-    const shadow = toggleShadowButton.checked;
-    if (enabled && !shadow || !enabled && shadow) {
-      toggleShadowButton.click();
-    }
-  }
-
-
-  const toggleSlicingPlanesButton = document.getElementById(`${viewerDOMId}-toggleSlicingPlanesButton`);
-
-  const toggleSlicingPlanesHandlers = [];
-  const toggleSlicingPlanesButtonListener = (event) => {
-    const enabled = toggleSlicingPlanesButton.checked;
-    toggleSlicingPlanesHandlers.forEach((handler) => {
-      handler.call(null, enabled);
-    })
-  }
-  toggleSlicingPlanesButton.addEventListener('click', toggleSlicingPlanesButtonListener)
-
-  publicAPI.subscribeToggleSlicingPlanes = (handler) => {
-    const index = toggleSlicingPlanesHandlers.length;
-    toggleSlicingPlanesHandlers.push(handler);
-    function unsubscribe() {
-      toggleSlicingPlanesHandlers[index] = null;
-    }
-    return Object.freeze({ unsubscribe });
-  }
-
-  publicAPI.setSlicingPlanesEnabled = (enabled) => {
-    const slicingPlanes = toggleSlicingPlanesButton.checked;
-    if (enabled && !slicingPlanes || !enabled && slicingPlanes) {
-      toggleSlicingPlanesButton.click();
+    publicAPI.setSlicingPlanesEnabled = (enabled) => {
+      const slicingPlanes = toggleSlicingPlanesButton.checked;
+      if (enabled && !slicingPlanes || !enabled && slicingPlanes) {
+        toggleSlicingPlanesButton.click();
+      }
     }
   }
 

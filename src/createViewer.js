@@ -303,14 +303,6 @@ const createViewer = (
     return Object.freeze({ unsubscribe });
   }
 
-  publicAPI.setInterpolationEnabled = (enabled) => {
-    const interpolation = toggleInterpolationButton.checked;
-    if (enabled && !interpolation || !enabled && interpolation) {
-      toggleInterpolationButton.click();
-    }
-  }
-
-
   publicAPI.setViewMode = (mode) => {
     switch(mode) {
     case 'XPlane':
@@ -335,14 +327,33 @@ const createViewer = (
   }
 
 
-  let shadowEnabled = true;
-  publicAPI.setShadowEnabled = (shadow) => {
-    const toggleShadowButton = document.getElementById(`${viewerDOMId}-toggleShadowButton`);
-    if (shadow && !shadowEnabled || !shadow && shadowEnabled) {
-      shadowEnabled = !shadowEnabled;
+  const toggleShadowButton = document.getElementById(`${viewerDOMId}-toggleShadowButton`);
+
+  const toggleShadowHandlers = [];
+  const toggleShadowButtonListener = (event) => {
+    const enabled = toggleShadowButton.checked;
+    toggleShadowHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  }
+  toggleShadowButton.addEventListener('click', toggleShadowButtonListener)
+
+  publicAPI.subscribeToggleShadow = (handler) => {
+    const index = toggleShadowHandlers.length;
+    toggleShadowHandlers.push(handler);
+    function unsubscribe() {
+      toggleShadowHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setShadowEnabled = (enabled) => {
+    const shadow = toggleShadowButton.checked;
+    if (enabled && !shadow || !enabled && shadow) {
       toggleShadowButton.click();
     }
   }
+
 
   let slicingPlanesEnabled = false;
   publicAPI.setSlicingPlanesEnabled = (slicingPlanes) => {

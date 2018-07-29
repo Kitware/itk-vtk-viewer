@@ -2,7 +2,6 @@ import getContrastSensitiveStyle from './getContrastSensitiveStyle';
 
 import style from './ItkVtkImageViewer.mcss';
 
-import preventDefaults from './preventDefaults';
 import toggleIcon from './icons/toggle.svg';
 import screenshotIcon from './icons/screenshot.svg';
 import volumeRenderingIcon from './icons/volume-rendering.svg';
@@ -70,21 +69,19 @@ function createMainUI(
   screenshotButton.addEventListener('click', takeScreenshot);
   mainUIRow.appendChild(screenshotButton);
 
-  let annotationEnabled = true;
-  function toggleAnnotation() {
-    annotationEnabled = !annotationEnabled;
-    if (!use2D) {
-      view.setOrientationAnnotationVisibility(annotationEnabled);
-    }
-  }
   const annotationButton = document.createElement('div');
-  annotationButton.innerHTML = `<input id="${viewerDOMId}-toggleAnnotationButton" type="checkbox" class="${
+  annotationButton.innerHTML = `<input id="${viewerDOMId}-toggleAnnotationsButton" type="checkbox" class="${
     style.toggleInput
   }" checked><label class="${contrastSensitiveStyle.annotationButton} ${
     style.toggleButton
-  }" for="${viewerDOMId}-toggleAnnotationButton">${annotationIcon}</label>`;
+  }" for="${viewerDOMId}-toggleAnnotationsButton">${annotationIcon}</label>`;
+  const annotationButtonInput = annotationButton.children[0];
+  function toggleAnnotations() {
+    const annotationEnabled = annotationButtonInput.checked;
+    view.setOrientationAnnotationVisibility(annotationEnabled);
+  }
   annotationButton.addEventListener('change', (event) => {
-    toggleAnnotation();
+    toggleAnnotations();
   });
   mainUIRow.appendChild(annotationButton);
 

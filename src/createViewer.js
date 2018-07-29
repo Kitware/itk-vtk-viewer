@@ -162,31 +162,145 @@ const createViewer = (
     transferFunctionWidget.setDataArray(image.getPointData().getScalars());
   }
 
+  const toggleUserInterfaceButton = document.getElementById(`${viewerDOMId}-toggleUserInterfaceButton`);
+
   publicAPI.setUserInterfaceCollapsed = (collapse) => {
-    const toggleUserInterfaceButton = document.getElementById(`${viewerDOMId}-toggleUserInterfaceButton`);
     const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === '';
     if (collapse && !collapsed || !collapse && collapsed) {
       toggleUserInterfaceButton.click();
     }
   }
 
-  let annotationsEnabled = true;
-  publicAPI.setAnnotationsEnabled = (annotations) => {
-    const toggleAnnotationButton = document.getElementById(`${viewerDOMId}-toggleAnnotationButton`);
-    if (annotations && !annotationsEnabled || !annotations && annotationsEnabled
-    ) {
-      annotationsEnabled = !annotationsEnabled;
-      toggleAnnotationButton.click();
+  const toggleUserInterfaceCollapsedHandlers = [];
+  const toggleUserInterfaceButtonListener = (event) => {
+    const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === '';
+    toggleUserInterfaceCollapsedHandlers.forEach((handler) => {
+      handler.call(null, collapsed);
+    })
+  }
+  toggleUserInterfaceButton.addEventListener('click', toggleUserInterfaceButtonListener)
+
+  publicAPI.subscribeToggleUserInterfaceCollapsed = (handler) => {
+    const index = toggleUserInterfaceCollapsedHandlers.length;
+    toggleUserInterfaceCollapsedHandlers.push(handler);
+    function unsubscribe() {
+      toggleUserInterfaceCollapsedHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+
+  publicAPI.captureImage = () => {
+    return view.captureImage();
+  }
+
+
+  const toggleAnnotationsButton = document.getElementById(`${viewerDOMId}-toggleAnnotationsButton`);
+
+  const toggleAnnotationsHandlers = [];
+  const toggleAnnotationsButtonListener = (event) => {
+    const enabled = toggleAnnotationsButton.checked;
+    toggleAnnotationsHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  }
+  toggleAnnotationsButton.addEventListener('click', toggleAnnotationsButtonListener)
+
+  publicAPI.subscribeToggleAnnotations = (handler) => {
+    const index = toggleAnnotationsHandlers.length;
+    toggleAnnotationsHandlers.push(handler);
+    function unsubscribe() {
+      toggleAnnotationsHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setAnnotationsEnabled = (enabled) => {
+    const annotations = toggleAnnotationsButton.checked;
+    if (enabled && !annotations || !enabled && annotations) {
+      toggleAnnotationsButton.click();
     }
   }
 
-  let interpolationEnabled = true;
-  publicAPI.setInterpolationEnabled = (interpolation) => {
-    const toggleInterpolationButton = document.getElementById(`${viewerDOMId}-toggleInterpolationButton`);
-    if (interpolation && !interpolationEnabled || !interpolation && interpolationEnabled) {
-      interpolationEnabled = !interpolationEnabled;
+
+  const toggleInterpolationButton = document.getElementById(`${viewerDOMId}-toggleInterpolationButton`);
+
+  const toggleInterpolationHandlers = [];
+  const toggleInterpolationButtonListener = (event) => {
+    const enabled = toggleInterpolationButton.checked;
+    toggleInterpolationHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  }
+  toggleInterpolationButton.addEventListener('click', toggleInterpolationButtonListener)
+
+  publicAPI.subscribeToggleInterpolation = (handler) => {
+    const index = toggleInterpolationHandlers.length;
+    toggleInterpolationHandlers.push(handler);
+    function unsubscribe() {
+      toggleInterpolationHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setInterpolationEnabled = (enabled) => {
+    const interpolation = toggleInterpolationButton.checked;
+    if (enabled && !interpolation || !enabled && interpolation) {
       toggleInterpolationButton.click();
     }
+  }
+
+
+  const xPlaneButton = document.getElementById(`${viewerDOMId}-xPlaneButton`);
+  const yPlaneButton = document.getElementById(`${viewerDOMId}-yPlaneButton`);
+  const zPlaneButton = document.getElementById(`${viewerDOMId}-zPlaneButton`);
+  const volumeRenderingButton = document.getElementById(`${viewerDOMId}-volumeRenderingButton`);
+
+  const viewModeChangedHandlers = [];
+  const xPlaneButtonListener = (event) => {
+    const enabled = xPlaneButton.checked;
+    if (enabled) {
+      viewModeChangedHandlers.forEach((handler) => {
+        handler.call(null, 'XPlane');
+      })
+    }
+  }
+  xPlaneButton.addEventListener('click', xPlaneButtonListener)
+  const yPlaneButtonListener = (event) => {
+    const enabled = yPlaneButton.checked;
+    if (enabled) {
+      viewModeChangedHandlers.forEach((handler) => {
+        handler.call(null, 'YPlane');
+      })
+    }
+  }
+  yPlaneButton.addEventListener('click', yPlaneButtonListener)
+  const zPlaneButtonListener = (event) => {
+    const enabled = zPlaneButton.checked;
+    if (enabled) {
+      viewModeChangedHandlers.forEach((handler) => {
+        handler.call(null, 'ZPlane');
+      })
+    }
+  }
+  zPlaneButton.addEventListener('click', zPlaneButtonListener)
+  const volumeRenderingButtonListener = (event) => {
+    const enabled = volumeRenderingButton.checked;
+    if (enabled) {
+      viewModeChangedHandlers.forEach((handler) => {
+        handler.call(null, 'VolumeRendering');
+      })
+    }
+  }
+  volumeRenderingButton.addEventListener('click', volumeRenderingButtonListener)
+
+  publicAPI.subscribeViewModeChanged = (handler) => {
+    const index = viewModeChangedHandlers.length;
+    viewModeChangedHandlers.push(handler);
+    function unsubscribe() {
+      viewModeChangedHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
   }
 
   publicAPI.setViewMode = (mode) => {
@@ -212,27 +326,62 @@ const createViewer = (
     }
   }
 
-  let shadowEnabled = true;
-  publicAPI.setShadowEnabled = (shadow) => {
-    const toggleShadowButton = document.getElementById(`${viewerDOMId}-toggleShadowButton`);
-    if (shadow && !shadowEnabled || !shadow && shadowEnabled) {
-      shadowEnabled = !shadowEnabled;
+
+  const toggleShadowButton = document.getElementById(`${viewerDOMId}-toggleShadowButton`);
+
+  const toggleShadowHandlers = [];
+  const toggleShadowButtonListener = (event) => {
+    const enabled = toggleShadowButton.checked;
+    toggleShadowHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  }
+  toggleShadowButton.addEventListener('click', toggleShadowButtonListener)
+
+  publicAPI.subscribeToggleShadow = (handler) => {
+    const index = toggleShadowHandlers.length;
+    toggleShadowHandlers.push(handler);
+    function unsubscribe() {
+      toggleShadowHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setShadowEnabled = (enabled) => {
+    const shadow = toggleShadowButton.checked;
+    if (enabled && !shadow || !enabled && shadow) {
       toggleShadowButton.click();
     }
   }
 
-  let slicingPlanesEnabled = false;
-  publicAPI.setSlicingPlanesEnabled = (slicingPlanes) => {
-    const toggleSlicingPlanesButton = document.getElementById(`${viewerDOMId}-toggleSlicingPlanesButton`);
-    if (slicingPlanes && !slicingPlanesEnabled || !slicingPlanes && slicingPlanesEnabled) {
-      slicingPlanesEnabled = !slicingPlanesEnabled;
+
+  const toggleSlicingPlanesButton = document.getElementById(`${viewerDOMId}-toggleSlicingPlanesButton`);
+
+  const toggleSlicingPlanesHandlers = [];
+  const toggleSlicingPlanesButtonListener = (event) => {
+    const enabled = toggleSlicingPlanesButton.checked;
+    toggleSlicingPlanesHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  }
+  toggleSlicingPlanesButton.addEventListener('click', toggleSlicingPlanesButtonListener)
+
+  publicAPI.subscribeToggleSlicingPlanes = (handler) => {
+    const index = toggleSlicingPlanesHandlers.length;
+    toggleSlicingPlanesHandlers.push(handler);
+    function unsubscribe() {
+      toggleSlicingPlanesHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setSlicingPlanesEnabled = (enabled) => {
+    const slicingPlanes = toggleSlicingPlanesButton.checked;
+    if (enabled && !slicingPlanes || !enabled && slicingPlanes) {
       toggleSlicingPlanesButton.click();
     }
   }
 
-  publicAPI.captureImage = () => {
-    return view.captureImage();
-  }
 
   publicAPI.getViewProxy = () => {
     return view;

@@ -2,7 +2,6 @@ import getContrastSensitiveStyle from './getContrastSensitiveStyle';
 
 import style from './ItkVtkImageViewer.mcss';
 
-import preventDefaults from './preventDefaults';
 import toggleIcon from './icons/toggle.svg';
 import screenshotIcon from './icons/screenshot.svg';
 import volumeRenderingIcon from './icons/volume-rendering.svg';

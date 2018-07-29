@@ -162,13 +162,33 @@ const createViewer = (
     transferFunctionWidget.setDataArray(image.getPointData().getScalars());
   }
 
+  const toggleUserInterfaceButton = document.getElementById(`${viewerDOMId}-toggleUserInterfaceButton`);
+
   publicAPI.setUserInterfaceCollapsed = (collapse) => {
-    const toggleUserInterfaceButton = document.getElementById(`${viewerDOMId}-toggleUserInterfaceButton`);
     const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === '';
     if (collapse && !collapsed || !collapse && collapsed) {
       toggleUserInterfaceButton.click();
     }
   }
+
+  const toggleUserInterfaceCollapsedHandlers = [];
+  const toggleUserInterfaceButtonListener = (event) => {
+    const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === '';
+    toggleUserInterfaceCollapsedHandlers.forEach((handler) => {
+      handler.call(null, collapsed);
+    })
+  }
+  toggleUserInterfaceButton.addEventListener('click', toggleUserInterfaceButtonListener)
+
+  publicAPI.subscribeToggleUserInterfaceCollapsed = (handler) => {
+    const index = toggleUserInterfaceCollapsedHandlers.length;
+    toggleUserInterfaceCollapsedHandlers.push(handler);
+    function unsubscribe() {
+      toggleUserInterfaceCollapsedHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
 
   let annotationsEnabled = true;
   publicAPI.setAnnotationsEnabled = (annotations) => {

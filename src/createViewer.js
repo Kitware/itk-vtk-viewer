@@ -223,14 +223,33 @@ const createViewer = (
   }
 
 
-  let interpolationEnabled = true;
-  publicAPI.setInterpolationEnabled = (interpolation) => {
-    const toggleInterpolationButton = document.getElementById(`${viewerDOMId}-toggleInterpolationButton`);
-    if (interpolation && !interpolationEnabled || !interpolation && interpolationEnabled) {
-      interpolationEnabled = !interpolationEnabled;
+  const toggleInterpolationButton = document.getElementById(`${viewerDOMId}-toggleInterpolationButton`);
+
+  const toggleInterpolationHandlers = [];
+  const toggleInterpolationButtonListener = (event) => {
+    const enabled = toggleInterpolationButton.checked;
+    toggleInterpolationHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  }
+  toggleInterpolationButton.addEventListener('click', toggleInterpolationButtonListener)
+
+  publicAPI.subscribeToggleInterpolation = (handler) => {
+    const index = toggleInterpolationHandlers.length;
+    toggleInterpolationHandlers.push(handler);
+    function unsubscribe() {
+      toggleInterpolationHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setInterpolationEnabled = (enabled) => {
+    const interpolation = toggleInterpolationButton.checked;
+    if (enabled && !interpolation || !enabled && interpolation) {
       toggleInterpolationButton.click();
     }
   }
+
 
   publicAPI.setViewMode = (mode) => {
     switch(mode) {

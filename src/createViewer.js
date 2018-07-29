@@ -355,14 +355,33 @@ const createViewer = (
   }
 
 
-  let slicingPlanesEnabled = false;
-  publicAPI.setSlicingPlanesEnabled = (slicingPlanes) => {
-    const toggleSlicingPlanesButton = document.getElementById(`${viewerDOMId}-toggleSlicingPlanesButton`);
-    if (slicingPlanes && !slicingPlanesEnabled || !slicingPlanes && slicingPlanesEnabled) {
-      slicingPlanesEnabled = !slicingPlanesEnabled;
+  const toggleSlicingPlanesButton = document.getElementById(`${viewerDOMId}-toggleSlicingPlanesButton`);
+
+  const toggleSlicingPlanesHandlers = [];
+  const toggleSlicingPlanesButtonListener = (event) => {
+    const enabled = toggleSlicingPlanesButton.checked;
+    toggleSlicingPlanesHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  }
+  toggleSlicingPlanesButton.addEventListener('click', toggleSlicingPlanesButtonListener)
+
+  publicAPI.subscribeToggleSlicingPlanes = (handler) => {
+    const index = toggleSlicingPlanesHandlers.length;
+    toggleSlicingPlanesHandlers.push(handler);
+    function unsubscribe() {
+      toggleSlicingPlanesHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setSlicingPlanesEnabled = (enabled) => {
+    const slicingPlanes = toggleSlicingPlanesButton.checked;
+    if (enabled && !slicingPlanes || !enabled && slicingPlanes) {
       toggleSlicingPlanesButton.click();
     }
   }
+
 
   publicAPI.getViewProxy = () => {
     return view;

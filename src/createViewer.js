@@ -190,15 +190,38 @@ const createViewer = (
   }
 
 
-  let annotationsEnabled = true;
-  publicAPI.setAnnotationsEnabled = (annotations) => {
-    const toggleAnnotationButton = document.getElementById(`${viewerDOMId}-toggleAnnotationButton`);
-    if (annotations && !annotationsEnabled || !annotations && annotationsEnabled
-    ) {
-      annotationsEnabled = !annotationsEnabled;
-      toggleAnnotationButton.click();
+  publicAPI.captureImage = () => {
+    return view.captureImage();
+  }
+
+
+  const toggleAnnotationsButton = document.getElementById(`${viewerDOMId}-toggleAnnotationsButton`);
+
+  const toggleAnnotationsHandlers = [];
+  const toggleAnnotationsButtonListener = (event) => {
+    const enabled = toggleAnnotationsButton.checked;
+    toggleAnnotationsHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  }
+  toggleAnnotationsButton.addEventListener('click', toggleAnnotationsButtonListener)
+
+  publicAPI.subscribeToggleAnnotations = (handler) => {
+    const index = toggleAnnotationsHandlers.length;
+    toggleAnnotationsHandlers.push(handler);
+    function unsubscribe() {
+      toggleAnnotationsHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setAnnotationsEnabled = (enabled) => {
+    const annotations = toggleAnnotationsButton.checked;
+    if (enabled && !annotations || !enabled && annotations) {
+      toggleAnnotationsButton.click();
     }
   }
+
 
   let interpolationEnabled = true;
   publicAPI.setInterpolationEnabled = (interpolation) => {
@@ -248,10 +271,6 @@ const createViewer = (
       slicingPlanesEnabled = !slicingPlanesEnabled;
       toggleSlicingPlanesButton.click();
     }
-  }
-
-  publicAPI.captureImage = () => {
-    return view.captureImage();
   }
 
   publicAPI.getViewProxy = () => {

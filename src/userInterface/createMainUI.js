@@ -15,6 +15,7 @@ import annotationIcon from './icons/annotations.svg';
 import interpolationIcon from './icons/interpolation.svg';
 import cropIcon from './icons/crop.svg';
 import resetCropIcon from './icons/reset-crop.svg';
+import resetCameraIcon from './icons/reset-camera.svg';
 
 function createMainUI(
   rootContainer,
@@ -30,7 +31,7 @@ function createMainUI(
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['toggleUserInterfaceButton', 'screenshotButton', 'annotationButton', 'interpolationButton', 'cropButton', 'resetCropButton'],
+    ['toggleUserInterfaceButton', 'screenshotButton', 'annotationButton', 'interpolationButton', 'cropButton', 'resetCropButton', 'resetCameraButton'],
     isBackgroundDark
   );
 
@@ -165,6 +166,27 @@ function createMainUI(
     resetCrop();
   });
   mainUIRow.appendChild(resetCropButton);
+
+  const resetCameraButton = document.createElement('div');
+  resetCameraButton.innerHTML = `<input id="${viewerDOMId}-resetCameraButton" type="checkbox" class="${
+    style.toggleInput
+  }" checked><label class="${contrastSensitiveStyle.resetCameraButton} ${
+    style.toggleButton
+  }" for="${viewerDOMId}-resetCameraButton">${resetCameraIcon}</label>`;
+  function resetCamera() {
+    view.resetCamera();
+  }
+  resetCameraButton.addEventListener('change', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    resetCamera();
+  });
+  resetCameraButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    resetCamera();
+  });
+  mainUIRow.appendChild(resetCameraButton);
 
   function setViewModeXPlane() {
     view.setViewMode('XPlane');

@@ -1,4 +1,5 @@
 import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager';
+import macro from 'vtk.js/Sources/macro';
 
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
@@ -157,11 +158,21 @@ const createViewer = (
     view.renderLater();
   }
 
-  publicAPI.setImage = (image) => {
+  let updatingImage = false;
+  const setImage = (image) => {
+    if (updatingImage) {
+      return;
+    }
+    updatingImage = true;
     imageSource.setInputData(image);
     transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
-    transferFunctionWidget.render();
+    setTimeout(() => {
+      transferFunctionWidget.render();
+      view.getRenderWindow().render();
+      updatingImage = false;
+    }, 0);
   }
+  publicAPI.setImage = macro.throttle(setImage, 100);
 
   const toggleUserInterfaceButton = document.getElementById(`${viewerDOMId}-toggleUserInterfaceButton`);
 

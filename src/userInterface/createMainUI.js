@@ -14,6 +14,7 @@ import zPlaneIcon from './icons/z-plane.svg';
 import annotationIcon from './icons/annotations.svg';
 import interpolationIcon from './icons/interpolation.svg';
 import cropIcon from './icons/crop.svg';
+import resetCropIcon from './icons/reset-crop.svg';
 
 function createMainUI(
   rootContainer,
@@ -29,7 +30,7 @@ function createMainUI(
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['toggleUserInterfaceButton', 'screenshotButton', 'annotationButton', 'interpolationButton', 'cropButton'],
+    ['toggleUserInterfaceButton', 'screenshotButton', 'annotationButton', 'interpolationButton', 'cropButton', 'resetCropButton'],
     isBackgroundDark
   );
 
@@ -107,7 +108,7 @@ function createMainUI(
   mainUIRow.appendChild(interpolationButton);
 
   const croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
-  croppingWidget.setHandleSize(20);
+  croppingWidget.setHandleSize(25);
   croppingWidget.setFaceHandlesEnabled(false);
   croppingWidget.setEdgeHandlesEnabled(false);
   croppingWidget.setCornerHandlesEnabled(true);
@@ -117,7 +118,7 @@ function createMainUI(
     croppingWidget.setVolumeMapper(representation.getMapper());
   }
   const debouncedSetCroppingPlanes = macro.debounce(representation.setCroppingPlanes, 100);
-  let croppingUpdateInProgress = false
+  let croppingUpdateInProgress = false;
   croppingWidget.onModified(() => {
     if(croppingUpdateInProgress) {
       return
@@ -125,7 +126,7 @@ function createMainUI(
     croppingUpdateInProgress = true;
     const planes = croppingWidget.getWidgetState().planes;
     debouncedSetCroppingPlanes(planes);
-    croppingUpdateInProgress = false
+    croppingUpdateInProgress = false;
   })
   let cropEnabled = false;
   function toggleCrop() {
@@ -142,6 +143,28 @@ function createMainUI(
     toggleCrop();
   });
   mainUIRow.appendChild(cropButton);
+
+  const resetCropButton = document.createElement('div');
+  resetCropButton.innerHTML = `<input id="${viewerDOMId}-resetCroppingPlanesButton" type="checkbox" class="${
+    style.toggleInput
+  }" checked><label class="${contrastSensitiveStyle.resetCropButton} ${
+    style.toggleButton
+  }" for="${viewerDOMId}-resetCroppingPlanesButton">${resetCropIcon}</label>`;
+  function resetCrop() {
+    representation.getCropFilter().reset();
+    croppingWidget.resetWidgetState();
+  }
+  resetCropButton.addEventListener('change', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    resetCrop();
+  });
+  resetCropButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    resetCrop();
+  });
+  mainUIRow.appendChild(resetCropButton);
 
   function setViewModeXPlane() {
     view.setViewMode('XPlane');

@@ -225,6 +225,33 @@
   -webkit-filter: invert(100%);
 }
 
+.resetCropButton {
+  flex: 1;
+  height: 1.5em;
+  width: 1.5em;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.resetCropButton svg {
+  height: 1.2em;
+  width: 1.2em;
+}
+
+.resetCropButtonBrightBG {
+  composes: resetCropButton;
+}
+
+.resetCropButtonDarkBG {
+  composes: resetCropButton;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
 .viewModeButton {
   flex: 1;
   height: 1.5em;

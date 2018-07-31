@@ -1,3 +1,6 @@
+import macro from 'vtk.js/Sources/macro';
+import vtkImageCroppingRegionsWidget from 'vtk.js/Sources/Interaction/Widgets/ImageCroppingRegionsWidget';
+
 import getContrastSensitiveStyle from './getContrastSensitiveStyle';
 
 import style from './ItkVtkImageViewer.mcss';
@@ -10,6 +13,9 @@ import yPlaneIcon from './icons/y-plane.svg';
 import zPlaneIcon from './icons/z-plane.svg';
 import annotationIcon from './icons/annotations.svg';
 import interpolationIcon from './icons/interpolation.svg';
+import cropIcon from './icons/crop.svg';
+import resetCropIcon from './icons/reset-crop.svg';
+import resetCameraIcon from './icons/reset-camera.svg';
 
 function createMainUI(
   rootContainer,
@@ -17,6 +23,7 @@ function createMainUI(
   isBackgroundDark,
   use2D,
   imageSource,
+  representation,
   view,
 ) {
   const uiContainer = document.createElement('div');
@@ -24,7 +31,7 @@ function createMainUI(
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['toggleUserInterfaceButton', 'screenshotButton', 'annotationButton', 'interpolationButton'],
+    ['toggleUserInterfaceButton', 'screenshotButton', 'annotationButton', 'interpolationButton', 'cropButton', 'resetCropButton', 'resetCameraButton'],
     isBackgroundDark
   );
 
@@ -100,6 +107,86 @@ function createMainUI(
     toggleInterpolation();
   });
   mainUIRow.appendChild(interpolationButton);
+
+  const croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
+  croppingWidget.setHandleSize(25);
+  croppingWidget.setFaceHandlesEnabled(false);
+  croppingWidget.setEdgeHandlesEnabled(false);
+  croppingWidget.setCornerHandlesEnabled(true);
+  croppingWidget.setInteractor(view.getInteractor());
+  croppingWidget.setEnabled(false)
+  if (representation) {
+    croppingWidget.setVolumeMapper(representation.getMapper());
+  }
+  const debouncedSetCroppingPlanes = macro.debounce(representation.setCroppingPlanes, 100);
+  let croppingUpdateInProgress = false;
+  croppingWidget.onModified(() => {
+    if(croppingUpdateInProgress) {
+      return
+    }
+    croppingUpdateInProgress = true;
+    const planes = croppingWidget.getWidgetState().planes;
+    debouncedSetCroppingPlanes(planes);
+    croppingUpdateInProgress = false;
+  })
+  let cropEnabled = false;
+  function toggleCrop() {
+    cropEnabled = !cropEnabled;
+    croppingWidget.setEnabled(cropEnabled);
+  }
+  const cropButton = document.createElement('div');
+  cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${
+    style.toggleInput
+  }"><label class="${contrastSensitiveStyle.cropButton} ${
+    style.toggleButton
+  }" for="${viewerDOMId}-toggleCroppingPlanesButton">${cropIcon}</label>`;
+  cropButton.addEventListener('change', (event) => {
+    toggleCrop();
+  });
+  mainUIRow.appendChild(cropButton);
+
+  const resetCropButton = document.createElement('div');
+  resetCropButton.innerHTML = `<input id="${viewerDOMId}-resetCroppingPlanesButton" type="checkbox" class="${
+    style.toggleInput
+  }" checked><label class="${contrastSensitiveStyle.resetCropButton} ${
+    style.toggleButton
+  }" for="${viewerDOMId}-resetCroppingPlanesButton">${resetCropIcon}</label>`;
+  function resetCrop() {
+    representation.getCropFilter().reset();
+    croppingWidget.resetWidgetState();
+  }
+  resetCropButton.addEventListener('change', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    resetCrop();
+  });
+  resetCropButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    resetCrop();
+  });
+  mainUIRow.appendChild(resetCropButton);
+
+  const resetCameraButton = document.createElement('div');
+  resetCameraButton.innerHTML = `<input id="${viewerDOMId}-resetCameraButton" type="checkbox" class="${
+    style.toggleInput
+  }" checked><label class="${contrastSensitiveStyle.resetCameraButton} ${
+    style.toggleButton
+  }" for="${viewerDOMId}-resetCameraButton">${resetCameraIcon}</label>`;
+  function resetCamera() {
+    view.resetCamera();
+  }
+  resetCameraButton.addEventListener('change', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    resetCamera();
+  });
+  resetCameraButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    resetCamera();
+  });
+  mainUIRow.appendChild(resetCameraButton);
 
   function setViewModeXPlane() {
     view.setViewMode('XPlane');
@@ -208,7 +295,7 @@ function createMainUI(
 
   uiContainer.appendChild(mainUIGroup);
 
-  return uiContainer;
+  return { uiContainer, croppingWidget };
 }
 
 export default createMainUI;

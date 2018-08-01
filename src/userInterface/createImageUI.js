@@ -423,19 +423,20 @@ function createGradientOpacitySlider(
   renderWindow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['gradientOpacityButton'],
+    ['gradientOpacitySlider'],
     isBackgroundDark
   );
 
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
-    <div class="${contrastSensitiveStyle.gradientOpacityButton}">
+    <div class="${contrastSensitiveStyle.gradientOpacitySlider}">
       ${gradientOpacityIcon}
     </div>
     <input type="range" min="0" max="1" value="0.2" step="0.01"
-      class="${style.slider} ${viewerDOMId}-edge" />`;
-  const edgeElement = sliderEntry.querySelector(`.${viewerDOMId}-edge`)
+      id="${viewerDOMId}-gradientOpacitySlider"
+      class="${style.slider}" />`;
+  const edgeElement = sliderEntry.querySelector(`#${viewerDOMId}-gradientOpacitySlider`)
   function updateGradientOpacity() {
     const value = Number(edgeElement.value);
     volumeRepresentation.setEdgeGradient(value);
@@ -444,6 +445,8 @@ function createGradientOpacitySlider(
   edgeElement.addEventListener('input', updateGradientOpacity);
   updateGradientOpacity();
   uiContainer.appendChild(sliderEntry);
+
+  return updateGradientOpacity;
 }
 
 function createImageUI(
@@ -481,6 +484,7 @@ function createImageUI(
     use2D
   );
 
+  let updateGradientOpacity = null
   if (!use2D) {
     const volumeRenderingRow = document.createElement('div');
     volumeRenderingRow.setAttribute('class', style.uiRow);
@@ -505,7 +509,7 @@ function createImageUI(
       volumeRepresentation,
       renderWindow
     );
-    createGradientOpacitySlider(
+    updateGradientOpacity = createGradientOpacitySlider(
       volumeRenderingRow,
       viewerDOMId,
       isBackgroundDark,
@@ -525,7 +529,7 @@ function createImageUI(
 
   uiContainer.appendChild(imageUIGroup);
 
-  return { transferFunctionWidget };
+  return { transferFunctionWidget, updateGradientOpacity };
 }
 
 export default createImageUI;

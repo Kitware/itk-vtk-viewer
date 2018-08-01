@@ -400,7 +400,7 @@ select:focus {
   -webkit-filter: invert(100%);
 }
 
-.gradientOpacityButton {
+.gradientOpacitySlider {
   width: 1.2em;
   height: 1.2em;
   padding: 4px;
@@ -408,17 +408,17 @@ select:focus {
   z-index: 1000;
 }
 
-.gradientOpacityButton svg {
+.gradientOpacitySlider svg {
   width: 1.2em;
   height: 1.2em;
 }
 
-.gradientOpacityButtonBrightBG {
-  composes: gradientOpacityButton;
+.gradientOpacitySliderBrightBG {
+  composes: gradientOpacitySlider;
 }
 
-.gradientOpacityButtonDarkBG {
-  composes: gradientOpacityButton;
+.gradientOpacitySliderDarkBG {
+  composes: gradientOpacitySlider;
   filter: invert(100%);
   -webkit-filter: invert(100%);
 }

@@ -118,7 +118,7 @@ const createViewer = (
       .toString()
       .replace('.', '');
 
-  const { uiContainer, croppingWidget } = userInterface.createMainUI(
+  const { uiContainer, croppingWidget, addCroppingPlanesChangedHandler } = userInterface.createMainUI(
     rootContainer,
     viewerDOMId,
     isBackgroundDark,
@@ -427,6 +427,10 @@ const createViewer = (
     if (enabled && !shadow || !enabled && shadow) {
       toggleCroppingPlanesButton.click();
     }
+  }
+
+  publicAPI.subscribeCroppingPlanesChanged = (handler) => {
+    return addCroppingPlanesChangedHandler(handler);
   }
 
 

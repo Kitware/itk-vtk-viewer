@@ -109,7 +109,7 @@ function createMainUI(
   mainUIRow.appendChild(interpolationButton);
 
   const croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
-  croppingWidget.setHandleSize(25);
+  croppingWidget.setHandleSize(22);
   croppingWidget.setFaceHandlesEnabled(false);
   croppingWidget.setEdgeHandlesEnabled(false);
   croppingWidget.setCornerHandlesEnabled(true);

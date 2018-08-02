@@ -365,23 +365,106 @@ function createColorPresetSelector(
   lookupTableProxy,
   renderWindow
 ) {
-  const presetNames = vtkColorMaps.rgbPresetNames;
+  //const presetNames = vtkColorMaps.rgbPresetNames;
+  // More selective
+  const presetNames = [
+    "2hot",
+    "Asymmtrical Earth Tones (6_21b)",
+    "Black, Blue and White",
+    "Black, Orange and White",
+    "Black-Body Radiation",
+    "Blue to Red Rainbow",
+    "Blue to Yellow",
+    "Blues",
+    "BrBG",
+    "BrOrYl",
+    "BuGn",
+    "BuGnYl",
+    "BuPu",
+    "BuRd",
+    "CIELab Blue to Red",
+    "Cold and Hot",
+    "Cool to Warm",
+    "Cool to Warm (Extended)",
+    "GBBr",
+    "GYPi",
+    "GnBu",
+    "GnBuPu",
+    "GnRP",
+    "GnYlRd",
+    "Grayscale",
+    "Green-Blue Asymmetric Divergent (62Blbc)",
+    "Greens",
+    "GyRd",
+    "Haze",
+    "Haze_cyan",
+    "Haze_green",
+    "Haze_lime",
+    "Inferno (matplotlib)",
+    "Linear Blue (8_31f)",
+    "Linear YGB 1211g",
+    "Magma (matplotlib)",
+    "Muted Blue-Green",
+    "OrPu",
+    "Oranges",
+    "PRGn",
+    "PiYG",
+    "Plasma (matplotlib)",
+    "PuBu",
+    "PuOr",
+    "PuRd",
+    "Purples",
+    "Rainbow Blended Black",
+    "Rainbow Blended Grey",
+    "Rainbow Blended White",
+    "Rainbow Desaturated",
+    "RdOr",
+    "RdOrYl",
+    "RdPu",
+    "Red to Blue Rainbow",
+    "Reds",
+    "Spectral_lowBlue",
+    "Viridis (matplotlib)",
+    "Warm to Cool",
+    "Warm to Cool (Extended)",
+    "X Ray",
+    "Yellow 15",
+    "blot",
+    "blue2cyan",
+    "blue2yellow",
+    "bone_Matlab",
+    "coolwarm",
+    "copper_Matlab",
+    "gist_earth",
+    "gray_Matlab",
+    "heated_object",
+    "hsv",
+    "hue_L60",
+    "jet",
+    "magenta",
+    "nic_CubicL",
+    "nic_CubicYF",
+    "nic_Edge",
+    "pink_Matlab",
+    "rainbow",
+  ]
 
   const presetSelector = document.createElement('select');
   presetSelector.setAttribute('class', style.selector);
-  presetSelector.className += ` ${viewerDOMId}-color-preset`;
+  presetSelector.id = `${viewerDOMId}-colorMapSelector`;
   presetSelector.innerHTML = presetNames
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');
 
-  function applyPreset(event) {
-    lookupTableProxy.setPresetName(event.target.value);
+  function updateColorMap(event) {
+    lookupTableProxy.setPresetName(presetSelector.value);
     renderWindow.render();
   }
-
-  presetSelector.addEventListener('change', applyPreset);
+  presetSelector.addEventListener('change', updateColorMap);
   uiContainer.appendChild(presetSelector);
   presetSelector.value = lookupTableProxy.getPresetName();
+
+  return updateColorMap;
 }
 
 function createSampleDistanceSlider(
@@ -423,19 +506,20 @@ function createGradientOpacitySlider(
   renderWindow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['gradientOpacityButton'],
+    ['gradientOpacitySlider'],
     isBackgroundDark
   );
 
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
-    <div class="${contrastSensitiveStyle.gradientOpacityButton}">
+    <div class="${contrastSensitiveStyle.gradientOpacitySlider}">
       ${gradientOpacityIcon}
     </div>
     <input type="range" min="0" max="1" value="0.2" step="0.01"
-      class="${style.slider} ${viewerDOMId}-edge" />`;
-  const edgeElement = sliderEntry.querySelector(`.${viewerDOMId}-edge`)
+      id="${viewerDOMId}-gradientOpacitySlider"
+      class="${style.slider}" />`;
+  const edgeElement = sliderEntry.querySelector(`#${viewerDOMId}-gradientOpacitySlider`)
   function updateGradientOpacity() {
     const value = Number(edgeElement.value);
     volumeRepresentation.setEdgeGradient(value);
@@ -444,6 +528,8 @@ function createGradientOpacitySlider(
   edgeElement.addEventListener('input', updateGradientOpacity);
   updateGradientOpacity();
   uiContainer.appendChild(sliderEntry);
+
+  return updateGradientOpacity;
 }
 
 function createImageUI(
@@ -462,10 +548,11 @@ function createImageUI(
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
+  let updateColorMap = null
   if (dataArray.getNumberOfComponents() === 1) {
     const presetRow = document.createElement('div');
     presetRow.setAttribute('class', style.uiRow);
-    createColorPresetSelector(presetRow, viewerDOMId, lookupTableProxy, renderWindow);
+    updateColorMap = createColorPresetSelector(presetRow, viewerDOMId, lookupTableProxy, renderWindow);
     presetRow.className += ` ${viewerDOMId}-toggle`
     imageUIGroup.appendChild(presetRow);
   }
@@ -481,6 +568,7 @@ function createImageUI(
     use2D
   );
 
+  let updateGradientOpacity = null
   if (!use2D) {
     const volumeRenderingRow = document.createElement('div');
     volumeRenderingRow.setAttribute('class', style.uiRow);
@@ -505,7 +593,7 @@ function createImageUI(
       volumeRepresentation,
       renderWindow
     );
-    createGradientOpacitySlider(
+    updateGradientOpacity = createGradientOpacitySlider(
       volumeRenderingRow,
       viewerDOMId,
       isBackgroundDark,
@@ -525,7 +613,7 @@ function createImageUI(
 
   uiContainer.appendChild(imageUIGroup);
 
-  return { transferFunctionWidget };
+  return { transferFunctionWidget, updateGradientOpacity, updateColorMap };
 }
 
 export default createImageUI;

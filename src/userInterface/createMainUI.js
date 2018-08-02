@@ -109,7 +109,7 @@ function createMainUI(
   mainUIRow.appendChild(interpolationButton);
 
   const croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
-  croppingWidget.setHandleSize(25);
+  croppingWidget.setHandleSize(22);
   croppingWidget.setFaceHandlesEnabled(false);
   croppingWidget.setEdgeHandlesEnabled(false);
   croppingWidget.setCornerHandlesEnabled(true);
@@ -118,17 +118,31 @@ function createMainUI(
   if (representation) {
     croppingWidget.setVolumeMapper(representation.getMapper());
   }
-  const debouncedSetCroppingPlanes = macro.debounce(representation.setCroppingPlanes, 100);
+  const croppingPlanesChangedHandlers = [];
+  const addCroppingPlanesChangedHandler = (handler) => {
+    const index = croppingPlanesChangedHandlers.length;
+    croppingPlanesChangedHandlers.push(handler);
+    function unsubscribe() {
+      croppingPlanesChangedHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
   let croppingUpdateInProgress = false;
-  croppingWidget.onModified(() => {
+  const setCroppingPlanes = () => {
     if(croppingUpdateInProgress) {
       return
     }
     croppingUpdateInProgress = true;
     const planes = croppingWidget.getWidgetState().planes;
-    debouncedSetCroppingPlanes(planes);
+    representation.setCroppingPlanes(planes);
+    const bboxCorners = croppingWidget.planesToBBoxCorners(planes);
+    croppingPlanesChangedHandlers.forEach((handler) => {
+      handler.call(null, planes, bboxCorners);
+    })
     croppingUpdateInProgress = false;
-  })
+  }
+  const debouncedSetCroppingPlanes = macro.debounce(setCroppingPlanes, 100);
+  croppingWidget.onModified(debouncedSetCroppingPlanes);
   let cropEnabled = false;
   function toggleCrop() {
     cropEnabled = !cropEnabled;
@@ -295,7 +309,7 @@ function createMainUI(
 
   uiContainer.appendChild(mainUIGroup);
 
-  return { uiContainer, croppingWidget };
+  return { uiContainer, croppingWidget, addCroppingPlanesChangedHandler };
 }
 
 export default createMainUI;

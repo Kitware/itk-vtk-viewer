@@ -80,7 +80,8 @@ const createViewer = (
   let piecewiseFunction = null;
   let dataArray = null;
   let representation = null;
-  let transferFunctionWidget = null;
+  let imageUI = null;
+  let update
   if (image) {
     imageSource.setInputData(image);
 
@@ -118,7 +119,7 @@ const createViewer = (
       .toString()
       .replace('.', '');
 
-  const { uiContainer, croppingWidget } = userInterface.createMainUI(
+  const { uiContainer, croppingWidget, addCroppingPlanesChangedHandler } = userInterface.createMainUI(
     rootContainer,
     viewerDOMId,
     isBackgroundDark,
@@ -129,7 +130,7 @@ const createViewer = (
   );
 
   if (image) {
-    const imageUI = userInterface.createImageUI(
+    imageUI = userInterface.createImageUI(
       uiContainer,
       viewerDOMId,
       lookupTableProxy,
@@ -140,7 +141,6 @@ const createViewer = (
       isBackgroundDark,
       use2D
     );
-    transferFunctionWidget = imageUI.transferFunctionWidget;
     const annotationContainer = container.querySelector('.js-se');
     annotationContainer.style.fontFamily = 'monospace';
   }
@@ -166,13 +166,13 @@ const createViewer = (
     }
     updatingImage = true;
     imageSource.setInputData(image);
-    transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
+    imageUI.transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
     croppingWidget.setVolumeMapper(representation.getMapper());
     const cropFilter = representation.getCropFilter();
     cropFilter.reset();
     croppingWidget.resetWidgetState();
     setTimeout(() => {
-      transferFunctionWidget.render();
+      imageUI.transferFunctionWidget.render();
       view.getRenderWindow().render();
       updatingImage = false;
     }, 0);
@@ -264,6 +264,67 @@ const createViewer = (
     const interpolation = toggleInterpolationButton.checked;
     if (enabled && !interpolation || !enabled && interpolation) {
       toggleInterpolationButton.click();
+    }
+  }
+
+
+  const toggleCroppingPlanesButton = document.getElementById(`${viewerDOMId}-toggleCroppingPlanesButton`);
+
+  const toggleCroppingPlanesHandlers = [];
+  const toggleCroppingPlanesButtonListener = (event) => {
+    const enabled = toggleCroppingPlanesButton.checked;
+    toggleCroppingPlanesHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  }
+  toggleCroppingPlanesButton.addEventListener('click', toggleCroppingPlanesButtonListener)
+
+  publicAPI.subscribeToggleCroppingPlanes = (handler) => {
+    const index = toggleCroppingPlanesHandlers.length;
+    toggleCroppingPlanesHandlers.push(handler);
+    function unsubscribe() {
+      toggleCroppingPlanesHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setCroppingPlanesEnabled = (enabled) => {
+    const shadow = toggleCroppingPlanesButton.checked;
+    if (enabled && !shadow || !enabled && shadow) {
+      toggleCroppingPlanesButton.click();
+    }
+  }
+
+  publicAPI.subscribeCroppingPlanesChanged = (handler) => {
+    return addCroppingPlanesChangedHandler(handler);
+  }
+
+
+  const colorMapSelector = document.getElementById(`${viewerDOMId}-colorMapSelector`);
+
+  const selectColorMapHandlers = [];
+  const selectColorMapListener = (event) => {
+    const value = selectColorMapSelector.value;
+    selectColorMapHandlers.forEach((handler) => {
+      handler.call(null, value);
+    })
+  }
+  colorMapSelector.addEventListener('change', selectColorMapListener);
+
+  publicAPI.subscribeSelectColorMap = (handler) => {
+    const index = selectColorMapHandlers.length;
+    selectColorMapHandlers.push(handler);
+    function unsubscribe() {
+      selectColorMapHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setColorMap = (colorMap) => {
+    const currentColorMap = colorMapSelector.value;
+    if (currentColorMap !== colorMap) {
+      colorMapSelector.value = colorMap;
+      imageUI.updateColorMap();
     }
   }
 
@@ -399,33 +460,34 @@ const createViewer = (
         toggleSlicingPlanesButton.click();
       }
     }
-  }
 
 
-  const toggleCroppingPlanesButton = document.getElementById(`${viewerDOMId}-toggleCroppingPlanesButton`);
+    const gradientOpacitySlider = document.getElementById(`${viewerDOMId}-gradientOpacitySlider`);
 
-  const toggleCroppingPlanesHandlers = [];
-  const toggleCroppingPlanesButtonListener = (event) => {
-    const enabled = toggleCroppingPlanesButton.checked;
-    toggleCroppingPlanesHandlers.forEach((handler) => {
-      handler.call(null, enabled);
-    })
-  }
-  toggleCroppingPlanesButton.addEventListener('click', toggleCroppingPlanesButtonListener)
-
-  publicAPI.subscribeToggleCroppingPlanes = (handler) => {
-    const index = toggleCroppingPlanesHandlers.length;
-    toggleCroppingPlanesHandlers.push(handler);
-    function unsubscribe() {
-      toggleCroppingPlanesHandlers[index] = null;
+    const gradientOpacitySliderHandlers = [];
+    const gradientOpacitySliderListener = (event) => {
+      const value = gradientOpacitySlider.value;
+      gradientOpacitySliderHandlers.forEach((handler) => {
+        handler.call(null, value);
+      })
     }
-    return Object.freeze({ unsubscribe });
-  }
+    gradientOpacitySlider.addEventListener('change', gradientOpacitySliderListener)
 
-  publicAPI.setCroppingPlanesEnabled = (enabled) => {
-    const shadow = toggleCroppingPlanesButton.checked;
-    if (enabled && !shadow || !enabled && shadow) {
-      toggleCroppingPlanesButton.click();
+    publicAPI.subscribeGradientOpacityChanged = (handler) => {
+      const index = gradientOpacitySliderHandlers.length;
+      gradientOpacitySliderHandlers.push(handler);
+      function unsubscribe() {
+        gradientOpacitySliderHandlers[index] = null;
+      }
+      return Object.freeze({ unsubscribe });
+    }
+
+    publicAPI.setGradientOpacity = (opacity) => {
+      const current_opacity = parseFloat(gradientOpacitySlider.value);
+      if (current_opacity !== parseFloat(opacity)) {
+        gradientOpacitySlider.value = opacity;
+        imageUI.updateGradientOpacity()
+      }
     }
   }
 

@@ -300,6 +300,35 @@ const createViewer = (
   }
 
 
+  const colorMapSelector = document.getElementById(`${viewerDOMId}-colorMapSelector`);
+
+  const selectColorMapHandlers = [];
+  const selectColorMapListener = (event) => {
+    const value = selectColorMapSelector.value;
+    selectColorMapHandlers.forEach((handler) => {
+      handler.call(null, value);
+    })
+  }
+  colorMapSelector.addEventListener('change', selectColorMapListener);
+
+  publicAPI.subscribeSelectColorMap = (handler) => {
+    const index = selectColorMapHandlers.length;
+    selectColorMapHandlers.push(handler);
+    function unsubscribe() {
+      selectColorMapHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setColorMap = (colorMap) => {
+    const currentColorMap = colorMapSelector.value;
+    if (currentColorMap !== colorMap) {
+      colorMapSelector.value = colorMap;
+      imageUI.updateColorMap();
+    }
+  }
+
+
   if (!use2D) {
     const xPlaneButton = document.getElementById(`${viewerDOMId}-xPlaneButton`);
     const yPlaneButton = document.getElementById(`${viewerDOMId}-yPlaneButton`);

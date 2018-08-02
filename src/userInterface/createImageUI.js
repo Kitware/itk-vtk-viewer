@@ -451,19 +451,20 @@ function createColorPresetSelector(
 
   const presetSelector = document.createElement('select');
   presetSelector.setAttribute('class', style.selector);
-  presetSelector.className += ` ${viewerDOMId}-color-preset`;
+  presetSelector.id = `${viewerDOMId}-colorMapSelector`;
   presetSelector.innerHTML = presetNames
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');
 
-  function applyPreset(event) {
-    lookupTableProxy.setPresetName(event.target.value);
+  function updateColorMap(event) {
+    lookupTableProxy.setPresetName(presetSelector.value);
     renderWindow.render();
   }
-
-  presetSelector.addEventListener('change', applyPreset);
+  presetSelector.addEventListener('change', updateColorMap);
   uiContainer.appendChild(presetSelector);
   presetSelector.value = lookupTableProxy.getPresetName();
+
+  return updateColorMap;
 }
 
 function createSampleDistanceSlider(
@@ -547,10 +548,11 @@ function createImageUI(
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
+  let updateColorMap = null
   if (dataArray.getNumberOfComponents() === 1) {
     const presetRow = document.createElement('div');
     presetRow.setAttribute('class', style.uiRow);
-    createColorPresetSelector(presetRow, viewerDOMId, lookupTableProxy, renderWindow);
+    updateColorMap = createColorPresetSelector(presetRow, viewerDOMId, lookupTableProxy, renderWindow);
     presetRow.className += ` ${viewerDOMId}-toggle`
     imageUIGroup.appendChild(presetRow);
   }
@@ -611,7 +613,7 @@ function createImageUI(
 
   uiContainer.appendChild(imageUIGroup);
 
-  return { transferFunctionWidget, updateGradientOpacity };
+  return { transferFunctionWidget, updateGradientOpacity, updateColorMap };
 }
 
 export default createImageUI;

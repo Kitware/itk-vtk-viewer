@@ -304,7 +304,7 @@ const createViewer = (
 
   const selectColorMapHandlers = [];
   const selectColorMapListener = (event) => {
-    const value = selectColorMapSelector.value;
+    const value = colorMapSelector.value;
     selectColorMapHandlers.forEach((handler) => {
       handler.call(null, value);
     })

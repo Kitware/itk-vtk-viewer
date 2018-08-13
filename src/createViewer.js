@@ -309,7 +309,9 @@ const createViewer = (
       handler.call(null, value);
     })
   }
-  colorMapSelector.addEventListener('change', selectColorMapListener);
+  if (colorMapSelector !== null) {
+    colorMapSelector.addEventListener('change', selectColorMapListener);
+  }
 
   publicAPI.subscribeSelectColorMap = (handler) => {
     const index = selectColorMapHandlers.length;
@@ -321,10 +323,12 @@ const createViewer = (
   }
 
   publicAPI.setColorMap = (colorMap) => {
-    const currentColorMap = colorMapSelector.value;
-    if (currentColorMap !== colorMap) {
-      colorMapSelector.value = colorMap;
-      imageUI.updateColorMap();
+    if (colorMapSelector !== null) {
+      const currentColorMap = colorMapSelector.value;
+      if (currentColorMap !== colorMap) {
+        colorMapSelector.value = colorMap;
+        imageUI.updateColorMap();
+      }
     }
   }
 

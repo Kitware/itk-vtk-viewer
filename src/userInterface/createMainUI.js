@@ -24,7 +24,7 @@ function createMainUI(
   use2D,
   imageSource,
   representation,
-  view,
+  view
 ) {
   const uiContainer = document.createElement('div');
   rootContainer.appendChild(uiContainer);
@@ -47,7 +47,8 @@ function createMainUI(
   function toggleUIVisibility() {
     const elements = uiContainer.querySelectorAll(`.${viewerDOMId}-toggle`);
     let count = elements.length;
-    const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === '';
+    const collapsed =
+      toggleUserInterfaceButton.getAttribute('collapsed') === '';
     if (collapsed) {
       while (count--) {
         elements[count].style.display = 'flex';
@@ -60,16 +61,18 @@ function createMainUI(
       toggleUserInterfaceButton.setAttribute('collapsed', '');
     }
   }
-  toggleUserInterfaceButton.className = `${contrastSensitiveStyle.invertibleButton} ${style.toggleUserInterfaceButton}`;
-  toggleUserInterfaceButton.id = `${viewerDOMId}-toggleUserInterfaceButton`
+  toggleUserInterfaceButton.className = `${
+    contrastSensitiveStyle.invertibleButton
+  } ${style.toggleUserInterfaceButton}`;
+  toggleUserInterfaceButton.id = `${viewerDOMId}-toggleUserInterfaceButton`;
   toggleUserInterfaceButton.innerHTML = `${toggleIcon}`;
   toggleUserInterfaceButton.addEventListener('click', toggleUIVisibility);
   uiContainer.appendChild(toggleUserInterfaceButton);
 
   const screenshotButton = document.createElement('div');
-  screenshotButton.innerHTML = `<div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Screenshot" class="${contrastSensitiveStyle.invertibleButton} ${
-    style.screenshotButton
-  }">${screenshotIcon}</div>`;
+  screenshotButton.innerHTML = `<div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Screenshot" class="${
+    contrastSensitiveStyle.invertibleButton
+  } ${style.screenshotButton}">${screenshotIcon}</div>`;
   function takeScreenshot() {
     view.openCaptureImage();
   }
@@ -79,7 +82,9 @@ function createMainUI(
   const annotationButton = document.createElement('div');
   annotationButton.innerHTML = `<input id="${viewerDOMId}-toggleAnnotationsButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Annotations" class="${contrastSensitiveStyle.invertibleButton} ${style.annotationButton} ${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Annotations" class="${
+    contrastSensitiveStyle.invertibleButton
+  } ${style.annotationButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-toggleAnnotationsButton">${annotationIcon}</label>`;
   const annotationButtonInput = annotationButton.children[0];
@@ -100,7 +105,9 @@ function createMainUI(
   const interpolationButton = document.createElement('div');
   interpolationButton.innerHTML = `<input id="${viewerDOMId}-toggleInterpolationButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Interpolation" class="${contrastSensitiveStyle.invertibleButton} ${style.interpolationButton} ${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Interpolation" class="${
+    contrastSensitiveStyle.invertibleButton
+  } ${style.interpolationButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-toggleInterpolationButton">${interpolationIcon}</label>`;
   interpolationButton.addEventListener('change', (event) => {
@@ -114,7 +121,7 @@ function createMainUI(
   croppingWidget.setEdgeHandlesEnabled(false);
   croppingWidget.setCornerHandlesEnabled(true);
   croppingWidget.setInteractor(view.getInteractor());
-  croppingWidget.setEnabled(false)
+  croppingWidget.setEnabled(false);
   if (representation) {
     croppingWidget.setVolumeMapper(representation.getMapper());
   }
@@ -126,11 +133,11 @@ function createMainUI(
       croppingPlanesChangedHandlers[index] = null;
     }
     return Object.freeze({ unsubscribe });
-  }
+  };
   let croppingUpdateInProgress = false;
   const setCroppingPlanes = () => {
-    if(croppingUpdateInProgress) {
-      return
+    if (croppingUpdateInProgress) {
+      return;
     }
     croppingUpdateInProgress = true;
     const planes = croppingWidget.getWidgetState().planes;
@@ -138,9 +145,9 @@ function createMainUI(
     const bboxCorners = croppingWidget.planesToBBoxCorners(planes);
     croppingPlanesChangedHandlers.forEach((handler) => {
       handler.call(null, planes, bboxCorners);
-    })
+    });
     croppingUpdateInProgress = false;
-  }
+  };
   const debouncedSetCroppingPlanes = macro.debounce(setCroppingPlanes, 100);
   croppingWidget.onModified(debouncedSetCroppingPlanes);
   let cropEnabled = false;
@@ -151,7 +158,9 @@ function createMainUI(
   const cropButton = document.createElement('div');
   cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Select ROI" class="${contrastSensitiveStyle.invertibleButton} ${style.cropButton} ${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Select ROI" class="${
+    contrastSensitiveStyle.invertibleButton
+  } ${style.cropButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-toggleCroppingPlanesButton">${cropIcon}</label>`;
   cropButton.addEventListener('change', (event) => {
@@ -162,7 +171,9 @@ function createMainUI(
   const resetCropButton = document.createElement('div');
   resetCropButton.innerHTML = `<input id="${viewerDOMId}-resetCroppingPlanesButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset ROI" class="${contrastSensitiveStyle.invertibleButton} ${style.resetCropButton} ${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset ROI" class="${
+    contrastSensitiveStyle.invertibleButton
+  } ${style.resetCropButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-resetCroppingPlanesButton">${resetCropIcon}</label>`;
   function resetCrop() {
@@ -184,7 +195,9 @@ function createMainUI(
   const resetCameraButton = document.createElement('div');
   resetCameraButton.innerHTML = `<input id="${viewerDOMId}-resetCameraButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset camera" class="${contrastSensitiveStyle.invertibleButton} ${style.resetCameraButton} ${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset camera" class="${
+    contrastSensitiveStyle.invertibleButton
+  } ${style.resetCameraButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-resetCameraButton">${resetCameraIcon}</label>`;
   function resetCamera() {
@@ -207,8 +220,12 @@ function createMainUI(
     document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = true;
     document.getElementById(`${viewerDOMId}-yPlaneButton`).checked = false;
     document.getElementById(`${viewerDOMId}-zPlaneButton`).checked = false;
-    document.getElementById(`${viewerDOMId}-volumeRenderingButton`).checked = false;
-    const volumeRenderingRow = uiContainer.querySelector(`.${viewerDOMId}-volumeRendering`);
+    document.getElementById(
+      `${viewerDOMId}-volumeRenderingButton`
+    ).checked = false;
+    const volumeRenderingRow = uiContainer.querySelector(
+      `.${viewerDOMId}-volumeRendering`
+    );
     volumeRenderingRow.style.display = 'none';
     const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
     xPlaneRow.style.display = 'flex';
@@ -222,8 +239,12 @@ function createMainUI(
     document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = false;
     document.getElementById(`${viewerDOMId}-yPlaneButton`).checked = true;
     document.getElementById(`${viewerDOMId}-zPlaneButton`).checked = false;
-    document.getElementById(`${viewerDOMId}-volumeRenderingButton`).checked = false;
-    const volumeRenderingRow = uiContainer.querySelector(`.${viewerDOMId}-volumeRendering`);
+    document.getElementById(
+      `${viewerDOMId}-volumeRenderingButton`
+    ).checked = false;
+    const volumeRenderingRow = uiContainer.querySelector(
+      `.${viewerDOMId}-volumeRendering`
+    );
     volumeRenderingRow.style.display = 'none';
     const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
     xPlaneRow.style.display = 'none';
@@ -237,8 +258,12 @@ function createMainUI(
     document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = false;
     document.getElementById(`${viewerDOMId}-yPlaneButton`).checked = false;
     document.getElementById(`${viewerDOMId}-zPlaneButton`).checked = true;
-    document.getElementById(`${viewerDOMId}-volumeRenderingButton`).checked = false;
-    const volumeRenderingRow = uiContainer.querySelector(`.${viewerDOMId}-volumeRendering`);
+    document.getElementById(
+      `${viewerDOMId}-volumeRenderingButton`
+    ).checked = false;
+    const volumeRenderingRow = uiContainer.querySelector(
+      `.${viewerDOMId}-volumeRendering`
+    );
     volumeRenderingRow.style.display = 'none';
     const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
     xPlaneRow.style.display = 'none';
@@ -252,10 +277,16 @@ function createMainUI(
     document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = false;
     document.getElementById(`${viewerDOMId}-yPlaneButton`).checked = false;
     document.getElementById(`${viewerDOMId}-zPlaneButton`).checked = false;
-    document.getElementById(`${viewerDOMId}-volumeRenderingButton`).checked = true;
-    const volumeRenderingRow = uiContainer.querySelector(`.${viewerDOMId}-volumeRendering`);
+    document.getElementById(
+      `${viewerDOMId}-volumeRenderingButton`
+    ).checked = true;
+    const volumeRenderingRow = uiContainer.querySelector(
+      `.${viewerDOMId}-volumeRendering`
+    );
     volumeRenderingRow.style.display = 'flex';
-    const viewPlanes = document.getElementById(`${viewerDOMId}-toggleSlicingPlanesButton`).checked;
+    const viewPlanes = document.getElementById(
+      `${viewerDOMId}-toggleSlicingPlanesButton`
+    ).checked;
     const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
     const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
     const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`);
@@ -273,7 +304,9 @@ function createMainUI(
     const xPlaneButton = document.createElement('div');
     xPlaneButton.innerHTML = `<input id="${viewerDOMId}-xPlaneButton" type="checkbox" class="${
       style.toggleInput
-    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane" class="${contrastSensitiveStyle.tooltipButton} ${style.viewModeButton} ${
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane" class="${
+      contrastSensitiveStyle.tooltipButton
+    } ${style.viewModeButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-xPlaneButton">${xPlaneIcon}</label>`;
     xPlaneButton.addEventListener('click', setViewModeXPlane);
@@ -282,7 +315,9 @@ function createMainUI(
     const yPlaneButton = document.createElement('div');
     yPlaneButton.innerHTML = `<input id="${viewerDOMId}-yPlaneButton" type="checkbox" class="${
       style.toggleInput
-    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane" class="${contrastSensitiveStyle.tooltipButton} ${style.viewModeButton} ${
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane" class="${
+      contrastSensitiveStyle.tooltipButton
+    } ${style.viewModeButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-yPlaneButton">${yPlaneIcon}</label>`;
     yPlaneButton.addEventListener('click', setViewModeYPlane);
@@ -291,7 +326,9 @@ function createMainUI(
     const zPlaneButton = document.createElement('div');
     zPlaneButton.innerHTML = `<input id="${viewerDOMId}-zPlaneButton" type="checkbox" class="${
       style.toggleInput
-    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane" class="${contrastSensitiveStyle.tooltipButton} ${style.viewModeButton} ${
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane" class="${
+      contrastSensitiveStyle.tooltipButton
+    } ${style.viewModeButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-zPlaneButton">${zPlaneIcon}</label>`;
     zPlaneButton.addEventListener('click', setViewModeZPlane);
@@ -300,7 +337,9 @@ function createMainUI(
     const volumeRenderingButton = document.createElement('div');
     volumeRenderingButton.innerHTML = `<input id="${viewerDOMId}-volumeRenderingButton" type="checkbox" class="${
       style.toggleInput
-    }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume" class="${contrastSensitiveStyle.tooltipButton} ${style.viewModeButton} ${
+    }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume" class="${
+      contrastSensitiveStyle.tooltipButton
+    } ${style.viewModeButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-volumeRenderingButton">${volumeRenderingIcon}</label>`;
     volumeRenderingButton.addEventListener('click', setViewModeVolumeRendering);

@@ -17,7 +17,7 @@ function createViewPlanesToggle(
   viewerDOMId,
   volumeRenderingRow,
   view,
-  isBackgroundDark,
+  isBackgroundDark
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['tooltipButton'],
@@ -47,7 +47,9 @@ function createViewPlanesToggle(
   const viewPlanesButton = document.createElement('div');
   viewPlanesButton.innerHTML = `<input id="${viewerDOMId}-toggleSlicingPlanesButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Slicing planes" class="${contrastSensitiveStyle.tooltipButton} ${style.viewPlanesButton} ${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Slicing planes" class="${
+    contrastSensitiveStyle.tooltipButton
+  } ${style.viewPlanesButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-toggleSlicingPlanesButton">${viewPlansIcon}</label>`;
   viewPlanesButton.addEventListener('change', (event) => {
@@ -71,7 +73,9 @@ function createUseShadowToggle(
   const useShadowButton = document.createElement('div');
   useShadowButton.innerHTML = `<input id="${viewerDOMId}-toggleShadowButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Use shadow" class="${contrastSensitiveStyle.invertibleButton} ${style.shadowButton} ${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Use shadow" class="${
+    contrastSensitiveStyle.invertibleButton
+  } ${style.shadowButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-toggleShadowButton">${shadowIcon}</label>`;
   let useShadow = true;
@@ -193,28 +197,40 @@ function createTransferFunctionWidget(
   const windowGet = () => {
     const gaussian = transferFunctionWidget.getGaussians()[0];
     return gaussian.width * windowMotionScale;
-  }
+  };
   const windowSet = (value) => {
     const gaussians = transferFunctionWidget.getGaussians();
     const newGaussians = gaussians.slice();
     newGaussians[0].width = value / windowMotionScale;
     transferFunctionWidget.setGaussians(newGaussians);
-  }
-  rangeManipulator.setVerticalListener(0, windowMotionScale, 1, windowGet, windowSet);
+  };
+  rangeManipulator.setVerticalListener(
+    0,
+    windowMotionScale,
+    1,
+    windowGet,
+    windowSet
+  );
 
   // Level
   const levelMotionScale = 150.0;
   const levelGet = () => {
     const gaussian = transferFunctionWidget.getGaussians()[0];
     return gaussian.position * levelMotionScale;
-  }
+  };
   const levelSet = (value) => {
     const gaussians = transferFunctionWidget.getGaussians();
     const newGaussians = gaussians.slice();
     newGaussians[0].position = value / levelMotionScale;
     transferFunctionWidget.setGaussians(newGaussians);
-  }
-  rangeManipulator.setHorizontalListener(0, levelMotionScale, 1, levelGet, levelSet);
+  };
+  rangeManipulator.setHorizontalListener(
+    0,
+    levelMotionScale,
+    1,
+    levelGet,
+    levelSet
+  );
 
   // Add range manipulator
   view.getInteractorStyle2D().addMouseManipulator(rangeManipulator);
@@ -235,15 +251,27 @@ function createTransferFunctionWidget(
   const opacityGet = () => {
     const gaussian = transferFunctionWidget.getGaussians()[0];
     return gaussian.height * opacityMotionScale;
-  }
+  };
   const opacitySet = (value) => {
     const gaussians = transferFunctionWidget.getGaussians();
     const newGaussians = gaussians.slice();
     newGaussians[0].height = value / opacityMotionScale;
     transferFunctionWidget.setGaussians(newGaussians);
-  }
-  opacityRangeManipulator.setVerticalListener(0, opacityMotionScale, 1, opacityGet, opacitySet);
-  opacityRangeManipulatorShift.setVerticalListener(0, opacityMotionScale, 1, opacityGet, opacitySet);
+  };
+  opacityRangeManipulator.setVerticalListener(
+    0,
+    opacityMotionScale,
+    1,
+    opacityGet,
+    opacitySet
+  );
+  opacityRangeManipulatorShift.setVerticalListener(
+    0,
+    opacityMotionScale,
+    1,
+    opacityGet,
+    opacitySet
+  );
   view.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulator);
   view.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulatorShift);
 
@@ -268,9 +296,9 @@ function createPlaneIndexSliders(
   xPlaneRow.setAttribute('class', style.uiRow);
   xPlaneRow.className += ` ${viewerDOMId}-toggle ${viewerDOMId}-x-plane-row`;
 
-  const xSlice = volumeRepresentation.getPropertyDomainByName('xSlice')
-  const ySlice = volumeRepresentation.getPropertyDomainByName('ySlice')
-  const zSlice = volumeRepresentation.getPropertyDomainByName('zSlice')
+  const xSlice = volumeRepresentation.getPropertyDomainByName('xSlice');
+  const ySlice = volumeRepresentation.getPropertyDomainByName('ySlice');
+  const zSlice = volumeRepresentation.getPropertyDomainByName('zSlice');
 
   const xSliderEntry = document.createElement('div');
   xSliderEntry.setAttribute('class', style.sliderEntry);
@@ -278,17 +306,25 @@ function createPlaneIndexSliders(
   xSliderEntry.innerHTML = `
     <label class="${
       contrastSensitiveStyle.sliderLabel
-    } ${viewerDOMId}-x-slice-label">X:</label><input type="range" min="${xSlice.min}" max="${
-    xSlice.max
-  }" value="${currentSlicePosition}" step="${xSlice.step}"
+    } ${viewerDOMId}-x-slice-label">X:</label><input type="range" min="${
+    xSlice.min
+  }" max="${xSlice.max}" value="${currentSlicePosition}" step="${xSlice.step}"
       class="${style.slider} ${viewerDOMId}-x-slice" />`;
   const xSliceElement = xSliderEntry.querySelector(`.${viewerDOMId}-x-slice`);
-  const xPlaneLabel = xSliderEntry.querySelector(`.${viewerDOMId}-x-slice-label`);
+  const xPlaneLabel = xSliderEntry.querySelector(
+    `.${viewerDOMId}-x-slice-label`
+  );
   function updateXSlice() {
     const value = Number(xSliceElement.value);
     volumeRepresentation.setXSlice(value);
-    const valueString = String(xSliceElement.value).substring(0, numberOfValueChars);
-    const padLength = valueString.length < numberOfValueChars ? numberOfValueChars - valueString.length : 0;
+    const valueString = String(xSliceElement.value).substring(
+      0,
+      numberOfValueChars
+    );
+    const padLength =
+      valueString.length < numberOfValueChars
+        ? numberOfValueChars - valueString.length
+        : 0;
     const pad = '&nbsp;'.repeat(padLength);
     xPlaneLabel.innerHTML = `X: ${pad}${valueString}`;
     renderWindow.render();
@@ -310,17 +346,25 @@ function createPlaneIndexSliders(
   ySliderEntry.innerHTML = `
     <label class="${
       contrastSensitiveStyle.sliderLabel
-    } ${viewerDOMId}-y-slice-label">Y:</label><input type="range" min="${ySlice.min}" max="${
-    ySlice.max
-  }" value="${currentSlicePosition}" step="${ySlice.step}"
+    } ${viewerDOMId}-y-slice-label">Y:</label><input type="range" min="${
+    ySlice.min
+  }" max="${ySlice.max}" value="${currentSlicePosition}" step="${ySlice.step}"
       class="${style.slider} ${viewerDOMId}-y-slice" />`;
   const ySliceElement = ySliderEntry.querySelector(`.${viewerDOMId}-y-slice`);
-  const yPlaneLabel = ySliderEntry.querySelector(`.${viewerDOMId}-y-slice-label`);
+  const yPlaneLabel = ySliderEntry.querySelector(
+    `.${viewerDOMId}-y-slice-label`
+  );
   function updateYSlice() {
     const value = Number(ySliceElement.value);
     volumeRepresentation.setYSlice(value);
-    const valueString = String(ySliceElement.value).substring(0, numberOfValueChars);
-    const padLength = valueString.length < numberOfValueChars ? numberOfValueChars - valueString.length : 0;
+    const valueString = String(ySliceElement.value).substring(
+      0,
+      numberOfValueChars
+    );
+    const padLength =
+      valueString.length < numberOfValueChars
+        ? numberOfValueChars - valueString.length
+        : 0;
     const pad = '&nbsp;'.repeat(padLength);
     yPlaneLabel.innerHTML = `Y: ${pad}${valueString}`;
     renderWindow.render();
@@ -342,17 +386,25 @@ function createPlaneIndexSliders(
   zSliderEntry.innerHTML = `
     <label class="${
       contrastSensitiveStyle.sliderLabel
-    } ${viewerDOMId}-z-slice-label">Z:</label><input type="range" min="${zSlice.min}" max="${
-    zSlice.max
-  }" value="${currentSlicePosition}" step="${zSlice.step}"
+    } ${viewerDOMId}-z-slice-label">Z:</label><input type="range" min="${
+    zSlice.min
+  }" max="${zSlice.max}" value="${currentSlicePosition}" step="${zSlice.step}"
       class="${style.slider} ${viewerDOMId}-z-slice" />`;
   const zSliceElement = zSliderEntry.querySelector(`.${viewerDOMId}-z-slice`);
-  const zPlaneLabel = zSliderEntry.querySelector(`.${viewerDOMId}-z-slice-label`);
+  const zPlaneLabel = zSliderEntry.querySelector(
+    `.${viewerDOMId}-z-slice-label`
+  );
   function updateZSlice() {
     const value = Number(zSliceElement.value);
     volumeRepresentation.setZSlice(value);
-    const valueString = String(zSliceElement.value).substring(0, numberOfValueChars);
-    const padLength = valueString.length < numberOfValueChars ? numberOfValueChars - valueString.length : 0;
+    const valueString = String(zSliceElement.value).substring(
+      0,
+      numberOfValueChars
+    );
+    const padLength =
+      valueString.length < numberOfValueChars
+        ? numberOfValueChars - valueString.length
+        : 0;
     const pad = '&nbsp;'.repeat(padLength);
     zPlaneLabel.innerHTML = `Z: ${pad}${valueString}`;
     renderWindow.render();
@@ -374,86 +426,86 @@ function createColorPresetSelector(
   //const presetNames = vtkColorMaps.rgbPresetNames;
   // More selective
   const presetNames = [
-    "2hot",
-    "Asymmtrical Earth Tones (6_21b)",
-    "Black, Blue and White",
-    "Black, Orange and White",
-    "Black-Body Radiation",
-    "Blue to Red Rainbow",
-    "Blue to Yellow",
-    "Blues",
-    "BrBG",
-    "BrOrYl",
-    "BuGn",
-    "BuGnYl",
-    "BuPu",
-    "BuRd",
-    "CIELab Blue to Red",
-    "Cold and Hot",
-    "Cool to Warm",
-    "Cool to Warm (Extended)",
-    "GBBr",
-    "GYPi",
-    "GnBu",
-    "GnBuPu",
-    "GnRP",
-    "GnYlRd",
-    "Grayscale",
-    "Green-Blue Asymmetric Divergent (62Blbc)",
-    "Greens",
-    "GyRd",
-    "Haze",
-    "Haze_cyan",
-    "Haze_green",
-    "Haze_lime",
-    "Inferno (matplotlib)",
-    "Linear Blue (8_31f)",
-    "Linear YGB 1211g",
-    "Magma (matplotlib)",
-    "Muted Blue-Green",
-    "OrPu",
-    "Oranges",
-    "PRGn",
-    "PiYG",
-    "Plasma (matplotlib)",
-    "PuBu",
-    "PuOr",
-    "PuRd",
-    "Purples",
-    "Rainbow Blended Black",
-    "Rainbow Blended Grey",
-    "Rainbow Blended White",
-    "Rainbow Desaturated",
-    "RdOr",
-    "RdOrYl",
-    "RdPu",
-    "Red to Blue Rainbow",
-    "Reds",
-    "Spectral_lowBlue",
-    "Viridis (matplotlib)",
-    "Warm to Cool",
-    "Warm to Cool (Extended)",
-    "X Ray",
-    "Yellow 15",
-    "blot",
-    "blue2cyan",
-    "blue2yellow",
-    "bone_Matlab",
-    "coolwarm",
-    "copper_Matlab",
-    "gist_earth",
-    "gray_Matlab",
-    "heated_object",
-    "hsv",
-    "hue_L60",
-    "jet",
-    "magenta",
-    "nic_CubicL",
-    "nic_CubicYF",
-    "nic_Edge",
-    "pink_Matlab",
-    "rainbow",
-  ]
+    '2hot',
+    'Asymmtrical Earth Tones (6_21b)',
+    'Black, Blue and White',
+    'Black, Orange and White',
+    'Black-Body Radiation',
+    'Blue to Red Rainbow',
+    'Blue to Yellow',
+    'Blues',
+    'BrBG',
+    'BrOrYl',
+    'BuGn',
+    'BuGnYl',
+    'BuPu',
+    'BuRd',
+    'CIELab Blue to Red',
+    'Cold and Hot',
+    'Cool to Warm',
+    'Cool to Warm (Extended)',
+    'GBBr',
+    'GYPi',
+    'GnBu',
+    'GnBuPu',
+    'GnRP',
+    'GnYlRd',
+    'Grayscale',
+    'Green-Blue Asymmetric Divergent (62Blbc)',
+    'Greens',
+    'GyRd',
+    'Haze',
+    'Haze_cyan',
+    'Haze_green',
+    'Haze_lime',
+    'Inferno (matplotlib)',
+    'Linear Blue (8_31f)',
+    'Linear YGB 1211g',
+    'Magma (matplotlib)',
+    'Muted Blue-Green',
+    'OrPu',
+    'Oranges',
+    'PRGn',
+    'PiYG',
+    'Plasma (matplotlib)',
+    'PuBu',
+    'PuOr',
+    'PuRd',
+    'Purples',
+    'Rainbow Blended Black',
+    'Rainbow Blended Grey',
+    'Rainbow Blended White',
+    'Rainbow Desaturated',
+    'RdOr',
+    'RdOrYl',
+    'RdPu',
+    'Red to Blue Rainbow',
+    'Reds',
+    'Spectral_lowBlue',
+    'Viridis (matplotlib)',
+    'Warm to Cool',
+    'Warm to Cool (Extended)',
+    'X Ray',
+    'Yellow 15',
+    'blot',
+    'blue2cyan',
+    'blue2yellow',
+    'bone_Matlab',
+    'coolwarm',
+    'copper_Matlab',
+    'gist_earth',
+    'gray_Matlab',
+    'heated_object',
+    'hsv',
+    'hue_L60',
+    'jet',
+    'magenta',
+    'nic_CubicL',
+    'nic_CubicYF',
+    'nic_Edge',
+    'pink_Matlab',
+    'rainbow',
+  ];
 
   const presetSelector = document.createElement('select');
   presetSelector.setAttribute('class', style.selector);
@@ -488,7 +540,9 @@ function createSampleDistanceSlider(
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
-    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume sampling distance" class="${contrastSensitiveStyle.invertibleButton} ${style.sampleDistanceButton}">
+    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume sampling distance" class="${
+      contrastSensitiveStyle.invertibleButton
+    } ${style.sampleDistanceButton}">
       ${sampleDistanceIcon}
     </div>
     <input type="range" min="0" max="1" value="0.3" step="0.01"
@@ -519,13 +573,17 @@ function createGradientOpacitySlider(
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
-    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Gradient opacity" class="${contrastSensitiveStyle.invertibleButton} ${style.gradientOpacitySlider}">
+    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Gradient opacity" class="${
+      contrastSensitiveStyle.invertibleButton
+    } ${style.gradientOpacitySlider}">
       ${gradientOpacityIcon}
     </div>
     <input type="range" min="0" max="1" value="0.2" step="0.01"
       id="${viewerDOMId}-gradientOpacitySlider"
       class="${style.slider}" />`;
-  const edgeElement = sliderEntry.querySelector(`#${viewerDOMId}-gradientOpacitySlider`)
+  const edgeElement = sliderEntry.querySelector(
+    `#${viewerDOMId}-gradientOpacitySlider`
+  );
   function updateGradientOpacity() {
     const value = Number(edgeElement.value);
     volumeRepresentation.setEdgeGradient(value);
@@ -554,12 +612,17 @@ function createImageUI(
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
-  let updateColorMap = null
+  let updateColorMap = null;
   if (dataArray.getNumberOfComponents() === 1) {
     const presetRow = document.createElement('div');
     presetRow.setAttribute('class', style.uiRow);
-    updateColorMap = createColorPresetSelector(presetRow, viewerDOMId, lookupTableProxy, renderWindow);
-    presetRow.className += ` ${viewerDOMId}-toggle`
+    updateColorMap = createColorPresetSelector(
+      presetRow,
+      viewerDOMId,
+      lookupTableProxy,
+      renderWindow
+    );
+    presetRow.className += ` ${viewerDOMId}-toggle`;
     imageUIGroup.appendChild(presetRow);
   }
 
@@ -574,17 +637,17 @@ function createImageUI(
     use2D
   );
 
-  let updateGradientOpacity = null
+  let updateGradientOpacity = null;
   if (!use2D) {
     const volumeRenderingRow = document.createElement('div');
     volumeRenderingRow.setAttribute('class', style.uiRow);
-    volumeRenderingRow.className += ` ${viewerDOMId}-volumeRendering ${viewerDOMId}-toggle`
+    volumeRenderingRow.className += ` ${viewerDOMId}-volumeRendering ${viewerDOMId}-toggle`;
     createViewPlanesToggle(
       imageUIGroup,
       viewerDOMId,
       volumeRenderingRow,
       view,
-      isBackgroundDark,
+      isBackgroundDark
     );
     createUseShadowToggle(
       volumeRenderingRow,

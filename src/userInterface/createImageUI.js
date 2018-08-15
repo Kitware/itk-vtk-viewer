@@ -17,7 +17,13 @@ function createViewPlanesToggle(
   viewerDOMId,
   volumeRenderingRow,
   view,
+  isBackgroundDark,
 ) {
+  const contrastSensitiveStyle = getContrastSensitiveStyle(
+    ['tooltipButton'],
+    isBackgroundDark
+  );
+
   let viewPlanes = false;
   function setViewPlanes() {
     viewPlanes = !viewPlanes;
@@ -41,7 +47,7 @@ function createViewPlanesToggle(
   const viewPlanesButton = document.createElement('div');
   viewPlanesButton.innerHTML = `<input id="${viewerDOMId}-toggleSlicingPlanesButton" type="checkbox" class="${
     style.toggleInput
-  }"><label class="${style.viewPlanesButton} ${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Slicing planes" class="${contrastSensitiveStyle.tooltipButton} ${style.viewPlanesButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-toggleSlicingPlanesButton">${viewPlansIcon}</label>`;
   viewPlanesButton.addEventListener('change', (event) => {
@@ -65,7 +71,7 @@ function createUseShadowToggle(
   const useShadowButton = document.createElement('div');
   useShadowButton.innerHTML = `<input id="${viewerDOMId}-toggleShadowButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label class="${contrastSensitiveStyle.shadowButton} ${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Use shadow" class="${contrastSensitiveStyle.shadowButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-toggleShadowButton">${shadowIcon}</label>`;
   let useShadow = true;
@@ -482,7 +488,7 @@ function createSampleDistanceSlider(
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
-    <div class="${contrastSensitiveStyle.sampleDistanceButton}">
+    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume sampling spacing" class="${contrastSensitiveStyle.sampleDistanceButton}">
       ${sampleDistanceIcon}
     </div>
     <input type="range" min="0" max="1" value="0.3" step="0.01"
@@ -513,7 +519,7 @@ function createGradientOpacitySlider(
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
-    <div class="${contrastSensitiveStyle.gradientOpacitySlider}">
+    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Gradient opacity" class="${contrastSensitiveStyle.gradientOpacitySlider}">
       ${gradientOpacityIcon}
     </div>
     <input type="range" min="0" max="1" value="0.2" step="0.01"
@@ -578,6 +584,7 @@ function createImageUI(
       viewerDOMId,
       volumeRenderingRow,
       view,
+      isBackgroundDark,
     );
     createUseShadowToggle(
       volumeRenderingRow,

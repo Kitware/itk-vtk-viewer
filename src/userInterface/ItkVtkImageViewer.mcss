@@ -78,6 +78,95 @@
   z-index: 100;
 }
 
+[itk-vtk-tooltip] {
+    position: relative;
+}
+[itk-vtk-tooltip]::before {
+    content: attr(itk-vtk-tooltip-content);
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 16px);
+    width: 300%;
+    padding: 4px 6px;
+    text-align: center;
+    text-transform: none;
+    font-size: 0.9em;
+    font-family: monospace;
+    border-radius: 3px;
+    background: rgba(0.5, 0.5, 0.5, 0.4);
+    opacity: 0;
+    transform: translate(15px, -50%);
+    transition-property: all;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0.8s;
+    z-index: 1;
+}
+
+[itk-vtk-tooltip]:hover::before {
+    opacity: 1;
+    transform: translate(0, -50%);
+}
+
+[itk-vtk-tooltip-bottom]::before {
+    top: calc(100% + 16px);
+    left: 50%;
+    right: initial;
+    transform: translate(-50%, -15px);
+}
+[itk-vtk-tooltip-bottom]:hover::before {
+    transform: translate(-50%, 0)
+}
+[itk-vtk-tooltip-right]::before {
+    top: 50%;
+    left: calc(100% + 16px);
+    right: initial;
+    transform: translate(-15px, -50%);
+}
+[itk-vtk-tooltip-right]:hover::before {
+    transform: translate(0, -50%);
+}
+
+[itk-vtk-tooltip-top-screenshot]::before {
+    top: initial;
+    left: 260%;
+    right: initial;
+    bottom: calc(100% + 8px);
+    transform: translate(-50%, 15px);
+}
+[itk-vtk-tooltip-top-screenshot]:hover::before {
+    transform: translate(-50%, 0);
+}
+[itk-vtk-tooltip-top-annotation]::before {
+    top: initial;
+    left: 160%;
+    right: initial;
+    bottom: calc(100% + 10px);
+    transform: translate(-50%, 15px);
+}
+[itk-vtk-tooltip-top-annotation]:hover::before {
+    transform: translate(-50%, 0);
+}
+[itk-vtk-tooltip-top]::before {
+    top: initial;
+    left: 60%;
+    right: initial;
+    bottom: calc(100% + 10px);
+    transform: translate(-50%, 15px);
+}
+[itk-vtk-tooltip-top]:hover::before {
+    transform: translate(-50%, 0);
+}
+
+.tooltipButtonBrightBG::before {
+}
+
+.tooltipButtonDarkBG::before {
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
 .toggleUserInterfaceButton {
   height: 1.5em;
   width: 1.5em;
@@ -93,33 +182,6 @@
   composes: toggleUserInterfaceButton;
   filter: invert(100%);
   -webkit-filter: invert(100%);
-}
-
-.uploadButton {
-  flex: 1;
-  height: 1.2em;
-  width: 1.3em;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 6px;
-  padding-right: 6px;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-.uploadButtonBrightBG {
-  composes: uploadButton;
-}
-
-.uploadButtonDarkBG {
-  composes: uploadButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
-
-.uploadButton svg {
-  height: 1.2em;
-  width: 1.2em;
 }
 
 .screenshotButton {

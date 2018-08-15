@@ -78,48 +78,108 @@
   z-index: 100;
 }
 
+[itk-vtk-tooltip] {
+    position: relative;
+}
+[itk-vtk-tooltip]::before {
+    content: attr(itk-vtk-tooltip-content);
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 16px);
+    width: 300%;
+    padding: 4px 6px;
+    text-align: center;
+    text-transform: none;
+    font-size: 0.9em;
+    font-family: monospace;
+    border-radius: 3px;
+    background: rgba(0.5, 0.5, 0.5, 0.4);
+    opacity: 0;
+    transform: translate(15px, -50%);
+    transition-property: all;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0.8s;
+    z-index: 1;
+}
+
+[itk-vtk-tooltip]:hover::before {
+    opacity: 1;
+    transform: translate(0, -50%);
+}
+
+[itk-vtk-tooltip-bottom]::before {
+    top: calc(100% + 16px);
+    left: 50%;
+    right: initial;
+    transform: translate(-50%, -15px);
+}
+[itk-vtk-tooltip-bottom]:hover::before {
+    transform: translate(-50%, 0)
+}
+[itk-vtk-tooltip-right]::before {
+    top: 50%;
+    left: calc(100% + 16px);
+    right: initial;
+    transform: translate(-15px, -50%);
+}
+[itk-vtk-tooltip-right]:hover::before {
+    transform: translate(0, -50%);
+}
+
+[itk-vtk-tooltip-top-screenshot]::before {
+    top: initial;
+    left: 260%;
+    right: initial;
+    bottom: calc(100% + 8px);
+    transform: translate(-50%, 15px);
+}
+[itk-vtk-tooltip-top-screenshot]:hover::before {
+    transform: translate(-50%, 0);
+}
+[itk-vtk-tooltip-top-annotation]::before {
+    top: initial;
+    left: 160%;
+    right: initial;
+    bottom: calc(100% + 10px);
+    transform: translate(-50%, 15px);
+}
+[itk-vtk-tooltip-top-annotation]:hover::before {
+    transform: translate(-50%, 0);
+}
+[itk-vtk-tooltip-top]::before {
+    top: initial;
+    left: 60%;
+    right: initial;
+    bottom: calc(100% + 10px);
+    transform: translate(-50%, 15px);
+}
+[itk-vtk-tooltip-top]:hover::before {
+    transform: translate(-50%, 0);
+}
+
+.tooltipButtonBrightBG::before {
+}
+
+.tooltipButtonDarkBG::before {
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
+.invertibleButtonBrightBG {
+}
+
+.invertibleButtonDarkBG {
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
 .toggleUserInterfaceButton {
   height: 1.5em;
   width: 1.5em;
   cursor: pointer;
   z-index: 1000;
-}
-
-.toggleUserInterfaceButtonBrightBG {
-  composes: toggleUserInterfaceButton;
-}
-
-.toggleUserInterfaceButtonDarkBG {
-  composes: toggleUserInterfaceButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
-
-.uploadButton {
-  flex: 1;
-  height: 1.2em;
-  width: 1.3em;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 6px;
-  padding-right: 6px;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-.uploadButtonBrightBG {
-  composes: uploadButton;
-}
-
-.uploadButtonDarkBG {
-  composes: uploadButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
-
-.uploadButton svg {
-  height: 1.2em;
-  width: 1.2em;
 }
 
 .screenshotButton {
@@ -132,16 +192,6 @@
   padding-right: 6px;
   cursor: pointer;
   z-index: 1000;
-}
-
-.screenshotButtonBrightBG {
-  composes: screenshotButton;
-}
-
-.screenshotButtonDarkBG {
-  composes: screenshotButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
 }
 
 .annotationButton {
@@ -161,16 +211,6 @@
   width: 1.2em;
 }
 
-.annotationButtonBrightBG {
-  composes: annotationButton;
-}
-
-.annotationButtonDarkBG {
-  composes: annotationButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
-
 .interpolationButton {
   flex: 1;
   height: 1.5em;
@@ -186,16 +226,6 @@
 .interpolationButton svg {
   height: 1.2em;
   width: 1.2em;
-}
-
-.interpolationButtonBrightBG {
-  composes: interpolationButton;
-}
-
-.interpolationButtonDarkBG {
-  composes: interpolationButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
 }
 
 .cropButton {
@@ -215,16 +245,6 @@
   width: 1.2em;
 }
 
-.cropButtonBrightBG {
-  composes: cropButton;
-}
-
-.cropButtonDarkBG {
-  composes: cropButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
-
 .resetCropButton {
   flex: 1;
   height: 1.5em;
@@ -242,16 +262,6 @@
   width: 1.2em;
 }
 
-.resetCropButtonBrightBG {
-  composes: resetCropButton;
-}
-
-.resetCropButtonDarkBG {
-  composes: resetCropButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
-
 .resetCameraButton {
   flex: 1;
   height: 1.5em;
@@ -267,16 +277,6 @@
 .resetCameraButton svg {
   height: 1.2em;
   width: 1.2em;
-}
-
-.resetCameraButtonBrightBG {
-  composes: resetCameraButton;
-}
-
-.resetCameraButtonDarkBG {
-  composes: resetCameraButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
 }
 
 .viewModeButton {
@@ -309,16 +309,6 @@
   height: 1.3em;
 }
 
-
-.shadowButtonBrightBG {
-  composes: shadowButton;
-}
-
-.shadowButtonDarkBG {
-  composes: shadowButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
 
 .viewPlanesButton {
   flex: 1;
@@ -390,16 +380,6 @@ select:focus {
   height: 1.2em;
 }
 
-.sampleDistanceButtonBrightBG {
-  composes: sampleDistanceButton;
-}
-
-.sampleDistanceButtonDarkBG {
-  composes: sampleDistanceButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
-
 .gradientOpacitySlider {
   width: 1.2em;
   height: 1.2em;
@@ -411,16 +391,6 @@ select:focus {
 .gradientOpacitySlider svg {
   width: 1.2em;
   height: 1.2em;
-}
-
-.gradientOpacitySliderBrightBG {
-  composes: gradientOpacitySlider;
-}
-
-.gradientOpacitySliderDarkBG {
-  composes: gradientOpacitySlider;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
 }
 
 .sliderEntry {

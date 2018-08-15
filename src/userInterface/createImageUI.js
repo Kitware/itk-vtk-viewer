@@ -64,14 +64,14 @@ function createUseShadowToggle(
   isBackgroundDark
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['shadowButton'],
+    ['invertibleButton'],
     isBackgroundDark
   );
 
   const useShadowButton = document.createElement('div');
   useShadowButton.innerHTML = `<input id="${viewerDOMId}-toggleShadowButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Use shadow" class="${contrastSensitiveStyle.shadowButton} ${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Use shadow" class="${contrastSensitiveStyle.invertibleButton} ${style.shadowButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-toggleShadowButton">${shadowIcon}</label>`;
   let useShadow = true;
@@ -481,14 +481,14 @@ function createSampleDistanceSlider(
   renderWindow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['sampleDistanceButton'],
+    ['invertibleButton'],
     isBackgroundDark
   );
 
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
-    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume sampling spacing" class="${contrastSensitiveStyle.sampleDistanceButton}">
+    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume sampling distance" class="${contrastSensitiveStyle.invertibleButton} ${style.sampleDistanceButton}">
       ${sampleDistanceIcon}
     </div>
     <input type="range" min="0" max="1" value="0.3" step="0.01"
@@ -512,14 +512,14 @@ function createGradientOpacitySlider(
   renderWindow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['gradientOpacitySlider'],
+    ['invertibleButton'],
     isBackgroundDark
   );
 
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
-    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Gradient opacity" class="${contrastSensitiveStyle.gradientOpacitySlider}">
+    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Gradient opacity" class="${contrastSensitiveStyle.invertibleButton} ${style.gradientOpacitySlider}">
       ${gradientOpacityIcon}
     </div>
     <input type="range" min="0" max="1" value="0.2" step="0.01"

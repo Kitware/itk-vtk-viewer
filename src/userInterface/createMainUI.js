@@ -31,7 +31,7 @@ function createMainUI(
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['toggleUserInterfaceButton', 'screenshotButton', 'annotationButton', 'interpolationButton', 'cropButton', 'resetCropButton', 'resetCameraButton', 'tooltipButton'],
+    ['invertibleButton', 'tooltipButton'],
     isBackgroundDark
   );
 
@@ -60,15 +60,15 @@ function createMainUI(
       toggleUserInterfaceButton.setAttribute('collapsed', '');
     }
   }
-  toggleUserInterfaceButton.className = `${contrastSensitiveStyle.toggleUserInterfaceButton}`;
+  toggleUserInterfaceButton.className = `${contrastSensitiveStyle.invertibleButton} ${style.toggleUserInterfaceButton}`;
   toggleUserInterfaceButton.id = `${viewerDOMId}-toggleUserInterfaceButton`
   toggleUserInterfaceButton.innerHTML = `${toggleIcon}`;
   toggleUserInterfaceButton.addEventListener('click', toggleUIVisibility);
   uiContainer.appendChild(toggleUserInterfaceButton);
 
   const screenshotButton = document.createElement('div');
-  screenshotButton.innerHTML = `<div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Screenshot" class="${
-    contrastSensitiveStyle.screenshotButton
+  screenshotButton.innerHTML = `<div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Screenshot" class="${contrastSensitiveStyle.invertibleButton} ${
+    style.screenshotButton
   }">${screenshotIcon}</div>`;
   function takeScreenshot() {
     view.openCaptureImage();
@@ -79,7 +79,7 @@ function createMainUI(
   const annotationButton = document.createElement('div');
   annotationButton.innerHTML = `<input id="${viewerDOMId}-toggleAnnotationsButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Annotations" class="${contrastSensitiveStyle.annotationButton} ${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Annotations" class="${contrastSensitiveStyle.invertibleButton} ${style.annotationButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-toggleAnnotationsButton">${annotationIcon}</label>`;
   const annotationButtonInput = annotationButton.children[0];
@@ -100,7 +100,7 @@ function createMainUI(
   const interpolationButton = document.createElement('div');
   interpolationButton.innerHTML = `<input id="${viewerDOMId}-toggleInterpolationButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Interpolation" class="${contrastSensitiveStyle.interpolationButton} ${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Interpolation" class="${contrastSensitiveStyle.invertibleButton} ${style.interpolationButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-toggleInterpolationButton">${interpolationIcon}</label>`;
   interpolationButton.addEventListener('change', (event) => {
@@ -151,7 +151,7 @@ function createMainUI(
   const cropButton = document.createElement('div');
   cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Select ROI" class="${contrastSensitiveStyle.cropButton} ${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Select ROI" class="${contrastSensitiveStyle.invertibleButton} ${style.cropButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-toggleCroppingPlanesButton">${cropIcon}</label>`;
   cropButton.addEventListener('change', (event) => {
@@ -162,7 +162,7 @@ function createMainUI(
   const resetCropButton = document.createElement('div');
   resetCropButton.innerHTML = `<input id="${viewerDOMId}-resetCroppingPlanesButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset ROI" class="${contrastSensitiveStyle.resetCropButton} ${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset ROI" class="${contrastSensitiveStyle.invertibleButton} ${style.resetCropButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-resetCroppingPlanesButton">${resetCropIcon}</label>`;
   function resetCrop() {
@@ -184,7 +184,7 @@ function createMainUI(
   const resetCameraButton = document.createElement('div');
   resetCameraButton.innerHTML = `<input id="${viewerDOMId}-resetCameraButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset camera" class="${contrastSensitiveStyle.resetCameraButton} ${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset camera" class="${contrastSensitiveStyle.invertibleButton} ${style.resetCameraButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-resetCameraButton">${resetCameraIcon}</label>`;
   function resetCamera() {

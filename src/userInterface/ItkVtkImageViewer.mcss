@@ -167,21 +167,19 @@
   -webkit-filter: invert(100%);
 }
 
+.invertibleButtonBrightBG {
+}
+
+.invertibleButtonDarkBG {
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+
 .toggleUserInterfaceButton {
   height: 1.5em;
   width: 1.5em;
   cursor: pointer;
   z-index: 1000;
-}
-
-.toggleUserInterfaceButtonBrightBG {
-  composes: toggleUserInterfaceButton;
-}
-
-.toggleUserInterfaceButtonDarkBG {
-  composes: toggleUserInterfaceButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
 }
 
 .screenshotButton {
@@ -194,16 +192,6 @@
   padding-right: 6px;
   cursor: pointer;
   z-index: 1000;
-}
-
-.screenshotButtonBrightBG {
-  composes: screenshotButton;
-}
-
-.screenshotButtonDarkBG {
-  composes: screenshotButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
 }
 
 .annotationButton {
@@ -223,16 +211,6 @@
   width: 1.2em;
 }
 
-.annotationButtonBrightBG {
-  composes: annotationButton;
-}
-
-.annotationButtonDarkBG {
-  composes: annotationButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
-
 .interpolationButton {
   flex: 1;
   height: 1.5em;
@@ -248,16 +226,6 @@
 .interpolationButton svg {
   height: 1.2em;
   width: 1.2em;
-}
-
-.interpolationButtonBrightBG {
-  composes: interpolationButton;
-}
-
-.interpolationButtonDarkBG {
-  composes: interpolationButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
 }
 
 .cropButton {
@@ -277,16 +245,6 @@
   width: 1.2em;
 }
 
-.cropButtonBrightBG {
-  composes: cropButton;
-}
-
-.cropButtonDarkBG {
-  composes: cropButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
-
 .resetCropButton {
   flex: 1;
   height: 1.5em;
@@ -304,16 +262,6 @@
   width: 1.2em;
 }
 
-.resetCropButtonBrightBG {
-  composes: resetCropButton;
-}
-
-.resetCropButtonDarkBG {
-  composes: resetCropButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
-
 .resetCameraButton {
   flex: 1;
   height: 1.5em;
@@ -329,16 +277,6 @@
 .resetCameraButton svg {
   height: 1.2em;
   width: 1.2em;
-}
-
-.resetCameraButtonBrightBG {
-  composes: resetCameraButton;
-}
-
-.resetCameraButtonDarkBG {
-  composes: resetCameraButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
 }
 
 .viewModeButton {
@@ -371,16 +309,6 @@
   height: 1.3em;
 }
 
-
-.shadowButtonBrightBG {
-  composes: shadowButton;
-}
-
-.shadowButtonDarkBG {
-  composes: shadowButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
 
 .viewPlanesButton {
   flex: 1;
@@ -452,16 +380,6 @@ select:focus {
   height: 1.2em;
 }
 
-.sampleDistanceButtonBrightBG {
-  composes: sampleDistanceButton;
-}
-
-.sampleDistanceButtonDarkBG {
-  composes: sampleDistanceButton;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
-
 .gradientOpacitySlider {
   width: 1.2em;
   height: 1.2em;
@@ -473,16 +391,6 @@ select:focus {
 .gradientOpacitySlider svg {
   width: 1.2em;
   height: 1.2em;
-}
-
-.gradientOpacitySliderBrightBG {
-  composes: gradientOpacitySlider;
-}
-
-.gradientOpacitySliderDarkBG {
-  composes: gradientOpacitySlider;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
 }
 
 .sliderEntry {

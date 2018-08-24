@@ -49,8 +49,9 @@ itk-vtk-viewer
 
 ### Drag and drop viewer
 
-Instead of specifying files via the command line, drag and drop or click on
-the viewer page to select a file after starting without positional arguments:
+Instead of specifying files via the command line, drag and drop, click on the
+viewer page, or press the *Enter* key to select a file after starting without
+positional arguments:
 
 ```sh
 $ itk-vtk-viewer

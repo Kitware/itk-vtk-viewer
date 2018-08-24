@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
-var program = require('commander');
-var ipList = require('./network');
-var server = require('./server');
-var pkg = require('../package.json');
-var openFn = require('opn');
-var shell = require('shelljs');
+let program = require('commander');
+let ipList = require('./network');
+let server = require('./server');
+let pkg = require('../package.json');
+let openFn = require('opn');
+let path = require('path');
 
-var app = null;
-var version = /semantically-release/.test(pkg.version) ? 'development version' : pkg.version;
-var dataPath = process.cwd();
+let app = null;
+let version = /semantically-release/.test(pkg.version) ? 'development version' : pkg.version;
+let dataPath = process.cwd();
 
 function handlePort(value) {
   if (!isNaN(parseInt(value, 10))) {
@@ -18,25 +18,20 @@ function handlePort(value) {
   throw Error('port option requires a number');
 }
 
-function printIP(l) {
-  console.log('    ', l.name, ['=> http://', l.ip, ':', program.port, '/'].join(''));
-}
-
 program
   .version(version)
   .option('-p, --port [3000]', 'Start web server with given port', handlePort, 3000)
-  .option('-d, --data [directory]', 'Data directory to serve')
   .option('-s, --server-only', 'Do not open the web browser\n')
-  .option('-f, --filter [nrrd,png,tiff,bmp]', 'List files with those extensions in data directory', 'nrrd,png,tiff,bmp')
+  .arguments('[inputFile]')
   .parse(process.argv);
 
-if (!process.argv.slice(2).length || !program.help) {
-  program.outputHelp();
-  process.exit();
-}
-
-if (program.data) {
-  dataPath = program.data;
+const inputFilePath = program.args[0];
+let urlOptions = '';
+if (inputFilePath) {
+  const fullPath = path.normalize(inputFilePath);
+  dataPath = path.dirname(fullPath);
+  const inputFileName = path.basename(fullPath);
+  urlOptions = `?fileToLoad=/data/${inputFileName.replace(/ /g, '%20')}`
 }
 
 // Start server and listening
@@ -45,24 +40,17 @@ app.listen(program.port);
 
 // Print server information
 if (ipList.length === 1) {
-  console.log(['\nItkVtkImageViewer\n  => Serve ', dataPath, '\n  |  http://', ipList[0].ip, ':', program.port, '/\n'].join(''));
+  console.log(['\nitk-vtk-viewer\n  => Serving ', dataPath, '\n\n     http://', ipList[0].ip, ':', program.port, `/${urlOptions}\n`].join(''));
 } else {
-  console.log(['\nItkVtkImageViewer\n  => Serve ', dataPath, ' on port ', program.port, '\n'].join(''));
+  function printIP(l) {
+    console.log('    ', l.name, ['=> http://', l.ip, ':', program.port, `/${urlOptions}`].join(''));
+  }
+  console.log(['\nitk-vtk-viewer\n  => Serving ', dataPath, ' on port ', program.port, '\n'].join(''));
   ipList.forEach(printIP);
-  console.log();
-}
-
-// Show data files
-if (program.data) {
-  console.log('  => Available data files:\n');
-  var regexp = new RegExp(program.filter.split(',').map(t => `(?:\.${t.trim()}$)`).join('|'));
-  shell.ls('-R', dataPath).filter(t => t.match(regexp)).forEach((name) => {
-    console.log(`    /?fileToLoad=/data/${name.replace(/ /g, '%20')}`);
-  });
   console.log();
 }
 
 // Open browser if asked
 if (!program.serverOnly) {
-  openFn(['http://localhost:', program.port].join(''));
+  openFn(['http://localhost:', program.port, `/${urlOptions}`].join(''));
 }

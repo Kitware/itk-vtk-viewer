@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>itk-vtk-image-viewer</title>
+  <title>itk-vtk-viewer</title>
   
   <subtitle>Enable medical imaging to the Web.</subtitle>
-  <link href="/itk-vtk-image-viewer/atom.xml" rel="self"/>
+  <link href="/itk-vtk-viewer/atom.xml" rel="self"/>
   
-  <link href="https://kitware.github.io/itk-vtk-image-viewer/"/>
+  <link href="https://kitware.github.io/itk-vtk-viewer/"/>
   <updated>2018-06-14T03:28:51.935Z</updated>
-  <id>https://kitware.github.io/itk-vtk-image-viewer/</id>
+  <id>https://kitware.github.io/itk-vtk-viewer/</id>
   
   <author>
     <name>Kitware Inc.</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hexo</title>
-    <link href="https://kitware.github.io/itk-vtk-image-viewer/2016/04/29/kw-doc/"/>
-    <id>https://kitware.github.io/itk-vtk-image-viewer/2016/04/29/kw-doc/</id>
+    <link href="https://kitware.github.io/itk-vtk-viewer/2016/04/29/kw-doc/"/>
+    <id>https://kitware.github.io/itk-vtk-viewer/2016/04/29/kw-doc/</id>
     <published>2016-04-29T00:00:00.000Z</published>
     <updated>2018-06-14T03:28:51.935Z</updated>
     

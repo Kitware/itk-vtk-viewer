@@ -8,15 +8,15 @@ workboxSW.precache([
   },
   {
     "url": "index.html",
-    "revision": "5bbf64f8bd7ef25cf88932bf2a7c634c"
+    "revision": "5de1ef0fb1ad69499470ffe1d6e2cf76"
   },
   {
-    "url": "itkVtkImageViewer.js",
-    "revision": "c5e8830e6442a82041650b65bc20c4d2"
+    "url": "itkVtkViewer.js",
+    "revision": "dbb5dc266b82669463d9d9dcdb804078"
   },
   {
     "url": "test.html",
-    "revision": "a7927ae23ec755b9f0b3110a5d316f80"
+    "revision": "7ae13ed21ff30dda487760df4b24897c"
   },
   {
     "url": "workbox-sw.prod.v2.1.2.js",

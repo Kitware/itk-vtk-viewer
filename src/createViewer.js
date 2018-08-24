@@ -5,6 +5,7 @@ import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import proxyConfiguration from './proxyManagerConfiguration';
 import userInterface from './userInterface';
+import addKeyboardShortcuts from './addKeyboardShortcuts';
 
 const STYLE_CONTAINER = {
   position: 'relative',
@@ -507,6 +508,7 @@ const createViewer = (
   //publicAPI.loadState = (state) => {
     //// todo
   //}
+  addKeyboardShortcuts(rootContainer, publicAPI, viewerDOMId);
 
   return publicAPI;
 };

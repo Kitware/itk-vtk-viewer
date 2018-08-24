@@ -47,7 +47,7 @@ function createViewPlanesToggle(
   const viewPlanesButton = document.createElement('div');
   viewPlanesButton.innerHTML = `<input id="${viewerDOMId}-toggleSlicingPlanesButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Slicing planes" class="${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Slicing planes [f]" class="${
     contrastSensitiveStyle.tooltipButton
   } ${style.viewPlanesButton} ${
     style.toggleButton

@@ -158,7 +158,7 @@ function createMainUI(
   const cropButton = document.createElement('div');
   cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Select ROI" class="${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Select ROI [w]" class="${
     contrastSensitiveStyle.invertibleButton
   } ${style.cropButton} ${
     style.toggleButton
@@ -171,7 +171,7 @@ function createMainUI(
   const resetCropButton = document.createElement('div');
   resetCropButton.innerHTML = `<input id="${viewerDOMId}-resetCroppingPlanesButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset ROI" class="${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset ROI [e]" class="${
     contrastSensitiveStyle.invertibleButton
   } ${style.resetCropButton} ${
     style.toggleButton
@@ -195,7 +195,7 @@ function createMainUI(
   const resetCameraButton = document.createElement('div');
   resetCameraButton.innerHTML = `<input id="${viewerDOMId}-resetCameraButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset camera" class="${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset camera [r]" class="${
     contrastSensitiveStyle.invertibleButton
   } ${style.resetCameraButton} ${
     style.toggleButton
@@ -304,7 +304,7 @@ function createMainUI(
     const xPlaneButton = document.createElement('div');
     xPlaneButton.innerHTML = `<input id="${viewerDOMId}-xPlaneButton" type="checkbox" class="${
       style.toggleInput
-    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane" class="${
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane [1]" class="${
       contrastSensitiveStyle.tooltipButton
     } ${style.viewModeButton} ${
       style.toggleButton
@@ -315,7 +315,7 @@ function createMainUI(
     const yPlaneButton = document.createElement('div');
     yPlaneButton.innerHTML = `<input id="${viewerDOMId}-yPlaneButton" type="checkbox" class="${
       style.toggleInput
-    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane" class="${
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane [2]" class="${
       contrastSensitiveStyle.tooltipButton
     } ${style.viewModeButton} ${
       style.toggleButton
@@ -326,7 +326,7 @@ function createMainUI(
     const zPlaneButton = document.createElement('div');
     zPlaneButton.innerHTML = `<input id="${viewerDOMId}-zPlaneButton" type="checkbox" class="${
       style.toggleInput
-    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane" class="${
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane [3]" class="${
       contrastSensitiveStyle.tooltipButton
     } ${style.viewModeButton} ${
       style.toggleButton
@@ -337,7 +337,7 @@ function createMainUI(
     const volumeRenderingButton = document.createElement('div');
     volumeRenderingButton.innerHTML = `<input id="${viewerDOMId}-volumeRenderingButton" type="checkbox" class="${
       style.toggleInput
-    }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume" class="${
+    }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume rendering [4]" class="${
       contrastSensitiveStyle.tooltipButton
     } ${style.viewModeButton} ${
       style.toggleButton

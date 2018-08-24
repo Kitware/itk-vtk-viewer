@@ -4,6 +4,9 @@ import getRootContainer from './getRootContainer';
 import preventDefaults from './preventDefaults';
 
 import style from './ItkVtkViewer.mcss';
+import Mousetrap from 'mousetrap';
+
+const MOUSETRAP = new Mousetrap();
 
 function createFileDragAndDrop(container, onDataChange) {
   const myContainer = getRootContainer(container);
@@ -16,8 +19,13 @@ function createFileDragAndDrop(container, onDataChange) {
 
   const fileInput = fileContainer.querySelector('input');
 
+  MOUSETRAP.bind('enter', (event) => {
+    fileInput.click();
+  })
+
   function handleFile(e) {
     preventDefaults(e);
+    MOUSETRAP.unbind('enter');
     const dataTransfer = e.dataTransfer;
     const files = e.target.files || dataTransfer.files;
     myContainer.removeChild(fileContainer);

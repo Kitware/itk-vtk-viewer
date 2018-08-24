@@ -9,7 +9,7 @@ First of all, you will need to install the tool on you system which will require
 Assumming your environment already has node, you should be able to run the following command line.
 
 ```sh
-$ npm install itk-vtk-image-viewer -g
+$ npm install itk-vtk-viewer -g
 ```
 
 The command line will install globally the application which should enable a new command line:
@@ -56,4 +56,4 @@ the viewer page to select a file after starting without positional arguments:
 $ itk-vtk-viewer
 ```
 
-![ItkVtkImageViewer](./viewer.jpg)
+![ItkVtkViewer](./viewer.jpg)

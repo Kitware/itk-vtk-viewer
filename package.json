@@ -1,17 +1,17 @@
 {
-  "name": "itk-vtk-image-viewer",
+  "name": "itk-vtk-viewer",
   "version": "0.0.0-semantically-release",
   "description": "ITK/VTK Image Viewer",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kitware/itk-vtk-image-viewer.git"
+    "url": "git+https://github.com/kitware/itk-vtk-viewer.git"
   },
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/kitware/itk-vtk-image-viewer/issues"
+    "url": "https://github.com/kitware/itk-vtk-viewer/issues"
   },
-  "homepage": "https://github.com/kitware/itk-vtk-image-viewer#readme",
-  "main": "./dist/itkVtkImageViewer.js",
+  "homepage": "https://github.com/kitware/itk-vtk-viewer#readme",
+  "main": "./dist/itkVtkViewer.js",
   "dependencies": {
     "commander": "^2.17.1",
     "css-element-queries": "^1.0.2",
@@ -55,7 +55,7 @@
     "build": "webpack --progress --colors --mode production",
     "build:debug": "webpack --progress --colors --display-modules --mode development",
     "build:release": "npm run build -- -p",
-    "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkImageViewer.html",
+    "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkViewer.html",
     "commit": "git cz",
     "start": "webpack-dev-server --mode development --content-base ./dist/ --watch-content-base",
     "semantic-release": "semantic-release",

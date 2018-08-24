@@ -1,14 +1,14 @@
 {
-  "name": "itk-vtk-image-viewer",
+  "name": "itk-vtk-viewer",
   "short_name": "image-viewer",
   "lang": "en-US",
-  "start_url": "/itk-vtk-image-viewer/app/",
-  "scope": "/itk-vtk-image-viewer/app/",
+  "start_url": "/itk-vtk-viewer/app/",
+  "scope": "/itk-vtk-viewer/app/",
   "display": "standalone",
   "theme_color": "#8B8B8B",
   "icons": [
     {
-      "src": "/itk-vtk-image-viewer/logo.png",
+      "src": "/itk-vtk-viewer/logo.png",
       "sizes": "50x50",
       "type": "image/png"
     }

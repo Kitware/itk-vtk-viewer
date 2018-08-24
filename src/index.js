@@ -6,7 +6,7 @@ import fetchBinaryContent from './fetchBinaryContent';
 import processFiles from './processFiles';
 import userInterface from './userInterface';
 import createFileDragAndDrop from './userInterface/createFileDragAndDrop';
-import style from './userInterface/ItkVtkImageViewer.mcss';
+import style from './userInterface/ItkVtkViewer.mcss';
 
 let doNotInitViewers = false;
 
@@ -32,7 +32,7 @@ export function initializeEmbeddedViewers() {
   if (doNotInitViewers) {
     return;
   }
-  const viewers = document.querySelectorAll('.itk-vtk-image-viewer');
+  const viewers = document.querySelectorAll('.itk-vtk-viewer');
   let count = viewers.length;
   while (count--) {
     const el = viewers[count];

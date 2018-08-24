@@ -5,19 +5,19 @@ ITK/VTK Image Viewer can be used within an existing web site as a library to emb
 To do so a container elements should be created for that view inside your current HTML content like follow.
 
 ```html
-<div class="itk-vtk-image-viewer" />
+<div class="itk-vtk-viewer" />
 ```
 
 Moreover, the JavaScript library should also be added to the web page. Only one of the following is required
 
 ```html
-<script type="text/javascript" src="https://kitware.github.io/itk-vtk-image-viewer/app/itkVtkImageViewer.js">
+<script type="text/javascript" src="https://kitware.github.io/itk-vtk-viewer/app/itkVtkViewer.js">
 ```
 
 or
 
 ```html
-<script type="text/javascript" src="https://unpkg.com/itk-vtk-image-viewer/dist/itkVtkImageViewer.js">
+<script type="text/javascript" src="https://unpkg.com/itk-vtk-viewer/dist/itkVtkViewer.js">
 ```
 
 ### Viewer configuration
@@ -30,7 +30,7 @@ The container `<div/>` can be extended with the following set of attributes:
 - (Optional) __data-slice__="true"
 
 
-![ItkVtkImageViewer-embedded](./embeddedViewer.jpg)
+![ItkVtkViewer-embedded](./embeddedViewer.jpg)
 
 ```html
 <!DOCTYPE html>
@@ -45,7 +45,7 @@ The container `<div/>` can be extended with the following set of attributes:
 
     <div
       style="float: right; display: inline-block; border: 2px solid gray; margin: 20px;"
-      class="itk-vtk-image-viewer"
+      class="itk-vtk-viewer"
       data-url="/data/005_36months_T2_RegT1_Reg2Atlas_ManualBrainMask_Stripped.nrrd"
       data-viewport="300x200"
     ></div>
@@ -54,7 +54,7 @@ The container `<div/>` can be extended with the following set of attributes:
 
     <div
       style="float: left; display: inline-block; border: 2px solid gray; margin: 20px;"
-      class="itk-vtk-image-viewer"
+      class="itk-vtk-viewer"
       data-url="/data/005_20months_T2_Reg2Atlas.nrrd"
       data-viewport="400x400"
       data-background-color="ffffff"
@@ -62,7 +62,7 @@ The container `<div/>` can be extended with the following set of attributes:
 
     [...]
 
-    <script type="text/javascript" src="itkVtkImageViewer.js">
+    <script type="text/javascript" src="itkVtkViewer.js">
     </script>
   </body>
 </html>

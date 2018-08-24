@@ -6,7 +6,7 @@ import sampleDistanceIcon from 'vtk.js/Sources/Interaction/UI/Icons/Spacing.svg'
 
 import getContrastSensitiveStyle from './getContrastSensitiveStyle';
 
-import style from './ItkVtkImageViewer.mcss';
+import style from './ItkVtkViewer.mcss';
 
 import shadowIcon from './icons/shadow.svg';
 import gradientOpacityIcon from './icons/gradient.svg';

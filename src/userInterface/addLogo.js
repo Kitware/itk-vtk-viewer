@@ -1,4 +1,4 @@
-import style from './ItkVtkImageViewer.mcss';
+import style from './ItkVtkViewer.mcss';
 
 import logoIcon from './icons/logo.png';
 

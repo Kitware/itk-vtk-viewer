@@ -3,7 +3,7 @@ import vtkImageCroppingRegionsWidget from 'vtk.js/Sources/Interaction/Widgets/Im
 
 import getContrastSensitiveStyle from './getContrastSensitiveStyle';
 
-import style from './ItkVtkImageViewer.mcss';
+import style from './ItkVtkViewer.mcss';
 
 import toggleIcon from './icons/toggle.svg';
 import screenshotIcon from './icons/screenshot.svg';

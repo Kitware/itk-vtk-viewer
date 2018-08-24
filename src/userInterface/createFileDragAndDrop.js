@@ -3,7 +3,7 @@ import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 import getRootContainer from './getRootContainer';
 import preventDefaults from './preventDefaults';
 
-import style from './ItkVtkImageViewer.mcss';
+import style from './ItkVtkViewer.mcss';
 
 function createFileDragAndDrop(container, onDataChange) {
   const myContainer = getRootContainer(container);

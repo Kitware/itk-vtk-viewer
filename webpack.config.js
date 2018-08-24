@@ -19,11 +19,11 @@ module.exports = {
   entry,
   output: {
     path: outputPath,
-    filename: 'itkVtkImageViewer.js',
+    filename: 'itkVtkViewer.js',
   },
   module: {
     rules: [
-      { test: entry, loader: 'expose-loader?itkVtkImageViewer' },
+      { test: entry, loader: 'expose-loader?itkVtkViewer' },
       { test: /\.js$/, loader: 'babel-loader' },
       { test: /\.(png|jpg)$/, use: 'url-loader?limit=81920' },
     ].concat(vtkRules),

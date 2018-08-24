@@ -1,22 +1,22 @@
 Contributing to ITK/VTK ImageViewer
 ====================================
 
-This page documents at a very high level how to contribute to itk-vtk-image-viewer.
+This page documents at a very high level how to contribute to itk-vtk-viewer.
 
-1. The itk-vtk-image-viewer source is maintained on Github at [github.com/kitware/itk-vtk-image-viewer](https://github.com/kitware/itk-vtk-image-viewer)
+1. The itk-vtk-viewer source is maintained on Github at [github.com/kitware/itk-vtk-viewer](https://github.com/kitware/itk-vtk-viewer)
 
 2. [Fork the repository] into your user's namespace on Github.
 
 3. Create a local clone of the main repository:
 
     ```sh
-    $ git clone https://github.com/kitware/itk-vtk-image-viewer.git
-    $ cd itk-vtk-image-viewer
+    $ git clone https://github.com/kitware/itk-vtk-viewer.git
+    $ cd itk-vtk-viewer
     ```
 
     The main repository will be configured as your `origin` remote.
 
-4. Run the setup script to prepare itk-vtk-image-viewer:
+4. Run the setup script to prepare itk-vtk-viewer:
     ```sh
     $ npm install
     $ npm install -g commitizen
@@ -49,4 +49,4 @@ documentation as well as the API.
 
 [Fork the repository]: https://help.github.com/articles/fork-a-repo/
 [Create a Pull Request]: https://help.github.com/articles/creating-a-pull-request/
-[DevSite]: http://kitware.github.io/itk-vtk-image-viewer
+[DevSite]: http://kitware.github.io/itk-vtk-viewer

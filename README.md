@@ -1,9 +1,9 @@
-## [ITK/VTK ImageViewer - Web based Image Viewer](http://kitware.github.io/itk-vtk-image-viewer/)
+## [ITK/VTK ImageViewer - Web based Image Viewer](http://kitware.github.io/itk-vtk-viewer/)
 
-[![Build Status](https://travis-ci.org/Kitware/itk-vtk-image-viewer.svg)](https://travis-ci.org/Kitware/itk-vtk-image-viewer)
-[![Dependency Status](https://david-dm.org/kitware/itk-vtk-image-viewer.svg)](https://david-dm.org/kitware/itk-vtk-image-viewer)
+[![Build Status](https://travis-ci.org/Kitware/itk-vtk-viewer.svg)](https://travis-ci.org/Kitware/itk-vtk-viewer)
+[![Dependency Status](https://david-dm.org/kitware/itk-vtk-viewer.svg)](https://david-dm.org/kitware/itk-vtk-viewer)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-![npm-download](https://img.shields.io/npm/dm/itk-vtk-image-viewer.svg)
+![npm-download](https://img.shields.io/npm/dm/itk-vtk-viewer.svg)
 ![npm-version-requirement](https://img.shields.io/badge/npm->=5.0.0-brightgreen.svg)
 ![node-version-requirement](https://img.shields.io/badge/node->=8.0.0-brightgreen.svg)
 
@@ -23,7 +23,7 @@ If you have found a bug:
 2. Open an entry in the [Issue Tracker][].
 
 [CONTRIBUTING.md]: CONTRIBUTING.md
-[Issue Tracker]: https://github.com/Kitware/itk-vtk-image-viewer/issues
+[Issue Tracker]: https://github.com/Kitware/itk-vtk-viewer/issues
 
 Requirements
 ============
@@ -44,7 +44,7 @@ and the following browsers:
 Documentation
 =============
 
-See the [documentation](https://kitware.github.io/itk-vtk-image-viewer) for a
+See the [documentation](https://kitware.github.io/itk-vtk-viewer) for a
 getting started guide, advanced documentation, and API descriptions.
 
 Contributing

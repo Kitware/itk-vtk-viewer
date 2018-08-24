@@ -5,8 +5,8 @@ import processFiles from './processFiles';
 
 /* Example usage:
 
-import uploadIcon from 'itk-vtk-image-viewer/src/userInterface/icons/upload.svg';
-import getContrastSensitiveStyle from 'itk-vtk-image-viewer/src/userInterface/getContrastSensitiveStyle';
+import uploadIcon from 'itk-vtk-viewer/src/userInterface/icons/upload.svg';
+import getContrastSensitiveStyle from 'itk-vtk-viewer/src/userInterface/getContrastSensitiveStyle';
 
 const isBackgroundDark = false;
 

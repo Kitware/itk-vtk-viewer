@@ -50,7 +50,7 @@ script:
     #  - npm run test:travis
   - git config --global user.name "Travis CI"
   - git config --global user.email "sebastien.jourdain@kitware.com"
-  - export GIT_PUBLISH_URL=https://${GH_TOKEN}@github.com/Kitware/itk-vtk-image-viewer.git
+  - export GIT_PUBLISH_URL=https://${GH_TOKEN}@github.com/Kitware/itk-vtk-viewer.git
   - if [ "$TRAVIS_BRANCH" == "master" ]; then npm run doc:publish; fi
 after_success:
   - npm run semantic-release

@@ -14,13 +14,13 @@
     <meta name="msapplication-navbutton-color" content="#8B8B8B">
     <meta name="apple-mobile-web-app-status-bar-style"
     content="black-translucent">
-    <meta name="msapplication-starturl" content="/itk-vtk-image-viewer/app/">
+    <meta name="msapplication-starturl" content="/itk-vtk-viewer/app/">
     <meta name="viewport" content="width=device-width, initial-scale=1,
     shrink-to-fit=no">
 
     <link rel="icon" type="image/png" sizes="50x50"
-    href="/itk-vtk-image-viewer/logo.png">
-    <link rel="apple-touch-icon" type="image/png" sizes="50x50" href="/itk-vtk-image-viewer/logo.png">
+    href="/itk-vtk-viewer/logo.png">
+    <link rel="apple-touch-icon" type="image/png" sizes="50x50" href="/itk-vtk-viewer/logo.png">
 
     <script>
       if ('serviceWorker' in navigator && document.location.protocol !== 'http:') {
@@ -39,13 +39,13 @@
   </head>
   <body>
     <div class="content" style="position: absolute; width: 100vw; height: 100vh; top: 0; left: 0; overflow: hidden; background: black; margin: 0; padding: 0;"></div>
-    <script type="text/javascript" src="itkVtkImageViewer.js">
+    <script type="text/javascript" src="itkVtkViewer.js">
     </script>
     <script>
       var container = document.querySelector('.content');
-      var viewer = itkVtkImageViewer.processParameters(container, { fullscreen: true });
+      var viewer = itkVtkViewer.processParameters(container, { fullscreen: true });
       if (!viewer) {
-        itkVtkImageViewer.createViewerFromLocalFiles(container);
+        itkVtkViewer.createViewerFromLocalFiles(container);
       }
     </script>
   </body>

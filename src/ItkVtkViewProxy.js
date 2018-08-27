@@ -273,6 +273,12 @@ function ItkVtkViewProxy(publicAPI, model) {
     });
     if (volumeRepresentations[0]) {
       model.volumeRepresentation = volumeRepresentations[0];
+      const volume = model.volumeRepresentation.getVolumes()[0];
+      const property = volume.getProperty();
+      property.setAmbient(0.25);
+      property.setDiffuse(0.8);
+      property.setSpecular(0.8);
+      property.setSpecularPower(30);
       model.volumeRepresentation
         .getActors()
         .forEach(model.annotationPicker.addPickList);

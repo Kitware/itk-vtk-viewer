@@ -98,7 +98,7 @@
     opacity: 0;
     transform: translate(15px, -50%);
     transition-property: all;
-    transition-duration: 0.4s;
+    transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
     transition-delay: 0.8s;
     z-index: 1;
@@ -150,10 +150,11 @@
 }
 [itk-vtk-tooltip-top-fullscreen]::before {
     top: initial;
-    left: 160%;
+    left: 120%;
     right: initial;
     bottom: calc(100% + 10px);
     transform: translate(-50%, 15px);
+    width: 400%;
 }
 [itk-vtk-tooltip-top-fullscreen]:hover::before {
     transform: translate(-50%, 0);
@@ -167,6 +168,14 @@
 }
 [itk-vtk-tooltip-top]:hover::before {
     transform: translate(-50%, 0);
+}
+[itk-vtk-tooltip-top-fullscreen]::before {
+    top: initial;
+    left: 120%;
+    right: initial;
+    bottom: calc(100% + 10px);
+    transform: translate(-50%, 15px);
+    width: 400%;
 }
 
 .tooltipButtonBrightBG::before {

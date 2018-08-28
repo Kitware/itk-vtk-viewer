@@ -12,6 +12,7 @@ import xPlaneIcon from './icons/x-plane.svg';
 import yPlaneIcon from './icons/y-plane.svg';
 import zPlaneIcon from './icons/z-plane.svg';
 import annotationIcon from './icons/annotations.svg';
+import fullscreenIcon from './icons/fullscreen.svg';
 import interpolationIcon from './icons/interpolation.svg';
 import cropIcon from './icons/crop.svg';
 import resetCropIcon from './icons/reset-crop.svg';
@@ -96,6 +97,49 @@ function createMainUI(
     toggleAnnotations();
   });
   mainUIRow.appendChild(annotationButton);
+
+  const body = document.querySelector('body');
+  let fullScreenMethods = null;
+  // https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API
+  [
+    ['requestFullscreen', 'exitFullscreen', 'fullscreenchange', 'fullscreen'],
+    ['mozRequestFullScreen', 'mozCancelFullScreen', 'mozfullscreenchange', 'mozFullScreen'],
+    ['msRequestFullscreen', 'msExitFullscreen', 'MSFullscreenChange', 'msFullscreenEnabled'],
+    ['webkitRequestFullscreen', 'webkitExitFullscreen', 'webkitfullscreenchange', 'webkitIsFullScreen'],
+  ].forEach((methods) => {
+    if (body[methods[0]] && !fullScreenMethods) {
+      fullScreenMethods = methods;
+    }
+  });
+
+  if (fullScreenMethods) {
+    const fullscreenButton = document.createElement('div');
+    fullscreenButton.innerHTML = `<input id="${viewerDOMId}-toggleFullscreenButton" type="checkbox" class="${
+      style.toggleInput
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-top-fullscreen itk-vtk-tooltip-content="Fullscreen [f]" class="${
+      contrastSensitiveStyle.invertibleButton
+    } ${style.fullscreenButton} ${
+      style.toggleButton
+    }" for="${viewerDOMId}-toggleFullscreenButton">${fullscreenIcon}</label>`;
+    const fullscreenButtonInput = fullscreenButton.children[0];
+    function toggleFullscreen() {
+      const fullscreenEnabled = fullscreenButtonInput.checked;
+      if (fullscreenEnabled) {
+        rootContainer[fullScreenMethods[0]]();
+      } else {
+        document[fullScreenMethods[1]]();
+      }
+    }
+    fullscreenButton.addEventListener('change', (event) => {
+      toggleFullscreen();
+    });
+    document.addEventListener(fullScreenMethods[2], (event) => {
+      if (!document[fullScreenMethods[3]]) {
+        fullscreenButtonInput.checked = false;
+      }
+    })
+    mainUIRow.appendChild(fullscreenButton);
+  }
 
   let interpolationEnabled = true;
   function toggleInterpolation() {

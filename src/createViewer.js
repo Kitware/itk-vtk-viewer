@@ -241,6 +241,34 @@ const createViewer = (
   }
 
 
+  const toggleFullscreenButton = document.getElementById(`${viewerDOMId}-toggleFullscreenButton`);
+
+  const toggleFullscreenHandlers = [];
+  const toggleFullscreenButtonListener = (event) => {
+    const enabled = toggleFullscreenButton.checked;
+    toggleFullscreenHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  }
+  toggleFullscreenButton.addEventListener('click', toggleFullscreenButtonListener)
+
+  publicAPI.subscribeToggleFullscreen = (handler) => {
+    const index = toggleFullscreenHandlers.length;
+    toggleFullscreenHandlers.push(handler);
+    function unsubscribe() {
+      toggleFullscreenHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setFullscreenEnabled = (enabled) => {
+    const fullscreen = toggleFullscreenButton.checked;
+    if (enabled && !fullscreen || !enabled && fullscreen) {
+      toggleFullscreenButton.click();
+    }
+  }
+
+
   const toggleInterpolationButton = document.getElementById(`${viewerDOMId}-toggleInterpolationButton`);
 
   const toggleInterpolationHandlers = [];

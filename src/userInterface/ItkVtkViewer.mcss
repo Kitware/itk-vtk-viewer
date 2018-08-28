@@ -98,7 +98,7 @@
     opacity: 0;
     transform: translate(15px, -50%);
     transition-property: all;
-    transition-duration: 0.4s;
+    transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
     transition-delay: 0.8s;
     z-index: 1;
@@ -148,6 +148,17 @@
 [itk-vtk-tooltip-top-annotation]:hover::before {
     transform: translate(-50%, 0);
 }
+[itk-vtk-tooltip-top-fullscreen]::before {
+    top: initial;
+    left: 120%;
+    right: initial;
+    bottom: calc(100% + 10px);
+    transform: translate(-50%, 15px);
+    width: 400%;
+}
+[itk-vtk-tooltip-top-fullscreen]:hover::before {
+    transform: translate(-50%, 0);
+}
 [itk-vtk-tooltip-top]::before {
     top: initial;
     left: 60%;
@@ -157,6 +168,14 @@
 }
 [itk-vtk-tooltip-top]:hover::before {
     transform: translate(-50%, 0);
+}
+[itk-vtk-tooltip-top-fullscreen]::before {
+    top: initial;
+    left: 120%;
+    right: initial;
+    bottom: calc(100% + 10px);
+    transform: translate(-50%, 15px);
+    width: 400%;
 }
 
 .tooltipButtonBrightBG::before {
@@ -207,6 +226,23 @@
 }
 
 .annotationButton svg {
+  height: 1.2em;
+  width: 1.2em;
+}
+
+.fullscreenButton {
+  flex: 1;
+  height: 1.5em;
+  width: 1.5em;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.fullscreenButton svg {
   height: 1.2em;
   width: 1.2em;
 }

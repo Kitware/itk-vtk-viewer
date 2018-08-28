@@ -2,51 +2,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/cli.html</loc>
-    
-    <lastmod>2018-08-24T20:43:56.304Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/index.html</loc>
     
-    <lastmod>2018-08-24T15:45:20.913Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/embeddedViewer.html</loc>
-    
-    <lastmod>2018-08-24T15:45:20.909Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/viewer.html</loc>
-    
-    <lastmod>2018-08-24T15:45:20.909Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/index.html</loc>
-    
-    <lastmod>2018-06-14T03:28:51.951Z</lastmod>
+    <lastmod>2018-08-28T03:23:54.400Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/api/index.html</loc>
     
-    <lastmod>2018-06-14T03:28:51.947Z</lastmod>
+    <lastmod>2018-08-28T03:23:54.396Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/cli.html</loc>
+    
+    <lastmod>2018-08-28T03:23:54.396Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/embeddedViewer.html</loc>
+    
+    <lastmod>2018-08-28T03:23:54.396Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/index.html</loc>
+    
+    <lastmod>2018-08-28T03:23:54.396Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/viewer.html</loc>
+    
+    <lastmod>2018-08-28T03:23:54.396Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/2016/04/29/kw-doc/</loc>
     
-    <lastmod>2018-06-14T03:28:51.935Z</lastmod>
+    <lastmod>2018-08-28T03:23:54.384Z</lastmod>
     
   </url>
   

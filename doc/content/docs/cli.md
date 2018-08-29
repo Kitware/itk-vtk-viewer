@@ -5,8 +5,8 @@ ITK/VTK Image Viewer can be used as a command line tool for opening and visualiz
 
 ## Installation
 
-First of all, you will need to install the tool on you system which will require Node.js.
-Assumming your environment already has node, you should be able to run the following command line.
+First, [install Node.js](https://nodejs.org/en/download/) if not already
+installed; after installed, `node` and `npm` should be in your `PATH`.
 
 ```sh
 $ npm install itk-vtk-viewer -g

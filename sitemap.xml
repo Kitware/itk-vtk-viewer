@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/shortcuts.html</loc>
+    
+    <lastmod>2018-08-29T15:42:59.519Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/cli.html</loc>
+    
+    <lastmod>2018-08-29T15:42:59.515Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/index.html</loc>
     
     <lastmod>2018-08-28T03:28:15.155Z</lastmod>
@@ -10,13 +24,6 @@
   
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/api/index.html</loc>
-    
-    <lastmod>2018-08-28T03:23:54.396Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/cli.html</loc>
     
     <lastmod>2018-08-28T03:23:54.396Z</lastmod>
     

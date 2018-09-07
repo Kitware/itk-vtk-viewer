@@ -104,11 +104,18 @@ function createMainUI(
       style.toggleButton
     }" for="${viewerDOMId}-toggleFullscreenButton">${fullscreenIcon}</label>`;
     const fullscreenButtonInput = fullscreenButton.children[0];
+    const container = rootContainer.children[0];
+    const oldWidth = container.style.width;
+    const oldHeight = container.style.height;
     function toggleFullscreen() {
       const fullscreenEnabled = fullscreenButtonInput.checked;
       if (fullscreenEnabled) {
+        container.style.width = '100vw';
+        container.style.height = '100vh';
         rootContainer[fullScreenMethods[0]]();
       } else {
+        container.style.width = oldWidth;
+        container.style.height = oldHeight;
         document[fullScreenMethods[1]]();
       }
     }
@@ -117,6 +124,8 @@ function createMainUI(
     });
     document.addEventListener(fullScreenMethods[2], (event) => {
       if (!document[fullScreenMethods[3]]) {
+        container.style.width = oldWidth;
+        container.style.height = oldHeight;
         fullscreenButtonInput.checked = false;
       }
     })

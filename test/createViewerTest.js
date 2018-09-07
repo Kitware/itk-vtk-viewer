@@ -55,8 +55,13 @@ test('Test createViewer', (t) => {
       viewer.setUserInterfaceCollapsed(true)
       t.equal(toggleUIButton.getAttribute('collapsed') === '', true, 'viewer.setUserInterfaceCollapsed changes collapsed')
 
-      viewer.captureImage().then((screenshot) => {
-        testUtils.compareImages(screenshot, [createViewerBaseline], 'Test createViewer', t, 1.0, gc.releaseResources)
+      const viewProxy = viewer.getViewProxy();
+      const representation = viewProxy.getRepresentations()[0];
+      const volumeMapper = representation.getMapper();
+      volumeMapper.onLightingActivated(() => {
+        viewer.captureImage().then((screenshot) => {
+          testUtils.compareImages(screenshot, [createViewerBaseline], 'Test createViewer', t, 1.0, gc.releaseResources)
+        })
       })
       viewer.renderLater()
     })
@@ -88,8 +93,13 @@ test('Test createViewer.setImage', (t) => {
 
           const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
           viewer.setImage(imageData)
-          viewer.captureImage().then((screenshot) => {
-            testUtils.compareImages(screenshot, [createViewerSetImageBaseline], 'Test createViewer.setImage', t, 1.0, gc.releaseResources)
+          const viewProxy = viewer.getViewProxy();
+          const representation = viewProxy.getRepresentations()[0];
+          const volumeMapper = representation.getMapper();
+          volumeMapper.onLightingActivated(() => {
+            viewer.captureImage().then((screenshot) => {
+              testUtils.compareImages(screenshot, [createViewerSetImageBaseline], 'Test createViewer.setImage', t, 1.0, gc.releaseResources)
+          })
         })
 
         })

@@ -207,6 +207,11 @@ const createViewer = (
     return Object.freeze({ unsubscribe });
   }
 
+  // Start collapsed on mobile devices or small pages
+  if (window.screen.availWidth < 768 || window.screen.availHeight < 800) {
+    publicAPI.setUserInterfaceCollapsed(true);
+  }
+
 
   publicAPI.captureImage = () => {
     return view.captureImage();

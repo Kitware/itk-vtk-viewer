@@ -29,8 +29,8 @@ sidebar:
     testing: Testing
     tests: Tests
     coverage: Coverage
-    cli: Command Line
-    viewer: Viewer
+    cli: Command Line App
+    viewer: Progressive Web App
     embeddedViewer: Inline Viewer
     shortcuts: Keyboard shortcuts
 

@@ -444,6 +444,58 @@ const createViewer = (
     }
 
 
+    const xSliceChangedHandlers = [];
+    const xSliceChangedListener = (event) => {
+      xSliceChangedHandlers.forEach((handler) => {
+        handler.call(null, event.target.valueAsNumber);
+      })
+    }
+    const xSliceElement = document.getElementById(`${viewerDOMId}-xSlice`);
+    xSliceElement.addEventListener('input', xSliceChangedListener);
+    publicAPI.subscribeXSliceChanged = (handler) => {
+      const index = xSliceChangedHandlers.length;
+      xSliceChangedHandlers.push(handler);
+      function unsubscribe() {
+        xSliceChangedHandlers[index] = null;
+      }
+      return Object.freeze({ unsubscribe });
+    }
+
+    const ySliceChangedHandlers = [];
+    const ySliceChangedListener = (event) => {
+      ySliceChangedHandlers.forEach((handler) => {
+        handler.call(null, event.target.valueAsNumber);
+      })
+    }
+    const ySliceElement = document.getElementById(`${viewerDOMId}-ySlice`);
+    ySliceElement.addEventListener('input', ySliceChangedListener);
+    publicAPI.subscribeYSliceChanged = (handler) => {
+      const index = ySliceChangedHandlers.length;
+      ySliceChangedHandlers.push(handler);
+      function unsubscribe() {
+        ySliceChangedHandlers[index] = null;
+      }
+      return Object.freeze({ unsubscribe });
+    }
+
+    const zSliceChangedHandlers = [];
+    const zSliceChangedListener = (event) => {
+      zSliceChangedHandlers.forEach((handler) => {
+        handler.call(null, event.target.valueAsNumber);
+      })
+    }
+    const zSliceElement = document.getElementById(`${viewerDOMId}-zSlice`);
+    zSliceElement.addEventListener('input', zSliceChangedListener);
+    publicAPI.subscribeZSliceChanged = (handler) => {
+      const index = zSliceChangedHandlers.length;
+      zSliceChangedHandlers.push(handler);
+      function unsubscribe() {
+        zSliceChangedHandlers[index] = null;
+      }
+      return Object.freeze({ unsubscribe });
+    }
+
+
     const toggleShadowButton = document.getElementById(`${viewerDOMId}-toggleShadowButton`);
 
     const toggleShadowHandlers = [];

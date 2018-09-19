@@ -304,15 +304,15 @@ function createPlaneIndexSliders(
   xSliderEntry.setAttribute('class', style.sliderEntry);
   currentSlicePosition = volumeRepresentation.getXSlice();
   xSliderEntry.innerHTML = `
-    <label class="${
+    <label id="${viewerDOMId}-xSliceLabel" class="${
       contrastSensitiveStyle.sliderLabel
-    } ${viewerDOMId}-x-slice-label">X:</label><input type="range" min="${
+    }">X:</label><input type="range" min="${
     xSlice.min
   }" max="${xSlice.max}" value="${currentSlicePosition}" step="${xSlice.step}"
-      class="${style.slider} ${viewerDOMId}-x-slice" />`;
-  const xSliceElement = xSliderEntry.querySelector(`.${viewerDOMId}-x-slice`);
+      id="${viewerDOMId}-xSlice" class="${style.slider}" />`;
+  const xSliceElement = xSliderEntry.querySelector(`#${viewerDOMId}-xSlice`);
   const xPlaneLabel = xSliderEntry.querySelector(
-    `.${viewerDOMId}-x-slice-label`
+    `#${viewerDOMId}-xSliceLabel`
   );
   function updateXSlice() {
     const value = Number(xSliceElement.value);
@@ -344,15 +344,15 @@ function createPlaneIndexSliders(
   ySliderEntry.setAttribute('class', style.sliderEntry);
   currentSlicePosition = volumeRepresentation.getYSlice();
   ySliderEntry.innerHTML = `
-    <label class="${
+    <label id="${viewerDOMId}-ySliceLabel" class="${
       contrastSensitiveStyle.sliderLabel
-    } ${viewerDOMId}-y-slice-label">Y:</label><input type="range" min="${
+    }">Y:</label><input type="range" min="${
     ySlice.min
   }" max="${ySlice.max}" value="${currentSlicePosition}" step="${ySlice.step}"
-      class="${style.slider} ${viewerDOMId}-y-slice" />`;
-  const ySliceElement = ySliderEntry.querySelector(`.${viewerDOMId}-y-slice`);
+      id="${viewerDOMId}-ySlice" class="${style.slider}" />`;
+  const ySliceElement = ySliderEntry.querySelector(`#${viewerDOMId}-ySlice`);
   const yPlaneLabel = ySliderEntry.querySelector(
-    `.${viewerDOMId}-y-slice-label`
+    `#${viewerDOMId}-ySliceLabel`
   );
   function updateYSlice() {
     const value = Number(ySliceElement.value);
@@ -384,15 +384,15 @@ function createPlaneIndexSliders(
   zSliderEntry.setAttribute('class', style.sliderEntry);
   currentSlicePosition = volumeRepresentation.getZSlice();
   zSliderEntry.innerHTML = `
-    <label class="${
+    <label id="${viewerDOMId}-zSliceLabel" class="${
       contrastSensitiveStyle.sliderLabel
-    } ${viewerDOMId}-z-slice-label">Z:</label><input type="range" min="${
+    }">Z:</label><input type="range" min="${
     zSlice.min
   }" max="${zSlice.max}" value="${currentSlicePosition}" step="${zSlice.step}"
-      class="${style.slider} ${viewerDOMId}-z-slice" />`;
-  const zSliceElement = zSliderEntry.querySelector(`.${viewerDOMId}-z-slice`);
+      id="${viewerDOMId}-zSlice" class="${style.slider}" />`;
+  const zSliceElement = zSliderEntry.querySelector(`#${viewerDOMId}-zSlice`);
   const zPlaneLabel = zSliderEntry.querySelector(
-    `.${viewerDOMId}-z-slice-label`
+    `#${viewerDOMId}-zSliceLabel`
   );
   function updateZSlice() {
     const value = Number(zSliceElement.value);

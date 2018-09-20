@@ -168,6 +168,8 @@ const createViewer = (
     updatingImage = true;
     imageSource.setInputData(image);
     imageUI.transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
+    imageUI.transferFunctionWidget.invokeOpacityChange(imageUI.transferFunctionWidget);
+    imageUI.transferFunctionWidget.modified();
     croppingWidget.setVolumeMapper(representation.getMapper());
     const cropFilter = representation.getCropFilter();
     cropFilter.reset();

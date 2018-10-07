@@ -1,4 +1,4 @@
-## [ITK/VTK ImageViewer - Web based Image Viewer](http://kitware.github.io/itk-vtk-viewer/)
+## [ITK/VTK Viewer - Web based Image Viewer](http://kitware.github.io/itk-vtk-viewer/)
 
 [![Build Status](https://travis-ci.org/Kitware/itk-vtk-viewer.svg)](https://travis-ci.org/Kitware/itk-vtk-viewer)
 [![Dependency Status](https://david-dm.org/kitware/itk-vtk-viewer.svg)](https://david-dm.org/kitware/itk-vtk-viewer)
@@ -10,7 +10,7 @@
 Introduction
 ============
 
-ITK/VTK ImageViewer is an open-source software system for medical and
+ITK/VTK Viewer is an open-source software system for medical and
 scientific image visualization.
 
 Reporting Bugs
@@ -28,9 +28,9 @@ If you have found a bug:
 Requirements
 ============
 
-In general ITK/VTK ImageViewer tries to be as portable as possible; the specific configurations below are tested and known to work.
+In general ITK/VTK Viewer tries to be as portable as possible; the specific configurations below are tested and known to work.
 
-ITK/VTK ImageViewer supports the following development environments:
+ITK/VTK Viewer supports the following development environments:
 
 - Node 8+
 - NPM 5+
@@ -55,7 +55,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for instructions to contribute.
 License
 =======
 
-ITK/VTK ImageViewer is distributed under the OSI-approved BSD 3-clause License.
+ITK/VTK Viewer is distributed under the OSI-approved BSD 3-clause License.
 See [Copyright.txt][] for details.
 
 [Copyright.txt]: Copyright.txt

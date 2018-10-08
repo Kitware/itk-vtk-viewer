@@ -2,7 +2,7 @@
 <html lang="en">
 <head prefix="og: http://ogp.me/ns#">
   <meta charset="utf-8">
-  <title>Default viewer | itk-vtk-viewer</title>
+  <title>Progressive Web App | itk-vtk-viewer</title>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Canonical links -->
@@ -39,19 +39,19 @@
   <!-- RSS -->
   <link rel="alternate" href="/itk-vtk-viewer/atom.xml" title="itk-vtk-viewer">
   <!-- Open Graph -->
-  <meta name="description" content="The default view of the ITK/VTK Image Viewer let you drag and drop into the page the data file that you want to look at.But an additional usage of that page is possible by providing extra arguments to">
+  <meta name="description" content="The default ITK/VTK Viewer page lets you drag and drop or select a data file from your local filesystem to visualize. Once you have loaded data with this progressive web app, the app will also work of">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Default viewer">
+<meta property="og:title" content="Progressive Web App">
 <meta property="og:url" content="https://kitware.github.io/itk-vtk-viewer/docs/viewer.html">
 <meta property="og:site_name" content="itk-vtk-viewer">
-<meta property="og:description" content="The default view of the ITK/VTK Image Viewer let you drag and drop into the page the data file that you want to look at.But an additional usage of that page is possible by providing extra arguments to">
+<meta property="og:description" content="The default ITK/VTK Viewer page lets you drag and drop or select a data file from your local filesystem to visualize. Once you have loaded data with this progressive web app, the app will also work of">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://kitware.github.io/itk-vtk-viewer/docs/dataViewer.jpg">
 <meta property="og:image" content="https://kitware.github.io/itk-vtk-viewer/docs/2dViewer.jpg">
-<meta property="og:updated_time" content="2018-08-28T03:23:54.396Z">
+<meta property="og:updated_time" content="2018-10-08T00:26:07.564Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Default viewer">
-<meta name="twitter:description" content="The default view of the ITK/VTK Image Viewer let you drag and drop into the page the data file that you want to look at.But an additional usage of that page is possible by providing extra arguments to">
+<meta name="twitter:title" content="Progressive Web App">
+<meta name="twitter:description" content="The default ITK/VTK Viewer page lets you drag and drop or select a data file from your local filesystem to visualize. Once you have loaded data with this progressive web app, the app will also work of">
 <meta name="twitter:image" content="https://kitware.github.io/itk-vtk-viewer/docs/dataViewer.jpg">
   <!-- Google Analytics -->
   
@@ -100,23 +100,48 @@
           <div class="article">
             <div class="inner">
               <header class="article-header">
-                <h1 class="article-title" itemprop="name">Default viewer</h1>
+                <h1 class="article-title" itemprop="name">Progressive Web App</h1>
               </header>
               <div class="article-content" itemprop="articleBody">
-                <p>The default view of the ITK/VTK Image Viewer let you drag and drop into the page the data file that you want to look at.<br>But an additional usage of that page is possible by providing extra arguments to the URL. This allow to reference remote dataset and enable there visualization in full screen.</p>
-<p>The extra argument to provide is <code>?fileToLoad=[...]</code> where the path provided can be relative to the current location on the Web or you can provide a full http:// url to the actual data.</p>
+                <p>The <a href="https://kitware.github.io/itk-vtk-viewer/app/">default ITK/VTK Viewer page</a> lets you drag and drop or select a data file from your local filesystem to visualize. Once you have loaded data with this <a href="https://en.wikipedia.org/wiki/Progressive_Web_Apps" target="_blank" rel="noopener">progressive web app</a>, the app will also work offline.</p>
+<p>Additionally, visualization links for data files available on the web can be created by providing extra arguments to the app URL. The resulting link can be quickly shared to distribute interative visualizations for your data.</p>
+<p>For example,</p>
+<iframe title="Visualization link preview" src="https://kitware.github.io/itk-vtk-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/564a65d58d777f7522dbfb61/download/data.nrrd" width="600" height="400" id="linkPreview"></iframe>
+
+<div><br><label for="dataVisualizationLink"><a href="https://kitware.github.io/itk-vtk-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/564a65d58d777f7522dbfb61/download/data.nrrd" target="_blank" id="linkForNewTab">Visualization link:</a></label><br><textarea name="dataVisualizationLink" id="dataVisualizationLink" rows="1" cols="100" wrap="off" readonly></textarea><br><button onclick="copyLinkToClipboard()">Copy to clipboard</button><br></div>
+
+<script>
+var textarea = document.getElementById("dataVisualizationLink");
+// Avoid Markdown from messing with it
+textarea.value = 'https://kitware.github.io/itk-vtk-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/564a65d58d777f7522dbfb61/download/data.nrrd';
+
+function generateDataVisualizationLink() {
+  var url = "https://kitware.github.io/itk-vtk-viewer/app/?fileToLoad=" + document.getElementById("dataURL").value.trim();
+  var previewer = document.getElementById("linkPreview");
+  var linkForNewTab = document.getElementById("linkForNewTab");
+  previewer.src = url;
+  textarea.value = url;
+  linkForNewTab.href = url;
+}
+
+function copyLinkToClipboard() {
+  textarea.select();
+  document.execCommand("copy");
+}
+</script>
+
+<div><br><label for="dataURL">Enter an image file URL:</label><br><input type="url" name="dataURL" id="dataURL" placeholder="https://data.kitware.com/api/v1/file/564a65d58d777f7522dbfb61/download/data.nrrd" size="100" required oninput="generateDataVisualizationLink()"><br></div>
+
+<p><br></p>
+<p>The extra argument, <code>?fileToLoad=[...]</code>, uses a full <code>http://</code> url to the data file.</p>
 <p><img src="./dataViewer.jpg" alt="ItkVtkViewer"></p>
-<p>Moreover an additional parameter could be added to force the slice viewing mode. To do that just add <code>?use2D</code> or <code>?fileToLoad=[..]&amp;use2D</code> inside the URL.</p>
+<p>An additional parameter can be added to force the slice viewing mode. Just add <code>?use2D</code> or <code>?fileToLoad=[..]&amp;use2D</code> inside the URL.</p>
 <p><img src="./2dViewer.jpg" alt="ItkVtkViewer2D"></p>
-<p>This can be used also as a <a href="https://kitware.github.io/itk-vtk-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/564a65d58d777f7522dbfb61/download/data.nrrd">link</a> like the one below:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://kitware.github.io/itk-vtk-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/564a65d58d777f7522dbfb61/download/data.nrrd</span><br></pre></td></tr></table></figure>
-<p>Or with nicer data (27MB) with the <a href="https://kitware.github.io/itk-vtk-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/554a926e8d777f082b592194/download/data.nrrd&amp;use2D">slice view</a>.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://kitware.github.io/itk-vtk-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/554a926e8d777f082b592194/download/data.nrrd&amp;use2D</span><br></pre></td></tr></table></figure>
 
               </div>
               <footer class="article-footer">
-                <time class="article-footer-updated" datetime="2018-08-28T03:23:54.396Z" itemprop="dateModified">Last updated: 2018-08-28</time>
-                <a href="cli.html" class="article-footer-prev" title="Command Line App"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="shortcuts.html" class="article-footer-next" title="Keyboard shortcuts"><span>Next</span><i class="fa fa-chevron-right"></i></a>
+                <time class="article-footer-updated" datetime="2018-10-08T00:26:07.564Z" itemprop="dateModified">Last updated: 2018-10-08</time>
+                <a href="index.html" class="article-footer-prev" title="Overview"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="cli.html" class="article-footer-next" title="Command Line App"><span>Next</span><i class="fa fa-chevron-right"></i></a>
               </footer>
               
             </div>
@@ -131,7 +156,7 @@
         </div>
       </article>
       <aside id="sidebar" role="navigation">
-  <div class="inner"><strong class="sidebar-title">Getting Started</strong><a href="index.html" class="sidebar-link">Overview</a><a href="cli.html" class="sidebar-link">Command Line App</a><a href="viewer.html" class="sidebar-link current">Progressive Web App</a><a href="shortcuts.html" class="sidebar-link">Keyboard shortcuts</a></div>
+  <div class="inner"><strong class="sidebar-title">Getting Started</strong><a href="index.html" class="sidebar-link">Overview</a><a href="viewer.html" class="sidebar-link current">Progressive Web App</a><a href="cli.html" class="sidebar-link">Command Line App</a><a href="shortcuts.html" class="sidebar-link">Keyboard Shortcuts</a></div>
 </aside>
     </div>
   </div>
@@ -159,7 +184,7 @@
       </li>
     </ul>
     
-      <strong class="mobile-nav-title">Getting Started</strong><a href="index.html" class="mobile-nav-link">Overview</a><a href="cli.html" class="mobile-nav-link">Command Line App</a><a href="viewer.html" class="mobile-nav-link current">Progressive Web App</a><a href="shortcuts.html" class="mobile-nav-link">Keyboard shortcuts</a>
+      <strong class="mobile-nav-title">Getting Started</strong><a href="index.html" class="mobile-nav-link">Overview</a><a href="viewer.html" class="mobile-nav-link current">Progressive Web App</a><a href="cli.html" class="mobile-nav-link">Command Line App</a><a href="shortcuts.html" class="mobile-nav-link">Keyboard Shortcuts</a>
     
   </div>
   <div id="mobile-lang-select-wrap">

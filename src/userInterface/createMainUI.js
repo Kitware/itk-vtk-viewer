@@ -333,7 +333,7 @@ function createMainUI(
     croppingUpdateInProgress = false;
   };
   const debouncedSetCroppingPlanes = macro.debounce(setCroppingPlanes, 100);
-  croppingWidget.onModified(debouncedSetCroppingPlanes);
+  croppingWidget.onCroppingPlanesChanged(debouncedSetCroppingPlanes);
   let cropEnabled = false;
   function toggleCrop() {
     cropEnabled = !cropEnabled;

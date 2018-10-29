@@ -120,7 +120,7 @@ const createViewer = (
       .toString()
       .replace('.', '');
 
-  const { uiContainer, croppingWidget, addCroppingPlanesChangedHandler } = userInterface.createMainUI(
+  const { uiContainer, croppingWidget, addCroppingPlanesChangedHandler, addResetCropHandler } = userInterface.createMainUI(
     rootContainer,
     viewerDOMId,
     isBackgroundDark,
@@ -335,6 +335,9 @@ const createViewer = (
     return addCroppingPlanesChangedHandler(handler);
   }
 
+  publicAPI.subscribeResetCrop = (handler) => {
+    return addResetCropHandler(handler);
+  }
 
   const colorMapSelector = document.getElementById(`${viewerDOMId}-colorMapSelector`);
 

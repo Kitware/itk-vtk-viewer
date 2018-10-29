@@ -360,9 +360,21 @@ function createMainUI(
   } ${style.resetCropButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-resetCroppingPlanesButton">${resetCropIcon}</label>`;
+  const resetCropHandlers = [];
+  const addResetCropHandler = (handler) => {
+    const index = resetCropHandlers.length;
+    resetCropHandlers.push(handler);
+    function unsubscribe() {
+      resetCropHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  };
   function resetCrop() {
     representation.getCropFilter().reset();
     croppingWidget.resetWidgetState();
+    resetCropHandlers.forEach((handler) => {
+      handler.call(null);
+    });
   }
   resetCropButton.addEventListener('change', (event) => {
     event.preventDefault();
@@ -401,7 +413,7 @@ function createMainUI(
 
   uiContainer.appendChild(mainUIGroup);
 
-  return { uiContainer, croppingWidget, addCroppingPlanesChangedHandler };
+  return { uiContainer, croppingWidget, addCroppingPlanesChangedHandler, addResetCropHandler };
 }
 
 export default createMainUI;

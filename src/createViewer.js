@@ -380,39 +380,27 @@ const createViewer = (
 
     const viewModeChangedHandlers = [];
     const xPlaneButtonListener = (event) => {
-      const enabled = xPlaneButton.checked;
-      if (enabled) {
-        viewModeChangedHandlers.forEach((handler) => {
-          handler.call(null, 'XPlane');
-        })
-      }
+      viewModeChangedHandlers.forEach((handler) => {
+        handler.call(null, 'XPlane');
+      })
     }
     xPlaneButton.addEventListener('click', xPlaneButtonListener)
     const yPlaneButtonListener = (event) => {
-      const enabled = yPlaneButton.checked;
-      if (enabled) {
-        viewModeChangedHandlers.forEach((handler) => {
-          handler.call(null, 'YPlane');
-        })
-      }
+      viewModeChangedHandlers.forEach((handler) => {
+        handler.call(null, 'YPlane');
+      })
     }
     yPlaneButton.addEventListener('click', yPlaneButtonListener)
     const zPlaneButtonListener = (event) => {
-      const enabled = zPlaneButton.checked;
-      if (enabled) {
-        viewModeChangedHandlers.forEach((handler) => {
-          handler.call(null, 'ZPlane');
-        })
-      }
+      viewModeChangedHandlers.forEach((handler) => {
+        handler.call(null, 'ZPlane');
+      })
     }
     zPlaneButton.addEventListener('click', zPlaneButtonListener)
     const volumeRenderingButtonListener = (event) => {
-      const enabled = volumeRenderingButton.checked;
-      if (enabled) {
-        viewModeChangedHandlers.forEach((handler) => {
-          handler.call(null, 'VolumeRendering');
-        })
-      }
+      viewModeChangedHandlers.forEach((handler) => {
+        handler.call(null, 'VolumeRendering');
+      })
     }
     volumeRenderingButton.addEventListener('click', volumeRenderingButtonListener)
 

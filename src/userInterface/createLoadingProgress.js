@@ -1,6 +1,6 @@
 import getRootContainer from './getRootContainer';
 
-import style from './ItkVtkViewer.mcss';
+import style from './ItkVtkViewer.module.css';
 
 function createLoadingProgress(container) {
   const rootContainer = getRootContainer(container);

@@ -1,4 +1,4 @@
-import style from './ItkVtkViewer.mcss';
+import style from './ItkVtkViewer.module.css';
 
 function getContrastSensitiveStyle(cssClasses, isBackgroundDark) {
   const stylePostFix = isBackgroundDark ? 'DarkBG' : 'BrightBG';

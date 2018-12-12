@@ -4,7 +4,7 @@
   "description": "ITK/VTK Image Viewer",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kitware/itk-vtk-viewer.git"
+    "url": "https://github.com/kitware/itk-vtk-viewer.git"
   },
   "license": "BSD-3-Clause",
   "bugs": {

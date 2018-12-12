@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+import '@babel/polyfill';
 
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 
@@ -6,7 +6,7 @@ import fetchBinaryContent from './fetchBinaryContent';
 import processFiles from './processFiles';
 import userInterface from './userInterface';
 import createFileDragAndDrop from './userInterface/createFileDragAndDrop';
-import style from './userInterface/ItkVtkViewer.mcss';
+import style from './userInterface/ItkVtkViewer.module.css';
 
 let doNotInitViewers = false;
 

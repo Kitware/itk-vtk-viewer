@@ -9,7 +9,8 @@ const entry = path.join(__dirname, './src/index.js');
 const sourcePath = path.join(__dirname, './source');
 const outputPath = path.join(__dirname, './dist');
 
-const vtkRules = require('vtk.js/Utilities/config/rules-vtk.js');
+const vtkRules = require('vtk.js/Utilities/config/dependency.js').webpack.core.rules;
+const cssRules = require('vtk.js/Utilities/config/dependency.js').webpack.css.rules;
 
 
 module.exports = {
@@ -26,7 +27,8 @@ module.exports = {
       { test: entry, loader: 'expose-loader?itkVtkViewer' },
       { test: /\.js$/, loader: 'babel-loader' },
       { test: /\.(png|jpg)$/, use: 'url-loader?limit=81920' },
-    ].concat(vtkRules),
+      { test: /\.svg$/, use: [{ loader: 'raw-loader' }], },
+    ].concat(vtkRules, cssRules),
   },
   plugins: [
     new CopyPlugin([

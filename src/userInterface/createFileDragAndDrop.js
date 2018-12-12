@@ -3,7 +3,7 @@ import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 import getRootContainer from './getRootContainer';
 import preventDefaults from './preventDefaults';
 
-import style from './ItkVtkViewer.mcss';
+import style from './ItkVtkViewer.module.css';
 import Mousetrap from 'mousetrap';
 
 const MOUSETRAP = new Mousetrap();

@@ -177,6 +177,9 @@ function ItkVtkViewProxy(publicAPI, model) {
     model.dataProbeCubeSource.setZLength(Math.max(spacing[2], viewableScale));
   }
 
+  model.camera.pitch(-30.0);
+  model.camera.azimuth(30.0);
+
   // API ----------------------------------------------------------------------
 
   publicAPI.setViewMode = (mode) => {

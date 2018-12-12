@@ -2,58 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/viewer.html</loc>
-    
-    <lastmod>2018-10-08T00:26:07.564Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/cli.html</loc>
-    
-    <lastmod>2018-10-08T00:26:07.560Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/shortcuts.html</loc>
-    
-    <lastmod>2018-08-29T15:42:59.519Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/index.html</loc>
     
-    <lastmod>2018-08-28T03:28:15.155Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/api/index.html</loc>
-    
-    <lastmod>2018-08-28T03:23:54.396Z</lastmod>
+    <lastmod>2018-12-12T02:47:01.835Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/docs/embeddedViewer.html</loc>
     
-    <lastmod>2018-08-28T03:23:54.396Z</lastmod>
+    <lastmod>2018-12-12T02:47:01.831Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/docs/index.html</loc>
     
-    <lastmod>2018-08-28T03:23:54.396Z</lastmod>
+    <lastmod>2018-12-12T02:47:01.831Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/shortcuts.html</loc>
+    
+    <lastmod>2018-12-12T02:47:01.831Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/viewer.html</loc>
+    
+    <lastmod>2018-12-12T02:47:01.831Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/api/index.html</loc>
+    
+    <lastmod>2018-12-12T02:47:01.827Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/cli.html</loc>
+    
+    <lastmod>2018-12-12T02:47:01.827Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/2016/04/29/kw-doc/</loc>
     
-    <lastmod>2018-08-28T03:23:54.384Z</lastmod>
+    <lastmod>2018-12-12T02:47:01.819Z</lastmod>
     
   </url>
   

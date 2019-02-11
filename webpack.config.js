@@ -50,6 +50,10 @@ module.exports = {
       from: path.join(__dirname, 'node_modules', 'itk', 'MeshIOs'),
       to: path.join(__dirname, 'dist', 'itk', 'MeshIOs'),
       },
+      {
+      from: path.join(__dirname, 'node_modules', 'itk', 'Pipelines'),
+      to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),
+      },
     ]),
     // workbox plugin should be last plugin
     new WorkboxPlugin({

@@ -45,7 +45,12 @@ const processFiles = (container, { files, use2D }) => {
         const extension = getFileExtension(file.name)
         if(extensionToMeshIO.hasOwnProperty(extension)) {
           let is3D = true
+          const read0 = performance.now()
+          let convert0 = null
           return readMeshFile(null, file).then(({ mesh: itkMesh, webWorker }) => {
+            const read1 = performance.now();
+            const duration = Number(read1 - read0).toFixed(1).toString()
+            console.log("Mesh reading took " + duration + " milliseconds.")
             webWorker.terminate()
             const pipelinePath = 'MeshToPolyData'
             const args = ['mesh.json', 'polyData.json']
@@ -56,8 +61,12 @@ const processFiles = (container, { files, use2D }) => {
               { path: args[0], type: IOTypes.Mesh, data: itkMesh }
             ]
             is3D = itkMesh.meshType.dimension === 3
+            convert0 = performance.now()
             return runPipelineBrowser(null, pipelinePath, args, desiredOutputs, inputs)
           }).then(function ({ outputs, webWorker }) {
+            const convert1 = performance.now();
+            const duration = Number(convert1 - convert0).toFixed(1).toString()
+            console.log("Mesh conversion took " + duration + " milliseconds.")
             webWorker.terminate()
             return Promise.resolve({ is3D, data: vtk(outputs[0].data) })
           }).catch((error) => {

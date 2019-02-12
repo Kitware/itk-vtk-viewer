@@ -24,7 +24,7 @@ function createMainUI(
   isBackgroundDark,
   use2D,
   imageSource,
-  representation,
+  imageRepresentation,
   view
 ) {
   const uiContainer = document.createElement('div');
@@ -151,23 +151,25 @@ function createMainUI(
   });
   mainUIRow.appendChild(annotationButton);
 
-  let interpolationEnabled = true;
-  function toggleInterpolation() {
-    interpolationEnabled = !interpolationEnabled;
-    view.setPlanesUseLinearInterpolation(interpolationEnabled);
+  if (imageRepresentation) {
+    let interpolationEnabled = true;
+    function toggleInterpolation() {
+      interpolationEnabled = !interpolationEnabled;
+      view.setPlanesUseLinearInterpolation(interpolationEnabled);
+    }
+    const interpolationButton = document.createElement('div');
+    interpolationButton.innerHTML = `<input id="${viewerDOMId}-toggleInterpolationButton" type="checkbox" class="${
+      style.toggleInput
+    }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Interpolation" class="${
+      contrastSensitiveStyle.invertibleButton
+    } ${style.interpolationButton} ${
+      style.toggleButton
+    }" for="${viewerDOMId}-toggleInterpolationButton">${interpolationIcon}</label>`;
+    interpolationButton.addEventListener('change', (event) => {
+      toggleInterpolation();
+    });
+    mainUIRow.appendChild(interpolationButton);
   }
-  const interpolationButton = document.createElement('div');
-  interpolationButton.innerHTML = `<input id="${viewerDOMId}-toggleInterpolationButton" type="checkbox" class="${
-    style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Interpolation" class="${
-    contrastSensitiveStyle.invertibleButton
-  } ${style.interpolationButton} ${
-    style.toggleButton
-  }" for="${viewerDOMId}-toggleInterpolationButton">${interpolationIcon}</label>`;
-  interpolationButton.addEventListener('change', (event) => {
-    toggleInterpolation();
-  });
-  mainUIRow.appendChild(interpolationButton);
 
   function setViewModeXPlane() {
     view.setViewMode('XPlane');
@@ -177,16 +179,18 @@ function createMainUI(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = false;
-    const volumeRenderingRow = uiContainer.querySelector(
-      `.${viewerDOMId}-volumeRendering`
-    );
-    volumeRenderingRow.style.display = 'none';
-    const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
-    xPlaneRow.style.display = 'flex';
-    const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
-    yPlaneRow.style.display = 'none';
-    const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`);
-    zPlaneRow.style.display = 'none';
+    if (imageRepresentation) {
+      const volumeRenderingRow = uiContainer.querySelector(
+        `.${viewerDOMId}-volumeRendering`
+      );
+      volumeRenderingRow.style.display = 'none';
+      const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
+      xPlaneRow.style.display = 'flex';
+      const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
+      yPlaneRow.style.display = 'none';
+      const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`);
+      zPlaneRow.style.display = 'none';
+    }
   }
   function setViewModeYPlane() {
     view.setViewMode('YPlane');
@@ -196,16 +200,18 @@ function createMainUI(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = false;
-    const volumeRenderingRow = uiContainer.querySelector(
-      `.${viewerDOMId}-volumeRendering`
-    );
-    volumeRenderingRow.style.display = 'none';
-    const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
-    xPlaneRow.style.display = 'none';
-    const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
-    yPlaneRow.style.display = 'flex';
-    const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`);
-    zPlaneRow.style.display = 'none';
+    if (imageRepresentation) {
+      const volumeRenderingRow = uiContainer.querySelector(
+        `.${viewerDOMId}-volumeRendering`
+      );
+      volumeRenderingRow.style.display = 'none';
+      const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
+      xPlaneRow.style.display = 'none';
+      const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
+      yPlaneRow.style.display = 'flex';
+      const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`);
+      zPlaneRow.style.display = 'none';
+    }
   }
   function setViewModeZPlane() {
     view.setViewMode('ZPlane');
@@ -215,16 +221,18 @@ function createMainUI(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = false;
-    const volumeRenderingRow = uiContainer.querySelector(
-      `.${viewerDOMId}-volumeRendering`
-    );
-    volumeRenderingRow.style.display = 'none';
-    const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
-    xPlaneRow.style.display = 'none';
-    const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
-    yPlaneRow.style.display = 'none';
-    const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`);
-    zPlaneRow.style.display = 'flex';
+    if (imageRepresentation) {
+      const volumeRenderingRow = uiContainer.querySelector(
+        `.${viewerDOMId}-volumeRendering`
+      );
+      volumeRenderingRow.style.display = 'none';
+      const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
+      xPlaneRow.style.display = 'none';
+      const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
+      yPlaneRow.style.display = 'none';
+      const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`);
+      zPlaneRow.style.display = 'flex';
+    }
   }
   function setViewModeVolumeRendering() {
     view.setViewMode('VolumeRendering');
@@ -234,24 +242,26 @@ function createMainUI(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = true;
-    const volumeRenderingRow = uiContainer.querySelector(
-      `.${viewerDOMId}-volumeRendering`
-    );
-    volumeRenderingRow.style.display = 'flex';
-    const viewPlanes = document.getElementById(
-      `${viewerDOMId}-toggleSlicingPlanesButton`
-    ).checked;
-    const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
-    const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
-    const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`);
-    if (viewPlanes) {
-      xPlaneRow.style.display = 'flex';
-      yPlaneRow.style.display = 'flex';
-      zPlaneRow.style.display = 'flex';
-    } else {
-      xPlaneRow.style.display = 'none';
-      yPlaneRow.style.display = 'none';
-      zPlaneRow.style.display = 'none';
+    if (imageRepresentation) {
+      const volumeRenderingRow = uiContainer.querySelector(
+        `.${viewerDOMId}-volumeRendering`
+      );
+      volumeRenderingRow.style.display = 'flex';
+      const viewPlanes = document.getElementById(
+        `${viewerDOMId}-toggleSlicingPlanesButton`
+      ).checked;
+      const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
+      const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
+      const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`);
+      if (viewPlanes) {
+        xPlaneRow.style.display = 'flex';
+        yPlaneRow.style.display = 'flex';
+        zPlaneRow.style.display = 'flex';
+      } else {
+        xPlaneRow.style.display = 'none';
+        yPlaneRow.style.display = 'none';
+        zPlaneRow.style.display = 'none';
+      }
     }
   }
   if (!use2D) {
@@ -299,94 +309,98 @@ function createMainUI(
     volumeRenderingButton.addEventListener('click', setViewModeVolumeRendering);
     mainUIRow.appendChild(volumeRenderingButton);
   }
-  const croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
-  croppingWidget.setHandleSize(22);
-  croppingWidget.setFaceHandlesEnabled(false);
-  croppingWidget.setEdgeHandlesEnabled(false);
-  croppingWidget.setCornerHandlesEnabled(true);
-  croppingWidget.setInteractor(view.getInteractor());
-  croppingWidget.setEnabled(false);
-  if (representation) {
-    croppingWidget.setVolumeMapper(representation.getMapper());
-  }
-  const croppingPlanesChangedHandlers = [];
-  const addCroppingPlanesChangedHandler = (handler) => {
-    const index = croppingPlanesChangedHandlers.length;
-    croppingPlanesChangedHandlers.push(handler);
-    function unsubscribe() {
-      croppingPlanesChangedHandlers[index] = null;
-    }
-    return Object.freeze({ unsubscribe });
-  };
-  let croppingUpdateInProgress = false;
-  const setCroppingPlanes = () => {
-    if (croppingUpdateInProgress) {
-      return;
-    }
-    croppingUpdateInProgress = true;
-    const planes = croppingWidget.getWidgetState().planes;
-    representation.setCroppingPlanes(planes);
-    const bboxCorners = croppingWidget.planesToBBoxCorners(planes);
-    croppingPlanesChangedHandlers.forEach((handler) => {
-      handler.call(null, planes, bboxCorners);
-    });
-    croppingUpdateInProgress = false;
-  };
-  const debouncedSetCroppingPlanes = macro.debounce(setCroppingPlanes, 100);
-  croppingWidget.onCroppingPlanesChanged(debouncedSetCroppingPlanes);
-  let cropEnabled = false;
-  function toggleCrop() {
-    cropEnabled = !cropEnabled;
-    croppingWidget.setEnabled(cropEnabled);
-  }
-  const cropButton = document.createElement('div');
-  cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${
-    style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Select ROI [w]" class="${
-    contrastSensitiveStyle.invertibleButton
-  } ${style.cropButton} ${
-    style.toggleButton
-  }" for="${viewerDOMId}-toggleCroppingPlanesButton">${cropIcon}</label>`;
-  cropButton.addEventListener('change', (event) => {
-    toggleCrop();
-  });
-  mainUIRow.appendChild(cropButton);
 
-  const resetCropButton = document.createElement('div');
-  resetCropButton.innerHTML = `<input id="${viewerDOMId}-resetCroppingPlanesButton" type="checkbox" class="${
-    style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Reset ROI [e]" class="${
-    contrastSensitiveStyle.invertibleButton
-  } ${style.resetCropButton} ${
-    style.toggleButton
-  }" for="${viewerDOMId}-resetCroppingPlanesButton">${resetCropIcon}</label>`;
-  const resetCropHandlers = [];
-  const addResetCropHandler = (handler) => {
-    const index = resetCropHandlers.length;
-    resetCropHandlers.push(handler);
-    function unsubscribe() {
-      resetCropHandlers[index] = null;
+  let croppingWidget = null
+  let addCroppingPlanesChangedHandler = () => {}
+  let addResetCropHandler = () => {}
+  if (imageRepresentation) {
+    croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
+    croppingWidget.setHandleSize(22);
+    croppingWidget.setFaceHandlesEnabled(false);
+    croppingWidget.setEdgeHandlesEnabled(false);
+    croppingWidget.setCornerHandlesEnabled(true);
+    croppingWidget.setInteractor(view.getInteractor());
+    croppingWidget.setEnabled(false);
+    croppingWidget.setVolumeMapper(imageRepresentation.getMapper());
+    const croppingPlanesChangedHandlers = [];
+    addCroppingPlanesChangedHandler = (handler) => {
+      const index = croppingPlanesChangedHandlers.length;
+      croppingPlanesChangedHandlers.push(handler);
+      function unsubscribe() {
+        croppingPlanesChangedHandlers[index] = null;
+      }
+      return Object.freeze({ unsubscribe });
+    };
+    let croppingUpdateInProgress = false;
+    const setCroppingPlanes = () => {
+      if (croppingUpdateInProgress) {
+        return;
+      }
+      croppingUpdateInProgress = true;
+      const planes = croppingWidget.getWidgetState().planes;
+      imageRepresentation.setCroppingPlanes(planes);
+      const bboxCorners = croppingWidget.planesToBBoxCorners(planes);
+      croppingPlanesChangedHandlers.forEach((handler) => {
+        handler.call(null, planes, bboxCorners);
+      });
+      croppingUpdateInProgress = false;
+    };
+    const debouncedSetCroppingPlanes = macro.debounce(setCroppingPlanes, 100);
+    croppingWidget.onCroppingPlanesChanged(debouncedSetCroppingPlanes);
+    let cropEnabled = false;
+    function toggleCrop() {
+      cropEnabled = !cropEnabled;
+      croppingWidget.setEnabled(cropEnabled);
     }
-    return Object.freeze({ unsubscribe });
-  };
-  function resetCrop() {
-    representation.getCropFilter().reset();
-    croppingWidget.resetWidgetState();
-    resetCropHandlers.forEach((handler) => {
-      handler.call(null);
+    const cropButton = document.createElement('div');
+    cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${
+      style.toggleInput
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Select ROI [w]" class="${
+      contrastSensitiveStyle.invertibleButton
+    } ${style.cropButton} ${
+      style.toggleButton
+    }" for="${viewerDOMId}-toggleCroppingPlanesButton">${cropIcon}</label>`;
+    cropButton.addEventListener('change', (event) => {
+      toggleCrop();
     });
-  }
-  resetCropButton.addEventListener('change', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    resetCrop();
-  });
-  resetCropButton.addEventListener('click', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    resetCrop();
-  });
-  mainUIRow.appendChild(resetCropButton);
+    mainUIRow.appendChild(cropButton);
+
+    const resetCropButton = document.createElement('div');
+    resetCropButton.innerHTML = `<input id="${viewerDOMId}-resetCroppingPlanesButton" type="checkbox" class="${
+      style.toggleInput
+    }" checked><label itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Reset ROI [e]" class="${
+      contrastSensitiveStyle.invertibleButton
+    } ${style.resetCropButton} ${
+      style.toggleButton
+    }" for="${viewerDOMId}-resetCroppingPlanesButton">${resetCropIcon}</label>`;
+    const resetCropHandlers = [];
+    addResetCropHandler = (handler) => {
+      const index = resetCropHandlers.length;
+      resetCropHandlers.push(handler);
+      function unsubscribe() {
+        resetCropHandlers[index] = null;
+      }
+      return Object.freeze({ unsubscribe });
+    };
+    function resetCrop() {
+      imageRepresentation.getCropFilter().reset();
+      croppingWidget.resetWidgetState();
+      resetCropHandlers.forEach((handler) => {
+        handler.call(null);
+      });
+    }
+    resetCropButton.addEventListener('change', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      resetCrop();
+    });
+    resetCropButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      resetCrop();
+    });
+    mainUIRow.appendChild(resetCropButton);
+  } // if(imageRepresentation)
 
   const resetCameraButton = document.createElement('div');
   resetCameraButton.innerHTML = `<input id="${viewerDOMId}-resetCameraButton" type="checkbox" class="${

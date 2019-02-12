@@ -7,6 +7,8 @@ import proxyConfiguration from './proxyManagerConfiguration';
 import userInterface from './userInterface';
 import addKeyboardShortcuts from './addKeyboardShortcuts';
 
+let geometryNameCount = 0
+
 const STYLE_CONTAINER = {
   position: 'relative',
   width: '100%',
@@ -28,7 +30,7 @@ function applyStyle(el, style) {
 
 const createViewer = (
   rootContainer,
-  { image, use2D = false, viewerStyle, viewerState }
+  { image, geometries, use2D = false, viewerStyle, viewerState }
 ) => {
   userInterface.emptyContainer(rootContainer);
 
@@ -80,14 +82,14 @@ const createViewer = (
   let lookupTableProxy = null;
   let piecewiseFunction = null;
   let dataArray = null;
-  let representation = null;
+  let imageRepresentation = null;
   let imageUI = null;
   let update
   if (image) {
     imageSource.setInputData(image);
 
     proxyManager.createRepresentationInAllViews(imageSource);
-    representation = proxyManager.getRepresentation(imageSource, view);
+    imageRepresentation = proxyManager.getRepresentation(imageSource, view);
 
     dataArray = image.getPointData().getScalars();
     lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
@@ -100,7 +102,7 @@ const createViewer = (
 
     // Slices share the same lookup table as the volume rendering.
     const lut = lookupTableProxy.getLookupTable();
-    const sliceActors = representation.getActors();
+    const sliceActors = imageRepresentation.getActors();
     sliceActors.forEach((actor) => {
       actor.getProperty().setRGBTransferFunction(lut);
     });
@@ -111,6 +113,18 @@ const createViewer = (
     } else {
       view.setViewMode('VolumeRendering');
     }
+  }
+
+  if(geometries) {
+    const uid = `Geometry${geometryNameCount++}`
+    geometries.forEach((geometry) => {
+      const geometrySource = proxyManager.createProxy('Sources', 'TrivialProducer', {
+        name: uid,
+      });
+      geometrySource.setInputData(geometry)
+      proxyManager.createRepresentationInAllViews(geometrySource);
+      const geometryRepresentation = proxyManager.getRepresentation(geometrySource, view);
+    })
   }
 
   const viewerDOMId =
@@ -126,7 +140,7 @@ const createViewer = (
     isBackgroundDark,
     use2D,
     imageSource,
-    representation,
+    imageRepresentation,
     view,
   );
 
@@ -136,7 +150,7 @@ const createViewer = (
       viewerDOMId,
       lookupTableProxy,
       piecewiseFunction,
-      representation,
+      imageRepresentation,
       dataArray,
       view,
       isBackgroundDark,
@@ -170,8 +184,8 @@ const createViewer = (
     imageUI.transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
     imageUI.transferFunctionWidget.invokeOpacityChange(imageUI.transferFunctionWidget);
     imageUI.transferFunctionWidget.modified();
-    croppingWidget.setVolumeMapper(representation.getMapper());
-    const cropFilter = representation.getCropFilter();
+    croppingWidget.setVolumeMapper(imageRepresentation.getMapper());
+    const cropFilter = imageRepresentation.getCropFilter();
     cropFilter.reset();
     croppingWidget.resetWidgetState();
     setTimeout(() => {
@@ -285,7 +299,7 @@ const createViewer = (
       handler.call(null, enabled);
     })
   }
-  toggleInterpolationButton.addEventListener('click', toggleInterpolationButtonListener)
+  toggleInterpolationButton && toggleInterpolationButton.addEventListener('click', toggleInterpolationButtonListener)
 
   publicAPI.subscribeToggleInterpolation = (handler) => {
     const index = toggleInterpolationHandlers.length;
@@ -313,7 +327,7 @@ const createViewer = (
       handler.call(null, enabled);
     })
   }
-  toggleCroppingPlanesButton.addEventListener('click', toggleCroppingPlanesButtonListener)
+  toggleCroppingPlanesButton && toggleCroppingPlanesButton.addEventListener('click', toggleCroppingPlanesButtonListener)
 
   publicAPI.subscribeToggleCroppingPlanes = (handler) => {
     const index = toggleCroppingPlanesHandlers.length;
@@ -414,6 +428,9 @@ const createViewer = (
     }
 
     publicAPI.setViewMode = (mode) => {
+      if (!image) {
+        return
+      }
       switch(mode) {
       case 'XPlane':
         const xPlaneButton = document.getElementById(`${viewerDOMId}-xPlaneButton`);
@@ -444,7 +461,7 @@ const createViewer = (
       })
     }
     const xSliceElement = document.getElementById(`${viewerDOMId}-xSlice`);
-    xSliceElement.addEventListener('input', xSliceChangedListener);
+    xSliceElement && xSliceElement.addEventListener('input', xSliceChangedListener);
     publicAPI.subscribeXSliceChanged = (handler) => {
       const index = xSliceChangedHandlers.length;
       xSliceChangedHandlers.push(handler);
@@ -461,7 +478,7 @@ const createViewer = (
       })
     }
     const ySliceElement = document.getElementById(`${viewerDOMId}-ySlice`);
-    ySliceElement.addEventListener('input', ySliceChangedListener);
+    ySliceElement && ySliceElement.addEventListener('input', ySliceChangedListener);
     publicAPI.subscribeYSliceChanged = (handler) => {
       const index = ySliceChangedHandlers.length;
       ySliceChangedHandlers.push(handler);
@@ -478,7 +495,7 @@ const createViewer = (
       })
     }
     const zSliceElement = document.getElementById(`${viewerDOMId}-zSlice`);
-    zSliceElement.addEventListener('input', zSliceChangedListener);
+    zSliceElement && zSliceElement.addEventListener('input', zSliceChangedListener);
     publicAPI.subscribeZSliceChanged = (handler) => {
       const index = zSliceChangedHandlers.length;
       zSliceChangedHandlers.push(handler);
@@ -498,7 +515,7 @@ const createViewer = (
         handler.call(null, enabled);
       })
     }
-    toggleShadowButton.addEventListener('click', toggleShadowButtonListener)
+    toggleShadowButton && toggleShadowButton.addEventListener('click', toggleShadowButtonListener)
 
     publicAPI.subscribeToggleShadow = (handler) => {
       const index = toggleShadowHandlers.length;
@@ -526,7 +543,7 @@ const createViewer = (
         handler.call(null, enabled);
       })
     }
-    toggleSlicingPlanesButton.addEventListener('click', toggleSlicingPlanesButtonListener)
+    toggleSlicingPlanesButton && toggleSlicingPlanesButton.addEventListener('click', toggleSlicingPlanesButtonListener)
 
     publicAPI.subscribeToggleSlicingPlanes = (handler) => {
       const index = toggleSlicingPlanesHandlers.length;
@@ -554,7 +571,7 @@ const createViewer = (
         handler.call(null, value);
       })
     }
-    gradientOpacitySlider.addEventListener('change', gradientOpacitySliderListener)
+    gradientOpacitySlider && gradientOpacitySlider.addEventListener('change', gradientOpacitySliderListener)
 
     publicAPI.subscribeGradientOpacityChanged = (handler) => {
       const index = gradientOpacitySliderHandlers.length;

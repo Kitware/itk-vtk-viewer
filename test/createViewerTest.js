@@ -18,8 +18,10 @@ const TEST_STYLE_CONTAINER = {
   position: 'relative',
   width: '600px',
   height: '600px',
-  minHeight: '200px',
-  minWidth: '450px',
+  minHeight: '600px',
+  minWidth: '600px',
+  maxHeight: '600px',
+  maxWidth: '600px',
   margin: '0',
   padding: '0',
   top: '0',
@@ -56,6 +58,9 @@ test('Test createViewer', (t) => {
       t.equal(toggleUIButton.getAttribute('collapsed') === '', true, 'viewer.setUserInterfaceCollapsed changes collapsed')
 
       const viewProxy = viewer.getViewProxy();
+      const renderWindow = viewProxy.getOpenglRenderWindow()
+      // Consistent baseline image size for regression testing
+      renderWindow.setSize(600, 600)
       const representation = viewProxy.getRepresentations()[0];
       const volumeMapper = representation.getMapper();
       volumeMapper.onLightingActivated(() => {
@@ -94,6 +99,9 @@ test('Test createViewer.setImage', (t) => {
           const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
           viewer.setImage(imageData)
           const viewProxy = viewer.getViewProxy();
+          const renderWindow = viewProxy.getOpenglRenderWindow()
+          // Consistent baseline image size for regression testing
+          renderWindow.setSize(600, 600)
           const representation = viewProxy.getRepresentations()[0];
           const volumeMapper = representation.getMapper();
           volumeMapper.onLightingActivated(() => {

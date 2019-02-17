@@ -81,7 +81,8 @@ module.exports = {
     ],
   },
   performance: {
-      maxAssetSize: 10000000
+      maxAssetSize: 15000000,
+      maxEntrypointSize: 15000000
   },
   devServer,
 };

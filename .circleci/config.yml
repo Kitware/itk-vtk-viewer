@@ -1,0 +1,35 @@
+version: 2
+jobs:
+  build-test:
+    machine:
+      image: circleci/classic:201808-01
+
+    steps:
+      - checkout
+      - run:
+          name: Install Node packages
+          command: |
+            # For node-canvas package
+            sudo apt-get update
+            sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+            npm install
+      - run:
+          name: Build
+          command: |
+            npm run build
+      - run:
+          name: Test
+          command: |
+            google-chrome --version
+            firefox --version
+            npm run test
+
+workflows:
+    version: 2
+    build-test:
+      jobs:
+        - build-test:
+            filters:
+              branches:
+                ignore:
+                  - gh-pages

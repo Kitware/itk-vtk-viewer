@@ -4,6 +4,7 @@ const autoprefixer = require('autoprefixer');
 
 const CopyPlugin = require('copy-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
+const WebPackBar = require('webpackbar');
 
 const entry = path.join(__dirname, './src/index.js');
 const sourcePath = path.join(__dirname, './source');
@@ -12,6 +13,10 @@ const outputPath = path.join(__dirname, './dist');
 const vtkRules = require('vtk.js/Utilities/config/dependency.js').webpack.core.rules;
 const cssRules = require('vtk.js/Utilities/config/dependency.js').webpack.css.rules;
 
+const devServer = {
+  noInfo: true,
+  stats: 'minimal'
+}
 
 module.exports = {
   node: {
@@ -66,6 +71,7 @@ module.exports = {
     swSrc: path.join('src', 'serviceWorker.js'),
     swDest: path.join('dist', 'serviceWorker.js'),
     }),
+    new WebPackBar(),
   ],
   resolve: {
     extensions: ['.webpack-loader.js', '.web-loader.js', '.loader.js', '.js', '.jsx'],
@@ -75,6 +81,8 @@ module.exports = {
     ],
   },
   performance: {
-      maxAssetSize: 10000000
+      maxAssetSize: 15000000,
+      maxEntrypointSize: 15000000
   },
+  devServer,
 };

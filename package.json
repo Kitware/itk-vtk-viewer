@@ -39,7 +39,7 @@
     "kw-doc": "^1.3.0",
     "kw-web-suite": "^8.0.0",
     "prettier": "^1.10.2",
-    "resemblejs": "^2.10.3",
+    "resemblejs": "^3.0.1",
     "tap-markdown": "^1.2.1",
     "tap-spec": "^5.0.0",
     "tape": "^4.8.0",

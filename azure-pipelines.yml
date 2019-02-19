@@ -3,35 +3,65 @@ trigger:
 
 jobs:
 
-- job: 'Test'
-  displayName: 'Test'
+- job: 'BuildTest'
+  displayName: 'Build and test'
 
   strategy:
     matrix:
       LinuxNode8:
-        imageName: 'ubuntu-16.04'
         nodeVersion: '8'
-        hasWebGLTesting: false
-      LinuxNode11:
-        imageName: 'ubuntu-16.04'
-        nodeVersion: '11'
-        hasWebGLTesting: false
+      LinuxNode10:
+        nodeVersion: '10'
+
+  pool:
+    imageName: 'ubuntu-16.04'
+
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '$(nodeVersion).x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      npm install
+      npm run build
+    displayName: 'Build'
+
+  - bash: |
+      # Allow writing test/output.html
+      sudo chmod 777 test
+      # To debug, run `./test/run.sh -d`
+      ./test/run.sh
+    displayName: 'Test'
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: 'test/TESTS-*.xml'
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'Node$(nodeVersion)TestOutput'
+      targetPath: './test/output.html'
+
+- job: 'Build'
+  displayName: 'Build'
+
+  strategy:
+    matrix:
       macOSNode8:
         imageName: 'macos-10.13'
         nodeVersion: '8'
-        hasWebGLTesting: false
-      macOSNode11:
+      macOSNode10:
         imageName: 'macos-10.13'
-        nodeVersion: '11'
-        hasWebGLTesting: false
+        nodeVersion: '10'
       WindowsNode8:
         imageName: 'vs2017-win2016'
         nodeVersion: '8'
-        hasWebGLTesting: false
-      WindowsNode11:
+      WindowsNode10:
         imageName: 'vs2017-win2016'
-        nodeVersion: '11'
-        hasWebGLTesting: false
+        nodeVersion: '10'
 
   pool:
     imageName: $(imageName)
@@ -46,11 +76,3 @@ jobs:
       npm install
       npm run build
     displayName: 'Build'
-
-  - bash: |
-      if $(hasWebGLTesting); then
-        npm run test
-      else
-        echo "Testing skipped because there is no WebGL environment."
-      fi
-    displayName: 'Test'

@@ -53,9 +53,10 @@ test('Test createViewer', (t) => {
 
       const uiContainer = viewerContainer.children[viewerContainer.children.length - 1];
       const toggleUIButton = uiContainer.children[0];
-      t.equal(toggleUIButton.getAttribute('collapsed') === '', false, 'viewer collapsed by default')
+      viewer.setUserInterfaceCollapsed(false)
+      t.equal(toggleUIButton.getAttribute('collapsed') === 'true', false, 'viewer.setUserInterfaceCollapsed false')
       viewer.setUserInterfaceCollapsed(true)
-      t.equal(toggleUIButton.getAttribute('collapsed') === '', true, 'viewer.setUserInterfaceCollapsed changes collapsed')
+      t.equal(toggleUIButton.getAttribute('collapsed') === 'true', true, 'viewer.setUserInterfaceCollapsed true')
 
       const viewProxy = viewer.getViewProxy();
       const renderWindow = viewProxy.getOpenglRenderWindow()

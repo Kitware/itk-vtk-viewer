@@ -49,7 +49,7 @@ function createMainUI(
     const elements = uiContainer.querySelectorAll(`.${viewerDOMId}-toggle`);
     let count = elements.length;
     const collapsed =
-      toggleUserInterfaceButton.getAttribute('collapsed') === '';
+      toggleUserInterfaceButton.getAttribute('collapsed') === 'true';
     if (collapsed) {
       while (count--) {
         elements[count].style.display = 'flex';
@@ -59,7 +59,7 @@ function createMainUI(
       while (count--) {
         elements[count].style.display = 'none';
       }
-      toggleUserInterfaceButton.setAttribute('collapsed', '');
+      toggleUserInterfaceButton.setAttribute('collapsed', 'true');
     }
   }
   toggleUserInterfaceButton.className = `${

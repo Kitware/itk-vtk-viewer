@@ -9,3 +9,4 @@ Data
 dist/
 coverage/
 test/output.html
+test/TESTS-*.xml

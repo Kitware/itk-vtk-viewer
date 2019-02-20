@@ -1,5 +1,6 @@
 ## [ITK/VTK Viewer - Web based Image Viewer](http://kitware.github.io/itk-vtk-viewer/)
 
+[![Build Status](https://dev.azure.com/mattmccormick/itk-vtk-viewer/_apis/build/status/Kitware.itk-vtk-viewer?branchName=master)](https://dev.azure.com/mattmccormick/itk-vtk-viewer/_build/latest?definitionId=1&branchName=master)
 [![Build Status](https://travis-ci.org/Kitware/itk-vtk-viewer.svg)](https://travis-ci.org/Kitware/itk-vtk-viewer)
 [![Dependency Status](https://david-dm.org/kitware/itk-vtk-viewer.svg)](https://david-dm.org/kitware/itk-vtk-viewer)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)

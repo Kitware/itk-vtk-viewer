@@ -199,7 +199,7 @@ const createViewer = (
   const toggleUserInterfaceButton = document.getElementById(`${viewerDOMId}-toggleUserInterfaceButton`);
 
   publicAPI.setUserInterfaceCollapsed = (collapse) => {
-    const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === '';
+    const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === 'true';
     if (collapse && !collapsed || !collapse && collapsed) {
       toggleUserInterfaceButton.click();
     }
@@ -207,7 +207,7 @@ const createViewer = (
 
   const toggleUserInterfaceCollapsedHandlers = [];
   const toggleUserInterfaceButtonListener = (event) => {
-    const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === '';
+    const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === 'true';
     toggleUserInterfaceCollapsedHandlers.forEach((handler) => {
       handler.call(null, collapsed);
     })

@@ -18,6 +18,7 @@ module.exports = function init(config) {
       require('karma-chrome-launcher'),
       require('karma-firefox-launcher'),
       require('karma-tap-pretty-reporter'),
+      require('karma-junit-reporter'),
     ],
 
     basePath: '',
@@ -67,12 +68,17 @@ module.exports = function init(config) {
 
     reporters: [
       'tap-pretty',
+      'junit',
     ],
 
     tapReporter: {
       outputFile: 'test/output.html',
       prettifier: 'tap-markdown',
       separator: '\n=========================================================\n=========================================================\n',
+    },
+
+    junitReporter: {
+      outputDir: 'test',
     },
 
     client: {

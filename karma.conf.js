@@ -85,12 +85,6 @@ module.exports = function init(config) {
       useIframe: true,
     },
 
-    customLaunchers: {
-      ChromeHeadlessNoSandbox: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox', '--ignore-gpu-blacklist'],
-      },
-    },
     // browserNoActivityTimeout: 600000,
     // browserDisconnectTimeout: 600000,
 

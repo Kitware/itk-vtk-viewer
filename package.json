@@ -63,7 +63,6 @@
     "start": "webpack-dev-server --mode development --content-base ./dist/ --watch-content-base",
     "semantic-release": "semantic-release",
     "test": "karma start ./karma.conf.js --browsers Chrome,Firefox",
-    "test:travis": "karma start ./karma.conf.js --browsers ChromeHeadlessNoSandbox --single-run",
     "test:debug": "karma start ./karma.conf.js --no-single-run"
   },
   "config": {

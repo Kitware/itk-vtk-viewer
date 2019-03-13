@@ -468,7 +468,7 @@ select:focus {
   padding: calc(50vh - 2em) calc(50vw - 25px - 2em);
 }
 
-.fullscreenContainer: {
+.fullscreenContainer {
   position: absolute;
   width: 100vw;
   height: 100vh;

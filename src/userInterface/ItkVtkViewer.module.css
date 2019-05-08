@@ -83,6 +83,7 @@
 }
 [itk-vtk-tooltip]::before {
     content: attr(itk-vtk-tooltip-content);
+    visibility: hidden;
     display: block;
     position: absolute;
     top: 50%;
@@ -107,6 +108,7 @@
 
 [itk-vtk-tooltip]:hover::before {
     opacity: 1;
+    visibility: visible;
     transform: translate(0, -50%);
 }
 

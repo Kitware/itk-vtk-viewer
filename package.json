@@ -21,7 +21,7 @@
     "itk": "^9.3.2",
     "mousetrap": "^1.6.3",
     "open": "^6.3.0",
-    "vtk.js": "^8.3.10"
+    "vtk.js": "^8.5.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.2.0",

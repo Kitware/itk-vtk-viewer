@@ -4,7 +4,7 @@ let program = require('commander');
 let ipList = require('./network');
 let server = require('./server');
 let pkg = require('../package.json');
-let openFn = require('opn');
+let openFn = require('open');
 let path = require('path');
 
 let app = null;

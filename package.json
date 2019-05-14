@@ -21,6 +21,7 @@
     "itk": "^9.6.0",
     "mousetrap": "^1.6.3",
     "open": "^6.3.0",
+    "promise-file-reader": "^1.0.2",
     "vtk.js": "^8.5.2"
   },
   "devDependencies": {

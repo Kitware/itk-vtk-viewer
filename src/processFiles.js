@@ -7,6 +7,7 @@ import getFileExtension from 'itk/getFileExtension'
 import extensionToMeshIO from 'itk/extensionToMeshIO'
 import vtk from 'vtk.js/Sources/vtk'
 import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader'
+import vtkXMLImageDataReader from 'vtk.js/Sources/IO/XML/XMLImageDataReader'
 import PromiseFileReader from 'promise-file-reader'
 
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper';
@@ -50,8 +51,15 @@ const processFiles = (container, { files, use2D }) => {
             .then(fileContents => {
               const vtpReader = vtkXMLPolyDataReader.newInstance()
               vtpReader.parseAsArrayBuffer(fileContents)
-              console.log(vtpReader.getOutputData(0))
               return Promise.resolve({ is3D: true, data: vtpReader.getOutputData(0)})
+            })
+        }
+        else if(extension === 'vti') {
+          return PromiseFileReader.readAsArrayBuffer(file)
+            .then(fileContents => {
+              const vtiReader = vtkXMLImageDataReader.newInstance()
+              vtiReader.parseAsArrayBuffer(fileContents)
+              return Promise.resolve({ is3D: true, data: vtiReader.getOutputData(0)})
             })
         }
         else if(extensionToMeshIO.hasOwnProperty(extension)) {

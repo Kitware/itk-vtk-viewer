@@ -115,6 +115,7 @@ const createViewer = (
     }
   }
 
+  let geometriesRepresentations = []
   if(geometries) {
     const uid = `Geometry${geometryNameCount++}`
     geometries.forEach((geometry) => {
@@ -124,6 +125,7 @@ const createViewer = (
       geometrySource.setInputData(geometry)
       proxyManager.createRepresentationInAllViews(geometrySource);
       const geometryRepresentation = proxyManager.getRepresentation(geometrySource, view);
+      geometriesRepresentations.push(geometryRepresentation)
     })
   }
 
@@ -158,6 +160,17 @@ const createViewer = (
     );
     const annotationContainer = container.querySelector('.js-se');
     annotationContainer.style.fontFamily = 'monospace';
+  }
+
+  let geometriesUI = null
+  if (geometries) {
+    geometriesUI = userInterface.createGeometriesUI(
+      uiContainer,
+      viewerDOMId,
+      geometries,
+      geometriesRepresentations,
+      view
+    );
   }
 
   view.resize();

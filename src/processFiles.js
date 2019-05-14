@@ -6,6 +6,9 @@ import IOTypes from 'itk/IOTypes'
 import getFileExtension from 'itk/getFileExtension'
 import extensionToMeshIO from 'itk/extensionToMeshIO'
 import vtk from 'vtk.js/Sources/vtk'
+import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader'
+import vtkXMLImageDataReader from 'vtk.js/Sources/IO/XML/XMLImageDataReader'
+import PromiseFileReader from 'promise-file-reader'
 
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper';
 
@@ -43,7 +46,23 @@ const processFiles = (container, { files, use2D }) => {
     }).catch((error) => {
       const readers = Array.from(files).map((file) => {
         const extension = getFileExtension(file.name)
-        if(extensionToMeshIO.hasOwnProperty(extension)) {
+        if(extension === 'vtp') {
+          return PromiseFileReader.readAsArrayBuffer(file)
+            .then(fileContents => {
+              const vtpReader = vtkXMLPolyDataReader.newInstance()
+              vtpReader.parseAsArrayBuffer(fileContents)
+              return Promise.resolve({ is3D: true, data: vtpReader.getOutputData(0)})
+            })
+        }
+        else if(extension === 'vti') {
+          return PromiseFileReader.readAsArrayBuffer(file)
+            .then(fileContents => {
+              const vtiReader = vtkXMLImageDataReader.newInstance()
+              vtiReader.parseAsArrayBuffer(fileContents)
+              return Promise.resolve({ is3D: true, data: vtiReader.getOutputData(0)})
+            })
+        }
+        else if(extensionToMeshIO.hasOwnProperty(extension)) {
           let is3D = true
           const read0 = performance.now()
           let convert0 = null
@@ -90,9 +109,9 @@ const processFiles = (container, { files, use2D }) => {
         })
       })
       Promise.all(readers).then((dataSets) => {
-        const images = dataSets.filter(({ data }) => data.isA('vtkImageData')).map(({ data }) => data)
+        const images = dataSets.filter(({ data }) => !!data && data.isA('vtkImageData')).map(({ data }) => data)
         const image = images.length ? images[0] : null
-        const geometries = dataSets.filter(({ data }) => data.isA('vtkPolyData')).map(({ data }) => data)
+        const geometries = dataSets.filter(({ data }) => !!data && data.isA('vtkPolyData')).map(({ data }) => data)
         const any3D  = ! dataSets.map(({ is3D }) => is3D).every((is3D) => !is3D)
         const is3D = any3D && !use2D;
         resolve(

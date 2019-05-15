@@ -169,7 +169,8 @@ const createViewer = (
       viewerDOMId,
       geometries,
       geometriesRepresentations,
-      view
+      view,
+      isBackgroundDark
     );
   }
 

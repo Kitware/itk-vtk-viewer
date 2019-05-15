@@ -1,15 +1,17 @@
+import getContrastSensitiveStyle from './getContrastSensitiveStyle';
 import style from './ItkVtkViewer.module.css';
+
+import opacityIcon from './icons/opacity.svg';
 
 function createGeometriesUI(
   uiContainer,
   viewerDOMId,
   geometries,
   geometriesRepresentations,
-  view
+  view,
+  isBackgroundDark
 ) {
   const renderWindow = view.getRenderWindow();
-  //console.log(geometries)
-  //console.log(geometriesRepresentations)
 
   const geometriesUIGroup = document.createElement('div');
   geometriesUIGroup.setAttribute('class', style.uiGroup);
@@ -87,6 +89,41 @@ function createGeometriesUI(
       renderWindow.render()
       geometryColors[geometrySelector.selectedIndex] = value
     })
+
+
+  const contrastSensitiveStyle = getContrastSensitiveStyle(
+    ['invertibleButton'],
+    isBackgroundDark
+  );
+  const geometryOpacities = new Array(geometryNames.length)
+  geometryOpacities.fill(0.7)
+  const sliderEntry = document.createElement('div');
+  sliderEntry.setAttribute('class', style.sliderEntry);
+  sliderEntry.innerHTML = `
+    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Opacity" class="${
+      contrastSensitiveStyle.invertibleButton
+    } ${style.gradientOpacitySlider}">
+      ${opacityIcon}
+    </div>
+    <input type="range" min="0" max="1" value="0.7" step="0.01"
+      id="${viewerDOMId}-opacitySlider"
+      class="${style.slider}" />`;
+  const opacityElement = sliderEntry.querySelector(
+    `#${viewerDOMId}-opacitySlider`
+  );
+  function updateOpacity() {
+    const value = Number(opacityElement.value);
+    geometryOpacities[geometrySelector.selectedIndex] = value
+    geometriesRepresentations[geometrySelector.selectedIndex].setOpacity(value)
+    renderWindow.render();
+  }
+  opacityElement.addEventListener('input', updateOpacity);
+  updateOpacity();
+  geometrySelector.addEventListener('change',
+    (event) => {
+      opacityElement.value = geometryOpacities[geometrySelector.selectedIndex]
+    })
+  geometryColorRow.appendChild(sliderEntry);
 
   geometriesUIGroup.appendChild(geometryColorRow)
 

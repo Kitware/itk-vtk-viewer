@@ -62,4 +62,3 @@ function createFullscreenButton(
 }
 
 export default createFullscreenButton;
-

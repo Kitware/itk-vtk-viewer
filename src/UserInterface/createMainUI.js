@@ -9,7 +9,6 @@ import volumeRenderingIcon from './icons/volume-rendering.svg';
 import xPlaneIcon from './icons/x-plane.svg';
 import yPlaneIcon from './icons/y-plane.svg';
 import zPlaneIcon from './icons/z-plane.svg';
-import annotationIcon from './icons/annotations.svg';
 import interpolationIcon from './icons/interpolation.svg';
 import cropIcon from './icons/crop.svg';
 import resetCropIcon from './icons/reset-crop.svg';
@@ -18,6 +17,7 @@ import resetCameraIcon from './icons/reset-camera.svg';
 import createToggleUserInterface from './Main/createToggleUserInterfaceButton';
 import createScreenshotButton from './Main/createScreenshotButton';
 import createFullscreenButton from './Main/createFullscreenButton';
+import createAnnotationButton from './Main/createAnnotationButton';
 
 function createMainUI(
   rootContainer,
@@ -65,23 +65,12 @@ function createMainUI(
     mainUIRow
   )
 
-  const annotationButton = document.createElement('div');
-  annotationButton.innerHTML = `<input id="${viewerDOMId}-toggleAnnotationsButton" type="checkbox" class="${
-    style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Annotations" class="${
-    contrastSensitiveStyle.invertibleButton
-  } ${style.annotationButton} ${
-    style.toggleButton
-  }" for="${viewerDOMId}-toggleAnnotationsButton">${annotationIcon}</label>`;
-  const annotationButtonInput = annotationButton.children[0];
-  function toggleAnnotations() {
-    const annotationEnabled = annotationButtonInput.checked;
-    view.setOrientationAnnotationVisibility(annotationEnabled);
-  }
-  annotationButton.addEventListener('change', (event) => {
-    toggleAnnotations();
-  });
-  mainUIRow.appendChild(annotationButton);
+  createAnnotationButton(
+    viewerDOMId,
+    contrastSensitiveStyle,
+    view,
+    mainUIRow
+  )
 
   if (imageRepresentationProxy) {
     let interpolationEnabled = true;

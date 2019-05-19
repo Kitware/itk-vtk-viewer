@@ -12,7 +12,7 @@ import PromiseFileReader from 'promise-file-reader'
 
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper';
 
-import userInterface from './userInterface';
+import UserInterface from './UserInterface';
 import createViewer from './createViewer';
 
 function typedArrayForBuffer(typedArrayType, buffer) {
@@ -27,8 +27,8 @@ function typedArrayForBuffer(typedArrayType, buffer) {
 }
 
 const processFiles = (container, { files, use2D }) => {
-  userInterface.emptyContainer(container);
-  userInterface.createLoadingProgress(container);
+  UserInterface.emptyContainer(container);
+  UserInterface.createLoadingProgress(container);
 
   /* eslint-disable new-cap */
   return new Promise((resolve, reject) => {

@@ -1,12 +1,12 @@
 import curry from 'curry';
 
-import preventDefaults from './userInterface/preventDefaults';
+import preventDefaults from './UserInterface/preventDefaults';
 import processFiles from './processFiles';
 
 /* Example usage:
 
-import uploadIcon from 'itk-vtk-viewer/src/userInterface/icons/upload.svg';
-import getContrastSensitiveStyle from 'itk-vtk-viewer/src/userInterface/getContrastSensitiveStyle';
+import uploadIcon from 'itk-vtk-viewer/src/UserInterface/icons/upload.svg';
+import getContrastSensitiveStyle from 'itk-vtk-viewer/src/UserInterface/getContrastSensitiveStyle';
 
 const isBackgroundDark = false;
 

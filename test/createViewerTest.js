@@ -6,7 +6,7 @@ import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import testUtils from 'vtk.js/Sources/Testing/testUtils'
 
 import createViewer from '../src/createViewer'
-import userInterface from '../src/userInterface'
+import UserInterface from '../src/UserInterface'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
 const testImage3DPath2 = 'base/test/data/input/mri3D.nrrd'

@@ -4,7 +4,7 @@ import macro from 'vtk.js/Sources/macro';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import proxyConfiguration from './proxyManagerConfiguration';
-import userInterface from './userInterface';
+import UserInterface from './UserInterface';
 import addKeyboardShortcuts from './addKeyboardShortcuts';
 
 let geometryNameCount = 0
@@ -32,7 +32,7 @@ const createViewer = (
   rootContainer,
   { image, geometries, use2D = false, viewerStyle, viewerState }
 ) => {
-  userInterface.emptyContainer(rootContainer);
+  UserInterface.emptyContainer(rootContainer);
 
   const proxyManager = vtkProxyManager.newInstance({ proxyConfiguration });
   window.addEventListener('resize', proxyManager.resizeAllViews);
@@ -48,7 +48,7 @@ const createViewer = (
       config.backgroundColor[1] +
       config.backgroundColor[2] <
     1.5;
-  userInterface.emptyContainer(container);
+  UserInterface.emptyContainer(container);
   applyStyle(container, config.containerStyle || STYLE_CONTAINER);
   rootContainer.appendChild(container);
 
@@ -74,7 +74,7 @@ const createViewer = (
   view.setContainer(container);
   view.setBackground(config.backgroundColor);
 
-  userInterface.addLogo(container);
+  UserInterface.addLogo(container);
 
   const imageSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
     name: 'Image',
@@ -136,7 +136,7 @@ const createViewer = (
       .toString()
       .replace('.', '');
 
-  const { uiContainer, croppingWidget, addCroppingPlanesChangedHandler, addResetCropHandler } = userInterface.createMainUI(
+  const { uiContainer, croppingWidget, addCroppingPlanesChangedHandler, addResetCropHandler } = UserInterface.createMainUI(
     rootContainer,
     viewerDOMId,
     isBackgroundDark,
@@ -147,7 +147,7 @@ const createViewer = (
   );
 
   if (image) {
-    imageUI = userInterface.createImageUI(
+    imageUI = UserInterface.createImageUI(
       uiContainer,
       viewerDOMId,
       lookupTableProxy,
@@ -164,7 +164,7 @@ const createViewer = (
 
   let geometriesUI = null
   if (geometries) {
-    geometriesUI = userInterface.createGeometriesUI(
+    geometriesUI = UserInterface.createGeometriesUI(
       uiContainer,
       viewerDOMId,
       geometries,

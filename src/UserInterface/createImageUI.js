@@ -8,39 +8,10 @@ import getContrastSensitiveStyle from './getContrastSensitiveStyle';
 
 import style from './ItkVtkViewer.module.css';
 
-import shadowIcon from './icons/shadow.svg';
 import gradientOpacityIcon from './icons/gradient.svg';
 
 import createViewPlanesToggle from './Image/createViewPlanesToggle';
-
-function createUseShadowToggle(
-  uiContainer,
-  viewerDOMId,
-  volumeRepresentation,
-  renderWindow,
-  isBackgroundDark
-) {
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['invertibleButton'],
-    isBackgroundDark
-  );
-
-  const useShadowButton = document.createElement('div');
-  useShadowButton.innerHTML = `<input id="${viewerDOMId}-toggleShadowButton" type="checkbox" class="${
-    style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Use shadow" class="${
-    contrastSensitiveStyle.invertibleButton
-  } ${style.shadowButton} ${
-    style.toggleButton
-  }" for="${viewerDOMId}-toggleShadowButton">${shadowIcon}</label>`;
-  let useShadow = true;
-  useShadowButton.addEventListener('change', (event) => {
-    useShadow = !useShadow;
-    volumeRepresentation.setUseShadow(useShadow);
-    renderWindow.render();
-  });
-  uiContainer.appendChild(useShadowButton);
-}
+import createUseShadowToggle from './Image/createUseShadowToggle';
 
 function createTransferFunctionWidget(
   uiContainer,

@@ -11,6 +11,7 @@ function createGeometryColorChooser(
   const geometryColors = new Array(geometryHasScalars.length);
   const defaultGeometryColor = '#ffffff';
   geometryColors.fill(defaultGeometryColor);
+
   const geometryColorInput = document.createElement('input');
   geometryColorInput.setAttribute('type', 'color');
   geometryColorInput.id = `${viewerDOMId}-geometryColorInput`;
@@ -21,6 +22,7 @@ function createGeometryColorChooser(
     geometryColorInput.style.display = 'inline-block';
   }
   geometryColorRow.appendChild(geometryColorInput);
+
   geometrySelector.addEventListener('change',
     (event) => {
       geometryColorInput.value = geometryColors[geometrySelector.selectedIndex]
@@ -30,6 +32,7 @@ function createGeometryColorChooser(
         geometryColorInput.style.display = 'inline-block';
       }
     });
+
   function hex2rgb(hexColor) {
     const bigint = parseInt(hexColor.substring(1), 16)
     const r = ((bigint >> 16) & 255) / 255.0

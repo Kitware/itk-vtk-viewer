@@ -4,9 +4,9 @@ import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 
 import fetchBinaryContent from './fetchBinaryContent';
 import processFiles from './processFiles';
-import userInterface from './userInterface';
-import createFileDragAndDrop from './userInterface/createFileDragAndDrop';
-import style from './userInterface/ItkVtkViewer.module.css';
+import UserInterface from './UserInterface';
+import createFileDragAndDrop from './UserInterface/createFileDragAndDrop';
+import style from './UserInterface/ItkVtkViewer.module.css';
 
 let doNotInitViewers = false;
 
@@ -16,8 +16,8 @@ export function createViewerFromLocalFiles(container) {
 }
 
 export function createViewerFromUrl(el, url, use2D = false) {
-  userInterface.emptyContainer(el);
-  const progressCallback = userInterface.createLoadingProgress(el);
+  UserInterface.emptyContainer(el);
+  const progressCallback = UserInterface.createLoadingProgress(el);
 
   return fetchBinaryContent(url, progressCallback).then((arrayBuffer) => {
     const file = new File(
@@ -78,7 +78,7 @@ export function processParameters(
     vtkURLExtract.extractURLParameters(),
     addOnParameters
   );
-  const myContainer = userInterface.getRootContainer(container);
+  const myContainer = UserInterface.getRootContainer(container);
 
   if (userParams.fullscreen) {
     myContainer.classList.add(style.fullscreenContainer);

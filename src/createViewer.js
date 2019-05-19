@@ -4,7 +4,7 @@ import macro from 'vtk.js/Sources/macro';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import proxyConfiguration from './proxyManagerConfiguration';
-import userInterface from './userInterface';
+import UserInterface from './UserInterface';
 import addKeyboardShortcuts from './addKeyboardShortcuts';
 
 let geometryNameCount = 0
@@ -32,7 +32,7 @@ const createViewer = (
   rootContainer,
   { image, geometries, use2D = false, viewerStyle, viewerState }
 ) => {
-  userInterface.emptyContainer(rootContainer);
+  UserInterface.emptyContainer(rootContainer);
 
   const proxyManager = vtkProxyManager.newInstance({ proxyConfiguration });
   window.addEventListener('resize', proxyManager.resizeAllViews);
@@ -48,7 +48,7 @@ const createViewer = (
       config.backgroundColor[1] +
       config.backgroundColor[2] <
     1.5;
-  userInterface.emptyContainer(container);
+  UserInterface.emptyContainer(container);
   applyStyle(container, config.containerStyle || STYLE_CONTAINER);
   rootContainer.appendChild(container);
 
@@ -74,7 +74,7 @@ const createViewer = (
   view.setContainer(container);
   view.setBackground(config.backgroundColor);
 
-  userInterface.addLogo(container);
+  UserInterface.addLogo(container);
 
   const imageSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
     name: 'Image',
@@ -82,14 +82,14 @@ const createViewer = (
   let lookupTableProxy = null;
   let piecewiseFunction = null;
   let dataArray = null;
-  let imageRepresentation = null;
+  let imageRepresentationProxy = null;
   let imageUI = null;
   let update
   if (image) {
     imageSource.setInputData(image);
 
     proxyManager.createRepresentationInAllViews(imageSource);
-    imageRepresentation = proxyManager.getRepresentation(imageSource, view);
+    imageRepresentationProxy = proxyManager.getRepresentation(imageSource, view);
 
     dataArray = image.getPointData().getScalars();
     lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
@@ -102,7 +102,7 @@ const createViewer = (
 
     // Slices share the same lookup table as the volume rendering.
     const lut = lookupTableProxy.getLookupTable();
-    const sliceActors = imageRepresentation.getActors();
+    const sliceActors = imageRepresentationProxy.getActors();
     sliceActors.forEach((actor) => {
       actor.getProperty().setRGBTransferFunction(lut);
     });
@@ -115,8 +115,8 @@ const createViewer = (
     }
   }
 
-  let geometriesRepresentations = []
-  if(geometries) {
+  let geometryRepresentationProxies = []
+  if(!!geometries && geometries.length > 0) {
     const uid = `Geometry${geometryNameCount++}`
     geometries.forEach((geometry) => {
       const geometrySource = proxyManager.createProxy('Sources', 'TrivialProducer', {
@@ -125,7 +125,7 @@ const createViewer = (
       geometrySource.setInputData(geometry)
       proxyManager.createRepresentationInAllViews(geometrySource);
       const geometryRepresentation = proxyManager.getRepresentation(geometrySource, view);
-      geometriesRepresentations.push(geometryRepresentation)
+      geometryRepresentationProxies.push(geometryRepresentation)
     })
   }
 
@@ -136,23 +136,23 @@ const createViewer = (
       .toString()
       .replace('.', '');
 
-  const { uiContainer, croppingWidget, addCroppingPlanesChangedHandler, addResetCropHandler } = userInterface.createMainUI(
+  const { uiContainer, croppingWidget, addCroppingPlanesChangedHandler, addResetCropHandler } = UserInterface.createMainUI(
     rootContainer,
     viewerDOMId,
     isBackgroundDark,
     use2D,
     imageSource,
-    imageRepresentation,
+    imageRepresentationProxy,
     view,
   );
 
   if (image) {
-    imageUI = userInterface.createImageUI(
+    imageUI = UserInterface.createImageUI(
       uiContainer,
       viewerDOMId,
       lookupTableProxy,
       piecewiseFunction,
-      imageRepresentation,
+      imageRepresentationProxy,
       dataArray,
       view,
       isBackgroundDark,
@@ -163,12 +163,12 @@ const createViewer = (
   }
 
   let geometriesUI = null
-  if (geometries) {
-    geometriesUI = userInterface.createGeometriesUI(
+  if(!!geometries && geometries.length > 0) {
+    geometriesUI = UserInterface.createGeometriesUI(
       uiContainer,
       viewerDOMId,
       geometries,
-      geometriesRepresentations,
+      geometryRepresentationProxies,
       view,
       isBackgroundDark
     );
@@ -198,8 +198,8 @@ const createViewer = (
     imageUI.transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
     imageUI.transferFunctionWidget.invokeOpacityChange(imageUI.transferFunctionWidget);
     imageUI.transferFunctionWidget.modified();
-    croppingWidget.setVolumeMapper(imageRepresentation.getMapper());
-    const cropFilter = imageRepresentation.getCropFilter();
+    croppingWidget.setVolumeMapper(imageRepresentationProxy.getMapper());
+    const cropFilter = imageRepresentationProxy.getCropFilter();
     cropFilter.reset();
     croppingWidget.resetWidgetState();
     setTimeout(() => {

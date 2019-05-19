@@ -24,7 +24,7 @@ function createMainUI(
   isBackgroundDark,
   use2D,
   imageSource,
-  imageRepresentation,
+  imageRepresentationProxy,
   view
 ) {
   const uiContainer = document.createElement('div');
@@ -151,7 +151,7 @@ function createMainUI(
   });
   mainUIRow.appendChild(annotationButton);
 
-  if (imageRepresentation) {
+  if (imageRepresentationProxy) {
     let interpolationEnabled = true;
     function toggleInterpolation() {
       interpolationEnabled = !interpolationEnabled;
@@ -179,7 +179,7 @@ function createMainUI(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = false;
-    if (imageRepresentation) {
+    if (imageRepresentationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -200,7 +200,7 @@ function createMainUI(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = false;
-    if (imageRepresentation) {
+    if (imageRepresentationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -221,7 +221,7 @@ function createMainUI(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = false;
-    if (imageRepresentation) {
+    if (imageRepresentationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -242,7 +242,7 @@ function createMainUI(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = true;
-    if (imageRepresentation) {
+    if (imageRepresentationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -313,7 +313,7 @@ function createMainUI(
   let croppingWidget = null
   let addCroppingPlanesChangedHandler = () => {}
   let addResetCropHandler = () => {}
-  if (imageRepresentation) {
+  if (imageRepresentationProxy) {
     croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
     croppingWidget.setHandleSize(22);
     croppingWidget.setFaceHandlesEnabled(false);
@@ -321,7 +321,7 @@ function createMainUI(
     croppingWidget.setCornerHandlesEnabled(true);
     croppingWidget.setInteractor(view.getInteractor());
     croppingWidget.setEnabled(false);
-    croppingWidget.setVolumeMapper(imageRepresentation.getMapper());
+    croppingWidget.setVolumeMapper(imageRepresentationProxy.getMapper());
     const croppingPlanesChangedHandlers = [];
     addCroppingPlanesChangedHandler = (handler) => {
       const index = croppingPlanesChangedHandlers.length;
@@ -338,7 +338,7 @@ function createMainUI(
       }
       croppingUpdateInProgress = true;
       const planes = croppingWidget.getWidgetState().planes;
-      imageRepresentation.setCroppingPlanes(planes);
+      imageRepresentationProxy.setCroppingPlanes(planes);
       const bboxCorners = croppingWidget.planesToBBoxCorners(planes);
       croppingPlanesChangedHandlers.forEach((handler) => {
         handler.call(null, planes, bboxCorners);
@@ -383,7 +383,7 @@ function createMainUI(
       return Object.freeze({ unsubscribe });
     };
     function resetCrop() {
-      imageRepresentation.getCropFilter().reset();
+      imageRepresentationProxy.getCropFilter().reset();
       croppingWidget.resetWidgetState();
       resetCropHandlers.forEach((handler) => {
         handler.call(null);
@@ -400,7 +400,7 @@ function createMainUI(
       resetCrop();
     });
     mainUIRow.appendChild(resetCropButton);
-  } // if(imageRepresentation)
+  } // if(imageRepresentationProxy)
 
   const resetCameraButton = document.createElement('div');
   resetCameraButton.innerHTML = `<input id="${viewerDOMId}-resetCameraButton" type="checkbox" class="${

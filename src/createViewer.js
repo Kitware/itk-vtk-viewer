@@ -82,14 +82,14 @@ const createViewer = (
   let lookupTableProxy = null;
   let piecewiseFunction = null;
   let dataArray = null;
-  let imageRepresentation = null;
+  let imageRepresentationProxy = null;
   let imageUI = null;
   let update
   if (image) {
     imageSource.setInputData(image);
 
     proxyManager.createRepresentationInAllViews(imageSource);
-    imageRepresentation = proxyManager.getRepresentation(imageSource, view);
+    imageRepresentationProxy = proxyManager.getRepresentation(imageSource, view);
 
     dataArray = image.getPointData().getScalars();
     lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
@@ -102,7 +102,7 @@ const createViewer = (
 
     // Slices share the same lookup table as the volume rendering.
     const lut = lookupTableProxy.getLookupTable();
-    const sliceActors = imageRepresentation.getActors();
+    const sliceActors = imageRepresentationProxy.getActors();
     sliceActors.forEach((actor) => {
       actor.getProperty().setRGBTransferFunction(lut);
     });
@@ -115,7 +115,7 @@ const createViewer = (
     }
   }
 
-  let geometriesRepresentations = []
+  let geometryRepresentationProxies = []
   if(geometries) {
     const uid = `Geometry${geometryNameCount++}`
     geometries.forEach((geometry) => {
@@ -125,7 +125,7 @@ const createViewer = (
       geometrySource.setInputData(geometry)
       proxyManager.createRepresentationInAllViews(geometrySource);
       const geometryRepresentation = proxyManager.getRepresentation(geometrySource, view);
-      geometriesRepresentations.push(geometryRepresentation)
+      geometryRepresentationProxies.push(geometryRepresentation)
     })
   }
 
@@ -142,7 +142,7 @@ const createViewer = (
     isBackgroundDark,
     use2D,
     imageSource,
-    imageRepresentation,
+    imageRepresentationProxy,
     view,
   );
 
@@ -152,7 +152,7 @@ const createViewer = (
       viewerDOMId,
       lookupTableProxy,
       piecewiseFunction,
-      imageRepresentation,
+      imageRepresentationProxy,
       dataArray,
       view,
       isBackgroundDark,
@@ -168,7 +168,7 @@ const createViewer = (
       uiContainer,
       viewerDOMId,
       geometries,
-      geometriesRepresentations,
+      geometryRepresentationProxies,
       view,
       isBackgroundDark
     );
@@ -198,8 +198,8 @@ const createViewer = (
     imageUI.transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
     imageUI.transferFunctionWidget.invokeOpacityChange(imageUI.transferFunctionWidget);
     imageUI.transferFunctionWidget.modified();
-    croppingWidget.setVolumeMapper(imageRepresentation.getMapper());
-    const cropFilter = imageRepresentation.getCropFilter();
+    croppingWidget.setVolumeMapper(imageRepresentationProxy.getMapper());
+    const cropFilter = imageRepresentationProxy.getCropFilter();
     cropFilter.reset();
     croppingWidget.resetWidgetState();
     setTimeout(() => {

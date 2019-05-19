@@ -3,11 +3,48 @@ import style from './ItkVtkViewer.module.css';
 
 import opacityIcon from './icons/opacity.svg';
 
+function createGeometryRepresentationSelector(
+  viewerDOMId,
+  geometryNames,
+  renderWindow,
+  geometryRepresentationProxies,
+  geometrySelector,
+  geometryRepresentationRow
+) {
+  const geometryRepresentations = new Array(geometryNames.length)
+  geometryRepresentations.fill('Surface')
+  const geometryRepresentationOptions = ['Hidden', 'Wireframe', 'Surface', 'Surface with edges']
+  const geometryRepresentationSelector = document.createElement('select');
+  geometryRepresentationSelector.setAttribute('class', style.selector);
+  geometryRepresentationSelector.id = `${viewerDOMId}-geometryRepresentationSelector`;
+  geometryRepresentationSelector.innerHTML = geometryRepresentationOptions
+    .map((name, idx) => `<option value="${name}">${name}</option>`)
+    .join('')
+  geometryRepresentationSelector.value = 'Surface'
+  geometryRepresentationRow.appendChild(geometryRepresentationSelector)
+  geometrySelector.addEventListener('change',
+    (event) => {
+      geometryRepresentationSelector.value = geometryRepresentations[geometrySelector.selectedIndex]
+    })
+  geometryRepresentationSelector.addEventListener('change',
+    (event) => {
+      const value = event.target.value
+      if(value === 'Hidden') {
+        geometryRepresentationProxies[geometrySelector.selectedIndex].setVisibility(false)
+      } else {
+        geometryRepresentationProxies[geometrySelector.selectedIndex].setRepresentation(value)
+        geometryRepresentationProxies[geometrySelector.selectedIndex].setVisibility(true)
+      }
+      renderWindow.render()
+      geometryRepresentations[geometrySelector.selectedIndex] = value
+    })
+}
+
 function createGeometriesUI(
   uiContainer,
   viewerDOMId,
   geometries,
-  geometriesRepresentations,
+  geometryRepresentationProxies,
   view,
   isBackgroundDark
 ) {
@@ -30,33 +67,14 @@ function createGeometriesUI(
     geometryRepresentationRow.appendChild(geometrySelector)
   }
 
-  const geometryRepresentations = new Array(geometryNames.length)
-  geometryRepresentations.fill('Surface')
-  const geometryRepresentationOptions = ['Hidden', 'Wireframe', 'Surface', 'Surface with edges']
-  const geometryRepresentationSelector = document.createElement('select');
-  geometryRepresentationSelector.setAttribute('class', style.selector);
-  geometryRepresentationSelector.id = `${viewerDOMId}-geometryRepresentationSelector`;
-  geometryRepresentationSelector.innerHTML = geometryRepresentationOptions
-    .map((name, idx) => `<option value="${name}">${name}</option>`)
-    .join('')
-  geometryRepresentationSelector.value = 'Surface'
-  geometryRepresentationRow.appendChild(geometryRepresentationSelector)
-  geometrySelector.addEventListener('change',
-    (event) => {
-      geometryRepresentationSelector.value = geometryRepresentations[geometrySelector.selectedIndex]
-    })
-  geometryRepresentationSelector.addEventListener('change',
-    (event) => {
-      const value = event.target.value
-      if(value === 'Hidden') {
-        geometriesRepresentations[geometrySelector.selectedIndex].setVisibility(false)
-      } else {
-        geometriesRepresentations[geometrySelector.selectedIndex].setRepresentation(value)
-        geometriesRepresentations[geometrySelector.selectedIndex].setVisibility(true)
-      }
-      renderWindow.render()
-      geometryRepresentations[geometrySelector.selectedIndex] = value
-    })
+  createGeometryRepresentationSelector(
+    viewerDOMId,
+    geometryNames,
+    renderWindow,
+    geometryRepresentationProxies,
+    geometrySelector,
+    geometryRepresentationRow
+  )
   geometriesUIGroup.appendChild(geometryRepresentationRow)
 
   const geometryColorRow = document.createElement('div')
@@ -85,7 +103,7 @@ function createGeometriesUI(
     (event) => {
       const value = event.target.value
       const rgb = hex2rgb(value)
-      geometriesRepresentations[geometrySelector.selectedIndex].setColor(rgb)
+      geometryRepresentationProxies[geometrySelector.selectedIndex].setColor(rgb)
       renderWindow.render()
       geometryColors[geometrySelector.selectedIndex] = value
     })
@@ -114,7 +132,7 @@ function createGeometriesUI(
   function updateOpacity() {
     const value = Number(opacityElement.value);
     geometryOpacities[geometrySelector.selectedIndex] = value
-    geometriesRepresentations[geometrySelector.selectedIndex].setOpacity(value)
+    geometryRepresentationProxies[geometrySelector.selectedIndex].setOpacity(value)
     renderWindow.render();
   }
   opacityElement.addEventListener('input', updateOpacity);

@@ -2,8 +2,6 @@ import getContrastSensitiveStyle from './getContrastSensitiveStyle';
 
 import style from './ItkVtkViewer.module.css';
 
-import resetCameraIcon from './icons/reset-camera.svg';
-
 import createToggleUserInterface from './Main/createToggleUserInterfaceButton';
 import createScreenshotButton from './Main/createScreenshotButton';
 import createFullscreenButton from './Main/createFullscreenButton';
@@ -11,6 +9,7 @@ import createAnnotationButton from './Main/createAnnotationButton';
 import createInterpolationButton from './Main/createInterpolationButton';
 import createViewModeButtons from './Main/createViewModeButtons';
 import createCroppingButtons from './Main/createCroppingButtons';
+import createResetCameraButton from './Main/createResetCameraButton';
 
 function createMainUI(
   rootContainer,
@@ -94,29 +93,12 @@ function createMainUI(
     mainUIRow
   )
 
-  const resetCameraButton = document.createElement('div');
-  resetCameraButton.innerHTML = `<input id="${viewerDOMId}-resetCameraButton" type="checkbox" class="${
-    style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Reset camera [r]" class="${
-    contrastSensitiveStyle.invertibleButton
-  } ${style.resetCameraButton} ${
-    style.toggleButton
-  }" for="${viewerDOMId}-resetCameraButton">${resetCameraIcon}</label>`;
-  function resetCamera() {
-    view.resetCamera();
-  }
-  resetCameraButton.addEventListener('change', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    resetCamera();
-  });
-  resetCameraButton.addEventListener('click', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    resetCamera();
-  });
-  mainUIRow.appendChild(resetCameraButton);
-
+  createResetCameraButton(
+    viewerDOMId,
+    contrastSensitiveStyle,
+    view,
+    mainUIRow
+  )
   uiContainer.appendChild(mainUIGroup);
 
   return { uiContainer, croppingWidget, addCroppingPlanesChangedHandler, addResetCropHandler };

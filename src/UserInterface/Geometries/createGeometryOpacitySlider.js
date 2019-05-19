@@ -5,8 +5,8 @@ import style from '../ItkVtkViewer.module.css';
 import opacityIcon from '../icons/opacity.svg';
 
 function createGeometryOpacitySlider(
+  geometryHasScalars,
   viewerDOMId,
-  geometryNames,
   renderWindow,
   geometryRepresentationProxies,
   isBackgroundDark,
@@ -17,13 +17,13 @@ function createGeometryOpacitySlider(
     ['invertibleButton'],
     isBackgroundDark
   );
-  const geometryOpacities = new Array(geometryNames.length);
+  const geometryOpacities = new Array(geometryHasScalars.length);
   const defaultGeometryOpacity = 1.0;
   geometryOpacities.fill(defaultGeometryOpacity);
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
-    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Opacity" class="${
+    <div itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Opacity" class="${
       contrastSensitiveStyle.invertibleButton
     } ${style.gradientOpacitySlider}">
       ${opacityIcon}

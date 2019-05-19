@@ -18,6 +18,7 @@ import createToggleUserInterface from './Main/createToggleUserInterfaceButton';
 import createScreenshotButton from './Main/createScreenshotButton';
 import createFullscreenButton from './Main/createFullscreenButton';
 import createAnnotationButton from './Main/createAnnotationButton';
+import createInterpolationButton from './Main/createInterpolationButton';
 
 function createMainUI(
   rootContainer,
@@ -73,23 +74,12 @@ function createMainUI(
   )
 
   if (imageRepresentationProxy) {
-    let interpolationEnabled = true;
-    function toggleInterpolation() {
-      interpolationEnabled = !interpolationEnabled;
-      view.setPlanesUseLinearInterpolation(interpolationEnabled);
-    }
-    const interpolationButton = document.createElement('div');
-    interpolationButton.innerHTML = `<input id="${viewerDOMId}-toggleInterpolationButton" type="checkbox" class="${
-      style.toggleInput
-    }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Interpolation" class="${
-      contrastSensitiveStyle.invertibleButton
-    } ${style.interpolationButton} ${
-      style.toggleButton
-    }" for="${viewerDOMId}-toggleInterpolationButton">${interpolationIcon}</label>`;
-    interpolationButton.addEventListener('change', (event) => {
-      toggleInterpolation();
-    });
-    mainUIRow.appendChild(interpolationButton);
+    createInterpolationButton(
+      viewerDOMId,
+      contrastSensitiveStyle,
+      view,
+      mainUIRow
+    )
   }
 
   function setViewModeXPlane() {

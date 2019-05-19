@@ -1,8 +1,4 @@
-import getContrastSensitiveStyle from './getContrastSensitiveStyle';
-
 import style from './ItkVtkViewer.module.css';
-
-import gradientOpacityIcon from './icons/gradient.svg';
 
 import createColorPresetSelector from './Image/createColorPresetSelector';
 import createTransferFunctionWidget from './Image/createTransferFunctionWidget';
@@ -10,45 +6,7 @@ import createViewPlanesToggle from './Image/createViewPlanesToggle';
 import createUseShadowToggle from './Image/createUseShadowToggle';
 import createPlaneIndexSliders from './Image/createPlaneIndexSliders';
 import createSampleDistanceSlider from './Image/createSampleDistanceSlider';
-
-
-function createGradientOpacitySlider(
-  uiContainer,
-  viewerDOMId,
-  isBackgroundDark,
-  volumeRepresentation,
-  renderWindow
-) {
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['invertibleButton'],
-    isBackgroundDark
-  );
-
-  const sliderEntry = document.createElement('div');
-  sliderEntry.setAttribute('class', style.sliderEntry);
-  sliderEntry.innerHTML = `
-    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Gradient opacity" class="${
-      contrastSensitiveStyle.invertibleButton
-    } ${style.gradientOpacitySlider}">
-      ${gradientOpacityIcon}
-    </div>
-    <input type="range" min="0" max="1" value="0.2" step="0.01"
-      id="${viewerDOMId}-gradientOpacitySlider"
-      class="${style.slider}" />`;
-  const edgeElement = sliderEntry.querySelector(
-    `#${viewerDOMId}-gradientOpacitySlider`
-  );
-  function updateGradientOpacity() {
-    const value = Number(edgeElement.value);
-    volumeRepresentation.setEdgeGradient(value);
-    renderWindow.render();
-  }
-  edgeElement.addEventListener('input', updateGradientOpacity);
-  updateGradientOpacity();
-  uiContainer.appendChild(sliderEntry);
-
-  return updateGradientOpacity;
-}
+import createGradientOpacitySlider from './Image/createGradientOpacitySlider';
 
 function createImageUI(
   uiContainer,

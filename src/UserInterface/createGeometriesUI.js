@@ -134,10 +134,11 @@ function createGeometriesUI(
   const geometriesUIGroup = document.createElement('div');
   geometriesUIGroup.setAttribute('class', style.uiGroup);
 
-  const geometryRepresentationRow = document.createElement('div')
-  geometryRepresentationRow.setAttribute('class', style.uiRow)
+  const geometryRepresentationRow = document.createElement('div');
+  geometryRepresentationRow.setAttribute('class', style.uiRow);
+  geometryRepresentationRow.className += ` ${viewerDOMId}-toggle`;
 
-  const geometryNames = geometries.map((geometry, index) => `Geometry ${index}`)
+  const geometryNames = geometries.map((geometry, index) => `Geometry ${index}`);
   const geometrySelector = document.createElement('select');
   geometrySelector.setAttribute('class', style.selector);
   geometrySelector.id = `${viewerDOMId}-geometrySelector`;
@@ -145,7 +146,7 @@ function createGeometriesUI(
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');
   if(geometryNames.length > 1) {
-    geometryRepresentationRow.appendChild(geometrySelector)
+    geometryRepresentationRow.appendChild(geometrySelector);
   }
 
   createGeometryRepresentationSelector(
@@ -156,10 +157,11 @@ function createGeometriesUI(
     geometrySelector,
     geometryRepresentationRow
   )
-  geometriesUIGroup.appendChild(geometryRepresentationRow)
+  geometriesUIGroup.appendChild(geometryRepresentationRow);
 
   const geometryColorRow = document.createElement('div')
   geometryColorRow.setAttribute('class', style.uiRow)
+  geometryColorRow.className += ` ${viewerDOMId}-toggle`;
 
   createGeometryColorChooser(
     viewerDOMId,

@@ -5,7 +5,6 @@ import getContrastSensitiveStyle from './getContrastSensitiveStyle';
 
 import style from './ItkVtkViewer.module.css';
 
-import toggleIcon from './icons/toggle.svg';
 import screenshotIcon from './icons/screenshot.svg';
 import volumeRenderingIcon from './icons/volume-rendering.svg';
 import xPlaneIcon from './icons/x-plane.svg';
@@ -17,6 +16,8 @@ import interpolationIcon from './icons/interpolation.svg';
 import cropIcon from './icons/crop.svg';
 import resetCropIcon from './icons/reset-crop.svg';
 import resetCameraIcon from './icons/reset-camera.svg';
+
+import createToggleUserInterface from './Main/createToggleUserInterfaceButton';
 
 function createMainUI(
   rootContainer,
@@ -44,31 +45,11 @@ function createMainUI(
   mainUIRow.className += ` ${viewerDOMId}-toggle`;
   mainUIGroup.appendChild(mainUIRow);
 
-  const toggleUserInterfaceButton = document.createElement('div');
-  function toggleUIVisibility() {
-    const elements = uiContainer.querySelectorAll(`.${viewerDOMId}-toggle`);
-    let count = elements.length;
-    const collapsed =
-      toggleUserInterfaceButton.getAttribute('collapsed') === 'true';
-    if (collapsed) {
-      while (count--) {
-        elements[count].style.display = 'flex';
-      }
-      toggleUserInterfaceButton.removeAttribute('collapsed');
-    } else {
-      while (count--) {
-        elements[count].style.display = 'none';
-      }
-      toggleUserInterfaceButton.setAttribute('collapsed', 'true');
-    }
-  }
-  toggleUserInterfaceButton.className = `${
-    contrastSensitiveStyle.invertibleButton
-  } ${style.toggleUserInterfaceButton}`;
-  toggleUserInterfaceButton.id = `${viewerDOMId}-toggleUserInterfaceButton`;
-  toggleUserInterfaceButton.innerHTML = `${toggleIcon}`;
-  toggleUserInterfaceButton.addEventListener('click', toggleUIVisibility);
-  uiContainer.appendChild(toggleUserInterfaceButton);
+  createToggleUserInterface(
+    viewerDOMId,
+    contrastSensitiveStyle,
+    uiContainer
+  )
 
   const screenshotButton = document.createElement('div');
   screenshotButton.innerHTML = `<div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Screenshot" class="${

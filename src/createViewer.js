@@ -116,7 +116,7 @@ const createViewer = (
   }
 
   let geometryRepresentationProxies = []
-  if(geometries) {
+  if(!!geometries && geometries.length > 0) {
     const uid = `Geometry${geometryNameCount++}`
     geometries.forEach((geometry) => {
       const geometrySource = proxyManager.createProxy('Sources', 'TrivialProducer', {
@@ -163,7 +163,7 @@ const createViewer = (
   }
 
   let geometriesUI = null
-  if (geometries) {
+  if(!!geometries && geometries.length > 0) {
     geometriesUI = UserInterface.createGeometriesUI(
       uiContainer,
       viewerDOMId,

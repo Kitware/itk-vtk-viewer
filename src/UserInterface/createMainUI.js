@@ -18,6 +18,7 @@ import resetCropIcon from './icons/reset-crop.svg';
 import resetCameraIcon from './icons/reset-camera.svg';
 
 import createToggleUserInterface from './Main/createToggleUserInterfaceButton';
+import createScreenshotButton from './Main/createScreenshotButton';
 
 function createMainUI(
   rootContainer,
@@ -51,15 +52,12 @@ function createMainUI(
     uiContainer
   )
 
-  const screenshotButton = document.createElement('div');
-  screenshotButton.innerHTML = `<div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Screenshot" class="${
-    contrastSensitiveStyle.invertibleButton
-  } ${style.screenshotButton}">${screenshotIcon}</div>`;
-  function takeScreenshot() {
-    view.openCaptureImage();
-  }
-  screenshotButton.addEventListener('click', takeScreenshot);
-  mainUIRow.appendChild(screenshotButton);
+  createScreenshotButton(
+    viewerDOMId,
+    contrastSensitiveStyle,
+    view,
+    mainUIRow
+  )
 
   const body = document.querySelector('body');
   let fullScreenMethods = null;

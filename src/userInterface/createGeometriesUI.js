@@ -40,6 +40,43 @@ function createGeometryRepresentationSelector(
     })
 }
 
+function createGeometryColorChooser(
+  viewerDOMId,
+  geometryNames,
+  renderWindow,
+  geometryRepresentationProxies,
+  geometrySelector,
+  geometryColorRow
+) {
+  const geometryColors = new Array(geometryNames.length)
+  geometryColors.fill('#ffffff')
+  const geometryColorInput = document.createElement('input');
+  geometryColorInput.setAttribute('type', 'color');
+  geometryColorInput.id = `${viewerDOMId}-geometryColorInput`;
+  geometryColorInput.value = '#ffffff'
+  geometryColorRow.appendChild(geometryColorInput)
+  geometrySelector.addEventListener('change',
+    (event) => {
+      geometryColorInput.value = geometryColors[geometrySelector.selectedIndex]
+    })
+  function hex2rgb(hexColor) {
+    const bigint = parseInt(hexColor.substring(1), 16)
+    const r = ((bigint >> 16) & 255) / 255.0
+    const g = ((bigint >> 8) & 255) / 255.0
+    const b = (bigint & 255) / 255.0
+
+    return [r, g, b]
+  }
+  geometryColorInput.addEventListener('input',
+    (event) => {
+      const value = event.target.value
+      const rgb = hex2rgb(value)
+      geometryRepresentationProxies[geometrySelector.selectedIndex].setColor(rgb)
+      renderWindow.render()
+      geometryColors[geometrySelector.selectedIndex] = value
+    })
+}
+
 function createGeometriesUI(
   uiContainer,
   viewerDOMId,
@@ -77,37 +114,18 @@ function createGeometriesUI(
   )
   geometriesUIGroup.appendChild(geometryRepresentationRow)
 
+
   const geometryColorRow = document.createElement('div')
   geometryColorRow.setAttribute('class', style.uiRow)
 
-  const geometryColors = new Array(geometryNames.length)
-  geometryColors.fill('#ffffff')
-  const geometryColorInput = document.createElement('input');
-  geometryColorInput.setAttribute('type', 'color');
-  geometryColorInput.id = `${viewerDOMId}-geometryColorInput`;
-  geometryColorInput.value = '#ffffff'
-  geometryColorRow.appendChild(geometryColorInput)
-  geometrySelector.addEventListener('change',
-    (event) => {
-      geometryColorInput.value = geometryColors[geometrySelector.selectedIndex]
-    })
-  function hex2rgb(hexColor) {
-    const bigint = parseInt(hexColor.substring(1), 16)
-    const r = ((bigint >> 16) & 255) / 255.0
-    const g = ((bigint >> 8) & 255) / 255.0
-    const b = (bigint & 255) / 255.0
-
-    return [r, g, b]
-  }
-  geometryColorInput.addEventListener('input',
-    (event) => {
-      const value = event.target.value
-      const rgb = hex2rgb(value)
-      geometryRepresentationProxies[geometrySelector.selectedIndex].setColor(rgb)
-      renderWindow.render()
-      geometryColors[geometrySelector.selectedIndex] = value
-    })
-
+  createGeometryColorChooser(
+    viewerDOMId,
+    geometryNames,
+    renderWindow,
+    geometryRepresentationProxies,
+    geometrySelector,
+    geometryColorRow
+  )
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],

@@ -11,7 +11,7 @@ function createGeometryColorPresetSelector(
   geometryColorPresetRow
 ) {
   const geometryColorPresets = new Array(geometryHasScalars.length);
-  const defaultGeometryColorPreset = 'Magma (matplotlib)';
+  const defaultGeometryColorPreset = 'Plasma (matplotlib)';
   geometryColorPresets.fill(defaultGeometryColorPreset);
 
   const presetSelector = document.createElement('select');
@@ -33,17 +33,25 @@ function createGeometryColorPresetSelector(
 
   function updateColorMap(event) {
     const value = event.target.value;
-    const lutProxy = geometryRepresentationProxies[geometrySelector.selectedIndex].getLookupTableProxy();
-    lutProxy.setPresetName(value);
+    geometryRepresentationProxies.forEach((proxy) => {
+      const lutProxy = proxy.getLookupTableProxy();
+      if (lutProxy) {
+        lutProxy.setPresetName(value);
+      }
+    })
     renderWindow.render();
     geometryColorPresets[geometrySelector.selectedIndex] = value;
   }
   presetSelector.addEventListener('change', updateColorMap);
 
+  geometryRepresentationProxies.forEach((proxy) => {
+    const lutProxy = proxy.getLookupTableProxy();
+    if(lutProxy) {
+      lutProxy.setPresetName(defaultGeometryColorPreset);
+    }
+  })
   if (geometryHasScalars[geometrySelector.selectedIndex]) {
     geometryColorPresetRow.style.display = 'flex';
-    const lutProxy = geometryRepresentationProxies[geometrySelector.selectedIndex].getLookupTableProxy();
-    lutProxy.setPresetName(defaultGeometryColorPreset);
   } else {
     geometryColorPresetRow.style.display = 'none';
   }

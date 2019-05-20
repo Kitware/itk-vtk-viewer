@@ -88,9 +88,13 @@ function createGeometryColorBySelector(
   function updateColorBy() {
     const [location, colorByArrayName] = geometryColorBySelector.value.split(':');
     const proxy = geometryRepresentationProxies[geometrySelector.selectedIndex];
+    const lutProxy = proxy.getLookupTableProxy();
+    const colorPreset = proxy.getLookupTableProxy().getPresetName();
     const interpolateScalarsBeforeMapping = location === 'pointData';
     proxy.setInterpolateScalarsBeforeMapping(interpolateScalarsBeforeMapping);
     proxy.setColorBy(colorByArrayName, location);
+    // Restore
+    proxy.getLookupTableProxy().setPresetName(colorPreset);
     renderWindow.render()
     geometryColorBy[geometrySelector.selectedIndex] = geometryColorByOptions[geometrySelector.selectedIndex][geometryColorBySelector.selectedIndex];
   }

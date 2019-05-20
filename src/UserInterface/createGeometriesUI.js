@@ -29,12 +29,19 @@ function createGeometriesUI(
     .join('');
   if(geometryNames.length > 1) {
     geometryRepresentationRow.appendChild(geometrySelector);
+  } else {
+    // Results in a more consistent layout with the representation buttons
+    const geometryLabel = document.createElement('label');
+    geometryLabel.innerHTML = "Geometry ";
+    geometryLabel.setAttribute('class', style.selector);
+    geometryRepresentationRow.appendChild(geometryLabel);
   }
 
   createGeometryRepresentationSelector(
     viewerDOMId,
     geometryNames,
     renderWindow,
+    isBackgroundDark,
     geometryRepresentationProxies,
     geometrySelector,
     geometryRepresentationRow

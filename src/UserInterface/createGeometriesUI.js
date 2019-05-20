@@ -1,8 +1,7 @@
 import style from './ItkVtkViewer.module.css';
 
 import createGeometryRepresentationSelector from './Geometries/createGeometryRepresentationSelector';
-import createGeometryColorChooser from './Geometries/createGeometryColorChooser';
-import createGeometryOpacitySlider from './Geometries/createGeometryOpacitySlider';
+import createGeometryColorWidget from './Geometries/createGeometryColorWidget';
 
 function createGeometriesUI(
   uiContainer,
@@ -30,42 +29,34 @@ function createGeometriesUI(
     .join('');
   if(geometryNames.length > 1) {
     geometryRepresentationRow.appendChild(geometrySelector);
+  } else {
+    // Results in a more consistent layout with the representation buttons
+    const geometryLabel = document.createElement('label');
+    geometryLabel.innerHTML = "Geometry ";
+    geometryLabel.setAttribute('class', style.selector);
+    geometryRepresentationRow.appendChild(geometryLabel);
   }
 
   createGeometryRepresentationSelector(
     viewerDOMId,
     geometryNames,
     renderWindow,
+    isBackgroundDark,
     geometryRepresentationProxies,
     geometrySelector,
     geometryRepresentationRow
   )
   geometriesUIGroup.appendChild(geometryRepresentationRow);
 
-  const geometryColorRow = document.createElement('div')
-  geometryColorRow.setAttribute('class', style.uiRow)
-  geometryColorRow.className += ` ${viewerDOMId}-toggle`;
-
-  createGeometryColorChooser(
+  createGeometryColorWidget(
     viewerDOMId,
-    geometryNames,
     renderWindow,
-    geometryRepresentationProxies,
-    geometrySelector,
-    geometryColorRow
-  )
-
-  createGeometryOpacitySlider(
-    viewerDOMId,
-    geometryNames,
-    renderWindow,
+    geometries,
     geometryRepresentationProxies,
     isBackgroundDark,
     geometrySelector,
-    geometryColorRow
+    geometriesUIGroup
   )
-
-  geometriesUIGroup.appendChild(geometryColorRow)
 
   uiContainer.appendChild(geometriesUIGroup);
 

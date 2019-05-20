@@ -84,7 +84,6 @@
 [itk-vtk-tooltip]::before {
     content: attr(itk-vtk-tooltip-content);
     visibility: hidden;
-    display: block;
     position: absolute;
     top: 50%;
     right: calc(100% + 16px);

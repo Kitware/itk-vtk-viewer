@@ -1,7 +1,7 @@
 import style from './ItkVtkViewer.module.css';
 
 import createPointSetRepresentationSelector from './PointSets/createPointSetRepresentationSelector';
-//import createPointSetColorWidget from './PointSets/createPointSetColorWidget';
+import createPointSetColorWidget from './PointSets/createPointSetColorWidget';
 
 function createPointSetsUI(
   uiContainer,
@@ -48,15 +48,15 @@ function createPointSetsUI(
   )
   pointSetsUIGroup.appendChild(pointSetRepresentationRow);
 
-  //createpointSetColorWidget(
-    //viewerDOMId,
-    //renderWindow,
-    //pointSets,
-    //pointSetRepresentationProxies,
-    //isBackgroundDark,
-    //pointSetSelector,
-    //pointSetsUIGroup
-  //)
+  createPointSetColorWidget(
+    viewerDOMId,
+    renderWindow,
+    pointSets,
+    pointSetRepresentationProxies,
+    isBackgroundDark,
+    pointSetSelector,
+    pointSetsUIGroup
+  )
 
   uiContainer.appendChild(pointSetsUIGroup);
 

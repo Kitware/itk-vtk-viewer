@@ -24,94 +24,54 @@ function createPointSetRepresentationSelector(
     isBackgroundDark
   );
 
-  //function setRepresentation(value) {
-    //if(value === 'Hidden') {
-      //geometryRepresentationProxies[geometrySelector.selectedIndex].setVisibility(false)
-    //} else {
-      //geometryRepresentationProxies[geometrySelector.selectedIndex].setRepresentation(value)
-      //geometryRepresentationProxies[geometrySelector.selectedIndex].setVisibility(true)
-    //}
-    //renderWindow.render()
-    //geometryRepresentations[geometrySelector.selectedIndex] = value
-  //}
+  function setRepresentation(value, pointSetIndex) {
+    if(value === 'Hidden') {
+      pointSetRepresentationProxies[pointSetIndex][0].setVisibility(false)
+    } else {
+      pointSetRepresentationProxies[pointSetIndex][0].setRepresentation(value)
+      pointSetRepresentationProxies[pointSetIndex][0].setVisibility(true)
+    }
+    renderWindow.render()
+    pointSetRepresentations[pointSetIndex] = value
+  }
 
-  //function setRepresentationToHidden() {
-    //setRepresentation('Hidden');
-    //document.getElementById(`${viewerDOMId}-geometryHiddenButton`).checked = true;
-    //document.getElementById(`${viewerDOMId}-geometryWireframeButton`).checked = false;
-    //document.getElementById(`${viewerDOMId}-geometrySurfaceButton`).checked = false;
-    //document.getElementById(`${viewerDOMId}-geometrySurfaceWithEdgesButton`).checked = false;
-  //}
-  //const geometryHiddenButton = document.createElement('div');
-  //geometryHiddenButton.innerHTML = `<input id="${viewerDOMId}-geometryHiddenButton" type="checkbox" class="${
-    //style.toggleInput
-  //}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Hidden" class="${
-    //contrastSensitiveStyle.tooltipButton
-  //} ${style.fullscreenButton} ${
-    //style.toggleButton
-  //}" for="${viewerDOMId}-geometryHiddenButton">${hiddenIcon}</label>`;
-  //geometryHiddenButton.addEventListener('click', setRepresentationToHidden);
-  //geometryRepresentationRow.appendChild(geometryHiddenButton);
+  function setRepresentationToHidden() {
+    setRepresentation('Hidden', pointSetSelector.selectedIndex);
+    document.getElementById(`${viewerDOMId}-pointSetHiddenButton`).checked = true;
+    document.getElementById(`${viewerDOMId}-pointSetPointsButton`).checked = false;
+  }
+  const pointSetHiddenButton = document.createElement('div');
+  pointSetHiddenButton.innerHTML = `<input id="${viewerDOMId}-pointSetHiddenButton" type="checkbox" class="${
+    style.toggleInput
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Hidden" class="${
+    contrastSensitiveStyle.tooltipButton
+  } ${style.fullscreenButton} ${
+    style.toggleButton
+  }" for="${viewerDOMId}-pointSetHiddenButton">${hiddenIcon}</label>`;
+  pointSetHiddenButton.addEventListener('click', setRepresentationToHidden);
+  pointSetRepresentationRow.appendChild(pointSetHiddenButton);
 
-  //function setRepresentationToWireframe() {
-    //setRepresentation('Wireframe');
-    //document.getElementById(`${viewerDOMId}-geometryHiddenButton`).checked = false;
-    //document.getElementById(`${viewerDOMId}-geometryWireframeButton`).checked = true;
-    //document.getElementById(`${viewerDOMId}-geometrySurfaceButton`).checked = false;
-    //document.getElementById(`${viewerDOMId}-geometrySurfaceWithEdgesButton`).checked = false;
-  //}
-  //const geometryWireframeButton = document.createElement('div');
-  //geometryWireframeButton.innerHTML = `<input id="${viewerDOMId}-geometryWireframeButton" type="checkbox" class="${
-    //style.toggleInput
-  //}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Wireframe" class="${
-    //contrastSensitiveStyle.tooltipButton
-  //} ${style.fullscreenButton} ${
-    //style.toggleButton
-  //}" for="${viewerDOMId}-geometryWireframeButton">${wireframeIcon}</label>`;
-  //geometryWireframeButton.addEventListener('click', setRepresentationToWireframe);
-  //geometryRepresentationRow.appendChild(geometryWireframeButton);
+  function setRepresentationToPoints() {
+    setRepresentation('Points', pointSetSelector.selectedIndex);
+    document.getElementById(`${viewerDOMId}-pointSetHiddenButton`).checked = false;
+    document.getElementById(`${viewerDOMId}-pointSetPointsButton`).checked = true;
+  }
+  const pointSetPointsButton = document.createElement('div');
+  pointSetPointsButton.innerHTML = `<input id="${viewerDOMId}-pointSetPointsButton" type="checkbox" class="${
+    style.toggleInput
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Points" class="${
+    contrastSensitiveStyle.tooltipButton
+  } ${style.fullscreenButton} ${
+    style.toggleButton
+  }" for="${viewerDOMId}-pointSetPointsButton">${wireframeIcon}</label>`;
+  pointSetPointsButton.addEventListener('click', setRepresentationToPoints);
+  pointSetRepresentationRow.appendChild(pointSetPointsButton);
 
-  //function setRepresentationToSurface() {
-    //setRepresentation('Surface');
-    //document.getElementById(`${viewerDOMId}-geometryHiddenButton`).checked = false;
-    //document.getElementById(`${viewerDOMId}-geometryWireframeButton`).checked = false;
-    //document.getElementById(`${viewerDOMId}-geometrySurfaceButton`).checked = true;
-    //document.getElementById(`${viewerDOMId}-geometrySurfaceWithEdgesButton`).checked = false;
-  //}
-  //const geometrySurfaceButton = document.createElement('div');
-  //geometrySurfaceButton.innerHTML = `<input id="${viewerDOMId}-geometrySurfaceButton" type="checkbox" class="${
-    //style.toggleInput
-  //}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Surface" class="${
-    //contrastSensitiveStyle.tooltipButton
-  //} ${style.fullscreenButton} ${
-    //style.toggleButton
-  //}" for="${viewerDOMId}-geometrySurfaceButton">${surfaceIcon}</label>`;
-  //geometrySurfaceButton.addEventListener('click', setRepresentationToSurface);
-  //geometryRepresentationRow.appendChild(geometrySurfaceButton);
-
-  //function setRepresentationToSurfaceWithEdges() {
-    //setRepresentation('Surface with edges');
-    //document.getElementById(`${viewerDOMId}-geometryHiddenButton`).checked = false;
-    //document.getElementById(`${viewerDOMId}-geometryWireframeButton`).checked = false;
-    //document.getElementById(`${viewerDOMId}-geometrySurfaceButton`).checked = false;
-    //document.getElementById(`${viewerDOMId}-geometrySurfaceWithEdgesButton`).checked = true;
-  //}
-  //const geometrySurfaceWithEdgesButton = document.createElement('div');
-  //geometrySurfaceWithEdgesButton.innerHTML = `<input id="${viewerDOMId}-geometrySurfaceWithEdgesButton" type="checkbox" class="${
-    //style.toggleInput
-  //}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Surface with edges" class="${
-    //contrastSensitiveStyle.tooltipButton
-  //} ${style.viewModeButton} ${
-    //style.toggleButton
-  //}" for="${viewerDOMId}-geometrySurfaceWithEdgesButton">${surfaceWithEdgesIcon}</label>`;
-  //geometrySurfaceWithEdgesButton.addEventListener('click', setRepresentationToSurfaceWithEdges);
-  //geometryRepresentationRow.appendChild(geometrySurfaceWithEdgesButton);
-
-  //geometrySelector.addEventListener('change',
-    //(event) => {
-      //setRepresentation(geometryRepresentations[geometrySelector.selectedIndex]);
-    //});
-  //setRepresentation(defaultGeometryRepresentation);
+  pointSetSelector.addEventListener('change',
+    (event) => {
+      setRepresentation(pointSetRepresentations[pointSetSelector.selectedIndex], pointSetSelector.selectedIndex);
+    });
+  pointSetRepresentations.map((rep, index) => setRepresentation(defaultPointSetRepresentation, index));
 }
 
 export default createPointSetRepresentationSelector;

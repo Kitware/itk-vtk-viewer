@@ -37,7 +37,7 @@ function createPointSetOpacitySlider(
   function updateOpacity() {
     const value = Number(opacityElement.value);
     pointSetOpacities[pointSetSelector.selectedIndex] = value
-    pointSetRepresentationProxies[pointSetSelector.selectedIndex][0].setOpacity(value)
+    pointSetRepresentationProxies[pointSetSelector.selectedIndex].setOpacity(value)
     renderWindow.render();
   }
   opacityElement.addEventListener('input', updateOpacity);

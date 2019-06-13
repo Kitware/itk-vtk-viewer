@@ -75,7 +75,7 @@ function createPointSetColorBySelector(
   const location = 'pointData';
   function updateColorBy() {
     const colorByArrayName = pointSetColorBySelector.value;
-    const proxy = pointSetRepresentationProxies[pointSetSelector.selectedIndex][0];
+    const proxy = pointSetRepresentationProxies[pointSetSelector.selectedIndex];
     const lutProxy = proxy.getLookupTableProxy();
     const colorPreset = proxy.getLookupTableProxy().getPresetName();
     proxy.setInterpolateScalarsBeforeMapping(true);
@@ -90,7 +90,7 @@ function createPointSetColorBySelector(
   pointSetColorBy.forEach((colorBy, index) => {
     if (colorBy) {
       const colorByArrayName = colorBy.value;
-      const proxy = pointSetRepresentationProxies[index][0];
+      const proxy = pointSetRepresentationProxies[index];
       proxy.setInterpolateScalarsBeforeMapping(true);
       proxy.setColorBy(colorByArrayName, location);
     }

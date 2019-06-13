@@ -37,7 +37,7 @@ function createPointSetSizeSlider(
   function updateSize() {
     const value = Number(sizeElement.value);
     pointSetSizes[pointSetSelector.selectedIndex] = value
-    pointSetRepresentationProxies[pointSetSelector.selectedIndex][0].setPointSize(value)
+    pointSetRepresentationProxies[pointSetSelector.selectedIndex].setPointSize(value)
     renderWindow.render();
   }
   sizeElement.addEventListener('input', updateSize);

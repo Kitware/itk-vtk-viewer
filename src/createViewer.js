@@ -132,15 +132,19 @@ const createViewer = (
 
   let pointSetRepresentationProxies = []
   if(!!pointSets && pointSets.length > 0) {
-    const uid = `pointSet${pointSetNameCount++}`
     pointSets.forEach((pointSet) => {
+      const sourceUid = `pointSetSource${pointSetNameCount++}`
       const pointSetSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
-        name: uid,
+        name: sourceUid,
       });
       pointSetSource.setInputData(pointSet)
-      proxyManager.createRepresentationInAllViews(pointSetSource);
-      const pointSetGeometryRepresentation = proxyManager.getRepresentation(pointSetSource, view);
-      pointSetRepresentationProxies.push([pointSetGeometryRepresentation])
+      const pointSetRepresentationUid = `pointSetRepresentation${pointSetNameCount}`
+      const pointSetRepresentation = proxyManager.createProxy('Representations', 'PointSet', {
+        name: pointSetRepresentationUid,
+      });
+      pointSetRepresentation.setInput(pointSetSource);
+      view.addRepresentation(pointSetRepresentation);
+      pointSetRepresentationProxies.push(pointSetRepresentation)
     })
   }
 
@@ -206,6 +210,24 @@ const createViewer = (
     view.resize();
   });
   proxyManager.renderAllViews();
+
+  // Estimate a reasonable point sphere radius in pixels
+  if(!!pointSets && pointSets.length > 0) {
+    const renderView = view.getRenderWindow().getViews()[0];
+    const windowWidth = renderView.getViewportSize(view.getRenderer())[0];
+    const maxLength = pointSets.reduce((max, pointSet) => {
+      pointSet.computeBounds();
+      const bounds = pointSet.getBounds();
+      max = Math.max(max, bounds[1] - bounds[0]);
+      max = Math.max(max, bounds[3] - bounds[2]);
+      max = Math.max(max, bounds[5] - bounds[4]);
+      return max;
+    }, -Infinity);
+    const radiusFactor = windowWidth / maxLength * 2e-4;
+    pointSetRepresentationProxies.forEach((proxy) => {
+      proxy.setRadiusFactor(radiusFactor);
+    })
+  }
 
   setTimeout(view.resetCamera, 1);
 

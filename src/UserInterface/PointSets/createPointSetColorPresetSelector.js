@@ -33,7 +33,7 @@ function createPointSetColorPresetSelector(
 
   function updateColorMap(event) {
     const value = event.target.value;
-    pointSetRepresentationProxies[0].forEach((proxy) => {
+    pointSetRepresentationProxies.forEach((proxy) => {
       const lutProxy = proxy.getLookupTableProxy();
       if (lutProxy) {
         lutProxy.setPresetName(value);
@@ -44,7 +44,7 @@ function createPointSetColorPresetSelector(
   }
   presetSelector.addEventListener('change', updateColorMap);
 
-  pointSetRepresentationProxies[0].forEach((proxy) => {
+  pointSetRepresentationProxies.forEach((proxy) => {
     const lutProxy = proxy.getLookupTableProxy();
     if(lutProxy) {
       lutProxy.setPresetName(defaultPointSetColorPreset);

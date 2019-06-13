@@ -38,7 +38,7 @@ function createPointSetColorChooser(
     (event) => {
       const value = event.target.value
       const rgb = hex2rgb(value)
-      pointSetRepresentationProxies[pointSetSelector.selectedIndex][0].setColor(rgb)
+      pointSetRepresentationProxies[pointSetSelector.selectedIndex].setColor(rgb)
       renderWindow.render()
       pointSetColors[pointSetSelector.selectedIndex] = value
     });

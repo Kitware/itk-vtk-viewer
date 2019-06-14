@@ -2,7 +2,7 @@ import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
 import style from '../ItkVtkViewer.module.css';
 
-import hiddenIcon from '../icons/point-set-hidden.svg';
+import hiddenIcon from '../icons/hidden.svg';
 import pointsIcon from '../icons/point-set-points.svg';
 import spheresIcon from '../icons/point-set-spheres.svg';
 

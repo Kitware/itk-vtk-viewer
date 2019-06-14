@@ -8,6 +8,7 @@ import UserInterface from './UserInterface';
 import addKeyboardShortcuts from './addKeyboardShortcuts';
 
 let geometryNameCount = 0
+let pointSetNameCount = 0
 
 const STYLE_CONTAINER = {
   position: 'relative',
@@ -30,7 +31,7 @@ function applyStyle(el, style) {
 
 const createViewer = (
   rootContainer,
-  { image, geometries, use2D = false, viewerStyle, viewerState }
+  { image, geometries, pointSets, use2D = false, viewerStyle, viewerState }
 ) => {
   UserInterface.emptyContainer(rootContainer);
 
@@ -129,6 +130,24 @@ const createViewer = (
     })
   }
 
+  let pointSetRepresentationProxies = []
+  if(!!pointSets && pointSets.length > 0) {
+    pointSets.forEach((pointSet) => {
+      const sourceUid = `pointSetSource${pointSetNameCount++}`
+      const pointSetSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
+        name: sourceUid,
+      });
+      pointSetSource.setInputData(pointSet)
+      const pointSetRepresentationUid = `pointSetRepresentation${pointSetNameCount}`
+      const pointSetRepresentation = proxyManager.createProxy('Representations', 'PointSet', {
+        name: pointSetRepresentationUid,
+      });
+      pointSetRepresentation.setInput(pointSetSource);
+      view.addRepresentation(pointSetRepresentation);
+      pointSetRepresentationProxies.push(pointSetRepresentation)
+    })
+  }
+
   const viewerDOMId =
     'itk-vtk-viewer-' +
     performance
@@ -174,11 +193,41 @@ const createViewer = (
     );
   }
 
+  let pointSetsUI = null
+  if(!!pointSets && pointSets.length > 0) {
+    pointSetsUI = UserInterface.createPointSetsUI(
+      uiContainer,
+      viewerDOMId,
+      pointSets,
+      pointSetRepresentationProxies,
+      view,
+      isBackgroundDark
+    );
+  }
+
   view.resize();
   const resizeSensor = new ResizeSensor(container, function() {
     view.resize();
   });
   proxyManager.renderAllViews();
+
+  // Estimate a reasonable point sphere radius in pixels
+  if(!!pointSets && pointSets.length > 0) {
+    const renderView = view.getRenderWindow().getViews()[0];
+    const windowWidth = renderView.getViewportSize(view.getRenderer())[0];
+    const maxLength = pointSets.reduce((max, pointSet) => {
+      pointSet.computeBounds();
+      const bounds = pointSet.getBounds();
+      max = Math.max(max, bounds[1] - bounds[0]);
+      max = Math.max(max, bounds[3] - bounds[2]);
+      max = Math.max(max, bounds[5] - bounds[4]);
+      return max;
+    }, -Infinity);
+    const radiusFactor = windowWidth / maxLength * 2e-4;
+    pointSetRepresentationProxies.forEach((proxy) => {
+      proxy.setRadiusFactor(radiusFactor);
+    })
+  }
 
   setTimeout(view.resetCamera, 1);
 

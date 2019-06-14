@@ -2,7 +2,7 @@ import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
 import style from '../ItkVtkViewer.module.css';
 
-import hiddenIcon from '../icons/geometry-hidden.svg';
+import hiddenIcon from '../icons/hidden.svg';
 import wireframeIcon from '../icons/geometry-wireframe.svg';
 import surfaceIcon from '../icons/geometry-surface.svg';
 import surfaceWithEdgesIcon from '../icons/geometry-surface-with-edges.svg';

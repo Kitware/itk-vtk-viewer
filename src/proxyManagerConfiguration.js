@@ -4,6 +4,7 @@ import vtkVolumeRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/V
 import vtkSliceRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/SliceRepresentationProxy';
 import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy';
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy';
+import vtkPointSetRepresentationProxy from './vtk/PointSetRepresentationProxy';
 
 import ItkVtkView from './ItkVtkViewProxy';
 
@@ -49,6 +50,10 @@ const proxyManagerConfiguration = {
       },
       Volume: {
         class: vtkVolumeRepresentationProxy,
+        options: {},
+      },
+      PointSet: {
+        class: vtkPointSetRepresentationProxy,
         options: {},
       },
     },

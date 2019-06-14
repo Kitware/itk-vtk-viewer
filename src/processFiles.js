@@ -111,14 +111,28 @@ const processFiles = (container, { files, use2D }) => {
       Promise.all(readers).then((dataSets) => {
         const images = dataSets.filter(({ data }) => !!data && data.isA('vtkImageData')).map(({ data }) => data)
         const image = images.length ? images[0] : null
-        // const geometries = dataSets.filter(({ data }) => !!data && data.isA('vtkPolyData')).map(({ data }) => data)
-        const pointSets = dataSets.filter(({ data }) => !!data && data.isA('vtkPolyData')).map(({ data }) => data)
+        const geometries = dataSets.filter(
+          ({ data }) => {
+            return !!data &&
+            data.isA('vtkPolyData') &&
+            !!(data.getPolys().getNumberOfValues() || data.getLines().getNumberOfValues() || data.getStrips().getNumberOfValues())
+
+            }).map(({ data }) => data)
+        const pointSets = dataSets.filter(
+          ({ data }) => {
+            return !!data &&
+            data.isA('vtkPolyData') &&
+            !!!(data.getPolys().getNumberOfValues() || data.getLines().getNumberOfValues() || data.getStrips().getNumberOfValues())
+
+            }).map(({ data }) => data)
+        console.log(geometries)
+        console.log(pointSets)
         const any3D  = ! dataSets.map(({ is3D }) => is3D).every((is3D) => !is3D)
         const is3D = any3D && !use2D;
         resolve(
           createViewer(container, {
             image,
-            // geometries,
+            geometries,
             pointSets,
             use2D: !is3D,
           })

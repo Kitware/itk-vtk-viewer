@@ -103,11 +103,11 @@ test('Test createViewer.setImage', (t) => {
           renderWindow.setSize(600, 600)
           const representation = viewProxy.getRepresentations()[0];
           const volumeMapper = representation.getMapper();
+          viewer.renderLater()
           viewer.captureImage().then((screenshot) => {
             testUtils.compareImages(screenshot, [createViewerSetImageBaseline], 'Test createViewer.setImage', t, 1.0, gc.releaseResources)
         })
 
         })
-      viewer.renderLater()
     })
 })

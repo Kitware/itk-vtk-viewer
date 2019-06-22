@@ -64,12 +64,10 @@ test('Test createViewer', (t) => {
       renderWindow.setSize(600, 600)
       const representation = viewProxy.getRepresentations()[0];
       const volumeMapper = representation.getMapper();
-      volumeMapper.onLightingActivated(() => {
-        viewer.captureImage().then((screenshot) => {
-          testUtils.compareImages(screenshot, [createViewerBaseline], 'Test createViewer', t, 1.0, gc.releaseResources)
-        })
+      viewer.renderLater();
+      viewer.captureImage().then((screenshot) => {
+        testUtils.compareImages(screenshot, [createViewerBaseline], 'Test createViewer', t, 1.0, gc.releaseResources)
       })
-      viewer.renderLater()
     })
 })
 
@@ -105,10 +103,8 @@ test('Test createViewer.setImage', (t) => {
           renderWindow.setSize(600, 600)
           const representation = viewProxy.getRepresentations()[0];
           const volumeMapper = representation.getMapper();
-          volumeMapper.onLightingActivated(() => {
-            viewer.captureImage().then((screenshot) => {
-              testUtils.compareImages(screenshot, [createViewerSetImageBaseline], 'Test createViewer.setImage', t, 1.0, gc.releaseResources)
-          })
+          viewer.captureImage().then((screenshot) => {
+            testUtils.compareImages(screenshot, [createViewerSetImageBaseline], 'Test createViewer.setImage', t, 1.0, gc.releaseResources)
         })
 
         })

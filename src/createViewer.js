@@ -262,10 +262,50 @@ const createViewer = (
   );
   store.pointSetsUI.pointSets = pointSets;
 
+  console.log(image)
+  if (image) {
+    imageUI = UserInterface.createImageUI(
+      uiContainer,
+      viewerDOMId,
+      lookupTableProxy,
+      piecewiseFunction,
+      imageRepresentationProxy,
+      dataArray,
+      view,
+      isBackgroundDark,
+      use2D
+    );
+    const annotationContainer = container.querySelector('.js-se');
+    annotationContainer.style.fontFamily = 'monospace';
+  }
 
-  store.itkVtkView.resize();
-  const resizeSensor = new ResizeSensor(store.container, function() {
-    store.itkVtkView.resize();
+  let geometriesUI = null
+  if(!!geometries && geometries.length > 0) {
+    geometriesUI = UserInterface.createGeometriesUI(
+      uiContainer,
+      viewerDOMId,
+      geometries,
+      geometryRepresentationProxies,
+      view,
+      isBackgroundDark
+    );
+  }
+
+  let pointSetsUI = null
+  if(!!pointSets && pointSets.length > 0) {
+    pointSetsUI = UserInterface.createPointSetsUI(
+      uiContainer,
+      viewerDOMId,
+      pointSets,
+      pointSetRepresentationProxies,
+      view,
+      isBackgroundDark
+    );
+  }
+
+  view.resize();
+  const resizeSensor = new ResizeSensor(container, function() {
+    view.resize();
   });
   proxyManager.renderAllViews();
 

@@ -20,9 +20,10 @@ function createImageUI(
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
-  // If not a 2D RGB iage
-  const dataArray = store.imageUI.image.getPointData().getScalars();
-  if (!(dataArray.getDataType() !== 'Uint8Array' && (store.imageUI.numberOfComponents === 3 || store.imageUI.numberOfComponents === 4))) {
+  console.log(dataArray)
+  let updateColorMap = null;
+  // If not a 2D RGB image
+  if (!(dataArray.getDataType() !== 'Uint8Array' && (dataArray.getNumberOfComponents() === 3 || dataArray.getNumberOfComponents() === 4))) {
     const colorRangeInputRow = document.createElement('div');
     colorRangeInputRow.setAttribute('class', style.uiRow);
     createColorRangeInput(

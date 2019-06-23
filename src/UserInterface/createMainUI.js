@@ -5,6 +5,7 @@ import style from './ItkVtkViewer.module.css';
 import createToggleUserInterface from './Main/createToggleUserInterfaceButton';
 import createScreenshotButton from './Main/createScreenshotButton';
 import createFullscreenButton from './Main/createFullscreenButton';
+import createRotateButton from './Main/createRotateButton';
 import createAnnotationButton from './Main/createAnnotationButton';
 import createInterpolationButton from './Main/createInterpolationButton';
 import createViewModeButtons from './Main/createViewModeButtons';
@@ -54,6 +55,13 @@ function createMainUI(
     viewerDOMId,
     contrastSensitiveStyle,
     rootContainer,
+    mainUIRow
+  )
+
+  createRotateButton(
+    viewerDOMId,
+    contrastSensitiveStyle,
+    view,
     mainUIRow
   )
 

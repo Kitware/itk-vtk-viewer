@@ -31,7 +31,7 @@ function applyStyle(el, style) {
 
 const createViewer = (
   rootContainer,
-  { image, geometries, pointSets, use2D = false, viewerStyle, viewerState }
+  { image, geometries, pointSets, use2D = false, rotate = true, viewerStyle, viewerState }
 ) => {
   UserInterface.emptyContainer(rootContainer);
 
@@ -352,6 +352,32 @@ const createViewer = (
     }
   }
 
+  const toggleRotateButton = document.getElementById(`${viewerDOMId}-toggleRotateButton`);
+
+  const toggleRotateHandlers = [];
+  const toggleRotateButtonListener = (event) => {
+    const enabled = toggleRotateButton.checked;
+    toggleRotateHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  }
+  toggleRotateButton.addEventListener('click', toggleRotateButtonListener)
+
+  publicAPI.subscribeToggleRotate = (handler) => {
+    const index = toggleRotateHandlers.length;
+    toggleRotateHandlers.push(handler);
+    function unsubscribe() {
+      toggleRotateHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setRotateEnabled = (enabled) => {
+    const rotate = toggleRotateButton.checked;
+    if (enabled && !rotate || !enabled && rotate) {
+      toggleRotateButton.click();
+    }
+  }
 
   const toggleInterpolationButton = document.getElementById(`${viewerDOMId}-toggleInterpolationButton`);
 
@@ -667,6 +693,8 @@ const createViewer = (
     //// todo
   //}
   addKeyboardShortcuts(rootContainer, publicAPI, viewerDOMId);
+
+  publicAPI.setRotateEnabled(rotate)
 
   return publicAPI;
 };

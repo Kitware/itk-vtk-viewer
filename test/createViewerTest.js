@@ -49,7 +49,7 @@ test('Test createViewer', (t) => {
       webWorker.terminate()
 
       const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
-      const viewer = createViewer(viewerContainer, { image: imageData, viewerStyle: TEST_VIEWER_STYLE })
+      const viewer = createViewer(viewerContainer, { image: imageData, rotate: false, viewerStyle: TEST_VIEWER_STYLE })
 
       const uiContainer = viewerContainer.children[viewerContainer.children.length - 1];
       const toggleUIButton = uiContainer.children[0];
@@ -87,7 +87,7 @@ test('Test createViewer.setImage', (t) => {
       webWorker.terminate()
 
       const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
-      const viewer = createViewer(container, { image: imageData, viewerStyle: TEST_VIEWER_STYLE })
+      const viewer = createViewer(container, { image: imageData, rotate: false, viewerStyle: TEST_VIEWER_STYLE })
       return axios.get(testImage3DPath2, {responseType: 'blob'})
         .then(function (response) {
           return itkreadImageBlob(null, response.data, testImage3DPath2)

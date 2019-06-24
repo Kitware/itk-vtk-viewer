@@ -125,8 +125,6 @@ const processFiles = (container, { files, use2D }) => {
             !!!(data.getPolys().getNumberOfValues() || data.getLines().getNumberOfValues() || data.getStrips().getNumberOfValues())
 
             }).map(({ data }) => data)
-        console.log(geometries)
-        console.log(pointSets)
         const any3D  = ! dataSets.map(({ is3D }) => is3D).every((is3D) => !is3D)
         const is3D = any3D && !use2D;
         resolve(

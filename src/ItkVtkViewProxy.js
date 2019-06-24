@@ -22,6 +22,10 @@ function ItkVtkViewProxy(publicAPI, model) {
     // volume rendering
     if (axisIndex === -1) {
       model.interactor.setInteractorStyle(model.interactorStyle3D);
+      if (model.rotate && !!!model.rotateAnimationCallback) {
+        model.rotateAnimationCallback = model.interactor.onAnimation(rotateAzimuth);
+        model.interactor.requestAnimation('itk-vtk-view-rotate');
+      }
       if (model.volumeRenderingCameraState) {
         model.camera.setFocalPoint(
           ...model.volumeRenderingCameraState.focalPoint
@@ -44,6 +48,11 @@ function ItkVtkViewProxy(publicAPI, model) {
     } else {
       model.camera.setParallelProjection(true);
       model.interactor.setInteractorStyle(model.interactorStyle2D);
+      if (model.rotate && !!model.rotateAnimationCallback) {
+        model.interactor.cancelAnimation('itk-vtk-view-rotate');
+        model.rotateAnimationCallback.unsubscribe();
+        model.rotateAnimationCallback = null;
+      }
       if (model.volumeRepresentation) {
         model.volumeRepresentation.setVolumeVisibility(false);
         model.volumeRepresentation.getActors().forEach((actor, index) => {
@@ -301,6 +310,30 @@ function ItkVtkViewProxy(publicAPI, model) {
     }
     representation.getActors().forEach(model.annotationPicker.deletePickList);
   };
+
+  // Continuously rotate in 3D
+  function rotateAzimuth() {
+    model.renderer.getActiveCamera().azimuth(0.25)
+    model.renderer.resetCameraClippingRange();
+  }
+  model.rotateAnimationCallback = null
+  publicAPI.setRotate = (rotate) => {
+    if (model.rotate === rotate) {
+      return;
+    }
+    model.rotate = rotate;
+
+    if (rotate) {
+      model.rotateAnimationCallback = model.interactor.onAnimation(rotateAzimuth);
+      model.interactor.requestAnimation('itk-vtk-view-rotate');
+    } else {
+      model.interactor.cancelAnimation('itk-vtk-view-rotate');
+      if (!!model.rotateAnimationCallback) {
+        model.rotateAnimationCallback.unsubscribe();
+        model.rotateAnimationCallback = null;
+      }
+    }
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -310,6 +343,7 @@ function ItkVtkViewProxy(publicAPI, model) {
 const DEFAULT_VALUES = {
   viewMode: 'VolumeRendering',
   viewPlanes: false,
+  rotate: false,
 };
 
 // ----------------------------------------------------------------------------
@@ -318,7 +352,7 @@ export function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues);
 
   vtkViewProxy.extend(publicAPI, model, initialValues);
-  macro.get(publicAPI, model, ['viewMode', 'viewPlanes']);
+  macro.get(publicAPI, model, ['viewMode', 'viewPlanes', 'rotate']);
 
   // Object specific methods
   ItkVtkViewProxy(publicAPI, model);

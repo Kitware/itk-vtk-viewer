@@ -1,8 +1,8 @@
 title: Embedded Viewer
 ---
 
-ITK/VTK Image Viewer can be used within an existing web site as a library to embed interactive 3D visualization using remote datasets.
-To do so a container elements should be created for that view inside your current HTML content like follow.
+ITK/VTK Viewer can be used within an existing web site as a library to embed interactive 3D visualizations for remote or local datasets.
+To do so, create a container element for the viewer as follows.
 
 ```html
 <div class="itk-vtk-viewer" />

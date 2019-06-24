@@ -10,7 +10,7 @@ For example,
 <iframe
 title="Visualization link preview"
 src="https://kitware.github.io/itk-vtk-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/564a65d58d777f7522dbfb61/download/data.nrrd"
-width="600" height="400" id="linkPreview"></iframe>
+width="800" height="600" id="linkPreview"></iframe>
 
 <div>
 <label for="dataVisualizationLink"><a href="https://kitware.github.io/itk-vtk-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/564a65d58d777f7522dbfb61/download/data.nrrd" target="_blank" id="linkForNewTab">Visualization link:</a></label>
@@ -39,7 +39,7 @@ function copyLinkToClipboard() {
 </script>
 
 <div>
-<label for="dataURL">Enter an image file URL:</label>
+<label for="dataURL">Enter an image, mesh, or point set file URL:</label>
 <input type="url" name="dataURL" id="dataURL" placeholder="https://data.kitware.com/api/v1/file/564a65d58d777f7522dbfb61/download/data.nrrd" size="100" required oninput="generateDataVisualizationLink()" />
 </div>
 

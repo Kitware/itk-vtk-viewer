@@ -6,6 +6,7 @@ import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import proxyConfiguration from './proxyManagerConfiguration';
 import UserInterface from './UserInterface';
 import addKeyboardShortcuts from './addKeyboardShortcuts';
+import rgb2hex from './UserInterface/rgb2hex';
 
 let geometryNameCount = 0
 let pointSetNameCount = 0
@@ -676,6 +677,43 @@ const createViewer = (
       if (current_opacity !== parseFloat(opacity)) {
         gradientOpacitySlider.value = opacity;
         imageUI.updateGradientOpacity()
+      }
+    }
+  }
+
+  const geometryColorInput = document.getElementById(`${viewerDOMId}-geometryColorInput`);
+
+  const inputGeometryColorHandlers = [];
+  const inputGeometryColorListener = (event) => {
+    const value = geometryColorInput.value;
+    inputGeometryColorHandlers.forEach((handler) => {
+      handler.call(null, value);
+    })
+  }
+  if (geometryColorInput !== null) {
+    geometryColorInput.addEventListener('change', inputGeometryColorListener);
+  }
+
+  //publicAPI.subscribeSelectColorMap = (handler) => {
+    //const index = inputGeometryColorHandlers.length;
+    //inputGeometryColorHandlers.push(handler);
+    //function unsubscribe() {
+      //inputGeometryColorHandlers[index] = null;
+    //}
+    //return Object.freeze({ unsubscribe });
+  //}
+
+  publicAPI.setGeometryColor = (index, rgbColor) => {
+    if (geometryColorInput !== null) {
+      const currentColor = geometryColorInput.value;
+      const hexColor = rgb2hex(rgbColor);
+      console.log('setGeometryColor')
+      console.log(currentColor)
+      console.log(hexColor)
+      if (currentColor !== hexColor) {
+        geometryColorInput.value = hexColor;
+        console.log(rgbColor)
+        geometryRepresentationProxies[index].setColor(Array.from(rgbColor));
       }
     }
   }

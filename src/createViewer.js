@@ -714,6 +714,38 @@ const createViewer = (
     }
   }
 
+  const pointSetSelector = document.getElementById(`${viewerDOMId}-pointSetSelector`);
+  const pointSetColorInput = document.getElementById(`${viewerDOMId}-pointSetColorInput`);
+
+  const inputPointSetColorHandlers = [];
+  const inputPointSetColorListener = (event) => {
+    const value = pointSetColorInput.value;
+    inputPointSetColorHandlers.forEach((handler) => {
+      handler.call(null, value);
+    })
+  }
+  if (pointSetColorInput !== null) {
+    pointSetColorInput.addEventListener('change', inputPointSetColorListener);
+  }
+
+  //publicAPI.subscribeSelectColorMap = (handler) => {
+    //const index = inputPointSetColorHandlers.length;
+    //inputPointSetColorHandlers.push(handler);
+    //function unsubscribe() {
+      //inputPointSetColorHandlers[index] = null;
+    //}
+    //return Object.freeze({ unsubscribe });
+  //}
+
+  publicAPI.setPointSetColor = (index, rgbColor) => {
+    if (pointSetColorInput !== null && pointSetSelector !== null) {
+      if (index === pointSetSelector.selectedIndex) {
+        const hexColor = rgb2hex(rgbColor);
+        pointSetColorInput.value = hexColor;
+      }
+      pointSetRepresentationProxies[index].setColor(Array.from(rgbColor));
+    }
+  }
 
   publicAPI.getViewProxy = () => {
     return view;

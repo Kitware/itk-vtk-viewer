@@ -42,6 +42,9 @@ function createPointSetSizeSlider(
   }
   sizeElement.addEventListener('input', updateSize);
   updateSize();
+  pointSetRepresentationProxies.forEach((proxy) => {
+    proxy.setPointSize(defaultPointSetSize)
+  })
   pointSetSelector.addEventListener('change',
     (event) => {
       sizeElement.value = pointSetSizes[pointSetSelector.selectedIndex]

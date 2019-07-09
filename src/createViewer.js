@@ -707,12 +707,8 @@ const createViewer = (
     if (geometryColorInput !== null) {
       const currentColor = geometryColorInput.value;
       const hexColor = rgb2hex(rgbColor);
-      console.log('setGeometryColor')
-      console.log(currentColor)
-      console.log(hexColor)
       if (currentColor !== hexColor) {
         geometryColorInput.value = hexColor;
-        console.log(rgbColor)
         geometryRepresentationProxies[index].setColor(Array.from(rgbColor));
       }
     }

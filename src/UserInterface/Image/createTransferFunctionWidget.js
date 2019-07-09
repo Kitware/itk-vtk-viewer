@@ -1,4 +1,4 @@
-import { autorun, reaction } from 'mobx';
+import { reaction, action } from 'mobx';
 
 import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps';
 import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator';
@@ -136,7 +136,7 @@ function createTransferFunctionWidget(
       transferFunctionWidget.setGaussians(newGaussians);
     }
   )
-  const onZoomChange = (zoom) => {
+  const onZoomChange = action((zoom) => {
     const dataArray = store.imageUI.image.getPointData().getScalars();
     const fullRange = dataArray.getRange(0);
     const diff = fullRange[1] - fullRange[0];
@@ -145,13 +145,19 @@ function createTransferFunctionWidget(
     colorRange[1] = fullRange[0] + zoom[1] * diff;
     const component = store.imageUI.selectedComponentIndex;
     store.imageUI.colorRanges[component] = colorRange;
-  };
+  });
   transferFunctionWidget.onZoomChange(macro.throttle(onZoomChange, 150));
 
-  autorun(() => {
-    const lookupTable = store.imageUI.lookupTableProxies[store.imageUI.selectedComponentIndex].getLookupTable();
+  function updateTransferFunction(index) {
+    const lookupTable = store.imageUI.lookupTableProxies[index].getLookupTable();
     transferFunctionWidget.setColorTransferFunction(lookupTable);
-  })
+  }
+  reaction(() => { return store.imageUI.selectedComponentIndex; },
+    (index) => {
+      updateTransferFunction(index);
+    }
+  )
+  updateTransferFunction(store.imageUI.selectedComponentIndex);
 
   if (use2D) {
     // Necessary side effect: addGaussian calls invokeOpacityChange, which

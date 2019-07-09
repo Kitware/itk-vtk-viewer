@@ -4,6 +4,7 @@ import style from './ItkVtkViewer.module.css';
 
 import createColorRangeInput from './Image/createColorRangeInput';
 import createBlendModeSelector from './Image/createBlendModeSelector';
+import createComponentSelector from './Image/createComponentSelector';
 import createTransferFunctionWidget from './Image/createTransferFunctionWidget';
 import createViewPlanesToggle from './Image/createViewPlanesToggle';
 import createUseShadowToggle from './Image/createUseShadowToggle';
@@ -20,10 +21,17 @@ function createImageUI(
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
-  console.log(dataArray)
+  const dataArray = store.imageUI.image.getPointData().getScalars();
+  const components = dataArray.getNumberOfComponents();
+
+  const componentSelector = createComponentSelector(
+    store,
+    imageUIGroup,
+  );
+
   let updateColorMap = null;
   // If not a 2D RGB image
-  if (!(dataArray.getDataType() !== 'Uint8Array' && (dataArray.getNumberOfComponents() === 3 || dataArray.getNumberOfComponents() === 4))) {
+  if (!(dataArray.getDataType() !== 'Uint8Array' && (components === 3 || components === 4))) {
     const colorRangeInputRow = document.createElement('div');
     colorRangeInputRow.setAttribute('class', style.uiRow);
     createColorRangeInput(

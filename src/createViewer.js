@@ -118,15 +118,17 @@ const createViewer = (
   }
 
   let geometryRepresentationProxies = []
+  let geometrySources = []
   if(!!geometries && geometries.length > 0) {
-    const uid = `Geometry${geometryNameCount++}`
     geometries.forEach((geometry) => {
+      const uid = `Geometry${geometryNameCount++}`
       const geometrySource = proxyManager.createProxy('Sources', 'TrivialProducer', {
         name: uid,
       });
       geometrySource.setInputData(geometry)
       proxyManager.createRepresentationInAllViews(geometrySource);
       const geometryRepresentation = proxyManager.getRepresentation(geometrySource, view);
+      geometrySources.push(geometrySource)
       geometryRepresentationProxies.push(geometryRepresentation)
     })
   }
@@ -259,6 +261,27 @@ const createViewer = (
     }, 0);
   }
   publicAPI.setImage = macro.throttle(setImage, 100);
+
+  publicAPI.setGeometries = (geometries) => {
+    if (geometries.length > geometryRepresentationProxies.length) {
+      geometries.slice(geometryRepresentationProxies.length).forEach((geometry) => {
+        const uid = `Geometry${geometryNameCount++}`
+        const geometrySource = proxyManager.createProxy('Sources', 'TrivialProducer', {
+          name: uid,
+        });
+        geometrySource.setInputData(geometry)
+        proxyManager.createRepresentationInAllViews(geometrySource);
+        const geometryRepresentation = proxyManager.getRepresentation(geometrySource, view);
+        geometrySources.push(geometrySource)
+        geometryRepresentationProxies.push(geometryRepresentation);
+      })
+    } else if(geometries.length < geometryRepresentationProxies.length) {
+      geometryRepresentationProxies.splice(geometries.length);
+    }
+    geometries.forEach((geometry, index) => {
+      geometrySources[index].setInputData(geometry);
+    })
+  }
 
   const toggleUserInterfaceButton = document.getElementById(`${viewerDOMId}-toggleUserInterfaceButton`);
 

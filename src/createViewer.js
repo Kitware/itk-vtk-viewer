@@ -118,20 +118,23 @@ const createViewer = (
   }
 
   let geometryRepresentationProxies = []
+  let geometrySources = []
   if(!!geometries && geometries.length > 0) {
-    const uid = `Geometry${geometryNameCount++}`
     geometries.forEach((geometry) => {
+      const uid = `Geometry${geometryNameCount++}`
       const geometrySource = proxyManager.createProxy('Sources', 'TrivialProducer', {
         name: uid,
       });
       geometrySource.setInputData(geometry)
       proxyManager.createRepresentationInAllViews(geometrySource);
       const geometryRepresentation = proxyManager.getRepresentation(geometrySource, view);
+      geometrySources.push(geometrySource)
       geometryRepresentationProxies.push(geometryRepresentation)
     })
   }
 
   let pointSetRepresentationProxies = []
+  let pointSetSources = []
   if(!!pointSets && pointSets.length > 0) {
     pointSets.forEach((pointSet) => {
       const sourceUid = `pointSetSource${pointSetNameCount++}`
@@ -145,6 +148,7 @@ const createViewer = (
       });
       pointSetRepresentation.setInput(pointSetSource);
       view.addRepresentation(pointSetRepresentation);
+      pointSetSources.push(pointSetSource)
       pointSetRepresentationProxies.push(pointSetRepresentation)
     })
   }
@@ -259,6 +263,48 @@ const createViewer = (
     }, 0);
   }
   publicAPI.setImage = macro.throttle(setImage, 100);
+
+  publicAPI.setPointSets = (pointsets) => {
+    if (pointsets.length > pointSetRepresentationProxies.length) {
+      pointsets.slice(pointSetRepresentationProxies.length).forEach((pointSet) => {
+        const uid = `pointSet${pointSetNameCount++}`
+        const pointSetSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
+          name: uid,
+        });
+        pointSetSource.setInputData(pointSet)
+        proxyManager.createRepresentationInAllViews(pointSetSource);
+        const pointSetRepresentation = proxyManager.getRepresentation(pointSetSource, view);
+        pointSetSources.push(pointSetSource)
+        pointSetRepresentationProxies.push(pointSetRepresentation);
+      })
+    } else if(pointsets.length < pointSetRepresentationProxies.length) {
+      pointSetRepresentationProxies.splice(pointsets.length);
+    }
+    pointsets.forEach((pointSet, index) => {
+      pointSetSources[index].setInputData(pointSet);
+    })
+  }
+
+  publicAPI.setGeometries = (geometries) => {
+    if (geometries.length > geometryRepresentationProxies.length) {
+      geometries.slice(geometryRepresentationProxies.length).forEach((geometry) => {
+        const uid = `Geometry${geometryNameCount++}`
+        const geometrySource = proxyManager.createProxy('Sources', 'TrivialProducer', {
+          name: uid,
+        });
+        geometrySource.setInputData(geometry)
+        proxyManager.createRepresentationInAllViews(geometrySource);
+        const geometryRepresentation = proxyManager.getRepresentation(geometrySource, view);
+        geometrySources.push(geometrySource)
+        geometryRepresentationProxies.push(geometryRepresentation);
+      })
+    } else if(geometries.length < geometryRepresentationProxies.length) {
+      geometryRepresentationProxies.splice(geometries.length);
+    }
+    geometries.forEach((geometry, index) => {
+      geometrySources[index].setInputData(geometry);
+    })
+  }
 
   const toggleUserInterfaceButton = document.getElementById(`${viewerDOMId}-toggleUserInterfaceButton`);
 

@@ -134,6 +134,7 @@ const createViewer = (
   }
 
   let pointSetRepresentationProxies = []
+  let pointSetSources = []
   if(!!pointSets && pointSets.length > 0) {
     pointSets.forEach((pointSet) => {
       const sourceUid = `pointSetSource${pointSetNameCount++}`
@@ -147,6 +148,7 @@ const createViewer = (
       });
       pointSetRepresentation.setInput(pointSetSource);
       view.addRepresentation(pointSetRepresentation);
+      pointSetSources.push(pointSetSource)
       pointSetRepresentationProxies.push(pointSetRepresentation)
     })
   }
@@ -261,6 +263,27 @@ const createViewer = (
     }, 0);
   }
   publicAPI.setImage = macro.throttle(setImage, 100);
+
+  publicAPI.setPointSets = (pointsets) => {
+    if (pointsets.length > pointSetRepresentationProxies.length) {
+      pointsets.slice(pointSetRepresentationProxies.length).forEach((pointSet) => {
+        const uid = `pointSet${pointSetNameCount++}`
+        const pointSetSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
+          name: uid,
+        });
+        pointSetSource.setInputData(pointSet)
+        proxyManager.createRepresentationInAllViews(pointSetSource);
+        const pointSetRepresentation = proxyManager.getRepresentation(pointSetSource, view);
+        pointSetSources.push(pointSetSource)
+        pointSetRepresentationProxies.push(pointSetRepresentation);
+      })
+    } else if(pointsets.length < pointSetRepresentationProxies.length) {
+      pointSetRepresentationProxies.splice(pointsets.length);
+    }
+    pointsets.forEach((pointSet, index) => {
+      pointSetSources[index].setInputData(pointSet);
+    })
+  }
 
   publicAPI.setGeometries = (geometries) => {
     if (geometries.length > geometryRepresentationProxies.length) {

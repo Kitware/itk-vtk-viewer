@@ -29,10 +29,10 @@ function createPointSetOpacitySlider(
       ${opacityIcon}
     </div>
     <input type="range" min="0" max="1" value="${defaultPointSetOpacity}" step="0.01"
-      id="${viewerDOMId}-opacitySlider"
+      id="${viewerDOMId}-pointSetOpacitySlider"
       class="${style.slider}" />`;
   const opacityElement = sliderEntry.querySelector(
-    `#${viewerDOMId}-opacitySlider`
+    `#${viewerDOMId}-pointSetOpacitySlider`
   );
   function updateOpacity() {
     const value = Number(opacityElement.value);

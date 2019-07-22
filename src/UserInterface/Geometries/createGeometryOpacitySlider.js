@@ -29,10 +29,10 @@ function createGeometryOpacitySlider(
       ${opacityIcon}
     </div>
     <input type="range" min="0" max="1" value="${defaultGeometryOpacity}" step="0.01"
-      id="${viewerDOMId}-opacitySlider"
+      id="${viewerDOMId}-geometryOpacitySlider"
       class="${style.slider}" />`;
   const opacityElement = sliderEntry.querySelector(
-    `#${viewerDOMId}-opacitySlider`
+    `#${viewerDOMId}-geometryOpacitySlider`
   );
   function updateOpacity() {
     const value = Number(opacityElement.value);

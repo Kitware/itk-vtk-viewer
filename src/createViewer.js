@@ -727,41 +727,9 @@ const createViewer = (
     }
   }
 
-  const geometryColorInput = document.getElementById(`${viewerDOMId}-geometryColorInput`);
-
-  const inputGeometryColorHandlers = [];
-  const inputGeometryColorListener = (event) => {
-    const value = geometryColorInput.value;
-    inputGeometryColorHandlers.forEach((handler) => {
-      handler.call(null, value);
-    })
-  }
-  if (geometryColorInput !== null) {
-    geometryColorInput.addEventListener('change', inputGeometryColorListener);
-  }
-
-  //publicAPI.subscribeSelectColorMap = (handler) => {
-    //const index = inputGeometryColorHandlers.length;
-    //inputGeometryColorHandlers.push(handler);
-    //function unsubscribe() {
-      //inputGeometryColorHandlers[index] = null;
-    //}
-    //return Object.freeze({ unsubscribe });
-  //}
-
-  publicAPI.setGeometryColor = (index, rgbColor) => {
-    if (geometryColorInput !== null) {
-      const currentColor = geometryColorInput.value;
-      const hexColor = rgb2hex(rgbColor);
-      if (currentColor !== hexColor) {
-        geometryColorInput.value = hexColor;
-        geometryRepresentationProxies[index].setColor(Array.from(rgbColor));
-      }
-    }
-  }
-
   const pointSetSelector = document.getElementById(`${viewerDOMId}-pointSetSelector`);
   const pointSetColorInput = document.getElementById(`${viewerDOMId}-pointSetColorInput`);
+  const pointSetOpacitySlider = document.getElementById(`${viewerDOMId}-pointSetOpacitySlider`);
 
   const inputPointSetColorHandlers = [];
   const inputPointSetColorListener = (event) => {
@@ -789,8 +757,60 @@ const createViewer = (
         const hexColor = rgb2hex(rgbColor);
         pointSetColorInput.value = hexColor;
       }
-      pointSetRepresentationProxies[index].setColor(Array.from(rgbColor));
     }
+    pointSetRepresentationProxies[index].setColor(Array.from(rgbColor));
+  }
+
+  publicAPI.setPointSetOpacity = (index, opacity) => {
+    if (pointSetOpacitySlider !== null && pointSetSelector !== null) {
+      if (index === pointSetSelector.selectedIndex) {
+        pointSetOpacitySlider.value = opacity;
+      }
+    }
+    pointSetRepresentationProxies[index].setOpacity(opacity);
+  }
+
+  const geometrySelector = document.getElementById(`${viewerDOMId}-geometrySelector`);
+  const geometryColorInput = document.getElementById(`${viewerDOMId}-geometryColorInput`);
+  const geometryOpacitySlider = document.getElementById(`${viewerDOMId}-geometryOpacitySlider`);
+
+  const inputGeometryColorHandlers = [];
+  const inputGeometryColorListener = (event) => {
+    const value = geometryColorInput.value;
+    inputGeometryColorHandlers.forEach((handler) => {
+      handler.call(null, value);
+    })
+  }
+  if (geometryColorInput !== null) {
+    geometryColorInput.addEventListener('change', inputGeometryColorListener);
+  }
+
+  //publicAPI.subscribeSelectColorMap = (handler) => {
+    //const index = inputGeometryColorHandlers.length;
+    //inputGeometryColorHandlers.push(handler);
+    //function unsubscribe() {
+      //inputGeometryColorHandlers[index] = null;
+    //}
+    //return Object.freeze({ unsubscribe });
+  //}
+
+  publicAPI.setGeometryColor = (index, rgbColor) => {
+    if (geometryColorInput !== null && geometrySelector !== null) {
+      if (index === geometrySelector.selectedIndex) {
+        const hexColor = rgb2hex(rgbColor);
+        geometryColorInput.value = hexColor;
+      }
+    }
+    geometryRepresentationProxies[index].setColor(Array.from(rgbColor));
+  }
+
+  publicAPI.setGeometryOpacity = (index, opacity) => {
+    if (geometryOpacitySlider !== null && geometrySelector !== null) {
+      if (index === geometrySelector.selectedIndex) {
+        geometryOpacitySlider.value = opacity;
+      }
+    }
+    geometryRepresentationProxies[index].setOpacity(opacity);
   }
 
   publicAPI.getViewProxy = () => {

@@ -11,7 +11,7 @@ function createPointSetColorPresetSelector(
   pointSetColorPresetRow
 ) {
   const pointSetColorPresets = new Array(pointSetHasScalars.length);
-  const defaultPointSetColorPreset = 'Plasma (matplotlib)';
+  const defaultPointSetColorPreset = 'Viridis (matplotlib)';
   pointSetColorPresets.fill(defaultPointSetColorPreset);
 
   const presetSelector = document.createElement('select');

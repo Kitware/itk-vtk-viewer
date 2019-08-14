@@ -9,11 +9,11 @@ function createUseShadowToggle(
   viewerDOMId,
   volumeRepresentation,
   renderWindow,
-  isBackgroundDark
+  viewerStore
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
 
   const useShadowButton = document.createElement('div');

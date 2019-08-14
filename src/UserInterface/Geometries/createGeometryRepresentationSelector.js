@@ -11,7 +11,7 @@ function createGeometryRepresentationSelector(
   viewerDOMId,
   geometryNames,
   renderWindow,
-  isBackgroundDark,
+  viewerStore,
   geometryRepresentationProxies,
   geometrySelector,
   geometryRepresentationRow
@@ -22,7 +22,7 @@ function createGeometryRepresentationSelector(
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
 
   function setRepresentation(value) {

@@ -7,13 +7,13 @@ import sampleDistanceIcon from 'vtk.js/Sources/Interaction/UI/Icons/Spacing.svg'
 function createSampleDistanceSlider(
   uiContainer,
   viewerDOMId,
-  isBackgroundDark,
+  viewerStore,
   volumeRepresentation,
   renderWindow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
 
   const sliderEntry = document.createElement('div');

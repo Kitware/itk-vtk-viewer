@@ -9,13 +9,13 @@ function createPointSetSizeSlider(
   viewerDOMId,
   renderWindow,
   pointSetRepresentationProxies,
-  isBackgroundDark,
+  viewerStore,
   pointSetSelector,
   pointSetSizeRow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
   const pointSetSizes = new Array(pointSetHasScalars.length);
   const defaultPointSetSize = 3;

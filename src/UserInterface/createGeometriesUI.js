@@ -9,7 +9,7 @@ function createGeometriesUI(
   geometries,
   geometryRepresentationProxies,
   view,
-  isBackgroundDark
+  viewerStore
 ) {
   const renderWindow = view.getRenderWindow();
 
@@ -41,7 +41,7 @@ function createGeometriesUI(
     viewerDOMId,
     geometryNames,
     renderWindow,
-    isBackgroundDark,
+    viewerStore,
     geometryRepresentationProxies,
     geometrySelector,
     geometryRepresentationRow
@@ -53,7 +53,7 @@ function createGeometriesUI(
     renderWindow,
     geometries,
     geometryRepresentationProxies,
-    isBackgroundDark,
+    viewerStore,
     geometrySelector,
     geometriesUIGroup
   )

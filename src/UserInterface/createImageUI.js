@@ -16,7 +16,7 @@ function createImageUI(
   volumeRepresentation,
   dataArray,
   view,
-  isBackgroundDark,
+  viewerStore,
   use2D
 ) {
   const renderWindow = view.getRenderWindow();
@@ -59,26 +59,26 @@ function createImageUI(
       viewerDOMId,
       volumeRenderingRow,
       view,
-      isBackgroundDark
+      viewerStore
     );
     createUseShadowToggle(
       volumeRenderingRow,
       viewerDOMId,
       volumeRepresentation,
       renderWindow,
-      isBackgroundDark
+      viewerStore
     );
     createSampleDistanceSlider(
       volumeRenderingRow,
       viewerDOMId,
-      isBackgroundDark,
+      viewerStore,
       volumeRepresentation,
       renderWindow
     );
     updateGradientOpacity = createGradientOpacitySlider(
       volumeRenderingRow,
       viewerDOMId,
-      isBackgroundDark,
+      viewerStore,
       volumeRepresentation,
       renderWindow
     );
@@ -89,7 +89,7 @@ function createImageUI(
       viewerDOMId,
       volumeRepresentation,
       renderWindow,
-      isBackgroundDark
+      viewerStore
     );
   }
 

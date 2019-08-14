@@ -10,7 +10,7 @@ function createGeometryColorWidget(
   renderWindow,
   geometries,
   geometryRepresentationProxies,
-  isBackgroundDark,
+  viewerStore,
   geometrySelector,
   geometriesUIGroup
 ) {
@@ -54,7 +54,7 @@ function createGeometryColorWidget(
     viewerDOMId,
     renderWindow,
     geometryRepresentationProxies,
-    isBackgroundDark,
+    viewerStore,
     geometrySelector,
     geometryColorRow
   )

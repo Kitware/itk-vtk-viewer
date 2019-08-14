@@ -11,7 +11,7 @@ function createPointSetColorWidget(
   renderWindow,
   pointSets,
   pointSetRepresentationProxies,
-  isBackgroundDark,
+  viewerStore,
   pointSetSelector,
   pointSetsUIGroup
 ) {
@@ -53,7 +53,7 @@ function createPointSetColorWidget(
     viewerDOMId,
     renderWindow,
     pointSetRepresentationProxies,
-    isBackgroundDark,
+    viewerStore,
     pointSetSelector,
     pointSetColorRow
   )
@@ -80,7 +80,7 @@ function createPointSetColorWidget(
     viewerDOMId,
     renderWindow,
     pointSetRepresentationProxies,
-    isBackgroundDark,
+    viewerStore,
     pointSetSelector,
     pointSetSizeRow
   )

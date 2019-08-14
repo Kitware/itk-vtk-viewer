@@ -9,13 +9,13 @@ function createGeometryOpacitySlider(
   viewerDOMId,
   renderWindow,
   geometryRepresentationProxies,
-  isBackgroundDark,
+  viewerStore,
   geometrySelector,
   geometryColorRow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
   const geometryOpacities = new Array(geometryHasScalars.length);
   const defaultGeometryOpacity = 1.0;

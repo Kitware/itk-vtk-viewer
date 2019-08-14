@@ -15,7 +15,7 @@ import createResetCameraButton from './Main/createResetCameraButton';
 function createMainUI(
   rootContainer,
   viewerDOMId,
-  isBackgroundDark,
+  viewerStore,
   use2D,
   imageSource,
   imageRepresentationProxy,
@@ -27,7 +27,7 @@ function createMainUI(
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton', 'tooltipButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
 
   const mainUIGroup = document.createElement('div');

@@ -7,13 +7,13 @@ import gradientOpacityIcon from '../icons/gradient.svg';
 function createGradientOpacitySlider(
   uiContainer,
   viewerDOMId,
-  isBackgroundDark,
+  viewerStore,
   volumeRepresentation,
   renderWindow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
 
   const sliderEntry = document.createElement('div');

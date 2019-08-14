@@ -7,11 +7,11 @@ function createPlaneIndexSliders(
   viewerDOMId,
   volumeRepresentation,
   renderWindow,
-  isBackgroundDark
+  viewerStore,
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['sliderLabel'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
   const numberOfValueChars = 6;
   let currentSlicePosition = null;

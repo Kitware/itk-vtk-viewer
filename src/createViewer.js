@@ -7,22 +7,10 @@ import proxyConfiguration from './proxyManagerConfiguration';
 import UserInterface from './UserInterface';
 import addKeyboardShortcuts from './addKeyboardShortcuts';
 import rgb2hex from './UserInterface/rgb2hex';
+import ViewerStore from './ViewerStore';
 
 let geometryNameCount = 0
 let pointSetNameCount = 0
-
-const STYLE_CONTAINER = {
-  position: 'relative',
-  width: '100%',
-  height: '100%',
-  minHeight: '200px',
-  minWidth: '450px',
-  margin: '0',
-  padding: '0',
-  top: '0',
-  left: '0',
-  overflow: 'hidden',
-};
 
 function applyStyle(el, style) {
   Object.keys(style).forEach((key) => {
@@ -39,20 +27,18 @@ const createViewer = (
   const proxyManager = vtkProxyManager.newInstance({ proxyConfiguration });
   window.addEventListener('resize', proxyManager.resizeAllViews);
 
+  // Todo: deserialize from viewerState, if present
+  const viewerStore = new ViewerStore();
+  if (viewerStyle) {
+    viewerStore.style = viewerStyle;
+  }
+  console.log(viewerStore)
+
   const container = document.createElement('div');
-  const defaultStyle = {
-    backgroundColor: [0, 0, 0],
-    containerStyle: STYLE_CONTAINER,
-  };
-  const config = viewerStyle || defaultStyle;
-  const isBackgroundDark =
-    config.backgroundColor[0] +
-      config.backgroundColor[1] +
-      config.backgroundColor[2] <
-    1.5;
   UserInterface.emptyContainer(container);
-  applyStyle(container, config.containerStyle || STYLE_CONTAINER);
+  applyStyle(container, viewerStore.style.containerStyle);
   rootContainer.appendChild(container);
+
 
   const testCanvas = document.createElement("canvas");
   const gl = testCanvas.getContext("webgl")
@@ -74,7 +60,7 @@ const createViewer = (
 
   const view = proxyManager.createProxy('Views', 'ItkVtkView');
   view.setContainer(container);
-  view.setBackground(config.backgroundColor);
+  view.setBackground(viewerStore.style.backgroundColor);
 
   UserInterface.addLogo(container);
 
@@ -163,7 +149,7 @@ const createViewer = (
   const { uiContainer, croppingWidget, addCroppingPlanesChangedHandler, addResetCropHandler } = UserInterface.createMainUI(
     rootContainer,
     viewerDOMId,
-    isBackgroundDark,
+    viewerStore,
     use2D,
     imageSource,
     imageRepresentationProxy,
@@ -179,7 +165,7 @@ const createViewer = (
       imageRepresentationProxy,
       dataArray,
       view,
-      isBackgroundDark,
+      viewerStore,
       use2D
     );
     const annotationContainer = container.querySelector('.js-se');
@@ -194,7 +180,7 @@ const createViewer = (
       geometries,
       geometryRepresentationProxies,
       view,
-      isBackgroundDark
+      viewerStore
     );
   }
 
@@ -206,7 +192,7 @@ const createViewer = (
       pointSets,
       pointSetRepresentationProxies,
       view,
-      isBackgroundDark
+      viewerStore
     );
   }
 

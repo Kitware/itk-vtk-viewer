@@ -10,7 +10,7 @@ function createPointSetRepresentationSelector(
   viewerDOMId,
   pointSetNames,
   renderWindow,
-  isBackgroundDark,
+  viewerStore,
   pointSetRepresentationProxies,
   pointSetSelector,
   pointSetRepresentationRow
@@ -21,7 +21,7 @@ function createPointSetRepresentationSelector(
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
 
   function setRepresentation(value, pointSetIndex) {

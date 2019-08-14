@@ -9,11 +9,11 @@ function createViewPlanesToggle(
   viewerDOMId,
   volumeRenderingRow,
   view,
-  isBackgroundDark
+  viewerStore
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['tooltipButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
 
   let viewPlanes = false;

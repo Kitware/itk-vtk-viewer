@@ -9,13 +9,13 @@ function createPointSetOpacitySlider(
   viewerDOMId,
   renderWindow,
   pointSetRepresentationProxies,
-  isBackgroundDark,
+  viewerStore,
   pointSetSelector,
   pointSetColorRow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
   const pointSetOpacities = new Array(pointSetHasScalars.length);
   const defaultPointSetOpacity = 1.0;

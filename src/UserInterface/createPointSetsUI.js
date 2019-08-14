@@ -9,7 +9,7 @@ function createPointSetsUI(
   pointSets,
   pointSetRepresentationProxies,
   view,
-  isBackgroundDark
+  viewerStore
 ) {
   const renderWindow = view.getRenderWindow();
 
@@ -41,7 +41,7 @@ function createPointSetsUI(
     viewerDOMId,
     pointSetNames,
     renderWindow,
-    isBackgroundDark,
+    viewerStore,
     pointSetRepresentationProxies,
     pointSetSelector,
     pointSetRepresentationRow
@@ -53,7 +53,7 @@ function createPointSetsUI(
     renderWindow,
     pointSets,
     pointSetRepresentationProxies,
-    isBackgroundDark,
+    viewerStore,
     pointSetSelector,
     pointSetsUIGroup
   )

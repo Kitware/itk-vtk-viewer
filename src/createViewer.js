@@ -494,7 +494,7 @@ const createViewer = (
       const currentColorMap = colorMapSelector.value;
       if (currentColorMap !== colorMap) {
         colorMapSelector.value = colorMap;
-        imageUI.updateColorMap();
+        viewerStore.imageUI.updateColorMap();
       }
     }
   }

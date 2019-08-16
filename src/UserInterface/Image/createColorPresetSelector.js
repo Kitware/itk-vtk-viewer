@@ -19,11 +19,10 @@ function createColorPresetSelector(
     viewerStore.imageUI.lookupTableProxy.setPresetName(presetSelector.value);
     renderWindow.render();
   }
+  viewerStore.imageUI.updateColorMap = updateColorMap;
   presetSelector.addEventListener('change', updateColorMap);
   uiContainer.appendChild(presetSelector);
   presetSelector.value = viewerStore.imageUI.lookupTableProxy.getPresetName();
-
-  return updateColorMap;
 }
 
 export default createColorPresetSelector;

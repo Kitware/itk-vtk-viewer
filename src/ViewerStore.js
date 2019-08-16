@@ -30,6 +30,7 @@ class ViewerStore {
       lookupTableProxy: null,
       piecewiseFunctionProxy: null,
       transferFunctionWidget: null,
+      updateColorMap: null,
 
       croppingWidget: null,
       addCroppingPlanesChangedHandler: () => {},

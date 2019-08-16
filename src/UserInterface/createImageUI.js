@@ -19,12 +19,11 @@ function createImageUI(
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
-  let updateColorMap = null;
   const dataArray = viewerStore.image.getPointData().getScalars();
   if (dataArray.getNumberOfComponents() === 1) {
     const presetRow = document.createElement('div');
     presetRow.setAttribute('class', style.uiRow);
-    updateColorMap = createColorPresetSelector(
+    createColorPresetSelector(
       viewerStore,
       presetRow,
       viewerDOMId,
@@ -83,7 +82,7 @@ function createImageUI(
 
   uiContainer.appendChild(imageUIGroup);
 
-  return { updateGradientOpacity, updateColorMap };
+  return { updateGradientOpacity };
 }
 
 export default createImageUI;

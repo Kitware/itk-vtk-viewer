@@ -8,7 +8,6 @@ import createGeometryColorBySelector from './createGeometryColorBySelector';
 function createGeometryColorWidget(
   renderWindow,
   geometries,
-  geometryRepresentationProxies,
   viewerStore,
   geometrySelector,
   geometriesUIGroup
@@ -29,7 +28,6 @@ function createGeometryColorWidget(
     geometryHasScalars,
     renderWindow,
     geometries,
-    geometryRepresentationProxies,
     geometrySelector,
     geometryColorByRow
   )
@@ -43,7 +41,6 @@ function createGeometryColorWidget(
     viewerStore,
     geometryHasScalars,
     renderWindow,
-    geometryRepresentationProxies,
     geometrySelector,
     geometryColorRow
   )
@@ -51,7 +48,6 @@ function createGeometryColorWidget(
   createGeometryOpacitySlider(
     geometryHasScalars,
     renderWindow,
-    geometryRepresentationProxies,
     viewerStore,
     geometrySelector,
     geometryColorRow
@@ -65,7 +61,6 @@ function createGeometryColorWidget(
     viewerStore,
     geometryHasScalars,
     renderWindow,
-    geometryRepresentationProxies,
     geometrySelector,
     geometryColorPresetRow
   )

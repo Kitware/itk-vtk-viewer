@@ -42,6 +42,12 @@ class ViewerStore {
     }
     @observable.ref image = null;
 
+    geometriesUI = {
+      sources: [],
+      representationProxies: [],
+    }
+    @observable.shallow geometries = [];
+
     constructor(proxyManager) {
       this.id = 'itk-vtk-viewer-' +
         performance

@@ -10,7 +10,6 @@ import rgb2hex from './UserInterface/rgb2hex';
 import ViewerStore from './ViewerStore';
 import { autorun, reaction } from 'mobx';
 
-let geometryNameCount = 0
 let pointSetNameCount = 0
 
 function applyStyle(el, style) {
@@ -115,21 +114,33 @@ const createViewer = (
   );
   viewerStore.image = image;
 
-  let geometryRepresentationProxies = []
-  let geometrySources = []
-  if(!!geometries && geometries.length > 0) {
-    geometries.forEach((geometry) => {
-      const uid = `Geometry${geometryNameCount++}`
-      const geometrySource = proxyManager.createProxy('Sources', 'TrivialProducer', {
-        name: uid,
-      });
-      geometrySource.setInputData(geometry)
-      proxyManager.createRepresentationInAllViews(geometrySource);
-      const geometryRepresentation = proxyManager.getRepresentation(geometrySource, viewerStore.itkVtkView);
-      geometrySources.push(geometrySource)
-      geometryRepresentationProxies.push(geometryRepresentation)
-    })
-  }
+  reaction(() => viewerStore.geometries,
+    (geometries) => {
+      if(!!!geometries || geometries.length === 0) {
+        return;
+      }
+      geometries.forEach((geometry, index) => {
+        if (viewerStore.geometriesUI.sources.length <= index) {
+          const uid = `Geometry${index}`
+          const geometrySource = proxyManager.createProxy('Sources', 'TrivialProducer', {
+            name: uid,
+          });
+          viewerStore.geometriesUI.sources.push(geometrySource)
+          viewerStore.geometriesUI.sources[index].setInputData(geometry)
+          proxyManager.createRepresentationInAllViews(geometrySource);
+          const geometryRepresentation = proxyManager.getRepresentation(geometrySource, viewerStore.itkVtkView);
+          viewerStore.geometriesUI.representationProxies.push(geometryRepresentation);
+        } else {
+          viewerStore.geometriesUI.sources[index].setInputData(geometry);
+        }
+      })
+      UserInterface.createGeometriesUI(
+        geometries,
+        viewerStore
+      );
+    }
+  );
+  viewerStore.geometries = geometries;
 
   let pointSetRepresentationProxies = []
   let pointSetSources = []
@@ -151,14 +162,6 @@ const createViewer = (
     })
   }
 
-  let geometriesUI = null
-  if(!!geometries && geometries.length > 0) {
-    geometriesUI = UserInterface.createGeometriesUI(
-      geometries,
-      geometryRepresentationProxies,
-      viewerStore
-    );
-  }
 
   let pointSetsUI = null
   if(!!pointSets && pointSets.length > 0) {
@@ -248,8 +251,8 @@ const createViewer = (
   }
 
   publicAPI.setGeometries = (geometries) => {
-    if (geometries.length > geometryRepresentationProxies.length) {
-      geometries.slice(geometryRepresentationProxies.length).forEach((geometry) => {
+    if (geometries.length > viewerStore.geometriesUI.representationProxies.length) {
+      geometries.slice(viewerStore.geometriesUI.representationProxies.length).forEach((geometry) => {
         const uid = `Geometry${geometryNameCount++}`
         const geometrySource = proxyManager.createProxy('Sources', 'TrivialProducer', {
           name: uid,
@@ -257,14 +260,14 @@ const createViewer = (
         geometrySource.setInputData(geometry)
         proxyManager.createRepresentationInAllViews(geometrySource);
         const geometryRepresentation = proxyManager.getRepresentation(geometrySource, viewerStore.itkVtkView);
-        geometrySources.push(geometrySource)
-        geometryRepresentationProxies.push(geometryRepresentation);
+        viewerStore.geometriesUI.sources.push(geometrySource)
+        viewerStore.geometriesUI.representationProxies.push(geometryRepresentation);
       })
-    } else if(geometries.length < geometryRepresentationProxies.length) {
-      geometryRepresentationProxies.splice(geometries.length);
+    } else if(geometries.length < viewerStore.geometriesUI.representationProxies.length) {
+      viewerStore.geometriesUI.representationProxies.splice(geometries.length);
     }
     geometries.forEach((geometry, index) => {
-      geometrySources[index].setInputData(geometry);
+      viewerStore.geometriesUI.sources[index].setInputData(geometry);
     })
   }
 
@@ -763,7 +766,7 @@ const createViewer = (
         geometryColorInput.value = hexColor;
       }
     }
-    geometryRepresentationProxies[index].setColor(Array.from(rgbColor));
+    viewerStore.geometriesUI.representationProxies[index].setColor(Array.from(rgbColor));
   }
 
   publicAPI.setGeometryOpacity = (index, opacity) => {
@@ -772,7 +775,7 @@ const createViewer = (
         geometryOpacitySlider.value = opacity;
       }
     }
-    geometryRepresentationProxies[index].setOpacity(opacity);
+    viewerStore.geometriesUI.representationProxies[index].setOpacity(opacity);
   }
 
   publicAPI.getViewProxy = () => {

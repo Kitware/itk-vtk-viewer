@@ -7,7 +7,6 @@ import opacityIcon from '../icons/opacity.svg';
 function createGeometryOpacitySlider(
   geometryHasScalars,
   renderWindow,
-  geometryRepresentationProxies,
   viewerStore,
   geometrySelector,
   geometryColorRow
@@ -36,7 +35,7 @@ function createGeometryOpacitySlider(
   function updateOpacity() {
     const value = Number(opacityElement.value);
     geometryOpacities[geometrySelector.selectedIndex] = value
-    geometryRepresentationProxies[geometrySelector.selectedIndex].setOpacity(value)
+    viewerStore.geometriesUI.representationProxies[geometrySelector.selectedIndex].setOpacity(value)
     renderWindow.render();
   }
   opacityElement.addEventListener('input', updateOpacity);

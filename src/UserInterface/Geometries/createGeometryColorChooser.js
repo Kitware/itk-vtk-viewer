@@ -5,7 +5,6 @@ function createGeometryColorChooser(
   viewerStore,
   geometryHasScalars,
   renderWindow,
-  geometryRepresentationProxies,
   geometrySelector,
   geometryColorRow
 ) {
@@ -38,7 +37,7 @@ function createGeometryColorChooser(
     (event) => {
       const value = event.target.value
       const rgb = hex2rgb(value)
-      geometryRepresentationProxies[geometrySelector.selectedIndex].setColor(rgb)
+      viewerStore.geometriesUI.representationProxies[geometrySelector.selectedIndex].setColor(rgb)
       renderWindow.render()
       geometryColors[geometrySelector.selectedIndex] = value
     });

@@ -11,7 +11,6 @@ function createGeometryRepresentationSelector(
   geometryNames,
   renderWindow,
   viewerStore,
-  geometryRepresentationProxies,
   geometrySelector,
   geometryRepresentationRow
 ) {
@@ -27,10 +26,10 @@ function createGeometryRepresentationSelector(
 
   function setRepresentation(value) {
     if(value === 'Hidden') {
-      geometryRepresentationProxies[geometrySelector.selectedIndex].setVisibility(false)
+      viewerStore.geometriesUI.representationProxies[geometrySelector.selectedIndex].setVisibility(false)
     } else {
-      geometryRepresentationProxies[geometrySelector.selectedIndex].setRepresentation(value)
-      geometryRepresentationProxies[geometrySelector.selectedIndex].setVisibility(true)
+      viewerStore.geometriesUI.representationProxies[geometrySelector.selectedIndex].setRepresentation(value)
+      viewerStore.geometriesUI.representationProxies[geometrySelector.selectedIndex].setVisibility(true)
     }
     renderWindow.render()
     geometryRepresentations[geometrySelector.selectedIndex] = value

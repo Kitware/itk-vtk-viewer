@@ -5,7 +5,6 @@ import createGeometryColorWidget from './Geometries/createGeometryColorWidget';
 
 function createGeometriesUI(
   geometries,
-  geometryRepresentationProxies,
   viewerStore
 ) {
   const renderWindow = viewerStore.itkVtkView.getRenderWindow();
@@ -38,7 +37,6 @@ function createGeometriesUI(
     geometryNames,
     renderWindow,
     viewerStore,
-    geometryRepresentationProxies,
     geometrySelector,
     geometryRepresentationRow
   )
@@ -47,7 +45,6 @@ function createGeometriesUI(
   createGeometryColorWidget(
     renderWindow,
     geometries,
-    geometryRepresentationProxies,
     viewerStore,
     geometrySelector,
     geometriesUIGroup

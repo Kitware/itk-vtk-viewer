@@ -6,7 +6,6 @@ function createGeometryColorPresetSelector(
   viewerStore,
   geometryHasScalars,
   renderWindow,
-  geometryRepresentationProxies,
   geometrySelector,
   geometryColorPresetRow
 ) {
@@ -33,7 +32,7 @@ function createGeometryColorPresetSelector(
 
   function updateColorMap(event) {
     const value = event.target.value;
-    geometryRepresentationProxies.forEach((proxy) => {
+    viewerStore.geometriesUI.representationProxies.forEach((proxy) => {
       const lutProxy = proxy.getLookupTableProxy();
       if (lutProxy) {
         lutProxy.setPresetName(value);
@@ -44,7 +43,7 @@ function createGeometryColorPresetSelector(
   }
   presetSelector.addEventListener('change', updateColorMap);
 
-  geometryRepresentationProxies.forEach((proxy) => {
+  viewerStore.geometriesUI.representationProxies.forEach((proxy) => {
     const lutProxy = proxy.getLookupTableProxy();
     if(lutProxy) {
       lutProxy.setPresetName(defaultGeometryColorPreset);

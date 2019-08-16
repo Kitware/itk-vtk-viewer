@@ -10,7 +10,6 @@ function createGeometryColorBySelector(
   geometryHasScalars,
   renderWindow,
   geometries,
-  geometryRepresentationProxies,
   geometrySelector,
   geometryColorByRow
 ) {
@@ -87,7 +86,7 @@ function createGeometryColorBySelector(
     });
   function updateColorBy() {
     const [location, colorByArrayName] = geometryColorBySelector.value.split(':');
-    const proxy = geometryRepresentationProxies[geometrySelector.selectedIndex];
+    const proxy = viewerStore.geometriesUI.representationProxies[geometrySelector.selectedIndex];
     const lutProxy = proxy.getLookupTableProxy();
     const colorPreset = proxy.getLookupTableProxy().getPresetName();
     const interpolateScalarsBeforeMapping = location === 'pointData';
@@ -103,7 +102,7 @@ function createGeometryColorBySelector(
   geometryColorBy.forEach((colorBy, index) => {
     if (colorBy) {
       const [location, colorByArrayName] = colorBy.value.split(':');
-      const proxy = geometryRepresentationProxies[index];
+      const proxy = viewerStore.geometriesUI.representationProxies[index];
       const interpolateScalarsBeforeMapping = location === 'pointData';
       proxy.setInterpolateScalarsBeforeMapping(interpolateScalarsBeforeMapping);
       proxy.setColorBy(colorByArrayName, location);

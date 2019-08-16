@@ -3,9 +3,9 @@ import style from '../ItkVtkViewer.module.css';
 import rotateIcon from '../icons/rotate.svg';
 
 function createRotateButton(
+  viewerStore,
   viewerDOMId,
   contrastSensitiveStyle,
-  view,
   mainUIRow
 ) {
   const rotateButton = document.createElement('div');
@@ -19,7 +19,7 @@ function createRotateButton(
   const rotateButtonInput = rotateButton.children[0];
   function toggleRotate() {
     const rotateEnabled = rotateButtonInput.checked;
-    view.setRotate(rotateEnabled);
+    viewerStore.itkVtkView.setRotate(rotateEnabled);
   }
   rotateButton.addEventListener('change', (event) => {
     toggleRotate();

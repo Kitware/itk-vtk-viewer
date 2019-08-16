@@ -5,12 +5,12 @@ import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/Piece
 import style from '../ItkVtkViewer.module.css';
 
 function createTransferFunctionWidget(
+  viewerStore,
   uiContainer,
   viewerDOMId,
   lookupTableProxy,
   piecewiseFunctionProxy,
   dataArray,
-  view,
   renderWindow,
   use2D
 ) {
@@ -150,8 +150,8 @@ function createTransferFunctionWidget(
   );
 
   // Add range manipulator
-  view.getInteractorStyle2D().addMouseManipulator(rangeManipulator);
-  view.getInteractorStyle3D().addMouseManipulator(rangeManipulator);
+  viewerStore.itkVtkView.getInteractorStyle2D().addMouseManipulator(rangeManipulator);
+  viewerStore.itkVtkView.getInteractorStyle3D().addMouseManipulator(rangeManipulator);
 
   const opacityRangeManipulator = vtkMouseRangeManipulator.newInstance({
     button: 3, // Right mouse
@@ -189,8 +189,8 @@ function createTransferFunctionWidget(
     opacityGet,
     opacitySet
   );
-  view.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulator);
-  view.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulatorShift);
+  viewerStore.itkVtkView.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulator);
+  viewerStore.itkVtkView.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulatorShift);
 
   return transferFunctionWidget;
 }

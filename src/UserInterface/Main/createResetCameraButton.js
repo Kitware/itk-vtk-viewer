@@ -3,9 +3,9 @@ import style from '../ItkVtkViewer.module.css';
 import resetCameraIcon from '../icons/reset-camera.svg';
 
 function createResetCameraButton(
+  viewerStore,
   viewerDOMId,
   contrastSensitiveStyle,
-  view,
   mainUIRow
 ) {
   const resetCameraButton = document.createElement('div');
@@ -17,7 +17,7 @@ function createResetCameraButton(
     style.toggleButton
   }" for="${viewerDOMId}-resetCameraButton">${resetCameraIcon}</label>`;
   function resetCamera() {
-    view.resetCamera();
+    viewerStore.itkVtkView.resetCamera();
   }
   resetCameraButton.addEventListener('change', (event) => {
     event.preventDefault();

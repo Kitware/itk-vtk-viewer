@@ -7,9 +7,9 @@ import cropIcon from '../icons/crop.svg';
 import resetCropIcon from '../icons/reset-crop.svg';
 
 function createCroppingButtons(
+  viewerStore,
   viewerDOMId,
   contrastSensitiveStyle,
-  view,
   imageRepresentationProxy,
   mainUIRow
 ) {
@@ -22,7 +22,7 @@ function createCroppingButtons(
     croppingWidget.setFaceHandlesEnabled(false);
     croppingWidget.setEdgeHandlesEnabled(false);
     croppingWidget.setCornerHandlesEnabled(true);
-    croppingWidget.setInteractor(view.getInteractor());
+    croppingWidget.setInteractor(viewerStore.itkVtkView.getInteractor());
     croppingWidget.setEnabled(false);
     croppingWidget.setVolumeMapper(imageRepresentationProxy.getMapper());
     const croppingPlanesChangedHandlers = [];

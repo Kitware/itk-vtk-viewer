@@ -27,18 +27,17 @@ const createViewer = (
   const proxyManager = vtkProxyManager.newInstance({ proxyConfiguration });
   window.addEventListener('resize', proxyManager.resizeAllViews);
 
+
   // Todo: deserialize from viewerState, if present
-  const viewerStore = new ViewerStore();
+  const viewerStore = new ViewerStore(proxyManager);
   if (viewerStyle) {
     viewerStore.style = viewerStyle;
   }
   console.log(viewerStore)
 
-  const container = document.createElement('div');
-  UserInterface.emptyContainer(container);
-  applyStyle(container, viewerStore.style.containerStyle);
-  rootContainer.appendChild(container);
-
+  // Todo: turn this operation into a mobx action
+  applyStyle(viewerStore.container, viewerStore.style.containerStyle);
+  rootContainer.appendChild(viewerStore.container);
 
   const testCanvas = document.createElement("canvas");
   const gl = testCanvas.getContext("webgl")
@@ -58,10 +57,6 @@ const createViewer = (
     return null;
   }
 
-  const view = proxyManager.createProxy('Views', 'ItkVtkView');
-  view.setContainer(container);
-  view.setBackground(viewerStore.style.backgroundColor);
-
   UserInterface.addLogo(container);
 
   const imageSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
@@ -72,12 +67,11 @@ const createViewer = (
   let dataArray = null;
   let imageRepresentationProxy = null;
   let imageUI = null;
-  let update
   if (image) {
     imageSource.setInputData(image);
 
     proxyManager.createRepresentationInAllViews(imageSource);
-    imageRepresentationProxy = proxyManager.getRepresentation(imageSource, view);
+    imageRepresentationProxy = proxyManager.getRepresentation(imageSource, viewerStore.itkVtkView);
 
     dataArray = image.getPointData().getScalars();
     lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
@@ -96,10 +90,10 @@ const createViewer = (
     });
 
     if (use2D) {
-      view.setViewMode('ZPlane');
-      view.setOrientationAxesVisibility(false);
+      viewerStore.itkVtkView.setViewMode('ZPlane');
+      viewerStore.itkVtkView.setOrientationAxesVisibility(false);
     } else {
-      view.setViewMode('VolumeRendering');
+      viewerStore.itkVtkView.setViewMode('VolumeRendering');
     }
   }
 
@@ -113,7 +107,7 @@ const createViewer = (
       });
       geometrySource.setInputData(geometry)
       proxyManager.createRepresentationInAllViews(geometrySource);
-      const geometryRepresentation = proxyManager.getRepresentation(geometrySource, view);
+      const geometryRepresentation = proxyManager.getRepresentation(geometrySource, viewerStore.itkVtkView);
       geometrySources.push(geometrySource)
       geometryRepresentationProxies.push(geometryRepresentation)
     })
@@ -133,7 +127,7 @@ const createViewer = (
         name: pointSetRepresentationUid,
       });
       pointSetRepresentation.setInput(pointSetSource);
-      view.addRepresentation(pointSetRepresentation);
+      viewerStore.itkVtkView.addRepresentation(pointSetRepresentation);
       pointSetSources.push(pointSetSource)
       pointSetRepresentationProxies.push(pointSetRepresentation)
     })
@@ -153,7 +147,6 @@ const createViewer = (
     use2D,
     imageSource,
     imageRepresentationProxy,
-    view,
   );
 
   if (image) {
@@ -164,7 +157,6 @@ const createViewer = (
       piecewiseFunction,
       imageRepresentationProxy,
       dataArray,
-      view,
       viewerStore,
       use2D
     );
@@ -179,7 +171,6 @@ const createViewer = (
       viewerDOMId,
       geometries,
       geometryRepresentationProxies,
-      view,
       viewerStore
     );
   }
@@ -191,21 +182,20 @@ const createViewer = (
       viewerDOMId,
       pointSets,
       pointSetRepresentationProxies,
-      view,
       viewerStore
     );
   }
 
-  view.resize();
+  viewerStore.itkVtkView.resize();
   const resizeSensor = new ResizeSensor(container, function() {
-    view.resize();
+    viewerStore.itkVtkView.resize();
   });
   proxyManager.renderAllViews();
 
   // Estimate a reasonable point sphere radius in pixels
   if(!!pointSets && pointSets.length > 0) {
-    const renderView = view.getRenderWindow().getViews()[0];
-    const windowWidth = renderView.getViewportSize(view.getRenderer())[0];
+    const renderView = viewerStore.itkVtkView.getRenderWindow().getViews()[0];
+    const windowWidth = renderView.getViewportSize(viewerStore.itkVtkView.getRenderer())[0];
     const maxLength = pointSets.reduce((max, pointSet) => {
       pointSet.computeBounds();
       const bounds = pointSet.getBounds();
@@ -220,12 +210,12 @@ const createViewer = (
     })
   }
 
-  setTimeout(view.resetCamera, 1);
+  setTimeout(viewerStore.itkVtkView.resetCamera, 1);
 
   const publicAPI = {};
 
   publicAPI.renderLater = () => {
-    view.renderLater();
+    viewerStore.itkVtkView.renderLater();
   }
 
   let updatingImage = false;
@@ -244,7 +234,7 @@ const createViewer = (
     croppingWidget.resetWidgetState();
     setTimeout(() => {
       imageUI.transferFunctionWidget.render();
-      view.getRenderWindow().render();
+      viewerStore.itkVtkView.getRenderWindow().render();
       updatingImage = false;
     }, 0);
   }
@@ -259,7 +249,7 @@ const createViewer = (
         });
         pointSetSource.setInputData(pointSet)
         proxyManager.createRepresentationInAllViews(pointSetSource);
-        const pointSetRepresentation = proxyManager.getRepresentation(pointSetSource, view);
+        const pointSetRepresentation = proxyManager.getRepresentation(pointSetSource, viewerStore.itkVtkView);
         pointSetSources.push(pointSetSource)
         pointSetRepresentationProxies.push(pointSetRepresentation);
       })
@@ -280,7 +270,7 @@ const createViewer = (
         });
         geometrySource.setInputData(geometry)
         proxyManager.createRepresentationInAllViews(geometrySource);
-        const geometryRepresentation = proxyManager.getRepresentation(geometrySource, view);
+        const geometryRepresentation = proxyManager.getRepresentation(geometrySource, viewerStore.itkVtkView);
         geometrySources.push(geometrySource)
         geometryRepresentationProxies.push(geometryRepresentation);
       })
@@ -326,7 +316,7 @@ const createViewer = (
 
 
   publicAPI.captureImage = () => {
-    return view.captureImage();
+    return viewerStore.itkVtkView.captureImage();
   }
 
 
@@ -800,7 +790,7 @@ const createViewer = (
   }
 
   publicAPI.getViewProxy = () => {
-    return view;
+    return viewerStore.itkVtkView;
   }
 
   //publicAPI.saveState = () => {

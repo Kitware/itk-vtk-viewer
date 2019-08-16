@@ -8,10 +8,9 @@ function createGeometriesUI(
   viewerDOMId,
   geometries,
   geometryRepresentationProxies,
-  view,
   viewerStore
 ) {
-  const renderWindow = view.getRenderWindow();
+  const renderWindow = viewerStore.itkVtkView.getRenderWindow();
 
   const geometriesUIGroup = document.createElement('div');
   geometriesUIGroup.setAttribute('class', style.uiGroup);

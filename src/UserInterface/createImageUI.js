@@ -15,11 +15,10 @@ function createImageUI(
   piecewiseFunctionProxy,
   volumeRepresentation,
   dataArray,
-  view,
   viewerStore,
   use2D
 ) {
-  const renderWindow = view.getRenderWindow();
+  const renderWindow = viewerStore.itkVtkView.getRenderWindow();
 
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
@@ -39,12 +38,12 @@ function createImageUI(
   }
 
   const transferFunctionWidget = createTransferFunctionWidget(
+    viewerStore,
     imageUIGroup,
     viewerDOMId,
     lookupTableProxy,
     piecewiseFunctionProxy,
     dataArray,
-    view,
     renderWindow,
     use2D
   );
@@ -58,7 +57,6 @@ function createImageUI(
       imageUIGroup,
       viewerDOMId,
       volumeRenderingRow,
-      view,
       viewerStore
     );
     createUseShadowToggle(

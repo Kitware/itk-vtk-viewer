@@ -19,7 +19,6 @@ function createMainUI(
   use2D,
   imageSource,
   imageRepresentationProxy,
-  view
 ) {
   const uiContainer = document.createElement('div');
   rootContainer.appendChild(uiContainer);
@@ -45,9 +44,9 @@ function createMainUI(
   )
 
   createScreenshotButton(
+    viewerStore,
     viewerDOMId,
     contrastSensitiveStyle,
-    view,
     mainUIRow
   )
 
@@ -59,32 +58,32 @@ function createMainUI(
   )
 
   createRotateButton(
+    viewerStore,
     viewerDOMId,
     contrastSensitiveStyle,
-    view,
     mainUIRow
   )
 
   createAnnotationButton(
+    viewerStore,
     viewerDOMId,
     contrastSensitiveStyle,
-    view,
     mainUIRow
   )
 
   if (imageRepresentationProxy) {
     createInterpolationButton(
+      viewerStore,
       viewerDOMId,
       contrastSensitiveStyle,
-      view,
       mainUIRow
     )
   }
 
   createViewModeButtons(
+    viewerStore,
     viewerDOMId,
     contrastSensitiveStyle,
-    view,
     imageRepresentationProxy,
     uiContainer,
     use2D,
@@ -94,17 +93,17 @@ function createMainUI(
   const { croppingWidget,
     addCroppingPlanesChangedHandler,
     addResetCropHandler } = createCroppingButtons(
+    viewerStore,
     viewerDOMId,
     contrastSensitiveStyle,
-    view,
     imageRepresentationProxy,
     mainUIRow
   )
 
   createResetCameraButton(
+    viewerStore,
     viewerDOMId,
     contrastSensitiveStyle,
-    view,
     mainUIRow
   )
   uiContainer.appendChild(mainUIGroup);

@@ -8,10 +8,9 @@ function createPointSetsUI(
   viewerDOMId,
   pointSets,
   pointSetRepresentationProxies,
-  view,
   viewerStore
 ) {
-  const renderWindow = view.getRenderWindow();
+  const renderWindow = viewerStore.itkVtkView.getRenderWindow();
 
   const pointSetsUIGroup = document.createElement('div');
   pointSetsUIGroup.setAttribute('class', style.uiGroup);

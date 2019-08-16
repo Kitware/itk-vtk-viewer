@@ -3,9 +3,9 @@ import style from '../ItkVtkViewer.module.css';
 import annotationIcon from '../icons/annotations.svg';
 
 function createAnnotationButton(
+  viewerStore,
   viewerDOMId,
   contrastSensitiveStyle,
-  view,
   mainUIRow
 ) {
   const annotationButton = document.createElement('div');
@@ -19,7 +19,7 @@ function createAnnotationButton(
   const annotationButtonInput = annotationButton.children[0];
   function toggleAnnotations() {
     const annotationEnabled = annotationButtonInput.checked;
-    view.setOrientationAnnotationVisibility(annotationEnabled);
+    viewerStore.itkVtkView.setOrientationAnnotationVisibility(annotationEnabled);
   }
   annotationButton.addEventListener('change', (event) => {
     toggleAnnotations();

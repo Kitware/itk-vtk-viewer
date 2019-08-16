@@ -8,7 +8,6 @@ function createViewPlanesToggle(
   imageUIGroup,
   viewerDOMId,
   volumeRenderingRow,
-  view,
   viewerStore
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
@@ -19,11 +18,11 @@ function createViewPlanesToggle(
   let viewPlanes = false;
   function setViewPlanes() {
     viewPlanes = !viewPlanes;
-    view.setViewPlanes(viewPlanes);
+    viewerStore.itkVtkView.setViewPlanes(viewPlanes);
     const xPlaneRow = imageUIGroup.querySelector(`.${viewerDOMId}-x-plane-row`);
     const yPlaneRow = imageUIGroup.querySelector(`.${viewerDOMId}-y-plane-row`);
     const zPlaneRow = imageUIGroup.querySelector(`.${viewerDOMId}-z-plane-row`);
-    if (view.getViewMode() === 'VolumeRendering') {
+    if (viewerStore.itkVtkView.getViewMode() === 'VolumeRendering') {
       if (viewPlanes) {
         xPlaneRow.style.display = 'flex';
         yPlaneRow.style.display = 'flex';

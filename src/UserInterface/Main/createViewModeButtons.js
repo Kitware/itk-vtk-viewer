@@ -6,16 +6,16 @@ import yPlaneIcon from '../icons/y-plane.svg';
 import zPlaneIcon from '../icons/z-plane.svg';
 
 function createViewModeButtons(
+  viewerStore,
   viewerDOMId,
   contrastSensitiveStyle,
-  view,
   imageRepresentationProxy,
   uiContainer,
   use2D,
   mainUIRow
 ) {
   function setViewModeXPlane() {
-    view.setViewMode('XPlane');
+    viewerStore.itkVtkView.setViewMode('XPlane');
     document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = true;
     document.getElementById(`${viewerDOMId}-yPlaneButton`).checked = false;
     document.getElementById(`${viewerDOMId}-zPlaneButton`).checked = false;
@@ -36,7 +36,7 @@ function createViewModeButtons(
     }
   }
   function setViewModeYPlane() {
-    view.setViewMode('YPlane');
+    viewerStore.itkVtkView.setViewMode('YPlane');
     document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = false;
     document.getElementById(`${viewerDOMId}-yPlaneButton`).checked = true;
     document.getElementById(`${viewerDOMId}-zPlaneButton`).checked = false;
@@ -57,7 +57,7 @@ function createViewModeButtons(
     }
   }
   function setViewModeZPlane() {
-    view.setViewMode('ZPlane');
+    viewerStore.itkVtkView.setViewMode('ZPlane');
     document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = false;
     document.getElementById(`${viewerDOMId}-yPlaneButton`).checked = false;
     document.getElementById(`${viewerDOMId}-zPlaneButton`).checked = true;
@@ -78,7 +78,7 @@ function createViewModeButtons(
     }
   }
   function setViewModeVolumeRendering() {
-    view.setViewMode('VolumeRendering');
+    viewerStore.itkVtkView.setViewMode('VolumeRendering');
     document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = false;
     document.getElementById(`${viewerDOMId}-yPlaneButton`).checked = false;
     document.getElementById(`${viewerDOMId}-zPlaneButton`).checked = false;

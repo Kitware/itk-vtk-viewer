@@ -3,15 +3,15 @@ import style from '../ItkVtkViewer.module.css';
 import interpolationIcon from '../icons/interpolation.svg';
 
 function createInterpolationButton(
+  viewerStore,
   viewerDOMId,
   contrastSensitiveStyle,
-  view,
   mainUIRow
 ) {
   let interpolationEnabled = true;
   function toggleInterpolation() {
     interpolationEnabled = !interpolationEnabled;
-    view.setPlanesUseLinearInterpolation(interpolationEnabled);
+    viewerStore.itkVtkView.setPlanesUseLinearInterpolation(interpolationEnabled);
   }
   const interpolationButton = document.createElement('div');
   interpolationButton.innerHTML = `<input id="${viewerDOMId}-toggleInterpolationButton" type="checkbox" class="${

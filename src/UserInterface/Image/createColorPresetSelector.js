@@ -3,9 +3,9 @@ import style from '../ItkVtkViewer.module.css';
 import ColorPresetNames from '../ColorPresetNames';
 
 function createColorPresetSelector(
+  viewerStore,
   uiContainer,
   viewerDOMId,
-  lookupTableProxy,
   renderWindow
 ) {
   const presetSelector = document.createElement('select');
@@ -16,12 +16,12 @@ function createColorPresetSelector(
     .join('');
 
   function updateColorMap(event) {
-    lookupTableProxy.setPresetName(presetSelector.value);
+    viewerStore.lookupTableProxy.setPresetName(presetSelector.value);
     renderWindow.render();
   }
   presetSelector.addEventListener('change', updateColorMap);
   uiContainer.appendChild(presetSelector);
-  presetSelector.value = lookupTableProxy.getPresetName();
+  presetSelector.value = viewerStore.lookupTableProxy.getPresetName();
 
   return updateColorMap;
 }

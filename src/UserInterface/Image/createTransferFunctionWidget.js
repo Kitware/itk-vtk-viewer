@@ -8,13 +8,10 @@ function createTransferFunctionWidget(
   viewerStore,
   uiContainer,
   viewerDOMId,
-  lookupTableProxy,
-  piecewiseFunctionProxy,
-  dataArray,
   renderWindow,
   use2D
 ) {
-  const piecewiseFunction = piecewiseFunctionProxy.getPiecewiseFunction();
+  const piecewiseFunction = viewerStore.piecewiseFunctionProxy.getPiecewiseFunction();
 
   const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({
     numberOfBins: 256,
@@ -41,9 +38,10 @@ function createTransferFunctionWidget(
     iconSize, // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
     padding: 10,
   });
+  const dataArray = viewerStore.image.getPointData().getScalars();
   transferFunctionWidget.setDataArray(dataArray.getData());
 
-  const lookupTable = lookupTableProxy.getLookupTable();
+  const lookupTable = viewerStore.lookupTableProxy.getLookupTable();
 
   const piecewiseWidgetContainer = document.createElement('div');
   piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget);
@@ -66,7 +64,7 @@ function createTransferFunctionWidget(
     }
     const colorDataRange = transferFunctionWidget.getOpacityRange();
     const preset = vtkColorMaps.getPresetByName(
-      lookupTableProxy.getPresetName()
+      viewerStore.lookupTableProxy.getPresetName()
     );
     lookupTable.applyColorMap(preset);
     lookupTable.setMappingRange(...colorDataRange);

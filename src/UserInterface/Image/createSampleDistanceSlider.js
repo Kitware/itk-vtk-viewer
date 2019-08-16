@@ -8,7 +8,6 @@ function createSampleDistanceSlider(
   uiContainer,
   viewerDOMId,
   viewerStore,
-  volumeRepresentation,
   renderWindow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
@@ -29,7 +28,7 @@ function createSampleDistanceSlider(
   const spacingElement = sliderEntry.querySelector(`.${viewerDOMId}-spacing`);
   function updateSpacing() {
     const value = Number(spacingElement.value);
-    volumeRepresentation.setSampleDistance(value);
+    viewerStore.imageRepresentationProxy.setSampleDistance(value);
     renderWindow.render();
   }
   spacingElement.addEventListener('input', updateSpacing);

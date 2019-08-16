@@ -9,7 +9,6 @@ function createViewModeButtons(
   viewerStore,
   viewerDOMId,
   contrastSensitiveStyle,
-  imageRepresentationProxy,
   uiContainer,
   use2D,
   mainUIRow
@@ -22,7 +21,7 @@ function createViewModeButtons(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = false;
-    if (imageRepresentationProxy) {
+    if (viewerStore.imageRepresentationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -43,7 +42,7 @@ function createViewModeButtons(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = false;
-    if (imageRepresentationProxy) {
+    if (viewerStore.imageRepresentationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -64,7 +63,7 @@ function createViewModeButtons(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = false;
-    if (imageRepresentationProxy) {
+    if (viewerStore.imageRepresentationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -85,7 +84,7 @@ function createViewModeButtons(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = true;
-    if (imageRepresentationProxy) {
+    if (viewerStore.imageRepresentationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );

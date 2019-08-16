@@ -8,7 +8,6 @@ function createGradientOpacitySlider(
   uiContainer,
   viewerDOMId,
   viewerStore,
-  volumeRepresentation,
   renderWindow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
@@ -32,7 +31,7 @@ function createGradientOpacitySlider(
   );
   function updateGradientOpacity() {
     const value = Number(edgeElement.value);
-    volumeRepresentation.setEdgeGradient(value);
+    viewerStore.imageRepresentationProxy.setEdgeGradient(value);
     renderWindow.render();
   }
   edgeElement.addEventListener('input', updateGradientOpacity);

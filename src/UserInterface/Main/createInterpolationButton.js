@@ -1,3 +1,5 @@
+import { when } from 'mobx';
+
 import style from '../ItkVtkViewer.module.css';
 
 import interpolationIcon from '../icons/interpolation.svg';
@@ -25,6 +27,13 @@ function createInterpolationButton(
     toggleInterpolation();
   });
   mainUIRow.appendChild(interpolationButton);
+
+  if (!!viewerStore.imageRepresentationProxy) {
+    interpolationButton.style.display = 'none';
+    when(() => !!viewerStore.image,
+      () => interpolationButton.style.display = 'flex'
+    )
+  }
 }
 
 export default createInterpolationButton;

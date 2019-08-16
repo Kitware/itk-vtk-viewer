@@ -11,10 +11,6 @@ import createGradientOpacitySlider from './Image/createGradientOpacitySlider';
 function createImageUI(
   uiContainer,
   viewerDOMId,
-  lookupTableProxy,
-  piecewiseFunctionProxy,
-  volumeRepresentation,
-  dataArray,
   viewerStore,
   use2D
 ) {
@@ -24,13 +20,14 @@ function createImageUI(
   imageUIGroup.setAttribute('class', style.uiGroup);
 
   let updateColorMap = null;
+  const dataArray = viewerStore.image.getPointData().getScalars();
   if (dataArray.getNumberOfComponents() === 1) {
     const presetRow = document.createElement('div');
     presetRow.setAttribute('class', style.uiRow);
     updateColorMap = createColorPresetSelector(
+      viewerStore,
       presetRow,
       viewerDOMId,
-      lookupTableProxy,
       renderWindow
     );
     presetRow.className += ` ${viewerDOMId}-toggle`;
@@ -41,9 +38,6 @@ function createImageUI(
     viewerStore,
     imageUIGroup,
     viewerDOMId,
-    lookupTableProxy,
-    piecewiseFunctionProxy,
-    dataArray,
     renderWindow,
     use2D
   );
@@ -62,7 +56,6 @@ function createImageUI(
     createUseShadowToggle(
       volumeRenderingRow,
       viewerDOMId,
-      volumeRepresentation,
       renderWindow,
       viewerStore
     );
@@ -70,14 +63,12 @@ function createImageUI(
       volumeRenderingRow,
       viewerDOMId,
       viewerStore,
-      volumeRepresentation,
       renderWindow
     );
     updateGradientOpacity = createGradientOpacitySlider(
       volumeRenderingRow,
       viewerDOMId,
       viewerStore,
-      volumeRepresentation,
       renderWindow
     );
     imageUIGroup.appendChild(volumeRenderingRow);
@@ -85,7 +76,6 @@ function createImageUI(
     createPlaneIndexSliders(
       imageUIGroup,
       viewerDOMId,
-      volumeRepresentation,
       renderWindow,
       viewerStore
     );

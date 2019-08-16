@@ -1,3 +1,5 @@
+import { when } from 'mobx';
+
 import macro from 'vtk.js/Sources/macro';
 import vtkImageCroppingRegionsWidget from 'vtk.js/Sources/Interaction/Widgets/ImageCroppingRegionsWidget';
 
@@ -10,23 +12,19 @@ function createCroppingButtons(
   viewerStore,
   viewerDOMId,
   contrastSensitiveStyle,
-  imageRepresentationProxy,
   mainUIRow
 ) {
-  let croppingWidget = null
-  let addCroppingPlanesChangedHandler = () => {}
-  let addResetCropHandler = () => {}
-  if (imageRepresentationProxy) {
-    croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
-    croppingWidget.setHandleSize(22);
-    croppingWidget.setFaceHandlesEnabled(false);
-    croppingWidget.setEdgeHandlesEnabled(false);
-    croppingWidget.setCornerHandlesEnabled(true);
-    croppingWidget.setInteractor(viewerStore.itkVtkView.getInteractor());
-    croppingWidget.setEnabled(false);
-    croppingWidget.setVolumeMapper(imageRepresentationProxy.getMapper());
+  function setupCroppingWidget() {
+    viewerStore.croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
+    viewerStore.croppingWidget.setHandleSize(22);
+    viewerStore.croppingWidget.setFaceHandlesEnabled(false);
+    viewerStore.croppingWidget.setEdgeHandlesEnabled(false);
+    viewerStore.croppingWidget.setCornerHandlesEnabled(true);
+    viewerStore.croppingWidget.setInteractor(viewerStore.itkVtkView.getInteractor());
+    viewerStore.croppingWidget.setEnabled(false);
+    viewerStore.croppingWidget.setVolumeMapper(viewerStore.imageRepresentationProxy.getMapper());
     const croppingPlanesChangedHandlers = [];
-    addCroppingPlanesChangedHandler = (handler) => {
+    viewerStore.addCroppingPlanesChangedHandler = (handler) => {
       const index = croppingPlanesChangedHandlers.length;
       croppingPlanesChangedHandlers.push(handler);
       function unsubscribe() {
@@ -40,20 +38,20 @@ function createCroppingButtons(
         return;
       }
       croppingUpdateInProgress = true;
-      const planes = croppingWidget.getWidgetState().planes;
-      imageRepresentationProxy.setCroppingPlanes(planes);
-      const bboxCorners = croppingWidget.planesToBBoxCorners(planes);
+      const planes = viewerStore.croppingWidget.getWidgetState().planes;
+      viewerStore.imageRepresentationProxy.setCroppingPlanes(planes);
+      const bboxCorners = viewerStore.croppingWidget.planesToBBoxCorners(planes);
       croppingPlanesChangedHandlers.forEach((handler) => {
         handler.call(null, planes, bboxCorners);
       });
       croppingUpdateInProgress = false;
     };
     const debouncedSetCroppingPlanes = macro.debounce(setCroppingPlanes, 100);
-    croppingWidget.onCroppingPlanesChanged(debouncedSetCroppingPlanes);
+    viewerStore.croppingWidget.onCroppingPlanesChanged(debouncedSetCroppingPlanes);
     let cropEnabled = false;
     function toggleCrop() {
       cropEnabled = !cropEnabled;
-      croppingWidget.setEnabled(cropEnabled);
+      viewerStore.croppingWidget.setEnabled(cropEnabled);
     }
     const cropButton = document.createElement('div');
     cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${
@@ -77,7 +75,7 @@ function createCroppingButtons(
       style.toggleButton
     }" for="${viewerDOMId}-resetCroppingPlanesButton">${resetCropIcon}</label>`;
     const resetCropHandlers = [];
-    addResetCropHandler = (handler) => {
+    viewerStore.addResetCropHandler = (handler) => {
       const index = resetCropHandlers.length;
       resetCropHandlers.push(handler);
       function unsubscribe() {
@@ -86,8 +84,8 @@ function createCroppingButtons(
       return Object.freeze({ unsubscribe });
     };
     function resetCrop() {
-      imageRepresentationProxy.getCropFilter().reset();
-      croppingWidget.resetWidgetState();
+      viewerStore.imageRepresentationProxy.getCropFilter().reset();
+      viewerStore.croppingWidget.resetWidgetState();
       resetCropHandlers.forEach((handler) => {
         handler.call(null);
       });
@@ -104,8 +102,13 @@ function createCroppingButtons(
     });
     mainUIRow.appendChild(resetCropButton);
   } // if(imageRepresentationProxy)
-
-  return { croppingWidget, addCroppingPlanesChangedHandler, addResetCropHandler };
+  if (viewerStore.imageRepresentationProxy) {
+    setupCroppingWidget()
+  } else {
+    when(() => !!viewerStore.imageRepresentationProxy,
+      setupCroppingWidget
+    )
+  }
 }
 
 export default createCroppingButtons;

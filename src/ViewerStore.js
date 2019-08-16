@@ -18,19 +18,26 @@ class ViewerStore {
     container = null;
     itkVtkView = null;
 
-    imageSource = null;
-
-    @observable.struct style = {
+    @observable style = {
       backgroundColor: [0, 0, 0],
       containerStyle: STYLE_CONTAINER,
     };
+
+    imageSource = null;
+    @observable.ref imageRepresentationProxy = null;
+    lookupTableProxy = null;
+    piecewiseFunctionProxy = null;
+    croppingWidget = null;
+    addCroppingPlanesChangedHandler = () => {}
+    addResetCropHandler = () => {}
+    @observable.ref image = null;
 
     constructor(proxyManager) {
       this.proxyManager = proxyManager;
       this.itkVtkView = proxyManager.createProxy('Views', 'ItkVtkView');
       this.container = document.createElement('div');
       this.itkVtkView.setContainer(this.container);
-      // Todo: turn this into an action
+
       this.itkVtkView.setBackground(this.style.backgroundColor);
 
       this.imageSource = proxyManager.createProxy('Sources', 'TrivialProducer', { name: 'Image', });

@@ -8,6 +8,7 @@ import UserInterface from './UserInterface';
 import addKeyboardShortcuts from './addKeyboardShortcuts';
 import rgb2hex from './UserInterface/rgb2hex';
 import ViewerStore from './ViewerStore';
+import { autorun, reaction } from 'mobx';
 
 let geometryNameCount = 0
 let pointSetNameCount = 0
@@ -30,14 +31,20 @@ const createViewer = (
 
   // Todo: deserialize from viewerState, if present
   const viewerStore = new ViewerStore(proxyManager);
+
+  applyStyle(viewerStore.container, viewerStore.style.containerStyle);
+  rootContainer.appendChild(viewerStore.container);
+  autorun(() => {
+    applyStyle(viewerStore.container, viewerStore.style.containerStyle);
+  })
+  autorun(() => {
+    viewerStore.itkVtkView.setBackground(viewerStore.style.backgroundColor);
+  })
+
   if (viewerStyle) {
     viewerStore.style = viewerStyle;
   }
   console.log(viewerStore)
-
-  // Todo: turn this operation into a mobx action
-  applyStyle(viewerStore.container, viewerStore.style.containerStyle);
-  rootContainer.appendChild(viewerStore.container);
 
   const testCanvas = document.createElement("canvas");
   const gl = testCanvas.getContext("webgl")
@@ -59,40 +66,65 @@ const createViewer = (
 
   UserInterface.addLogo(container);
 
-  let lookupTableProxy = null;
-  let piecewiseFunction = null;
-  let dataArray = null;
-  let imageRepresentationProxy = null;
+  const viewerDOMId =
+    'itk-vtk-viewer-' +
+    performance
+      .now()
+      .toString()
+      .replace('.', '');
+
+  const { uiContainer } = UserInterface.createMainUI(
+    rootContainer,
+    viewerDOMId,
+    viewerStore,
+    use2D,
+  );
+
   let imageUI = null;
-  if (image) {
-    viewerStore.imageSource.setInputData(image);
+  reaction(() => viewerStore.image,
+    (image) => {
+      if (!!!image) {
+        return;
+      }
+      viewerStore.imageSource.setInputData(image);
 
-    proxyManager.createRepresentationInAllViews(viewerStore.imageSource);
-    imageRepresentationProxy = proxyManager.getRepresentation(viewerStore.imageSource, viewerStore.itkVtkView);
+      proxyManager.createRepresentationInAllViews(viewerStore.imageSource);
+      viewerStore.imageRepresentationProxy = proxyManager.getRepresentation(viewerStore.imageSource, viewerStore.itkVtkView);
 
-    dataArray = image.getPointData().getScalars();
-    lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
-    if (dataArray.getNumberOfComponents() > 1) {
-      lookupTableProxy.setPresetName('Grayscale');
-    } else {
-      lookupTableProxy.setPresetName('Viridis (matplotlib)');
+      const dataArray = image.getPointData().getScalars();
+      viewerStore.lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
+      if (dataArray.getNumberOfComponents() > 1) {
+        viewerStore.lookupTableProxy.setPresetName('Grayscale');
+      } else {
+        viewerStore.lookupTableProxy.setPresetName('Viridis (matplotlib)');
+      }
+      viewerStore.piecewiseFunctionProxy = proxyManager.getPiecewiseFunction(dataArray.getName());
+
+      // Slices share the same lookup table as the volume rendering.
+      const lut = viewerStore.lookupTableProxy.getLookupTable();
+      const sliceActors = viewerStore.imageRepresentationProxy.getActors();
+      sliceActors.forEach((actor) => {
+        actor.getProperty().setRGBTransferFunction(lut);
+      });
+
+      if (use2D) {
+        viewerStore.itkVtkView.setViewMode('ZPlane');
+        viewerStore.itkVtkView.setOrientationAxesVisibility(false);
+      } else {
+        viewerStore.itkVtkView.setViewMode('VolumeRendering');
+      }
+
+      imageUI = UserInterface.createImageUI(
+        uiContainer,
+        viewerDOMId,
+        viewerStore,
+        use2D
+      );
+      const annotationContainer = container.querySelector('.js-se');
+      annotationContainer.style.fontFamily = 'monospace';
     }
-    piecewiseFunction = proxyManager.getPiecewiseFunction(dataArray.getName());
-
-    // Slices share the same lookup table as the volume rendering.
-    const lut = lookupTableProxy.getLookupTable();
-    const sliceActors = imageRepresentationProxy.getActors();
-    sliceActors.forEach((actor) => {
-      actor.getProperty().setRGBTransferFunction(lut);
-    });
-
-    if (use2D) {
-      viewerStore.itkVtkView.setViewMode('ZPlane');
-      viewerStore.itkVtkView.setOrientationAxesVisibility(false);
-    } else {
-      viewerStore.itkVtkView.setViewMode('VolumeRendering');
-    }
-  }
+  );
+  viewerStore.image = image;
 
   let geometryRepresentationProxies = []
   let geometrySources = []
@@ -130,34 +162,7 @@ const createViewer = (
     })
   }
 
-  const viewerDOMId =
-    'itk-vtk-viewer-' +
-    performance
-      .now()
-      .toString()
-      .replace('.', '');
-
-  const { uiContainer, croppingWidget, addCroppingPlanesChangedHandler, addResetCropHandler } = UserInterface.createMainUI(
-    rootContainer,
-    viewerDOMId,
-    viewerStore,
-    use2D,
-    imageRepresentationProxy,
-  );
-
   if (image) {
-    imageUI = UserInterface.createImageUI(
-      uiContainer,
-      viewerDOMId,
-      lookupTableProxy,
-      piecewiseFunction,
-      imageRepresentationProxy,
-      dataArray,
-      viewerStore,
-      use2D
-    );
-    const annotationContainer = container.querySelector('.js-se');
-    annotationContainer.style.fontFamily = 'monospace';
   }
 
   let geometriesUI = null
@@ -224,10 +229,10 @@ const createViewer = (
     imageUI.transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
     imageUI.transferFunctionWidget.invokeOpacityChange(imageUI.transferFunctionWidget);
     imageUI.transferFunctionWidget.modified();
-    croppingWidget.setVolumeMapper(imageRepresentationProxy.getMapper());
-    const cropFilter = imageRepresentationProxy.getCropFilter();
+    viewerStore.croppingWidget.setVolumeMapper(viewerStore.imageRepresentationProxy.getMapper());
+    const cropFilter = viewerStore.imageRepresentationProxy.getCropFilter();
     cropFilter.reset();
-    croppingWidget.resetWidgetState();
+    viewerStore.croppingWidget.resetWidgetState();
     setTimeout(() => {
       imageUI.transferFunctionWidget.render();
       viewerStore.itkVtkView.getRenderWindow().render();
@@ -454,11 +459,11 @@ const createViewer = (
   }
 
   publicAPI.subscribeCroppingPlanesChanged = (handler) => {
-    return addCroppingPlanesChangedHandler(handler);
+    return viewerStore.addCroppingPlanesChangedHandler(handler);
   }
 
   publicAPI.subscribeResetCrop = (handler) => {
-    return addResetCropHandler(handler);
+    return viewerStore.addResetCropHandler(handler);
   }
 
   const colorMapSelector = document.getElementById(`${viewerDOMId}-colorMapSelector`);

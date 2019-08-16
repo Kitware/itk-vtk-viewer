@@ -17,7 +17,6 @@ function createMainUI(
   viewerDOMId,
   viewerStore,
   use2D,
-  imageRepresentationProxy,
 ) {
   const uiContainer = document.createElement('div');
   rootContainer.appendChild(uiContainer);
@@ -70,32 +69,26 @@ function createMainUI(
     mainUIRow
   )
 
-  if (imageRepresentationProxy) {
-    createInterpolationButton(
-      viewerStore,
-      viewerDOMId,
-      contrastSensitiveStyle,
-      mainUIRow
-    )
-  }
+  createInterpolationButton(
+    viewerStore,
+    viewerDOMId,
+    contrastSensitiveStyle,
+    mainUIRow
+  )
 
   createViewModeButtons(
     viewerStore,
     viewerDOMId,
     contrastSensitiveStyle,
-    imageRepresentationProxy,
     uiContainer,
     use2D,
     mainUIRow
   )
 
-  const { croppingWidget,
-    addCroppingPlanesChangedHandler,
-    addResetCropHandler } = createCroppingButtons(
+  createCroppingButtons(
     viewerStore,
     viewerDOMId,
     contrastSensitiveStyle,
-    imageRepresentationProxy,
     mainUIRow
   )
 
@@ -107,7 +100,7 @@ function createMainUI(
   )
   uiContainer.appendChild(mainUIGroup);
 
-  return { uiContainer, croppingWidget, addCroppingPlanesChangedHandler, addResetCropHandler };
+  return { uiContainer };
 }
 
 export default createMainUI;

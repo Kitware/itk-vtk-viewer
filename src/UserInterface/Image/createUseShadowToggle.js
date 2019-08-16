@@ -7,7 +7,6 @@ import shadowIcon from '../icons/shadow.svg';
 function createUseShadowToggle(
   uiContainer,
   viewerDOMId,
-  volumeRepresentation,
   renderWindow,
   viewerStore
 ) {
@@ -27,7 +26,7 @@ function createUseShadowToggle(
   let useShadow = true;
   useShadowButton.addEventListener('change', (event) => {
     useShadow = !useShadow;
-    volumeRepresentation.setUseShadow(useShadow);
+    viewerStore.imageRepresentationProxy.setUseShadow(useShadow);
     renderWindow.render();
   });
   uiContainer.appendChild(useShadowButton);

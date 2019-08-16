@@ -9,7 +9,6 @@ import createSampleDistanceSlider from './Image/createSampleDistanceSlider';
 import createGradientOpacitySlider from './Image/createGradientOpacitySlider';
 
 function createImageUI(
-  uiContainer,
   viewerStore,
   use2D
 ) {
@@ -72,7 +71,7 @@ function createImageUI(
     );
   }
 
-  uiContainer.appendChild(imageUIGroup);
+  viewerStore.uiContainer.appendChild(imageUIGroup);
 }
 
 export default createImageUI;

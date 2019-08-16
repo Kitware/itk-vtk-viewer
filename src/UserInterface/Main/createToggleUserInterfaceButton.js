@@ -5,11 +5,10 @@ import toggleIcon from '../icons/toggle.svg';
 function createToggleUserInterfaceButton(
   viewerStore,
   contrastSensitiveStyle,
-  uiContainer
 ) {
   const toggleUserInterfaceButton = document.createElement('div');
   function toggleUIVisibility() {
-    const elements = uiContainer.querySelectorAll(`.${viewerStore.id}-toggle`);
+    const elements = viewerStore.uiContainer.querySelectorAll(`.${viewerStore.id}-toggle`);
     let count = elements.length;
     const collapsed =
       toggleUserInterfaceButton.getAttribute('collapsed') === 'true';
@@ -31,7 +30,7 @@ function createToggleUserInterfaceButton(
   toggleUserInterfaceButton.id = `${viewerStore.id}-toggleUserInterfaceButton`;
   toggleUserInterfaceButton.innerHTML = `${toggleIcon}`;
   toggleUserInterfaceButton.addEventListener('click', toggleUIVisibility);
-  uiContainer.appendChild(toggleUserInterfaceButton);
+  viewerStore.uiContainer.appendChild(toggleUserInterfaceButton);
 }
 
 export default createToggleUserInterfaceButton

@@ -4,7 +4,6 @@ import createPointSetRepresentationSelector from './PointSets/createPointSetRepr
 import createPointSetColorWidget from './PointSets/createPointSetColorWidget';
 
 function createPointSetsUI(
-  uiContainer,
   pointSets,
   pointSetRepresentationProxies,
   viewerStore
@@ -54,7 +53,7 @@ function createPointSetsUI(
     pointSetsUIGroup
   )
 
-  uiContainer.appendChild(pointSetsUIGroup);
+  viewerStore.uiContainer.appendChild(pointSetsUIGroup);
 }
 
 export default createPointSetsUI;

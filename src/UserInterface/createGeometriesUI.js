@@ -4,7 +4,6 @@ import createGeometryRepresentationSelector from './Geometries/createGeometryRep
 import createGeometryColorWidget from './Geometries/createGeometryColorWidget';
 
 function createGeometriesUI(
-  uiContainer,
   geometries,
   geometryRepresentationProxies,
   viewerStore
@@ -54,9 +53,7 @@ function createGeometriesUI(
     geometriesUIGroup
   )
 
-  uiContainer.appendChild(geometriesUIGroup);
-
-  return {};
+  viewerStore.uiContainer.appendChild(geometriesUIGroup);
 }
 
 export default createGeometriesUI;

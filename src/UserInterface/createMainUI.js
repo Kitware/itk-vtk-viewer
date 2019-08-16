@@ -38,7 +38,6 @@ function createMainUI(
   createToggleUserInterface(
     viewerStore,
     contrastSensitiveStyle,
-    uiContainer
   )
 
   createScreenshotButton(
@@ -75,7 +74,6 @@ function createMainUI(
   createViewModeButtons(
     viewerStore,
     contrastSensitiveStyle,
-    uiContainer,
     use2D,
     mainUIRow
   )
@@ -92,8 +90,6 @@ function createMainUI(
     mainUIRow
   )
   uiContainer.appendChild(mainUIGroup);
-
-  return { uiContainer };
 }
 
 export default createMainUI;

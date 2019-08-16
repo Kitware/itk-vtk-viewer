@@ -66,7 +66,7 @@ const createViewer = (
 
   UserInterface.addLogo(container);
 
-  const { uiContainer } = UserInterface.createMainUI(
+  UserInterface.createMainUI(
     rootContainer,
     viewerStore,
     use2D,
@@ -106,7 +106,6 @@ const createViewer = (
       }
 
       UserInterface.createImageUI(
-        uiContainer,
         viewerStore,
         use2D
       );
@@ -155,7 +154,6 @@ const createViewer = (
   let geometriesUI = null
   if(!!geometries && geometries.length > 0) {
     geometriesUI = UserInterface.createGeometriesUI(
-      uiContainer,
       geometries,
       geometryRepresentationProxies,
       viewerStore
@@ -165,7 +163,6 @@ const createViewer = (
   let pointSetsUI = null
   if(!!pointSets && pointSets.length > 0) {
     pointSetsUI = UserInterface.createPointSetsUI(
-      uiContainer,
       pointSets,
       pointSetRepresentationProxies,
       viewerStore

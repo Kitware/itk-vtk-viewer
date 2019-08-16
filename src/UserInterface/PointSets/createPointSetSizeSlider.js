@@ -7,7 +7,6 @@ import pointSetSizeIcon from '../icons/point-set-size.svg';
 function createPointSetSizeSlider(
   pointSetHasScalars,
   renderWindow,
-  pointSetRepresentationProxies,
   viewerStore,
   pointSetSelector,
   pointSetSizeRow
@@ -36,12 +35,12 @@ function createPointSetSizeSlider(
   function updateSize() {
     const value = Number(sizeElement.value);
     pointSetSizes[pointSetSelector.selectedIndex] = value
-    pointSetRepresentationProxies[pointSetSelector.selectedIndex].setPointSize(value)
+    viewerStore.pointSetsUI.representationProxies[pointSetSelector.selectedIndex].setPointSize(value)
     renderWindow.render();
   }
   sizeElement.addEventListener('input', updateSize);
   updateSize();
-  pointSetRepresentationProxies.forEach((proxy) => {
+  viewerStore.pointSetsUI.representationProxies.forEach((proxy) => {
     proxy.setPointSize(defaultPointSetSize)
   })
   pointSetSelector.addEventListener('change',

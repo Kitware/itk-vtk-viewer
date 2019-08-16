@@ -10,8 +10,6 @@ import rgb2hex from './UserInterface/rgb2hex';
 import ViewerStore from './ViewerStore';
 import { autorun, reaction } from 'mobx';
 
-let pointSetNameCount = 0
-
 function applyStyle(el, style) {
   Object.keys(style).forEach((key) => {
     el.style[key] = style[key];
@@ -142,35 +140,38 @@ const createViewer = (
   );
   viewerStore.geometries = geometries;
 
-  let pointSetRepresentationProxies = []
-  let pointSetSources = []
-  if(!!pointSets && pointSets.length > 0) {
-    pointSets.forEach((pointSet) => {
-      const sourceUid = `pointSetSource${pointSetNameCount++}`
-      const pointSetSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
-        name: sourceUid,
-      });
-      pointSetSource.setInputData(pointSet)
-      const pointSetRepresentationUid = `pointSetRepresentation${pointSetNameCount}`
-      const pointSetRepresentation = proxyManager.createProxy('Representations', 'PointSet', {
-        name: pointSetRepresentationUid,
-      });
-      pointSetRepresentation.setInput(pointSetSource);
-      viewerStore.itkVtkView.addRepresentation(pointSetRepresentation);
-      pointSetSources.push(pointSetSource)
-      pointSetRepresentationProxies.push(pointSetRepresentation)
-    })
-  }
+  reaction(() => viewerStore.pointSets,
+    (pointSets) => {
+      if(!!!pointSets || pointSets.length === 0) {
+        return;
+      }
+      pointSets.forEach((pointSet, index) => {
+        if (viewerStore.pointSetsUI.sources.length <= index) {
+          const uid = `pointSetSource${index}`
+          const pointSetSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
+            name: uid,
+          });
+          viewerStore.pointSetsUI.sources.push(pointSetSource)
+          viewerStore.pointSetsUI.sources[index].setInputData(pointSet)
+          const pointSetRepresentationUid = `pointSetRepresentation${index}`
+          const pointSetRepresentation = proxyManager.createProxy('Representations', 'PointSet', {
+            name: pointSetRepresentationUid,
+          });
+          pointSetRepresentation.setInput(pointSetSource);
+          viewerStore.itkVtkView.addRepresentation(pointSetRepresentation);
+          viewerStore.pointSetsUI.representationProxies.push(pointSetRepresentation);
+        } else {
+          viewerStore.pointSetsUI.sources[index].setInputData(pointSet);
+        }
+      })
+      UserInterface.createPointSetsUI(
+        pointSets,
+        viewerStore
+      );
+    }
+  );
+  viewerStore.pointSets = pointSets;
 
-
-  let pointSetsUI = null
-  if(!!pointSets && pointSets.length > 0) {
-    pointSetsUI = UserInterface.createPointSetsUI(
-      pointSets,
-      pointSetRepresentationProxies,
-      viewerStore
-    );
-  }
 
   viewerStore.itkVtkView.resize();
   const resizeSensor = new ResizeSensor(container, function() {
@@ -191,7 +192,7 @@ const createViewer = (
       return max;
     }, -Infinity);
     const radiusFactor = windowWidth / maxLength * 2e-4;
-    pointSetRepresentationProxies.forEach((proxy) => {
+    viewerStore.pointSetsUI.representationProxies.forEach((proxy) => {
       proxy.setRadiusFactor(radiusFactor);
     })
   }
@@ -230,8 +231,8 @@ const createViewer = (
   publicAPI.setImage = macro.throttle(setImage, 100);
 
   publicAPI.setPointSets = (pointsets) => {
-    if (pointsets.length > pointSetRepresentationProxies.length) {
-      pointsets.slice(pointSetRepresentationProxies.length).forEach((pointSet) => {
+    if (pointsets.length > viewerStore.pointSetsUI.representationProxies.length) {
+      pointsets.slice(viewerStore.pointSetsUI.representationProxies.length).forEach((pointSet) => {
         const uid = `pointSet${pointSetNameCount++}`
         const pointSetSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
           name: uid,
@@ -239,14 +240,14 @@ const createViewer = (
         pointSetSource.setInputData(pointSet)
         proxyManager.createRepresentationInAllViews(pointSetSource);
         const pointSetRepresentation = proxyManager.getRepresentation(pointSetSource, viewerStore.itkVtkView);
-        pointSetSources.push(pointSetSource)
-        pointSetRepresentationProxies.push(pointSetRepresentation);
+        viewerStore.pointSetsUI.sources.push(pointSetSource)
+        viewerStore.pointSetsUI.representationProxies.push(pointSetRepresentation);
       })
-    } else if(pointsets.length < pointSetRepresentationProxies.length) {
-      pointSetRepresentationProxies.splice(pointsets.length);
+    } else if(pointsets.length < viewerStore.pointSetsUI.representationProxies.length) {
+      viewerStore.pointSetsUI.representationProxies.splice(pointsets.length);
     }
     pointsets.forEach((pointSet, index) => {
-      pointSetSources[index].setInputData(pointSet);
+      viewerStore.pointSetsUI.sources[index].setInputData(pointSet);
     })
   }
 
@@ -723,7 +724,7 @@ const createViewer = (
         pointSetColorInput.value = hexColor;
       }
     }
-    pointSetRepresentationProxies[index].setColor(Array.from(rgbColor));
+    viewerStore.pointSetsUI.representationProxies[index].setColor(Array.from(rgbColor));
   }
 
   publicAPI.setPointSetOpacity = (index, opacity) => {
@@ -732,7 +733,7 @@ const createViewer = (
         pointSetOpacitySlider.value = opacity;
       }
     }
-    pointSetRepresentationProxies[index].setOpacity(opacity);
+    viewerStore.pointSetsUI.representationProxies[index].setOpacity(opacity);
   }
 
   const geometrySelector = document.getElementById(`${viewerDOMId}-geometrySelector`);

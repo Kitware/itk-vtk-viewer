@@ -5,7 +5,6 @@ import createPointSetColorWidget from './PointSets/createPointSetColorWidget';
 
 function createPointSetsUI(
   pointSets,
-  pointSetRepresentationProxies,
   viewerStore
 ) {
   const renderWindow = viewerStore.itkVtkView.getRenderWindow();
@@ -38,7 +37,6 @@ function createPointSetsUI(
     pointSetNames,
     renderWindow,
     viewerStore,
-    pointSetRepresentationProxies,
     pointSetSelector,
     pointSetRepresentationRow
   )
@@ -47,7 +45,6 @@ function createPointSetsUI(
   createPointSetColorWidget(
     renderWindow,
     pointSets,
-    pointSetRepresentationProxies,
     viewerStore,
     pointSetSelector,
     pointSetsUIGroup

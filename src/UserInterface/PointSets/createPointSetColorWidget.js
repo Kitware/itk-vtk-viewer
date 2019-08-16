@@ -9,7 +9,6 @@ import createPointSetSizeSlider from './createPointSetSizeSlider';
 function createPointSetColorWidget(
   renderWindow,
   pointSets,
-  pointSetRepresentationProxies,
   viewerStore,
   pointSetSelector,
   pointSetsUIGroup
@@ -28,7 +27,6 @@ function createPointSetColorWidget(
     pointSetHasScalars,
     renderWindow,
     pointSets,
-    pointSetRepresentationProxies,
     pointSetSelector,
     pointSetColorByRow
   )
@@ -42,7 +40,6 @@ function createPointSetColorWidget(
     viewerStore,
     pointSetHasScalars,
     renderWindow,
-    pointSetRepresentationProxies,
     pointSetSelector,
     pointSetColorRow
   )
@@ -50,7 +47,6 @@ function createPointSetColorWidget(
   createPointSetOpacitySlider(
     pointSetHasScalars,
     renderWindow,
-    pointSetRepresentationProxies,
     viewerStore,
     pointSetSelector,
     pointSetColorRow
@@ -64,7 +60,6 @@ function createPointSetColorWidget(
     viewerStore,
     pointSetHasScalars,
     renderWindow,
-    pointSetRepresentationProxies,
     pointSetSelector,
     pointSetColorPresetRow
   )
@@ -76,7 +71,6 @@ function createPointSetColorWidget(
   createPointSetSizeSlider(
     pointSetHasScalars,
     renderWindow,
-    pointSetRepresentationProxies,
     viewerStore,
     pointSetSelector,
     pointSetSizeRow

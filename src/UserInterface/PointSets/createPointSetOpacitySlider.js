@@ -7,7 +7,6 @@ import opacityIcon from '../icons/opacity.svg';
 function createPointSetOpacitySlider(
   pointSetHasScalars,
   renderWindow,
-  pointSetRepresentationProxies,
   viewerStore,
   pointSetSelector,
   pointSetColorRow
@@ -36,7 +35,7 @@ function createPointSetOpacitySlider(
   function updateOpacity() {
     const value = Number(opacityElement.value);
     pointSetOpacities[pointSetSelector.selectedIndex] = value
-    pointSetRepresentationProxies[pointSetSelector.selectedIndex].setOpacity(value)
+    viewerStore.pointSetsUI.representationProxies[pointSetSelector.selectedIndex].setOpacity(value)
     renderWindow.render();
   }
   opacityElement.addEventListener('input', updateOpacity);

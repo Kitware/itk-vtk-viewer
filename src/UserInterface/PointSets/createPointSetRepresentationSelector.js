@@ -10,10 +10,10 @@ function createPointSetRepresentationSelector(
   pointSetNames,
   renderWindow,
   viewerStore,
-  pointSetRepresentationProxies,
   pointSetSelector,
   pointSetRepresentationRow
 ) {
+  const pointSetRepresentationProxies = viewerStore.pointSetsUI.representationProxies;
   const pointSetRepresentations = new Array(pointSetNames.length);
   const defaultPointSetRepresentation = 'Points';
   const viewerDOMId = viewerStore.id;

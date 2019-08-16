@@ -48,6 +48,12 @@ class ViewerStore {
     }
     @observable.shallow geometries = [];
 
+    pointSetsUI = {
+      sources: [],
+      representationProxies: [],
+    }
+    @observable.shallow pointSets = [];
+
     constructor(proxyManager) {
       this.id = 'itk-vtk-viewer-' +
         performance

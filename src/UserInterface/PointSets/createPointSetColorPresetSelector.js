@@ -6,7 +6,6 @@ function createPointSetColorPresetSelector(
   viewerStore,
   pointSetHasScalars,
   renderWindow,
-  pointSetRepresentationProxies,
   pointSetSelector,
   pointSetColorPresetRow
 ) {
@@ -33,7 +32,7 @@ function createPointSetColorPresetSelector(
 
   function updateColorMap(event) {
     const value = event.target.value;
-    pointSetRepresentationProxies.forEach((proxy) => {
+    viewerStore.pointSetsUI.representationProxies.forEach((proxy) => {
       const lutProxy = proxy.getLookupTableProxy();
       if (lutProxy) {
         lutProxy.setPresetName(value);
@@ -44,7 +43,7 @@ function createPointSetColorPresetSelector(
   }
   presetSelector.addEventListener('change', updateColorMap);
 
-  pointSetRepresentationProxies.forEach((proxy) => {
+  viewerStore.pointSetsUI.representationProxies.forEach((proxy) => {
     const lutProxy = proxy.getLookupTableProxy();
     if(lutProxy) {
       lutProxy.setPresetName(defaultPointSetColorPreset);

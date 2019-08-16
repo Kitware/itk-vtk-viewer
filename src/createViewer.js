@@ -59,19 +59,16 @@ const createViewer = (
 
   UserInterface.addLogo(container);
 
-  const imageSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
-    name: 'Image',
-  });
   let lookupTableProxy = null;
   let piecewiseFunction = null;
   let dataArray = null;
   let imageRepresentationProxy = null;
   let imageUI = null;
   if (image) {
-    imageSource.setInputData(image);
+    viewerStore.imageSource.setInputData(image);
 
-    proxyManager.createRepresentationInAllViews(imageSource);
-    imageRepresentationProxy = proxyManager.getRepresentation(imageSource, viewerStore.itkVtkView);
+    proxyManager.createRepresentationInAllViews(viewerStore.imageSource);
+    imageRepresentationProxy = proxyManager.getRepresentation(viewerStore.imageSource, viewerStore.itkVtkView);
 
     dataArray = image.getPointData().getScalars();
     lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
@@ -145,7 +142,6 @@ const createViewer = (
     viewerDOMId,
     viewerStore,
     use2D,
-    imageSource,
     imageRepresentationProxy,
   );
 
@@ -224,7 +220,7 @@ const createViewer = (
       return;
     }
     updatingImage = true;
-    imageSource.setInputData(image);
+    viewerStore.imageSource.setInputData(image);
     imageUI.transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
     imageUI.transferFunctionWidget.invokeOpacityChange(imageUI.transferFunctionWidget);
     imageUI.transferFunctionWidget.modified();

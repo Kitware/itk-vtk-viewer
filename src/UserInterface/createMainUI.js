@@ -17,7 +17,6 @@ function createMainUI(
   viewerDOMId,
   viewerStore,
   use2D,
-  imageSource,
   imageRepresentationProxy,
 ) {
   const uiContainer = document.createElement('div');

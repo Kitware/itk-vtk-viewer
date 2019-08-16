@@ -15,8 +15,10 @@ const STYLE_CONTAINER = {
 
 class ViewerStore {
     proxyManager = null;
-    container = document.createElement('div');
+    container = null;
     itkVtkView = null;
+
+    imageSource = null;
 
     @observable.struct style = {
       backgroundColor: [0, 0, 0],
@@ -26,9 +28,12 @@ class ViewerStore {
     constructor(proxyManager) {
       this.proxyManager = proxyManager;
       this.itkVtkView = proxyManager.createProxy('Views', 'ItkVtkView');
+      this.container = document.createElement('div');
       this.itkVtkView.setContainer(this.container);
       // Todo: turn this into an action
       this.itkVtkView.setBackground(this.style.backgroundColor);
+
+      this.imageSource = proxyManager.createProxy('Sources', 'TrivialProducer', { name: 'Image', });
     }
 
     @computed get isBackgroundDark() {

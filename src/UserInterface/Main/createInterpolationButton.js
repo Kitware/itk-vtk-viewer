@@ -28,7 +28,7 @@ function createInterpolationButton(
   });
   mainUIRow.appendChild(interpolationButton);
 
-  if (!!viewerStore.imageRepresentationProxy) {
+  if (!!viewerStore.imageUI.representationProxy) {
     interpolationButton.style.display = 'none';
     when(() => !!viewerStore.image,
       () => interpolationButton.style.display = 'flex'

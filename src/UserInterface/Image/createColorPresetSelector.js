@@ -16,12 +16,12 @@ function createColorPresetSelector(
     .join('');
 
   function updateColorMap(event) {
-    viewerStore.lookupTableProxy.setPresetName(presetSelector.value);
+    viewerStore.imageUI.lookupTableProxy.setPresetName(presetSelector.value);
     renderWindow.render();
   }
   presetSelector.addEventListener('change', updateColorMap);
   uiContainer.appendChild(presetSelector);
-  presetSelector.value = viewerStore.lookupTableProxy.getPresetName();
+  presetSelector.value = viewerStore.imageUI.lookupTableProxy.getPresetName();
 
   return updateColorMap;
 }

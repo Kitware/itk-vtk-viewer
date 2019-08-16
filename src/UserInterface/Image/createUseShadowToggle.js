@@ -26,7 +26,7 @@ function createUseShadowToggle(
   let useShadow = true;
   useShadowButton.addEventListener('change', (event) => {
     useShadow = !useShadow;
-    viewerStore.imageRepresentationProxy.setUseShadow(useShadow);
+    viewerStore.imageUI.representationProxy.setUseShadow(useShadow);
     renderWindow.render();
   });
   uiContainer.appendChild(useShadowButton);

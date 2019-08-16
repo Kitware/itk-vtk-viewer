@@ -31,7 +31,7 @@ function createGradientOpacitySlider(
   );
   function updateGradientOpacity() {
     const value = Number(edgeElement.value);
-    viewerStore.imageRepresentationProxy.setEdgeGradient(value);
+    viewerStore.imageUI.representationProxy.setEdgeGradient(value);
     renderWindow.render();
   }
   edgeElement.addEventListener('input', updateGradientOpacity);

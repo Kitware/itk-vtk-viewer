@@ -86,23 +86,23 @@ const createViewer = (
       if (!!!image) {
         return;
       }
-      viewerStore.imageSource.setInputData(image);
+      viewerStore.imageUI.source.setInputData(image);
 
-      proxyManager.createRepresentationInAllViews(viewerStore.imageSource);
-      viewerStore.imageRepresentationProxy = proxyManager.getRepresentation(viewerStore.imageSource, viewerStore.itkVtkView);
+      proxyManager.createRepresentationInAllViews(viewerStore.imageUI.source);
+      viewerStore.imageUI.representationProxy = proxyManager.getRepresentation(viewerStore.imageUI.source, viewerStore.itkVtkView);
 
       const dataArray = image.getPointData().getScalars();
-      viewerStore.lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
+      viewerStore.imageUI.lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
       if (dataArray.getNumberOfComponents() > 1) {
-        viewerStore.lookupTableProxy.setPresetName('Grayscale');
+        viewerStore.imageUI.lookupTableProxy.setPresetName('Grayscale');
       } else {
-        viewerStore.lookupTableProxy.setPresetName('Viridis (matplotlib)');
+        viewerStore.imageUI.lookupTableProxy.setPresetName('Viridis (matplotlib)');
       }
-      viewerStore.piecewiseFunctionProxy = proxyManager.getPiecewiseFunction(dataArray.getName());
+      viewerStore.imageUI.piecewiseFunctionProxy = proxyManager.getPiecewiseFunction(dataArray.getName());
 
       // Slices share the same lookup table as the volume rendering.
-      const lut = viewerStore.lookupTableProxy.getLookupTable();
-      const sliceActors = viewerStore.imageRepresentationProxy.getActors();
+      const lut = viewerStore.imageUI.lookupTableProxy.getLookupTable();
+      const sliceActors = viewerStore.imageUI.representationProxy.getActors();
       sliceActors.forEach((actor) => {
         actor.getProperty().setRGBTransferFunction(lut);
       });
@@ -225,16 +225,17 @@ const createViewer = (
       return;
     }
     updatingImage = true;
-    viewerStore.imageSource.setInputData(image);
-    imageUI.transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
-    imageUI.transferFunctionWidget.invokeOpacityChange(imageUI.transferFunctionWidget);
-    imageUI.transferFunctionWidget.modified();
-    viewerStore.croppingWidget.setVolumeMapper(viewerStore.imageRepresentationProxy.getMapper());
-    const cropFilter = viewerStore.imageRepresentationProxy.getCropFilter();
+    viewerStore.imageUI.source.setInputData(image);
+    const transferFunctionWidget = viewerStore.imageUI.transferFunctionWidget;
+    transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
+    transferFunctionWidget.invokeOpacityChange(transferFunctionWidget);
+    transferFunctionWidget.modified();
+    viewerStore.imageUI.croppingWidget.setVolumeMapper(viewerStore.imageUI.representationProxy.getMapper());
+    const cropFilter = viewerStore.imageUI.representationProxy.getCropFilter();
     cropFilter.reset();
-    viewerStore.croppingWidget.resetWidgetState();
+    viewerStore.imageUI.croppingWidget.resetWidgetState();
     setTimeout(() => {
-      imageUI.transferFunctionWidget.render();
+      transferFunctionWidget.render();
       viewerStore.itkVtkView.getRenderWindow().render();
       updatingImage = false;
     }, 0);
@@ -463,7 +464,7 @@ const createViewer = (
   }
 
   publicAPI.subscribeResetCrop = (handler) => {
-    return viewerStore.addResetCropHandler(handler);
+    return viewerStore.imageUI.addResetCropHandler(handler);
   }
 
   const colorMapSelector = document.getElementById(`${viewerDOMId}-colorMapSelector`);

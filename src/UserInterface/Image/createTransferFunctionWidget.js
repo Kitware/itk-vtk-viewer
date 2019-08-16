@@ -11,12 +11,13 @@ function createTransferFunctionWidget(
   renderWindow,
   use2D
 ) {
-  const piecewiseFunction = viewerStore.piecewiseFunctionProxy.getPiecewiseFunction();
+  const piecewiseFunction = viewerStore.imageUI.piecewiseFunctionProxy.getPiecewiseFunction();
 
   const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({
     numberOfBins: 256,
     size: [400, 150],
   });
+  viewerStore.imageUI.transferFunctionWidget = transferFunctionWidget;
   let iconSize = 20;
   if (use2D) {
     iconSize = 0;
@@ -41,7 +42,7 @@ function createTransferFunctionWidget(
   const dataArray = viewerStore.image.getPointData().getScalars();
   transferFunctionWidget.setDataArray(dataArray.getData());
 
-  const lookupTable = viewerStore.lookupTableProxy.getLookupTable();
+  const lookupTable = viewerStore.imageUI.lookupTableProxy.getLookupTable();
 
   const piecewiseWidgetContainer = document.createElement('div');
   piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget);
@@ -64,7 +65,7 @@ function createTransferFunctionWidget(
     }
     const colorDataRange = transferFunctionWidget.getOpacityRange();
     const preset = vtkColorMaps.getPresetByName(
-      viewerStore.lookupTableProxy.getPresetName()
+      viewerStore.imageUI.lookupTableProxy.getPresetName()
     );
     lookupTable.applyColorMap(preset);
     lookupTable.setMappingRange(...colorDataRange);
@@ -189,8 +190,6 @@ function createTransferFunctionWidget(
   );
   viewerStore.itkVtkView.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulator);
   viewerStore.itkVtkView.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulatorShift);
-
-  return transferFunctionWidget;
 }
 
 export default createTransferFunctionWidget;

@@ -34,7 +34,7 @@ function createImageUI(
     imageUIGroup.appendChild(presetRow);
   }
 
-  const transferFunctionWidget = createTransferFunctionWidget(
+  createTransferFunctionWidget(
     viewerStore,
     imageUIGroup,
     viewerDOMId,
@@ -83,7 +83,7 @@ function createImageUI(
 
   uiContainer.appendChild(imageUIGroup);
 
-  return { transferFunctionWidget, updateGradientOpacity, updateColorMap };
+  return { updateGradientOpacity, updateColorMap };
 }
 
 export default createImageUI;

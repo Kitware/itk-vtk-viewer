@@ -15,14 +15,14 @@ function createCroppingButtons(
   mainUIRow
 ) {
   function setupCroppingWidget() {
-    viewerStore.croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
-    viewerStore.croppingWidget.setHandleSize(22);
-    viewerStore.croppingWidget.setFaceHandlesEnabled(false);
-    viewerStore.croppingWidget.setEdgeHandlesEnabled(false);
-    viewerStore.croppingWidget.setCornerHandlesEnabled(true);
-    viewerStore.croppingWidget.setInteractor(viewerStore.itkVtkView.getInteractor());
-    viewerStore.croppingWidget.setEnabled(false);
-    viewerStore.croppingWidget.setVolumeMapper(viewerStore.imageRepresentationProxy.getMapper());
+    viewerStore.imageUI.croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
+    viewerStore.imageUI.croppingWidget.setHandleSize(22);
+    viewerStore.imageUI.croppingWidget.setFaceHandlesEnabled(false);
+    viewerStore.imageUI.croppingWidget.setEdgeHandlesEnabled(false);
+    viewerStore.imageUI.croppingWidget.setCornerHandlesEnabled(true);
+    viewerStore.imageUI.croppingWidget.setInteractor(viewerStore.itkVtkView.getInteractor());
+    viewerStore.imageUI.croppingWidget.setEnabled(false);
+    viewerStore.imageUI.croppingWidget.setVolumeMapper(viewerStore.imageUI.representationProxy.getMapper());
     const croppingPlanesChangedHandlers = [];
     viewerStore.addCroppingPlanesChangedHandler = (handler) => {
       const index = croppingPlanesChangedHandlers.length;
@@ -38,20 +38,20 @@ function createCroppingButtons(
         return;
       }
       croppingUpdateInProgress = true;
-      const planes = viewerStore.croppingWidget.getWidgetState().planes;
-      viewerStore.imageRepresentationProxy.setCroppingPlanes(planes);
-      const bboxCorners = viewerStore.croppingWidget.planesToBBoxCorners(planes);
+      const planes = viewerStore.imageUI.croppingWidget.getWidgetState().planes;
+      viewerStore.imageUI.representationProxy.setCroppingPlanes(planes);
+      const bboxCorners = viewerStore.imageUI.croppingWidget.planesToBBoxCorners(planes);
       croppingPlanesChangedHandlers.forEach((handler) => {
         handler.call(null, planes, bboxCorners);
       });
       croppingUpdateInProgress = false;
     };
     const debouncedSetCroppingPlanes = macro.debounce(setCroppingPlanes, 100);
-    viewerStore.croppingWidget.onCroppingPlanesChanged(debouncedSetCroppingPlanes);
+    viewerStore.imageUI.croppingWidget.onCroppingPlanesChanged(debouncedSetCroppingPlanes);
     let cropEnabled = false;
     function toggleCrop() {
       cropEnabled = !cropEnabled;
-      viewerStore.croppingWidget.setEnabled(cropEnabled);
+      viewerStore.imageUI.croppingWidget.setEnabled(cropEnabled);
     }
     const cropButton = document.createElement('div');
     cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${
@@ -75,7 +75,7 @@ function createCroppingButtons(
       style.toggleButton
     }" for="${viewerDOMId}-resetCroppingPlanesButton">${resetCropIcon}</label>`;
     const resetCropHandlers = [];
-    viewerStore.addResetCropHandler = (handler) => {
+    viewerStore.imageUI.addResetCropHandler = (handler) => {
       const index = resetCropHandlers.length;
       resetCropHandlers.push(handler);
       function unsubscribe() {
@@ -84,8 +84,8 @@ function createCroppingButtons(
       return Object.freeze({ unsubscribe });
     };
     function resetCrop() {
-      viewerStore.imageRepresentationProxy.getCropFilter().reset();
-      viewerStore.croppingWidget.resetWidgetState();
+      viewerStore.imageUI.representationProxy.getCropFilter().reset();
+      viewerStore.imageUI.croppingWidget.resetWidgetState();
       resetCropHandlers.forEach((handler) => {
         handler.call(null);
       });
@@ -102,10 +102,10 @@ function createCroppingButtons(
     });
     mainUIRow.appendChild(resetCropButton);
   } // if(imageRepresentationProxy)
-  if (viewerStore.imageRepresentationProxy) {
+  if (viewerStore.imageUI.representationProxy) {
     setupCroppingWidget()
   } else {
-    when(() => !!viewerStore.imageRepresentationProxy,
+    when(() => !!viewerStore.imageUI.representationProxy,
       setupCroppingWidget
     )
   }

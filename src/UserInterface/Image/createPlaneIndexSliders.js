@@ -15,7 +15,7 @@ function createPlaneIndexSliders(
   const numberOfValueChars = 6;
   let currentSlicePosition = null;
 
-  const volumeRepresentation = viewerStore.imageRepresentationProxy;
+  const volumeRepresentation = viewerStore.imageUI.representationProxy;
 
   const xPlaneRow = document.createElement('div');
   xPlaneRow.setAttribute('class', style.uiRow);

@@ -28,7 +28,7 @@ function createSampleDistanceSlider(
   const spacingElement = sliderEntry.querySelector(`.${viewerDOMId}-spacing`);
   function updateSpacing() {
     const value = Number(spacingElement.value);
-    viewerStore.imageRepresentationProxy.setSampleDistance(value);
+    viewerStore.imageUI.representationProxy.setSampleDistance(value);
     renderWindow.render();
   }
   spacingElement.addEventListener('input', updateSpacing);

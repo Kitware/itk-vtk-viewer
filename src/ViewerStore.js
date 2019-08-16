@@ -23,13 +23,18 @@ class ViewerStore {
       containerStyle: STYLE_CONTAINER,
     };
 
-    imageSource = null;
-    @observable.ref imageRepresentationProxy = null;
-    lookupTableProxy = null;
-    piecewiseFunctionProxy = null;
-    croppingWidget = null;
-    addCroppingPlanesChangedHandler = () => {}
-    addResetCropHandler = () => {}
+    imageUI = {
+      source: null,
+      @observable.ref representationProxy: null,
+
+      lookupTableProxy: null,
+      piecewiseFunctionProxy: null,
+      transferFunctionWidget: null,
+
+      croppingWidget: null,
+      addCroppingPlanesChangedHandler: () => {},
+      addResetCropHandler: () => {},
+    }
     @observable.ref image = null;
 
     constructor(proxyManager) {
@@ -40,7 +45,7 @@ class ViewerStore {
 
       this.itkVtkView.setBackground(this.style.backgroundColor);
 
-      this.imageSource = proxyManager.createProxy('Sources', 'TrivialProducer', { name: 'Image', });
+      this.imageUI.source = proxyManager.createProxy('Sources', 'TrivialProducer', { name: 'Image', });
     }
 
     @computed get isBackgroundDark() {

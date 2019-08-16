@@ -21,7 +21,7 @@ function createViewModeButtons(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = false;
-    if (viewerStore.imageRepresentationProxy) {
+    if (viewerStore.imageUI.representationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -42,7 +42,7 @@ function createViewModeButtons(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = false;
-    if (viewerStore.imageRepresentationProxy) {
+    if (viewerStore.imageUI.representationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -63,7 +63,7 @@ function createViewModeButtons(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = false;
-    if (viewerStore.imageRepresentationProxy) {
+    if (viewerStore.imageUI.representationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -84,7 +84,7 @@ function createViewModeButtons(
     document.getElementById(
       `${viewerDOMId}-volumeRenderingButton`
     ).checked = true;
-    if (viewerStore.imageRepresentationProxy) {
+    if (viewerStore.imageUI.representationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );

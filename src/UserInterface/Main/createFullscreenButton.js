@@ -3,7 +3,7 @@ import style from '../ItkVtkViewer.module.css';
 import fullscreenIcon from '../icons/fullscreen.svg';
 
 function createFullscreenButton(
-  viewerDOMId,
+  viewerStore,
   contrastSensitiveStyle,
   rootContainer,
   mainUIRow
@@ -24,13 +24,13 @@ function createFullscreenButton(
 
   if (fullScreenMethods) {
     const fullscreenButton = document.createElement('div');
-    fullscreenButton.innerHTML = `<input id="${viewerDOMId}-toggleFullscreenButton" type="checkbox" class="${
+    fullscreenButton.innerHTML = `<input id="${viewerStore.id}-toggleFullscreenButton" type="checkbox" class="${
       style.toggleInput
     }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Fullscreen[f]" class="${
       contrastSensitiveStyle.invertibleButton
     } ${style.fullscreenButton} ${
       style.toggleButton
-    }" for="${viewerDOMId}-toggleFullscreenButton">${fullscreenIcon}</label>`;
+    }" for="${viewerStore.id}-toggleFullscreenButton">${fullscreenIcon}</label>`;
     const fullscreenButtonInput = fullscreenButton.children[0];
     const container = rootContainer.children[0];
     const oldWidth = container.style.width;

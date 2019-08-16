@@ -6,8 +6,8 @@ import {
 } from 'vtk.js/Sources/Rendering/Core/Mapper/Constants';
 
 function createPointSetColorBySelector(
+  viewerStore,
   pointSetHasScalars,
-  viewerDOMId,
   renderWindow,
   pointSets,
   pointSetRepresentationProxies,
@@ -46,7 +46,7 @@ function createPointSetColorBySelector(
 
   const pointSetColorBySelector = document.createElement('select');
   pointSetColorBySelector.setAttribute('class', style.selector);
-  pointSetColorBySelector.id = `${viewerDOMId}-pointSetColorBySelector`;
+  pointSetColorBySelector.id = `${viewerStore.id}-pointSetColorBySelector`;
   if (pointSetHasScalars[pointSetSelector.selectedIndex] && pointSetColorByOptions[pointSetSelector.selectedIndex].length > 1) {
     pointSetColorByRow.style.display = 'flex';
   } else {

@@ -10,11 +10,11 @@ import createGradientOpacitySlider from './Image/createGradientOpacitySlider';
 
 function createImageUI(
   uiContainer,
-  viewerDOMId,
   viewerStore,
   use2D
 ) {
   const renderWindow = viewerStore.itkVtkView.getRenderWindow();
+  const viewerDOMId = viewerStore.id;
 
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
@@ -26,7 +26,6 @@ function createImageUI(
     createColorPresetSelector(
       viewerStore,
       presetRow,
-      viewerDOMId,
       renderWindow
     );
     presetRow.className += ` ${viewerDOMId}-toggle`;
@@ -36,7 +35,6 @@ function createImageUI(
   createTransferFunctionWidget(
     viewerStore,
     imageUIGroup,
-    viewerDOMId,
     renderWindow,
     use2D
   );
@@ -47,25 +45,21 @@ function createImageUI(
     volumeRenderingRow.className += ` ${viewerDOMId}-volumeRendering ${viewerDOMId}-toggle`;
     createViewPlanesToggle(
       imageUIGroup,
-      viewerDOMId,
       volumeRenderingRow,
       viewerStore
     );
     createUseShadowToggle(
       volumeRenderingRow,
-      viewerDOMId,
       renderWindow,
       viewerStore
     );
     createSampleDistanceSlider(
       volumeRenderingRow,
-      viewerDOMId,
       viewerStore,
       renderWindow
     );
     createGradientOpacitySlider(
       volumeRenderingRow,
-      viewerDOMId,
       viewerStore,
       renderWindow
     );
@@ -73,7 +67,6 @@ function createImageUI(
 
     createPlaneIndexSliders(
       imageUIGroup,
-      viewerDOMId,
       renderWindow,
       viewerStore
     );

@@ -66,16 +66,8 @@ const createViewer = (
 
   UserInterface.addLogo(container);
 
-  const viewerDOMId =
-    'itk-vtk-viewer-' +
-    performance
-      .now()
-      .toString()
-      .replace('.', '');
-
   const { uiContainer } = UserInterface.createMainUI(
     rootContainer,
-    viewerDOMId,
     viewerStore,
     use2D,
   );
@@ -115,7 +107,6 @@ const createViewer = (
 
       UserInterface.createImageUI(
         uiContainer,
-        viewerDOMId,
         viewerStore,
         use2D
       );
@@ -161,14 +152,10 @@ const createViewer = (
     })
   }
 
-  if (image) {
-  }
-
   let geometriesUI = null
   if(!!geometries && geometries.length > 0) {
     geometriesUI = UserInterface.createGeometriesUI(
       uiContainer,
-      viewerDOMId,
       geometries,
       geometryRepresentationProxies,
       viewerStore
@@ -179,7 +166,6 @@ const createViewer = (
   if(!!pointSets && pointSets.length > 0) {
     pointSetsUI = UserInterface.createPointSetsUI(
       uiContainer,
-      viewerDOMId,
       pointSets,
       pointSetRepresentationProxies,
       viewerStore
@@ -217,6 +203,8 @@ const createViewer = (
   publicAPI.renderLater = () => {
     viewerStore.itkVtkView.renderLater();
   }
+
+  const viewerDOMId = viewerStore.id;
 
   let updatingImage = false;
   const setImage = (image) => {

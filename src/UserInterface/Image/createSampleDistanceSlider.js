@@ -6,7 +6,6 @@ import sampleDistanceIcon from 'vtk.js/Sources/Interaction/UI/Icons/Spacing.svg'
 
 function createSampleDistanceSlider(
   uiContainer,
-  viewerDOMId,
   viewerStore,
   renderWindow
 ) {
@@ -24,8 +23,8 @@ function createSampleDistanceSlider(
       ${sampleDistanceIcon}
     </div>
     <input type="range" min="0" max="1" value="0.3" step="0.01"
-      class="${style.slider} ${viewerDOMId}-spacing" />`;
-  const spacingElement = sliderEntry.querySelector(`.${viewerDOMId}-spacing`);
+      class="${style.slider} ${viewerStore.id}-spacing" />`;
+  const spacingElement = sliderEntry.querySelector(`.${viewerStore.id}-spacing`);
   function updateSpacing() {
     const value = Number(spacingElement.value);
     viewerStore.imageUI.representationProxy.setSampleDistance(value);

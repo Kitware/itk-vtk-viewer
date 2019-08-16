@@ -4,7 +4,6 @@ import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
 function createPlaneIndexSliders(
   uiContainer,
-  viewerDOMId,
   renderWindow,
   viewerStore,
 ) {
@@ -14,6 +13,7 @@ function createPlaneIndexSliders(
   );
   const numberOfValueChars = 6;
   let currentSlicePosition = null;
+  const viewerDOMId = viewerStore.id;
 
   const volumeRepresentation = viewerStore.imageUI.representationProxy;
 

@@ -2,8 +2,8 @@ import style from '../ItkVtkViewer.module.css';
 import hex2rgb from '../hex2rgb';
 
 function createPointSetColorChooser(
+  viewerStore,
   pointSetHasScalars,
-  viewerDOMId,
   renderWindow,
   pointSetRepresentationProxies,
   pointSetSelector,
@@ -15,7 +15,7 @@ function createPointSetColorChooser(
 
   const pointSetColorInput = document.createElement('input');
   pointSetColorInput.setAttribute('type', 'color');
-  pointSetColorInput.id = `${viewerDOMId}-pointSetColorInput`;
+  pointSetColorInput.id = `${viewerStore.id}-pointSetColorInput`;
   pointSetColorInput.value = defaultPointSetColor;
   if (pointSetHasScalars[pointSetSelector.selectedIndex]) {
     pointSetColorInput.style.display = 'none';

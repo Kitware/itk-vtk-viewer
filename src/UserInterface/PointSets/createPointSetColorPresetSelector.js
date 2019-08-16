@@ -3,8 +3,8 @@ import style from '../ItkVtkViewer.module.css';
 import ColorPresetNames from '../ColorPresetNames';
 
 function createPointSetColorPresetSelector(
+  viewerStore,
   pointSetHasScalars,
-  viewerDOMId,
   renderWindow,
   pointSetRepresentationProxies,
   pointSetSelector,
@@ -16,7 +16,7 @@ function createPointSetColorPresetSelector(
 
   const presetSelector = document.createElement('select');
   presetSelector.setAttribute('class', style.selector);
-  presetSelector.id = `${viewerDOMId}-pointSetColorMapSelector`;
+  presetSelector.id = `${viewerStore.id}-pointSetColorMapSelector`;
   presetSelector.innerHTML = ColorPresetNames
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');

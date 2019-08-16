@@ -15,13 +15,16 @@ const STYLE_CONTAINER = {
 
 class ViewerStore {
     proxyManager = null;
-    container = null;
     itkVtkView = null;
+    container = null;
+    id = 'itk-vtk-viewer';
 
     @observable style = {
       backgroundColor: [0, 0, 0],
       containerStyle: STYLE_CONTAINER,
     };
+
+    uiContainer = null;
 
     imageUI = {
       source: null,
@@ -40,6 +43,11 @@ class ViewerStore {
     @observable.ref image = null;
 
     constructor(proxyManager) {
+      this.id = 'itk-vtk-viewer-' +
+        performance
+          .now()
+          .toString()
+          .replace('.', '');
       this.proxyManager = proxyManager;
       this.itkVtkView = proxyManager.createProxy('Views', 'ItkVtkView');
       this.container = document.createElement('div');

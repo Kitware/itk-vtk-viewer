@@ -6,7 +6,6 @@ import createGeometryColorPresetSelector from './createGeometryColorPresetSelect
 import createGeometryColorBySelector from './createGeometryColorBySelector';
 
 function createGeometryColorWidget(
-  viewerDOMId,
   renderWindow,
   geometries,
   geometryRepresentationProxies,
@@ -24,10 +23,10 @@ function createGeometryColorWidget(
 
   const geometryColorByRow = document.createElement('div')
   geometryColorByRow.setAttribute('class', style.uiRow)
-  geometryColorByRow.className += ` ${viewerDOMId}-toggle`;
+  geometryColorByRow.className += ` ${viewerStore.id}-toggle`;
   createGeometryColorBySelector(
+    viewerStore,
     geometryHasScalars,
-    viewerDOMId,
     renderWindow,
     geometries,
     geometryRepresentationProxies,
@@ -38,11 +37,11 @@ function createGeometryColorWidget(
 
   const geometryColorRow = document.createElement('div')
   geometryColorRow.setAttribute('class', style.uiRow)
-  geometryColorRow.className += ` ${viewerDOMId}-toggle`;
+  geometryColorRow.className += ` ${viewerStore.id}-toggle`;
 
   createGeometryColorChooser(
+    viewerStore,
     geometryHasScalars,
-    viewerDOMId,
     renderWindow,
     geometryRepresentationProxies,
     geometrySelector,
@@ -51,7 +50,6 @@ function createGeometryColorWidget(
 
   createGeometryOpacitySlider(
     geometryHasScalars,
-    viewerDOMId,
     renderWindow,
     geometryRepresentationProxies,
     viewerStore,
@@ -62,10 +60,10 @@ function createGeometryColorWidget(
 
   const geometryColorPresetRow = document.createElement('div')
   geometryColorPresetRow.setAttribute('class', style.uiRow)
-  geometryColorPresetRow.className += ` ${viewerDOMId}-toggle`;
+  geometryColorPresetRow.className += ` ${viewerStore.id}-toggle`;
   createGeometryColorPresetSelector(
+    viewerStore,
     geometryHasScalars,
-    viewerDOMId,
     renderWindow,
     geometryRepresentationProxies,
     geometrySelector,

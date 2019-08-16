@@ -7,7 +7,6 @@ import style from '../ItkVtkViewer.module.css';
 function createTransferFunctionWidget(
   viewerStore,
   uiContainer,
-  viewerDOMId,
   renderWindow,
   use2D
 ) {
@@ -98,7 +97,7 @@ function createTransferFunctionWidget(
 
   const transferFunctionWidgetRow = document.createElement('div');
   transferFunctionWidgetRow.setAttribute('class', style.uiRow);
-  transferFunctionWidgetRow.className += ` ${viewerDOMId}-toggle`;
+  transferFunctionWidgetRow.className += ` ${viewerStore.id}-toggle`;
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer);
   uiContainer.appendChild(transferFunctionWidgetRow);
 

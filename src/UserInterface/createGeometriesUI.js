@@ -5,7 +5,6 @@ import createGeometryColorWidget from './Geometries/createGeometryColorWidget';
 
 function createGeometriesUI(
   uiContainer,
-  viewerDOMId,
   geometries,
   geometryRepresentationProxies,
   viewerStore
@@ -17,12 +16,12 @@ function createGeometriesUI(
 
   const geometryRepresentationRow = document.createElement('div');
   geometryRepresentationRow.setAttribute('class', style.uiRow);
-  geometryRepresentationRow.className += ` ${viewerDOMId}-toggle`;
+  geometryRepresentationRow.className += ` ${viewerStore.id}-toggle`;
 
   const geometryNames = geometries.map((geometry, index) => `Geometry ${index}`);
   const geometrySelector = document.createElement('select');
   geometrySelector.setAttribute('class', style.selector);
-  geometrySelector.id = `${viewerDOMId}-geometrySelector`;
+  geometrySelector.id = `${viewerStore.id}-geometrySelector`;
   geometrySelector.innerHTML = geometryNames
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');
@@ -37,7 +36,6 @@ function createGeometriesUI(
   }
 
   createGeometryRepresentationSelector(
-    viewerDOMId,
     geometryNames,
     renderWindow,
     viewerStore,
@@ -48,7 +46,6 @@ function createGeometriesUI(
   geometriesUIGroup.appendChild(geometryRepresentationRow);
 
   createGeometryColorWidget(
-    viewerDOMId,
     renderWindow,
     geometries,
     geometryRepresentationProxies,

@@ -7,12 +7,12 @@ import zPlaneIcon from '../icons/z-plane.svg';
 
 function createViewModeButtons(
   viewerStore,
-  viewerDOMId,
   contrastSensitiveStyle,
   uiContainer,
   use2D,
   mainUIRow
 ) {
+  const viewerDOMId = viewerStore.id;
   function setViewModeXPlane() {
     viewerStore.itkVtkView.setViewMode('XPlane');
     document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = true;

@@ -6,7 +6,6 @@ import pointSetSizeIcon from '../icons/point-set-size.svg';
 
 function createPointSetSizeSlider(
   pointSetHasScalars,
-  viewerDOMId,
   renderWindow,
   pointSetRepresentationProxies,
   viewerStore,
@@ -29,10 +28,10 @@ function createPointSetSizeSlider(
       ${pointSetSizeIcon}
     </div>
     <input type="range" min="1" max="10" value="${defaultPointSetSize}" step="1"
-      id="${viewerDOMId}-pointSetSizeSlider"
+      id="${viewerStore.id}-pointSetSizeSlider"
       class="${style.slider}" />`;
   const sizeElement = sliderEntry.querySelector(
-    `#${viewerDOMId}-pointSetSizeSlider`
+    `#${viewerStore.id}-pointSetSizeSlider`
   );
   function updateSize() {
     const value = Number(sizeElement.value);

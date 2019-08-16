@@ -6,7 +6,6 @@ import gradientOpacityIcon from '../icons/gradient.svg';
 
 function createGradientOpacitySlider(
   uiContainer,
-  viewerDOMId,
   viewerStore,
   renderWindow
 ) {
@@ -24,10 +23,10 @@ function createGradientOpacitySlider(
       ${gradientOpacityIcon}
     </div>
     <input type="range" min="0" max="1" value="0.2" step="0.01"
-      id="${viewerDOMId}-gradientOpacitySlider"
+      id="${viewerStore.id}-gradientOpacitySlider"
       class="${style.slider}" />`;
   const edgeElement = sliderEntry.querySelector(
-    `#${viewerDOMId}-gradientOpacitySlider`
+    `#${viewerStore.id}-gradientOpacitySlider`
   );
   function updateGradientOpacity() {
     const value = Number(edgeElement.value);

@@ -5,7 +5,6 @@ import createPointSetColorWidget from './PointSets/createPointSetColorWidget';
 
 function createPointSetsUI(
   uiContainer,
-  viewerDOMId,
   pointSets,
   pointSetRepresentationProxies,
   viewerStore
@@ -17,12 +16,12 @@ function createPointSetsUI(
 
   const pointSetRepresentationRow = document.createElement('div');
   pointSetRepresentationRow.setAttribute('class', style.uiRow);
-  pointSetRepresentationRow.className += ` ${viewerDOMId}-toggle`;
+  pointSetRepresentationRow.className += ` ${viewerStore.id}-toggle`;
 
   const pointSetNames = pointSets.map((pointSet, index) => `Point Set ${index}`);
   const pointSetSelector = document.createElement('select');
   pointSetSelector.setAttribute('class', style.selector);
-  pointSetSelector.id = `${viewerDOMId}-pointSetSelector`;
+  pointSetSelector.id = `${viewerStore.id}-pointSetSelector`;
   pointSetSelector.innerHTML = pointSetNames
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');
@@ -37,7 +36,6 @@ function createPointSetsUI(
   }
 
   createPointSetRepresentationSelector(
-    viewerDOMId,
     pointSetNames,
     renderWindow,
     viewerStore,
@@ -48,7 +46,6 @@ function createPointSetsUI(
   pointSetsUIGroup.appendChild(pointSetRepresentationRow);
 
   createPointSetColorWidget(
-    viewerDOMId,
     renderWindow,
     pointSets,
     pointSetRepresentationProxies,
@@ -58,8 +55,6 @@ function createPointSetsUI(
   )
 
   uiContainer.appendChild(pointSetsUIGroup);
-
-  return {};
 }
 
 export default createPointSetsUI;

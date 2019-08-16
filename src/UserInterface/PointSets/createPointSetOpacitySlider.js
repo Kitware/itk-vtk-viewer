@@ -6,7 +6,6 @@ import opacityIcon from '../icons/opacity.svg';
 
 function createPointSetOpacitySlider(
   pointSetHasScalars,
-  viewerDOMId,
   renderWindow,
   pointSetRepresentationProxies,
   viewerStore,
@@ -29,10 +28,10 @@ function createPointSetOpacitySlider(
       ${opacityIcon}
     </div>
     <input type="range" min="0" max="1" value="${defaultPointSetOpacity}" step="0.01"
-      id="${viewerDOMId}-pointSetOpacitySlider"
+      id="${viewerStore.id}-pointSetOpacitySlider"
       class="${style.slider}" />`;
   const opacityElement = sliderEntry.querySelector(
-    `#${viewerDOMId}-pointSetOpacitySlider`
+    `#${viewerStore.id}-pointSetOpacitySlider`
   );
   function updateOpacity() {
     const value = Number(opacityElement.value);

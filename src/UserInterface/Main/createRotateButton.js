@@ -4,18 +4,17 @@ import rotateIcon from '../icons/rotate.svg';
 
 function createRotateButton(
   viewerStore,
-  viewerDOMId,
   contrastSensitiveStyle,
   mainUIRow
 ) {
   const rotateButton = document.createElement('div');
-  rotateButton.innerHTML = `<input id="${viewerDOMId}-toggleRotateButton" type="checkbox" class="${
+  rotateButton.innerHTML = `<input id="${viewerStore.id}-toggleRotateButton" type="checkbox" class="${
     style.toggleInput
   }"><label itk-vtk-tooltip itk-vtk-tooltip-top-fullscreen itk-vtk-tooltip-content="Spin in 3D [p]" class="${
     contrastSensitiveStyle.invertibleButton
   } ${style.rotateButton} ${
     style.toggleButton
-  }" for="${viewerDOMId}-toggleRotateButton">${rotateIcon}</label>`;
+  }" for="${viewerStore.id}-toggleRotateButton">${rotateIcon}</label>`;
   const rotateButtonInput = rotateButton.children[0];
   function toggleRotate() {
     const rotateEnabled = rotateButtonInput.checked;

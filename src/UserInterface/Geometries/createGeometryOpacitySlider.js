@@ -6,7 +6,6 @@ import opacityIcon from '../icons/opacity.svg';
 
 function createGeometryOpacitySlider(
   geometryHasScalars,
-  viewerDOMId,
   renderWindow,
   geometryRepresentationProxies,
   viewerStore,
@@ -29,10 +28,10 @@ function createGeometryOpacitySlider(
       ${opacityIcon}
     </div>
     <input type="range" min="0" max="1" value="${defaultGeometryOpacity}" step="0.01"
-      id="${viewerDOMId}-geometryOpacitySlider"
+      id="${viewerStore.id}-geometryOpacitySlider"
       class="${style.slider}" />`;
   const opacityElement = sliderEntry.querySelector(
-    `#${viewerDOMId}-geometryOpacitySlider`
+    `#${viewerStore.id}-geometryOpacitySlider`
   );
   function updateOpacity() {
     const value = Number(opacityElement.value);

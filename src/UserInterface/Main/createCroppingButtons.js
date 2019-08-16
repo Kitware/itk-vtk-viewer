@@ -10,10 +10,10 @@ import resetCropIcon from '../icons/reset-crop.svg';
 
 function createCroppingButtons(
   viewerStore,
-  viewerDOMId,
   contrastSensitiveStyle,
   mainUIRow
 ) {
+  const viewerDOMId = viewerStore.id;
   function setupCroppingWidget() {
     viewerStore.imageUI.croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
     viewerStore.imageUI.croppingWidget.setHandleSize(22);

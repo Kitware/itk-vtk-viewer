@@ -7,7 +7,6 @@ import createPointSetColorBySelector from './createPointSetColorBySelector';
 import createPointSetSizeSlider from './createPointSetSizeSlider';
 
 function createPointSetColorWidget(
-  viewerDOMId,
   renderWindow,
   pointSets,
   pointSetRepresentationProxies,
@@ -23,10 +22,10 @@ function createPointSetColorWidget(
 
   const pointSetColorByRow = document.createElement('div')
   pointSetColorByRow.setAttribute('class', style.uiRow)
-  pointSetColorByRow.className += ` ${viewerDOMId}-toggle`;
+  pointSetColorByRow.className += ` ${viewerStore.id}-toggle`;
   createPointSetColorBySelector(
+    viewerStore,
     pointSetHasScalars,
-    viewerDOMId,
     renderWindow,
     pointSets,
     pointSetRepresentationProxies,
@@ -37,11 +36,11 @@ function createPointSetColorWidget(
 
   const pointSetColorRow = document.createElement('div')
   pointSetColorRow.setAttribute('class', style.uiRow)
-  pointSetColorRow.className += ` ${viewerDOMId}-toggle`;
+  pointSetColorRow.className += ` ${viewerStore.id}-toggle`;
 
   createPointSetColorChooser(
+    viewerStore,
     pointSetHasScalars,
-    viewerDOMId,
     renderWindow,
     pointSetRepresentationProxies,
     pointSetSelector,
@@ -50,7 +49,6 @@ function createPointSetColorWidget(
 
   createPointSetOpacitySlider(
     pointSetHasScalars,
-    viewerDOMId,
     renderWindow,
     pointSetRepresentationProxies,
     viewerStore,
@@ -61,10 +59,10 @@ function createPointSetColorWidget(
 
   const pointSetColorPresetRow = document.createElement('div')
   pointSetColorPresetRow.setAttribute('class', style.uiRow)
-  pointSetColorPresetRow.className += ` ${viewerDOMId}-toggle`;
+  pointSetColorPresetRow.className += ` ${viewerStore.id}-toggle`;
   createPointSetColorPresetSelector(
+    viewerStore,
     pointSetHasScalars,
-    viewerDOMId,
     renderWindow,
     pointSetRepresentationProxies,
     pointSetSelector,
@@ -74,10 +72,9 @@ function createPointSetColorWidget(
 
   const pointSetSizeRow = document.createElement('div')
   pointSetSizeRow.setAttribute('class', style.uiRow)
-  pointSetSizeRow.className += ` ${viewerDOMId}-toggle`;
+  pointSetSizeRow.className += ` ${viewerStore.id}-toggle`;
   createPointSetSizeSlider(
     pointSetHasScalars,
-    viewerDOMId,
     renderWindow,
     pointSetRepresentationProxies,
     viewerStore,

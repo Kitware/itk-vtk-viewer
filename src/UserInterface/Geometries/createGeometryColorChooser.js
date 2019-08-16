@@ -2,8 +2,8 @@ import style from '../ItkVtkViewer.module.css';
 import hex2rgb from '../hex2rgb';
 
 function createGeometryColorChooser(
+  viewerStore,
   geometryHasScalars,
-  viewerDOMId,
   renderWindow,
   geometryRepresentationProxies,
   geometrySelector,
@@ -15,7 +15,7 @@ function createGeometryColorChooser(
 
   const geometryColorInput = document.createElement('input');
   geometryColorInput.setAttribute('type', 'color');
-  geometryColorInput.id = `${viewerDOMId}-geometryColorInput`;
+  geometryColorInput.id = `${viewerStore.id}-geometryColorInput`;
   geometryColorInput.value = defaultGeometryColor;
   if (geometryHasScalars[geometrySelector.selectedIndex]) {
     geometryColorInput.style.display = 'none';

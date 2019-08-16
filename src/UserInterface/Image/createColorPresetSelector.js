@@ -5,12 +5,11 @@ import ColorPresetNames from '../ColorPresetNames';
 function createColorPresetSelector(
   viewerStore,
   uiContainer,
-  viewerDOMId,
   renderWindow
 ) {
   const presetSelector = document.createElement('select');
   presetSelector.setAttribute('class', style.selector);
-  presetSelector.id = `${viewerDOMId}-colorMapSelector`;
+  presetSelector.id = `${viewerStore.id}-colorMapSelector`;
   presetSelector.innerHTML = ColorPresetNames
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');

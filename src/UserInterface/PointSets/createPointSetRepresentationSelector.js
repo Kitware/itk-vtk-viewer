@@ -7,7 +7,6 @@ import pointsIcon from '../icons/point-set-points.svg';
 import spheresIcon from '../icons/point-set-spheres.svg';
 
 function createPointSetRepresentationSelector(
-  viewerDOMId,
   pointSetNames,
   renderWindow,
   viewerStore,
@@ -17,6 +16,7 @@ function createPointSetRepresentationSelector(
 ) {
   const pointSetRepresentations = new Array(pointSetNames.length);
   const defaultPointSetRepresentation = 'Points';
+  const viewerDOMId = viewerStore.id;
   pointSetRepresentations.fill(defaultPointSetRepresentation);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(

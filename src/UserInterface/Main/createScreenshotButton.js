@@ -4,7 +4,6 @@ import screenshotIcon from '../icons/screenshot.svg';
 
 function createScreenshotButton(
   viewerStore,
-  viewerDOMId,
   contrastSensitiveStyle,
   mainUIRow
 ) {

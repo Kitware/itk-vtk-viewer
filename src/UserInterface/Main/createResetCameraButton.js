@@ -4,10 +4,10 @@ import resetCameraIcon from '../icons/reset-camera.svg';
 
 function createResetCameraButton(
   viewerStore,
-  viewerDOMId,
   contrastSensitiveStyle,
   mainUIRow
 ) {
+  const viewerDOMId = viewerStore.id;
   const resetCameraButton = document.createElement('div');
   resetCameraButton.innerHTML = `<input id="${viewerDOMId}-resetCameraButton" type="checkbox" class="${
     style.toggleInput

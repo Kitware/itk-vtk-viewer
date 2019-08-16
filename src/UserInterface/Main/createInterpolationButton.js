@@ -6,7 +6,6 @@ import interpolationIcon from '../icons/interpolation.svg';
 
 function createInterpolationButton(
   viewerStore,
-  viewerDOMId,
   contrastSensitiveStyle,
   mainUIRow
 ) {
@@ -16,13 +15,13 @@ function createInterpolationButton(
     viewerStore.itkVtkView.setPlanesUseLinearInterpolation(interpolationEnabled);
   }
   const interpolationButton = document.createElement('div');
-  interpolationButton.innerHTML = `<input id="${viewerDOMId}-toggleInterpolationButton" type="checkbox" class="${
+  interpolationButton.innerHTML = `<input id="${viewerStore.id}-toggleInterpolationButton" type="checkbox" class="${
     style.toggleInput
   }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Interpolation" class="${
     contrastSensitiveStyle.invertibleButton
   } ${style.interpolationButton} ${
     style.toggleButton
-  }" for="${viewerDOMId}-toggleInterpolationButton">${interpolationIcon}</label>`;
+  }" for="${viewerStore.id}-toggleInterpolationButton">${interpolationIcon}</label>`;
   interpolationButton.addEventListener('change', (event) => {
     toggleInterpolation();
   });

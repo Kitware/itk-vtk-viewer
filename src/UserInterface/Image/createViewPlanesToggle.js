@@ -6,7 +6,6 @@ import viewPlansIcon from '../icons/view-planes.svg';
 
 function createViewPlanesToggle(
   imageUIGroup,
-  viewerDOMId,
   volumeRenderingRow,
   viewerStore
 ) {
@@ -14,6 +13,7 @@ function createViewPlanesToggle(
     ['tooltipButton'],
     viewerStore.isBackgroundDark
   );
+  const viewerDOMId = viewerStore.id;
 
   let viewPlanes = false;
   function setViewPlanes() {

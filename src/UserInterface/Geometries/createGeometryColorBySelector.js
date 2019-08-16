@@ -6,8 +6,8 @@ import {
 } from 'vtk.js/Sources/Rendering/Core/Mapper/Constants';
 
 function createGeometryColorBySelector(
+  viewerStore,
   geometryHasScalars,
-  viewerDOMId,
   renderWindow,
   geometries,
   geometryRepresentationProxies,
@@ -59,7 +59,7 @@ function createGeometryColorBySelector(
 
   const geometryColorBySelector = document.createElement('select');
   geometryColorBySelector.setAttribute('class', style.selector);
-  geometryColorBySelector.id = `${viewerDOMId}-geometryColorBySelector`;
+  geometryColorBySelector.id = `${viewerStore.id}-geometryColorBySelector`;
   if (geometryHasScalars[geometrySelector.selectedIndex] && geometryColorByOptions[geometrySelector.selectedIndex].length > 1) {
     geometryColorByRow.style.display = 'flex';
   } else {

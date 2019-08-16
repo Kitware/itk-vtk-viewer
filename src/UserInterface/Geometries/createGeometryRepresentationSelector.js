@@ -8,7 +8,6 @@ import surfaceIcon from '../icons/geometry-surface.svg';
 import surfaceWithEdgesIcon from '../icons/geometry-surface-with-edges.svg';
 
 function createGeometryRepresentationSelector(
-  viewerDOMId,
   geometryNames,
   renderWindow,
   viewerStore,
@@ -16,6 +15,7 @@ function createGeometryRepresentationSelector(
   geometrySelector,
   geometryRepresentationRow
 ) {
+  const viewerDOMId = viewerStore.id;
   const geometryRepresentations = new Array(geometryNames.length);
   const defaultGeometryRepresentation = 'Surface';
   geometryRepresentations.fill(defaultGeometryRepresentation);

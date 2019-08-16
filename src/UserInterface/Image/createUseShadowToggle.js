@@ -6,7 +6,6 @@ import shadowIcon from '../icons/shadow.svg';
 
 function createUseShadowToggle(
   uiContainer,
-  viewerDOMId,
   renderWindow,
   viewerStore
 ) {
@@ -16,13 +15,13 @@ function createUseShadowToggle(
   );
 
   const useShadowButton = document.createElement('div');
-  useShadowButton.innerHTML = `<input id="${viewerDOMId}-toggleShadowButton" type="checkbox" class="${
+  useShadowButton.innerHTML = `<input id="${viewerStore.id}-toggleShadowButton" type="checkbox" class="${
     style.toggleInput
   }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Use shadow" class="${
     contrastSensitiveStyle.invertibleButton
   } ${style.shadowButton} ${
     style.toggleButton
-  }" for="${viewerDOMId}-toggleShadowButton">${shadowIcon}</label>`;
+  }" for="${viewerStore.id}-toggleShadowButton">${shadowIcon}</label>`;
   let useShadow = true;
   useShadowButton.addEventListener('change', (event) => {
     useShadow = !useShadow;

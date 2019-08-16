@@ -3,13 +3,13 @@ import style from '../ItkVtkViewer.module.css';
 import toggleIcon from '../icons/toggle.svg';
 
 function createToggleUserInterfaceButton(
-  viewerDOMId,
+  viewerStore,
   contrastSensitiveStyle,
   uiContainer
 ) {
   const toggleUserInterfaceButton = document.createElement('div');
   function toggleUIVisibility() {
-    const elements = uiContainer.querySelectorAll(`.${viewerDOMId}-toggle`);
+    const elements = uiContainer.querySelectorAll(`.${viewerStore.id}-toggle`);
     let count = elements.length;
     const collapsed =
       toggleUserInterfaceButton.getAttribute('collapsed') === 'true';
@@ -28,7 +28,7 @@ function createToggleUserInterfaceButton(
   toggleUserInterfaceButton.className = `${
     contrastSensitiveStyle.invertibleButton
   } ${style.toggleUserInterfaceButton}`;
-  toggleUserInterfaceButton.id = `${viewerDOMId}-toggleUserInterfaceButton`;
+  toggleUserInterfaceButton.id = `${viewerStore.id}-toggleUserInterfaceButton`;
   toggleUserInterfaceButton.innerHTML = `${toggleIcon}`;
   toggleUserInterfaceButton.addEventListener('click', toggleUIVisibility);
   uiContainer.appendChild(toggleUserInterfaceButton);

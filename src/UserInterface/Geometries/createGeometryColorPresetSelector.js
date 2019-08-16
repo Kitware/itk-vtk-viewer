@@ -3,8 +3,8 @@ import style from '../ItkVtkViewer.module.css';
 import ColorPresetNames from '../ColorPresetNames';
 
 function createGeometryColorPresetSelector(
+  viewerStore,
   geometryHasScalars,
-  viewerDOMId,
   renderWindow,
   geometryRepresentationProxies,
   geometrySelector,
@@ -16,7 +16,7 @@ function createGeometryColorPresetSelector(
 
   const presetSelector = document.createElement('select');
   presetSelector.setAttribute('class', style.selector);
-  presetSelector.id = `${viewerDOMId}-geometryColorMapSelector`;
+  presetSelector.id = `${viewerStore.id}-geometryColorMapSelector`;
   presetSelector.innerHTML = ColorPresetNames
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');

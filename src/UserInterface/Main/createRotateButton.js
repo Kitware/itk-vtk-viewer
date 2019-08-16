@@ -11,7 +11,7 @@ function createRotateButton(
   const rotateButton = document.createElement('div');
   rotateButton.innerHTML = `<input id="${viewerDOMId}-toggleRotateButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top-rotate itk-vtk-tooltip-content="Rotate in 3D" class="${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top-fullscreen itk-vtk-tooltip-content="Spin in 3D [p]" class="${
     contrastSensitiveStyle.invertibleButton
   } ${style.rotateButton} ${
     style.toggleButton

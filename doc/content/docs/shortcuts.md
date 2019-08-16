@@ -15,6 +15,7 @@ the mouse must be over the viewer.
 **w** | Toggle region of interest (ROI) selection widget
 **e** | Reset ROI
 **r** | Reset camera
+**p** | Toggle spinning
 **s** | Toggle slicing planes in volume rendering mode
 **f** | Toggle fullscreen
 

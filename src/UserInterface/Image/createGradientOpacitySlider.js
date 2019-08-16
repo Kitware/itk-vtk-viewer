@@ -34,11 +34,10 @@ function createGradientOpacitySlider(
     viewerStore.imageUI.representationProxy.setEdgeGradient(value);
     renderWindow.render();
   }
+  viewerStore.imageUI.updateGradientOpacity = updateGradientOpacity;
   edgeElement.addEventListener('input', updateGradientOpacity);
   updateGradientOpacity();
   uiContainer.appendChild(sliderEntry);
-
-  return updateGradientOpacity;
 }
 
 export default createGradientOpacitySlider;

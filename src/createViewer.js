@@ -80,7 +80,6 @@ const createViewer = (
     use2D,
   );
 
-  let imageUI = null;
   reaction(() => viewerStore.image,
     (image) => {
       if (!!!image) {
@@ -114,7 +113,7 @@ const createViewer = (
         viewerStore.itkVtkView.setViewMode('VolumeRendering');
       }
 
-      imageUI = UserInterface.createImageUI(
+      UserInterface.createImageUI(
         uiContainer,
         viewerDOMId,
         viewerStore,
@@ -700,7 +699,7 @@ const createViewer = (
       const current_opacity = parseFloat(gradientOpacitySlider.value);
       if (current_opacity !== parseFloat(opacity)) {
         gradientOpacitySlider.value = opacity;
-        imageUI.updateGradientOpacity()
+        viewerStore.imageUI.updateGradientOpacity()
       }
     }
   }

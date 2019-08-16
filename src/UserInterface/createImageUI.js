@@ -41,7 +41,6 @@ function createImageUI(
     use2D
   );
 
-  let updateGradientOpacity = null;
   if (!use2D) {
     const volumeRenderingRow = document.createElement('div');
     volumeRenderingRow.setAttribute('class', style.uiRow);
@@ -64,7 +63,7 @@ function createImageUI(
       viewerStore,
       renderWindow
     );
-    updateGradientOpacity = createGradientOpacitySlider(
+    createGradientOpacitySlider(
       volumeRenderingRow,
       viewerDOMId,
       viewerStore,
@@ -81,8 +80,6 @@ function createImageUI(
   }
 
   uiContainer.appendChild(imageUIGroup);
-
-  return { updateGradientOpacity };
 }
 
 export default createImageUI;

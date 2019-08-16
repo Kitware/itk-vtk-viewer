@@ -31,6 +31,7 @@ class ViewerStore {
       piecewiseFunctionProxy: null,
       transferFunctionWidget: null,
       updateColorMap: null,
+      updateGradientOpacity: null,
 
       croppingWidget: null,
       addCroppingPlanesChangedHandler: () => {},

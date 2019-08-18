@@ -5,9 +5,8 @@ import style from '../ItkVtkViewer.module.css';
 import shadowIcon from '../icons/shadow.svg';
 
 function createUseShadowToggle(
+  viewerStore,
   uiContainer,
-  renderWindow,
-  viewerStore
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
@@ -26,7 +25,7 @@ function createUseShadowToggle(
   useShadowButton.addEventListener('change', (event) => {
     useShadow = !useShadow;
     viewerStore.imageUI.representationProxy.setUseShadow(useShadow);
-    renderWindow.render();
+    viewerStore.renderWindow.render();
   });
   uiContainer.appendChild(useShadowButton);
 }

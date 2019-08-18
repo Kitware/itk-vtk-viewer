@@ -5,9 +5,8 @@ import style from '../ItkVtkViewer.module.css';
 import pointSetSizeIcon from '../icons/point-set-size.svg';
 
 function createPointSetSizeSlider(
-  pointSetHasScalars,
-  renderWindow,
   viewerStore,
+  pointSetHasScalars,
   pointSetSelector,
   pointSetSizeRow
 ) {
@@ -36,7 +35,7 @@ function createPointSetSizeSlider(
     const value = Number(sizeElement.value);
     pointSetSizes[pointSetSelector.selectedIndex] = value
     viewerStore.pointSetsUI.representationProxies[pointSetSelector.selectedIndex].setPointSize(value)
-    renderWindow.render();
+    viewerStore.renderWindow.render();
   }
   sizeElement.addEventListener('input', updateSize);
   updateSize();

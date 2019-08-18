@@ -5,9 +5,9 @@ import style from '../ItkVtkViewer.module.css';
 import viewPlansIcon from '../icons/view-planes.svg';
 
 function createViewPlanesToggle(
+  viewerStore,
   imageUIGroup,
   volumeRenderingRow,
-  viewerStore
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['tooltipButton'],

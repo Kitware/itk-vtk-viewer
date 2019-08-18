@@ -4,7 +4,6 @@ import hex2rgb from '../hex2rgb';
 function createGeometryColorChooser(
   viewerStore,
   geometryHasScalars,
-  renderWindow,
   geometrySelector,
   geometryColorRow
 ) {
@@ -38,7 +37,7 @@ function createGeometryColorChooser(
       const value = event.target.value
       const rgb = hex2rgb(value)
       viewerStore.geometriesUI.representationProxies[geometrySelector.selectedIndex].setColor(rgb)
-      renderWindow.render()
+      viewerStore.renderWindow.render()
       geometryColors[geometrySelector.selectedIndex] = value
     });
 }

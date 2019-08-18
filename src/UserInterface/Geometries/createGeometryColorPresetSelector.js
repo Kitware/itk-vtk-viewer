@@ -5,7 +5,6 @@ import ColorPresetNames from '../ColorPresetNames';
 function createGeometryColorPresetSelector(
   viewerStore,
   geometryHasScalars,
-  renderWindow,
   geometrySelector,
   geometryColorPresetRow
 ) {
@@ -38,7 +37,7 @@ function createGeometryColorPresetSelector(
         lutProxy.setPresetName(value);
       }
     })
-    renderWindow.render();
+    viewerStore.renderWindow.render();
     geometryColorPresets[geometrySelector.selectedIndex] = value;
   }
   presetSelector.addEventListener('change', updateColorMap);

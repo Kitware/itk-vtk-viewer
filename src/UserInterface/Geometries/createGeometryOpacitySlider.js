@@ -5,9 +5,8 @@ import style from '../ItkVtkViewer.module.css';
 import opacityIcon from '../icons/opacity.svg';
 
 function createGeometryOpacitySlider(
-  geometryHasScalars,
-  renderWindow,
   viewerStore,
+  geometryHasScalars,
   geometrySelector,
   geometryColorRow
 ) {
@@ -36,7 +35,7 @@ function createGeometryOpacitySlider(
     const value = Number(opacityElement.value);
     geometryOpacities[geometrySelector.selectedIndex] = value
     viewerStore.geometriesUI.representationProxies[geometrySelector.selectedIndex].setOpacity(value)
-    renderWindow.render();
+    viewerStore.renderWindow.render();
   }
   opacityElement.addEventListener('input', updateOpacity);
   updateOpacity();

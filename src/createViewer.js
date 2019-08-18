@@ -69,45 +69,67 @@ const createViewer = (
     use2D,
   );
 
+  let updatingImage = false;
   reaction(() => viewerStore.image,
     (image) => {
       if (!!!image) {
         return;
       }
-      viewerStore.imageUI.source.setInputData(image);
+      if (!!!viewerStore.imageUI.representationProxy) {
+        viewerStore.imageUI.source.setInputData(image);
 
-      proxyManager.createRepresentationInAllViews(viewerStore.imageUI.source);
-      viewerStore.imageUI.representationProxy = proxyManager.getRepresentation(viewerStore.imageUI.source, viewerStore.itkVtkView);
+        proxyManager.createRepresentationInAllViews(viewerStore.imageUI.source);
+        viewerStore.imageUI.representationProxy = proxyManager.getRepresentation(viewerStore.imageUI.source, viewerStore.itkVtkView);
 
-      const dataArray = image.getPointData().getScalars();
-      viewerStore.imageUI.lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
-      if (dataArray.getNumberOfComponents() > 1) {
-        viewerStore.imageUI.lookupTableProxy.setPresetName('Grayscale');
+        const dataArray = image.getPointData().getScalars();
+        viewerStore.imageUI.lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
+        if (dataArray.getNumberOfComponents() > 1) {
+          viewerStore.imageUI.lookupTableProxy.setPresetName('Grayscale');
+        } else {
+          viewerStore.imageUI.lookupTableProxy.setPresetName('Viridis (matplotlib)');
+        }
+        viewerStore.imageUI.piecewiseFunctionProxy = proxyManager.getPiecewiseFunction(dataArray.getName());
+
+        // Slices share the same lookup table as the volume rendering.
+        const lut = viewerStore.imageUI.lookupTableProxy.getLookupTable();
+        const sliceActors = viewerStore.imageUI.representationProxy.getActors();
+        sliceActors.forEach((actor) => {
+          actor.getProperty().setRGBTransferFunction(lut);
+        });
+
+        if (use2D) {
+          viewerStore.itkVtkView.setViewMode('ZPlane');
+          viewerStore.itkVtkView.setOrientationAxesVisibility(false);
+        } else {
+          viewerStore.itkVtkView.setViewMode('VolumeRendering');
+        }
+
+        UserInterface.createImageUI(
+          viewerStore,
+          use2D
+        );
+        const annotationContainer = container.querySelector('.js-se');
+        annotationContainer.style.fontFamily = 'monospace';
       } else {
-        viewerStore.imageUI.lookupTableProxy.setPresetName('Viridis (matplotlib)');
+        if (updatingImage) {
+          return;
+        }
+        updatingImage = true;
+        viewerStore.imageUI.source.setInputData(image);
+        const transferFunctionWidget = viewerStore.imageUI.transferFunctionWidget;
+        transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
+        transferFunctionWidget.invokeOpacityChange(transferFunctionWidget);
+        transferFunctionWidget.modified();
+        viewerStore.imageUI.croppingWidget.setVolumeMapper(viewerStore.imageUI.representationProxy.getMapper());
+        const cropFilter = viewerStore.imageUI.representationProxy.getCropFilter();
+        cropFilter.reset();
+        viewerStore.imageUI.croppingWidget.resetWidgetState();
+        setTimeout(() => {
+          transferFunctionWidget.render();
+          viewerStore.renderWindow.render();
+          updatingImage = false;
+        }, 0);
       }
-      viewerStore.imageUI.piecewiseFunctionProxy = proxyManager.getPiecewiseFunction(dataArray.getName());
-
-      // Slices share the same lookup table as the volume rendering.
-      const lut = viewerStore.imageUI.lookupTableProxy.getLookupTable();
-      const sliceActors = viewerStore.imageUI.representationProxy.getActors();
-      sliceActors.forEach((actor) => {
-        actor.getProperty().setRGBTransferFunction(lut);
-      });
-
-      if (use2D) {
-        viewerStore.itkVtkView.setViewMode('ZPlane');
-        viewerStore.itkVtkView.setOrientationAxesVisibility(false);
-      } else {
-        viewerStore.itkVtkView.setViewMode('VolumeRendering');
-      }
-
-      UserInterface.createImageUI(
-        viewerStore,
-        use2D
-      );
-      const annotationContainer = container.querySelector('.js-se');
-      annotationContainer.style.fontFamily = 'monospace';
     }
   );
   viewerStore.image = image;
@@ -133,8 +155,8 @@ const createViewer = (
         }
       })
       UserInterface.createGeometriesUI(
+        viewerStore,
         geometries,
-        viewerStore
       );
     }
   );
@@ -165,8 +187,8 @@ const createViewer = (
         }
       })
       UserInterface.createPointSetsUI(
+        viewerStore,
         pointSets,
-        viewerStore
       );
     }
   );
@@ -181,7 +203,7 @@ const createViewer = (
 
   // Estimate a reasonable point sphere radius in pixels
   if(!!pointSets && pointSets.length > 0) {
-    const renderView = viewerStore.itkVtkView.getRenderWindow().getViews()[0];
+    const renderView = viewerStore.renderWindow.getViews()[0];
     const windowWidth = renderView.getViewportSize(viewerStore.itkVtkView.getRenderer())[0];
     const maxLength = pointSets.reduce((max, pointSet) => {
       pointSet.computeBounds();
@@ -207,26 +229,8 @@ const createViewer = (
 
   const viewerDOMId = viewerStore.id;
 
-  let updatingImage = false;
   const setImage = (image) => {
-    if (updatingImage) {
-      return;
-    }
-    updatingImage = true;
-    viewerStore.imageUI.source.setInputData(image);
-    const transferFunctionWidget = viewerStore.imageUI.transferFunctionWidget;
-    transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
-    transferFunctionWidget.invokeOpacityChange(transferFunctionWidget);
-    transferFunctionWidget.modified();
-    viewerStore.imageUI.croppingWidget.setVolumeMapper(viewerStore.imageUI.representationProxy.getMapper());
-    const cropFilter = viewerStore.imageUI.representationProxy.getCropFilter();
-    cropFilter.reset();
-    viewerStore.imageUI.croppingWidget.resetWidgetState();
-    setTimeout(() => {
-      transferFunctionWidget.render();
-      viewerStore.itkVtkView.getRenderWindow().render();
-      updatingImage = false;
-    }, 0);
+    viewerStore.image = image;
   }
   publicAPI.setImage = macro.throttle(setImage, 100);
 

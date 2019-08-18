@@ -12,7 +12,6 @@ function createImageUI(
   viewerStore,
   use2D
 ) {
-  const renderWindow = viewerStore.itkVtkView.getRenderWindow();
   const viewerDOMId = viewerStore.id;
 
   const imageUIGroup = document.createElement('div');
@@ -25,7 +24,6 @@ function createImageUI(
     createColorPresetSelector(
       viewerStore,
       presetRow,
-      renderWindow
     );
     presetRow.className += ` ${viewerDOMId}-toggle`;
     imageUIGroup.appendChild(presetRow);
@@ -34,7 +32,6 @@ function createImageUI(
   createTransferFunctionWidget(
     viewerStore,
     imageUIGroup,
-    renderWindow,
     use2D
   );
 
@@ -43,31 +40,27 @@ function createImageUI(
     volumeRenderingRow.setAttribute('class', style.uiRow);
     volumeRenderingRow.className += ` ${viewerDOMId}-volumeRendering ${viewerDOMId}-toggle`;
     createViewPlanesToggle(
+      viewerStore,
       imageUIGroup,
       volumeRenderingRow,
-      viewerStore
     );
     createUseShadowToggle(
+      viewerStore,
       volumeRenderingRow,
-      renderWindow,
-      viewerStore
     );
     createSampleDistanceSlider(
-      volumeRenderingRow,
       viewerStore,
-      renderWindow
+      volumeRenderingRow,
     );
     createGradientOpacitySlider(
-      volumeRenderingRow,
       viewerStore,
-      renderWindow
+      volumeRenderingRow,
     );
     imageUIGroup.appendChild(volumeRenderingRow);
 
     createPlaneIndexSliders(
+      viewerStore,
       imageUIGroup,
-      renderWindow,
-      viewerStore
     );
   }
 

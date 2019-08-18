@@ -8,7 +8,6 @@ import {
 function createPointSetColorBySelector(
   viewerStore,
   pointSetHasScalars,
-  renderWindow,
   pointSets,
   pointSetSelector,
   pointSetColorByRow
@@ -81,7 +80,7 @@ function createPointSetColorBySelector(
     proxy.setColorBy(colorByArrayName, location);
     // Restore
     proxy.getLookupTableProxy().setPresetName(colorPreset);
-    renderWindow.render()
+    viewerStore.renderWindow.render()
     pointSetColorBy[pointSetSelector.selectedIndex] = pointSetColorByOptions[pointSetSelector.selectedIndex][pointSetColorBySelector.selectedIndex];
   }
   pointSetColorBySelector.addEventListener('change', updateColorBy);

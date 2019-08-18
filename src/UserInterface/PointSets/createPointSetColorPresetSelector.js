@@ -5,7 +5,6 @@ import ColorPresetNames from '../ColorPresetNames';
 function createPointSetColorPresetSelector(
   viewerStore,
   pointSetHasScalars,
-  renderWindow,
   pointSetSelector,
   pointSetColorPresetRow
 ) {
@@ -38,7 +37,7 @@ function createPointSetColorPresetSelector(
         lutProxy.setPresetName(value);
       }
     })
-    renderWindow.render();
+    viewerStore.renderWindow.render();
     pointSetColorPresets[pointSetSelector.selectedIndex] = value;
   }
   presetSelector.addEventListener('change', updateColorMap);

@@ -7,10 +7,10 @@ import style from '../ItkVtkViewer.module.css';
 function createTransferFunctionWidget(
   viewerStore,
   uiContainer,
-  renderWindow,
   use2D
 ) {
   const piecewiseFunction = viewerStore.imageUI.piecewiseFunctionProxy.getPiecewiseFunction();
+  const renderWindow = viewerStore.renderWindow;
 
   const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({
     numberOfBins: 256,

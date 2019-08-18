@@ -5,9 +5,8 @@ import style from '../ItkVtkViewer.module.css';
 import gradientOpacityIcon from '../icons/gradient.svg';
 
 function createGradientOpacitySlider(
-  uiContainer,
   viewerStore,
-  renderWindow
+  uiContainer,
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
@@ -31,7 +30,7 @@ function createGradientOpacitySlider(
   function updateGradientOpacity() {
     const value = Number(edgeElement.value);
     viewerStore.imageUI.representationProxy.setEdgeGradient(value);
-    renderWindow.render();
+    viewerStore.renderWindow.render();
   }
   viewerStore.imageUI.updateGradientOpacity = updateGradientOpacity;
   edgeElement.addEventListener('input', updateGradientOpacity);

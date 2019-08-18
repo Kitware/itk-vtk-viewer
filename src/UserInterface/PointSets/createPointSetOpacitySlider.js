@@ -5,9 +5,8 @@ import style from '../ItkVtkViewer.module.css';
 import opacityIcon from '../icons/opacity.svg';
 
 function createPointSetOpacitySlider(
-  pointSetHasScalars,
-  renderWindow,
   viewerStore,
+  pointSetHasScalars,
   pointSetSelector,
   pointSetColorRow
 ) {
@@ -36,7 +35,7 @@ function createPointSetOpacitySlider(
     const value = Number(opacityElement.value);
     pointSetOpacities[pointSetSelector.selectedIndex] = value
     viewerStore.pointSetsUI.representationProxies[pointSetSelector.selectedIndex].setOpacity(value)
-    renderWindow.render();
+    viewerStore.renderWindow.render();
   }
   opacityElement.addEventListener('input', updateOpacity);
   updateOpacity();

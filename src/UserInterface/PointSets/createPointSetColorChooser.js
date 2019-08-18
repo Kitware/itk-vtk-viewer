@@ -4,7 +4,6 @@ import hex2rgb from '../hex2rgb';
 function createPointSetColorChooser(
   viewerStore,
   pointSetHasScalars,
-  renderWindow,
   pointSetSelector,
   pointSetColorRow
 ) {
@@ -38,7 +37,7 @@ function createPointSetColorChooser(
       const value = event.target.value
       const rgb = hex2rgb(value)
       viewerStore.pointSetsUI.representationProxies[pointSetSelector.selectedIndex].setColor(rgb)
-      renderWindow.render()
+      viewerStore.renderWindow.render()
       pointSetColors[pointSetSelector.selectedIndex] = value
     });
 }

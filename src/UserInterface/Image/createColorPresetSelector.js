@@ -5,7 +5,6 @@ import ColorPresetNames from '../ColorPresetNames';
 function createColorPresetSelector(
   viewerStore,
   uiContainer,
-  renderWindow
 ) {
   const presetSelector = document.createElement('select');
   presetSelector.setAttribute('class', style.selector);
@@ -16,7 +15,7 @@ function createColorPresetSelector(
 
   function updateColorMap(event) {
     viewerStore.imageUI.lookupTableProxy.setPresetName(presetSelector.value);
-    renderWindow.render();
+    viewerStore.renderWindow.render();
   }
   viewerStore.imageUI.updateColorMap = updateColorMap;
   presetSelector.addEventListener('change', updateColorMap);

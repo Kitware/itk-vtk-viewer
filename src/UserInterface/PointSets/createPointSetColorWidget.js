@@ -7,9 +7,8 @@ import createPointSetColorBySelector from './createPointSetColorBySelector';
 import createPointSetSizeSlider from './createPointSetSizeSlider';
 
 function createPointSetColorWidget(
-  renderWindow,
-  pointSets,
   viewerStore,
+  pointSets,
   pointSetSelector,
   pointSetsUIGroup
 ) {
@@ -25,7 +24,6 @@ function createPointSetColorWidget(
   createPointSetColorBySelector(
     viewerStore,
     pointSetHasScalars,
-    renderWindow,
     pointSets,
     pointSetSelector,
     pointSetColorByRow
@@ -39,15 +37,13 @@ function createPointSetColorWidget(
   createPointSetColorChooser(
     viewerStore,
     pointSetHasScalars,
-    renderWindow,
     pointSetSelector,
     pointSetColorRow
   )
 
   createPointSetOpacitySlider(
-    pointSetHasScalars,
-    renderWindow,
     viewerStore,
+    pointSetHasScalars,
     pointSetSelector,
     pointSetColorRow
   )
@@ -59,7 +55,6 @@ function createPointSetColorWidget(
   createPointSetColorPresetSelector(
     viewerStore,
     pointSetHasScalars,
-    renderWindow,
     pointSetSelector,
     pointSetColorPresetRow
   )
@@ -69,9 +64,8 @@ function createPointSetColorWidget(
   pointSetSizeRow.setAttribute('class', style.uiRow)
   pointSetSizeRow.className += ` ${viewerStore.id}-toggle`;
   createPointSetSizeSlider(
-    pointSetHasScalars,
-    renderWindow,
     viewerStore,
+    pointSetHasScalars,
     pointSetSelector,
     pointSetSizeRow
   )

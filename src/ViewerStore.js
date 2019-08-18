@@ -14,10 +14,13 @@ const STYLE_CONTAINER = {
 };
 
 class ViewerStore {
-    proxyManager = null;
-    itkVtkView = null;
     container = null;
     id = 'itk-vtk-viewer';
+    proxyManager = null;
+    itkVtkView = null;
+    get renderWindow() {
+      return this.itkVtkView.getRenderWindow();
+    }
 
     @observable style = {
       backgroundColor: [0, 0, 0],

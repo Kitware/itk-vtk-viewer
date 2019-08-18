@@ -4,11 +4,9 @@ import createGeometryRepresentationSelector from './Geometries/createGeometryRep
 import createGeometryColorWidget from './Geometries/createGeometryColorWidget';
 
 function createGeometriesUI(
+  viewerStore,
   geometries,
-  viewerStore
 ) {
-  const renderWindow = viewerStore.itkVtkView.getRenderWindow();
-
   const geometriesUIGroup = document.createElement('div');
   geometriesUIGroup.setAttribute('class', style.uiGroup);
 
@@ -34,18 +32,16 @@ function createGeometriesUI(
   }
 
   createGeometryRepresentationSelector(
-    geometryNames,
-    renderWindow,
     viewerStore,
+    geometryNames,
     geometrySelector,
     geometryRepresentationRow
   )
   geometriesUIGroup.appendChild(geometryRepresentationRow);
 
   createGeometryColorWidget(
-    renderWindow,
-    geometries,
     viewerStore,
+    geometries,
     geometrySelector,
     geometriesUIGroup
   )

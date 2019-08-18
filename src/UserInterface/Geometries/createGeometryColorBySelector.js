@@ -8,7 +8,6 @@ import {
 function createGeometryColorBySelector(
   viewerStore,
   geometryHasScalars,
-  renderWindow,
   geometries,
   geometrySelector,
   geometryColorByRow
@@ -94,7 +93,7 @@ function createGeometryColorBySelector(
     proxy.setColorBy(colorByArrayName, location);
     // Restore
     proxy.getLookupTableProxy().setPresetName(colorPreset);
-    renderWindow.render()
+    viewerStore.renderWindow.render()
     geometryColorBy[geometrySelector.selectedIndex] = geometryColorByOptions[geometrySelector.selectedIndex][geometryColorBySelector.selectedIndex];
   }
   geometryColorBySelector.addEventListener('change', updateColorBy);

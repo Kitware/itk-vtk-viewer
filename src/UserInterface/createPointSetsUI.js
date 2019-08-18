@@ -4,11 +4,9 @@ import createPointSetRepresentationSelector from './PointSets/createPointSetRepr
 import createPointSetColorWidget from './PointSets/createPointSetColorWidget';
 
 function createPointSetsUI(
+  viewerStore,
   pointSets,
-  viewerStore
 ) {
-  const renderWindow = viewerStore.itkVtkView.getRenderWindow();
-
   const pointSetsUIGroup = document.createElement('div');
   pointSetsUIGroup.setAttribute('class', style.uiGroup);
 
@@ -34,18 +32,16 @@ function createPointSetsUI(
   }
 
   createPointSetRepresentationSelector(
-    pointSetNames,
-    renderWindow,
     viewerStore,
+    pointSetNames,
     pointSetSelector,
     pointSetRepresentationRow
   )
   pointSetsUIGroup.appendChild(pointSetRepresentationRow);
 
   createPointSetColorWidget(
-    renderWindow,
-    pointSets,
     viewerStore,
+    pointSets,
     pointSetSelector,
     pointSetsUIGroup
   )

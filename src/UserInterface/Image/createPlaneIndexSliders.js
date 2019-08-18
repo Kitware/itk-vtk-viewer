@@ -3,9 +3,8 @@ import style from '../ItkVtkViewer.module.css';
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
 function createPlaneIndexSliders(
-  uiContainer,
-  renderWindow,
   viewerStore,
+  uiContainer,
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['sliderLabel'],
@@ -14,6 +13,7 @@ function createPlaneIndexSliders(
   const numberOfValueChars = 6;
   let currentSlicePosition = null;
   const viewerDOMId = viewerStore.id;
+  const renderWindow = viewerStore.renderWindow;
 
   const volumeRepresentation = viewerStore.imageUI.representationProxy;
 

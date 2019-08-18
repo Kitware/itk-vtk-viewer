@@ -8,9 +8,8 @@ import surfaceIcon from '../icons/geometry-surface.svg';
 import surfaceWithEdgesIcon from '../icons/geometry-surface-with-edges.svg';
 
 function createGeometryRepresentationSelector(
-  geometryNames,
-  renderWindow,
   viewerStore,
+  geometryNames,
   geometrySelector,
   geometryRepresentationRow
 ) {
@@ -31,7 +30,7 @@ function createGeometryRepresentationSelector(
       viewerStore.geometriesUI.representationProxies[geometrySelector.selectedIndex].setRepresentation(value)
       viewerStore.geometriesUI.representationProxies[geometrySelector.selectedIndex].setVisibility(true)
     }
-    renderWindow.render()
+    viewerStore.renderWindow.render()
     geometryRepresentations[geometrySelector.selectedIndex] = value
   }
 

@@ -7,9 +7,8 @@ import pointsIcon from '../icons/point-set-points.svg';
 import spheresIcon from '../icons/point-set-spheres.svg';
 
 function createPointSetRepresentationSelector(
-  pointSetNames,
-  renderWindow,
   viewerStore,
+  pointSetNames,
   pointSetSelector,
   pointSetRepresentationRow
 ) {
@@ -35,7 +34,7 @@ function createPointSetRepresentationSelector(
       pointSetRepresentationProxies[pointSetIndex].setRepresentation(value)
       pointSetRepresentationProxies[pointSetIndex].setVisibility(true)
     }
-    renderWindow.render()
+    viewerStore.renderWindow.render()
     pointSetRepresentations[pointSetIndex] = value
   }
 

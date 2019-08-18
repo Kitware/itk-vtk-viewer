@@ -46,7 +46,7 @@ function createGeometriesUI(
     geometriesUIGroup
   )
 
-  viewerStore.uiContainer.appendChild(geometriesUIGroup);
+  viewerStore.mainUI.uiContainer.appendChild(geometriesUIGroup);
   viewerStore.geometriesUI.initialized = true;
 }
 

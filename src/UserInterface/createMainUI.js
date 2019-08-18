@@ -18,7 +18,7 @@ function createMainUI(
   use2D,
 ) {
   const uiContainer = document.createElement('div');
-  viewerStore.uiContainer = uiContainer;
+  viewerStore.mainUI.uiContainer = uiContainer;
   rootContainer.appendChild(uiContainer);
   uiContainer.setAttribute('class', style.uiContainer);
 

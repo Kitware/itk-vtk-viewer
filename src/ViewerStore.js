@@ -27,7 +27,10 @@ class ViewerStore {
       containerStyle: STYLE_CONTAINER,
     };
 
-    uiContainer = null;
+    mainUI = {
+      uiContainer: null,
+      @observable collapsed: false,
+    }
 
     imageUI = {
       source: null,

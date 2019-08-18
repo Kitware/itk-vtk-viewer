@@ -264,23 +264,20 @@ const createViewer = (
     viewerStore.geometries = geometries;
   }
 
-  const toggleUserInterfaceButton = document.getElementById(`${viewerDOMId}-toggleUserInterfaceButton`);
-
   publicAPI.setUserInterfaceCollapsed = (collapse) => {
-    const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === 'true';
+    const collapsed = viewerStore.mainUI.collapsed;
     if (collapse && !collapsed || !collapse && collapsed) {
-      toggleUserInterfaceButton.click();
+      viewerStore.mainUI.collapsed = !collapsed;
     }
   }
 
   const toggleUserInterfaceCollapsedHandlers = [];
-  const toggleUserInterfaceButtonListener = (event) => {
-    const collapsed = toggleUserInterfaceButton.getAttribute('collapsed') === 'true';
+  autorun(() => {
+    const collapsed = viewerStore.mainUI.collapsed;
     toggleUserInterfaceCollapsedHandlers.forEach((handler) => {
       handler.call(null, collapsed);
     })
-  }
-  toggleUserInterfaceButton.addEventListener('click', toggleUserInterfaceButtonListener)
+  })
 
   publicAPI.subscribeToggleUserInterfaceCollapsed = (handler) => {
     const index = toggleUserInterfaceCollapsedHandlers.length;

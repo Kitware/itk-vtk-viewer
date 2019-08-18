@@ -64,7 +64,7 @@ function createImageUI(
     );
   }
 
-  viewerStore.uiContainer.appendChild(imageUIGroup);
+  viewerStore.mainUI.uiContainer.appendChild(imageUIGroup);
 }
 
 export default createImageUI;

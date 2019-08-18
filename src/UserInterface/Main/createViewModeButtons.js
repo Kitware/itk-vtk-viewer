@@ -12,7 +12,7 @@ function createViewModeButtons(
   mainUIRow
 ) {
   const viewerDOMId = viewerStore.id;
-  const uiContainer = viewerStore.uiContainer;
+  const uiContainer = viewerStore.mainUI.uiContainer;
   function setViewModeXPlane() {
     viewerStore.itkVtkView.setViewMode('XPlane');
     document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = true;

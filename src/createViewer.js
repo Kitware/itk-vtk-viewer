@@ -139,9 +139,10 @@ const createViewer = (
       if(!!!geometries || geometries.length === 0) {
         return;
       }
+
       geometries.forEach((geometry, index) => {
         if (viewerStore.geometriesUI.sources.length <= index) {
-          const uid = `Geometry${index}`
+          const uid = `GeometrySource${index}`
           const geometrySource = proxyManager.createProxy('Sources', 'TrivialProducer', {
             name: uid,
           });
@@ -152,12 +153,23 @@ const createViewer = (
           viewerStore.geometriesUI.representationProxies.push(geometryRepresentation);
         } else {
           viewerStore.geometriesUI.sources[index].setInputData(geometry);
+          viewerStore.geometriesUI.representationProxies[index].setVisibility(true);
         }
       })
-      UserInterface.createGeometriesUI(
-        viewerStore,
-        geometries,
-      );
+
+      if(geometries.length < viewerStore.geometriesUI.representationProxies.length) {
+        const proxiesToDisable = viewerStore.geometriesUI.representationProxies.slice(geometries.length);
+        proxiesToDisable.forEach((proxy) => {
+          proxiesToDisable.setVisibility(false);
+        })
+      }
+
+      if(!viewerStore.geometriesUI.initialized) {
+        UserInterface.createGeometriesUI(
+          viewerStore,
+          geometries,
+        );
+      }
     }
   );
   viewerStore.geometries = geometries;
@@ -167,9 +179,10 @@ const createViewer = (
       if(!!!pointSets || pointSets.length === 0) {
         return;
       }
+
       pointSets.forEach((pointSet, index) => {
         if (viewerStore.pointSetsUI.sources.length <= index) {
-          const uid = `pointSetSource${index}`
+          const uid = `PointSetSource${index}`
           const pointSetSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
             name: uid,
           });
@@ -184,25 +197,25 @@ const createViewer = (
           viewerStore.pointSetsUI.representationProxies.push(pointSetRepresentation);
         } else {
           viewerStore.pointSetsUI.sources[index].setInputData(pointSet);
+          viewerStore.pointSetsUI.representationProxies[index].setVisibility(true);
         }
       })
-      UserInterface.createPointSetsUI(
-        viewerStore,
-        pointSets,
-      );
-    }
-  );
-  viewerStore.pointSets = pointSets;
 
+      if(pointSets.length < viewerStore.pointSetsUI.representationProxies.length) {
+        const proxiesToDisable = viewerStore.pointSetsUI.representationProxies.slice(pointSets.length);
+        proxiesToDisable.forEach((proxy) => {
+          proxiesToDisable.setVisibility(false);
+        })
+      }
 
-  viewerStore.itkVtkView.resize();
-  const resizeSensor = new ResizeSensor(container, function() {
-    viewerStore.itkVtkView.resize();
-  });
-  proxyManager.renderAllViews();
+      if(!viewerStore.pointSetsUI.initialized) {
+        UserInterface.createPointSetsUI(
+          viewerStore,
+          pointSets,
+        );
+      }
 
-  // Estimate a reasonable point sphere radius in pixels
-  if(!!pointSets && pointSets.length > 0) {
+    // Estimate a reasonable point sphere radius in pixels
     const renderView = viewerStore.renderWindow.getViews()[0];
     const windowWidth = renderView.getViewportSize(viewerStore.itkVtkView.getRenderer())[0];
     const maxLength = pointSets.reduce((max, pointSet) => {
@@ -217,7 +230,16 @@ const createViewer = (
     viewerStore.pointSetsUI.representationProxies.forEach((proxy) => {
       proxy.setRadiusFactor(radiusFactor);
     })
-  }
+    }
+  );
+  viewerStore.pointSets = pointSets;
+
+
+  viewerStore.itkVtkView.resize();
+  const resizeSensor = new ResizeSensor(container, function() {
+    viewerStore.itkVtkView.resize();
+  });
+  proxyManager.renderAllViews();
 
   setTimeout(viewerStore.itkVtkView.resetCamera, 1);
 
@@ -234,46 +256,12 @@ const createViewer = (
   }
   publicAPI.setImage = macro.throttle(setImage, 100);
 
-  publicAPI.setPointSets = (pointsets) => {
-    if (pointsets.length > viewerStore.pointSetsUI.representationProxies.length) {
-      pointsets.slice(viewerStore.pointSetsUI.representationProxies.length).forEach((pointSet) => {
-        const uid = `pointSet${pointSetNameCount++}`
-        const pointSetSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
-          name: uid,
-        });
-        pointSetSource.setInputData(pointSet)
-        proxyManager.createRepresentationInAllViews(pointSetSource);
-        const pointSetRepresentation = proxyManager.getRepresentation(pointSetSource, viewerStore.itkVtkView);
-        viewerStore.pointSetsUI.sources.push(pointSetSource)
-        viewerStore.pointSetsUI.representationProxies.push(pointSetRepresentation);
-      })
-    } else if(pointsets.length < viewerStore.pointSetsUI.representationProxies.length) {
-      viewerStore.pointSetsUI.representationProxies.splice(pointsets.length);
-    }
-    pointsets.forEach((pointSet, index) => {
-      viewerStore.pointSetsUI.sources[index].setInputData(pointSet);
-    })
+  publicAPI.setPointSets = (pointSets) => {
+    viewerStore.pointSets = pointSets;
   }
 
   publicAPI.setGeometries = (geometries) => {
-    if (geometries.length > viewerStore.geometriesUI.representationProxies.length) {
-      geometries.slice(viewerStore.geometriesUI.representationProxies.length).forEach((geometry) => {
-        const uid = `Geometry${geometryNameCount++}`
-        const geometrySource = proxyManager.createProxy('Sources', 'TrivialProducer', {
-          name: uid,
-        });
-        geometrySource.setInputData(geometry)
-        proxyManager.createRepresentationInAllViews(geometrySource);
-        const geometryRepresentation = proxyManager.getRepresentation(geometrySource, viewerStore.itkVtkView);
-        viewerStore.geometriesUI.sources.push(geometrySource)
-        viewerStore.geometriesUI.representationProxies.push(geometryRepresentation);
-      })
-    } else if(geometries.length < viewerStore.geometriesUI.representationProxies.length) {
-      viewerStore.geometriesUI.representationProxies.splice(geometries.length);
-    }
-    geometries.forEach((geometry, index) => {
-      viewerStore.geometriesUI.sources[index].setInputData(geometry);
-    })
+    viewerStore.geometries = geometries;
   }
 
   const toggleUserInterfaceButton = document.getElementById(`${viewerDOMId}-toggleUserInterfaceButton`);

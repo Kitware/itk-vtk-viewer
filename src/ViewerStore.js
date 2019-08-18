@@ -46,12 +46,14 @@ class ViewerStore {
     @observable.ref image = null;
 
     geometriesUI = {
+      initialized: false,
       sources: [],
       representationProxies: [],
     }
     @observable.shallow geometries = [];
 
     pointSetsUI = {
+      initialized: false,
       sources: [],
       representationProxies: [],
     }

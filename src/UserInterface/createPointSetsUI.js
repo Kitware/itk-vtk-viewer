@@ -47,6 +47,7 @@ function createPointSetsUI(
   )
 
   viewerStore.uiContainer.appendChild(pointSetsUIGroup);
+  viewerStore.pointSetsUI.initialized = true;
 }
 
 export default createPointSetsUI;

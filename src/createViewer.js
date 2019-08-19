@@ -57,11 +57,11 @@ const createViewer = (
     suggestion.appendChild(getWebGLA);
     const suggestionText = document.createTextNode(" This is required to view interactive 3D visualizations.");
     suggestion.appendChild(suggestionText);
-    container.appendChild(suggestion);
+    viewerStore.container.appendChild(suggestion);
     return null;
   }
 
-  UserInterface.addLogo(container);
+  UserInterface.addLogo(viewerStore.container);
 
   UserInterface.createMainUI(
     rootContainer,
@@ -108,7 +108,7 @@ const createViewer = (
           viewerStore,
           use2D
         );
-        const annotationContainer = container.querySelector('.js-se');
+        const annotationContainer = viewerStore.container.querySelector('.js-se');
         annotationContainer.style.fontFamily = 'monospace';
       } else {
         if (updatingImage) {
@@ -236,7 +236,7 @@ const createViewer = (
 
 
   viewerStore.itkVtkView.resize();
-  const resizeSensor = new ResizeSensor(container, function() {
+  const resizeSensor = new ResizeSensor(viewerStore.container, function() {
     viewerStore.itkVtkView.resize();
   });
   proxyManager.renderAllViews();
@@ -325,12 +325,12 @@ const createViewer = (
 
 
   const toggleFullscreenHandlers = [];
-  //autorun(() => {
-    //const enabled = viewerStore.mainUI.fullscreenEnabled;
-    //toggleFullscreenHandlers.forEach((handler) => {
-      //handler.call(null, enabled);
-    //})
-  //})
+  autorun(() => {
+    const enabled = viewerStore.mainUI.fullscreenEnabled;
+    toggleFullscreenHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  })
 
   publicAPI.subscribeToggleFullscreen = (handler) => {
     const index = toggleFullscreenHandlers.length;

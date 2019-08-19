@@ -38,6 +38,7 @@ function createFullscreenButton(
     const oldWidth = container.style.width;
     const oldHeight = container.style.height;
     function toggleFullscreen(fullscreenEnabled) {
+      fullscreenButtonInput.checked = fullscreenEnabled;
       if (fullscreenEnabled) {
         container.style.width = '100vw';
         container.style.height = '100vh';
@@ -59,7 +60,7 @@ function createFullscreenButton(
       if (!document[fullScreenMethods[3]]) {
         container.style.width = oldWidth;
         container.style.height = oldHeight;
-        fullscreenButtonInput.checked = false;
+        viewerStore.mainUI.fullscreenEnabled = false;
       }
     })
     mainUIRow.appendChild(fullscreenButton);

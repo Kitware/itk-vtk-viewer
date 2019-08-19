@@ -34,6 +34,7 @@ class ViewerStore {
       @observable fullscreenEnabled: false,
       @observable rotateEnabled: false,
       @observable interpolationEnabled: true,
+      @observable croppingPlanesEnabled: false,
     }
 
     imageUI = {

@@ -399,16 +399,13 @@ const createViewer = (
   }
 
 
-  const toggleCroppingPlanesButton = document.getElementById(`${viewerDOMId}-toggleCroppingPlanesButton`);
-
   const toggleCroppingPlanesHandlers = [];
-  const toggleCroppingPlanesButtonListener = (event) => {
-    const enabled = toggleCroppingPlanesButton.checked;
+  autorun(() => {
+    const enabled = viewerStore.mainUI.croppingPlanesEnabled;
     toggleCroppingPlanesHandlers.forEach((handler) => {
       handler.call(null, enabled);
     })
-  }
-  toggleCroppingPlanesButton && toggleCroppingPlanesButton.addEventListener('click', toggleCroppingPlanesButtonListener)
+  })
 
   publicAPI.subscribeToggleCroppingPlanes = (handler) => {
     const index = toggleCroppingPlanesHandlers.length;
@@ -420,14 +417,14 @@ const createViewer = (
   }
 
   publicAPI.setCroppingPlanesEnabled = (enabled) => {
-    const shadow = toggleCroppingPlanesButton.checked;
-    if (enabled && !shadow || !enabled && shadow) {
-      toggleCroppingPlanesButton.click();
+    const cropping = viewerStore.mainUI.croppingPlanesEnabled;
+    if (enabled && !cropping || !enabled && cropping) {
+      viewerStore.mainUI.croppingPlanesEnabled = cropping;
     }
   }
 
   publicAPI.subscribeCroppingPlanesChanged = (handler) => {
-    return viewerStore.addCroppingPlanesChangedHandler(handler);
+    return viewerStore.imageUI.addCroppingPlanesChangedHandler(handler);
   }
 
   publicAPI.subscribeResetCrop = (handler) => {

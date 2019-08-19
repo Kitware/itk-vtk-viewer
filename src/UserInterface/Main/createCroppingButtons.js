@@ -1,4 +1,4 @@
-import { when } from 'mobx';
+import { when, autorun } from 'mobx';
 
 import macro from 'vtk.js/Sources/macro';
 import vtkImageCroppingRegionsWidget from 'vtk.js/Sources/Interaction/Widgets/ImageCroppingRegionsWidget';
@@ -24,7 +24,7 @@ function createCroppingButtons(
     viewerStore.imageUI.croppingWidget.setEnabled(false);
     viewerStore.imageUI.croppingWidget.setVolumeMapper(viewerStore.imageUI.representationProxy.getMapper());
     const croppingPlanesChangedHandlers = [];
-    viewerStore.addCroppingPlanesChangedHandler = (handler) => {
+    viewerStore.imageUI.addCroppingPlanesChangedHandler = (handler) => {
       const index = croppingPlanesChangedHandlers.length;
       croppingPlanesChangedHandlers.push(handler);
       function unsubscribe() {
@@ -48,11 +48,7 @@ function createCroppingButtons(
     };
     const debouncedSetCroppingPlanes = macro.debounce(setCroppingPlanes, 100);
     viewerStore.imageUI.croppingWidget.onCroppingPlanesChanged(debouncedSetCroppingPlanes);
-    let cropEnabled = false;
-    function toggleCrop() {
-      cropEnabled = !cropEnabled;
-      viewerStore.imageUI.croppingWidget.setEnabled(cropEnabled);
-    }
+
     const cropButton = document.createElement('div');
     cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${
       style.toggleInput
@@ -61,9 +57,22 @@ function createCroppingButtons(
     } ${style.cropButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-toggleCroppingPlanesButton">${cropIcon}</label>`;
-    cropButton.addEventListener('change', (event) => {
+    const cropButtonInput = cropButton.children[0];
+    function toggleCrop() {
+      const cropEnabled = viewerStore.mainUI.croppingPlanesEnabled;
+      cropButtonInput.checked = cropEnabled;
+      viewerStore.imageUI.croppingWidget.setEnabled(cropEnabled);
+    }
+    autorun(() => {
       toggleCrop();
-    });
+    })
+    cropButton.addEventListener('change',
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        viewerStore.mainUI.croppingPlanesEnabled = !viewerStore.mainUI.croppingPlanesEnabled;
+      }
+    );
     mainUIRow.appendChild(cropButton);
 
     const resetCropButton = document.createElement('div');

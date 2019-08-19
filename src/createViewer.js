@@ -374,16 +374,13 @@ const createViewer = (
   }
 
 
-  const toggleInterpolationButton = document.getElementById(`${viewerDOMId}-toggleInterpolationButton`);
-
   const toggleInterpolationHandlers = [];
-  const toggleInterpolationButtonListener = (event) => {
-    const enabled = toggleInterpolationButton.checked;
+  autorun(() => {
+    const enabled = viewerStore.mainUI.interpolationEnabled;
     toggleInterpolationHandlers.forEach((handler) => {
       handler.call(null, enabled);
     })
-  }
-  toggleInterpolationButton && toggleInterpolationButton.addEventListener('click', toggleInterpolationButtonListener)
+  })
 
   publicAPI.subscribeToggleInterpolation = (handler) => {
     const index = toggleInterpolationHandlers.length;
@@ -395,9 +392,9 @@ const createViewer = (
   }
 
   publicAPI.setInterpolationEnabled = (enabled) => {
-    const interpolation = toggleInterpolationButton.checked;
+    const interpolation = viewerStore.mainUI.interpolationEnabled;
     if (enabled && !interpolation || !enabled && interpolation) {
-      toggleInterpolationButton.click();
+      viewerStore.mainUI.interpolationEnabled = enabled;
     }
   }
 

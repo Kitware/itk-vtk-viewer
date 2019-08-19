@@ -30,6 +30,7 @@ class ViewerStore {
     mainUI = {
       uiContainer: null,
       @observable collapsed: false,
+      @observable annotationsEnabled: true,
     }
 
     imageUI = {

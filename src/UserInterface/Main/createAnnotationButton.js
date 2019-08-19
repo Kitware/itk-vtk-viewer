@@ -1,3 +1,5 @@
+import { autorun } from 'mobx';
+
 import style from '../ItkVtkViewer.module.css';
 
 import annotationIcon from '../icons/annotations.svg';
@@ -17,12 +19,16 @@ function createAnnotationButton(
   }" for="${viewerStore.id}-toggleAnnotationsButton">${annotationIcon}</label>`;
   const annotationButtonInput = annotationButton.children[0];
   function toggleAnnotations() {
-    const annotationEnabled = annotationButtonInput.checked;
-    viewerStore.itkVtkView.setOrientationAnnotationVisibility(annotationEnabled);
+    const annotationsEnabled = viewerStore.mainUI.annotationsEnabled;
+    annotationButtonInput.checked = annotationsEnabled;
+    viewerStore.itkVtkView.setOrientationAnnotationVisibility(annotationsEnabled);
   }
-  annotationButton.addEventListener('change', (event) => {
+  autorun(() => {
     toggleAnnotations();
-  });
+  })
+  annotationButton.addEventListener('change',
+    () => { viewerStore.mainUI.annotationsEnabled = !viewerStore.mainUI.annotationsEnabled; }
+  );
   mainUIRow.appendChild(annotationButton);
 }
 

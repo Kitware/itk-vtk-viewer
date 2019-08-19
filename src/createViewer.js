@@ -299,16 +299,13 @@ const createViewer = (
   }
 
 
-  const toggleAnnotationsButton = document.getElementById(`${viewerDOMId}-toggleAnnotationsButton`);
-
   const toggleAnnotationsHandlers = [];
-  const toggleAnnotationsButtonListener = (event) => {
-    const enabled = toggleAnnotationsButton.checked;
+  autorun(() => {
+    const enabled = viewerStore.mainUI.annotationsEnabled;
     toggleAnnotationsHandlers.forEach((handler) => {
       handler.call(null, enabled);
     })
-  }
-  toggleAnnotationsButton.addEventListener('click', toggleAnnotationsButtonListener)
+  })
 
   publicAPI.subscribeToggleAnnotations = (handler) => {
     const index = toggleAnnotationsHandlers.length;
@@ -320,9 +317,9 @@ const createViewer = (
   }
 
   publicAPI.setAnnotationsEnabled = (enabled) => {
-    const annotations = toggleAnnotationsButton.checked;
+    const annotations = viewerStore.mainUI.annotationsEnabled;
     if (enabled && !annotations || !enabled && annotations) {
-      toggleAnnotationsButton.click();
+      viewerStore.mainUI.annotationsEnabled = enabled;
     }
   }
 

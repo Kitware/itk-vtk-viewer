@@ -50,7 +50,11 @@ function createFullscreenButton(
       }
     }
     fullscreenButton.addEventListener('change',
-      () => { viewerStore.mainUI.fullscreenEnabled = !viewerStore.mainUI.fullscreenEnabled; }
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        viewerStore.mainUI.fullscreenEnabled = !viewerStore.mainUI.fullscreenEnabled;
+      }
     );
     reaction(() => viewerStore.mainUI.fullscreenEnabled,
       (fullscreenEnabled) => {

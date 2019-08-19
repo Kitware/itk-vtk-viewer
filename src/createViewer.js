@@ -324,6 +324,31 @@ const createViewer = (
   }
 
 
+  const toggleRotateHandlers = [];
+  autorun(() => {
+    const enabled = viewerStore.mainUI.rotateEnabled;
+    toggleRotateHandlers.forEach((handler) => {
+      handler.call(null, enabled);
+    })
+  })
+
+  publicAPI.subscribeToggleRotate = (handler) => {
+    const index = toggleRotateHandlers.length;
+    toggleRotateHandlers.push(handler);
+    function unsubscribe() {
+      toggleRotateHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setRotateEnabled = (enabled) => {
+    const rotate = viewerStore.mainUI.rotateEnabled;
+    if (enabled && !rotate || !enabled && rotate) {
+      viewerStore.mainUI.rotateEnabled = enabled;
+    }
+  }
+
+
   const toggleFullscreenHandlers = [];
   autorun(() => {
     const enabled = viewerStore.mainUI.fullscreenEnabled;
@@ -348,32 +373,6 @@ const createViewer = (
     }
   }
 
-  const toggleRotateButton = document.getElementById(`${viewerDOMId}-toggleRotateButton`);
-
-  const toggleRotateHandlers = [];
-  const toggleRotateButtonListener = (event) => {
-    const enabled = toggleRotateButton.checked;
-    toggleRotateHandlers.forEach((handler) => {
-      handler.call(null, enabled);
-    })
-  }
-  toggleRotateButton.addEventListener('click', toggleRotateButtonListener)
-
-  publicAPI.subscribeToggleRotate = (handler) => {
-    const index = toggleRotateHandlers.length;
-    toggleRotateHandlers.push(handler);
-    function unsubscribe() {
-      toggleRotateHandlers[index] = null;
-    }
-    return Object.freeze({ unsubscribe });
-  }
-
-  publicAPI.setRotateEnabled = (enabled) => {
-    const rotate = toggleRotateButton.checked;
-    if (enabled && !rotate || !enabled && rotate) {
-      toggleRotateButton.click();
-    }
-  }
 
   const toggleInterpolationButton = document.getElementById(`${viewerDOMId}-toggleInterpolationButton`);
 

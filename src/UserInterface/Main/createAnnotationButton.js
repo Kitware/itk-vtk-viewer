@@ -27,7 +27,11 @@ function createAnnotationButton(
     toggleAnnotations();
   })
   annotationButton.addEventListener('change',
-    () => { viewerStore.mainUI.annotationsEnabled = !viewerStore.mainUI.annotationsEnabled; }
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      viewerStore.mainUI.annotationsEnabled = !viewerStore.mainUI.annotationsEnabled;
+    }
   );
   mainUIRow.appendChild(annotationButton);
 }

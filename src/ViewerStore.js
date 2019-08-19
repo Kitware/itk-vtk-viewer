@@ -32,6 +32,7 @@ class ViewerStore {
       @observable collapsed: false,
       @observable annotationsEnabled: true,
       @observable fullscreenEnabled: false,
+      @observable rotateEnabled: false,
     }
 
     imageUI = {

@@ -29,7 +29,11 @@ function createToggleUserInterfaceButton(
   toggleUserInterfaceButton.id = `${viewerStore.id}-toggleUserInterfaceButton`;
   toggleUserInterfaceButton.innerHTML = `${toggleIcon}`;
   toggleUserInterfaceButton.addEventListener('click',
-    () => { viewerStore.mainUI.collapsed = !viewerStore.mainUI.collapsed; }
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      viewerStore.mainUI.collapsed = !viewerStore.mainUI.collapsed;
+    }
   );
   autorun(() => {
     toggleUIVisibility();

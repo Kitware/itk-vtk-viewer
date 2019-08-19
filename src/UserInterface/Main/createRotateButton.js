@@ -1,3 +1,5 @@
+import { autorun } from 'mobx';
+
 import style from '../ItkVtkViewer.module.css';
 
 import rotateIcon from '../icons/rotate.svg';
@@ -17,12 +19,20 @@ function createRotateButton(
   }" for="${viewerStore.id}-toggleRotateButton">${rotateIcon}</label>`;
   const rotateButtonInput = rotateButton.children[0];
   function toggleRotate() {
-    const rotateEnabled = rotateButtonInput.checked;
+    const rotateEnabled = viewerStore.mainUI.rotateEnabled;
+    rotateButtonInput.checked = rotateEnabled;
     viewerStore.itkVtkView.setRotate(rotateEnabled);
   }
-  rotateButton.addEventListener('change', (event) => {
+  autorun(() => {
     toggleRotate();
-  });
+  })
+  rotateButton.addEventListener('change',
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      viewerStore.mainUI.rotateEnabled = !viewerStore.mainUI.rotateEnabled;
+    }
+  );
   mainUIRow.appendChild(rotateButton);
 }
 

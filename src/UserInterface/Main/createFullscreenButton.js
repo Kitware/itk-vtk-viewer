@@ -1,3 +1,5 @@
+import { reaction } from 'mobx';
+
 import style from '../ItkVtkViewer.module.css';
 
 import fullscreenIcon from '../icons/fullscreen.svg';
@@ -35,8 +37,7 @@ function createFullscreenButton(
     const container = rootContainer.children[0];
     const oldWidth = container.style.width;
     const oldHeight = container.style.height;
-    function toggleFullscreen() {
-      const fullscreenEnabled = fullscreenButtonInput.checked;
+    function toggleFullscreen(fullscreenEnabled) {
       if (fullscreenEnabled) {
         container.style.width = '100vw';
         container.style.height = '100vh';
@@ -47,9 +48,13 @@ function createFullscreenButton(
         document[fullScreenMethods[1]]();
       }
     }
-    fullscreenButton.addEventListener('change', (event) => {
-      toggleFullscreen();
-    });
+    fullscreenButton.addEventListener('change',
+      () => { viewerStore.mainUI.fullscreenEnabled = !viewerStore.mainUI.fullscreenEnabled; }
+    );
+    reaction(() => viewerStore.mainUI.fullscreenEnabled,
+      (fullscreenEnabled) => {
+        toggleFullscreen(fullscreenEnabled);
+      })
     document.addEventListener(fullScreenMethods[2], (event) => {
       if (!document[fullScreenMethods[3]]) {
         container.style.width = oldWidth;

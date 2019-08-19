@@ -324,16 +324,13 @@ const createViewer = (
   }
 
 
-  const toggleFullscreenButton = document.getElementById(`${viewerDOMId}-toggleFullscreenButton`);
-
   const toggleFullscreenHandlers = [];
-  const toggleFullscreenButtonListener = (event) => {
-    const enabled = toggleFullscreenButton.checked;
-    toggleFullscreenHandlers.forEach((handler) => {
-      handler.call(null, enabled);
-    })
-  }
-  toggleFullscreenButton.addEventListener('click', toggleFullscreenButtonListener)
+  //autorun(() => {
+    //const enabled = viewerStore.mainUI.fullscreenEnabled;
+    //toggleFullscreenHandlers.forEach((handler) => {
+      //handler.call(null, enabled);
+    //})
+  //})
 
   publicAPI.subscribeToggleFullscreen = (handler) => {
     const index = toggleFullscreenHandlers.length;
@@ -345,9 +342,9 @@ const createViewer = (
   }
 
   publicAPI.setFullscreenEnabled = (enabled) => {
-    const fullscreen = toggleFullscreenButton.checked;
+    const fullscreen = viewerStore.mainUI.fullscreenEnabled;
     if (enabled && !fullscreen || !enabled && fullscreen) {
-      toggleFullscreenButton.click();
+      viewerStore.mainUI.fullscreenEnabled = enabled;
     }
   }
 

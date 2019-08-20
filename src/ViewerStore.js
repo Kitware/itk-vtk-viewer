@@ -44,12 +44,13 @@ class ViewerStore {
       lookupTableProxy: null,
       piecewiseFunctionProxy: null,
       transferFunctionWidget: null,
-      updateColorMap: null,
       updateGradientOpacity: null,
 
       croppingWidget: null,
       addCroppingPlanesChangedHandler: () => {},
       addResetCropHandler: () => {},
+
+      @observable colorMap: 'Grayscale',
     }
     @observable.ref image = null;
 

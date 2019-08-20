@@ -431,18 +431,14 @@ const createViewer = (
     return viewerStore.imageUI.addResetCropHandler(handler);
   }
 
-  const colorMapSelector = document.getElementById(`${viewerDOMId}-colorMapSelector`);
 
   const selectColorMapHandlers = [];
-  const selectColorMapListener = (event) => {
-    const value = colorMapSelector.value;
+  autorun(() => {
+    const colorMap = viewerStore.imageUI.colorMap;
     selectColorMapHandlers.forEach((handler) => {
-      handler.call(null, value);
+      handler.call(null, colorMap);
     })
-  }
-  if (colorMapSelector !== null) {
-    colorMapSelector.addEventListener('change', selectColorMapListener);
-  }
+  })
 
   publicAPI.subscribeSelectColorMap = (handler) => {
     const index = selectColorMapHandlers.length;
@@ -454,12 +450,9 @@ const createViewer = (
   }
 
   publicAPI.setColorMap = (colorMap) => {
-    if (colorMapSelector !== null) {
-      const currentColorMap = colorMapSelector.value;
-      if (currentColorMap !== colorMap) {
-        colorMapSelector.value = colorMap;
-        viewerStore.imageUI.updateColorMap();
-      }
+    const currentColorMap = viewerStore.imageUI.colorMap;
+    if (currentColorMap !== colorMap) {
+      viewerStore.imageUI.colorMap = colorMap;
     }
   }
 

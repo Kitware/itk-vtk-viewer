@@ -557,16 +557,13 @@ const createViewer = (
     }
 
 
-    const toggleShadowButton = document.getElementById(`${viewerDOMId}-toggleShadowButton`);
-
     const toggleShadowHandlers = [];
-    const toggleShadowButtonListener = (event) => {
-      const enabled = toggleShadowButton.checked;
-      toggleShadowHandlers.forEach((handler) => {
+    autorun(() => {
+      const enabled = viewerStore.imageUI.useShadow;
+      toggleInterpolationHandlers.forEach((handler) => {
         handler.call(null, enabled);
       })
-    }
-    toggleShadowButton && toggleShadowButton.addEventListener('click', toggleShadowButtonListener)
+    })
 
     publicAPI.subscribeToggleShadow = (handler) => {
       const index = toggleShadowHandlers.length;
@@ -578,9 +575,9 @@ const createViewer = (
     }
 
     publicAPI.setShadowEnabled = (enabled) => {
-      const shadow = toggleShadowButton.checked;
+      const shadow = viewerStore.imageUI.useShadow;
       if (enabled && !shadow || !enabled && shadow) {
-        toggleShadowButton.click();
+        viewerStore.imageUI.useShadow = enabled;
       }
     }
 

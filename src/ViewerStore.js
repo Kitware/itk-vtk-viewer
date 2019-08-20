@@ -57,6 +57,7 @@ class ViewerStore {
       addResetCropHandler: () => {},
 
       @observable colorMap: 'Grayscale',
+      @observable useShadow: true,
     }
     @observable.ref image = null;
 

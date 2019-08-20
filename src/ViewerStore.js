@@ -35,6 +35,12 @@ class ViewerStore {
       @observable rotateEnabled: false,
       @observable interpolationEnabled: true,
       @observable croppingPlanesEnabled: false,
+
+      @observable viewMode: 'VolumeRendering',
+      xPlaneButton: null,
+      yPlaneButton: null,
+      zPlaneButton: null,
+      volumeRenderingButton: null,
     }
 
     imageUI = {

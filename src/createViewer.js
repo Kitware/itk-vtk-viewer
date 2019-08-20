@@ -458,36 +458,35 @@ const createViewer = (
 
 
   if (!use2D) {
-    const xPlaneButton = document.getElementById(`${viewerDOMId}-xPlaneButton`);
-    const yPlaneButton = document.getElementById(`${viewerDOMId}-yPlaneButton`);
-    const zPlaneButton = document.getElementById(`${viewerDOMId}-zPlaneButton`);
-    const volumeRenderingButton = document.getElementById(`${viewerDOMId}-volumeRenderingButton`);
-
     const viewModeChangedHandlers = [];
-    const xPlaneButtonListener = (event) => {
-      viewModeChangedHandlers.forEach((handler) => {
-        handler.call(null, 'XPlane');
-      })
-    }
-    xPlaneButton.addEventListener('click', xPlaneButtonListener)
-    const yPlaneButtonListener = (event) => {
-      viewModeChangedHandlers.forEach((handler) => {
-        handler.call(null, 'YPlane');
-      })
-    }
-    yPlaneButton.addEventListener('click', yPlaneButtonListener)
-    const zPlaneButtonListener = (event) => {
-      viewModeChangedHandlers.forEach((handler) => {
-        handler.call(null, 'ZPlane');
-      })
-    }
-    zPlaneButton.addEventListener('click', zPlaneButtonListener)
-    const volumeRenderingButtonListener = (event) => {
-      viewModeChangedHandlers.forEach((handler) => {
-        handler.call(null, 'VolumeRendering');
-      })
-    }
-    volumeRenderingButton.addEventListener('click', volumeRenderingButtonListener)
+    reaction(() => { return viewerStore.mainUI.viewMode; },
+      (viewMode) => {
+        switch(viewMode) {
+        case 'XPlane':
+          viewModeChangedHandlers.forEach((handler) => {
+            handler.call(null, 'XPlane');
+          })
+          break;
+        case 'YPlane':
+          viewModeChangedHandlers.forEach((handler) => {
+            handler.call(null, 'YPlane');
+          })
+          break;
+        case 'ZPlane':
+          viewModeChangedHandlers.forEach((handler) => {
+            handler.call(null, 'ZPlane');
+          })
+          break;
+        case 'VolumeRendering':
+          viewModeChangedHandlers.forEach((handler) => {
+            handler.call(null, 'VolumeRendering');
+          })
+          break;
+        default:
+          console.error('Invalid view mode: ' + viewMode);
+        }
+      }
+    )
 
     publicAPI.subscribeViewModeChanged = (handler) => {
       const index = viewModeChangedHandlers.length;
@@ -502,26 +501,7 @@ const createViewer = (
       if (!image) {
         return
       }
-      switch(mode) {
-      case 'XPlane':
-        const xPlaneButton = document.getElementById(`${viewerDOMId}-xPlaneButton`);
-        xPlaneButton.click();
-        break;
-      case 'YPlane':
-        const yPlaneButton = document.getElementById(`${viewerDOMId}-yPlaneButton`);
-        yPlaneButton.click();
-        break;
-      case 'ZPlane':
-        const zPlaneButton = document.getElementById(`${viewerDOMId}-zPlaneButton`);
-        zPlaneButton.click();
-        break;
-      case 'VolumeRendering':
-        const volumeRenderingButton = document.getElementById(`${viewerDOMId}-volumeRenderingButton`);
-        volumeRenderingButton.click();
-        break;
-      default:
-        console.error('Invalid view mode: ' + mode);
-      }
+      viewerStore.mainUI.viewMode = mode;
     }
 
 

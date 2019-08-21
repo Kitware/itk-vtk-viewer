@@ -58,6 +58,7 @@ class ViewerStore {
 
       @observable colorMap: 'Grayscale',
       @observable useShadow: true,
+      @observable slicingPlanesEnabled: false,
     }
     @observable.ref image = null;
 

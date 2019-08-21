@@ -560,7 +560,7 @@ const createViewer = (
     const toggleShadowHandlers = [];
     autorun(() => {
       const enabled = viewerStore.imageUI.useShadow;
-      toggleInterpolationHandlers.forEach((handler) => {
+      toggleShadowHandlers.forEach((handler) => {
         handler.call(null, enabled);
       })
     })
@@ -582,16 +582,13 @@ const createViewer = (
     }
 
 
-    const toggleSlicingPlanesButton = document.getElementById(`${viewerDOMId}-toggleSlicingPlanesButton`);
-
     const toggleSlicingPlanesHandlers = [];
-    const toggleSlicingPlanesButtonListener = (event) => {
-      const enabled = toggleSlicingPlanesButton.checked;
+    autorun(() => {
+      const enabled = viewerStore.imageUI.slicingPlanesEnabled;
       toggleSlicingPlanesHandlers.forEach((handler) => {
         handler.call(null, enabled);
       })
-    }
-    toggleSlicingPlanesButton && toggleSlicingPlanesButton.addEventListener('click', toggleSlicingPlanesButtonListener)
+    })
 
     publicAPI.subscribeToggleSlicingPlanes = (handler) => {
       const index = toggleSlicingPlanesHandlers.length;
@@ -603,9 +600,9 @@ const createViewer = (
     }
 
     publicAPI.setSlicingPlanesEnabled = (enabled) => {
-      const slicingPlanes = toggleSlicingPlanesButton.checked;
+      const slicingPlanes = viewerStore.imageUI.slicingPlanesEnabled;
       if (enabled && !slicingPlanes || !enabled && slicingPlanes) {
-        toggleSlicingPlanesButton.click();
+        viewerStore.imageUI.slicingPlanesEnabled = enabled;
       }
     }
 

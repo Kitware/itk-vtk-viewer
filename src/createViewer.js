@@ -607,16 +607,13 @@ const createViewer = (
     }
 
 
-    const gradientOpacitySlider = document.getElementById(`${viewerDOMId}-gradientOpacitySlider`);
-
     const gradientOpacitySliderHandlers = [];
-    const gradientOpacitySliderListener = (event) => {
-      const value = gradientOpacitySlider.value;
+    autorun(() => {
+      const gradientOpacity = viewerStore.imageUI.gradientOpacity;
       gradientOpacitySliderHandlers.forEach((handler) => {
-        handler.call(null, value);
+        handler.call(null, gradientOpacity);
       })
-    }
-    gradientOpacitySlider && gradientOpacitySlider.addEventListener('change', gradientOpacitySliderListener)
+    })
 
     publicAPI.subscribeGradientOpacityChanged = (handler) => {
       const index = gradientOpacitySliderHandlers.length;
@@ -628,10 +625,9 @@ const createViewer = (
     }
 
     publicAPI.setGradientOpacity = (opacity) => {
-      const current_opacity = parseFloat(gradientOpacitySlider.value);
+      const current_opacity = viewerStore.imageUI.gradientOpacity;
       if (current_opacity !== parseFloat(opacity)) {
-        gradientOpacitySlider.value = opacity;
-        viewerStore.imageUI.updateGradientOpacity()
+        viewerStore.imageUI.gradientOpacity = opacity;
       }
     }
   }

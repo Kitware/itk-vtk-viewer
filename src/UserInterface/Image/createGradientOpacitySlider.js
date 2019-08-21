@@ -1,3 +1,5 @@
+import { autorun } from 'mobx';
+
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
 import style from '../ItkVtkViewer.module.css';
@@ -28,13 +30,19 @@ function createGradientOpacitySlider(
     `#${viewerStore.id}-gradientOpacitySlider`
   );
   function updateGradientOpacity() {
-    const value = Number(edgeElement.value);
-    viewerStore.imageUI.representationProxy.setEdgeGradient(value);
+    const gradientOpacity = viewerStore.imageUI.gradientOpacity;
+    edgeElement.value = gradientOpacity;
+    viewerStore.imageUI.representationProxy.setEdgeGradient(gradientOpacity);
     viewerStore.renderWindow.render();
   }
-  viewerStore.imageUI.updateGradientOpacity = updateGradientOpacity;
-  edgeElement.addEventListener('input', updateGradientOpacity);
-  updateGradientOpacity();
+  autorun(() => {
+    updateGradientOpacity();
+  })
+  edgeElement.addEventListener('input', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      viewerStore.imageUI.gradientOpacity = Number(edgeElement.value);
+  })
   uiContainer.appendChild(sliderEntry);
 }
 

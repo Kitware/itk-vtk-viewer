@@ -50,7 +50,6 @@ class ViewerStore {
       lookupTableProxy: null,
       piecewiseFunctionProxy: null,
       transferFunctionWidget: null,
-      updateGradientOpacity: null,
 
       croppingWidget: null,
       addCroppingPlanesChangedHandler: () => {},
@@ -59,6 +58,7 @@ class ViewerStore {
       @observable colorMap: 'Grayscale',
       @observable useShadow: true,
       @observable slicingPlanesEnabled: false,
+      @observable gradientOpacity: 0.2,
     }
     @observable.ref image = null;
 

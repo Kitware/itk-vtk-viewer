@@ -1,3 +1,5 @@
+import { reaction } from 'mobx';
+
 import style from './ItkVtkViewer.module.css';
 
 import createGeometryRepresentationSelector from './Geometries/createGeometryRepresentationSelector';
@@ -14,35 +16,43 @@ function createGeometriesUI(
   geometryRepresentationRow.setAttribute('class', style.uiRow);
   geometryRepresentationRow.className += ` ${viewerStore.id}-toggle`;
 
-  const geometryNames = geometries.map((geometry, index) => `Geometry ${index}`);
   const geometrySelector = document.createElement('select');
   geometrySelector.setAttribute('class', style.selector);
   geometrySelector.id = `${viewerStore.id}-geometrySelector`;
-  geometrySelector.innerHTML = geometryNames
-    .map((name) => `<option value="${name}">${name}</option>`)
-    .join('');
-  if(geometryNames.length > 1) {
-    geometryRepresentationRow.appendChild(geometrySelector);
-  } else {
-    // Results in a more consistent layout with the representation buttons
-    const geometryLabel = document.createElement('label');
-    geometryLabel.innerHTML = "Geometry ";
-    geometryLabel.setAttribute('class', style.selector);
-    geometryRepresentationRow.appendChild(geometryLabel);
+  geometrySelector.addEventListener('change', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    viewerStore.geometriesUI.selectedGeometryIndex = geometrySelector.selectedIndex;
+  })
+  function updateGeometryNames(geometryNames) {
+    geometrySelector.innerHTML = geometryNames
+      .map((name) => `<option value="${name}">${name}</option>`)
+      .join('');
+    if(geometryRepresentationRow.contains(geometrySelector)) {
+      // Do nothing
+    }
+    else if(geometryNames.length > 1) {
+      geometryRepresentationRow.appendChild(geometrySelector);
+    } else {
+      // Results in a more consistent layout with the representation buttons
+      const geometryLabel = document.createElement('label');
+      geometryLabel.innerHTML = "Geometry ";
+      geometryLabel.setAttribute('class', style.selector);
+      geometryRepresentationRow.appendChild(geometryLabel);
+    }
   }
+  reaction(() => { return viewerStore.imageUI.geometryNames; },
+    (geometryNames) => { updateGeometryNames(geometryNames); }
+  )
 
   createGeometryRepresentationSelector(
     viewerStore,
-    geometryNames,
-    geometrySelector,
     geometryRepresentationRow
   )
   geometriesUIGroup.appendChild(geometryRepresentationRow);
 
   createGeometryColorWidget(
     viewerStore,
-    geometries,
-    geometrySelector,
     geometriesUIGroup
   )
 

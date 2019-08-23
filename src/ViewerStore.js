@@ -66,6 +66,63 @@ class ViewerStore {
       initialized: false,
       sources: [],
       representationProxies: [],
+      @observable selectedGeometryIndex: 0,
+      @observable geometryNames: [],
+      @observable geometryRepresentations: [],
+      @observable geometryColorBy: [],
+      @computed get geometryHasScalars() {
+        return this.geometries.map((geometry) => {
+          const pointData = geometry.getPointData();
+          const hasPointDataScalars = !!pointData.getScalars();
+          const cellData = geometry.getCellData();
+          const hasCellDataScalars = !!cellData.getScalars();
+          return hasPointDataScalars || hasCellDataScalars;
+          })
+        },
+      @computed get geometryColorByOptions() {
+        return this.geometries.map((geometry, index) => {
+          if(!this.geometriesUI.geometryHasScalars[index]) {
+            return null
+          }
+          const options = [].concat(
+            geometry
+              .getPointData()
+              .getArrays()
+              .map((a) => ({
+                label: `(p) ${a.getName()}`,
+                value: `pointData:${a.getName()}`,
+              })),
+            geometry
+              .getCellData()
+              .getArrays()
+              .map((a) => ({
+                label: `(c) ${a.getName()}`,
+                value: `cellData:${a.getName()}`,
+              }))
+            )
+          return options;
+        })
+      },
+      @computed get geometryColorByDefault() {
+        return this.geometries.map((geometry, index) => {
+          if(!geometryHasScalars[index]) {
+            return null
+          }
+          const pointData = geometry.getPointData();
+          if (!!pointData.getScalars()) {
+            const activeIndex = pointData.getActiveScalars();
+            const activeArray = pointData.getArrays()[activeIndex];
+            return { label: `(p) ${activeArray.getName()}`, value: `pointData:${activeArray.getName()}` };
+          }
+          const cellData = geometry.getCellData();
+          if (!!cellData.getScalars()) {
+            const activeIndex = cellData.getActiveScalars();
+            const activeArray = cellData.getArrays()[activeIndex];
+            return { label: `(c) ${activeArray.getName()}`, value: `cellData:${activeArray.getName()}` };
+          }
+          throw new Error('Should not reach here.')
+          })
+        },
     }
     @observable.shallow geometries = [];
 

@@ -170,6 +170,12 @@ const createViewer = (
           geometries,
         );
       }
+      viewerStore.imageUI.geometryNames = geometries.map((geometry, index) => `Geometry ${index}`);
+      let geometryRepresentations = viewerStore.imageUI.geometryRepresentations.slice(0, geometries.length);
+      const defaultGeometryRepresentations = new Array(geometries.length);
+      defaultGeometryRepresentations.fill('Surface');
+      geometryRepresentations.concat(defaultGeometryRepresentations.slice(0, geometries.length - geometryRepresentations.length));
+      viewerStore.imageUI.geometryRepresentations = geometryRepresentations;
     }
   );
   viewerStore.geometries = geometries;

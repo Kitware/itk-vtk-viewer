@@ -70,6 +70,7 @@ class ViewerStore {
       @observable geometryNames: [],
       @observable geometryRepresentations: [],
       @observable geometryColorBy: [],
+      @observable geometryColors: [],
       @computed get geometryHasScalars() {
         return this.geometries.map((geometry) => {
           const pointData = geometry.getPointData();

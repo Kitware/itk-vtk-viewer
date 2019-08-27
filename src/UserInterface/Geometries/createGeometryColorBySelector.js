@@ -73,7 +73,7 @@ function createGeometryColorBySelector(
         geometryColorByRow.style.display = 'none';
       }
     });
-  // TODO: next
+
   reaction(() => {
     return viewerStore.geometriesUI.geometryColorBy;
   },
@@ -98,6 +98,7 @@ function createGeometryColorBySelector(
     const geometryColorByOptions = viewerStore.geometriesUI.geometryColorByOptions;
     viewerStore.geometriesUI.geometryColorBy[selectedGeometryIndex] = geometryColorByOptions[selectedGeometryIndex][selectedGeometryIndex];
   });
+
   // Initialize coloring
   const geometryColorByDefault = viewerStore.geometriesUI.geometryColorByDefault;
   geometryColorByDefault.forEach((colorBy, index) => {
@@ -119,6 +120,7 @@ function createGeometryColorBySelector(
       .join('');
     geometryColorBySelector.value = geometryColorByDefault[selectedGeometryIndex].value;
   }
+
   geometryColorByRow.appendChild(geometryColorBySelector);
 }
 

@@ -24,8 +24,6 @@ function createGeometryColorWidget(
 
   createGeometryColorChooser(
     viewerStore,
-    geometryHasScalars,
-    geometrySelector,
     geometryColorRow
   )
 

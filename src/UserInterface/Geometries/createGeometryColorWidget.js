@@ -29,8 +29,6 @@ function createGeometryColorWidget(
 
   createGeometryOpacitySlider(
     viewerStore,
-    geometryHasScalars,
-    geometrySelector,
     geometryColorRow
   )
   geometriesUIGroup.appendChild(geometryColorRow)

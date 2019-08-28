@@ -89,7 +89,11 @@ function createGeometryColorBySelector(
       // Restore
       proxy.getLookupTableProxy().setPresetName(colorPreset);
       viewerStore.renderWindow.render()
-      geometryColorBy[selectedGeometryIndex] = geometryColorByOptions[selectedGeometryIndex][geometryColorBySelector.selectedIndex];
+
+      const geometryHasScalars = viewerStore.geometriesUI.geometryHasScalars;
+      if (geometryHasScalars[selectedGeometryIndex]) {
+        geometryColorBySelector.value = viewerStore.geometriesUI.geometryColorBy[selectedGeometryIndex].value;
+      }
     });
   geometryColorBySelector.addEventListener('change', (event) => {
     event.preventDefault();

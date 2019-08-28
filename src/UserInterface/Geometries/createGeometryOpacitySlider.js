@@ -6,17 +6,13 @@ import opacityIcon from '../icons/opacity.svg';
 
 function createGeometryOpacitySlider(
   viewerStore,
-  geometryHasScalars,
-  geometrySelector,
   geometryColorRow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
     viewerStore.isBackgroundDark
   );
-  const geometryOpacities = new Array(geometryHasScalars.length);
-  const defaultGeometryOpacity = 1.0;
-  geometryOpacities.fill(defaultGeometryOpacity);
+
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
@@ -31,18 +27,38 @@ function createGeometryOpacitySlider(
   const opacityElement = sliderEntry.querySelector(
     `#${viewerStore.id}-geometryOpacitySlider`
   );
-  function updateOpacity() {
-    const value = Number(opacityElement.value);
-    geometryOpacities[geometrySelector.selectedIndex] = value
-    viewerStore.geometriesUI.representationProxies[geometrySelector.selectedIndex].setOpacity(value)
-    viewerStore.renderWindow.render();
-  }
-  opacityElement.addEventListener('input', updateOpacity);
-  updateOpacity();
-  geometrySelector.addEventListener('change',
-    (event) => {
-      opacityElement.value = geometryOpacities[geometrySelector.selectedIndex]
+
+  reaction(() => {
+    return viewerStore.geometriesUI.selectedGeometryIndex;
+    },
+    (selectedGeometryIndex) => {
+      opacityElement.value = viewerStore.geometriesUI.geometryOpacities[selectedGeometryIndex];
     });
+
+  reaction(() => {
+    return viewerStore.geometriesUI.geometryOpacities;
+  },
+    (geometryOpacities) => {
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      const value = geometryOpacities[selectedGeometryIndex];
+      viewerStore.geometriesUI.representationProxies[selectedGeometryIndex].setOpacity(value)
+      viewerStore.renderWindow.render();
+      opacityElement.value = value;
+    });
+
+
+  opacityElement.addEventListener('input', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      viewerStore.geometriesUI.geometryOpacities[selectedGeometryIndex] = event.target.value;
+    });
+
+  const defaultGeometryOpacities = new Array(viewerStore.geometries.length);
+  defaultGeometryOpacities.fill(1.0);
+  opacityElement.value = 1.0;
+  viewerStore.geometriesUI.geometryOpacities.concat(defaultGeometryOpacities);
+
   geometryColorRow.appendChild(sliderEntry);
 }
 

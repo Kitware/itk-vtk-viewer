@@ -38,8 +38,6 @@ function createGeometryColorWidget(
   geometryColorPresetRow.className += ` ${viewerStore.id}-toggle`;
   createGeometryColorPresetSelector(
     viewerStore,
-    geometryHasScalars,
-    geometrySelector,
     geometryColorPresetRow
   )
   geometriesUIGroup.appendChild(geometryColorPresetRow)

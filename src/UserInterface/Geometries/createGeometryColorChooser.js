@@ -9,6 +9,27 @@ function createGeometryColorChooser(
   geometryColorInput.setAttribute('type', 'color');
   geometryColorInput.id = `${viewerStore.id}-geometryColorInput`;
 
+  const defaultGeometryColor = '#ffffff';
+
+  reaction(() => {
+    return viewerStore.geometries;
+  },
+    (geometries) => {
+      if(!!!geometries || geometries.length === 0) {
+        return;
+      }
+
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+
+      geometries.forEach((geometry, index) => {
+        if (viewerStore.geometriesUI.geometryColors.length <= index) {
+          viewerStore.geometriesUI.geometryColors.push(defaultGeometryColor);
+        }
+      })
+      geometryColorInput.value = viewerStore.geometriesUI.geometryColors[selectedGeometryIndex];
+    }
+  )
+
   reaction(() => {
     return viewerStore.geometriesUI.selectedGeometryIndex;
     },
@@ -42,8 +63,8 @@ function createGeometryColorChooser(
     });
 
   const defaultGeometryColors = Array(viewerStore.geometries.length);
-  defaultGeometryColors.fill('#ffffff');
-  geometryColorInput.value = '#ffffff';
+  defaultGeometryColors.fill(defaultGeometryColor);
+  geometryColorInput.value = defaultGeometryColor;
   viewerStore.geometriesUI.geometryColors.concat(defaultGeometryColors);
   const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
   if (viewerStore.geometriesUI.geometryHasScalars[selectedGeometryIndex]) {

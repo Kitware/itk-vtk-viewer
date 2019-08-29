@@ -1,3 +1,5 @@
+import { reaction } from 'mobx';
+
 import style from '../ItkVtkViewer.module.css';
 
 import ColorPresetNames from '../ColorPresetNames';
@@ -16,7 +18,7 @@ function createGeometryColorPresetSelector(
   const defaultGeometryColorPreset = 'Viridis (matplotlib)';
 
   reaction(() => {
-    return viewerStore.geometries;
+    return viewerStore.geometriesUI.geometries;
   },
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
@@ -86,7 +88,7 @@ function createGeometryColorPresetSelector(
   } else {
     geometryColorPresetRow.style.display = 'none';
   }
-  const defaultGeometryColorPresets = new Array(viewerStore.geometries.length);
+  const defaultGeometryColorPresets = new Array(viewerStore.geometriesUI.geometries.length);
   defaultGeometryColorPresets.fill(defaultGeometryColorPreset);
   presetSelector.value = defaultGeometryColorPreset;
   viewerStore.geometriesUI.geometryColorPresets.concat(defaultGeometryColorPresets);

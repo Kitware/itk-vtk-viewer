@@ -1,3 +1,5 @@
+import { reaction } from 'mobx';
+
 import style from '../ItkVtkViewer.module.css';
 import hex2rgb from '../hex2rgb';
 
@@ -12,7 +14,7 @@ function createGeometryColorChooser(
   const defaultGeometryColor = '#ffffff';
 
   reaction(() => {
-    return viewerStore.geometries;
+    return viewerStore.geometriesUI.geometries;
   },
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
@@ -62,7 +64,7 @@ function createGeometryColorChooser(
       viewerStore.geometriesUI.geometryColors[selectedGeometryIndex] = event.target.value;
     });
 
-  const defaultGeometryColors = Array(viewerStore.geometries.length);
+  const defaultGeometryColors = Array(viewerStore.geometriesUI.geometries.length);
   defaultGeometryColors.fill(defaultGeometryColor);
   geometryColorInput.value = defaultGeometryColor;
   viewerStore.geometriesUI.geometryColors.concat(defaultGeometryColors);

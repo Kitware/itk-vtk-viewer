@@ -16,7 +16,7 @@ function createGeometryColorBySelector(
   geometryColorBySelector.id = `${viewerStore.id}-geometryColorBySelector`;
 
   reaction(() => {
-    return viewerStore.geometries;
+    return viewerStore.geometriesUI.geometries;
   },
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
@@ -115,6 +115,7 @@ function createGeometryColorBySelector(
     }
   })
   const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+  const geometryColorByOptions = viewerStore.geometriesUI.geometryColorByOptions;
   if (geometryColorByDefault[selectedGeometryIndex]) {
     geometryColorBySelector.innerHTML = geometryColorByOptions[selectedGeometryIndex]
       .map(

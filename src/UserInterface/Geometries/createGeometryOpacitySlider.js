@@ -1,3 +1,5 @@
+import { reaction } from 'mobx';
+
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
 import style from '../ItkVtkViewer.module.css';
@@ -31,7 +33,7 @@ function createGeometryOpacitySlider(
   );
 
   reaction(() => {
-    return viewerStore.geometries;
+    return viewerStore.geometriesUI.geometries;
   },
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
@@ -75,7 +77,7 @@ function createGeometryOpacitySlider(
       viewerStore.geometriesUI.geometryOpacities[selectedGeometryIndex] = Number(event.target.value);
     });
 
-  const defaultGeometryOpacities = new Array(viewerStore.geometries.length);
+  const defaultGeometryOpacities = new Array(viewerStore.geometriesUI.geometries.length);
   defaultGeometryOpacities.fill(defaultGeometryOpacity);
   opacityElement.value = defaultGeometryOpacity;
   viewerStore.geometriesUI.geometryOpacities.concat(defaultGeometryOpacities);

@@ -70,7 +70,7 @@ const createViewer = (
   );
 
   let updatingImage = false;
-  reaction(() => viewerStore.image,
+  reaction(() => viewerStore.imageUI.image,
     (image) => {
       if (!!!image) {
         return;
@@ -132,9 +132,9 @@ const createViewer = (
       }
     }
   );
-  viewerStore.image = image;
+  viewerStore.imageUI.image = image;
 
-  reaction(() => viewerStore.geometries,
+  reaction(() => viewerStore.geometriesUI.geometries,
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
         return;
@@ -167,20 +167,19 @@ const createViewer = (
       if(!viewerStore.geometriesUI.initialized) {
         UserInterface.createGeometriesUI(
           viewerStore,
-          geometries,
         );
       }
-      viewerStore.imageUI.geometryNames = geometries.map((geometry, index) => `Geometry ${index}`);
-      let geometryRepresentations = viewerStore.imageUI.geometryRepresentations.slice(0, geometries.length);
+      viewerStore.geometriesUI.geometryNames = geometries.map((geometry, index) => `Geometry ${index}`);
+      let geometryRepresentations = viewerStore.geometriesUI.geometryRepresentations.slice(0, geometries.length);
       const defaultGeometryRepresentations = new Array(geometries.length);
       defaultGeometryRepresentations.fill('Surface');
       geometryRepresentations.concat(defaultGeometryRepresentations.slice(0, geometries.length - geometryRepresentations.length));
-      viewerStore.imageUI.geometryRepresentations = geometryRepresentations;
+      viewerStore.geometriesUI.geometryRepresentations = geometryRepresentations;
     }
   );
-  viewerStore.geometries = geometries;
+  viewerStore.geometriesUI.geometries = geometries;
 
-  reaction(() => viewerStore.pointSets,
+  reaction(() => viewerStore.pointSetsUI.pointSets,
     (pointSets) => {
       if(!!!pointSets || pointSets.length === 0) {
         return;
@@ -238,7 +237,7 @@ const createViewer = (
     })
     }
   );
-  viewerStore.pointSets = pointSets;
+  viewerStore.pointSetsUI.pointSets = pointSets;
 
 
   viewerStore.itkVtkView.resize();
@@ -258,16 +257,16 @@ const createViewer = (
   const viewerDOMId = viewerStore.id;
 
   const setImage = (image) => {
-    viewerStore.image = image;
+    viewerStore.imageUI.image = image;
   }
   publicAPI.setImage = macro.throttle(setImage, 100);
 
   publicAPI.setPointSets = (pointSets) => {
-    viewerStore.pointSets = pointSets;
+    viewerStore.pointSetsUI.pointSets = pointSets;
   }
 
   publicAPI.setGeometries = (geometries) => {
-    viewerStore.geometries = geometries;
+    viewerStore.geometriesUI.geometries = geometries;
   }
 
   publicAPI.setUserInterfaceCollapsed = (collapse) => {

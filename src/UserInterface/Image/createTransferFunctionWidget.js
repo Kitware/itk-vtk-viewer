@@ -38,7 +38,7 @@ function createTransferFunctionWidget(
     iconSize, // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
     padding: 10,
   });
-  const dataArray = viewerStore.image.getPointData().getScalars();
+  const dataArray = viewerStore.imageUI.image.getPointData().getScalars();
   transferFunctionWidget.setDataArray(dataArray.getData());
 
   const lookupTable = viewerStore.imageUI.lookupTableProxy.getLookupTable();

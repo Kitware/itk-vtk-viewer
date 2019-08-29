@@ -7,7 +7,6 @@ import createGeometryColorWidget from './Geometries/createGeometryColorWidget';
 
 function createGeometriesUI(
   viewerStore,
-  geometries,
 ) {
   const geometriesUIGroup = document.createElement('div');
   geometriesUIGroup.setAttribute('class', style.uiGroup);

@@ -17,7 +17,7 @@ function createImageUI(
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
-  const dataArray = viewerStore.image.getPointData().getScalars();
+  const dataArray = viewerStore.imageUI.image.getPointData().getScalars();
   if (dataArray.getNumberOfComponents() === 1) {
     const presetRow = document.createElement('div');
     presetRow.setAttribute('class', style.uiRow);

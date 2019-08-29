@@ -36,7 +36,7 @@ function createInterpolationButton(
 
   if (!!!viewerStore.imageUI.representationProxy) {
     interpolationButton.style.display = 'none';
-    when(() => !!viewerStore.image,
+    when(() => !!viewerStore.imageUI.image,
       () => interpolationButton.style.display = 'flex'
     )
   }

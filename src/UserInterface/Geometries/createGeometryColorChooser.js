@@ -48,12 +48,13 @@ function createGeometryColorChooser(
     return viewerStore.geometriesUI.geometryColors.slice();
   },
     (geometryColors) => {
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-      const value = geometryColors[selectedGeometryIndex];
-      const rgb = hex2rgb(value)
-      viewerStore.geometriesUI.representationProxies[selectedGeometryIndex].setColor(rgb)
+      geometryColors.forEach((value, index) => {
+        const rgb = hex2rgb(value)
+        viewerStore.geometriesUI.representationProxies[index].setColor(rgb)
+      })
       viewerStore.renderWindow.render()
-      geometryColorInput.value = value;
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      geometryColorInput.value = geometryColors[selectedGeometryIndex];
     });
 
   geometryColorInput.addEventListener('input',

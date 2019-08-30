@@ -55,12 +55,13 @@ class GeometriesUIStore {
   initialized = false;
   sources = [];
   representationProxies = [];
+
   @observable selectedGeometryIndex = 0;
   @observable geometryNames = [];
   @observable geometryRepresentations = [];
   @observable geometryColorBy = [];
   @observable geometryColors = [];
-  @observable geometryOpacities = [];
+  @observable geometryOpacities = observable.array([]);
   @observable geometryColorPresets = [];
   @computed get geometryHasScalars() {
     return this.geometries.map((geometry) => {

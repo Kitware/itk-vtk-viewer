@@ -20,26 +20,6 @@ function createGeometryRepresentationSelector(
     viewerStore.isBackgroundDark
   );
 
-  function setRepresentation(value, index) {
-    if(value === 'Hidden') {
-      viewerStore.geometriesUI.representationProxies[index].setVisibility(false)
-    } else {
-      viewerStore.geometriesUI.representationProxies[index].setRepresentation(value)
-      viewerStore.geometriesUI.representationProxies[index].setVisibility(true)
-    }
-  }
-
-  reaction(() => {
-    return viewerStore.geometriesUI.geometriesRepresentations
-  },
-    (geometriesRepresentations) => {
-      geometriesRepresentations.forEach((representation, index) => {
-        setRepresentation(representation, index);
-      })
-      viewerStore.renderWindow.render()
-    }
-  )
-
   const geometryHiddenButton = document.createElement('div');
   geometryHiddenButton.innerHTML = `<input id="${viewerDOMId}-geometryHiddenButton" type="checkbox" class="${
     style.toggleInput
@@ -50,7 +30,8 @@ function createGeometryRepresentationSelector(
   }" for="${viewerDOMId}-geometryHiddenButton">${hiddenIcon}</label>`;
   geometryHiddenButton.addEventListener('click',
     (event) => {
-      viewerStore.geometriesUI.geometryRepresentations[selectedIndex] = 'Hidden';
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      viewerStore.geometriesUI.geometryRepresentations[selectedGeometryIndex] = 'Hidden';
     }
   )
   geometryRepresentationRow.appendChild(geometryHiddenButton);
@@ -64,9 +45,10 @@ function createGeometryRepresentationSelector(
   } ${style.fullscreenButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-geometryWireframeButton">${wireframeIcon}</label>`;
-  geometryHiddenButton.addEventListener('click',
+  geometryWireframeButton.addEventListener('click',
     (event) => {
-      viewerStore.geometriesUI.geometryRepresentations[selectedIndex] = 'Wireframe';
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      viewerStore.geometriesUI.geometryRepresentations[selectedGeometryIndex] = 'Wireframe';
     }
   )
   geometryRepresentationRow.appendChild(geometryWireframeButton);
@@ -80,9 +62,10 @@ function createGeometryRepresentationSelector(
   } ${style.fullscreenButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-geometrySurfaceButton">${surfaceIcon}</label>`;
-  geometryHiddenButton.addEventListener('click',
+  geometrySurfaceButton.addEventListener('click',
     (event) => {
-      viewerStore.geometriesUI.geometryRepresentations[selectedIndex] = 'Surface';
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      viewerStore.geometriesUI.geometryRepresentations[selectedGeometryIndex] = 'Surface';
     }
   )
   geometryRepresentationRow.appendChild(geometrySurfaceButton);
@@ -96,17 +79,16 @@ function createGeometryRepresentationSelector(
   } ${style.viewModeButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-geometrySurfaceWithEdgesButton">${surfaceWithEdgesIcon}</label>`;
-  geometryHiddenButton.addEventListener('click',
+  geometrySurfaceWithEdgesButton.addEventListener('click',
     (event) => {
-      viewerStore.geometriesUI.geometryRepresentations[selectedIndex] = 'Surface with edges';
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      viewerStore.geometriesUI.geometryRepresentations[selectedGeometryIndex] = 'Surface with edges';
     }
   )
   geometryRepresentationRow.appendChild(geometrySurfaceWithEdgesButton);
   const geometrySurfaceWithEdgesButtonInput = geometrySurfaceWithEdgesButton.children[0];
 
-  reaction(() => { return viewerStore.geometriesUI.selectedGeometryIndex; },
-    (selectedIndex) => {
-      const selectedGeometryRepresentation = viewerStore.geometriesUI.geometryRepresentations[selectedIndex];
+  function updateEnabledRepresentationButtons(selectedGeometryRepresentation) {
       switch(selectedGeometryRepresentation) {
       case 'Hidden':
         geometryHiddenButtonInput.checked = true;
@@ -135,6 +117,33 @@ function createGeometryRepresentationSelector(
       default:
         console.error('Invalid geometry representation: ' + selectedGeometryRepresentation);
       }
+  }
+
+  function setRepresentation(value, index) {
+    if(value === 'Hidden') {
+      viewerStore.geometriesUI.representationProxies[index].setVisibility(false)
+    } else {
+      viewerStore.geometriesUI.representationProxies[index].setRepresentation(value)
+      viewerStore.geometriesUI.representationProxies[index].setVisibility(true)
+    }
+    updateEnabledRepresentationButtons(value);
+  }
+
+  reaction(() => {
+    return viewerStore.geometriesUI.geometryRepresentations.slice();
+  },
+    (geometryRepresentations) => {
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      const representation = viewerStore.geometriesUI.geometryRepresentations[selectedGeometryIndex];
+      setRepresentation(representation, selectedGeometryIndex);
+      viewerStore.renderWindow.render()
+    }
+  )
+
+  reaction(() => { return viewerStore.geometriesUI.selectedGeometryIndex; },
+    (selectedIndex) => {
+      const selectedGeometryRepresentation = viewerStore.geometriesUI.geometryRepresentations[selectedIndex];
+      updateEnabledRepresentationButtons(selectedGeometryRepresentation);
     }
   )
 }

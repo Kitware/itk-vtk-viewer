@@ -33,7 +33,7 @@ function createGeometryOpacitySlider(
   );
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometries;
+    return viewerStore.geometriesUI.geometries.slice();
   },
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
@@ -41,6 +41,7 @@ function createGeometryOpacitySlider(
       }
 
       const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      console.log(viewerStore.geometriesUI.geometryOpacities)
 
       geometries.forEach((geometry, index) => {
         if (viewerStore.geometriesUI.geometryOpacities.length <= index) {
@@ -59,7 +60,7 @@ function createGeometryOpacitySlider(
     });
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometryOpacities;
+    return viewerStore.geometriesUI.geometryOpacities.slice();
   },
     (geometryOpacities) => {
       const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
@@ -80,7 +81,7 @@ function createGeometryOpacitySlider(
   const defaultGeometryOpacities = new Array(viewerStore.geometriesUI.geometries.length);
   defaultGeometryOpacities.fill(defaultGeometryOpacity);
   opacityElement.value = defaultGeometryOpacity;
-  viewerStore.geometriesUI.geometryOpacities.concat(defaultGeometryOpacities);
+  viewerStore.geometriesUI.geometryOpacities = defaultGeometryOpacities;
 
   geometryColorRow.appendChild(sliderEntry);
 }

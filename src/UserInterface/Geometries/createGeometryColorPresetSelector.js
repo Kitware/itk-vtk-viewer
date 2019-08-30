@@ -18,7 +18,7 @@ function createGeometryColorPresetSelector(
   const defaultGeometryColorPreset = 'Viridis (matplotlib)';
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometries;
+    return viewerStore.geometriesUI.geometries.slice();
   },
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
@@ -60,7 +60,7 @@ function createGeometryColorPresetSelector(
     });
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometryColorPresets;
+    return viewerStore.geometriesUI.geometryColorPresets.slice();
   },
     (geometryColorPresets) => {
       const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
@@ -91,7 +91,14 @@ function createGeometryColorPresetSelector(
   const defaultGeometryColorPresets = new Array(viewerStore.geometriesUI.geometries.length);
   defaultGeometryColorPresets.fill(defaultGeometryColorPreset);
   presetSelector.value = defaultGeometryColorPreset;
-  viewerStore.geometriesUI.geometryColorPresets.concat(defaultGeometryColorPresets);
+  viewerStore.geometriesUI.geometryColorPresets = defaultGeometryColorPresets;
+  const representationProxies = viewerStore.geometriesUI.representationProxies;
+  representationProxies.forEach((proxy) => {
+    const lutProxy = proxy.getLookupTableProxy();
+    if (lutProxy) {
+      lutProxy.setPresetName(defaultGeometryColorPreset);
+    }
+  })
 
   geometryColorPresetRow.appendChild(presetSelector);
 }

@@ -16,7 +16,7 @@ function createGeometryColorBySelector(
   geometryColorBySelector.id = `${viewerStore.id}-geometryColorBySelector`;
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometries;
+    return viewerStore.geometriesUI.geometries.slice();
   },
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
@@ -75,7 +75,7 @@ function createGeometryColorBySelector(
     });
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometryColorBy;
+    return viewerStore.geometriesUI.geometryColorBy.slice();
   },
     (geometryColorBy) => {
       const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
@@ -100,7 +100,8 @@ function createGeometryColorBySelector(
     event.stopPropagation();
     const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
     const geometryColorByOptions = viewerStore.geometriesUI.geometryColorByOptions;
-    viewerStore.geometriesUI.geometryColorBy[selectedGeometryIndex] = geometryColorByOptions[selectedGeometryIndex][selectedGeometryIndex];
+    const selectedOption = viewerStore.geometriesUI.geometryColorByOptions[selectedGeometryIndex].filter((option) => { return option.value === event.target.value; })[0]
+    viewerStore.geometriesUI.geometryColorBy[selectedGeometryIndex] = selectedOption;
   });
 
   // Initialize coloring
@@ -125,6 +126,7 @@ function createGeometryColorBySelector(
       .join('');
     geometryColorBySelector.value = geometryColorByDefault[selectedGeometryIndex].value;
   }
+  viewerStore.geometriesUI.geometryColorBy = geometryColorByDefault;
 
   geometryColorByRow.appendChild(geometryColorBySelector);
 }

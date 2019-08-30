@@ -146,6 +146,31 @@ function createGeometryRepresentationSelector(
       updateEnabledRepresentationButtons(selectedGeometryRepresentation);
     }
   )
+
+  const defaultGeometryRepresentation = 'Surface';
+
+  reaction(() => {
+    return viewerStore.geometriesUI.geometries.slice();
+  },
+    (geometries) => {
+      if(!!!geometries || geometries.length === 0) {
+        return;
+      }
+
+      geometries.forEach((geometry, index) => {
+        if (viewerStore.geometriesUI.geometryRepresentations.length <= index) {
+          viewerStore.geometriesUI.geometryRepresentations.push(defaultGeometryRepresentation);
+        }
+      })
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      updateEnabledRepresentationButtons(viewerStore.geometriesUI.geometryRepresentations[selectedGeometryIndex]);
+    }
+  )
+
+  const defaultGeometryRepresentations = new Array(viewerStore.geometriesUI.geometries.length);
+  defaultGeometryRepresentations.fill(defaultGeometryRepresentation);
+  updateEnabledRepresentationButtons(defaultGeometryRepresentation);
+  viewerStore.geometriesUI.geometryRepresentations = defaultGeometryRepresentations;
 }
 
 export default createGeometryRepresentationSelector;

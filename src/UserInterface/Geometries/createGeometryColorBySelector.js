@@ -57,14 +57,14 @@ function createGeometryColorBySelector(
     (selectedGeometryIndex) => {
       const geometryColorByOptions = viewerStore.geometriesUI.geometryColorByOptions;
 
-      if (!!geometryColorByOptions[selectedGeometryIndex].length) {
+      if (!!geometryColorByOptions[selectedGeometryIndex] && !!geometryColorByOptions[selectedGeometryIndex].length) {
         geometryColorBySelector.innerHTML = geometryColorByOptions[selectedGeometryIndex]
           .map(
             ({ label, value }) =>
               `<option value="${value}" >${label}</option>`
           )
           .join('');
-        geometryColorBySelector.value = geometryColorBy[selectedGeometryIndex].value;
+        geometryColorBySelector.value = viewerStore.geometriesUI.geometryColorBy[selectedGeometryIndex].value;
       }
       const geometryHasScalars = viewerStore.geometriesUI.geometryHasScalars;
       if (geometryHasScalars[selectedGeometryIndex] && geometryColorByOptions[selectedGeometryIndex].length > 1) {

@@ -40,14 +40,13 @@ function createGeometryOpacitySlider(
         return;
       }
 
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-      console.log(viewerStore.geometriesUI.geometryOpacities)
 
       geometries.forEach((geometry, index) => {
         if (viewerStore.geometriesUI.geometryOpacities.length <= index) {
           viewerStore.geometriesUI.geometryOpacities.push(defaultGeometryOpacity);
         }
       })
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
       opacityElement.value = viewerStore.geometriesUI.geometryOpacities[selectedGeometryIndex];
     }
   )

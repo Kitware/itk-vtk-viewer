@@ -53,9 +53,9 @@ function createGeometryColorPresetSelector(
       presetSelector.value = viewerStore.geometriesUI.geometryColorPresets[selectedGeometryIndex]
       const geometryHasScalars = viewerStore.geometriesUI.geometryHasScalars;
       if (geometryHasScalars[selectedGeometryIndex]) {
-        geometryColorByRow.style.display = 'flex';
+        geometryColorPresetRow.style.display = 'flex';
       } else {
-        geometryColorByRow.style.display = 'none';
+        geometryColorPresetRow.style.display = 'none';
       }
     });
 

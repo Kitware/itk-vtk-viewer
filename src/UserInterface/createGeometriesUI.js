@@ -1,4 +1,4 @@
-import { reaction } from 'mobx';
+import { reaction, autorun } from 'mobx';
 
 import style from './ItkVtkViewer.module.css';
 
@@ -18,6 +18,8 @@ function createGeometriesUI(
   const geometrySelector = document.createElement('select');
   geometrySelector.setAttribute('class', style.selector);
   geometrySelector.id = `${viewerStore.id}-geometrySelector`;
+  geometryRepresentationRow.appendChild(geometrySelector);
+
   geometrySelector.addEventListener('change', (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -27,22 +29,26 @@ function createGeometriesUI(
     geometrySelector.innerHTML = geometryNames
       .map((name) => `<option value="${name}">${name}</option>`)
       .join('');
-    if(geometryRepresentationRow.contains(geometrySelector)) {
-      // Do nothing
-    }
-    else if(geometryNames.length > 1) {
-      geometryRepresentationRow.appendChild(geometrySelector);
+    if(geometryNames.length > 1) {
+      geometrySelector.disabled = false;
     } else {
-      // Results in a more consistent layout with the representation buttons
-      const geometryLabel = document.createElement('label');
-      geometryLabel.innerHTML = "Geometry ";
-      geometryLabel.setAttribute('class', style.selector);
-      geometryRepresentationRow.appendChild(geometryLabel);
+      geometrySelector.disabled = true;
     }
   }
-  reaction(() => { return viewerStore.imageUI.geometryNames; },
+  reaction(() => { return viewerStore.geometriesUI.geometryNames.slice(); },
     (geometryNames) => { updateGeometryNames(geometryNames); }
   )
+  if(viewerStore.geometriesUI.geometries.length > 0) {
+    viewerStore.geometriesUI.selectedGeometryIndex = 0;
+  }
+  autorun(() => {
+      const geometries = viewerStore.geometriesUI.geometries;
+      if (geometries.length === 1) {
+        viewerStore.geometriesUI.geometryNames = ['Geometry'];
+      } else {
+        viewerStore.geometriesUI.geometryNames = geometries.map((geometry, index) => `Geometry ${index}`);
+      }
+    })
 
   createGeometryRepresentationSelector(
     viewerStore,

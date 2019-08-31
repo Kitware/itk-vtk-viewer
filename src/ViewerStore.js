@@ -124,6 +124,10 @@ class PointSetsUIStore {
   initialized = false;
   sources = [];
   representationProxies = [];
+
+  @observable selectedPointSetIndex = 0;
+  @observable pointSetNames = [];
+  @observable pointSetRepresentations = [];
 }
 
 class ViewerStore {

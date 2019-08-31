@@ -25,8 +25,6 @@ function createPointSetColorWidget(
 
   createPointSetColorChooser(
     viewerStore,
-    pointSetHasScalars,
-    pointSetSelector,
     pointSetColorRow
   )
 

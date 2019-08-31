@@ -1,45 +1,82 @@
+import { reaction } from 'mobx';
+
 import style from '../ItkVtkViewer.module.css';
 import hex2rgb from '../hex2rgb';
 
 function createPointSetColorChooser(
   viewerStore,
-  pointSetHasScalars,
-  pointSetSelector,
   pointSetColorRow
 ) {
-  const pointSetColors = new Array(pointSetHasScalars.length);
-  const defaultPointSetColor = '#ffffff';
-  pointSetColors.fill(defaultPointSetColor);
-
   const pointSetColorInput = document.createElement('input');
   pointSetColorInput.setAttribute('type', 'color');
   pointSetColorInput.id = `${viewerStore.id}-pointSetColorInput`;
-  pointSetColorInput.value = defaultPointSetColor;
-  if (pointSetHasScalars[pointSetSelector.selectedIndex]) {
-    pointSetColorInput.style.display = 'none';
-  } else {
-    pointSetColorInput.style.display = 'inline-block';
-  }
-  pointSetColorRow.appendChild(pointSetColorInput);
 
-  pointSetSelector.addEventListener('change',
-    (event) => {
-      pointSetColorInput.value = pointSetColors[pointSetSelector.selectedIndex]
-      if (pointSetHasScalars[pointSetSelector.selectedIndex]) {
-        pointSetColorInput.style.display = 'none';
+  const defaultPointSetColor = '#ffffff';
+
+  reaction(() => {
+    return viewerStore.pointSetsUI.pointSets.slice();
+  },
+    (pointSets) => {
+      if(!!!pointSets || pointSets.length === 0) {
+        return;
+      }
+
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+
+      pointSets.forEach((geometry, index) => {
+        if (viewerStore.pointSetsUI.geometryColors.length <= index) {
+          viewerStore.pointSetsUI.geometryColors.push(defaultPointSetColor);
+        }
+      })
+      geometryColorInput.value = viewerStore.pointSetsUI.geometryColors[selectedPointSetIndex];
+    }
+  )
+
+  reaction(() => {
+    return viewerStore.pointSetsUI.selectedPointSetIndex;
+    },
+    (selectedPointSetIndex) => {
+      geometryColorInput.value = viewerStore.pointSetsUI.geometryColors[selectedPointSetIndex];
+      if (viewerStore.pointSetsUI.geometryHasScalars[selectedPointSetIndex]) {
+        geometryColorInput.style.display = 'none';
       } else {
-        pointSetColorInput.style.display = 'inline-block';
+        geometryColorInput.style.display = 'inline-block';
       }
     });
 
-  pointSetColorInput.addEventListener('input',
-    (event) => {
-      const value = event.target.value
-      const rgb = hex2rgb(value)
-      viewerStore.pointSetsUI.representationProxies[pointSetSelector.selectedIndex].setColor(rgb)
+  reaction(() => {
+    return viewerStore.pointSetsUI.geometryColors.slice();
+  },
+    (geometryColors) => {
+      geometryColors.forEach((value, index) => {
+        const rgb = hex2rgb(value)
+        viewerStore.pointSetsUI.representationProxies[index].setColor(rgb)
+      })
       viewerStore.renderWindow.render()
-      pointSetColors[pointSetSelector.selectedIndex] = value
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      geometryColorInput.value = geometryColors[selectedPointSetIndex];
     });
+
+  geometryColorInput.addEventListener('input',
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      viewerStore.pointSetsUI.geometryColors[selectedPointSetIndex] = event.target.value;
+    });
+
+  const defaultPointSetColors = Array(viewerStore.pointSetsUI.pointSets.length);
+  defaultPointSetColors.fill(defaultPointSetColor);
+  geometryColorInput.value = defaultPointSetColor;
+  viewerStore.pointSetsUI.geometryColors = defaultPointSetColors;
+  const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+  if (viewerStore.pointSetsUI.geometryHasScalars[selectedPointSetIndex]) {
+    geometryColorInput.style.display = 'none';
+  } else {
+    geometryColorInput.style.display = 'inline-block';
+  }
+
+  geometryColorRow.appendChild(geometryColorInput);
 }
 
 export default createPointSetColorChooser;

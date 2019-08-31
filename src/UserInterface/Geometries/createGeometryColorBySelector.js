@@ -95,6 +95,7 @@ function createGeometryColorBySelector(
         geometryColorBySelector.value = viewerStore.geometriesUI.geometryColorBy[selectedGeometryIndex].value;
       }
     });
+
   geometryColorBySelector.addEventListener('change', (event) => {
     event.preventDefault();
     event.stopPropagation();

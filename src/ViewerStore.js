@@ -129,6 +129,7 @@ class PointSetsUIStore {
   @observable pointSetNames = [];
   @observable pointSetRepresentations = [];
   @observable pointSetColorBy = [];
+  @observable pointSetColors = [];
   @computed get pointSetHasScalars() {
     return this.pointSets.map((pointSet) => {
       const pointData = pointSet.getPointData();

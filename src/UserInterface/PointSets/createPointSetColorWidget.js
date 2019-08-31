@@ -48,8 +48,6 @@ function createPointSetColorWidget(
   pointSetSizeRow.className += ` ${viewerStore.id}-toggle`;
   createPointSetSizeSlider(
     viewerStore,
-    pointSetHasScalars,
-    pointSetSelector,
     pointSetSizeRow
   )
   pointSetsUIGroup.appendChild(pointSetSizeRow)

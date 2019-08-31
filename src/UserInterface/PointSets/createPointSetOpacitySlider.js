@@ -36,7 +36,6 @@ function createPointSetOpacitySlider(
         return;
       }
 
-
       pointSets.forEach((pointSet, index) => {
         if (viewerStore.pointSetsUI.pointSetOpacities.length <= index) {
           viewerStore.pointSetsUI.pointSetOpacities.push(defaultPointSetOpacity);
@@ -64,7 +63,6 @@ function createPointSetOpacitySlider(
       viewerStore.renderWindow.render();
       opacityElement.value = value;
     });
-
 
   opacityElement.addEventListener('input', (event) => {
       event.preventDefault();

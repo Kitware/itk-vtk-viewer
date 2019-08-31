@@ -6,17 +6,15 @@ import pointSetSizeIcon from '../icons/point-set-size.svg';
 
 function createPointSetSizeSlider(
   viewerStore,
-  pointSetHasScalars,
-  pointSetSelector,
   pointSetSizeRow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
     viewerStore.isBackgroundDark
   );
-  const pointSetSizes = new Array(pointSetHasScalars.length);
+
   const defaultPointSetSize = 3;
-  pointSetSizes.fill(defaultPointSetSize);
+
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
@@ -31,21 +29,55 @@ function createPointSetSizeSlider(
   const sizeElement = sliderEntry.querySelector(
     `#${viewerStore.id}-pointSetSizeSlider`
   );
-  function updateSize() {
-    const value = Number(sizeElement.value);
-    pointSetSizes[pointSetSelector.selectedIndex] = value
-    viewerStore.pointSetsUI.representationProxies[pointSetSelector.selectedIndex].setPointSize(value)
-    viewerStore.renderWindow.render();
-  }
-  sizeElement.addEventListener('input', updateSize);
-  updateSize();
-  viewerStore.pointSetsUI.representationProxies.forEach((proxy) => {
-    proxy.setPointSize(defaultPointSetSize)
-  })
-  pointSetSelector.addEventListener('change',
-    (event) => {
-      sizeElement.value = pointSetSizes[pointSetSelector.selectedIndex]
+
+  reaction(() => {
+    return viewerStore.pointSetsUI.pointSets.slice();
+  },
+    (pointSets) => {
+      if(!!!pointSets || pointSets.length === 0) {
+        return;
+      }
+
+      pointSets.forEach((pointSet, index) => {
+        if (viewerStore.pointSetsUI.pointSetSizes.length <= index) {
+          viewerStore.pointSetsUI.pointSetSizes.push(defaultPointSetSize);
+        }
+      })
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      sizeElement.value = viewerStore.pointSetsUI.pointSetSizes[selectedPointSetIndex];
+    }
+  )
+
+  reaction(() => {
+    return viewerStore.pointSetsUI.selectedPointSetIndex;
+    },
+    (selectedPointSetIndex) => {
+      sizeElement.value = viewerStore.pointSetsUI.pointSetSizes[selectedPointSetIndex];
     });
+
+  reaction(() => {
+    return viewerStore.pointSetsUI.pointSetSizes.slice();
+  },
+    (pointSetSizes) => {
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      const value = pointSetSizes[selectedPointSetIndex];
+      viewerStore.pointSetsUI.representationProxies[selectedPointSetIndex].setPointSize(value)
+      viewerStore.renderWindow.render();
+      sizeElement.value = value;
+    });
+
+  sizeElement.addEventListener('input', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      viewerStore.pointSetsUI.pointSetSizes[selectedPointSetIndex] = Number(event.target.value);
+    });
+
+  const defaultPointSetSizes = new Array(viewerStore.pointSetsUI.pointSets.length);
+  defaultPointSetSizes.fill(defaultPointSetsize);
+  sizeElement.value = defaultPointSetSize;
+  viewerStore.pointSetsUI.pointSetSizes = defaultPointSetSizes;
+
   pointSetSizeRow.appendChild(sliderEntry);
 }
 

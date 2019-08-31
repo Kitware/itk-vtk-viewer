@@ -41,7 +41,6 @@ const createViewer = (
   if (viewerStyle) {
     viewerStore.style = viewerStyle;
   }
-  console.log(viewerStore)
 
   const testCanvas = document.createElement("canvas");
   const gl = testCanvas.getContext("webgl")

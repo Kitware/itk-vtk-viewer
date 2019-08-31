@@ -125,6 +125,12 @@ function createPointSetColorBySelector(
       .join('');
     pointSetColorBySelector.value = pointSetColorByDefault[selectedPointSetIndex].value;
   }
+  const pointSetHasScalars = viewerStore.pointSetsUI.pointSetHasScalars;
+  if (pointSetHasScalars[selectedpointSetIndex] && pointSetColorByOptions[selectedpointSetIndex].length > 1) {
+    pointSetColorByRow.style.display = 'flex';
+  } else {
+    pointSetColorByRow.style.display = 'none';
+  }
   viewerStore.geometriesUI.pointSetColorBy = pointSetColorByDefault;
 
   pointSetColorByRow.appendChild(pointSetColorBySelector);

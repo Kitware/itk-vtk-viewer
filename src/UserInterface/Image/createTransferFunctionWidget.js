@@ -14,9 +14,10 @@ function createTransferFunctionWidget(
 
   const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({
     numberOfBins: 256,
-    size: [400, 150],
+    size: [400, 200],
   });
   viewerStore.imageUI.transferFunctionWidget = transferFunctionWidget;
+  transferFunctionWidget.setEnableRangeZoom(true);
   let iconSize = 20;
   if (use2D) {
     iconSize = 0;
@@ -26,7 +27,7 @@ function createTransferFunctionWidget(
     histogramColor: 'rgba(30, 30, 30, 0.6)',
     strokeColor: 'rgb(0, 0, 0)',
     activeColor: 'rgb(255, 255, 255)',
-    handleColor: 'rgb(50, 50, 150)',
+    handleColor: 'rgb(70, 70, 150)',
     buttonDisableFillColor: 'rgba(255, 255, 255, 0.5)',
     buttonDisableStrokeColor: 'rgba(0, 0, 0, 0.5)',
     buttonStrokeColor: 'rgba(0, 0, 0, 1)',
@@ -34,7 +35,9 @@ function createTransferFunctionWidget(
     strokeWidth: 2,
     activeStrokeWidth: 3,
     buttonStrokeWidth: 1.5,
-    handleWidth: 4,
+    handleWidth: 2,
+    zoomControlHeight: 20,
+    zoomControlColor: 'rgba(50, 50, 100, 1)',
     iconSize, // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
     padding: 10,
   });
@@ -73,6 +76,16 @@ function createTransferFunctionWidget(
     if (!renderWindow.getInteractor().isAnimating()) {
       renderWindow.render();
     }
+  });
+  transferFunctionWidget.onZoomChange((zoom) => {
+    const gaussians = transferFunctionWidget.getGaussians();
+    const newGaussians = gaussians.slice();
+    const rangeHalfWidth = (zoom[1] - zoom[0]) / 2.;
+    newGaussians[0].position = zoom[0] + rangeHalfWidth;
+    newGaussians[0].width = rangeHalfWidth;
+    newGaussians[0].xBias = rangeHalfWidth;
+    newGaussians[0].yBias = 0.8 * rangeHalfWidth;
+    transferFunctionWidget.setGaussians(newGaussians);
   });
 
   // Manage update when lookupTable changes

@@ -127,6 +127,11 @@ function createGeometryColorBySelector(
       .join('');
     geometryColorBySelector.value = geometryColorByDefault[selectedGeometryIndex].value;
   }
+  if (viewerStore.geometriesUI.geometryHasScalars[selectedGeometryIndex] && geometryColorByOptions[selectedGeometryIndex].length > 1) {
+    geometryColorByRow.style.display = 'flex';
+  } else {
+    geometryColorByRow.style.display = 'none';
+  }
   viewerStore.geometriesUI.geometryColorBy = geometryColorByDefault;
 
   geometryColorByRow.appendChild(geometryColorBySelector);

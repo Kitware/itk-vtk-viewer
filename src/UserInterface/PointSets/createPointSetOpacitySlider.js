@@ -71,6 +71,11 @@ function createPointSetOpacitySlider(
       viewerStore.pointSetsUI.pointSetOpacities[selectedPointSetIndex] = Number(event.target.value);
     });
 
+  const defaultPointSetOpacities = new Array(viewerStore.pointSetsUI.pointSets.length);
+  defaultPointSetOpacities.fill(defaultPointSetOpacity);
+  opacityElement.value = defaultPointSetOpacity;
+  viewerStore.pointSetsUI.pointSetOpacities = defaultPointSetOpacities;
+
   pointSetColorRow.appendChild(sliderEntry);
 }
 

@@ -275,6 +275,10 @@ const createViewer = (
     }
   }
 
+  publicAPI.getUserInterfaceCollapsed = () => {
+    return viewerStore.mainUI.collapsed;
+  }
+
   const toggleUserInterfaceCollapsedHandlers = [];
   autorun(() => {
     const collapsed = viewerStore.mainUI.collapsed;

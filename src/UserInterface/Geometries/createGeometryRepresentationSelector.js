@@ -127,6 +127,7 @@ function createGeometryRepresentationSelector(
       viewerStore.geometriesUI.representationProxies[index].setVisibility(true)
     }
     updateEnabledRepresentationButtons(value);
+    viewerStore.renderWindow.render()
   }
 
   reaction(() => {

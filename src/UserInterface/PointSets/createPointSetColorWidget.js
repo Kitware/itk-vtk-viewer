@@ -8,24 +8,13 @@ import createPointSetSizeSlider from './createPointSetSizeSlider';
 
 function createPointSetColorWidget(
   viewerStore,
-  pointSets,
-  pointSetSelector,
   pointSetsUIGroup
 ) {
-  const pointSetHasScalars = pointSets.map((pointSet) => {
-    const pointData = pointSet.getPointData();
-    const hasPointDataScalars = !!pointData.getScalars();
-    return hasPointDataScalars;
-  })
-
   const pointSetColorByRow = document.createElement('div')
   pointSetColorByRow.setAttribute('class', style.uiRow)
   pointSetColorByRow.className += ` ${viewerStore.id}-toggle`;
   createPointSetColorBySelector(
     viewerStore,
-    pointSetHasScalars,
-    pointSets,
-    pointSetSelector,
     pointSetColorByRow
   )
   pointSetsUIGroup.appendChild(pointSetColorByRow)

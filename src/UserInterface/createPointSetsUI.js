@@ -59,8 +59,6 @@ function createPointSetsUI(
 
   createPointSetColorWidget(
     viewerStore,
-    pointSets,
-    pointSetSelector,
     pointSetsUIGroup
   )
 

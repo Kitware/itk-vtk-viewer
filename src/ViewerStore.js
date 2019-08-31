@@ -128,6 +128,45 @@ class PointSetsUIStore {
   @observable selectedPointSetIndex = 0;
   @observable pointSetNames = [];
   @observable pointSetRepresentations = [];
+  @observable pointSetColorBy = [];
+  @computed get pointSetHasScalars() {
+    return this.pointSets.map((pointSet) => {
+      const pointData = pointSet.getPointData();
+      const hasPointDataScalars = !!pointData.getScalars();
+      return hasPointDataScalars;
+      })
+    };
+  @computed get pointSetColorByOptions() {
+    return this.pointSets.map((pointSet, index) => {
+      if(!this.pointSetHasScalars[index]) {
+        return null
+      }
+      const options = [].concat(
+        pointSet
+          .getPointData()
+          .getArrays()
+          .map((a) => ({
+            label: `(p) ${a.getName()}`,
+            value: `pointData:${a.getName()}`,
+          })),
+        )
+      return options;
+    })
+  };
+  @computed get pointSetColorByDefault() {
+    return this.pointSets.map((pointSet, index) => {
+      if(!this.pointSetHasScalars[index]) {
+        return null
+      }
+      const pointData = pointSet.getPointData();
+      if (!!pointData.getScalars()) {
+        const activeIndex = pointData.getActiveScalars();
+        const activeArray = pointData.getArrays()[activeIndex];
+        return { label: `(p) ${activeArray.getName()}`, value: `pointData:${activeArray.getName()}` };
+      }
+      throw new Error('Should not reach here.')
+      })
+    };
 }
 
 class ViewerStore {

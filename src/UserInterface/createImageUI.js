@@ -9,93 +9,62 @@ import createSampleDistanceSlider from './Image/createSampleDistanceSlider';
 import createGradientOpacitySlider from './Image/createGradientOpacitySlider';
 
 function createImageUI(
-  uiContainer,
-  viewerDOMId,
-  lookupTableProxy,
-  piecewiseFunctionProxy,
-  volumeRepresentation,
-  dataArray,
-  view,
-  isBackgroundDark,
+  viewerStore,
   use2D
 ) {
-  const renderWindow = view.getRenderWindow();
+  const viewerDOMId = viewerStore.id;
 
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
-  let updateColorMap = null;
+  const dataArray = viewerStore.imageUI.image.getPointData().getScalars();
   if (dataArray.getNumberOfComponents() === 1) {
     const presetRow = document.createElement('div');
     presetRow.setAttribute('class', style.uiRow);
-    updateColorMap = createColorPresetSelector(
+    createColorPresetSelector(
+      viewerStore,
       presetRow,
-      viewerDOMId,
-      lookupTableProxy,
-      renderWindow
     );
     presetRow.className += ` ${viewerDOMId}-toggle`;
     imageUIGroup.appendChild(presetRow);
   }
 
-  const transferFunctionWidget = createTransferFunctionWidget(
+  createTransferFunctionWidget(
+    viewerStore,
     imageUIGroup,
-    viewerDOMId,
-    lookupTableProxy,
-    piecewiseFunctionProxy,
-    dataArray,
-    view,
-    renderWindow,
     use2D
   );
 
-  let updateGradientOpacity = null;
   if (!use2D) {
     const volumeRenderingRow = document.createElement('div');
     volumeRenderingRow.setAttribute('class', style.uiRow);
     volumeRenderingRow.className += ` ${viewerDOMId}-volumeRendering ${viewerDOMId}-toggle`;
     createViewPlanesToggle(
+      viewerStore,
       imageUIGroup,
-      viewerDOMId,
       volumeRenderingRow,
-      view,
-      isBackgroundDark
     );
     createUseShadowToggle(
+      viewerStore,
       volumeRenderingRow,
-      viewerDOMId,
-      volumeRepresentation,
-      renderWindow,
-      isBackgroundDark
     );
     createSampleDistanceSlider(
+      viewerStore,
       volumeRenderingRow,
-      viewerDOMId,
-      isBackgroundDark,
-      volumeRepresentation,
-      renderWindow
     );
-    updateGradientOpacity = createGradientOpacitySlider(
+    createGradientOpacitySlider(
+      viewerStore,
       volumeRenderingRow,
-      viewerDOMId,
-      isBackgroundDark,
-      volumeRepresentation,
-      renderWindow
     );
     imageUIGroup.appendChild(volumeRenderingRow);
 
     createPlaneIndexSliders(
+      viewerStore,
       imageUIGroup,
-      viewerDOMId,
-      volumeRepresentation,
-      renderWindow,
-      isBackgroundDark
     );
   }
 
-  uiContainer.appendChild(imageUIGroup);
-
-  return { transferFunctionWidget, updateGradientOpacity, updateColorMap };
+  viewerStore.mainUI.uiContainer.appendChild(imageUIGroup);
 }
 
 export default createImageUI;

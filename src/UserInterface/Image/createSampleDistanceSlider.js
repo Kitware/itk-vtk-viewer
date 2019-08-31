@@ -5,15 +5,12 @@ import style from '../ItkVtkViewer.module.css';
 import sampleDistanceIcon from 'vtk.js/Sources/Interaction/UI/Icons/Spacing.svg';
 
 function createSampleDistanceSlider(
+  viewerStore,
   uiContainer,
-  viewerDOMId,
-  isBackgroundDark,
-  volumeRepresentation,
-  renderWindow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
 
   const sliderEntry = document.createElement('div');
@@ -25,12 +22,12 @@ function createSampleDistanceSlider(
       ${sampleDistanceIcon}
     </div>
     <input type="range" min="0" max="1" value="0.3" step="0.01"
-      class="${style.slider} ${viewerDOMId}-spacing" />`;
-  const spacingElement = sliderEntry.querySelector(`.${viewerDOMId}-spacing`);
+      class="${style.slider} ${viewerStore.id}-spacing" />`;
+  const spacingElement = sliderEntry.querySelector(`.${viewerStore.id}-spacing`);
   function updateSpacing() {
     const value = Number(spacingElement.value);
-    volumeRepresentation.setSampleDistance(value);
-    renderWindow.render();
+    viewerStore.imageUI.representationProxy.setSampleDistance(value);
+    viewerStore.renderWindow.render();
   }
   spacingElement.addEventListener('input', updateSpacing);
   updateSpacing();

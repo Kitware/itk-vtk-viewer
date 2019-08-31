@@ -1,9 +1,11 @@
+import { reaction } from 'mobx';
+
 import style from '../ItkVtkViewer.module.css';
 
 import fullscreenIcon from '../icons/fullscreen.svg';
 
 function createFullscreenButton(
-  viewerDOMId,
+  viewerStore,
   contrastSensitiveStyle,
   rootContainer,
   mainUIRow
@@ -24,19 +26,19 @@ function createFullscreenButton(
 
   if (fullScreenMethods) {
     const fullscreenButton = document.createElement('div');
-    fullscreenButton.innerHTML = `<input id="${viewerDOMId}-toggleFullscreenButton" type="checkbox" class="${
+    fullscreenButton.innerHTML = `<input id="${viewerStore.id}-toggleFullscreenButton" type="checkbox" class="${
       style.toggleInput
     }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Fullscreen[f]" class="${
       contrastSensitiveStyle.invertibleButton
     } ${style.fullscreenButton} ${
       style.toggleButton
-    }" for="${viewerDOMId}-toggleFullscreenButton">${fullscreenIcon}</label>`;
+    }" for="${viewerStore.id}-toggleFullscreenButton">${fullscreenIcon}</label>`;
     const fullscreenButtonInput = fullscreenButton.children[0];
     const container = rootContainer.children[0];
     const oldWidth = container.style.width;
     const oldHeight = container.style.height;
-    function toggleFullscreen() {
-      const fullscreenEnabled = fullscreenButtonInput.checked;
+    function toggleFullscreen(fullscreenEnabled) {
+      fullscreenButtonInput.checked = fullscreenEnabled;
       if (fullscreenEnabled) {
         container.style.width = '100vw';
         container.style.height = '100vh';
@@ -47,14 +49,22 @@ function createFullscreenButton(
         document[fullScreenMethods[1]]();
       }
     }
-    fullscreenButton.addEventListener('change', (event) => {
-      toggleFullscreen();
-    });
+    fullscreenButton.addEventListener('change',
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        viewerStore.mainUI.fullscreenEnabled = !viewerStore.mainUI.fullscreenEnabled;
+      }
+    );
+    reaction(() => viewerStore.mainUI.fullscreenEnabled,
+      (fullscreenEnabled) => {
+        toggleFullscreen(fullscreenEnabled);
+      })
     document.addEventListener(fullScreenMethods[2], (event) => {
       if (!document[fullScreenMethods[3]]) {
         container.style.width = oldWidth;
         container.style.height = oldHeight;
-        fullscreenButtonInput.checked = false;
+        viewerStore.mainUI.fullscreenEnabled = false;
       }
     })
     mainUIRow.appendChild(fullscreenButton);

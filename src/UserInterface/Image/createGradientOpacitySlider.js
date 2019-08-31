@@ -1,3 +1,5 @@
+import { autorun } from 'mobx';
+
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
 import style from '../ItkVtkViewer.module.css';
@@ -5,15 +7,12 @@ import style from '../ItkVtkViewer.module.css';
 import gradientOpacityIcon from '../icons/gradient.svg';
 
 function createGradientOpacitySlider(
+  viewerStore,
   uiContainer,
-  viewerDOMId,
-  isBackgroundDark,
-  volumeRepresentation,
-  renderWindow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
 
   const sliderEntry = document.createElement('div');
@@ -25,21 +24,26 @@ function createGradientOpacitySlider(
       ${gradientOpacityIcon}
     </div>
     <input type="range" min="0" max="1" value="0.2" step="0.01"
-      id="${viewerDOMId}-gradientOpacitySlider"
+      id="${viewerStore.id}-gradientOpacitySlider"
       class="${style.slider}" />`;
   const edgeElement = sliderEntry.querySelector(
-    `#${viewerDOMId}-gradientOpacitySlider`
+    `#${viewerStore.id}-gradientOpacitySlider`
   );
   function updateGradientOpacity() {
-    const value = Number(edgeElement.value);
-    volumeRepresentation.setEdgeGradient(value);
-    renderWindow.render();
+    const gradientOpacity = viewerStore.imageUI.gradientOpacity;
+    edgeElement.value = gradientOpacity;
+    viewerStore.imageUI.representationProxy.setEdgeGradient(gradientOpacity);
+    viewerStore.renderWindow.render();
   }
-  edgeElement.addEventListener('input', updateGradientOpacity);
-  updateGradientOpacity();
+  autorun(() => {
+    updateGradientOpacity();
+  })
+  edgeElement.addEventListener('input', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      viewerStore.imageUI.gradientOpacity = Number(edgeElement.value);
+  })
   uiContainer.appendChild(sliderEntry);
-
-  return updateGradientOpacity;
 }
 
 export default createGradientOpacitySlider;

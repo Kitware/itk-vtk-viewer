@@ -7,81 +7,47 @@ import createPointSetColorBySelector from './createPointSetColorBySelector';
 import createPointSetSizeSlider from './createPointSetSizeSlider';
 
 function createPointSetColorWidget(
-  viewerDOMId,
-  renderWindow,
-  pointSets,
-  pointSetRepresentationProxies,
-  isBackgroundDark,
-  pointSetSelector,
+  viewerStore,
   pointSetsUIGroup
 ) {
-  const pointSetHasScalars = pointSets.map((pointSet) => {
-    const pointData = pointSet.getPointData();
-    const hasPointDataScalars = !!pointData.getScalars();
-    return hasPointDataScalars;
-  })
-
   const pointSetColorByRow = document.createElement('div')
   pointSetColorByRow.setAttribute('class', style.uiRow)
-  pointSetColorByRow.className += ` ${viewerDOMId}-toggle`;
+  pointSetColorByRow.className += ` ${viewerStore.id}-toggle`;
   createPointSetColorBySelector(
-    pointSetHasScalars,
-    viewerDOMId,
-    renderWindow,
-    pointSets,
-    pointSetRepresentationProxies,
-    pointSetSelector,
+    viewerStore,
     pointSetColorByRow
   )
   pointSetsUIGroup.appendChild(pointSetColorByRow)
 
   const pointSetColorRow = document.createElement('div')
   pointSetColorRow.setAttribute('class', style.uiRow)
-  pointSetColorRow.className += ` ${viewerDOMId}-toggle`;
+  pointSetColorRow.className += ` ${viewerStore.id}-toggle`;
 
   createPointSetColorChooser(
-    pointSetHasScalars,
-    viewerDOMId,
-    renderWindow,
-    pointSetRepresentationProxies,
-    pointSetSelector,
+    viewerStore,
     pointSetColorRow
   )
 
   createPointSetOpacitySlider(
-    pointSetHasScalars,
-    viewerDOMId,
-    renderWindow,
-    pointSetRepresentationProxies,
-    isBackgroundDark,
-    pointSetSelector,
+    viewerStore,
     pointSetColorRow
   )
   pointSetsUIGroup.appendChild(pointSetColorRow)
 
   const pointSetColorPresetRow = document.createElement('div')
   pointSetColorPresetRow.setAttribute('class', style.uiRow)
-  pointSetColorPresetRow.className += ` ${viewerDOMId}-toggle`;
+  pointSetColorPresetRow.className += ` ${viewerStore.id}-toggle`;
   createPointSetColorPresetSelector(
-    pointSetHasScalars,
-    viewerDOMId,
-    renderWindow,
-    pointSetRepresentationProxies,
-    pointSetSelector,
+    viewerStore,
     pointSetColorPresetRow
   )
   pointSetsUIGroup.appendChild(pointSetColorPresetRow)
 
   const pointSetSizeRow = document.createElement('div')
   pointSetSizeRow.setAttribute('class', style.uiRow)
-  pointSetSizeRow.className += ` ${viewerDOMId}-toggle`;
+  pointSetSizeRow.className += ` ${viewerStore.id}-toggle`;
   createPointSetSizeSlider(
-    pointSetHasScalars,
-    viewerDOMId,
-    renderWindow,
-    pointSetRepresentationProxies,
-    isBackgroundDark,
-    pointSetSelector,
+    viewerStore,
     pointSetSizeRow
   )
   pointSetsUIGroup.appendChild(pointSetSizeRow)

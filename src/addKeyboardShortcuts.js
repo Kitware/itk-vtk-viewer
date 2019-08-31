@@ -154,6 +154,16 @@ const addKeyboardShortcuts = (container, viewer, viewerDOMId) => {
       const toggleSlicingPlanesButton = document.getElementById(`${viewerDOMId}-toggleSlicingPlanesButton`);
       toggleSlicingPlanesButton.click();
     })
+    MOUSETRAP.bind('p', function(event, combo) {
+      preventDefaults(event);
+      const toggleRotateButton = document.getElementById(`${viewerDOMId}-toggleRotateButton`);
+      toggleRotateButton.click();
+    })
+    MOUSETRAP.bind('alt+p', function(event, combo) {
+      preventDefaults(event);
+      const toggleRotateButton = document.getElementById(`${viewerDOMId}-toggleRotateButton`);
+      toggleRotateButton.click();
+    })
   })
 
   container.addEventListener('mouseleave', () => {
@@ -189,6 +199,8 @@ const addKeyboardShortcuts = (container, viewer, viewerDOMId) => {
     MOUSETRAP.unbind('alt+s');
     MOUSETRAP.unbind('o');
     MOUSETRAP.unbind('alt+o');
+    MOUSETRAP.unbind('p');
+    MOUSETRAP.unbind('alt+p');
   })
 }
 

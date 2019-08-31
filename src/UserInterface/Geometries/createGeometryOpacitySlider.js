@@ -1,3 +1,5 @@
+import { reaction } from 'mobx';
+
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
 import style from '../ItkVtkViewer.module.css';
@@ -5,21 +7,16 @@ import style from '../ItkVtkViewer.module.css';
 import opacityIcon from '../icons/opacity.svg';
 
 function createGeometryOpacitySlider(
-  geometryHasScalars,
-  viewerDOMId,
-  renderWindow,
-  geometryRepresentationProxies,
-  isBackgroundDark,
-  geometrySelector,
+  viewerStore,
   geometryColorRow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
-  const geometryOpacities = new Array(geometryHasScalars.length);
+
   const defaultGeometryOpacity = 1.0;
-  geometryOpacities.fill(defaultGeometryOpacity);
+
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
@@ -29,23 +26,62 @@ function createGeometryOpacitySlider(
       ${opacityIcon}
     </div>
     <input type="range" min="0" max="1" value="${defaultGeometryOpacity}" step="0.01"
-      id="${viewerDOMId}-geometryOpacitySlider"
+      id="${viewerStore.id}-geometryOpacitySlider"
       class="${style.slider}" />`;
   const opacityElement = sliderEntry.querySelector(
-    `#${viewerDOMId}-geometryOpacitySlider`
+    `#${viewerStore.id}-geometryOpacitySlider`
   );
-  function updateOpacity() {
-    const value = Number(opacityElement.value);
-    geometryOpacities[geometrySelector.selectedIndex] = value
-    geometryRepresentationProxies[geometrySelector.selectedIndex].setOpacity(value)
-    renderWindow.render();
-  }
-  opacityElement.addEventListener('input', updateOpacity);
-  updateOpacity();
-  geometrySelector.addEventListener('change',
-    (event) => {
-      opacityElement.value = geometryOpacities[geometrySelector.selectedIndex]
+
+  reaction(() => {
+    return viewerStore.geometriesUI.geometries.slice();
+  },
+    (geometries) => {
+      if(!!!geometries || geometries.length === 0) {
+        return;
+      }
+
+
+      geometries.forEach((geometry, index) => {
+        if (viewerStore.geometriesUI.geometryOpacities.length <= index) {
+          viewerStore.geometriesUI.geometryOpacities.push(defaultGeometryOpacity);
+        }
+      })
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      opacityElement.value = viewerStore.geometriesUI.geometryOpacities[selectedGeometryIndex];
+    }
+  )
+
+  reaction(() => {
+    return viewerStore.geometriesUI.selectedGeometryIndex;
+    },
+    (selectedGeometryIndex) => {
+      opacityElement.value = viewerStore.geometriesUI.geometryOpacities[selectedGeometryIndex];
     });
+
+  reaction(() => {
+    return viewerStore.geometriesUI.geometryOpacities.slice();
+  },
+    (geometryOpacities) => {
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      const value = geometryOpacities[selectedGeometryIndex];
+      viewerStore.geometriesUI.representationProxies[selectedGeometryIndex].setOpacity(value)
+      viewerStore.renderWindow.render();
+      opacityElement.value = value;
+    });
+
+
+  opacityElement.addEventListener('input', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      viewerStore.geometriesUI.geometryOpacities[selectedGeometryIndex] = Number(event.target.value);
+    });
+
+  const defaultGeometryOpacities = new Array(viewerStore.geometriesUI.geometries.length);
+  defaultGeometryOpacities.fill(defaultGeometryOpacity);
+  opacityElement.value = defaultGeometryOpacity;
+  viewerStore.geometriesUI.geometryOpacities = defaultGeometryOpacities;
+
   geometryColorRow.appendChild(sliderEntry);
 }
 

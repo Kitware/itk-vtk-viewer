@@ -1,3 +1,5 @@
+import { reaction } from 'mobx';
+
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
 import style from '../ItkVtkViewer.module.css';
@@ -7,44 +9,16 @@ import pointsIcon from '../icons/point-set-points.svg';
 import spheresIcon from '../icons/point-set-spheres.svg';
 
 function createPointSetRepresentationSelector(
-  viewerDOMId,
-  pointSetNames,
-  renderWindow,
-  isBackgroundDark,
-  pointSetRepresentationProxies,
-  pointSetSelector,
+  viewerStore,
   pointSetRepresentationRow
 ) {
-  const pointSetRepresentations = new Array(pointSetNames.length);
-  const defaultPointSetRepresentation = 'Points';
-  pointSetRepresentations.fill(defaultPointSetRepresentation);
+  const viewerDOMId = viewerStore.id;
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['invertibleButton'],
-    isBackgroundDark
-  );
+      ['invertibleButton'],
+      viewerStore.isBackgroundDark
+    );
 
-  function setRepresentation(value, pointSetIndex) {
-    if (pointSetRepresentations[pointSetIndex] === value) {
-      return
-    }
-
-    if(value === 'Hidden') {
-      pointSetRepresentationProxies[pointSetIndex].setVisibility(false)
-    } else {
-      pointSetRepresentationProxies[pointSetIndex].setRepresentation(value)
-      pointSetRepresentationProxies[pointSetIndex].setVisibility(true)
-    }
-    renderWindow.render()
-    pointSetRepresentations[pointSetIndex] = value
-  }
-
-  function setRepresentationToHidden() {
-    setRepresentation('Hidden', pointSetSelector.selectedIndex);
-    document.getElementById(`${viewerDOMId}-pointSetHiddenButton`).checked = true;
-    document.getElementById(`${viewerDOMId}-pointSetPointsButton`).checked = false;
-    document.getElementById(`${viewerDOMId}-pointSetSpheresButton`).checked = false;
-  }
   const pointSetHiddenButton = document.createElement('div');
   pointSetHiddenButton.innerHTML = `<input id="${viewerDOMId}-pointSetHiddenButton" type="checkbox" class="${
     style.toggleInput
@@ -53,15 +27,15 @@ function createPointSetRepresentationSelector(
   } ${style.fullscreenButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-pointSetHiddenButton">${hiddenIcon}</label>`;
-  pointSetHiddenButton.addEventListener('click', setRepresentationToHidden);
+  pointSetHiddenButton.addEventListener('click',
+    (event) => {
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      viewerStore.pointSetsUI.pointSetRepresentations[selectedPointSetIndex] = 'Hidden';
+    }
+  )
   pointSetRepresentationRow.appendChild(pointSetHiddenButton);
+  const pointSetHiddenButtonInput = pointSetHiddenButton.children[0];
 
-  function setRepresentationToPoints() {
-    setRepresentation('Points', pointSetSelector.selectedIndex);
-    document.getElementById(`${viewerDOMId}-pointSetHiddenButton`).checked = false;
-    document.getElementById(`${viewerDOMId}-pointSetPointsButton`).checked = true;
-    document.getElementById(`${viewerDOMId}-pointSetSpheresButton`).checked = false;
-  }
   const pointSetPointsButton = document.createElement('div');
   pointSetPointsButton.innerHTML = `<input id="${viewerDOMId}-pointSetPointsButton" type="checkbox" class="${
     style.toggleInput
@@ -70,15 +44,15 @@ function createPointSetRepresentationSelector(
   } ${style.fullscreenButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-pointSetPointsButton">${pointsIcon}</label>`;
-  pointSetPointsButton.addEventListener('click', setRepresentationToPoints);
+  pointSetPointsButton.addEventListener('click',
+    (event) => {
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      viewerStore.pointSetsUI.pointSetRepresentations[selectedPointSetIndex] = 'Points';
+    }
+  )
   pointSetRepresentationRow.appendChild(pointSetPointsButton);
+  const pointSetPointsButtonInput = pointSetPointsButton.children[0];
 
-  function setRepresentationToSpheres() {
-    setRepresentation('Spheres', pointSetSelector.selectedIndex);
-    document.getElementById(`${viewerDOMId}-pointSetHiddenButton`).checked = false;
-    document.getElementById(`${viewerDOMId}-pointSetPointsButton`).checked = false;
-    document.getElementById(`${viewerDOMId}-pointSetSpheresButton`).checked = true;
-  }
   const pointSetSpheresButton = document.createElement('div');
   pointSetSpheresButton.innerHTML = `<input id="${viewerDOMId}-pointSetSpheresButton" type="checkbox" class="${
     style.toggleInput
@@ -87,14 +61,97 @@ function createPointSetRepresentationSelector(
   } ${style.fullscreenButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-pointSetSpheresButton">${spheresIcon}</label>`;
-  pointSetSpheresButton.addEventListener('click', setRepresentationToSpheres);
+  pointSetSpheresButton.addEventListener('click',
+    (event) => {
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      viewerStore.pointSetsUI.pointSetRepresentations[selectedPointSetIndex] = 'Spheres';
+    }
+  )
   pointSetRepresentationRow.appendChild(pointSetSpheresButton);
+  const pointSetSpheresButtonInput = pointSetSpheresButton.children[0];
+
+  function updateEnabledRepresentationButtons(selectedPointSetRepresentation) {
+      switch(selectedPointSetRepresentation) {
+      case 'Hidden':
+        pointSetHiddenButtonInput.checked = true;
+        pointSetPointsButtonInput.checked = false;
+        pointSetSpheresButtonInput.checked = false;
+        break;
+      case 'Points':
+        pointSetHiddenButtonInput.checked = false;
+        pointSetPointsButtonInput.checked = true;
+        pointSetSpheresButtonInput.checked = false;
+        break;
+      case 'Spheres':
+        pointSetHiddenButtonInput.checked = false;
+        pointSetPointsButtonInput.checked = false;
+        pointSetSpheresButtonInput.checked = true;
+        break;
+      default:
+        console.error('Invalid pointSet representation: ' + selectedPointSetRepresentation);
+      }
+  }
+
+  function setRepresentation(value, index) {
+    if(value === 'Hidden') {
+      viewerStore.pointSetsUI.representationProxies[index].setVisibility(false)
+    } else {
+      viewerStore.pointSetsUI.representationProxies[index].setRepresentation(value)
+      viewerStore.pointSetsUI.representationProxies[index].setVisibility(true)
+    }
+    updateEnabledRepresentationButtons(value);
+    viewerStore.renderWindow.render()
+  }
 
   pointSetSelector.addEventListener('change',
     (event) => {
       setRepresentation(pointSetRepresentations[pointSetSelector.selectedIndex], pointSetSelector.selectedIndex);
     });
   pointSetRepresentations.map((rep, index) => setRepresentation(defaultPointSetRepresentation, index));
+
+  reaction(() => {
+    return viewerStore.pointSetsUI.pointSetRepresentations.slice();
+  },
+    (pointSetRepresentations) => {
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      const representation = viewerStore.pointSetsUI.pointSetRepresentations[selectedPointSetIndex];
+      setRepresentation(representation, selectedPointSetIndex);
+      viewerStore.renderWindow.render()
+    }
+  )
+
+  reaction(() => { return viewerStore.pointSetsUI.selectedPointSetIndex; },
+    (selectedIndex) => {
+      const selectedPointSetRepresentation = viewerStore.pointSetsUI.pointSetRepresentations[selectedIndex];
+      updateEnabledRepresentationButtons(selectedPointSetRepresentation);
+    }
+  )
+
+  const defaultPointSetRepresentation = 'Points';
+
+  reaction(() => {
+    return viewerStore.pointSetsUI.pointSets.slice();
+  },
+    (pointSets) => {
+      if(!!!pointSets || pointSets.length === 0) {
+        return;
+      }
+
+      pointSets.forEach((pointSet, index) => {
+        if (viewerStore.pointSetsUI.pointSetRepresentations.length <= index) {
+          viewerStore.pointSetsUI.pointSetRepresentations.push(defaultPointSetRepresentation);
+        }
+      })
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      updateEnabledRepresentationButtons(viewerStore.pointSetsUI.pointSetRepresentations[selectedPointSetIndex]);
+    }
+  )
+
+  const defaultPointSetRepresentations = new Array(viewerStore.pointSetsUI.pointSets.length);
+  defaultPointSetRepresentations.fill(defaultPointSetRepresentation);
+  updateEnabledRepresentationButtons(defaultPointSetRepresentation);
+  viewerStore.pointSetsUI.pointSetRepresentations = defaultPointSetRepresentations;
+  const pointSetRepresentationProxies = viewerStore.pointSetsUI.representationProxies;
 }
 
 export default createPointSetRepresentationSelector;

@@ -1,66 +1,69 @@
+import { reaction, autorun } from 'mobx';
+
 import style from './ItkVtkViewer.module.css';
 
 import createPointSetRepresentationSelector from './PointSets/createPointSetRepresentationSelector';
 import createPointSetColorWidget from './PointSets/createPointSetColorWidget';
 
 function createPointSetsUI(
-  uiContainer,
-  viewerDOMId,
-  pointSets,
-  pointSetRepresentationProxies,
-  view,
-  isBackgroundDark
+  viewerStore,
 ) {
-  const renderWindow = view.getRenderWindow();
-
   const pointSetsUIGroup = document.createElement('div');
   pointSetsUIGroup.setAttribute('class', style.uiGroup);
 
   const pointSetRepresentationRow = document.createElement('div');
   pointSetRepresentationRow.setAttribute('class', style.uiRow);
-  pointSetRepresentationRow.className += ` ${viewerDOMId}-toggle`;
+  pointSetRepresentationRow.className += ` ${viewerStore.id}-toggle`;
 
-  const pointSetNames = pointSets.map((pointSet, index) => `Point Set ${index}`);
   const pointSetSelector = document.createElement('select');
   pointSetSelector.setAttribute('class', style.selector);
-  pointSetSelector.id = `${viewerDOMId}-pointSetSelector`;
-  pointSetSelector.innerHTML = pointSetNames
-    .map((name) => `<option value="${name}">${name}</option>`)
-    .join('');
-  if(pointSetNames.length > 1) {
-    pointSetRepresentationRow.appendChild(pointSetSelector);
-  } else {
-    // Results in a more consistent layout with the representation buttons
-    const pointSetLabel = document.createElement('label');
-    pointSetLabel.innerHTML = "Point Set ";
-    pointSetLabel.setAttribute('class', style.selector);
-    pointSetRepresentationRow.appendChild(pointSetLabel);
+  pointSetSelector.id = `${viewerStore.id}-pointSetSelector`;
+  pointSetRepresentationRow.appendChild(pointSetSelector);
+
+  pointSetSelector.addEventListener('change', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    viewerStore.pointSetsUI.selectedPointSetIndex = pointSetSelector.selectedIndex;
+  })
+
+  function updatePointSetNames(pointSetNames) {
+    pointSetSelector.innerHTML = pointSetNames
+      .map((name) => `<option value="${name}">${name}</option>`)
+      .join('');
+    if(pointSetNames.length > 1) {
+      pointSetSelector.disabled = false;
+    } else {
+      pointSetSelector.disabled = true;
+    }
   }
+  reaction(() => { return viewerStore.pointSetsUI.pointSetNames.slice(); },
+    (pointSetNames) => { updatePointSetNames(pointSetNames); }
+  )
+  if(viewerStore.pointSetsUI.pointSets.length > 0) {
+    viewerStore.pointSetsUI.selectedPointSetIndex = 0;
+  }
+  autorun(() => {
+      const pointSets = viewerStore.pointSetsUI.pointSets;
+      if (pointSets.length === 1) {
+        viewerStore.pointSetsUI.pointSetNames = ['Point Set'];
+      } else {
+        viewerStore.pointSetsUI.pointSetNames = pointSets.map((pointSet, index) => `Point Set ${index}`);
+      }
+    })
 
   createPointSetRepresentationSelector(
-    viewerDOMId,
-    pointSetNames,
-    renderWindow,
-    isBackgroundDark,
-    pointSetRepresentationProxies,
-    pointSetSelector,
+    viewerStore,
     pointSetRepresentationRow
   )
   pointSetsUIGroup.appendChild(pointSetRepresentationRow);
 
   createPointSetColorWidget(
-    viewerDOMId,
-    renderWindow,
-    pointSets,
-    pointSetRepresentationProxies,
-    isBackgroundDark,
-    pointSetSelector,
+    viewerStore,
     pointSetsUIGroup
   )
 
-  uiContainer.appendChild(pointSetsUIGroup);
-
-  return {};
+  viewerStore.mainUI.uiContainer.appendChild(pointSetsUIGroup);
+  viewerStore.pointSetsUI.initialized = true;
 }
 
 export default createPointSetsUI;

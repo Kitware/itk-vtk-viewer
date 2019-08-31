@@ -1,29 +1,38 @@
+import { autorun } from 'mobx';
+
 import style from '../ItkVtkViewer.module.css';
 
 import rotateIcon from '../icons/rotate.svg';
 
 function createRotateButton(
-  viewerDOMId,
+  viewerStore,
   contrastSensitiveStyle,
-  view,
   mainUIRow
 ) {
   const rotateButton = document.createElement('div');
-  rotateButton.innerHTML = `<input id="${viewerDOMId}-toggleRotateButton" type="checkbox" class="${
+  rotateButton.innerHTML = `<input id="${viewerStore.id}-toggleRotateButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top-rotate itk-vtk-tooltip-content="Rotate in 3D" class="${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top-fullscreen itk-vtk-tooltip-content="Spin in 3D [p]" class="${
     contrastSensitiveStyle.invertibleButton
   } ${style.rotateButton} ${
     style.toggleButton
-  }" for="${viewerDOMId}-toggleRotateButton">${rotateIcon}</label>`;
+  }" for="${viewerStore.id}-toggleRotateButton">${rotateIcon}</label>`;
   const rotateButtonInput = rotateButton.children[0];
   function toggleRotate() {
-    const rotateEnabled = rotateButtonInput.checked;
-    view.setRotate(rotateEnabled);
+    const rotateEnabled = viewerStore.mainUI.rotateEnabled;
+    rotateButtonInput.checked = rotateEnabled;
+    viewerStore.itkVtkView.setRotate(rotateEnabled);
   }
-  rotateButton.addEventListener('change', (event) => {
+  autorun(() => {
     toggleRotate();
-  });
+  })
+  rotateButton.addEventListener('change',
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      viewerStore.mainUI.rotateEnabled = !viewerStore.mainUI.rotateEnabled;
+    }
+  );
   mainUIRow.appendChild(rotateButton);
 }
 

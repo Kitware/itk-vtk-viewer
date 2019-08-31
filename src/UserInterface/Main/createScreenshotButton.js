@@ -3,9 +3,8 @@ import style from '../ItkVtkViewer.module.css';
 import screenshotIcon from '../icons/screenshot.svg';
 
 function createScreenshotButton(
-  viewerDOMId,
+  viewerStore,
   contrastSensitiveStyle,
-  view,
   mainUIRow
 ) {
   const screenshotButton = document.createElement('div');
@@ -13,7 +12,7 @@ function createScreenshotButton(
     contrastSensitiveStyle.invertibleButton
   } ${style.screenshotButton}">${screenshotIcon}</div>`;
   function takeScreenshot() {
-    view.openCaptureImage();
+    viewerStore.itkVtkView.openCaptureImage();
   }
   screenshotButton.addEventListener('click', takeScreenshot);
   mainUIRow.appendChild(screenshotButton);

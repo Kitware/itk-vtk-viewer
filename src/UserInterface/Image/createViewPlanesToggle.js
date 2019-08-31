@@ -1,3 +1,5 @@
+import { autorun } from 'mobx';
+
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
 import style from '../ItkVtkViewer.module.css';
@@ -5,25 +7,34 @@ import style from '../ItkVtkViewer.module.css';
 import viewPlansIcon from '../icons/view-planes.svg';
 
 function createViewPlanesToggle(
+  viewerStore,
   imageUIGroup,
-  viewerDOMId,
   volumeRenderingRow,
-  view,
-  isBackgroundDark
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['tooltipButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
+  const viewerDOMId = viewerStore.id;
 
-  let viewPlanes = false;
+  const viewPlanesButton = document.createElement('div');
+  viewPlanesButton.innerHTML = `<input id="${viewerDOMId}-toggleSlicingPlanesButton" type="checkbox" class="${
+    style.toggleInput
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="View planes [s]" class="${
+    contrastSensitiveStyle.tooltipButton
+  } ${style.viewPlanesButton} ${
+    style.toggleButton
+  }" for="${viewerDOMId}-toggleSlicingPlanesButton">${viewPlansIcon}</label>`;
+
+  const viewPlanesButtonInput = viewPlanesButton.children[0];
   function setViewPlanes() {
-    viewPlanes = !viewPlanes;
-    view.setViewPlanes(viewPlanes);
+    const viewPlanes = viewerStore.imageUI.slicingPlanesEnabled;
+    viewPlanesButtonInput.checked = viewPlanes;
+    viewerStore.itkVtkView.setViewPlanes(viewPlanes);
     const xPlaneRow = imageUIGroup.querySelector(`.${viewerDOMId}-x-plane-row`);
     const yPlaneRow = imageUIGroup.querySelector(`.${viewerDOMId}-y-plane-row`);
     const zPlaneRow = imageUIGroup.querySelector(`.${viewerDOMId}-z-plane-row`);
-    if (view.getViewMode() === 'VolumeRendering') {
+    if (viewerStore.itkVtkView.getViewMode() === 'VolumeRendering') {
       if (viewPlanes) {
         xPlaneRow.style.display = 'flex';
         yPlaneRow.style.display = 'flex';
@@ -35,17 +46,13 @@ function createViewPlanesToggle(
       }
     }
   }
-
-  const viewPlanesButton = document.createElement('div');
-  viewPlanesButton.innerHTML = `<input id="${viewerDOMId}-toggleSlicingPlanesButton" type="checkbox" class="${
-    style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="View planes [s]" class="${
-    contrastSensitiveStyle.tooltipButton
-  } ${style.viewPlanesButton} ${
-    style.toggleButton
-  }" for="${viewerDOMId}-toggleSlicingPlanesButton">${viewPlansIcon}</label>`;
-  viewPlanesButton.addEventListener('change', (event) => {
+  autorun(() => {
     setViewPlanes();
+  })
+  viewPlanesButton.addEventListener('change', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    viewerStore.imageUI.slicingPlanesEnabled = !viewerStore.imageUI.slicingPlanesEnabled;
   });
   volumeRenderingRow.appendChild(viewPlanesButton);
 }

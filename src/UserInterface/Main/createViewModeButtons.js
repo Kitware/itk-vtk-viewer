@@ -1,3 +1,5 @@
+import { reaction } from 'mobx';
+
 import style from '../ItkVtkViewer.module.css';
 
 import volumeRenderingIcon from '../icons/volume-rendering.svg';
@@ -6,23 +8,20 @@ import yPlaneIcon from '../icons/y-plane.svg';
 import zPlaneIcon from '../icons/z-plane.svg';
 
 function createViewModeButtons(
-  viewerDOMId,
+  viewerStore,
   contrastSensitiveStyle,
-  view,
-  imageRepresentationProxy,
-  uiContainer,
   use2D,
   mainUIRow
 ) {
+  const viewerDOMId = viewerStore.id;
+  const uiContainer = viewerStore.mainUI.uiContainer;
   function setViewModeXPlane() {
-    view.setViewMode('XPlane');
-    document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = true;
-    document.getElementById(`${viewerDOMId}-yPlaneButton`).checked = false;
-    document.getElementById(`${viewerDOMId}-zPlaneButton`).checked = false;
-    document.getElementById(
-      `${viewerDOMId}-volumeRenderingButton`
-    ).checked = false;
-    if (imageRepresentationProxy) {
+    viewerStore.itkVtkView.setViewMode('XPlane');
+    viewerStore.mainUI.xPlaneButton.checked = true;
+    viewerStore.mainUI.yPlaneButton.checked = false;
+    viewerStore.mainUI.zPlaneButton.checked = false;
+    viewerStore.mainUI.volumeRenderingButton.checked = false;
+    if (viewerStore.imageUI.representationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -36,14 +35,12 @@ function createViewModeButtons(
     }
   }
   function setViewModeYPlane() {
-    view.setViewMode('YPlane');
-    document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = false;
-    document.getElementById(`${viewerDOMId}-yPlaneButton`).checked = true;
-    document.getElementById(`${viewerDOMId}-zPlaneButton`).checked = false;
-    document.getElementById(
-      `${viewerDOMId}-volumeRenderingButton`
-    ).checked = false;
-    if (imageRepresentationProxy) {
+    viewerStore.itkVtkView.setViewMode('YPlane');
+    viewerStore.mainUI.xPlaneButton.checked = false;
+    viewerStore.mainUI.yPlaneButton.checked = true;
+    viewerStore.mainUI.zPlaneButton.checked = false;
+    viewerStore.mainUI.volumeRenderingButton.checked = false;
+    if (viewerStore.imageUI.representationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -57,14 +54,12 @@ function createViewModeButtons(
     }
   }
   function setViewModeZPlane() {
-    view.setViewMode('ZPlane');
-    document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = false;
-    document.getElementById(`${viewerDOMId}-yPlaneButton`).checked = false;
-    document.getElementById(`${viewerDOMId}-zPlaneButton`).checked = true;
-    document.getElementById(
-      `${viewerDOMId}-volumeRenderingButton`
-    ).checked = false;
-    if (imageRepresentationProxy) {
+    viewerStore.itkVtkView.setViewMode('ZPlane');
+    viewerStore.mainUI.xPlaneButton.checked = false;
+    viewerStore.mainUI.yPlaneButton.checked = false;
+    viewerStore.mainUI.zPlaneButton.checked = true;
+    viewerStore.mainUI.volumeRenderingButton.checked = false;
+    if (viewerStore.imageUI.representationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -78,14 +73,12 @@ function createViewModeButtons(
     }
   }
   function setViewModeVolumeRendering() {
-    view.setViewMode('VolumeRendering');
-    document.getElementById(`${viewerDOMId}-xPlaneButton`).checked = false;
-    document.getElementById(`${viewerDOMId}-yPlaneButton`).checked = false;
-    document.getElementById(`${viewerDOMId}-zPlaneButton`).checked = false;
-    document.getElementById(
-      `${viewerDOMId}-volumeRenderingButton`
-    ).checked = true;
-    if (imageRepresentationProxy) {
+    viewerStore.itkVtkView.setViewMode('VolumeRendering');
+    viewerStore.mainUI.xPlaneButton.checked = false;
+    viewerStore.mainUI.yPlaneButton.checked = false;
+    viewerStore.mainUI.zPlaneButton.checked = false;
+    viewerStore.mainUI.volumeRenderingButton.checked = true;
+    if (viewerStore.imageUI.representationProxy) {
       const volumeRenderingRow = uiContainer.querySelector(
         `.${viewerDOMId}-volumeRendering`
       );
@@ -109,6 +102,7 @@ function createViewModeButtons(
   }
   if (!use2D) {
     const xPlaneButton = document.createElement('div');
+    viewerStore.mainUI.xPlaneButton = xPlaneButton;
     xPlaneButton.innerHTML = `<input id="${viewerDOMId}-xPlaneButton" type="checkbox" class="${
       style.toggleInput
     }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane [1]" class="${
@@ -116,10 +110,17 @@ function createViewModeButtons(
     } ${style.viewModeButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-xPlaneButton">${xPlaneIcon}</label>`;
-    xPlaneButton.addEventListener('click', setViewModeXPlane);
+    xPlaneButton.addEventListener('click',
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        viewerStore.mainUI.viewMode = 'XPlane';
+      }
+    );
     mainUIRow.appendChild(xPlaneButton);
 
     const yPlaneButton = document.createElement('div');
+    viewerStore.mainUI.yPlaneButton = yPlaneButton;
     yPlaneButton.innerHTML = `<input id="${viewerDOMId}-yPlaneButton" type="checkbox" class="${
       style.toggleInput
     }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane [2]" class="${
@@ -127,10 +128,17 @@ function createViewModeButtons(
     } ${style.viewModeButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-yPlaneButton">${yPlaneIcon}</label>`;
-    yPlaneButton.addEventListener('click', setViewModeYPlane);
+    yPlaneButton.addEventListener('click',
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        viewerStore.mainUI.viewMode = 'YPlane';
+      }
+    );
     mainUIRow.appendChild(yPlaneButton);
 
     const zPlaneButton = document.createElement('div');
+    viewerStore.mainUI.zPlaneButton = zPlaneButton;
     zPlaneButton.innerHTML = `<input id="${viewerDOMId}-zPlaneButton" type="checkbox" class="${
       style.toggleInput
     }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane [3]" class="${
@@ -138,10 +146,17 @@ function createViewModeButtons(
     } ${style.viewModeButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-zPlaneButton">${zPlaneIcon}</label>`;
-    zPlaneButton.addEventListener('click', setViewModeZPlane);
+    zPlaneButton.addEventListener('click',
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        viewerStore.mainUI.viewMode = 'ZPlane';
+      }
+    );
     mainUIRow.appendChild(zPlaneButton);
 
     const volumeRenderingButton = document.createElement('div');
+    viewerStore.mainUI.volumeRenderingButton = volumeRenderingButton;
     volumeRenderingButton.innerHTML = `<input id="${viewerDOMId}-volumeRenderingButton" type="checkbox" class="${
       style.toggleInput
     }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume [4]" class="${
@@ -149,8 +164,35 @@ function createViewModeButtons(
     } ${style.viewModeButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-volumeRenderingButton">${volumeRenderingIcon}</label>`;
-    volumeRenderingButton.addEventListener('click', setViewModeVolumeRendering);
+    volumeRenderingButton.addEventListener('click',
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        viewerStore.mainUI.viewMode = 'VolumeRendering';
+      }
+    );
     mainUIRow.appendChild(volumeRenderingButton);
+
+    reaction(() => { return viewerStore.mainUI.viewMode; },
+      (viewMode) => {
+        switch(viewMode) {
+        case 'XPlane':
+          setViewModeXPlane();
+          break;
+        case 'YPlane':
+          setViewModeYPlane();
+          break;
+        case 'ZPlane':
+          setViewModeZPlane();
+          break;
+        case 'VolumeRendering':
+          setViewModeVolumeRendering();
+          break;
+        default:
+          console.error('Invalid view mode: ' + viewMode);
+        }
+      }
+    )
   }
 }
 

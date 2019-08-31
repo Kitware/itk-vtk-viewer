@@ -14,20 +14,17 @@ import createResetCameraButton from './Main/createResetCameraButton';
 
 function createMainUI(
   rootContainer,
-  viewerDOMId,
-  isBackgroundDark,
+  viewerStore,
   use2D,
-  imageSource,
-  imageRepresentationProxy,
-  view
 ) {
   const uiContainer = document.createElement('div');
+  viewerStore.mainUI.uiContainer = uiContainer;
   rootContainer.appendChild(uiContainer);
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton', 'tooltipButton'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
 
   const mainUIGroup = document.createElement('div');
@@ -35,81 +32,64 @@ function createMainUI(
 
   const mainUIRow = document.createElement('div');
   mainUIRow.setAttribute('class', style.mainUIRow);
-  mainUIRow.className += ` ${viewerDOMId}-toggle`;
+  mainUIRow.className += ` ${viewerStore.id}-toggle`;
   mainUIGroup.appendChild(mainUIRow);
 
   createToggleUserInterface(
-    viewerDOMId,
+    viewerStore,
     contrastSensitiveStyle,
-    uiContainer
   )
 
   createScreenshotButton(
-    viewerDOMId,
+    viewerStore,
     contrastSensitiveStyle,
-    view,
     mainUIRow
   )
 
   createFullscreenButton(
-    viewerDOMId,
+    viewerStore,
     contrastSensitiveStyle,
     rootContainer,
     mainUIRow
   )
 
   createRotateButton(
-    viewerDOMId,
+    viewerStore,
     contrastSensitiveStyle,
-    view,
     mainUIRow
   )
 
   createAnnotationButton(
-    viewerDOMId,
+    viewerStore,
     contrastSensitiveStyle,
-    view,
     mainUIRow
   )
 
-  if (imageRepresentationProxy) {
-    createInterpolationButton(
-      viewerDOMId,
-      contrastSensitiveStyle,
-      view,
-      mainUIRow
-    )
-  }
+  createInterpolationButton(
+    viewerStore,
+    contrastSensitiveStyle,
+    mainUIRow
+  )
 
   createViewModeButtons(
-    viewerDOMId,
+    viewerStore,
     contrastSensitiveStyle,
-    view,
-    imageRepresentationProxy,
-    uiContainer,
     use2D,
     mainUIRow
   )
 
-  const { croppingWidget,
-    addCroppingPlanesChangedHandler,
-    addResetCropHandler } = createCroppingButtons(
-    viewerDOMId,
+  createCroppingButtons(
+    viewerStore,
     contrastSensitiveStyle,
-    view,
-    imageRepresentationProxy,
     mainUIRow
   )
 
   createResetCameraButton(
-    viewerDOMId,
+    viewerStore,
     contrastSensitiveStyle,
-    view,
     mainUIRow
   )
   uiContainer.appendChild(mainUIGroup);
-
-  return { uiContainer, croppingWidget, addCroppingPlanesChangedHandler, addResetCropHandler };
 }
 
 export default createMainUI;

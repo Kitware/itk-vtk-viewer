@@ -3,18 +3,19 @@ import style from '../ItkVtkViewer.module.css';
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
 function createPlaneIndexSliders(
+  viewerStore,
   uiContainer,
-  viewerDOMId,
-  volumeRepresentation,
-  renderWindow,
-  isBackgroundDark
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['sliderLabel'],
-    isBackgroundDark
+    viewerStore.isBackgroundDark
   );
   const numberOfValueChars = 6;
   let currentSlicePosition = null;
+  const viewerDOMId = viewerStore.id;
+  const renderWindow = viewerStore.renderWindow;
+
+  const volumeRepresentation = viewerStore.imageUI.representationProxy;
 
   const xPlaneRow = document.createElement('div');
   xPlaneRow.setAttribute('class', style.uiRow);

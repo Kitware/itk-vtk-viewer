@@ -6,69 +6,38 @@ import createGeometryColorPresetSelector from './createGeometryColorPresetSelect
 import createGeometryColorBySelector from './createGeometryColorBySelector';
 
 function createGeometryColorWidget(
-  viewerDOMId,
-  renderWindow,
-  geometries,
-  geometryRepresentationProxies,
-  isBackgroundDark,
-  geometrySelector,
+  viewerStore,
   geometriesUIGroup
 ) {
-  const geometryHasScalars = geometries.map((geometry) => {
-    const pointData = geometry.getPointData();
-    const hasPointDataScalars = !!pointData.getScalars();
-    const cellData = geometry.getCellData();
-    const hasCellDataScalars = !!cellData.getScalars();
-    return hasPointDataScalars || hasCellDataScalars;
-  })
-
   const geometryColorByRow = document.createElement('div')
   geometryColorByRow.setAttribute('class', style.uiRow)
-  geometryColorByRow.className += ` ${viewerDOMId}-toggle`;
+  geometryColorByRow.className += ` ${viewerStore.id}-toggle`;
   createGeometryColorBySelector(
-    geometryHasScalars,
-    viewerDOMId,
-    renderWindow,
-    geometries,
-    geometryRepresentationProxies,
-    geometrySelector,
+    viewerStore,
     geometryColorByRow
   )
   geometriesUIGroup.appendChild(geometryColorByRow)
 
   const geometryColorRow = document.createElement('div')
   geometryColorRow.setAttribute('class', style.uiRow)
-  geometryColorRow.className += ` ${viewerDOMId}-toggle`;
+  geometryColorRow.className += ` ${viewerStore.id}-toggle`;
 
   createGeometryColorChooser(
-    geometryHasScalars,
-    viewerDOMId,
-    renderWindow,
-    geometryRepresentationProxies,
-    geometrySelector,
+    viewerStore,
     geometryColorRow
   )
 
   createGeometryOpacitySlider(
-    geometryHasScalars,
-    viewerDOMId,
-    renderWindow,
-    geometryRepresentationProxies,
-    isBackgroundDark,
-    geometrySelector,
+    viewerStore,
     geometryColorRow
   )
   geometriesUIGroup.appendChild(geometryColorRow)
 
   const geometryColorPresetRow = document.createElement('div')
   geometryColorPresetRow.setAttribute('class', style.uiRow)
-  geometryColorPresetRow.className += ` ${viewerDOMId}-toggle`;
+  geometryColorPresetRow.className += ` ${viewerStore.id}-toggle`;
   createGeometryColorPresetSelector(
-    geometryHasScalars,
-    viewerDOMId,
-    renderWindow,
-    geometryRepresentationProxies,
-    geometrySelector,
+    viewerStore,
     geometryColorPresetRow
   )
   geometriesUIGroup.appendChild(geometryColorPresetRow)

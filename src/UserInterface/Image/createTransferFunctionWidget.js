@@ -5,21 +5,18 @@ import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/Piece
 import style from '../ItkVtkViewer.module.css';
 
 function createTransferFunctionWidget(
+  viewerStore,
   uiContainer,
-  viewerDOMId,
-  lookupTableProxy,
-  piecewiseFunctionProxy,
-  dataArray,
-  view,
-  renderWindow,
   use2D
 ) {
-  const piecewiseFunction = piecewiseFunctionProxy.getPiecewiseFunction();
+  const piecewiseFunction = viewerStore.imageUI.piecewiseFunctionProxy.getPiecewiseFunction();
+  const renderWindow = viewerStore.renderWindow;
 
   const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({
     numberOfBins: 256,
     size: [400, 150],
   });
+  viewerStore.imageUI.transferFunctionWidget = transferFunctionWidget;
   let iconSize = 20;
   if (use2D) {
     iconSize = 0;
@@ -41,9 +38,10 @@ function createTransferFunctionWidget(
     iconSize, // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
     padding: 10,
   });
+  const dataArray = viewerStore.imageUI.image.getPointData().getScalars();
   transferFunctionWidget.setDataArray(dataArray.getData());
 
-  const lookupTable = lookupTableProxy.getLookupTable();
+  const lookupTable = viewerStore.imageUI.lookupTableProxy.getLookupTable();
 
   const piecewiseWidgetContainer = document.createElement('div');
   piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget);
@@ -66,7 +64,7 @@ function createTransferFunctionWidget(
     }
     const colorDataRange = transferFunctionWidget.getOpacityRange();
     const preset = vtkColorMaps.getPresetByName(
-      lookupTableProxy.getPresetName()
+      viewerStore.imageUI.lookupTableProxy.getPresetName()
     );
     lookupTable.applyColorMap(preset);
     lookupTable.setMappingRange(...colorDataRange);
@@ -99,7 +97,7 @@ function createTransferFunctionWidget(
 
   const transferFunctionWidgetRow = document.createElement('div');
   transferFunctionWidgetRow.setAttribute('class', style.uiRow);
-  transferFunctionWidgetRow.className += ` ${viewerDOMId}-toggle`;
+  transferFunctionWidgetRow.className += ` ${viewerStore.id}-toggle`;
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer);
   uiContainer.appendChild(transferFunctionWidgetRow);
 
@@ -150,8 +148,8 @@ function createTransferFunctionWidget(
   );
 
   // Add range manipulator
-  view.getInteractorStyle2D().addMouseManipulator(rangeManipulator);
-  view.getInteractorStyle3D().addMouseManipulator(rangeManipulator);
+  viewerStore.itkVtkView.getInteractorStyle2D().addMouseManipulator(rangeManipulator);
+  viewerStore.itkVtkView.getInteractorStyle3D().addMouseManipulator(rangeManipulator);
 
   const opacityRangeManipulator = vtkMouseRangeManipulator.newInstance({
     button: 3, // Right mouse
@@ -189,10 +187,8 @@ function createTransferFunctionWidget(
     opacityGet,
     opacitySet
   );
-  view.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulator);
-  view.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulatorShift);
-
-  return transferFunctionWidget;
+  viewerStore.itkVtkView.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulator);
+  viewerStore.itkVtkView.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulatorShift);
 }
 
 export default createTransferFunctionWidget;

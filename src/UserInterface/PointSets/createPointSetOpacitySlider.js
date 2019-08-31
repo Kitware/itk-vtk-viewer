@@ -6,17 +6,13 @@ import opacityIcon from '../icons/opacity.svg';
 
 function createPointSetOpacitySlider(
   viewerStore,
-  pointSetHasScalars,
-  pointSetSelector,
   pointSetColorRow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
     viewerStore.isBackgroundDark
   );
-  const pointSetOpacities = new Array(pointSetHasScalars.length);
-  const defaultPointSetOpacity = 1.0;
-  pointSetOpacities.fill(defaultPointSetOpacity);
+
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
@@ -31,18 +27,52 @@ function createPointSetOpacitySlider(
   const opacityElement = sliderEntry.querySelector(
     `#${viewerStore.id}-pointSetOpacitySlider`
   );
-  function updateOpacity() {
-    const value = Number(opacityElement.value);
-    pointSetOpacities[pointSetSelector.selectedIndex] = value
-    viewerStore.pointSetsUI.representationProxies[pointSetSelector.selectedIndex].setOpacity(value)
-    viewerStore.renderWindow.render();
-  }
-  opacityElement.addEventListener('input', updateOpacity);
-  updateOpacity();
-  pointSetSelector.addEventListener('change',
-    (event) => {
-      opacityElement.value = pointSetOpacities[pointSetSelector.selectedIndex]
+
+  reaction(() => {
+    return viewerStore.pointSetsUI.pointSets.slice();
+  },
+    (pointSets) => {
+      if(!!!pointSets || pointSets.length === 0) {
+        return;
+      }
+
+
+      pointSets.forEach((pointSet, index) => {
+        if (viewerStore.pointSetsUI.pointSetOpacities.length <= index) {
+          viewerStore.pointSetsUI.pointSetOpacities.push(defaultPointSetOpacity);
+        }
+      })
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      opacityElement.value = viewerStore.pointSetsUI.pointSetOpacities[selectedPointSetIndex];
+    }
+  )
+
+  reaction(() => {
+    return viewerStore.pointSetsUI.selectedPointSetIndex;
+    },
+    (selectedPointSetIndex) => {
+      opacityElement.value = viewerStore.pointSetsUI.pointSetOpacities[selectedPointSetIndex];
     });
+
+  reaction(() => {
+    return viewerStore.pointSetsUI.pointSetOpacities.slice();
+  },
+    (pointSetOpacities) => {
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      const value = pointSetOpacities[selectedPointSetIndex];
+      viewerStore.pointSetsUI.representationProxies[selectedPointSetIndex].setOpacity(value)
+      viewerStore.renderWindow.render();
+      opacityElement.value = value;
+    });
+
+
+  opacityElement.addEventListener('input', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      viewerStore.pointSetsUI.pointSetOpacities[selectedPointSetIndex] = Number(event.target.value);
+    });
+
   pointSetColorRow.appendChild(sliderEntry);
 }
 

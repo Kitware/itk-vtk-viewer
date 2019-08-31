@@ -61,7 +61,7 @@ class GeometriesUIStore {
   @observable geometryRepresentations = [];
   @observable geometryColorBy = [];
   @observable geometryColors = [];
-  @observable geometryOpacities = observable.array([]);
+  @observable geometryOpacities = [];
   @observable geometryColorPresets = [];
   @computed get geometryHasScalars() {
     return this.geometries.map((geometry) => {
@@ -130,6 +130,7 @@ class PointSetsUIStore {
   @observable pointSetRepresentations = [];
   @observable pointSetColorBy = [];
   @observable pointSetColors = [];
+  @observable pointSetOpacities = [];
   @computed get pointSetHasScalars() {
     return this.pointSets.map((pointSet) => {
       const pointData = pointSet.getPointData();

@@ -30,8 +30,6 @@ function createPointSetColorWidget(
 
   createPointSetOpacitySlider(
     viewerStore,
-    pointSetHasScalars,
-    pointSetSelector,
     pointSetColorRow
   )
   pointSetsUIGroup.appendChild(pointSetColorRow)

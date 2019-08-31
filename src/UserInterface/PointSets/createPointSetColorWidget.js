@@ -39,8 +39,6 @@ function createPointSetColorWidget(
   pointSetColorPresetRow.className += ` ${viewerStore.id}-toggle`;
   createPointSetColorPresetSelector(
     viewerStore,
-    pointSetHasScalars,
-    pointSetSelector,
     pointSetColorPresetRow
   )
   pointSetsUIGroup.appendChild(pointSetColorPresetRow)

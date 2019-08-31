@@ -131,6 +131,7 @@ class PointSetsUIStore {
   @observable pointSetColorBy = [];
   @observable pointSetColors = [];
   @observable pointSetOpacities = [];
+  @observable geometryColorPresets = [];
   @computed get pointSetHasScalars() {
     return this.pointSets.map((pointSet) => {
       const pointData = pointSet.getPointData();

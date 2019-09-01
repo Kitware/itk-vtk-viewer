@@ -22,10 +22,6 @@ function createViewModeButtons(
     viewerStore.mainUI.zPlaneButton.checked = false;
     viewerStore.mainUI.volumeRenderingButton.checked = false;
     if (viewerStore.imageUI.representationProxy) {
-      const volumeRenderingRow = uiContainer.querySelector(
-        `.${viewerDOMId}-volumeRendering`
-      );
-      volumeRenderingRow.style.display = 'none';
       const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
       xPlaneRow.style.display = 'flex';
       const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
@@ -41,10 +37,6 @@ function createViewModeButtons(
     viewerStore.mainUI.zPlaneButton.checked = false;
     viewerStore.mainUI.volumeRenderingButton.checked = false;
     if (viewerStore.imageUI.representationProxy) {
-      const volumeRenderingRow = uiContainer.querySelector(
-        `.${viewerDOMId}-volumeRendering`
-      );
-      volumeRenderingRow.style.display = 'none';
       const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
       xPlaneRow.style.display = 'none';
       const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
@@ -60,10 +52,6 @@ function createViewModeButtons(
     viewerStore.mainUI.zPlaneButton.checked = true;
     viewerStore.mainUI.volumeRenderingButton.checked = false;
     if (viewerStore.imageUI.representationProxy) {
-      const volumeRenderingRow = uiContainer.querySelector(
-        `.${viewerDOMId}-volumeRendering`
-      );
-      volumeRenderingRow.style.display = 'none';
       const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
       xPlaneRow.style.display = 'none';
       const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
@@ -79,10 +67,6 @@ function createViewModeButtons(
     viewerStore.mainUI.zPlaneButton.checked = false;
     viewerStore.mainUI.volumeRenderingButton.checked = true;
     if (viewerStore.imageUI.representationProxy) {
-      const volumeRenderingRow = uiContainer.querySelector(
-        `.${viewerDOMId}-volumeRendering`
-      );
-      volumeRenderingRow.style.display = 'flex';
       const viewPlanes = document.getElementById(
         `${viewerDOMId}-toggleSlicingPlanesButton`
       ).checked;

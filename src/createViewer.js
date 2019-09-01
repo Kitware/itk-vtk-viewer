@@ -633,11 +633,37 @@ const createViewer = (
     }
 
     publicAPI.setGradientOpacity = (opacity) => {
-      const current_opacity = viewerStore.imageUI.gradientOpacity;
-      if (current_opacity !== parseFloat(opacity)) {
+      const currentOpacity = viewerStore.imageUI.gradientOpacity;
+      if (currentOpacity !== parseFloat(opacity)) {
         viewerStore.imageUI.gradientOpacity = opacity;
       }
     }
+
+
+    const blendModeHandlers = [];
+    autorun(() => {
+      const blendMode = viewerStore.imageUI.blendMode;
+      blendModeHandlers.forEach((handler) => {
+        handler.call(null, blendMode);
+      })
+    })
+
+    publicAPI.subscribeBlendModeChanged = (handler) => {
+      const index = blendModeHandlers.length;
+      blendModeHandlers.push(handler);
+      function unsubscribe() {
+        blendModeHandlers[index] = null;
+      }
+      return Object.freeze({ unsubscribe });
+    }
+
+    publicAPI.setBlendMode = (blendMode) => {
+      const currentBlendMode = viewerStore.imageUI.blendMode;
+      if (currentBlendMode !== parseFloat(blendMode)) {
+        viewerStore.imageUI.blendMode = blendMode;
+      }
+    }
+
   }
 
   //publicAPI.subscribeSelectColorMap = (handler) => {

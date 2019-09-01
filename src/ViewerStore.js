@@ -44,6 +44,7 @@ class ImageUIStore {
   addResetCropHandler = () => {};
 
   @observable colorMap = 'Grayscale';
+  @observable blendMode = 0;
   @observable useShadow = true;
   @observable slicingPlanesEnabled = false;
   @observable gradientOpacity = 0.2;

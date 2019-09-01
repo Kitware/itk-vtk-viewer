@@ -3,6 +3,7 @@ import { reaction } from 'mobx';
 import style from './ItkVtkViewer.module.css';
 
 import createColorPresetSelector from './Image/createColorPresetSelector';
+import createColorCanvas from './Image/createColorCanvas';
 import createBlendModeSelector from './Image/createBlendModeSelector';
 import createTransferFunctionWidget from './Image/createTransferFunctionWidget';
 import createViewPlanesToggle from './Image/createViewPlanesToggle';
@@ -30,6 +31,15 @@ function createImageUI(
     );
     presetRow.className += ` ${viewerDOMId}-toggle`;
     imageUIGroup.appendChild(presetRow);
+
+    const colorCanvasRow = document.createElement('div');
+    colorCanvasRow.setAttribute('class', style.uiRow);
+    createColorCanvas(
+      viewerStore,
+      colorCanvasRow
+    );
+    colorCanvasRow.className += ` ${viewerDOMId}-toggle`;
+    imageUIGroup.appendChild(colorCanvasRow);
   }
 
   createTransferFunctionWidget(

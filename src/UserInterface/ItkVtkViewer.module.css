@@ -416,6 +416,7 @@ select:focus {
   width: 8mm;
   padding: 4px;
   padding-left: 6px;
+  padding-right: 0px;
   z-index: 1000;
 }
 

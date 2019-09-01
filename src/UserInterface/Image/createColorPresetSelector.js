@@ -18,6 +18,7 @@ function createColorPresetSelector(
   function updateColorMap(colorMap) {
     viewerStore.imageUI.lookupTableProxy.setPresetName(colorMap);
     viewerStore.renderWindow.render();
+    presetSelector.value = colorMap;
   }
   reaction(() => { return viewerStore.imageUI.colorMap },
     (colorMap) => { updateColorMap(colorMap); }

@@ -8,11 +8,15 @@ function createScreenshotButton(
   mainUIRow
 ) {
   const screenshotButton = document.createElement('div');
-  screenshotButton.innerHTML = `<div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Screenshot" class="${
+  screenshotButton.innerHTML = `<input id="${viewerStore.d}-screenshotButton" type="checkbox" checked class="${
+      style.toggleInput
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Screenshot" class="${
     contrastSensitiveStyle.invertibleButton
-  } ${style.screenshotButton}">${screenshotIcon}</div>`;
+  } ${style.screenshotButton} ${style.toggleButton}" for="${viewerStore.id}-screenshotButton">${screenshotIcon}</label>`;
+  const screenshotButtonInput = screenshotButton.children[0];
   function takeScreenshot() {
     viewerStore.itkVtkView.openCaptureImage();
+    screenshotButton.checked = true;
   }
   screenshotButton.addEventListener('click', takeScreenshot);
   mainUIRow.appendChild(screenshotButton);

@@ -49,6 +49,7 @@
 .mainUIRow {
   composes: uiRow;
   justify-content: flex-start;
+  max-width: 420px;
 }
 
 .progress {
@@ -334,6 +335,7 @@
 .shadowButton {
   width: 8mm;
   padding: 4px;
+  padding-left: 0px;
   cursor: pointer;
   z-index: 1000;
 }
@@ -349,7 +351,7 @@
   width: 8mm;
   padding-top: 2px;
   padding-bottom: 2px;
-  padding-left: 2px;
+  padding-left: 0px;
   padding-right: 6px;
   cursor: pointer;
   z-index: 1000;
@@ -415,6 +417,19 @@ select:focus {
 }
 
 .sampleDistanceButton svg {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.blendModeButton {
+  width: 8mm;
+  padding: 4px;
+  padding-left: 8px;
+  padding-right: 0px;
+  z-index: 1000;
+}
+
+.blendModeButton svg {
   width: 1.2em;
   height: 1.2em;
 }

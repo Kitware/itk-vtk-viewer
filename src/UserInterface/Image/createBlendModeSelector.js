@@ -19,7 +19,7 @@ function createBlendModeSelector(
   const blendModeEntry = document.createElement('div');
   blendModeEntry.innerHTML = `
     <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Blend mode"
-      class="${contrastSensitiveStyle.invertibleButton} ${style.gradientOpacitySlider}">
+      class="${contrastSensitiveStyle.invertibleButton} ${style.blendModeButton}">
       ${blendModeIcon}
     </div>
     `

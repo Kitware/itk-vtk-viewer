@@ -377,6 +377,12 @@ input:checked.toggleInput + label {
   opacity: 1.0;
 }
 
+.numberInput {
+  color: white;
+  background: transparent;
+  font-size: 1.0em;
+}
+
 .selector {
   flex: 1;
   border: none;

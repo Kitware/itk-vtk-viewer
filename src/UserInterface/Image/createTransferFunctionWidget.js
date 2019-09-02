@@ -1,3 +1,5 @@
+import { reaction } from 'mobx';
+
 import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps';
 import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator';
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
@@ -77,15 +79,71 @@ function createTransferFunctionWidget(
       renderWindow.render();
     }
   });
+  reaction(() => { return viewerStore.imageUI.colorRange.slice(); },
+    (colorRange) => {
+      const gaussians = transferFunctionWidget.getGaussians();
+      const newGaussians = gaussians.slice();
+      const dataArray = viewerStore.imageUI.image.getPointData().getScalars();
+      const fullRange = dataArray.getRange(0);
+      const diff = fullRange[1] - fullRange[0];
+      const colorRangeNormalized = new Array(2);
+      colorRangeNormalized[0] = (colorRange[0] - fullRange[0]) / diff;
+      colorRangeNormalized[1] = (colorRange[1] - fullRange[0]) / diff;
+
+      let minValue = Infinity;
+      let maxValue = -Infinity;
+
+
+      let count = gaussians.length;
+      while (count--) {
+        let { position, width, xBias, yBias } = newGaussians[count];
+        if (position - width < colorRangeNormalized[0]) {
+          position = colorRangeNormalized[0] + width;
+          newGaussians[count].position = position;
+          if (position + width > colorRangeNormalized[1]) {
+            const newWidth = (colorRangeNormalized[1] - colorRangeNormalized[0]) / 2;
+            position = colorRangeNormalized[0] + newWidth;
+            newGaussians[count].position = position;
+            newGaussians[count].width = newWidth;
+            newGaussians[count].xBias = newWidth / width * xBias;
+            newGaussians[count].yBias = newWidth / width * yBias;
+          }
+        }
+        if (position + width > colorRangeNormalized[1]) {
+          position = colorRangeNormalized[1] - width;
+          newGaussians[count].position = position;
+          if (position - width < colorRangeNormalized[0]) {
+            const newWidth = (colorRangeNormalized[1] - colorRangeNormalized[0]) / 2;
+            position = colorRangeNormalized[0] + newWidth;
+            newGaussians[count].position = position;
+            newGaussians[count].width = newWidth;
+            newGaussians[count].xBias = newWidth / width * xBias;
+            newGaussians[count].yBias = newWidth / width * yBias;
+          }
+        }
+        minValue = Math.min(minValue, position - width);
+        maxValue = Math.max(maxValue, position + width);
+      }
+      if (colorRangeNormalized[0] < minValue || colorRangeNormalized[1] > maxValue) {
+        const newWidth = (colorRangeNormalized[1] - colorRangeNormalized[0]) / 2;
+        const position = colorRangeNormalized[0] + newWidth;
+        newGaussians[0].position = position;
+        newGaussians[0].xBias = newWidth / newGaussians[0].width * newGaussians[0].xBias;
+        newGaussians[0].yBias = newWidth / newGaussians[0].width * newGaussians[0].yBias;
+        newGaussians[0].width = newWidth;
+      }
+      transferFunctionWidget.setRangeZoom(colorRangeNormalized);
+      transferFunctionWidget.setGaussians(newGaussians);
+    }
+  )
   transferFunctionWidget.onZoomChange((zoom) => {
-    const gaussians = transferFunctionWidget.getGaussians();
-    const newGaussians = gaussians.slice();
-    const rangeHalfWidth = (zoom[1] - zoom[0]) / 2.;
-    newGaussians[0].position = zoom[0] + rangeHalfWidth;
-    newGaussians[0].width = rangeHalfWidth;
-    newGaussians[0].xBias = rangeHalfWidth;
-    newGaussians[0].yBias = 0.8 * rangeHalfWidth;
-    transferFunctionWidget.setGaussians(newGaussians);
+    const dataArray = viewerStore.imageUI.image.getPointData().getScalars();
+    const fullRange = dataArray.getRange(0);
+    const diff = fullRange[1] - fullRange[0];
+    const colorRange = new Array(2);
+    colorRange[0] = fullRange[0] + zoom[0] * diff;
+    colorRange[1] = fullRange[0] + zoom[1] * diff;
+    viewerStore.imageUI.colorRange = colorRange;
   });
 
   // Manage update when lookupTable changes

@@ -48,6 +48,7 @@ class ImageUIStore {
   @observable useShadow = true;
   @observable slicingPlanesEnabled = false;
   @observable gradientOpacity = 0.2;
+  @observable colorRange = [];
 }
 
 class GeometriesUIStore {

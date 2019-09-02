@@ -381,6 +381,7 @@ input:checked.toggleInput + label {
   color: white;
   background: transparent;
   font-size: 1.0em;
+  width: 80px;
 }
 
 .selector {

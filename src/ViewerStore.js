@@ -65,6 +65,7 @@ class GeometriesUIStore {
   @observable geometryColors = [];
   @observable geometryOpacities = [];
   @observable geometryColorPresets = [];
+  @observable geometryColorRanges = [];
   @computed get geometryHasScalars() {
     return this.geometries.map((geometry) => {
       const pointData = geometry.getPointData();

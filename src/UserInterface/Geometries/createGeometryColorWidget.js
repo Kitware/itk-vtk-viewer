@@ -4,6 +4,7 @@ import createGeometryColorChooser from './createGeometryColorChooser';
 import createGeometryOpacitySlider from './createGeometryOpacitySlider';
 import createGeometryColorPresetSelector from './createGeometryColorPresetSelector';
 import createGeometryColorBySelector from './createGeometryColorBySelector';
+import createGeometryColorRangeInput from './createGeometryColorRangeInput';
 
 function createGeometryColorWidget(
   viewerStore,
@@ -41,6 +42,15 @@ function createGeometryColorWidget(
     geometryColorPresetRow
   )
   geometriesUIGroup.appendChild(geometryColorPresetRow)
+
+  const colorRangeInputRow = document.createElement('div');
+  colorRangeInputRow.setAttribute('class', style.uiRow);
+  createGeometryColorRangeInput(
+    viewerStore,
+    colorRangeInputRow
+  );
+  colorRangeInputRow.className += ` ${viewerStore.id}-toggle`;
+  geometriesUIGroup.appendChild(colorRangeInputRow);
 }
 
 export default createGeometryColorWidget;

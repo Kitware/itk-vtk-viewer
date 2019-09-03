@@ -21,7 +21,8 @@ function createColorRangeInput(
     const colorRange = colorRanges.get(colorByKey);
 
     const proxy = viewerStore.geometriesUI.representationProxies[selectedGeometryIndex];
-    const lutProxy = proxy.getLookupTableProxy();
+    const [colorByArrayName, location] = proxy.getColorBy();
+    const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
     const colorTransferFunction = lutProxy.getLookupTable();
     const colorPreset = viewerStore.geometriesUI.geometryColorPresets[selectedGeometryIndex];
     lutProxy.setPresetName(colorPreset);
@@ -150,10 +151,10 @@ function createColorRangeInput(
     }
     const colorByKey = viewerStore.geometriesUI.geometryColorBy[selectedGeometryIndex].value;
     const range = viewerStore.geometriesUI.geometryColorRanges[selectedGeometryIndex].get(colorByKey);
-    console.log(range)
 
     const proxy = viewerStore.geometriesUI.representationProxies[selectedGeometryIndex];
-    const lutProxy = proxy.getLookupTableProxy();
+    const [colorByArrayName, location] = proxy.getColorBy();
+    const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
     const colorPreset = viewerStore.geometriesUI.geometryColorPresets[selectedGeometryIndex];
     lutProxy.setPresetName(colorPreset);
     const colorTransferFunction = lutProxy.getLookupTable();

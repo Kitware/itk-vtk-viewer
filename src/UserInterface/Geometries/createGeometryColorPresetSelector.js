@@ -67,7 +67,8 @@ function createGeometryColorPresetSelector(
       const value = geometryColorPresets[selectedGeometryIndex];
       presetSelector.value = value;
       const proxy = viewerStore.geometriesUI.representationProxies[selectedGeometryIndex];
-      const lutProxy = proxy.getLookupTableProxy();
+      const [colorByArrayName, location] = proxy.getColorBy();
+      const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
       if (lutProxy) {
         lutProxy.setPresetName(value);
       }
@@ -94,7 +95,8 @@ function createGeometryColorPresetSelector(
   viewerStore.geometriesUI.geometryColorPresets = defaultGeometryColorPresets;
   const representationProxies = viewerStore.geometriesUI.representationProxies;
   representationProxies.forEach((proxy) => {
-    const lutProxy = proxy.getLookupTableProxy();
+    const colorByArrayName = proxy.getColorBy();
+    const lutProxy = proxy.getLookupTableProxy(colorByArrayName);
     if (lutProxy) {
       lutProxy.setPresetName(defaultGeometryColorPreset);
     }

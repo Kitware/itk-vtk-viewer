@@ -65,7 +65,8 @@ function createPointSetColorPresetSelector(
       const value = pointSetColorPresets[selectedPointSetIndex];
       presetSelector.value = value;
       const proxy = viewerStore.pointSetsUI.representationProxies[selectedPointSetIndex];
-      const lutProxy = proxy.getLookupTableProxy();
+      const [colorByArrayName, location] = proxy.getColorBy();
+      const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
       if (lutProxy) {
         lutProxy.setPresetName(value);
       }
@@ -92,7 +93,8 @@ function createPointSetColorPresetSelector(
   viewerStore.pointSetsUI.pointSetColorPresets = defaultPointSetColorPresets;
   const representationProxies = viewerStore.pointSetsUI.representationProxies;
   representationProxies.forEach((proxy) => {
-    const lutProxy = proxy.getLookupTableProxy();
+    const [colorByArrayName, location] = proxy.getColorBy();
+    const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
     if (lutProxy) {
       lutProxy.setPresetName(defaultPointSetColorPreset);
     }

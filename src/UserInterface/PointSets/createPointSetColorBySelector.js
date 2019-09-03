@@ -79,13 +79,9 @@ function createPointSetColorBySelector(
       const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
       const [location, colorByArrayName] = pointSetColorBy[selectedPointSetIndex].value.split(':');
       const proxy = viewerStore.pointSetsUI.representationProxies[selectedPointSetIndex];
-      const lutProxy = proxy.getLookupTableProxy();
-      const colorPreset = proxy.getLookupTableProxy().getPresetName();
       const interpolateScalarsBeforeMapping = location === 'pointData';
       proxy.setInterpolateScalarsBeforeMapping(interpolateScalarsBeforeMapping);
       proxy.setColorBy(colorByArrayName, location);
-      // Restore
-      proxy.getLookupTableProxy().setPresetName(colorPreset);
       viewerStore.renderWindow.render()
 
       const pointSetHasScalars = viewerStore.pointSetsUI.pointSetHasScalars;

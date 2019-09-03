@@ -3,11 +3,11 @@ import style from '../ItkVtkViewer.module.css';
 import resetCameraIcon from '../icons/reset-camera.svg';
 
 function createResetCameraButton(
-  viewerStore,
+  store,
   contrastSensitiveStyle,
   mainUIRow
 ) {
-  const viewerDOMId = viewerStore.id;
+  const viewerDOMId = store.id;
   const resetCameraButton = document.createElement('div');
   resetCameraButton.innerHTML = `<input id="${viewerDOMId}-resetCameraButton" type="checkbox" class="${
     style.toggleInput
@@ -17,7 +17,7 @@ function createResetCameraButton(
     style.toggleButton
   }" for="${viewerDOMId}-resetCameraButton">${resetCameraIcon}</label>`;
   function resetCamera() {
-    viewerStore.itkVtkView.resetCamera();
+    store.itkVtkView.resetCamera();
   }
   resetCameraButton.addEventListener('change', (event) => {
     event.preventDefault();

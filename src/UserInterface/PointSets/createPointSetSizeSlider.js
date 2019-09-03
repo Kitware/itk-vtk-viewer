@@ -5,12 +5,12 @@ import style from '../ItkVtkViewer.module.css';
 import pointSetSizeIcon from '../icons/point-set-size.svg';
 
 function createPointSetSizeSlider(
-  viewerStore,
+  store,
   pointSetSizeRow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    viewerStore.isBackgroundDark
+    store.isBackgroundDark
   );
 
   const defaultPointSetSize = 3;
@@ -24,14 +24,14 @@ function createPointSetSizeSlider(
       ${pointSetSizeIcon}
     </div>
     <input type="range" min="1" max="10" value="${defaultPointSetSize}" step="1"
-      id="${viewerStore.id}-pointSetSizeSlider"
+      id="${store.id}-pointSetSizeSlider"
       class="${style.slider}" />`;
   const sizeElement = sliderEntry.querySelector(
-    `#${viewerStore.id}-pointSetSizeSlider`
+    `#${store.id}-pointSetSizeSlider`
   );
 
   reaction(() => {
-    return viewerStore.pointSetsUI.pointSets.slice();
+    return store.pointSetsUI.pointSets.slice();
   },
     (pointSets) => {
       if(!!!pointSets || pointSets.length === 0) {
@@ -39,44 +39,44 @@ function createPointSetSizeSlider(
       }
 
       pointSets.forEach((pointSet, index) => {
-        if (viewerStore.pointSetsUI.pointSetSizes.length <= index) {
-          viewerStore.pointSetsUI.pointSetSizes.push(defaultPointSetSize);
+        if (store.pointSetsUI.pointSetSizes.length <= index) {
+          store.pointSetsUI.pointSetSizes.push(defaultPointSetSize);
         }
       })
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      sizeElement.value = viewerStore.pointSetsUI.pointSetSizes[selectedPointSetIndex];
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      sizeElement.value = store.pointSetsUI.pointSetSizes[selectedPointSetIndex];
     }
   )
 
   reaction(() => {
-    return viewerStore.pointSetsUI.selectedPointSetIndex;
+    return store.pointSetsUI.selectedPointSetIndex;
     },
     (selectedPointSetIndex) => {
-      sizeElement.value = viewerStore.pointSetsUI.pointSetSizes[selectedPointSetIndex];
+      sizeElement.value = store.pointSetsUI.pointSetSizes[selectedPointSetIndex];
     });
 
   reaction(() => {
-    return viewerStore.pointSetsUI.pointSetSizes.slice();
+    return store.pointSetsUI.pointSetSizes.slice();
   },
     (pointSetSizes) => {
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
       const value = pointSetSizes[selectedPointSetIndex];
-      viewerStore.pointSetsUI.representationProxies[selectedPointSetIndex].setPointSize(value)
-      viewerStore.renderWindow.render();
+      store.pointSetsUI.representationProxies[selectedPointSetIndex].setPointSize(value)
+      store.renderWindow.render();
       sizeElement.value = value;
     });
 
   sizeElement.addEventListener('input', (event) => {
       event.preventDefault();
       event.stopPropagation();
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      viewerStore.pointSetsUI.pointSetSizes[selectedPointSetIndex] = Number(event.target.value);
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      store.pointSetsUI.pointSetSizes[selectedPointSetIndex] = Number(event.target.value);
     });
 
-  const defaultPointSetSizes = new Array(viewerStore.pointSetsUI.pointSets.length);
+  const defaultPointSetSizes = new Array(store.pointSetsUI.pointSets.length);
   defaultPointSetSizes.fill(defaultPointSetsize);
   sizeElement.value = defaultPointSetSize;
-  viewerStore.pointSetsUI.pointSetSizes = defaultPointSetSizes;
+  store.pointSetsUI.pointSetSizes = defaultPointSetSizes;
 
   pointSetSizeRow.appendChild(sliderEntry);
 }

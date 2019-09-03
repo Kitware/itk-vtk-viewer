@@ -3,19 +3,19 @@ import style from '../ItkVtkViewer.module.css';
 import screenshotIcon from '../icons/screenshot.svg';
 
 function createScreenshotButton(
-  viewerStore,
+  store,
   contrastSensitiveStyle,
   mainUIRow
 ) {
   const screenshotButton = document.createElement('div');
-  screenshotButton.innerHTML = `<input id="${viewerStore.d}-screenshotButton" type="checkbox" checked class="${
+  screenshotButton.innerHTML = `<input id="${store.d}-screenshotButton" type="checkbox" checked class="${
       style.toggleInput
     }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Screenshot" class="${
     contrastSensitiveStyle.invertibleButton
-  } ${style.screenshotButton} ${style.toggleButton}" for="${viewerStore.id}-screenshotButton">${screenshotIcon}</label>`;
+  } ${style.screenshotButton} ${style.toggleButton}" for="${store.id}-screenshotButton">${screenshotIcon}</label>`;
   const screenshotButtonInput = screenshotButton.children[0];
   function takeScreenshot() {
-    viewerStore.itkVtkView.openCaptureImage();
+    store.itkVtkView.openCaptureImage();
     screenshotButton.checked = true;
   }
   screenshotButton.addEventListener('click', takeScreenshot);

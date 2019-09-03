@@ -5,12 +5,12 @@ import style from '../ItkVtkViewer.module.css';
 import ColorPresetNames from '../ColorPresetNames';
 
 function createGeometryColorPresetSelector(
-  viewerStore,
+  store,
   geometryColorPresetRow
 ) {
   const presetSelector = document.createElement('select');
   presetSelector.setAttribute('class', style.selector);
-  presetSelector.id = `${viewerStore.id}-geometryColorMapSelector`;
+  presetSelector.id = `${store.id}-geometryColorMapSelector`;
   presetSelector.innerHTML = ColorPresetNames
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');
@@ -18,40 +18,40 @@ function createGeometryColorPresetSelector(
   const defaultGeometryColorPreset = 'Viridis (matplotlib)';
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometries.slice();
+    return store.geometriesUI.geometries.slice();
   },
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
         return;
       }
 
-      const geometryHasScalars = viewerStore.geometriesUI.geometryHasScalars;
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      const geometryHasScalars = store.geometriesUI.geometryHasScalars;
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
 
-      if (viewerStore.geometriesUI.geometryHasScalars[selectedGeometryIndex]) {
+      if (store.geometriesUI.geometryHasScalars[selectedGeometryIndex]) {
         geometryColorPresetRow.style.display = 'flex';
       } else {
         geometryColorPresetRow.style.display = 'none';
       }
 
       geometries.forEach((geometry, index) => {
-        if (viewerStore.geometriesUI.geometryColorPresets.length <= index) {
-          viewerStore.geometriesUI.geometryColorPresets.push(defaultGeometryColorPreset);
+        if (store.geometriesUI.geometryColorPresets.length <= index) {
+          store.geometriesUI.geometryColorPresets.push(defaultGeometryColorPreset);
         }
       })
 
       if (geometryHasScalars[selectedGeometryIndex]) {
-        presetSelector.value = viewerStore.geometriesUI.geometryColorPresets[selectedGeometryIndex];
+        presetSelector.value = store.geometriesUI.geometryColorPresets[selectedGeometryIndex];
       }
     }
   )
 
   reaction(() => {
-    return viewerStore.geometriesUI.selectedGeometryIndex;
+    return store.geometriesUI.selectedGeometryIndex;
     },
     (selectedGeometryIndex) => {
-      presetSelector.value = viewerStore.geometriesUI.geometryColorPresets[selectedGeometryIndex]
-      const geometryHasScalars = viewerStore.geometriesUI.geometryHasScalars;
+      presetSelector.value = store.geometriesUI.geometryColorPresets[selectedGeometryIndex]
+      const geometryHasScalars = store.geometriesUI.geometryHasScalars;
       if (geometryHasScalars[selectedGeometryIndex]) {
         geometryColorPresetRow.style.display = 'flex';
       } else {
@@ -60,40 +60,40 @@ function createGeometryColorPresetSelector(
     });
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometryColorPresets.slice();
+    return store.geometriesUI.geometryColorPresets.slice();
   },
     (geometryColorPresets) => {
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
       const value = geometryColorPresets[selectedGeometryIndex];
       presetSelector.value = value;
-      const proxy = viewerStore.geometriesUI.representationProxies[selectedGeometryIndex];
+      const proxy = store.geometriesUI.representationProxies[selectedGeometryIndex];
       const [colorByArrayName, location] = proxy.getColorBy();
       const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
       if (lutProxy) {
         lutProxy.setPresetName(value);
       }
-      viewerStore.renderWindow.render();
+      store.renderWindow.render();
     });
 
   presetSelector.addEventListener('change', (event) => {
       event.preventDefault();
       event.stopPropagation();
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-      viewerStore.geometriesUI.geometryColorPresets[selectedGeometryIndex] = event.target.value;
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+      store.geometriesUI.geometryColorPresets[selectedGeometryIndex] = event.target.value;
     });
 
-  const geometryHasScalars = viewerStore.geometriesUI.geometryHasScalars;
-  const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+  const geometryHasScalars = store.geometriesUI.geometryHasScalars;
+  const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
   if (geometryHasScalars[selectedGeometryIndex]) {
     geometryColorPresetRow.style.display = 'flex';
   } else {
     geometryColorPresetRow.style.display = 'none';
   }
-  const defaultGeometryColorPresets = new Array(viewerStore.geometriesUI.geometries.length);
+  const defaultGeometryColorPresets = new Array(store.geometriesUI.geometries.length);
   defaultGeometryColorPresets.fill(defaultGeometryColorPreset);
   presetSelector.value = defaultGeometryColorPreset;
-  viewerStore.geometriesUI.geometryColorPresets = defaultGeometryColorPresets;
-  const representationProxies = viewerStore.geometriesUI.representationProxies;
+  store.geometriesUI.geometryColorPresets = defaultGeometryColorPresets;
+  const representationProxies = store.geometriesUI.representationProxies;
   representationProxies.forEach((proxy) => {
     const colorByArrayName = proxy.getColorBy();
     const lutProxy = proxy.getLookupTableProxy(colorByArrayName);

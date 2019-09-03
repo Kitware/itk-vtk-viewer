@@ -4,40 +4,40 @@ import style from '../ItkVtkViewer.module.css';
 import hex2rgb from '../hex2rgb';
 
 function createGeometryColorChooser(
-  viewerStore,
+  store,
   geometryColorRow
 ) {
   const geometryColorInput = document.createElement('input');
   geometryColorInput.setAttribute('type', 'color');
-  geometryColorInput.id = `${viewerStore.id}-geometryColorInput`;
+  geometryColorInput.id = `${store.id}-geometryColorInput`;
 
   const defaultGeometryColor = '#ffffff';
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometries.slice();
+    return store.geometriesUI.geometries.slice();
   },
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
         return;
       }
 
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
 
       geometries.forEach((geometry, index) => {
-        if (viewerStore.geometriesUI.geometryColors.length <= index) {
-          viewerStore.geometriesUI.geometryColors.push(defaultGeometryColor);
+        if (store.geometriesUI.geometryColors.length <= index) {
+          store.geometriesUI.geometryColors.push(defaultGeometryColor);
         }
       })
-      geometryColorInput.value = viewerStore.geometriesUI.geometryColors[selectedGeometryIndex];
+      geometryColorInput.value = store.geometriesUI.geometryColors[selectedGeometryIndex];
     }
   )
 
   reaction(() => {
-    return viewerStore.geometriesUI.selectedGeometryIndex;
+    return store.geometriesUI.selectedGeometryIndex;
     },
     (selectedGeometryIndex) => {
-      geometryColorInput.value = viewerStore.geometriesUI.geometryColors[selectedGeometryIndex];
-      if (viewerStore.geometriesUI.geometryHasScalars[selectedGeometryIndex]) {
+      geometryColorInput.value = store.geometriesUI.geometryColors[selectedGeometryIndex];
+      if (store.geometriesUI.geometryHasScalars[selectedGeometryIndex]) {
         geometryColorInput.style.display = 'none';
       } else {
         geometryColorInput.style.display = 'inline-block';
@@ -45,15 +45,15 @@ function createGeometryColorChooser(
     });
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometryColors.slice();
+    return store.geometriesUI.geometryColors.slice();
   },
     (geometryColors) => {
       geometryColors.forEach((value, index) => {
         const rgb = hex2rgb(value)
-        viewerStore.geometriesUI.representationProxies[index].setColor(rgb)
+        store.geometriesUI.representationProxies[index].setColor(rgb)
       })
-      viewerStore.renderWindow.render()
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
+      store.renderWindow.render()
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
       geometryColorInput.value = geometryColors[selectedGeometryIndex];
     });
 
@@ -61,16 +61,16 @@ function createGeometryColorChooser(
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-      viewerStore.geometriesUI.geometryColors[selectedGeometryIndex] = event.target.value;
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+      store.geometriesUI.geometryColors[selectedGeometryIndex] = event.target.value;
     });
 
-  const defaultGeometryColors = Array(viewerStore.geometriesUI.geometries.length);
+  const defaultGeometryColors = Array(store.geometriesUI.geometries.length);
   defaultGeometryColors.fill(defaultGeometryColor);
   geometryColorInput.value = defaultGeometryColor;
-  viewerStore.geometriesUI.geometryColors = defaultGeometryColors;
-  const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-  if (viewerStore.geometriesUI.geometryHasScalars[selectedGeometryIndex]) {
+  store.geometriesUI.geometryColors = defaultGeometryColors;
+  const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+  if (store.geometriesUI.geometryHasScalars[selectedGeometryIndex]) {
     geometryColorInput.style.display = 'none';
   } else {
     geometryColorInput.style.display = 'inline-block';

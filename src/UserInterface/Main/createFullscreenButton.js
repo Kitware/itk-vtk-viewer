@@ -5,7 +5,7 @@ import style from '../ItkVtkViewer.module.css';
 import fullscreenIcon from '../icons/fullscreen.svg';
 
 function createFullscreenButton(
-  viewerStore,
+  store,
   contrastSensitiveStyle,
   rootContainer,
   mainUIRow
@@ -26,13 +26,13 @@ function createFullscreenButton(
 
   if (fullScreenMethods) {
     const fullscreenButton = document.createElement('div');
-    fullscreenButton.innerHTML = `<input id="${viewerStore.id}-toggleFullscreenButton" type="checkbox" class="${
+    fullscreenButton.innerHTML = `<input id="${store.id}-toggleFullscreenButton" type="checkbox" class="${
       style.toggleInput
     }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Fullscreen[f]" class="${
       contrastSensitiveStyle.invertibleButton
     } ${style.fullscreenButton} ${
       style.toggleButton
-    }" for="${viewerStore.id}-toggleFullscreenButton">${fullscreenIcon}</label>`;
+    }" for="${store.id}-toggleFullscreenButton">${fullscreenIcon}</label>`;
     const fullscreenButtonInput = fullscreenButton.children[0];
     const container = rootContainer.children[0];
     const oldWidth = container.style.width;
@@ -53,10 +53,10 @@ function createFullscreenButton(
       (event) => {
         event.preventDefault();
         event.stopPropagation();
-        viewerStore.mainUI.fullscreenEnabled = !viewerStore.mainUI.fullscreenEnabled;
+        store.mainUI.fullscreenEnabled = !store.mainUI.fullscreenEnabled;
       }
     );
-    reaction(() => viewerStore.mainUI.fullscreenEnabled,
+    reaction(() => store.mainUI.fullscreenEnabled,
       (fullscreenEnabled) => {
         toggleFullscreen(fullscreenEnabled);
       })
@@ -64,7 +64,7 @@ function createFullscreenButton(
       if (!document[fullScreenMethods[3]]) {
         container.style.width = oldWidth;
         container.style.height = oldHeight;
-        viewerStore.mainUI.fullscreenEnabled = false;
+        store.mainUI.fullscreenEnabled = false;
       }
     })
     mainUIRow.appendChild(fullscreenButton);

@@ -3,7 +3,7 @@ import { reaction } from 'mobx';
 import style from '../ItkVtkViewer.module.css';
 
 function createColorRangeInput(
-  viewerStore,
+  store,
   uiContainer,
 ) {
 
@@ -15,7 +15,7 @@ function createColorRangeInput(
   maximumInput.setAttribute('class', style.numberInput);
 
   function updateColorRangeInput() {
-    const dataArray = viewerStore.imageUI.image.getPointData().getScalars();
+    const dataArray = store.imageUI.image.getPointData().getScalars();
     const range = dataArray.getRange(0);
     minimumInput.min = range[0];
     minimumInput.max = range[1];
@@ -28,12 +28,12 @@ function createColorRangeInput(
       minimumInput.step = step;
       maximumInput.step = step;
     }
-    viewerStore.imageUI.colorRange = range;
+    store.imageUI.colorRange = range;
   }
-  reaction(() => { return viewerStore.imageUI.image; },
+  reaction(() => { return store.imageUI.image; },
     (image) => { updateColorRangeInput(); }
   )
-  reaction(() => { return viewerStore.imageUI.colorRange.slice(); },
+  reaction(() => { return store.imageUI.colorRange.slice(); },
     (colorRange) => {
       minimumInput.value = colorRange[0];
       maximumInput.value = colorRange[1];
@@ -43,14 +43,14 @@ function createColorRangeInput(
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      viewerStore.imageUI.colorRange[0] = Number(event.target.value);
+      store.imageUI.colorRange[0] = Number(event.target.value);
     }
   );
   maximumInput.addEventListener('change',
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      viewerStore.imageUI.colorRange[1] = Number(event.target.value);
+      store.imageUI.colorRange[1] = Number(event.target.value);
     }
   );
 
@@ -63,10 +63,10 @@ function createColorRangeInput(
   canvas.setAttribute('height', height);
 
   function updateColorCanvas() {
-    const dataArray = viewerStore.imageUI.image.getPointData().getScalars();
+    const dataArray = store.imageUI.image.getPointData().getScalars();
     const range = dataArray.getRange(0);
 
-    const lookupTable = viewerStore.imageUI.lookupTableProxy.getLookupTable();
+    const lookupTable = store.imageUI.lookupTableProxy.getLookupTable();
     const colorTransferFunction = lookupTable;
     const ctx = canvas.getContext('2d');
 
@@ -89,7 +89,7 @@ function createColorRangeInput(
 
     ctx.putImageData(pixelsArea, 0, 0);
   }
-  reaction(() => { return viewerStore.imageUI.colorMap; },
+  reaction(() => { return store.imageUI.colorMap; },
     (colorMap) => { updateColorCanvas(); }
   )
 

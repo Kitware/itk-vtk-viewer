@@ -5,22 +5,22 @@ import style from '../ItkVtkViewer.module.css';
 import interpolationIcon from '../icons/interpolation.svg';
 
 function createInterpolationButton(
-  viewerStore,
+  store,
   contrastSensitiveStyle,
   mainUIRow
 ) {
   const interpolationButton = document.createElement('div');
-  interpolationButton.innerHTML = `<input id="${viewerStore.id}-toggleInterpolationButton" type="checkbox" class="${
+  interpolationButton.innerHTML = `<input id="${store.id}-toggleInterpolationButton" type="checkbox" class="${
     style.toggleInput
   }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Interpolation" class="${
     contrastSensitiveStyle.invertibleButton
   } ${style.interpolationButton} ${
     style.toggleButton
-  }" for="${viewerStore.id}-toggleInterpolationButton">${interpolationIcon}</label>`;
+  }" for="${store.id}-toggleInterpolationButton">${interpolationIcon}</label>`;
   function toggleInterpolation() {
-    const interpolationEnabled = viewerStore.mainUI.interpolationEnabled;
+    const interpolationEnabled = store.mainUI.interpolationEnabled;
     interpolationButton.checked = interpolationEnabled;
-    viewerStore.itkVtkView.setPlanesUseLinearInterpolation(interpolationEnabled);
+    store.itkVtkView.setPlanesUseLinearInterpolation(interpolationEnabled);
   }
   autorun(() => {
     toggleInterpolation();
@@ -29,14 +29,14 @@ function createInterpolationButton(
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      viewerStore.mainUI.interpolationEnabled = !viewerStore.mainUI.interpolationEnabled;
+      store.mainUI.interpolationEnabled = !store.mainUI.interpolationEnabled;
     }
   );
   mainUIRow.appendChild(interpolationButton);
 
-  if (!!!viewerStore.imageUI.representationProxy) {
+  if (!!!store.imageUI.representationProxy) {
     interpolationButton.style.display = 'none';
-    when(() => !!viewerStore.imageUI.image,
+    when(() => !!store.imageUI.image,
       () => interpolationButton.style.display = 'inline'
     )
   }

@@ -8,20 +8,20 @@ import yPlaneIcon from '../icons/y-plane.svg';
 import zPlaneIcon from '../icons/z-plane.svg';
 
 function createViewModeButtons(
-  viewerStore,
+  store,
   contrastSensitiveStyle,
   use2D,
   mainUIRow
 ) {
-  const viewerDOMId = viewerStore.id;
-  const uiContainer = viewerStore.mainUI.uiContainer;
+  const viewerDOMId = store.id;
+  const uiContainer = store.mainUI.uiContainer;
   function setViewModeXPlane() {
-    viewerStore.itkVtkView.setViewMode('XPlane');
-    viewerStore.mainUI.xPlaneButton.checked = true;
-    viewerStore.mainUI.yPlaneButton.checked = false;
-    viewerStore.mainUI.zPlaneButton.checked = false;
-    viewerStore.mainUI.volumeRenderingButton.checked = false;
-    if (viewerStore.imageUI.representationProxy) {
+    store.itkVtkView.setViewMode('XPlane');
+    store.mainUI.xPlaneButton.checked = true;
+    store.mainUI.yPlaneButton.checked = false;
+    store.mainUI.zPlaneButton.checked = false;
+    store.mainUI.volumeRenderingButton.checked = false;
+    if (store.imageUI.representationProxy) {
       const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
       xPlaneRow.style.display = 'flex';
       const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
@@ -31,12 +31,12 @@ function createViewModeButtons(
     }
   }
   function setViewModeYPlane() {
-    viewerStore.itkVtkView.setViewMode('YPlane');
-    viewerStore.mainUI.xPlaneButton.checked = false;
-    viewerStore.mainUI.yPlaneButton.checked = true;
-    viewerStore.mainUI.zPlaneButton.checked = false;
-    viewerStore.mainUI.volumeRenderingButton.checked = false;
-    if (viewerStore.imageUI.representationProxy) {
+    store.itkVtkView.setViewMode('YPlane');
+    store.mainUI.xPlaneButton.checked = false;
+    store.mainUI.yPlaneButton.checked = true;
+    store.mainUI.zPlaneButton.checked = false;
+    store.mainUI.volumeRenderingButton.checked = false;
+    if (store.imageUI.representationProxy) {
       const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
       xPlaneRow.style.display = 'none';
       const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
@@ -46,12 +46,12 @@ function createViewModeButtons(
     }
   }
   function setViewModeZPlane() {
-    viewerStore.itkVtkView.setViewMode('ZPlane');
-    viewerStore.mainUI.xPlaneButton.checked = false;
-    viewerStore.mainUI.yPlaneButton.checked = false;
-    viewerStore.mainUI.zPlaneButton.checked = true;
-    viewerStore.mainUI.volumeRenderingButton.checked = false;
-    if (viewerStore.imageUI.representationProxy) {
+    store.itkVtkView.setViewMode('ZPlane');
+    store.mainUI.xPlaneButton.checked = false;
+    store.mainUI.yPlaneButton.checked = false;
+    store.mainUI.zPlaneButton.checked = true;
+    store.mainUI.volumeRenderingButton.checked = false;
+    if (store.imageUI.representationProxy) {
       const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
       xPlaneRow.style.display = 'none';
       const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
@@ -61,12 +61,12 @@ function createViewModeButtons(
     }
   }
   function setViewModeVolumeRendering() {
-    viewerStore.itkVtkView.setViewMode('VolumeRendering');
-    viewerStore.mainUI.xPlaneButton.checked = false;
-    viewerStore.mainUI.yPlaneButton.checked = false;
-    viewerStore.mainUI.zPlaneButton.checked = false;
-    viewerStore.mainUI.volumeRenderingButton.checked = true;
-    if (viewerStore.imageUI.representationProxy) {
+    store.itkVtkView.setViewMode('VolumeRendering');
+    store.mainUI.xPlaneButton.checked = false;
+    store.mainUI.yPlaneButton.checked = false;
+    store.mainUI.zPlaneButton.checked = false;
+    store.mainUI.volumeRenderingButton.checked = true;
+    if (store.imageUI.representationProxy) {
       const viewPlanes = document.getElementById(
         `${viewerDOMId}-toggleSlicingPlanesButton`
       ).checked;
@@ -86,7 +86,7 @@ function createViewModeButtons(
   }
   if (!use2D) {
     const xPlaneButton = document.createElement('div');
-    viewerStore.mainUI.xPlaneButton = xPlaneButton;
+    store.mainUI.xPlaneButton = xPlaneButton;
     xPlaneButton.innerHTML = `<input id="${viewerDOMId}-xPlaneButton" type="checkbox" class="${
       style.toggleInput
     }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane [1]" class="${
@@ -98,13 +98,13 @@ function createViewModeButtons(
       (event) => {
         event.preventDefault();
         event.stopPropagation();
-        viewerStore.mainUI.viewMode = 'XPlane';
+        store.mainUI.viewMode = 'XPlane';
       }
     );
     mainUIRow.appendChild(xPlaneButton);
 
     const yPlaneButton = document.createElement('div');
-    viewerStore.mainUI.yPlaneButton = yPlaneButton;
+    store.mainUI.yPlaneButton = yPlaneButton;
     yPlaneButton.innerHTML = `<input id="${viewerDOMId}-yPlaneButton" type="checkbox" class="${
       style.toggleInput
     }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane [2]" class="${
@@ -116,13 +116,13 @@ function createViewModeButtons(
       (event) => {
         event.preventDefault();
         event.stopPropagation();
-        viewerStore.mainUI.viewMode = 'YPlane';
+        store.mainUI.viewMode = 'YPlane';
       }
     );
     mainUIRow.appendChild(yPlaneButton);
 
     const zPlaneButton = document.createElement('div');
-    viewerStore.mainUI.zPlaneButton = zPlaneButton;
+    store.mainUI.zPlaneButton = zPlaneButton;
     zPlaneButton.innerHTML = `<input id="${viewerDOMId}-zPlaneButton" type="checkbox" class="${
       style.toggleInput
     }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane [3]" class="${
@@ -134,13 +134,13 @@ function createViewModeButtons(
       (event) => {
         event.preventDefault();
         event.stopPropagation();
-        viewerStore.mainUI.viewMode = 'ZPlane';
+        store.mainUI.viewMode = 'ZPlane';
       }
     );
     mainUIRow.appendChild(zPlaneButton);
 
     const volumeRenderingButton = document.createElement('div');
-    viewerStore.mainUI.volumeRenderingButton = volumeRenderingButton;
+    store.mainUI.volumeRenderingButton = volumeRenderingButton;
     volumeRenderingButton.innerHTML = `<input id="${viewerDOMId}-volumeRenderingButton" type="checkbox" class="${
       style.toggleInput
     }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume [4]" class="${
@@ -152,12 +152,12 @@ function createViewModeButtons(
       (event) => {
         event.preventDefault();
         event.stopPropagation();
-        viewerStore.mainUI.viewMode = 'VolumeRendering';
+        store.mainUI.viewMode = 'VolumeRendering';
       }
     );
     mainUIRow.appendChild(volumeRenderingButton);
 
-    reaction(() => { return viewerStore.mainUI.viewMode; },
+    reaction(() => { return store.mainUI.viewMode; },
       (viewMode) => {
         switch(viewMode) {
         case 'XPlane':

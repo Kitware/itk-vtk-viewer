@@ -5,12 +5,12 @@ import style from '../ItkVtkViewer.module.css';
 import opacityIcon from '../icons/opacity.svg';
 
 function createPointSetOpacitySlider(
-  viewerStore,
+  store,
   pointSetColorRow
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    viewerStore.isBackgroundDark
+    store.isBackgroundDark
   );
 
   const sliderEntry = document.createElement('div');
@@ -22,14 +22,14 @@ function createPointSetOpacitySlider(
       ${opacityIcon}
     </div>
     <input type="range" min="0" max="1" value="${defaultPointSetOpacity}" step="0.01"
-      id="${viewerStore.id}-pointSetOpacitySlider"
+      id="${store.id}-pointSetOpacitySlider"
       class="${style.slider}" />`;
   const opacityElement = sliderEntry.querySelector(
-    `#${viewerStore.id}-pointSetOpacitySlider`
+    `#${store.id}-pointSetOpacitySlider`
   );
 
   reaction(() => {
-    return viewerStore.pointSetsUI.pointSets.slice();
+    return store.pointSetsUI.pointSets.slice();
   },
     (pointSets) => {
       if(!!!pointSets || pointSets.length === 0) {
@@ -37,44 +37,44 @@ function createPointSetOpacitySlider(
       }
 
       pointSets.forEach((pointSet, index) => {
-        if (viewerStore.pointSetsUI.pointSetOpacities.length <= index) {
-          viewerStore.pointSetsUI.pointSetOpacities.push(defaultPointSetOpacity);
+        if (store.pointSetsUI.pointSetOpacities.length <= index) {
+          store.pointSetsUI.pointSetOpacities.push(defaultPointSetOpacity);
         }
       })
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      opacityElement.value = viewerStore.pointSetsUI.pointSetOpacities[selectedPointSetIndex];
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      opacityElement.value = store.pointSetsUI.pointSetOpacities[selectedPointSetIndex];
     }
   )
 
   reaction(() => {
-    return viewerStore.pointSetsUI.selectedPointSetIndex;
+    return store.pointSetsUI.selectedPointSetIndex;
     },
     (selectedPointSetIndex) => {
-      opacityElement.value = viewerStore.pointSetsUI.pointSetOpacities[selectedPointSetIndex];
+      opacityElement.value = store.pointSetsUI.pointSetOpacities[selectedPointSetIndex];
     });
 
   reaction(() => {
-    return viewerStore.pointSetsUI.pointSetOpacities.slice();
+    return store.pointSetsUI.pointSetOpacities.slice();
   },
     (pointSetOpacities) => {
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
       const value = pointSetOpacities[selectedPointSetIndex];
-      viewerStore.pointSetsUI.representationProxies[selectedPointSetIndex].setOpacity(value)
-      viewerStore.renderWindow.render();
+      store.pointSetsUI.representationProxies[selectedPointSetIndex].setOpacity(value)
+      store.renderWindow.render();
       opacityElement.value = value;
     });
 
   opacityElement.addEventListener('input', (event) => {
       event.preventDefault();
       event.stopPropagation();
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      viewerStore.pointSetsUI.pointSetOpacities[selectedPointSetIndex] = Number(event.target.value);
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      store.pointSetsUI.pointSetOpacities[selectedPointSetIndex] = Number(event.target.value);
     });
 
-  const defaultPointSetOpacities = new Array(viewerStore.pointSetsUI.pointSets.length);
+  const defaultPointSetOpacities = new Array(store.pointSetsUI.pointSets.length);
   defaultPointSetOpacities.fill(defaultPointSetOpacity);
   opacityElement.value = defaultPointSetOpacity;
-  viewerStore.pointSetsUI.pointSetOpacities = defaultPointSetOpacities;
+  store.pointSetsUI.pointSetOpacities = defaultPointSetOpacities;
 
   pointSetColorRow.appendChild(sliderEntry);
 }

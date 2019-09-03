@@ -9,14 +9,14 @@ import pointsIcon from '../icons/point-set-points.svg';
 import spheresIcon from '../icons/point-set-spheres.svg';
 
 function createPointSetRepresentationSelector(
-  viewerStore,
+  store,
   pointSetRepresentationRow
 ) {
-  const viewerDOMId = viewerStore.id;
+  const viewerDOMId = store.id;
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
       ['invertibleButton'],
-      viewerStore.isBackgroundDark
+      store.isBackgroundDark
     );
 
   const pointSetHiddenButton = document.createElement('div');
@@ -29,8 +29,8 @@ function createPointSetRepresentationSelector(
   }" for="${viewerDOMId}-pointSetHiddenButton">${hiddenIcon}</label>`;
   pointSetHiddenButton.addEventListener('click',
     (event) => {
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      viewerStore.pointSetsUI.pointSetRepresentations[selectedPointSetIndex] = 'Hidden';
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      store.pointSetsUI.pointSetRepresentations[selectedPointSetIndex] = 'Hidden';
     }
   )
   pointSetRepresentationRow.appendChild(pointSetHiddenButton);
@@ -46,8 +46,8 @@ function createPointSetRepresentationSelector(
   }" for="${viewerDOMId}-pointSetPointsButton">${pointsIcon}</label>`;
   pointSetPointsButton.addEventListener('click',
     (event) => {
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      viewerStore.pointSetsUI.pointSetRepresentations[selectedPointSetIndex] = 'Points';
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      store.pointSetsUI.pointSetRepresentations[selectedPointSetIndex] = 'Points';
     }
   )
   pointSetRepresentationRow.appendChild(pointSetPointsButton);
@@ -63,8 +63,8 @@ function createPointSetRepresentationSelector(
   }" for="${viewerDOMId}-pointSetSpheresButton">${spheresIcon}</label>`;
   pointSetSpheresButton.addEventListener('click',
     (event) => {
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      viewerStore.pointSetsUI.pointSetRepresentations[selectedPointSetIndex] = 'Spheres';
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      store.pointSetsUI.pointSetRepresentations[selectedPointSetIndex] = 'Spheres';
     }
   )
   pointSetRepresentationRow.appendChild(pointSetSpheresButton);
@@ -94,13 +94,13 @@ function createPointSetRepresentationSelector(
 
   function setRepresentation(value, index) {
     if(value === 'Hidden') {
-      viewerStore.pointSetsUI.representationProxies[index].setVisibility(false)
+      store.pointSetsUI.representationProxies[index].setVisibility(false)
     } else {
-      viewerStore.pointSetsUI.representationProxies[index].setRepresentation(value)
-      viewerStore.pointSetsUI.representationProxies[index].setVisibility(true)
+      store.pointSetsUI.representationProxies[index].setRepresentation(value)
+      store.pointSetsUI.representationProxies[index].setVisibility(true)
     }
     updateEnabledRepresentationButtons(value);
-    viewerStore.renderWindow.render()
+    store.renderWindow.render()
   }
 
   pointSetSelector.addEventListener('change',
@@ -110,19 +110,19 @@ function createPointSetRepresentationSelector(
   pointSetRepresentations.map((rep, index) => setRepresentation(defaultPointSetRepresentation, index));
 
   reaction(() => {
-    return viewerStore.pointSetsUI.pointSetRepresentations.slice();
+    return store.pointSetsUI.pointSetRepresentations.slice();
   },
     (pointSetRepresentations) => {
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      const representation = viewerStore.pointSetsUI.pointSetRepresentations[selectedPointSetIndex];
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      const representation = store.pointSetsUI.pointSetRepresentations[selectedPointSetIndex];
       setRepresentation(representation, selectedPointSetIndex);
-      viewerStore.renderWindow.render()
+      store.renderWindow.render()
     }
   )
 
-  reaction(() => { return viewerStore.pointSetsUI.selectedPointSetIndex; },
+  reaction(() => { return store.pointSetsUI.selectedPointSetIndex; },
     (selectedIndex) => {
-      const selectedPointSetRepresentation = viewerStore.pointSetsUI.pointSetRepresentations[selectedIndex];
+      const selectedPointSetRepresentation = store.pointSetsUI.pointSetRepresentations[selectedIndex];
       updateEnabledRepresentationButtons(selectedPointSetRepresentation);
     }
   )
@@ -130,7 +130,7 @@ function createPointSetRepresentationSelector(
   const defaultPointSetRepresentation = 'Points';
 
   reaction(() => {
-    return viewerStore.pointSetsUI.pointSets.slice();
+    return store.pointSetsUI.pointSets.slice();
   },
     (pointSets) => {
       if(!!!pointSets || pointSets.length === 0) {
@@ -138,20 +138,20 @@ function createPointSetRepresentationSelector(
       }
 
       pointSets.forEach((pointSet, index) => {
-        if (viewerStore.pointSetsUI.pointSetRepresentations.length <= index) {
-          viewerStore.pointSetsUI.pointSetRepresentations.push(defaultPointSetRepresentation);
+        if (store.pointSetsUI.pointSetRepresentations.length <= index) {
+          store.pointSetsUI.pointSetRepresentations.push(defaultPointSetRepresentation);
         }
       })
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      updateEnabledRepresentationButtons(viewerStore.pointSetsUI.pointSetRepresentations[selectedPointSetIndex]);
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      updateEnabledRepresentationButtons(store.pointSetsUI.pointSetRepresentations[selectedPointSetIndex]);
     }
   )
 
-  const defaultPointSetRepresentations = new Array(viewerStore.pointSetsUI.pointSets.length);
+  const defaultPointSetRepresentations = new Array(store.pointSetsUI.pointSets.length);
   defaultPointSetRepresentations.fill(defaultPointSetRepresentation);
   updateEnabledRepresentationButtons(defaultPointSetRepresentation);
-  viewerStore.pointSetsUI.pointSetRepresentations = defaultPointSetRepresentations;
-  const pointSetRepresentationProxies = viewerStore.pointSetsUI.representationProxies;
+  store.pointSetsUI.pointSetRepresentations = defaultPointSetRepresentations;
+  const pointSetRepresentationProxies = store.pointSetsUI.representationProxies;
 }
 
 export default createPointSetRepresentationSelector;

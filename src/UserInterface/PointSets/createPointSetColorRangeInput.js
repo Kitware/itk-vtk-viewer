@@ -3,7 +3,7 @@ import { reaction } from 'mobx';
 import style from '../ItkVtkViewer.module.css';
 
 function createColorRangeInput(
-  viewerStore,
+  store,
   uiContainer,
 ) {
 
@@ -15,33 +15,33 @@ function createColorRangeInput(
   maximumInput.setAttribute('class', style.numberInput);
 
   function updateColorTransferFunction() {
-    const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-    const colorRanges = viewerStore.pointSetsUI.pointSetColorRanges[selectedPointSetIndex];
-    const colorByKey = viewerStore.pointSetsUI.pointSetColorBy[selectedPointSetIndex].value;
+    const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+    const colorRanges = store.pointSetsUI.pointSetColorRanges[selectedPointSetIndex];
+    const colorByKey = store.pointSetsUI.pointSetColorBy[selectedPointSetIndex].value;
     const colorRange = colorRanges.get(colorByKey);
 
-    const proxy = viewerStore.pointSetsUI.representationProxies[selectedPointSetIndex];
+    const proxy = store.pointSetsUI.representationProxies[selectedPointSetIndex];
     const [colorByArrayName, location] = proxy.getColorBy();
     const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
     const colorTransferFunction = lutProxy.getLookupTable();
-    const colorPreset = viewerStore.pointSetsUI.pointSetColorPresets[selectedPointSetIndex];
+    const colorPreset = store.pointSetsUI.pointSetColorPresets[selectedPointSetIndex];
     lutProxy.setPresetName(colorPreset);
     colorTransferFunction.setMappingRange(...colorRange);
     colorTransferFunction.updateRange();
-    viewerStore.renderWindow.render();
+    store.renderWindow.render();
 
     minimumInput.value = colorRange[0];
     maximumInput.value = colorRange[1];
   }
 
   function updateColorRangeInput() {
-    const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-    if (!viewerStore.pointSetsUI.pointSetHasScalars[selectedPointSetIndex]) {
+    const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+    if (!store.pointSetsUI.pointSetHasScalars[selectedPointSetIndex]) {
       return;
     }
-    const colorByKey = viewerStore.pointSetsUI.pointSetColorBy[selectedPointSetIndex].value;
+    const colorByKey = store.pointSetsUI.pointSetColorBy[selectedPointSetIndex].value;
     const [location, colorByArrayName] = colorByKey.split(':');
-    const pointSet = viewerStore.pointSetsUI.pointSets[selectedPointSetIndex];
+    const pointSet = store.pointSetsUI.pointSets[selectedPointSetIndex];
     const dataArray = location === 'pointData' ?
       pointSet.getPointData().getArrayByName(colorByArrayName) :
       pointSet.getCellData().getArrayByName(colorByArrayName);
@@ -60,15 +60,15 @@ function createColorRangeInput(
   }
 
   function setDefaultColorRanges() {
-    const colorByOptions = viewerStore.pointSetsUI.pointSetColorByOptions;
+    const colorByOptions = store.pointSetsUI.pointSetColorByOptions;
     if(!!!colorByOptions || colorByOptions.length === 0) {
       return;
     }
 
-    const pointSets = viewerStore.pointSetsUI.pointSets;
+    const pointSets = store.pointSetsUI.pointSets;
     colorByOptions.forEach((options, index) => {
       const pointSet = pointSets[index];
-      if (viewerStore.pointSetsUI.pointSetColorRanges.length <= index) {
+      if (store.pointSetsUI.pointSetColorRanges.length <= index) {
         const colorRanges = new Map();
         if (options) {
           options.forEach((option) => {
@@ -80,9 +80,9 @@ function createColorRangeInput(
             colorRanges.set(option.value, range);
           })
         }
-        viewerStore.pointSetsUI.pointSetColorRanges.push(colorRanges);
+        store.pointSetsUI.pointSetColorRanges.push(colorRanges);
       } else {
-        const colorRanges = viewerStore.pointSetsUI.pointSetColorRanges[index];
+        const colorRanges = store.pointSetsUI.pointSetColorRanges[index];
         options.forEach((option) => {
           const [location, colorByArrayName] = option.value.split(':');
           const dataArray = location === 'pointData' ?
@@ -117,11 +117,11 @@ function createColorRangeInput(
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      const colorByKey = viewerStore.pointSetsUI.pointSetColorBy[selectedPointSetIndex].value;
-      const range = viewerStore.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].get(colorByKey);
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      const colorByKey = store.pointSetsUI.pointSetColorBy[selectedPointSetIndex].value;
+      const range = store.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].get(colorByKey);
       range[0] = Number(event.target.value);
-      viewerStore.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].set(colorByKey, range);
+      store.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].set(colorByKey, range);
       updateColorTransferFunction();
     }
   );
@@ -129,11 +129,11 @@ function createColorRangeInput(
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      const colorByKey = viewerStore.pointSetsUI.pointSetColorBy[selectedPointSetIndex].value;
-      const range = viewerStore.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].get(colorByKey);
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      const colorByKey = store.pointSetsUI.pointSetColorBy[selectedPointSetIndex].value;
+      const range = store.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].get(colorByKey);
       range[1] = Number(event.target.value);
-      viewerStore.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].set(colorByKey, range);
+      store.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].set(colorByKey, range);
       updateColorTransferFunction();
     }
   );
@@ -145,17 +145,17 @@ function createColorRangeInput(
   canvas.setAttribute('height', height);
 
   function updateColorCanvas() {
-    const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-    if (!viewerStore.pointSetsUI.pointSetHasScalars[selectedPointSetIndex]) {
+    const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+    if (!store.pointSetsUI.pointSetHasScalars[selectedPointSetIndex]) {
       return;
     }
-    const colorByKey = viewerStore.pointSetsUI.pointSetColorBy[selectedPointSetIndex].value;
-    const range = viewerStore.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].get(colorByKey);
+    const colorByKey = store.pointSetsUI.pointSetColorBy[selectedPointSetIndex].value;
+    const range = store.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].get(colorByKey);
 
-    const proxy = viewerStore.pointSetsUI.representationProxies[selectedPointSetIndex];
+    const proxy = store.pointSetsUI.representationProxies[selectedPointSetIndex];
     const [colorByArrayName, location] = proxy.getColorBy();
     const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
-    const colorPreset = viewerStore.pointSetsUI.pointSetColorPresets[selectedPointSetIndex];
+    const colorPreset = store.pointSetsUI.pointSetColorPresets[selectedPointSetIndex];
     lutProxy.setPresetName(colorPreset);
     const colorTransferFunction = lutProxy.getLookupTable();
     colorTransferFunction.setMappingRange(...range);
@@ -184,15 +184,15 @@ function createColorRangeInput(
 
   updateColorCanvas();
 
-  reaction(() => { return viewerStore.pointSetsUI.pointSetColorByOptions.slice(); },
+  reaction(() => { return store.pointSetsUI.pointSetColorByOptions.slice(); },
     () => {
       setDefaultColorRanges();
     }
   )
 
-  reaction(() => { return viewerStore.pointSetsUI.selectedPointSetIndex; },
+  reaction(() => { return store.pointSetsUI.selectedPointSetIndex; },
     (selectedPointSetIndex) => {
-      const pointSetHasScalars = viewerStore.pointSetsUI.pointSetHasScalars;
+      const pointSetHasScalars = store.pointSetsUI.pointSetHasScalars;
       if (pointSetHasScalars[selectedPointSetIndex]) {
         uiContainer.style.display = 'flex';
         updateColorCanvas();
@@ -202,22 +202,22 @@ function createColorRangeInput(
       }
     }
   )
-  reaction(() => { return viewerStore.pointSetsUI.pointSetColorPresets.slice(); },
+  reaction(() => { return store.pointSetsUI.pointSetColorPresets.slice(); },
     () => {
       updateColorCanvas();
       updateColorRangeInput();
     }
   )
 
-  reaction(() => { return viewerStore.pointSetsUI.pointSetColorBy.slice(); },
+  reaction(() => { return store.pointSetsUI.pointSetColorBy.slice(); },
     () => {
       updateColorCanvas();
       updateColorRangeInput();
     }
   )
 
-  const pointSetHasScalars = viewerStore.pointSetsUI.pointSetHasScalars;
-  const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+  const pointSetHasScalars = store.pointSetsUI.pointSetHasScalars;
+  const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
   if (pointSetHasScalars[selectedPointSetIndex]) {
     uiContainer.style.display = 'flex';
   } else {

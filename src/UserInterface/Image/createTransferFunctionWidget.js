@@ -7,18 +7,18 @@ import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/Piece
 import style from '../ItkVtkViewer.module.css';
 
 function createTransferFunctionWidget(
-  viewerStore,
+  store,
   uiContainer,
   use2D
 ) {
-  const piecewiseFunction = viewerStore.imageUI.piecewiseFunctionProxy.getPiecewiseFunction();
-  const renderWindow = viewerStore.renderWindow;
+  const piecewiseFunction = store.imageUI.piecewiseFunctionProxy.getPiecewiseFunction();
+  const renderWindow = store.renderWindow;
 
   const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({
     numberOfBins: 256,
     size: [400, 200],
   });
-  viewerStore.imageUI.transferFunctionWidget = transferFunctionWidget;
+  store.imageUI.transferFunctionWidget = transferFunctionWidget;
   transferFunctionWidget.setEnableRangeZoom(true);
   let iconSize = 20;
   if (use2D) {
@@ -43,10 +43,10 @@ function createTransferFunctionWidget(
     iconSize, // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
     padding: 10,
   });
-  const dataArray = viewerStore.imageUI.image.getPointData().getScalars();
+  const dataArray = store.imageUI.image.getPointData().getScalars();
   transferFunctionWidget.setDataArray(dataArray.getData());
 
-  const lookupTable = viewerStore.imageUI.lookupTableProxy.getLookupTable();
+  const lookupTable = store.imageUI.lookupTableProxy.getLookupTable();
 
   const piecewiseWidgetContainer = document.createElement('div');
   piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget);
@@ -69,7 +69,7 @@ function createTransferFunctionWidget(
     }
     const colorDataRange = transferFunctionWidget.getOpacityRange();
     const preset = vtkColorMaps.getPresetByName(
-      viewerStore.imageUI.lookupTableProxy.getPresetName()
+      store.imageUI.lookupTableProxy.getPresetName()
     );
     lookupTable.applyColorMap(preset);
     lookupTable.setMappingRange(...colorDataRange);
@@ -79,11 +79,11 @@ function createTransferFunctionWidget(
       renderWindow.render();
     }
   });
-  reaction(() => { return viewerStore.imageUI.colorRange.slice(); },
+  reaction(() => { return store.imageUI.colorRange.slice(); },
     (colorRange) => {
       const gaussians = transferFunctionWidget.getGaussians();
       const newGaussians = gaussians.slice();
-      const dataArray = viewerStore.imageUI.image.getPointData().getScalars();
+      const dataArray = store.imageUI.image.getPointData().getScalars();
       const fullRange = dataArray.getRange(0);
       const diff = fullRange[1] - fullRange[0];
       const colorRangeNormalized = new Array(2);
@@ -137,13 +137,13 @@ function createTransferFunctionWidget(
     }
   )
   transferFunctionWidget.onZoomChange((zoom) => {
-    const dataArray = viewerStore.imageUI.image.getPointData().getScalars();
+    const dataArray = store.imageUI.image.getPointData().getScalars();
     const fullRange = dataArray.getRange(0);
     const diff = fullRange[1] - fullRange[0];
     const colorRange = new Array(2);
     colorRange[0] = fullRange[0] + zoom[0] * diff;
     colorRange[1] = fullRange[0] + zoom[1] * diff;
-    viewerStore.imageUI.colorRange = colorRange;
+    store.imageUI.colorRange = colorRange;
   });
 
   // Manage update when lookupTable changes
@@ -168,7 +168,7 @@ function createTransferFunctionWidget(
 
   const transferFunctionWidgetRow = document.createElement('div');
   transferFunctionWidgetRow.setAttribute('class', style.uiRow);
-  transferFunctionWidgetRow.className += ` ${viewerStore.id}-toggle`;
+  transferFunctionWidgetRow.className += ` ${store.id}-toggle`;
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer);
   uiContainer.appendChild(transferFunctionWidgetRow);
 
@@ -219,8 +219,8 @@ function createTransferFunctionWidget(
   );
 
   // Add range manipulator
-  viewerStore.itkVtkView.getInteractorStyle2D().addMouseManipulator(rangeManipulator);
-  viewerStore.itkVtkView.getInteractorStyle3D().addMouseManipulator(rangeManipulator);
+  store.itkVtkView.getInteractorStyle2D().addMouseManipulator(rangeManipulator);
+  store.itkVtkView.getInteractorStyle3D().addMouseManipulator(rangeManipulator);
 
   const opacityRangeManipulator = vtkMouseRangeManipulator.newInstance({
     button: 3, // Right mouse
@@ -258,8 +258,8 @@ function createTransferFunctionWidget(
     opacityGet,
     opacitySet
   );
-  viewerStore.itkVtkView.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulator);
-  viewerStore.itkVtkView.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulatorShift);
+  store.itkVtkView.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulator);
+  store.itkVtkView.getInteractorStyle3D().addMouseManipulator(opacityRangeManipulatorShift);
 }
 
 export default createTransferFunctionWidget;

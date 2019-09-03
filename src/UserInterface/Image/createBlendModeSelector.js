@@ -7,12 +7,12 @@ import style from '../ItkVtkViewer.module.css';
 import blendModeIcon from '../icons/blend-mode.svg';
 
 function createBlendModeSelector(
-  viewerStore,
+  store,
   uiContainer,
 ) {
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    viewerStore.isBackgroundDark
+    store.isBackgroundDark
   );
 
 
@@ -27,7 +27,7 @@ function createBlendModeSelector(
 
   const blendModeSelector = document.createElement('select');
   blendModeSelector.setAttribute('class', style.selector);
-  blendModeSelector.id = `${viewerStore.id}-colorMapSelector`;
+  blendModeSelector.id = `${store.id}-colorMapSelector`;
   blendModeSelector.innerHTML = `<option selected value="0">Composite</option>
     <option value="1">Maximum</option>
     <option value="2">Minimum</option>
@@ -36,19 +36,19 @@ function createBlendModeSelector(
 
 
   function updateBlendMode(blendMode) {
-    const volumeMapper = viewerStore.imageUI.representationProxy.getMapper();
+    const volumeMapper = store.imageUI.representationProxy.getMapper();
     volumeMapper.setBlendMode(blendMode);
-    viewerStore.renderWindow.render();
+    store.renderWindow.render();
     blendModeSelector.value = blendMode;
   }
-  reaction(() => { return viewerStore.imageUI.blendMode },
+  reaction(() => { return store.imageUI.blendMode },
     (blendMode) => { updateBlendMode(blendMode); }
   )
   blendModeSelector.addEventListener('change',
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      viewerStore.imageUI.blendMode = parseInt(event.target.value);
+      store.imageUI.blendMode = parseInt(event.target.value);
     }
   );
 

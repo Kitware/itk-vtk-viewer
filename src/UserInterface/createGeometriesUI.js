@@ -6,24 +6,24 @@ import createGeometryRepresentationSelector from './Geometries/createGeometryRep
 import createGeometryColorWidget from './Geometries/createGeometryColorWidget';
 
 function createGeometriesUI(
-  viewerStore,
+  store,
 ) {
   const geometriesUIGroup = document.createElement('div');
   geometriesUIGroup.setAttribute('class', style.uiGroup);
 
   const geometryRepresentationRow = document.createElement('div');
   geometryRepresentationRow.setAttribute('class', style.uiRow);
-  geometryRepresentationRow.className += ` ${viewerStore.id}-toggle`;
+  geometryRepresentationRow.className += ` ${store.id}-toggle`;
 
   const geometrySelector = document.createElement('select');
   geometrySelector.setAttribute('class', style.selector);
-  geometrySelector.id = `${viewerStore.id}-geometrySelector`;
+  geometrySelector.id = `${store.id}-geometrySelector`;
   geometryRepresentationRow.appendChild(geometrySelector);
 
   geometrySelector.addEventListener('change', (event) => {
     event.preventDefault();
     event.stopPropagation();
-    viewerStore.geometriesUI.selectedGeometryIndex = geometrySelector.selectedIndex;
+    store.geometriesUI.selectedGeometryIndex = geometrySelector.selectedIndex;
   })
   function updateGeometryNames(geometryNames) {
     geometrySelector.innerHTML = geometryNames
@@ -35,34 +35,34 @@ function createGeometriesUI(
       geometrySelector.disabled = true;
     }
   }
-  reaction(() => { return viewerStore.geometriesUI.geometryNames.slice(); },
+  reaction(() => { return store.geometriesUI.geometryNames.slice(); },
     (geometryNames) => { updateGeometryNames(geometryNames); }
   )
-  if(viewerStore.geometriesUI.geometries.length > 0) {
-    viewerStore.geometriesUI.selectedGeometryIndex = 0;
+  if(store.geometriesUI.geometries.length > 0) {
+    store.geometriesUI.selectedGeometryIndex = 0;
   }
   autorun(() => {
-      const geometries = viewerStore.geometriesUI.geometries;
+      const geometries = store.geometriesUI.geometries;
       if (geometries.length === 1) {
-        viewerStore.geometriesUI.geometryNames = ['Geometry'];
+        store.geometriesUI.geometryNames = ['Geometry'];
       } else {
-        viewerStore.geometriesUI.geometryNames = geometries.map((geometry, index) => `Geometry ${index}`);
+        store.geometriesUI.geometryNames = geometries.map((geometry, index) => `Geometry ${index}`);
       }
     })
 
   createGeometryRepresentationSelector(
-    viewerStore,
+    store,
     geometryRepresentationRow
   )
   geometriesUIGroup.appendChild(geometryRepresentationRow);
 
   createGeometryColorWidget(
-    viewerStore,
+    store,
     geometriesUIGroup
   )
 
-  viewerStore.mainUI.uiContainer.appendChild(geometriesUIGroup);
-  viewerStore.geometriesUI.initialized = true;
+  store.mainUI.uiContainer.appendChild(geometriesUIGroup);
+  store.geometriesUI.initialized = true;
 }
 
 export default createGeometriesUI;

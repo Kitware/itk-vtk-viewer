@@ -5,14 +5,14 @@ import style from '../ItkVtkViewer.module.css';
 import toggleIcon from '../icons/toggle.svg';
 
 function createToggleUserInterfaceButton(
-  viewerStore,
+  store,
   contrastSensitiveStyle,
 ) {
   const toggleUserInterfaceButton = document.createElement('div');
   function toggleUIVisibility() {
-    const elements = viewerStore.mainUI.uiContainer.querySelectorAll(`.${viewerStore.id}-toggle`);
+    const elements = store.mainUI.uiContainer.querySelectorAll(`.${store.id}-toggle`);
     let count = elements.length;
-    const collapsed = viewerStore.mainUI.collapsed;
+    const collapsed = store.mainUI.collapsed;
     if (collapsed) {
       while (count--) {
         elements[count].style.display = 'none';
@@ -26,19 +26,19 @@ function createToggleUserInterfaceButton(
   toggleUserInterfaceButton.className = `${
     contrastSensitiveStyle.invertibleButton
   } ${style.toggleUserInterfaceButton}`;
-  toggleUserInterfaceButton.id = `${viewerStore.id}-toggleUserInterfaceButton`;
+  toggleUserInterfaceButton.id = `${store.id}-toggleUserInterfaceButton`;
   toggleUserInterfaceButton.innerHTML = `${toggleIcon}`;
   toggleUserInterfaceButton.addEventListener('click',
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      viewerStore.mainUI.collapsed = !viewerStore.mainUI.collapsed;
+      store.mainUI.collapsed = !store.mainUI.collapsed;
     }
   );
   autorun(() => {
     toggleUIVisibility();
   })
-  viewerStore.mainUI.uiContainer.appendChild(toggleUserInterfaceButton);
+  store.mainUI.uiContainer.appendChild(toggleUserInterfaceButton);
 }
 
 export default createToggleUserInterfaceButton

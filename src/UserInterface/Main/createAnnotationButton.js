@@ -5,23 +5,23 @@ import style from '../ItkVtkViewer.module.css';
 import annotationIcon from '../icons/annotations.svg';
 
 function createAnnotationButton(
-  viewerStore,
+  store,
   contrastSensitiveStyle,
   mainUIRow
 ) {
   const annotationButton = document.createElement('div');
-  annotationButton.innerHTML = `<input id="${viewerStore.id}-toggleAnnotationsButton" type="checkbox" class="${
+  annotationButton.innerHTML = `<input id="${store.id}-toggleAnnotationsButton" type="checkbox" class="${
     style.toggleInput
   }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Annotations" class="${
     contrastSensitiveStyle.invertibleButton
   } ${style.annotationButton} ${
     style.toggleButton
-  }" for="${viewerStore.id}-toggleAnnotationsButton">${annotationIcon}</label>`;
+  }" for="${store.id}-toggleAnnotationsButton">${annotationIcon}</label>`;
   const annotationButtonInput = annotationButton.children[0];
   function toggleAnnotations() {
-    const annotationsEnabled = viewerStore.mainUI.annotationsEnabled;
+    const annotationsEnabled = store.mainUI.annotationsEnabled;
     annotationButtonInput.checked = annotationsEnabled;
-    viewerStore.itkVtkView.setOrientationAnnotationVisibility(annotationsEnabled);
+    store.itkVtkView.setOrientationAnnotationVisibility(annotationsEnabled);
   }
   autorun(() => {
     toggleAnnotations();
@@ -30,7 +30,7 @@ function createAnnotationButton(
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      viewerStore.mainUI.annotationsEnabled = !viewerStore.mainUI.annotationsEnabled;
+      store.mainUI.annotationsEnabled = !store.mainUI.annotationsEnabled;
     }
   );
   mainUIRow.appendChild(annotationButton);

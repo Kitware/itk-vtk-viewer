@@ -14,17 +14,17 @@ import createResetCameraButton from './Main/createResetCameraButton';
 
 function createMainUI(
   rootContainer,
-  viewerStore,
+  store,
   use2D,
 ) {
   const uiContainer = document.createElement('div');
-  viewerStore.mainUI.uiContainer = uiContainer;
+  store.mainUI.uiContainer = uiContainer;
   rootContainer.appendChild(uiContainer);
   uiContainer.setAttribute('class', style.uiContainer);
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton', 'tooltipButton'],
-    viewerStore.isBackgroundDark
+    store.isBackgroundDark
   );
 
   const mainUIGroup = document.createElement('div');
@@ -32,60 +32,60 @@ function createMainUI(
 
   const mainUIRow = document.createElement('div');
   mainUIRow.setAttribute('class', style.mainUIRow);
-  mainUIRow.className += ` ${viewerStore.id}-toggle`;
+  mainUIRow.className += ` ${store.id}-toggle`;
   mainUIGroup.appendChild(mainUIRow);
 
   createToggleUserInterface(
-    viewerStore,
+    store,
     contrastSensitiveStyle,
   )
 
   createScreenshotButton(
-    viewerStore,
+    store,
     contrastSensitiveStyle,
     mainUIRow
   )
 
   createFullscreenButton(
-    viewerStore,
+    store,
     contrastSensitiveStyle,
     rootContainer,
     mainUIRow
   )
 
   createRotateButton(
-    viewerStore,
+    store,
     contrastSensitiveStyle,
     mainUIRow
   )
 
   createAnnotationButton(
-    viewerStore,
+    store,
     contrastSensitiveStyle,
     mainUIRow
   )
 
   createInterpolationButton(
-    viewerStore,
+    store,
     contrastSensitiveStyle,
     mainUIRow
   )
 
   createViewModeButtons(
-    viewerStore,
+    store,
     contrastSensitiveStyle,
     use2D,
     mainUIRow
   )
 
   createCroppingButtons(
-    viewerStore,
+    store,
     contrastSensitiveStyle,
     mainUIRow
   )
 
   createResetCameraButton(
-    viewerStore,
+    store,
     contrastSensitiveStyle,
     mainUIRow
   )

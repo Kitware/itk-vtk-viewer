@@ -48,6 +48,7 @@ class ImageUIStore {
   @observable useShadow = true;
   @observable slicingPlanesEnabled = false;
   @observable gradientOpacity = 0.2;
+  @observable colorRange = [];
 }
 
 class GeometriesUIStore {
@@ -58,13 +59,14 @@ class GeometriesUIStore {
   representationProxies = [];
 
   @observable selectedGeometryIndex = 0;
-  @observable geometryNames = [];
-  @observable geometryRepresentations = [];
-  @observable geometryColorBy = [];
-  @observable geometryColors = [];
-  @observable geometryOpacities = [];
-  @observable geometryColorPresets = [];
-  @computed get geometryHasScalars() {
+  @observable names = [];
+  @observable representations = [];
+  @observable colorBy = [];
+  @observable colors = [];
+  @observable opacities = [];
+  @observable colorPresets = [];
+  @observable colorRanges = [];
+  @computed get hasScalars() {
     return this.geometries.map((geometry) => {
       const pointData = geometry.getPointData();
       const hasPointDataScalars = !!pointData.getScalars();
@@ -73,9 +75,9 @@ class GeometriesUIStore {
       return hasPointDataScalars || hasCellDataScalars;
       })
     };
-  @computed get geometryColorByOptions() {
+  @computed get colorByOptions() {
     return this.geometries.map((geometry, index) => {
-      if(!this.geometryHasScalars[index]) {
+      if(!this.hasScalars[index]) {
         return null
       }
       const options = [].concat(
@@ -83,36 +85,36 @@ class GeometriesUIStore {
           .getPointData()
           .getArrays()
           .map((a) => ({
-            label: `(p) ${a.getName()}`,
+            label: `Points: ${a.getName()}`,
             value: `pointData:${a.getName()}`,
           })),
         geometry
           .getCellData()
           .getArrays()
           .map((a) => ({
-            label: `(c) ${a.getName()}`,
+            label: `Cells: ${a.getName()}`,
             value: `cellData:${a.getName()}`,
           }))
         )
       return options;
     })
   };
-  @computed get geometryColorByDefault() {
+  @computed get colorByDefault() {
     return this.geometries.map((geometry, index) => {
-      if(!this.geometryHasScalars[index]) {
+      if(!this.hasScalars[index]) {
         return null
       }
       const pointData = geometry.getPointData();
       if (!!pointData.getScalars()) {
         const activeIndex = pointData.getActiveScalars();
         const activeArray = pointData.getArrays()[activeIndex];
-        return { label: `(p) ${activeArray.getName()}`, value: `pointData:${activeArray.getName()}` };
+        return { label: `Points: ${activeArray.getName()}`, value: `pointData:${activeArray.getName()}` };
       }
       const cellData = geometry.getCellData();
       if (!!cellData.getScalars()) {
         const activeIndex = cellData.getActiveScalars();
         const activeArray = cellData.getArrays()[activeIndex];
-        return { label: `(c) ${activeArray.getName()}`, value: `cellData:${activeArray.getName()}` };
+        return { label: `Cells: ${activeArray.getName()}`, value: `cellData:${activeArray.getName()}` };
       }
       throw new Error('Should not reach here.')
       })
@@ -127,23 +129,23 @@ class PointSetsUIStore {
   representationProxies = [];
 
   @observable selectedPointSetIndex = 0;
-  @observable pointSetNames = [];
-  @observable pointSetRepresentations = [];
-  @observable pointSetColorBy = [];
-  @observable pointSetColors = [];
-  @observable pointSetOpacities = [];
-  @observable pointSetColorPresets = [];
-  @observable pointSetSizes = [];
-  @computed get pointSetHasScalars() {
+  @observable names = [];
+  @observable representations = [];
+  @observable colorBy = [];
+  @observable colors = [];
+  @observable opacities = [];
+  @observable colorPresets = [];
+  @observable sizes = [];
+  @computed get hasScalars() {
     return this.pointSets.map((pointSet) => {
       const pointData = pointSet.getPointData();
       const hasPointDataScalars = !!pointData.getScalars();
       return hasPointDataScalars;
       })
     };
-  @computed get pointSetColorByOptions() {
+  @computed get colorByOptions() {
     return this.pointSets.map((pointSet, index) => {
-      if(!this.pointSetHasScalars[index]) {
+      if(!this.hasScalars[index]) {
         return null
       }
       const options = [].concat(
@@ -151,23 +153,23 @@ class PointSetsUIStore {
           .getPointData()
           .getArrays()
           .map((a) => ({
-            label: `(p) ${a.getName()}`,
+            label: `${a.getName()}`,
             value: `pointData:${a.getName()}`,
           })),
         )
       return options;
     })
   };
-  @computed get pointSetColorByDefault() {
+  @computed get colorByDefault() {
     return this.pointSets.map((pointSet, index) => {
-      if(!this.pointSetHasScalars[index]) {
+      if(!this.hasScalars[index]) {
         return null
       }
       const pointData = pointSet.getPointData();
       if (!!pointData.getScalars()) {
         const activeIndex = pointData.getActiveScalars();
         const activeArray = pointData.getArrays()[activeIndex];
-        return { label: `(p) ${activeArray.getName()}`, value: `pointData:${activeArray.getName()}` };
+        return { label: `${activeArray.getName()}`, value: `pointData:${activeArray.getName()}` };
       }
       throw new Error('Should not reach here.')
       })

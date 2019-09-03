@@ -9,22 +9,22 @@ import cropIcon from '../icons/crop.svg';
 import resetCropIcon from '../icons/reset-crop.svg';
 
 function createCroppingButtons(
-  viewerStore,
+  store,
   contrastSensitiveStyle,
   mainUIRow
 ) {
-  const viewerDOMId = viewerStore.id;
+  const viewerDOMId = store.id;
   function setupCroppingWidget() {
-    viewerStore.imageUI.croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
-    viewerStore.imageUI.croppingWidget.setHandleSize(22);
-    viewerStore.imageUI.croppingWidget.setFaceHandlesEnabled(false);
-    viewerStore.imageUI.croppingWidget.setEdgeHandlesEnabled(false);
-    viewerStore.imageUI.croppingWidget.setCornerHandlesEnabled(true);
-    viewerStore.imageUI.croppingWidget.setInteractor(viewerStore.itkVtkView.getInteractor());
-    viewerStore.imageUI.croppingWidget.setEnabled(false);
-    viewerStore.imageUI.croppingWidget.setVolumeMapper(viewerStore.imageUI.representationProxy.getMapper());
+    store.imageUI.croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
+    store.imageUI.croppingWidget.setHandleSize(22);
+    store.imageUI.croppingWidget.setFaceHandlesEnabled(false);
+    store.imageUI.croppingWidget.setEdgeHandlesEnabled(false);
+    store.imageUI.croppingWidget.setCornerHandlesEnabled(true);
+    store.imageUI.croppingWidget.setInteractor(store.itkVtkView.getInteractor());
+    store.imageUI.croppingWidget.setEnabled(false);
+    store.imageUI.croppingWidget.setVolumeMapper(store.imageUI.representationProxy.getMapper());
     const croppingPlanesChangedHandlers = [];
-    viewerStore.imageUI.addCroppingPlanesChangedHandler = (handler) => {
+    store.imageUI.addCroppingPlanesChangedHandler = (handler) => {
       const index = croppingPlanesChangedHandlers.length;
       croppingPlanesChangedHandlers.push(handler);
       function unsubscribe() {
@@ -38,16 +38,16 @@ function createCroppingButtons(
         return;
       }
       croppingUpdateInProgress = true;
-      const planes = viewerStore.imageUI.croppingWidget.getWidgetState().planes;
-      viewerStore.imageUI.representationProxy.setCroppingPlanes(planes);
-      const bboxCorners = viewerStore.imageUI.croppingWidget.planesToBBoxCorners(planes);
+      const planes = store.imageUI.croppingWidget.getWidgetState().planes;
+      store.imageUI.representationProxy.setCroppingPlanes(planes);
+      const bboxCorners = store.imageUI.croppingWidget.planesToBBoxCorners(planes);
       croppingPlanesChangedHandlers.forEach((handler) => {
         handler.call(null, planes, bboxCorners);
       });
       croppingUpdateInProgress = false;
     };
     const debouncedSetCroppingPlanes = macro.debounce(setCroppingPlanes, 100);
-    viewerStore.imageUI.croppingWidget.onCroppingPlanesChanged(debouncedSetCroppingPlanes);
+    store.imageUI.croppingWidget.onCroppingPlanesChanged(debouncedSetCroppingPlanes);
 
     const cropButton = document.createElement('div');
     cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${
@@ -59,9 +59,9 @@ function createCroppingButtons(
     }" for="${viewerDOMId}-toggleCroppingPlanesButton">${cropIcon}</label>`;
     const cropButtonInput = cropButton.children[0];
     function toggleCrop() {
-      const cropEnabled = viewerStore.mainUI.croppingPlanesEnabled;
+      const cropEnabled = store.mainUI.croppingPlanesEnabled;
       cropButtonInput.checked = cropEnabled;
-      viewerStore.imageUI.croppingWidget.setEnabled(cropEnabled);
+      store.imageUI.croppingWidget.setEnabled(cropEnabled);
     }
     autorun(() => {
       toggleCrop();
@@ -70,7 +70,7 @@ function createCroppingButtons(
       (event) => {
         event.preventDefault();
         event.stopPropagation();
-        viewerStore.mainUI.croppingPlanesEnabled = !viewerStore.mainUI.croppingPlanesEnabled;
+        store.mainUI.croppingPlanesEnabled = !store.mainUI.croppingPlanesEnabled;
       }
     );
     mainUIRow.appendChild(cropButton);
@@ -84,7 +84,7 @@ function createCroppingButtons(
       style.toggleButton
     }" for="${viewerDOMId}-resetCroppingPlanesButton">${resetCropIcon}</label>`;
     const resetCropHandlers = [];
-    viewerStore.imageUI.addResetCropHandler = (handler) => {
+    store.imageUI.addResetCropHandler = (handler) => {
       const index = resetCropHandlers.length;
       resetCropHandlers.push(handler);
       function unsubscribe() {
@@ -93,8 +93,8 @@ function createCroppingButtons(
       return Object.freeze({ unsubscribe });
     };
     function resetCrop() {
-      viewerStore.imageUI.representationProxy.getCropFilter().reset();
-      viewerStore.imageUI.croppingWidget.resetWidgetState();
+      store.imageUI.representationProxy.getCropFilter().reset();
+      store.imageUI.croppingWidget.resetWidgetState();
       resetCropHandlers.forEach((handler) => {
         handler.call(null);
       });
@@ -111,10 +111,10 @@ function createCroppingButtons(
     });
     mainUIRow.appendChild(resetCropButton);
   } // if(imageRepresentationProxy)
-  if (viewerStore.imageUI.representationProxy) {
+  if (store.imageUI.representationProxy) {
     setupCroppingWidget()
   } else {
-    when(() => !!viewerStore.imageUI.representationProxy,
+    when(() => !!store.imageUI.representationProxy,
       setupCroppingWidget
     )
   }

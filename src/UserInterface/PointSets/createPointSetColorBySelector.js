@@ -6,134 +6,130 @@ import {
 } from 'vtk.js/Sources/Rendering/Core/Mapper/Constants';
 
 function createPointSetColorBySelector(
-  viewerStore,
-  pointSetColorByRow
+  store,
+  colorByRow
 ) {
-  const pointSetColorBySelector = document.createElement('select');
-  pointSetColorBySelector.setAttribute('class', style.selector);
-  pointSetColorBySelector.id = `${viewerStore.id}-pointSetColorBySelector`;
+  const colorBySelector = document.createElement('select');
+  colorBySelector.setAttribute('class', style.selector);
+  colorBySelector.id = `${store.id}-colorBySelector`;
 
   reaction(() => {
-    return viewerStore.pointSetsUI.pointSets.slice();
+    return store.pointSetsUI.pointSets.slice();
   },
     (pointSets) => {
       if(!!!pointSets || pointSets.length === 0) {
         return;
       }
 
-      const pointSetHasScalars = viewerStore.pointSetsUI.pointSetHasScalars;
-      const selectedpointSetIndex = viewerStore.pointSetsUI.selectedpointSetIndex;
-      const pointSetColorByOptions = viewerStore.pointSetsUI.pointSetColorByOptions;
+      const hasScalars = store.pointSetsUI.hasScalars;
+      const selectedpointSetIndex = store.pointSetsUI.selectedpointSetIndex;
+      const colorByOptions = store.pointSetsUI.colorByOptions;
 
-      if (viewerStore.pointSetsUI.pointSetHasScalars[selectedpointSetIndex] && pointSetColorByOptions[selectedpointSetIndex].length > 1) {
-        pointSetColorByRow.style.display = 'flex';
+      if (store.pointSetsUI.hasScalars[selectedpointSetIndex] && colorByOptions[selectedpointSetIndex].length > 1) {
+        colorByRow.style.display = 'flex';
       } else {
-        pointSetColorByRow.style.display = 'none';
+        colorByRow.style.display = 'none';
       }
 
-      const pointSetColorByDefault = viewerStore.pointSetsUI.pointSetColorByDefault;
+      const colorByDefault = store.pointSetsUI.colorByDefault;
       pointSets.forEach((pointSet, index) => {
-        if (viewerStore.pointSetsUI.pointSetColorBy.length <= index) {
-          viewerStore.pointSetsUI.pointSetColorBy.push(pointSetColorByDefault[index]);
+        if (store.pointSetsUI.colorBy.length <= index) {
+          store.pointSetsUI.colorBy.push(colorByDefault[index]);
         } else {
-          const current = viewerStore.pointSetsUI.pointSetColorBy[index];
-          if(!!!viewerStore.pointSetsUI.pointSetColorByOptions[index].filter((option) => { return option.label === current.label && option.value === current.value; }).length) {
-            viewerStore.pointSetsUI.pointSetColorBy[index] = pointSetColorByDefault[index];
+          const current = store.pointSetsUI.colorBy[index];
+          if(!!!store.pointSetsUI.colorByOptions[index].filter((option) => { return option.label === current.label && option.value === current.value; }).length) {
+            store.pointSetsUI.colorBy[index] = colorByDefault[index];
           }
         }
       })
 
-      if (pointSetHasScalars[selectedpointSetIndex]) {
-        pointSetColorBySelector.value = viewerStore.pointSetsUI.pointSetColorBy[selectedpointSetIndex].value;
+      if (hasScalars[selectedpointSetIndex]) {
+        colorBySelector.value = store.pointSetsUI.colorBy[selectedpointSetIndex].value;
       }
     }
   )
 
   reaction(() => {
-    return viewerStore.pointSetsUI.selectedpointSetIndex;
+    return store.pointSetsUI.selectedpointSetIndex;
     },
     (selectedpointSetIndex) => {
-      const pointSetColorByOptions = viewerStore.pointSetsUI.pointSetColorByOptions;
+      const colorByOptions = store.pointSetsUI.colorByOptions;
 
-      if (!!pointSetColorByOptions[selectedpointSetIndex] && !!pointSetColorByOptions[selectedpointSetIndex].length) {
-        pointSetColorBySelector.innerHTML = pointSetColorByOptions[selectedpointSetIndex]
+      if (!!colorByOptions[selectedpointSetIndex] && !!colorByOptions[selectedpointSetIndex].length) {
+        colorBySelector.innerHTML = colorByOptions[selectedpointSetIndex]
           .map(
             ({ label, value }) =>
               `<option value="${value}" >${label}</option>`
           )
           .join('');
-        pointSetColorBySelector.value = viewerStore.pointSetsUI.pointSetColorBy[selectedpointSetIndex].value;
+        colorBySelector.value = store.pointSetsUI.colorBy[selectedpointSetIndex].value;
       }
-      const pointSetHasScalars = viewerStore.pointSetsUI.pointSetHasScalars;
-      if (pointSetHasScalars[selectedpointSetIndex] && pointSetColorByOptions[selectedpointSetIndex].length > 1) {
-        pointSetColorByRow.style.display = 'flex';
+      const hasScalars = store.pointSetsUI.hasScalars;
+      if (hasScalars[selectedpointSetIndex] && colorByOptions[selectedpointSetIndex].length > 1) {
+        colorByRow.style.display = 'flex';
       } else {
-        pointSetColorByRow.style.display = 'none';
+        colorByRow.style.display = 'none';
       }
     });
 
   reaction(() => {
-    return viewerStore.pointSetsUI.pointSetColorBy.slice();
+    return store.pointSetsUI.colorBy.slice();
   },
-    (pointSetColorBy) => {
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      const [location, colorByArrayName] = pointSetColorBy[selectedPointSetIndex].value.split(':');
-      const proxy = viewerStore.pointSetsUI.representationProxies[selectedPointSetIndex];
-      const lutProxy = proxy.getLookupTableProxy();
-      const colorPreset = proxy.getLookupTableProxy().getPresetName();
+    (colorBy) => {
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      const [location, colorByArrayName] = colorBy[selectedPointSetIndex].value.split(':');
+      const proxy = store.pointSetsUI.representationProxies[selectedPointSetIndex];
       const interpolateScalarsBeforeMapping = location === 'pointData';
       proxy.setInterpolateScalarsBeforeMapping(interpolateScalarsBeforeMapping);
       proxy.setColorBy(colorByArrayName, location);
-      // Restore
-      proxy.getLookupTableProxy().setPresetName(colorPreset);
-      viewerStore.renderWindow.render()
+      store.renderWindow.render()
 
-      const pointSetHasScalars = viewerStore.pointSetsUI.pointSetHasScalars;
-      if (pointSetHasScalars[selectedPointSetIndex]) {
-        pointSetColorBySelector.value = viewerStore.pointSetsUI.pointSetColorBy[selectedPointSetIndex].value;
+      const hasScalars = store.pointSetsUI.hasScalars;
+      if (hasScalars[selectedPointSetIndex]) {
+        colorBySelector.value = store.pointSetsUI.colorBy[selectedPointSetIndex].value;
       }
     });
 
-  pointSetColorBySelector.addEventListener('change', (event) => {
+  colorBySelector.addEventListener('change', (event) => {
     event.preventDefault();
     event.stopPropagation();
-    const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-    const pointSetColorByOptions = viewerStore.pointSetsUI.pointSetColorByOptions;
-    const selectedOption = viewerStore.pointSetsUI.pointSetColorByOptions[selectedPointSetIndex].filter((option) => { return option.value === event.target.value; })[0]
-    viewerStore.pointSetsUI.pointSetColorBy[selectedPointSetIndex] = selectedOption;
+    const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+    const colorByOptions = store.pointSetsUI.colorByOptions;
+    const selectedOption = store.pointSetsUI.colorByOptions[selectedPointSetIndex].filter((option) => { return option.value === event.target.value; })[0]
+    store.pointSetsUI.colorBy[selectedPointSetIndex] = selectedOption;
   });
 
   // Initialize coloring
-  const pointSetColorByDefault = viewerStore.geometriesUI.pointSetColorByDefault;
-  pointSetColorByDefault.forEach((colorBy, index) => {
+  const colorByDefault = store.geometriesUI.colorByDefault;
+  colorByDefault.forEach((colorBy, index) => {
     if (colorBy) {
       const [location, colorByArrayName] = colorBy.value.split(':');
-      const proxy = viewerStore.geometriesUI.representationProxies[index];
+      const proxy = store.geometriesUI.representationProxies[index];
       const interpolateScalarsBeforeMapping = location === 'pointData';
       proxy.setInterpolateScalarsBeforeMapping(interpolateScalarsBeforeMapping);
       proxy.setColorBy(colorByArrayName, location);
     }
   })
-  const selectedPointSetIndex = viewerStore.geometriesUI.selectedPointSetIndex;
-  const pointSetColorByOptions = viewerStore.geometriesUI.pointSetColorByOptions;
-  if (pointSetColorByDefault[selectedPointSetIndex]) {
-    pointSetColorBySelector.innerHTML = pointSetColorByOptions[selectedPointSetIndex]
+  const selectedPointSetIndex = store.geometriesUI.selectedPointSetIndex;
+  const colorByOptions = store.geometriesUI.colorByOptions;
+  if (colorByDefault[selectedPointSetIndex]) {
+    colorBySelector.innerHTML = colorByOptions[selectedPointSetIndex]
       .map(
         ({ label, value }) =>
           `<option value="${value}" >${label}</option>`
       )
       .join('');
-    pointSetColorBySelector.value = pointSetColorByDefault[selectedPointSetIndex].value;
+    colorBySelector.value = colorByDefault[selectedPointSetIndex].value;
   }
-  const pointSetHasScalars = viewerStore.pointSetsUI.pointSetHasScalars;
-  if (pointSetHasScalars[selectedpointSetIndex] && pointSetColorByOptions[selectedpointSetIndex].length > 1) {
-    pointSetColorByRow.style.display = 'flex';
+  const hasScalars = store.pointSetsUI.hasScalars;
+  if (hasScalars[selectedpointSetIndex] && colorByOptions[selectedpointSetIndex].length > 1) {
+    colorByRow.style.display = 'flex';
   } else {
-    pointSetColorByRow.style.display = 'none';
+    colorByRow.style.display = 'none';
   }
-  viewerStore.geometriesUI.pointSetColorBy = pointSetColorByDefault;
+  store.geometriesUI.colorBy = colorByDefault;
 
-  pointSetColorByRow.appendChild(pointSetColorBySelector);
+  colorByRow.appendChild(colorBySelector);
 }
 
 export default createPointSetColorBySelector;

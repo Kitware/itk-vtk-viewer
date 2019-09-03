@@ -3,6 +3,7 @@ import { reaction } from 'mobx';
 import style from './ItkVtkViewer.module.css';
 
 import createColorPresetSelector from './Image/createColorPresetSelector';
+import createColorRangeInput from './Image/createColorRangeInput';
 import createBlendModeSelector from './Image/createBlendModeSelector';
 import createTransferFunctionWidget from './Image/createTransferFunctionWidget';
 import createViewPlanesToggle from './Image/createViewPlanesToggle';
@@ -12,28 +13,37 @@ import createSampleDistanceSlider from './Image/createSampleDistanceSlider';
 import createGradientOpacitySlider from './Image/createGradientOpacitySlider';
 
 function createImageUI(
-  viewerStore,
+  store,
   use2D
 ) {
-  const viewerDOMId = viewerStore.id;
+  const viewerDOMId = store.id;
 
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
-  const dataArray = viewerStore.imageUI.image.getPointData().getScalars();
+  const dataArray = store.imageUI.image.getPointData().getScalars();
   if (dataArray.getNumberOfComponents() === 1) {
     const presetRow = document.createElement('div');
     presetRow.setAttribute('class', style.uiRow);
     createColorPresetSelector(
-      viewerStore,
+      store,
       presetRow,
     );
     presetRow.className += ` ${viewerDOMId}-toggle`;
     imageUIGroup.appendChild(presetRow);
+
+    const colorRangeInputRow = document.createElement('div');
+    colorRangeInputRow.setAttribute('class', style.uiRow);
+    createColorRangeInput(
+      store,
+      colorRangeInputRow
+    );
+    colorRangeInputRow.className += ` ${viewerDOMId}-toggle`;
+    imageUIGroup.appendChild(colorRangeInputRow);
   }
 
   createTransferFunctionWidget(
-    viewerStore,
+    store,
     imageUIGroup,
     use2D
   );
@@ -43,11 +53,11 @@ function createImageUI(
     volumeRenderingRow1.setAttribute('class', style.uiRow);
     volumeRenderingRow1.className += ` ${viewerDOMId}-volumeRendering1 ${viewerDOMId}-toggle`;
     createUseShadowToggle(
-      viewerStore,
+      store,
       volumeRenderingRow1,
     );
     createGradientOpacitySlider(
-      viewerStore,
+      store,
       volumeRenderingRow1,
     );
     imageUIGroup.appendChild(volumeRenderingRow1);
@@ -56,21 +66,21 @@ function createImageUI(
     volumeRenderingRow2.setAttribute('class', style.uiRow);
     volumeRenderingRow2.className += ` ${viewerDOMId}-volumeRendering2 ${viewerDOMId}-toggle`;
     createViewPlanesToggle(
-      viewerStore,
+      store,
       imageUIGroup,
       volumeRenderingRow2,
     );
     createSampleDistanceSlider(
-      viewerStore,
+      store,
       volumeRenderingRow2,
     );
     createBlendModeSelector(
-      viewerStore,
+      store,
       volumeRenderingRow2,
     );
     imageUIGroup.appendChild(volumeRenderingRow2);
 
-    reaction(() => { return viewerStore.mainUI.viewMode; },
+    reaction(() => { return store.mainUI.viewMode; },
       (viewMode) => {
         switch(viewMode) {
         case 'XPlane':
@@ -89,7 +99,7 @@ function createImageUI(
       }
     )
 
-    reaction(() => { return viewerStore.imageUI.blendMode; },
+    reaction(() => { return store.imageUI.blendMode; },
       (blendMode) => {
         switch(blendMode) {
         case 0:
@@ -107,12 +117,12 @@ function createImageUI(
     )
 
     createPlaneIndexSliders(
-      viewerStore,
+      store,
       imageUIGroup,
     );
   }
 
-  viewerStore.mainUI.uiContainer.appendChild(imageUIGroup);
+  store.mainUI.uiContainer.appendChild(imageUIGroup);
 }
 
 export default createImageUI;

@@ -10,14 +10,14 @@ import surfaceIcon from '../icons/geometry-surface.svg';
 import surfaceWithEdgesIcon from '../icons/geometry-surface-with-edges.svg';
 
 function createGeometryRepresentationSelector(
-  viewerStore,
+  store,
   geometryRepresentationRow
 ) {
-  const viewerDOMId = viewerStore.id;
+  const viewerDOMId = store.id;
 
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['invertibleButton'],
-    viewerStore.isBackgroundDark
+    store.isBackgroundDark
   );
 
   const geometryHiddenButton = document.createElement('div');
@@ -30,8 +30,8 @@ function createGeometryRepresentationSelector(
   }" for="${viewerDOMId}-geometryHiddenButton">${hiddenIcon}</label>`;
   geometryHiddenButton.addEventListener('click',
     (event) => {
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-      viewerStore.geometriesUI.geometryRepresentations[selectedGeometryIndex] = 'Hidden';
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+      store.geometriesUI.representations[selectedGeometryIndex] = 'Hidden';
     }
   )
   geometryRepresentationRow.appendChild(geometryHiddenButton);
@@ -47,8 +47,8 @@ function createGeometryRepresentationSelector(
   }" for="${viewerDOMId}-geometryWireframeButton">${wireframeIcon}</label>`;
   geometryWireframeButton.addEventListener('click',
     (event) => {
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-      viewerStore.geometriesUI.geometryRepresentations[selectedGeometryIndex] = 'Wireframe';
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+      store.geometriesUI.representations[selectedGeometryIndex] = 'Wireframe';
     }
   )
   geometryRepresentationRow.appendChild(geometryWireframeButton);
@@ -64,8 +64,8 @@ function createGeometryRepresentationSelector(
   }" for="${viewerDOMId}-geometrySurfaceButton">${surfaceIcon}</label>`;
   geometrySurfaceButton.addEventListener('click',
     (event) => {
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-      viewerStore.geometriesUI.geometryRepresentations[selectedGeometryIndex] = 'Surface';
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+      store.geometriesUI.representations[selectedGeometryIndex] = 'Surface';
     }
   )
   geometryRepresentationRow.appendChild(geometrySurfaceButton);
@@ -81,8 +81,8 @@ function createGeometryRepresentationSelector(
   }" for="${viewerDOMId}-geometrySurfaceWithEdgesButton">${surfaceWithEdgesIcon}</label>`;
   geometrySurfaceWithEdgesButton.addEventListener('click',
     (event) => {
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-      viewerStore.geometriesUI.geometryRepresentations[selectedGeometryIndex] = 'Surface with edges';
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+      store.geometriesUI.representations[selectedGeometryIndex] = 'Surface with edges';
     }
   )
   geometryRepresentationRow.appendChild(geometrySurfaceWithEdgesButton);
@@ -121,29 +121,29 @@ function createGeometryRepresentationSelector(
 
   function setRepresentation(value, index) {
     if(value === 'Hidden') {
-      viewerStore.geometriesUI.representationProxies[index].setVisibility(false)
+      store.geometriesUI.representationProxies[index].setVisibility(false)
     } else {
-      viewerStore.geometriesUI.representationProxies[index].setRepresentation(value)
-      viewerStore.geometriesUI.representationProxies[index].setVisibility(true)
+      store.geometriesUI.representationProxies[index].setRepresentation(value)
+      store.geometriesUI.representationProxies[index].setVisibility(true)
     }
     updateEnabledRepresentationButtons(value);
-    viewerStore.renderWindow.render()
+    store.renderWindow.render()
   }
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometryRepresentations.slice();
+    return store.geometriesUI.representations.slice();
   },
-    (geometryRepresentations) => {
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-      const representation = viewerStore.geometriesUI.geometryRepresentations[selectedGeometryIndex];
+    (representations) => {
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+      const representation = store.geometriesUI.representations[selectedGeometryIndex];
       setRepresentation(representation, selectedGeometryIndex);
-      viewerStore.renderWindow.render()
+      store.renderWindow.render()
     }
   )
 
-  reaction(() => { return viewerStore.geometriesUI.selectedGeometryIndex; },
+  reaction(() => { return store.geometriesUI.selectedGeometryIndex; },
     (selectedIndex) => {
-      const selectedGeometryRepresentation = viewerStore.geometriesUI.geometryRepresentations[selectedIndex];
+      const selectedGeometryRepresentation = store.geometriesUI.representations[selectedIndex];
       updateEnabledRepresentationButtons(selectedGeometryRepresentation);
     }
   )
@@ -151,7 +151,7 @@ function createGeometryRepresentationSelector(
   const defaultGeometryRepresentation = 'Surface';
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometries.slice();
+    return store.geometriesUI.geometries.slice();
   },
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
@@ -159,19 +159,19 @@ function createGeometryRepresentationSelector(
       }
 
       geometries.forEach((geometry, index) => {
-        if (viewerStore.geometriesUI.geometryRepresentations.length <= index) {
-          viewerStore.geometriesUI.geometryRepresentations.push(defaultGeometryRepresentation);
+        if (store.geometriesUI.representations.length <= index) {
+          store.geometriesUI.representations.push(defaultGeometryRepresentation);
         }
       })
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-      updateEnabledRepresentationButtons(viewerStore.geometriesUI.geometryRepresentations[selectedGeometryIndex]);
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+      updateEnabledRepresentationButtons(store.geometriesUI.representations[selectedGeometryIndex]);
     }
   )
 
-  const defaultGeometryRepresentations = new Array(viewerStore.geometriesUI.geometries.length);
+  const defaultGeometryRepresentations = new Array(store.geometriesUI.geometries.length);
   defaultGeometryRepresentations.fill(defaultGeometryRepresentation);
   updateEnabledRepresentationButtons(defaultGeometryRepresentation);
-  viewerStore.geometriesUI.geometryRepresentations = defaultGeometryRepresentations;
+  store.geometriesUI.representations = defaultGeometryRepresentations;
 }
 
 export default createGeometryRepresentationSelector;

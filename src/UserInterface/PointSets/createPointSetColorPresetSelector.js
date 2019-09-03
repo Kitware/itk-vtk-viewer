@@ -3,12 +3,12 @@ import style from '../ItkVtkViewer.module.css';
 import ColorPresetNames from '../ColorPresetNames';
 
 function createPointSetColorPresetSelector(
-  viewerStore,
+  store,
   pointSetColorPresetRow
 ) {
   const presetSelector = document.createElement('select');
   presetSelector.setAttribute('class', style.selector);
-  presetSelector.id = `${viewerStore.id}-pointSetColorMapSelector`;
+  presetSelector.id = `${store.id}-pointSetColorMapSelector`;
   presetSelector.innerHTML = ColorPresetNames
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');
@@ -16,41 +16,41 @@ function createPointSetColorPresetSelector(
   const defaultPointSetColorPreset = 'Viridis (matplotlib)';
 
   reaction(() => {
-    return viewerStore.pointSetsUI.pointSets.slice();
+    return store.pointSetsUI.pointSets.slice();
   },
     (pointSets) => {
       if(!!!pointSets || pointSets.length === 0) {
         return;
       }
 
-      const pointSetHasScalars = viewerStore.pointSetsUI.pointSetHasScalars;
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
+      const hasScalars = store.pointSetsUI.hasScalars;
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
 
-      if (viewerStore.pointSetsUI.pointSetHasScalars[selectedPointSetIndex]) {
+      if (store.pointSetsUI.hasScalars[selectedPointSetIndex]) {
         pointSetColorPresetRow.style.display = 'flex';
       } else {
         pointSetColorPresetRow.style.display = 'none';
       }
 
       pointSets.forEach((pointSet, index) => {
-        if (viewerStore.pointSetsUI.pointSetColorPresets.length <= index) {
-          viewerStore.pointSetsUI.pointSetColorPresets.push(defaultPointSetColorPreset);
+        if (store.pointSetsUI.colorPresets.length <= index) {
+          store.pointSetsUI.colorPresets.push(defaultPointSetColorPreset);
         }
       })
 
-      if (pointSetHasScalars[selectedPointSetIndex]) {
-        presetSelector.value = viewerStore.pointSetsUI.pointSetColorPresets[selectedPointSetIndex];
+      if (hasScalars[selectedPointSetIndex]) {
+        presetSelector.value = store.pointSetsUI.colorPresets[selectedPointSetIndex];
       }
     }
   )
 
   reaction(() => {
-    return viewerStore.pointSetsUI.selectedPointSetIndex;
+    return store.pointSetsUI.selectedPointSetIndex;
     },
     (selectedPointSetIndex) => {
-      presetSelector.value = viewerStore.pointSetsUI.pointSetColorPresets[selectedPointSetIndex]
-      const pointSetHasScalars = viewerStore.pointSetsUI.pointSetHasScalars;
-      if (pointSetHasScalars[selectedPointSetIndex]) {
+      presetSelector.value = store.pointSetsUI.colorPresets[selectedPointSetIndex]
+      const hasScalars = store.pointSetsUI.hasScalars;
+      if (hasScalars[selectedPointSetIndex]) {
         pointSetColorPresetRow.style.display = 'flex';
       } else {
         pointSetColorPresetRow.style.display = 'none';
@@ -58,41 +58,43 @@ function createPointSetColorPresetSelector(
     });
 
   reaction(() => {
-    return viewerStore.pointSetsUI.pointSetColorPresets.slice();
+    return store.pointSetsUI.colorPresets.slice();
   },
-    (pointSetColorPresets) => {
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      const value = pointSetColorPresets[selectedPointSetIndex];
+    (colorPresets) => {
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      const value = colorPresets[selectedPointSetIndex];
       presetSelector.value = value;
-      const proxy = viewerStore.pointSetsUI.representationProxies[selectedPointSetIndex];
-      const lutProxy = proxy.getLookupTableProxy();
+      const proxy = store.pointSetsUI.representationProxies[selectedPointSetIndex];
+      const [colorByArrayName, location] = proxy.getColorBy();
+      const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
       if (lutProxy) {
         lutProxy.setPresetName(value);
       }
-      viewerStore.renderWindow.render();
+      store.renderWindow.render();
     });
 
   presetSelector.addEventListener('change', (event) => {
       event.preventDefault();
       event.stopPropagation();
-      const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-      viewerStore.pointSetsUI.pointSetColorPresets[selectedPointSetIndex] = event.target.value;
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      store.pointSetsUI.colorPresets[selectedPointSetIndex] = event.target.value;
     });
 
-  const pointSetHasScalars = viewerStore.pointSetsUI.pointSetHasScalars;
-  const selectedPointSetIndex = viewerStore.pointSetsUI.selectedPointSetIndex;
-  if (pointSetHasScalars[selectedPointSetIndex]) {
+  const hasScalars = store.pointSetsUI.hasScalars;
+  const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+  if (hasScalars[selectedPointSetIndex]) {
     pointSetColorPresetRow.style.display = 'flex';
   } else {
     pointSetColorPresetRow.style.display = 'none';
   }
-  const defaultPointSetColorPresets = new Array(viewerStore.pointSetsUI.pointSets.length);
+  const defaultPointSetColorPresets = new Array(store.pointSetsUI.pointSets.length);
   defaultPointSetColorPresets.fill(defaultPointSetColorPreset);
   presetSelector.value = defaultPointSetColorPreset;
-  viewerStore.pointSetsUI.pointSetColorPresets = defaultPointSetColorPresets;
-  const representationProxies = viewerStore.pointSetsUI.representationProxies;
+  store.pointSetsUI.colorPresets = defaultPointSetColorPresets;
+  const representationProxies = store.pointSetsUI.representationProxies;
   representationProxies.forEach((proxy) => {
-    const lutProxy = proxy.getLookupTableProxy();
+    const [colorByArrayName, location] = proxy.getColorBy();
+    const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
     if (lutProxy) {
       lutProxy.setPresetName(defaultPointSetColorPreset);
     }

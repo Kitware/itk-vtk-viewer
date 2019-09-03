@@ -8,133 +8,129 @@ import {
 } from 'vtk.js/Sources/Rendering/Core/Mapper/Constants';
 
 function createGeometryColorBySelector(
-  viewerStore,
-  geometryColorByRow
+  store,
+  colorByRow
 ) {
-  const geometryColorBySelector = document.createElement('select');
-  geometryColorBySelector.setAttribute('class', style.selector);
-  geometryColorBySelector.id = `${viewerStore.id}-geometryColorBySelector`;
+  const colorBySelector = document.createElement('select');
+  colorBySelector.setAttribute('class', style.selector);
+  colorBySelector.id = `${store.id}-colorBySelector`;
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometries.slice();
+    return store.geometriesUI.geometries.slice();
   },
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
         return;
       }
 
-      const geometryHasScalars = viewerStore.geometriesUI.geometryHasScalars;
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-      const geometryColorByOptions = viewerStore.geometriesUI.geometryColorByOptions;
+      const hasScalars = store.geometriesUI.hasScalars;
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+      const colorByOptions = store.geometriesUI.colorByOptions;
 
-      if (viewerStore.geometriesUI.geometryHasScalars[selectedGeometryIndex] && geometryColorByOptions[selectedGeometryIndex].length > 1) {
-        geometryColorByRow.style.display = 'flex';
+      if (store.geometriesUI.hasScalars[selectedGeometryIndex] && colorByOptions[selectedGeometryIndex].length > 1) {
+        colorByRow.style.display = 'flex';
       } else {
-        geometryColorByRow.style.display = 'none';
+        colorByRow.style.display = 'none';
       }
 
-      const geometryColorByDefault = viewerStore.geometriesUI.geometryColorByDefault;
+      const colorByDefault = store.geometriesUI.colorByDefault;
       geometries.forEach((geometry, index) => {
-        if (viewerStore.geometriesUI.geometryColorBy.length <= index) {
-          viewerStore.geometriesUI.geometryColorBy.push(geometryColorByDefault[index]);
+        if (store.geometriesUI.colorBy.length <= index) {
+          store.geometriesUI.colorBy.push(colorByDefault[index]);
         } else {
-          const current = viewerStore.geometriesUI.geometryColorBy[index];
-          if(!!!viewerStore.geometriesUI.geometryColorByOptions[index].filter((option) => { return option.label === current.label && option.value === current.value; }).length) {
-            viewerStore.geometriesUI.geometryColorBy[index] = geometryColorByDefault[index];
+          const current = store.geometriesUI.colorBy[index];
+          if(!!!store.geometriesUI.colorByOptions[index].filter((option) => { return option.label === current.label && option.value === current.value; }).length) {
+            store.geometriesUI.colorBy[index] = colorByDefault[index];
           }
         }
       })
 
-      if (geometryHasScalars[selectedGeometryIndex]) {
-        geometryColorBySelector.value = viewerStore.geometriesUI.geometryColorBy[selectedGeometryIndex].value;
+      if (hasScalars[selectedGeometryIndex]) {
+        colorBySelector.value = store.geometriesUI.colorBy[selectedGeometryIndex].value;
       }
     }
   )
 
   reaction(() => {
-    return viewerStore.geometriesUI.selectedGeometryIndex;
+    return store.geometriesUI.selectedGeometryIndex;
     },
     (selectedGeometryIndex) => {
-      const geometryColorByOptions = viewerStore.geometriesUI.geometryColorByOptions;
+      const colorByOptions = store.geometriesUI.colorByOptions;
 
-      if (!!geometryColorByOptions[selectedGeometryIndex] && !!geometryColorByOptions[selectedGeometryIndex].length) {
-        geometryColorBySelector.innerHTML = geometryColorByOptions[selectedGeometryIndex]
+      if (!!colorByOptions[selectedGeometryIndex] && !!colorByOptions[selectedGeometryIndex].length) {
+        colorBySelector.innerHTML = colorByOptions[selectedGeometryIndex]
           .map(
             ({ label, value }) =>
               `<option value="${value}" >${label}</option>`
           )
           .join('');
-        geometryColorBySelector.value = viewerStore.geometriesUI.geometryColorBy[selectedGeometryIndex].value;
+        colorBySelector.value = store.geometriesUI.colorBy[selectedGeometryIndex].value;
       }
-      const geometryHasScalars = viewerStore.geometriesUI.geometryHasScalars;
-      if (geometryHasScalars[selectedGeometryIndex] && geometryColorByOptions[selectedGeometryIndex].length > 1) {
-        geometryColorByRow.style.display = 'flex';
+      const hasScalars = store.geometriesUI.hasScalars;
+      if (hasScalars[selectedGeometryIndex] && colorByOptions[selectedGeometryIndex].length > 1) {
+        colorByRow.style.display = 'flex';
       } else {
-        geometryColorByRow.style.display = 'none';
+        colorByRow.style.display = 'none';
       }
     });
 
   reaction(() => {
-    return viewerStore.geometriesUI.geometryColorBy.slice();
+    return store.geometriesUI.colorBy.slice();
   },
-    (geometryColorBy) => {
-      const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-      const [location, colorByArrayName] = geometryColorBy[selectedGeometryIndex].value.split(':');
-      const proxy = viewerStore.geometriesUI.representationProxies[selectedGeometryIndex];
-      const lutProxy = proxy.getLookupTableProxy();
-      const colorPreset = proxy.getLookupTableProxy().getPresetName();
+    (colorBy) => {
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+      const [location, colorByArrayName] = colorBy[selectedGeometryIndex].value.split(':');
+      const proxy = store.geometriesUI.representationProxies[selectedGeometryIndex];
       const interpolateScalarsBeforeMapping = location === 'pointData';
       proxy.setInterpolateScalarsBeforeMapping(interpolateScalarsBeforeMapping);
       proxy.setColorBy(colorByArrayName, location);
-      // Restore
-      proxy.getLookupTableProxy().setPresetName(colorPreset);
-      viewerStore.renderWindow.render()
+      store.renderWindow.render()
 
-      const geometryHasScalars = viewerStore.geometriesUI.geometryHasScalars;
-      if (geometryHasScalars[selectedGeometryIndex]) {
-        geometryColorBySelector.value = viewerStore.geometriesUI.geometryColorBy[selectedGeometryIndex].value;
+      const hasScalars = store.geometriesUI.hasScalars;
+      if (hasScalars[selectedGeometryIndex]) {
+        colorBySelector.value = store.geometriesUI.colorBy[selectedGeometryIndex].value;
       }
     });
 
-  geometryColorBySelector.addEventListener('change', (event) => {
+  colorBySelector.addEventListener('change', (event) => {
     event.preventDefault();
     event.stopPropagation();
-    const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-    const geometryColorByOptions = viewerStore.geometriesUI.geometryColorByOptions;
-    const selectedOption = viewerStore.geometriesUI.geometryColorByOptions[selectedGeometryIndex].filter((option) => { return option.value === event.target.value; })[0]
-    viewerStore.geometriesUI.geometryColorBy[selectedGeometryIndex] = selectedOption;
+    const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+    const colorByOptions = store.geometriesUI.colorByOptions;
+    const selectedOption = store.geometriesUI.colorByOptions[selectedGeometryIndex].filter((option) => { return option.value === event.target.value; })[0]
+    store.geometriesUI.colorBy[selectedGeometryIndex] = selectedOption;
   });
 
   // Initialize coloring
-  const geometryColorByDefault = viewerStore.geometriesUI.geometryColorByDefault;
-  geometryColorByDefault.forEach((colorBy, index) => {
+  const colorByDefault = store.geometriesUI.colorByDefault;
+  colorByDefault.forEach((colorBy, index) => {
     if (colorBy) {
       const [location, colorByArrayName] = colorBy.value.split(':');
-      const proxy = viewerStore.geometriesUI.representationProxies[index];
+      const proxy = store.geometriesUI.representationProxies[index];
       const interpolateScalarsBeforeMapping = location === 'pointData';
       proxy.setInterpolateScalarsBeforeMapping(interpolateScalarsBeforeMapping);
       proxy.setColorBy(colorByArrayName, location);
     }
   })
-  const selectedGeometryIndex = viewerStore.geometriesUI.selectedGeometryIndex;
-  const geometryColorByOptions = viewerStore.geometriesUI.geometryColorByOptions;
-  if (geometryColorByDefault[selectedGeometryIndex]) {
-    geometryColorBySelector.innerHTML = geometryColorByOptions[selectedGeometryIndex]
+  const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+  const colorByOptions = store.geometriesUI.colorByOptions;
+  if (colorByDefault[selectedGeometryIndex]) {
+    colorBySelector.innerHTML = colorByOptions[selectedGeometryIndex]
       .map(
         ({ label, value }) =>
           `<option value="${value}" >${label}</option>`
       )
       .join('');
-    geometryColorBySelector.value = geometryColorByDefault[selectedGeometryIndex].value;
+    colorBySelector.value = colorByDefault[selectedGeometryIndex].value;
   }
-  if (viewerStore.geometriesUI.geometryHasScalars[selectedGeometryIndex] && geometryColorByOptions[selectedGeometryIndex].length > 1) {
-    geometryColorByRow.style.display = 'flex';
+  if (store.geometriesUI.hasScalars[selectedGeometryIndex] && colorByOptions[selectedGeometryIndex].length > 1) {
+    colorByRow.style.display = 'flex';
   } else {
-    geometryColorByRow.style.display = 'none';
+    colorByRow.style.display = 'none';
   }
-  viewerStore.geometriesUI.geometryColorBy = geometryColorByDefault;
+  store.geometriesUI.colorBy = colorByDefault;
 
-  geometryColorByRow.appendChild(geometryColorBySelector);
+  colorByRow.appendChild(colorBySelector);
 }
 
 export default createGeometryColorBySelector;

@@ -27,19 +27,19 @@ const createViewer = (
 
 
   // Todo: deserialize from viewerState, if present
-  const viewerStore = new ViewerStore(proxyManager);
+  const store = new ViewerStore(proxyManager);
 
-  applyStyle(viewerStore.container, viewerStore.style.containerStyle);
-  rootContainer.appendChild(viewerStore.container);
+  applyStyle(store.container, store.style.containerStyle);
+  rootContainer.appendChild(store.container);
   autorun(() => {
-    applyStyle(viewerStore.container, viewerStore.style.containerStyle);
+    applyStyle(store.container, store.style.containerStyle);
   })
   autorun(() => {
-    viewerStore.itkVtkView.setBackground(viewerStore.style.backgroundColor);
+    store.itkVtkView.setBackground(store.style.backgroundColor);
   })
 
   if (viewerStyle) {
-    viewerStore.style = viewerStyle;
+    store.style = viewerStyle;
   }
 
   const testCanvas = document.createElement("canvas");
@@ -56,172 +56,172 @@ const createViewer = (
     suggestion.appendChild(getWebGLA);
     const suggestionText = document.createTextNode(" This is required to view interactive 3D visualizations.");
     suggestion.appendChild(suggestionText);
-    viewerStore.container.appendChild(suggestion);
+    store.container.appendChild(suggestion);
     return null;
   }
 
-  UserInterface.addLogo(viewerStore.container);
+  UserInterface.addLogo(store.container);
 
   UserInterface.createMainUI(
     rootContainer,
-    viewerStore,
+    store,
     use2D,
   );
 
   let updatingImage = false;
-  reaction(() => viewerStore.imageUI.image,
+  reaction(() => store.imageUI.image,
     (image) => {
       if (!!!image) {
         return;
       }
-      if (!!!viewerStore.imageUI.representationProxy) {
-        viewerStore.imageUI.source.setInputData(image);
+      if (!!!store.imageUI.representationProxy) {
+        store.imageUI.source.setInputData(image);
 
-        proxyManager.createRepresentationInAllViews(viewerStore.imageUI.source);
-        viewerStore.imageUI.representationProxy = proxyManager.getRepresentation(viewerStore.imageUI.source, viewerStore.itkVtkView);
+        proxyManager.createRepresentationInAllViews(store.imageUI.source);
+        store.imageUI.representationProxy = proxyManager.getRepresentation(store.imageUI.source, store.itkVtkView);
 
         const dataArray = image.getPointData().getScalars();
-        viewerStore.imageUI.lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
+        store.imageUI.lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
         if (dataArray.getNumberOfComponents() > 1) {
-          viewerStore.imageUI.lookupTableProxy.setPresetName('Grayscale');
+          store.imageUI.lookupTableProxy.setPresetName('Grayscale');
         } else {
-          viewerStore.imageUI.lookupTableProxy.setPresetName('Viridis (matplotlib)');
+          store.imageUI.lookupTableProxy.setPresetName('Viridis (matplotlib)');
         }
-        viewerStore.imageUI.piecewiseFunctionProxy = proxyManager.getPiecewiseFunction(dataArray.getName());
+        store.imageUI.piecewiseFunctionProxy = proxyManager.getPiecewiseFunction(dataArray.getName());
 
         // Slices share the same lookup table as the volume rendering.
-        const lut = viewerStore.imageUI.lookupTableProxy.getLookupTable();
-        const sliceActors = viewerStore.imageUI.representationProxy.getActors();
+        const lut = store.imageUI.lookupTableProxy.getLookupTable();
+        const sliceActors = store.imageUI.representationProxy.getActors();
         sliceActors.forEach((actor) => {
           actor.getProperty().setRGBTransferFunction(lut);
         });
 
         if (use2D) {
-          viewerStore.itkVtkView.setViewMode('ZPlane');
-          viewerStore.itkVtkView.setOrientationAxesVisibility(false);
+          store.itkVtkView.setViewMode('ZPlane');
+          store.itkVtkView.setOrientationAxesVisibility(false);
         } else {
-          viewerStore.itkVtkView.setViewMode('VolumeRendering');
+          store.itkVtkView.setViewMode('VolumeRendering');
         }
 
         UserInterface.createImageUI(
-          viewerStore,
+          store,
           use2D
         );
-        const annotationContainer = viewerStore.container.querySelector('.js-se');
+        const annotationContainer = store.container.querySelector('.js-se');
         annotationContainer.style.fontFamily = 'monospace';
       } else {
         if (updatingImage) {
           return;
         }
         updatingImage = true;
-        viewerStore.imageUI.source.setInputData(image);
-        const transferFunctionWidget = viewerStore.imageUI.transferFunctionWidget;
+        store.imageUI.source.setInputData(image);
+        const transferFunctionWidget = store.imageUI.transferFunctionWidget;
         transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
         transferFunctionWidget.invokeOpacityChange(transferFunctionWidget);
         transferFunctionWidget.modified();
-        viewerStore.imageUI.croppingWidget.setVolumeMapper(viewerStore.imageUI.representationProxy.getMapper());
-        const cropFilter = viewerStore.imageUI.representationProxy.getCropFilter();
+        store.imageUI.croppingWidget.setVolumeMapper(store.imageUI.representationProxy.getMapper());
+        const cropFilter = store.imageUI.representationProxy.getCropFilter();
         cropFilter.reset();
-        viewerStore.imageUI.croppingWidget.resetWidgetState();
+        store.imageUI.croppingWidget.resetWidgetState();
         setTimeout(() => {
           transferFunctionWidget.render();
-          viewerStore.renderWindow.render();
+          store.renderWindow.render();
           updatingImage = false;
         }, 0);
       }
     }
   );
-  viewerStore.imageUI.image = image;
+  store.imageUI.image = image;
 
-  reaction(() => viewerStore.geometriesUI.geometries.slice(),
+  reaction(() => store.geometriesUI.geometries.slice(),
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
         return;
       }
 
       geometries.forEach((geometry, index) => {
-        if (viewerStore.geometriesUI.sources.length <= index) {
+        if (store.geometriesUI.sources.length <= index) {
           const uid = `GeometrySource${index}`
           const geometrySource = proxyManager.createProxy('Sources', 'TrivialProducer', {
             name: uid,
           });
-          viewerStore.geometriesUI.sources.push(geometrySource)
-          viewerStore.geometriesUI.sources[index].setInputData(geometry)
+          store.geometriesUI.sources.push(geometrySource)
+          store.geometriesUI.sources[index].setInputData(geometry)
           proxyManager.createRepresentationInAllViews(geometrySource);
-          const geometryRepresentation = proxyManager.getRepresentation(geometrySource, viewerStore.itkVtkView);
-          viewerStore.geometriesUI.representationProxies.push(geometryRepresentation);
+          const geometryRepresentation = proxyManager.getRepresentation(geometrySource, store.itkVtkView);
+          store.geometriesUI.representationProxies.push(geometryRepresentation);
         } else {
-          viewerStore.geometriesUI.sources[index].setInputData(geometry);
-          viewerStore.geometriesUI.representationProxies[index].setVisibility(true);
+          store.geometriesUI.sources[index].setInputData(geometry);
+          store.geometriesUI.representationProxies[index].setVisibility(true);
         }
       })
 
-      if(geometries.length < viewerStore.geometriesUI.representationProxies.length) {
-        const proxiesToDisable = viewerStore.geometriesUI.representationProxies.slice(geometries.length);
+      if(geometries.length < store.geometriesUI.representationProxies.length) {
+        const proxiesToDisable = store.geometriesUI.representationProxies.slice(geometries.length);
         proxiesToDisable.forEach((proxy) => {
           proxiesToDisable.setVisibility(false);
         })
       }
 
-      if(!viewerStore.geometriesUI.initialized) {
+      if(!store.geometriesUI.initialized) {
         UserInterface.createGeometriesUI(
-          viewerStore,
+          store,
         );
       }
-      viewerStore.geometriesUI.geometryNames = geometries.map((geometry, index) => `Geometry ${index}`);
-      let geometryRepresentations = viewerStore.geometriesUI.geometryRepresentations.slice(0, geometries.length);
+      store.geometriesUI.names = geometries.map((geometry, index) => `Geometry ${index}`);
+      let representations = store.geometriesUI.representations.slice(0, geometries.length);
       const defaultGeometryRepresentations = new Array(geometries.length);
       defaultGeometryRepresentations.fill('Surface');
-      geometryRepresentations.concat(defaultGeometryRepresentations.slice(0, geometries.length - geometryRepresentations.length));
-      viewerStore.geometriesUI.geometryRepresentations = geometryRepresentations;
+      representations.concat(defaultGeometryRepresentations.slice(0, geometries.length - representations.length));
+      store.geometriesUI.representations = representations;
     }
   );
-  viewerStore.geometriesUI.geometries = geometries;
+  store.geometriesUI.geometries = geometries;
 
-  reaction(() => viewerStore.pointSetsUI.pointSets.slice(),
+  reaction(() => store.pointSetsUI.pointSets.slice(),
     (pointSets) => {
       if(!!!pointSets || pointSets.length === 0) {
         return;
       }
 
       pointSets.forEach((pointSet, index) => {
-        if (viewerStore.pointSetsUI.sources.length <= index) {
+        if (store.pointSetsUI.sources.length <= index) {
           const uid = `PointSetSource${index}`
           const pointSetSource = proxyManager.createProxy('Sources', 'TrivialProducer', {
             name: uid,
           });
-          viewerStore.pointSetsUI.sources.push(pointSetSource)
-          viewerStore.pointSetsUI.sources[index].setInputData(pointSet)
+          store.pointSetsUI.sources.push(pointSetSource)
+          store.pointSetsUI.sources[index].setInputData(pointSet)
           const pointSetRepresentationUid = `pointSetRepresentation${index}`
           const pointSetRepresentation = proxyManager.createProxy('Representations', 'PointSet', {
             name: pointSetRepresentationUid,
           });
           pointSetRepresentation.setInput(pointSetSource);
-          viewerStore.itkVtkView.addRepresentation(pointSetRepresentation);
-          viewerStore.pointSetsUI.representationProxies.push(pointSetRepresentation);
+          store.itkVtkView.addRepresentation(pointSetRepresentation);
+          store.pointSetsUI.representationProxies.push(pointSetRepresentation);
         } else {
-          viewerStore.pointSetsUI.sources[index].setInputData(pointSet);
-          viewerStore.pointSetsUI.representationProxies[index].setVisibility(true);
+          store.pointSetsUI.sources[index].setInputData(pointSet);
+          store.pointSetsUI.representationProxies[index].setVisibility(true);
         }
       })
 
-      if(pointSets.length < viewerStore.pointSetsUI.representationProxies.length) {
-        const proxiesToDisable = viewerStore.pointSetsUI.representationProxies.slice(pointSets.length);
+      if(pointSets.length < store.pointSetsUI.representationProxies.length) {
+        const proxiesToDisable = store.pointSetsUI.representationProxies.slice(pointSets.length);
         proxiesToDisable.forEach((proxy) => {
           proxiesToDisable.setVisibility(false);
         })
       }
 
-      if(!viewerStore.pointSetsUI.initialized) {
+      if(!store.pointSetsUI.initialized) {
         UserInterface.createPointSetsUI(
-          viewerStore,
+          store,
           pointSets,
         );
       }
 
     // Estimate a reasonable point sphere radius in pixels
-    const renderView = viewerStore.renderWindow.getViews()[0];
-    const windowWidth = renderView.getViewportSize(viewerStore.itkVtkView.getRenderer())[0];
+    const renderView = store.renderWindow.getViews()[0];
+    const windowWidth = renderView.getViewportSize(store.itkVtkView.getRenderer())[0];
     const maxLength = pointSets.reduce((max, pointSet) => {
       pointSet.computeBounds();
       const bounds = pointSet.getBounds();
@@ -231,57 +231,57 @@ const createViewer = (
       return max;
     }, -Infinity);
     const radiusFactor = windowWidth / maxLength * 2e-4;
-    viewerStore.pointSetsUI.representationProxies.forEach((proxy) => {
+    store.pointSetsUI.representationProxies.forEach((proxy) => {
       proxy.setRadiusFactor(radiusFactor);
     })
     }
   );
-  viewerStore.pointSetsUI.pointSets = pointSets;
+  store.pointSetsUI.pointSets = pointSets;
 
 
-  viewerStore.itkVtkView.resize();
-  const resizeSensor = new ResizeSensor(viewerStore.container, function() {
-    viewerStore.itkVtkView.resize();
+  store.itkVtkView.resize();
+  const resizeSensor = new ResizeSensor(store.container, function() {
+    store.itkVtkView.resize();
   });
   proxyManager.renderAllViews();
 
-  setTimeout(viewerStore.itkVtkView.resetCamera, 1);
+  setTimeout(store.itkVtkView.resetCamera, 1);
 
   const publicAPI = {};
 
   publicAPI.renderLater = () => {
-    viewerStore.itkVtkView.renderLater();
+    store.itkVtkView.renderLater();
   }
 
-  const viewerDOMId = viewerStore.id;
+  const viewerDOMId = store.id;
 
   const setImage = (image) => {
-    viewerStore.imageUI.image = image;
+    store.imageUI.image = image;
   }
   publicAPI.setImage = macro.throttle(setImage, 100);
 
   publicAPI.setPointSets = (pointSets) => {
-    viewerStore.pointSetsUI.pointSets = pointSets;
+    store.pointSetsUI.pointSets = pointSets;
   }
 
   publicAPI.setGeometries = (geometries) => {
-    viewerStore.geometriesUI.geometries = geometries;
+    store.geometriesUI.geometries = geometries;
   }
 
   publicAPI.setUserInterfaceCollapsed = (collapse) => {
-    const collapsed = viewerStore.mainUI.collapsed;
+    const collapsed = store.mainUI.collapsed;
     if (collapse && !collapsed || !collapse && collapsed) {
-      viewerStore.mainUI.collapsed = !collapsed;
+      store.mainUI.collapsed = !collapsed;
     }
   }
 
   publicAPI.getUserInterfaceCollapsed = () => {
-    return viewerStore.mainUI.collapsed;
+    return store.mainUI.collapsed;
   }
 
   const toggleUserInterfaceCollapsedHandlers = [];
   autorun(() => {
-    const collapsed = viewerStore.mainUI.collapsed;
+    const collapsed = store.mainUI.collapsed;
     toggleUserInterfaceCollapsedHandlers.forEach((handler) => {
       handler.call(null, collapsed);
     })
@@ -303,13 +303,13 @@ const createViewer = (
 
 
   publicAPI.captureImage = () => {
-    return viewerStore.itkVtkView.captureImage();
+    return store.itkVtkView.captureImage();
   }
 
 
   const toggleAnnotationsHandlers = [];
   autorun(() => {
-    const enabled = viewerStore.mainUI.annotationsEnabled;
+    const enabled = store.mainUI.annotationsEnabled;
     toggleAnnotationsHandlers.forEach((handler) => {
       handler.call(null, enabled);
     })
@@ -325,16 +325,16 @@ const createViewer = (
   }
 
   publicAPI.setAnnotationsEnabled = (enabled) => {
-    const annotations = viewerStore.mainUI.annotationsEnabled;
+    const annotations = store.mainUI.annotationsEnabled;
     if (enabled && !annotations || !enabled && annotations) {
-      viewerStore.mainUI.annotationsEnabled = enabled;
+      store.mainUI.annotationsEnabled = enabled;
     }
   }
 
 
   const toggleRotateHandlers = [];
   autorun(() => {
-    const enabled = viewerStore.mainUI.rotateEnabled;
+    const enabled = store.mainUI.rotateEnabled;
     toggleRotateHandlers.forEach((handler) => {
       handler.call(null, enabled);
     })
@@ -350,16 +350,16 @@ const createViewer = (
   }
 
   publicAPI.setRotateEnabled = (enabled) => {
-    const rotate = viewerStore.mainUI.rotateEnabled;
+    const rotate = store.mainUI.rotateEnabled;
     if (enabled && !rotate || !enabled && rotate) {
-      viewerStore.mainUI.rotateEnabled = enabled;
+      store.mainUI.rotateEnabled = enabled;
     }
   }
 
 
   const toggleFullscreenHandlers = [];
   autorun(() => {
-    const enabled = viewerStore.mainUI.fullscreenEnabled;
+    const enabled = store.mainUI.fullscreenEnabled;
     toggleFullscreenHandlers.forEach((handler) => {
       handler.call(null, enabled);
     })
@@ -375,16 +375,16 @@ const createViewer = (
   }
 
   publicAPI.setFullscreenEnabled = (enabled) => {
-    const fullscreen = viewerStore.mainUI.fullscreenEnabled;
+    const fullscreen = store.mainUI.fullscreenEnabled;
     if (enabled && !fullscreen || !enabled && fullscreen) {
-      viewerStore.mainUI.fullscreenEnabled = enabled;
+      store.mainUI.fullscreenEnabled = enabled;
     }
   }
 
 
   const toggleInterpolationHandlers = [];
   autorun(() => {
-    const enabled = viewerStore.mainUI.interpolationEnabled;
+    const enabled = store.mainUI.interpolationEnabled;
     toggleInterpolationHandlers.forEach((handler) => {
       handler.call(null, enabled);
     })
@@ -400,16 +400,16 @@ const createViewer = (
   }
 
   publicAPI.setInterpolationEnabled = (enabled) => {
-    const interpolation = viewerStore.mainUI.interpolationEnabled;
+    const interpolation = store.mainUI.interpolationEnabled;
     if (enabled && !interpolation || !enabled && interpolation) {
-      viewerStore.mainUI.interpolationEnabled = enabled;
+      store.mainUI.interpolationEnabled = enabled;
     }
   }
 
 
   const toggleCroppingPlanesHandlers = [];
   autorun(() => {
-    const enabled = viewerStore.mainUI.croppingPlanesEnabled;
+    const enabled = store.mainUI.croppingPlanesEnabled;
     toggleCroppingPlanesHandlers.forEach((handler) => {
       handler.call(null, enabled);
     })
@@ -425,24 +425,24 @@ const createViewer = (
   }
 
   publicAPI.setCroppingPlanesEnabled = (enabled) => {
-    const cropping = viewerStore.mainUI.croppingPlanesEnabled;
+    const cropping = store.mainUI.croppingPlanesEnabled;
     if (enabled && !cropping || !enabled && cropping) {
-      viewerStore.mainUI.croppingPlanesEnabled = cropping;
+      store.mainUI.croppingPlanesEnabled = cropping;
     }
   }
 
   publicAPI.subscribeCroppingPlanesChanged = (handler) => {
-    return viewerStore.imageUI.addCroppingPlanesChangedHandler(handler);
+    return store.imageUI.addCroppingPlanesChangedHandler(handler);
   }
 
   publicAPI.subscribeResetCrop = (handler) => {
-    return viewerStore.imageUI.addResetCropHandler(handler);
+    return store.imageUI.addResetCropHandler(handler);
   }
 
 
   const selectColorMapHandlers = [];
   autorun(() => {
-    const colorMap = viewerStore.imageUI.colorMap;
+    const colorMap = store.imageUI.colorMap;
     selectColorMapHandlers.forEach((handler) => {
       handler.call(null, colorMap);
     })
@@ -458,16 +458,16 @@ const createViewer = (
   }
 
   publicAPI.setColorMap = (colorMap) => {
-    const currentColorMap = viewerStore.imageUI.colorMap;
+    const currentColorMap = store.imageUI.colorMap;
     if (currentColorMap !== colorMap) {
-      viewerStore.imageUI.colorMap = colorMap;
+      store.imageUI.colorMap = colorMap;
     }
   }
 
 
   if (!use2D) {
     const viewModeChangedHandlers = [];
-    reaction(() => { return viewerStore.mainUI.viewMode; },
+    reaction(() => { return store.mainUI.viewMode; },
       (viewMode) => {
         switch(viewMode) {
         case 'XPlane':
@@ -509,7 +509,7 @@ const createViewer = (
       if (!image) {
         return
       }
-      viewerStore.mainUI.viewMode = mode;
+      store.mainUI.viewMode = mode;
     }
 
 
@@ -567,7 +567,7 @@ const createViewer = (
 
     const toggleShadowHandlers = [];
     autorun(() => {
-      const enabled = viewerStore.imageUI.useShadow;
+      const enabled = store.imageUI.useShadow;
       toggleShadowHandlers.forEach((handler) => {
         handler.call(null, enabled);
       })
@@ -583,16 +583,16 @@ const createViewer = (
     }
 
     publicAPI.setShadowEnabled = (enabled) => {
-      const shadow = viewerStore.imageUI.useShadow;
+      const shadow = store.imageUI.useShadow;
       if (enabled && !shadow || !enabled && shadow) {
-        viewerStore.imageUI.useShadow = enabled;
+        store.imageUI.useShadow = enabled;
       }
     }
 
 
     const toggleSlicingPlanesHandlers = [];
     autorun(() => {
-      const enabled = viewerStore.imageUI.slicingPlanesEnabled;
+      const enabled = store.imageUI.slicingPlanesEnabled;
       toggleSlicingPlanesHandlers.forEach((handler) => {
         handler.call(null, enabled);
       })
@@ -608,16 +608,16 @@ const createViewer = (
     }
 
     publicAPI.setSlicingPlanesEnabled = (enabled) => {
-      const slicingPlanes = viewerStore.imageUI.slicingPlanesEnabled;
+      const slicingPlanes = store.imageUI.slicingPlanesEnabled;
       if (enabled && !slicingPlanes || !enabled && slicingPlanes) {
-        viewerStore.imageUI.slicingPlanesEnabled = enabled;
+        store.imageUI.slicingPlanesEnabled = enabled;
       }
     }
 
 
     const gradientOpacitySliderHandlers = [];
     autorun(() => {
-      const gradientOpacity = viewerStore.imageUI.gradientOpacity;
+      const gradientOpacity = store.imageUI.gradientOpacity;
       gradientOpacitySliderHandlers.forEach((handler) => {
         handler.call(null, gradientOpacity);
       })
@@ -633,16 +633,16 @@ const createViewer = (
     }
 
     publicAPI.setGradientOpacity = (opacity) => {
-      const currentOpacity = viewerStore.imageUI.gradientOpacity;
+      const currentOpacity = store.imageUI.gradientOpacity;
       if (currentOpacity !== parseFloat(opacity)) {
-        viewerStore.imageUI.gradientOpacity = opacity;
+        store.imageUI.gradientOpacity = opacity;
       }
     }
 
 
     const blendModeHandlers = [];
     autorun(() => {
-      const blendMode = viewerStore.imageUI.blendMode;
+      const blendMode = store.imageUI.blendMode;
       blendModeHandlers.forEach((handler) => {
         handler.call(null, blendMode);
       })
@@ -658,9 +658,9 @@ const createViewer = (
     }
 
     publicAPI.setBlendMode = (blendMode) => {
-      const currentBlendMode = viewerStore.imageUI.blendMode;
+      const currentBlendMode = store.imageUI.blendMode;
       if (currentBlendMode !== parseFloat(blendMode)) {
-        viewerStore.imageUI.blendMode = blendMode;
+        store.imageUI.blendMode = blendMode;
       }
     }
 
@@ -677,11 +677,11 @@ const createViewer = (
 
   publicAPI.setPointSetColor = (index, rgbColor) => {
     const hexColor = rgb2hex(rgbColor);
-    viewerStore.pointSetsUI.pointSetColors[index] = hexColor;
+    store.pointSetsUI.colors[index] = hexColor;
   }
 
   publicAPI.setPointSetOpacity = (index, opacity) => {
-    viewerStore.pointSetsUI.pointSetOpacities[index] = opacity;
+    store.pointSetsUI.opacities[index] = opacity;
   }
 
   //publicAPI.subscribeSelectColorMap = (handler) => {
@@ -695,15 +695,15 @@ const createViewer = (
 
   publicAPI.setGeometryColor = (index, rgbColor) => {
     const hexColor = rgb2hex(rgbColor);
-    viewerStore.geometriesUI.geometryColors[index] = hexColor;
+    store.geometriesUI.colors[index] = hexColor;
   }
 
   publicAPI.setGeometryOpacity = (index, opacity) => {
-    viewerStore.geometriesUI.geometryOpacities[index] = opacity;
+    store.geometriesUI.opacities[index] = opacity;
   }
 
   publicAPI.getViewProxy = () => {
-    return viewerStore.itkVtkView;
+    return store.itkVtkView;
   }
 
   //publicAPI.saveState = () => {

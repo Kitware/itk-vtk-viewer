@@ -85,14 +85,14 @@ class GeometriesUIStore {
           .getPointData()
           .getArrays()
           .map((a) => ({
-            label: `(p) ${a.getName()}`,
+            label: `Points: ${a.getName()}`,
             value: `pointData:${a.getName()}`,
           })),
         geometry
           .getCellData()
           .getArrays()
           .map((a) => ({
-            label: `(c) ${a.getName()}`,
+            label: `Cells: ${a.getName()}`,
             value: `cellData:${a.getName()}`,
           }))
         )
@@ -108,13 +108,13 @@ class GeometriesUIStore {
       if (!!pointData.getScalars()) {
         const activeIndex = pointData.getActiveScalars();
         const activeArray = pointData.getArrays()[activeIndex];
-        return { label: `(p) ${activeArray.getName()}`, value: `pointData:${activeArray.getName()}` };
+        return { label: `Points: ${activeArray.getName()}`, value: `pointData:${activeArray.getName()}` };
       }
       const cellData = geometry.getCellData();
       if (!!cellData.getScalars()) {
         const activeIndex = cellData.getActiveScalars();
         const activeArray = cellData.getArrays()[activeIndex];
-        return { label: `(c) ${activeArray.getName()}`, value: `cellData:${activeArray.getName()}` };
+        return { label: `Cells: ${activeArray.getName()}`, value: `cellData:${activeArray.getName()}` };
       }
       throw new Error('Should not reach here.')
       })
@@ -153,7 +153,7 @@ class PointSetsUIStore {
           .getPointData()
           .getArrays()
           .map((a) => ({
-            label: `(p) ${a.getName()}`,
+            label: `${a.getName()}`,
             value: `pointData:${a.getName()}`,
           })),
         )
@@ -169,7 +169,7 @@ class PointSetsUIStore {
       if (!!pointData.getScalars()) {
         const activeIndex = pointData.getActiveScalars();
         const activeArray = pointData.getArrays()[activeIndex];
-        return { label: `(p) ${activeArray.getName()}`, value: `pointData:${activeArray.getName()}` };
+        return { label: `${activeArray.getName()}`, value: `pointData:${activeArray.getName()}` };
       }
       throw new Error('Should not reach here.')
       })

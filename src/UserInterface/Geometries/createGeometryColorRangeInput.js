@@ -51,8 +51,9 @@ function createColorRangeInput(
     minimumInput.max = range[1];
     maximumInput.min = range[0];
     maximumInput.max = range[1];
-    if (dataArray instanceof Float32Array || dataArray instanceof Float64Array) {
-      const step = (range[1] - range[0]) / 1000.0;
+    const data = dataArray.getData();
+    if (data instanceof Float32Array || data instanceof Float64Array) {
+      const step = (range[1] - range[0]) / 100.0;
       minimumInput.step = step;
       maximumInput.step = step;
     }

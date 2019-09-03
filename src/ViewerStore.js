@@ -59,14 +59,14 @@ class GeometriesUIStore {
   representationProxies = [];
 
   @observable selectedGeometryIndex = 0;
-  @observable geometryNames = [];
-  @observable geometryRepresentations = [];
-  @observable geometryColorBy = [];
-  @observable geometryColors = [];
-  @observable geometryOpacities = [];
-  @observable geometryColorPresets = [];
-  @observable geometryColorRanges = [];
-  @computed get geometryHasScalars() {
+  @observable names = [];
+  @observable representations = [];
+  @observable colorBy = [];
+  @observable colors = [];
+  @observable opacities = [];
+  @observable colorPresets = [];
+  @observable colorRanges = [];
+  @computed get hasScalars() {
     return this.geometries.map((geometry) => {
       const pointData = geometry.getPointData();
       const hasPointDataScalars = !!pointData.getScalars();
@@ -75,9 +75,9 @@ class GeometriesUIStore {
       return hasPointDataScalars || hasCellDataScalars;
       })
     };
-  @computed get geometryColorByOptions() {
+  @computed get colorByOptions() {
     return this.geometries.map((geometry, index) => {
-      if(!this.geometryHasScalars[index]) {
+      if(!this.hasScalars[index]) {
         return null
       }
       const options = [].concat(
@@ -99,9 +99,9 @@ class GeometriesUIStore {
       return options;
     })
   };
-  @computed get geometryColorByDefault() {
+  @computed get colorByDefault() {
     return this.geometries.map((geometry, index) => {
-      if(!this.geometryHasScalars[index]) {
+      if(!this.hasScalars[index]) {
         return null
       }
       const pointData = geometry.getPointData();

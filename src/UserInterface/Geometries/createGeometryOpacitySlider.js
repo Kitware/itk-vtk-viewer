@@ -42,12 +42,12 @@ function createGeometryOpacitySlider(
 
 
       geometries.forEach((geometry, index) => {
-        if (store.geometriesUI.geometryOpacities.length <= index) {
-          store.geometriesUI.geometryOpacities.push(defaultGeometryOpacity);
+        if (store.geometriesUI.opacities.length <= index) {
+          store.geometriesUI.opacities.push(defaultGeometryOpacity);
         }
       })
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-      opacityElement.value = store.geometriesUI.geometryOpacities[selectedGeometryIndex];
+      opacityElement.value = store.geometriesUI.opacities[selectedGeometryIndex];
     }
   )
 
@@ -55,15 +55,15 @@ function createGeometryOpacitySlider(
     return store.geometriesUI.selectedGeometryIndex;
     },
     (selectedGeometryIndex) => {
-      opacityElement.value = store.geometriesUI.geometryOpacities[selectedGeometryIndex];
+      opacityElement.value = store.geometriesUI.opacities[selectedGeometryIndex];
     });
 
   reaction(() => {
-    return store.geometriesUI.geometryOpacities.slice();
+    return store.geometriesUI.opacities.slice();
   },
-    (geometryOpacities) => {
+    (opacities) => {
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-      const value = geometryOpacities[selectedGeometryIndex];
+      const value = opacities[selectedGeometryIndex];
       store.geometriesUI.representationProxies[selectedGeometryIndex].setOpacity(value)
       store.renderWindow.render();
       opacityElement.value = value;
@@ -74,13 +74,13 @@ function createGeometryOpacitySlider(
       event.preventDefault();
       event.stopPropagation();
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-      store.geometriesUI.geometryOpacities[selectedGeometryIndex] = Number(event.target.value);
+      store.geometriesUI.opacities[selectedGeometryIndex] = Number(event.target.value);
     });
 
   const defaultGeometryOpacities = new Array(store.geometriesUI.geometries.length);
   defaultGeometryOpacities.fill(defaultGeometryOpacity);
   opacityElement.value = defaultGeometryOpacity;
-  store.geometriesUI.geometryOpacities = defaultGeometryOpacities;
+  store.geometriesUI.opacities = defaultGeometryOpacities;
 
   geometryColorRow.appendChild(sliderEntry);
 }

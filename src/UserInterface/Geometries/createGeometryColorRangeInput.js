@@ -16,15 +16,15 @@ function createColorRangeInput(
 
   function updateColorTransferFunction() {
     const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-    const colorRanges = store.geometriesUI.geometryColorRanges[selectedGeometryIndex];
-    const colorByKey = store.geometriesUI.geometryColorBy[selectedGeometryIndex].value;
+    const colorRanges = store.geometriesUI.colorRanges[selectedGeometryIndex];
+    const colorByKey = store.geometriesUI.colorBy[selectedGeometryIndex].value;
     const colorRange = colorRanges.get(colorByKey);
 
     const proxy = store.geometriesUI.representationProxies[selectedGeometryIndex];
     const [colorByArrayName, location] = proxy.getColorBy();
     const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
     const colorTransferFunction = lutProxy.getLookupTable();
-    const colorPreset = store.geometriesUI.geometryColorPresets[selectedGeometryIndex];
+    const colorPreset = store.geometriesUI.colorPresets[selectedGeometryIndex];
     lutProxy.setPresetName(colorPreset);
     colorTransferFunction.setMappingRange(...colorRange);
     colorTransferFunction.updateRange();
@@ -36,10 +36,10 @@ function createColorRangeInput(
 
   function updateColorRangeInput() {
     const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-    if (!store.geometriesUI.geometryHasScalars[selectedGeometryIndex]) {
+    if (!store.geometriesUI.hasScalars[selectedGeometryIndex]) {
       return;
     }
-    const colorByKey = store.geometriesUI.geometryColorBy[selectedGeometryIndex].value;
+    const colorByKey = store.geometriesUI.colorBy[selectedGeometryIndex].value;
     const [location, colorByArrayName] = colorByKey.split(':');
     const geometry = store.geometriesUI.geometries[selectedGeometryIndex];
     const dataArray = location === 'pointData' ?
@@ -60,7 +60,7 @@ function createColorRangeInput(
   }
 
   function setDefaultColorRanges() {
-    const colorByOptions = store.geometriesUI.geometryColorByOptions;
+    const colorByOptions = store.geometriesUI.colorByOptions;
     if(!!!colorByOptions || colorByOptions.length === 0) {
       return;
     }
@@ -68,7 +68,7 @@ function createColorRangeInput(
     const geometries = store.geometriesUI.geometries;
     colorByOptions.forEach((options, index) => {
       const geometry = geometries[index];
-      if (store.geometriesUI.geometryColorRanges.length <= index) {
+      if (store.geometriesUI.colorRanges.length <= index) {
         const colorRanges = new Map();
         if (options) {
           options.forEach((option) => {
@@ -80,9 +80,9 @@ function createColorRangeInput(
             colorRanges.set(option.value, range);
           })
         }
-        store.geometriesUI.geometryColorRanges.push(colorRanges);
+        store.geometriesUI.colorRanges.push(colorRanges);
       } else {
-        const colorRanges = store.geometriesUI.geometryColorRanges[index];
+        const colorRanges = store.geometriesUI.colorRanges[index];
         options.forEach((option) => {
           const [location, colorByArrayName] = option.value.split(':');
           const dataArray = location === 'pointData' ?
@@ -118,10 +118,10 @@ function createColorRangeInput(
       event.preventDefault();
       event.stopPropagation();
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-      const colorByKey = store.geometriesUI.geometryColorBy[selectedGeometryIndex].value;
-      const range = store.geometriesUI.geometryColorRanges[selectedGeometryIndex].get(colorByKey);
+      const colorByKey = store.geometriesUI.colorBy[selectedGeometryIndex].value;
+      const range = store.geometriesUI.colorRanges[selectedGeometryIndex].get(colorByKey);
       range[0] = Number(event.target.value);
-      store.geometriesUI.geometryColorRanges[selectedGeometryIndex].set(colorByKey, range);
+      store.geometriesUI.colorRanges[selectedGeometryIndex].set(colorByKey, range);
       updateColorTransferFunction();
     }
   );
@@ -130,10 +130,10 @@ function createColorRangeInput(
       event.preventDefault();
       event.stopPropagation();
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-      const colorByKey = store.geometriesUI.geometryColorBy[selectedGeometryIndex].value;
-      const range = store.geometriesUI.geometryColorRanges[selectedGeometryIndex].get(colorByKey);
+      const colorByKey = store.geometriesUI.colorBy[selectedGeometryIndex].value;
+      const range = store.geometriesUI.colorRanges[selectedGeometryIndex].get(colorByKey);
       range[1] = Number(event.target.value);
-      store.geometriesUI.geometryColorRanges[selectedGeometryIndex].set(colorByKey, range);
+      store.geometriesUI.colorRanges[selectedGeometryIndex].set(colorByKey, range);
       updateColorTransferFunction();
     }
   );
@@ -146,16 +146,16 @@ function createColorRangeInput(
 
   function updateColorCanvas() {
     const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-    if (!store.geometriesUI.geometryHasScalars[selectedGeometryIndex]) {
+    if (!store.geometriesUI.hasScalars[selectedGeometryIndex]) {
       return;
     }
-    const colorByKey = store.geometriesUI.geometryColorBy[selectedGeometryIndex].value;
-    const range = store.geometriesUI.geometryColorRanges[selectedGeometryIndex].get(colorByKey);
+    const colorByKey = store.geometriesUI.colorBy[selectedGeometryIndex].value;
+    const range = store.geometriesUI.colorRanges[selectedGeometryIndex].get(colorByKey);
 
     const proxy = store.geometriesUI.representationProxies[selectedGeometryIndex];
     const [colorByArrayName, location] = proxy.getColorBy();
     const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
-    const colorPreset = store.geometriesUI.geometryColorPresets[selectedGeometryIndex];
+    const colorPreset = store.geometriesUI.colorPresets[selectedGeometryIndex];
     lutProxy.setPresetName(colorPreset);
     const colorTransferFunction = lutProxy.getLookupTable();
     colorTransferFunction.setMappingRange(...range);
@@ -184,7 +184,7 @@ function createColorRangeInput(
 
   updateColorCanvas();
 
-  reaction(() => { return store.geometriesUI.geometryColorByOptions.slice(); },
+  reaction(() => { return store.geometriesUI.colorByOptions.slice(); },
     () => {
       setDefaultColorRanges();
     }
@@ -192,8 +192,8 @@ function createColorRangeInput(
 
   reaction(() => { return store.geometriesUI.selectedGeometryIndex; },
     (selectedGeometryIndex) => {
-      const geometryHasScalars = store.geometriesUI.geometryHasScalars;
-      if (geometryHasScalars[selectedGeometryIndex]) {
+      const hasScalars = store.geometriesUI.hasScalars;
+      if (hasScalars[selectedGeometryIndex]) {
         uiContainer.style.display = 'flex';
         updateColorCanvas();
         updateColorRangeInput();
@@ -202,23 +202,23 @@ function createColorRangeInput(
       }
     }
   )
-  reaction(() => { return store.geometriesUI.geometryColorPresets.slice(); },
+  reaction(() => { return store.geometriesUI.colorPresets.slice(); },
     () => {
       updateColorCanvas();
       updateColorRangeInput();
     }
   )
 
-  reaction(() => { return store.geometriesUI.geometryColorBy.slice(); },
+  reaction(() => { return store.geometriesUI.colorBy.slice(); },
     () => {
       updateColorCanvas();
       updateColorRangeInput();
     }
   )
 
-  const geometryHasScalars = store.geometriesUI.geometryHasScalars;
+  const hasScalars = store.geometriesUI.hasScalars;
   const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-  if (geometryHasScalars[selectedGeometryIndex]) {
+  if (hasScalars[selectedGeometryIndex]) {
     uiContainer.style.display = 'flex';
   } else {
     uiContainer.style.display = 'none';

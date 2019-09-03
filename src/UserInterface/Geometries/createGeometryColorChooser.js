@@ -24,11 +24,11 @@ function createGeometryColorChooser(
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
 
       geometries.forEach((geometry, index) => {
-        if (store.geometriesUI.geometryColors.length <= index) {
-          store.geometriesUI.geometryColors.push(defaultGeometryColor);
+        if (store.geometriesUI.colors.length <= index) {
+          store.geometriesUI.colors.push(defaultGeometryColor);
         }
       })
-      geometryColorInput.value = store.geometriesUI.geometryColors[selectedGeometryIndex];
+      geometryColorInput.value = store.geometriesUI.colors[selectedGeometryIndex];
     }
   )
 
@@ -36,8 +36,8 @@ function createGeometryColorChooser(
     return store.geometriesUI.selectedGeometryIndex;
     },
     (selectedGeometryIndex) => {
-      geometryColorInput.value = store.geometriesUI.geometryColors[selectedGeometryIndex];
-      if (store.geometriesUI.geometryHasScalars[selectedGeometryIndex]) {
+      geometryColorInput.value = store.geometriesUI.colors[selectedGeometryIndex];
+      if (store.geometriesUI.hasScalars[selectedGeometryIndex]) {
         geometryColorInput.style.display = 'none';
       } else {
         geometryColorInput.style.display = 'inline-block';
@@ -45,16 +45,16 @@ function createGeometryColorChooser(
     });
 
   reaction(() => {
-    return store.geometriesUI.geometryColors.slice();
+    return store.geometriesUI.colors.slice();
   },
-    (geometryColors) => {
-      geometryColors.forEach((value, index) => {
+    (colors) => {
+      colors.forEach((value, index) => {
         const rgb = hex2rgb(value)
         store.geometriesUI.representationProxies[index].setColor(rgb)
       })
       store.renderWindow.render()
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-      geometryColorInput.value = geometryColors[selectedGeometryIndex];
+      geometryColorInput.value = colors[selectedGeometryIndex];
     });
 
   geometryColorInput.addEventListener('input',
@@ -62,15 +62,15 @@ function createGeometryColorChooser(
       event.preventDefault();
       event.stopPropagation();
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-      store.geometriesUI.geometryColors[selectedGeometryIndex] = event.target.value;
+      store.geometriesUI.colors[selectedGeometryIndex] = event.target.value;
     });
 
   const defaultGeometryColors = Array(store.geometriesUI.geometries.length);
   defaultGeometryColors.fill(defaultGeometryColor);
   geometryColorInput.value = defaultGeometryColor;
-  store.geometriesUI.geometryColors = defaultGeometryColors;
+  store.geometriesUI.colors = defaultGeometryColors;
   const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-  if (store.geometriesUI.geometryHasScalars[selectedGeometryIndex]) {
+  if (store.geometriesUI.hasScalars[selectedGeometryIndex]) {
     geometryColorInput.style.display = 'none';
   } else {
     geometryColorInput.style.display = 'inline-block';

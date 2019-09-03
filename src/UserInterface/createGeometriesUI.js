@@ -25,18 +25,18 @@ function createGeometriesUI(
     event.stopPropagation();
     store.geometriesUI.selectedGeometryIndex = geometrySelector.selectedIndex;
   })
-  function updateGeometryNames(geometryNames) {
-    geometrySelector.innerHTML = geometryNames
+  function updateGeometryNames(names) {
+    geometrySelector.innerHTML = names
       .map((name) => `<option value="${name}">${name}</option>`)
       .join('');
-    if(geometryNames.length > 1) {
+    if(names.length > 1) {
       geometrySelector.disabled = false;
     } else {
       geometrySelector.disabled = true;
     }
   }
-  reaction(() => { return store.geometriesUI.geometryNames.slice(); },
-    (geometryNames) => { updateGeometryNames(geometryNames); }
+  reaction(() => { return store.geometriesUI.names.slice(); },
+    (names) => { updateGeometryNames(names); }
   )
   if(store.geometriesUI.geometries.length > 0) {
     store.geometriesUI.selectedGeometryIndex = 0;
@@ -44,9 +44,9 @@ function createGeometriesUI(
   autorun(() => {
       const geometries = store.geometriesUI.geometries;
       if (geometries.length === 1) {
-        store.geometriesUI.geometryNames = ['Geometry'];
+        store.geometriesUI.names = ['Geometry'];
       } else {
-        store.geometriesUI.geometryNames = geometries.map((geometry, index) => `Geometry ${index}`);
+        store.geometriesUI.names = geometries.map((geometry, index) => `Geometry ${index}`);
       }
     })
 

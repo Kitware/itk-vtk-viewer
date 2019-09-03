@@ -10,14 +10,14 @@ function createGeometryColorWidget(
   store,
   geometriesUIGroup
 ) {
-  const geometryColorByRow = document.createElement('div')
-  geometryColorByRow.setAttribute('class', style.uiRow)
-  geometryColorByRow.className += ` ${store.id}-toggle`;
+  const colorByRow = document.createElement('div')
+  colorByRow.setAttribute('class', style.uiRow)
+  colorByRow.className += ` ${store.id}-toggle`;
   createGeometryColorBySelector(
     store,
-    geometryColorByRow
+    colorByRow
   )
-  geometriesUIGroup.appendChild(geometryColorByRow)
+  geometriesUIGroup.appendChild(colorByRow)
 
   const geometryColorRow = document.createElement('div')
   geometryColorRow.setAttribute('class', style.uiRow)

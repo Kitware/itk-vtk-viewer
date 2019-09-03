@@ -168,12 +168,12 @@ const createViewer = (
           store,
         );
       }
-      store.geometriesUI.geometryNames = geometries.map((geometry, index) => `Geometry ${index}`);
-      let geometryRepresentations = store.geometriesUI.geometryRepresentations.slice(0, geometries.length);
+      store.geometriesUI.names = geometries.map((geometry, index) => `Geometry ${index}`);
+      let representations = store.geometriesUI.representations.slice(0, geometries.length);
       const defaultGeometryRepresentations = new Array(geometries.length);
       defaultGeometryRepresentations.fill('Surface');
-      geometryRepresentations.concat(defaultGeometryRepresentations.slice(0, geometries.length - geometryRepresentations.length));
-      store.geometriesUI.geometryRepresentations = geometryRepresentations;
+      representations.concat(defaultGeometryRepresentations.slice(0, geometries.length - representations.length));
+      store.geometriesUI.representations = representations;
     }
   );
   store.geometriesUI.geometries = geometries;
@@ -695,11 +695,11 @@ const createViewer = (
 
   publicAPI.setGeometryColor = (index, rgbColor) => {
     const hexColor = rgb2hex(rgbColor);
-    store.geometriesUI.geometryColors[index] = hexColor;
+    store.geometriesUI.colors[index] = hexColor;
   }
 
   publicAPI.setGeometryOpacity = (index, opacity) => {
-    store.geometriesUI.geometryOpacities[index] = opacity;
+    store.geometriesUI.opacities[index] = opacity;
   }
 
   publicAPI.getViewProxy = () => {

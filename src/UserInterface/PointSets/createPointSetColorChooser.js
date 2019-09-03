@@ -24,11 +24,11 @@ function createPointSetColorChooser(
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
 
       pointSets.forEach((geometry, index) => {
-        if (store.pointSetsUI.geometryColors.length <= index) {
-          store.pointSetsUI.geometryColors.push(defaultPointSetColor);
+        if (store.pointSetsUI.colors.length <= index) {
+          store.pointSetsUI.colors.push(defaultPointSetColor);
         }
       })
-      geometryColorInput.value = store.pointSetsUI.geometryColors[selectedPointSetIndex];
+      geometryColorInput.value = store.pointSetsUI.colors[selectedPointSetIndex];
     }
   )
 
@@ -36,8 +36,8 @@ function createPointSetColorChooser(
     return store.pointSetsUI.selectedPointSetIndex;
     },
     (selectedPointSetIndex) => {
-      geometryColorInput.value = store.pointSetsUI.geometryColors[selectedPointSetIndex];
-      if (store.pointSetsUI.geometryHasScalars[selectedPointSetIndex]) {
+      geometryColorInput.value = store.pointSetsUI.colors[selectedPointSetIndex];
+      if (store.pointSetsUI.hasScalars[selectedPointSetIndex]) {
         geometryColorInput.style.display = 'none';
       } else {
         geometryColorInput.style.display = 'inline-block';
@@ -45,16 +45,16 @@ function createPointSetColorChooser(
     });
 
   reaction(() => {
-    return store.pointSetsUI.geometryColors.slice();
+    return store.pointSetsUI.colors.slice();
   },
-    (geometryColors) => {
-      geometryColors.forEach((value, index) => {
+    (colors) => {
+      colors.forEach((value, index) => {
         const rgb = hex2rgb(value)
         store.pointSetsUI.representationProxies[index].setColor(rgb)
       })
       store.renderWindow.render()
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      geometryColorInput.value = geometryColors[selectedPointSetIndex];
+      geometryColorInput.value = colors[selectedPointSetIndex];
     });
 
   geometryColorInput.addEventListener('input',
@@ -62,15 +62,15 @@ function createPointSetColorChooser(
       event.preventDefault();
       event.stopPropagation();
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      store.pointSetsUI.geometryColors[selectedPointSetIndex] = event.target.value;
+      store.pointSetsUI.colors[selectedPointSetIndex] = event.target.value;
     });
 
   const defaultPointSetColors = Array(store.pointSetsUI.pointSets.length);
   defaultPointSetColors.fill(defaultPointSetColor);
   geometryColorInput.value = defaultPointSetColor;
-  store.pointSetsUI.geometryColors = defaultPointSetColors;
+  store.pointSetsUI.colors = defaultPointSetColors;
   const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-  if (store.pointSetsUI.geometryHasScalars[selectedPointSetIndex]) {
+  if (store.pointSetsUI.hasScalars[selectedPointSetIndex]) {
     geometryColorInput.style.display = 'none';
   } else {
     geometryColorInput.style.display = 'inline-block';

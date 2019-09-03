@@ -25,23 +25,23 @@ function createGeometryColorPresetSelector(
         return;
       }
 
-      const geometryHasScalars = store.geometriesUI.geometryHasScalars;
+      const hasScalars = store.geometriesUI.hasScalars;
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
 
-      if (store.geometriesUI.geometryHasScalars[selectedGeometryIndex]) {
+      if (store.geometriesUI.hasScalars[selectedGeometryIndex]) {
         geometryColorPresetRow.style.display = 'flex';
       } else {
         geometryColorPresetRow.style.display = 'none';
       }
 
       geometries.forEach((geometry, index) => {
-        if (store.geometriesUI.geometryColorPresets.length <= index) {
-          store.geometriesUI.geometryColorPresets.push(defaultGeometryColorPreset);
+        if (store.geometriesUI.colorPresets.length <= index) {
+          store.geometriesUI.colorPresets.push(defaultGeometryColorPreset);
         }
       })
 
-      if (geometryHasScalars[selectedGeometryIndex]) {
-        presetSelector.value = store.geometriesUI.geometryColorPresets[selectedGeometryIndex];
+      if (hasScalars[selectedGeometryIndex]) {
+        presetSelector.value = store.geometriesUI.colorPresets[selectedGeometryIndex];
       }
     }
   )
@@ -50,9 +50,9 @@ function createGeometryColorPresetSelector(
     return store.geometriesUI.selectedGeometryIndex;
     },
     (selectedGeometryIndex) => {
-      presetSelector.value = store.geometriesUI.geometryColorPresets[selectedGeometryIndex]
-      const geometryHasScalars = store.geometriesUI.geometryHasScalars;
-      if (geometryHasScalars[selectedGeometryIndex]) {
+      presetSelector.value = store.geometriesUI.colorPresets[selectedGeometryIndex]
+      const hasScalars = store.geometriesUI.hasScalars;
+      if (hasScalars[selectedGeometryIndex]) {
         geometryColorPresetRow.style.display = 'flex';
       } else {
         geometryColorPresetRow.style.display = 'none';
@@ -60,11 +60,11 @@ function createGeometryColorPresetSelector(
     });
 
   reaction(() => {
-    return store.geometriesUI.geometryColorPresets.slice();
+    return store.geometriesUI.colorPresets.slice();
   },
-    (geometryColorPresets) => {
+    (colorPresets) => {
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-      const value = geometryColorPresets[selectedGeometryIndex];
+      const value = colorPresets[selectedGeometryIndex];
       presetSelector.value = value;
       const proxy = store.geometriesUI.representationProxies[selectedGeometryIndex];
       const [colorByArrayName, location] = proxy.getColorBy();
@@ -79,12 +79,12 @@ function createGeometryColorPresetSelector(
       event.preventDefault();
       event.stopPropagation();
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-      store.geometriesUI.geometryColorPresets[selectedGeometryIndex] = event.target.value;
+      store.geometriesUI.colorPresets[selectedGeometryIndex] = event.target.value;
     });
 
-  const geometryHasScalars = store.geometriesUI.geometryHasScalars;
+  const hasScalars = store.geometriesUI.hasScalars;
   const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-  if (geometryHasScalars[selectedGeometryIndex]) {
+  if (hasScalars[selectedGeometryIndex]) {
     geometryColorPresetRow.style.display = 'flex';
   } else {
     geometryColorPresetRow.style.display = 'none';
@@ -92,7 +92,7 @@ function createGeometryColorPresetSelector(
   const defaultGeometryColorPresets = new Array(store.geometriesUI.geometries.length);
   defaultGeometryColorPresets.fill(defaultGeometryColorPreset);
   presetSelector.value = defaultGeometryColorPreset;
-  store.geometriesUI.geometryColorPresets = defaultGeometryColorPresets;
+  store.geometriesUI.colorPresets = defaultGeometryColorPresets;
   const representationProxies = store.geometriesUI.representationProxies;
   representationProxies.forEach((proxy) => {
     const colorByArrayName = proxy.getColorBy();

@@ -677,11 +677,11 @@ const createViewer = (
 
   publicAPI.setPointSetColor = (index, rgbColor) => {
     const hexColor = rgb2hex(rgbColor);
-    store.pointSetsUI.pointSetColors[index] = hexColor;
+    store.pointSetsUI.colors[index] = hexColor;
   }
 
   publicAPI.setPointSetOpacity = (index, opacity) => {
-    store.pointSetsUI.pointSetOpacities[index] = opacity;
+    store.pointSetsUI.opacities[index] = opacity;
   }
 
   //publicAPI.subscribeSelectColorMap = (handler) => {

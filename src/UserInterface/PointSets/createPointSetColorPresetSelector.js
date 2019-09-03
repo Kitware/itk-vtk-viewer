@@ -23,23 +23,23 @@ function createPointSetColorPresetSelector(
         return;
       }
 
-      const pointSetHasScalars = store.pointSetsUI.pointSetHasScalars;
+      const hasScalars = store.pointSetsUI.hasScalars;
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
 
-      if (store.pointSetsUI.pointSetHasScalars[selectedPointSetIndex]) {
+      if (store.pointSetsUI.hasScalars[selectedPointSetIndex]) {
         pointSetColorPresetRow.style.display = 'flex';
       } else {
         pointSetColorPresetRow.style.display = 'none';
       }
 
       pointSets.forEach((pointSet, index) => {
-        if (store.pointSetsUI.pointSetColorPresets.length <= index) {
-          store.pointSetsUI.pointSetColorPresets.push(defaultPointSetColorPreset);
+        if (store.pointSetsUI.colorPresets.length <= index) {
+          store.pointSetsUI.colorPresets.push(defaultPointSetColorPreset);
         }
       })
 
-      if (pointSetHasScalars[selectedPointSetIndex]) {
-        presetSelector.value = store.pointSetsUI.pointSetColorPresets[selectedPointSetIndex];
+      if (hasScalars[selectedPointSetIndex]) {
+        presetSelector.value = store.pointSetsUI.colorPresets[selectedPointSetIndex];
       }
     }
   )
@@ -48,9 +48,9 @@ function createPointSetColorPresetSelector(
     return store.pointSetsUI.selectedPointSetIndex;
     },
     (selectedPointSetIndex) => {
-      presetSelector.value = store.pointSetsUI.pointSetColorPresets[selectedPointSetIndex]
-      const pointSetHasScalars = store.pointSetsUI.pointSetHasScalars;
-      if (pointSetHasScalars[selectedPointSetIndex]) {
+      presetSelector.value = store.pointSetsUI.colorPresets[selectedPointSetIndex]
+      const hasScalars = store.pointSetsUI.hasScalars;
+      if (hasScalars[selectedPointSetIndex]) {
         pointSetColorPresetRow.style.display = 'flex';
       } else {
         pointSetColorPresetRow.style.display = 'none';
@@ -58,11 +58,11 @@ function createPointSetColorPresetSelector(
     });
 
   reaction(() => {
-    return store.pointSetsUI.pointSetColorPresets.slice();
+    return store.pointSetsUI.colorPresets.slice();
   },
-    (pointSetColorPresets) => {
+    (colorPresets) => {
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      const value = pointSetColorPresets[selectedPointSetIndex];
+      const value = colorPresets[selectedPointSetIndex];
       presetSelector.value = value;
       const proxy = store.pointSetsUI.representationProxies[selectedPointSetIndex];
       const [colorByArrayName, location] = proxy.getColorBy();
@@ -77,12 +77,12 @@ function createPointSetColorPresetSelector(
       event.preventDefault();
       event.stopPropagation();
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      store.pointSetsUI.pointSetColorPresets[selectedPointSetIndex] = event.target.value;
+      store.pointSetsUI.colorPresets[selectedPointSetIndex] = event.target.value;
     });
 
-  const pointSetHasScalars = store.pointSetsUI.pointSetHasScalars;
+  const hasScalars = store.pointSetsUI.hasScalars;
   const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-  if (pointSetHasScalars[selectedPointSetIndex]) {
+  if (hasScalars[selectedPointSetIndex]) {
     pointSetColorPresetRow.style.display = 'flex';
   } else {
     pointSetColorPresetRow.style.display = 'none';
@@ -90,7 +90,7 @@ function createPointSetColorPresetSelector(
   const defaultPointSetColorPresets = new Array(store.pointSetsUI.pointSets.length);
   defaultPointSetColorPresets.fill(defaultPointSetColorPreset);
   presetSelector.value = defaultPointSetColorPreset;
-  store.pointSetsUI.pointSetColorPresets = defaultPointSetColorPresets;
+  store.pointSetsUI.colorPresets = defaultPointSetColorPresets;
   const representationProxies = store.pointSetsUI.representationProxies;
   representationProxies.forEach((proxy) => {
     const [colorByArrayName, location] = proxy.getColorBy();

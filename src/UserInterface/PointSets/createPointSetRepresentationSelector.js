@@ -30,7 +30,7 @@ function createPointSetRepresentationSelector(
   pointSetHiddenButton.addEventListener('click',
     (event) => {
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      store.pointSetsUI.pointSetRepresentations[selectedPointSetIndex] = 'Hidden';
+      store.pointSetsUI.representations[selectedPointSetIndex] = 'Hidden';
     }
   )
   pointSetRepresentationRow.appendChild(pointSetHiddenButton);
@@ -47,7 +47,7 @@ function createPointSetRepresentationSelector(
   pointSetPointsButton.addEventListener('click',
     (event) => {
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      store.pointSetsUI.pointSetRepresentations[selectedPointSetIndex] = 'Points';
+      store.pointSetsUI.representations[selectedPointSetIndex] = 'Points';
     }
   )
   pointSetRepresentationRow.appendChild(pointSetPointsButton);
@@ -64,7 +64,7 @@ function createPointSetRepresentationSelector(
   pointSetSpheresButton.addEventListener('click',
     (event) => {
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      store.pointSetsUI.pointSetRepresentations[selectedPointSetIndex] = 'Spheres';
+      store.pointSetsUI.representations[selectedPointSetIndex] = 'Spheres';
     }
   )
   pointSetRepresentationRow.appendChild(pointSetSpheresButton);
@@ -105,16 +105,16 @@ function createPointSetRepresentationSelector(
 
   pointSetSelector.addEventListener('change',
     (event) => {
-      setRepresentation(pointSetRepresentations[pointSetSelector.selectedIndex], pointSetSelector.selectedIndex);
+      setRepresentation(representations[pointSetSelector.selectedIndex], pointSetSelector.selectedIndex);
     });
-  pointSetRepresentations.map((rep, index) => setRepresentation(defaultPointSetRepresentation, index));
+  representations.map((rep, index) => setRepresentation(defaultPointSetRepresentation, index));
 
   reaction(() => {
-    return store.pointSetsUI.pointSetRepresentations.slice();
+    return store.pointSetsUI.representations.slice();
   },
-    (pointSetRepresentations) => {
+    (representations) => {
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      const representation = store.pointSetsUI.pointSetRepresentations[selectedPointSetIndex];
+      const representation = store.pointSetsUI.representations[selectedPointSetIndex];
       setRepresentation(representation, selectedPointSetIndex);
       store.renderWindow.render()
     }
@@ -122,7 +122,7 @@ function createPointSetRepresentationSelector(
 
   reaction(() => { return store.pointSetsUI.selectedPointSetIndex; },
     (selectedIndex) => {
-      const selectedPointSetRepresentation = store.pointSetsUI.pointSetRepresentations[selectedIndex];
+      const selectedPointSetRepresentation = store.pointSetsUI.representations[selectedIndex];
       updateEnabledRepresentationButtons(selectedPointSetRepresentation);
     }
   )
@@ -138,19 +138,19 @@ function createPointSetRepresentationSelector(
       }
 
       pointSets.forEach((pointSet, index) => {
-        if (store.pointSetsUI.pointSetRepresentations.length <= index) {
-          store.pointSetsUI.pointSetRepresentations.push(defaultPointSetRepresentation);
+        if (store.pointSetsUI.representations.length <= index) {
+          store.pointSetsUI.representations.push(defaultPointSetRepresentation);
         }
       })
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      updateEnabledRepresentationButtons(store.pointSetsUI.pointSetRepresentations[selectedPointSetIndex]);
+      updateEnabledRepresentationButtons(store.pointSetsUI.representations[selectedPointSetIndex]);
     }
   )
 
   const defaultPointSetRepresentations = new Array(store.pointSetsUI.pointSets.length);
   defaultPointSetRepresentations.fill(defaultPointSetRepresentation);
   updateEnabledRepresentationButtons(defaultPointSetRepresentation);
-  store.pointSetsUI.pointSetRepresentations = defaultPointSetRepresentations;
+  store.pointSetsUI.representations = defaultPointSetRepresentations;
   const pointSetRepresentationProxies = store.pointSetsUI.representationProxies;
 }
 

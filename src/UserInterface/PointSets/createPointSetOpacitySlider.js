@@ -37,12 +37,12 @@ function createPointSetOpacitySlider(
       }
 
       pointSets.forEach((pointSet, index) => {
-        if (store.pointSetsUI.pointSetOpacities.length <= index) {
-          store.pointSetsUI.pointSetOpacities.push(defaultPointSetOpacity);
+        if (store.pointSetsUI.opacities.length <= index) {
+          store.pointSetsUI.opacities.push(defaultPointSetOpacity);
         }
       })
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      opacityElement.value = store.pointSetsUI.pointSetOpacities[selectedPointSetIndex];
+      opacityElement.value = store.pointSetsUI.opacities[selectedPointSetIndex];
     }
   )
 
@@ -50,15 +50,15 @@ function createPointSetOpacitySlider(
     return store.pointSetsUI.selectedPointSetIndex;
     },
     (selectedPointSetIndex) => {
-      opacityElement.value = store.pointSetsUI.pointSetOpacities[selectedPointSetIndex];
+      opacityElement.value = store.pointSetsUI.opacities[selectedPointSetIndex];
     });
 
   reaction(() => {
-    return store.pointSetsUI.pointSetOpacities.slice();
+    return store.pointSetsUI.opacities.slice();
   },
-    (pointSetOpacities) => {
+    (opacities) => {
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      const value = pointSetOpacities[selectedPointSetIndex];
+      const value = opacities[selectedPointSetIndex];
       store.pointSetsUI.representationProxies[selectedPointSetIndex].setOpacity(value)
       store.renderWindow.render();
       opacityElement.value = value;
@@ -68,13 +68,13 @@ function createPointSetOpacitySlider(
       event.preventDefault();
       event.stopPropagation();
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      store.pointSetsUI.pointSetOpacities[selectedPointSetIndex] = Number(event.target.value);
+      store.pointSetsUI.opacities[selectedPointSetIndex] = Number(event.target.value);
     });
 
   const defaultPointSetOpacities = new Array(store.pointSetsUI.pointSets.length);
   defaultPointSetOpacities.fill(defaultPointSetOpacity);
   opacityElement.value = defaultPointSetOpacity;
-  store.pointSetsUI.pointSetOpacities = defaultPointSetOpacities;
+  store.pointSetsUI.opacities = defaultPointSetOpacities;
 
   pointSetColorRow.appendChild(sliderEntry);
 }

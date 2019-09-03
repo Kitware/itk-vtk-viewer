@@ -26,18 +26,18 @@ function createPointSetsUI(
     store.pointSetsUI.selectedPointSetIndex = pointSetSelector.selectedIndex;
   })
 
-  function updatePointSetNames(pointSetNames) {
-    pointSetSelector.innerHTML = pointSetNames
+  function updatePointSetNames(names) {
+    pointSetSelector.innerHTML = names
       .map((name) => `<option value="${name}">${name}</option>`)
       .join('');
-    if(pointSetNames.length > 1) {
+    if(names.length > 1) {
       pointSetSelector.disabled = false;
     } else {
       pointSetSelector.disabled = true;
     }
   }
-  reaction(() => { return store.pointSetsUI.pointSetNames.slice(); },
-    (pointSetNames) => { updatePointSetNames(pointSetNames); }
+  reaction(() => { return store.pointSetsUI.names.slice(); },
+    (names) => { updatePointSetNames(names); }
   )
   if(store.pointSetsUI.pointSets.length > 0) {
     store.pointSetsUI.selectedPointSetIndex = 0;
@@ -45,9 +45,9 @@ function createPointSetsUI(
   autorun(() => {
       const pointSets = store.pointSetsUI.pointSets;
       if (pointSets.length === 1) {
-        store.pointSetsUI.pointSetNames = ['Point Set'];
+        store.pointSetsUI.names = ['Point Set'];
       } else {
-        store.pointSetsUI.pointSetNames = pointSets.map((pointSet, index) => `Point Set ${index}`);
+        store.pointSetsUI.names = pointSets.map((pointSet, index) => `Point Set ${index}`);
       }
     })
 

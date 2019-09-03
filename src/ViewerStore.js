@@ -129,23 +129,23 @@ class PointSetsUIStore {
   representationProxies = [];
 
   @observable selectedPointSetIndex = 0;
-  @observable pointSetNames = [];
-  @observable pointSetRepresentations = [];
-  @observable pointSetColorBy = [];
-  @observable pointSetColors = [];
-  @observable pointSetOpacities = [];
-  @observable pointSetColorPresets = [];
-  @observable pointSetSizes = [];
-  @computed get pointSetHasScalars() {
+  @observable names = [];
+  @observable representations = [];
+  @observable colorBy = [];
+  @observable colors = [];
+  @observable opacities = [];
+  @observable colorPresets = [];
+  @observable sizes = [];
+  @computed get hasScalars() {
     return this.pointSets.map((pointSet) => {
       const pointData = pointSet.getPointData();
       const hasPointDataScalars = !!pointData.getScalars();
       return hasPointDataScalars;
       })
     };
-  @computed get pointSetColorByOptions() {
+  @computed get colorByOptions() {
     return this.pointSets.map((pointSet, index) => {
-      if(!this.pointSetHasScalars[index]) {
+      if(!this.hasScalars[index]) {
         return null
       }
       const options = [].concat(
@@ -160,9 +160,9 @@ class PointSetsUIStore {
       return options;
     })
   };
-  @computed get pointSetColorByDefault() {
+  @computed get colorByDefault() {
     return this.pointSets.map((pointSet, index) => {
-      if(!this.pointSetHasScalars[index]) {
+      if(!this.hasScalars[index]) {
         return null
       }
       const pointData = pointSet.getPointData();

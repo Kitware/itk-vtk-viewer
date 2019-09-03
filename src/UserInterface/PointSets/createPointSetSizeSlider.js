@@ -39,12 +39,12 @@ function createPointSetSizeSlider(
       }
 
       pointSets.forEach((pointSet, index) => {
-        if (store.pointSetsUI.pointSetSizes.length <= index) {
-          store.pointSetsUI.pointSetSizes.push(defaultPointSetSize);
+        if (store.pointSetsUI.sizes.length <= index) {
+          store.pointSetsUI.sizes.push(defaultPointSetSize);
         }
       })
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      sizeElement.value = store.pointSetsUI.pointSetSizes[selectedPointSetIndex];
+      sizeElement.value = store.pointSetsUI.sizes[selectedPointSetIndex];
     }
   )
 
@@ -52,15 +52,15 @@ function createPointSetSizeSlider(
     return store.pointSetsUI.selectedPointSetIndex;
     },
     (selectedPointSetIndex) => {
-      sizeElement.value = store.pointSetsUI.pointSetSizes[selectedPointSetIndex];
+      sizeElement.value = store.pointSetsUI.sizes[selectedPointSetIndex];
     });
 
   reaction(() => {
-    return store.pointSetsUI.pointSetSizes.slice();
+    return store.pointSetsUI.sizes.slice();
   },
-    (pointSetSizes) => {
+    (sizes) => {
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      const value = pointSetSizes[selectedPointSetIndex];
+      const value = sizes[selectedPointSetIndex];
       store.pointSetsUI.representationProxies[selectedPointSetIndex].setPointSize(value)
       store.renderWindow.render();
       sizeElement.value = value;
@@ -70,13 +70,13 @@ function createPointSetSizeSlider(
       event.preventDefault();
       event.stopPropagation();
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      store.pointSetsUI.pointSetSizes[selectedPointSetIndex] = Number(event.target.value);
+      store.pointSetsUI.sizes[selectedPointSetIndex] = Number(event.target.value);
     });
 
   const defaultPointSetSizes = new Array(store.pointSetsUI.pointSets.length);
   defaultPointSetSizes.fill(defaultPointSetsize);
   sizeElement.value = defaultPointSetSize;
-  store.pointSetsUI.pointSetSizes = defaultPointSetSizes;
+  store.pointSetsUI.sizes = defaultPointSetSizes;
 
   pointSetSizeRow.appendChild(sliderEntry);
 }

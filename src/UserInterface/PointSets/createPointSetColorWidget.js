@@ -11,14 +11,14 @@ function createPointSetColorWidget(
   store,
   pointSetsUIGroup
 ) {
-  const pointSetColorByRow = document.createElement('div')
-  pointSetColorByRow.setAttribute('class', style.uiRow)
-  pointSetColorByRow.className += ` ${store.id}-toggle`;
+  const colorByRow = document.createElement('div')
+  colorByRow.setAttribute('class', style.uiRow)
+  colorByRow.className += ` ${store.id}-toggle`;
   createPointSetColorBySelector(
     store,
-    pointSetColorByRow
+    colorByRow
   )
-  pointSetsUIGroup.appendChild(pointSetColorByRow)
+  pointSetsUIGroup.appendChild(colorByRow)
 
   const pointSetColorRow = document.createElement('div')
   pointSetColorRow.setAttribute('class', style.uiRow)

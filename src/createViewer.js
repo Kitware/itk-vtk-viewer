@@ -715,7 +715,9 @@ const createViewer = (
   //}
   addKeyboardShortcuts(rootContainer, publicAPI, viewerDOMId);
 
-  publicAPI.setRotateEnabled(rotate)
+  if (!use2D) {
+    publicAPI.setRotateEnabled(rotate)
+  }
 
   return publicAPI;
 };

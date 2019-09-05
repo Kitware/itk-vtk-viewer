@@ -133,7 +133,7 @@ const createViewer = (
   );
   store.imageUI.image = image;
 
-  reaction(() => store.geometriesUI.geometries.slice(),
+  reaction(() => !!store.geometriesUI.geometries && store.geometriesUI.geometries.slice(),
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
         return;
@@ -178,7 +178,7 @@ const createViewer = (
   );
   store.geometriesUI.geometries = geometries;
 
-  reaction(() => store.pointSetsUI.pointSets.slice(),
+  reaction(() => !!store.pointSetsUI.pointSets && store.pointSetsUI.pointSets.slice(),
     (pointSets) => {
       if(!!!pointSets || pointSets.length === 0) {
         return;

@@ -53,11 +53,13 @@ function createMainUI(
     mainUIRow
   )
 
-  createRotateButton(
-    store,
-    contrastSensitiveStyle,
-    mainUIRow
-  )
+  if (!use2D) {
+    createRotateButton(
+      store,
+      contrastSensitiveStyle,
+      mainUIRow
+    )
+  }
 
   createAnnotationButton(
     store,

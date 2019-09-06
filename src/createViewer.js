@@ -440,6 +440,35 @@ const createViewer = (
   }
 
 
+  const changeColorRangeHandlers = [];
+  autorun(() => {
+    const colorRange = store.imageUI.colorRange;
+    changeColorRangeHandlers.forEach((handler) => {
+      handler.call(null, colorRange);
+    })
+  })
+
+  publicAPI.subscribeChangeColorRanger = (handler) => {
+    const index = changeColorRangeHandlers.length;
+    changeColorRangeHandlers.push(handler);
+    function unsubscribe() {
+      changeColorRangeHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setColorRange = (colorRange) => {
+    const currentColorRange = store.imageUI.colorRange;
+    if (currentColorRange[0] !== colorRange[0] || currentColorRange[1] !== colorRange[1]) {
+      store.imageUI.colorRange = colorRange;
+    }
+  }
+
+  publicAPI.getColorRange = () => {
+    return store.imageUI.colorRange;
+  }
+
+
   const selectColorMapHandlers = [];
   autorun(() => {
     const colorMap = store.imageUI.colorMap;

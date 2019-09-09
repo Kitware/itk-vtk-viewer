@@ -1,3 +1,5 @@
+import { reaction } from 'mobx';
+
 import style from '../ItkVtkViewer.module.css';
 
 import ColorPresetNames from '../ColorPresetNames';

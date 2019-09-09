@@ -23,12 +23,12 @@ function createPointSetColorChooser(
 
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
 
-      pointSets.forEach((geometry, index) => {
+      pointSets.forEach((pointSet, index) => {
         if (store.pointSetsUI.colors.length <= index) {
           store.pointSetsUI.colors.push(defaultPointSetColor);
         }
       })
-      geometryColorInput.value = store.pointSetsUI.colors[selectedPointSetIndex];
+      pointSetColorInput.value = store.pointSetsUI.colors[selectedPointSetIndex];
     }
   )
 
@@ -36,11 +36,11 @@ function createPointSetColorChooser(
     return store.pointSetsUI.selectedPointSetIndex;
     },
     (selectedPointSetIndex) => {
-      geometryColorInput.value = store.pointSetsUI.colors[selectedPointSetIndex];
+      pointSetColorInput.value = store.pointSetsUI.colors[selectedPointSetIndex];
       if (store.pointSetsUI.hasScalars[selectedPointSetIndex]) {
-        geometryColorInput.style.display = 'none';
+        pointSetColorInput.style.display = 'none';
       } else {
-        geometryColorInput.style.display = 'inline-block';
+        pointSetColorInput.style.display = 'inline-block';
       }
     });
 
@@ -54,10 +54,10 @@ function createPointSetColorChooser(
       })
       store.renderWindow.render()
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      geometryColorInput.value = colors[selectedPointSetIndex];
+      pointSetColorInput.value = colors[selectedPointSetIndex];
     });
 
-  geometryColorInput.addEventListener('input',
+  pointSetColorInput.addEventListener('input',
     (event) => {
       event.preventDefault();
       event.stopPropagation();
@@ -67,16 +67,16 @@ function createPointSetColorChooser(
 
   const defaultPointSetColors = Array(store.pointSetsUI.pointSets.length);
   defaultPointSetColors.fill(defaultPointSetColor);
-  geometryColorInput.value = defaultPointSetColor;
+  pointSetColorInput.value = defaultPointSetColor;
   store.pointSetsUI.colors = defaultPointSetColors;
   const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
   if (store.pointSetsUI.hasScalars[selectedPointSetIndex]) {
-    geometryColorInput.style.display = 'none';
+    pointSetColorInput.style.display = 'none';
   } else {
-    geometryColorInput.style.display = 'inline-block';
+    pointSetColorInput.style.display = 'inline-block';
   }
 
-  geometryColorRow.appendChild(geometryColorInput);
+  pointSetColorRow.appendChild(pointSetColorInput);
 }
 
 export default createPointSetColorChooser;

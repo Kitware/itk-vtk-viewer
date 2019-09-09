@@ -448,7 +448,7 @@ const createViewer = (
     })
   })
 
-  publicAPI.subscribeChangeColorRanger = (handler) => {
+  publicAPI.subscribeChangeColorRange = (handler) => {
     const index = changeColorRangeHandlers.length;
     changeColorRangeHandlers.push(handler);
     function unsubscribe() {

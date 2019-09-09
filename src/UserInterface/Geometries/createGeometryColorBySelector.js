@@ -39,7 +39,7 @@ function createGeometryColorBySelector(
           store.geometriesUI.colorBy.push(colorByDefault[index]);
         } else {
           const current = store.geometriesUI.colorBy[index];
-          if(!!!store.geometriesUI.colorByOptions[index].filter((option) => { return option.label === current.label && option.value === current.value; }).length) {
+          if(!!store.geometriesUI.colorByOptions[index] && !!!store.geometriesUI.colorByOptions[index].filter((option) => { return option.label === current.label && option.value === current.value; }).length) {
             store.geometriesUI.colorBy[index] = colorByDefault[index];
           }
         }
@@ -79,6 +79,9 @@ function createGeometryColorBySelector(
   },
     (colorBy) => {
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+      if (!!!colorBy[selectedGeometryIndex]) {
+        return;
+      }
       const [location, colorByArrayName] = colorBy[selectedGeometryIndex].value.split(':');
       const proxy = store.geometriesUI.representationProxies[selectedGeometryIndex];
       const interpolateScalarsBeforeMapping = location === 'pointData';

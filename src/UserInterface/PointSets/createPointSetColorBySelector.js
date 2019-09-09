@@ -39,7 +39,7 @@ function createPointSetColorBySelector(
           store.pointSetsUI.colorBy.push(colorByDefault[index]);
         } else {
           const current = store.pointSetsUI.colorBy[index];
-          if(!!!store.pointSetsUI.colorByOptions[index].filter((option) => { return option.label === current.label && option.value === current.value; }).length) {
+          if(!!store.pointSetsUI.colorByOptions[index] && !!!store.pointSetsUI.colorByOptions[index].filter((option) => { return option.label === current.label && option.value === current.value; }).length) {
             store.pointSetsUI.colorBy[index] = colorByDefault[index];
           }
         }
@@ -79,6 +79,9 @@ function createPointSetColorBySelector(
   },
     (colorBy) => {
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      if (!!!colorBy[selectedPointSetIndex]) {
+        return;
+      }
       const [location, colorByArrayName] = colorBy[selectedPointSetIndex].value.split(':');
       const proxy = store.pointSetsUI.representationProxies[selectedPointSetIndex];
       const interpolateScalarsBeforeMapping = location === 'pointData';

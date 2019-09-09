@@ -84,7 +84,7 @@ function createColorRangeInput(
         store.pointSetsUI.colorRanges.push(colorRanges);
       } else {
         const colorRanges = store.pointSetsUI.colorRanges[index];
-        options.forEach((option) => {
+        !!options && options.forEach((option) => {
           const [location, colorByArrayName] = option.value.split(':');
           const dataArray = location === 'pointData' ?
             pointSet.getPointData().getArrayByName(colorByArrayName) :

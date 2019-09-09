@@ -84,7 +84,7 @@ function createColorRangeInput(
         store.geometriesUI.colorRanges.push(colorRanges);
       } else {
         const colorRanges = store.geometriesUI.colorRanges[index];
-        options.forEach((option) => {
+        !!options && options.forEach((option) => {
           const [location, colorByArrayName] = option.value.split(':');
           const dataArray = location === 'pointData' ?
             geometry.getPointData().getArrayByName(colorByArrayName) :

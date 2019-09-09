@@ -16,7 +16,7 @@ function createTransferFunctionWidget(
 
   const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({
     numberOfBins: 256,
-    size: [400, 200],
+    size: [400, 150],
   });
   store.imageUI.transferFunctionWidget = transferFunctionWidget;
   transferFunctionWidget.setEnableRangeZoom(true);

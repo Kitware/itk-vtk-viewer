@@ -133,7 +133,7 @@ const createViewer = (
   );
   store.imageUI.image = image;
 
-  reaction(() => store.geometriesUI.geometries.slice(),
+  reaction(() => !!store.geometriesUI.geometries && store.geometriesUI.geometries.slice(),
     (geometries) => {
       if(!!!geometries || geometries.length === 0) {
         return;
@@ -159,7 +159,7 @@ const createViewer = (
       if(geometries.length < store.geometriesUI.representationProxies.length) {
         const proxiesToDisable = store.geometriesUI.representationProxies.slice(geometries.length);
         proxiesToDisable.forEach((proxy) => {
-          proxiesToDisable.setVisibility(false);
+          proxy.setVisibility(false);
         })
       }
 
@@ -178,7 +178,7 @@ const createViewer = (
   );
   store.geometriesUI.geometries = geometries;
 
-  reaction(() => store.pointSetsUI.pointSets.slice(),
+  reaction(() => !!store.pointSetsUI.pointSets && store.pointSetsUI.pointSets.slice(),
     (pointSets) => {
       if(!!!pointSets || pointSets.length === 0) {
         return;
@@ -208,7 +208,7 @@ const createViewer = (
       if(pointSets.length < store.pointSetsUI.representationProxies.length) {
         const proxiesToDisable = store.pointSetsUI.representationProxies.slice(pointSets.length);
         proxiesToDisable.forEach((proxy) => {
-          proxiesToDisable.setVisibility(false);
+          proxy.setVisibility(false);
         })
       }
 
@@ -437,6 +437,35 @@ const createViewer = (
 
   publicAPI.subscribeResetCrop = (handler) => {
     return store.imageUI.addResetCropHandler(handler);
+  }
+
+
+  const changeColorRangeHandlers = [];
+  autorun(() => {
+    const colorRange = store.imageUI.colorRange;
+    changeColorRangeHandlers.forEach((handler) => {
+      handler.call(null, colorRange);
+    })
+  })
+
+  publicAPI.subscribeChangeColorRange = (handler) => {
+    const index = changeColorRangeHandlers.length;
+    changeColorRangeHandlers.push(handler);
+    function unsubscribe() {
+      changeColorRangeHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
+  publicAPI.setColorRange = (colorRange) => {
+    const currentColorRange = store.imageUI.colorRange;
+    if (currentColorRange[0] !== colorRange[0] || currentColorRange[1] !== colorRange[1]) {
+      store.imageUI.colorRange = colorRange;
+    }
+  }
+
+  publicAPI.getColorRange = () => {
+    return store.imageUI.colorRange;
   }
 
 
@@ -677,11 +706,15 @@ const createViewer = (
 
   publicAPI.setPointSetColor = (index, rgbColor) => {
     const hexColor = rgb2hex(rgbColor);
-    store.pointSetsUI.colors[index] = hexColor;
+    if (index < store.pointSetsUI.colors.length) {
+      store.pointSetsUI.colors[index] = hexColor;
+    }
   }
 
   publicAPI.setPointSetOpacity = (index, opacity) => {
-    store.pointSetsUI.opacities[index] = opacity;
+    if (index < store.pointSetsUI.opacities.length) {
+      store.pointSetsUI.opacities[index] = opacity;
+    }
   }
 
   //publicAPI.subscribeSelectColorMap = (handler) => {

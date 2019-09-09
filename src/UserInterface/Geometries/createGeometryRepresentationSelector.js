@@ -30,6 +30,8 @@ function createGeometryRepresentationSelector(
   }" for="${viewerDOMId}-geometryHiddenButton">${hiddenIcon}</label>`;
   geometryHiddenButton.addEventListener('click',
     (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
       store.geometriesUI.representations[selectedGeometryIndex] = 'Hidden';
     }
@@ -47,6 +49,8 @@ function createGeometryRepresentationSelector(
   }" for="${viewerDOMId}-geometryWireframeButton">${wireframeIcon}</label>`;
   geometryWireframeButton.addEventListener('click',
     (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
       store.geometriesUI.representations[selectedGeometryIndex] = 'Wireframe';
     }
@@ -64,6 +68,8 @@ function createGeometryRepresentationSelector(
   }" for="${viewerDOMId}-geometrySurfaceButton">${surfaceIcon}</label>`;
   geometrySurfaceButton.addEventListener('click',
     (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
       store.geometriesUI.representations[selectedGeometryIndex] = 'Surface';
     }
@@ -81,6 +87,8 @@ function createGeometryRepresentationSelector(
   }" for="${viewerDOMId}-geometrySurfaceWithEdgesButton">${surfaceWithEdgesIcon}</label>`;
   geometrySurfaceWithEdgesButton.addEventListener('click',
     (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
       store.geometriesUI.representations[selectedGeometryIndex] = 'Surface with edges';
     }

@@ -1,3 +1,5 @@
+import { reaction } from 'mobx';
+
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
 import style from '../ItkVtkViewer.module.css';
@@ -74,7 +76,7 @@ function createPointSetSizeSlider(
     });
 
   const defaultPointSetSizes = new Array(store.pointSetsUI.pointSets.length);
-  defaultPointSetSizes.fill(defaultPointSetsize);
+  defaultPointSetSizes.fill(defaultPointSetSize);
   sizeElement.value = defaultPointSetSize;
   store.pointSetsUI.sizes = defaultPointSetSizes;
 

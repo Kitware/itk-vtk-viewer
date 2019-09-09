@@ -136,6 +136,7 @@ class PointSetsUIStore {
   @observable opacities = [];
   @observable colorPresets = [];
   @observable sizes = [];
+  @observable colorRanges = [];
   @computed get hasScalars() {
     return this.pointSets.map((pointSet) => {
       const pointData = pointSet.getPointData();

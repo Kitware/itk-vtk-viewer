@@ -16,7 +16,7 @@ function createColorRangeInput(
 
   function updateColorTransferFunction() {
     const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-    const colorRanges = store.pointSetsUI.pointSetColorRanges[selectedPointSetIndex];
+    const colorRanges = store.pointSetsUI.colorRanges[selectedPointSetIndex];
     const colorByKey = store.pointSetsUI.colorBy[selectedPointSetIndex].value;
     const colorRange = colorRanges.get(colorByKey);
 
@@ -69,7 +69,7 @@ function createColorRangeInput(
     const pointSets = store.pointSetsUI.pointSets;
     colorByOptions.forEach((options, index) => {
       const pointSet = pointSets[index];
-      if (store.pointSetsUI.pointSetColorRanges.length <= index) {
+      if (store.pointSetsUI.colorRanges.length <= index) {
         const colorRanges = new Map();
         if (options) {
           options.forEach((option) => {
@@ -81,10 +81,10 @@ function createColorRangeInput(
             colorRanges.set(option.value, range);
           })
         }
-        store.pointSetsUI.pointSetColorRanges.push(colorRanges);
+        store.pointSetsUI.colorRanges.push(colorRanges);
       } else {
-        const colorRanges = store.pointSetsUI.pointSetColorRanges[index];
-        options.forEach((option) => {
+        const colorRanges = store.pointSetsUI.colorRanges[index];
+        !!options && options.forEach((option) => {
           const [location, colorByArrayName] = option.value.split(':');
           const dataArray = location === 'pointData' ?
             pointSet.getPointData().getArrayByName(colorByArrayName) :
@@ -120,9 +120,9 @@ function createColorRangeInput(
       event.stopPropagation();
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
       const colorByKey = store.pointSetsUI.colorBy[selectedPointSetIndex].value;
-      const range = store.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].get(colorByKey);
+      const range = store.pointSetsUI.colorRanges[selectedPointSetIndex].get(colorByKey);
       range[0] = Number(event.target.value);
-      store.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].set(colorByKey, range);
+      store.pointSetsUI.colorRanges[selectedPointSetIndex].set(colorByKey, range);
       updateColorTransferFunction();
     }
   );
@@ -132,9 +132,9 @@ function createColorRangeInput(
       event.stopPropagation();
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
       const colorByKey = store.pointSetsUI.colorBy[selectedPointSetIndex].value;
-      const range = store.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].get(colorByKey);
+      const range = store.pointSetsUI.colorRanges[selectedPointSetIndex].get(colorByKey);
       range[1] = Number(event.target.value);
-      store.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].set(colorByKey, range);
+      store.pointSetsUI.colorRanges[selectedPointSetIndex].set(colorByKey, range);
       updateColorTransferFunction();
     }
   );
@@ -151,7 +151,7 @@ function createColorRangeInput(
       return;
     }
     const colorByKey = store.pointSetsUI.colorBy[selectedPointSetIndex].value;
-    const range = store.pointSetsUI.pointSetColorRanges[selectedPointSetIndex].get(colorByKey);
+    const range = store.pointSetsUI.colorRanges[selectedPointSetIndex].get(colorByKey);
 
     const proxy = store.pointSetsUI.representationProxies[selectedPointSetIndex];
     const [colorByArrayName, location] = proxy.getColorBy();

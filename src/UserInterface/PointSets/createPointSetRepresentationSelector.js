@@ -29,6 +29,8 @@ function createPointSetRepresentationSelector(
   }" for="${viewerDOMId}-pointSetHiddenButton">${hiddenIcon}</label>`;
   pointSetHiddenButton.addEventListener('click',
     (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
       store.pointSetsUI.representations[selectedPointSetIndex] = 'Hidden';
     }
@@ -46,6 +48,8 @@ function createPointSetRepresentationSelector(
   }" for="${viewerDOMId}-pointSetPointsButton">${pointsIcon}</label>`;
   pointSetPointsButton.addEventListener('click',
     (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
       store.pointSetsUI.representations[selectedPointSetIndex] = 'Points';
     }
@@ -63,6 +67,8 @@ function createPointSetRepresentationSelector(
   }" for="${viewerDOMId}-pointSetSpheresButton">${spheresIcon}</label>`;
   pointSetSpheresButton.addEventListener('click',
     (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
       store.pointSetsUI.representations[selectedPointSetIndex] = 'Spheres';
     }
@@ -102,12 +108,6 @@ function createPointSetRepresentationSelector(
     updateEnabledRepresentationButtons(value);
     store.renderWindow.render()
   }
-
-  pointSetSelector.addEventListener('change',
-    (event) => {
-      setRepresentation(representations[pointSetSelector.selectedIndex], pointSetSelector.selectedIndex);
-    });
-  representations.map((rep, index) => setRepresentation(defaultPointSetRepresentation, index));
 
   reaction(() => {
     return store.pointSetsUI.representations.slice();

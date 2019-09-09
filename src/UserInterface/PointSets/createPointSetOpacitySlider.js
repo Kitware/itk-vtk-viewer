@@ -1,3 +1,5 @@
+import { reaction } from 'mobx';
+
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
 import style from '../ItkVtkViewer.module.css';
@@ -12,6 +14,8 @@ function createPointSetOpacitySlider(
     ['invertibleButton'],
     store.isBackgroundDark
   );
+
+  const defaultPointSetOpacity = 1.0;
 
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);

@@ -220,8 +220,6 @@ const createViewer = (
       }
 
     // Estimate a reasonable point sphere radius in pixels
-    const renderView = store.renderWindow.getViews()[0];
-    const windowWidth = renderView.getViewportSize(store.itkVtkView.getRenderer())[0];
     const maxLength = pointSets.reduce((max, pointSet) => {
       pointSet.computeBounds();
       const bounds = pointSet.getBounds();
@@ -230,7 +228,11 @@ const createViewer = (
       max = Math.max(max, bounds[5] - bounds[4]);
       return max;
     }, -Infinity);
-    const radiusFactor = windowWidth / maxLength * 2e-4;
+    const maxNumberOfPoints = pointSets.reduce((max, pointSet) => {
+      max = Math.max(max, pointSet.getPoints().getNumberOfPoints());
+      return max;
+    }, -Infinity);
+    const radiusFactor = maxLength / ((1.0 + Math.log(maxNumberOfPoints)) * 30);
     store.pointSetsUI.representationProxies.forEach((proxy) => {
       proxy.setRadiusFactor(radiusFactor);
     })

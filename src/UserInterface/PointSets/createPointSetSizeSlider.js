@@ -79,6 +79,9 @@ function createPointSetSizeSlider(
   defaultPointSetSizes.fill(defaultPointSetSize);
   sizeElement.value = defaultPointSetSize;
   store.pointSetsUI.sizes = defaultPointSetSizes;
+  store.pointSetsUI.representationProxies.forEach((proxy) => {
+    proxy.setPointSize(defaultPointSetSize);
+  })
 
   pointSetSizeRow.appendChild(sliderEntry);
 }

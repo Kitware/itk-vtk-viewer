@@ -212,28 +212,30 @@ const createViewer = (
         })
       }
 
+      // Estimate a reasonable point sphere radius in pixels
+      const maxLength = pointSets.reduce((max, pointSet) => {
+        pointSet.computeBounds();
+        const bounds = pointSet.getBounds();
+        max = Math.max(max, bounds[1] - bounds[0]);
+        max = Math.max(max, bounds[3] - bounds[2]);
+        max = Math.max(max, bounds[5] - bounds[4]);
+        return max;
+      }, -Infinity);
+      const maxNumberOfPoints = pointSets.reduce((max, pointSet) => {
+        max = Math.max(max, pointSet.getPoints().getNumberOfPoints());
+        return max;
+      }, -Infinity);
+      const radiusFactor = maxLength / ((1.0 + Math.log(maxNumberOfPoints)) * 30);
+      store.pointSetsUI.representationProxies.forEach((proxy) => {
+        proxy.setRadiusFactor(radiusFactor);
+      })
+
       if(!store.pointSetsUI.initialized) {
         UserInterface.createPointSetsUI(
           store,
           pointSets,
         );
       }
-
-    // Estimate a reasonable point sphere radius in pixels
-    const renderView = store.renderWindow.getViews()[0];
-    const windowWidth = renderView.getViewportSize(store.itkVtkView.getRenderer())[0];
-    const maxLength = pointSets.reduce((max, pointSet) => {
-      pointSet.computeBounds();
-      const bounds = pointSet.getBounds();
-      max = Math.max(max, bounds[1] - bounds[0]);
-      max = Math.max(max, bounds[3] - bounds[2]);
-      max = Math.max(max, bounds[5] - bounds[4]);
-      return max;
-    }, -Infinity);
-    const radiusFactor = windowWidth / maxLength * 2e-4;
-    store.pointSetsUI.representationProxies.forEach((proxy) => {
-      proxy.setRadiusFactor(radiusFactor);
-    })
     }
   );
   store.pointSetsUI.pointSets = pointSets;
@@ -715,6 +717,31 @@ const createViewer = (
     if (index < store.pointSetsUI.opacities.length) {
       store.pointSetsUI.opacities[index] = opacity;
     }
+  }
+
+  publicAPI.setPointSetRepresentation = (index, representation) => {
+    if (index < store.pointSetsUI.representations.length) {
+      store.pointSetsUI.representations[index] = representation;
+    }
+  }
+
+  const pointSetRepresentationChangedHandlers = [];
+  reaction(() => { return store.pointSetsUI.representations.slice(); },
+    (representations) => {
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      const representation = representations[selectedPointSetIndex];
+      pointSetRepresentationChangedHandlers.forEach((handler) => {
+        handler.call(null, selectedPointSetIndex, representation);
+      })
+    }
+  )
+  publicAPI.subscribePointSetRepresentationChanged = (handler) => {
+    const index = pointSetRepresentationChangedHandlers.length;
+    pointSetRepresentationChangedHandlers.push(handler);
+    function unsubscribe() {
+      pointSetRepresentationChangedHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
   }
 
   //publicAPI.subscribeSelectColorMap = (handler) => {

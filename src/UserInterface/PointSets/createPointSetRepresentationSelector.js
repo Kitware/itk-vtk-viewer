@@ -105,17 +105,18 @@ function createPointSetRepresentationSelector(
       store.pointSetsUI.representationProxies[index].setRepresentation(value)
       store.pointSetsUI.representationProxies[index].setVisibility(true)
     }
-    updateEnabledRepresentationButtons(value);
-    store.renderWindow.render()
   }
 
   reaction(() => {
     return store.pointSetsUI.representations.slice();
   },
     (representations) => {
+      representations.forEach((representation, index) => {
+        setRepresentation(representation, index);
+      })
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
       const representation = store.pointSetsUI.representations[selectedPointSetIndex];
-      setRepresentation(representation, selectedPointSetIndex);
+      updateEnabledRepresentationButtons(representation);
       store.renderWindow.render()
     }
   )

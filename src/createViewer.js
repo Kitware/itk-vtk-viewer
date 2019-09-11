@@ -719,6 +719,31 @@ const createViewer = (
     }
   }
 
+  publicAPI.setPointSetRepresentation = (index, representation) => {
+    if (index < store.pointSetsUI.representations.length) {
+      store.pointSetsUI.representations[index] = representation;
+    }
+  }
+
+  const pointSetRepresentationChangedHandlers = [];
+  reaction(() => { return store.pointSetsUI.representations.slice(); },
+    (representations) => {
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      const representation = representations[selectedPointSetIndex];
+      pointSetRepresentationChangedHandlers.forEach((handler) => {
+        handler.call(null, selectedPointSetIndex, representation);
+      })
+    }
+  )
+  publicAPI.subscribePointSetRepresentationChanged = (handler) => {
+    const index = pointSetRepresentationChangedHandlers.length;
+    pointSetRepresentationChangedHandlers.push(handler);
+    function unsubscribe() {
+      pointSetRepresentationChangedHandlers[index] = null;
+    }
+    return Object.freeze({ unsubscribe });
+  }
+
   //publicAPI.subscribeSelectColorMap = (handler) => {
     //const index = inputGeometryColorHandlers.length;
     //inputGeometryColorHandlers.push(handler);

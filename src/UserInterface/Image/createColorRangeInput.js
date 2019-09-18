@@ -64,9 +64,9 @@ function createColorRangeInput(
 
   function updateColorCanvas() {
     const dataArray = store.imageUI.image.getPointData().getScalars();
-    const range = dataArray.getRange(0);
+    const range = dataArray.getRange(store.imageUI.selectedComponentIndex);
 
-    const lookupTable = store.imageUI.lookupTableProxy.getLookupTable();
+    const lookupTable = store.imageUI.lookupTableProxies[store.imageUI.selectedComponentIndex].getLookupTable();
     const colorTransferFunction = lookupTable;
     const ctx = canvas.getContext('2d');
 

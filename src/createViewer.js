@@ -82,7 +82,8 @@ const createViewer = (
 
         const dataArray = image.getPointData().getScalars();
         store.imageUI.lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
-        if (dataArray.getNumberOfComponents() > 1) {
+        // If a 2D RGB or RGBA
+        if (use2D && dataArray.getDataType() === 'Uint8Array' && (dataArray.getNumberOfComponents() === 3 || dataArray.getNumberOfComponents() === 4)) {
           store.imageUI.lookupTableProxy.setPresetName('Grayscale');
         } else {
           store.imageUI.lookupTableProxy.setPresetName('Viridis (matplotlib)');

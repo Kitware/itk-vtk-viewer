@@ -35,8 +35,14 @@ class ImageUIStore {
   source = null;
   @observable.ref representationProxy = null;
 
-  lookupTableProxy = null;
-  piecewiseFunctionProxy = null;
+  @observable selectedComponentIndex = 0;
+  @computed get numberOfComponents() {
+    const dataArray = this.image.getPointData().getScalars();
+    return dataArray.getNumberOfComponents();
+  }
+
+  lookupTableProxies = null;
+  piecewiseFunctionProxies = null;
   transferFunctionWidget = null;
 
   croppingWidget = null;

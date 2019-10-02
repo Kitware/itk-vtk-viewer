@@ -1,5 +1,7 @@
 import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager';
 import macro from 'vtk.js/Sources/macro';
+import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy';
+import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy';
 
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
@@ -81,16 +83,32 @@ const createViewer = (
         store.imageUI.representationProxy = proxyManager.getRepresentation(store.imageUI.source, store.itkVtkView);
 
         const dataArray = image.getPointData().getScalars();
-        store.imageUI.lookupTableProxy = proxyManager.getLookupTable(dataArray.getName());
-        if (dataArray.getNumberOfComponents() > 1) {
-          store.imageUI.lookupTableProxy.setPresetName('Grayscale');
-        } else {
-          store.imageUI.lookupTableProxy.setPresetName('Viridis (matplotlib)');
-        }
-        store.imageUI.piecewiseFunctionProxy = proxyManager.getPiecewiseFunction(dataArray.getName());
+        const numberOfComponents = dataArray.getNumberOfComponents();
+        store.imageUI.lookupTableProxies = new Array(numberOfComponents);
+        store.imageUI.piecewiseFunctionProxies = new Array(numberOfComponents);
+        const volume = store.imageUI.representationProxy.getVolumes()[0]
+        const volumeProperty = volume.getProperty()
+        for (let component = 0; component < numberOfComponents; component++) {
+          store.imageUI.lookupTableProxies[component] = vtkLookupTableProxy.newInstance();
+          store.imageUI.piecewiseFunctionProxies[component] = vtkPiecewiseFunctionProxy.newInstance();
+          // If a 2D RGB or RGBA
+          if (use2D && dataArray.getDataType() === 'Uint8Array' && (numberOfComponents === 3 || numberOfComponents === 4)) {
+            store.imageUI.lookupTableProxies[component].setPresetName('Grayscale');
+          } else {
+            store.imageUI.lookupTableProxies[component].setPresetName('Viridis (matplotlib)');
+          }
 
+          const lut = store.imageUI.lookupTableProxies[component].getLookupTable();
+          const range = dataArray.getRange(component);
+          lut.setMappingRange(range[0], range[1]);
+          volumeProperty.setRGBTransferFunction(component, lut);
+
+          const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[component].getPiecewiseFunction();
+          volumeProperty.setScalarOpacity(component, piecewiseFunction);
+        }
         // Slices share the same lookup table as the volume rendering.
-        const lut = store.imageUI.lookupTableProxy.getLookupTable();
+        // Todo use all lookup tables on slice
+        const lut = store.imageUI.lookupTableProxies[store.imageUI.selectedComponentIndex].getLookupTable();
         const sliceActors = store.imageUI.representationProxy.getActors();
         sliceActors.forEach((actor) => {
           actor.getProperty().setRGBTransferFunction(lut);

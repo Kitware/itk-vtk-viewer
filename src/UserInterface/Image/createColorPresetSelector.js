@@ -16,7 +16,7 @@ function createColorPresetSelector(
     .join('');
 
   function updateColorMap(colorMap) {
-    store.imageUI.lookupTableProxy.setPresetName(colorMap);
+    store.imageUI.lookupTableProxies[store.imageUI.selectedComponentIndex].setPresetName(colorMap);
     store.renderWindow.render();
     presetSelector.value = colorMap;
   }
@@ -31,8 +31,9 @@ function createColorPresetSelector(
     }
   );
   uiContainer.appendChild(presetSelector);
-  presetSelector.value = store.imageUI.lookupTableProxy.getPresetName();
-  store.imageUI.colorMap = store.imageUI.lookupTableProxy.getPresetName();
+  const component = store.imageUI.selectedComponentIndex;
+  presetSelector.value = store.imageUI.lookupTableProxies[component].getPresetName();
+  store.imageUI.colorMap = store.imageUI.lookupTableProxies[component].getPresetName();
 }
 
 export default createColorPresetSelector;

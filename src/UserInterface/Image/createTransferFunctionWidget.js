@@ -1,4 +1,4 @@
-import { reaction } from 'mobx';
+import { autorun, reaction } from 'mobx';
 
 import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps';
 import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator';
@@ -11,7 +11,6 @@ function createTransferFunctionWidget(
   uiContainer,
   use2D
 ) {
-  const piecewiseFunction = store.imageUI.piecewiseFunctionProxy.getPiecewiseFunction();
   const renderWindow = store.renderWindow;
 
   const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({
@@ -46,8 +45,6 @@ function createTransferFunctionWidget(
   const dataArray = store.imageUI.image.getPointData().getScalars();
   transferFunctionWidget.setDataArray(dataArray.getData());
 
-  const lookupTable = store.imageUI.lookupTableProxy.getLookupTable();
-
   const piecewiseWidgetContainer = document.createElement('div');
   piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget);
 
@@ -64,12 +61,16 @@ function createTransferFunctionWidget(
     }
   });
   transferFunctionWidget.onOpacityChange(() => {
+    const component = store.imageUI.selectedComponentIndex;
+    const lookupTableProxy = store.imageUI.lookupTableProxies[component];
+    const lookupTable = lookupTableProxy.getLookupTable();
+    const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[component].getPiecewiseFunction()
     if (!use2D) {
       transferFunctionWidget.applyOpacity(piecewiseFunction);
     }
     const colorDataRange = transferFunctionWidget.getOpacityRange();
     const preset = vtkColorMaps.getPresetByName(
-      store.imageUI.lookupTableProxy.getPresetName()
+      lookupTableProxy.getPresetName()
     );
     lookupTable.applyColorMap(preset);
     lookupTable.setMappingRange(...colorDataRange);
@@ -146,15 +147,19 @@ function createTransferFunctionWidget(
     store.imageUI.colorRange = colorRange;
   });
 
-  // Manage update when lookupTable changes
-  lookupTable.onModified(() => {
-    transferFunctionWidget.render();
-    if (!renderWindow.getInteractor().isAnimating()) {
-      renderWindow.render();
-    }
-  });
+  reaction(() => { return store.imageUI.colorMap; },
+    (colorMap) => {
+      transferFunctionWidget.render();
+      if (!renderWindow.getInteractor().isAnimating()) {
+        renderWindow.render();
+      }
+    });
 
-  transferFunctionWidget.setColorTransferFunction(lookupTable);
+  autorun(() => {
+    const lookupTable = store.imageUI.lookupTableProxies[store.imageUI.selectedComponentIndex].getLookupTable();
+    transferFunctionWidget.setColorTransferFunction(lookupTable);
+  })
+
   if (use2D) {
     // Necessary side effect: addGaussian calls invokeOpacityChange, which
     // calls onOpacityChange, which updates the lut (does not have a low
@@ -163,6 +168,8 @@ function createTransferFunctionWidget(
   } else {
     transferFunctionWidget.addGaussian(0.5, 1.0, 0.5, 0.5, 0.4);
   }
+  const component = store.imageUI.selectedComponentIndex;
+  const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[component].getPiecewiseFunction();
   transferFunctionWidget.applyOpacity(piecewiseFunction);
   transferFunctionWidget.render();
 

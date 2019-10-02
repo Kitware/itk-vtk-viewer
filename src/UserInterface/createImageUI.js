@@ -21,8 +21,9 @@ function createImageUI(
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
+  // If not a 2D RGB iage
   const dataArray = store.imageUI.image.getPointData().getScalars();
-  if (dataArray.getNumberOfComponents() === 1) {
+  if (!(dataArray.getDataType() !== 'Uint8Array' && (store.imageUI.numberOfComponents === 3 || store.imageUI.numberOfComponents === 4))) {
     const presetRow = document.createElement('div');
     presetRow.setAttribute('class', style.uiRow);
     createColorPresetSelector(

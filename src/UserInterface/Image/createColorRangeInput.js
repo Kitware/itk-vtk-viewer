@@ -16,25 +16,29 @@ function createColorRangeInput(
 
   function updateColorRangeInput() {
     const dataArray = store.imageUI.image.getPointData().getScalars();
-    const range = dataArray.getRange(0);
-    minimumInput.min = range[0];
-    minimumInput.max = range[1];
-    minimumInput.value = range[0];
-    maximumInput.min = range[0];
-    maximumInput.max = range[1];
-    maximumInput.value = range[1];
-    if (dataArray instanceof Float32Array || dataArray instanceof Float64Array) {
-      const step = (range[1] - range[0]) / 1000.0;
-      minimumInput.step = step;
-      maximumInput.step = step;
+    const numberOfComponents = dataArray.getNumberOfComponents();
+    for (let component = 0; component < numberOfComponents; component++) {
+      const range = dataArray.getRange(component);
+      minimumInput.min = range[0];
+      minimumInput.max = range[1];
+      minimumInput.value = range[0];
+      maximumInput.min = range[0];
+      maximumInput.max = range[1];
+      maximumInput.value = range[1];
+      if (dataArray instanceof Float32Array || dataArray instanceof Float64Array) {
+        const step = (range[1] - range[0]) / 1000.0;
+        minimumInput.step = step;
+        maximumInput.step = step;
+      }
+      store.imageUI.colorRanges[component] = range;
     }
-    store.imageUI.colorRange = range;
   }
   reaction(() => { return store.imageUI.image; },
     (image) => { updateColorRangeInput(); }
   )
-  reaction(() => { return store.imageUI.colorRange.slice(); },
-    (colorRange) => {
+  reaction(() => { return store.imageUI.colorRanges.slice(); },
+    (colorRanges) => {
+      const colorRange = colorRanges[store.imageUI.selectedComponentIndex];
       minimumInput.value = colorRange[0];
       maximumInput.value = colorRange[1];
     }
@@ -43,14 +47,14 @@ function createColorRangeInput(
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      store.imageUI.colorRange[0] = Number(event.target.value);
+      store.imageUI.colorRanges[store.imageUI.selectedComponentIndex][0] = Number(event.target.value);
     }
   );
   maximumInput.addEventListener('change',
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      store.imageUI.colorRange[1] = Number(event.target.value);
+      store.imageUI.colorRange[store.imageUI.selectedComponentIndex][1] = Number(event.target.value);
     }
   );
 
@@ -64,9 +68,10 @@ function createColorRangeInput(
 
   function updateColorCanvas() {
     const dataArray = store.imageUI.image.getPointData().getScalars();
-    const range = dataArray.getRange(store.imageUI.selectedComponentIndex);
+    const component = store.imageUI.selectedComponentIndex;
+    const range = dataArray.getRange(component);
 
-    const lookupTable = store.imageUI.lookupTableProxies[store.imageUI.selectedComponentIndex].getLookupTable();
+    const lookupTable = store.imageUI.lookupTableProxies[component].getLookupTable();
     const colorTransferFunction = lookupTable;
     const ctx = canvas.getContext('2d');
 

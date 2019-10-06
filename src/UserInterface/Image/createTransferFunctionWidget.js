@@ -80,8 +80,10 @@ function createTransferFunctionWidget(
       renderWindow.render();
     }
   });
-  reaction(() => { return store.imageUI.colorRange.slice(); },
-    (colorRange) => {
+  reaction(() => { return store.imageUI.colorRanges.slice(); },
+    (colorRanges) => {
+      const component = store.imageUI.selectedComponentIndex;
+      const colorRange = colorRanges[component];
       const gaussians = transferFunctionWidget.getGaussians();
       const newGaussians = gaussians.slice();
       const dataArray = store.imageUI.image.getPointData().getScalars();
@@ -144,7 +146,8 @@ function createTransferFunctionWidget(
     const colorRange = new Array(2);
     colorRange[0] = fullRange[0] + zoom[0] * diff;
     colorRange[1] = fullRange[0] + zoom[1] * diff;
-    store.imageUI.colorRange = colorRange;
+    const component = store.imageUI.selectedComponentIndex;
+    store.imageUI.colorRanges[component] = colorRange;
   });
 
   reaction(() => { return store.imageUI.colorMaps.slice(); },

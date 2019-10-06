@@ -20,7 +20,7 @@ function createColorPresetSelector(
     const colorMap = colorMaps[componentIndex];
     store.imageUI.lookupTableProxies[componentIndex].setPresetName(colorMap);
     const lut = store.imageUI.lookupTableProxies[component].getLookupTable();
-    const range = store.imageUI.colorRange;
+    const range = store.imageUI.colorRanges[componentIndex];
     lut.setMappingRange(range[0], range[1]);
     store.renderWindow.render();
     presetSelector.value = colorMap;

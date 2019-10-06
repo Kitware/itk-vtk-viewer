@@ -50,7 +50,7 @@ class ImageUIStore {
   addResetCropHandler = () => {};
 
   @observable colorMaps = null
-  @observable colorRange = [];
+  @observable colorRanges = [];
 
   @observable blendMode = 0;
   @observable useShadow = true;

@@ -87,6 +87,7 @@ const createViewer = (
         store.imageUI.lookupTableProxies = new Array(numberOfComponents);
         store.imageUI.piecewiseFunctionProxies = new Array(numberOfComponents);
         store.imageUI.colorMaps = new Array(numberOfComponents);
+        store.imageUI.colorRanges = new Array(numberOfComponents);
         const volume = store.imageUI.representationProxy.getVolumes()[0]
         const volumeProperty = volume.getProperty()
         for (let component = 0; component < numberOfComponents; component++) {
@@ -103,6 +104,7 @@ const createViewer = (
 
           const lut = store.imageUI.lookupTableProxies[component].getLookupTable();
           const range = dataArray.getRange(component);
+          store.imageUI.colorRanges[component] = range;
           lut.setMappingRange(range[0], range[1]);
           volumeProperty.setRGBTransferFunction(component, lut);
 
@@ -465,9 +467,10 @@ const createViewer = (
 
   const changeColorRangeHandlers = [];
   autorun(() => {
-    const colorRange = store.imageUI.colorRange;
+    const colorRanges = store.imageUI.colorRanges;
+    const selectedComponentIndex = store.imageUI.selectedComponentIndex;
     changeColorRangeHandlers.forEach((handler) => {
-      handler.call(null, colorRange);
+      handler.call(null, componentIndex, colorRanges[componentIndex]);
     })
   })
 
@@ -480,15 +483,15 @@ const createViewer = (
     return Object.freeze({ unsubscribe });
   }
 
-  publicAPI.setColorRange = (colorRange) => {
-    const currentColorRange = store.imageUI.colorRange;
+  publicAPI.setColorRange = (componentIndex, colorRange) => {
+    const currentColorRange = store.imageUI.colorRanges[componentIndex];
     if (currentColorRange[0] !== colorRange[0] || currentColorRange[1] !== colorRange[1]) {
-      store.imageUI.colorRange = colorRange;
+      store.imageUI.colorRanges[componentIndex] = colorRange;
     }
   }
 
-  publicAPI.getColorRange = () => {
-    return store.imageUI.colorRange;
+  publicAPI.getColorRange = (componentIndex) => {
+    return store.imageUI.colorRanges[componentIndex];
   }
 
 

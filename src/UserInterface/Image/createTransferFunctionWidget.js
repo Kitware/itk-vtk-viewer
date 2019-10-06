@@ -3,6 +3,7 @@ import { autorun, reaction } from 'mobx';
 import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps';
 import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator';
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
+import macro from 'vtk.js/Sources/macro';
 
 import style from '../ItkVtkViewer.module.css';
 
@@ -139,7 +140,7 @@ function createTransferFunctionWidget(
       transferFunctionWidget.setGaussians(newGaussians);
     }
   )
-  transferFunctionWidget.onZoomChange((zoom) => {
+  const onZoomChange = (zoom) => {
     const dataArray = store.imageUI.image.getPointData().getScalars();
     const fullRange = dataArray.getRange(0);
     const diff = fullRange[1] - fullRange[0];
@@ -148,7 +149,8 @@ function createTransferFunctionWidget(
     colorRange[1] = fullRange[0] + zoom[1] * diff;
     const component = store.imageUI.selectedComponentIndex;
     store.imageUI.colorRanges[component] = colorRange;
-  });
+  };
+  transferFunctionWidget.onZoomChange(macro.throttle(onZoomChange, 100));
 
   reaction(() => { return store.imageUI.colorMaps.slice(); },
     (colorMaps) => {

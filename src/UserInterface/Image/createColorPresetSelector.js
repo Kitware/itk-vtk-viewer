@@ -15,25 +15,32 @@ function createColorPresetSelector(
     .map((name) => `<option value="${name}">${name}</option>`)
     .join('');
 
-  function updateColorMap(colorMap) {
-    store.imageUI.lookupTableProxies[store.imageUI.selectedComponentIndex].setPresetName(colorMap);
+  function updateColorMap(colorMaps) {
+    const componentIndex = store.imageUI.selectedComponentIndex;
+    const colorMap = colorMaps[componentIndex];
+    store.imageUI.lookupTableProxies[componentIndex].setPresetName(colorMap);
+    const lut = store.imageUI.lookupTableProxies[component].getLookupTable();
+    const range = store.imageUI.colorRange;
+    lut.setMappingRange(range[0], range[1]);
     store.renderWindow.render();
     presetSelector.value = colorMap;
   }
-  reaction(() => { return store.imageUI.colorMap },
-    (colorMap) => { updateColorMap(colorMap); }
+  reaction(() => { return store.imageUI.colorMaps.slice() },
+    (colorMaps) => {
+      updateColorMap(colorMaps);
+    }
   )
   presetSelector.addEventListener('change',
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      store.imageUI.colorMap = presetSelector.value;
+      const componentIndex = store.imageUI.selectedComponentIndex;
+      store.imageUI.colorMaps[componentIndex] = presetSelector.value;
     }
   );
   uiContainer.appendChild(presetSelector);
   const component = store.imageUI.selectedComponentIndex;
-  presetSelector.value = store.imageUI.lookupTableProxies[component].getPresetName();
-  store.imageUI.colorMap = store.imageUI.lookupTableProxies[component].getPresetName();
+  presetSelector.value = store.imageUI.colorMaps[component];
 }
 
 export default createColorPresetSelector;

@@ -89,8 +89,8 @@ function createColorRangeInput(
 
     ctx.putImageData(pixelsArea, 0, 0);
   }
-  reaction(() => { return store.imageUI.colorMap; },
-    (colorMap) => { updateColorCanvas(); }
+  reaction(() => { return store.imageUI.colorMaps.slice(); },
+    (colorMaps) => { updateColorCanvas(); }
   )
 
   updateColorCanvas();

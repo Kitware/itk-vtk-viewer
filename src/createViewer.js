@@ -86,6 +86,7 @@ const createViewer = (
         const numberOfComponents = dataArray.getNumberOfComponents();
         store.imageUI.lookupTableProxies = new Array(numberOfComponents);
         store.imageUI.piecewiseFunctionProxies = new Array(numberOfComponents);
+        store.imageUI.colorMaps = new Array(numberOfComponents);
         const volume = store.imageUI.representationProxy.getVolumes()[0]
         const volumeProperty = volume.getProperty()
         for (let component = 0; component < numberOfComponents; component++) {
@@ -93,8 +94,10 @@ const createViewer = (
           store.imageUI.piecewiseFunctionProxies[component] = vtkPiecewiseFunctionProxy.newInstance();
           // If a 2D RGB or RGBA
           if (use2D && dataArray.getDataType() === 'Uint8Array' && (numberOfComponents === 3 || numberOfComponents === 4)) {
+            store.imageUI.colorMaps[component] = 'Grayscale';
             store.imageUI.lookupTableProxies[component].setPresetName('Grayscale');
           } else {
+            store.imageUI.colorMaps[component] = 'Viridis (matplotlib)';
             store.imageUI.lookupTableProxies[component].setPresetName('Viridis (matplotlib)');
           }
 
@@ -491,9 +494,10 @@ const createViewer = (
 
   const selectColorMapHandlers = [];
   autorun(() => {
-    const colorMap = store.imageUI.colorMap;
+    const selectedComponentIndex = store.imageUI.selectedComponentIndex;
+    const colorMap = store.imageUI.colorMaps[selectedComponentIndex];
     selectColorMapHandlers.forEach((handler) => {
-      handler.call(null, colorMap);
+      handler.call(null, selectedComponentIndex, colorMap);
     })
   })
 
@@ -506,10 +510,10 @@ const createViewer = (
     return Object.freeze({ unsubscribe });
   }
 
-  publicAPI.setColorMap = (colorMap) => {
-    const currentColorMap = store.imageUI.colorMap;
+  publicAPI.setColorMap = (componentIndex, colorMap) => {
+    const currentColorMap = store.imageUI.colorMaps[componentIndex];
     if (currentColorMap !== colorMap) {
-      store.imageUI.colorMap = colorMap;
+      store.imageUI.colorMaps[componentIndex] = colorMap;
     }
   }
 

@@ -147,8 +147,8 @@ function createTransferFunctionWidget(
     store.imageUI.colorRange = colorRange;
   });
 
-  reaction(() => { return store.imageUI.colorMap; },
-    (colorMap) => {
+  reaction(() => { return store.imageUI.colorMaps.slice(); },
+    (colorMaps) => {
       transferFunctionWidget.render();
       if (!renderWindow.getInteractor().isAnimating()) {
         renderWindow.render();

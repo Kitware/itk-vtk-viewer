@@ -19,7 +19,7 @@
     "curry": "^1.2.0",
     "express": "^4.16.4",
     "itk": "^9.6.1",
-    "mobx": "^5.13.0",
+    "mobx": "^5.14.0",
     "mousetrap": "^1.6.3",
     "open": "^6.3.0",
     "promise-file-reader": "^1.0.2",

@@ -2,7 +2,6 @@ import { reaction } from 'mobx';
 
 import style from './ItkVtkViewer.module.css';
 
-import createColorPresetSelector from './Image/createColorPresetSelector';
 import createColorRangeInput from './Image/createColorRangeInput';
 import createBlendModeSelector from './Image/createBlendModeSelector';
 import createTransferFunctionWidget from './Image/createTransferFunctionWidget';
@@ -24,15 +23,6 @@ function createImageUI(
   // If not a 2D RGB iage
   const dataArray = store.imageUI.image.getPointData().getScalars();
   if (!(dataArray.getDataType() !== 'Uint8Array' && (store.imageUI.numberOfComponents === 3 || store.imageUI.numberOfComponents === 4))) {
-    const presetRow = document.createElement('div');
-    presetRow.setAttribute('class', style.uiRow);
-    createColorPresetSelector(
-      store,
-      presetRow,
-    );
-    presetRow.className += ` ${viewerDOMId}-toggle`;
-    imageUIGroup.appendChild(presetRow);
-
     const colorRangeInputRow = document.createElement('div');
     colorRangeInputRow.setAttribute('class', style.uiRow);
     createColorRangeInput(

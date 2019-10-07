@@ -70,10 +70,6 @@ function createTransferFunctionWidget(
       transferFunctionWidget.applyOpacity(piecewiseFunction);
     }
     const colorDataRange = transferFunctionWidget.getOpacityRange();
-    const preset = vtkColorMaps.getPresetByName(
-      lookupTableProxy.getPresetName()
-    );
-    lookupTable.applyColorMap(preset);
     lookupTable.setMappingRange(...colorDataRange);
     lookupTable.updateRange();
 
@@ -150,7 +146,7 @@ function createTransferFunctionWidget(
     const component = store.imageUI.selectedComponentIndex;
     store.imageUI.colorRanges[component] = colorRange;
   };
-  transferFunctionWidget.onZoomChange(macro.throttle(onZoomChange, 100));
+  transferFunctionWidget.onZoomChange(macro.throttle(onZoomChange, 150));
 
   reaction(() => { return store.imageUI.colorMaps.slice(); },
     (colorMaps) => {

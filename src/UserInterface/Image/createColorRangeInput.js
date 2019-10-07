@@ -2,6 +2,9 @@ import { reaction } from 'mobx';
 
 import style from '../ItkVtkViewer.module.css';
 
+import { IconSelect } from '@thewtex/iconselect.js/lib/control/iconselect';
+import ColorPresetIcons from '../ColorPresetIcons';
+
 function createColorRangeInput(
   store,
   uiContainer,
@@ -47,14 +50,16 @@ function createColorRangeInput(
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      store.imageUI.colorRanges[store.imageUI.selectedComponentIndex][0] = Number(event.target.value);
+      const component = store.imageUI.selectedComponentIndex;
+      store.imageUI.colorRanges[component] = [Number(event.target.value), store.imageUI.colorRanges[component][1]];
     }
   );
   maximumInput.addEventListener('change',
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      store.imageUI.colorRange[store.imageUI.selectedComponentIndex][1] = Number(event.target.value);
+      const component = store.imageUI.selectedComponentIndex;
+      store.imageUI.colorRanges[component] = [store.imageUI.colorRanges[component][0], Number(event.target.value)];
     }
   );
 
@@ -99,10 +104,63 @@ function createColorRangeInput(
   )
 
   updateColorCanvas();
+  const colorMapSelector = document.createElement('div');
+  colorMapSelector.id = `${store.id}-imageColorMapSelector`;
 
   uiContainer.appendChild(minimumInput);
-  uiContainer.appendChild(canvas);
+  //uiContainer.appendChild(canvas);
+  uiContainer.appendChild(colorMapSelector);
   uiContainer.appendChild(maximumInput);
+
+  const rows = 20;
+  const cols = 3;
+  const iconSelect = new IconSelect(`${colorMapSelector.id}`,
+    colorMapSelector,
+      {'selectedIconWidth': 230,
+      'selectedIconHeight': 20,
+      'selectedBoxPadding': 1,
+      'iconsWidth': 60,
+      'iconsHeight': 19,
+      'boxIconSpace': 1,
+      'vectoralIconNumber': cols,
+      'horizontalIconNumber': rows});
+  colorMapSelector.style.width = '244px';
+  const icons = new Array(rows * cols);
+  let count = 0;
+  for (let [key, value] of ColorPresetIcons.entries()) {
+    const index = Math.floor(count % rows)*cols + Math.floor(count / rows);
+    icons[index] = {'iconFilePath': value, 'iconValue': key};
+    count++;
+  }
+  iconSelect.refresh(icons)
+
+  function updateColorMap(colorMaps) {
+    const componentIndex = store.imageUI.selectedComponentIndex;
+    const colorMap = colorMaps[componentIndex];
+    store.imageUI.lookupTableProxies[componentIndex].setPresetName(colorMap);
+    const lut = store.imageUI.lookupTableProxies[component].getLookupTable();
+    const range = store.imageUI.colorRanges[componentIndex];
+    lut.setMappingRange(range[0], range[1]);
+    if (!store.renderWindow.getInteractor().isAnimating()) {
+      store.renderWindow.render();
+    }
+    iconSelect.setSelectedValue(colorMap);
+  }
+  reaction(() => { return store.imageUI.colorMaps.slice() },
+    (colorMaps) => {
+      updateColorMap(colorMaps);
+    }
+  )
+  colorMapSelector.addEventListener('changed',
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const componentIndex = store.imageUI.selectedComponentIndex;
+      store.imageUI.colorMaps[componentIndex] = iconSelect.getSelectedValue();
+    }
+  );
+  const component = store.imageUI.selectedComponentIndex;
+  iconSelect.setSelectedValue(store.imageUI.colorMaps[component]);
 }
 
 export default createColorRangeInput;

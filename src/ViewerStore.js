@@ -49,12 +49,13 @@ class ImageUIStore {
   addCroppingPlanesChangedHandler = () => {};
   addResetCropHandler = () => {};
 
-  @observable colorMap = 'Grayscale';
+  @observable colorMaps = null
+  @observable colorRanges = [];
+
   @observable blendMode = 0;
   @observable useShadow = true;
   @observable slicingPlanesEnabled = false;
   @observable gradientOpacity = 0.2;
-  @observable colorRange = [];
 }
 
 class GeometriesUIStore {

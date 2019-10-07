@@ -3,6 +3,7 @@ import { autorun, reaction } from 'mobx';
 import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps';
 import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator';
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
+import macro from 'vtk.js/Sources/macro';
 
 import style from '../ItkVtkViewer.module.css';
 
@@ -69,10 +70,6 @@ function createTransferFunctionWidget(
       transferFunctionWidget.applyOpacity(piecewiseFunction);
     }
     const colorDataRange = transferFunctionWidget.getOpacityRange();
-    const preset = vtkColorMaps.getPresetByName(
-      lookupTableProxy.getPresetName()
-    );
-    lookupTable.applyColorMap(preset);
     lookupTable.setMappingRange(...colorDataRange);
     lookupTable.updateRange();
 
@@ -80,8 +77,10 @@ function createTransferFunctionWidget(
       renderWindow.render();
     }
   });
-  reaction(() => { return store.imageUI.colorRange.slice(); },
-    (colorRange) => {
+  reaction(() => { return store.imageUI.colorRanges.slice(); },
+    (colorRanges) => {
+      const component = store.imageUI.selectedComponentIndex;
+      const colorRange = colorRanges[component];
       const gaussians = transferFunctionWidget.getGaussians();
       const newGaussians = gaussians.slice();
       const dataArray = store.imageUI.image.getPointData().getScalars();
@@ -137,18 +136,20 @@ function createTransferFunctionWidget(
       transferFunctionWidget.setGaussians(newGaussians);
     }
   )
-  transferFunctionWidget.onZoomChange((zoom) => {
+  const onZoomChange = (zoom) => {
     const dataArray = store.imageUI.image.getPointData().getScalars();
     const fullRange = dataArray.getRange(0);
     const diff = fullRange[1] - fullRange[0];
     const colorRange = new Array(2);
     colorRange[0] = fullRange[0] + zoom[0] * diff;
     colorRange[1] = fullRange[0] + zoom[1] * diff;
-    store.imageUI.colorRange = colorRange;
-  });
+    const component = store.imageUI.selectedComponentIndex;
+    store.imageUI.colorRanges[component] = colorRange;
+  };
+  transferFunctionWidget.onZoomChange(macro.throttle(onZoomChange, 150));
 
-  reaction(() => { return store.imageUI.colorMap; },
-    (colorMap) => {
+  reaction(() => { return store.imageUI.colorMaps.slice(); },
+    (colorMaps) => {
       transferFunctionWidget.render();
       if (!renderWindow.getInteractor().isAnimating()) {
         renderWindow.render();

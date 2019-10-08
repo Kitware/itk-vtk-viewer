@@ -138,12 +138,6 @@ function createColorRangeInput(
     const componentIndex = store.imageUI.selectedComponentIndex;
     const colorMap = colorMaps[componentIndex];
     store.imageUI.lookupTableProxies[componentIndex].setPresetName(colorMap);
-    const lut = store.imageUI.lookupTableProxies[component].getLookupTable();
-    const range = store.imageUI.colorRanges[componentIndex];
-    lut.setMappingRange(range[0], range[1]);
-    if (!store.renderWindow.getInteractor().isAnimating()) {
-      store.renderWindow.render();
-    }
     iconSelect.setSelectedValue(colorMap);
   }
   reaction(() => { return store.imageUI.colorMaps.slice() },

@@ -117,10 +117,10 @@ function createColorRangeInput(
   const iconSelect = new IconSelect(`${colorMapSelector.id}`,
     colorMapSelector,
       {'selectedIconWidth': 230,
-      'selectedIconHeight': 20,
+      'selectedIconHeight': 22,
       'selectedBoxPadding': 1,
       'iconsWidth': 60,
-      'iconsHeight': 19,
+      'iconsHeight': 22,
       'boxIconSpace': 1,
       'vectoralIconNumber': cols,
       'horizontalIconNumber': rows});

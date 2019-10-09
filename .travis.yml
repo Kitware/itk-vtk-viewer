@@ -1,16 +1,11 @@
 language: node_js
 os: linux
 sudo: required
-dist: trusty
+dist: xenial
 group: travis_lts
 addons:
   sources:
     - ubuntu-toolchain-r-test
-  apt:
-    packages:
-      - gcc-4.8
-      - g++-4.8
-      - xvfb
 addons:
   chrome: stable
 node_js:
@@ -18,14 +13,8 @@ node_js:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libgif-dev
-before_script:
-  - export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start
-  - sleep 3
 install:
-  - npm install
-
-env:
-  - CXX=g++-4.8
+  - npm ci
 
 notifications:
   email:
@@ -42,7 +31,7 @@ cache:
     - doc/build-tmp
 
 script:
-  - npm install
+  - npm ci
   - npm run build:release
   - git config --global user.name "Travis CI"
   - git config --global user.email "sebastien.jourdain@kitware.com"

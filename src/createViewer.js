@@ -285,6 +285,10 @@ const createViewer = (
   }
   publicAPI.setImage = macro.throttle(setImage, 100);
 
+  publicAPI.getLookupTableProxies = () => {
+    return store.imageUI.lookupTableProxies;
+  }
+
   publicAPI.setPointSets = (pointSets) => {
     store.pointSetsUI.pointSets = pointSets;
   }
@@ -518,6 +522,10 @@ const createViewer = (
     if (currentColorMap !== colorMap) {
       store.imageUI.colorMaps[componentIndex] = colorMap;
     }
+  }
+
+  publicAPI.getColorMap = (componentIndex) => {
+    return store.imageUI.colorMaps[componentIndex];
   }
 
 

@@ -148,20 +148,6 @@ function createTransferFunctionWidget(
   };
   transferFunctionWidget.onZoomChange(macro.throttle(onZoomChange, 150));
 
-  reaction(() => { return store.imageUI.colorMaps.slice(); },
-    (colorMaps) => {
-      const component = store.imageUI.selectedComponentIndex;
-      const lookupTableProxy = store.imageUI.lookupTableProxies[component];
-      const lookupTable = lookupTableProxy.getLookupTable();
-      const colorDataRange = transferFunctionWidget.getOpacityRange();
-      lookupTable.setMappingRange(...colorDataRange);
-      lookupTable.updateRange();
-      transferFunctionWidget.render();
-      if (!renderWindow.getInteractor().isAnimating()) {
-        renderWindow.render();
-      }
-    });
-
   autorun(() => {
     const lookupTable = store.imageUI.lookupTableProxies[store.imageUI.selectedComponentIndex].getLookupTable();
     transferFunctionWidget.setColorTransferFunction(lookupTable);

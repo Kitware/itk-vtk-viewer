@@ -163,7 +163,7 @@ function createColorRangeInput(
           isIcons[isIcons.length-1].element.setAttribute('title', colorMap);
         }
       } else {
-        store.imageUI.lookupTableProxies[component].setPresetName(colorMap);
+        lookupTableProxy.setPresetName(colorMap);
         lookupTableProxy.setMode(vtkLookupTableProxy.Mode.Preset)
         transferFunctionWidget.applyOpacity(piecewiseFunction);
         const colorDataRange = transferFunctionWidget.getOpacityRange();

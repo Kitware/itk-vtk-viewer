@@ -12,6 +12,8 @@ jobs:
         nodeVersion: '8'
       LinuxNode10:
         nodeVersion: '10'
+      LinuxNode12:
+        nodeVersion: '12'
 
   pool:
     imageName: 'ubuntu-16.04'
@@ -56,12 +58,18 @@ jobs:
       macOSNode10:
         imageName: 'macos-10.13'
         nodeVersion: '10'
+      macOSNode12:
+        imageName: 'macos-10.13'
+        nodeVersion: '12'
       WindowsNode8:
         imageName: 'vs2017-win2016'
         nodeVersion: '8'
       WindowsNode10:
         imageName: 'vs2017-win2016'
         nodeVersion: '10'
+      WindowsNode12:
+        imageName: 'vs2017-win2016'
+        nodeVersion: '12'
 
   pool:
     imageName: $(imageName)

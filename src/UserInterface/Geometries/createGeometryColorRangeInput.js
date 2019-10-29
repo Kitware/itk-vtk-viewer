@@ -1,6 +1,11 @@
-import { reaction } from 'mobx';
+import { reaction, observable } from 'mobx';
+
+import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy';
 
 import style from '../ItkVtkViewer.module.css';
+
+import { IconSelect } from '@thewtex/iconselect.js/lib/control/iconselect';
+import ColorPresetIcons from '../ColorPresetIcons';
 
 function createColorRangeInput(
   store,
@@ -13,26 +18,6 @@ function createColorRangeInput(
   const maximumInput = document.createElement('input');
   maximumInput.type = 'number';
   maximumInput.setAttribute('class', style.numberInput);
-
-  function updateColorTransferFunction() {
-    const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-    const colorRanges = store.geometriesUI.colorRanges[selectedGeometryIndex];
-    const colorByKey = store.geometriesUI.colorBy[selectedGeometryIndex].value;
-    const colorRange = colorRanges.get(colorByKey);
-
-    const proxy = store.geometriesUI.representationProxies[selectedGeometryIndex];
-    const [colorByArrayName, location] = proxy.getColorBy();
-    const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
-    const colorTransferFunction = lutProxy.getLookupTable();
-    const colorPreset = store.geometriesUI.colorPresets[selectedGeometryIndex];
-    lutProxy.setPresetName(colorPreset);
-    colorTransferFunction.setMappingRange(...colorRange);
-    colorTransferFunction.updateRange();
-    store.renderWindow.render();
-
-    minimumInput.value = colorRange[0];
-    maximumInput.value = colorRange[1];
-  }
 
   function updateColorRangeInput() {
     const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
@@ -57,10 +42,13 @@ function createColorRangeInput(
       minimumInput.step = step;
       maximumInput.step = step;
     }
-    updateColorTransferFunction();
+
+    const colorRange = store.geometriesUI.selectedColorRange;
+    minimumInput.value = colorRange[0];
+    maximumInput.value = colorRange[1];
   }
 
-  function setDefaultColorRanges() {
+  function setDefaultColorRangesColorMaps() {
     const colorByOptions = store.geometriesUI.colorByOptions;
     if(!!!colorByOptions || colorByOptions.length === 0) {
       return;
@@ -70,7 +58,7 @@ function createColorRangeInput(
     colorByOptions.forEach((options, index) => {
       const geometry = geometries[index];
       if (store.geometriesUI.colorRanges.length <= index) {
-        const colorRanges = new Map();
+        const colorRanges = observable(new Map());
         if (options) {
           options.forEach((option) => {
             const [location, colorByArrayName] = option.value.split(':');
@@ -83,6 +71,7 @@ function createColorRangeInput(
         }
         store.geometriesUI.colorRanges.push(colorRanges);
       } else {
+        // Constrain by min / max of possibly new inputs
         const colorRanges = store.geometriesUI.colorRanges[index];
         !!options && options.forEach((option) => {
           const [location, colorByArrayName] = option.value.split(':');
@@ -108,11 +97,34 @@ function createColorRangeInput(
           }
         })
       }
+      if (store.geometriesUI.colorMaps.length <= index) {
+        const defaultColorMap = 'Viridis (matplotlib)';
+        store.geometriesUI.colorMaps.push(defaultColorMap);
+        const lutProxy = store.geometriesUI.selecetdLookupTableProxy;
+        if (!!lutProxy) {
+          lutProxy.setPresetName(defaultColorMap);
+        }
+      }
     })
     updateColorRangeInput();
   }
 
-  setDefaultColorRanges();
+  setDefaultColorRangesColorMaps();
+
+  reaction(() => { return store.geometriesUI.selectedColorRange; },
+    (colorRange) => {
+      console.log('rrrreaction!!!')
+      console.log(colorRange)
+      if (!!colorRange) {
+        minimumInput.value = colorRange[0];
+        maximumInput.value = colorRange[1];
+        const lutProxy = store.geometriesUI.selecetdLookupTableProxy;
+        const colorTransferFunction = lutProxy.getLookupTable();
+        colorTransferFunction.setMappingRange(...range);
+        colorTransferFunction.updateRange();
+      }
+    }
+  )
 
   minimumInput.addEventListener('change',
     (event) => {
@@ -121,9 +133,12 @@ function createColorRangeInput(
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
       const colorByKey = store.geometriesUI.colorBy[selectedGeometryIndex].value;
       const range = store.geometriesUI.colorRanges[selectedGeometryIndex].get(colorByKey);
+      console.log(range)
+      console.log(store.geometriesUI.selectedColorRange);
       range[0] = Number(event.target.value);
+      console.log(range)
+      console.log(store.geometriesUI.selectedColorRange);
       store.geometriesUI.colorRanges[selectedGeometryIndex].set(colorByKey, range);
-      updateColorTransferFunction();
     }
   );
   maximumInput.addEventListener('change',
@@ -135,7 +150,6 @@ function createColorRangeInput(
       const range = store.geometriesUI.colorRanges[selectedGeometryIndex].get(colorByKey);
       range[1] = Number(event.target.value);
       store.geometriesUI.colorRanges[selectedGeometryIndex].set(colorByKey, range);
-      updateColorTransferFunction();
     }
   );
 
@@ -145,22 +159,7 @@ function createColorRangeInput(
   canvas.setAttribute('width', width);
   canvas.setAttribute('height', height);
 
-  function updateColorCanvas() {
-    const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-    if (!store.geometriesUI.hasScalars[selectedGeometryIndex]) {
-      return;
-    }
-    const colorByKey = store.geometriesUI.colorBy[selectedGeometryIndex].value;
-    const range = store.geometriesUI.colorRanges[selectedGeometryIndex].get(colorByKey);
-
-    const proxy = store.geometriesUI.representationProxies[selectedGeometryIndex];
-    const [colorByArrayName, location] = proxy.getColorBy();
-    const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
-    const colorPreset = store.geometriesUI.colorPresets[selectedGeometryIndex];
-    lutProxy.setPresetName(colorPreset);
-    const colorTransferFunction = lutProxy.getLookupTable();
-    colorTransferFunction.setMappingRange(...range);
-    colorTransferFunction.updateRange();
+  function customColorMapIcon(colorTransferFunction, range) {
     const ctx = canvas.getContext('2d');
 
     const rgba = colorTransferFunction.getUint8Table(
@@ -181,13 +180,88 @@ function createColorRangeInput(
     }
 
     ctx.putImageData(pixelsArea, 0, 0);
+    return canvas.toDataURL('image/png')
   }
 
-  updateColorCanvas();
+  const colorMapSelector = document.createElement('div');
+  colorMapSelector.id = `${store.id}-geometryColorMapSelector`;
+
+  const rows = 20;
+  const cols = 3;
+  const iconSelectParameters = {'selectedIconWidth': 230,
+      'selectedIconHeight': 22,
+      'selectedBoxPadding': 1,
+      'iconsWidth': 60,
+      'iconsHeight': 22,
+      'boxIconSpace': 1,
+      'vectoralIconNumber': cols,
+      'horizontalIconNumber': rows};
+  const iconSelect = new IconSelect(`${colorMapSelector.id}`,
+    colorMapSelector, iconSelectParameters);
+  colorMapSelector.style.width = '244px';
+  const icons = new Array(rows * cols);
+  let count = 0;
+  for (let [key, value] of ColorPresetIcons.entries()) {
+    const index = Math.floor(count % rows)*cols + Math.floor(count / rows);
+    icons[index] = {'iconFilePath': value, 'iconValue': key};
+    count++;
+  }
+  iconSelect.refresh(icons)
+
+  function updateColorCanvas() {
+      const geometryIndex = store.geometriesUI.selectedGeometryIndex;
+      if (!store.geometriesUI.hasScalars[geometryIndex]) {
+        return;
+      }
+      const colorMap = store.geometriesUI.colorMaps[geometryIndex];
+      const lookupTableProxy = store.geometriesUI.selectedLookupTableProxy;
+      const colorTransferFunction = lookupTableProxy.getLookupTable();
+
+      if (colorMap.startsWith('Custom')) {
+        lookupTableProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)
+        const colorRange = store.geometriesUI.selectedColorRange;
+        const isIcons = iconSelect.getIcons();
+        if (!!!customIcon) {
+          const colorMapIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
+          customIcon = { 'iconFilePath': colorMapIcon, 'iconValue': colorMap };
+          icons.push(customIcon);
+          iconSelect.refresh(icons);
+        } else if(isIcons[isIcons.length-1].iconValue !== colorMap) {
+          const colorMapIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
+          isIcons[isIcons.length-1].element.src = colorMapIcon;
+          isIcons[isIcons.length-1].iconFilePath = colorMapIcon;
+          isIcons[isIcons.length-1].iconValue = colorMap;
+          isIcons[isIcons.length-1].element.setAttribute('icon-value', colorMap);
+          isIcons[isIcons.length-1].element.setAttribute('alt', colorMap);
+          isIcons[isIcons.length-1].element.setAttribute('title', colorMap);
+        }
+      } else {
+        lookupTableProxy.setPresetName(colorMap);
+        lookupTableProxy.setMode(vtkLookupTableProxy.Mode.Preset)
+      }
+      iconSelect.setSelectedValue(colorMap);
+      if (!store.renderWindow.getInteractor().isAnimating()) {
+        store.renderWindow.render();
+      }
+    }
+  let customIcon = null;
+  reaction(() => { return store.geometriesUI.colorMaps.slice() },
+    (colorMaps) => { updateColorCanvas(); }
+  )
+  colorMapSelector.addEventListener('changed',
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const geometryIndex = store.geometriesUI.selectedGeometryIndex;
+      store.geometriesUI.colorMaps[geometryIndex] = iconSelect.getSelectedValue();
+    }
+  );
+  const geometryIndex = store.geometriesUI.selectedGeometryIndex;
+  iconSelect.setSelectedValue(store.geometriesUI.colorMaps[geometryIndex]);
 
   reaction(() => { return store.geometriesUI.colorByOptions.slice(); },
     () => {
-      setDefaultColorRanges();
+      setDefaultColorRangesColorMaps();
     }
   )
 
@@ -196,27 +270,21 @@ function createColorRangeInput(
       const hasScalars = store.geometriesUI.hasScalars;
       if (hasScalars[selectedGeometryIndex]) {
         uiContainer.style.display = 'flex';
-        updateColorCanvas();
         updateColorRangeInput();
+        updateColorCanvas();
       } else {
         uiContainer.style.display = 'none';
       }
     }
   )
-  reaction(() => { return store.geometriesUI.colorPresets.slice(); },
-    () => {
-      updateColorCanvas();
-      updateColorRangeInput();
-    }
-  )
-
   reaction(() => { return store.geometriesUI.colorBy.slice(); },
     () => {
-      updateColorCanvas();
       updateColorRangeInput();
+      updateColorCanvas();
     }
   )
 
+  updateColorCanvas();
   const hasScalars = store.geometriesUI.hasScalars;
   const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
   if (hasScalars[selectedGeometryIndex]) {
@@ -226,7 +294,8 @@ function createColorRangeInput(
   }
 
   uiContainer.appendChild(minimumInput);
-  uiContainer.appendChild(canvas);
+  //uiContainer.appendChild(canvas);
+  uiContainer.appendChild(colorMapSelector);
   uiContainer.appendChild(maximumInput);
 }
 

@@ -68,10 +68,10 @@ class GeometriesUIStore {
   @observable selectedGeometryIndex = 0;
   @observable names = [];
   @observable representations = [];
+  @observable colorMaps = [];
   @observable colorBy = [];
   @observable colors = [];
   @observable opacities = [];
-  @observable colorPresets = [];
   @observable colorRanges = [];
   @computed get hasScalars() {
     return this.geometries.map((geometry) => {
@@ -115,16 +115,34 @@ class GeometriesUIStore {
       if (!!pointData.getScalars()) {
         const activeIndex = pointData.getActiveScalars();
         const activeArray = pointData.getArrays()[activeIndex];
-        return { label: `Points: ${activeArray.getName()}`, value: `pointData:${activeArray.getName()}` };
+        return observable({ label: `Points: ${activeArray.getName()}`, value: `pointData:${activeArray.getName()}` });
       }
       const cellData = geometry.getCellData();
       if (!!cellData.getScalars()) {
         const activeIndex = cellData.getActiveScalars();
         const activeArray = cellData.getArrays()[activeIndex];
-        return { label: `Cells: ${activeArray.getName()}`, value: `cellData:${activeArray.getName()}` };
+        return observable({ label: `Cells: ${activeArray.getName()}`, value: `cellData:${activeArray.getName()}` });
       }
       throw new Error('Should not reach here.')
       })
+    };
+  @computed get selectedColorRange() {
+    const geometryIndex = this.selectedGeometryIndex;
+    console.log('computing selectedColorRange')
+    if (!this.hasScalars[geometryIndex]) {
+      return null;
+    }
+    const colorByKey = this.colorBy[geometryIndex].value;
+    return this.colorRanges[geometryIndex].get(colorByKey);
+    };
+  @computed get selectedLookupTableProxy() {
+    const geometryIndex = this.selectedGeometryIndex;
+    if (!this.hasScalars[geometryIndex]) {
+      return null;
+    }
+    const proxy = this.representationProxies[geometryIndex];
+    const [colorByArrayName, location] = proxy.getColorBy();
+    return proxy.getLookupTableProxy(colorByArrayName, location);
     };
 }
 

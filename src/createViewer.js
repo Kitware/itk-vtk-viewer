@@ -578,7 +578,6 @@ const createViewer = (
       store.mainUI.viewMode = mode;
     }
 
-
     const xSliceChangedHandlers = [];
     const xSliceChangedListener = (event) => {
       xSliceChangedHandlers.forEach((handler) => {

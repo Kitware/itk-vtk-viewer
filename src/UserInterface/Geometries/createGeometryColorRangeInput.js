@@ -1,4 +1,4 @@
-import { reaction, observable } from 'mobx';
+import { reaction, observable, action, toJS } from 'mobx';
 
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy';
 
@@ -20,13 +20,13 @@ function createColorRangeInput(
   maximumInput.setAttribute('class', style.numberInput);
 
   function updateColorRangeInput() {
-    const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-    if (!store.geometriesUI.hasScalars[selectedGeometryIndex]) {
+    const selectedIndex = store.geometriesUI.selectedGeometryIndex;
+    if (!store.geometriesUI.hasScalars[selectedIndex]) {
       return;
     }
-    const colorByKey = store.geometriesUI.colorBy[selectedGeometryIndex].value;
+    const colorByKey = store.geometriesUI.colorBy[selectedIndex].value;
     const [location, colorByArrayName] = colorByKey.split(':');
-    const geometry = store.geometriesUI.geometries[selectedGeometryIndex];
+    const geometry = store.geometriesUI.geometries[selectedIndex];
     const dataArray = location === 'pointData' ?
       geometry.getPointData().getArrayByName(colorByArrayName) :
       geometry.getCellData().getArrayByName(colorByArrayName);
@@ -48,6 +48,34 @@ function createColorRangeInput(
     maximumInput.value = colorRange[1];
   }
 
+  function addColorRangesReactions(index, colorRanges) {
+    if (store.geometriesUI.colorRangesReactions.has(index)) {
+      const disposer = store.geometriesUI.colorRangesReactions.get(index);
+      disposer.dispose();
+    }
+    const disposer = reaction(() => {
+      return toJS(store.geometriesUI.colorRanges);
+    },
+      (colorRanges) => {
+        if (index !== store.geometriesUI.selectedGeometryIndex) {
+          return;
+        }
+        const colorRange = store.geometriesUI.selectedColorRange;
+        if (!!colorRange) {
+          minimumInput.value = colorRange[0];
+          maximumInput.value = colorRange[1];
+          const lutProxy = store.geometriesUI.selectedLookupTableProxy;
+          const colorTransferFunction = lutProxy.getLookupTable();
+          colorTransferFunction.setMappingRange(...colorRange);
+          colorTransferFunction.updateRange();
+          if (!store.renderWindow.getInteractor().isAnimating()) {
+            store.renderWindow.render();
+          }
+        }
+      })
+    store.geometriesUI.colorRangesReactions.set(index, disposer);
+  }
+
   function setDefaultColorRangesColorMaps() {
     const colorByOptions = store.geometriesUI.colorByOptions;
     if(!!!colorByOptions || colorByOptions.length === 0) {
@@ -57,7 +85,7 @@ function createColorRangeInput(
     const geometries = store.geometriesUI.geometries;
     colorByOptions.forEach((options, index) => {
       const geometry = geometries[index];
-      if (store.geometriesUI.colorRanges.length <= index) {
+      if (!store.geometriesUI.colorRanges.has(index)) {
         const colorRanges = observable(new Map());
         if (options) {
           options.forEach((option) => {
@@ -69,10 +97,11 @@ function createColorRangeInput(
             colorRanges.set(option.value, range);
           })
         }
-        store.geometriesUI.colorRanges.push(colorRanges);
+        store.geometriesUI.colorRanges.set(index, colorRanges);
+        addColorRangesReactions(index, colorRanges);
       } else {
         // Constrain by min / max of possibly new inputs
-        const colorRanges = store.geometriesUI.colorRanges[index];
+        const colorRanges = store.geometriesUI.colorRanges.get(index)
         !!options && options.forEach((option) => {
           const [location, colorByArrayName] = option.value.split(':');
           const dataArray = location === 'pointData' ?
@@ -96,6 +125,15 @@ function createColorRangeInput(
             colorRanges.set(option.value, range);
           }
         })
+        addColorRangesReactions(index, colorRanges);
+      }
+      if (store.geometriesUI.colorMaps.length <= index) {
+        const defaultColorMap = 'Viridis (matplotlib)';
+        store.geometriesUI.colorMaps.push(defaultColorMap);
+        const lutProxy = store.geometriesUI.selectedLookupTableProxy;
+        if (!!lutProxy) {
+          lutProxy.setPresetName(defaultColorMap);
+        }
       }
       if (store.geometriesUI.colorMaps.length <= index) {
         const defaultColorMap = 'Viridis (matplotlib)';
@@ -113,44 +151,38 @@ function createColorRangeInput(
 
   reaction(() => { return store.geometriesUI.selectedColorRange; },
     (colorRange) => {
-      console.log('rrrreaction!!!')
-      console.log(colorRange)
       if (!!colorRange) {
         minimumInput.value = colorRange[0];
         maximumInput.value = colorRange[1];
-        const lutProxy = store.geometriesUI.selecetdLookupTableProxy;
+        const lutProxy = store.geometriesUI.selectedLookupTableProxy;
         const colorTransferFunction = lutProxy.getLookupTable();
-        colorTransferFunction.setMappingRange(...range);
+        colorTransferFunction.setMappingRange(...colorRange);
         colorTransferFunction.updateRange();
       }
     }
   )
 
   minimumInput.addEventListener('change',
-    (event) => {
+    action((event) => {
       event.preventDefault();
       event.stopPropagation();
-      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-      const colorByKey = store.geometriesUI.colorBy[selectedGeometryIndex].value;
-      const range = store.geometriesUI.colorRanges[selectedGeometryIndex].get(colorByKey);
-      console.log(range)
-      console.log(store.geometriesUI.selectedColorRange);
+      const selectedIndex = store.geometriesUI.selectedGeometryIndex;
+      const colorByKey = store.geometriesUI.colorBy[selectedIndex].value;
+      const range = store.geometriesUI.colorRanges.get(selectedIndex).get(colorByKey);
       range[0] = Number(event.target.value);
-      console.log(range)
-      console.log(store.geometriesUI.selectedColorRange);
-      store.geometriesUI.colorRanges[selectedGeometryIndex].set(colorByKey, range);
-    }
+      store.geometriesUI.colorRanges.get(selectedIndex).set(colorByKey, range);
+    })
   );
   maximumInput.addEventListener('change',
-    (event) => {
+    action((event) => {
       event.preventDefault();
       event.stopPropagation();
-      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-      const colorByKey = store.geometriesUI.colorBy[selectedGeometryIndex].value;
-      const range = store.geometriesUI.colorRanges[selectedGeometryIndex].get(colorByKey);
+      const selectedIndex = store.geometriesUI.selectedGeometryIndex;
+      const colorByKey = store.geometriesUI.colorBy[selectedIndex].value;
+      const range = store.geometriesUI.colorRanges.get(selectedIndex).get(colorByKey);
       range[1] = Number(event.target.value);
-      store.geometriesUI.colorRanges[selectedGeometryIndex].set(colorByKey, range);
-    }
+      store.geometriesUI.colorRanges.get(selectedIndex).set(colorByKey, range);
+    })
   );
 
   const canvas = document.createElement('canvas');
@@ -266,9 +298,9 @@ function createColorRangeInput(
   )
 
   reaction(() => { return store.geometriesUI.selectedGeometryIndex; },
-    (selectedGeometryIndex) => {
+    (selectedIndex) => {
       const hasScalars = store.geometriesUI.hasScalars;
-      if (hasScalars[selectedGeometryIndex]) {
+      if (hasScalars[selectedIndex]) {
         uiContainer.style.display = 'flex';
         updateColorRangeInput();
         updateColorCanvas();
@@ -286,15 +318,14 @@ function createColorRangeInput(
 
   updateColorCanvas();
   const hasScalars = store.geometriesUI.hasScalars;
-  const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-  if (hasScalars[selectedGeometryIndex]) {
+  const selectedIndex = store.geometriesUI.selectedGeometryIndex;
+  if (hasScalars[selectedIndex]) {
     uiContainer.style.display = 'flex';
   } else {
     uiContainer.style.display = 'none';
   }
 
   uiContainer.appendChild(minimumInput);
-  //uiContainer.appendChild(canvas);
   uiContainer.appendChild(colorMapSelector);
   uiContainer.appendChild(maximumInput);
 }

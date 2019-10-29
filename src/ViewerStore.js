@@ -72,7 +72,8 @@ class GeometriesUIStore {
   @observable colorBy = [];
   @observable colors = [];
   @observable opacities = [];
-  @observable colorRanges = [];
+  @observable colorRanges = new Map();
+  colorRangesReactions = new Map();
   @computed get hasScalars() {
     return this.geometries.map((geometry) => {
       const pointData = geometry.getPointData();
@@ -128,12 +129,11 @@ class GeometriesUIStore {
     };
   @computed get selectedColorRange() {
     const geometryIndex = this.selectedGeometryIndex;
-    console.log('computing selectedColorRange')
     if (!this.hasScalars[geometryIndex]) {
       return null;
     }
     const colorByKey = this.colorBy[geometryIndex].value;
-    return this.colorRanges[geometryIndex].get(colorByKey);
+    return this.colorRanges.get(geometryIndex).get(colorByKey);
     };
   @computed get selectedLookupTableProxy() {
     const geometryIndex = this.selectedGeometryIndex;

@@ -502,10 +502,12 @@ const createViewer = (
   const selectColorMapHandlers = [];
   autorun(() => {
     const selectedComponentIndex = store.imageUI.selectedComponentIndex;
-    const colorMap = store.imageUI.colorMaps[selectedComponentIndex];
-    selectColorMapHandlers.forEach((handler) => {
-      handler.call(null, selectedComponentIndex, colorMap);
-    })
+    if (store.imageUI.colorMaps) {
+      const colorMap = store.imageUI.colorMaps[selectedComponentIndex];
+      selectColorMapHandlers.forEach((handler) => {
+        handler.call(null, selectedComponentIndex, colorMap);
+      })
+    }
   })
 
   publicAPI.subscribeSelectColorMap = (handler) => {

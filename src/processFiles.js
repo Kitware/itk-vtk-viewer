@@ -1,10 +1,12 @@
 import readImageFile from 'itk/readImageFile';
 import readImageDICOMFileSeries from 'itk/readImageDICOMFileSeries';
 import readMeshFile from 'itk/readMeshFile';
+import readPolyDataFile from 'itk/readPolyDataFile';
 import runPipelineBrowser from 'itk/runPipelineBrowser'
 import IOTypes from 'itk/IOTypes'
 import getFileExtension from 'itk/getFileExtension'
 import extensionToMeshIO from 'itk/extensionToMeshIO'
+import extensionToPolyDataIO from 'itk/extensionToPolyDataIO'
 import vtk from 'vtk.js/Sources/vtk'
 import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader'
 import vtkXMLImageDataReader from 'vtk.js/Sources/IO/XML/XMLImageDataReader'
@@ -46,15 +48,7 @@ const processFiles = (container, { files, use2D }) => {
     }).catch((error) => {
       const readers = Array.from(files).map((file) => {
         const extension = getFileExtension(file.name)
-        if(extension === 'vtp') {
-          return PromiseFileReader.readAsArrayBuffer(file)
-            .then(fileContents => {
-              const vtpReader = vtkXMLPolyDataReader.newInstance()
-              vtpReader.parseAsArrayBuffer(fileContents)
-              return Promise.resolve({ is3D: true, data: vtpReader.getOutputData(0)})
-            })
-        }
-        else if(extension === 'vti') {
+        if(extension === 'vti') {
           return PromiseFileReader.readAsArrayBuffer(file)
             .then(fileContents => {
               const vtiReader = vtkXMLImageDataReader.newInstance()
@@ -62,7 +56,15 @@ const processFiles = (container, { files, use2D }) => {
               return Promise.resolve({ is3D: true, data: vtiReader.getOutputData(0)})
             })
         }
-        else if(extensionToMeshIO.hasOwnProperty(extension)) {
+        else if(extensionToPolyDataIO.has(extension)) {
+          return readPolyDataFile(null, file).then(({ polyData, webWorker }) => {
+            webWorker.terminate()
+            const is3D = true
+            return Promise.resolve({ is3D, data: vtk(polyData) })
+          }).catch((error) => {
+            reject(error)
+          })
+        } else if(extensionToMeshIO.has(extension)) {
           let is3D = true
           const read0 = performance.now()
           let convert0 = null

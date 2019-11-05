@@ -27,6 +27,7 @@ module.exports = function init(config) {
       './test/tests.js',
       { pattern: './dist/itk/ImageIOs/**', watched: true, served: true, included: false },
       { pattern: './dist/itk/MeshIOs/**', watched: true, served: true, included: false },
+      { pattern: './dist/itk/PolyDataIOs/**', watched: true, served: true, included: false },
       { pattern: './dist/itk/WebWorkers/**', watched: true, served: true, included: false },
       { pattern: './dist/itk/Pipelines/**', watched: true, served: true, included: false },
       { pattern: './test/data/**', watched: false, served: true, included: false },

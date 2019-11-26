@@ -4,8 +4,7 @@ import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy';
 
 import style from '../ItkVtkViewer.module.css';
 
-import { IconSelect } from '@thewtex/iconselect.js/lib/control/iconselect';
-import ColorPresetIcons from '../ColorPresetIcons';
+import createColorMapIconSelector from '../createColorMapIconSelector';
 
 function createColorRangeInput(
   store,
@@ -101,31 +100,10 @@ function createColorRangeInput(
   colorMapSelector.id = `${store.id}-imageColorMapSelector`;
 
   uiContainer.appendChild(minimumInput);
-  //uiContainer.appendChild(canvas);
   uiContainer.appendChild(colorMapSelector);
   uiContainer.appendChild(maximumInput);
 
-  const rows = 20;
-  const cols = 3;
-  const iconSelectParameters = {'selectedIconWidth': 230,
-      'selectedIconHeight': 22,
-      'selectedBoxPadding': 1,
-      'iconsWidth': 60,
-      'iconsHeight': 22,
-      'boxIconSpace': 1,
-      'vectoralIconNumber': cols,
-      'horizontalIconNumber': rows};
-  const iconSelect = new IconSelect(`${colorMapSelector.id}`,
-    colorMapSelector, iconSelectParameters);
-  colorMapSelector.style.width = '244px';
-  const icons = new Array(rows * cols);
-  let count = 0;
-  for (let [key, value] of ColorPresetIcons.entries()) {
-    const index = Math.floor(count % rows)*cols + Math.floor(count / rows);
-    icons[index] = {'iconFilePath': value, 'iconValue': key};
-    count++;
-  }
-  iconSelect.refresh(icons)
+  const iconSelector = createColorMapIconSelector(colorMapSelector);
 
   let customIcon = null;
   reaction(() => { return store.imageUI.colorMaps.slice() },
@@ -147,12 +125,12 @@ function createColorRangeInput(
         }
         colorTransferFunction.updateRange();
 
-        const isIcons = iconSelect.getIcons();
+        const isIcons = iconSelector.getIcons();
         if (!!!customIcon) {
           const colorMapIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
           customIcon = { 'iconFilePath': colorMapIcon, 'iconValue': colorMap };
           icons.push(customIcon);
-          iconSelect.refresh(icons);
+          iconSelector.refresh(icons);
         } else if(isIcons[isIcons.length-1].iconValue !== colorMap) {
           const colorMapIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
           isIcons[isIcons.length-1].element.src = colorMapIcon;
@@ -172,7 +150,7 @@ function createColorRangeInput(
         }
         colorTransferFunction.updateRange();
       }
-      iconSelect.setSelectedValue(colorMap);
+      iconSelector.setSelectedValue(colorMap);
       transferFunctionWidget.render();
       if (!store.renderWindow.getInteractor().isAnimating()) {
         store.renderWindow.render();
@@ -184,11 +162,11 @@ function createColorRangeInput(
       event.preventDefault();
       event.stopPropagation();
       const componentIndex = store.imageUI.selectedComponentIndex;
-      store.imageUI.colorMaps[componentIndex] = iconSelect.getSelectedValue();
+      store.imageUI.colorMaps[componentIndex] = iconSelector.getSelectedValue();
     }
   );
   const component = store.imageUI.selectedComponentIndex;
-  iconSelect.setSelectedValue(store.imageUI.colorMaps[component]);
+  iconSelector.setSelectedValue(store.imageUI.colorMaps[component]);
 }
 
 export default createColorRangeInput;

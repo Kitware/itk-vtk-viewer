@@ -4,8 +4,7 @@ import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy';
 
 import style from '../ItkVtkViewer.module.css';
 
-import { IconSelect } from '@thewtex/iconselect.js/lib/control/iconselect';
-import ColorPresetIcons from '../ColorPresetIcons';
+import createColorMapIconSelector from '../createColorMapIconSelector';
 
 function createColorRangeInput(
   store,
@@ -218,27 +217,7 @@ function createColorRangeInput(
   const colorMapSelector = document.createElement('div');
   colorMapSelector.id = `${store.id}-geometryColorMapSelector`;
 
-  const rows = 20;
-  const cols = 3;
-  const iconSelectParameters = {'selectedIconWidth': 230,
-      'selectedIconHeight': 22,
-      'selectedBoxPadding': 1,
-      'iconsWidth': 60,
-      'iconsHeight': 22,
-      'boxIconSpace': 1,
-      'vectoralIconNumber': cols,
-      'horizontalIconNumber': rows};
-  const iconSelect = new IconSelect(`${colorMapSelector.id}`,
-    colorMapSelector, iconSelectParameters);
-  colorMapSelector.style.width = '244px';
-  const icons = new Array(rows * cols);
-  let count = 0;
-  for (let [key, value] of ColorPresetIcons.entries()) {
-    const index = Math.floor(count % rows)*cols + Math.floor(count / rows);
-    icons[index] = {'iconFilePath': value, 'iconValue': key};
-    count++;
-  }
-  iconSelect.refresh(icons)
+  const iconSelector = createColorMapIconSelector(colorMapSelector);
 
   function updateColorCanvas() {
       const geometryIndex = store.geometriesUI.selectedGeometryIndex;
@@ -252,12 +231,12 @@ function createColorRangeInput(
       if (colorMap.startsWith('Custom')) {
         lookupTableProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)
         const colorRange = store.geometriesUI.selectedColorRange;
-        const isIcons = iconSelect.getIcons();
+        const isIcons = iconSelector.getIcons();
         if (!!!customIcon) {
           const colorMapIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
           customIcon = { 'iconFilePath': colorMapIcon, 'iconValue': colorMap };
           icons.push(customIcon);
-          iconSelect.refresh(icons);
+          iconSelector.refresh(icons);
         } else if(isIcons[isIcons.length-1].iconValue !== colorMap) {
           const colorMapIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
           isIcons[isIcons.length-1].element.src = colorMapIcon;
@@ -271,7 +250,7 @@ function createColorRangeInput(
         lookupTableProxy.setPresetName(colorMap);
         lookupTableProxy.setMode(vtkLookupTableProxy.Mode.Preset)
       }
-      iconSelect.setSelectedValue(colorMap);
+      iconSelector.setSelectedValue(colorMap);
       if (!store.renderWindow.getInteractor().isAnimating()) {
         store.renderWindow.render();
       }
@@ -285,11 +264,11 @@ function createColorRangeInput(
       event.preventDefault();
       event.stopPropagation();
       const geometryIndex = store.geometriesUI.selectedGeometryIndex;
-      store.geometriesUI.colorMaps[geometryIndex] = iconSelect.getSelectedValue();
+      store.geometriesUI.colorMaps[geometryIndex] = iconSelector.getSelectedValue();
     }
   );
   const geometryIndex = store.geometriesUI.selectedGeometryIndex;
-  iconSelect.setSelectedValue(store.geometriesUI.colorMaps[geometryIndex]);
+  iconSelector.setSelectedValue(store.geometriesUI.colorMaps[geometryIndex]);
 
   reaction(() => { return store.geometriesUI.colorByOptions.slice(); },
     () => {

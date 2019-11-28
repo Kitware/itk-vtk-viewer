@@ -255,8 +255,7 @@ const createViewer = (
 
       if(!store.pointSetsUI.initialized) {
         UserInterface.createPointSetsUI(
-          store,
-          pointSets,
+          store
         );
       }
     }

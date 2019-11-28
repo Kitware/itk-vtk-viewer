@@ -2,7 +2,6 @@ import style from '../ItkVtkViewer.module.css';
 
 import createPointSetColorChooser from './createPointSetColorChooser';
 import createPointSetOpacitySlider from './createPointSetOpacitySlider';
-import createPointSetColorPresetSelector from './createPointSetColorPresetSelector';
 import createPointSetColorBySelector from './createPointSetColorBySelector';
 import createPointSetSizeSlider from './createPointSetSizeSlider';
 import createPointSetColorRangeInput from './createPointSetColorRangeInput';
@@ -34,15 +33,6 @@ function createPointSetColorWidget(
     pointSetColorRow
   )
   pointSetsUIGroup.appendChild(pointSetColorRow)
-
-  const pointSetColorPresetRow = document.createElement('div')
-  pointSetColorPresetRow.setAttribute('class', style.uiRow)
-  pointSetColorPresetRow.className += ` ${store.id}-toggle`;
-  createPointSetColorPresetSelector(
-    store,
-    pointSetColorPresetRow
-  )
-  pointSetsUIGroup.appendChild(pointSetColorPresetRow)
 
   const colorRangeInputRow = document.createElement('div');
   colorRangeInputRow.setAttribute('class', style.uiRow);

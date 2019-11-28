@@ -156,12 +156,13 @@ class PointSetsUIStore {
   @observable selectedPointSetIndex = 0;
   @observable names = [];
   @observable representations = [];
+  @observable colorMaps = [];
   @observable colorBy = [];
   @observable colors = [];
   @observable opacities = [];
-  @observable colorPresets = [];
   @observable sizes = [];
-  @observable colorRanges = [];
+  @observable colorRanges = new Map();
+  colorRangesReactions = new Map();
   @computed get hasScalars() {
     return this.pointSets.map((pointSet) => {
       const pointData = pointSet.getPointData();
@@ -199,6 +200,23 @@ class PointSetsUIStore {
       }
       throw new Error('Should not reach here.')
       })
+    };
+  @computed get selectedColorRange() {
+    const selectedIndex = this.selectedPointSetIndex;
+    if (!this.hasScalars[selectedIndex]) {
+      return null;
+    }
+    const colorByKey = this.colorBy[selectedIndex].value;
+    return this.colorRanges.get(selectedIndex).get(colorByKey);
+    };
+  @computed get selectedLookupTableProxy() {
+    const selectedIndex = this.selectedPointSetIndex;
+    if (!this.hasScalars[selectedIndex]) {
+      return null;
+    }
+    const proxy = this.representationProxies[selectedIndex];
+    const [colorByArrayName, location] = proxy.getColorBy();
+    return proxy.getLookupTableProxy(colorByArrayName, location);
     };
 }
 

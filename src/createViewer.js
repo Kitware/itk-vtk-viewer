@@ -255,8 +255,7 @@ const createViewer = (
 
       if(!store.pointSetsUI.initialized) {
         UserInterface.createPointSetsUI(
-          store,
-          pointSets,
+          store
         );
       }
     }
@@ -577,7 +576,6 @@ const createViewer = (
       }
       store.mainUI.viewMode = mode;
     }
-
 
     const xSliceChangedHandlers = [];
     const xSliceChangedListener = (event) => {

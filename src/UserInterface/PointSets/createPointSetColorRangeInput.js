@@ -1,6 +1,11 @@
-import { reaction } from 'mobx';
+import { reaction, observable, action, toJS } from 'mobx';
+
+import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy';
 
 import style from '../ItkVtkViewer.module.css';
+
+import createColorMapIconSelector from '../createColorMapIconSelector';
+import customColorMapIcon from '../customColorMapIcon';
 
 function createColorRangeInput(
   store,
@@ -14,34 +19,14 @@ function createColorRangeInput(
   maximumInput.type = 'number';
   maximumInput.setAttribute('class', style.numberInput);
 
-  function updateColorTransferFunction() {
-    const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-    const colorRanges = store.pointSetsUI.colorRanges[selectedPointSetIndex];
-    const colorByKey = store.pointSetsUI.colorBy[selectedPointSetIndex].value;
-    const colorRange = colorRanges.get(colorByKey);
-
-    const proxy = store.pointSetsUI.representationProxies[selectedPointSetIndex];
-    const [colorByArrayName, location] = proxy.getColorBy();
-    const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
-    const colorTransferFunction = lutProxy.getLookupTable();
-    const colorPreset = store.pointSetsUI.colorPresets[selectedPointSetIndex];
-    lutProxy.setPresetName(colorPreset);
-    colorTransferFunction.setMappingRange(...colorRange);
-    colorTransferFunction.updateRange();
-    store.renderWindow.render();
-
-    minimumInput.value = colorRange[0];
-    maximumInput.value = colorRange[1];
-  }
-
   function updateColorRangeInput() {
-    const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-    if (!store.pointSetsUI.hasScalars[selectedPointSetIndex]) {
+    const selectedIndex = store.pointSetsUI.selectedPointSetIndex;
+    if (!store.pointSetsUI.hasScalars[selectedIndex]) {
       return;
     }
-    const colorByKey = store.pointSetsUI.colorBy[selectedPointSetIndex].value;
+    const colorByKey = store.pointSetsUI.colorBy[selectedIndex].value;
     const [location, colorByArrayName] = colorByKey.split(':');
-    const pointSet = store.pointSetsUI.pointSets[selectedPointSetIndex];
+    const pointSet = store.pointSetsUI.pointSets[selectedIndex];
     const dataArray = location === 'pointData' ?
       pointSet.getPointData().getArrayByName(colorByArrayName) :
       pointSet.getCellData().getArrayByName(colorByArrayName);
@@ -57,10 +42,41 @@ function createColorRangeInput(
       minimumInput.step = step;
       maximumInput.step = step;
     }
-    updateColorTransferFunction();
+
+    const colorRange = store.pointSetsUI.selectedColorRange;
+    minimumInput.value = colorRange[0];
+    maximumInput.value = colorRange[1];
   }
 
-  function setDefaultColorRanges() {
+  function addColorRangesReactions(index, colorRanges) {
+    if (store.pointSetsUI.colorRangesReactions.has(index)) {
+      const disposer = store.pointSetsUI.colorRangesReactions.get(index);
+      disposer.dispose();
+    }
+    const disposer = reaction(() => {
+      return toJS(store.pointSetsUI.colorRanges);
+    },
+      (colorRanges) => {
+        if (index !== store.pointSetsUI.selectedPointSetIndex) {
+          return;
+        }
+        const colorRange = store.pointSetsUI.selectedColorRange;
+        if (!!colorRange) {
+          minimumInput.value = colorRange[0];
+          maximumInput.value = colorRange[1];
+          const lutProxy = store.pointSetsUI.selectedLookupTableProxy;
+          const colorTransferFunction = lutProxy.getLookupTable();
+          colorTransferFunction.setMappingRange(...colorRange);
+          colorTransferFunction.updateRange();
+          if (!store.renderWindow.getInteractor().isAnimating()) {
+            store.renderWindow.render();
+          }
+        }
+      })
+    store.pointSetsUI.colorRangesReactions.set(index, disposer);
+  }
+
+  function setDefaultColorRangesColorMaps() {
     const colorByOptions = store.pointSetsUI.colorByOptions;
     if(!!!colorByOptions || colorByOptions.length === 0) {
       return;
@@ -69,8 +85,8 @@ function createColorRangeInput(
     const pointSets = store.pointSetsUI.pointSets;
     colorByOptions.forEach((options, index) => {
       const pointSet = pointSets[index];
-      if (store.pointSetsUI.colorRanges.length <= index) {
-        const colorRanges = new Map();
+      if (!store.pointSetsUI.colorRanges.has(index)) {
+        const colorRanges = observable(new Map());
         if (options) {
           options.forEach((option) => {
             const [location, colorByArrayName] = option.value.split(':');
@@ -81,9 +97,11 @@ function createColorRangeInput(
             colorRanges.set(option.value, range);
           })
         }
-        store.pointSetsUI.colorRanges.push(colorRanges);
+        store.pointSetsUI.colorRanges.set(index, colorRanges);
+        addColorRangesReactions(index, colorRanges);
       } else {
-        const colorRanges = store.pointSetsUI.colorRanges[index];
+        // Constrain by min / max of possibly new inputs
+        const colorRanges = store.pointSetsUI.colorRanges.get(index);
         !!options && options.forEach((option) => {
           const [location, colorByArrayName] = option.value.split(':');
           const dataArray = location === 'pointData' ?
@@ -107,126 +125,150 @@ function createColorRangeInput(
             colorRanges.set(option.value, range);
           }
         })
+        addColorRangesReactions(index, colorRanges);
+      }
+      if (store.pointSetsUI.colorMaps.length <= index) {
+        const defaultColorMap = 'Viridis (matplotlib)';
+        store.pointSetsUI.colorMaps.push(defaultColorMap);
+        const lutProxy = store.pointSetsUI.selectedLookupTableProxy;
+        if (!!lutProxy) {
+          lutProxy.setPresetName(defaultColorMap);
+        }
       }
     })
     updateColorRangeInput();
   }
 
-  setDefaultColorRanges();
+  setDefaultColorRangesColorMaps();
+
+  reaction(() => { return store.pointSetsUI.selectedColorRange; },
+    (colorRange) => {
+      if (!!colorRange) {
+        minimumInput.value = colorRange[0];
+        maximumInput.value = colorRange[1];
+        const lutProxy = store.pointSetsUI.selectedLookupTableProxy;
+        const colorTransferFunction = lutProxy.getLookupTable();
+        colorTransferFunction.setMappingRange(...colorRange);
+        colorTransferFunction.updateRange();
+      }
+    }
+  )
 
   minimumInput.addEventListener('change',
-    (event) => {
+    action((event) => {
       event.preventDefault();
       event.stopPropagation();
-      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      const colorByKey = store.pointSetsUI.colorBy[selectedPointSetIndex].value;
-      const range = store.pointSetsUI.colorRanges[selectedPointSetIndex].get(colorByKey);
+      const selectedIndex = store.pointSetsUI.selectedPointSetIndex;
+      const colorByKey = store.pointSetsUI.colorBy[selectedIndex].value;
+      const range = store.pointSetsUI.colorRanges.get(selectedIndex).get(colorByKey);
       range[0] = Number(event.target.value);
-      store.pointSetsUI.colorRanges[selectedPointSetIndex].set(colorByKey, range);
-      updateColorTransferFunction();
-    }
+      store.pointSetsUI.colorRanges.get(selectedIndex).set(colorByKey, range);
+    })
   );
   maximumInput.addEventListener('change',
+    action((event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const selectedIndex = store.pointSetsUI.selectedPointSetIndex;
+      const colorByKey = store.pointSetsUI.colorBy[selectedIndex].value;
+      const range = store.pointSetsUI.colorRanges.get(selectedIndex).get(colorByKey);
+      range[1] = Number(event.target.value);
+      store.pointSetsUI.colorRanges.get(selectedIndex).set(colorByKey, range);
+    })
+  );
+
+  const colorMapSelector = document.createElement('div');
+  colorMapSelector.id = `${store.id}-pointSetColorMapSelector`;
+
+  const iconSelector = createColorMapIconSelector(colorMapSelector);
+
+  function updateColorCanvas() {
+      const selectedIndex = store.pointSetsUI.selectedPointSetIndex;
+      if (!store.pointSetsUI.hasScalars[selectedIndex]) {
+        return;
+      }
+      const colorMap = store.pointSetsUI.colorMaps[selectedIndex];
+      const lookupTableProxy = store.pointSetsUI.selectedLookupTableProxy;
+      const colorTransferFunction = lookupTableProxy.getLookupTable();
+
+      if (colorMap.startsWith('Custom')) {
+        lookupTableProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)
+        const colorRange = store.pointSetsUI.selectedColorRange;
+        const isIcons = iconSelector.getIcons();
+        if (!!!customIcon) {
+          const colorMapIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
+          customIcon = { 'iconFilePath': colorMapIcon, 'iconValue': colorMap };
+          icons.push(customIcon);
+          iconSelector.refresh(icons);
+        } else if(isIcons[isIcons.length-1].iconValue !== colorMap) {
+          const colorMapIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
+          isIcons[isIcons.length-1].element.src = colorMapIcon;
+          isIcons[isIcons.length-1].iconFilePath = colorMapIcon;
+          isIcons[isIcons.length-1].iconValue = colorMap;
+          isIcons[isIcons.length-1].element.setAttribute('icon-value', colorMap);
+          isIcons[isIcons.length-1].element.setAttribute('alt', colorMap);
+          isIcons[isIcons.length-1].element.setAttribute('title', colorMap);
+        }
+      } else {
+        lookupTableProxy.setPresetName(colorMap);
+        lookupTableProxy.setMode(vtkLookupTableProxy.Mode.Preset)
+      }
+      iconSelector.setSelectedValue(colorMap);
+      if (!store.renderWindow.getInteractor().isAnimating()) {
+        store.renderWindow.render();
+      }
+    }
+  let customIcon = null;
+  reaction(() => { return store.pointSetsUI.colorMaps.slice() },
+    (colorMaps) => { updateColorCanvas(); }
+  )
+  colorMapSelector.addEventListener('changed',
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      const colorByKey = store.pointSetsUI.colorBy[selectedPointSetIndex].value;
-      const range = store.pointSetsUI.colorRanges[selectedPointSetIndex].get(colorByKey);
-      range[1] = Number(event.target.value);
-      store.pointSetsUI.colorRanges[selectedPointSetIndex].set(colorByKey, range);
-      updateColorTransferFunction();
+      const selectedIndex = store.pointSetsUI.selectedPointSetIndex;
+      store.pointSetsUI.colorMaps[selectedIndex] = iconSelector.getSelectedValue();
     }
   );
-
-  const canvas = document.createElement('canvas');
-  const width = 240;
-  const height = 20;
-  canvas.setAttribute('width', width);
-  canvas.setAttribute('height', height);
-
-  function updateColorCanvas() {
-    const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-    if (!store.pointSetsUI.hasScalars[selectedPointSetIndex]) {
-      return;
-    }
-    const colorByKey = store.pointSetsUI.colorBy[selectedPointSetIndex].value;
-    const range = store.pointSetsUI.colorRanges[selectedPointSetIndex].get(colorByKey);
-
-    const proxy = store.pointSetsUI.representationProxies[selectedPointSetIndex];
-    const [colorByArrayName, location] = proxy.getColorBy();
-    const lutProxy = proxy.getLookupTableProxy(colorByArrayName, location);
-    const colorPreset = store.pointSetsUI.colorPresets[selectedPointSetIndex];
-    lutProxy.setPresetName(colorPreset);
-    const colorTransferFunction = lutProxy.getLookupTable();
-    colorTransferFunction.setMappingRange(...range);
-    colorTransferFunction.updateRange();
-    const ctx = canvas.getContext('2d');
-
-    const rgba = colorTransferFunction.getUint8Table(
-      range[0],
-      range[1],
-      width,
-      4,
-    );
-    const pixelsArea = ctx.getImageData(0, 0, width, 256);
-    for (let lineIdx = 0; lineIdx < 256; lineIdx++) {
-      pixelsArea.data.set(rgba, lineIdx * 4 * width);
-    }
-
-    const nbValues = 256 * width * 4;
-    const lineSize = width * 4;
-    for (let i = 3; i < nbValues; i += 4) {
-      pixelsArea.data[i] = 255 - Math.floor(i / lineSize);
-    }
-
-    ctx.putImageData(pixelsArea, 0, 0);
-  }
-
-  updateColorCanvas();
+  const pointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+  iconSelector.setSelectedValue(store.pointSetsUI.colorMaps[pointSetIndex]);
 
   reaction(() => { return store.pointSetsUI.colorByOptions.slice(); },
     () => {
-      setDefaultColorRanges();
+      setDefaultColorRangesColorMaps();
     }
   )
 
   reaction(() => { return store.pointSetsUI.selectedPointSetIndex; },
-    (selectedPointSetIndex) => {
+    (selectedIndex) => {
       const hasScalars = store.pointSetsUI.hasScalars;
-      if (hasScalars[selectedPointSetIndex]) {
+      if (hasScalars[selectedIndex]) {
         uiContainer.style.display = 'flex';
-        updateColorCanvas();
         updateColorRangeInput();
+        updateColorCanvas();
       } else {
         uiContainer.style.display = 'none';
       }
     }
   )
-  reaction(() => { return store.pointSetsUI.colorPresets.slice(); },
-    () => {
-      updateColorCanvas();
-      updateColorRangeInput();
-    }
-  )
-
   reaction(() => { return store.pointSetsUI.colorBy.slice(); },
     () => {
-      updateColorCanvas();
       updateColorRangeInput();
+      updateColorCanvas();
     }
   )
 
+  updateColorCanvas();
   const hasScalars = store.pointSetsUI.hasScalars;
-  const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-  if (hasScalars[selectedPointSetIndex]) {
+  const selectedIndex = store.pointSetsUI.selectedPointSetIndex;
+  if (hasScalars[selectedIndex]) {
     uiContainer.style.display = 'flex';
   } else {
     uiContainer.style.display = 'none';
   }
 
   uiContainer.appendChild(minimumInput);
-  uiContainer.appendChild(canvas);
+  uiContainer.appendChild(colorMapSelector);
   uiContainer.appendChild(maximumInput);
 }
 

@@ -289,10 +289,10 @@ function ItkVtkViewProxy(publicAPI, model) {
       model.volumeRepresentation = volumeRepresentations[0];
       const volume = model.volumeRepresentation.getVolumes()[0];
       const property = volume.getProperty();
-      property.setAmbient(0.25);
-      property.setDiffuse(0.8);
-      property.setSpecular(0.8);
-      property.setSpecularPower(30);
+      property.setAmbient(0.40);
+      property.setDiffuse(1.0);
+      property.setSpecular(0.40);
+      property.setSpecularPower(25);
       model.volumeRepresentation
         .getActors()
         .forEach(model.annotationPicker.addPickList);

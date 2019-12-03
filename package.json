@@ -24,7 +24,7 @@
     "mousetrap": "^1.6.3",
     "open": "^6.3.0",
     "promise-file-reader": "^1.0.2",
-    "vtk.js": "^11.11.2"
+    "vtk.js": "^11.13.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.2.0",

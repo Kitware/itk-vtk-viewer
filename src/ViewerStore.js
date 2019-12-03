@@ -51,6 +51,7 @@ class ImageUIStore {
 
   @observable colorMaps = null
   @observable colorRanges = [];
+  opacityGaussians = [];
 
   @observable blendMode = 0;
   @observable useShadow = true;

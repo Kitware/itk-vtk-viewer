@@ -97,6 +97,21 @@ const createViewer = (
           if (use2D && dataArray.getDataType() === 'Uint8Array' && (numberOfComponents === 3 || numberOfComponents === 4)) {
             store.imageUI.colorMaps[component] = 'Grayscale';
             store.imageUI.lookupTableProxies[component].setPresetName('Grayscale');
+          } else if(numberOfComponents === 3) {
+            let preset = 'Viridis (matplotlib)';
+            switch (component) {
+            case 0:
+              preset = 'Reds';
+              break;
+            case 1:
+              preset = 'Greens';
+              break;
+            case 2:
+              preset = 'Blues';
+              break;
+            }
+            store.imageUI.colorMaps[component] = preset;
+            store.imageUI.lookupTableProxies[component].setPresetName(preset);
           } else {
             store.imageUI.colorMaps[component] = 'Viridis (matplotlib)';
             store.imageUI.lookupTableProxies[component].setPresetName('Viridis (matplotlib)');

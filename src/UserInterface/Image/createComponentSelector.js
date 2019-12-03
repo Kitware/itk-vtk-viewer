@@ -39,30 +39,12 @@ function createComponentSelector(
 
   const dataArray = store.imageUI.image.getPointData().getScalars();
   const components = dataArray.getNumberOfComponents();
-  console.log('components')
-  console.log(components)
 
   componentSelector.addEventListener('change',
     action((event) => {
       event.preventDefault();
       event.stopPropagation();
-      console.log(event.target.value)
       store.imageUI.selectedComponentIndex = Number(event.target.value);
-
-      //if (pointSetColorBy[componentSelector.selectedIndex]) {
-        //componentSelector.innerHTML = pointSetColorByOptions[componentSelector.selectedIndex]
-          //.map(
-            //({ label, value }) =>
-              //`<option value="${value}" >${label}</option>`
-          //)
-          //.join('');
-        //componentSelector.value = pointSetColorBy[componentSelector.selectedIndex].value;
-      //}
-      //if (pointSetHasScalars[componentSelector.selectedIndex] && pointSetColorByOptions[componentSelector.selectedIndex].length > 1) {
-        //pointSetColorByRow.style.display = 'flex';
-      //} else {
-        //pointSetColorByRow.style.display = 'none';
-      //}
     }));
 
   reaction(() => { return store.imageUI.selectedComponentIndex; },

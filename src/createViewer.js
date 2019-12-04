@@ -93,14 +93,34 @@ const createViewer = (
         for (let component = 0; component < numberOfComponents; component++) {
           store.imageUI.lookupTableProxies[component] = vtkLookupTableProxy.newInstance();
           store.imageUI.piecewiseFunctionProxies[component] = vtkPiecewiseFunctionProxy.newInstance();
+          let preset = 'Viridis (matplotlib)';
           // If a 2D RGB or RGBA
           if (use2D && dataArray.getDataType() === 'Uint8Array' && (numberOfComponents === 3 || numberOfComponents === 4)) {
-            store.imageUI.colorMaps[component] = 'Grayscale';
-            store.imageUI.lookupTableProxies[component].setPresetName('Grayscale');
-          } else {
-            store.imageUI.colorMaps[component] = 'Viridis (matplotlib)';
-            store.imageUI.lookupTableProxies[component].setPresetName('Viridis (matplotlib)');
+            preset = 'Grayscale';
+          } else if(numberOfComponents === 2) {
+            switch (component) {
+            case 0:
+              preset = 'BkMa';
+              break;
+            case 1:
+              preset = 'BkCy';
+              break;
+            }
+          } else if(numberOfComponents === 3) {
+            switch (component) {
+            case 0:
+              preset = 'BkRd';
+              break;
+            case 1:
+              preset = 'BkGn';
+              break;
+            case 2:
+              preset = 'BkBu';
+              break;
+            }
           }
+          store.imageUI.colorMaps[component] = preset;
+          store.imageUI.lookupTableProxies[component].setPresetName(preset);
 
           const lut = store.imageUI.lookupTableProxies[component].getLookupTable();
           const range = dataArray.getRange(component);
@@ -261,7 +281,6 @@ const createViewer = (
     }
   );
   store.pointSetsUI.pointSets = pointSets;
-
 
   store.itkVtkView.resize();
   const resizeSensor = new ResizeSensor(store.container, function() {

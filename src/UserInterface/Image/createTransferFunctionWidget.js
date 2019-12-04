@@ -1,6 +1,5 @@
-import { autorun, reaction } from 'mobx';
+import { reaction, action } from 'mobx';
 
-import vtkColorMaps from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction/ColorMaps';
 import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator';
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget';
 import macro from 'vtk.js/Sources/macro';
@@ -44,7 +43,12 @@ function createTransferFunctionWidget(
     padding: 10,
   });
   const dataArray = store.imageUI.image.getPointData().getScalars();
-  transferFunctionWidget.setDataArray(dataArray.getData());
+  transferFunctionWidget.setDataArray(dataArray.getData(),
+    {
+      numberOfComponents: store.imageUI.numberOfComponents,
+      component: store.imageUI.selectedComponentIndex,
+    }
+  );
 
   const piecewiseWidgetContainer = document.createElement('div');
   piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget);
@@ -84,7 +88,7 @@ function createTransferFunctionWidget(
       const gaussians = transferFunctionWidget.getGaussians();
       const newGaussians = gaussians.slice();
       const dataArray = store.imageUI.image.getPointData().getScalars();
-      const fullRange = dataArray.getRange(0);
+      const fullRange = dataArray.getRange(component);
       const diff = fullRange[1] - fullRange[0];
       const colorRangeNormalized = new Array(2);
       colorRangeNormalized[0] = (colorRange[0] - fullRange[0]) / diff;
@@ -133,38 +137,86 @@ function createTransferFunctionWidget(
         newGaussians[0].width = newWidth;
       }
       transferFunctionWidget.setRangeZoom(colorRangeNormalized);
+      store.imageUI.opacityGaussians[component] = newGaussians;
       transferFunctionWidget.setGaussians(newGaussians);
     }
   )
-  const onZoomChange = (zoom) => {
+  const onZoomChange = action((zoom) => {
+    const component = store.imageUI.selectedComponentIndex;
     const dataArray = store.imageUI.image.getPointData().getScalars();
-    const fullRange = dataArray.getRange(0);
+    const fullRange = dataArray.getRange(component);
     const diff = fullRange[1] - fullRange[0];
     const colorRange = new Array(2);
     colorRange[0] = fullRange[0] + zoom[0] * diff;
     colorRange[1] = fullRange[0] + zoom[1] * diff;
-    const component = store.imageUI.selectedComponentIndex;
     store.imageUI.colorRanges[component] = colorRange;
-  };
+  });
   transferFunctionWidget.onZoomChange(macro.throttle(onZoomChange, 150));
 
-  autorun(() => {
-    const lookupTable = store.imageUI.lookupTableProxies[store.imageUI.selectedComponentIndex].getLookupTable();
+  function updateTransferFunctionLookupTable(index) {
+    const lookupTable = store.imageUI.lookupTableProxies[index].getLookupTable();
     transferFunctionWidget.setColorTransferFunction(lookupTable);
-  })
-
-  if (use2D) {
-    // Necessary side effect: addGaussian calls invokeOpacityChange, which
-    // calls onOpacityChange, which updates the lut (does not have a low
-    // opacity in 2D)
-    transferFunctionWidget.addGaussian(0.5, 1.0, 0.5, 0.0, 3.0);
-  } else {
-    transferFunctionWidget.addGaussian(0.5, 1.0, 0.5, 0.5, 0.4);
+    const colorDataRange = transferFunctionWidget.getOpacityRange();
+    lookupTable.setMappingRange(...colorDataRange);
+    lookupTable.updateRange();
   }
-  const component = store.imageUI.selectedComponentIndex;
-  const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[component].getPiecewiseFunction();
-  transferFunctionWidget.applyOpacity(piecewiseFunction);
-  transferFunctionWidget.render();
+  reaction(() => { return store.imageUI.selectedComponentIndex; },
+    (index) => {
+      const colorRange = store.imageUI.colorRanges[index];
+      const numberOfComponents = store.imageUI.numberOfComponents;
+      const dataArray = store.imageUI.image.getPointData().getScalars();
+      transferFunctionWidget.setDataArray(dataArray.getData(),
+        {
+          numberOfComponents: numberOfComponents,
+          component: index,
+        }
+      )
+      transferFunctionWidget.setGaussians(store.imageUI.opacityGaussians[index]);
+
+      const fullRange = dataArray.getRange(index);
+      const diff = fullRange[1] - fullRange[0];
+      const colorRangeNormalized = new Array(2);
+      colorRangeNormalized[0] = (colorRange[0] - fullRange[0]) / diff;
+      colorRangeNormalized[1] = (colorRange[1] - fullRange[0]) / diff;
+      transferFunctionWidget.setRangeZoom(colorRangeNormalized);
+
+      updateTransferFunctionLookupTable(index);
+
+      if (!renderWindow.getInteractor().isAnimating()) {
+        renderWindow.render();
+      }
+    }
+  )
+  updateTransferFunctionLookupTable(store.imageUI.selectedComponentIndex);
+
+  function setupOpacityGaussians() {
+    const numberOfComponents = store.imageUI.numberOfComponents;
+    for (let component = 0; component < numberOfComponents; component++) {
+      if (store.imageUI.opacityGaussians.length <= component) {
+        if (use2D) {
+          // Necessary side effect: addGaussian calls invokeOpacityChange, which
+          // calls onOpacityChange, which updates the lut (does not have a low
+          // opacity in 2D)
+          store.imageUI.opacityGaussians.push([{ position: 0.5, height: 1.0, width: 0.5, xBias: 0.0, yBias: 3.0 }]);
+        } else {
+          store.imageUI.opacityGaussians.push([{ position: 0.5, height: 1.0, width: 0.5, xBias: 0.5, yBias: 0.4 }]);
+        }
+      }
+      if (!use2D) {
+        transferFunctionWidget.setGaussians(store.imageUI.opacityGaussians[component]);
+        const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[component].getPiecewiseFunction();
+        transferFunctionWidget.applyOpacity(piecewiseFunction);
+      }
+    }
+    const selectedComponent = store.imageUI.selectedComponentIndex;
+    transferFunctionWidget.setGaussians(store.imageUI.opacityGaussians[selectedComponent]);
+  }
+  reaction(() => { return store.imageUI.image; },
+    (image) => {
+      setupOpacityGaussians();
+    }
+  )
+  setupOpacityGaussians();
 
   const transferFunctionWidgetRow = document.createElement('div');
   transferFunctionWidgetRow.setAttribute('class', style.uiRow);
@@ -188,6 +240,7 @@ function createTransferFunctionWidget(
     const gaussians = transferFunctionWidget.getGaussians();
     const newGaussians = gaussians.slice();
     newGaussians[0].width = value / windowMotionScale;
+    store.imageUI.opacityGaussians[store.imageUI.selectedComponentIndex] = newGaussians;
     transferFunctionWidget.setGaussians(newGaussians);
   };
   rangeManipulator.setVerticalListener(
@@ -208,6 +261,7 @@ function createTransferFunctionWidget(
     const gaussians = transferFunctionWidget.getGaussians();
     const newGaussians = gaussians.slice();
     newGaussians[0].position = value / levelMotionScale;
+    store.imageUI.opacityGaussians[store.imageUI.selectedComponentIndex] = newGaussians;
     transferFunctionWidget.setGaussians(newGaussians);
   };
   rangeManipulator.setHorizontalListener(
@@ -242,6 +296,7 @@ function createTransferFunctionWidget(
     const gaussians = transferFunctionWidget.getGaussians();
     const newGaussians = gaussians.slice();
     newGaussians[0].height = value / opacityMotionScale;
+    store.imageUI.opacityGaussians[store.imageUI.selectedComponentIndex] = newGaussians;
     transferFunctionWidget.setGaussians(newGaussians);
   };
   opacityRangeManipulator.setVerticalListener(

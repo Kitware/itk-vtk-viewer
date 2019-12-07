@@ -26,29 +26,33 @@ function createImageUI(
     imageUIGroup,
   );
 
-  const dataArray = store.imageUI.image.getPointData().getScalars();
-  const components = dataArray.getNumberOfComponents();
+  const haveImage = !!store.imageUI.image;
 
-  let updateColorMap = null;
-  // If not a 2D RGB image
-  if (!(dataArray.getDataType() !== 'Uint8Array' && (components === 3 || components === 4))) {
-    const colorRangeInputRow = document.createElement('div');
-    colorRangeInputRow.setAttribute('class', style.uiRow);
-    createColorRangeInput(
+  if (haveImage) {
+    const dataArray = store.imageUI.image.getPointData().getScalars();
+    const components = dataArray.getNumberOfComponents();
+
+    // If not a 2D RGB image
+    if (!(dataArray.getDataType() !== 'Uint8Array' && (components === 3 || components === 4))) {
+      const colorRangeInputRow = document.createElement('div');
+      colorRangeInputRow.setAttribute('class', style.uiRow);
+      createColorRangeInput(
+        store,
+        colorRangeInputRow
+      );
+      colorRangeInputRow.className += ` ${viewerDOMId}-toggle`;
+      imageUIGroup.appendChild(colorRangeInputRow);
+    }
+
+    createTransferFunctionWidget(
       store,
-      colorRangeInputRow
+      imageUIGroup,
+      use2D
     );
-    colorRangeInputRow.className += ` ${viewerDOMId}-toggle`;
-    imageUIGroup.appendChild(colorRangeInputRow);
   }
 
-  createTransferFunctionWidget(
-    store,
-    imageUIGroup,
-    use2D
-  );
 
-  if (!use2D) {
+  if (!use2D && haveImage) {
     const volumeRenderingRow1 = document.createElement('div');
     volumeRenderingRow1.setAttribute('class', style.uiRow);
     volumeRenderingRow1.className += ` ${viewerDOMId}-volumeRendering1 ${viewerDOMId}-toggle`;
@@ -116,6 +120,9 @@ function createImageUI(
       }
     )
 
+  }
+
+  if (!use2D) {
     createPlaneIndexSliders(
       store,
       imageUIGroup,

@@ -20,7 +20,7 @@ function applyStyle(el, style) {
 
 const createViewer = (
   rootContainer,
-  { image, geometries, pointSets, use2D = false, rotate = true, viewerStyle, viewerState }
+  { image, labelMap, geometries, pointSets, use2D = false, rotate = true, viewerStyle, viewerState }
 ) => {
   UserInterface.emptyContainer(rootContainer);
 
@@ -71,65 +71,78 @@ const createViewer = (
   );
 
   let updatingImage = false;
-  reaction(() => store.imageUI.image,
-    (image) => {
-      if (!!!image) {
+  if (!!labelMap) {
+    store.imageUI.labelMap = labelMap;
+  }
+
+  reaction(() => {
+      const image = store.imageUI.image;
+      const labelMap = store.imageUI.labelMap;
+      return store.imageUI.fusedImageLabelMap;
+    },
+
+    (fusedImage) => {
+      if (!!!fusedImage) {
         return;
       }
       if (!!!store.imageUI.representationProxy) {
-        store.imageUI.source.setInputData(image);
+        store.imageUI.source.setInputData(fusedImage);
 
         proxyManager.createRepresentationInAllViews(store.imageUI.source);
         store.imageUI.representationProxy = proxyManager.getRepresentation(store.imageUI.source, store.itkVtkView);
 
-        const dataArray = image.getPointData().getScalars();
-        const numberOfComponents = dataArray.getNumberOfComponents();
-        store.imageUI.lookupTableProxies = new Array(numberOfComponents);
-        store.imageUI.piecewiseFunctionProxies = new Array(numberOfComponents);
-        store.imageUI.colorMaps = new Array(numberOfComponents);
-        store.imageUI.colorRanges = new Array(numberOfComponents);
-        const volume = store.imageUI.representationProxy.getVolumes()[0]
-        const volumeProperty = volume.getProperty()
-        for (let component = 0; component < numberOfComponents; component++) {
-          store.imageUI.lookupTableProxies[component] = vtkLookupTableProxy.newInstance();
-          store.imageUI.piecewiseFunctionProxies[component] = vtkPiecewiseFunctionProxy.newInstance();
-          let preset = 'Viridis (matplotlib)';
-          // If a 2D RGB or RGBA
-          if (use2D && dataArray.getDataType() === 'Uint8Array' && (numberOfComponents === 3 || numberOfComponents === 4)) {
-            preset = 'Grayscale';
-          } else if(numberOfComponents === 2) {
-            switch (component) {
-            case 0:
-              preset = 'BkMa';
-              break;
-            case 1:
-              preset = 'BkCy';
-              break;
+        if (!!store.imageUI.image) {
+          const dataArray = image.getPointData().getScalars();
+          const numberOfComponents = dataArray.getNumberOfComponents();
+          store.imageUI.lookupTableProxies = new Array(numberOfComponents);
+          store.imageUI.piecewiseFunctionProxies = new Array(numberOfComponents);
+          store.imageUI.colorMaps = new Array(numberOfComponents);
+          store.imageUI.colorRanges = new Array(numberOfComponents);
+          const volume = store.imageUI.representationProxy.getVolumes()[0]
+          const volumeProperty = volume.getProperty()
+          for (let component = 0; component < numberOfComponents; component++) {
+            store.imageUI.lookupTableProxies[component] = vtkLookupTableProxy.newInstance();
+            store.imageUI.piecewiseFunctionProxies[component] = vtkPiecewiseFunctionProxy.newInstance();
+            let preset = 'Viridis (matplotlib)';
+            // If a 2D RGB or RGBA
+            if (use2D && dataArray.getDataType() === 'Uint8Array' && (numberOfComponents === 3 || numberOfComponents === 4)) {
+              preset = 'Grayscale';
+            } else if(numberOfComponents === 2) {
+              switch (component) {
+              case 0:
+                preset = 'BkMa';
+                break;
+              case 1:
+                preset = 'BkCy';
+                break;
+              }
+            } else if(numberOfComponents === 3) {
+              switch (component) {
+              case 0:
+                preset = 'BkRd';
+                break;
+              case 1:
+                preset = 'BkGn';
+                break;
+              case 2:
+                preset = 'BkBu';
+                break;
+              }
             }
-          } else if(numberOfComponents === 3) {
-            switch (component) {
-            case 0:
-              preset = 'BkRd';
-              break;
-            case 1:
-              preset = 'BkGn';
-              break;
-            case 2:
-              preset = 'BkBu';
-              break;
-            }
+            store.imageUI.colorMaps[component] = preset;
+            store.imageUI.lookupTableProxies[component].setPresetName(preset);
+
+            const lut = store.imageUI.lookupTableProxies[component].getLookupTable();
+            const range = dataArray.getRange(component);
+            store.imageUI.colorRanges[component] = range;
+            lut.setMappingRange(range[0], range[1]);
+            volumeProperty.setRGBTransferFunction(component, lut);
+
+            const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[component].getPiecewiseFunction();
+            volumeProperty.setScalarOpacity(component, piecewiseFunction);
           }
-          store.imageUI.colorMaps[component] = preset;
-          store.imageUI.lookupTableProxies[component].setPresetName(preset);
-
-          const lut = store.imageUI.lookupTableProxies[component].getLookupTable();
-          const range = dataArray.getRange(component);
-          store.imageUI.colorRanges[component] = range;
-          lut.setMappingRange(range[0], range[1]);
-          volumeProperty.setRGBTransferFunction(component, lut);
-
-          const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[component].getPiecewiseFunction();
-          volumeProperty.setScalarOpacity(component, piecewiseFunction);
+        }
+        if (!!store.imageUI.labelMap) {
         }
         // Slices share the same lookup table as the volume rendering.
         // Todo use all lookup tables on slice
@@ -157,9 +170,9 @@ const createViewer = (
           return;
         }
         updatingImage = true;
-        store.imageUI.source.setInputData(image);
+        store.imageUI.source.setInputData(fusedImage);
         const transferFunctionWidget = store.imageUI.transferFunctionWidget;
-        transferFunctionWidget.setDataArray(image.getPointData().getScalars().getData());
+        transferFunctionWidget.setDataArray(store.imageUI.image.getPointData().getScalars().getData());
         transferFunctionWidget.invokeOpacityChange(transferFunctionWidget);
         transferFunctionWidget.modified();
         store.imageUI.croppingWidget.setVolumeMapper(store.imageUI.representationProxy.getMapper());

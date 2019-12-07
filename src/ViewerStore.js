@@ -1,5 +1,8 @@
 import { observable, computed } from 'mobx';
 
+import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData';
+import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray';
+
 const STYLE_CONTAINER = {
   position: 'relative',
   width: '100%',
@@ -41,8 +44,8 @@ class ImageUIStore {
     return dataArray.getNumberOfComponents();
   }
 
-  lookupTableProxies = null;
-  piecewiseFunctionProxies = null;
+  lookupTableProxies = [];
+  piecewiseFunctionProxies = [];
   transferFunctionWidget = null;
 
   croppingWidget = null;
@@ -57,6 +60,37 @@ class ImageUIStore {
   @observable useShadow = true;
   @observable slicingPlanesEnabled = false;
   @observable gradientOpacity = 0.2;
+
+  @observable.ref labelMap = null;
+  @computed get fusedImageLabelMap() {
+    if (!!!this.image && !!!this.labelMap) {
+      return null;
+    }
+    if (!!!this.image) {
+      return this.labelMap;
+    }
+    if (!!!this.labelMap) {
+      return this.image;
+    }
+    const fusedImage = vtkImageData.newInstance();
+    fusedImage.setOrigin(this.image.getOrigin());
+    fusedImage.setSpacing(this.image.getSpacing());
+    fusedImage.setDirection(this.image.getDirection());
+    const imageDimensions = this.image.getDimensions();
+    const labelMapDimensions = this.labelMap.getDimensions();
+    const dimensionsEqual = imageDimensions.every((dim, index) => {
+      return labelMapDimensions[index] === dim;
+    })
+    if (!dimensionsEqual) {
+      console.error(`Dimensions not equal! Not fusing. Image: ${imageDimensions} Label map: ${labelMapDimensions}`)
+      return image;
+    }
+    fusedImage.setDimensions(this.image.getDimensions());
+
+    fusedImage.getPointData().setScalars(this.image.getPointData.getScalars());
+    console.log(fusedImage)
+    return fusedImage;
+  }
 }
 
 class GeometriesUIStore {

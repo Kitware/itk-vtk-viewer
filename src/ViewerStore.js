@@ -40,6 +40,9 @@ class ImageUIStore {
 
   @observable selectedComponentIndex = 0;
   @computed get numberOfComponents() {
+    if (!!!this.image) {
+      return 0;
+    }
     const dataArray = this.image.getPointData().getScalars();
     return dataArray.getNumberOfComponents();
   }

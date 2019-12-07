@@ -21,13 +21,13 @@ function createImageUI(
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
-  const dataArray = store.imageUI.image.getPointData().getScalars();
-  const components = dataArray.getNumberOfComponents();
-
   const componentSelector = createComponentSelector(
     store,
     imageUIGroup,
   );
+
+  const dataArray = store.imageUI.image.getPointData().getScalars();
+  const components = dataArray.getNumberOfComponents();
 
   let updateColorMap = null;
   // If not a 2D RGB image

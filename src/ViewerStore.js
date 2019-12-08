@@ -39,6 +39,7 @@ class ImageUIStore {
   @observable.ref representationProxy = null;
 
   @observable selectedComponentIndex = 0;
+  // Does not include the label map
   @computed get numberOfComponents() {
     if (!!!this.image) {
       return 0;
@@ -66,21 +67,24 @@ class ImageUIStore {
 
   @observable.ref labelMap = null;
   @computed get fusedImageLabelMap() {
-    if (!!!this.image && !!!this.labelMap) {
+    const image = this.image;
+    const labelMap = this.labelMap;
+
+    if (!!!image && !!!labelMap) {
       return null;
     }
-    if (!!!this.image) {
-      return this.labelMap;
+    if (!!!image) {
+      return labelMap;
     }
-    if (!!!this.labelMap) {
-      return this.image;
+    if (!!!labelMap) {
+      return image;
     }
     const fusedImage = vtkImageData.newInstance();
-    fusedImage.setOrigin(this.image.getOrigin());
-    fusedImage.setSpacing(this.image.getSpacing());
-    fusedImage.setDirection(this.image.getDirection());
-    const imageDimensions = this.image.getDimensions();
-    const labelMapDimensions = this.labelMap.getDimensions();
+    fusedImage.setOrigin(image.getOrigin());
+    fusedImage.setSpacing(image.getSpacing());
+    fusedImage.setDirection(image.getDirection());
+    const imageDimensions = image.getDimensions();
+    const labelMapDimensions = labelMap.getDimensions();
     const dimensionsEqual = imageDimensions.every((dim, index) => {
       return labelMapDimensions[index] === dim;
     })
@@ -88,10 +92,37 @@ class ImageUIStore {
       console.error(`Dimensions not equal! Not fusing. Image: ${imageDimensions} Label map: ${labelMapDimensions}`)
       return image;
     }
-    fusedImage.setDimensions(this.image.getDimensions());
+    fusedImage.setDimensions(image.getDimensions());
 
-    fusedImage.getPointData().setScalars(this.image.getPointData.getScalars());
-    console.log(fusedImage)
+    const imageScalars = image.getPointData().getScalars();
+    const imageData = imageScalars.getData();
+    const imageComponents = imageScalars.getNumberOfComponents();
+    const imageTuples = imageScalars.getNumberOfTuples();
+    const labelMapScalars = labelMap.getPointData().getScalars();
+    const labelMapData = labelMapScalars.getData();
+
+    const fusedImageComponents = imageComponents + 1;
+
+    const length = imageTuples * fusedImageComponents;
+    const fusedImageData = new imageData.constructor(length);
+
+    let fusedIndex = 0;
+    let imageIndex = 0;
+    let labelMapIndex = 0;
+    for (let tuple = 0; tuple < imageTuples; tuple++) {
+      for (let component = 0; component < imageComponents; component++) {
+        fusedImageData[fusedIndex++] = imageData[imageIndex++]
+      }
+      fusedImageData[fusedIndex++] = labelMapData[labelMapIndex++];
+    }
+
+    const fusedImageScalars = vtkDataArray.newInstance({
+      name: imageScalars.getName() || 'Scalars',
+      values: fusedImageData,
+      numberOfComponents: fusedImageComponents
+    });
+
+    fusedImage.getPointData().setScalars(fusedImageScalars)
     return fusedImage;
   }
 }

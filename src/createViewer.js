@@ -74,7 +74,6 @@ const createViewer = (
   if (!!labelMap) {
     store.imageUI.labelMap = labelMap;
   }
-
   reaction(() => {
       const image = store.imageUI.image;
       const labelMap = store.imageUI.labelMap;
@@ -143,6 +142,7 @@ const createViewer = (
           }
         }
         if (!!store.imageUI.labelMap) {
+          // label map initialization
         }
         // Slices share the same lookup table as the volume rendering.
         // Todo use all lookup tables on slice

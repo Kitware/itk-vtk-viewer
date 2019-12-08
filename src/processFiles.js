@@ -154,6 +154,7 @@ const processFiles = (container, { files, use2D }) => {
         resolve(
           createViewer(container, {
             image,
+            labelMap,
             geometries,
             pointSets,
             use2D: !is3D,

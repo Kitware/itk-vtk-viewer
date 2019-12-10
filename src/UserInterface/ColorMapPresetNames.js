@@ -1,5 +1,5 @@
 // Like vtkColorMaps.rgbPresetNames, but more selective
-const ColorPresetNames = [
+const ColorMapPresetNames = [
   'Viridis (matplotlib)',
   'Plasma (matplotlib)',
   'Inferno (matplotlib)',
@@ -64,4 +64,4 @@ const ColorPresetNames = [
   'BrBG',
 ];
 
-export default ColorPresetNames;
+export default ColorMapPresetNames;

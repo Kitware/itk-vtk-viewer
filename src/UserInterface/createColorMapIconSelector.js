@@ -1,5 +1,5 @@
 import { IconSelect } from '@thewtex/iconselect.js/lib/control/iconselect';
-import ColorPresetIcons from './ColorPresetIcons';
+import ColorMapPresetIcons from './ColorMapPresetIcons';
 
 function createColorMapIconSelector(colorMapSelectorDiv) {
   const rows = 20;
@@ -17,7 +17,7 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
   colorMapSelectorDiv.style.width = '244px';
   const icons = new Array(rows * cols);
   let count = 0;
-  for (let [key, value] of ColorPresetIcons.entries()) {
+  for (let [key, value] of ColorMapPresetIcons.entries()) {
     const index = Math.floor(count % rows)*cols + Math.floor(count / rows);
     icons[index] = {'iconFilePath': value, 'iconValue': key};
     count++;

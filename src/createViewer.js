@@ -2,6 +2,7 @@ import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager';
 import macro from 'vtk.js/Sources/macro';
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy';
 import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy';
+import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction';
 
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
@@ -10,6 +11,8 @@ import UserInterface from './UserInterface';
 import addKeyboardShortcuts from './addKeyboardShortcuts';
 import rgb2hex from './UserInterface/rgb2hex';
 import ViewerStore from './ViewerStore';
+import CategoricalColors from './UserInterface/CategoricalColors';
+
 import { autorun, reaction } from 'mobx';
 
 function applyStyle(el, style) {
@@ -90,15 +93,15 @@ const createViewer = (
         proxyManager.createRepresentationInAllViews(store.imageUI.source);
         store.imageUI.representationProxy = proxyManager.getRepresentation(store.imageUI.source, store.itkVtkView);
 
+        const numberOfComponents = store.imageUI.numberOfComponents;
         if (!!store.imageUI.image) {
-          const dataArray = image.getPointData().getScalars();
-          const numberOfComponents = dataArray.getNumberOfComponents();
           store.imageUI.lookupTableProxies = new Array(numberOfComponents);
           store.imageUI.piecewiseFunctionProxies = new Array(numberOfComponents);
           store.imageUI.colorMaps = new Array(numberOfComponents);
           store.imageUI.colorRanges = new Array(numberOfComponents);
           const volume = store.imageUI.representationProxy.getVolumes()[0]
           const volumeProperty = volume.getProperty()
+          const dataArray = image.getPointData().getScalars();
           for (let component = 0; component < numberOfComponents; component++) {
             store.imageUI.lookupTableProxies[component] = vtkLookupTableProxy.newInstance();
             store.imageUI.piecewiseFunctionProxies[component] = vtkPiecewiseFunctionProxy.newInstance();
@@ -139,18 +142,84 @@ const createViewer = (
 
             const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[component].getPiecewiseFunction();
             volumeProperty.setScalarOpacity(component, piecewiseFunction);
+            //volumeProperty.setIndependentComponents(numberOfComponents);
           }
         }
+
         if (!!store.imageUI.labelMap) {
           // label map initialization
+          const lutProxy = vtkLookupTableProxy.newInstance()
+          store.imageUI.labelMapLookupTableProxy = lutProxy;
+
+          const colorPreset =  'glasbey';
+          store.imageUI.labelMapCategoricalColor = colorPreset;
+
+          const labelMapScalars = store.imageUI.labelMap.getPointData().getScalars();
+          const labelMapData = labelMapScalars.getData();
+          const uniqueLabels = new Set(labelMapData);
+          const annotations = Array.from(uniqueLabels);
+          // The volume mapper currently only supports ColorTransferFunction's,
+          // not LookupTable's
+          // lut.setAnnotations(annotations, annotations);
+          annotations.sort();
+          const numberOfLabels = annotations.length;
+
+          const colors = CategoricalColors.get(colorPreset);
+          const rgbPoints = new Array(numberOfLabels);
+          // Assume background
+          let haveBackground = false;
+          if (annotations[0] === 0) {
+            haveBackground = true;
+          }
+          let startIndex = 0;
+          if (haveBackground) {
+            startIndex = 1;
+            rgbPoints[0] = [annotations[0] - 0.5,
+              0.0,
+              0.0,
+              0.0];
+          }
+          for (let labelIndex = startIndex; labelIndex < numberOfLabels; labelIndex++) {
+            const color = colors[labelIndex + startIndex % colors.length];
+            rgbPoints[labelIndex] = [annotations[labelIndex] - 0.5,
+              color[0],
+              color[1],
+              color[2]];
+          }
+          lutProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints);
+          lutProxy.setRGBPoints(rgbPoints);
+
+          const volume = store.imageUI.representationProxy.getVolumes()[0]
+          const volumeProperty = volume.getProperty()
+          const colorTransferFunction = lutProxy.getLookupTable();
+          colorTransferFunction.setMappingRange(annotations[0]-0.5, annotations[numberOfLabels-1]+0.5);
+
+          volumeProperty.setRGBTransferFunction(numberOfComponents, colorTransferFunction);
+          //volumeProperty.setUseGradientOpacity(numberOfComponents, false);
+          //volumeProperty.setIndependentComponents(numberOfComponents + 1);
+
+          const piecewiseFunction = vtkPiecewiseFunction.newInstance();
+          store.imageUI.piecewiseFunction = piecewiseFunction;
+          if (haveBackground) {
+            piecewiseFunction.addPoint(annotations[0] - 0.5, 0.0, 0.5, 1.0);
+          } else {
+            piecewiseFunction.addPoint(annotations[0] - 0.5, 1.0, 0.5, 1.0);
+          }
+          piecewiseFunction.addPoint(annotations[1] - 0.5, 1.0, 0.5, 1.0);
+          piecewiseFunction.addPoint(annotations[numberOfLabels-1] + 0.5, 1.0, 0.5, 1.0);
+          // volumeProperty.setScalarOpacity(numberOfComponents, piecewiseFunction);
         }
+
+
         // Slices share the same lookup table as the volume rendering.
         // Todo use all lookup tables on slice
-        const lut = store.imageUI.lookupTableProxies[store.imageUI.selectedComponentIndex].getLookupTable();
-        const sliceActors = store.imageUI.representationProxy.getActors();
-        sliceActors.forEach((actor) => {
-          actor.getProperty().setRGBTransferFunction(lut);
-        });
+        if (!!image) {
+          const lut = store.imageUI.lookupTableProxies[store.imageUI.selectedComponentIndex].getLookupTable();
+          const sliceActors = store.imageUI.representationProxy.getActors();
+          sliceActors.forEach((actor) => {
+            actor.getProperty().setRGBTransferFunction(lut);
+          });
+        }
 
         if (use2D) {
           store.itkVtkView.setViewMode('ZPlane');
@@ -188,6 +257,11 @@ const createViewer = (
     }
   );
   store.imageUI.image = image;
+  if (!!labelMap && !!!image) {
+    // trigger reaction
+    store.imageUI.labelMap = null;
+    store.imageUI.labelMap = labelMap;
+  }
 
   reaction(() => !!store.geometriesUI.geometries && store.geometriesUI.geometries.slice(),
     (geometries) => {

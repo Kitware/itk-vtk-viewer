@@ -21,7 +21,7 @@ function createColorRangeInput(
 
   function updateColorRangeInput() {
     const dataArray = store.imageUI.image.getPointData().getScalars();
-    const numberOfComponents = dataArray.getNumberOfComponents();
+    const numberOfComponents = store.imageUI.numberOfComponents;
     for (let component = 0; component < numberOfComponents; component++) {
       const range = dataArray.getRange(component);
       minimumInput.min = range[0];

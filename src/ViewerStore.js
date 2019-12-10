@@ -125,6 +125,12 @@ class ImageUIStore {
     fusedImage.getPointData().setScalars(fusedImageScalars)
     return fusedImage;
   }
+
+  labelMapLookupTableProxy = null;
+  piecewiseFunction = null;
+
+  @observable labelMapOpacity = 0.75;
+  @observable labelMapCategoricalColor = 'glasbey';
 }
 
 class GeometriesUIStore {

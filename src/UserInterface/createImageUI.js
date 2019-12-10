@@ -11,6 +11,7 @@ import createUseShadowToggle from './Image/createUseShadowToggle';
 import createPlaneIndexSliders from './Image/createPlaneIndexSliders';
 import createSampleDistanceSlider from './Image/createSampleDistanceSlider';
 import createGradientOpacitySlider from './Image/createGradientOpacitySlider';
+import createLabelMapColorWidget from './Image/createLabelMapColorWidget';
 
 function createImageUI(
   store,
@@ -30,7 +31,7 @@ function createImageUI(
 
   if (haveImage) {
     const dataArray = store.imageUI.image.getPointData().getScalars();
-    const components = dataArray.getNumberOfComponents();
+    const components = store.imageUI.numberOfComponents;
 
     // If not a 2D RGB image
     if (!(dataArray.getDataType() !== 'Uint8Array' && (components === 3 || components === 4))) {
@@ -122,14 +123,23 @@ function createImageUI(
 
   }
 
-  if (!use2D) {
-    createPlaneIndexSliders(
+  store.mainUI.uiContainer.appendChild(imageUIGroup);
+
+  const haveLabelMap = !!store.imageUI.labelMap;
+  if (haveLabelMap) {
+    createLabelMapColorWidget(
       store,
-      imageUIGroup,
+      store.mainUI.uiContainer,
     );
   }
 
-  store.mainUI.uiContainer.appendChild(imageUIGroup);
+  if (!use2D) {
+    createPlaneIndexSliders(
+      store,
+      store.mainUI.uiContainer,
+    );
+  }
+
 }
 
 export default createImageUI;

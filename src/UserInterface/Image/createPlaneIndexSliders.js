@@ -6,6 +6,9 @@ function createPlaneIndexSliders(
   store,
   uiContainer,
 ) {
+  const planeIndexUIGroup = document.createElement('div');
+  planeIndexUIGroup.setAttribute('class', style.uiGroup);
+
   const contrastSensitiveStyle = getContrastSensitiveStyle(
     ['sliderLabel'],
     store.isBackgroundDark
@@ -59,7 +62,7 @@ function createPlaneIndexSliders(
   updateXSlice();
   xPlaneRow.style.display = 'none';
 
-  uiContainer.appendChild(xPlaneRow);
+  planeIndexUIGroup.appendChild(xPlaneRow);
 
   const yPlaneRow = document.createElement('div');
   yPlaneRow.setAttribute('class', style.uiRow);
@@ -99,7 +102,7 @@ function createPlaneIndexSliders(
   updateYSlice();
   yPlaneRow.style.display = 'none';
 
-  uiContainer.appendChild(yPlaneRow);
+  planeIndexUIGroup.appendChild(yPlaneRow);
 
   const zPlaneRow = document.createElement('div');
   zPlaneRow.setAttribute('class', style.uiRow);
@@ -139,7 +142,9 @@ function createPlaneIndexSliders(
   updateZSlice();
   zPlaneRow.style.display = 'none';
 
-  uiContainer.appendChild(zPlaneRow);
+  planeIndexUIGroup.appendChild(zPlaneRow);
+
+  uiContainer.appendChild(planeIndexUIGroup);
 }
 
 export default createPlaneIndexSliders;

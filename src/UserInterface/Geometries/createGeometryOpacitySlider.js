@@ -1,4 +1,4 @@
-import { reaction } from 'mobx';
+import { reaction, action } from 'mobx';
 
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
@@ -70,12 +70,12 @@ function createGeometryOpacitySlider(
     });
 
 
-  opacityElement.addEventListener('input', (event) => {
+  opacityElement.addEventListener('input', action((event) => {
       event.preventDefault();
       event.stopPropagation();
       const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
       store.geometriesUI.opacities[selectedGeometryIndex] = Number(event.target.value);
-    });
+    }));
 
   const defaultGeometryOpacities = new Array(store.geometriesUI.geometries.length);
   defaultGeometryOpacities.fill(defaultGeometryOpacity);

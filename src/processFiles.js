@@ -32,9 +32,16 @@ const processFiles = (container, { files, use2D }) => {
   UserInterface.emptyContainer(container);
   UserInterface.createLoadingProgress(container);
 
+  let readDICOMSeries = readImageDICOMFileSeries;
+  if (files.length < 2) {
+    readDICOMSeries = function() {
+      return Promise.reject('Skip DICOM series read attempt');
+    }
+  }
+
   /* eslint-disable new-cap */
   return new Promise((resolve, reject) => {
-    readImageDICOMFileSeries(null, files).then(({ image: itkImage, webWorker }) => {
+    readDICOMSeries(null, files).then(({ image: itkImage, webWorker }) => {
       webWorker.terminate()
       const imageData = vtkITKHelper.convertItkToVtkImage(itkImage);
       const is3D = itkImage.imageType.dimension === 3 && !use2D;

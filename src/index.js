@@ -10,6 +10,8 @@ import style from './UserInterface/ItkVtkViewer.module.css';
 
 let doNotInitViewers = false;
 
+export {default as createViewer} from './createViewer';
+
 export function createViewerFromLocalFiles(container) {
   doNotInitViewers = true;
   createFileDragAndDrop(container, processFiles);

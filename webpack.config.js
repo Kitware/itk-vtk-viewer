@@ -13,27 +13,42 @@ const outputPath = path.join(__dirname, './dist');
 const vtkRules = require('vtk.js/Utilities/config/dependency.js').webpack.core.rules;
 const cssRules = require('vtk.js/Utilities/config/dependency.js').webpack.css.rules;
 
+const packageJSON = require('./package.json')
+const itkVersion = packageJSON.dependencies.itk.substring(1)
+const cdnPath = 'https://unpkg.com/itk@' + itkVersion
+
 const devServer = {
   noInfo: true,
   stats: 'minimal'
 }
 
-module.exports = {
-  node: {
-    fs: 'empty',
-  },
-  entry,
+const node = {
+  fs: 'empty'
+}
+
+const moduleConfig = {
+  rules: [
+    { test: entry, loader: 'expose-loader?itkVtkViewer' },
+    { test: /\.js$/, loader: 'babel-loader' },
+    { test: /\.(png|jpg)$/, use: 'url-loader?limit=81920' },
+    { test: /\.svg$/, use: [{ loader: 'raw-loader' }], },
+  ].concat(vtkRules, cssRules),
+}
+
+const performance = {
+  maxAssetSize: 15000000,
+  maxEntrypointSize: 15000000
+}
+
+
+module.exports = [
+  // Progressive web app
+  {
+  node,
+  module: moduleConfig,
   output: {
     path: outputPath,
     filename: 'itkVtkViewer.js',
-  },
-  module: {
-    rules: [
-      { test: entry, loader: 'expose-loader?itkVtkViewer' },
-      { test: /\.js$/, loader: 'babel-loader' },
-      { test: /\.(png|jpg)$/, use: 'url-loader?limit=81920' },
-      { test: /\.svg$/, use: [{ loader: 'raw-loader' }], },
-    ].concat(vtkRules, cssRules),
   },
   plugins: [
     new CopyPlugin([
@@ -77,16 +92,25 @@ module.exports = {
     }),
     new WebPackBar(),
   ],
-  resolve: {
-    extensions: ['.webpack-loader.js', '.web-loader.js', '.loader.js', '.js', '.jsx'],
-    modules: [
-      path.resolve(__dirname, 'node_modules'),
-      sourcePath,
-    ],
-  },
-  performance: {
-      maxAssetSize: 15000000,
-      maxEntrypointSize: 15000000
-  },
+  performance,
   devServer,
-};
+  },
+  // For use in <script> tags
+  {
+  node,
+  module: moduleConfig,
+  output: {
+    path: outputPath,
+    filename: 'itkVtkViewerCDN.js',
+    publicPath: cdnPath
+  },
+  resolve: {
+    modules: [path.resolve(__dirname, 'node_modules')],
+    alias: {
+      './itkConfig$': path.resolve(__dirname, 'src', 'itkConfigCDN.js')
+    }
+  },
+    performance,
+    devServer,
+  },
+];

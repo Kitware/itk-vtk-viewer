@@ -127,6 +127,8 @@ class ImageUIStore {
   }
 
   labelMapLookupTableProxy = null;
+  // Sorted array of label values
+  labelMapLabels = null;
   piecewiseFunction = null;
 
   @observable labelMapOpacity = 0.75;

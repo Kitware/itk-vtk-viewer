@@ -1,6 +1,8 @@
-import { autorun, action } from 'mobx';
+import { autorun, reaction, action } from 'mobx';
 
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
+import createCategoricalColorIconSelector from '../createCategoricalColorIconSelector';
+import applyCategoricalColorToLookupTableProxy from '../applyCategoricalColorToLookupTableProxy';
 
 import style from '../ItkVtkViewer.module.css';
 
@@ -23,6 +25,64 @@ function createLabelMapColorWidget(
     ['invertibleButton'],
     store.isBackgroundDark
   );
+
+
+  const categoricalColorSelector = document.createElement('div');
+  categoricalColorSelector.id = `${store.id}-labelMapCategoricalColorSelector`;
+
+  const iconSelector = createCategoricalColorIconSelector(categoricalColorSelector);
+
+  let customIcon = null;
+  function updateDisplayedCategoricalColor() {
+    const categoricalColor = store.imageUI.labelMapCategoricalColor;
+
+    const lookupTableProxy = store.imageUI.labelMapLookupTableProxy;
+    const colorTransferFunction = lookupTableProxy.getLookupTable();
+
+    if (categoricalColor.startsWith('Custom')) {
+      // TODO
+      //lookupTableProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)
+      //transferFunctionWidget.applyOpacity(piecewiseFunction);
+      //const colorDataRange = transferFunctionWidget.getOpacityRange();
+      //if (!!colorDataRange) {
+        //colorTransferFunction.setMappingRange(...colorDataRange);
+      //}
+      //colorTransferFunction.updateRange();
+
+      //const isIcons = iconSelector.getIcons();
+      //if (!!!customIcon) {
+        //const categoricalColorIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
+        //customIcon = { 'iconFilePath': categoricalColorIcon, 'iconValue': categoricalColor };
+        //icons.push(customIcon);
+        //iconSelector.refresh(icons);
+      //} else if(isIcons[isIcons.length-1].iconValue !== categoricalColor) {
+        //const categoricalColorIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
+        //isIcons[isIcons.length-1].element.src = categoricalColorIcon;
+        //isIcons[isIcons.length-1].iconFilePath = categoricalColorIcon;
+        //isIcons[isIcons.length-1].iconValue = categoricalColor;
+        //isIcons[isIcons.length-1].element.setAttribute('icon-value', categoricalColor);
+        //isIcons[isIcons.length-1].element.setAttribute('alt', categoricalColor);
+        //isIcons[isIcons.length-1].element.setAttribute('title', categoricalColor);
+      //}
+    } else {
+      applyCategoricalColorToLookupTableProxy(lookupTableProxy, store.imageUI.labelMapLabels, categoricalColor);
+    }
+    iconSelector.setSelectedValue(categoricalColor);
+  }
+  reaction(() => { return store.imageUI.labelMapCategoricalColor },
+    (categoricalColor) => {
+      updateDisplayedCategoricalColor();
+    }
+  )
+  categoricalColorSelector.addEventListener('changed',
+    action((event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      store.imageUI.labelMapCategoricalColor = iconSelector.getSelectedValue();
+    })
+  );
+  iconSelector.setSelectedValue(store.imageUI.labelMapCategoricalColor);
+
 
   const defaultLabelMapColorOpacity = 0.75;
 
@@ -57,7 +117,16 @@ function createLabelMapColorWidget(
       event.stopPropagation();
       store.imageUI.labelMapOpacity = Number(opacityElement.value);
   }));
+  autorun(() => {
+    const haveImage = !!store.imageUI.image;
+    if (haveImage) {
+      sliderEntry.style.display = 'flex';
+    } else {
+      sliderEntry.style.display = 'none';
+    }
+  })
 
+  labelMapWidgetRow.appendChild(categoricalColorSelector);
   labelMapWidgetRow.appendChild(sliderEntry);
 
   labelMapColorUIGroup.appendChild(labelMapWidgetRow);

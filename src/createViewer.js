@@ -11,7 +11,7 @@ import UserInterface from './UserInterface';
 import addKeyboardShortcuts from './addKeyboardShortcuts';
 import rgb2hex from './UserInterface/rgb2hex';
 import ViewerStore from './ViewerStore';
-import CategoricalColors from './UserInterface/CategoricalColors';
+import applyCategoricalColorToLookupTableProxy from './UserInterface/applyCategoricalColorToLookupTableProxy';
 
 import { autorun, reaction } from 'mobx';
 
@@ -151,63 +151,39 @@ const createViewer = (
           const lutProxy = vtkLookupTableProxy.newInstance()
           store.imageUI.labelMapLookupTableProxy = lutProxy;
 
-          const colorPreset =  'glasbey';
-          store.imageUI.labelMapCategoricalColor = colorPreset;
-
           const labelMapScalars = store.imageUI.labelMap.getPointData().getScalars();
           const labelMapData = labelMapScalars.getData();
-          const uniqueLabels = new Set(labelMapData);
-          const annotations = Array.from(uniqueLabels);
+          const uniqueLabelsSet = new Set(labelMapData);
+          const uniqueLabels = Array.from(uniqueLabelsSet);
           // The volume mapper currently only supports ColorTransferFunction's,
           // not LookupTable's
-          // lut.setAnnotations(annotations, annotations);
-          annotations.sort();
-          const numberOfLabels = annotations.length;
+          // lut.setAnnotations(uniqueLabels, uniqueLabels);
+          uniqueLabels.sort();
+          store.imageUI.labelMapLabels = uniqueLabels;
 
-          const colors = CategoricalColors.get(colorPreset);
-          const rgbPoints = new Array(numberOfLabels);
-          // Assume background
-          let haveBackground = false;
-          if (annotations[0] === 0) {
-            haveBackground = true;
-          }
-          let startIndex = 0;
-          if (haveBackground) {
-            startIndex = 1;
-            rgbPoints[0] = [annotations[0] - 0.5,
-              0.0,
-              0.0,
-              0.0];
-          }
-          for (let labelIndex = startIndex; labelIndex < numberOfLabels; labelIndex++) {
-            const color = colors[labelIndex + startIndex % colors.length];
-            rgbPoints[labelIndex] = [annotations[labelIndex] - 0.5,
-              color[0],
-              color[1],
-              color[2]];
-          }
-          lutProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints);
-          lutProxy.setRGBPoints(rgbPoints);
+          applyCategoricalColorToLookupTableProxy(lutProxy, uniqueLabels, store.imageUI.labelMapCategoricalColor);
 
           const volume = store.imageUI.representationProxy.getVolumes()[0]
           const volumeProperty = volume.getProperty()
+
+          const piecewiseFunction = vtkPiecewiseFunction.newInstance();
+          store.imageUI.piecewiseFunction = piecewiseFunction;
+          const haveBackground = uniqueLabels[0] === 0 ? true: false;
+          if (haveBackground) {
+            piecewiseFunction.addPoint(uniqueLabels[0] - 0.5, 0.0, 0.5, 1.0);
+          } else {
+            piecewiseFunction.addPoint(uniqueLabels[0] - 0.5, 1.0, 0.5, 1.0);
+          }
+          piecewiseFunction.addPoint(uniqueLabels[1] - 0.5, 1.0, 0.5, 1.0);
+          piecewiseFunction.addPoint(uniqueLabels[uniqueLabels.length-1] + 0.5, 1.0, 0.5, 1.0);
+          // volumeProperty.setScalarOpacity(numberOfComponents, piecewiseFunction);
+
           const colorTransferFunction = lutProxy.getLookupTable();
-          colorTransferFunction.setMappingRange(annotations[0]-0.5, annotations[numberOfLabels-1]+0.5);
+          colorTransferFunction.setMappingRange(uniqueLabels[0], uniqueLabels[uniqueLabels.length-1]);
 
           volumeProperty.setRGBTransferFunction(numberOfComponents, colorTransferFunction);
           //volumeProperty.setUseGradientOpacity(numberOfComponents, false);
           //volumeProperty.setIndependentComponents(numberOfComponents + 1);
-
-          const piecewiseFunction = vtkPiecewiseFunction.newInstance();
-          store.imageUI.piecewiseFunction = piecewiseFunction;
-          if (haveBackground) {
-            piecewiseFunction.addPoint(annotations[0] - 0.5, 0.0, 0.5, 1.0);
-          } else {
-            piecewiseFunction.addPoint(annotations[0] - 0.5, 1.0, 0.5, 1.0);
-          }
-          piecewiseFunction.addPoint(annotations[1] - 0.5, 1.0, 0.5, 1.0);
-          piecewiseFunction.addPoint(annotations[numberOfLabels-1] + 0.5, 1.0, 0.5, 1.0);
-          // volumeProperty.setScalarOpacity(numberOfComponents, piecewiseFunction);
         }
 
 

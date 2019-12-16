@@ -37,9 +37,6 @@ function createComponentSelector(
   )
   updateAvailableComponents();
 
-  const dataArray = store.imageUI.image.getPointData().getScalars();
-  const components = dataArray.getNumberOfComponents();
-
   componentSelector.addEventListener('change',
     action((event) => {
       event.preventDefault();

@@ -6,6 +6,8 @@ import vtkActor from 'vtk.js/Sources/Rendering/Core/Actor';
 import vtkCubeSource from 'vtk.js/Sources/Filters/Sources/CubeSource';
 import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper';
 
+const CursorCornerAnnotation = '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td>${value}</td></tr></table>';
+
 const { vtkErrorMacro } = macro;
 
 // ----------------------------------------------------------------------------
@@ -42,11 +44,17 @@ function ItkVtkViewProxy(publicAPI, model) {
       }
       model.camera.setParallelProjection(false);
       if (model.volumeRepresentation) {
+        if (model.viewPlanes) {
+          publicAPI.setCornerAnnotation('se', CursorCornerAnnotation);
+        } else {
+          publicAPI.setCornerAnnotation('se', '');
+        }
         model.volumeRepresentation.setSliceVisibility(model.viewPlanes);
         model.volumeRepresentation.setVolumeVisibility(true);
       }
     } else {
       model.camera.setParallelProjection(true);
+      publicAPI.setCornerAnnotation('se', CursorCornerAnnotation);
       model.interactor.setInteractorStyle(model.interactorStyle2D);
       if (model.rotate && !!model.rotateAnimationCallback) {
         model.interactor.cancelAnimation('itk-vtk-view-rotate');
@@ -117,10 +125,7 @@ function ItkVtkViewProxy(publicAPI, model) {
 
   // Setup --------------------------------------------------------------------
 
-  publicAPI.setCornerAnnotation(
-    'se',
-    '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td>${value}</td></tr></table>'
-  );
+  publicAPI.setCornerAnnotation( 'se', '');
   publicAPI.updateCornerAnnotation({
     iIndex: '&nbsp;N/A',
     jIndex: '&nbsp;N/A',
@@ -237,6 +242,9 @@ function ItkVtkViewProxy(publicAPI, model) {
     model.viewPlanes = viewPlanes;
     if (model.viewMode === 'VolumeRendering' && model.volumeRepresentation) {
       model.volumeRepresentation.setSliceVisibility(viewPlanes);
+      if (viewPlanes) {
+        publicAPI.setCornerAnnotation('se', CursorCornerAnnotation);
+      }
       model.renderWindow.render();
     }
   };

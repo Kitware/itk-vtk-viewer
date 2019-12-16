@@ -1,5 +1,8 @@
 import { observable, computed } from 'mobx';
 
+import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData';
+import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray';
+
 const STYLE_CONTAINER = {
   position: 'relative',
   width: '100%',
@@ -36,13 +39,17 @@ class ImageUIStore {
   @observable.ref representationProxy = null;
 
   @observable selectedComponentIndex = 0;
+  // Does not include the label map
   @computed get numberOfComponents() {
+    if (!!!this.image) {
+      return 0;
+    }
     const dataArray = this.image.getPointData().getScalars();
     return dataArray.getNumberOfComponents();
   }
 
-  lookupTableProxies = null;
-  piecewiseFunctionProxies = null;
+  lookupTableProxies = [];
+  piecewiseFunctionProxies = [];
   transferFunctionWidget = null;
 
   croppingWidget = null;
@@ -57,6 +64,75 @@ class ImageUIStore {
   @observable useShadow = true;
   @observable slicingPlanesEnabled = false;
   @observable gradientOpacity = 0.2;
+
+  @observable.ref labelMap = null;
+  @computed get fusedImageLabelMap() {
+    const image = this.image;
+    const labelMap = this.labelMap;
+
+    if (!!!image && !!!labelMap) {
+      return null;
+    }
+    if (!!!image) {
+      return labelMap;
+    }
+    if (!!!labelMap) {
+      return image;
+    }
+    const fusedImage = vtkImageData.newInstance();
+    fusedImage.setOrigin(image.getOrigin());
+    fusedImage.setSpacing(image.getSpacing());
+    fusedImage.setDirection(image.getDirection());
+    const imageDimensions = image.getDimensions();
+    const labelMapDimensions = labelMap.getDimensions();
+    const dimensionsEqual = imageDimensions.every((dim, index) => {
+      return labelMapDimensions[index] === dim;
+    })
+    if (!dimensionsEqual) {
+      console.error(`Dimensions not equal! Not fusing. Image: ${imageDimensions} Label map: ${labelMapDimensions}`)
+      return image;
+    }
+    fusedImage.setDimensions(image.getDimensions());
+
+    const imageScalars = image.getPointData().getScalars();
+    const imageData = imageScalars.getData();
+    const imageComponents = imageScalars.getNumberOfComponents();
+    const imageTuples = imageScalars.getNumberOfTuples();
+    const labelMapScalars = labelMap.getPointData().getScalars();
+    const labelMapData = labelMapScalars.getData();
+
+    const fusedImageComponents = imageComponents + 1;
+
+    const length = imageTuples * fusedImageComponents;
+    const fusedImageData = new imageData.constructor(length);
+
+    let fusedIndex = 0;
+    let imageIndex = 0;
+    let labelMapIndex = 0;
+    for (let tuple = 0; tuple < imageTuples; tuple++) {
+      for (let component = 0; component < imageComponents; component++) {
+        fusedImageData[fusedIndex++] = imageData[imageIndex++]
+      }
+      fusedImageData[fusedIndex++] = labelMapData[labelMapIndex++];
+    }
+
+    const fusedImageScalars = vtkDataArray.newInstance({
+      name: imageScalars.getName() || 'Scalars',
+      values: fusedImageData,
+      numberOfComponents: fusedImageComponents
+    });
+
+    fusedImage.getPointData().setScalars(fusedImageScalars)
+    return fusedImage;
+  }
+
+  labelMapLookupTableProxy = null;
+  // Sorted array of label values
+  labelMapLabels = null;
+  piecewiseFunction = null;
+
+  @observable labelMapOpacity = 0.75;
+  @observable labelMapCategoricalColor = 'glasbey';
 }
 
 class GeometriesUIStore {

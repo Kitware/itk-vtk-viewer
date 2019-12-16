@@ -1,10 +1,10 @@
 import { IconSelect } from '@thewtex/iconselect.js/lib/control/iconselect';
-import ColorMapPresetIcons from './ColorMapPresetIcons';
+import CategoricalPresetIcons from './CategoricalPresetIcons';
 
-function createColorMapIconSelector(colorMapSelectorDiv) {
-  const rows = 20;
-  const cols = 3;
-  const iconSelectParameters = {'selectedIconWidth': 230,
+function createCategoricalColorIconSelector(categoricalColorSelectorDiv) {
+  const rows = 3;
+  const cols = 2;
+  const iconSelectParameters = {'selectedIconWidth': 140,
       'selectedIconHeight': 22,
       'selectedBoxPadding': 1,
       'iconsWidth': 60,
@@ -12,12 +12,12 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
       'boxIconSpace': 1,
       'vectoralIconNumber': cols,
       'horizontalIconNumber': rows};
-  const iconSelect = new IconSelect(`${colorMapSelectorDiv.id}`,
-    colorMapSelectorDiv, iconSelectParameters);
-  colorMapSelectorDiv.style.width = '244px';
+  const iconSelect = new IconSelect(`${categoricalColorSelectorDiv.id}`,
+    categoricalColorSelectorDiv, iconSelectParameters);
+  categoricalColorSelectorDiv.style.width = '154px';
   const icons = new Array(rows * cols);
   let count = 0;
-  for (let [key, value] of ColorMapPresetIcons.entries()) {
+  for (let [key, value] of CategoricalPresetIcons.entries()) {
     const index = Math.floor(count % rows)*cols + Math.floor(count / rows);
     icons[index] = {'iconFilePath': value, 'iconValue': key};
     count++;
@@ -27,4 +27,4 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
   return iconSelect;
 }
 
-export default createColorMapIconSelector;
+export default createCategoricalColorIconSelector;

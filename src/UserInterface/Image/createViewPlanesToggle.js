@@ -1,4 +1,4 @@
-import { autorun } from 'mobx';
+import { autorun, action } from 'mobx';
 
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
@@ -31,9 +31,10 @@ function createViewPlanesToggle(
     const viewPlanes = store.imageUI.slicingPlanesEnabled;
     viewPlanesButtonInput.checked = viewPlanes;
     store.itkVtkView.setViewPlanes(viewPlanes);
-    const xPlaneRow = imageUIGroup.querySelector(`.${viewerDOMId}-x-plane-row`);
-    const yPlaneRow = imageUIGroup.querySelector(`.${viewerDOMId}-y-plane-row`);
-    const zPlaneRow = imageUIGroup.querySelector(`.${viewerDOMId}-z-plane-row`);
+    const uiContainer = store.mainUI.uiContainer;
+    const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
+    const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
+    const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`);
     if (store.itkVtkView.getViewMode() === 'VolumeRendering') {
       if (viewPlanes) {
         xPlaneRow.style.display = 'flex';
@@ -49,11 +50,11 @@ function createViewPlanesToggle(
   autorun(() => {
     setViewPlanes();
   })
-  viewPlanesButton.addEventListener('change', (event) => {
+  viewPlanesButton.addEventListener('change', action((event) => {
     event.preventDefault();
     event.stopPropagation();
     store.imageUI.slicingPlanesEnabled = !store.imageUI.slicingPlanesEnabled;
-  });
+  }));
   volumeRenderingRow.appendChild(viewPlanesButton);
 }
 

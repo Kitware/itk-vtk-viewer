@@ -11,6 +11,7 @@ import createUseShadowToggle from './Image/createUseShadowToggle';
 import createPlaneIndexSliders from './Image/createPlaneIndexSliders';
 import createSampleDistanceSlider from './Image/createSampleDistanceSlider';
 import createGradientOpacitySlider from './Image/createGradientOpacitySlider';
+import createLabelMapColorWidget from './Image/createLabelMapColorWidget';
 
 function createImageUI(
   store,
@@ -21,34 +22,38 @@ function createImageUI(
   const imageUIGroup = document.createElement('div');
   imageUIGroup.setAttribute('class', style.uiGroup);
 
-  const dataArray = store.imageUI.image.getPointData().getScalars();
-  const components = dataArray.getNumberOfComponents();
-
   const componentSelector = createComponentSelector(
     store,
     imageUIGroup,
   );
 
-  let updateColorMap = null;
-  // If not a 2D RGB image
-  if (!(dataArray.getDataType() !== 'Uint8Array' && (components === 3 || components === 4))) {
-    const colorRangeInputRow = document.createElement('div');
-    colorRangeInputRow.setAttribute('class', style.uiRow);
-    createColorRangeInput(
+  const haveImage = !!store.imageUI.image;
+
+  if (haveImage) {
+    const dataArray = store.imageUI.image.getPointData().getScalars();
+    const components = store.imageUI.numberOfComponents;
+
+    // If not a 2D RGB image
+    if (!(dataArray.getDataType() !== 'Uint8Array' && (components === 3 || components === 4))) {
+      const colorRangeInputRow = document.createElement('div');
+      colorRangeInputRow.setAttribute('class', style.uiRow);
+      createColorRangeInput(
+        store,
+        colorRangeInputRow
+      );
+      colorRangeInputRow.className += ` ${viewerDOMId}-toggle`;
+      imageUIGroup.appendChild(colorRangeInputRow);
+    }
+
+    createTransferFunctionWidget(
       store,
-      colorRangeInputRow
+      imageUIGroup,
+      use2D
     );
-    colorRangeInputRow.className += ` ${viewerDOMId}-toggle`;
-    imageUIGroup.appendChild(colorRangeInputRow);
   }
 
-  createTransferFunctionWidget(
-    store,
-    imageUIGroup,
-    use2D
-  );
 
-  if (!use2D) {
+  if (!use2D && haveImage) {
     const volumeRenderingRow1 = document.createElement('div');
     volumeRenderingRow1.setAttribute('class', style.uiRow);
     volumeRenderingRow1.className += ` ${viewerDOMId}-volumeRendering1 ${viewerDOMId}-toggle`;
@@ -116,13 +121,25 @@ function createImageUI(
       }
     )
 
-    createPlaneIndexSliders(
-      store,
-      imageUIGroup,
-    );
   }
 
   store.mainUI.uiContainer.appendChild(imageUIGroup);
+
+  const haveLabelMap = !!store.imageUI.labelMap;
+  if (haveLabelMap) {
+    createLabelMapColorWidget(
+      store,
+      store.mainUI.uiContainer,
+    );
+  }
+
+  if (!use2D) {
+    createPlaneIndexSliders(
+      store,
+      store.mainUI.uiContainer,
+    );
+  }
+
 }
 
 export default createImageUI;

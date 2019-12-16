@@ -1,4 +1,4 @@
-import { reaction } from 'mobx';
+import { reaction, action } from 'mobx';
 
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
@@ -68,12 +68,12 @@ function createPointSetOpacitySlider(
       opacityElement.value = value;
     });
 
-  opacityElement.addEventListener('input', (event) => {
+  opacityElement.addEventListener('input', action((event) => {
       event.preventDefault();
       event.stopPropagation();
       const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
       store.pointSetsUI.opacities[selectedPointSetIndex] = Number(event.target.value);
-    });
+    }));
 
   const defaultPointSetOpacities = new Array(store.pointSetsUI.pointSets.length);
   defaultPointSetOpacities.fill(defaultPointSetOpacity);

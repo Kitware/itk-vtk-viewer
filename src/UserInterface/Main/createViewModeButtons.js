@@ -66,7 +66,7 @@ function createViewModeButtons(
     store.mainUI.yPlaneButton.checked = false;
     store.mainUI.zPlaneButton.checked = false;
     store.mainUI.volumeRenderingButton.checked = true;
-    if (store.imageUI.representationProxy) {
+    if (store.imageUI.representationProxy && !!store.imageUI.image) {
       const viewPlanes = document.getElementById(
         `${viewerDOMId}-toggleSlicingPlanesButton`
       ).checked;

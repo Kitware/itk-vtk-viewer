@@ -1,4 +1,4 @@
-import { autorun } from 'mobx';
+import { autorun, action } from 'mobx';
 
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
@@ -50,11 +50,11 @@ function createViewPlanesToggle(
   autorun(() => {
     setViewPlanes();
   })
-  viewPlanesButton.addEventListener('change', (event) => {
+  viewPlanesButton.addEventListener('change', action((event) => {
     event.preventDefault();
     event.stopPropagation();
     store.imageUI.slicingPlanesEnabled = !store.imageUI.slicingPlanesEnabled;
-  });
+  }));
   volumeRenderingRow.appendChild(viewPlanesButton);
 }
 

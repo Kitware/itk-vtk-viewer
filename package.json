@@ -10,7 +10,7 @@
   "bugs": {
     "url": "https://github.com/kitware/itk-vtk-viewer/issues"
   },
-  "homepage": "https://github.com/kitware/itk-vtk-viewer#readme",
+  "homepage": "https://kitware.github.io/itk-vtk-viewer/",
   "main": "./dist/itkVtkViewer.js",
   "dependencies": {
     "@babel/polyfill": "^7.0.0",

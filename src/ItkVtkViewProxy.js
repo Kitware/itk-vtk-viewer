@@ -5,8 +5,12 @@ import vtkPointPicker from 'vtk.js/Sources/Rendering/Core/PointPicker';
 import vtkActor from 'vtk.js/Sources/Rendering/Core/Actor';
 import vtkCubeSource from 'vtk.js/Sources/Filters/Sources/CubeSource';
 import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper';
+import vtkInteractiveOrientationWidget from 'vtk.js/Sources/Widgets/Widgets3D/InteractiveOrientationWidget';
+import vtkWidgetManager from 'vtk.js/Sources/Widgets/Core/WidgetManager';
+import * as vtkMath from 'vtk.js/Sources/Common/Core/Math';
 
-const CursorCornerAnnotation = '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td>${value}</td></tr></table>';
+const CursorCornerAnnotation =
+  '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td>${value}</td></tr></table>';
 
 const { vtkErrorMacro } = macro;
 
@@ -25,7 +29,9 @@ function ItkVtkViewProxy(publicAPI, model) {
     if (axisIndex === -1) {
       model.interactor.setInteractorStyle(model.interactorStyle3D);
       if (model.rotate && !!!model.rotateAnimationCallback) {
-        model.rotateAnimationCallback = model.interactor.onAnimation(rotateAzimuth);
+        model.rotateAnimationCallback = model.interactor.onAnimation(
+          rotateAzimuth
+        );
         model.interactor.requestAnimation('itk-vtk-view-rotate');
       }
       if (model.volumeRenderingCameraState) {
@@ -123,9 +129,17 @@ function ItkVtkViewProxy(publicAPI, model) {
     }
   }
 
+  function majorAxis(vec3, idxA, idxB) {
+    const axis = [0, 0, 0];
+    const idx = Math.abs(vec3[idxA]) > Math.abs(vec3[idxB]) ? idxA : idxB;
+    const value = vec3[idx] > 0 ? 1 : -1;
+    axis[idx] = value;
+    return axis;
+  }
+
   // Setup --------------------------------------------------------------------
 
-  publicAPI.setCornerAnnotation( 'se', '');
+  publicAPI.setCornerAnnotation('se', '');
   publicAPI.updateCornerAnnotation({
     iIndex: '&nbsp;N/A',
     jIndex: '&nbsp;N/A',
@@ -133,8 +147,7 @@ function ItkVtkViewProxy(publicAPI, model) {
     xPosition: '&nbsp;N/A',
     yPosition: '&nbsp;N/A',
     zPosition: '&nbsp;N/A',
-    value:
-      'N/A&nbsp;',
+    value: 'N/A&nbsp;',
   });
   publicAPI.setAnnotationOpacity(0.0);
   model.annotationPicker = vtkPointPicker.newInstance();
@@ -163,7 +176,9 @@ function ItkVtkViewProxy(publicAPI, model) {
 
   model.dataProbeCubeSource = vtkCubeSource.newInstance();
   model.dataProbeMapper = vtkMapper.newInstance();
-  model.dataProbeMapper.setInputConnection(model.dataProbeCubeSource.getOutputPort());
+  model.dataProbeMapper.setInputConnection(
+    model.dataProbeCubeSource.getOutputPort()
+  );
   model.dataProbeActor = vtkActor.newInstance();
   model.dataProbeActor.setMapper(model.dataProbeMapper);
   model.dataProbeFrameActor = vtkActor.newInstance();
@@ -185,11 +200,11 @@ function ItkVtkViewProxy(publicAPI, model) {
       const spacing = image.getSpacing();
       let viewableScale = null;
       if (model.camera.getParallelProjection()) {
-        viewableScale = model.camera.getParallelScale() / 40.;
+        viewableScale = model.camera.getParallelScale() / 40;
       } else {
         const distance = model.camera.getDistance();
         // Heuristic assuming a constant view angle
-        viewableScale = distance / 150.;
+        viewableScale = distance / 150;
       }
       model.dataProbeCubeSource.setXLength(Math.max(spacing[0], viewableScale));
       model.dataProbeCubeSource.setYLength(Math.max(spacing[1], viewableScale));
@@ -199,6 +214,57 @@ function ItkVtkViewProxy(publicAPI, model) {
 
   model.camera.pitch(-30.0);
   model.camera.azimuth(30.0);
+
+  model.widgetManager = null;
+  model.orientationWidget.setViewportSize(0.15);
+  const superRenderLater = publicAPI.renderLater;
+  publicAPI.renderLater = () => {
+    superRenderLater();
+    if (!!!model.widgetManager) {
+      setTimeout(() => {
+        model.widgetManager = vtkWidgetManager.newInstance();
+        model.widgetManager.setRenderer(model.orientationWidget.getRenderer());
+        const widget = vtkInteractiveOrientationWidget.newInstance();
+        widget.placeWidget(model.orientationAxesArrow.getBounds());
+        widget.setBounds(model.orientationAxesArrow.getBounds());
+        widget.setPlaceFactor(1);
+        model.interactiveOrientationWidget = widget;
+
+        const vw = model.widgetManager.addWidget(widget);
+
+        // Manage user interaction
+        vw.onOrientationChange(({ up, direction, action, event }) => {
+          const focalPoint = model.camera.getFocalPoint();
+          const position = model.camera.getPosition();
+          const viewUp = model.camera.getViewUp();
+
+          const distance = Math.sqrt(
+            vtkMath.distance2BetweenPoints(position, focalPoint)
+          );
+          model.camera.setPosition(
+            focalPoint[0] + direction[0] * distance,
+            focalPoint[1] + direction[1] * distance,
+            focalPoint[2] + direction[2] * distance
+          );
+
+          if (direction[0]) {
+            model.camera.setViewUp(majorAxis(viewUp, 1, 2));
+          }
+          if (direction[1]) {
+            model.camera.setViewUp(majorAxis(viewUp, 0, 2));
+          }
+          if (direction[2]) {
+            model.camera.setViewUp(majorAxis(viewUp, 0, 1));
+          }
+
+          model.orientationWidget.updateMarkerOrientation();
+          model.widgetManager.enablePicking();
+          model.renderWindow.render();
+        });
+        model.widgetManager.enablePicking();
+      }, 0);
+    }
+  };
 
   // API ----------------------------------------------------------------------
 
@@ -272,13 +338,19 @@ function ItkVtkViewProxy(publicAPI, model) {
       if (interpolate) {
         model.volumeRepresentation.getActors().forEach((actor) => {
           actor.getProperty().setInterpolationTypeToLinear();
-          actor.getProperty().getRGBTransferFunction().modified();
+          actor
+            .getProperty()
+            .getRGBTransferFunction()
+            .modified();
         });
         model.renderWindow.render();
       } else {
         model.volumeRepresentation.getActors().forEach((actor) => {
           actor.getProperty().setInterpolationTypeToNearest();
-          actor.getProperty().getRGBTransferFunction().modified();
+          actor
+            .getProperty()
+            .getRGBTransferFunction()
+            .modified();
         });
         model.renderWindow.render();
       }
@@ -301,9 +373,9 @@ function ItkVtkViewProxy(publicAPI, model) {
       model.volumeRepresentation = volumeRepresentations[0];
       const volume = model.volumeRepresentation.getVolumes()[0];
       const property = volume.getProperty();
-      property.setAmbient(0.40);
+      property.setAmbient(0.4);
       property.setDiffuse(1.0);
-      property.setSpecular(0.40);
+      property.setSpecular(0.4);
       property.setSpecularPower(25);
       model.volumeRepresentation
         .getActors()
@@ -325,10 +397,10 @@ function ItkVtkViewProxy(publicAPI, model) {
 
   // Continuously rotate in 3D
   function rotateAzimuth() {
-    model.renderer.getActiveCamera().azimuth(0.25)
+    model.renderer.getActiveCamera().azimuth(0.25);
     model.renderer.resetCameraClippingRange();
   }
-  model.rotateAnimationCallback = null
+  model.rotateAnimationCallback = null;
   publicAPI.setRotate = (rotate) => {
     if (model.rotate === rotate) {
       return;
@@ -336,7 +408,9 @@ function ItkVtkViewProxy(publicAPI, model) {
     model.rotate = rotate;
 
     if (rotate) {
-      model.rotateAnimationCallback = model.interactor.onAnimation(rotateAzimuth);
+      model.rotateAnimationCallback = model.interactor.onAnimation(
+        rotateAzimuth
+      );
       model.interactor.requestAnimation('itk-vtk-view-rotate');
     } else {
       model.interactor.cancelAnimation('itk-vtk-view-rotate');
@@ -345,7 +419,7 @@ function ItkVtkViewProxy(publicAPI, model) {
         model.rotateAnimationCallback = null;
       }
     }
-  }
+  };
 }
 
 // ----------------------------------------------------------------------------

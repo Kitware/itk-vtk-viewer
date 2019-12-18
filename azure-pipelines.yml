@@ -8,8 +8,6 @@ jobs:
 
   strategy:
     matrix:
-      LinuxNode8:
-        nodeVersion: '8'
       LinuxNode10:
         nodeVersion: '10'
       LinuxNode12:
@@ -52,18 +50,12 @@ jobs:
 
   strategy:
     matrix:
-      macOSNode8:
-        imageName: 'macos-10.13'
-        nodeVersion: '8'
       macOSNode10:
         imageName: 'macos-10.13'
         nodeVersion: '10'
       macOSNode12:
         imageName: 'macos-10.13'
         nodeVersion: '12'
-      WindowsNode8:
-        imageName: 'vs2017-win2016'
-        nodeVersion: '8'
       WindowsNode10:
         imageName: 'vs2017-win2016'
         nodeVersion: '10'

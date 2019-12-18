@@ -5,8 +5,8 @@
 [![Dependency Status](https://david-dm.org/kitware/itk-vtk-viewer.svg)](https://david-dm.org/kitware/itk-vtk-viewer)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 ![npm-download](https://img.shields.io/npm/dm/itk-vtk-viewer.svg)
-![npm-version-requirement](https://img.shields.io/badge/npm->=5.0.0-brightgreen.svg)
-![node-version-requirement](https://img.shields.io/badge/node->=8.0.0-brightgreen.svg)
+![npm-version-requirement](https://img.shields.io/badge/npm->=6.0.0-brightgreen.svg)
+![node-version-requirement](https://img.shields.io/badge/node->=10.0.0-brightgreen.svg)
 
 Introduction
 ============
@@ -33,8 +33,8 @@ In general ITK/VTK Viewer tries to be as portable as possible; the specific conf
 
 ITK/VTK Viewer supports the following development environments:
 
-- Node 8+
-- NPM 5+
+- Node 10+
+- NPM 6+
 
 and the following browsers:
 

@@ -220,7 +220,15 @@ function ItkVtkViewProxy(publicAPI, model) {
   const superRenderLater = publicAPI.renderLater;
   publicAPI.renderLater = () => {
     superRenderLater();
-    if (!!!model.widgetManager) {
+    let have2DImage = false;
+    const imageData = model.volumeRepresentation.getInputDataSet();
+    if (!!imageData) {
+      const size = imageData.getDimensions();
+      if (size[2] < 2) {
+        have2DImage = true;
+      }
+    }
+    if (!!!model.widgetManager && !have2DImage) {
       setTimeout(() => {
         model.widgetManager = vtkWidgetManager.newInstance();
         model.widgetManager.setRenderer(model.orientationWidget.getRenderer());

@@ -66,9 +66,11 @@ test('Test createViewer', (t) => {
       const representation = viewProxy.getRepresentations()[0];
       const volumeMapper = representation.getMapper();
       viewer.renderLater();
-      viewer.captureImage().then((screenshot) => {
-        testUtils.compareImages(screenshot, [createViewerBaseline], 'Test createViewer', t, 1.0, gc.releaseResources)
-      })
+      setTimeout(() => {
+        viewer.captureImage().then((screenshot) => {
+          testUtils.compareImages(screenshot, [createViewerBaseline], 'Test createViewer', t, 1.0, gc.releaseResources)
+        })
+      }, 100)
     })
 })
 
@@ -105,8 +107,10 @@ test('Test createViewer.setImage', (t) => {
           const representation = viewProxy.getRepresentations()[0];
           const volumeMapper = representation.getMapper();
           viewer.renderLater()
+          setTimeout(() => {
           viewer.captureImage().then((screenshot) => {
             testUtils.compareImages(screenshot, [createViewerSetImageBaseline], 'Test createViewer.setImage', t, 1.0, gc.releaseResources)
+          }, 100)
         })
 
         })

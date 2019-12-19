@@ -5,6 +5,7 @@ import vtkPointPicker from 'vtk.js/Sources/Rendering/Core/PointPicker';
 import vtkActor from 'vtk.js/Sources/Rendering/Core/Actor';
 import vtkCubeSource from 'vtk.js/Sources/Filters/Sources/CubeSource';
 import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper';
+import vtkCoordinate from 'vtk.js/Sources/Rendering/Core/Coordinate';
 import vtkInteractiveOrientationWidget from 'vtk.js/Sources/Widgets/Widgets3D/InteractiveOrientationWidget';
 import vtkWidgetManager from 'vtk.js/Sources/Widgets/Core/WidgetManager';
 import * as vtkMath from 'vtk.js/Sources/Common/Core/Math';
@@ -216,11 +217,20 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.camera.azimuth(30.0);
 
   model.widgetManager = null;
-  model.orientationWidget.setViewportSize(0.15);
+  model.orientationWidget.setViewportSize(0.1);
   const superRenderLater = publicAPI.renderLater;
   publicAPI.renderLater = () => {
     superRenderLater();
-    if (!!!model.widgetManager) {
+    updateScaleBar();
+    let have2DImage = false;
+    const imageData = model.volumeRepresentation.getInputDataSet();
+    if (!!imageData) {
+      const size = imageData.getDimensions();
+      if (size[2] < 2) {
+        have2DImage = true;
+      }
+    }
+    if (!!!model.widgetManager && !have2DImage) {
       setTimeout(() => {
         model.widgetManager = vtkWidgetManager.newInstance();
         model.widgetManager.setRenderer(model.orientationWidget.getRenderer());
@@ -232,39 +242,86 @@ function ItkVtkViewProxy(publicAPI, model) {
 
         const vw = model.widgetManager.addWidget(widget);
 
-        // Manage user interaction
-        vw.onOrientationChange(({ up, direction, action, event }) => {
-          const focalPoint = model.camera.getFocalPoint();
-          const position = model.camera.getPosition();
-          const viewUp = model.camera.getViewUp();
+        //// Manage user interaction
+        //vw.onOrientationChange(({ up, direction, action, event }) => {
+          //const focalPoint = model.camera.getFocalPoint();
+          //const position = model.camera.getPosition();
+          //const viewUp = model.camera.getViewUp();
 
-          const distance = Math.sqrt(
-            vtkMath.distance2BetweenPoints(position, focalPoint)
-          );
-          model.camera.setPosition(
-            focalPoint[0] + direction[0] * distance,
-            focalPoint[1] + direction[1] * distance,
-            focalPoint[2] + direction[2] * distance
-          );
+          //const distance = Math.sqrt(
+            //vtkMath.distance2BetweenPoints(position, focalPoint)
+          //);
+          //model.camera.setPosition(
+            //focalPoint[0] + direction[0] * distance,
+            //focalPoint[1] + direction[1] * distance,
+            //focalPoint[2] + direction[2] * distance
+          //);
 
-          if (direction[0]) {
-            model.camera.setViewUp(majorAxis(viewUp, 1, 2));
-          }
-          if (direction[1]) {
-            model.camera.setViewUp(majorAxis(viewUp, 0, 2));
-          }
-          if (direction[2]) {
-            model.camera.setViewUp(majorAxis(viewUp, 0, 1));
-          }
+          //if (direction[0]) {
+            //model.camera.setViewUp(majorAxis(viewUp, 1, 2));
+          //}
+          //if (direction[1]) {
+            //model.camera.setViewUp(majorAxis(viewUp, 0, 2));
+          //}
+          //if (direction[2]) {
+            //model.camera.setViewUp(majorAxis(viewUp, 0, 1));
+          //}
 
-          model.orientationWidget.updateMarkerOrientation();
-          model.widgetManager.enablePicking();
-          model.renderWindow.render();
-        });
-        model.widgetManager.enablePicking();
+          //model.orientationWidget.updateMarkerOrientation();
+          //model.widgetManager.enablePicking();
+          //model.renderWindow.render();
+        //});
+        //model.widgetManager.enablePicking();
       }, 0);
     }
   };
+
+  model.scaleBarCanvas = document.createElement('canvas');
+  model.scaleBarCanvas.style.position = 'absolute';
+  model.scaleBarCanvas.style.left = '50%';
+  model.scaleBarCanvas.style.bottom = '5.0%';
+  model.scaleBarCanvas.style.width = '100px';
+  model.scaleBarCanvas.style.height = '30px';
+  model.scaleBarCanvas.width = 100 * window.devicePixelRatio;
+  model.scaleBarCanvas.height = 30 * window.devicePixelRatio;
+  model.scaleBarCenterCoord = vtkCoordinate.newInstance();
+  model.scaleBarCenterCoord.setRenderer(model.renderer);
+  model.scaleBarCenterCoord.setCoordinateSystemToNormalizedViewport();
+  model.scaleBarCenterCoord.setValue(0.5, 0.5)
+  model.scaleBarCoordWidth = vtkCoordinate.newInstance();
+  model.scaleBarCoordWidth.setReferenceCoordinate(model.scaleBarCenterCoord);
+  model.scaleBarCoordWidth.setCoordinateSystemToViewport();
+  model.scaleBarCoordWidth.setRenderer(model.renderer);
+  model.scaleBarCoordWidth.setValue(model.scaleBarCanvas.width, 0);
+  function updateScaleBar() {
+    const devicePixelRatio = window.devicePixelRatio || 1;
+    const scaleBarCtx = model.scaleBarCanvas.getContext('2d');
+
+    const dims = { width: model.scaleBarCanvas.clientWidth * devicePixelRatio,
+      height: model.scaleBarCanvas.clientHeight * devicePixelRatio
+    };
+
+    scaleBarCtx.clearRect(0, 0, dims.width, dims.height);
+    scaleBarCtx.fillStyle = model.cornerAnnotation.getAnnotationContainer().style.color;
+
+    scaleBarCtx.fillRect(0,
+      (dims.height*0.85).toFixed(),
+      dims.width,
+      4 * devicePixelRatio);
+
+    scaleBarCtx.font = `${16 * devicePixelRatio}px serif`;
+    scaleBarCtx.textAlign = 'center';
+    scaleBarCtx.textBaseline = 'bottom';
+    model.scaleBarCoordWidth.setValue(dims.width, 0);
+    const cw = model.scaleBarCoordWidth.getComputedWorldValue();
+    const cc = model.scaleBarCenterCoord.getComputedWorldValue();
+    const length = Math.sqrt((cw[0] - cc[0]) * (cw[0] - cc[0]) +
+      (cw[1] - cc[1]) * (cw[1] - cc[1]),
+      (cw[2] - cc[2]) * (cw[2] - cc[2]));
+    scaleBarCtx.fillText(`${Number.parseFloat(length).toPrecision(1)}`, dims.width*0.5, dims.height*0.65, dims.width*0.9);
+  }
+  model.interactor.onEndMouseWheel(updateScaleBar);
+  model.interactor.onEndPinch(updateScaleBar);
 
   // API ----------------------------------------------------------------------
 
@@ -321,12 +378,14 @@ function ItkVtkViewProxy(publicAPI, model) {
 
   publicAPI.setOrientationAnnotationVisibility = (visible) => {
     if (visible) {
+      model.scaleBarCanvas.style.display = 'block';
       if (model.volumeRepresentation) {
         publicAPI.setAnnotationOpacity(1.0);
         model.orientationWidget.setEnabled(true);
         model.renderWindow.render();
       }
     } else {
+      model.scaleBarCanvas.style.display = 'none';
       publicAPI.setAnnotationOpacity(0.0);
       model.orientationWidget.setEnabled(false);
       model.renderWindow.render();
@@ -420,6 +479,34 @@ function ItkVtkViewProxy(publicAPI, model) {
       }
     }
   };
+
+  const superSetContainer = publicAPI.setContainer;
+  publicAPI.setContainer = (container) => {
+    superSetContainer(container);
+    if (container) {
+      container.appendChild(model.scaleBarCanvas);
+    }
+  }
+
+  const superResize = publicAPI.resize;
+  publicAPI.resize = () => {
+    if (model.container) {
+      const dims = model.container.getBoundingClientRect();
+      if (dims.width === dims.height && dims.width === 0) {
+        return;
+      }
+      const devicePixelRatio = window.devicePixelRatio || 1;
+      const width = Math.max(10, Math.floor(devicePixelRatio * dims.width));
+      const height = Math.max(10, Math.floor(devicePixelRatio * dims.height));
+      model.openglRenderWindow.setSize(width, height);
+
+      model.scaleBarCanvas.width = (100 * devicePixelRatio).toFixed();
+      model.scaleBarCanvas.height = (30 * devicePixelRatio).toFixed();
+
+      publicAPI.invokeResize({ width, height });
+      publicAPI.renderLater();
+    }
+  }
 }
 
 // ----------------------------------------------------------------------------

@@ -216,7 +216,7 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.camera.azimuth(30.0);
 
   model.widgetManager = null;
-  model.orientationWidget.setViewportSize(0.15);
+  model.orientationWidget.setViewportSize(0.1);
   const superRenderLater = publicAPI.renderLater;
   publicAPI.renderLater = () => {
     superRenderLater();
@@ -240,36 +240,36 @@ function ItkVtkViewProxy(publicAPI, model) {
 
         const vw = model.widgetManager.addWidget(widget);
 
-        // Manage user interaction
-        vw.onOrientationChange(({ up, direction, action, event }) => {
-          const focalPoint = model.camera.getFocalPoint();
-          const position = model.camera.getPosition();
-          const viewUp = model.camera.getViewUp();
+        //// Manage user interaction
+        //vw.onOrientationChange(({ up, direction, action, event }) => {
+          //const focalPoint = model.camera.getFocalPoint();
+          //const position = model.camera.getPosition();
+          //const viewUp = model.camera.getViewUp();
 
-          const distance = Math.sqrt(
-            vtkMath.distance2BetweenPoints(position, focalPoint)
-          );
-          model.camera.setPosition(
-            focalPoint[0] + direction[0] * distance,
-            focalPoint[1] + direction[1] * distance,
-            focalPoint[2] + direction[2] * distance
-          );
+          //const distance = Math.sqrt(
+            //vtkMath.distance2BetweenPoints(position, focalPoint)
+          //);
+          //model.camera.setPosition(
+            //focalPoint[0] + direction[0] * distance,
+            //focalPoint[1] + direction[1] * distance,
+            //focalPoint[2] + direction[2] * distance
+          //);
 
-          if (direction[0]) {
-            model.camera.setViewUp(majorAxis(viewUp, 1, 2));
-          }
-          if (direction[1]) {
-            model.camera.setViewUp(majorAxis(viewUp, 0, 2));
-          }
-          if (direction[2]) {
-            model.camera.setViewUp(majorAxis(viewUp, 0, 1));
-          }
+          //if (direction[0]) {
+            //model.camera.setViewUp(majorAxis(viewUp, 1, 2));
+          //}
+          //if (direction[1]) {
+            //model.camera.setViewUp(majorAxis(viewUp, 0, 2));
+          //}
+          //if (direction[2]) {
+            //model.camera.setViewUp(majorAxis(viewUp, 0, 1));
+          //}
 
-          model.orientationWidget.updateMarkerOrientation();
-          model.widgetManager.enablePicking();
-          model.renderWindow.render();
-        });
-        model.widgetManager.enablePicking();
+          //model.orientationWidget.updateMarkerOrientation();
+          //model.widgetManager.enablePicking();
+          //model.renderWindow.render();
+        //});
+        //model.widgetManager.enablePicking();
       }, 0);
     }
   };

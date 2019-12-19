@@ -216,64 +216,11 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.camera.pitch(-30.0);
   model.camera.azimuth(30.0);
 
-  model.widgetManager = null;
   model.orientationWidget.setViewportSize(0.1);
   const superRenderLater = publicAPI.renderLater;
   publicAPI.renderLater = () => {
     superRenderLater();
     updateScaleBar();
-    let have2DImage = false;
-    const imageData = model.volumeRepresentation.getInputDataSet();
-    if (!!imageData) {
-      const size = imageData.getDimensions();
-      if (size[2] < 2) {
-        have2DImage = true;
-      }
-    }
-    if (!!!model.widgetManager && !have2DImage) {
-      setTimeout(() => {
-        model.widgetManager = vtkWidgetManager.newInstance();
-        model.widgetManager.setRenderer(model.orientationWidget.getRenderer());
-        const widget = vtkInteractiveOrientationWidget.newInstance();
-        widget.placeWidget(model.orientationAxesArrow.getBounds());
-        widget.setBounds(model.orientationAxesArrow.getBounds());
-        widget.setPlaceFactor(1);
-        model.interactiveOrientationWidget = widget;
-
-        const vw = model.widgetManager.addWidget(widget);
-
-        //// Manage user interaction
-        //vw.onOrientationChange(({ up, direction, action, event }) => {
-          //const focalPoint = model.camera.getFocalPoint();
-          //const position = model.camera.getPosition();
-          //const viewUp = model.camera.getViewUp();
-
-          //const distance = Math.sqrt(
-            //vtkMath.distance2BetweenPoints(position, focalPoint)
-          //);
-          //model.camera.setPosition(
-            //focalPoint[0] + direction[0] * distance,
-            //focalPoint[1] + direction[1] * distance,
-            //focalPoint[2] + direction[2] * distance
-          //);
-
-          //if (direction[0]) {
-            //model.camera.setViewUp(majorAxis(viewUp, 1, 2));
-          //}
-          //if (direction[1]) {
-            //model.camera.setViewUp(majorAxis(viewUp, 0, 2));
-          //}
-          //if (direction[2]) {
-            //model.camera.setViewUp(majorAxis(viewUp, 0, 1));
-          //}
-
-          //model.orientationWidget.updateMarkerOrientation();
-          //model.widgetManager.enablePicking();
-          //model.renderWindow.render();
-        //});
-        //model.widgetManager.enablePicking();
-      }, 0);
-    }
   };
 
   model.scaleBarCanvas = document.createElement('canvas');

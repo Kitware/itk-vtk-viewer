@@ -6,7 +6,6 @@ import vtkActor from 'vtk.js/Sources/Rendering/Core/Actor';
 import vtkCubeSource from 'vtk.js/Sources/Filters/Sources/CubeSource';
 import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper';
 import vtkCoordinate from 'vtk.js/Sources/Rendering/Core/Coordinate';
-import vtkInteractiveOrientationWidget from 'vtk.js/Sources/Widgets/Widgets3D/InteractiveOrientationWidget';
 import vtkWidgetManager from 'vtk.js/Sources/Widgets/Core/WidgetManager';
 import * as vtkMath from 'vtk.js/Sources/Common/Core/Math';
 
@@ -254,7 +253,7 @@ function ItkVtkViewProxy(publicAPI, model) {
     scaleBarCtx.fillRect(0,
       (dims.height*0.85).toFixed(),
       dims.width,
-      4 * devicePixelRatio);
+      2 * devicePixelRatio);
 
     scaleBarCtx.font = `${16 * devicePixelRatio}px serif`;
     scaleBarCtx.textAlign = 'center';
@@ -265,7 +264,11 @@ function ItkVtkViewProxy(publicAPI, model) {
     const length = Math.sqrt((cw[0] - cc[0]) * (cw[0] - cc[0]) +
       (cw[1] - cc[1]) * (cw[1] - cc[1]),
       (cw[2] - cc[2]) * (cw[2] - cc[2]));
-    scaleBarCtx.fillText(`${Number.parseFloat(length).toPrecision(1)}`, dims.width*0.5, dims.height*0.65, dims.width*0.9);
+    let scale = Number.parseFloat(length).toPrecision(1);
+    if (length > 1) {
+      scale = Number.parseInt(Number.parseFloat(scale));
+    }
+    scaleBarCtx.fillText(`${scale} ${model.units}`, dims.width*0.5, dims.height*0.65, dims.width*0.9);
   }
   model.interactor.onEndMouseWheel(updateScaleBar);
   model.interactor.onEndPinch(updateScaleBar);
@@ -464,6 +467,7 @@ const DEFAULT_VALUES = {
   viewMode: 'VolumeRendering',
   viewPlanes: false,
   rotate: false,
+  units: '',
 };
 
 // ----------------------------------------------------------------------------
@@ -473,6 +477,8 @@ export function extend(publicAPI, model, initialValues = {}) {
 
   vtkViewProxy.extend(publicAPI, model, initialValues);
   macro.get(publicAPI, model, ['viewMode', 'viewPlanes', 'rotate']);
+
+  macro.setGet(publicAPI, model, ['units']);
 
   // Object specific methods
   ItkVtkViewProxy(publicAPI, model);

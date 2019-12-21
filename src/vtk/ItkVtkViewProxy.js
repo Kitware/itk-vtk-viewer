@@ -6,13 +6,24 @@ import vtkActor from 'vtk.js/Sources/Rendering/Core/Actor'
 import vtkCubeSource from 'vtk.js/Sources/Filters/Sources/CubeSource'
 import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper'
 import vtkCoordinate from 'vtk.js/Sources/Rendering/Core/Coordinate'
-import vtkWidgetManager from 'vtk.js/Sources/Widgets/Core/WidgetManager'
 import * as vtkMath from 'vtk.js/Sources/Common/Core/Math'
+import vtkPolyData from 'vtk.js/Sources/Common/DataModel/PolyData'
+import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
+import vtkAxesLabelsWidget from './AxesLabelsWidget'
+import vtkWidgetManager from 'vtk.js/Sources/Widgets/Core/WidgetManager'
 
 const CursorCornerAnnotation =
   '<table class="corner-annotation" style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
 
 const { vtkErrorMacro } = macro
+
+function numberToText(number, precision) {
+  let text = Number.parseFloat(number).toPrecision(precision)
+  if (number > 1) {
+    text = Number.parseInt(Number.parseFloat(text))
+  }
+  return text
+}
 
 // ----------------------------------------------------------------------------
 // ItkVtkViewProxy methods
@@ -24,7 +35,80 @@ function ItkVtkViewProxy(publicAPI, model) {
 
   // Private --------------------------------------------------------------------
   //
+  function updateAxesVisibility() {
+    if (!model.enableAxes) {
+      model.axesGridActor.setVisibility(false)
+      model.axesOriginWidget.setVisibility(false)
+      model.axesXWidget.setVisibility(false)
+      model.axesXActor.setVisibility(false)
+      model.axesYWidget.setVisibility(false)
+      model.axesYActor.setVisibility(false)
+      model.axesZWidget.setVisibility(false)
+      model.axesZActor.setVisibility(false)
+      return
+    }
+
+    model.axesOriginWidget.setVisibility(true)
+    switch (model.viewMode) {
+      case 'XPlane':
+        model.axesGridActor.setVisibility(false)
+        model.axesOriginHandle.setText(model.axesOriginXText)
+        model.axesYHandle.setText(model.axesYXText)
+        model.axesZHandle.setText(model.axesZXText)
+        model.axesXWidget.setVisibility(false)
+        model.axesXActor.setVisibility(false)
+        model.axesYWidget.setVisibility(true)
+        model.axesYActor.setVisibility(true)
+        model.axesZWidget.setVisibility(true)
+        model.axesZActor.setVisibility(true)
+        break
+      case 'YPlane':
+        model.axesGridActor.setVisibility(false)
+        model.axesOriginHandle.setText(model.axesOriginYText)
+        model.axesXHandle.setText(model.axesXYText)
+        model.axesZHandle.setText(model.axesZYText)
+        model.axesXWidget.setVisibility(true)
+        model.axesXActor.setVisibility(true)
+        model.axesYWidget.setVisibility(false)
+        model.axesYActor.setVisibility(false)
+        model.axesZWidget.setVisibility(true)
+        model.axesZActor.setVisibility(true)
+        break
+      case 'ZPlane':
+        model.axesGridActor.setVisibility(false)
+        model.axesOriginHandle.setText(model.axesOriginZText)
+        model.axesXHandle.setText(model.axesXZText)
+        model.axesYHandle.setText(model.axesYZText)
+        model.axesXWidget.setVisibility(true)
+        model.axesXActor.setVisibility(true)
+        model.axesYWidget.setVisibility(true)
+        model.axesYActor.setVisibility(true)
+        model.axesZWidget.setVisibility(false)
+        model.axesZActor.setVisibility(false)
+        break
+      case 'VolumeRendering':
+        model.axesGridActor.setVisibility(true)
+        model.axesOriginHandle.setText(model.axesOriginVText)
+        model.axesXHandle.setText(model.axesXVText)
+        model.axesYHandle.setText(model.axesYVText)
+        model.axesZHandle.setText(model.axesZVText)
+        model.axesXWidget.setVisibility(true)
+        model.axesXActor.setVisibility(true)
+        model.axesYWidget.setVisibility(true)
+        model.axesYActor.setVisibility(true)
+        model.axesZWidget.setVisibility(true)
+        model.axesZActor.setVisibility(true)
+        break
+      default:
+        vtkErrorMacro('Unexpected view mode')
+    }
+  }
+
   function setVisualizationMode(axisIndex) {
+    if (model.enableAxes) {
+      updateAxesVisibility()
+    }
+
     // volume rendering
     if (axisIndex === -1) {
       model.interactor.setInteractorStyle(model.interactorStyle3D)
@@ -155,12 +239,117 @@ function ItkVtkViewProxy(publicAPI, model) {
     }
   }
 
-  function majorAxis(vec3, idxA, idxB) {
-    const axis = [0, 0, 0]
-    const idx = Math.abs(vec3[idxA]) > Math.abs(vec3[idxB]) ? idxA : idxB
-    const value = vec3[idx] > 0 ? 1 : -1
-    axis[idx] = value
-    return axis
+  function updateAxes() {
+    model.axesBoundingBox.reset()
+    model.representations.forEach(representation => {
+      model.axesBoundingBox.addBounds(...representation.getBounds())
+    })
+    const minPoint = model.axesBoundingBox.getMinPoint()
+    const maxPoint = model.axesBoundingBox.getMaxPoint()
+    const axisTicks = model.numberOfAxisTicks
+    const xDelta = (maxPoint[0] - minPoint[0]) / (axisTicks - 1)
+    const yDelta = (maxPoint[1] - minPoint[1]) / (axisTicks - 1)
+    const zDelta = (maxPoint[2] - minPoint[2]) / (axisTicks - 1)
+
+    const axesPoints = new Float32Array(axisTicks * axisTicks * 3 * 3)
+    let offset = 0
+    // x-y plane
+    for (let i = 0; i < axisTicks; i++) {
+      for (let j = 0; j < axisTicks; j++) {
+        axesPoints[offset] = minPoint[0] + i * xDelta
+        axesPoints[offset + 1] = minPoint[1] + j * yDelta
+        axesPoints[offset + 2] = minPoint[2]
+        offset += 3
+      }
+    }
+    // y-z plane
+    for (let i = 0; i < axisTicks; i++) {
+      for (let j = 0; j < axisTicks; j++) {
+        axesPoints[offset] = minPoint[0]
+        axesPoints[offset + 1] = minPoint[1] + i * yDelta
+        axesPoints[offset + 2] = minPoint[2] + j * zDelta
+        offset += 3
+      }
+    }
+    // x-z plane
+    for (let i = 0; i < axisTicks; i++) {
+      for (let j = 0; j < axisTicks; j++) {
+        axesPoints[offset] = minPoint[0] + i * xDelta
+        axesPoints[offset + 1] = minPoint[1]
+        axesPoints[offset + 2] = minPoint[2] + j * zDelta
+        offset += 3
+      }
+    }
+
+    function addLines(linesArray, offset, axisTicks) {
+      for (let i = 0; i < axisTicks - 1; i++) {
+        for (let j = 0; j < axisTicks - 1; j++) {
+          const start = i * axisTicks + j + offset
+          linesArray = linesArray.concat([
+            5,
+            start,
+            start + 1,
+            (i + 1) * axisTicks + j + 1 + offset,
+            (i + 1) * axisTicks + j + offset,
+            start,
+          ])
+        }
+      }
+      return linesArray
+    }
+
+    let axesLines = []
+    // x-y plane
+    offset = 0
+    axesLines = addLines(axesLines, offset, axisTicks)
+    // y-z plane
+    offset += axisTicks * axisTicks
+    axesLines = addLines(axesLines, offset, axisTicks)
+    // x-z plane
+    offset += axisTicks * axisTicks
+    axesLines = addLines(axesLines, offset, axisTicks)
+
+    const verts = new Uint32Array(axesPoints.length)
+    verts.fill(1)
+    for (let i = 0; i < axesPoints.length; i++) {
+      verts[i * 2 + 1] = i
+    }
+    model.axesPolyData.getPoints().setData(axesPoints, 3)
+    model.axesPolyData.getVerts().setData(verts)
+    model.axesPolyData.getLines().setData(new Uint32Array(axesLines))
+
+    const minPointText = minPoint.map(point => numberToText(point, 2))
+    const maxPointText = maxPoint.map(point => numberToText(point, 2))
+    model.axesOriginHandle.setOrigin(minPoint)
+    model.axesOriginXText = `Origin: ${minPointText[1]}, ${minPointText[2]}`
+    model.axesOriginYText = `Origin: ${minPointText[0]}, ${minPointText[2]}`
+    model.axesOriginZText = `Origin: ${minPointText[0]}, ${minPointText[1]}`
+    model.axesOriginVText = `Origin: ${minPointText[0]}, ${minPointText[1]}, ${minPointText[2]}`
+    model.axesOriginHandle.setText(model.axesOriginVText)
+
+    model.axesXOriginHandle.setOrigin(minPoint)
+    model.axesXOriginHandle.setText('')
+    model.axesXHandle.setOrigin([maxPoint[0], minPoint[1], minPoint[2]])
+    model.axesXYText = `X, Z: ${maxPointText[0]}, ${minPointText[2]}`
+    model.axesXZText = `X, Y: ${maxPointText[0]}, ${minPointText[1]}`
+    model.axesXVText = `X: ${maxPointText[0]}, ${minPointText[1]}, ${minPointText[2]}`
+    model.axesXHandle.setText(model.axesXVText)
+
+    model.axesYOriginHandle.setOrigin(minPoint)
+    model.axesYOriginHandle.setText('')
+    model.axesYHandle.setOrigin([minPoint[0], maxPoint[1], minPoint[2]])
+    model.axesYXText = `Y, Z: ${maxPointText[1]}, ${minPointText[2]}`
+    model.axesYZText = `X, Y: ${minPointText[0]}, ${maxPointText[1]}`
+    model.axesYVText = `Y: ${minPointText[0]}, ${maxPointText[1]}, ${minPointText[2]}`
+    model.axesYHandle.setText(model.axesYVText)
+
+    model.axesZOriginHandle.setOrigin(minPoint)
+    model.axesZOriginHandle.setText('')
+    model.axesZHandle.setOrigin([minPoint[0], minPoint[1], maxPoint[2]])
+    model.axesZXText = `Y, Z: ${minPointText[1]}, ${maxPointText[2]}`
+    model.axesZYText = `X, Z: ${minPointText[0]}, ${maxPointText[2]}`
+    model.axesZVText = `Z: ${minPointText[0]}, ${minPointText[1]}, ${maxPointText[2]}`
+    model.axesZHandle.setText(model.axesZVText)
   }
 
   // Setup --------------------------------------------------------------------
@@ -252,6 +441,89 @@ function ItkVtkViewProxy(publicAPI, model) {
   const superRenderLater = publicAPI.renderLater
   publicAPI.renderLater = () => {
     superRenderLater()
+    if (!model.widgetManagerInitialized) {
+      // Needs to come after initial render
+      model.widgetManager.setRenderer(model.renderer)
+      model.widgetManager.disablePicking()
+      model.axesOriginWidget = model.widgetManager.addWidget(
+        model.axesOriginLabel
+      )
+      model.axesXWidget = model.widgetManager.addWidget(model.axesXLabels)
+      model.axesYWidget = model.widgetManager.addWidget(model.axesYLabels)
+      model.axesZWidget = model.widgetManager.addWidget(model.axesZLabels)
+      const color =
+        model.axesGridActor.getProperty().getColor()[0] === 0.0
+          ? 'black'
+          : 'white'
+      model.axesOriginWidget.setCircleProps({
+        r: model.axesCircleRadius,
+        stroke: color,
+        fill: color,
+      })
+      model.axesOriginWidget.setTextProps({
+        fill: color,
+        dx: -10 * model.axesTextOffset,
+        dy: 2 * model.axesTextOffset,
+      })
+      model.axesXWidget.setCircleProps({
+        r: model.axesCircleRadius,
+        stroke: color,
+        fill: color,
+      })
+      model.axesXWidget.setTextProps({
+        fill: color,
+        dx: model.axesTextOffset,
+        dy: 2 * model.axesTextOffset,
+      })
+      model.axesYWidget.setCircleProps({
+        r: model.axesCircleRadius,
+        stroke: color,
+        fill: color,
+      })
+      model.axesYWidget.setTextProps({
+        fill: color,
+        dx: model.axesTextOffset,
+        dy: 2 * model.axesTextOffset,
+      })
+      model.axesZWidget.setCircleProps({
+        r: model.axesCircleRadius,
+        stroke: color,
+        fill: color,
+      })
+      model.axesZWidget.setTextProps({
+        fill: color,
+        dx: model.axesTextOffset,
+        dy: -1 * model.axesTextOffset,
+      })
+      let widgetState = model.axesOriginLabel.getWidgetState()
+      model.axesOriginHandle = widgetState.addHandle()
+      widgetState = model.axesXLabels.getWidgetState()
+      model.axesXOriginHandle = widgetState.addHandle()
+      model.axesXHandle = widgetState.addHandle()
+      model.axesXActor = model.axesXWidget
+        .getRepresentations()[1]
+        .getActors()[0]
+      const rgbColor = model.axesGridActor.getProperty().getColor()
+      model.axesXActor.getProperty().setColor(...rgbColor)
+      widgetState = model.axesYLabels.getWidgetState()
+      model.axesYOriginHandle = widgetState.addHandle()
+      model.axesYHandle = widgetState.addHandle()
+      model.axesYActor = model.axesYWidget
+        .getRepresentations()[1]
+        .getActors()[0]
+      model.axesYActor.getProperty().setColor(...rgbColor)
+      widgetState = model.axesZLabels.getWidgetState()
+      model.axesZOriginHandle = widgetState.addHandle()
+      model.axesZHandle = widgetState.addHandle()
+      model.axesZActor = model.axesZWidget
+        .getRepresentations()[1]
+        .getActors()[0]
+      model.axesZActor.getProperty().setColor(...rgbColor)
+      model.widgetManagerInitialized = true
+
+      updateAxes()
+      updateAxesVisibility()
+    }
     updateScaleBar()
   }
 
@@ -283,7 +555,6 @@ function ItkVtkViewProxy(publicAPI, model) {
 
     scaleBarCtx.clearRect(0, 0, dims.width, dims.height)
     scaleBarCtx.fillStyle = model.cornerAnnotation.getAnnotationContainer().style.color
-
     scaleBarCtx.fillRect(0, 0, dims.width, 2 * devicePixelRatio)
 
     scaleBarCtx.font = `${16 * devicePixelRatio}px arial`
@@ -297,12 +568,9 @@ function ItkVtkViewProxy(publicAPI, model) {
       (cw[2] - cc[2]) * (cw[2] - cc[2])
     )
     model.lengthPixelRatio = length / dims.width
-    let scale = Number.parseFloat(length).toPrecision(1)
-    if (length > 1) {
-      scale = Number.parseInt(Number.parseFloat(scale))
-    }
+    const text = numberToText(length, 1)
     scaleBarCtx.fillText(
-      `${scale} ${model.units}`,
+      `${text} ${model.units}`,
       dims.width * 0.5,
       6 * devicePixelRatio,
       dims.width * 0.9
@@ -311,9 +579,128 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.interactor.onEndMouseWheel(updateScaleBar)
   model.interactor.onEndPinch(updateScaleBar)
 
+  model.axesPolyData = vtkPolyData.newInstance()
+  model.axesMapper = vtkMapper.newInstance()
+  model.axesMapper.setInputData(model.axesPolyData)
+  model.axesGridActor = vtkActor.newInstance()
+  model.axesGridActor.setMapper(model.axesMapper)
+  model.axesGridActor.getProperty().setOpacity(0.5)
+  model.axesGridActor.setVisibility(false)
+  model.renderer.addActor(model.axesGridActor)
+  model.numberOfAxisTicks = 7
+  model.axesBoundingBox = vtkBoundingBox.newInstance()
+  model.widgetManagerInitialized = false
+  model.widgetManager = vtkWidgetManager.newInstance()
+  model.axesOriginLabel = vtkAxesLabelsWidget.newInstance()
+  model.axesXLabels = vtkAxesLabelsWidget.newInstance()
+  model.axesYLabels = vtkAxesLabelsWidget.newInstance()
+  model.axesZLabels = vtkAxesLabelsWidget.newInstance()
+  model.axesCircleRadius = 4
+  model.axesTextOffset = 14
+
   // API ----------------------------------------------------------------------
   publicAPI.updateDataProbeSize = updateDataProbeSize
   publicAPI.updateScaleBar = updateScaleBar
+
+  const superSetBackground = publicAPI.setBackground
+  publicAPI.setBackground = color => {
+    superSetBackground(color)
+    if (color[0] + color[1] + color[2] <= 1.5) {
+      model.axesGridActor.getProperty().setColor([1.0, 1.0, 1.0])
+      if (model.widgetManagerInitialized) {
+        model.axesXActor.getProperty().setColor(1.0, 1.0, 1.0)
+        model.axesOriginWidget.setCircleProps({
+          r: model.axesCircleRadius,
+          stroke: 'white',
+          fill: 'white',
+        })
+        model.axesOriginWidget.setTextProps({
+          fill: 'white',
+          dx: -10 * model.axesTextOffset,
+          dy: 2 * model.axesTextOffset,
+        })
+        model.axesXWidget.setCircleProps({
+          r: model.axesCircleRadius,
+          stroke: 'white',
+          fill: 'white',
+        })
+        model.axesXWidget.setTextProps({
+          fill: 'white',
+          dx: model.axesTextOffset,
+          dy: 2 * model.axesTextOffset,
+        })
+        model.axesYActor.getProperty().setColor(1.0, 1.0, 1.0)
+        model.axesYWidget.setCircleProps({
+          r: model.axesCircleRadius,
+          stroke: 'white',
+          fill: 'white',
+        })
+        model.axesYWidget.setTextProps({
+          fill: 'white',
+          dx: model.axesTextOffset,
+          dy: 2 * model.axesTextOffset,
+        })
+        model.axesZActor.getProperty().setColor(1.0, 1.0, 1.0)
+        model.axesZWidget.setCircleProps({
+          r: model.axesCircleRadius,
+          stroke: 'white',
+          fill: 'white',
+        })
+        model.axesZWidget.setTextProps({
+          fill: 'white',
+          dx: model.axesTextOffset,
+          dy: -1 * model.axesTextOffset,
+        })
+      }
+    } else {
+      model.axesGridActor.getProperty().setColor([0.0, 0.0, 0.0])
+      if (model.widgetManagerInitialized) {
+        model.axesXActor.getProperty().setColor(0.0, 0.0, 0.0)
+        model.axesOriginWidget.setCircleProps({
+          r: model.axesCircleRadius,
+          stroke: 'black',
+          fill: 'black',
+        })
+        model.axesOriginWidget.setTextProps({
+          fill: 'black',
+          dx: -10 * model.axesTextOffset,
+          dy: 2 * model.axesTextOffset,
+        })
+        model.axesXWidget.setCircleProps({
+          r: model.axesCircleRadius,
+          stroke: 'black',
+          fill: 'black',
+        })
+        model.axesXWidget.setTextProps({
+          fill: 'black',
+          dx: model.axesTextOffset,
+          dy: 2 * model.axesTextOffset,
+        })
+        model.axesYActor.getProperty().setColor(0.0, 0.0, 0.0)
+        model.axesYWidget.setCircleProps({
+          r: model.axesCircleRadius,
+          stroke: 'black',
+          fill: 'black',
+        })
+        model.axesYWidget.setTextProps({
+          fill: 'black',
+          dx: model.axesTextOffset,
+          dy: 2 * model.axesTextOffset,
+        })
+        model.axesZActor.getProperty().setColor(0.0, 0.0, 0.0)
+        model.axesZWidget.setCircleProps({
+          r: model.axesCircleRadius,
+          stroke: 'black',
+          fill: 'black',
+        })
+        model.axesZWidget.setTextProps({
+          fill: 'black',
+          dx: model.axesTextOffset,
+          dy: -1 * model.axesTextOffset,
+        })
+      }
+    }
+  }
 
   publicAPI.setViewMode = mode => {
     if (model.viewMode === 'VolumeRendering') {
@@ -325,6 +712,8 @@ function ItkVtkViewProxy(publicAPI, model) {
           break
         }
         model.viewMode = mode
+        model.axesZWidget.setVisibility(false)
+        model.axesZActor.setVisibility(false)
         setVisualizationMode(0)
         break
       case 'YPlane':
@@ -406,6 +795,14 @@ function ItkVtkViewProxy(publicAPI, model) {
     }
   }
 
+  publicAPI.setEnableAxes = enable => {
+    if (enable != model.enableAxes) {
+      model.enableAxes = enable
+      updateAxesVisibility()
+      publicAPI.modified()
+    }
+  }
+
   const superAddRepresentation = publicAPI.addRepresentation
   publicAPI.addRepresentation = representation => {
     superAddRepresentation(representation)
@@ -431,6 +828,10 @@ function ItkVtkViewProxy(publicAPI, model) {
         .forEach(model.annotationPicker.addPickList)
       updateDataProbeSize()
       publicAPI.setAnnotationOpacity(1.0)
+    }
+
+    if (model.widgetManagerInitialized) {
+      updateAxes()
     }
   }
 
@@ -523,6 +924,7 @@ const DEFAULT_VALUES = {
     value: null,
     label: null,
   },
+  enableAxes: false,
 }
 
 // ----------------------------------------------------------------------------
@@ -536,6 +938,8 @@ export function extend(publicAPI, model, initialValues = {}) {
     'viewPlanes',
     'rotate',
     'lengthPixelRatio',
+    'axesActor',
+    'enableAxes',
   ])
 
   macro.setGet(publicAPI, model, [

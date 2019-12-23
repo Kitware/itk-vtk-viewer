@@ -251,13 +251,13 @@ function ItkVtkViewProxy(publicAPI, model) {
     scaleBarCtx.fillStyle = model.cornerAnnotation.getAnnotationContainer().style.color;
 
     scaleBarCtx.fillRect(0,
-      (dims.height*0.85).toFixed(),
+      0,
       dims.width,
       2 * devicePixelRatio);
 
-    scaleBarCtx.font = `${16 * devicePixelRatio}px serif`;
+    scaleBarCtx.font = `${16 * devicePixelRatio}px arial`;
     scaleBarCtx.textAlign = 'center';
-    scaleBarCtx.textBaseline = 'bottom';
+    scaleBarCtx.textBaseline = 'top';
     model.scaleBarCoordWidth.setValue(dims.width, 0);
     const cw = model.scaleBarCoordWidth.getComputedWorldValue();
     const cc = model.scaleBarCenterCoord.getComputedWorldValue();
@@ -268,7 +268,7 @@ function ItkVtkViewProxy(publicAPI, model) {
     if (length > 1) {
       scale = Number.parseInt(Number.parseFloat(scale));
     }
-    scaleBarCtx.fillText(`${scale} ${model.units}`, dims.width*0.5, dims.height*0.65, dims.width*0.9);
+    scaleBarCtx.fillText(`${scale} ${model.units}`, dims.width*0.5, 6 * devicePixelRatio, dims.width*0.9);
   }
   model.interactor.onEndMouseWheel(updateScaleBar);
   model.interactor.onEndPinch(updateScaleBar);

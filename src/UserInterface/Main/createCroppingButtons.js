@@ -1,4 +1,4 @@
-import { when, autorun } from 'mobx';
+import { when, reaction } from 'mobx';
 
 import macro from 'vtk.js/Sources/macro';
 import vtkImageCroppingRegionsWidget from 'vtk.js/Sources/Interaction/Widgets/ImageCroppingRegionsWidget';
@@ -58,14 +58,18 @@ function createCroppingButtons(
       style.toggleButton
     }" for="${viewerDOMId}-toggleCroppingPlanesButton">${cropIcon}</label>`;
     const cropButtonInput = cropButton.children[0];
-    function toggleCrop() {
-      const cropEnabled = store.mainUI.croppingPlanesEnabled;
+    function toggleCrop(cropEnabled) {
       cropButtonInput.checked = cropEnabled;
       store.imageUI.croppingWidget.setEnabled(cropEnabled);
+      store.renderWindow.render();
     }
-    autorun(() => {
-      toggleCrop();
-    })
+    reaction(() => store.mainUI.croppingPlanesEnabled,
+      (cropEnabled) => {
+        toggleCrop(cropEnabled);
+      }
+    )
+    toggleCrop(store.mainUI.croppingPlanesEnabled);
+
     cropButton.addEventListener('change',
       (event) => {
         event.preventDefault();

@@ -546,7 +546,7 @@ const createViewer = (
   publicAPI.setCroppingPlanesEnabled = (enabled) => {
     const cropping = store.mainUI.croppingPlanesEnabled;
     if (enabled && !cropping || !enabled && cropping) {
-      store.mainUI.croppingPlanesEnabled = cropping;
+      store.mainUI.croppingPlanesEnabled = enabled;
     }
   }
 
@@ -814,9 +814,13 @@ const createViewer = (
 
     publicAPI.setBlendMode = (blendMode) => {
       const currentBlendMode = store.imageUI.blendMode;
-      if (currentBlendMode !== parseFloat(blendMode)) {
+      if (currentBlendMode !== parseInt(blendMode)) {
         store.imageUI.blendMode = blendMode;
       }
+    }
+
+    publicAPI.getBlendMode = () => {
+      return store.imageUI.blendMode;
     }
 
   }

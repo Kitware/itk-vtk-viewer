@@ -546,7 +546,7 @@ const createViewer = (
   publicAPI.setCroppingPlanesEnabled = (enabled) => {
     const cropping = store.mainUI.croppingPlanesEnabled;
     if (enabled && !cropping || !enabled && cropping) {
-      store.mainUI.croppingPlanesEnabled = cropping;
+      store.mainUI.croppingPlanesEnabled = enabled;
     }
   }
 

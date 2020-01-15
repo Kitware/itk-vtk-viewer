@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/index.html</loc>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/index.html</loc>
     
-    <lastmod>2019-10-09T19:45:46.716Z</lastmod>
+    <lastmod>2020-01-15T02:23:14.430Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/index.html</loc>
+    <loc>https://kitware.github.io/itk-vtk-viewer/index.html</loc>
     
     <lastmod>2019-10-09T19:45:46.716Z</lastmod>
     

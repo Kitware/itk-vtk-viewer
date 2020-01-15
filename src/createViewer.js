@@ -669,13 +669,14 @@ const createViewer = (
     }
 
     const xSliceChangedHandlers = [];
-    const xSliceChangedListener = (event) => {
-      xSliceChangedHandlers.forEach((handler) => {
-        handler.call(null, event.target.valueAsNumber);
-      })
-    }
-    const xSliceElement = document.getElementById(`${viewerDOMId}-xSlice`);
-    xSliceElement && xSliceElement.addEventListener('input', xSliceChangedListener);
+    reaction(() => {
+      return store.imageUI.xSlice;
+    },
+      (xSlice) => {
+        xSliceChangedHandlers.forEach((handler) => {
+          handler.call(null, xSlice);
+        })
+      });
     publicAPI.subscribeXSliceChanged = (handler) => {
       const index = xSliceChangedHandlers.length;
       xSliceChangedHandlers.push(handler);
@@ -685,14 +686,25 @@ const createViewer = (
       return Object.freeze({ unsubscribe });
     }
 
-    const ySliceChangedHandlers = [];
-    const ySliceChangedListener = (event) => {
-      ySliceChangedHandlers.forEach((handler) => {
-        handler.call(null, event.target.valueAsNumber);
-      })
+    publicAPI.setXSlice = (position) => {
+      const currentPosition = store.imageUI.xSlice;
+      if (currentPosition !== parseFloat(position)) {
+        store.imageUI.xSlice = position;
+      }
     }
-    const ySliceElement = document.getElementById(`${viewerDOMId}-ySlice`);
-    ySliceElement && ySliceElement.addEventListener('input', ySliceChangedListener);
+    publicAPI.getXSlice = () => {
+      return store.imageUI.xSlice;
+    }
+
+    const ySliceChangedHandlers = [];
+    reaction(() => {
+      return store.imageUI.ySlice;
+    },
+      (ySlice) => {
+        ySliceChangedHandlers.forEach((handler) => {
+          handler.call(null, ySlice);
+        })
+      });
     publicAPI.subscribeYSliceChanged = (handler) => {
       const index = ySliceChangedHandlers.length;
       ySliceChangedHandlers.push(handler);
@@ -702,14 +714,25 @@ const createViewer = (
       return Object.freeze({ unsubscribe });
     }
 
-    const zSliceChangedHandlers = [];
-    const zSliceChangedListener = (event) => {
-      zSliceChangedHandlers.forEach((handler) => {
-        handler.call(null, event.target.valueAsNumber);
-      })
+    publicAPI.setYSlice = (position) => {
+      const currentPosition = store.imageUI.ySlice;
+      if (currentPosition !== parseFloat(position)) {
+        store.imageUI.ySlice = position;
+      }
     }
-    const zSliceElement = document.getElementById(`${viewerDOMId}-zSlice`);
-    zSliceElement && zSliceElement.addEventListener('input', zSliceChangedListener);
+    publicAPI.getYSlice = () => {
+      return store.imageUI.ySlice;
+    }
+
+    const zSliceChangedHandlers = [];
+    reaction(() => {
+      return store.imageUI.zSlice;
+    },
+      (zSlice) => {
+        zSliceChangedHandlers.forEach((handler) => {
+          handler.call(null, zSlice);
+        })
+      });
     publicAPI.subscribeZSliceChanged = (handler) => {
       const index = zSliceChangedHandlers.length;
       zSliceChangedHandlers.push(handler);
@@ -717,6 +740,16 @@ const createViewer = (
         zSliceChangedHandlers[index] = null;
       }
       return Object.freeze({ unsubscribe });
+    }
+
+    publicAPI.setZSlice = (position) => {
+      const currentPosition = store.imageUI.zSlice;
+      if (currentPosition !== parseFloat(position)) {
+        store.imageUI.zSlice = position;
+      }
+    }
+    publicAPI.getZSlice = () => {
+      return store.imageUI.zSlice;
     }
 
 

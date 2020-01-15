@@ -1,3 +1,5 @@
+import { reaction, action } from 'mobx';
+
 import style from '../ItkVtkViewer.module.css';
 
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
@@ -24,13 +26,11 @@ function createPlaneIndexSliders(
   xPlaneRow.setAttribute('class', style.uiRow);
   xPlaneRow.className += ` ${viewerDOMId}-toggle ${viewerDOMId}-x-plane-row`;
 
-  const xSlice = volumeRepresentation.getPropertyDomainByName('xSlice');
-  const ySlice = volumeRepresentation.getPropertyDomainByName('ySlice');
-  const zSlice = volumeRepresentation.getPropertyDomainByName('zSlice');
-
   const xSliderEntry = document.createElement('div');
   xSliderEntry.setAttribute('class', style.sliderEntry);
+  const xSlice = volumeRepresentation.getPropertyDomainByName('xSlice');
   currentSlicePosition = volumeRepresentation.getXSlice();
+  store.imageUI.xSlice = currentSlicePosition;
   xSliderEntry.innerHTML = `
     <label id="${viewerDOMId}-xSliceLabel" class="${
       contrastSensitiveStyle.sliderLabel
@@ -42,10 +42,9 @@ function createPlaneIndexSliders(
   const xPlaneLabel = xSliderEntry.querySelector(
     `#${viewerDOMId}-xSliceLabel`
   );
-  function updateXSlice() {
-    const value = Number(xSliceElement.value);
-    volumeRepresentation.setXSlice(value);
-    const valueString = String(xSliceElement.value).substring(
+  function updateXSlice(position) {
+    volumeRepresentation.setXSlice(Number(position));
+    const valueString = String(position).substring(
       0,
       numberOfValueChars
     );
@@ -57,10 +56,20 @@ function createPlaneIndexSliders(
     xPlaneLabel.innerHTML = `X: ${pad}${valueString}`;
     renderWindow.render();
   }
-  xSliceElement.addEventListener('input', updateXSlice);
   xPlaneRow.appendChild(xSliderEntry);
-  updateXSlice();
+  updateXSlice(currentSlicePosition);
   xPlaneRow.style.display = 'none';
+  reaction(() => {
+    return store.imageUI.xSlice;
+  },
+    (position) => {
+      updateXSlice(position);
+    });
+  xSliceElement.addEventListener('input', action((event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      store.imageUI.xSlice = Number(xSliceElement.value);
+    }));
 
   planeIndexUIGroup.appendChild(xPlaneRow);
 
@@ -70,7 +79,9 @@ function createPlaneIndexSliders(
 
   const ySliderEntry = document.createElement('div');
   ySliderEntry.setAttribute('class', style.sliderEntry);
+  const ySlice = volumeRepresentation.getPropertyDomainByName('ySlice');
   currentSlicePosition = volumeRepresentation.getYSlice();
+  store.imageUI.ySlice = currentSlicePosition;
   ySliderEntry.innerHTML = `
     <label id="${viewerDOMId}-ySliceLabel" class="${
       contrastSensitiveStyle.sliderLabel
@@ -82,10 +93,9 @@ function createPlaneIndexSliders(
   const yPlaneLabel = ySliderEntry.querySelector(
     `#${viewerDOMId}-ySliceLabel`
   );
-  function updateYSlice() {
-    const value = Number(ySliceElement.value);
-    volumeRepresentation.setYSlice(value);
-    const valueString = String(ySliceElement.value).substring(
+  function updateYSlice(position) {
+    volumeRepresentation.setYSlice(Number(position));
+    const valueString = String(position).substring(
       0,
       numberOfValueChars
     );
@@ -97,10 +107,21 @@ function createPlaneIndexSliders(
     yPlaneLabel.innerHTML = `Y: ${pad}${valueString}`;
     renderWindow.render();
   }
-  ySliceElement.addEventListener('input', updateYSlice);
   yPlaneRow.appendChild(ySliderEntry);
-  updateYSlice();
+  updateYSlice(currentSlicePosition);
   yPlaneRow.style.display = 'none';
+  xPlaneRow.style.display = 'none';
+  reaction(() => {
+    return store.imageUI.ySlice;
+  },
+    (position) => {
+      updateYSlice(position);
+    });
+  ySliceElement.addEventListener('input', action((event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      store.imageUI.ySlice = Number(ySliceElement.value);
+    }));
 
   planeIndexUIGroup.appendChild(yPlaneRow);
 
@@ -110,7 +131,9 @@ function createPlaneIndexSliders(
 
   const zSliderEntry = document.createElement('div');
   zSliderEntry.setAttribute('class', style.sliderEntry);
+  const zSlice = volumeRepresentation.getPropertyDomainByName('zSlice');
   currentSlicePosition = volumeRepresentation.getZSlice();
+  store.imageUI.zSlice = currentSlicePosition;
   zSliderEntry.innerHTML = `
     <label id="${viewerDOMId}-zSliceLabel" class="${
       contrastSensitiveStyle.sliderLabel
@@ -122,10 +145,9 @@ function createPlaneIndexSliders(
   const zPlaneLabel = zSliderEntry.querySelector(
     `#${viewerDOMId}-zSliceLabel`
   );
-  function updateZSlice() {
-    const value = Number(zSliceElement.value);
-    volumeRepresentation.setZSlice(value);
-    const valueString = String(zSliceElement.value).substring(
+  function updateZSlice(position) {
+    volumeRepresentation.setZSlice(Number(position));
+    const valueString = String(position).substring(
       0,
       numberOfValueChars
     );
@@ -137,10 +159,20 @@ function createPlaneIndexSliders(
     zPlaneLabel.innerHTML = `Z: ${pad}${valueString}`;
     renderWindow.render();
   }
-  zSliceElement.addEventListener('input', updateZSlice);
   zPlaneRow.appendChild(zSliderEntry);
-  updateZSlice();
+  updateZSlice(currentSlicePosition);
   zPlaneRow.style.display = 'none';
+  reaction(() => {
+    return store.imageUI.zSlice;
+  },
+    (position) => {
+      updateZSlice(position);
+    });
+  zSliceElement.addEventListener('input', action((event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      store.imageUI.zSlice = Number(zSliceElement.value);
+    }));
 
   planeIndexUIGroup.appendChild(zPlaneRow);
 

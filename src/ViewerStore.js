@@ -64,6 +64,9 @@ class ImageUIStore {
   @observable useShadow = true;
   @observable slicingPlanesEnabled = false;
   @observable gradientOpacity = 0.2;
+  @observable xSlice = null;
+  @observable ySlice = null;
+  @observable zSlice = null;
 
   @observable.ref labelMap = null;
   @computed get fusedImageLabelMap() {

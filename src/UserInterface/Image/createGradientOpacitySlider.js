@@ -1,4 +1,4 @@
-import { autorun } from 'mobx';
+import { autorun, action } from 'mobx';
 
 import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 
@@ -38,11 +38,11 @@ function createGradientOpacitySlider(
   autorun(() => {
     updateGradientOpacity();
   })
-  edgeElement.addEventListener('input', (event) => {
+  edgeElement.addEventListener('input', action((event) => {
       event.preventDefault();
       event.stopPropagation();
       store.imageUI.gradientOpacity = Number(edgeElement.value);
-  })
+  }));
   uiContainer.appendChild(sliderEntry);
 }
 

@@ -225,7 +225,7 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.scaleBarCanvas = document.createElement('canvas');
   model.scaleBarCanvas.style.position = 'absolute';
   model.scaleBarCanvas.style.left = '50%';
-  model.scaleBarCanvas.style.bottom = '5.0%';
+  model.scaleBarCanvas.style.bottom = '15.0%';
   model.scaleBarCanvas.style.width = '100px';
   model.scaleBarCanvas.style.height = '30px';
   model.scaleBarCanvas.width = 100 * window.devicePixelRatio;

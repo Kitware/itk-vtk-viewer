@@ -62,11 +62,12 @@ function createGeometryOpacitySlider(
     return store.geometriesUI.opacities.slice();
   },
     (opacities) => {
-      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
-      const value = opacities[selectedGeometryIndex];
-      store.geometriesUI.representationProxies[selectedGeometryIndex].setOpacity(value)
+      opacities.forEach((opacity, index) => {
+        store.geometriesUI.representationProxies[index].setOpacity(opacity);
+      });
       store.renderWindow.render();
-      opacityElement.value = value;
+      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex;
+      opacityElement.value = opacities[selectedGeometryIndex];
     });
 
 

@@ -61,11 +61,12 @@ function createPointSetOpacitySlider(
     return store.pointSetsUI.opacities.slice();
   },
     (opacities) => {
-      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      const value = opacities[selectedPointSetIndex];
-      store.pointSetsUI.representationProxies[selectedPointSetIndex].setOpacity(value)
+      opacities.forEach((opacity, index) => {
+        store.pointSetsUI.representationProxies[index].setOpacity(opacity)
+      });
       store.renderWindow.render();
-      opacityElement.value = value;
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
+      opacityElement.value = opacities[selectedPointSetIndex];
     });
 
   opacityElement.addEventListener('input', action((event) => {

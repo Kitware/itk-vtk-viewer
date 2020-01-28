@@ -3,7 +3,7 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 
 const CopyPlugin = require('copy-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
+const { GenerateSW } = require('workbox-webpack-plugin');
 const WebPackBar = require('webpackbar');
 
 const entry = path.join(__dirname, './src/index.js');
@@ -53,12 +53,6 @@ module.exports = [
   plugins: [
     new CopyPlugin([
       {
-      from: path.join(__dirname, 'node_modules', 'workbox-sw',
-        'build', 'importScripts', 'workbox-sw.prod.*.js'),
-      flatten: true,
-      to: path.join(__dirname, 'dist'),
-      },
-      {
       from: path.join(__dirname, 'node_modules', 'itk', 'WebWorkers'),
       to: path.join(__dirname, 'dist', 'itk', 'WebWorkers'),
       },
@@ -80,15 +74,30 @@ module.exports = [
       },
     ]),
     // workbox plugin should be last plugin
-    new WorkboxPlugin({
+    new GenerateSW({
+      importWorkboxFrom: 'local',
       globDirectory: outputPath,
       maximumFileSizeToCacheInBytes: 5000000,
-      globPatterns: ['*.{html,jpg,js,png,svg}'],
+      include: [],
+      exclude: [],
+      globPatterns: ['*.{html,js,jpg,png,svg}'],
       globIgnores: [
         'serviceWorker.js',
+        'precache-manifest.*.js',
+        'itk/**',
       ],
-    swSrc: path.join('src', 'serviceWorker.js'),
-    swDest: path.join('dist', 'serviceWorker.js'),
+      swDest: path.join(__dirname, 'dist', 'serviceWorker.js'),
+      runtimeCaching: [{
+        urlPattern: /\.js|\.png|\.wasm$/,
+        handler: 'StaleWhileRevalidate',
+        options: {
+          cacheName: 'itk-vtk-viewer-StaleWhileRevalidate',
+          expiration: {
+            maxEntries: 50,
+            maxAgeSeconds: 7 * 24 * 60 * 60 * 2,
+          },
+        },
+      }],
     }),
     new WebPackBar(),
   ],

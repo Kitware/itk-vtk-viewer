@@ -44,11 +44,10 @@ function createPointSetsUI(
   }
   autorun(() => {
       const pointSets = store.pointSetsUI.pointSets;
-      if (pointSets.length === 1) {
-        store.pointSetsUI.names = ['Point Set'];
-      } else {
-        store.pointSetsUI.names = pointSets.map((pointSet, index) => `Point Set ${index}`);
-      }
+      store.pointSetsUI.names = pointSets.map((pointSet, index) => {
+        const metadata = pointSet.getState().metadata;
+        return !!metadata && !!metadata.name ? metadata.name : `Point Set ${index}`;
+      });
     })
 
   createPointSetRepresentationSelector(

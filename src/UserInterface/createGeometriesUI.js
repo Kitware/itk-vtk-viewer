@@ -43,11 +43,10 @@ function createGeometriesUI(
   }
   autorun(() => {
       const geometries = store.geometriesUI.geometries;
-      if (geometries.length === 1) {
-        store.geometriesUI.names = ['Geometry'];
-      } else {
-        store.geometriesUI.names = geometries.map((geometry, index) => `Geometry ${index}`);
-      }
+      store.geometriesUI.names = geometries.map((geometry, index) => {
+        const metadata = geometry.getState().metadata;
+        return !!metadata && !!metadata.name ? metadata.name : `Geometry ${index}`;
+      });
     })
 
   createGeometryRepresentationSelector(

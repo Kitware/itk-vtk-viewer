@@ -1,5 +1,3 @@
-import '@babel/polyfill';
-
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
 
 import fetchBinaryContent from './fetchBinaryContent';

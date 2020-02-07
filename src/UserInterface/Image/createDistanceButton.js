@@ -99,54 +99,6 @@ function createDistanceButton(
   distanceValue.setAttribute('disabled', true);
   distanceEntry.appendChild(distanceValue);
 
-  const distanceDXLabel = document.createElement('label');
-  distanceDXLabel.setAttribute('class', contrastSensitiveStyle.distanceLabel);
-  distanceDXLabel.setAttribute('for', `${store.id}-distanceDXValue`);
-  distanceDXLabel.id = `${store.id}-distanceDXLabel`;
-  distanceDXLabel.innerText = 'dX:';
-  distanceEntry.appendChild(distanceDXLabel);
-
-  const distanceDXValue = document.createElement('input');
-  distanceDXValue.type = 'text';
-  distanceDXValue.setAttribute('class', style.distanceInput);
-  distanceDXValue.id = `${store.id}-distanceDXValue`;
-  distanceDXValue.setAttribute('name', 'length');
-  distanceDXValue.setAttribute('value', '0');
-  distanceDXValue.setAttribute('disabled', true);
-  distanceEntry.appendChild(distanceDXValue);
-
-  const distanceDYLabel = document.createElement('label');
-  distanceDYLabel.setAttribute('class', contrastSensitiveStyle.distanceLabel);
-  distanceDYLabel.setAttribute('for', `${store.id}-distanceDYValue`);
-  distanceDYLabel.id = `${store.id}-distanceDYLabel`;
-  distanceDYLabel.innerText = 'dY:';
-  distanceEntry.appendChild(distanceDYLabel);
-
-  const distanceDYValue = document.createElement('input');
-  distanceDYValue.type = 'text';
-  distanceDYValue.setAttribute('class', style.distanceInput);
-  distanceDYValue.id = `${store.id}-distanceDYValue`;
-  distanceDYValue.setAttribute('name', 'length');
-  distanceDYValue.setAttribute('value', '0');
-  distanceDYValue.setAttribute('disabled', true);
-  distanceEntry.appendChild(distanceDYValue);
-
-  const distanceDZLabel = document.createElement('label');
-  distanceDZLabel.setAttribute('class', contrastSensitiveStyle.distanceLabel);
-  distanceDZLabel.setAttribute('for', `${store.id}-distanceDZValue`);
-  distanceDZLabel.id = `${store.id}-distanceDZLabel`;
-  distanceDZLabel.innerText = 'dZ:';
-  distanceEntry.appendChild(distanceDZLabel);
-
-  const distanceDZValue = document.createElement('input');
-  distanceDZValue.type = 'text';
-  distanceDZValue.setAttribute('class', style.distanceInput);
-  distanceDZValue.id = `${store.id}-distanceDzValue`;
-  distanceDZValue.setAttribute('name', 'length');
-  distanceDZValue.setAttribute('value', '0');
-  distanceDZValue.setAttribute('disabled', true);
-  distanceEntry.appendChild(distanceDZValue);
-
   uiContainer.appendChild(distanceEntry);
 
   // Update the value field when distance is updated
@@ -154,15 +106,8 @@ function createDistanceButton(
     () => {
       let p1Position = store.imageUI.distanceP1;
       let p2Position = store.imageUI.distanceP2;
-      let delta = (Math.sqrt(vtkMath.distance2BetweenPoints(p1Position, p2Position)) * 1000.0).toFixed(0);
-      let dX = ((p1Position[0] - p2Position[0]) * 1000.0).toFixed(0);
-      let dY = ((p1Position[1] - p2Position[1]) * 1000.0).toFixed(0);
-      let dZ = ((p1Position[2] - p2Position[2]) * 1000.0).toFixed(0);
-
+      let delta = Math.sqrt(vtkMath.distance2BetweenPoints(p1Position, p2Position)).toFixed(3);
       distanceValue.setAttribute('value', `${delta}`);
-      distanceDXValue.setAttribute('value', `${dX}`);
-      distanceDYValue.setAttribute('value', `${dY}`);
-      distanceDZValue.setAttribute('value', `${dZ}`);
     });
 }
 

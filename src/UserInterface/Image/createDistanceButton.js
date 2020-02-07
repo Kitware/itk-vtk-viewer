@@ -32,18 +32,15 @@ function createDistanceButton(
   store.imageUI.distanceUpdateInProgress = false;
   store.imageUI.distanceEnabled = false;
   const toggleLength = () => {
-    if (store.mainUI.viewMode !== 'VolumeRendering') {
-      store.imageUI.distanceEnabled = !store.imageUI.distanceEnabled;
-      if (store.imageUI.distanceWidget.getEnabled() !== true) {
-        store.imageUI.distanceWidget.setEnabled(true);
-        store.imageUI.distanceWidget.onInteractionEvent(() => {
-          store.imageUI.distanceP1 = distanceRep.getPoint1WorldPosition();
-          store.imageUI.distanceP2 = distanceRep.getPoint2WorldPosition();
-        });
-      }
-    } else {
-      store.imageUI.distanceEnabled = false;
+    store.imageUI.distanceEnabled = !store.imageUI.distanceEnabled;
+    if (store.imageUI.distanceWidget.getEnabled() !== true) {
+      store.imageUI.distanceWidget.setEnabled(true);
+      store.imageUI.distanceWidget.onInteractionEvent(() => {
+        store.imageUI.distanceP1 = distanceRep.getPoint1WorldPosition();
+        store.imageUI.distanceP2 = distanceRep.getPoint2WorldPosition();
+      });
     }
+
     if (store.imageUI.distanceEnabled) {
       store.imageUI.distanceWidget.setWidgetStateToStart();
     } else {

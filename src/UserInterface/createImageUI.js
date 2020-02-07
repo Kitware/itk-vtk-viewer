@@ -51,6 +51,36 @@ function createImageUI(
       imageUIGroup,
       use2D
     );
+
+    // Put distance tools in their own row
+    const distanceRulerRow = document.createElement('div');
+    distanceRulerRow.setAttribute('class', style.uiRow);
+    distanceRulerRow.className += ` ${viewerDOMId}-distanceRuler ${viewerDOMId}-toggle`;
+    distanceRulerRow.style.display = use2D ? 'flex' : 'none';
+
+    createDistanceButton(
+      store,
+      distanceRulerRow,
+    )
+
+    imageUIGroup.appendChild(distanceRulerRow);
+
+    reaction(() => { return store.mainUI.viewMode; },
+      (viewMode) => {
+        switch(viewMode) {
+          case 'XPlane':
+          case 'YPlane':
+          case 'ZPlane':
+            distanceRulerRow.style.display = 'flex';
+            break;
+          case 'VolumeRendering':
+            distanceRulerRow.style.display = 'none';
+            break;
+          default:
+            console.error('Invalid view mode: ' + viewMode);
+        }
+      }
+    )
   }
 
 
@@ -86,19 +116,6 @@ function createImageUI(
     );
     imageUIGroup.appendChild(volumeRenderingRow2);
 
-    // Put distance tools in their own row
-    const volumeRenderingRow3 = document.createElement('div');
-    volumeRenderingRow3.setAttribute('class', style.uiRow);
-    volumeRenderingRow3.className += ` ${viewerDOMId}-volumeRendering3 ${viewerDOMId}-toggle`;
-    volumeRenderingRow3.style.display = 'none';
-
-    createDistanceButton(
-      store,
-      volumeRenderingRow3,
-    )
-
-    imageUIGroup.appendChild(volumeRenderingRow3);
-
     reaction(() => { return store.mainUI.viewMode; },
       (viewMode) => {
         switch(viewMode) {
@@ -107,12 +124,10 @@ function createImageUI(
         case 'ZPlane':
           volumeRenderingRow1.style.display = 'none';
           volumeRenderingRow2.style.display = 'none';
-          volumeRenderingRow3.style.display = 'flex';
           break;
         case 'VolumeRendering':
           volumeRenderingRow1.style.display = 'flex';
           volumeRenderingRow2.style.display = 'flex';
-          volumeRenderingRow3.style.display = 'none';
           break;
         default:
           console.error('Invalid view mode: ' + viewMode);

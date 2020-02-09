@@ -141,8 +141,8 @@ class ImageUIStore {
   distanceUpdateInProgress = false;
   distanceEnabled = false;
 
-  @observable  distanceP1 = 0.0;
-  @observable  distanceP2 = 0.0;
+  @observable  distancePoint1 = 0.0;
+  @observable  distancePoint2 = 0.0;
 }
 
 class GeometriesUIStore {

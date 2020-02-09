@@ -36,8 +36,8 @@ function createDistanceButton(
     if (store.imageUI.distanceWidget.getEnabled() !== true) {
       store.imageUI.distanceWidget.setEnabled(true);
       store.imageUI.distanceWidget.onInteractionEvent(() => {
-        store.imageUI.distanceP1 = distanceRep.getPoint1WorldPosition();
-        store.imageUI.distanceP2 = distanceRep.getPoint2WorldPosition();
+        store.imageUI.distancePoint1 = distanceRep.getPoint1WorldPosition();
+        store.imageUI.distancePoint2 = distanceRep.getPoint2WorldPosition();
       });
     }
 
@@ -99,10 +99,10 @@ function createDistanceButton(
   uiContainer.appendChild(distanceEntry);
 
   // Update the value field when distance is updated
-  reaction(() => { return store.imageUI.distanceP1; },
+  reaction(() => { return store.imageUI.distancePoint1; },
     () => {
-      let p1Position = store.imageUI.distanceP1;
-      let p2Position = store.imageUI.distanceP2;
+      let p1Position = store.imageUI.distancePoint1;
+      let p2Position = store.imageUI.distancePoint2;
       let delta = Math.sqrt(vtkMath.distance2BetweenPoints(p1Position, p2Position)).toFixed(3);
       distanceValue.setAttribute('value', `${delta}`);
     });

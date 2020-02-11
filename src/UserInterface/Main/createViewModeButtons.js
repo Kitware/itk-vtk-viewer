@@ -67,9 +67,7 @@ function createViewModeButtons(
     store.mainUI.zPlaneButton.checked = false;
     store.mainUI.volumeRenderingButton.checked = true;
     if (store.imageUI.representationProxy && !!store.imageUI.image) {
-      const viewPlanes = document.getElementById(
-        `${viewerDOMId}-toggleSlicingPlanesButton`
-      ).checked;
+      const viewPlanes = store.imageUI.slicingPlanesEnabled;
       const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`);
       const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`);
       const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`);

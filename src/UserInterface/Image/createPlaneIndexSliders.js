@@ -24,7 +24,7 @@ function createPlaneIndexSliders(
 
   const xPlaneRow = document.createElement('div');
   xPlaneRow.setAttribute('class', style.uiRow);
-  xPlaneRow.className += ` ${viewerDOMId}-toggle ${viewerDOMId}-x-plane-row`;
+  xPlaneRow.className += ` ${viewerDOMId}-toggleCollapse ${viewerDOMId}-x-plane-row`;
 
   const xSliderEntry = document.createElement('div');
   xSliderEntry.setAttribute('class', style.sliderEntry);
@@ -75,7 +75,7 @@ function createPlaneIndexSliders(
 
   const yPlaneRow = document.createElement('div');
   yPlaneRow.setAttribute('class', style.uiRow);
-  yPlaneRow.className += ` ${viewerDOMId}-toggle ${viewerDOMId}-y-plane-row`;
+  yPlaneRow.className += ` ${viewerDOMId}-toggleCollapse ${viewerDOMId}-y-plane-row`;
 
   const ySliderEntry = document.createElement('div');
   ySliderEntry.setAttribute('class', style.sliderEntry);
@@ -127,7 +127,7 @@ function createPlaneIndexSliders(
 
   const zPlaneRow = document.createElement('div');
   zPlaneRow.setAttribute('class', style.uiRow);
-  zPlaneRow.className += ` ${viewerDOMId}-toggle ${viewerDOMId}-z-plane-row`;
+  zPlaneRow.className += ` ${viewerDOMId}-toggleCollapse ${viewerDOMId}-z-plane-row`;
 
   const zSliderEntry = document.createElement('div');
   zSliderEntry.setAttribute('class', style.sliderEntry);

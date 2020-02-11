@@ -300,6 +300,54 @@
   width: 1.2em;
 }
 
+.distanceEntry {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: self-start;
+}
+
+.distanceButton {
+  flex: 1;
+  height: 8mm;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.distanceButton svg {
+  height: 1.2em;
+  width: 1.2em;
+}
+
+.distanceLabel {
+  border: none;
+  background: transparent;
+  font-size: 1.2em;
+  margin-right: 10px;
+  z-index: 1000;
+}
+
+.distanceLabelBrightBG {
+  composes: distanceLabel;
+  color: black;
+}
+
+.distanceLabelDarkBG {
+  composes: distanceLabel;
+  color: white;
+}
+
+.distanceInput {
+  background: transparent;
+  color: white;
+  font-size: 1.0em;
+  width: 80px;
+}
+
 .resetCameraButton {
   flex: 1;
   width: 8mm;

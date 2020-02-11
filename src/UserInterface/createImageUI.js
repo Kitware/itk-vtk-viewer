@@ -12,6 +12,7 @@ import createPlaneIndexSliders from './Image/createPlaneIndexSliders';
 import createSampleDistanceSlider from './Image/createSampleDistanceSlider';
 import createGradientOpacitySlider from './Image/createGradientOpacitySlider';
 import createLabelMapColorWidget from './Image/createLabelMapColorWidget';
+import createDistanceButton from './Image/createDistanceButton';
 
 function createImageUI(
   store,
@@ -50,6 +51,36 @@ function createImageUI(
       imageUIGroup,
       use2D
     );
+
+    // Put distance tools in their own row
+    const distanceRulerRow = document.createElement('div');
+    distanceRulerRow.setAttribute('class', style.uiRow);
+    distanceRulerRow.className += ` ${viewerDOMId}-distanceRuler ${viewerDOMId}-toggle`;
+    distanceRulerRow.style.display = use2D ? 'flex' : 'none';
+
+    createDistanceButton(
+      store,
+      distanceRulerRow,
+    )
+
+    imageUIGroup.appendChild(distanceRulerRow);
+
+    reaction(() => { return store.mainUI.viewMode; },
+      (viewMode) => {
+        switch(viewMode) {
+          case 'XPlane':
+          case 'YPlane':
+          case 'ZPlane':
+            distanceRulerRow.style.display = 'flex';
+            break;
+          case 'VolumeRendering':
+            distanceRulerRow.style.display = 'none';
+            break;
+          default:
+            console.error('Invalid view mode: ' + viewMode);
+        }
+      }
+    )
   }
 
 

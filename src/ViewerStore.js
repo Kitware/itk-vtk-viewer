@@ -136,6 +136,13 @@ class ImageUIStore {
 
   @observable labelMapOpacity = 0.75;
   @observable labelMapCategoricalColor = 'glasbey';
+
+  distanceWidget = null;
+  distanceUpdateInProgress = false;
+  distanceEnabled = false;
+
+  @observable  distancePoint1 = 0.0;
+  @observable  distancePoint2 = 0.0;
 }
 
 class GeometriesUIStore {

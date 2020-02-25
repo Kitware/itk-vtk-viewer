@@ -72,6 +72,10 @@ module.exports = [
       from: path.join(__dirname, 'node_modules', 'itk', 'Pipelines'),
       to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),
       },
+      {
+      from: path.join(__dirname, 'src', 'blosc-zarr', 'web-build'),
+      to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),
+      },
     ]),
     // workbox plugin should be last plugin
     new GenerateSW({

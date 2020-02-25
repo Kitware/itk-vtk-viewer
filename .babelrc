@@ -4,7 +4,13 @@
       targets: {
         browsers: ['last 2 versions'],
       },
+      useBuiltIns: false,
     }],
     "mobx",
   ],
+  "plugins": [
+    ["@babel/plugin-transform-runtime", {
+      "regenerator": true
+    }]
+  ]
 }

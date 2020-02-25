@@ -1,0 +1,3 @@
+[submodule "src/blosc/c-blosc"]
+	path = src/blosc-zarr/c-blosc
+	url = https://github.com/Blosc/c-blosc

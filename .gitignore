@@ -10,3 +10,4 @@ dist/
 coverage/
 test/output.html
 test/TESTS-*.xml
+src/blosc-zarr/web-build

@@ -16,7 +16,7 @@ function createCroppingButtons(
   const viewerDOMId = store.id;
   function setupCroppingWidget() {
     store.imageUI.croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
-    store.imageUI.croppingWidget.setHandleSize(22);
+    store.imageUI.croppingWidget.setHandleSize(16);
     store.imageUI.croppingWidget.setFaceHandlesEnabled(false);
     store.imageUI.croppingWidget.setEdgeHandlesEnabled(false);
     store.imageUI.croppingWidget.setCornerHandlesEnabled(true);

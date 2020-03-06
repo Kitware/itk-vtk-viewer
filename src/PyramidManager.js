@@ -9,7 +9,9 @@ const dtypeToComponentType = new Map([
   ['<b', IntTypes.Int8],
   ['<B', IntTypes.UInt8],
   ['<u1', IntTypes.UInt8],
+  ['|u1', IntTypes.UInt8],
   ['<i1', IntTypes.Int8],
+  ['|i1', IntTypes.Int8],
   ['<u2', IntTypes.UInt16],
   ['<i2', IntTypes.Int16],
   ['<u4', IntTypes.UInt32],
@@ -62,7 +64,9 @@ class PyramidManager {
 
     this.spatialDims = ['x', 'y', 'z'].slice(0, dimension);
 
+    console.log(dtype)
     this.pixelArrayType = dtypeToTypedArray.get(dtype)
+    console.log(this.pixelArrayType)
 
     this.metadata.forEach((meta) => {
       meta.numberOfXYZChunks = new Array(this.spatialDims.length);
@@ -173,6 +177,7 @@ class PyramidManager {
     ]; // c, x, y, z,
 
     const size = this.size;
+    console.log(this.pixelArrayType)
     const pixelArray = new this.pixelArrayType(size.reduce((a,b) => a * b) * this.imageType.components);
     const pixelStrides = [
       this.imageType.components,

@@ -20,7 +20,7 @@ const dtypeToElementSize = new Map([
 
 async function bloscZarrDecompress(compressed, zarrayMetadata) {
   const dtype = zarrayMetadata.dtype;
-  const nElements = zarrayMetadata.shape.reduce((a, b) => a * b);
+  const nElements = zarrayMetadata.chunks.reduce((a, b) => a * b);
   const outputSize = nElements * dtypeToElementSize.get(dtype)
   const args = ["inputArray",
     "outputArray",

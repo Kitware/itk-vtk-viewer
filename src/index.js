@@ -24,10 +24,14 @@ export async function createViewerFromUrl(el, url, use2D = false) {
 
   const extension = getFileExtension(url)
   if(extension === 'zarr') {
+    console.time('meta')
+    console.time('image')
     const metadata = await ZarrPyramidManager.parseMetadata(url);
+    console.timeEnd('meta')
     const pyramidManager = new ZarrPyramidManager(url, metadata);
     // Side effect to keep the spinner going
     const topLevelLargestImage = await pyramidManager.topLevelLargestImage();
+    console.timeEnd('image')
     const use2D = pyramidManager.metadata[0].pixelArrayMetadata.shape.length === 2;
     return createViewer(el, {
         pyramidManager,

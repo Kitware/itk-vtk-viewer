@@ -55,19 +55,15 @@ class PyramidManager {
     if(meta.coords.has('c')) {
       components = meta.coords.get('c').length;
     }
+
     this.imageType = {
       dimension,
       pixelType,
       componentType,
       components
     };
-
     this.spatialDims = ['x', 'y', 'z'].slice(0, dimension);
-
-    console.log(dtype)
     this.pixelArrayType = dtypeToTypedArray.get(dtype)
-    console.log(this.pixelArrayType)
-
     this.metadata.forEach((meta) => {
       meta.numberOfXYZChunks = new Array(this.spatialDims.length);
       ['c', 'x', 'y', 'z', 't'].forEach((dim, chunkIndex) => {
@@ -79,41 +75,57 @@ class PyramidManager {
         }
       })
     })
-    console.log(meta)
+    console.log(metadata)
   }
 
   get topLevel() {
     return this.metadata.length - 1;
   }
 
-  get origin() {
+  async levelOrigin(level) {
     const origin = new Array(this.spatialDims.length);
-    this.spatialDims.forEach((dim, index) => {
-      if (this.metadata[0].coords.has(dim)) {
-        origin[index] = this.metadata[0].coords.get(dim)[0];
+    const meta = this.metadata[level];
+    for (let index = 0; index < this.spatialDims.length; index++) {
+      const dim = this.spatialDims[index];
+      if (meta.coords.has(dim)) {
+        let coords = meta.coords.get(dim);
+        if (coords instanceof Promise) {
+          const coordsResolved = await coords;
+          meta.coords.set(dim, coordsResolved);
+          coords = coordsResolved;
+        }
+        origin[index] = coords[0];
       } else {
         origin[index] = 0.0;
       }
-    })
+    }
     return origin;
   }
 
-  get spacing() {
+  async levelSpacing(level) {
     const spacing = new Array(this.spatialDims.length);
-    this.spatialDims.forEach((dim, index) => {
-      if (this.metadata[0].coords.has(dim)) {
-        const coords = this.metadata[0].coords.get(dim);
+    const meta = this.metadata[level];
+    for (let index = 0; index < this.spatialDims.length; index++) {
+      const dim = this.spatialDims[index];
+      if (meta.coords.has(dim)) {
+        let coords = meta.coords.get(dim);
+        if (coords instanceof Promise) {
+          const coordsResolved = await coords;
+          meta.coords.set(dim, coordsResolved);
+          coords = coordsResolved;
+        }
         spacing[index] = coords[1] - coords[0];
       } else {
         spacing[index] = 1.0;
       }
-    })
+    }
     return spacing;
   }
 
   get direction() {
     const dimension = this.imageType.dimension;
     const direction = new Matrix(dimension, dimension);
+    // Direction should be consistent over levels
     const metaDirection = this.metadata[0].direction;
     if (!!metaDirection) {
       // Todo: verify this logic
@@ -133,20 +145,26 @@ class PyramidManager {
     return direction;
   }
 
-  get size() {
+  async levelSize(level) {
     const size = new Array(this.spatialDims.length);
-    const meta = this.metadata[0];
+    const meta = this.metadata[level];
     const dimension = this.imageType.dimension;
     const pixelMeta = meta.pixelArrayMetadata;
-    this.spatialDims.forEach((dim, index) => {
+    for (let index = 0; index < this.spatialDims.length; index++) {
+      const dim = this.spatialDims[index];
       if (meta.coords.has(dim)) {
-        const coords = meta.coords.get(dim);
+        let coords = meta.coords.get(dim);
+        if (coords instanceof Promise) {
+          const coordsResolved = await coords;
+          meta.coords.set(dim, coordsResolved);
+          coords = coordsResolved;
+        }
         size[index] = coords.length;
       } else {
         const negIndex = dimension - 1 - index;
         size[index] = pixelMeta.shape[negIndex];
       }
-    })
+    }
     return size;
   }
 
@@ -176,8 +194,7 @@ class PyramidManager {
       chunkSize[0] * chunkSize[1] * chunkSize[2] * chunkSize[3],
     ]; // c, x, y, z,
 
-    const size = this.size;
-    console.log(this.pixelArrayType)
+    const size = await this.levelSize(level);
     const pixelArray = new this.pixelArrayType(size.reduce((a,b) => a * b) * this.imageType.components);
     const pixelStrides = [
       this.imageType.components,
@@ -252,20 +269,6 @@ class PyramidManager {
                 for(let jj = itStart[1]; jj < itEnd[1]; jj++) {
                   itChunkOffsets[1] = chunkStrides[1] * (jj - (j*chunkSize[2]));
                   itPixelOffsets[1] = pixelStrides[1] * (jj - start[1]);
-                  //for(let ii = itStart[0]; ii < itEnd[0]; ii++) {
-                    //const begin =
-                      //chunkStrides[0] * (ii - (i*chunkSize[1])) +
-                      //itChunkOffsets[1] +
-                      //itChunkOffsets[2] +
-                      //itChunkOffsets[3];
-                    //const end = begin + chunkSize[0];
-                    //const offset =
-                      //pixelStrides[0] * (ii - start[0]) +
-                      //itPixelOffsets[1] +
-                      //pixelStrides[2] * (kk - start[2]);
-                      //itPixelOffsets[2];
-                    //pixelArray.set(chunk.subarray(begin, end), offset);
-                  //} // for every column
                   for(let ii = itStart[0]; ii < itEnd[0]; ii++) {
                     const begin =
                       chunkStrides[0] * (itStart[0] - (i*chunkSize[1])) +
@@ -307,15 +310,18 @@ class PyramidManager {
        await Promise.all(zChunkPromises);
     }
 
+    const origin = await this.levelOrigin(level);
+    const spacing = await this.levelSpacing(level);
     this.cachedTopLevelLargestImage = {
       imageType: this.imageType,
-      name: this.metadata[0].pixelArrayName,
-      origin: this.origin,
-      spacing: this.spacing,
+      name: this.metadata[level].pixelArrayName,
+      origin,
+      spacing,
       direction: this.direction,
-      size: this.size,
+      size,
       data: pixelArray
     };
+    console.log(this.cachedTopLevelLargestImage)
 
     return this.cachedTopLevelLargestImage;
   }

@@ -256,6 +256,9 @@ const createViewer = (
     },
 
     (pyramidManager) => {
+      if (!!!pyramidManager) {
+        return;
+      }
       pyramidManager.topLevelLargestImage().then((topLevelImage) => {
         const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage);
         store.imageUI.image = imageData;

@@ -248,9 +248,36 @@ const createViewer = (
           updatingImage = false;
         }, 0);
       }
+    console.log(store.renderWindow.getStatistics())
     }
   );
   store.imageUI.image = image;
+
+  reaction(() => {
+    return store.mainUI.fpsTooLow;
+    },
+
+    (tooLow) => {
+      if (!tooLow) {
+        return;
+      }
+      console.log('FPS is too low!')
+    }
+  );
+  function updateFPS() {
+    const nextFPS = 1. / store.renderWindow.getInteractor().getLastFrameTime();
+    const fps = store.mainUI.fps;
+    fps.push(nextFPS);
+    fps.shift();
+    const mean = Math.round((fps[0] + fps[1] + fps[2]) / 3.)
+    // console.log(nextFPS)
+    // console.log(mean)
+    if(mean < 20.) {
+      store.mainUI.fpsTooLow = true;
+    }
+  }
+  store.renderWindow.getInteractor().onAnimation(updateFPS);
+
   reaction(() => {
       return store.imageUI.multiscaleManager;
     },

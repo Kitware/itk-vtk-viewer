@@ -30,6 +30,9 @@ class MainUIStore {
   yPlaneButton = null;
   zPlaneButton = null;
   volumeRenderingButton = null;
+
+  fps = [60., 60., 60.];
+  @observable fpsTooLow = false;
 }
 
 class ImageUIStore {

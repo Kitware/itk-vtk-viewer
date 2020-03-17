@@ -25,7 +25,7 @@ function applyStyle(el, style) {
 const createViewer = (
   rootContainer,
   { image,
-    pyramidManager,
+    multiscaleManager,
     labelMap,
     geometries,
     pointSets,
@@ -252,20 +252,20 @@ const createViewer = (
   );
   store.imageUI.image = image;
   reaction(() => {
-      return store.imageUI.pyramidManager;
+      return store.imageUI.multiscaleManager;
     },
 
-    (pyramidManager) => {
-      if (!!!pyramidManager) {
+    (multiscaleManager) => {
+      if (!!!multiscaleManager) {
         return;
       }
-      pyramidManager.topLevelLargestImage().then((topLevelImage) => {
+      multiscaleManager.topLevelLargestImage().then((topLevelImage) => {
         const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage);
         store.imageUI.image = imageData;
       })
     }
   );
-  store.imageUI.pyramidManager = pyramidManager;
+  store.imageUI.multiscaleManager = multiscaleManager;
   if (!!labelMap && !!!image) {
     // trigger reaction
     store.imageUI.labelMap = null;

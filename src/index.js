@@ -6,7 +6,7 @@ import processFiles from './processFiles';
 import UserInterface from './UserInterface';
 import createFileDragAndDrop from './UserInterface/createFileDragAndDrop';
 import style from './UserInterface/ItkVtkViewer.module.css';
-import ZarrPyramidManager from './ZarrPyramidManager';
+import ZarrMultiscaleManager from './ZarrMultiscaleManager';
 import createViewer from './createViewer';
 
 let doNotInitViewers = false;
@@ -26,15 +26,15 @@ export async function createViewerFromUrl(el, url, use2D = false) {
   if(extension === 'zarr') {
     console.time('meta')
     console.time('image')
-    const metadata = await ZarrPyramidManager.parseMetadata(url);
+    const metadata = await ZarrMultiscaleManager.parseMetadata(url);
     console.timeEnd('meta')
-    const pyramidManager = new ZarrPyramidManager(url, metadata);
+    const multiscaleManager = new ZarrMultiscaleManager(url, metadata);
     // Side effect to keep the spinner going
-    const topLevelLargestImage = await pyramidManager.topLevelLargestImage();
+    const topLevelLargestImage = await multiscaleManager.topLevelLargestImage();
     console.timeEnd('image')
-    const use2D = pyramidManager.metadata[0].pixelArrayMetadata.shape.length === 2;
+    const use2D = multiscaleManager.metadata[0].pixelArrayMetadata.shape.length === 2;
     return createViewer(el, {
-        pyramidManager,
+        multiscaleManager,
         use2D
       });
   } else {

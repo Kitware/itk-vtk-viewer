@@ -16,12 +16,6 @@ import applyCategoricalColorToLookupTableProxy from './UserInterface/applyCatego
 
 import { autorun, reaction } from 'mobx';
 
-function applyStyle(el, style) {
-  Object.keys(style).forEach((key) => {
-    el.style[key] = style[key];
-  });
-}
-
 const createViewer = (
   rootContainer,
   { image,
@@ -39,22 +33,10 @@ const createViewer = (
   const proxyManager = vtkProxyManager.newInstance({ proxyConfiguration });
   window.addEventListener('resize', proxyManager.resizeAllViews);
 
-
   // Todo: deserialize from viewerState, if present
   const store = new ViewerStore(proxyManager);
 
-  applyStyle(store.container, store.style.containerStyle);
-  rootContainer.appendChild(store.container);
-  autorun(() => {
-    applyStyle(store.container, store.style.containerStyle);
-  })
-  autorun(() => {
-    store.itkVtkView.setBackground(store.style.backgroundColor);
-  })
-
-  if (viewerStyle) {
-    store.style = viewerStyle;
-  }
+  UserInterface.applyContainerStyle(rootContainer, store, viewerStyle);
 
   const testCanvas = document.createElement("canvas");
   const gl = testCanvas.getContext("webgl")

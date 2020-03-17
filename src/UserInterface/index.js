@@ -1,4 +1,5 @@
 import addLogo from './addLogo';
+import applyContainerStyle from './applyContainerStyle';
 import createLoadingProgress from './createLoadingProgress';
 import createMainUI from './createMainUI';
 import createImageUI from './createImageUI';
@@ -9,6 +10,7 @@ import getRootContainer from './getRootContainer';
 
 export default {
   addLogo,
+  applyContainerStyle,
   createLoadingProgress,
   createMainUI,
   createImageUI,

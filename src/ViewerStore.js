@@ -33,6 +33,7 @@ class MainUIStore {
 
   fps = [60., 60., 60.];
   @observable fpsTooLow = false;
+  fpsMonitor = null;
 }
 
 class ImageUIStore {

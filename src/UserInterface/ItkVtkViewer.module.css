@@ -79,6 +79,16 @@
   z-index: 100;
 }
 
+.fpsMonitor {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  borderRadius: 5px;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  z-index: 101;
+}
+
 [itk-vtk-tooltip] {
     position: relative;
 }

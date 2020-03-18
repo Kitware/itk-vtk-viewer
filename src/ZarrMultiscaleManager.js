@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import PyramidManager from './PyramidManager';
+import MultiscaleManager from './MultiscaleManager';
 import bloscZarrDecompress from './bloscZarrDecompress';
 
 async function decompressCoordPromise(url, zmetadata, coordPath) {
@@ -12,7 +12,7 @@ async function decompressCoordPromise(url, zmetadata, coordPath) {
   return chunk;
 }
 
-class ZarrPyramidManager extends PyramidManager {
+class ZarrMultiscaleManager extends MultiscaleManager {
   url;
 
   // Call parseMetadata to retrieve metadata
@@ -181,4 +181,4 @@ class ZarrPyramidManager extends PyramidManager {
   }
 }
 
-export default ZarrPyramidManager;
+export default ZarrMultiscaleManager;

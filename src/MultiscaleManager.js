@@ -23,7 +23,7 @@ const dtypeToComponentType = new Map([
 
 const spatialDims = ['x','y','z'];
 
-class PyramidManager {
+class MultiscaleManager {
   /* Every element corresponds to a pyramid level
      Higher levels, corresponds to a higher index, correspond to a lower
      resolution. */
@@ -327,4 +327,4 @@ class PyramidManager {
   }
 }
 
-export default PyramidManager;
+export default MultiscaleManager;

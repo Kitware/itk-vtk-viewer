@@ -30,11 +30,15 @@ class MainUIStore {
   yPlaneButton = null;
   zPlaneButton = null;
   volumeRenderingButton = null;
+
+  fps = [60., 60., 60.];
+  @observable fpsTooLow = false;
+  fpsMonitor = null;
 }
 
 class ImageUIStore {
   @observable.ref image = null;
-  @observable.ref pyramidManager = null;
+  @observable.ref multiscaleManager = null;
 
   source = null;
   @observable.ref representationProxy = null;

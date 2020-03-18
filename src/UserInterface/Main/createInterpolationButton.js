@@ -3,20 +3,20 @@ import { when, autorun } from 'mobx';
 import style from '../ItkVtkViewer.module.css';
 
 import interpolationIcon from '../icons/interpolation.svg';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
 function createInterpolationButton(
   store,
-  contrastSensitiveStyle,
   mainUIRow
 ) {
   const interpolationButton = document.createElement('div');
   interpolationButton.innerHTML = `<input id="${store.id}-toggleInterpolationButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Interpolation" class="${
-    contrastSensitiveStyle.invertibleButton
-  } ${style.interpolationButton} ${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Interpolation" class="${style.interpolationButton} ${
     style.toggleButton
   }" for="${store.id}-toggleInterpolationButton">${interpolationIcon}</label>`;
+  const interpolationButtonLabel = interpolationButton.children[1];
+  applyContrastSensitiveStyle(store, 'invertibleButton', interpolationButtonLabel);
   function toggleInterpolation() {
     const interpolationEnabled = store.mainUI.interpolationEnabled;
     interpolationButton.checked = interpolationEnabled;

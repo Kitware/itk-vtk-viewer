@@ -3,11 +3,9 @@ import { reaction, action } from 'mobx';
 import style from '../ItkVtkViewer.module.css';
 
 import toggleIcon from '../icons/toggle.svg';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
-function createToggleUserInterfaceButton(
-  store,
-  contrastSensitiveStyle,
-) {
+function createToggleUserInterfaceButton(store) {
   const toggleUserInterfaceButton = document.createElement('div');
   function toggleUIVisibility(collapsed) {
     const uiContainer = store.mainUI.uiContainer;
@@ -54,9 +52,9 @@ function createToggleUserInterfaceButton(
       }
     }
   }
-  toggleUserInterfaceButton.className = `${
-    contrastSensitiveStyle.invertibleButton
-  } ${style.toggleUserInterfaceButton}`;
+  toggleUserInterfaceButton.className = `${style.toggleUserInterfaceButton}`;
+  applyContrastSensitiveStyle(store, 'invertibleButton', toggleUserInterfaceButton);
+
   toggleUserInterfaceButton.id = `${store.id}-toggleUserInterfaceButton`;
   toggleUserInterfaceButton.innerHTML = `${toggleIcon}`;
   toggleUserInterfaceButton.addEventListener('click',

@@ -32,10 +32,9 @@ export async function createViewerFromUrl(el, url, use2D = false) {
     // Side effect to keep the spinner going
     const topLevelLargestImage = await multiscaleManager.topLevelLargestImage();
     console.timeEnd('image')
-    const use2D = multiscaleManager.metadata[0].pixelArrayMetadata.shape.length === 2;
     return createViewer(el, {
-        multiscaleManager,
-        use2D
+      multiscaleManager,
+      use2D
       });
   } else {
     const arrayBuffer = await fetchBinaryContent(url, progressCallback);
@@ -64,23 +63,26 @@ export function initializeEmbeddedViewers() {
       el.style.height = Number.isFinite(Number(height))
         ? `${height}px`
         : height;
-      createViewerFromUrl(el, el.dataset.url, !!el.dataset.slice).then(
+      createViewerFromUrl(el, el.dataset.url, !!el.dataset.use2D).then(
         (viewer) => {
           // Background color handling
-          if (el.dataset.backgroundColor && viewer.renderWindow) {
+          if (el.dataset.backgroundColor) {
             const color = el.dataset.backgroundColor;
             const bgColor = [
               color.slice(0, 2),
               color.slice(2, 4),
               color.slice(4, 6),
             ].map((v) => parseInt(v, 16) / 255);
-            viewer.renderer.setBackground(bgColor);
+            console.log(bgColor)
+            viewer.setBackgroundColor(bgColor);
           }
 
+          viewer.setUserInterfaceCollapsed(true);
           // Render
           if (viewer.renderWindow && viewer.renderWindow.render) {
             viewer.renderWindow.render();
           }
+          el.dataset.viewer = viewer;
         }
       );
     }

@@ -1,8 +1,7 @@
 import { reaction } from 'mobx';
 
-import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
-
 import style from '../ItkVtkViewer.module.css';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
 import blendModeIcon from '../icons/blend-mode.svg';
 
@@ -10,19 +9,15 @@ function createBlendModeSelector(
   store,
   uiContainer,
 ) {
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['invertibleButton'],
-    store.isBackgroundDark
-  );
-
-
   const blendModeEntry = document.createElement('div');
   blendModeEntry.innerHTML = `
     <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Blend mode"
-      class="${contrastSensitiveStyle.invertibleButton} ${style.blendModeButton}">
+      class="${style.blendModeButton}">
       ${blendModeIcon}
     </div>
     `
+  const blendModeDiv = blendModeEntry.children[0];
+  applyContrastSensitiveStyle(store, 'invertibleButton', blendModeDiv);
   uiContainer.appendChild(blendModeEntry);
 
   const blendModeSelector = document.createElement('select');

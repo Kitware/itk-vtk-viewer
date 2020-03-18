@@ -1,18 +1,14 @@
 import { reaction } from 'mobx';
 
 import style from '../ItkVtkViewer.module.css';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
 import volumeRenderingIcon from '../icons/volume-rendering.svg';
 import xPlaneIcon from '../icons/x-plane.svg';
 import yPlaneIcon from '../icons/y-plane.svg';
 import zPlaneIcon from '../icons/z-plane.svg';
 
-function createViewModeButtons(
-  store,
-  contrastSensitiveStyle,
-  use2D,
-  mainUIRow
-) {
+function createViewModeButtons(store, use2D, mainUIRow) {
   const viewerDOMId = store.id;
   const uiContainer = store.mainUI.uiContainer;
   function setViewModeXPlane() {
@@ -87,11 +83,11 @@ function createViewModeButtons(
     store.mainUI.xPlaneButton = xPlaneButton;
     xPlaneButton.innerHTML = `<input id="${viewerDOMId}-xPlaneButton" type="checkbox" class="${
       style.toggleInput
-    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane [1]" class="${
-      contrastSensitiveStyle.tooltipButton
-    } ${style.viewModeButton} ${
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane [1]" class="${style.viewModeButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-xPlaneButton">${xPlaneIcon}</label>`;
+    const xPlaneButtonLabel = xPlaneButton.children[1];
+    applyContrastSensitiveStyle(store, 'tooltipButton', xPlaneButtonLabel);
     xPlaneButton.addEventListener('click',
       (event) => {
         event.preventDefault();
@@ -105,11 +101,11 @@ function createViewModeButtons(
     store.mainUI.yPlaneButton = yPlaneButton;
     yPlaneButton.innerHTML = `<input id="${viewerDOMId}-yPlaneButton" type="checkbox" class="${
       style.toggleInput
-    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane [2]" class="${
-      contrastSensitiveStyle.tooltipButton
-    } ${style.viewModeButton} ${
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane [2]" class="${style.viewModeButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-yPlaneButton">${yPlaneIcon}</label>`;
+    const yPlaneButtonLabel = yPlaneButton.children[1];
+    applyContrastSensitiveStyle(store, 'tooltipButton', yPlaneButtonLabel);
     yPlaneButton.addEventListener('click',
       (event) => {
         event.preventDefault();
@@ -123,11 +119,11 @@ function createViewModeButtons(
     store.mainUI.zPlaneButton = zPlaneButton;
     zPlaneButton.innerHTML = `<input id="${viewerDOMId}-zPlaneButton" type="checkbox" class="${
       style.toggleInput
-    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane [3]" class="${
-      contrastSensitiveStyle.tooltipButton
-    } ${style.viewModeButton} ${
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane [3]" class="${style.viewModeButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-zPlaneButton">${zPlaneIcon}</label>`;
+    const zPlaneButtonLabel = zPlaneButton.children[1];
+    applyContrastSensitiveStyle(store, 'tooltipButton', zPlaneButtonLabel);
     zPlaneButton.addEventListener('click',
       (event) => {
         event.preventDefault();
@@ -141,11 +137,11 @@ function createViewModeButtons(
     store.mainUI.volumeRenderingButton = volumeRenderingButton;
     volumeRenderingButton.innerHTML = `<input id="${viewerDOMId}-volumeRenderingButton" type="checkbox" class="${
       style.toggleInput
-    }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume [4]" class="${
-      contrastSensitiveStyle.tooltipButton
-    } ${style.viewModeButton} ${
+    }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume [4]" class="${style.viewModeButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-volumeRenderingButton">${volumeRenderingIcon}</label>`;
+    const volumeRenderingButtonLabel = volumeRenderingButton.children[1];
+    applyContrastSensitiveStyle(store, 'tooltipButton', volumeRenderingButtonLabel);
     volumeRenderingButton.addEventListener('click',
       (event) => {
         event.preventDefault();

@@ -4,15 +4,12 @@ import macro from 'vtk.js/Sources/macro';
 import vtkImageCroppingRegionsWidget from 'vtk.js/Sources/Interaction/Widgets/ImageCroppingRegionsWidget';
 
 import style from '../ItkVtkViewer.module.css';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
 import cropIcon from '../icons/crop.svg';
 import resetCropIcon from '../icons/reset-crop.svg';
 
-function createCroppingButtons(
-  store,
-  contrastSensitiveStyle,
-  mainUIRow
-) {
+function createCroppingButtons(store, mainUIRow) {
   const viewerDOMId = store.id;
   function setupCroppingWidget() {
     store.imageUI.croppingWidget = vtkImageCroppingRegionsWidget.newInstance();
@@ -52,12 +49,12 @@ function createCroppingButtons(
     const cropButton = document.createElement('div');
     cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${
       style.toggleInput
-    }"><label itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Select ROI [w]" class="${
-      contrastSensitiveStyle.invertibleButton
-    } ${style.cropButton} ${
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Select ROI [w]" class="${style.cropButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-toggleCroppingPlanesButton">${cropIcon}</label>`;
     const cropButtonInput = cropButton.children[0];
+    const cropButtonLabel = cropButton.children[1];
+    applyContrastSensitiveStyle(store, 'invertibleButton', cropButtonLabel);
     function toggleCrop(cropEnabled) {
       cropButtonInput.checked = cropEnabled;
       store.imageUI.croppingWidget.setEnabled(cropEnabled);
@@ -82,11 +79,11 @@ function createCroppingButtons(
     const resetCropButton = document.createElement('div');
     resetCropButton.innerHTML = `<input id="${viewerDOMId}-resetCroppingPlanesButton" type="checkbox" class="${
       style.toggleInput
-    }" checked><label itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Reset ROI [e]" class="${
-      contrastSensitiveStyle.invertibleButton
-    } ${style.resetCropButton} ${
+    }" checked><label itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Reset ROI [e]" class="${style.resetCropButton} ${
       style.toggleButton
     }" for="${viewerDOMId}-resetCroppingPlanesButton">${resetCropIcon}</label>`;
+    const resetCropButtonLabel = resetCropButton.children[1];
+    applyContrastSensitiveStyle(store, 'invertibleButton', resetCropButtonLabel);
     const resetCropHandlers = [];
     store.imageUI.addResetCropHandler = (handler) => {
       const index = resetCropHandlers.length;

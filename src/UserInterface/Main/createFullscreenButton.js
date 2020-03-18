@@ -3,10 +3,10 @@ import { reaction } from 'mobx';
 import style from '../ItkVtkViewer.module.css';
 
 import fullscreenIcon from '../icons/fullscreen.svg';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
 function createFullscreenButton(
   store,
-  contrastSensitiveStyle,
   rootContainer,
   mainUIRow
 ) {
@@ -28,12 +28,12 @@ function createFullscreenButton(
     const fullscreenButton = document.createElement('div');
     fullscreenButton.innerHTML = `<input id="${store.id}-toggleFullscreenButton" type="checkbox" class="${
       style.toggleInput
-    }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Fullscreen[f]" class="${
-      contrastSensitiveStyle.invertibleButton
-    } ${style.fullscreenButton} ${
+    }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Fullscreen[f]" class="${style.fullscreenButton} ${
       style.toggleButton
     }" for="${store.id}-toggleFullscreenButton">${fullscreenIcon}</label>`;
     const fullscreenButtonInput = fullscreenButton.children[0];
+    const fullscreenButtonLabel = fullscreenButton.children[1];
+    applyContrastSensitiveStyle(store, 'invertibleButton', fullscreenButton);
     const container = rootContainer.children[0];
     const oldWidth = container.style.width;
     const oldHeight = container.style.height;

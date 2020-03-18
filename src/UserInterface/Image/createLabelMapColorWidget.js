@@ -1,10 +1,10 @@
 import { autorun, reaction, action } from 'mobx';
 
-import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 import createCategoricalColorIconSelector from '../createCategoricalColorIconSelector';
 import applyCategoricalColorToLookupTableProxy from '../applyCategoricalColorToLookupTableProxy';
 
 import style from '../ItkVtkViewer.module.css';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
 import opacityIcon from '../icons/opacity.svg';
 
@@ -20,11 +20,6 @@ function createLabelMapColorWidget(
   const labelMapWidgetRow = document.createElement('div');
   labelMapWidgetRow.setAttribute('class', style.uiRow);
   labelMapWidgetRow.className += ` ${viewerDOMId}-toggle`;
-
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['invertibleButton'],
-    store.isBackgroundDark
-  );
 
 
   const categoricalColorSelector = document.createElement('div');
@@ -89,9 +84,7 @@ function createLabelMapColorWidget(
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
-    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Gradient opacity" class="${
-      contrastSensitiveStyle.invertibleButton
-    } ${style.gradientOpacitySlider}">
+    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Gradient opacity" class="${style.gradientOpacitySlider}">
       ${opacityIcon}
     </div>
     <input type="range" min="0" max="1" value="${defaultLabelMapColorOpacity}" step="0.01"
@@ -100,6 +93,8 @@ function createLabelMapColorWidget(
   const opacityElement = sliderEntry.querySelector(
     `#${store.id}-labelMapColorOpacitySlider`
   );
+  const sliderEntryDiv = sliderEntry.children[0];
+  applyContrastSensitiveStyle(store, 'invertibleButton', sliderEntryDiv);
   const volume = store.imageUI.representationProxy.getVolumes()[0]
   const volumeProperty = volume.getProperty()
   function updateLabelMapColorOpacity() {

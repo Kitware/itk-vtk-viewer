@@ -1,26 +1,15 @@
 import { autorun, action } from 'mobx';
 
-import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
-
 import style from '../ItkVtkViewer.module.css';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
 import gradientOpacityIcon from '../icons/gradient.svg';
 
-function createGradientOpacitySlider(
-  store,
-  uiContainer,
-) {
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['invertibleButton'],
-    store.isBackgroundDark
-  );
-
+function createGradientOpacitySlider(store, uiContainer) {
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
-    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Gradient opacity" class="${
-      contrastSensitiveStyle.invertibleButton
-    } ${style.gradientOpacitySlider}">
+    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Gradient opacity" class="${style.gradientOpacitySlider}">
       ${gradientOpacityIcon}
     </div>
     <input type="range" min="0" max="1" value="0.2" step="0.01"
@@ -29,6 +18,9 @@ function createGradientOpacitySlider(
   const edgeElement = sliderEntry.querySelector(
     `#${store.id}-gradientOpacitySlider`
   );
+  const sliderEntryDiv = sliderEntry.children[0];
+  applyContrastSensitiveStyle(store, 'invertibleButton', sliderEntryDiv);
+
   function updateGradientOpacity() {
     const gradientOpacity = store.imageUI.gradientOpacity;
     edgeElement.value = gradientOpacity;

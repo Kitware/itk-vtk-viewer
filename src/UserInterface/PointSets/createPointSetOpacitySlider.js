@@ -1,28 +1,17 @@
 import { reaction, action } from 'mobx';
 
-import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
-
 import style from '../ItkVtkViewer.module.css';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
 import opacityIcon from '../icons/opacity.svg';
 
-function createPointSetOpacitySlider(
-  store,
-  pointSetColorRow
-) {
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['invertibleButton'],
-    store.isBackgroundDark
-  );
-
+function createPointSetOpacitySlider(store, pointSetColorRow) {
   const defaultPointSetOpacity = 1.0;
 
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
-    <div itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Opacity" class="${
-      contrastSensitiveStyle.invertibleButton
-    } ${style.gradientOpacitySlider}">
+    <div itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Opacity" class="${style.gradientOpacitySlider}">
       ${opacityIcon}
     </div>
     <input type="range" min="0" max="1" value="${defaultPointSetOpacity}" step="0.01"
@@ -31,6 +20,8 @@ function createPointSetOpacitySlider(
   const opacityElement = sliderEntry.querySelector(
     `#${store.id}-pointSetOpacitySlider`
   );
+  const sliderEntryDiv = sliderEntry.children[0];
+  applyContrastSensitiveStyle(store, 'invertibleButton', sliderEntryDiv);
 
   reaction(() => {
     return store.pointSetsUI.pointSets.slice();

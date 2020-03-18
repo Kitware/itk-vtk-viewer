@@ -1,20 +1,12 @@
 import { reaction, action } from 'mobx';
 
 import style from '../ItkVtkViewer.module.css';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
-import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
-
-function createPlaneIndexSliders(
-  store,
-  uiContainer,
-) {
+function createPlaneIndexSliders(store, uiContainer) {
   const planeIndexUIGroup = document.createElement('div');
   planeIndexUIGroup.setAttribute('class', style.uiGroup);
 
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['sliderLabel'],
-    store.isBackgroundDark
-  );
   const numberOfValueChars = 6;
   let currentSlicePosition = null;
   const viewerDOMId = store.id;
@@ -32,9 +24,7 @@ function createPlaneIndexSliders(
   currentSlicePosition = volumeRepresentation.getXSlice();
   store.imageUI.xSlice = currentSlicePosition;
   xSliderEntry.innerHTML = `
-    <label id="${viewerDOMId}-xSliceLabel" class="${
-      contrastSensitiveStyle.sliderLabel
-    }">X:</label><input type="range" min="${
+    <label id="${viewerDOMId}-xSliceLabel" class="${style.sliderLabelCommon}">X:</label><input type="range" min="${
     xSlice.min
   }" max="${xSlice.max}" value="${currentSlicePosition}" step="${xSlice.step}"
       id="${viewerDOMId}-xSlice" class="${style.slider}" />`;
@@ -42,6 +32,7 @@ function createPlaneIndexSliders(
   const xPlaneLabel = xSliderEntry.querySelector(
     `#${viewerDOMId}-xSliceLabel`
   );
+  applyContrastSensitiveStyle(store, 'sliderLabel', xPlaneLabel);
   function updateXSlice(position) {
     volumeRepresentation.setXSlice(Number(position));
     const valueString = String(position).substring(
@@ -83,9 +74,7 @@ function createPlaneIndexSliders(
   currentSlicePosition = volumeRepresentation.getYSlice();
   store.imageUI.ySlice = currentSlicePosition;
   ySliderEntry.innerHTML = `
-    <label id="${viewerDOMId}-ySliceLabel" class="${
-      contrastSensitiveStyle.sliderLabel
-    }">Y:</label><input type="range" min="${
+    <label id="${viewerDOMId}-ySliceLabel" class="${style.sliderLabelCommon}">Y:</label><input type="range" min="${
     ySlice.min
   }" max="${ySlice.max}" value="${currentSlicePosition}" step="${ySlice.step}"
       id="${viewerDOMId}-ySlice" class="${style.slider}" />`;
@@ -93,10 +82,11 @@ function createPlaneIndexSliders(
   const yPlaneLabel = ySliderEntry.querySelector(
     `#${viewerDOMId}-ySliceLabel`
   );
+  applyContrastSensitiveStyle(store, 'sliderLabel', yPlaneLabel);
   function updateYSlice(position) {
     volumeRepresentation.setYSlice(Number(position));
     const valueString = String(position).substring(
-      0,
+     0,
       numberOfValueChars
     );
     const padLength =
@@ -135,9 +125,7 @@ function createPlaneIndexSliders(
   currentSlicePosition = volumeRepresentation.getZSlice();
   store.imageUI.zSlice = currentSlicePosition;
   zSliderEntry.innerHTML = `
-    <label id="${viewerDOMId}-zSliceLabel" class="${
-      contrastSensitiveStyle.sliderLabel
-    }">Z:</label><input type="range" min="${
+    <label id="${viewerDOMId}-zSliceLabel" class="${style.sliderLabelCommon}">Z:</label><input type="range" min="${
     zSlice.min
   }" max="${zSlice.max}" value="${currentSlicePosition}" step="${zSlice.step}"
       id="${viewerDOMId}-zSlice" class="${style.slider}" />`;
@@ -145,6 +133,7 @@ function createPlaneIndexSliders(
   const zPlaneLabel = zSliderEntry.querySelector(
     `#${viewerDOMId}-zSliceLabel`
   );
+  applyContrastSensitiveStyle(store, 'sliderLabel', zPlaneLabel);
   function updateZSlice(position) {
     volumeRepresentation.setZSlice(Number(position));
     const valueString = String(position).substring(

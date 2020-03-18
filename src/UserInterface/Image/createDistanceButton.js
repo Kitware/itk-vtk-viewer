@@ -1,8 +1,8 @@
 import style from '../ItkVtkViewer.module.css';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
 import distanceIcon from '../icons/length-tool.svg';
 import { reaction, action } from 'mobx';
-import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
 import vtkDistanceWidget from 'vtk.js/Sources/Interaction/Widgets/DistanceWidget';
 import vtkDistanceRepresentation from 'vtk.js/Sources/Interaction/Widgets/DistanceRepresentation';
 import * as vtkMath from 'vtk.js/Sources/Common/Core/Math';
@@ -11,11 +11,6 @@ function createDistanceButton(
   store,
   uiContainer,
 ) {
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['invertibleButton', 'distanceLabel'],
-    store.isBackgroundDark,
-  );
-
   store.imageUI.distanceWidget = vtkDistanceWidget.newInstance();
   store.imageUI.distanceWidget.setInteractor(store.itkVtkView.getInteractor());
 
@@ -55,13 +50,13 @@ function createDistanceButton(
   const distanceButton = document.createElement('span');
   distanceButton.innerHTML = `<input id="${store.id}-toggleDistanceButton" type="checkbox" class="${
     style.toggleInput
-  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Length" class="${
-    contrastSensitiveStyle.invertibleButton
-  } ${style.distanceButton} ${
+  }" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Length" class="${style.distanceButton} ${
     style.toggleButton
   }" for="${store.id}-toggleDistanceButton">${distanceIcon}</label>`;
   store.imageUI.distanceButtonInput = distanceButton.children[0];
   store.imageUI.distanceButtonInput.checked = store.imageUI.distanceEnabled;
+  const distanceButtonLabel = distanceButton.children[1];
+  applyContrastSensitiveStyle(store, 'invertibleButton', distanceButtonLabel);
 
   distanceButton.addEventListener('change',
     (event) => {
@@ -81,7 +76,8 @@ function createDistanceButton(
   distanceEntry.appendChild(distanceButton);
 
   const distanceLabel = document.createElement('label');
-  distanceLabel.setAttribute('class', contrastSensitiveStyle.distanceLabel);
+  distanceLabel.setAttribute('class', `${style.distanceLabelCommon}`);
+  applyContrastSensitiveStyle(store, 'distanceLabel', distanceLabel);
   distanceLabel.setAttribute('for', `${store.id}-distanceValue`);
   distanceLabel.id = `${store.id}-distanceLabel`;
   distanceLabel.innerText = 'Length:';

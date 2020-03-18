@@ -1,32 +1,22 @@
 import { autorun, action } from 'mobx';
 
-import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
-
 import style from '../ItkVtkViewer.module.css';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
 import viewPlansIcon from '../icons/view-planes.svg';
 
-function createViewPlanesToggle(
-  store,
-  imageUIGroup,
-  volumeRenderingRow,
-) {
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['tooltipButton'],
-    store.isBackgroundDark
-  );
+function createViewPlanesToggle(store, imageUIGroup, volumeRenderingRow) {
   const viewerDOMId = store.id;
 
   const viewPlanesButton = document.createElement('div');
   viewPlanesButton.innerHTML = `<input id="${viewerDOMId}-toggleSlicingPlanesButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="View planes [s]" class="${
-    contrastSensitiveStyle.tooltipButton
-  } ${style.viewPlanesButton} ${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="View planes [s]" class="${style.viewPlanesButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-toggleSlicingPlanesButton">${viewPlansIcon}</label>`;
-
   const viewPlanesButtonInput = viewPlanesButton.children[0];
+  const viewPlanesButtonLabel = viewPlanesButton.children[1];
+  applyContrastSensitiveStyle(store, 'tooltipButton', viewPlanesButtonLabel);
   function setViewPlanes() {
     const viewPlanes = store.imageUI.slicingPlanesEnabled;
     viewPlanesButtonInput.checked = viewPlanes;

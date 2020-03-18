@@ -3,4 +3,5 @@ docs:
     overview: index.html
     viewer: viewer.html
     cli: cli.html
+    embeddedViewer: embeddedViewer.html
     shortcuts: shortcuts.html

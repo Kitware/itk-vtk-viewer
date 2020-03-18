@@ -14,10 +14,7 @@ import createGradientOpacitySlider from './Image/createGradientOpacitySlider';
 import createLabelMapColorWidget from './Image/createLabelMapColorWidget';
 import createDistanceButton from './Image/createDistanceButton';
 
-function createImageUI(
-  store,
-  use2D
-) {
+function createImageUI(store, use2D) {
   const viewerDOMId = store.id;
 
   const imageUIGroup = document.createElement('div');

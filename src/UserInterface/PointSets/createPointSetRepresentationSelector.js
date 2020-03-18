@@ -1,8 +1,7 @@
 import { reaction } from 'mobx';
 
-import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
-
 import style from '../ItkVtkViewer.module.css';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
 import hiddenIcon from '../icons/hidden.svg';
 import pointsIcon from '../icons/point-set-points.svg';
@@ -14,17 +13,10 @@ function createPointSetRepresentationSelector(
 ) {
   const viewerDOMId = store.id;
 
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-      ['invertibleButton'],
-      store.isBackgroundDark
-    );
-
   const pointSetHiddenButton = document.createElement('div');
   pointSetHiddenButton.innerHTML = `<input id="${viewerDOMId}-pointSetHiddenButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Hidden" class="${
-    contrastSensitiveStyle.tooltipButton
-  } ${style.fullscreenButton} ${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Hidden" class="${style.fullscreenButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-pointSetHiddenButton">${hiddenIcon}</label>`;
   pointSetHiddenButton.addEventListener('click',
@@ -37,13 +29,13 @@ function createPointSetRepresentationSelector(
   )
   pointSetRepresentationRow.appendChild(pointSetHiddenButton);
   const pointSetHiddenButtonInput = pointSetHiddenButton.children[0];
+  const pointSetHiddenButtonLabel = pointSetHiddenButton.children[1];
+  applyContrastSensitiveStyle(store, 'tooltipButton', pointSetHiddenButtonLabel);
 
   const pointSetPointsButton = document.createElement('div');
   pointSetPointsButton.innerHTML = `<input id="${viewerDOMId}-pointSetPointsButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Points" class="${
-    contrastSensitiveStyle.tooltipButton
-  } ${style.fullscreenButton} ${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Points" class="${style.fullscreenButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-pointSetPointsButton">${pointsIcon}</label>`;
   pointSetPointsButton.addEventListener('click',
@@ -56,13 +48,13 @@ function createPointSetRepresentationSelector(
   )
   pointSetRepresentationRow.appendChild(pointSetPointsButton);
   const pointSetPointsButtonInput = pointSetPointsButton.children[0];
+  const pointSetPointsButtonLabel = pointSetPointsButton.children[1];
+  applyContrastSensitiveStyle(store, 'tooltipButton', pointSetPointsButtonLabel);
 
   const pointSetSpheresButton = document.createElement('div');
   pointSetSpheresButton.innerHTML = `<input id="${viewerDOMId}-pointSetSpheresButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Spheres" class="${
-    contrastSensitiveStyle.tooltipButton
-  } ${style.fullscreenButton} ${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Spheres" class="${style.fullscreenButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-pointSetSpheresButton">${spheresIcon}</label>`;
   pointSetSpheresButton.addEventListener('click',
@@ -75,6 +67,8 @@ function createPointSetRepresentationSelector(
   )
   pointSetRepresentationRow.appendChild(pointSetSpheresButton);
   const pointSetSpheresButtonInput = pointSetSpheresButton.children[0];
+  const pointSetSpheresButtonLabel = pointSetSpheresButton.children[1];
+  applyContrastSensitiveStyle(store, 'tooltipButton', pointSetSpheresButtonLabel);
 
   function updateEnabledRepresentationButtons(selectedPointSetRepresentation) {
       switch(selectedPointSetRepresentation) {

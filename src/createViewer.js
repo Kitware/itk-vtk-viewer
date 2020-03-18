@@ -955,6 +955,10 @@ const createViewer = (
     store.geometriesUI.opacities[index] = opacity;
   }
 
+  publicAPI.setBackgroundColor = (bgColor) => {
+    store.style.backgroundColor = bgColor;
+  }
+
   publicAPI.getViewProxy = () => {
     return store.itkVtkView;
   }

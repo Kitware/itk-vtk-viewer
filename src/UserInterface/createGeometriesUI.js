@@ -5,9 +5,7 @@ import style from './ItkVtkViewer.module.css';
 import createGeometryRepresentationSelector from './Geometries/createGeometryRepresentationSelector';
 import createGeometryColorWidget from './Geometries/createGeometryColorWidget';
 
-function createGeometriesUI(
-  store,
-) {
+function createGeometriesUI(store) {
   const geometriesUIGroup = document.createElement('div');
   geometriesUIGroup.setAttribute('class', style.uiGroup);
 

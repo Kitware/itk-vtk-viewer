@@ -1,8 +1,7 @@
 import { reaction } from 'mobx';
 
-import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
-
 import style from '../ItkVtkViewer.module.css';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
 import hiddenIcon from '../icons/hidden.svg';
 import wireframeIcon from '../icons/geometry-wireframe.svg';
@@ -15,17 +14,10 @@ function createGeometryRepresentationSelector(
 ) {
   const viewerDOMId = store.id;
 
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['invertibleButton'],
-    store.isBackgroundDark
-  );
-
   const geometryHiddenButton = document.createElement('div');
   geometryHiddenButton.innerHTML = `<input id="${viewerDOMId}-geometryHiddenButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Hidden" class="${
-    contrastSensitiveStyle.tooltipButton
-  } ${style.fullscreenButton} ${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Hidden" class="${style.fullscreenButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-geometryHiddenButton">${hiddenIcon}</label>`;
   geometryHiddenButton.addEventListener('click',
@@ -38,13 +30,13 @@ function createGeometryRepresentationSelector(
   )
   geometryRepresentationRow.appendChild(geometryHiddenButton);
   const geometryHiddenButtonInput = geometryHiddenButton.children[0];
+  const geometryHiddenButtonLabel = geometryHiddenButton.children[1];
+  applyContrastSensitiveStyle(store, 'tooltipButton', geometryHiddenButtonLabel);
 
   const geometryWireframeButton = document.createElement('div');
   geometryWireframeButton.innerHTML = `<input id="${viewerDOMId}-geometryWireframeButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Wireframe" class="${
-    contrastSensitiveStyle.tooltipButton
-  } ${style.fullscreenButton} ${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Wireframe" class="${style.fullscreenButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-geometryWireframeButton">${wireframeIcon}</label>`;
   geometryWireframeButton.addEventListener('click',
@@ -57,13 +49,13 @@ function createGeometryRepresentationSelector(
   )
   geometryRepresentationRow.appendChild(geometryWireframeButton);
   const geometryWireframeButtonInput = geometryWireframeButton.children[0];
+  const geometryWireframeButtonLabel = geometryWireframeButton.children[1];
+  applyContrastSensitiveStyle(store, 'tooltipButton', geometryWireframeButtonLabel);
 
   const geometrySurfaceButton = document.createElement('div');
   geometrySurfaceButton.innerHTML = `<input id="${viewerDOMId}-geometrySurfaceButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Surface" class="${
-    contrastSensitiveStyle.tooltipButton
-  } ${style.fullscreenButton} ${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Surface" class="${style.fullscreenButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-geometrySurfaceButton">${surfaceIcon}</label>`;
   geometrySurfaceButton.addEventListener('click',
@@ -76,13 +68,13 @@ function createGeometryRepresentationSelector(
   )
   geometryRepresentationRow.appendChild(geometrySurfaceButton);
   const geometrySurfaceButtonInput = geometrySurfaceButton.children[0];
+  const geometrySurfaceButtonLabel = geometrySurfaceButton.children[1];
+  applyContrastSensitiveStyle(store, 'tooltipButton', geometrySurfaceButtonLabel);
 
   const geometrySurfaceWithEdgesButton = document.createElement('div');
   geometrySurfaceWithEdgesButton.innerHTML = `<input id="${viewerDOMId}-geometrySurfaceWithEdgesButton" type="checkbox" class="${
     style.toggleInput
-  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Surface with edges" class="${
-    contrastSensitiveStyle.tooltipButton
-  } ${style.viewModeButton} ${
+  }"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Surface with edges" class="${style.viewModeButton} ${
     style.toggleButton
   }" for="${viewerDOMId}-geometrySurfaceWithEdgesButton">${surfaceWithEdgesIcon}</label>`;
   geometrySurfaceWithEdgesButton.addEventListener('click',
@@ -95,6 +87,8 @@ function createGeometryRepresentationSelector(
   )
   geometryRepresentationRow.appendChild(geometrySurfaceWithEdgesButton);
   const geometrySurfaceWithEdgesButtonInput = geometrySurfaceWithEdgesButton.children[0];
+  const geometrySurfaceWithEdgesButtonLabel = geometrySurfaceWithEdgesButton.children[1];
+  applyContrastSensitiveStyle(store, 'tooltipButton', geometrySurfaceWithEdgesButtonLabel);
 
   function updateEnabledRepresentationButtons(selectedGeometryRepresentation) {
       switch(selectedGeometryRepresentation) {

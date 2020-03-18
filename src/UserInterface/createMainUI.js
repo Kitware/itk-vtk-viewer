@@ -1,5 +1,3 @@
-import getContrastSensitiveStyle from './getContrastSensitiveStyle';
-
 import style from './ItkVtkViewer.module.css';
 
 import createToggleUserInterface from './Main/createToggleUserInterfaceButton';
@@ -12,20 +10,11 @@ import createViewModeButtons from './Main/createViewModeButtons';
 import createCroppingButtons from './Main/createCroppingButtons';
 import createResetCameraButton from './Main/createResetCameraButton';
 
-function createMainUI(
-  rootContainer,
-  store,
-  use2D,
-) {
+function createMainUI(rootContainer, store, use2D) {
   const uiContainer = document.createElement('div');
   store.mainUI.uiContainer = uiContainer;
   rootContainer.appendChild(uiContainer);
   uiContainer.setAttribute('class', style.uiContainer);
-
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['invertibleButton', 'tooltipButton'],
-    store.isBackgroundDark
-  );
 
   const mainUIGroup = document.createElement('div');
   mainUIGroup.setAttribute('class', style.uiGroup);
@@ -35,62 +24,18 @@ function createMainUI(
   mainUIRow.className += ` ${store.id}-toggle`;
   mainUIGroup.appendChild(mainUIRow);
 
-  createToggleUserInterface(
-    store,
-    contrastSensitiveStyle,
-  )
-
-  createScreenshotButton(
-    store,
-    contrastSensitiveStyle,
-    mainUIRow
-  )
-
-  createFullscreenButton(
-    store,
-    contrastSensitiveStyle,
-    rootContainer,
-    mainUIRow
-  )
-
+  createToggleUserInterface(store);
+  createScreenshotButton(store, mainUIRow);
+  createFullscreenButton(store, rootContainer, mainUIRow);
   if (!use2D) {
-    createRotateButton(
-      store,
-      contrastSensitiveStyle,
-      mainUIRow
-    )
+    createRotateButton(store, mainUIRow);
   }
+  createAnnotationButton(store, mainUIRow);
+  createInterpolationButton(store, mainUIRow);
+  createViewModeButtons(store, use2D, mainUIRow);
+  createCroppingButtons(store, mainUIRow);
+  createResetCameraButton(store, mainUIRow);
 
-  createAnnotationButton(
-    store,
-    contrastSensitiveStyle,
-    mainUIRow
-  )
-
-  createInterpolationButton(
-    store,
-    contrastSensitiveStyle,
-    mainUIRow
-  )
-
-  createViewModeButtons(
-    store,
-    contrastSensitiveStyle,
-    use2D,
-    mainUIRow
-  )
-
-  createCroppingButtons(
-    store,
-    contrastSensitiveStyle,
-    mainUIRow
-  )
-
-  createResetCameraButton(
-    store,
-    contrastSensitiveStyle,
-    mainUIRow
-  )
   uiContainer.appendChild(mainUIGroup);
 }
 

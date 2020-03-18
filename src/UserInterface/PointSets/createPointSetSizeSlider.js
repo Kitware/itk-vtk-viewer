@@ -1,28 +1,17 @@
 import { reaction } from 'mobx';
 
-import getContrastSensitiveStyle from '../getContrastSensitiveStyle';
-
 import style from '../ItkVtkViewer.module.css';
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
 
 import pointSetSizeIcon from '../icons/point-set-size.svg';
 
-function createPointSetSizeSlider(
-  store,
-  pointSetSizeRow
-) {
-  const contrastSensitiveStyle = getContrastSensitiveStyle(
-    ['invertibleButton'],
-    store.isBackgroundDark
-  );
-
+function createPointSetSizeSlider(store, pointSetSizeRow) {
   const defaultPointSetSize = 3;
 
   const sliderEntry = document.createElement('div');
   sliderEntry.setAttribute('class', style.sliderEntry);
   sliderEntry.innerHTML = `
-    <div itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Size" class="${
-      contrastSensitiveStyle.invertibleButton
-    } ${style.gradientOpacitySlider}">
+    <div itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Size" class="${style.gradientOpacitySlider}">
       ${pointSetSizeIcon}
     </div>
     <input type="range" min="1" max="10" value="${defaultPointSetSize}" step="1"
@@ -31,6 +20,8 @@ function createPointSetSizeSlider(
   const sizeElement = sliderEntry.querySelector(
     `#${store.id}-pointSetSizeSlider`
   );
+  const sliderEntryDiv = sliderEntry.children[0];
+  applyContrastSensitiveStyle(store, 'invertibleButton', sliderEntryDiv);
 
   reaction(() => {
     return store.pointSetsUI.pointSets.slice();

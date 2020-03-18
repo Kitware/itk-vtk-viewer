@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/embeddedViewer.html</loc>
+    
+    <lastmod>2020-03-18T19:36:48.866Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/docs/index.html</loc>
     
     <lastmod>2020-01-15T02:23:14.430Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>https://kitware.github.io/itk-vtk-viewer/docs/viewer.html</loc>
     
     <lastmod>2019-10-09T19:45:46.716Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/embeddedViewer.html</loc>
-    
-    <lastmod>2019-10-09T19:45:46.712Z</lastmod>
     
   </url>
   

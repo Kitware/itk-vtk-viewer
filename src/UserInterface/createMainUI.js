@@ -10,10 +10,12 @@ import createViewModeButtons from './Main/createViewModeButtons';
 import createCroppingButtons from './Main/createCroppingButtons';
 import createResetCameraButton from './Main/createResetCameraButton';
 
-function createMainUI(rootContainer, store, use2D) {
-  const uiContainer = document.createElement('div');
+function createMainUI(rootContainer, store, use2D, uiContainer) {
+  if(!uiContainer){
+    uiContainer = document.createElement('div');
+    rootContainer.appendChild(uiContainer);
+  }
   store.mainUI.uiContainer = uiContainer;
-  rootContainer.appendChild(uiContainer);
   uiContainer.setAttribute('class', style.uiContainer);
 
   const mainUIGroup = document.createElement('div');

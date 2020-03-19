@@ -28,10 +28,14 @@ function typedArrayForBuffer(typedArrayType, buffer) {
   return new typedArrayFunction(buffer)
 }
 
-const processFiles = (container, { files, use2D }) => {
+export const processFiles = async (container, { files, use2D }) => {
   UserInterface.emptyContainer(container);
   UserInterface.createLoadingProgress(container);
+  const config = await readFiles({ files, use2D });
+  return createViewer(container, config);
+}
 
+export const readFiles = ({ files, use2D }) => {
   let readDICOMSeries = readImageDICOMFileSeries;
   if (files.length < 2) {
     readDICOMSeries = function() {
@@ -45,13 +49,7 @@ const processFiles = (container, { files, use2D }) => {
       webWorker.terminate()
       const imageData = vtkITKHelper.convertItkToVtkImage(itkImage);
       const is3D = itkImage.imageType.dimension === 3 && !use2D;
-
-      resolve(
-        createViewer(container, {
-          image: imageData,
-          use2D: !is3D,
-        })
-      );
+      resolve( { image: imageData, use2D: !is3D } );
     }).catch((error) => {
       const readers = Array.from(files).map((file) => {
         const extension = getFileExtension(file.name)
@@ -158,19 +156,8 @@ const processFiles = (container, { files, use2D }) => {
             }).map(({ data }) => data)
         const any3D  = ! dataSets.map(({ is3D }) => is3D).every((is3D) => !is3D)
         const is3D = any3D && !use2D;
-        resolve(
-          createViewer(container, {
-            image,
-            labelMap,
-            geometries,
-            pointSets,
-            use2D: !is3D,
-          })
-        );
+        resolve({ image, labelMap, geometries, pointSets, use2D: !is3D });
       })
       })
     });
-
 };
-
-export default processFiles;

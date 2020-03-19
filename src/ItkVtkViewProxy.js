@@ -274,7 +274,9 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.interactor.onEndPinch(updateScaleBar);
 
   // API ----------------------------------------------------------------------
-
+  publicAPI.updateDataProbeSize = updateDataProbeSize;
+  publicAPI.updateScaleBar = updateScaleBar;
+  
   publicAPI.setViewMode = (mode) => {
     if (model.viewMode === 'VolumeRendering') {
       model.volumeRenderingCameraState = model.camera.getState();

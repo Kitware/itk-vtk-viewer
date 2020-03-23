@@ -151,6 +151,7 @@ function createImageUI(store, use2D) {
 
   }
 
+
   store.mainUI.uiContainer.appendChild(imageUIGroup);
 
   const haveLabelMap = !!store.imageUI.labelMap;

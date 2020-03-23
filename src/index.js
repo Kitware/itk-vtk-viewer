@@ -1,8 +1,8 @@
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract';
-import getFileExtension from 'itk/getFileExtension'
+import getFileExtension from 'itk/getFileExtension';
 
 import fetchBinaryContent from './fetchBinaryContent';
-import processFiles from './processFiles';
+import { processFiles } from './processFiles';
 import UserInterface from './UserInterface';
 import createFileDragAndDrop from './UserInterface/createFileDragAndDrop';
 import style from './UserInterface/ItkVtkViewer.module.css';
@@ -11,11 +11,21 @@ import createViewer from './createViewer';
 
 let doNotInitViewers = false;
 
-export {default as createViewer} from './createViewer';
+export { default as createViewer } from './createViewer';
+import * as utils from './utils.js';
+export { utils };
+
+// The `UserInterface` is considered an internal implementation detail 
+// and its interface and behavior may change without changes to the major version.
+export { UserInterface };
 
 export function createViewerFromLocalFiles(container) {
   doNotInitViewers = true;
   createFileDragAndDrop(container, processFiles);
+}
+
+export async function createViewerFromFiles(el, files, use2D = false) {
+  return processFiles(el, { files: files, use2D });
 }
 
 export async function createViewerFromUrl(el, url, use2D = false) {

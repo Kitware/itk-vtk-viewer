@@ -26,7 +26,9 @@ const createViewer = (
     use2D = false,
     rotate = true,
     viewerStyle,
-    viewerState }
+    viewerState,
+    uiContainer,
+   }
 ) => {
   UserInterface.emptyContainer(rootContainer);
 
@@ -60,6 +62,7 @@ const createViewer = (
     rootContainer,
     store,
     use2D,
+    uiContainer,
   );
 
   let updatingImage = false;
@@ -195,7 +198,7 @@ const createViewer = (
 
         UserInterface.createImageUI(
           store,
-          use2D
+          use2D,
         );
         const annotationContainer = store.container.querySelector('.js-se');
         annotationContainer.style.fontFamily = 'monospace';
@@ -401,6 +404,16 @@ const createViewer = (
   }
 
   const viewerDOMId = store.id;
+
+  // The `store` is considered an internal implementation detail 
+  // and its interface and behavior may change without changes to the major version.
+  publicAPI.getStore = () => {
+    return store;
+  }
+
+  publicAPI.getImage = () => {
+    return store.imageUI.image;
+  }
 
   const setImage = (image) => {
     store.imageUI.image = image;
@@ -959,6 +972,8 @@ const createViewer = (
     store.style.backgroundColor = bgColor;
   }
 
+  // The `itkVtkView` is considered an internal implementation detail 
+  // and its interface and behavior may change without changes to the major version.
   publicAPI.getViewProxy = () => {
     return store.itkVtkView;
   }

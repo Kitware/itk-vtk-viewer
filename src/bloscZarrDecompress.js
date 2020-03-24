@@ -18,6 +18,8 @@ const dtypeToElementSize = new Map([
   ['<f8', 8],
 ])
 
+const workers = []
+
 async function bloscZarrDecompress(compressed, zarrayMetadata) {
   const dtype = zarrayMetadata.dtype
   const nElements = zarrayMetadata.chunks.reduce((a, b) => a * b)
@@ -37,14 +39,46 @@ async function bloscZarrDecompress(compressed, zarrayMetadata) {
       data: new Uint8Array(compressed),
     },
   ]
-  const { stdout, stderr, outputs, webWorker } = await runPipelineBrowser(
-    null,
-    'BloscZarr',
-    args,
-    desiredOutputs,
-    inputs
-  )
-  webWorker.terminate()
+  //const { stdout, stderr, outputs, webWorker } = await runPipelineBrowser(
+    //null,
+    //'BloscZarr',
+    //args,
+    //desiredOutputs,
+    //inputs
+  //)
+  //webWorker.terminate()
+  let stdout = null
+  let stderr = null
+  let outputs = null
+  if (!workers.length) {
+    console.log('creating new worker!')
+    const result = await runPipelineBrowser(
+      null,
+      'BloscZarr',
+      args,
+      desiredOutputs,
+      inputs
+    )
+    stdout = result.stdout
+    stderr = result.stderr
+    outputs = result.outputs
+    workers.push(result.webWorker)
+  } else {
+    console.log('re-using worker!')
+    const worker = workers.pop()
+    const result = await runPipelineBrowser(
+      worker,
+      'BloscZarr',
+      args,
+      desiredOutputs,
+      inputs
+    )
+    stdout = result.stdout
+    stderr = result.stderr
+    outputs = result.outputs
+    workers.push(result.webWorker)
+  }
+  console.log('worker count: ', workers.length)
   // console.log(stdout);
   // console.error(stderr);
   const decompressed = new (dtypeToTypedArray.get(dtype))(

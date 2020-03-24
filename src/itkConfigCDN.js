@@ -1,5 +1,5 @@
 const itkConfig = {
-  itkModulesPath: __webpack_public_path__
+  itkModulesPath: __webpack_public_path__,
 }
 
 module.exports = itkConfig

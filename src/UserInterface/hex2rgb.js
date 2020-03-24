@@ -7,4 +7,4 @@ function hex2rgb(hexColor) {
   return [r, g, b]
 }
 
-export default hex2rgb;
+export default hex2rgb

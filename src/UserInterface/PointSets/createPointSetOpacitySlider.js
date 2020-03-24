@@ -1,78 +1,88 @@
-import { reaction, action } from 'mobx';
+import { reaction, action } from 'mobx'
 
-import style from '../ItkVtkViewer.module.css';
-import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle';
+import style from '../ItkVtkViewer.module.css'
+import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
 
-import opacityIcon from '../icons/opacity.svg';
+import opacityIcon from '../icons/opacity.svg'
 
 function createPointSetOpacitySlider(store, pointSetColorRow) {
-  const defaultPointSetOpacity = 1.0;
+  const defaultPointSetOpacity = 1.0
 
-  const sliderEntry = document.createElement('div');
-  sliderEntry.setAttribute('class', style.sliderEntry);
+  const sliderEntry = document.createElement('div')
+  sliderEntry.setAttribute('class', style.sliderEntry)
   sliderEntry.innerHTML = `
     <div itk-vtk-tooltip itk-vtk-tooltip-bottom itk-vtk-tooltip-content="Opacity" class="${style.gradientOpacitySlider}">
       ${opacityIcon}
     </div>
     <input type="range" min="0" max="1" value="${defaultPointSetOpacity}" step="0.01"
       id="${store.id}-pointSetOpacitySlider"
-      class="${style.slider}" />`;
+      class="${style.slider}" />`
   const opacityElement = sliderEntry.querySelector(
     `#${store.id}-pointSetOpacitySlider`
-  );
-  const sliderEntryDiv = sliderEntry.children[0];
-  applyContrastSensitiveStyle(store, 'invertibleButton', sliderEntryDiv);
+  )
+  const sliderEntryDiv = sliderEntry.children[0]
+  applyContrastSensitiveStyle(store, 'invertibleButton', sliderEntryDiv)
 
-  reaction(() => {
-    return store.pointSetsUI.pointSets.slice();
-  },
-    (pointSets) => {
-      if(!!!pointSets || pointSets.length === 0) {
-        return;
+  reaction(
+    () => {
+      return store.pointSetsUI.pointSets.slice()
+    },
+    pointSets => {
+      if (!!!pointSets || pointSets.length === 0) {
+        return
       }
 
       pointSets.forEach((pointSet, index) => {
         if (store.pointSetsUI.opacities.length <= index) {
-          store.pointSetsUI.opacities.push(defaultPointSetOpacity);
+          store.pointSetsUI.opacities.push(defaultPointSetOpacity)
         }
       })
-      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      opacityElement.value = store.pointSetsUI.opacities[selectedPointSetIndex];
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex
+      opacityElement.value = store.pointSetsUI.opacities[selectedPointSetIndex]
     }
   )
 
-  reaction(() => {
-    return store.pointSetsUI.selectedPointSetIndex;
+  reaction(
+    () => {
+      return store.pointSetsUI.selectedPointSetIndex
     },
-    (selectedPointSetIndex) => {
-      opacityElement.value = store.pointSetsUI.opacities[selectedPointSetIndex];
-    });
+    selectedPointSetIndex => {
+      opacityElement.value = store.pointSetsUI.opacities[selectedPointSetIndex]
+    }
+  )
 
-  reaction(() => {
-    return store.pointSetsUI.opacities.slice();
-  },
-    (opacities) => {
+  reaction(
+    () => {
+      return store.pointSetsUI.opacities.slice()
+    },
+    opacities => {
       opacities.forEach((opacity, index) => {
         store.pointSetsUI.representationProxies[index].setOpacity(opacity)
-      });
-      store.renderWindow.render();
-      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      opacityElement.value = opacities[selectedPointSetIndex];
-    });
+      })
+      store.renderWindow.render()
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex
+      opacityElement.value = opacities[selectedPointSetIndex]
+    }
+  )
 
-  opacityElement.addEventListener('input', action((event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex;
-      store.pointSetsUI.opacities[selectedPointSetIndex] = Number(event.target.value);
-    }));
+  opacityElement.addEventListener(
+    'input',
+    action(event => {
+      event.preventDefault()
+      event.stopPropagation()
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex
+      store.pointSetsUI.opacities[selectedPointSetIndex] = Number(
+        event.target.value
+      )
+    })
+  )
 
-  const defaultPointSetOpacities = new Array(store.pointSetsUI.pointSets.length);
-  defaultPointSetOpacities.fill(defaultPointSetOpacity);
-  opacityElement.value = defaultPointSetOpacity;
-  store.pointSetsUI.opacities = defaultPointSetOpacities;
+  const defaultPointSetOpacities = new Array(store.pointSetsUI.pointSets.length)
+  defaultPointSetOpacities.fill(defaultPointSetOpacity)
+  opacityElement.value = defaultPointSetOpacity
+  store.pointSetsUI.opacities = defaultPointSetOpacities
 
-  pointSetColorRow.appendChild(sliderEntry);
+  pointSetColorRow.appendChild(sliderEntry)
 }
 
-export default createPointSetOpacitySlider;
+export default createPointSetOpacitySlider

@@ -1,8 +1,8 @@
 function getRootContainer(container) {
-  const workContainer = document.querySelector('.content');
-  const rootBody = document.querySelector('body');
+  const workContainer = document.querySelector('.content')
+  const rootBody = document.querySelector('body')
 
-  return container || workContainer || rootBody;
+  return container || workContainer || rootBody
 }
 
-export default getRootContainer;
+export default getRootContainer

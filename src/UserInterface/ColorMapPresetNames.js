@@ -62,6 +62,6 @@ const ColorMapPresetNames = [
   'PiYG',
   'OrPu',
   'BrBG',
-];
+]
 
-export default ColorMapPresetNames;
+export default ColorMapPresetNames

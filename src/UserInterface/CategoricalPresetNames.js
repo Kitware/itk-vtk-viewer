@@ -6,6 +6,6 @@ const CategoricalPresetNames = [
   'glasbey_bw',
   'glasbey_dark',
   'glasbey_cool',
-];
+]
 
-export default CategoricalPresetNames;
+export default CategoricalPresetNames

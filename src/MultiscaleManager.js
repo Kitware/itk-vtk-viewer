@@ -4,6 +4,7 @@ import FloatTypes from 'itk/FloatTypes'
 import Matrix from 'itk/Matrix'
 
 import dtypeToTypedArray from './dtypeToTypedArray'
+import CoordDecompressor from './CoordDecompressor'
 
 const dtypeToComponentType = new Map([
   ['<b', IntTypes.Int8],
@@ -94,8 +95,8 @@ class MultiscaleManager {
       const dim = this.spatialDims[index]
       if (meta.coords.has(dim)) {
         let coords = meta.coords.get(dim)
-        if (coords instanceof Promise) {
-          const coordsResolved = await coords
+        if (coords instanceof CoordDecompressor) {
+          const coordsResolved = await coords.getCoord()
           meta.coords.set(dim, coordsResolved)
           coords = coordsResolved
         }
@@ -114,8 +115,8 @@ class MultiscaleManager {
       const dim = this.spatialDims[index]
       if (meta.coords.has(dim)) {
         let coords = meta.coords.get(dim)
-        if (coords instanceof Promise) {
-          const coordsResolved = await coords
+        if (coords instanceof CoordDecompressor) {
+          const coordsResolved = await coords.getCoord()
           meta.coords.set(dim, coordsResolved)
           coords = coordsResolved
         }
@@ -159,8 +160,8 @@ class MultiscaleManager {
       const dim = this.spatialDims[index]
       if (meta.coords.has(dim)) {
         let coords = meta.coords.get(dim)
-        if (coords instanceof Promise) {
-          const coordsResolved = await coords
+        if (coords instanceof CoordDecompressor) {
+          const coordsResolved = await coords.getCoord()
           meta.coords.set(dim, coordsResolved)
           coords = coordsResolved
         }

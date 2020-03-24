@@ -2,6 +2,7 @@ import axios from 'axios'
 
 import MultiscaleManager from './MultiscaleManager'
 import bloscZarrDecompress from './bloscZarrDecompress'
+import CoordDecompressor from './CoordDecompressor'
 
 async function decompressCoordPromise(url, zmetadata, coordPath) {
   const chunkUrl = `${url}/${coordPath}/0`
@@ -101,7 +102,7 @@ class ZarrMultiscaleManager extends MultiscaleManager {
         multiscaleLevels[0] === '' ? '' : `${multiscaleLevels[0]}/`
       bottomMeta.coords.set(
         key,
-        decompressCoordPromise(url, zmetadata, `${coordPrefix}${key}`)
+        new CoordDecompressor(url, zmetadata, `${coordPrefix}${key}`)
       )
     })
     // We need this earlier and it is small -- resolve it now.
@@ -144,7 +145,7 @@ class ZarrMultiscaleManager extends MultiscaleManager {
       meta.coords.forEach((value, key) => {
         meta.coords.set(
           key,
-          decompressCoordPromise(url, zmetadata, `${levelPath}/${key}`)
+          new CoordDecompressor(url, zmetadata, `${levelPath}/${key}`)
         )
       })
       // We need this earlier and it is small -- resolve it now.

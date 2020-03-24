@@ -7,6 +7,8 @@ set(BUILD_TESTS OFF CACHE BOOL "Build test programs form the blosc compression l
 set(BUILD_BENCHMARKS OFF CACHE BOOL "Build benchmark programs form the blosc compression library")
 if(EMSCRIPTEN)
   set(HAVE_THREADS OFF CACHE BOOL "Whether we use threading")
+  set(CMAKE_C_FLAGS "-s STRICT=1")
+  set(CMAKE_EXE_LINKER_FLAGS "-s STRICT=1")
 endif()
 add_subdirectory(c-blosc)
 

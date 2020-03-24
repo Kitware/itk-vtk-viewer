@@ -7,6 +7,7 @@ import createGeometriesUI from './createGeometriesUI';
 import createPointSetsUI from './createPointSetsUI';
 import emptyContainer from './emptyContainer';
 import getRootContainer from './getRootContainer';
+import checkForWebGL from './checkForWebGL';
 
 export default {
   addLogo,
@@ -18,4 +19,5 @@ export default {
   createPointSetsUI,
   emptyContainer,
   getRootContainer,
+  checkForWebGL,
 };

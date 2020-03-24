@@ -19,7 +19,7 @@
     "css-element-queries": "^1.0.2",
     "curry": "^1.2.0",
     "express": "^4.16.4",
-    "itk": "^10.2.0",
+    "itk": "^11.0.0",
     "mobx": "^5.14.0",
     "mousetrap": "^1.6.3",
     "open": "^6.3.0",
@@ -30,6 +30,7 @@
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.4",
+    "@babel/runtime": "^7.9.2",
     "babel-plugin-istanbul": "^5.1.0",
     "babel-preset-mobx": "^2.0.0",
     "copy-webpack-plugin": "^4.5.1",

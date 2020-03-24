@@ -1,7 +1,7 @@
-import curry from 'curry';
+import curry from 'curry'
 
-import preventDefaults from './UserInterface/preventDefaults';
-import processFiles from './processFiles';
+import preventDefaults from './UserInterface/preventDefaults'
+import processFiles from './processFiles'
 
 /* Example usage:
 
@@ -29,9 +29,9 @@ mainUIRow.appendChild(uploadButton);
 
 */
 const uploadFileHandler = curry(async function(container, event) {
-  preventDefaults(event);
-  const dataTransfer = event.dataTransfer;
-  const files = event.target.files || dataTransfer.files;
-  await processFiles(container, { files });
+  preventDefaults(event)
+  const dataTransfer = event.dataTransfer
+  const files = event.target.files || dataTransfer.files
+  await processFiles(container, { files })
 })
-export default uploadFileHandler;
+export default uploadFileHandler

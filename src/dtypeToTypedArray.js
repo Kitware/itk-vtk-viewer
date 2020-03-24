@@ -14,4 +14,4 @@ const dtypeToTypedArray = new Map([
   ['<f8', Float64Array],
 ])
 
-export default dtypeToTypedArray;
+export default dtypeToTypedArray

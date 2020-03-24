@@ -1,6 +1,6 @@
-import runPipelineBrowser from 'itk/runPipelineBrowser';
-import IOTypes from 'itk/IOTypes';
-import dtypeToTypedArray from './dtypeToTypedArray';
+import runPipelineBrowser from 'itk/runPipelineBrowser'
+import IOTypes from 'itk/IOTypes'
+import dtypeToTypedArray from './dtypeToTypedArray'
 
 const dtypeToElementSize = new Map([
   ['<b', 1],
@@ -19,32 +19,38 @@ const dtypeToElementSize = new Map([
 ])
 
 async function bloscZarrDecompress(compressed, zarrayMetadata) {
-  const dtype = zarrayMetadata.dtype;
-  const nElements = zarrayMetadata.chunks.reduce((a, b) => a * b);
+  const dtype = zarrayMetadata.dtype
+  const nElements = zarrayMetadata.chunks.reduce((a, b) => a * b)
   const outputSize = nElements * dtypeToElementSize.get(dtype)
-  const args = ["inputArray",
-    "outputArray",
+  const args = [
+    'inputArray',
+    'outputArray',
     zarrayMetadata.compressor.cname,
     compressed.byteLength.toString(),
-    outputSize.toString()];
-  const desiredOutputs = [
-    { path: 'outputArray', type: IOTypes.Binary },
-  ];
+    outputSize.toString(),
+  ]
+  const desiredOutputs = [{ path: 'outputArray', type: IOTypes.Binary }]
   const inputs = [
-    { path: 'inputArray', type: IOTypes.Binary, data: new Uint8Array(compressed) },
-  ];
+    {
+      path: 'inputArray',
+      type: IOTypes.Binary,
+      data: new Uint8Array(compressed),
+    },
+  ]
   const { stdout, stderr, outputs, webWorker } = await runPipelineBrowser(
     null,
     'BloscZarr',
     args,
     desiredOutputs,
     inputs
-  );
-  webWorker.terminate();
+  )
+  webWorker.terminate()
   // console.log(stdout);
   // console.error(stderr);
-  const decompressed = new (dtypeToTypedArray.get(dtype))(outputs[0].data.buffer);
-  return decompressed;
+  const decompressed = new (dtypeToTypedArray.get(dtype))(
+    outputs[0].data.buffer
+  )
+  return decompressed
 }
 
-export default bloscZarrDecompress;
+export default bloscZarrDecompress

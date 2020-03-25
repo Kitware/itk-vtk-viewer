@@ -6,7 +6,9 @@ set(BUILD_SHARED OFF CACHE BOOL "Build a shared library version of the blosc lib
 set(BUILD_TESTS OFF CACHE BOOL "Build test programs form the blosc compression library")
 set(BUILD_BENCHMARKS OFF CACHE BOOL "Build benchmark programs form the blosc compression library")
 if(EMSCRIPTEN)
-  set(CMAKE_EXE_LINKER_FLAGS "-s USE_PTHREADS=1 -s ALLOW_MEMORY_GROWTH=0 -s TOTAL_MEMORY=167772160")
+  set(HAVE_THREADS OFF CACHE BOOL "Whether we use threading")
+  set(CMAKE_C_FLAGS "-s STRICT=1 -flto")
+  set(CMAKE_EXE_LINKER_FLAGS "-s STRICT=1 -flto --llvm-lto 1")
 endif()
 add_subdirectory(c-blosc)
 

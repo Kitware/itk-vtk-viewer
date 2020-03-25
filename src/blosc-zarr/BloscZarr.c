@@ -33,14 +33,14 @@ int main(int argc, char * argv[]){
 
 
   /* Register the filter with the library */
-  printf("Blosc version info: %s (%s)\n", BLOSC_VERSION_STRING, BLOSC_VERSION_DATE);
+  // printf("Blosc version info: %s (%s)\n", BLOSC_VERSION_STRING, BLOSC_VERSION_DATE);
 
   /* Initialize the Blosc compressor */
   blosc_init();
 
   const int nthreads = 1;
   const int pnthreads = blosc_set_nthreads(nthreads);
-  printf("Using %d threads (previously using %d)\n", nthreads, pnthreads);
+  // printf("Using %d threads (previously using %d)\n", nthreads, pnthreads);
 
   int rcode = blosc_set_compressor(compressor);
   if (rcode < 0)

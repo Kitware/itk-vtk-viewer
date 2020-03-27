@@ -131,7 +131,7 @@ const createViewer = (
               component
             ].getPiecewiseFunction()
             volumeProperty.setScalarOpacity(component, piecewiseFunction)
-            //volumeProperty.setIndependentComponents(numberOfComponents);
+            //volumeProperty.setIndependentComponents(true);
           }
         }
 
@@ -189,18 +189,23 @@ const createViewer = (
             colorTransferFunction
           )
           //volumeProperty.setUseGradientOpacity(numberOfComponents, false);
-          //volumeProperty.setIndependentComponents(numberOfComponents + 1);
+          //volumeProperty.setIndependentComponents(true);
         }
 
         // Slices share the same lookup table as the volume rendering.
         // Todo use all lookup tables on slice
         if (!!store.imageUI.image) {
-          const lut = store.imageUI.lookupTableProxies[
-            store.imageUI.selectedComponentIndex
-          ].getLookupTable()
           const sliceActors = store.imageUI.representationProxy.getActors()
           sliceActors.forEach(actor => {
-            actor.getProperty().setRGBTransferFunction(lut)
+            const actorProp = actor.getProperty();
+            actorProp.setIndependentComponents(true);
+            for (let component = 0; component < numberOfComponents; component++) {
+              const lutProxy = store.imageUI.lookupTableProxies[component];
+              const pwfProxy = store.imageUI.piecewiseFunctionProxies[component];
+              actorProp.setRGBTransferFunction(component, lutProxy.getLookupTable());
+              actorProp.setPiecewiseFunction(component, pwfProxy.getPiecewiseFunction());
+              actorProp.setComponentWeight(component, 1.0);
+            }
           })
         }
 

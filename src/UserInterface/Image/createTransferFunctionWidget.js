@@ -208,7 +208,7 @@ function createTransferFunctionWidget(store, uiContainer, use2D) {
           ])
         } else {
           store.imageUI.opacityGaussians.push([
-            { position: 0.5, height: 1.0, width: 0.5, xBias: 0.5, yBias: 0.4 },
+            { position: 0.5, height: 1.0, width: 0.5, xBias: 0.51, yBias: 0.4 },
           ])
         }
       }

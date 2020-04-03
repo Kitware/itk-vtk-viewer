@@ -45,9 +45,8 @@ export const readFiles = ({ files, use2D }) => {
 
   /* eslint-disable new-cap */
   return new Promise((resolve, reject) => {
-    readDICOMSeries(null, files)
-      .then(({ image: itkImage, webWorker }) => {
-        webWorker.terminate()
+    readDICOMSeries(files)
+      .then(({ image: itkImage, webWorkerPool }) => {
         const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
         const is3D = itkImage.imageType.dimension === 3 && !use2D
         resolve({ image: imageData, use2D: !is3D })

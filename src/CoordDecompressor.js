@@ -13,11 +13,11 @@ class CoordDecompressor {
       responseType: 'arraybuffer',
     })
     const compressedChunk = response.data
-    const chunk = await bloscZarrDecompress(
-      compressedChunk,
+    const chunks = await bloscZarrDecompress(
+      [compressedChunk],
       this.zarrayMetadata
     )
-    return chunk
+    return chunks[0]
   }
 }
 

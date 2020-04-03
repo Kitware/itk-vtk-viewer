@@ -9,8 +9,8 @@ async function decompressCoordPromise(url, zmetadata, coordPath) {
   const response = await axios.get(chunkUrl, { responseType: 'arraybuffer' })
   const compressedChunk = response.data
   const zarrayMetadata = zmetadata[`${coordPath}/.zarray`]
-  const chunk = bloscZarrDecompress(compressedChunk, zarrayMetadata)
-  return chunk
+  const chunks = bloscZarrDecompress([compressedChunk], zarrayMetadata)
+  return chunks[0]
 }
 
 class ZarrMultiscaleManager extends MultiscaleManager {
@@ -197,7 +197,11 @@ class ZarrMultiscaleManager extends MultiscaleManager {
     console.log(chunkUrl)
     const response = await axios.get(chunkUrl, { responseType: 'arraybuffer' })
     const compressedChunk = response.data
-    return bloscZarrDecompress(compressedChunk, meta.pixelArrayMetadata)
+    const chunks = await bloscZarrDecompress(
+      [compressedChunk],
+      meta.pixelArrayMetadata
+    )
+    return chunks[0]
   }
 }
 

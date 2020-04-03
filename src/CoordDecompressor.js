@@ -9,12 +9,16 @@ class CoordDecompressor {
   }
 
   async getCoord() {
-    const response = await axios.get(this.chunkUrl, { responseType: 'arraybuffer' })
+    const response = await axios.get(this.chunkUrl, {
+      responseType: 'arraybuffer',
+    })
     const compressedChunk = response.data
-    const chunk = await bloscZarrDecompress(compressedChunk, this.zarrayMetadata)
+    const chunk = await bloscZarrDecompress(
+      compressedChunk,
+      this.zarrayMetadata
+    )
     return chunk
   }
 }
-
 
 export default CoordDecompressor

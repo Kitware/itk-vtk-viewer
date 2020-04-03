@@ -40,11 +40,11 @@ async function bloscZarrDecompress(compressed, zarrayMetadata) {
     },
   ]
   //const { stdout, stderr, outputs, webWorker } = await runPipelineBrowser(
-    //null,
-    //'BloscZarr',
-    //args,
-    //desiredOutputs,
-    //inputs
+  //null,
+  //'BloscZarr',
+  //args,
+  //desiredOutputs,
+  //inputs
   //)
   //webWorker.terminate()
   let stdout = null

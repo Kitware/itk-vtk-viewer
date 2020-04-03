@@ -1583,7 +1583,7 @@ function _readDICOMImageSeries() {
   _readDICOMImageSeries = (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
   _regenerator["default"].mark(function _callee4(input) {
-    var seriesReader, blobs, mountpoint, filePath, image;
+    var seriesReader, blobs, mountpoint, filePaths, image;
     return _regenerator["default"].wrap(function _callee4$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
@@ -1603,8 +1603,10 @@ function _readDICOMImageSeries() {
             });
             mountpoint = '/work';
             seriesReaderModule.mountBlobs(mountpoint, blobs);
-            filePath = mountpoint + '/' + input.fileDescriptions[0].name;
-            image = (0, _readImageEmscriptenFSDICOMFileSeries["default"])(seriesReaderModule, mountpoint, filePath);
+            filePaths = input.fileDescriptions.map(function (fileDescription) {
+              return "".concat(mountpoint, "/").concat(fileDescription.name);
+            });
+            image = (0, _readImageEmscriptenFSDICOMFileSeries["default"])(seriesReaderModule, filePaths, input.singleSortedSeries);
             seriesReaderModule.unmountBlobs(mountpoint);
             return _context5.abrupt("return", new _register["default"].TransferableResponse(image, [image.data.buffer]));
 
@@ -2125,8 +2127,9 @@ var imageIOComponentToJSComponent = require('./imageIOComponentToJSComponent.js'
 
 var imageIOPixelTypeToJSPixelType = require('./imageIOPixelTypeToJSPixelType.js');
 
-var readImageEmscriptenFSDICOMFileSeries = function readImageEmscriptenFSDICOMFileSeries(seriesReaderModule, directory, firstFile) {
+var readImageEmscriptenFSDICOMFileSeries = function readImageEmscriptenFSDICOMFileSeries(seriesReaderModule, fileNames, singleSortedSeries) {
   var seriesReader = new seriesReaderModule.ITKDICOMImageSeriesReader();
+  var firstFile = fileNames[0];
 
   if (!seriesReader.CanReadTestFile(firstFile)) {
     throw new Error('Could not read file: ' + firstFile);
@@ -2144,7 +2147,17 @@ var readImageEmscriptenFSDICOMFileSeries = function readImageEmscriptenFSDICOMFi
   var image = new Image(imageType);
   seriesReader.SetIOComponentType(ioComponentType);
   seriesReader.SetIOPixelType(ioPixelType);
-  seriesReader.SetDirectory(directory);
+  var fileNamesContainer = new seriesReaderModule.FileNamesContainerType();
+  fileNames.forEach(function (fileName) {
+    fileNamesContainer.push_back(fileName);
+  });
+
+  if (singleSortedSeries) {
+    seriesReader.SetFileNames(fileNamesContainer);
+  } else {
+    var directory = fileNames[0].match(/.*\//)[0];
+    seriesReader.SetDirectory(directory);
+  }
 
   if (seriesReader.Read()) {
     throw new Error('Could not read series');

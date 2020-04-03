@@ -13,8 +13,9 @@ import addKeyboardShortcuts from './addKeyboardShortcuts'
 import rgb2hex from './UserInterface/rgb2hex'
 import ViewerStore from './ViewerStore'
 import applyCategoricalColorToLookupTableProxy from './UserInterface/applyCategoricalColorToLookupTableProxy'
+import updateSliceProperties from './Rendering/updateSliceProperties'
 
-import { autorun, reaction } from 'mobx'
+import { autorun, observable, reaction } from 'mobx'
 
 const createViewer = (
   rootContainer,
@@ -74,6 +75,7 @@ const createViewer = (
         if (!!store.imageUI.image) {
           store.imageUI.lookupTableProxies = new Array(numberOfComponents)
           store.imageUI.piecewiseFunctionProxies = new Array(numberOfComponents)
+          store.imageUI.componentVisibilities = observable(new Array(numberOfComponents))
           store.imageUI.colorMaps = new Array(numberOfComponents)
           store.imageUI.colorRanges = new Array(numberOfComponents)
           const volume = store.imageUI.representationProxy.getVolumes()[0]
@@ -86,6 +88,7 @@ const createViewer = (
             store.imageUI.piecewiseFunctionProxies[
               component
             ] = vtkPiecewiseFunctionProxy.newInstance()
+            store.imageUI.componentVisibilities[component] = 1.0
             let preset = 'Viridis (matplotlib)'
             // If a 2D RGB or RGBA
             if (
@@ -131,8 +134,14 @@ const createViewer = (
               component
             ].getPiecewiseFunction()
             volumeProperty.setScalarOpacity(component, piecewiseFunction)
+
+            const visibility = store.imageUI.componentVisibilities[component]
+            volumeProperty.setComponentWeight(component, visibility)
             //volumeProperty.setIndependentComponents(true);
           }
+
+          // Now for the slice rendering
+          updateSliceProperties(store)
         }
 
         if (!!store.imageUI.labelMap) {
@@ -190,22 +199,13 @@ const createViewer = (
           )
           //volumeProperty.setUseGradientOpacity(numberOfComponents, false);
           //volumeProperty.setIndependentComponents(true);
-        }
 
-        // Slices share the same lookup table as the volume rendering.
-        // Todo use all lookup tables on slice
-        if (!!store.imageUI.image) {
+          // The slice shows the same lut as the volume for label map
           const sliceActors = store.imageUI.representationProxy.getActors()
           sliceActors.forEach(actor => {
-            const actorProp = actor.getProperty();
-            actorProp.setIndependentComponents(true);
-            for (let component = 0; component < numberOfComponents; component++) {
-              const lutProxy = store.imageUI.lookupTableProxies[component];
-              const pwfProxy = store.imageUI.piecewiseFunctionProxies[component];
-              actorProp.setRGBTransferFunction(component, lutProxy.getLookupTable());
-              actorProp.setPiecewiseFunction(component, pwfProxy.getPiecewiseFunction());
-              actorProp.setComponentWeight(component, 1.0);
-            }
+            const actorProp = actor.getProperty()
+            actorProp.setIndependentComponents(false)
+            actorProp.setRGBTransferFunction(colorTransferFunction)
           })
         }
 

@@ -136,6 +136,7 @@ export const readFiles = ({ files, use2D }) => {
               webWorker.terminate()
               const is3D = itkImage.imageType.dimension === 3 && !use2D
               const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
+              console.log('Resolving image data promise (readImageFile)')
               return Promise.resolve({ is3D, data: imageData })
             })
             .catch(error => {

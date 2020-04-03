@@ -55,6 +55,7 @@ class ImageUIStore {
 
   lookupTableProxies = []
   piecewiseFunctionProxies = []
+  @observable componentVisibilities = []
   transferFunctionWidget = null
 
   croppingWidget = null

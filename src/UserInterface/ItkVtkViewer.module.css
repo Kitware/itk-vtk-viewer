@@ -43,7 +43,7 @@
   flex: 1;
   align-items: center;
   justify-content: space-between;
-  padding: 2px;
+  padding: 5px;
 }
 
 .mainUIRow {
@@ -443,13 +443,39 @@ input:checked.toggleInput + label {
 }
 
 .selector {
-  flex: 1;
-  border: none;
-  background: transparent;
-  color: white;
-  border: none;
+  display: flex;
+  direction: row;
   font-size: 1.2em;
   z-index: 1000;
+}
+
+.componentTab {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.componentTab + .compTabLabel {
+  background: rgba(40, 40, 40, 0.5);
+  padding: 5px;
+  margin-right: 2px;
+  border-radius: 5px 5px 0px 0px;
+  color: #777;
+}
+
+.componentTab:hover + .compTabLabel {
+  background: rgba(90, 90, 90, 0.5);
+}
+
+.componentTab:checked + .compTabLabel {
+  background: rgba(127, 127, 127, 0.5);
+  color: #FFF;
+}
+
+.componentVisibility {
+  position: relative;
+  top: -2px;
+  margin-left: 10px;
 }
 
 select {

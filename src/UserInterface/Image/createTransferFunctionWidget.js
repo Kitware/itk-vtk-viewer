@@ -239,6 +239,12 @@ function createTransferFunctionWidget(store, uiContainer, use2D) {
 
   const transferFunctionWidgetRow = document.createElement('div')
   transferFunctionWidgetRow.setAttribute('class', style.uiRow)
+  // This row needs background different from normal uiRows, to aid
+  // in the illusion that it's the content portion of a tabbed pane
+  transferFunctionWidgetRow.setAttribute(
+    'style',
+    'background: rgba(127, 127, 127, 0.5);'
+  )
   transferFunctionWidgetRow.className += ` ${store.id}-toggle`
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer)
   uiContainer.appendChild(transferFunctionWidgetRow)

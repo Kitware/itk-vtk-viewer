@@ -37,6 +37,9 @@ function createImageUI(store, use2D) {
     ) {
       const colorRangeInputRow = document.createElement('div')
       colorRangeInputRow.setAttribute('class', style.uiRow)
+      // This row needs background different from normal uiRows, to aid
+      // in the illusion that it's the content portion of a tabbed pane
+      colorRangeInputRow.setAttribute('style', 'background: rgba(127, 127, 127, 0.5);')
       createColorRangeInput(store, colorRangeInputRow)
       colorRangeInputRow.className += ` ${viewerDOMId}-toggle`
       imageUIGroup.appendChild(colorRangeInputRow)

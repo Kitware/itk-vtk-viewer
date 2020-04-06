@@ -23,25 +23,45 @@ const cores = navigator.hardwareConcurrency ? navigator.hardwareConcurrency : 4
 const numberOfWorkers = cores + Math.floor(Math.sqrt(cores))
 const workerPool = new WorkerPool(numberOfWorkers, runPipelineBrowser)
 
-async function bloscZarrDecompress(compressedChunks, zarrayMetadata) {
-  const dtype = zarrayMetadata.dtype
-  const nElements = zarrayMetadata.chunks.reduce((a, b) => a * b)
-  const outputSize = nElements * dtypeToElementSize.get(dtype)
+/**
+ * Input:
+ *
+ *   chunkData: An Array of
+ *
+ *     {
+ *       data: chunkArrayBuffer,
+ *       metadata: zarrayMetadata
+ *     }
+ *
+ *   objects.
+ *
+ *
+ * Output:
+ *
+ *   An Array of decompressed ArrayBuffer chunks.
+ */
+async function bloscZarrDecompress(chunkData) {
   const desiredOutputs = [{ path: 'outputArray', type: IOTypes.Binary }]
   const taskArgsArray = []
-  for (let index = 0; index < compressedChunks.length; index++) {
+  let dtype = null
+  for (let index = 0; index < chunkData.length; index++) {
+    const zarrayMetadata = chunkData[index].metadata
+    const compressedChunk = chunkData[index].data
+    dtype = zarrayMetadata.dtype
+    const nElements = zarrayMetadata.chunks.reduce((a, b) => a * b)
+    const outputSize = nElements * dtypeToElementSize.get(dtype)
     const inputs = [
       {
         path: 'inputArray',
         type: IOTypes.Binary,
-        data: new Uint8Array(compressedChunks[index]),
+        data: new Uint8Array(compressedChunk),
       },
     ]
     const args = [
       'inputArray',
       'outputArray',
       zarrayMetadata.compressor.cname,
-      compressedChunks[index].byteLength.toString(),
+      compressedChunk.byteLength.toString(),
       outputSize.toString(),
     ]
     taskArgsArray.push(['BloscZarr', args, desiredOutputs, inputs])

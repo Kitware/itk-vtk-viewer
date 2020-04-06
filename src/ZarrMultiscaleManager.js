@@ -2,16 +2,7 @@ import axios from 'axios'
 
 import MultiscaleManager from './MultiscaleManager'
 import bloscZarrDecompress from './bloscZarrDecompress'
-import CoordDecompressor from './CoordDecompressor'
-
-async function decompressCoordPromise(url, zmetadata, coordPath) {
-  const chunkUrl = `${url}/${coordPath}/0`
-  const response = await axios.get(chunkUrl, { responseType: 'arraybuffer' })
-  const compressedChunk = response.data
-  const zarrayMetadata = zmetadata[`${coordPath}/.zarray`]
-  const chunks = bloscZarrDecompress([compressedChunk], zarrayMetadata)
-  return chunks[0]
-}
+import CoordsDecompressor from './CoordsDecompressor'
 
 class ZarrMultiscaleManager extends MultiscaleManager {
   url
@@ -97,18 +88,18 @@ class ZarrMultiscaleManager extends MultiscaleManager {
       }
     }
     pixelArrayName = bottomMeta.pixelArrayName
+    const bottomMetaCoordPaths = new Map()
     bottomMeta.coords.forEach((value, key) => {
       const coordPrefix =
         multiscaleLevels[0] === '' ? '' : `${multiscaleLevels[0]}/`
-      bottomMeta.coords.set(
-        key,
-        new CoordDecompressor(url, zmetadata, `${coordPrefix}${key}`)
-      )
+      bottomMetaCoordPaths.set(key, `${coordPrefix}${key}`)
     })
-    // We need this earlier and it is small -- resolve it now.
-    if (bottomMeta.coords.has('c')) {
-      bottomMeta.coords.set('c', await meta.coords.get('c'))
-    }
+    bottomMeta.coords = new CoordsDecompressor(
+      url,
+      zmetadata,
+      bottomMetaCoordPaths
+    )
+    bottomMeta.coords = await bottomMeta.coords.getCoords()
     if (bottomMeta.dims.length === 0) {
       const dimension = bottomMeta.pixelArrayMetadata.shape.length
       bottomMeta.dims = ['z', 'y', 'x'].slice(3 - dimension)
@@ -142,16 +133,11 @@ class ZarrMultiscaleManager extends MultiscaleManager {
         }
       })
 
+      const metaCoordPaths = new Map()
       meta.coords.forEach((value, key) => {
-        meta.coords.set(
-          key,
-          new CoordDecompressor(url, zmetadata, `${levelPath}/${key}`)
-        )
+        metaCoordPaths.set(key, `${levelPath}/${key}`)
       })
-      // We need this earlier and it is small -- resolve it now.
-      if (meta.coords.has('c')) {
-        meta.coords.set('c', await meta.coords.get('c'))
-      }
+      meta.coords = new CoordsDecompressor(url, zmetadata, metaCoordPaths)
       if (meta.dims.length === 0) {
         const dimension = meta.pixelArrayMetadata.shape.length
         meta.dims = ['z', 'y', 'x'].slice(3 - dimension)
@@ -197,10 +183,9 @@ class ZarrMultiscaleManager extends MultiscaleManager {
     console.log(chunkUrl)
     const response = await axios.get(chunkUrl, { responseType: 'arraybuffer' })
     const compressedChunk = response.data
-    const chunks = await bloscZarrDecompress(
-      [compressedChunk],
-      meta.pixelArrayMetadata
-    )
+    const chunks = await bloscZarrDecompress([
+      { data: compressedChunk, metadata: meta.pixelArrayMetadata },
+    ])
     return chunks[0]
   }
 }

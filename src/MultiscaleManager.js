@@ -4,7 +4,7 @@ import FloatTypes from 'itk/FloatTypes'
 import Matrix from 'itk/Matrix'
 
 import dtypeToTypedArray from './dtypeToTypedArray'
-import CoordDecompressor from './CoordDecompressor'
+import CoordsDecompressor from './CoordsDecompressor'
 
 const dtypeToComponentType = new Map([
   ['<b', IntTypes.Int8],
@@ -91,16 +91,16 @@ class MultiscaleManager {
   async levelOrigin(level) {
     const origin = new Array(this.spatialDims.length)
     const meta = this.metadata[level]
+    let coords = meta.coords
+    if (coords instanceof CoordsDecompressor) {
+      const coordsResolved = await coords.getCoords()
+      meta.coords = coordsResolved
+      coords = coordsResolved
+    }
     for (let index = 0; index < this.spatialDims.length; index++) {
       const dim = this.spatialDims[index]
       if (meta.coords.has(dim)) {
-        let coords = meta.coords.get(dim)
-        if (coords instanceof CoordDecompressor) {
-          const coordsResolved = await coords.getCoord()
-          meta.coords.set(dim, coordsResolved)
-          coords = coordsResolved
-        }
-        origin[index] = coords[0]
+        origin[index] = coords.get(dim)[0]
       } else {
         origin[index] = 0.0
       }
@@ -111,16 +111,17 @@ class MultiscaleManager {
   async levelSpacing(level) {
     const spacing = new Array(this.spatialDims.length)
     const meta = this.metadata[level]
+    let coords = meta.coords
+    if (coords instanceof CoordsDecompressor) {
+      const coordsResolved = await coords.getCoords()
+      meta.coords = coordsResolved
+      coords = coordsResolved
+    }
     for (let index = 0; index < this.spatialDims.length; index++) {
       const dim = this.spatialDims[index]
       if (meta.coords.has(dim)) {
-        let coords = meta.coords.get(dim)
-        if (coords instanceof CoordDecompressor) {
-          const coordsResolved = await coords.getCoord()
-          meta.coords.set(dim, coordsResolved)
-          coords = coordsResolved
-        }
-        spacing[index] = coords[1] - coords[0]
+        const coord = coords.get(dim)
+        spacing[index] = coord[1] - coord[0]
       } else {
         spacing[index] = 1.0
       }
@@ -156,16 +157,17 @@ class MultiscaleManager {
     const meta = this.metadata[level]
     const dimension = this.imageType.dimension
     const pixelMeta = meta.pixelArrayMetadata
+    let coords = meta.coords
+    if (coords instanceof CoordsDecompressor) {
+      const coordsResolved = await coords.getCoords()
+      meta.coords = coordsResolved
+      coords = coordsResolved
+    }
     for (let index = 0; index < this.spatialDims.length; index++) {
       const dim = this.spatialDims[index]
       if (meta.coords.has(dim)) {
-        let coords = meta.coords.get(dim)
-        if (coords instanceof CoordDecompressor) {
-          const coordsResolved = await coords.getCoord()
-          meta.coords.set(dim, coordsResolved)
-          coords = coordsResolved
-        }
-        size[index] = coords.length
+        let coord = meta.coords.get(dim)
+        size[index] = coord.length
       } else {
         const negIndex = dimension - 1 - index
         size[index] = pixelMeta.shape[negIndex]

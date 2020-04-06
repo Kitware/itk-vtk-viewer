@@ -76,7 +76,7 @@ class ZarrMultiscaleManager extends MultiscaleManager {
             bottomMeta.direction = zmetadata[obj].direction
           }
           const pixelArrayName = obj.replace('.zattrs', '.zarray')
-          bottomMeta.pixelArrayMetadata = zbottomMeta[pixelArrayName]
+          bottomMeta.pixelArrayMetadata = zmetadata[pixelArrayName]
           bottomMeta.pixelArrayName = pixelArrayName.replace('/.zarray', '')
           bottomMeta.pixelArrayUrl = `${url}/${bottomMeta.pixelArrayName}/`
         }
@@ -161,7 +161,7 @@ class ZarrMultiscaleManager extends MultiscaleManager {
       // Check for default multi-scale level names
       const level = 1
       let levelZAttrs = `level_${level}.zarr/${pixelArrayName}/.zattrs`
-      while (zmetdata[levelZAttrs] !== undefined) {
+      while (zmetadata[levelZAttrs] !== undefined) {
         const meta = await levelMetadata(`level_${level}.zarr`)
         metadata.push(meta)
         level++

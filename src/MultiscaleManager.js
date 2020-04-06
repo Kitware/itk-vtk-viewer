@@ -178,11 +178,11 @@ class MultiscaleManager {
 
   /* Return a promise that provides the requested chunk at a given level and
    * chunk index. */
-  async getChunk(level, cxyzt) {
-    return this.getChunkImpl(level, cxyzt)
+  async getChunks(level, cxyztArray) {
+    return this.getChunksImpl(level, cxyztArray)
   }
 
-  async getChunkImpl(level, cxyzt) {
+  async getChunksImpl(level, cxyztArray) {
     console.error('Override me in a derived class')
   }
 
@@ -231,125 +231,86 @@ class MultiscaleManager {
     const cChunkStart = 0
     const cChunkEnd = numChunks[0]
 
-    // Todo: more experimentation with this
-    const maxPromises = 32
-    const zChunkAwait =
-      (zChunkEnd - zChunkStart) *
-        (yChunkEnd - yChunkStart) *
-        (xChunkEnd - xChunkStart) *
-        (cChunkEnd - cChunkStart) >
-      maxPromises
-    const yChunkAwait =
-      (yChunkEnd - yChunkStart) *
-        (xChunkEnd - xChunkStart) *
-        (cChunkEnd - cChunkStart) >
-      maxPromises
-    const xChunkAwait =
-      (xChunkEnd - xChunkStart) * (cChunkEnd - cChunkStart) > maxPromises
-
-    const zChunkPromises = new Array(zChunkEnd - zChunkStart)
+    const chunkIndices = []
     for (let k = zChunkStart; k < zChunkEnd; k++) {
-      const yChunkPromises = new Array(yChunkEnd - yChunkStart)
       for (let j = yChunkStart; j < yChunkEnd; j++) {
-        const xChunkPromises = new Array(xChunkEnd - xChunkStart)
         for (let i = xChunkStart; i < xChunkEnd; i++) {
-          const cChunkPromises = new Array(cChunkEnd - cChunkStart)
           for (let h = cChunkStart; h < cChunkEnd; h++) {
-            cChunkPromises[h - cChunkStart] = this.getChunk(level, [
-              h,
-              i,
-              j,
-              k,
-              l,
-            ]).then(chunk => {
-              const chunkStart = [
-                i * chunkSize[1],
-                j * chunkSize[2],
-                k * chunkSize[3],
-                l * chunkSize[4],
-              ]
-              const chunkEnd = [
-                (i + 1) * chunkSize[1],
-                (j + 1) * chunkSize[2],
-                (k + 1) * chunkSize[3],
-                (l + 1) * chunkSize[4],
-              ]
-              // Skip if the chunk lives outside the region of interest
-              if (
-                chunkStart[0] > end[0] ||
-                chunkEnd[0] < start[0] ||
-                chunkStart[1] > end[1] ||
-                chunkEnd[1] < start[1] ||
-                chunkStart[2] > end[2] ||
-                chunkEnd[2] < start[2] ||
-                chunkStart[3] > end[3] ||
-                chunkEnd[3] < start[3]
-              ) {
-                // We should never get here...
-                console.error(
-                  'Requested a chunk outside the region of interest!'
-                )
-              }
-              const itStart = [
-                Math.max(chunkStart[0], start[0]),
-                Math.max(chunkStart[1], start[1]),
-                Math.max(chunkStart[2], start[2]),
-                Math.max(chunkStart[3], start[3]),
-              ]
-              const itEnd = [
-                Math.min(chunkEnd[0], end[0]),
-                Math.min(chunkEnd[1], end[1]),
-                Math.min(chunkEnd[2], end[2]),
-                Math.min(chunkEnd[3], end[3]),
-              ]
-              const itChunkOffsets = [0, 0, 0, 0]
-              itChunkOffsets[3] = chunkStrides[3] * l
-              const itPixelOffsets = [0, 0, 0]
-              for (let kk = itStart[2]; kk < itEnd[2]; kk++) {
-                itChunkOffsets[2] = chunkStrides[2] * (kk - k * chunkSize[3])
-                itPixelOffsets[2] = pixelStrides[2] * (kk - start[2])
-                for (let jj = itStart[1]; jj < itEnd[1]; jj++) {
-                  itChunkOffsets[1] = chunkStrides[1] * (jj - j * chunkSize[2])
-                  itPixelOffsets[1] = pixelStrides[1] * (jj - start[1])
-                  for (let ii = itStart[0]; ii < itEnd[0]; ii++) {
-                    const begin =
-                      chunkStrides[0] * (itStart[0] - i * chunkSize[1]) +
-                      itChunkOffsets[1] +
-                      itChunkOffsets[2] +
-                      itChunkOffsets[3]
-                    const end = begin + chunkSize[0] * (itEnd[0] - itStart[0])
-                    const offset =
-                      pixelStrides[0] * (itStart[0] - start[0]) +
-                      itPixelOffsets[1] +
-                      pixelStrides[2] * (kk - start[2])
-                    itPixelOffsets[2]
-                    pixelArray.set(chunk.subarray(begin, end), offset)
-                  } // for every column
-                } // for every row
-              } // for every slice
-            })
+            chunkIndices.push([h, i, j, k, l])
           } // for every cChunk
-          if (xChunkAwait) {
-            xChunkPromises[i - xChunkStart] = await Promise.all(cChunkPromises)
-          } else {
-            xChunkPromises[i - xChunkStart] = Promise.all(cChunkPromises)
-          }
         } // for every xChunk
-        if (yChunkAwait && !xChunkAwait) {
-          yChunkPromises[j - yChunkStart] = await Promise.all(xChunkPromises)
-        } else if (!xChunkAwait) {
-          yChunkPromises[j - yChunkStart] = Promise.all(xChunkPromises)
-        }
       } // for every yChunk
-      if (zChunkAwait && !yChunkAwait && !xChunkAwait) {
-        zChunkPromises[k - zChunkStart] = await Promise.all(yChunkPromises)
-      } else if (!yChunkAwait && !xChunkAwait) {
-        zChunkPromises[k - zChunkStart] = Promise.all(yChunkPromises)
-      }
-    } // for every yChunk
+    } // for every zChunk
 
-    if (!zChunkAwait && !yChunkAwait && !xChunkAwait) {
-      await Promise.all(zChunkPromises)
+    const chunks = await this.getChunks(level, chunkIndices)
+
+    for (let index = 0; index < chunkIndices.length; index++) {
+      const chunk = chunks[index]
+      const [h, i, j, k, l] = chunkIndices[index]
+
+      const chunkStart = [
+        i * chunkSize[1],
+        j * chunkSize[2],
+        k * chunkSize[3],
+        l * chunkSize[4],
+      ]
+      const chunkEnd = [
+        (i + 1) * chunkSize[1],
+        (j + 1) * chunkSize[2],
+        (k + 1) * chunkSize[3],
+        (l + 1) * chunkSize[4],
+      ]
+      // Skip if the chunk lives outside the region of interest
+      if (
+        chunkStart[0] > end[0] ||
+        chunkEnd[0] < start[0] ||
+        chunkStart[1] > end[1] ||
+        chunkEnd[1] < start[1] ||
+        chunkStart[2] > end[2] ||
+        chunkEnd[2] < start[2] ||
+        chunkStart[3] > end[3] ||
+        chunkEnd[3] < start[3]
+      ) {
+        // We should never get here...
+        console.error('Requested a chunk outside the region of interest!')
+      }
+      const itStart = [
+        Math.max(chunkStart[0], start[0]),
+        Math.max(chunkStart[1], start[1]),
+        Math.max(chunkStart[2], start[2]),
+        Math.max(chunkStart[3], start[3]),
+      ]
+      const itEnd = [
+        Math.min(chunkEnd[0], end[0]),
+        Math.min(chunkEnd[1], end[1]),
+        Math.min(chunkEnd[2], end[2]),
+        Math.min(chunkEnd[3], end[3]),
+      ]
+      const itChunkOffsets = [0, 0, 0, 0]
+      itChunkOffsets[3] = chunkStrides[3] * l
+      const itPixelOffsets = [0, 0, 0]
+      for (let kk = itStart[2]; kk < itEnd[2]; kk++) {
+        itChunkOffsets[2] = chunkStrides[2] * (kk - k * chunkSize[3])
+        itPixelOffsets[2] = pixelStrides[2] * (kk - start[2])
+        for (let jj = itStart[1]; jj < itEnd[1]; jj++) {
+          itChunkOffsets[1] = chunkStrides[1] * (jj - j * chunkSize[2])
+          itPixelOffsets[1] = pixelStrides[1] * (jj - start[1])
+          for (let ii = itStart[0]; ii < itEnd[0]; ii++) {
+            const begin =
+              chunkStrides[0] * (itStart[0] - i * chunkSize[1]) +
+              itChunkOffsets[1] +
+              itChunkOffsets[2] +
+              itChunkOffsets[3]
+            const end = begin + chunkSize[0] * (itEnd[0] - itStart[0])
+            const offset =
+              pixelStrides[0] * (itStart[0] - start[0]) +
+              itPixelOffsets[1] +
+              pixelStrides[2] * (kk - start[2])
+            itPixelOffsets[2]
+            pixelArray.set(chunk.subarray(begin, end), offset)
+          } // for every column
+        } // for every row
+      } // for every slice
     }
 
     const origin = await this.levelOrigin(level)

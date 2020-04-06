@@ -172,21 +172,34 @@ class ZarrMultiscaleManager extends MultiscaleManager {
     return metadata
   }
 
-  async getChunkImpl(level, cxyzt) {
+  async getChunksImpl(level, cxyztArray) {
     const meta = this.metadata[level]
-    let chunkUrl = meta.pixelArrayUrl
+    const chunkUrlBase = meta.pixelArrayUrl
+    const chunkUrls = []
+    const chunkUrlPromises = []
+    for (let index = 0; index < cxyztArray.length; index++) {
+      let chunkUrl = chunkUrlBase
+      for (let dd = 0; dd < meta.dims.length; dd++) {
+        const dim = meta.dims[dd]
+        chunkUrl = `${chunkUrl}${cxyztArray[index][this.CXYZT.indexOf(dim)]}.`
+      }
+      chunkUrl = chunkUrl.slice(0, -1)
+      console.log(chunkUrl)
+      chunkUrls.push(chunkUrl)
+      chunkUrlPromises.push(
+        axios.get(chunkUrl, { responseType: 'arraybuffer' })
+      )
+    }
+    const chunkResponses = await Promise.all(chunkUrlPromises)
+    const toDecompress = []
+    for (let index = 0; index < chunkResponses.length; index++) {
+      toDecompress.push({
+        data: chunkResponses[index].data,
+        metadata: meta.pixelArrayMetadata,
+      })
+    }
 
-    meta.dims.forEach(dim => {
-      chunkUrl = `${chunkUrl}${cxyzt[this.CXYZT.indexOf(dim)]}.`
-    })
-    chunkUrl = chunkUrl.slice(0, -1)
-    console.log(chunkUrl)
-    const response = await axios.get(chunkUrl, { responseType: 'arraybuffer' })
-    const compressedChunk = response.data
-    const chunks = await bloscZarrDecompress([
-      { data: compressedChunk, metadata: meta.pixelArrayMetadata },
-    ])
-    return chunks[0]
+    return bloscZarrDecompress(toDecompress)
   }
 }
 

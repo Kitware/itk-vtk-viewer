@@ -186,12 +186,8 @@ class MultiscaleManager {
     console.error('Override me in a derived class')
   }
 
-  /* Retrieve the entire image at the top level. */
-  async topLevelLargestImage() {
-    if (!!this.cachedTopLevelLargestImage) {
-      return this.cachedTopLevelLargestImage
-    }
-    const level = this.topLevel
+  /* Retrieve the entire image at the given level. */
+  async levelLargestImage(level) {
     const meta = this.metadata[level]
 
     const chunkSize = meta.sizeCXYZTChunks
@@ -315,7 +311,8 @@ class MultiscaleManager {
 
     const origin = await this.levelOrigin(level)
     const spacing = await this.levelSpacing(level)
-    this.cachedTopLevelLargestImage = {
+
+    const image = {
       imageType: this.imageType,
       name: this.metadata[level].pixelArrayName,
       origin,
@@ -324,6 +321,18 @@ class MultiscaleManager {
       size,
       data: pixelArray,
     }
+
+    return image
+  }
+
+  /* Retrieve the entire image at the top level. */
+  async topLevelLargestImage() {
+    if (!!this.cachedTopLevelLargestImage) {
+      return this.cachedTopLevelLargestImage
+    }
+    const level = this.topLevel
+
+    this.cachedTopLevelLargestImage = await this.levelLargestImage(level)
     console.log(this.cachedTopLevelLargestImage)
 
     return this.cachedTopLevelLargestImage

@@ -2,16 +2,7 @@ import axios from 'axios'
 
 import MultiscaleManager from './MultiscaleManager'
 import bloscZarrDecompress from './bloscZarrDecompress'
-import CoordDecompressor from './CoordDecompressor'
-
-async function decompressCoordPromise(url, zmetadata, coordPath) {
-  const chunkUrl = `${url}/${coordPath}/0`
-  const response = await axios.get(chunkUrl, { responseType: 'arraybuffer' })
-  const compressedChunk = response.data
-  const zarrayMetadata = zmetadata[`${coordPath}/.zarray`]
-  const chunk = bloscZarrDecompress(compressedChunk, zarrayMetadata)
-  return chunk
-}
+import CoordsDecompressor from './CoordsDecompressor'
 
 class ZarrMultiscaleManager extends MultiscaleManager {
   url
@@ -85,7 +76,7 @@ class ZarrMultiscaleManager extends MultiscaleManager {
             bottomMeta.direction = zmetadata[obj].direction
           }
           const pixelArrayName = obj.replace('.zattrs', '.zarray')
-          bottomMeta.pixelArrayMetadata = zbottomMeta[pixelArrayName]
+          bottomMeta.pixelArrayMetadata = zmetadata[pixelArrayName]
           bottomMeta.pixelArrayName = pixelArrayName.replace('/.zarray', '')
           bottomMeta.pixelArrayUrl = `${url}/${bottomMeta.pixelArrayName}/`
         }
@@ -97,18 +88,18 @@ class ZarrMultiscaleManager extends MultiscaleManager {
       }
     }
     pixelArrayName = bottomMeta.pixelArrayName
+    const bottomMetaCoordPaths = new Map()
     bottomMeta.coords.forEach((value, key) => {
       const coordPrefix =
         multiscaleLevels[0] === '' ? '' : `${multiscaleLevels[0]}/`
-      bottomMeta.coords.set(
-        key,
-        new CoordDecompressor(url, zmetadata, `${coordPrefix}${key}`)
-      )
+      bottomMetaCoordPaths.set(key, `${coordPrefix}${key}`)
     })
-    // We need this earlier and it is small -- resolve it now.
-    if (bottomMeta.coords.has('c')) {
-      bottomMeta.coords.set('c', await meta.coords.get('c'))
-    }
+    bottomMeta.coords = new CoordsDecompressor(
+      url,
+      zmetadata,
+      bottomMetaCoordPaths
+    )
+    bottomMeta.coords = await bottomMeta.coords.getCoords()
     if (bottomMeta.dims.length === 0) {
       const dimension = bottomMeta.pixelArrayMetadata.shape.length
       bottomMeta.dims = ['z', 'y', 'x'].slice(3 - dimension)
@@ -142,16 +133,11 @@ class ZarrMultiscaleManager extends MultiscaleManager {
         }
       })
 
+      const metaCoordPaths = new Map()
       meta.coords.forEach((value, key) => {
-        meta.coords.set(
-          key,
-          new CoordDecompressor(url, zmetadata, `${levelPath}/${key}`)
-        )
+        metaCoordPaths.set(key, `${levelPath}/${key}`)
       })
-      // We need this earlier and it is small -- resolve it now.
-      if (meta.coords.has('c')) {
-        meta.coords.set('c', await meta.coords.get('c'))
-      }
+      meta.coords = new CoordsDecompressor(url, zmetadata, metaCoordPaths)
       if (meta.dims.length === 0) {
         const dimension = meta.pixelArrayMetadata.shape.length
         meta.dims = ['z', 'y', 'x'].slice(3 - dimension)
@@ -175,7 +161,7 @@ class ZarrMultiscaleManager extends MultiscaleManager {
       // Check for default multi-scale level names
       const level = 1
       let levelZAttrs = `level_${level}.zarr/${pixelArrayName}/.zattrs`
-      while (zmetdata[levelZAttrs] !== undefined) {
+      while (zmetadata[levelZAttrs] !== undefined) {
         const meta = await levelMetadata(`level_${level}.zarr`)
         metadata.push(meta)
         level++
@@ -186,18 +172,34 @@ class ZarrMultiscaleManager extends MultiscaleManager {
     return metadata
   }
 
-  async getChunkImpl(level, cxyzt) {
+  async getChunksImpl(level, cxyztArray) {
     const meta = this.metadata[level]
-    let chunkUrl = meta.pixelArrayUrl
+    const chunkUrlBase = meta.pixelArrayUrl
+    const chunkUrls = []
+    const chunkUrlPromises = []
+    for (let index = 0; index < cxyztArray.length; index++) {
+      let chunkUrl = chunkUrlBase
+      for (let dd = 0; dd < meta.dims.length; dd++) {
+        const dim = meta.dims[dd]
+        chunkUrl = `${chunkUrl}${cxyztArray[index][this.CXYZT.indexOf(dim)]}.`
+      }
+      chunkUrl = chunkUrl.slice(0, -1)
+      console.log(chunkUrl)
+      chunkUrls.push(chunkUrl)
+      chunkUrlPromises.push(
+        axios.get(chunkUrl, { responseType: 'arraybuffer' })
+      )
+    }
+    const chunkResponses = await Promise.all(chunkUrlPromises)
+    const toDecompress = []
+    for (let index = 0; index < chunkResponses.length; index++) {
+      toDecompress.push({
+        data: chunkResponses[index].data,
+        metadata: meta.pixelArrayMetadata,
+      })
+    }
 
-    meta.dims.forEach(dim => {
-      chunkUrl = `${chunkUrl}${cxyzt[this.CXYZT.indexOf(dim)]}.`
-    })
-    chunkUrl = chunkUrl.slice(0, -1)
-    console.log(chunkUrl)
-    const response = await axios.get(chunkUrl, { responseType: 'arraybuffer' })
-    const compressedChunk = response.data
-    return bloscZarrDecompress(compressedChunk, meta.pixelArrayMetadata)
+    return bloscZarrDecompress(toDecompress)
   }
 }
 

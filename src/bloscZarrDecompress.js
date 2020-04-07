@@ -1,5 +1,6 @@
 import runPipelineBrowser from 'itk/runPipelineBrowser'
 import IOTypes from 'itk/IOTypes'
+import WorkerPool from 'itk/WorkerPool'
 import dtypeToTypedArray from './dtypeToTypedArray'
 
 const dtypeToElementSize = new Map([
@@ -18,73 +19,65 @@ const dtypeToElementSize = new Map([
   ['<f8', 8],
 ])
 
-const workers = []
+const cores = navigator.hardwareConcurrency ? navigator.hardwareConcurrency : 4
+const numberOfWorkers = cores + Math.floor(Math.sqrt(cores))
+const workerPool = new WorkerPool(numberOfWorkers, runPipelineBrowser)
 
-async function bloscZarrDecompress(compressed, zarrayMetadata) {
-  const dtype = zarrayMetadata.dtype
-  const nElements = zarrayMetadata.chunks.reduce((a, b) => a * b)
-  const outputSize = nElements * dtypeToElementSize.get(dtype)
-  const args = [
-    'inputArray',
-    'outputArray',
-    zarrayMetadata.compressor.cname,
-    compressed.byteLength.toString(),
-    outputSize.toString(),
-  ]
+/**
+ * Input:
+ *
+ *   chunkData: An Array of
+ *
+ *     {
+ *       data: chunkArrayBuffer,
+ *       metadata: zarrayMetadata
+ *     }
+ *
+ *   objects.
+ *
+ *
+ * Output:
+ *
+ *   An Array of decompressed ArrayBuffer chunks.
+ */
+async function bloscZarrDecompress(chunkData) {
   const desiredOutputs = [{ path: 'outputArray', type: IOTypes.Binary }]
-  const inputs = [
-    {
-      path: 'inputArray',
-      type: IOTypes.Binary,
-      data: new Uint8Array(compressed),
-    },
-  ]
-  //const { stdout, stderr, outputs, webWorker } = await runPipelineBrowser(
-  //null,
-  //'BloscZarr',
-  //args,
-  //desiredOutputs,
-  //inputs
-  //)
-  //webWorker.terminate()
-  let stdout = null
-  let stderr = null
-  let outputs = null
-  if (!workers.length) {
-    console.log('creating new worker!')
-    const result = await runPipelineBrowser(
-      null,
-      'BloscZarr',
-      args,
-      desiredOutputs,
-      inputs
-    )
-    stdout = result.stdout
-    stderr = result.stderr
-    outputs = result.outputs
-    workers.push(result.webWorker)
-  } else {
-    console.log('re-using worker!')
-    const worker = workers.pop()
-    const result = await runPipelineBrowser(
-      worker,
-      'BloscZarr',
-      args,
-      desiredOutputs,
-      inputs
-    )
-    stdout = result.stdout
-    stderr = result.stderr
-    outputs = result.outputs
-    workers.push(result.webWorker)
+  const taskArgsArray = []
+  let dtype = null
+  for (let index = 0; index < chunkData.length; index++) {
+    const zarrayMetadata = chunkData[index].metadata
+    const compressedChunk = chunkData[index].data
+    dtype = zarrayMetadata.dtype
+    const nElements = zarrayMetadata.chunks.reduce((a, b) => a * b)
+    const outputSize = nElements * dtypeToElementSize.get(dtype)
+    const inputs = [
+      {
+        path: 'inputArray',
+        type: IOTypes.Binary,
+        data: new Uint8Array(compressedChunk),
+      },
+    ]
+    const args = [
+      'inputArray',
+      'outputArray',
+      zarrayMetadata.compressor.cname,
+      compressedChunk.byteLength.toString(),
+      outputSize.toString(),
+    ]
+    taskArgsArray.push(['BloscZarr', args, desiredOutputs, inputs])
   }
-  console.log('worker count: ', workers.length)
-  // console.log(stdout);
-  // console.error(stderr);
-  const decompressed = new (dtypeToTypedArray.get(dtype))(
-    outputs[0].data.buffer
-  )
-  return decompressed
+  const results = await workerPool.runTasks(taskArgsArray)
+
+  const typedArray = dtypeToTypedArray.get(dtype)
+  const decompressedChunks = []
+  for (let index = 0; index < results.length; index++) {
+    // console.log(results[index].stdout);
+    // console.error(results[index].stderr);
+    decompressedChunks.push(
+      new typedArray(results[index].outputs[0].data.buffer)
+    )
+  }
+  return decompressedChunks
 }
 
 export default bloscZarrDecompress

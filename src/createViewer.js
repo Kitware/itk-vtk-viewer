@@ -75,11 +75,14 @@ const createViewer = (
         if (!!store.imageUI.image) {
           store.imageUI.lookupTableProxies = new Array(numberOfComponents)
           store.imageUI.piecewiseFunctionProxies = new Array(numberOfComponents)
-          store.imageUI.componentVisibilities = observable(new Array(numberOfComponents))
+          store.imageUI.componentVisibilities = observable(
+            new Array(numberOfComponents)
+          )
           store.imageUI.colorMaps = new Array(numberOfComponents)
           store.imageUI.colorRanges = new Array(numberOfComponents)
           const volume = store.imageUI.representationProxy.getVolumes()[0]
           const volumeProperty = volume.getProperty()
+          volumeProperty.setIndependentComponents(true)
           const dataArray = store.imageUI.image.getPointData().getScalars()
           for (let component = 0; component < numberOfComponents; component++) {
             store.imageUI.lookupTableProxies[
@@ -96,6 +99,8 @@ const createViewer = (
               dataArray.getDataType() === 'Uint8Array' &&
               (numberOfComponents === 3 || numberOfComponents === 4)
             ) {
+              preset = 'Grayscale'
+            } else if (numberOfComponents === 1 && !!store.imageUI.labelMap) {
               preset = 'Grayscale'
             } else if (numberOfComponents === 2) {
               switch (component) {
@@ -137,7 +142,6 @@ const createViewer = (
 
             const visibility = store.imageUI.componentVisibilities[component]
             volumeProperty.setComponentWeight(component, visibility)
-            //volumeProperty.setIndependentComponents(true);
           }
 
           // Now for the slice rendering
@@ -185,7 +189,7 @@ const createViewer = (
             0.5,
             1.0
           )
-          // volumeProperty.setScalarOpacity(numberOfComponents, piecewiseFunction);
+          volumeProperty.setScalarOpacity(numberOfComponents, piecewiseFunction)
 
           const colorTransferFunction = lutProxy.getLookupTable()
           colorTransferFunction.setMappingRange(
@@ -197,15 +201,18 @@ const createViewer = (
             numberOfComponents,
             colorTransferFunction
           )
-          //volumeProperty.setUseGradientOpacity(numberOfComponents, false);
-          //volumeProperty.setIndependentComponents(true);
+          // volumeProperty.setUseGradientOpacity(numberOfComponents, false);
+          volumeProperty.setIndependentComponents(true)
 
           // The slice shows the same lut as the volume for label map
           const sliceActors = store.imageUI.representationProxy.getActors()
           sliceActors.forEach(actor => {
             const actorProp = actor.getProperty()
-            actorProp.setIndependentComponents(false)
-            actorProp.setRGBTransferFunction(colorTransferFunction)
+            actorProp.setIndependentComponents(true)
+            actorProp.setRGBTransferFunction(
+              numberOfComponents,
+              colorTransferFunction
+            )
           })
         }
 

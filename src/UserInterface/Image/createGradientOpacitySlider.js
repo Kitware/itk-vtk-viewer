@@ -1,5 +1,6 @@
-import { autorun, action } from 'mobx'
+import { reaction, action } from 'mobx'
 
+import macro from 'vtk.js/Sources/macro'
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
 
@@ -27,9 +28,9 @@ function createGradientOpacitySlider(store, uiContainer) {
     store.imageUI.representationProxy.setEdgeGradient(gradientOpacity)
     store.renderWindow.render()
   }
-  autorun(() => {
-    updateGradientOpacity()
-  })
+  reaction(() => {
+    return store.imageUI.gradientOpacity
+  }, macro.debounce(updateGradientOpacity, 25, false))
   edgeElement.addEventListener(
     'input',
     action(event => {

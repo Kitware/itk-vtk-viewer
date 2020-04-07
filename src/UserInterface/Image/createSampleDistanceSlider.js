@@ -1,6 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
 
+import macro from 'vtk.js/Sources/macro'
 import sampleDistanceIcon from 'vtk.js/Sources/Interaction/UI/Icons/Spacing.svg'
 
 function createSampleDistanceSlider(store, uiContainer) {
@@ -20,7 +21,7 @@ function createSampleDistanceSlider(store, uiContainer) {
     store.imageUI.representationProxy.setSampleDistance(value)
     store.renderWindow.render()
   }
-  spacingElement.addEventListener('input', updateSpacing)
+  spacingElement.addEventListener('input', macro.debounce(updateSpacing, 25))
   updateSpacing()
   uiContainer.appendChild(sliderEntry)
 }

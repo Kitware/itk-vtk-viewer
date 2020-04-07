@@ -1,5 +1,6 @@
 import { reaction, action } from 'mobx'
 
+import macro from 'vtk.js/Sources/macro'
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
 
@@ -43,14 +44,9 @@ function createPlaneIndexSliders(store, uiContainer) {
   xPlaneRow.appendChild(xSliderEntry)
   updateXSlice(currentSlicePosition)
   xPlaneRow.style.display = 'none'
-  reaction(
-    () => {
-      return store.imageUI.xSlice
-    },
-    position => {
-      updateXSlice(position)
-    }
-  )
+  reaction(() => {
+    return store.imageUI.xSlice
+  }, macro.debounce(updateXSlice, 25, false))
   xSliceElement.addEventListener(
     'input',
     action(event => {
@@ -92,14 +88,9 @@ function createPlaneIndexSliders(store, uiContainer) {
   updateYSlice(currentSlicePosition)
   yPlaneRow.style.display = 'none'
   xPlaneRow.style.display = 'none'
-  reaction(
-    () => {
-      return store.imageUI.ySlice
-    },
-    position => {
-      updateYSlice(position)
-    }
-  )
+  reaction(() => {
+    return store.imageUI.ySlice
+  }, macro.debounce(updateYSlice, 25, false))
   ySliceElement.addEventListener(
     'input',
     action(event => {
@@ -140,14 +131,9 @@ function createPlaneIndexSliders(store, uiContainer) {
   zPlaneRow.appendChild(zSliderEntry)
   updateZSlice(currentSlicePosition)
   zPlaneRow.style.display = 'none'
-  reaction(
-    () => {
-      return store.imageUI.zSlice
-    },
-    position => {
-      updateZSlice(position)
-    }
-  )
+  reaction(() => {
+    return store.imageUI.zSlice
+  }, macro.debounce(updateZSlice, 25, false))
   zSliceElement.addEventListener(
     'input',
     action(event => {

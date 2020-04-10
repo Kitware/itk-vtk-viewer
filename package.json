@@ -46,6 +46,7 @@
     "kw-web-suite": "^8.0.0",
     "lint-staged": "^10.1.1",
     "prettier": "^1.19.1",
+    "puppeteer": "^2.1.1",
     "resemblejs": "^3.2.4",
     "tap-markdown": "^1.2.1",
     "tap-spec": "^5.0.0",

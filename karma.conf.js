@@ -2,13 +2,15 @@
 /* eslint-disable react/require-extension */
 var path = require('path')
 
-const vtkRules = require('vtk.js/Utilities/config/rules-vtk.js');
+const vtkRules = require('vtk.js/Utilities/config/rules-vtk.js')
 
 var webpack = require('webpack')
 
-var sourcePath = path.join(__dirname, './src');
+var sourcePath = path.join(__dirname, './src')
 
-if (!process.env.NODE_ENV) process.env.NODE_ENV = 'test';
+if (!process.env.NODE_ENV) process.env.NODE_ENV = 'test'
+
+process.env.CHROME_BIN = require('puppeteer').executablePath()
 
 module.exports = function init(config) {
   config.set({
@@ -25,12 +27,42 @@ module.exports = function init(config) {
     frameworks: ['tap'],
     files: [
       './test/tests.js',
-      { pattern: './dist/itk/ImageIOs/**', watched: true, served: true, included: false },
-      { pattern: './dist/itk/MeshIOs/**', watched: true, served: true, included: false },
-      { pattern: './dist/itk/PolyDataIOs/**', watched: true, served: true, included: false },
-      { pattern: './dist/itk/WebWorkers/**', watched: true, served: true, included: false },
-      { pattern: './dist/itk/Pipelines/**', watched: true, served: true, included: false },
-      { pattern: './test/data/**', watched: false, served: true, included: false },
+      {
+        pattern: './dist/itk/ImageIOs/**',
+        watched: true,
+        served: true,
+        included: false,
+      },
+      {
+        pattern: './dist/itk/MeshIOs/**',
+        watched: true,
+        served: true,
+        included: false,
+      },
+      {
+        pattern: './dist/itk/PolyDataIOs/**',
+        watched: true,
+        served: true,
+        included: false,
+      },
+      {
+        pattern: './dist/itk/WebWorkers/**',
+        watched: true,
+        served: true,
+        included: false,
+      },
+      {
+        pattern: './dist/itk/Pipelines/**',
+        watched: true,
+        served: true,
+        included: false,
+      },
+      {
+        pattern: './test/data/**',
+        watched: false,
+        served: true,
+        included: false,
+      },
     ],
 
     preprocessors: {
@@ -43,17 +75,18 @@ module.exports = function init(config) {
         fs: 'empty',
       },
       module: {
-        rules: [
-          { test: /\.(png|jpg)$/, use: 'url-loader?limit=81920' },
-        ].concat(vtkRules),
+        rules: [{ test: /\.(png|jpg)$/, use: 'url-loader?limit=81920' }].concat(
+          vtkRules
+        ),
       },
       resolve: {
-        modules: [
-          path.resolve(__dirname, 'node_modules'),
-          sourcePath,
-        ],
+        modules: [path.resolve(__dirname, 'node_modules'), sourcePath],
         alias: {
-          './itkConfig$': path.resolve(__dirname, 'test', 'itkConfigBrowserTest.js'),
+          './itkConfig$': path.resolve(
+            __dirname,
+            'test',
+            'itkConfigBrowserTest.js'
+          ),
         },
       },
       plugins: [
@@ -67,15 +100,13 @@ module.exports = function init(config) {
       noInfo: true,
     },
 
-    reporters: [
-      'tap-pretty',
-      'junit',
-    ],
+    reporters: ['tap-pretty', 'junit'],
 
     tapReporter: {
       outputFile: 'test/output.html',
       prettifier: 'tap-markdown',
-      separator: '\n=========================================================\n=========================================================\n',
+      separator:
+        '\n=========================================================\n=========================================================\n',
     },
 
     junitReporter: {
@@ -95,5 +126,5 @@ module.exports = function init(config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: true,
-  });
-};
+  })
+}

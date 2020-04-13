@@ -16,7 +16,7 @@ jobs:
         nodeVersion: '12'
 
   pool:
-    imageName: 'ubuntu-16.04'
+    imageName: 'ubuntu-18.04'
 
   steps:
   - task: NodeTool@0
@@ -53,22 +53,22 @@ jobs:
   strategy:
     matrix:
       macOSNode8:
-        imageName: 'macos-10.13'
+        imageName: 'macos-10.15'
         nodeVersion: '8'
       macOSNode10:
-        imageName: 'macos-10.13'
+        imageName: 'macos-10.15'
         nodeVersion: '10'
       macOSNode12:
-        imageName: 'macos-10.13'
+        imageName: 'macos-10.15'
         nodeVersion: '12'
       WindowsNode8:
-        imageName: 'vs2017-win2016'
+        imageName: 'windows-2019'
         nodeVersion: '8'
       WindowsNode10:
-        imageName: 'vs2017-win2016'
+        imageName: 'windows-2019'
         nodeVersion: '10'
       WindowsNode12:
-        imageName: 'vs2017-win2016'
+        imageName: 'windows-2019'
         nodeVersion: '12'
 
   pool:

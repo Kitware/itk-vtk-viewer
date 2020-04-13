@@ -43,6 +43,7 @@ jobs:
       testResultsFiles: 'test/TESTS-*.xml'
 
   - task: PublishPipelineArtifact@0
+    condition: succeededOrFailed()
     inputs:
       artifactName: 'Node$(nodeVersion)TestOutput'
       targetPath: './test/output.html'

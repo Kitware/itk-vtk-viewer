@@ -29,24 +29,24 @@ jobs:
       npm run build
     displayName: 'Build'
 
-  - bash: |
-      # Allow writing test/output.html
-      sudo chmod 777 test
-      # To debug, run `./test/run.sh -d`
-      ./test/run.sh
-    displayName: 'Test'
+  #- bash: |
+      ## Allow writing test/output.html
+      #sudo chmod 777 test
+      ## To debug, run `./test/run.sh -d`
+      #./test/run.sh
+    #displayName: 'Test'
 
-  - task: PublishTestResults@2
-    condition: succeededOrFailed()
-    inputs:
-      testRunner: JUnit
-      testResultsFiles: 'test/TESTS-*.xml'
+  #- task: PublishTestResults@2
+    #condition: succeededOrFailed()
+    #inputs:
+      #testRunner: JUnit
+      #testResultsFiles: 'test/TESTS-*.xml'
 
-  - task: PublishPipelineArtifact@0
-    condition: succeededOrFailed()
-    inputs:
-      artifactName: 'Node$(nodeVersion)TestOutput'
-      targetPath: './test/output.html'
+  #- task: PublishPipelineArtifact@0
+    #condition: succeededOrFailed()
+    #inputs:
+      #artifactName: 'Node$(nodeVersion)TestOutput'
+      #targetPath: './test/output.html'
 
 - job: 'Build'
   displayName: 'Build'

@@ -33,86 +33,109 @@ const TEST_VIEWER_STYLE = {
   containerStyle: TEST_STYLE_CONTAINER,
 }
 
-
-test('Test createViewer', (t) => {
-  const gc = testUtils.createGarbageCollector(t);
+test('Test createViewer', t => {
+  const gc = testUtils.createGarbageCollector(t)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
   container.appendChild(viewerContainer)
 
-  return axios.get(testImage3DPath, {responseType: 'blob'})
-    .then(function (response) {
+  return axios
+    .get(testImage3DPath, { responseType: 'blob' })
+    .then(function(response) {
       return itkreadImageBlob(null, response.data, testImage3DPath)
-      })
+    })
     .then(({ image: itkImage, webWorker }) => {
       webWorker.terminate()
 
       const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
-      const viewer = createViewer(viewerContainer, { image: imageData, rotate: false, viewerStyle: TEST_VIEWER_STYLE })
+      const viewer = createViewer(viewerContainer, {
+        image: imageData,
+        rotate: false,
+        viewerStyle: TEST_VIEWER_STYLE,
+      })
 
-      const uiContainer = viewerContainer.children[viewerContainer.children.length - 1];
+      const uiContainer =
+        viewerContainer.children[viewerContainer.children.length - 1]
       viewer.setUserInterfaceCollapsed(false)
-      let collapsed = viewer.getUserInterfaceCollapsed();
+      let collapsed = viewer.getUserInterfaceCollapsed()
       t.equal(collapsed, false, 'viewer.setUserInterfaceCollapsed false')
       viewer.setUserInterfaceCollapsed(true)
-      collapsed = viewer.getUserInterfaceCollapsed();
+      collapsed = viewer.getUserInterfaceCollapsed()
       t.equal(collapsed, true, 'viewer.setUserInterfaceCollapsed true')
 
-      const viewProxy = viewer.getViewProxy();
+      const viewProxy = viewer.getViewProxy()
       const renderWindow = viewProxy.getOpenglRenderWindow()
       // Consistent baseline image size for regression testing
       renderWindow.setSize(600, 600)
-      const representation = viewProxy.getRepresentations()[0];
-      const volumeMapper = representation.getMapper();
-      viewer.renderLater();
+      const representation = viewProxy.getRepresentations()[0]
+      const volumeMapper = representation.getMapper()
+      viewer.renderLater()
       setTimeout(() => {
-        viewer.captureImage().then((screenshot) => {
-          testUtils.compareImages(screenshot, [createViewerBaseline], 'Test createViewer', t, 1.0, gc.releaseResources)
+        viewer.captureImage().then(screenshot => {
+          testUtils.compareImages(
+            screenshot,
+            [createViewerBaseline],
+            'Test createViewer',
+            t,
+            2.0,
+            gc.releaseResources
+          )
         })
       }, 100)
     })
 })
 
-
-test('Test createViewer.setImage', (t) => {
-  const gc = testUtils.createGarbageCollector(t);
+test('Test createViewer.setImage', t => {
+  const gc = testUtils.createGarbageCollector(t)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
   container.appendChild(viewerContainer)
 
-  return axios.get(testImage3DPath, {responseType: 'blob'})
-    .then(function (response) {
+  return axios
+    .get(testImage3DPath, { responseType: 'blob' })
+    .then(function(response) {
       return itkreadImageBlob(null, response.data, testImage3DPath)
-      })
+    })
     .then(({ image: itkImage, webWorker }) => {
       webWorker.terminate()
 
       const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
-      const viewer = createViewer(container, { image: imageData, rotate: false, viewerStyle: TEST_VIEWER_STYLE })
-      return axios.get(testImage3DPath2, {responseType: 'blob'})
-        .then(function (response) {
+      const viewer = createViewer(container, {
+        image: imageData,
+        rotate: false,
+        viewerStyle: TEST_VIEWER_STYLE,
+      })
+      return axios
+        .get(testImage3DPath2, { responseType: 'blob' })
+        .then(function(response) {
           return itkreadImageBlob(null, response.data, testImage3DPath2)
-          })
+        })
         .then(({ image: itkImage, webWorker }) => {
           webWorker.terminate()
 
           const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
           viewer.setImage(imageData)
-          const viewProxy = viewer.getViewProxy();
+          const viewProxy = viewer.getViewProxy()
           const renderWindow = viewProxy.getOpenglRenderWindow()
           // Consistent baseline image size for regression testing
           renderWindow.setSize(600, 600)
-          const representation = viewProxy.getRepresentations()[0];
-          const volumeMapper = representation.getMapper();
+          const representation = viewProxy.getRepresentations()[0]
+          const volumeMapper = representation.getMapper()
           viewer.renderLater()
           setTimeout(() => {
-          viewer.captureImage().then((screenshot) => {
-            testUtils.compareImages(screenshot, [createViewerSetImageBaseline], 'Test createViewer.setImage', t, 1.0, gc.releaseResources)
-          }, 100)
-        })
-
+            viewer.captureImage().then(screenshot => {
+              testUtils.compareImages(
+                screenshot,
+                [createViewerSetImageBaseline],
+                'Test createViewer.setImage',
+                t,
+                2.0,
+                gc.releaseResources
+              )
+            }, 100)
+          })
         })
     })
 })

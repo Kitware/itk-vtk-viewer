@@ -66,9 +66,7 @@ function createTransferFunctionWidget(store, uiContainer, use2D) {
     const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
       component
     ].getPiecewiseFunction()
-    if (!use2D) {
-      transferFunctionWidget.applyOpacity(piecewiseFunction)
-    }
+    transferFunctionWidget.applyOpacity(piecewiseFunction)
     const colorDataRange = transferFunctionWidget.getOpacityRange()
     lookupTable.setMappingRange(...colorDataRange)
     lookupTable.updateRange()

@@ -158,6 +158,23 @@ function createTransferFunctionWidget(store, uiContainer, use2D) {
   })
   transferFunctionWidget.onZoomChange(macro.throttle(onZoomChange, 150))
 
+  function updateTransferFunctionHistogramValues(index) {
+    const colorRange = store.imageUI.colorRanges[index]
+    const numberOfComponents = store.imageUI.numberOfComponents
+    const dataArray = store.imageUI.image.getPointData().getScalars()
+    transferFunctionWidget.setDataArray(dataArray.getData(), {
+      numberOfComponents: numberOfComponents,
+      component: index,
+    })
+    transferFunctionWidget.setGaussians(store.imageUI.opacityGaussians[index])
+
+    const fullRange = dataArray.getRange(index)
+    const diff = fullRange[1] - fullRange[0]
+    const colorRangeNormalized = new Array(2)
+    colorRangeNormalized[0] = (colorRange[0] - fullRange[0]) / diff
+    colorRangeNormalized[1] = (colorRange[1] - fullRange[0]) / diff
+    transferFunctionWidget.setRangeZoom(colorRangeNormalized)
+  }
   function updateTransferFunctionLookupTable(index) {
     const lookupTable = store.imageUI.lookupTableProxies[index].getLookupTable()
     transferFunctionWidget.setColorTransferFunction(lookupTable)
@@ -170,22 +187,7 @@ function createTransferFunctionWidget(store, uiContainer, use2D) {
       return store.imageUI.selectedComponentIndex
     },
     index => {
-      const colorRange = store.imageUI.colorRanges[index]
-      const numberOfComponents = store.imageUI.numberOfComponents
-      const dataArray = store.imageUI.image.getPointData().getScalars()
-      transferFunctionWidget.setDataArray(dataArray.getData(), {
-        numberOfComponents: numberOfComponents,
-        component: index,
-      })
-      transferFunctionWidget.setGaussians(store.imageUI.opacityGaussians[index])
-
-      const fullRange = dataArray.getRange(index)
-      const diff = fullRange[1] - fullRange[0]
-      const colorRangeNormalized = new Array(2)
-      colorRangeNormalized[0] = (colorRange[0] - fullRange[0]) / diff
-      colorRangeNormalized[1] = (colorRange[1] - fullRange[0]) / diff
-      transferFunctionWidget.setRangeZoom(colorRangeNormalized)
-
+      updateTransferFunctionHistogramValues(index)
       updateTransferFunctionLookupTable(index)
 
       if (!renderWindow.getInteractor().isAnimating()) {
@@ -193,7 +195,6 @@ function createTransferFunctionWidget(store, uiContainer, use2D) {
       }
     }
   )
-  updateTransferFunctionLookupTable(store.imageUI.selectedComponentIndex)
 
   function setupOpacityGaussians() {
     const numberOfComponents = store.imageUI.numberOfComponents
@@ -212,20 +213,14 @@ function createTransferFunctionWidget(store, uiContainer, use2D) {
           ])
         }
       }
-      if (!use2D) {
-        transferFunctionWidget.setGaussians(
-          store.imageUI.opacityGaussians[component]
-        )
-        const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
-          component
-        ].getPiecewiseFunction()
-        transferFunctionWidget.applyOpacity(piecewiseFunction)
-      }
+      updateTransferFunctionHistogramValues(component)
+      const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
+        component
+      ].getPiecewiseFunction()
+      transferFunctionWidget.applyOpacity(piecewiseFunction)
     }
     const selectedComponent = store.imageUI.selectedComponentIndex
-    transferFunctionWidget.setGaussians(
-      store.imageUI.opacityGaussians[selectedComponent]
-    )
+    updateTransferFunctionLookupTable(selectedComponent)
   }
   reaction(
     () => {

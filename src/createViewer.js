@@ -45,12 +45,13 @@ const createViewer = (
 
   UserInterface.applyContainerStyle(rootContainer, store, viewerStyle)
 
-  UserInterface.createMainUI(rootContainer, store, use2D, uiContainer)
-
   let updatingImage = false
   if (!!labelMap) {
     store.imageUI.labelMap = labelMap
   }
+
+  UserInterface.createMainUI(rootContainer, store, use2D, uiContainer)
+
   reaction(
     () => {
       const image = store.imageUI.image

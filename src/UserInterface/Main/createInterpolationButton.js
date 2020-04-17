@@ -7,7 +7,20 @@ import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
 
 function createInterpolationButton(store, mainUIRow) {
   const interpolationButton = document.createElement('div')
-  interpolationButton.innerHTML = `<input id="${store.id}-toggleInterpolationButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Interpolation" class="${style.interpolationButton} ${style.toggleButton}" for="${store.id}-toggleInterpolationButton">${interpolationIcon}</label>`
+  if (!!store.imageUI.labelMap) {
+    store.mainUI.interpolationEnabled = false
+  }
+  interpolationButton.innerHTML = `<input id="${
+    store.id
+  }-toggleInterpolationButton" type="checkbox" class="${style.toggleInput}" ${
+    store.mainUI.interpolationEnabled ? 'checked' : ''
+  } ${
+    !!store.imageUI.labelMap ? 'disabled' : ''
+  }><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Interpolation" class="${
+    style.interpolationButton
+  } ${style.toggleButton}" for="${
+    store.id
+  }-toggleInterpolationButton">${interpolationIcon}</label>`
   const interpolationButtonLabel = interpolationButton.children[1]
   applyContrastSensitiveStyle(
     store,
@@ -34,6 +47,10 @@ function createInterpolationButton(store, mainUIRow) {
     when(
       () => !!store.imageUI.image,
       () => (interpolationButton.style.display = 'inline')
+    )
+    when(
+      () => !!store.imageUI.representationProxy,
+      () => toggleInterpolation()
     )
   }
 }

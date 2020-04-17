@@ -2101,13 +2101,17 @@ function loadEmscriptenModule(itkModulesPath, modulesDirectory, moduleBaseName) 
     prefix = '..';
   }
 
+  var moduleScriptDir = prefix + '/' + modulesDirectory;
+
   if ((typeof WebAssembly === "undefined" ? "undefined" : (0, _typeof2["default"])(WebAssembly)) === 'object' && typeof WebAssembly.Memory === 'function') {
-    var modulePath = prefix + '/' + modulesDirectory + '/' + moduleBaseName + 'Wasm.js';
+    var modulePath = moduleScriptDir + '/' + moduleBaseName + 'Wasm.js';
     importScripts(modulePath);
-    var module = self[moduleBaseName]();
+    var module = self[moduleBaseName]({
+      moduleScriptDir: moduleScriptDir
+    });
     return module;
   } else {
-    var _modulePath = prefix + '/' + modulesDirectory + '/' + moduleBaseName + '.js';
+    var _modulePath = moduleScriptDir + '/' + moduleBaseName + '.js';
 
     importScripts(_modulePath);
     return Module;

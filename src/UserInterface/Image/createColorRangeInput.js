@@ -189,6 +189,9 @@ function createColorRangeInput(store, uiContainer) {
       store.imageUI.colorMaps[componentIndex] = iconSelector.getSelectedValue()
     })
   )
+  if (!store.imageUI.independentComponents) {
+    colorMapSelector.style.display = 'none'
+  }
   const component = store.imageUI.selectedComponentIndex
   iconSelector.setSelectedValue(store.imageUI.colorMaps[component])
 }

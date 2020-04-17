@@ -271,6 +271,13 @@ const createViewer = (
   )
   store.imageUI.image = image
 
+  // After all the other "store.imageUI.image" reactions have run, we
+  // need to trigger all of the transfer function widget
+  // "store.imageUI.selectedComponent" reactions.
+  for (let i = store.imageUI.numberOfComponents - 1; i >= 0; i--) {
+    store.imageUI.selectedComponentIndex = i
+  }
+
   reaction(
     () => {
       return store.imageUI.multiscaleManager

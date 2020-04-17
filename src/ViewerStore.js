@@ -57,6 +57,7 @@ class ImageUIStore {
   piecewiseFunctionProxies = []
   @observable componentVisibilities = []
   transferFunctionWidget = null
+  independentComponents = true
 
   croppingWidget = null
   addCroppingPlanesChangedHandler = () => {}

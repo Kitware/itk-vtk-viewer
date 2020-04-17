@@ -28,10 +28,10 @@ export async function createViewerFromFiles(el, files, use2D = false) {
   return processFiles(el, { files: files, use2D })
 }
 
-export async function createViewerFromUrl(el, url, use2D = false) {
+export async function createViewerFromUrl(el, urls, use2D = false) {
   UserInterface.emptyContainer(el)
   const progressCallback = UserInterface.createLoadingProgress(el)
-
+  const url = urls[0]
   const extension = getFileExtension(url)
   if (extension === 'zarr') {
     console.time('meta')
@@ -47,12 +47,15 @@ export async function createViewerFromUrl(el, url, use2D = false) {
       use2D,
     })
   } else {
-    const arrayBuffer = await fetchBinaryContent(url, progressCallback)
-    const file = new File(
-      [new Blob([arrayBuffer])],
-      url.split('/').slice(-1)[0]
-    )
-    return processFiles(el, { files: [file], use2D })
+    const files = []
+    for (const url of urls) {
+      const arrayBuffer = await fetchBinaryContent(url, progressCallback)
+      files.push(
+        new File([new Blob([arrayBuffer])], url.split('/').slice(-1)[0])
+      )
+    }
+
+    return processFiles(el, { files, use2D })
   }
 }
 
@@ -116,7 +119,7 @@ export function processParameters(
   if (userParams[keyName]) {
     return createViewerFromUrl(
       myContainer,
-      userParams[keyName],
+      userParams[keyName].split(','),
       !!userParams.use2D
     )
   }

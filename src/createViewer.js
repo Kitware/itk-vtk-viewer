@@ -45,12 +45,13 @@ const createViewer = (
 
   UserInterface.applyContainerStyle(rootContainer, store, viewerStyle)
 
-  UserInterface.createMainUI(rootContainer, store, use2D, uiContainer)
-
   let updatingImage = false
   if (!!labelMap) {
     store.imageUI.labelMap = labelMap
   }
+
+  UserInterface.createMainUI(rootContainer, store, use2D, uiContainer)
+
   reaction(
     () => {
       const image = store.imageUI.image
@@ -92,6 +93,7 @@ const createViewer = (
               component
             ] = vtkPiecewiseFunctionProxy.newInstance()
             store.imageUI.componentVisibilities[component] = 1.0
+            store.imageUI.independentComponents = true
             let preset = 'Viridis (matplotlib)'
             // If a 2D RGB or RGBA
             if (
@@ -100,6 +102,7 @@ const createViewer = (
               (numberOfComponents === 3 || numberOfComponents === 4)
             ) {
               preset = 'Grayscale'
+              store.imageUI.independentComponents = false
             } else if (numberOfComponents === 1 && !!store.imageUI.labelMap) {
               preset = 'Grayscale'
             } else if (numberOfComponents === 2) {

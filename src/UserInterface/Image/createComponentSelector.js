@@ -20,7 +20,7 @@ function createComponentSelector(store, imageUIGroup) {
 
   function updateAvailableComponents() {
     const components = store.imageUI.numberOfComponents
-    if (components > 1) {
+    if (components > 1 && store.imageUI.independentComponents) {
       componentRow.style.display = 'flex'
     } else {
       componentRow.style.display = 'none'

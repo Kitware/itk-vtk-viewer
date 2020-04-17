@@ -95,15 +95,13 @@ function createLabelMapColorWidget(store, uiContainer) {
   )
   iconSelector.setSelectedValue(store.imageUI.labelMapCategoricalColor)
 
-  const defaultLabelMapColorOpacity = 0.75
-
   const sliderEntry = document.createElement('div')
   sliderEntry.setAttribute('class', style.sliderEntry)
   sliderEntry.innerHTML = `
     <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Gradient opacity" class="${style.gradientOpacitySlider}">
       ${opacityIcon}
     </div>
-    <input type="range" min="0" max="1" value="${defaultLabelMapColorOpacity}" step="0.01"
+    <input type="range" min="0" max="1" value="${store.imageUI.labelMapOpacity}" step="0.01"
       id="${store.id}-labelMapColorOpacitySlider"
       class="${style.slider}" />`
   const opacityElement = sliderEntry.querySelector(
@@ -130,6 +128,7 @@ function createLabelMapColorWidget(store, uiContainer) {
   reaction(() => {
     return store.imageUI.labelMapOpacity
   }, macro.debounce(updateLabelMapColorOpacity, 25))
+  updateLabelMapColorOpacity()
   opacityElement.addEventListener(
     'input',
     action(event => {

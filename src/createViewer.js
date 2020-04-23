@@ -179,16 +179,28 @@ const createViewer = (
 
           const piecewiseFunction = vtkPiecewiseFunction.newInstance()
           store.imageUI.piecewiseFunction = piecewiseFunction
+          const offset = 0.0
+          const maxOpacity = 0.1
           const haveBackground = uniqueLabels[0] === 0 ? true : false
           if (haveBackground) {
-            piecewiseFunction.addPoint(uniqueLabels[0] - 0.5, 0.0, 0.5, 1.0)
+            piecewiseFunction.addPoint(uniqueLabels[0] - offset, 0.0, 0.5, 1.0)
           } else {
-            piecewiseFunction.addPoint(uniqueLabels[0] - 0.5, 1.0, 0.5, 1.0)
+            piecewiseFunction.addPoint(
+              uniqueLabels[0] - offset,
+              maxOpacity,
+              0.5,
+              1.0
+            )
           }
-          piecewiseFunction.addPoint(uniqueLabels[1] - 0.5, 1.0, 0.5, 1.0)
           piecewiseFunction.addPoint(
-            uniqueLabels[uniqueLabels.length - 1] + 0.5,
-            1.0,
+            uniqueLabels[1] - offset,
+            maxOpacity,
+            0.5,
+            1.0
+          )
+          piecewiseFunction.addPoint(
+            uniqueLabels[uniqueLabels.length - 1] + offset,
+            maxOpacity,
             0.5,
             1.0
           )

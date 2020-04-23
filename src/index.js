@@ -74,28 +74,27 @@ export function initializeEmbeddedViewers() {
       el.style.position = 'relative'
       el.style.width = Number.isFinite(Number(width)) ? `${width}px` : width
       el.style.height = Number.isFinite(Number(height)) ? `${height}px` : height
-      createViewerFromUrl(el, el.dataset.url, !!el.dataset.use2D).then(
-        viewer => {
-          // Background color handling
-          if (el.dataset.backgroundColor) {
-            const color = el.dataset.backgroundColor
-            const bgColor = [
-              color.slice(0, 2),
-              color.slice(2, 4),
-              color.slice(4, 6),
-            ].map(v => parseInt(v, 16) / 255)
-            console.log(bgColor)
-            viewer.setBackgroundColor(bgColor)
-          }
-
-          viewer.setUserInterfaceCollapsed(true)
-          // Render
-          if (viewer.renderWindow && viewer.renderWindow.render) {
-            viewer.renderWindow.render()
-          }
-          el.dataset.viewer = viewer
+      const files = el.dataset.url.split(',')
+      createViewerFromUrl(el, files, !!el.dataset.use2D).then(viewer => {
+        // Background color handling
+        if (el.dataset.backgroundColor) {
+          const color = el.dataset.backgroundColor
+          const bgColor = [
+            color.slice(0, 2),
+            color.slice(2, 4),
+            color.slice(4, 6),
+          ].map(v => parseInt(v, 16) / 255)
+          console.log(bgColor)
+          viewer.setBackgroundColor(bgColor)
         }
-      )
+
+        viewer.setUserInterfaceCollapsed(true)
+        // Render
+        if (viewer.renderWindow && viewer.renderWindow.render) {
+          viewer.renderWindow.render()
+        }
+        el.dataset.viewer = viewer
+      })
     }
   }
 }

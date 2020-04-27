@@ -8,7 +8,7 @@ function createGeometryColorChooser(store, geometryColorRow) {
   geometryColorInput.setAttribute('type', 'color')
   geometryColorInput.id = `${store.id}-geometryColorInput`
 
-  const defaultGeometryColor = '#ffffff'
+  const defaultGeometryColor = '#ff0000'
 
   reaction(
     () => {
@@ -46,20 +46,18 @@ function createGeometryColorChooser(store, geometryColorRow) {
     }
   )
 
-  reaction(
-    () => {
-      return store.geometriesUI.colors.slice()
-    },
-    colors => {
-      colors.forEach((value, index) => {
-        const rgb = hex2rgb(value)
-        store.geometriesUI.representationProxies[index].setColor(rgb)
-      })
-      store.renderWindow.render()
-      const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex
-      geometryColorInput.value = colors[selectedGeometryIndex]
-    }
-  )
+  function applyColors(colors) {
+    colors.forEach((value, index) => {
+      const rgb = hex2rgb(value)
+      store.geometriesUI.representationProxies[index].setColor(rgb)
+    })
+    store.renderWindow.render()
+    const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex
+    geometryColorInput.value = colors[selectedGeometryIndex]
+  }
+  reaction(() => {
+    return store.geometriesUI.colors.slice()
+  }, applyColors)
 
   geometryColorInput.addEventListener('input', event => {
     event.preventDefault()
@@ -72,6 +70,7 @@ function createGeometryColorChooser(store, geometryColorRow) {
   defaultGeometryColors.fill(defaultGeometryColor)
   geometryColorInput.value = defaultGeometryColor
   store.geometriesUI.colors = defaultGeometryColors
+  applyColors(store.geometriesUI.colors)
   const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex
   if (store.geometriesUI.hasScalars[selectedGeometryIndex]) {
     geometryColorInput.style.display = 'none'

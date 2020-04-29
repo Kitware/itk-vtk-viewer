@@ -40,6 +40,12 @@ class MainUIStore {
 }
 
 class ImageUIStore {
+  constructor(eventEmitter) {
+    this.eventEmitter = eventEmitter
+  }
+
+  eventEmitter = null
+
   @observable.ref image = null
   @observable.ref multiscaleImage = null
 
@@ -52,13 +58,20 @@ class ImageUIStore {
     if (!!!this.image) {
       return 0
     }
-    const dataArray = this.image.getPointData().getScalars()
+    const dataArray = this.fusedImageLabelMap.getPointData().getScalars()
+    if (!!this.labelMap) {
+      return dataArray.getNumberOfComponents() - 1
+    }
     return dataArray.getNumberOfComponents()
   }
+  totalIntensityComponents = 0
+  maximumIntensityComponents = 3
 
   lookupTableProxies = []
   piecewiseFunctionProxies = []
   @observable componentVisibilities = []
+  @observable visualizedComponents = []
+  lastComponentVisibilityChanged = 0
   transferFunctionWidget = null
   transferFunctionManipulator = {
     rangeManipulator: null,
@@ -91,7 +104,14 @@ class ImageUIStore {
 
   @observable.ref labelMap = null
   @observable.ref multiscaleLabelMap = null
+
+  // @observable fusingImages = false
+
   @computed get fusedImageLabelMap() {
+    console.log(
+      ' --------------------------------- AGAIN -------------------------------- '
+    )
+
     const image = this.image
     const labelMap = this.labelMap
 
@@ -101,34 +121,62 @@ class ImageUIStore {
     if (!!!image) {
       return labelMap
     }
-    if (!!!labelMap) {
+
+    if (this.visualizedComponents.length === 0) {
+      return null
+    } else if (!!labelMap && this.visualizedComponents.length === 4) {
+      return null
+    }
+
+    const imageScalars = image.getPointData().getScalars()
+    const imageData = imageScalars.getData()
+    const imageComponents = imageScalars.getNumberOfComponents()
+
+    this.totalIntensityComponents = imageComponents
+
+    if (!!!labelMap && imageComponents <= 4) {
       return image
     }
+
+    const visualizedComponents = this.visualizedComponents
+    const numVizComponents = visualizedComponents.length
+
     const fusedImage = vtkImageData.newInstance()
     fusedImage.setOrigin(image.getOrigin())
     fusedImage.setSpacing(image.getSpacing())
     fusedImage.setDirection(image.getDirection())
     const imageDimensions = image.getDimensions()
-    const labelMapDimensions = labelMap.getDimensions()
-    const dimensionsEqual = imageDimensions.every((dim, index) => {
-      return labelMapDimensions[index] === dim
-    })
-    if (!dimensionsEqual) {
-      console.error(
-        `Dimensions not equal! Not fusing. Image: ${imageDimensions} Label map: ${labelMapDimensions}`
-      )
-      return image
+
+    if (!!labelMap) {
+      const labelMapDimensions = labelMap.getDimensions()
+      const dimensionsEqual = imageDimensions.every((dim, index) => {
+        return labelMapDimensions[index] === dim
+      })
+      if (!dimensionsEqual) {
+        console.error(
+          `Dimensions not equal! Not fusing. Image: ${imageDimensions} Label map: ${labelMapDimensions}`
+        )
+        return image
+      }
     }
+
+    const numVisualizedComponents = this.visualizedComponents.length
+
     fusedImage.setDimensions(image.getDimensions())
 
-    const imageScalars = image.getPointData().getScalars()
-    const imageData = imageScalars.getData()
-    const imageComponents = imageScalars.getNumberOfComponents()
     const imageTuples = imageScalars.getNumberOfTuples()
-    const labelMapScalars = labelMap.getPointData().getScalars()
-    const labelMapData = labelMapScalars.getData()
 
-    const fusedImageComponents = imageComponents + 1
+    let labelMapScalars = null
+    let labelMapData = null
+
+    if (!!labelMap) {
+      labelMapScalars = labelMap.getPointData().getScalars()
+      labelMapData = labelMapScalars.getData()
+    }
+
+    const fusedImageComponents = labelMapData
+      ? numVisualizedComponents + 1
+      : numVisualizedComponents
 
     const length = imageTuples * fusedImageComponents
     const fusedImageData = new imageData.constructor(length)
@@ -137,10 +185,13 @@ class ImageUIStore {
     let imageIndex = 0
     let labelMapIndex = 0
     for (let tuple = 0; tuple < imageTuples; tuple++) {
-      for (let component = 0; component < imageComponents; component++) {
-        fusedImageData[fusedIndex++] = imageData[imageIndex++]
+      for (let component = 0; component < numVizComponents; component++) {
+        imageIndex = tuple * imageComponents + visualizedComponents[component]
+        fusedImageData[fusedIndex++] = imageData[imageIndex]
       }
-      fusedImageData[fusedIndex++] = labelMapData[labelMapIndex++]
+      if (labelMapData) {
+        fusedImageData[fusedIndex++] = labelMapData[labelMapIndex++]
+      }
     }
 
     const fusedImageScalars = vtkDataArray.newInstance({
@@ -150,6 +201,7 @@ class ImageUIStore {
     })
 
     fusedImage.getPointData().setScalars(fusedImageScalars)
+
     return fusedImage
   }
 
@@ -190,6 +242,12 @@ class ImageUIStore {
 }
 
 class GeometriesUIStore {
+  constructor(eventEmitter) {
+    this.eventEmitter = eventEmitter
+  }
+
+  eventEmitter = null
+
   @observable.shallow geometries = []
 
   initialized = false
@@ -299,6 +357,12 @@ class GeometriesUIStore {
 }
 
 class PointSetsUIStore {
+  constructor(eventEmitter) {
+    this.eventEmitter = eventEmitter
+  }
+
+  eventEmitter = null
+
   @observable.shallow pointSets = []
 
   initialized = false
@@ -380,10 +444,12 @@ class PointSetsUIStore {
 
 class ViewerStore {
   constructor(proxyManager) {
-    this.mainUI = new MainUIStore()
-    this.imageUI = new ImageUIStore()
-    this.geometriesUI = new GeometriesUIStore()
-    this.pointSetsUI = new PointSetsUIStore()
+    this.eventEmitter = new EventEmitter()
+
+    this.mainUI = new MainUIStore(this.eventEmitter)
+    this.imageUI = new ImageUIStore(this.eventEmitter)
+    this.geometriesUI = new GeometriesUIStore(this.eventEmitter)
+    this.pointSetsUI = new PointSetsUIStore(this.eventEmitter)
 
     this.id =
       'itk-vtk-viewer-' +
@@ -403,8 +469,6 @@ class ViewerStore {
       'TrivialProducer',
       { name: 'Image' }
     )
-
-    this.eventEmitter = new EventEmitter()
   }
 
   eventEmitter = null

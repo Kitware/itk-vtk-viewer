@@ -1,27 +1,27 @@
 function updateSliceProperties(store) {
-  const numberOfComponents = store.imageUI.numberOfComponents
+  const visualizedComponents = store.imageUI.visualizedComponents
   const independentComponents = store.imageUI.independentComponents
   if (!!store.imageUI.representationProxy) {
     const sliceActors = store.imageUI.representationProxy.getActors()
-    sliceActors.forEach(actor => {
+    sliceActors.forEach((actor, actorIdx) => {
       const actorProp = actor.getProperty()
       actorProp.setIndependentComponents(independentComponents)
-      for (let component = 0; component < numberOfComponents; component++) {
-        const lutProxy = store.imageUI.lookupTableProxies[component]
-        const pwfProxy = store.imageUI.piecewiseFunctionProxies[component].slice
-        actorProp.setRGBTransferFunction(component, lutProxy.getLookupTable())
+      visualizedComponents.forEach((componentIdx, fusedImgIdx) => {
+        const lutProxy = store.imageUI.lookupTableProxies[componentIdx]
+        const pwfProxy = store.imageUI.piecewiseFunctionProxies[componentIdx].slice
+        actorProp.setRGBTransferFunction(fusedImgIdx, lutProxy.getLookupTable())
         actorProp.setPiecewiseFunction(
-          component,
+          fusedImgIdx,
           pwfProxy.getPiecewiseFunction()
         )
         const componentVisibility =
-          store.imageUI.componentVisibilities[component]
+          store.imageUI.componentVisibilities[componentIdx]
         if (componentVisibility.visible) {
-          actorProp.setComponentWeight(component, componentVisibility.weight)
+          actorProp.setComponentWeight(fusedImgIdx, componentVisibility.weight)
         } else {
-          actorProp.setComponentWeight(component, 0.0)
+          actorProp.setComponentWeight(fusedImgIdx, 0.0)
         }
-      }
+      })
     })
   }
 }

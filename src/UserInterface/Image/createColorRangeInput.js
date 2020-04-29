@@ -17,8 +17,10 @@ function createColorRangeInput(store, uiContainer) {
   maximumInput.setAttribute('class', style.numberInput)
 
   function updateColorRangeInput() {
-    const dataArray = store.imageUI.image.getPointData().getScalars()
-    const numberOfComponents = store.imageUI.numberOfComponents
+    const dataArray = store.imageUI.fusedImageLabelMap
+      .getPointData()
+      .getScalars()
+    const numberOfComponents = store.imageUI.totalIntensityComponents
     for (let component = 0; component < numberOfComponents; component++) {
       const range = dataArray.getRange(component)
       minimumInput.min = range[0]

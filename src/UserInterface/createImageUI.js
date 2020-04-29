@@ -24,7 +24,9 @@ function createImageUI(store, use2D) {
   const haveImage = !!store.imageUI.image
 
   if (haveImage) {
-    const dataArray = store.imageUI.image.getPointData().getScalars()
+    const dataArray = store.imageUI.fusedImageLabelMap
+      .getPointData()
+      .getScalars()
     const components = store.imageUI.numberOfComponents
 
     // If not a 2D RGB image

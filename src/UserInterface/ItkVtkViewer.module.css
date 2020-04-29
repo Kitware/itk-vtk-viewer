@@ -496,6 +496,11 @@ input:checked.toggleInput + label {
   pointer-events: none;
 }
 
+.componentDisabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .componentTab + .compTabLabel {
   background: rgba(40, 40, 40, 0.5);
   padding: 5px;

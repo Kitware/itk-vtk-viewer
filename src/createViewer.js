@@ -23,6 +23,27 @@ import updateGradientOpacity from './Rendering/updateGradientOpacity'
 
 import { autorun, observable, reaction, toJS } from 'mobx'
 
+function updateVisualizedComponents(store) {
+  const image = store.imageUI.image
+  const labelMap = store.imageUI.labelMap
+  if (image) {
+    const imageComponents = image
+      .getPointData()
+      .getScalars()
+      .getNumberOfComponents()
+    store.imageUI.maximumIntensityComponents = !!labelMap ? 3 : 4
+    const numVizComps = Math.min(
+      imageComponents,
+      store.imageUI.maximumIntensityComponents
+    )
+    const vizComps = []
+    for (let i = 0; i < numVizComps; i++) {
+      vizComps.push(i)
+    }
+    store.imageUI.visualizedComponents.replace(vizComps)
+  }
+}
+
 const createViewer = (
   rootContainer,
   {
@@ -87,11 +108,14 @@ const createViewer = (
   reaction(
     () => {
       const image = store.imageUI.image
+      const components = store.imageUI.visualizedComponents.slice()
       const labelMap = store.imageUI.labelMap
       return store.imageUI.fusedImageLabelMap
     },
 
     fusedImage => {
+      store.eventEmitter.emit('fusingStatusChanged', false)
+
       if (!!!fusedImage) {
         return
       }
@@ -122,15 +146,17 @@ const createViewer = (
         store.itkVtkView.setLabelNames(labelMapNames)
       }
 
-      if (!!store.imageUI.image && !!!store.imageUI.lookupTableProxies.length) {
+      // if (!!store.imageUI.image && !!!store.imageUI.lookupTableProxies.length) {
+      if (!!store.imageUI.image) {
         createImageRendering(store, use2D)
         updateVolumeProperties(store)
       }
 
-      if (
-        !!store.imageUI.labelMap &&
-        !!!store.imageUI.labelMapLookupTableProxy
-      ) {
+      // if (
+      //   !!store.imageUI.labelMap &&
+      //   !!!store.imageUI.labelMapLookupTableProxy
+      // ) {
+      if (!!store.imageUI.labelMap) {
         createLabelMapRendering(store)
       }
 
@@ -158,9 +184,10 @@ const createViewer = (
         updateVolumeProperties(store)
 
         const transferFunctionWidget = store.imageUI.transferFunctionWidget
+
         if (transferFunctionWidget) {
           transferFunctionWidget.setDataArray(
-            store.imageUI.image
+            fusedImage
               .getPointData()
               .getScalars()
               .getData()
@@ -204,8 +231,10 @@ const createViewer = (
     }
   )
   store.imageUI.image = image
+  updateVisualizedComponents(store)
   if (!!labelMap) {
     store.imageUI.labelMap = labelMap
+    updateVisualizedComponents(store)
   }
 
   autorun(() => {
@@ -230,11 +259,13 @@ const createViewer = (
         const topLevelImage = await multiscaleLabelMap.topLevelLargestImage()
         const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage)
         store.imageUI.labelMap = imageData
+        updateVisualizedComponents(store)
       }
       if (!!multiscaleImage) {
         const topLevelImage = await multiscaleImage.topLevelLargestImage()
         const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage)
         store.imageUI.image = imageData
+        updateVisualizedComponents(store)
       }
     }
   )
@@ -428,6 +459,7 @@ const createViewer = (
 
   const setImage = image => {
     store.imageUI.image = image
+    updateVisualizedComponents(store)
   }
   publicAPI.setImage = macro.throttle(setImage, 100)
 
@@ -445,6 +477,7 @@ const createViewer = (
 
   publicAPI.setLabelMap = labelMap => {
     store.imageUI.labelMap = labelMap
+    updateVisualizedComponents(store)
   }
 
   publicAPI.setLabelMapNames = names => {
@@ -500,6 +533,7 @@ const createViewer = (
     'pointSetRepresentationChanged',
     'backgroundColorChanged',
     'volumeSampleDistanceChanged',
+    'fusingStatusChanged',
   ]
 
   publicAPI.getEventNames = () => eventNames

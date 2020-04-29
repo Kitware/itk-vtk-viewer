@@ -7,24 +7,32 @@ import updateSliceProperties from './updateSliceProperties'
 
 function createImageRendering(store, use2D) {
   const numberOfComponents = store.imageUI.numberOfComponents
+  const totalComponents = store.imageUI.totalIntensityComponents
 
-  store.imageUI.lookupTableProxies = new Array(numberOfComponents)
-  store.imageUI.piecewiseFunctionProxies = new Array(numberOfComponents)
+  store.imageUI.lookupTableProxies = new Array(totalComponents)
+  store.imageUI.piecewiseFunctionProxies = new Array(totalComponents)
   const initialComponentVisibilities = []
-  for (let i = 0; i < numberOfComponents; i++) {
+  for (let i = 0; i < totalComponents; i++) {
+    const visible =
+      store.imageUI.visualizedComponents.indexOf(i) >= 0 ? true : false
     initialComponentVisibilities.push({
-      visible: true,
+      visible: visible,
       weight: 1.0,
     })
   }
   store.imageUI.componentVisibilities = observable(initialComponentVisibilities)
-  store.imageUI.colorMaps = new Array(numberOfComponents)
-  store.imageUI.colorRanges = new Array(numberOfComponents)
+  store.imageUI.colorMaps = new Array(totalComponents)
+  store.imageUI.colorRanges = new Array(totalComponents)
   const volume = store.imageUI.representationProxy.getVolumes()[0]
   const volumeProperty = volume.getProperty()
   volumeProperty.setIndependentComponents(true)
   const dataArray = store.imageUI.image.getPointData().getScalars()
-  for (let component = 0; component < numberOfComponents; component++) {
+  if (dataArray.getNumberOfComponents() !== totalComponents) {
+    console.error(
+      `Mismatch between components in image scalars (${dataArray.getNumberOfComponents()}) and totalComponents (${totalComponents})`
+    )
+  }
+  for (let component = 0; component < totalComponents; component++) {
     store.imageUI.lookupTableProxies[
       component
     ] = vtkLookupTableProxy.newInstance()
@@ -73,18 +81,25 @@ function createImageRendering(store, use2D) {
     const range = dataArray.getRange(component)
     store.imageUI.colorRanges[component] = range
     lut.setMappingRange(range[0], range[1])
-    volumeProperty.setRGBTransferFunction(component, lut)
 
-    const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
-      component
-    ].volume.getPiecewiseFunction()
-    volumeProperty.setScalarOpacity(component, piecewiseFunction)
+    const fusedImgIndex = store.imageUI.visualizedComponents.indexOf(component)
+    if (fusedImgIndex >= 0) {
+      const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
+        component
+      ].volume.getPiecewiseFunction()
 
-    const componentVisibility = store.imageUI.componentVisibilities[component]
-    if (componentVisibility.visible) {
-      volumeProperty.setComponentWeight(component, componentVisibility.weight)
-    } else {
-      volumeProperty.setComponentWeight(component, 0.0)
+      volumeProperty.setScalarOpacity(fusedImgIndex, piecewiseFunction)
+      volumeProperty.setRGBTransferFunction(fusedImgIndex, lut)
+
+      const componentVisibility = store.imageUI.componentVisibilities[component]
+      if (componentVisibility.visible) {
+        volumeProperty.setComponentWeight(
+          fusedImgIndex,
+          componentVisibility.weight
+        )
+      } else {
+        volumeProperty.setComponentWeight(fusedImgIndex, 0.0)
+      }
     }
   }
 

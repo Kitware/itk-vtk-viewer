@@ -45,7 +45,7 @@ function createTransferFunctionWidget(store, uiContainer, use2D) {
   })
   const dataArray = store.imageUI.image.getPointData().getScalars()
   transferFunctionWidget.setDataArray(dataArray.getData(), {
-    numberOfComponents: store.imageUI.numberOfComponents,
+    numberOfComponents: store.imageUI.totalIntensityComponents,
     component: store.imageUI.selectedComponentIndex,
   })
 
@@ -164,7 +164,7 @@ function createTransferFunctionWidget(store, uiContainer, use2D) {
   )
 
   function setupOpacityGaussians() {
-    const numberOfComponents = store.imageUI.numberOfComponents
+    const numberOfComponents = store.imageUI.totalIntensityComponents
     const gaussians = []
     for (let component = 0; component < numberOfComponents; component++) {
       if (store.imageUI.opacityGaussians.length > component) {

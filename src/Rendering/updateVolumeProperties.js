@@ -3,38 +3,46 @@ import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Consta
 import updateGradientOpacity from './updateGradientOpacity'
 
 function updateVolumeProperties(store) {
-  const numberOfComponents = store.imageUI.numberOfComponents
+  const visualizedComponents = store.imageUI.visualizedComponents
   if (!!store.imageUI.representationProxy) {
     const volumeProps = store.imageUI.representationProxy.getVolumes()
     volumeProps.forEach((volume, volIdx) => {
       const volumeProperty = volume.getProperty()
       let componentsVisible = false
-      for (let component = 0; component < numberOfComponents; component++) {
-        const lut = store.imageUI.lookupTableProxies[component].getLookupTable()
+      // callback(currentValue, index, ...)
+      // visualizedComponents = [2, 4, 6]
+      //   currentValues: 2, 4, 6   <- Global indices in the original image data, on which stored stuff (txfunc, colormap) are keyed
+      //   indexes:       0, 1, 2   <- Component indices in the fused image, what the mapper/property needs to know
+      visualizedComponents.forEach((componentIdx, fusedImgIdx) => {
+        const lut = store.imageUI.lookupTableProxies[
+          componentIdx
+        ].getLookupTable()
         const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
-          component
+          componentIdx
         ].volume.getPiecewiseFunction()
         const componentVisibility =
-          store.imageUI.componentVisibilities[component]
+          store.imageUI.componentVisibilities[componentIdx]
         componentsVisible = componentVisibility.visible
           ? true
           : componentsVisible
-        volumeProperty.setRGBTransferFunction(component, lut)
-        volumeProperty.setScalarOpacity(component, piecewiseFunction)
+        volumeProperty.setRGBTransferFunction(fusedImgIdx, lut)
+        volumeProperty.setScalarOpacity(fusedImgIdx, piecewiseFunction)
         if (componentVisibility.visible) {
           volumeProperty.setComponentWeight(
-            component,
+            fusedImgIdx,
             componentVisibility.weight
           )
         } else {
-          volumeProperty.setComponentWeight(component, 0.0)
+          volumeProperty.setComponentWeight(fusedImgIdx, 0.0)
         }
-      }
+      })
+
       if (!!store.imageUI.labelMap) {
         let mode = OpacityMode.PROPORTIONAL
         if (!componentsVisible) {
           mode = OpacityMode.FRACTIONAL
         }
+        const numberOfComponents = store.imageUI.numberOfComponents
         volumeProperty.setOpacityMode(numberOfComponents, mode)
       }
     })

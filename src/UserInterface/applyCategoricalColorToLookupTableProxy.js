@@ -11,15 +11,17 @@ function applyCategoricalColorToLookupTableProxy(lutProxy, labels, presetName) {
   let startIndex = 0
   if (haveBackground) {
     startIndex = 1
-    rgbPoints[0] = [labels[0] - 0.5, 0.0, 0.0, 0.0]
+    rgbPoints[0] = [labels[0], 0.0, 0.0, 0.0, 0.5, 1.0]
   }
   for (let labelIndex = startIndex; labelIndex < numberOfLabels; labelIndex++) {
-    const color = colors[labelIndex + (startIndex % colors.length)]
+    const color = colors[(labelIndex - startIndex) % colors.length]
     rgbPoints[labelIndex] = [
-      labels[labelIndex] - 0.5,
+      labels[labelIndex],
       color[0],
       color[1],
       color[2],
+      0.5,
+      1.0,
     ]
   }
   lutProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)

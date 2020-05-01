@@ -30,36 +30,86 @@ export async function createViewerFromFiles(el, files, use2D = false) {
 
 export async function createViewerFromUrl(
   el,
-  { filesToLoad = [], use2D = false }
+  {
+    files = [],
+    use2D = false,
+    image,
+    multiscaleImage,
+    labelMap,
+    multiscaleLabelMap,
+  }
 ) {
   UserInterface.emptyContainer(el)
   const progressCallback = UserInterface.createLoadingProgress(el)
-  const url = filesToLoad[0]
-  const extension = getFileExtension(url)
-  if (extension === 'zarr') {
+
+  let imageObject = null
+  if (!!image) {
+    const arrayBuffer = await fetchBinaryContent(image, progressCallback)
+    imageObject = new File(
+      [new Blob([arrayBuffer])],
+      image.split('/').slice(-1)[0]
+    )
+  }
+  let multiscaleImageObject = null
+  if (!!multiscaleImage) {
     console.time('meta')
     console.time('image')
     const metadata = await ZarrMultiscaleManager.parseMetadata(url)
     console.timeEnd('meta')
-    const multiscaleImage = new ZarrMultiscaleManager(url, metadata)
+    multiscaleImageObject = new ZarrMultiscaleManager(url, metadata)
     // Side effect to keep the spinner going
-    const topLevelLargestImage = await multiscaleImage.topLevelLargestImage()
+    const topLevelLargestImage = await multiscaleImageObject.topLevelLargestImage()
     console.timeEnd('image')
-    return createViewer(el, {
-      multiscaleImage,
-      use2D,
-    })
-  } else {
-    const files = []
-    for (const url of filesToLoad) {
+  }
+
+  let labelMapObject = null
+  if (!!labelMap) {
+    const arrayBuffer = await fetchBinaryContent(labelMap, progressCallback)
+    labelMapObject = new File(
+      [new Blob([arrayBuffer])],
+      labelMap.split('/').slice(-1)[0]
+    )
+  }
+  let multiscaleLabelMapObject = null
+  if (!!multiscaleLabelMap) {
+    console.time('labelMapMeta')
+    console.time('labelMap')
+    const metadata = await ZarrMultiscaleManager.parseMetadata(url)
+    console.timeEnd('labelMapMeta')
+    multiscaleLabelMapObject = new ZarrMultiscaleManager(url, metadata)
+    // Side effect to keep the spinner going
+    const topLevelLargestImage = await multiscaleLabelMapObject.topLevelLargestImage()
+    console.timeEnd('labelMap')
+  }
+
+  const fileObjects = []
+  for (const url of files) {
+    const extension = getFileExtension(url)
+    if (extension === 'zarr' && !!!multiscaleImageObject) {
+      console.time('meta')
+      console.time('image')
+      const metadata = await ZarrMultiscaleManager.parseMetadata(url)
+      console.timeEnd('meta')
+      multiscaleImageObject = new ZarrMultiscaleManager(url, metadata)
+      // Side effect to keep the spinner going
+      const topLevelLargestImage = await multiscaleImageObject.topLevelLargestImage()
+      console.timeEnd('image')
+    } else {
       const arrayBuffer = await fetchBinaryContent(url, progressCallback)
-      files.push(
+      fileObjects.push(
         new File([new Blob([arrayBuffer])], url.split('/').slice(-1)[0])
       )
     }
-
-    return processFiles(el, { files, use2D })
   }
+
+  return processFiles(el, {
+    files: fileObjects,
+    image: imageObject,
+    multiscaleImage: multiscaleImageObject,
+    labelMap: labelMapObject,
+    multiscaleLabelMap: multiscaleLabelMapObject,
+    use2D,
+  })
 }
 
 export function initializeEmbeddedViewers() {
@@ -79,7 +129,7 @@ export function initializeEmbeddedViewers() {
       el.style.height = Number.isFinite(Number(height)) ? `${height}px` : height
       const files = el.dataset.url.split(',')
       createViewerFromUrl(el, {
-        filesToLoad: files,
+        files,
         use2D: !!el.dataset.use2D,
       }).then(viewer => {
         // Background color handling
@@ -127,7 +177,7 @@ export function processURLParameters(container, addOnParameters = {}) {
 
   if (filesToLoad.length) {
     return createViewerFromUrl(myContainer, {
-      filesToLoad,
+      files: filesToLoad,
       use2D: !!userParams.use2D,
     })
   }

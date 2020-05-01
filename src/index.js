@@ -28,10 +28,10 @@ export async function createViewerFromFiles(el, files, use2D = false) {
   return processFiles(el, { files: files, use2D })
 }
 
-export async function createViewerFromUrl(el, urls, use2D = false) {
+export async function createViewerFromUrl(el, filesToLoad, use2D = false) {
   UserInterface.emptyContainer(el)
   const progressCallback = UserInterface.createLoadingProgress(el)
-  const url = urls[0]
+  const url = filesToLoad[0]
   const extension = getFileExtension(url)
   if (extension === 'zarr') {
     console.time('meta')
@@ -48,7 +48,7 @@ export async function createViewerFromUrl(el, urls, use2D = false) {
     })
   } else {
     const files = []
-    for (const url of urls) {
+    for (const url of filesToLoad) {
       const arrayBuffer = await fetchBinaryContent(url, progressCallback)
       files.push(
         new File([new Blob([arrayBuffer])], url.split('/').slice(-1)[0])
@@ -99,11 +99,7 @@ export function initializeEmbeddedViewers() {
   }
 }
 
-export function processParameters(
-  container,
-  addOnParameters = {},
-  keyName = 'fileToLoad'
-) {
+export function processURLParameters(container, addOnParameters = {}) {
   const userParams = Object.assign(
     {},
     vtkURLExtract.extractURLParameters(),

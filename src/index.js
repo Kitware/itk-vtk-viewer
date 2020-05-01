@@ -32,54 +32,59 @@ export async function createViewerFromUrl(
   el,
   {
     files = [],
-    use2D = false,
     image,
     multiscaleImage,
     labelMap,
     multiscaleLabelMap,
+    rotate = true,
+    use2D = false,
   }
 ) {
   UserInterface.emptyContainer(el)
   const progressCallback = UserInterface.createLoadingProgress(el)
 
   let imageObject = null
-  if (!!image) {
-    const arrayBuffer = await fetchBinaryContent(image, progressCallback)
-    imageObject = new File(
-      [new Blob([arrayBuffer])],
-      image.split('/').slice(-1)[0]
-    )
-  }
   let multiscaleImageObject = null
-  if (!!multiscaleImage) {
-    console.time('meta')
-    console.time('image')
-    const metadata = await ZarrMultiscaleManager.parseMetadata(url)
-    console.timeEnd('meta')
-    multiscaleImageObject = new ZarrMultiscaleManager(url, metadata)
-    // Side effect to keep the spinner going
-    const topLevelLargestImage = await multiscaleImageObject.topLevelLargestImage()
-    console.timeEnd('image')
+  if (!!image) {
+    const extension = getFileExtension(image)
+    if (extension === 'zarr') {
+      console.time('meta')
+      console.time('image')
+      const metadata = await ZarrMultiscaleManager.parseMetadata(image)
+      console.timeEnd('meta')
+      multiscaleImageObject = new ZarrMultiscaleManager(image, metadata)
+      // Side effect to keep the spinner going
+      const topLevelLargestImage = await multiscaleImageObject.topLevelLargestImage()
+      console.timeEnd('image')
+    } else {
+      const arrayBuffer = await fetchBinaryContent(image, progressCallback)
+      imageObject = new File(
+        [new Blob([arrayBuffer])],
+        image.split('/').slice(-1)[0]
+      )
+    }
   }
 
   let labelMapObject = null
-  if (!!labelMap) {
-    const arrayBuffer = await fetchBinaryContent(labelMap, progressCallback)
-    labelMapObject = new File(
-      [new Blob([arrayBuffer])],
-      labelMap.split('/').slice(-1)[0]
-    )
-  }
   let multiscaleLabelMapObject = null
-  if (!!multiscaleLabelMap) {
-    console.time('labelMapMeta')
-    console.time('labelMap')
-    const metadata = await ZarrMultiscaleManager.parseMetadata(url)
-    console.timeEnd('labelMapMeta')
-    multiscaleLabelMapObject = new ZarrMultiscaleManager(url, metadata)
-    // Side effect to keep the spinner going
-    const topLevelLargestImage = await multiscaleLabelMapObject.topLevelLargestImage()
-    console.timeEnd('labelMap')
+  if (!!labelMap) {
+    const extension = getFileExtension(labelMap)
+    if (extension === 'zarr') {
+      console.time('labelMapMeta')
+      console.time('labelMap')
+      const metadata = await ZarrMultiscaleManager.parseMetadata(labelMap)
+      console.timeEnd('labelMapMeta')
+      multiscaleLabelMapObject = new ZarrMultiscaleManager(labelMap, metadata)
+      // Side effect to keep the spinner going
+      const topLevelLargestImage = await multiscaleLabelMapObject.topLevelLargestImage()
+      console.timeEnd('labelMap')
+    } else {
+      const arrayBuffer = await fetchBinaryContent(labelMap, progressCallback)
+      labelMapObject = new File(
+        [new Blob([arrayBuffer])],
+        labelMap.split('/').slice(-1)[0]
+      )
+    }
   }
 
   const fileObjects = []
@@ -108,6 +113,7 @@ export async function createViewerFromUrl(
     multiscaleImage: multiscaleImageObject,
     labelMap: labelMapObject,
     multiscaleLabelMap: multiscaleLabelMapObject,
+    rotate,
     use2D,
   })
 }
@@ -174,10 +180,17 @@ export function processURLParameters(container, addOnParameters = {}) {
   if (userParams.filesToLoad) {
     filesToLoad = userParams.filesToLoad.split(',')
   }
+  let rotate = true
+  if (typeof userParams.rotate !== 'undefined') {
+    rotate = vtkURLExtract.toNativeType(userParams.rotate)
+  }
 
-  if (filesToLoad.length) {
+  if (filesToLoad.length || userParams.image || userParams.labelMap) {
     return createViewerFromUrl(myContainer, {
       files: filesToLoad,
+      image: userParams.image,
+      labelMap: userParams.labelMap,
+      rotate,
       use2D: !!userParams.use2D,
     })
   }

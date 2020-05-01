@@ -30,7 +30,7 @@ function typedArrayForBuffer(typedArrayType, buffer) {
 
 export const processFiles = async (
   container,
-  { files, image, multiscaleImage, labelMap, multiscaleLabelMap, use2D }
+  { files, image, multiscaleImage, labelMap, multiscaleLabelMap, rotate, use2D }
 ) => {
   UserInterface.emptyContainer(container)
   UserInterface.createLoadingProgress(container)
@@ -42,6 +42,7 @@ export const processFiles = async (
     multiscaleLabelMap,
     use2D,
   })
+  config.rotate = rotate
   return createViewer(container, config)
 }
 
@@ -51,6 +52,7 @@ export const readFiles = async ({
   multiscaleImage,
   labelMap,
   multiscaleLabelMap,
+  rotate,
   use2D,
 }) => {
   let readDICOMSeries = readImageDICOMFileSeries
@@ -227,7 +229,11 @@ export const readFiles = async ({
       })
       .map(({ data }) => data)
     const any3D = !dataSets.map(({ is3D }) => is3D).every(is3D => !is3D)
-    const is3D = any3D || (imageIs3D && !use2D)
+    const is3D =
+      any3D ||
+      (!!multiscaleImage && multiscaleImage.imageType.dimension === 3) ||
+      (!!multiscaleLabelMap && multiscaleLabelMap.imageType.dimension === 3) ||
+      (imageIs3D && !use2D)
     return {
       image: imageData,
       multiscaleImage,

@@ -6,6 +6,7 @@ import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
 
 function createPlaneIndexSliders(store, uiContainer) {
   const planeIndexUIGroup = document.createElement('div')
+  store.imageUI.planeIndexUIGroup = planeIndexUIGroup
   planeIndexUIGroup.setAttribute('class', style.uiGroup)
 
   const numberOfValueChars = 6

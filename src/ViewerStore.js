@@ -38,7 +38,7 @@ class MainUIStore {
 
 class ImageUIStore {
   @observable.ref image = null
-  @observable.ref multiscaleManager = null
+  @observable.ref multiscaleImage = null
 
   source = null
   @observable.ref representationProxy = null
@@ -59,6 +59,7 @@ class ImageUIStore {
   transferFunctionWidget = null
   independentComponents = true
 
+  imageUIGroup = null
   croppingWidget = null
   addCroppingPlanesChangedHandler = () => {}
   addResetCropHandler = () => {}
@@ -76,6 +77,7 @@ class ImageUIStore {
   @observable zSlice = null
 
   @observable.ref labelMap = null
+  @observable.ref multiscaleLabelMap = null
   @computed get fusedImageLabelMap() {
     const image = this.image
     const labelMap = this.labelMap
@@ -138,6 +140,7 @@ class ImageUIStore {
     return fusedImage
   }
 
+  labelMapColorUIGroup = null
   labelMapLookupTableProxy = null
   // Sorted array of label values
   labelMapLabels = null
@@ -145,6 +148,8 @@ class ImageUIStore {
 
   @observable labelMapOpacity = 0.75
   @observable labelMapCategoricalColor = 'glasbey'
+
+  planeIndexUIGroup = null
 
   distanceWidget = null
   distanceUpdateInProgress = false

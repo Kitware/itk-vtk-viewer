@@ -1,19 +1,18 @@
 import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager'
 import macro from 'vtk.js/Sources/macro'
-import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
-import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy'
-import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
 import ResizeSensor from 'css-element-queries/src/ResizeSensor'
 
 import proxyConfiguration from './proxyManagerConfiguration'
 import UserInterface from './UserInterface'
+import createLabelMapColorWidget from './UserInterface/Image/createLabelMapColorWidget'
+import createPlaneIndexSliders from './UserInterface/Image/createPlaneIndexSliders'
 import addKeyboardShortcuts from './addKeyboardShortcuts'
 import rgb2hex from './UserInterface/rgb2hex'
 import ViewerStore from './ViewerStore'
-import applyCategoricalColorToLookupTableProxy from './UserInterface/applyCategoricalColorToLookupTableProxy'
-import updateSliceProperties from './Rendering/updateSliceProperties'
+import createLabelMapRendering from './Rendering/createLabelMapRendering'
+import createImageRendering from './Rendering/createImageRendering'
 
 import { autorun, observable, reaction } from 'mobx'
 
@@ -21,8 +20,9 @@ const createViewer = (
   rootContainer,
   {
     image,
-    multiscaleManager,
+    multiscaleImage,
     labelMap,
+    multiscaleLabelMap,
     geometries,
     pointSets,
     use2D = false,
@@ -46,9 +46,6 @@ const createViewer = (
   UserInterface.applyContainerStyle(rootContainer, store, viewerStyle)
 
   let updatingImage = false
-  if (!!labelMap) {
-    store.imageUI.labelMap = labelMap
-  }
 
   UserInterface.createMainUI(rootContainer, store, use2D, uiContainer)
 
@@ -63,8 +60,10 @@ const createViewer = (
       if (!!!fusedImage) {
         return
       }
-      const numberOfComponents = store.imageUI.numberOfComponents
+
+      let initialRender = false
       if (!!!store.imageUI.representationProxy) {
+        initialRender = true
         store.imageUI.source.setInputData(fusedImage)
 
         proxyManager.createRepresentationInAllViews(store.imageUI.source)
@@ -73,164 +72,6 @@ const createViewer = (
           store.itkVtkView
         )
 
-        if (!!store.imageUI.image) {
-          store.imageUI.lookupTableProxies = new Array(numberOfComponents)
-          store.imageUI.piecewiseFunctionProxies = new Array(numberOfComponents)
-          store.imageUI.componentVisibilities = observable(
-            new Array(numberOfComponents)
-          )
-          store.imageUI.colorMaps = new Array(numberOfComponents)
-          store.imageUI.colorRanges = new Array(numberOfComponents)
-          const volume = store.imageUI.representationProxy.getVolumes()[0]
-          const volumeProperty = volume.getProperty()
-          volumeProperty.setIndependentComponents(true)
-          const dataArray = store.imageUI.image.getPointData().getScalars()
-          for (let component = 0; component < numberOfComponents; component++) {
-            store.imageUI.lookupTableProxies[
-              component
-            ] = vtkLookupTableProxy.newInstance()
-            store.imageUI.piecewiseFunctionProxies[
-              component
-            ] = vtkPiecewiseFunctionProxy.newInstance()
-            store.imageUI.componentVisibilities[component] = 1.0
-            store.imageUI.independentComponents = true
-            let preset = 'Viridis (matplotlib)'
-            // If a 2D RGB or RGBA
-            if (
-              use2D &&
-              dataArray.getDataType() === 'Uint8Array' &&
-              (numberOfComponents === 3 || numberOfComponents === 4)
-            ) {
-              preset = 'Grayscale'
-              store.imageUI.independentComponents = false
-            } else if (numberOfComponents === 1 && !!store.imageUI.labelMap) {
-              preset = 'Grayscale'
-            } else if (numberOfComponents === 2) {
-              switch (component) {
-                case 0:
-                  preset = 'BkMa'
-                  break
-                case 1:
-                  preset = 'BkCy'
-                  break
-              }
-            } else if (numberOfComponents === 3) {
-              switch (component) {
-                case 0:
-                  preset = 'BkRd'
-                  break
-                case 1:
-                  preset = 'BkGn'
-                  break
-                case 2:
-                  preset = 'BkBu'
-                  break
-              }
-            }
-            store.imageUI.colorMaps[component] = preset
-            store.imageUI.lookupTableProxies[component].setPresetName(preset)
-
-            const lut = store.imageUI.lookupTableProxies[
-              component
-            ].getLookupTable()
-            const range = dataArray.getRange(component)
-            store.imageUI.colorRanges[component] = range
-            lut.setMappingRange(range[0], range[1])
-            volumeProperty.setRGBTransferFunction(component, lut)
-
-            const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
-              component
-            ].getPiecewiseFunction()
-            volumeProperty.setScalarOpacity(component, piecewiseFunction)
-
-            const visibility = store.imageUI.componentVisibilities[component]
-            volumeProperty.setComponentWeight(component, visibility)
-          }
-
-          // Now for the slice rendering
-          updateSliceProperties(store)
-        }
-
-        if (!!store.imageUI.labelMap) {
-          // label map initialization
-          const lutProxy = vtkLookupTableProxy.newInstance()
-          store.imageUI.labelMapLookupTableProxy = lutProxy
-
-          const labelMapScalars = store.imageUI.labelMap
-            .getPointData()
-            .getScalars()
-          const labelMapData = labelMapScalars.getData()
-          const uniqueLabelsSet = new Set(labelMapData)
-          const uniqueLabels = Array.from(uniqueLabelsSet)
-          // The volume mapper currently only supports ColorTransferFunction's,
-          // not LookupTable's
-          // lut.setAnnotations(uniqueLabels, uniqueLabels);
-          uniqueLabels.sort()
-          store.imageUI.labelMapLabels = uniqueLabels
-
-          applyCategoricalColorToLookupTableProxy(
-            lutProxy,
-            uniqueLabels,
-            store.imageUI.labelMapCategoricalColor
-          )
-
-          const volume = store.imageUI.representationProxy.getVolumes()[0]
-          const volumeProperty = volume.getProperty()
-
-          const piecewiseFunction = vtkPiecewiseFunction.newInstance()
-          store.imageUI.piecewiseFunction = piecewiseFunction
-          const offset = 0.0
-          const maxOpacity = 0.1
-          const haveBackground = uniqueLabels[0] === 0 ? true : false
-          if (haveBackground) {
-            piecewiseFunction.addPoint(uniqueLabels[0] - offset, 0.0, 0.5, 1.0)
-          } else {
-            piecewiseFunction.addPoint(
-              uniqueLabels[0] - offset,
-              maxOpacity,
-              0.5,
-              1.0
-            )
-          }
-          piecewiseFunction.addPoint(
-            uniqueLabels[1] - offset,
-            maxOpacity,
-            0.5,
-            1.0
-          )
-          piecewiseFunction.addPoint(
-            uniqueLabels[uniqueLabels.length - 1] + offset,
-            maxOpacity,
-            0.5,
-            1.0
-          )
-          volumeProperty.setScalarOpacity(numberOfComponents, piecewiseFunction)
-
-          const colorTransferFunction = lutProxy.getLookupTable()
-          colorTransferFunction.setMappingRange(
-            uniqueLabels[0],
-            uniqueLabels[uniqueLabels.length - 1]
-          )
-
-          volumeProperty.setRGBTransferFunction(
-            numberOfComponents,
-            colorTransferFunction
-          )
-          // volumeProperty.setUseGradientOpacity(numberOfComponents, false);
-          volumeProperty.setIndependentComponents(true)
-
-          // The slice shows the same lut as the volume for label map
-          const sliceActors = store.imageUI.representationProxy.getActors()
-          sliceActors.forEach(actor => {
-            const actorProp = actor.getProperty()
-            actorProp.setIndependentComponents(true)
-            actorProp.setRGBTransferFunction(
-              numberOfComponents,
-              colorTransferFunction
-            )
-          })
-        }
-
         if (use2D) {
           store.itkVtkView.setViewMode('ZPlane')
           store.itkVtkView.setOrientationAxesVisibility(false)
@@ -238,10 +79,34 @@ const createViewer = (
           store.itkVtkView.setViewMode('VolumeRendering')
         }
 
-        UserInterface.createImageUI(store, use2D)
         const annotationContainer = store.container.querySelector('.js-se')
         annotationContainer.style.fontFamily = 'monospace'
-      } else {
+      }
+
+      if (!!store.imageUI.image && !!!store.imageUI.lookupTableProxies.length) {
+        createImageRendering(store, use2D)
+      }
+
+      if (
+        !!store.imageUI.labelMap &&
+        !!!store.imageUI.labelMapLookupTableProxy
+      ) {
+        createLabelMapRendering(store)
+      }
+
+      if (!!store.imageUI.image && !!!store.imageUI.imageUIGroup) {
+        UserInterface.createImageUI(store, use2D)
+      }
+
+      if (!!store.imageUI.labelMap && !!!store.imageUI.labelMapColorUIGroup) {
+        createLabelMapColorWidget(store, store.mainUI.uiContainer)
+      }
+
+      if (!use2D && !!!store.imageUI.placeIndexUIGroup) {
+        createPlaneIndexSliders(store, store.mainUI.uiContainer)
+      }
+
+      if (!initialRender) {
         if (updatingImage) {
           return
         }
@@ -251,6 +116,7 @@ const createViewer = (
 
         const volume = store.imageUI.representationProxy.getVolumes()[0]
         const volumeProperty = volume.getProperty()
+        const numberOfComponents = store.imageUI.numberOfComponents
         for (let component = 0; component < numberOfComponents; component++) {
           const lut = store.imageUI.lookupTableProxies[
             component
@@ -259,22 +125,26 @@ const createViewer = (
         }
 
         const transferFunctionWidget = store.imageUI.transferFunctionWidget
-        transferFunctionWidget.setDataArray(
-          store.imageUI.image
-            .getPointData()
-            .getScalars()
-            .getData()
-        )
-        transferFunctionWidget.invokeOpacityChange(transferFunctionWidget)
-        transferFunctionWidget.modified()
+        if (transferFunctionWidget) {
+          transferFunctionWidget.setDataArray(
+            store.imageUI.image
+              .getPointData()
+              .getScalars()
+              .getData()
+          )
+          transferFunctionWidget.invokeOpacityChange(transferFunctionWidget)
+          transferFunctionWidget.modified()
+        }
+
         store.imageUI.croppingWidget.setVolumeMapper(
           store.imageUI.representationProxy.getMapper()
         )
         const cropFilter = store.imageUI.representationProxy.getCropFilter()
         cropFilter.reset()
         store.imageUI.croppingWidget.resetWidgetState()
+
         setTimeout(() => {
-          transferFunctionWidget.render()
+          !!transferFunctionWidget && transferFunctionWidget.render()
           store.renderWindow.render()
           updatingImage = false
         }, 0)
@@ -282,34 +152,40 @@ const createViewer = (
     }
   )
   store.imageUI.image = image
+  if (!!labelMap) {
+    store.imageUI.labelMap = labelMap
+  }
+  reaction(
+    () => {
+      const multiscaleLabelMap = store.imageUI.multiscaleLabelMap
+      const multiscaleImage = store.imageUI.multiscaleImage
+      return { multiscaleImage, multiscaleLabelMap }
+    },
+
+    async ({ multiscaleImage, multiscaleLabelMap }) => {
+      if (!!!multiscaleImage && !!!multiscaleLabelMap) {
+        return
+      }
+      if (!!multiscaleLabelMap) {
+        const topLevelImage = await multiscaleLabelMap.topLevelLargestImage()
+        const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage)
+        store.imageUI.labelMap = imageData
+      }
+      if (!!multiscaleImage) {
+        const topLevelImage = await multiscaleImage.topLevelLargestImage()
+        const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage)
+        store.imageUI.image = imageData
+      }
+    }
+  )
+  store.imageUI.multiscaleImage = multiscaleImage
+  store.imageUI.multiscaleLabelMap = multiscaleLabelMap
 
   // After all the other "store.imageUI.image" reactions have run, we
   // need to trigger all of the transfer function widget
   // "store.imageUI.selectedComponent" reactions.
   for (let i = store.imageUI.numberOfComponents - 1; i >= 0; i--) {
     store.imageUI.selectedComponentIndex = i
-  }
-
-  reaction(
-    () => {
-      return store.imageUI.multiscaleManager
-    },
-
-    multiscaleManager => {
-      if (!!!multiscaleManager) {
-        return
-      }
-      multiscaleManager.topLevelLargestImage().then(topLevelImage => {
-        const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage)
-        store.imageUI.image = imageData
-      })
-    }
-  )
-  store.imageUI.multiscaleManager = multiscaleManager
-  if (!!labelMap && !!!image) {
-    // trigger reaction
-    store.imageUI.labelMap = null
-    store.imageUI.labelMap = labelMap
   }
 
   reaction(

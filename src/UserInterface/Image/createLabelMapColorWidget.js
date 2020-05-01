@@ -13,6 +13,7 @@ function createLabelMapColorWidget(store, uiContainer) {
   const viewerDOMId = store.id
 
   const labelMapColorUIGroup = document.createElement('div')
+  store.imageUI.labelMapColorUIGroup = labelMapColorUIGroup
   labelMapColorUIGroup.setAttribute('class', style.uiGroup)
   // This group has a sub-component that drops down and needs to appear
   // above components in the "uiGroup" below.

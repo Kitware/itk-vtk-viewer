@@ -8,10 +8,8 @@ import createComponentSelector from './Image/createComponentSelector'
 import createTransferFunctionWidget from './Image/createTransferFunctionWidget'
 import createViewPlanesToggle from './Image/createViewPlanesToggle'
 import createUseShadowToggle from './Image/createUseShadowToggle'
-import createPlaneIndexSliders from './Image/createPlaneIndexSliders'
 import createSampleDistanceSlider from './Image/createSampleDistanceSlider'
 import createGradientOpacitySlider from './Image/createGradientOpacitySlider'
-import createLabelMapColorWidget from './Image/createLabelMapColorWidget'
 import createDistanceButton from './Image/createDistanceButton'
 
 function createImageUI(store, use2D) {
@@ -39,7 +37,10 @@ function createImageUI(store, use2D) {
       colorRangeInputRow.setAttribute('class', style.uiRow)
       // This row needs background different from normal uiRows, to aid
       // in the illusion that it's the content portion of a tabbed pane
-      colorRangeInputRow.setAttribute('style', 'background: rgba(127, 127, 127, 0.5);')
+      colorRangeInputRow.setAttribute(
+        'style',
+        'background: rgba(127, 127, 127, 0.5);'
+      )
       createColorRangeInput(store, colorRangeInputRow)
       colorRangeInputRow.className += ` ${viewerDOMId}-toggle`
       imageUIGroup.appendChild(colorRangeInputRow)
@@ -138,15 +139,6 @@ function createImageUI(store, use2D) {
   }
 
   store.mainUI.uiContainer.appendChild(imageUIGroup)
-
-  const haveLabelMap = !!store.imageUI.labelMap
-  if (haveLabelMap) {
-    createLabelMapColorWidget(store, store.mainUI.uiContainer)
-  }
-
-  if (!use2D) {
-    createPlaneIndexSliders(store, store.mainUI.uiContainer)
-  }
 }
 
 export default createImageUI

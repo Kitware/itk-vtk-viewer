@@ -1,18 +1,18 @@
 import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager'
 import macro from 'vtk.js/Sources/macro'
-import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
-import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
 import ResizeSensor from 'css-element-queries/src/ResizeSensor'
 
 import proxyConfiguration from './proxyManagerConfiguration'
 import UserInterface from './UserInterface'
+import createLabelMapColorWidget from './UserInterface/Image/createLabelMapColorWidget'
+import createPlaneIndexSliders from './UserInterface/Image/createPlaneIndexSliders'
 import addKeyboardShortcuts from './addKeyboardShortcuts'
 import rgb2hex from './UserInterface/rgb2hex'
 import ViewerStore from './ViewerStore'
-import updateSliceProperties from './Rendering/updateSliceProperties'
 import createLabelMapRendering from './Rendering/createLabelMapRendering'
+import createImageRendering from './Rendering/createImageRendering'
 
 import { autorun, observable, reaction } from 'mobx'
 
@@ -98,81 +98,7 @@ const createViewer = (
         )
 
         if (!!store.imageUI.image) {
-          store.imageUI.lookupTableProxies = new Array(numberOfComponents)
-          store.imageUI.piecewiseFunctionProxies = new Array(numberOfComponents)
-          store.imageUI.componentVisibilities = observable(
-            new Array(numberOfComponents)
-          )
-          store.imageUI.colorMaps = new Array(numberOfComponents)
-          store.imageUI.colorRanges = new Array(numberOfComponents)
-          const volume = store.imageUI.representationProxy.getVolumes()[0]
-          const volumeProperty = volume.getProperty()
-          volumeProperty.setIndependentComponents(true)
-          const dataArray = store.imageUI.image.getPointData().getScalars()
-          for (let component = 0; component < numberOfComponents; component++) {
-            store.imageUI.lookupTableProxies[
-              component
-            ] = vtkLookupTableProxy.newInstance()
-            store.imageUI.piecewiseFunctionProxies[
-              component
-            ] = vtkPiecewiseFunctionProxy.newInstance()
-            store.imageUI.componentVisibilities[component] = 1.0
-            store.imageUI.independentComponents = true
-            let preset = 'Viridis (matplotlib)'
-            // If a 2D RGB or RGBA
-            if (
-              use2D &&
-              dataArray.getDataType() === 'Uint8Array' &&
-              (numberOfComponents === 3 || numberOfComponents === 4)
-            ) {
-              preset = 'Grayscale'
-              store.imageUI.independentComponents = false
-            } else if (numberOfComponents === 1 && !!store.imageUI.labelMap) {
-              preset = 'Grayscale'
-            } else if (numberOfComponents === 2) {
-              switch (component) {
-                case 0:
-                  preset = 'BkMa'
-                  break
-                case 1:
-                  preset = 'BkCy'
-                  break
-              }
-            } else if (numberOfComponents === 3) {
-              switch (component) {
-                case 0:
-                  preset = 'BkRd'
-                  break
-                case 1:
-                  preset = 'BkGn'
-                  break
-                case 2:
-                  preset = 'BkBu'
-                  break
-              }
-            }
-            store.imageUI.colorMaps[component] = preset
-            store.imageUI.lookupTableProxies[component].setPresetName(preset)
-
-            const lut = store.imageUI.lookupTableProxies[
-              component
-            ].getLookupTable()
-            const range = dataArray.getRange(component)
-            store.imageUI.colorRanges[component] = range
-            lut.setMappingRange(range[0], range[1])
-            volumeProperty.setRGBTransferFunction(component, lut)
-
-            const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
-              component
-            ].getPiecewiseFunction()
-            volumeProperty.setScalarOpacity(component, piecewiseFunction)
-
-            const visibility = store.imageUI.componentVisibilities[component]
-            volumeProperty.setComponentWeight(component, visibility)
-          }
-
-          // Now for the slice rendering
-          updateSliceProperties(store)
+          createImageRendering(store)
         }
 
         if (!!store.imageUI.labelMap) {
@@ -187,6 +113,14 @@ const createViewer = (
         }
 
         UserInterface.createImageUI(store, use2D)
+
+        if (!!store.imageUI.labelMap) {
+          createLabelMapColorWidget(store, store.mainUI.uiContainer)
+        }
+
+        if (!use2D) {
+          createPlaneIndexSliders(store, store.mainUI.uiContainer)
+        }
         const annotationContainer = store.container.querySelector('.js-se')
         annotationContainer.style.fontFamily = 'monospace'
       } else {

@@ -76,6 +76,7 @@ class ImageUIStore {
   @observable zSlice = null
 
   @observable.ref labelMap = null
+  @observable.ref multiscaleLabelMap = null
   @computed get fusedImageLabelMap() {
     const image = this.image
     const labelMap = this.labelMap

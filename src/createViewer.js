@@ -21,7 +21,7 @@ const createViewer = (
   rootContainer,
   {
     image,
-    multiscaleManager,
+    multiscaleImage,
     labelMap,
     geometries,
     pointSets,
@@ -292,20 +292,20 @@ const createViewer = (
 
   reaction(
     () => {
-      return store.imageUI.multiscaleManager
+      return store.imageUI.multiscaleImage
     },
 
-    multiscaleManager => {
-      if (!!!multiscaleManager) {
+    multiscaleImage => {
+      if (!!!multiscaleImage) {
         return
       }
-      multiscaleManager.topLevelLargestImage().then(topLevelImage => {
+      multiscaleImage.topLevelLargestImage().then(topLevelImage => {
         const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage)
         store.imageUI.image = imageData
       })
     }
   )
-  store.imageUI.multiscaleManager = multiscaleManager
+  store.imageUI.multiscaleImage = multiscaleImage
   if (!!labelMap && !!!image) {
     // trigger reaction
     store.imageUI.labelMap = null

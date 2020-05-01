@@ -38,7 +38,7 @@ class MainUIStore {
 
 class ImageUIStore {
   @observable.ref image = null
-  @observable.ref multiscaleManager = null
+  @observable.ref multiscaleImage = null
 
   source = null
   @observable.ref representationProxy = null

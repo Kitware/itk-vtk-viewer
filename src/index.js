@@ -38,12 +38,12 @@ export async function createViewerFromUrl(el, urls, use2D = false) {
     console.time('image')
     const metadata = await ZarrMultiscaleManager.parseMetadata(url)
     console.timeEnd('meta')
-    const multiscaleManager = new ZarrMultiscaleManager(url, metadata)
+    const multiscaleImage = new ZarrMultiscaleManager(url, metadata)
     // Side effect to keep the spinner going
-    const topLevelLargestImage = await multiscaleManager.topLevelLargestImage()
+    const topLevelLargestImage = await multiscaleImage.topLevelLargestImage()
     console.timeEnd('image')
     return createViewer(el, {
-      multiscaleManager,
+      multiscaleImage,
       use2D,
     })
   } else {

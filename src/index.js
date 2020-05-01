@@ -28,7 +28,10 @@ export async function createViewerFromFiles(el, files, use2D = false) {
   return processFiles(el, { files: files, use2D })
 }
 
-export async function createViewerFromUrl(el, filesToLoad, use2D = false) {
+export async function createViewerFromUrl(
+  el,
+  { filesToLoad = [], use2D = false }
+) {
   UserInterface.emptyContainer(el)
   const progressCallback = UserInterface.createLoadingProgress(el)
   const url = filesToLoad[0]
@@ -75,7 +78,10 @@ export function initializeEmbeddedViewers() {
       el.style.width = Number.isFinite(Number(width)) ? `${width}px` : width
       el.style.height = Number.isFinite(Number(height)) ? `${height}px` : height
       const files = el.dataset.url.split(',')
-      createViewerFromUrl(el, files, !!el.dataset.use2D).then(viewer => {
+      createViewerFromUrl(el, {
+        filesToLoad: files,
+        use2D: !!el.dataset.use2D,
+      }).then(viewer => {
         // Background color handling
         if (el.dataset.backgroundColor) {
           const color = el.dataset.backgroundColor
@@ -111,12 +117,19 @@ export function processURLParameters(container, addOnParameters = {}) {
     myContainer.classList.add(style.fullscreenContainer)
   }
 
-  if (userParams[keyName]) {
-    return createViewerFromUrl(
-      myContainer,
-      userParams[keyName].split(','),
-      !!userParams.use2D
-    )
+  let filesToLoad = []
+  if (userParams.fileToLoad) {
+    filesToLoad = userParams.fileToLoad.split(',')
+  }
+  if (userParams.filesToLoad) {
+    filesToLoad = userParams.filesToLoad.split(',')
+  }
+
+  if (filesToLoad.length) {
+    return createViewerFromUrl(myContainer, {
+      filesToLoad,
+      use2D: !!userParams.use2D,
+    })
   }
   return null
 }

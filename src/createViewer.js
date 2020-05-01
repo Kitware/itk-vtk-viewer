@@ -46,6 +46,112 @@ const createViewer = (
   UserInterface.applyContainerStyle(rootContainer, store, viewerStyle)
 
   let updatingImage = false
+
+  UserInterface.createMainUI(rootContainer, store, use2D, uiContainer)
+
+  reaction(
+    () => {
+      const image = store.imageUI.image
+      const labelMap = store.imageUI.labelMap
+      return store.imageUI.fusedImageLabelMap
+    },
+
+    fusedImage => {
+      if (!!!fusedImage) {
+        return
+      }
+
+      let initialRender = false
+      if (!!!store.imageUI.representationProxy) {
+        initialRender = true
+        store.imageUI.source.setInputData(fusedImage)
+
+        proxyManager.createRepresentationInAllViews(store.imageUI.source)
+        store.imageUI.representationProxy = proxyManager.getRepresentation(
+          store.imageUI.source,
+          store.itkVtkView
+        )
+
+        if (use2D) {
+          store.itkVtkView.setViewMode('ZPlane')
+          store.itkVtkView.setOrientationAxesVisibility(false)
+        } else {
+          store.itkVtkView.setViewMode('VolumeRendering')
+        }
+
+        const annotationContainer = store.container.querySelector('.js-se')
+        annotationContainer.style.fontFamily = 'monospace'
+      }
+
+      if (!!store.imageUI.image && !!!store.imageUI.lookupTableProxies.length) {
+        createImageRendering(store, use2D)
+      }
+
+      if (
+        !!store.imageUI.labelMap &&
+        !!!store.imageUI.labelMapLookupTableProxy
+      ) {
+        createLabelMapRendering(store)
+      }
+
+      if (!!store.imageUI.image && !!!store.imageUI.imageUIGroup) {
+        UserInterface.createImageUI(store, use2D)
+      }
+
+      if (!!store.imageUI.labelMap && !!!store.imageUI.labelMapColorUIGroup) {
+        createLabelMapColorWidget(store, store.mainUI.uiContainer)
+      }
+
+      if (!use2D && !!!store.imageUI.placeIndexUIGroup) {
+        createPlaneIndexSliders(store, store.mainUI.uiContainer)
+      }
+
+      if (!initialRender) {
+        if (updatingImage) {
+          return
+        }
+        updatingImage = true
+
+        store.imageUI.source.setInputData(fusedImage)
+
+        const volume = store.imageUI.representationProxy.getVolumes()[0]
+        const volumeProperty = volume.getProperty()
+        const numberOfComponents = store.imageUI.numberOfComponents
+        for (let component = 0; component < numberOfComponents; component++) {
+          const lut = store.imageUI.lookupTableProxies[
+            component
+          ].getLookupTable()
+          volumeProperty.setRGBTransferFunction(component, lut)
+        }
+
+        const transferFunctionWidget = store.imageUI.transferFunctionWidget
+        if (transferFunctionWidget) {
+          transferFunctionWidget.setDataArray(
+            store.imageUI.image
+              .getPointData()
+              .getScalars()
+              .getData()
+          )
+          transferFunctionWidget.invokeOpacityChange(transferFunctionWidget)
+          transferFunctionWidget.modified()
+        }
+
+        store.imageUI.croppingWidget.setVolumeMapper(
+          store.imageUI.representationProxy.getMapper()
+        )
+        const cropFilter = store.imageUI.representationProxy.getCropFilter()
+        cropFilter.reset()
+        store.imageUI.croppingWidget.resetWidgetState()
+
+        setTimeout(() => {
+          !!transferFunctionWidget && transferFunctionWidget.render()
+          store.renderWindow.render()
+          updatingImage = false
+        }, 0)
+      }
+    }
+  )
+  store.imageUI.image = image
   if (!!labelMap) {
     store.imageUI.labelMap = labelMap
   }
@@ -72,111 +178,14 @@ const createViewer = (
       }
     }
   )
+  store.imageUI.multiscaleImage = multiscaleImage
   store.imageUI.multiscaleLabelMap = multiscaleLabelMap
-
-  UserInterface.createMainUI(rootContainer, store, use2D, uiContainer)
-
-  reaction(
-    () => {
-      const image = store.imageUI.image
-      const labelMap = store.imageUI.labelMap
-      return store.imageUI.fusedImageLabelMap
-    },
-
-    fusedImage => {
-      if (!!!fusedImage) {
-        return
-      }
-      const numberOfComponents = store.imageUI.numberOfComponents
-      if (!!!store.imageUI.representationProxy) {
-        store.imageUI.source.setInputData(fusedImage)
-
-        proxyManager.createRepresentationInAllViews(store.imageUI.source)
-        store.imageUI.representationProxy = proxyManager.getRepresentation(
-          store.imageUI.source,
-          store.itkVtkView
-        )
-
-        if (!!store.imageUI.image) {
-          createImageRendering(store)
-        }
-
-        if (!!store.imageUI.labelMap) {
-          createLabelMapRendering(store)
-        }
-
-        if (use2D) {
-          store.itkVtkView.setViewMode('ZPlane')
-          store.itkVtkView.setOrientationAxesVisibility(false)
-        } else {
-          store.itkVtkView.setViewMode('VolumeRendering')
-        }
-
-        UserInterface.createImageUI(store, use2D)
-
-        if (!!store.imageUI.labelMap) {
-          createLabelMapColorWidget(store, store.mainUI.uiContainer)
-        }
-
-        if (!use2D) {
-          createPlaneIndexSliders(store, store.mainUI.uiContainer)
-        }
-        const annotationContainer = store.container.querySelector('.js-se')
-        annotationContainer.style.fontFamily = 'monospace'
-      } else {
-        if (updatingImage) {
-          return
-        }
-        updatingImage = true
-
-        store.imageUI.source.setInputData(fusedImage)
-
-        const volume = store.imageUI.representationProxy.getVolumes()[0]
-        const volumeProperty = volume.getProperty()
-        for (let component = 0; component < numberOfComponents; component++) {
-          const lut = store.imageUI.lookupTableProxies[
-            component
-          ].getLookupTable()
-          volumeProperty.setRGBTransferFunction(component, lut)
-        }
-
-        const transferFunctionWidget = store.imageUI.transferFunctionWidget
-        transferFunctionWidget.setDataArray(
-          store.imageUI.image
-            .getPointData()
-            .getScalars()
-            .getData()
-        )
-        transferFunctionWidget.invokeOpacityChange(transferFunctionWidget)
-        transferFunctionWidget.modified()
-        store.imageUI.croppingWidget.setVolumeMapper(
-          store.imageUI.representationProxy.getMapper()
-        )
-        const cropFilter = store.imageUI.representationProxy.getCropFilter()
-        cropFilter.reset()
-        store.imageUI.croppingWidget.resetWidgetState()
-        setTimeout(() => {
-          transferFunctionWidget.render()
-          store.renderWindow.render()
-          updatingImage = false
-        }, 0)
-      }
-    }
-  )
-  store.imageUI.image = image
 
   // After all the other "store.imageUI.image" reactions have run, we
   // need to trigger all of the transfer function widget
   // "store.imageUI.selectedComponent" reactions.
   for (let i = store.imageUI.numberOfComponents - 1; i >= 0; i--) {
     store.imageUI.selectedComponentIndex = i
-  }
-
-  store.imageUI.multiscaleImage = multiscaleImage
-  if (!!labelMap && !!!image) {
-    // trigger reaction
-    store.imageUI.labelMap = null
-    store.imageUI.labelMap = labelMap
   }
 
   reaction(

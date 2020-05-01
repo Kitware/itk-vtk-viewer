@@ -59,6 +59,7 @@ class ImageUIStore {
   transferFunctionWidget = null
   independentComponents = true
 
+  imageUIGroup = null
   croppingWidget = null
   addCroppingPlanesChangedHandler = () => {}
   addResetCropHandler = () => {}
@@ -139,6 +140,7 @@ class ImageUIStore {
     return fusedImage
   }
 
+  labelMapColorUIGroup = null
   labelMapLookupTableProxy = null
   // Sorted array of label values
   labelMapLabels = null
@@ -146,6 +148,8 @@ class ImageUIStore {
 
   @observable labelMapOpacity = 0.75
   @observable labelMapCategoricalColor = 'glasbey'
+
+  planeIndexUIGroup = null
 
   distanceWidget = null
   distanceUpdateInProgress = false

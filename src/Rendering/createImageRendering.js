@@ -1,9 +1,11 @@
+import { observable } from 'mobx'
+
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy'
 
 import updateSliceProperties from './updateSliceProperties'
 
-function createImageRendering(store) {
+function createImageRendering(store, use2D) {
   const numberOfComponents = store.imageUI.numberOfComponents
 
   store.imageUI.lookupTableProxies = new Array(numberOfComponents)

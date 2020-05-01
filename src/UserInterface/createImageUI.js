@@ -16,6 +16,7 @@ function createImageUI(store, use2D) {
   const viewerDOMId = store.id
 
   const imageUIGroup = document.createElement('div')
+  store.imageUI.imageUIGroup = imageUIGroup
   imageUIGroup.setAttribute('class', style.uiGroup)
 
   const componentSelector = createComponentSelector(store, imageUIGroup)

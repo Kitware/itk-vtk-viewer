@@ -1,4 +1,4 @@
-import { when, autorun } from 'mobx'
+import { when, autorun, reaction } from 'mobx'
 
 import style from '../ItkVtkViewer.module.css'
 
@@ -35,6 +35,20 @@ function createInterpolationButton(store, mainUIRow) {
   autorun(() => {
     toggleInterpolation()
   })
+  reaction(
+    () => store.imageUI.labelMap,
+    () => {
+      const inputElt = interpolationButton.getElementsByTagName('input')[0]
+      if (!!store.imageUI.labelMap) {
+        store.mainUI.interpolationEnabled = false
+        inputElt.checked = false
+        inputElt.disabled = true
+      } else {
+        inputElt.disabled = false
+      }
+      toggleInterpolation()
+    }
+  )
   interpolationButton.addEventListener('change', event => {
     event.preventDefault()
     event.stopPropagation()

@@ -2,6 +2,15 @@ import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction'
 import applyCategoricalColorToLookupTableProxy from './../UserInterface/applyCategoricalColorToLookupTableProxy'
 
+function numericalSort(eltA, eltB) {
+  if (eltA < eltB) {
+    return -1
+  } else if (eltB < eltA) {
+    return 1
+  }
+  return 0
+}
+
 function createLabelMapRendering(store) {
   const numberOfComponents = store.imageUI.numberOfComponents
 
@@ -16,7 +25,7 @@ function createLabelMapRendering(store) {
   // The volume mapper currently only supports ColorTransferFunction's,
   // not LookupTable's
   // lut.setAnnotations(uniqueLabels, uniqueLabels);
-  uniqueLabels.sort()
+  uniqueLabels.sort(numericalSort)
   store.imageUI.labelMapLabels = uniqueLabels
 
   applyCategoricalColorToLookupTableProxy(

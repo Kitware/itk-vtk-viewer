@@ -23,6 +23,7 @@ const createViewer = (
     multiscaleImage,
     labelMap,
     multiscaleLabelMap,
+    labelMapAnnotations,
     geometries,
     pointSets,
     use2D = false,
@@ -81,6 +82,15 @@ const createViewer = (
 
         const annotationContainer = store.container.querySelector('.js-se')
         annotationContainer.style.fontFamily = 'monospace'
+      }
+
+      if (!!labelMapAnnotations) {
+        store.imageUI.annotationMap = labelMapAnnotations
+        store.itkVtkView.setAnnotationMap(labelMapAnnotations)
+        store.itkVtkView.setLabelIndex(store.imageUI.numberOfComponents)
+        console.log(
+          `Setting annotation labelIndex to ${store.imageUI.numberOfComponents}`
+        )
       }
 
       if (!!store.imageUI.image && !!!store.imageUI.lookupTableProxies.length) {
@@ -155,6 +165,7 @@ const createViewer = (
   if (!!labelMap) {
     store.imageUI.labelMap = labelMap
   }
+
   reaction(
     () => {
       const multiscaleLabelMap = store.imageUI.multiscaleLabelMap

@@ -30,7 +30,16 @@ function typedArrayForBuffer(typedArrayType, buffer) {
 
 export const processFiles = async (
   container,
-  { files, image, multiscaleImage, labelMap, multiscaleLabelMap, rotate, use2D }
+  {
+    files,
+    image,
+    multiscaleImage,
+    labelMap,
+    multiscaleLabelMap,
+    labelMapAnnotations,
+    rotate,
+    use2D,
+  }
 ) => {
   UserInterface.emptyContainer(container)
   UserInterface.createLoadingProgress(container)
@@ -40,6 +49,7 @@ export const processFiles = async (
     multiscaleImage,
     labelMap,
     multiscaleLabelMap,
+    labelMapAnnotations,
     use2D,
   })
   config.rotate = rotate
@@ -52,6 +62,7 @@ export const readFiles = async ({
   multiscaleImage,
   labelMap,
   multiscaleLabelMap,
+  labelMapAnnotations,
   rotate,
   use2D,
 }) => {
@@ -93,7 +104,7 @@ export const readFiles = async ({
             return Promise.resolve({ is3D, data: vtk(polyData) })
           })
           .catch(error => {
-            reject(error)
+            return Promise.reject(error)
           })
       } else if (extensionToMeshIO.has(extension)) {
         let is3D = true
@@ -143,7 +154,7 @@ export const readFiles = async ({
                 return Promise.resolve({ is3D, data: imageData })
               })
               .catch(error => {
-                reject(error)
+                return Promise.reject(error)
               })
           })
       }
@@ -155,7 +166,7 @@ export const readFiles = async ({
           return Promise.resolve({ is3D, data: imageData })
         })
         .catch(error => {
-          reject(error)
+          return Promise.reject(error)
         })
     })
     const dataSets = await Promise.all(readers)
@@ -175,6 +186,10 @@ export const readFiles = async ({
       const { image: itkImage, webWorker } = await readImageFile(null, labelMap)
       webWorker.terminate()
       labelMapData = vtkITKHelper.convertItkToVtkImage(itkImage)
+    }
+    let labelMapAnnotationData = null
+    if (!!labelMapAnnotations) {
+      labelMapAnnotationData = new Map(labelMapAnnotations)
     }
     if (images.length > 0) {
       for (let index = 0; index < images.length; index++) {
@@ -241,6 +256,7 @@ export const readFiles = async ({
       multiscaleImage,
       labelMap: labelMapData,
       multiscaleLabelMap,
+      labelMapAnnotations: labelMapAnnotationData,
       geometries,
       pointSets,
       use2D: !is3D,

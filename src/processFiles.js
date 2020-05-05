@@ -180,15 +180,14 @@ export const readFiles = async ({
       for (let index = 0; index < images.length; index++) {
         const dataArray = images[index].getPointData().getScalars()
         const dataType = dataArray.getDataType()
-        // Only integer-based pixels considered for label maps
-        if (
-          (!!imageData && dataType === 'Float32Array') ||
-          dataType === 'Float64Array'
-        ) {
-          imageData = images[index]
-          continue
-        }
-        if (!!imageData && !!labelMapData) {
+        if (!!!labelMapData) {
+          // Only integer-based pixels considered for label maps
+          if (dataType === 'Float32Array' || dataType === 'Float64Array') {
+            if (!!!imageData) {
+              imageData = images[index]
+            }
+            continue
+          }
           const data = dataArray.getData()
           const uniqueLabels = new Set(data).size
           // If there are more values than this, it will not be considered a
@@ -199,6 +198,9 @@ export const readFiles = async ({
           } else {
             imageData = images[index]
           }
+        }
+        if (!!!imageData) {
+          imageData = images[index]
         }
       }
     }

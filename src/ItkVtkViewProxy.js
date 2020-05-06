@@ -126,7 +126,7 @@ function ItkVtkViewProxy(publicAPI, model) {
         model.dataProbeCubeSource.setCenter(worldPosition)
         model.dataProbeActor.setVisibility(true)
         model.dataProbeFrameActor.setVisibility(true)
-        publicAPI.updateCornerAnnotation({
+        model.lastPickedValues = {
           iIndex: ijk[0],
           jIndex: ijk[1],
           kIndex: ijk[2],
@@ -136,11 +136,15 @@ function ItkVtkViewProxy(publicAPI, model) {
           value,
           annotation,
           annotationStyle: getAnnotationStyle(),
-        })
+        }
+        publicAPI.updateCornerAnnotation(model.lastPickedValues)
       } else {
         model.dataProbeActor.setVisibility(false)
         model.dataProbeFrameActor.setVisibility(false)
+        model.lastPickedValues = null
       }
+    } else {
+      model.lastPickedValues = null
     }
   }
 
@@ -170,6 +174,11 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.annotationPicker = vtkPointPicker.newInstance()
   model.annotationPicker.setPickFromList(1)
   model.annotationPicker.initializePickList()
+  model.interactor.onLeftButtonPress(event => {
+    if (model.clickCallback && model.lastPickedValues) {
+      model.clickCallback(model.lastPickedValues)
+    }
+  })
   model.interactor.onMouseMove(event => {
     updateAnnotations(event)
   })
@@ -493,6 +502,16 @@ const DEFAULT_VALUES = {
   units: '',
   labelIndex: 0,
   annotationMap: null,
+  clickCallback: null,
+  lastPickedValues: {
+    iIndex: null,
+    jIndex: null,
+    kIndex: null,
+    xPosition: null,
+    yPosition: null,
+    zPosition: null,
+    value: null,
+  },
 }
 
 // ----------------------------------------------------------------------------
@@ -503,7 +522,12 @@ export function extend(publicAPI, model, initialValues = {}) {
   vtkViewProxy.extend(publicAPI, model, initialValues)
   macro.get(publicAPI, model, ['viewMode', 'viewPlanes', 'rotate'])
 
-  macro.setGet(publicAPI, model, ['units', 'annotationMap', 'labelIndex'])
+  macro.setGet(publicAPI, model, [
+    'units',
+    'annotationMap',
+    'labelIndex',
+    'clickCallback',
+  ])
 
   // Object specific methods
   ItkVtkViewProxy(publicAPI, model)

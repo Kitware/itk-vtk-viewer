@@ -145,9 +145,13 @@ class ImageUIStore {
   // Sorted array of label values
   labelMapLabels = null
   piecewiseFunction = null
+  lastSelectedLabel = null
 
   @observable labelMapOpacity = 0.75
   @observable labelMapCategoricalColor = 'glasbey'
+
+  @observable labelMapWeights = []
+  @observable selectedLabel = 'all'
 
   planeIndexUIGroup = null
 

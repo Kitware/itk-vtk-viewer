@@ -53,17 +53,17 @@ function createGeometryOpacitySlider(store, geometryColorRow) {
 
   function applyOpacities(opacities) {
     opacities.forEach((opacity, index) => {
-             store.geometriesUI.representationProxies[index].setOpacity(opacity)
-      })
+      store.geometriesUI.representationProxies[index].setOpacity(opacity)
+    })
 
-    store.renderWindow.render() 
+    store.renderWindow.render()
     const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex
     opacityElement.value = opacities[selectedGeometryIndex]
   }
 
   reaction(() => {
-     return store.geometriesUI.opacities.slice() 
-   }, applyOpacities)
+    return store.geometriesUI.opacities.slice()
+  }, applyOpacities)
 
   opacityElement.addEventListener(
     'input',
@@ -86,6 +86,6 @@ function createGeometryOpacitySlider(store, geometryColorRow) {
   applyOpacities(store.geometriesUI.opacities)
 
   geometryColorRow.appendChild(sliderEntry)
-  }
+}
 
 export default createGeometryOpacitySlider

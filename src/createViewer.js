@@ -7,13 +7,16 @@ import ResizeSensor from 'css-element-queries/src/ResizeSensor'
 import proxyConfiguration from './proxyManagerConfiguration'
 import UserInterface from './UserInterface'
 import createLabelMapColorWidget from './UserInterface/Image/createLabelMapColorWidget'
+import createLabelMapWeightWidget from './UserInterface/Image/createLabelMapWeightWidget'
 import createPlaneIndexSliders from './UserInterface/Image/createPlaneIndexSliders'
 import addKeyboardShortcuts from './addKeyboardShortcuts'
 import rgb2hex from './UserInterface/rgb2hex'
 import ViewerStore from './ViewerStore'
 import createLabelMapRendering from './Rendering/createLabelMapRendering'
 import createImageRendering from './Rendering/createImageRendering'
+import updateLabelMapComponentWeight from './Rendering/updateLabelMapComponentWeight'
 import updateVolumeProperties from './Rendering/updateVolumeProperties'
+import updateGradientOpacity from './Rendering/updateGradientOpacity'
 
 import { autorun, observable, reaction } from 'mobx'
 
@@ -89,9 +92,6 @@ const createViewer = (
         store.imageUI.annotationMap = labelMapAnnotations
         store.itkVtkView.setAnnotationMap(labelMapAnnotations)
         store.itkVtkView.setLabelIndex(store.imageUI.numberOfComponents)
-        console.log(
-          `Setting annotation labelIndex to ${store.imageUI.numberOfComponents}`
-        )
       }
 
       if (!!store.imageUI.image && !!!store.imageUI.lookupTableProxies.length) {
@@ -112,6 +112,33 @@ const createViewer = (
 
       if (!!store.imageUI.labelMap && !!!store.imageUI.labelMapColorUIGroup) {
         createLabelMapColorWidget(store, store.mainUI.uiContainer)
+        createLabelMapWeightWidget(store, store.mainUI.uiContainer)
+
+        store.itkVtkView.setClickCallback(lastPickedValues => {
+          if (lastPickedValues.value !== null) {
+            store.imageUI.selectedLabel =
+              lastPickedValues.value[lastPickedValues.value.length - 1]
+
+            if (
+              store.imageUI.lastSelectedLabel === store.imageUI.selectedLabel
+            ) {
+              if (store.imageUI.selectedLabel !== 'all') {
+                const currentWeight =
+                  store.imageUI.labelMapWeights[store.imageUI.selectedLabel]
+                if (currentWeight > 0.5) {
+                  store.imageUI.labelMapWeights[
+                    store.imageUI.selectedLabel
+                  ] = 0.0
+                } else {
+                  store.imageUI.labelMapWeights[
+                    store.imageUI.selectedLabel
+                  ] = 1.0
+                }
+              }
+            }
+            store.imageUI.lastSelectedLabel = store.imageUI.selectedLabel
+          }
+        })
       }
 
       if (!use2D && !!!store.imageUI.placeIndexUIGroup) {
@@ -149,6 +176,16 @@ const createViewer = (
 
         setTimeout(() => {
           !!transferFunctionWidget && transferFunctionWidget.render()
+          updateGradientOpacity(store)
+          const numberOfComponents = store.imageUI.numberOfComponents
+          // May need to update intensity preset in case labelMap was
+          // not yet loaded at time createImageRendering was called
+          if (numberOfComponents === 1 && !!store.imageUI.labelMap) {
+            const preset = 'Grayscale'
+            store.imageUI.colorMaps[0] = preset
+            store.imageUI.lookupTableProxies[0].setPresetName(preset)
+          }
+          updateLabelMapComponentWeight(store)
           store.renderWindow.render()
           updatingImage = false
         }, 0)

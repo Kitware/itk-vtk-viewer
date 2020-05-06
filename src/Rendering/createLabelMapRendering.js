@@ -1,6 +1,10 @@
+import { observable } from 'mobx'
+
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction'
+import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 import applyCategoricalColorToLookupTableProxy from './../UserInterface/applyCategoricalColorToLookupTableProxy'
+import updateLabelMapPiecewiseFunction from './updateLabelMapPiecewiseFunction'
 
 function numericalSort(eltA, eltB) {
   if (eltA < eltB) {
@@ -28,6 +32,10 @@ function createLabelMapRendering(store) {
   uniqueLabels.sort(numericalSort)
   store.imageUI.labelMapLabels = uniqueLabels
 
+  const labelMapWeights = new Array(uniqueLabels.length)
+  labelMapWeights.fill(0.9)
+  store.imageUI.labelMapWeights = observable.array(labelMapWeights)
+
   applyCategoricalColorToLookupTableProxy(
     lutProxy,
     uniqueLabels,
@@ -39,21 +47,9 @@ function createLabelMapRendering(store) {
 
   const piecewiseFunction = vtkPiecewiseFunction.newInstance()
   store.imageUI.piecewiseFunction = piecewiseFunction
-  const offset = 0.0
-  const maxOpacity = 0.1
-  const haveBackground = uniqueLabels[0] === 0 ? true : false
-  if (haveBackground) {
-    piecewiseFunction.addPoint(uniqueLabels[0] - offset, 0.0, 0.5, 1.0)
-  } else {
-    piecewiseFunction.addPoint(uniqueLabels[0] - offset, maxOpacity, 0.5, 1.0)
-  }
-  piecewiseFunction.addPoint(uniqueLabels[1] - offset, maxOpacity, 0.5, 1.0)
-  piecewiseFunction.addPoint(
-    uniqueLabels[uniqueLabels.length - 1] + offset,
-    maxOpacity,
-    0.5,
-    1.0
-  )
+
+  updateLabelMapPiecewiseFunction(store)
+
   volumeProperty.setScalarOpacity(numberOfComponents, piecewiseFunction)
 
   const colorTransferFunction = lutProxy.getLookupTable()
@@ -66,8 +62,9 @@ function createLabelMapRendering(store) {
     numberOfComponents,
     colorTransferFunction
   )
-  // volumeProperty.setUseGradientOpacity(numberOfComponents, false);
+
   volumeProperty.setIndependentComponents(true)
+  volumeProperty.setOpacityMode(numberOfComponents, OpacityMode.PROPORTIONAL)
 
   // The slice shows the same lut as the volume for label map
   const sliceActors = store.imageUI.representationProxy.getActors()
@@ -75,6 +72,7 @@ function createLabelMapRendering(store) {
     const actorProp = actor.getProperty()
     actorProp.setIndependentComponents(true)
     actorProp.setRGBTransferFunction(numberOfComponents, colorTransferFunction)
+    actorProp.setPiecewiseFunction(numberOfComponents, piecewiseFunction)
   })
 }
 

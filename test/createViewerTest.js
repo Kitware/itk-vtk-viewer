@@ -1,7 +1,7 @@
 import test from 'tape-catch'
 import axios from 'axios'
 
-import itkreadImageBlob from 'itk/readImageBlob'
+import itkreadImageArrayBuffer from 'itk/readImageArrayBuffer'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import testUtils from 'vtk.js/Sources/Testing/testUtils'
 
@@ -41,9 +41,9 @@ test('Test createViewer', t => {
   container.appendChild(viewerContainer)
 
   return axios
-    .get(testImage3DPath, { responseType: 'blob' })
+    .get(testImage3DPath, { responseType: 'arraybuffer' })
     .then(function(response) {
-      return itkreadImageBlob(null, response.data, testImage3DPath)
+      return itkreadImageArrayBuffer(null, response.data, 'data.nrrd')
     })
     .then(({ image: itkImage, webWorker }) => {
       webWorker.terminate()
@@ -94,9 +94,9 @@ test('Test createViewer.setImage', t => {
   container.appendChild(viewerContainer)
 
   return axios
-    .get(testImage3DPath, { responseType: 'blob' })
+    .get(testImage3DPath, { responseType: 'arraybuffer' })
     .then(function(response) {
-      return itkreadImageBlob(null, response.data, testImage3DPath)
+      return itkreadImageArrayBuffer(null, response.data, 'data.nrrd')
     })
     .then(({ image: itkImage, webWorker }) => {
       webWorker.terminate()
@@ -108,9 +108,9 @@ test('Test createViewer.setImage', t => {
         viewerStyle: TEST_VIEWER_STYLE,
       })
       return axios
-        .get(testImage3DPath2, { responseType: 'blob' })
+        .get(testImage3DPath2, { responseType: 'arraybuffer' })
         .then(function(response) {
-          return itkreadImageBlob(null, response.data, testImage3DPath2)
+          return itkreadImageArrayBuffer(null, response.data, 'data.nrrd')
         })
         .then(({ image: itkImage, webWorker }) => {
           webWorker.terminate()

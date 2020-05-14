@@ -81,6 +81,21 @@ const createViewer = (
 
         const annotationContainer = store.container.querySelector('.js-se')
         annotationContainer.style.fontFamily = 'monospace'
+
+        store.subscribeImagePicked(lastPickedValues => {
+          const {
+            iIndex,
+            jIndex,
+            kIndex,
+            value,
+            xPosition,
+            yPosition,
+            zPosition,
+          } = lastPickedValues
+          console.log(
+            `ijk = [${iIndex}, ${jIndex}, ${kIndex}], xyz = [${xPosition}, ${yPosition}, ${zPosition}], value = ${value}`
+          )
+        })
       }
 
       if (!!store.imageUI.image && !!!store.imageUI.lookupTableProxies.length) {
@@ -911,6 +926,8 @@ const createViewer = (
     }
     return Object.freeze({ unsubscribe })
   }
+
+  publicAPI.subscribeImagePicked = store.subscribeImagePicked
 
   //publicAPI.subscribeSelectColorMap = (handler) => {
   //const index = inputGeometryColorHandlers.length;

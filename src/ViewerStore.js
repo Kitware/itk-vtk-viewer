@@ -350,6 +350,26 @@ class ViewerStore {
 
     this.itkVtkView.setBackground(this.style.backgroundColor)
 
+    const imagePickingClickHandlers = []
+
+    function registerImagePickHandler(handler) {
+      const index = imagePickingClickHandlers.length
+      imagePickingClickHandlers.push(handler)
+      function unsubscribe() {
+        imagePickingClickHandlers[index] = null
+      }
+      return Object.freeze({ unsubscribe })
+    }
+
+    function notifyLastPickedValues(lastPickedValues) {
+      imagePickingClickHandlers.forEach(handler => {
+        handler.call(null, lastPickedValues)
+      })
+    }
+
+    this.subscribeImagePicked = registerImagePickHandler
+    this.itkVtkView.setClickCallback(notifyLastPickedValues)
+
     this.imageUI.source = proxyManager.createProxy(
       'Sources',
       'TrivialProducer',

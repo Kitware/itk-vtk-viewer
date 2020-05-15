@@ -1114,13 +1114,13 @@ var _IOTypes = _interopRequireDefault(require("../IOTypes"));
 // To cache loaded pipeline modules
 var pipelinePathToModule = {};
 
-function loadPipelineModule(moduleDirectory, pipelinePath, config) {
+function loadPipelineModule(moduleDirectory, pipelinePath, config, isAbsoluteURL) {
   var pipelineModule = null;
 
   if (pipelinePath in pipelinePathToModule) {
     pipelineModule = pipelinePathToModule[pipelinePath];
   } else {
-    pipelinePathToModule[pipelinePath] = (0, _loadEmscriptenModuleBrowser["default"])(config.itkModulesPath, moduleDirectory, pipelinePath);
+    pipelinePathToModule[pipelinePath] = (0, _loadEmscriptenModuleBrowser["default"])(config.itkModulesPath, moduleDirectory, pipelinePath, isAbsoluteURL);
     pipelineModule = pipelinePathToModule[pipelinePath];
   }
 
@@ -1259,7 +1259,7 @@ function () {
               break;
             }
 
-            pipelineModule = loadPipelineModule('Pipelines', input.pipelinePath, input.config);
+            pipelineModule = loadPipelineModule('Pipelines', input.pipelinePath, input.config, input.isAbsoluteURL);
             _context.next = 10;
             break;
 
@@ -1269,7 +1269,7 @@ function () {
               break;
             }
 
-            pipelineModule = loadPipelineModule('PolyDataIOs', input.pipelinePath, input.config);
+            pipelineModule = loadPipelineModule('PolyDataIOs', input.pipelinePath, input.config, input.isAbsoluteURL);
             _context.next = 10;
             break;
 
@@ -1403,15 +1403,17 @@ var _typeof2 = _interopRequireDefault(require("@babel/runtime/helpers/typeof"));
 // from <itkModulesPath>/WebWorkers/, since modules are loaded by the web
 // workers.
 //
-//
 // itkModulesPath is usually taken from './itkConfig', but a different value
 // could be passed.
 //
+// If isAbsoluteURL is `true`, then itkModulesPath is not used, and
+// pipelinePath is assumed to be an absoluteURL.
+//
 // modulesDirectory is one of "ImageIOs", "MeshIOs", or "Pipelines"
 //
-// moduleBaseName is the file name of the emscripten module without the ".js"
+// pipelinePath is the file name of the emscripten module without the ".js"
 // extension
-function loadEmscriptenModule(itkModulesPath, modulesDirectory, moduleBaseName) {
+function loadEmscriptenModule(itkModulesPath, modulesDirectory, pipelinePath, isAbsoluteURL) {
   var prefix = itkModulesPath;
 
   if (itkModulesPath[0] !== '/' && !itkModulesPath.startsWith('http')) {
@@ -1421,14 +1423,26 @@ function loadEmscriptenModule(itkModulesPath, modulesDirectory, moduleBaseName) 
   var moduleScriptDir = prefix + '/' + modulesDirectory;
 
   if ((typeof WebAssembly === "undefined" ? "undefined" : (0, _typeof2["default"])(WebAssembly)) === 'object' && typeof WebAssembly.Memory === 'function') {
-    var modulePath = moduleScriptDir + '/' + moduleBaseName + 'Wasm.js';
+    var modulePath = moduleScriptDir + '/' + pipelinePath + 'Wasm.js';
+
+    if (isAbsoluteURL) {
+      modulePath = pipelinePath + 'Wasm.js';
+    }
+
     importScripts(modulePath);
+    var moduleBaseName = pipelinePath.replace(/.*\//, '');
     var module = self[moduleBaseName]({
-      moduleScriptDir: moduleScriptDir
+      moduleScriptDir: moduleScriptDir,
+      isAbsoluteURL: isAbsoluteURL,
+      pipelinePath: pipelinePath
     });
     return module;
   } else {
-    var _modulePath = moduleScriptDir + '/' + moduleBaseName + '.js';
+    var _modulePath = moduleScriptDir + '/' + pipelinePath + '.js';
+
+    if (isAbsoluteURL) {
+      _modulePath = pipelinePath + '.js';
+    }
 
     importScripts(_modulePath);
     return Module;

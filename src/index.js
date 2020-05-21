@@ -2,6 +2,7 @@ import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract'
 import getFileExtension from 'itk/getFileExtension'
 
 import fetchBinaryContent from './fetchBinaryContent'
+import fetchJsonContent from './fetchJsonContent'
 import { processFiles } from './processFiles'
 import UserInterface from './UserInterface'
 import createFileDragAndDrop from './UserInterface/createFileDragAndDrop'
@@ -36,6 +37,7 @@ export async function createViewerFromUrl(
     multiscaleImage,
     labelMap,
     multiscaleLabelMap,
+    labelMapAnnotations = null,
     rotate = true,
     use2D = false,
   }
@@ -107,12 +109,18 @@ export async function createViewerFromUrl(
     }
   }
 
+  let labelMapAnnotationObject = null
+  if (!!labelMapAnnotations) {
+    labelMapAnnotationObject = await fetchJsonContent(labelMapAnnotations)
+  }
+
   return processFiles(el, {
     files: fileObjects,
     image: imageObject,
     multiscaleImage: multiscaleImageObject,
     labelMap: labelMapObject,
     multiscaleLabelMap: multiscaleLabelMapObject,
+    labelMapAnnotations: labelMapAnnotationObject,
     rotate,
     use2D,
   })
@@ -190,6 +198,7 @@ export function processURLParameters(container, addOnParameters = {}) {
       files: filesToLoad,
       image: userParams.image,
       labelMap: userParams.labelMap,
+      labelMapAnnotations: userParams.labelMapAnnotations,
       rotate,
       use2D: !!userParams.use2D,
     })

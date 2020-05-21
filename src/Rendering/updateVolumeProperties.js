@@ -1,3 +1,4 @@
+import updateGradientOpacity from './updateGradientOpacity'
 
 function updateVolumeProperties(store) {
   const numberOfComponents = store.imageUI.numberOfComponents
@@ -6,9 +7,7 @@ function updateVolumeProperties(store) {
     volumeProps.forEach(volume => {
       const volumeProperty = volume.getProperty()
       for (let component = 0; component < numberOfComponents; component++) {
-        const lut = store.imageUI.lookupTableProxies[
-          component
-        ].getLookupTable()
+        const lut = store.imageUI.lookupTableProxies[component].getLookupTable()
         const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
           component
         ].getPiecewiseFunction()
@@ -18,6 +17,7 @@ function updateVolumeProperties(store) {
         volumeProperty.setComponentWeight(component, visibility)
       }
     })
+    updateGradientOpacity(store)
   }
 }
 

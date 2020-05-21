@@ -3,6 +3,7 @@ import { reaction, action } from 'mobx'
 import macro from 'vtk.js/Sources/macro'
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
+import updateGradientOpacity from '../../Rendering/updateGradientOpacity'
 
 import gradientOpacityIcon from '../icons/gradient.svg'
 
@@ -22,15 +23,19 @@ function createGradientOpacitySlider(store, uiContainer) {
   const sliderEntryDiv = sliderEntry.children[0]
   applyContrastSensitiveStyle(store, 'invertibleButton', sliderEntryDiv)
 
-  function updateGradientOpacity() {
-    const gradientOpacity = store.imageUI.gradientOpacity
-    edgeElement.value = gradientOpacity
-    store.imageUI.representationProxy.setEdgeGradient(gradientOpacity)
-    store.renderWindow.render()
-  }
-  reaction(() => {
-    return store.imageUI.gradientOpacity
-  }, macro.debounce(updateGradientOpacity, 25, false))
+  reaction(
+    () => {
+      return store.imageUI.gradientOpacity
+    },
+    macro.debounce(
+      () => {
+        edgeElement.value = store.imageUI.gradientOpacity
+        updateGradientOpacity(store)
+      },
+      25,
+      false
+    )
+  )
   edgeElement.addEventListener(
     'input',
     action(event => {

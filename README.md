@@ -1,5 +1,6 @@
 ## [ITK/VTK Viewer - Web based Image, Mesh, and Point Set Viewer](http://kitware.github.io/itk-vtk-viewer/)
 
+![Build and Test](https://github.com/Kitware/itk-vtk-viewer/workflows/Build%20and%20Test/badge.svg)
 [![Build Status](https://dev.azure.com/Kitware/itk-vtk-viewer/_apis/build/status/Kitware.itk-vtk-viewer?branchName=master)](https://dev.azure.com/Kitware/itk-vtk-viewer/_build/latest?definitionId=1&branchName=master)
 [![Build Status](https://travis-ci.org/Kitware/itk-vtk-viewer.svg)](https://travis-ci.org/Kitware/itk-vtk-viewer)
 [![Dependency Status](https://david-dm.org/kitware/itk-vtk-viewer.svg)](https://david-dm.org/kitware/itk-vtk-viewer)

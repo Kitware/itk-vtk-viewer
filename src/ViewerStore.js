@@ -151,6 +151,7 @@ class ImageUIStore {
   @observable labelMapCategoricalColor = 'glasbey'
 
   @observable labelMapWeights = []
+  @observable labelMapAllWeight = 1.0
   @observable selectedLabel = 'all'
 
   planeIndexUIGroup = null

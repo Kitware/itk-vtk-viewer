@@ -17,6 +17,7 @@ function numericalSort(eltA, eltB) {
 
 function createLabelMapRendering(store) {
   const numberOfComponents = store.imageUI.numberOfComponents
+  store.itkVtkView.setLabelIndex(numberOfComponents)
 
   // label map initialization
   const lutProxy = vtkLookupTableProxy.newInstance()
@@ -31,6 +32,14 @@ function createLabelMapRendering(store) {
   // lut.setAnnotations(uniqueLabels, uniqueLabels);
   uniqueLabels.sort(numericalSort)
   store.imageUI.labelMapLabels = uniqueLabels
+  if (!!!store.itkVtkView.getAnnotationMap()) {
+    const labelNames = new Map()
+    for (let index = 0; index < uniqueLabels.length; index++) {
+      const label = uniqueLabels[index]
+      labelNames.set(label, label.toString())
+    }
+    store.itkVtkView.setAnnotationMap(labelNames)
+  }
 
   const labelMapWeights = new Array(uniqueLabels.length)
   labelMapWeights.fill(0.9)

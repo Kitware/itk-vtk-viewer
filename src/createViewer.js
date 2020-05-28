@@ -89,9 +89,7 @@ const createViewer = (
       }
 
       if (!!labelMapAnnotations) {
-        store.imageUI.annotationMap = labelMapAnnotations
         store.itkVtkView.setAnnotationMap(labelMapAnnotations)
-        store.itkVtkView.setLabelIndex(store.imageUI.numberOfComponents)
       }
 
       if (!!store.imageUI.image && !!!store.imageUI.lookupTableProxies.length) {

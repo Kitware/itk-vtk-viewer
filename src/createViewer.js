@@ -114,27 +114,17 @@ const createViewer = (
 
         store.itkVtkView.setClickCallback(lastPickedValues => {
           if (lastPickedValues.value !== null) {
-            store.imageUI.selectedLabel =
-              lastPickedValues.value[lastPickedValues.value.length - 1]
-
-            if (
-              store.imageUI.lastSelectedLabel === store.imageUI.selectedLabel
-            ) {
-              if (store.imageUI.selectedLabel !== 'all') {
-                const currentWeight =
-                  store.imageUI.labelMapWeights[store.imageUI.selectedLabel]
-                if (currentWeight > 0.5) {
-                  store.imageUI.labelMapWeights[
-                    store.imageUI.selectedLabel
-                  ] = 0.0
-                } else {
-                  store.imageUI.labelMapWeights[
-                    store.imageUI.selectedLabel
-                  ] = 1.0
-                }
+            store.imageUI.selectedLabel = lastPickedValues.label
+            if (store.imageUI.selectedLabel !== 'all') {
+              const currentWeight =
+                store.imageUI.labelMapWeights[store.imageUI.selectedLabel]
+              if (currentWeight === 1.0) {
+                store.imageUI.labelMapWeights[store.imageUI.selectedLabel] =
+                  store.imageUI.labelMapAllWeight
+              } else {
+                store.imageUI.labelMapWeights[store.imageUI.selectedLabel] = 1.0
               }
             }
-            store.imageUI.lastSelectedLabel = store.imageUI.selectedLabel
           }
         })
       }

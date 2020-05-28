@@ -18,6 +18,7 @@
     "commander": "^2.20.3",
     "css-element-queries": "^1.2.3",
     "curry": "^1.2.0",
+    "eventemitter3": "^4.0.4",
     "express": "^4.17.1",
     "itk": "^12.4.0",
     "mobx": "^5.15.4",

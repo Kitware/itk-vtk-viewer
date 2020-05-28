@@ -11,6 +11,7 @@ import resetCropIcon from '../icons/reset-crop.svg'
 
 function createCroppingButtons(store, mainUIRow) {
   const viewerDOMId = store.id
+  const eventEmitter = store.eventEmitter
   function setupCroppingWidget() {
     store.imageUI.croppingWidget = vtkImageCroppingRegionsWidget.newInstance()
     store.imageUI.croppingWidget.setHandleSize(16)
@@ -22,12 +23,10 @@ function createCroppingButtons(store, mainUIRow) {
     store.imageUI.croppingWidget.setVolumeMapper(
       store.imageUI.representationProxy.getMapper()
     )
-    const croppingPlanesChangedHandlers = []
     store.imageUI.addCroppingPlanesChangedHandler = handler => {
-      const index = croppingPlanesChangedHandlers.length
-      croppingPlanesChangedHandlers.push(handler)
+      eventEmitter.on('croppingPlanesChanged', handler)
       function unsubscribe() {
-        croppingPlanesChangedHandlers[index] = null
+        eventEmitter.off('croppingPlanesChanged', handler)
       }
       return Object.freeze({ unsubscribe })
     }
@@ -42,9 +41,7 @@ function createCroppingButtons(store, mainUIRow) {
       const bboxCorners = store.imageUI.croppingWidget.planesToBBoxCorners(
         planes
       )
-      croppingPlanesChangedHandlers.forEach(handler => {
-        handler.call(null, planes, bboxCorners)
-      })
+      eventEmitter.emit('croppingPlanesChanged', planes, bboxCorners)
       croppingUpdateInProgress = false
     }
     const debouncedSetCroppingPlanes = macro.debounce(setCroppingPlanes, 100)
@@ -81,21 +78,17 @@ function createCroppingButtons(store, mainUIRow) {
     resetCropButton.innerHTML = `<input id="${viewerDOMId}-resetCroppingPlanesButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset ROI [e]" class="${style.resetCropButton} ${style.toggleButton}" for="${viewerDOMId}-resetCroppingPlanesButton">${resetCropIcon}</label>`
     const resetCropButtonLabel = resetCropButton.children[1]
     applyContrastSensitiveStyle(store, 'invertibleButton', resetCropButtonLabel)
-    const resetCropHandlers = []
     store.imageUI.addResetCropHandler = handler => {
-      const index = resetCropHandlers.length
-      resetCropHandlers.push(handler)
+      eventEmitter.on('resetCrop', handler)
       function unsubscribe() {
-        resetCropHandlers[index] = null
+        eventEmitter.off('resetCrop', handler)
       }
       return Object.freeze({ unsubscribe })
     }
     function resetCrop() {
       store.imageUI.representationProxy.getCropFilter().reset()
       store.imageUI.croppingWidget.resetWidgetState()
-      resetCropHandlers.forEach(handler => {
-        handler.call(null)
-      })
+      eventEmitter.emit('resetCrop')
     }
     resetCropButton.addEventListener('change', event => {
       event.preventDefault()

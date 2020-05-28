@@ -15,6 +15,7 @@ import ViewerStore from './ViewerStore'
 import createLabelMapRendering from './Rendering/createLabelMapRendering'
 import createImageRendering from './Rendering/createImageRendering'
 import updateLabelMapComponentWeight from './Rendering/updateLabelMapComponentWeight'
+import updateLabelMapPiecewiseFunction from './Rendering/updateLabelMapPiecewiseFunction'
 import updateVolumeProperties from './Rendering/updateVolumeProperties'
 import updateGradientOpacity from './Rendering/updateGradientOpacity'
 
@@ -448,6 +449,7 @@ const createViewer = (
 
   const eventNames = [
     'imagePicked',
+    'labelMapWeightsChanged',
     'toggleUserInterfaceCollapsed',
     'toggleAnnotations',
     'toggleRotate',
@@ -486,6 +488,60 @@ const createViewer = (
       eventEmitter.emit('imagePicked', lastPickedValues)
     }
   )
+
+  reaction(
+    () => store.imageUI.labelMapWeights.slice(),
+    () => {
+      const labels = store.imageUI.labelMapLabels.slice()
+      const weights = store.imageUI.labelMapWeights.slice()
+      eventEmitter.emit('labelMapWeightsChanged', { labels, weights })
+    }
+  )
+
+  // Replace all weights
+  publicAPI.setLabelMapWeights = weights => {
+    if (weights.length !== store.imageUI.labelMapWeights.length) {
+      console.error(
+        `Provided ${weights.length} weights, expecting ${store.imageUI.labelMapWeights.length}`
+      )
+      return false
+    }
+
+    store.imageUI.labelMapWeights.replace(weights)
+    updateLabelMapPiecewiseFunction(store)
+    store.renderWindow.render()
+
+    return true
+  }
+
+  // Replace a subset of weights by providing parallel array of corresponding
+  // label values
+  publicAPI.updateLabelMapWeights = ({ labels, weights }) => {
+    const indicesToUpdate = []
+
+    labels.forEach((label, labelIdx) => {
+      const idx = store.imageUI.labelMapLabels.indexOf(label)
+      if (idx >= 0) {
+        indicesToUpdate.push(labelIdx)
+        store.imageUI.labelMapWeights[idx] = weights[labelIdx]
+      }
+    })
+
+    if (indicesToUpdate.length > 0) {
+      updateLabelMapPiecewiseFunction(store, indicesToUpdate)
+      store.renderWindow.render()
+      return true
+    }
+
+    return false
+  }
+
+  publicAPI.getLabelMapWeights = () => {
+    return {
+      labels: store.imageUI.labelMapLabels.slice(),
+      weights: store.imageUI.labelMapWeights.slice(),
+    }
+  }
 
   autorun(() => {
     const collapsed = store.mainUI.collapsed

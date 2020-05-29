@@ -54,11 +54,13 @@ function createLabelMapWeightWidget(store, uiContainer) {
   uiContainer.appendChild(labelMapWeightUIGroup)
 
   function pushLabelWeight() {
+    let updateIndex = 'all'
     if (store.imageUI.selectedLabel !== 'all') {
       weightElement.value =
         store.imageUI.labelMapWeights[store.imageUI.selectedLabel]
+      updateIndex = [store.imageUI.selectedLabel]
     }
-    updateLabelMapPiecewiseFunction(store, store.imageUI.selectedLabel)
+    updateLabelMapPiecewiseFunction(store, updateIndex)
     store.renderWindow.render()
   }
 

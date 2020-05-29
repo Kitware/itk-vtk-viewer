@@ -95,14 +95,14 @@ function ItkVtkViewProxy(publicAPI, model) {
 
   function getAnnotationText(value) {
     const labelValue = value[model.labelIndex]
-    if (model.annotationMap !== null && model.annotationMap.has(labelValue)) {
-      return model.annotationMap.get(labelValue)
+    if (model.labelNames !== null && model.labelNames.has(labelValue)) {
+      return model.labelNames.get(labelValue)
     }
     return labelValue
   }
 
   function getAnnotationStyle() {
-    return model.annotationMap === null ? 'style="display: none;"' : ''
+    return model.labelNames === null ? 'style="display: none;"' : ''
   }
 
   function updateAnnotations(callData) {
@@ -506,7 +506,7 @@ const DEFAULT_VALUES = {
   rotate: false,
   units: '',
   labelIndex: null,
-  annotationMap: null,
+  labelNames: null,
   clickCallback: null,
   lastPickedValues: {
     iIndex: null,
@@ -530,7 +530,7 @@ export function extend(publicAPI, model, initialValues = {}) {
 
   macro.setGet(publicAPI, model, [
     'units',
-    'annotationMap',
+    'labelNames',
     'labelIndex',
     'clickCallback',
   ])

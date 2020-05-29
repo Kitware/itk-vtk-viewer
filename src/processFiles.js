@@ -36,7 +36,7 @@ export const processFiles = async (
     multiscaleImage,
     labelMap,
     multiscaleLabelMap,
-    labelMapAnnotations,
+    labelMapNames,
     rotate,
     use2D,
   }
@@ -49,7 +49,7 @@ export const processFiles = async (
     multiscaleImage,
     labelMap,
     multiscaleLabelMap,
-    labelMapAnnotations,
+    labelMapNames,
     use2D,
   })
   config.rotate = rotate
@@ -62,7 +62,7 @@ export const readFiles = async ({
   multiscaleImage,
   labelMap,
   multiscaleLabelMap,
-  labelMapAnnotations,
+  labelMapNames,
   rotate,
   use2D,
 }) => {
@@ -187,9 +187,9 @@ export const readFiles = async ({
       webWorker.terminate()
       labelMapData = vtkITKHelper.convertItkToVtkImage(itkImage)
     }
-    let labelMapAnnotationData = null
-    if (!!labelMapAnnotations) {
-      labelMapAnnotationData = new Map(labelMapAnnotations)
+    let labelMapNameData = null
+    if (!!labelMapNames) {
+      labelMapNameData = new Map(labelMapNames)
     }
     if (images.length > 0) {
       for (let index = 0; index < images.length; index++) {
@@ -256,7 +256,7 @@ export const readFiles = async ({
       multiscaleImage,
       labelMap: labelMapData,
       multiscaleLabelMap,
-      labelMapAnnotations: labelMapAnnotationData,
+      labelMapNames: labelMapNameData,
       geometries,
       pointSets,
       use2D: !is3D,

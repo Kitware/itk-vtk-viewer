@@ -32,13 +32,13 @@ function createLabelMapRendering(store) {
   // lut.setAnnotations(uniqueLabels, uniqueLabels);
   uniqueLabels.sort(numericalSort)
   store.imageUI.labelMapLabels = uniqueLabels
-  if (!!!store.itkVtkView.getAnnotationMap()) {
+  if (!!!store.itkVtkView.getLabelNames()) {
     const labelNames = new Map()
     for (let index = 0; index < uniqueLabels.length; index++) {
       const label = uniqueLabels[index]
       labelNames.set(label, label.toString())
     }
-    store.itkVtkView.setAnnotationMap(labelNames)
+    store.itkVtkView.setLabelNames(labelNames)
   }
 
   const labelMapWeights = new Array(uniqueLabels.length)

@@ -28,7 +28,7 @@ const createViewer = (
     multiscaleImage,
     labelMap,
     multiscaleLabelMap,
-    labelMapAnnotations,
+    labelMapNames,
     geometries,
     pointSets,
     use2D = false,
@@ -89,8 +89,8 @@ const createViewer = (
         annotationContainer.style.fontFamily = 'monospace'
       }
 
-      if (!!labelMapAnnotations) {
-        store.itkVtkView.setAnnotationMap(labelMapAnnotations)
+      if (!!labelMapNames) {
+        store.itkVtkView.setLabelNames(labelMapNames)
       }
 
       if (!!store.imageUI.image && !!!store.imageUI.lookupTableProxies.length) {

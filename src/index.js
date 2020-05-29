@@ -37,7 +37,7 @@ export async function createViewerFromUrl(
     multiscaleImage,
     labelMap,
     multiscaleLabelMap,
-    labelMapAnnotations = null,
+    labelMapNames = null,
     rotate = true,
     use2D = false,
   }
@@ -109,9 +109,9 @@ export async function createViewerFromUrl(
     }
   }
 
-  let labelMapAnnotationObject = null
-  if (!!labelMapAnnotations) {
-    labelMapAnnotationObject = await fetchJsonContent(labelMapAnnotations)
+  let labelMapNameObject = null
+  if (!!labelMapNames) {
+    labelMapNameObject = await fetchJsonContent(labelMapNames)
   }
 
   return processFiles(el, {
@@ -120,7 +120,7 @@ export async function createViewerFromUrl(
     multiscaleImage: multiscaleImageObject,
     labelMap: labelMapObject,
     multiscaleLabelMap: multiscaleLabelMapObject,
-    labelMapAnnotations: labelMapAnnotationObject,
+    labelMapNames: labelMapNameObject,
     rotate,
     use2D,
   })
@@ -198,7 +198,7 @@ export function processURLParameters(container, addOnParameters = {}) {
       files: filesToLoad,
       image: userParams.image,
       labelMap: userParams.labelMap,
-      labelMapAnnotations: userParams.labelMapAnnotations,
+      labelMapNames: userParams.labelMapNames,
       rotate,
       use2D: !!userParams.use2D,
     })

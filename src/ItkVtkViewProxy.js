@@ -10,7 +10,7 @@ import vtkWidgetManager from 'vtk.js/Sources/Widgets/Core/WidgetManager'
 import * as vtkMath from 'vtk.js/Sources/Common/Core/Math'
 
 const CursorCornerAnnotation =
-  '<table class="corner-annotation" style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:left;" colspan="3">${value}</td></tr><tr ${annotationStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:left;" colspan="3">${annotation}</td></tr></table>'
+  '<table class="corner-annotation" style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
 
 const { vtkErrorMacro } = macro
 

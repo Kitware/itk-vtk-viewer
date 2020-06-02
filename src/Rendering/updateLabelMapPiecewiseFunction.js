@@ -1,7 +1,21 @@
+function transformUserWeight(userWeight, minWeight, maxWeight) {
+  return userWeight * (maxWeight - minWeight) + minWeight
+}
+
 function updateLabelMapPiecewiseFunction(store, selectedIndices = null) {
   const piecewiseFunction = store.imageUI.piecewiseFunction
   const uniqueLabels = store.imageUI.labelMapLabels
   const labelMapWeights = store.imageUI.labelMapWeights
+
+  let minLabelWeight = 0.0
+  let maxLabelWeight = 1.0
+  if (store.imageUI.haveOnlyLabelMap) {
+    maxLabelWeight = 0.05
+    if (store.mainUI.viewMode !== 'VolumeRendering') {
+      maxLabelWeight = 1.0
+      minLabelWeight = 0.4
+    }
+  }
 
   if (selectedIndices === null || selectedIndices === 'all') {
     // Update all values from the store
@@ -15,7 +29,11 @@ function updateLabelMapPiecewiseFunction(store, selectedIndices = null) {
     } else {
       piecewiseFunction.addPointLong(
         uniqueLabels[0],
-        labelMapWeights[0],
+        transformUserWeight(
+          store.imageUI.labelMapWeights[0],
+          minLabelWeight,
+          maxLabelWeight
+        ),
         0.5,
         1.0
       )
@@ -24,7 +42,11 @@ function updateLabelMapPiecewiseFunction(store, selectedIndices = null) {
     for (let i = 1; i < uniqueLabels.length; i++) {
       piecewiseFunction.addPointLong(
         uniqueLabels[i],
-        labelMapWeights[i],
+        transformUserWeight(
+          store.imageUI.labelMapWeights[i],
+          minLabelWeight,
+          maxLabelWeight
+        ),
         0.5,
         1.0
       )
@@ -32,7 +54,11 @@ function updateLabelMapPiecewiseFunction(store, selectedIndices = null) {
   } else {
     // Otherwise, just update specific values
     selectedIndices.forEach(value => {
-      const weight = store.imageUI.labelMapWeights[store.imageUI.selectedLabel]
+      const weight = transformUserWeight(
+        store.imageUI.labelMapWeights[value],
+        minLabelWeight,
+        maxLabelWeight
+      )
       piecewiseFunction.setNodeValue(value, [value, weight, 0.5, 1.0])
     })
   }

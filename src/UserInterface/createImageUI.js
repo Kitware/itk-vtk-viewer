@@ -30,7 +30,8 @@ function createImageUI(store, use2D) {
     // If not a 2D RGB image
     if (
       !(
-        dataArray.getDataType() !== 'Uint8Array' &&
+        use2D &&
+        dataArray.getDataType() === 'Uint8Array' &&
         (components === 3 || components === 4)
       )
     ) {

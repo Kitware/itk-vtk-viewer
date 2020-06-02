@@ -10,9 +10,14 @@ function createImageRendering(store, use2D) {
 
   store.imageUI.lookupTableProxies = new Array(numberOfComponents)
   store.imageUI.piecewiseFunctionProxies = new Array(numberOfComponents)
-  store.imageUI.componentVisibilities = observable(
-    new Array(numberOfComponents)
-  )
+  const initialComponentVisibilities = []
+  for (let i = 0; i < numberOfComponents; i++) {
+    initialComponentVisibilities.push({
+      visible: true,
+      weight: 1.0,
+    })
+  }
+  store.imageUI.componentVisibilities = observable(initialComponentVisibilities)
   store.imageUI.colorMaps = new Array(numberOfComponents)
   store.imageUI.colorRanges = new Array(numberOfComponents)
   const volume = store.imageUI.representationProxy.getVolumes()[0]
@@ -26,7 +31,6 @@ function createImageRendering(store, use2D) {
     store.imageUI.piecewiseFunctionProxies[
       component
     ] = vtkPiecewiseFunctionProxy.newInstance()
-    store.imageUI.componentVisibilities[component] = 1.0
     store.imageUI.independentComponents = true
     let preset = 'Viridis (matplotlib)'
     // If a 2D RGB or RGBA
@@ -75,8 +79,12 @@ function createImageRendering(store, use2D) {
     ].getPiecewiseFunction()
     volumeProperty.setScalarOpacity(component, piecewiseFunction)
 
-    const visibility = store.imageUI.componentVisibilities[component]
-    volumeProperty.setComponentWeight(component, visibility)
+    const componentVisibility = store.imageUI.componentVisibilities[component]
+    if (componentVisibility.visible) {
+      volumeProperty.setComponentWeight(component, componentVisibility.weight)
+    } else {
+      volumeProperty.setComponentWeight(component, 0.0)
+    }
   }
 
   // Now for the slice rendering

@@ -399,7 +399,6 @@ const createViewer = (
       if (!tooLow) {
         return
       }
-      console.log('FPS is too low!')
     }
   )
   function updateFPS() {

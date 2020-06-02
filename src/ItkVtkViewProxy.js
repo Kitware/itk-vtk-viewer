@@ -10,7 +10,7 @@ import vtkWidgetManager from 'vtk.js/Sources/Widgets/Core/WidgetManager'
 import * as vtkMath from 'vtk.js/Sources/Common/Core/Math'
 
 const CursorCornerAnnotation =
-  '<table class="corner-annotation" style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
+  '<table class="corner-annotation" style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
 
 const { vtkErrorMacro } = macro
 
@@ -101,8 +101,8 @@ function ItkVtkViewProxy(publicAPI, model) {
     return labelValue
   }
 
-  function getAnnotationStyle() {
-    return model.labelNames === null ? 'style="display: none;"' : ''
+  function getAnnotationLabelStyle() {
+    return model.labelIndex === null ? 'style="display: none;"' : ''
   }
 
   function updateAnnotations(callData) {
@@ -140,7 +140,7 @@ function ItkVtkViewProxy(publicAPI, model) {
           label:
             model.labelIndex === null ? null : fusedValue[model.labelIndex],
           annotation,
-          annotationStyle: getAnnotationStyle(),
+          annotationLabelStyle: getAnnotationLabelStyle(),
         }
         publicAPI.updateCornerAnnotation(model.lastPickedValues)
       } else {
@@ -173,7 +173,7 @@ function ItkVtkViewProxy(publicAPI, model) {
     zPosition: '&nbsp;N/A',
     value: 'N/A&nbsp;',
     annotation: 'N/A&nbsp;',
-    annotationStyle: getAnnotationStyle(),
+    annotationLabelStyle: getAnnotationLabelStyle(),
   })
   publicAPI.setAnnotationOpacity(0.0)
   model.annotationPicker = vtkPointPicker.newInstance()

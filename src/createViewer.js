@@ -454,6 +454,14 @@ const createViewer = (
     store.imageUI.labelMap = labelMap
   }
 
+  publicAPI.setLabelMapNames = names => {
+    store.itkVtkView.setLabelNames(names)
+  }
+
+  publicAPI.getLabelMapNames = () => {
+    return store.itkVtkView.getLabelNames()
+  }
+
   publicAPI.setUserInterfaceCollapsed = collapse => {
     const collapsed = store.mainUI.collapsed
     if ((collapse && !collapsed) || (!collapse && collapsed)) {

@@ -55,6 +55,33 @@ const createViewer = (
 
   UserInterface.createMainUI(rootContainer, store, use2D, uiContainer)
 
+  function imagePickedListener(lastPickedValues) {
+    if (lastPickedValues.value !== null) {
+      store.imageUI.selectedLabel = lastPickedValues.label
+      if (store.imageUI.selectedLabel !== 'all') {
+        const currentWeight =
+          store.imageUI.labelMapWeights[store.imageUI.selectedLabel]
+        if (currentWeight === 1.0) {
+          store.imageUI.labelMapWeights[store.imageUI.selectedLabel] =
+            store.imageUI.labelMapAllWeight
+        } else {
+          store.imageUI.labelMapWeights[store.imageUI.selectedLabel] = 1.0
+        }
+      }
+    }
+  }
+
+  function viewModeChangedListener(viewMode) {
+    updateLabelMapPiecewiseFunction(store)
+    store.renderWindow.render()
+  }
+
+  function registerEventListener(eventName, listener) {
+    if (store.eventEmitter.listeners(eventName).indexOf(listener) < 0) {
+      store.eventEmitter.on(eventName, listener)
+    }
+  }
+
   reaction(
     () => {
       const image = store.imageUI.image
@@ -112,22 +139,6 @@ const createViewer = (
       if (!!store.imageUI.labelMap && !!!store.imageUI.labelMapColorUIGroup) {
         createLabelMapColorWidget(store, store.mainUI.uiContainer)
         createLabelMapWeightWidget(store, store.mainUI.uiContainer)
-
-        store.eventEmitter.on('imagePicked', lastPickedValues => {
-          if (lastPickedValues.value !== null) {
-            store.imageUI.selectedLabel = lastPickedValues.label
-            if (store.imageUI.selectedLabel !== 'all') {
-              const currentWeight =
-                store.imageUI.labelMapWeights[store.imageUI.selectedLabel]
-              if (currentWeight === 1.0) {
-                store.imageUI.labelMapWeights[store.imageUI.selectedLabel] =
-                  store.imageUI.labelMapAllWeight
-              } else {
-                store.imageUI.labelMapWeights[store.imageUI.selectedLabel] = 1.0
-              }
-            }
-          }
-        })
       }
 
       if (!use2D && !!!store.imageUI.placeIndexUIGroup) {
@@ -180,10 +191,13 @@ const createViewer = (
         }, 0)
       }
 
-      if (!!store.imageUI.image) {
+      if (!!store.imageUI.image || !!store.imageUI.labelMap) {
         store.itkVtkView.setClickCallback(lastPickedValues => {
           store.imageUI.lastPickedValues = lastPickedValues
         })
+
+        registerEventListener('imagePicked', imagePickedListener)
+        registerEventListener('viewModeChanged', viewModeChangedListener)
       }
     }
   )
@@ -191,6 +205,13 @@ const createViewer = (
   if (!!labelMap) {
     store.imageUI.labelMap = labelMap
   }
+
+  autorun(() => {
+    if (store.imageUI.haveOnlyLabelMap) {
+      // If we only have a labelmap component, give it full weight
+      store.imageUI.labelMapOpacity = 1.0
+    }
+  })
 
   reaction(
     () => {

@@ -141,6 +141,14 @@ class ImageUIStore {
     return fusedImage
   }
 
+  @computed get haveOnlyLabelMap() {
+    return (
+      (!!this.labelMap || !!this.multiscaleLabelMap) &&
+      !!!this.image &&
+      !!!this.multiscaleImage
+    )
+  }
+
   labelMapColorUIGroup = null
   labelMapLookupTableProxy = null
   // Sorted array of label values

@@ -38,7 +38,7 @@ function createComponentSelector(store, imageUIGroup) {
           }" data-component-index="${component}"/><label for="tab-${component}" class="${
             style.compTabLabel
           }">${component}<input type="checkbox" ${
-            store.imageUI.componentVisibilities[idx] > 0.0
+            store.imageUI.componentVisibilities[idx].visible
               ? 'checked="checked"'
               : ''
           } class="${
@@ -68,15 +68,17 @@ function createComponentSelector(store, imageUIGroup) {
       if (event.target.type === 'radio') {
         store.imageUI.selectedComponentIndex = selIdx
       } else if (event.target.type === 'checkbox') {
-        const visibility = event.target.checked ? 1.0 : 0.0
-        store.imageUI.componentVisibilities[selIdx] = visibility
+        const visibility = event.target.checked
+        store.imageUI.componentVisibilities[selIdx].visible = visibility
       }
     })
   )
 
   reaction(
     () => {
-      return store.imageUI.componentVisibilities.slice()
+      return store.imageUI.componentVisibilities.map(
+        compVis => `${compVis.visible},${compVis.weight}`
+      )
     },
     visibilities => {
       updateSliceProperties(store)

@@ -20,9 +20,10 @@ export { utils }
 // and its interface and behavior may change without changes to the major version.
 export { UserInterface }
 
+/** Returns a Promise that revolves with the Viewer created the files. */
 export function createViewerFromLocalFiles(container) {
   doNotInitViewers = true
-  createFileDragAndDrop(container, processFiles)
+  return createFileDragAndDrop(container, processFiles)
 }
 
 export async function createViewerFromFiles(el, files, use2D = false) {

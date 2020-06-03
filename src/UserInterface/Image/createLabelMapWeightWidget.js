@@ -94,7 +94,7 @@ function createLabelMapWeightWidget(store, uiContainer) {
       for (let i = 0; i < store.imageUI.labelMapWeights.length; i++) {
         store.imageUI.labelMapWeights[i] = weight
       }
-      store.imageUI.labelMapAllWeight = weight
+      store.imageUI.labelMapToggleWeight = weight
     } else {
       store.imageUI.labelMapWeights[store.imageUI.selectedLabel] = Number(
         weightElement.value

@@ -63,7 +63,7 @@ const createViewer = (
           store.imageUI.labelMapWeights[store.imageUI.selectedLabel]
         if (currentWeight === 1.0) {
           store.imageUI.labelMapWeights[store.imageUI.selectedLabel] =
-            store.imageUI.labelMapAllWeight
+            store.imageUI.labelMapToggleWeight
         } else {
           store.imageUI.labelMapWeights[store.imageUI.selectedLabel] = 1.0
         }

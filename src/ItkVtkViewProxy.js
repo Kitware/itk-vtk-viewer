@@ -51,7 +51,7 @@ function ItkVtkViewProxy(publicAPI, model) {
       model.camera.setParallelProjection(false)
       if (model.volumeRepresentation) {
         if (model.viewPlanes) {
-          publicAPI.setCornerAnnotation('se', CursorCornerAnnotation)
+          publicAPI.setCornerAnnotation('se', model.seCornerAnnotation)
         } else {
           publicAPI.setCornerAnnotation('se', '')
         }
@@ -60,7 +60,7 @@ function ItkVtkViewProxy(publicAPI, model) {
       }
     } else {
       model.camera.setParallelProjection(true)
-      publicAPI.setCornerAnnotation('se', CursorCornerAnnotation)
+      publicAPI.setCornerAnnotation('se', model.seCornerAnnotation)
       model.interactor.setInteractorStyle(model.interactorStyle2D)
       if (model.rotate && !!model.rotateAnimationCallback) {
         model.interactor.cancelAnimation('itk-vtk-view-rotate')
@@ -113,6 +113,7 @@ function ItkVtkViewProxy(publicAPI, model) {
     )
     const ijk = model.annotationPicker.getPointIJK()
     if (model.volumeRepresentation) {
+      publicAPI.setCornerAnnotation('se', model.seCornerAnnotation)
       const imageData = model.volumeRepresentation.getInputDataSet()
       const size = imageData.getDimensions()
       const scalarData = imageData.getPointData().getScalars()
@@ -144,6 +145,7 @@ function ItkVtkViewProxy(publicAPI, model) {
         }
         publicAPI.updateCornerAnnotation(model.lastPickedValues)
       } else {
+        publicAPI.setCornerAnnotation('se', '')
         model.dataProbeActor.setVisibility(false)
         model.dataProbeFrameActor.setVisibility(false)
         model.lastPickedValues = null
@@ -357,7 +359,7 @@ function ItkVtkViewProxy(publicAPI, model) {
     if (model.viewMode === 'VolumeRendering' && model.volumeRepresentation) {
       model.volumeRepresentation.setSliceVisibility(viewPlanes)
       if (viewPlanes) {
-        publicAPI.setCornerAnnotation('se', CursorCornerAnnotation)
+        publicAPI.setCornerAnnotation('se', model.seCornerAnnotation)
       }
       model.renderWindow.render()
     }
@@ -505,6 +507,7 @@ const DEFAULT_VALUES = {
   viewPlanes: false,
   rotate: false,
   units: '',
+  seCornerAnnotation: CursorCornerAnnotation,
   labelIndex: null,
   labelNames: null,
   clickCallback: null,
@@ -530,6 +533,7 @@ export function extend(publicAPI, model, initialValues = {}) {
 
   macro.setGet(publicAPI, model, [
     'units',
+    'seCornerAnnotation',
     'labelNames',
     'labelIndex',
     'clickCallback',

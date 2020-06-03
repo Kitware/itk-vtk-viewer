@@ -42,7 +42,11 @@ function createLabelMapRendering(store) {
   }
 
   const labelMapWeights = new Array(uniqueLabels.length)
-  labelMapWeights.fill(0.9)
+  labelMapWeights.fill(1.0)
+  if (uniqueLabels[0] === 0) {
+    // 0 is usually the background label -- suppress it
+    labelMapWeights[0] = 0.1
+  }
   store.imageUI.labelMapWeights = observable.array(labelMapWeights)
 
   applyCategoricalColorToLookupTableProxy(

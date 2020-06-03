@@ -63,7 +63,7 @@ const createViewer = (
           store.imageUI.labelMapWeights[store.imageUI.selectedLabel]
         if (currentWeight === 1.0) {
           store.imageUI.labelMapWeights[store.imageUI.selectedLabel] =
-            store.imageUI.labelMapAllWeight
+            store.imageUI.labelMapToggleWeight
         } else {
           store.imageUI.labelMapWeights[store.imageUI.selectedLabel] = 1.0
         }
@@ -399,7 +399,6 @@ const createViewer = (
       if (!tooLow) {
         return
       }
-      console.log('FPS is too low!')
     }
   )
   function updateFPS() {
@@ -453,6 +452,14 @@ const createViewer = (
 
   publicAPI.setLabelMap = labelMap => {
     store.imageUI.labelMap = labelMap
+  }
+
+  publicAPI.setLabelMapNames = names => {
+    store.itkVtkView.setLabelNames(names)
+  }
+
+  publicAPI.getLabelMapNames = () => {
+    return store.itkVtkView.getLabelNames()
   }
 
   publicAPI.setUserInterfaceCollapsed = collapse => {

@@ -154,7 +154,6 @@ class ImageUIStore {
   // Sorted array of label values
   labelMapLabels = null
   piecewiseFunction = null
-  lastSelectedLabel = null
 
   @observable lastPickedValues = {}
 

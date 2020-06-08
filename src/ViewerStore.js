@@ -148,6 +148,9 @@ class ImageUIStore {
       !!!this.multiscaleImage
     )
   }
+  @computed get haveLabelMap() {
+    return !!this.labelMap || !!this.multiscaleLabelMap
+  }
 
   labelMapColorUIGroup = null
   labelMapLookupTableProxy = null

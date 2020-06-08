@@ -1,4 +1,7 @@
 function updateLabelMapComponentWeight(store) {
+  if (!store.imageUI.haveLabelMap) {
+    return
+  }
   const labelMapOpacity = store.imageUI.labelMapOpacity
   const volume = store.imageUI.representationProxy.getVolumes()[0]
   const volumeProperty = volume.getProperty()

@@ -3,6 +3,7 @@ import EventEmitter from 'eventemitter3'
 
 import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData'
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
+import { VtkDataTypes } from 'vtk.js/Sources/Common/Core/DataArray/Constants'
 
 const STYLE_CONTAINER = {
   position: 'relative',
@@ -195,11 +196,26 @@ class GeometriesUIStore {
   colorRangesReactions = new Map()
   @computed get hasScalars() {
     return this.geometries.map(geometry => {
-      const pointData = geometry.getPointData()
-      const hasPointDataScalars = !!pointData.getScalars()
-      const cellData = geometry.getCellData()
-      const hasCellDataScalars = !!cellData.getScalars()
-      return hasPointDataScalars || hasCellDataScalars
+      const pointDataScalars = !!geometry.getPointData().getScalars()
+      const cellDataScalars = !!geometry.getCellData().getScalars()
+
+      return pointDataScalars || cellDataScalars
+    })
+  }
+  @computed get hasOnlyDirectColors() {
+    return this.geometries.map(geometry => {
+      const pointDataScalars = geometry.getPointData().getScalars()
+      const pointDataDirectColors =
+        !!pointDataScalars &&
+        pointDataScalars.getDataType() === VtkDataTypes.UNSIGNED_CHAR &&
+        pointDataScalars.getNumberOfComponents() === 3
+      const cellDataScalars = geometry.getCellData().getScalars()
+      const cellDataDirectColors =
+        !!cellDataScalars &&
+        cellDataScalars.getDataType() === VtkDataTypes.UNSIGNED_CHAR &&
+        cellDataScalars.getNumberOfComponents() === 3
+
+      return pointDataDirectColors && cellDataDirectColors
     })
   }
   @computed get colorByOptions() {

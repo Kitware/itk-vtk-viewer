@@ -108,6 +108,7 @@ function createGeometryColorBySelector(store, colorByRow) {
       const interpolateScalarsBeforeMapping = location === 'pointData'
       proxy.setInterpolateScalarsBeforeMapping(interpolateScalarsBeforeMapping)
       proxy.setColorBy(colorByArrayName, location)
+      proxy.getMapper().setColorModeToDefault()
       store.renderWindow.render()
 
       const hasScalars = store.geometriesUI.hasScalars
@@ -140,6 +141,7 @@ function createGeometryColorBySelector(store, colorByRow) {
       const interpolateScalarsBeforeMapping = location === 'pointData'
       proxy.setInterpolateScalarsBeforeMapping(interpolateScalarsBeforeMapping)
       proxy.setColorBy(colorByArrayName, location)
+      proxy.getMapper().setColorModeToDefault()
     }
   })
   const selectedGeometryIndex = store.geometriesUI.selectedGeometryIndex

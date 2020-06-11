@@ -41,7 +41,7 @@ const createViewer = (
 ) => {
   UserInterface.emptyContainer(rootContainer)
   if (!UserInterface.checkForWebGL(rootContainer)) {
-    return null
+    throw new Error('WebGL could not be loaded.')
   }
 
   const proxyManager = vtkProxyManager.newInstance({ proxyConfiguration })

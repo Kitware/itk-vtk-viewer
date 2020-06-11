@@ -498,6 +498,7 @@ const createViewer = (
     'gradientOpacityChanged',
     'blendModeChanged',
     'pointSetRepresentationChanged',
+    'backgroundColorChanged',
   ]
 
   publicAPI.getEventNames = () => eventNames
@@ -921,7 +922,16 @@ const createViewer = (
 
   publicAPI.setBackgroundColor = bgColor => {
     store.style.backgroundColor = bgColor
+    store.itkVtkView.getRenderer().setBackground(store.style.backgroundColor)
+    store.renderWindow.render()
   }
+
+  reaction(
+    () => store.style.backgroundColor.slice(),
+    bgColor => {
+      eventEmitter.emit('backgroundColorChanged', bgColor)
+    }
+  )
 
   // The `itkVtkView` is considered an internal implementation detail
   // and its interface and behavior may change without changes to the major version.

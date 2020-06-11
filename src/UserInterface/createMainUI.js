@@ -9,6 +9,7 @@ import createInterpolationButton from './Main/createInterpolationButton'
 import createViewModeButtons from './Main/createViewModeButtons'
 import createCroppingButtons from './Main/createCroppingButtons'
 import createResetCameraButton from './Main/createResetCameraButton'
+import createBackgroundColorButton from './Main/createBackgroundColorButton'
 
 function createMainUI(rootContainer, store, use2D, uiContainer) {
   if (!uiContainer) {
@@ -37,6 +38,7 @@ function createMainUI(rootContainer, store, use2D, uiContainer) {
   createViewModeButtons(store, use2D, mainUIRow)
   createCroppingButtons(store, mainUIRow)
   createResetCameraButton(store, mainUIRow)
+  createBackgroundColorButton(store, mainUIRow)
 
   uiContainer.appendChild(mainUIGroup)
 }

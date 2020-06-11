@@ -6,6 +6,7 @@ import style from '../ItkVtkViewer.module.css'
 
 function createComponentSelector(store, imageUIGroup) {
   const viewerDOMId = store.id
+  const eventEmitter = store.eventEmitter
 
   const componentSelector = document.createElement('div')
   componentSelector.setAttribute('class', style.selector)
@@ -59,6 +60,15 @@ function createComponentSelector(store, imageUIGroup) {
   )
   updateAvailableComponents()
 
+  function syncCheckState(visibilityList) {
+    visibilityList.forEach((visibility, compIdx) => {
+      const elt = componentSelector.querySelector(
+        `input[data-component-index="${compIdx}"][type="checkbox"]`
+      )
+      elt.checked = visibility
+    })
+  }
+
   componentSelector.addEventListener(
     'change',
     action(event => {
@@ -81,6 +91,9 @@ function createComponentSelector(store, imageUIGroup) {
       )
     },
     visibilities => {
+      syncCheckState(
+        store.imageUI.componentVisibilities.map(compVis => compVis.visible)
+      )
       updateSliceProperties(store)
       updateVolumeProperties(store)
       const renderWindow = store.renderWindow

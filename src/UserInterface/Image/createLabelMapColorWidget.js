@@ -97,7 +97,7 @@ function createLabelMapColorWidget(store, uiContainer) {
     <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Label map component weight" class="${style.gradientOpacitySlider}">
       ${opacityIcon}
     </div>
-    <input type="range" min="0" max="1" value="${store.imageUI.labelMapOpacity}" step="0.01"
+    <input type="range" min="0" max="1" value="${store.imageUI.labelMapBlend}" step="0.01"
       id="${store.id}-labelMapColorOpacitySlider"
       class="${style.slider}" />`
   const opacityElement = sliderEntry.querySelector(
@@ -106,13 +106,13 @@ function createLabelMapColorWidget(store, uiContainer) {
   const sliderEntryDiv = sliderEntry.children[0]
   applyContrastSensitiveStyle(store, 'invertibleButton', sliderEntryDiv)
   function updateLabelMapColorOpacity() {
-    const labelMapOpacity = store.imageUI.labelMapOpacity
-    opacityElement.value = labelMapOpacity
+    const labelMapBlend = store.imageUI.labelMapBlend
+    opacityElement.value = labelMapBlend
     updateLabelMapComponentWeight(store)
     store.renderWindow.render()
   }
   reaction(() => {
-    return store.imageUI.labelMapOpacity
+    return store.imageUI.labelMapBlend
   }, macro.debounce(updateLabelMapColorOpacity, 25))
   updateLabelMapColorOpacity()
   opacityElement.addEventListener(
@@ -120,7 +120,7 @@ function createLabelMapColorWidget(store, uiContainer) {
     action(event => {
       event.preventDefault()
       event.stopPropagation()
-      store.imageUI.labelMapOpacity = Number(opacityElement.value)
+      store.imageUI.labelMapBlend = Number(opacityElement.value)
     })
   )
   autorun(() => {

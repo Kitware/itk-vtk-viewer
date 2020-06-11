@@ -210,7 +210,7 @@ const createViewer = (
   autorun(() => {
     if (store.imageUI.haveOnlyLabelMap) {
       // If we only have a labelmap component, give it full weight
-      store.imageUI.labelMapOpacity = 1.0
+      store.imageUI.labelMapBlend = 1.0
     }
   })
 
@@ -476,6 +476,7 @@ const createViewer = (
 
   const eventNames = [
     'imagePicked',
+    'labelMapBlendChanged',
     'labelMapWeightsChanged',
     'toggleUserInterfaceCollapsed',
     'opacityGaussiansChanged',
@@ -518,6 +519,20 @@ const createViewer = (
       eventEmitter.emit('imagePicked', lastPickedValues)
     }
   )
+
+  reaction(
+    () => store.imageUI.labelMapBlend,
+    blend => {
+      eventEmitter.emit('labelMapBlendChanged', blend)
+    }
+  )
+
+  publicAPI.getLabelMapBlend = () => store.imageUI.labelMapBlend
+
+  publicAPI.setLabelMapBlend = blend => {
+    store.imageUI.labelMapBlend = blend
+    // already have a reaction that updates actors and re-renders
+  }
 
   reaction(
     () => store.imageUI.labelMapWeights.slice(),

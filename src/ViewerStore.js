@@ -161,7 +161,7 @@ class ImageUIStore {
 
   @observable lastPickedValues = {}
 
-  @observable labelMapOpacity = 0.5
+  @observable labelMapBlend = 0.5
   @observable labelMapCategoricalColor = 'glasbey'
 
   @observable labelMapWeights = []

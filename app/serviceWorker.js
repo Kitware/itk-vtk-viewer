@@ -40,7 +40,7 @@ self.__precacheManifest = [
   },
   {
     "url": "itkVtkViewerCDN.js",
-    "revision": "c8ab7b770d8cd4cd760cac7dbe5a554f"
+    "revision": "be2363d1b2f412c1c1c19875e925b5b1"
   },
   {
     "url": "test.html",

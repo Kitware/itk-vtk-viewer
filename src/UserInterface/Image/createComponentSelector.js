@@ -38,7 +38,7 @@ function createComponentSelector(store, imageUIGroup) {
             style.componentTab
           }" data-component-index="${component}"/><label for="tab-${component}" class="${
             style.compTabLabel
-          }">${component}<input type="checkbox" ${
+          }">&nbsp;${component}&nbsp;<input type="checkbox" ${
             store.imageUI.componentVisibilities[idx].visible
               ? 'checked="checked"'
               : ''

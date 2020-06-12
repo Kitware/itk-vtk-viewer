@@ -48,7 +48,7 @@
 .mainUIRow {
   composes: uiRow;
   justify-content: flex-start;
-  max-width: 420px;
+  max-width: 435px;
 }
 
 .progress {
@@ -367,6 +367,22 @@
 }
 
 .resetCameraButton svg {
+  height: 1.2em;
+  width: 1.2em;
+}
+
+.bgColorButton {
+  flex: 1;
+  width: 8mm;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.bgColorButton svg {
   height: 1.2em;
   width: 1.2em;
 }

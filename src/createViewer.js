@@ -941,6 +941,10 @@ const createViewer = (
     store.renderWindow.render()
   }
 
+  publicAPI.getBackgroundColor = () => {
+    return store.style.backgroundColor.slice()
+  }
+
   reaction(
     () => store.style.backgroundColor.slice(),
     bgColor => {

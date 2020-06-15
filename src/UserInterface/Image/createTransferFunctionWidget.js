@@ -211,56 +211,50 @@ function createTransferFunctionWidget(store, uiContainer, use2D) {
     button: 1,
     alt: true,
   })
+  store.imageUI.transferFunctionManipulator.rangeManipulator = rangeManipulator
 
   // Window
-  const windowMotionScale = 150.0
   const windowGet = () => {
     const gaussian = transferFunctionWidget.getGaussians()[0]
-    return gaussian.width * windowMotionScale
+    return gaussian.width * store.imageUI.windowMotionScale
   }
+  store.imageUI.transferFunctionManipulator.windowGet = windowGet
   const windowSet = value => {
     const gaussians = transferFunctionWidget.getGaussians()
     const newGaussians = gaussians.slice()
-    newGaussians[0].width = value / windowMotionScale
+    newGaussians[0].width = value / store.imageUI.windowMotionScale
     store.imageUI.opacityGaussians[
       store.imageUI.selectedComponentIndex
     ] = newGaussians
     transferFunctionWidget.setGaussians(newGaussians)
   }
-  rangeManipulator.setVerticalListener(
-    0,
-    windowMotionScale,
-    1,
-    windowGet,
-    windowSet
-  )
+  store.imageUI.transferFunctionManipulator.windowSet = windowSet
 
   // Level
-  const levelMotionScale = 150.0
   const levelGet = () => {
     const gaussian = transferFunctionWidget.getGaussians()[0]
-    return gaussian.position * levelMotionScale
+    return gaussian.position * store.imageUI.levelMotionScale
   }
+  store.imageUI.transferFunctionManipulator.levelGet = levelGet
   const levelSet = value => {
     const gaussians = transferFunctionWidget.getGaussians()
     const newGaussians = gaussians.slice()
-    newGaussians[0].position = value / levelMotionScale
+    newGaussians[0].position = value / store.imageUI.levelMotionScale
     store.imageUI.opacityGaussians[
       store.imageUI.selectedComponentIndex
     ] = newGaussians
     transferFunctionWidget.setGaussians(newGaussians)
   }
-  rangeManipulator.setHorizontalListener(
-    0,
-    levelMotionScale,
-    1,
-    levelGet,
-    levelSet
-  )
+  store.imageUI.transferFunctionManipulator.levelSet = levelSet
 
   // Add range manipulator
   store.itkVtkView.getInteractorStyle2D().addMouseManipulator(rangeManipulator)
   store.itkVtkView.getInteractorStyle3D().addMouseManipulator(rangeManipulator)
+  // Update the window / level motion scales
+  updateTransferFunctionHistogramValues(
+    store,
+    store.imageUI.selectedComponentIndex
+  )
 
   const opacityRangeManipulator = vtkMouseRangeManipulator.newInstance({
     button: 3, // Right mouse

@@ -59,6 +59,15 @@ class ImageUIStore {
   piecewiseFunctionProxies = []
   @observable componentVisibilities = []
   transferFunctionWidget = null
+  transferFunctionManipulator = {
+    rangeManipulator: null,
+    windowMotionScale: 150.0,
+    levelMotionScale: 150.0,
+    windowGet: null,
+    windowSet: null,
+    levelGet: null,
+    levelSet: null,
+  }
   independentComponents = true
 
   imageUIGroup = null

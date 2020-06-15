@@ -82,8 +82,8 @@
   position: absolute;
   top: 5px;
   right: 5px;
-  borderRadius: 5px;
-  background: rgba(255, 255, 255, 0.4);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.6);
   cursor: pointer;
   z-index: 101;
 }

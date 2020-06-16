@@ -187,10 +187,14 @@ const createViewer = (
 
         if (transferFunctionWidget) {
           transferFunctionWidget.setDataArray(
-            fusedImage
+            store.imageUI.image
               .getPointData()
               .getScalars()
-              .getData()
+              .getData(),
+            {
+              numberOfComponents: store.imageUI.totalIntensityComponents,
+              component: store.imageUI.selectedComponentIndex,
+            }
           )
           transferFunctionWidget.invokeOpacityChange(transferFunctionWidget)
           transferFunctionWidget.modified()

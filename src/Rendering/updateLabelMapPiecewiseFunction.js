@@ -3,6 +3,10 @@ function transformUserWeight(userWeight, minWeight, maxWeight) {
 }
 
 function updateLabelMapPiecewiseFunction(store, selectedIndices = null) {
+  if (!store.imageUI.haveLabelMap) {
+    return
+  }
+
   const piecewiseFunction = store.imageUI.piecewiseFunction
   const uniqueLabels = store.imageUI.labelMapLabels
   const labelMapWeights = store.imageUI.labelMapWeights

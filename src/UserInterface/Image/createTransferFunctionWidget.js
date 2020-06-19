@@ -167,21 +167,25 @@ function createTransferFunctionWidget(store, uiContainer, use2D) {
     const numberOfComponents = store.imageUI.numberOfComponents
     const gaussians = []
     for (let component = 0; component < numberOfComponents; component++) {
-      if (use2D) {
-        // Necessary side effect: addGaussian calls invokeOpacityChange, which
-        // calls onOpacityChange, which updates the lut (does not have a low
-        // opacity in 2D)
-        gaussians.push([
-          { position: 0.5, height: 1.0, width: 0.5, xBias: 0.0, yBias: 3.0 },
-        ])
+      if (store.imageUI.opacityGaussians.length > component) {
+        gaussians.push(store.imageUI.opacityGaussians[component])
       } else {
-        gaussians.push([
-          { position: 0.5, height: 1.0, width: 0.5, xBias: 0.51, yBias: 0.4 },
-        ])
+        if (use2D) {
+          // Necessary side effect: addGaussian calls invokeOpacityChange, which
+          // calls onOpacityChange, which updates the lut (does not have a low
+          // opacity in 2D)
+          gaussians.push([
+            { position: 0.5, height: 1.0, width: 0.5, xBias: 0.0, yBias: 3.0 },
+          ])
+        } else {
+          gaussians.push([
+            { position: 0.5, height: 1.0, width: 0.5, xBias: 0.51, yBias: 0.4 },
+          ])
+        }
       }
     }
 
-    store.imageUI.opacityGaussians = observable(gaussians)
+    store.imageUI.opacityGaussians.replace(gaussians)
     updateTransferFunctionWidget(store)
   }
   reaction(

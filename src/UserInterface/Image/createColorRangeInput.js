@@ -22,10 +22,8 @@ function createColorRangeInput(store, uiContainer) {
       const range = dataArray.getRange(component)
       minimumInput.min = range[0]
       minimumInput.max = range[1]
-      minimumInput.value = range[0]
       maximumInput.min = range[0]
       maximumInput.max = range[1]
-      maximumInput.value = range[1]
       if (
         dataArray instanceof Float32Array ||
         dataArray instanceof Float64Array
@@ -34,7 +32,11 @@ function createColorRangeInput(store, uiContainer) {
         minimumInput.step = step
         maximumInput.step = step
       }
-      store.imageUI.colorRanges[component] = range
+      if (store.imageUI.colorRanges.length - 1 < component) {
+        minimumInput.value = range[0]
+        maximumInput.value = range[1]
+        store.imageUI.colorRanges[component] = range
+      }
     }
   }
   reaction(

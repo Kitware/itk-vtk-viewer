@@ -52,7 +52,7 @@ function createLabelMapRendering(store) {
   applyCategoricalColorToLookupTableProxy(
     lutProxy,
     uniqueLabels,
-    store.imageUI.labelMapCategoricalColor
+    store.imageUI.labelMapLookupTable
   )
 
   const volume = store.imageUI.representationProxy.getVolumes()[0]

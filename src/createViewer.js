@@ -490,6 +490,7 @@ const createViewer = (
     'resetCrop',
     'changeColorRange',
     'selectColorMap',
+    'selectLookupTable',
     'viewModeChanged',
     'xSliceChanged',
     'ySliceChanged',
@@ -749,6 +750,22 @@ const createViewer = (
 
   publicAPI.getColorMap = componentIndex => {
     return store.imageUI.colorMaps[componentIndex]
+  }
+
+  autorun(() => {
+    const lut = store.imageUI.labelMapLookupTable
+    eventEmitter.emit('selectLookupTable', lut)
+  })
+
+  publicAPI.setLookupTable = lut => {
+    const currentLut = store.imageUI.labelMapLookupTable
+    if (currentLut !== lut) {
+      store.imageUI.labelMapLookupTable = lut
+    }
+  }
+
+  publicAPI.getLookupTable = () => {
+    return store.imageUI.labelMapLookupTable
   }
 
   if (!use2D) {

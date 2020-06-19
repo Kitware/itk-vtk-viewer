@@ -83,6 +83,7 @@ class ImageUIStore {
   @observable useShadow = true
   @observable slicingPlanesEnabled = false
   @observable gradientOpacity = 0.2
+  @observable volumeSampleDistance = 0.25
   @observable xSlice = null
   @observable ySlice = null
   @observable zSlice = null

@@ -2,7 +2,7 @@ import { IconSelect } from '@thewtex/iconselect.js/lib/control/iconselect'
 import CategoricalPresetIcons from './CategoricalPresetIcons'
 
 function createCategoricalColorIconSelector(categoricalColorSelectorDiv) {
-  const rows = 3
+  const rows = 4
   const cols = 2
   const iconSelectParameters = {
     selectedIconWidth: 140,

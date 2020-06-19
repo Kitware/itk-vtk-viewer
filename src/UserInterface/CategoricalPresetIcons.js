@@ -16,6 +16,11 @@ CategoricalPresetIcons.set(
 )
 
 CategoricalPresetIcons.set(
+  'modulate',
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAJ0lEQVQ4T+XPBw0AAAjAMPAvmTOCjtVBEyBEEljRNz48tnDbwmUKHxUmE+jjOrX6AAAAAElFTkSuQmCC'
+)
+
+CategoricalPresetIcons.set(
   'glasbey_bw',
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAbUlEQVQ4T2O8zsDwnwENbLXBEGIo82FEV8bwT+U4htiMYEsMsfSGixhiuY11GGKTlz7EEGOMzsUQays4jSFWdfMWhpj/w32Y5l1nYPhHcw83YvFww8B5+C/NPTzIYvgPzT08yGL4N809PIhiGADz42FUcjTZogAAAABJRU5ErkJggg=='
 )
@@ -28,6 +33,11 @@ CategoricalPresetIcons.set(
 CategoricalPresetIcons.set(
   'glasbey_cool',
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAcElEQVQ4T2Pkzfr/nwEN/NH2Qxdi+G46A0PMy3QNhti2yPMYYmt95mOInTg3AUPsep8+hpj/7ocYYr9cgjHtmIBpx75t/RjqGHmz/v8baR7+O9I8/Gekefg3dT18DkseXkBBHn6EJQ8HEZmH+zDUAQAnhWrvPnCKfAAAAABJRU5ErkJggg=='
+)
+
+CategoricalPresetIcons.set(
+  'modulate_dark',
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAJklEQVQ4T+XPBw0AAAjAsOFfMjfoWB00gEUkgBF9+XDbwmULpyl8/eAE9wt5lvIAAAAASUVORK5CYII='
 )
 
 export default CategoricalPresetIcons

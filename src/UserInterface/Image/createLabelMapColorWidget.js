@@ -94,7 +94,7 @@ function createLabelMapColorWidget(store, uiContainer) {
   const sliderEntry = document.createElement('div')
   sliderEntry.setAttribute('class', style.sliderEntry)
   sliderEntry.innerHTML = `
-    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Label map component weight" class="${style.gradientOpacitySlider}">
+    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Label map blend" class="${style.gradientOpacitySlider}">
       ${opacityIcon}
     </div>
     <input type="range" min="0" max="1" value="${store.imageUI.labelMapBlend}" step="0.01"

@@ -500,6 +500,7 @@ const createViewer = (
     'blendModeChanged',
     'pointSetRepresentationChanged',
     'backgroundColorChanged',
+    'volumeSampleDistanceChanged',
   ]
 
   publicAPI.getEventNames = () => eventNames
@@ -873,6 +874,26 @@ const createViewer = (
       if (currentOpacity !== parseFloat(opacity)) {
         store.imageUI.gradientOpacity = opacity
       }
+    }
+
+    publicAPI.getGradientOpacity = () => {
+      return store.imageUI.gradientOpacity
+    }
+
+    autorun(() => {
+      const volumeSampleDistance = store.imageUI.volumeSampleDistance
+      eventEmitter.emit('volumeSampleDistanceChanged', volumeSampleDistance)
+    })
+
+    publicAPI.setVolumeSampleDistance = distance => {
+      const currentDistance = store.imageUI.volumeSampleDistance
+      if (currentDistance !== parseFloat(distance)) {
+        store.imageUI.volumeSampleDistance = distance
+      }
+    }
+
+    publicAPI.getVolumeSampleDistance = () => {
+      return store.imageUI.volumeSampleDistance
     }
 
     autorun(() => {

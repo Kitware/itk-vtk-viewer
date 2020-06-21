@@ -296,6 +296,7 @@ function ItkVtkViewProxy(publicAPI, model) {
       (cw[0] - cc[0]) * (cw[0] - cc[0]) + (cw[1] - cc[1]) * (cw[1] - cc[1]),
       (cw[2] - cc[2]) * (cw[2] - cc[2])
     )
+    model.lengthPixelRatio = length / dims.width
     let scale = Number.parseFloat(length).toPrecision(1)
     if (length > 1) {
       scale = Number.parseInt(Number.parseFloat(scale))
@@ -511,6 +512,7 @@ const DEFAULT_VALUES = {
   labelIndex: null,
   labelNames: null,
   clickCallback: null,
+  lengthPixelRatio: 1.0,
   lastPickedValues: {
     iIndex: null,
     jIndex: null,
@@ -529,7 +531,12 @@ export function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues)
 
   vtkViewProxy.extend(publicAPI, model, initialValues)
-  macro.get(publicAPI, model, ['viewMode', 'viewPlanes', 'rotate'])
+  macro.get(publicAPI, model, [
+    'viewMode',
+    'viewPlanes',
+    'rotate',
+    'lengthPixelRatio',
+  ])
 
   macro.setGet(publicAPI, model, [
     'units',

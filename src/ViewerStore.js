@@ -314,6 +314,9 @@ class PointSetsUIStore {
   @observable sizes = []
   @observable colorRanges = new Map()
   colorRangesReactions = new Map()
+
+  lengthPixelRatio = 0.1
+
   @computed get hasScalars() {
     return this.pointSets.map(pointSet => {
       const pointData = pointSet.getPointData()

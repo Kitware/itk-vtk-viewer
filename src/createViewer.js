@@ -340,6 +340,9 @@ const createViewer = (
             }
           )
           pointSetRepresentation.setInput(pointSetSource)
+          pointSetRepresentation.setRadiusFactor(
+            store.pointSetsUI.lengthPixelRatio
+          )
           store.itkVtkView.addRepresentation(pointSetRepresentation)
           store.pointSetsUI.representationProxies.push(pointSetRepresentation)
         } else {
@@ -357,25 +360,6 @@ const createViewer = (
         })
       }
 
-      // Estimate a reasonable point sphere radius in pixels
-      const maxLength = pointSets.reduce((max, pointSet) => {
-        pointSet.computeBounds()
-        const bounds = pointSet.getBounds()
-        max = Math.max(max, bounds[1] - bounds[0])
-        max = Math.max(max, bounds[3] - bounds[2])
-        max = Math.max(max, bounds[5] - bounds[4])
-        return max
-      }, -Infinity)
-      const maxNumberOfPoints = pointSets.reduce((max, pointSet) => {
-        max = Math.max(max, pointSet.getPoints().getNumberOfPoints())
-        return max
-      }, -Infinity)
-      const radiusFactor =
-        maxLength / ((1.0 + Math.log(maxNumberOfPoints)) * 30)
-      store.pointSetsUI.representationProxies.forEach(proxy => {
-        proxy.setRadiusFactor(radiusFactor)
-      })
-
       if (!store.pointSetsUI.initialized) {
         UserInterface.createPointSetsUI(store)
       }
@@ -389,7 +373,16 @@ const createViewer = (
   })
   proxyManager.renderAllViews()
 
-  setTimeout(store.itkVtkView.resetCamera, 1)
+  setTimeout(() => {
+    store.itkVtkView.resetCamera()
+
+    // Estimate a reasonable point sphere radius in pixels
+    const lengthPixelRatio = store.itkVtkView.getLengthPixelRatio()
+    store.pointSetsUI.lengthPixelRatio = lengthPixelRatio
+    store.pointSetsUI.representationProxies.forEach(proxy => {
+      proxy.setRadiusFactor(lengthPixelRatio)
+    })
+  }, 1)
 
   UserInterface.addLogo(store)
   reaction(

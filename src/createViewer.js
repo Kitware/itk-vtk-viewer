@@ -12,6 +12,7 @@ import createPlaneIndexSliders from './UserInterface/Image/createPlaneIndexSlide
 import updateTransferFunctionWidget from './UserInterface/Image/updateTransferFunctionWidget'
 import addKeyboardShortcuts from './addKeyboardShortcuts'
 import rgb2hex from './UserInterface/rgb2hex'
+import hex2rgb from './UserInterface/hex2rgb'
 import ViewerStore from './ViewerStore'
 import createLabelMapRendering from './Rendering/createLabelMapRendering'
 import createImageRendering from './Rendering/createImageRendering'
@@ -339,6 +340,9 @@ const createViewer = (
             }
           )
           pointSetRepresentation.setInput(pointSetSource)
+          pointSetRepresentation.setRadiusFactor(
+            store.pointSetsUI.lengthPixelRatio
+          )
           store.itkVtkView.addRepresentation(pointSetRepresentation)
           store.pointSetsUI.representationProxies.push(pointSetRepresentation)
         } else {
@@ -356,25 +360,6 @@ const createViewer = (
         })
       }
 
-      // Estimate a reasonable point sphere radius in pixels
-      const maxLength = pointSets.reduce((max, pointSet) => {
-        pointSet.computeBounds()
-        const bounds = pointSet.getBounds()
-        max = Math.max(max, bounds[1] - bounds[0])
-        max = Math.max(max, bounds[3] - bounds[2])
-        max = Math.max(max, bounds[5] - bounds[4])
-        return max
-      }, -Infinity)
-      const maxNumberOfPoints = pointSets.reduce((max, pointSet) => {
-        max = Math.max(max, pointSet.getPoints().getNumberOfPoints())
-        return max
-      }, -Infinity)
-      const radiusFactor =
-        maxLength / ((1.0 + Math.log(maxNumberOfPoints)) * 30)
-      store.pointSetsUI.representationProxies.forEach(proxy => {
-        proxy.setRadiusFactor(radiusFactor)
-      })
-
       if (!store.pointSetsUI.initialized) {
         UserInterface.createPointSetsUI(store)
       }
@@ -388,7 +373,16 @@ const createViewer = (
   })
   proxyManager.renderAllViews()
 
-  setTimeout(store.itkVtkView.resetCamera, 1)
+  setTimeout(() => {
+    store.itkVtkView.resetCamera()
+
+    // Estimate a reasonable point sphere radius in pixels
+    const lengthPixelRatio = store.itkVtkView.getLengthPixelRatio()
+    store.pointSetsUI.lengthPixelRatio = lengthPixelRatio
+    store.pointSetsUI.representationProxies.forEach(proxy => {
+      proxy.setRadiusFactor(lengthPixelRatio)
+    })
+  }, 1)
 
   UserInterface.addLogo(store)
   reaction(
@@ -490,6 +484,7 @@ const createViewer = (
     'resetCrop',
     'changeColorRange',
     'selectColorMap',
+    'selectLookupTable',
     'viewModeChanged',
     'xSliceChanged',
     'ySliceChanged',
@@ -498,6 +493,9 @@ const createViewer = (
     'toggleSlicingPlanes',
     'gradientOpacityChanged',
     'blendModeChanged',
+    'pointSetColorChanged',
+    'pointSetOpacityChanged',
+    'pointSetSizeChanged',
     'pointSetRepresentationChanged',
     'backgroundColorChanged',
     'volumeSampleDistanceChanged',
@@ -751,6 +749,22 @@ const createViewer = (
     return store.imageUI.colorMaps[componentIndex]
   }
 
+  autorun(() => {
+    const lut = store.imageUI.labelMapLookupTable
+    eventEmitter.emit('selectLookupTable', lut)
+  })
+
+  publicAPI.setLookupTable = lut => {
+    const currentLut = store.imageUI.labelMapLookupTable
+    if (currentLut !== lut) {
+      store.imageUI.labelMapLookupTable = lut
+    }
+  }
+
+  publicAPI.getLookupTable = () => {
+    return store.imageUI.labelMapLookupTable
+  }
+
   if (!use2D) {
     reaction(
       () => {
@@ -913,6 +927,17 @@ const createViewer = (
     }
   }
 
+  reaction(
+    () => {
+      return store.pointSetsUI.colors.slice()
+    },
+    colors => {
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex
+      const color = colors[selectedPointSetIndex]
+      eventEmitter.emit('pointSetColorChanged', selectedPointSetIndex, color)
+    }
+  )
+
   publicAPI.setPointSetColor = (index, rgbColor) => {
     const hexColor = rgb2hex(rgbColor)
     if (index < store.pointSetsUI.colors.length) {
@@ -920,16 +945,56 @@ const createViewer = (
     }
   }
 
+  publicAPI.getPointSetColor = index => {
+    const hexColor = store.pointSetsUI.colors[index]
+    const rgbColor = hex2rgb(rgbColor)
+    return rgbColor
+  }
+
+  reaction(
+    () => {
+      return store.pointSetsUI.opacities.slice()
+    },
+    opacities => {
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex
+      const opacity = opacities[selectedPointSetIndex]
+      eventEmitter.emit(
+        'pointSetOpacityChanged',
+        selectedPointSetIndex,
+        opacity
+      )
+    }
+  )
+
   publicAPI.setPointSetOpacity = (index, opacity) => {
     if (index < store.pointSetsUI.opacities.length) {
       store.pointSetsUI.opacities[index] = opacity
     }
   }
 
-  publicAPI.setPointSetRepresentation = (index, representation) => {
-    if (index < store.pointSetsUI.representations.length) {
-      store.pointSetsUI.representations[index] = representation
+  publicAPI.getPointSetOpacity = index => {
+    return store.pointSetsUI.opacities[index]
+  }
+
+  reaction(
+    () => {
+      return store.pointSetsUI.sizes.slice()
+    },
+    sizes => {
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex
+      const size = sizes[selectedPointSetIndex]
+      eventEmitter.emit('pointSetSizeChanged', selectedPointSetIndex, size)
     }
+  )
+
+  publicAPI.setPointSetSize = (index, size) => {
+    if (index < store.pointSetsUI.sizes.length) {
+      store.pointSetsUI.sizes[index] = size
+    }
+  }
+
+  publicAPI.getPointSetSize = index => {
+    return store.pointSetsUI.sizes[index]
   }
 
   reaction(
@@ -946,6 +1011,12 @@ const createViewer = (
       )
     }
   )
+
+  publicAPI.setPointSetRepresentation = (index, representation) => {
+    if (index < store.pointSetsUI.representations.length) {
+      store.pointSetsUI.representations[index] = representation
+    }
+  }
 
   publicAPI.setGeometryColor = (index, rgbColor) => {
     const hexColor = rgb2hex(rgbColor)

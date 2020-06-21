@@ -56,13 +56,13 @@ function createPointSetSizeSlider(store, pointSetSizeRow) {
       return store.pointSetsUI.sizes.slice()
     },
     sizes => {
-      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex
-      const value = sizes[selectedPointSetIndex]
-      store.pointSetsUI.representationProxies[
-        selectedPointSetIndex
-      ].setPointSize(value)
+      for (let index = 0; index < sizes.length; index++) {
+        store.pointSetsUI.representationProxies[index].setPointSize(
+          sizes[index]
+        )
+      }
       store.renderWindow.render()
-      sizeElement.value = value
+      sizeElement.value = sizes[store.pointSetsUI.selectedPointSetIndex]
     }
   )
 

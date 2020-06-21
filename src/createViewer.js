@@ -12,6 +12,7 @@ import createPlaneIndexSliders from './UserInterface/Image/createPlaneIndexSlide
 import updateTransferFunctionWidget from './UserInterface/Image/updateTransferFunctionWidget'
 import addKeyboardShortcuts from './addKeyboardShortcuts'
 import rgb2hex from './UserInterface/rgb2hex'
+import hex2rgb from './UserInterface/hex2rgb'
 import ViewerStore from './ViewerStore'
 import createLabelMapRendering from './Rendering/createLabelMapRendering'
 import createImageRendering from './Rendering/createImageRendering'
@@ -499,6 +500,9 @@ const createViewer = (
     'toggleSlicingPlanes',
     'gradientOpacityChanged',
     'blendModeChanged',
+    'pointSetColorChanged',
+    'pointSetOpacityChanged',
+    'pointSetSizeChanged',
     'pointSetRepresentationChanged',
     'backgroundColorChanged',
     'volumeSampleDistanceChanged',
@@ -930,6 +934,17 @@ const createViewer = (
     }
   }
 
+  reaction(
+    () => {
+      return store.pointSetsUI.colors.slice()
+    },
+    colors => {
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex
+      const color = colors[selectedPointSetIndex]
+      eventEmitter.emit('pointSetColorChanged', selectedPointSetIndex, color)
+    }
+  )
+
   publicAPI.setPointSetColor = (index, rgbColor) => {
     const hexColor = rgb2hex(rgbColor)
     if (index < store.pointSetsUI.colors.length) {
@@ -937,16 +952,56 @@ const createViewer = (
     }
   }
 
+  publicAPI.getPointSetColor = index => {
+    const hexColor = store.pointSetsUI.colors[index]
+    const rgbColor = hex2rgb(rgbColor)
+    return rgbColor
+  }
+
+  reaction(
+    () => {
+      return store.pointSetsUI.opacities.slice()
+    },
+    opacities => {
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex
+      const opacity = opacities[selectedPointSetIndex]
+      eventEmitter.emit(
+        'pointSetOpacityChanged',
+        selectedPointSetIndex,
+        opacity
+      )
+    }
+  )
+
   publicAPI.setPointSetOpacity = (index, opacity) => {
     if (index < store.pointSetsUI.opacities.length) {
       store.pointSetsUI.opacities[index] = opacity
     }
   }
 
-  publicAPI.setPointSetRepresentation = (index, representation) => {
-    if (index < store.pointSetsUI.representations.length) {
-      store.pointSetsUI.representations[index] = representation
+  publicAPI.getPointSetOpacity = index => {
+    return store.pointSetsUI.opacities[index]
+  }
+
+  reaction(
+    () => {
+      return store.pointSetsUI.sizes.slice()
+    },
+    sizes => {
+      const selectedPointSetIndex = store.pointSetsUI.selectedPointSetIndex
+      const size = sizes[selectedPointSetIndex]
+      eventEmitter.emit('pointSetSizeChanged', selectedPointSetIndex, size)
     }
+  )
+
+  publicAPI.setPointSetSize = (index, size) => {
+    if (index < store.pointSetsUI.sizes.length) {
+      store.pointSetsUI.sizes[index] = size
+    }
+  }
+
+  publicAPI.getPointSetSize = index => {
+    return store.pointSetsUI.sizes[index]
   }
 
   reaction(
@@ -963,6 +1018,12 @@ const createViewer = (
       )
     }
   )
+
+  publicAPI.setPointSetRepresentation = (index, representation) => {
+    if (index < store.pointSetsUI.representations.length) {
+      store.pointSetsUI.representations[index] = representation
+    }
+  }
 
   publicAPI.setGeometryColor = (index, rgbColor) => {
     const hexColor = rgb2hex(rgbColor)

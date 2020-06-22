@@ -51,8 +51,12 @@ function createColorRangeInput(store, uiContainer) {
   function updateDisplayedRange() {
     const colorRange =
       store.imageUI.colorRanges[store.imageUI.selectedComponentIndex]
-    minimumInput.value = colorRange[0]
-    maximumInput.value = colorRange[1]
+    if (typeof colorRange[0] !== 'undefined') {
+      minimumInput.value = colorRange[0]
+    }
+    if (typeof colorRange[1] !== 'undefined') {
+      maximumInput.value = colorRange[1]
+    }
   }
   reaction(
     () => {

@@ -12,6 +12,9 @@ function createGeometriesUI(store) {
   const geometryRepresentationRow = document.createElement('div')
   geometryRepresentationRow.setAttribute('class', style.uiRow)
   geometryRepresentationRow.className += ` ${store.id}-toggle`
+  if (store.mainUI.collapsed) {
+    geometryRepresentationRow.style.display = 'none'
+  }
 
   const geometrySelector = document.createElement('select')
   geometrySelector.setAttribute('class', style.selector)

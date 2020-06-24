@@ -2,6 +2,9 @@ import filterAndProcessOpacityNodes from './filterAndProcessOpacityNodes'
 
 function applyPiecewiseFunctionOpacities(store, component) {
   const transferFunctionWidget = store.imageUI.transferFunctionWidget
+  if (!transferFunctionWidget) {
+    return
+  }
   const opacityNodes = transferFunctionWidget.getOpacityNodes()
   const pwfProxies = store.imageUI.piecewiseFunctionProxies[component]
   const slicePiecewiseFunction = pwfProxies.slice.getPiecewiseFunction()

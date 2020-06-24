@@ -33,6 +33,12 @@ function createPointSetColorWidget(store, pointSetsUIGroup) {
   pointSetSizeRow.className += ` ${store.id}-toggle`
   createPointSetSizeSlider(store, pointSetSizeRow)
   pointSetsUIGroup.appendChild(pointSetSizeRow)
+
+  if (store.mainUI.collapsed) {
+    colorByRow.style.display = 'none'
+    colorRangeInputRow.style.display = 'none'
+    pointSetSizeRow.style.display = 'none'
+  }
 }
 
 export default createPointSetColorWidget

@@ -26,6 +26,12 @@ function createGeometryColorWidget(store, geometriesUIGroup) {
   createGeometryColorRangeInput(store, colorRangeInputRow)
   colorRangeInputRow.className += ` ${store.id}-toggle`
   geometriesUIGroup.appendChild(colorRangeInputRow)
+
+  if (store.mainUI.collapsed) {
+    colorByRow.style.display = 'none'
+    geometryColorRow.style.display = 'none'
+    geometriesUIGroup.style.display = 'none'
+  }
 }
 
 export default createGeometryColorWidget

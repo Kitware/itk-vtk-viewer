@@ -8,7 +8,7 @@ function updateSliceProperties(store) {
       actorProp.setIndependentComponents(independentComponents)
       for (let component = 0; component < numberOfComponents; component++) {
         const lutProxy = store.imageUI.lookupTableProxies[component]
-        const pwfProxy = store.imageUI.piecewiseFunctionProxies[component]
+        const pwfProxy = store.imageUI.piecewiseFunctionProxies[component].slice
         actorProp.setRGBTransferFunction(component, lutProxy.getLookupTable())
         actorProp.setPiecewiseFunction(
           component,

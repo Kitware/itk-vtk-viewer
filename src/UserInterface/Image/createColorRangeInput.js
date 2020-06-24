@@ -4,6 +4,7 @@ import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 
 import style from '../ItkVtkViewer.module.css'
 
+import applyPiecewiseFunctionOpacities from '../../Rendering/applyPiecewiseFunctionOpacities'
 import createColorMapIconSelector from '../createColorMapIconSelector'
 import customColorMapIcon from '../customColorMapIcon'
 
@@ -121,12 +122,10 @@ function createColorRangeInput(store, uiContainer) {
     const colorTransferFunction = lookupTableProxy.getLookupTable()
 
     const transferFunctionWidget = store.imageUI.transferFunctionWidget
-    const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
-      component
-    ].getPiecewiseFunction()
+
     if (colorMap.startsWith('Custom')) {
       lookupTableProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)
-      transferFunctionWidget.applyOpacity(piecewiseFunction)
+      applyPiecewiseFunctionOpacities(store, component)
       const colorDataRange = transferFunctionWidget.getOpacityRange()
       if (!!colorDataRange) {
         colorTransferFunction.setMappingRange(...colorDataRange)
@@ -157,7 +156,7 @@ function createColorRangeInput(store, uiContainer) {
     } else {
       lookupTableProxy.setPresetName(colorMap)
       lookupTableProxy.setMode(vtkLookupTableProxy.Mode.Preset)
-      transferFunctionWidget.applyOpacity(piecewiseFunction)
+      applyPiecewiseFunctionOpacities(store, component)
       const colorDataRange = transferFunctionWidget.getOpacityRange()
       if (!!colorDataRange) {
         colorTransferFunction.setMappingRange(...colorDataRange)

@@ -1,4 +1,7 @@
 function updateTransferFunctionHistogramValues(store, index) {
+  if (!store.imageUI.image) {
+    return
+  }
   const colorRange = store.imageUI.colorRanges[index]
   const numberOfComponents = store.imageUI.numberOfComponents
   const transferFunctionWidget = store.imageUI.transferFunctionWidget

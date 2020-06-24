@@ -13,7 +13,7 @@ function updateVolumeProperties(store) {
         const lut = store.imageUI.lookupTableProxies[component].getLookupTable()
         const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
           component
-        ].getPiecewiseFunction()
+        ].volume.getPiecewiseFunction()
         const componentVisibility =
           store.imageUI.componentVisibilities[component]
         componentsVisible = componentVisibility.visible

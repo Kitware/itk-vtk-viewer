@@ -28,9 +28,10 @@ function createImageRendering(store, use2D) {
     store.imageUI.lookupTableProxies[
       component
     ] = vtkLookupTableProxy.newInstance()
-    store.imageUI.piecewiseFunctionProxies[
-      component
-    ] = vtkPiecewiseFunctionProxy.newInstance()
+    store.imageUI.piecewiseFunctionProxies[component] = {
+      slice: vtkPiecewiseFunctionProxy.newInstance(),
+      volume: vtkPiecewiseFunctionProxy.newInstance(),
+    }
     store.imageUI.independentComponents = true
     let preset = 'Viridis (matplotlib)'
     // If a 2D RGB or RGBA
@@ -76,7 +77,7 @@ function createImageRendering(store, use2D) {
 
     const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
       component
-    ].getPiecewiseFunction()
+    ].volume.getPiecewiseFunction()
     volumeProperty.setScalarOpacity(component, piecewiseFunction)
 
     const componentVisibility = store.imageUI.componentVisibilities[component]

@@ -1,12 +1,10 @@
+import applyPiecewiseFunctionOpacities from '../../Rendering/applyPiecewiseFunctionOpacities'
 import updateTransferFunctionHistogramValues from './updateTransferFunctionHistogramValues'
 import updateTransferFunctionLookupTable from './updateTransferFunctionLookupTable'
 
 function doUpdates(store, widget, component) {
   updateTransferFunctionHistogramValues(store, component)
-  const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
-    component
-  ].getPiecewiseFunction()
-  widget.applyOpacity(piecewiseFunction)
+  applyPiecewiseFunctionOpacities(store, component)
   updateTransferFunctionLookupTable(store, component)
 }
 

@@ -48,7 +48,7 @@ function createColorRangeInput(store, uiContainer) {
   function addColorRangesReactions(index, colorRanges) {
     if (store.pointSetsUI.colorRangesReactions.has(index)) {
       const disposer = store.pointSetsUI.colorRangesReactions.get(index)
-      disposer.dispose()
+      disposer()
     }
     const disposer = reaction(
       () => {

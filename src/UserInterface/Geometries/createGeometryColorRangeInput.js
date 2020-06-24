@@ -17,7 +17,10 @@ function createColorRangeInput(store, uiContainer) {
 
   function updateColorRangeInput() {
     const selectedIndex = store.geometriesUI.selectedGeometryIndex
-    if (store.geometriesUI.hasOnlyDirectColors[selectedIndex]) {
+    if (
+      !store.geometriesUI.hasScalars[selectedIndex] ||
+      store.geometriesUI.hasOnlyDirectColors[selectedIndex]
+    ) {
       return
     }
     const colorByKey = store.geometriesUI.colorBy[selectedIndex].value
@@ -203,7 +206,10 @@ function createColorRangeInput(store, uiContainer) {
 
   function updateColorCanvas() {
     const geometryIndex = store.geometriesUI.selectedGeometryIndex
-    if (store.geometriesUI.hasOnlyDirectColors[geometryIndex]) {
+    if (
+      !store.geometriesUI.hasScalars[selectedIndex] ||
+      store.geometriesUI.hasOnlyDirectColors[geometryIndex]
+    ) {
       return
     }
     const colorMap = store.geometriesUI.colorMaps[geometryIndex]

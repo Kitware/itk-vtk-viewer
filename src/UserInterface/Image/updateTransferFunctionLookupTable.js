@@ -1,5 +1,9 @@
 function updateTransferFunctionLookupTable(store, index) {
-  const lookupTable = store.imageUI.lookupTableProxies[index].getLookupTable()
+  const proxy = store.imageUI.lookupTableProxies[index]
+  if (!proxy) {
+    return
+  }
+  const lookupTable = proxy.getLookupTable()
   const transferFunctionWidget = store.imageUI.transferFunctionWidget
   transferFunctionWidget.setColorTransferFunction(lookupTable)
   const colorDataRange = transferFunctionWidget.getOpacityRange()

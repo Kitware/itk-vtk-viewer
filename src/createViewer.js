@@ -515,7 +515,7 @@ const createViewer = (
     },
     () => {
       const lastPickedValues = store.imageUI.lastPickedValues
-      eventEmitter.emit('imagePicked', lastPickedValues)
+      eventEmitter.emit('imagePicked', toJS(lastPickedValues))
     }
   )
 

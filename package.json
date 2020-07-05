@@ -26,7 +26,7 @@
     "open": "^6.4.0",
     "promise-file-reader": "^1.0.2",
     "regenerator-runtime": "^0.13.5",
-    "vtk.js": "^14.8.1"
+    "vtk.js": "^14.10.3"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.9.6",

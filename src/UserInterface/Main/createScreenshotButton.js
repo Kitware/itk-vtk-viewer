@@ -10,8 +10,18 @@ function createScreenshotButton(store, mainUIRow) {
   const screenshotLabel = screenshotButton.children[1]
   applyContrastSensitiveStyle(store, 'invertibleButton', screenshotLabel)
 
-  function takeScreenshot() {
-    store.itkVtkView.openCaptureImage()
+  async function takeScreenshot() {
+    const proxy = store.imageUI.representationProxy
+    let mapper = null
+    if (proxy) {
+      mapper = proxy.getMapper()
+      mapper.setAutoAdjustSampleDistances(false)
+      mapper.setImageSampleDistance(0.1)
+    }
+    await store.itkVtkView.openCaptureImage()
+    if (proxy) {
+      mapper.setAutoAdjustSampleDistances(true)
+    }
     screenshotButton.checked = true
   }
   screenshotButton.addEventListener('click', takeScreenshot)

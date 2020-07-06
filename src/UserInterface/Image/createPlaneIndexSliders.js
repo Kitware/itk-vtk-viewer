@@ -47,7 +47,7 @@ function createPlaneIndexSliders(store, uiContainer) {
   xPlaneRow.style.display = 'none'
   reaction(() => {
     return store.imageUI.xSlice
-  }, macro.debounce(updateXSlice, 25, false))
+  }, macro.debounce(updateXSlice, 10, false))
   xSliceElement.addEventListener(
     'input',
     action(event => {
@@ -91,7 +91,7 @@ function createPlaneIndexSliders(store, uiContainer) {
   xPlaneRow.style.display = 'none'
   reaction(() => {
     return store.imageUI.ySlice
-  }, macro.debounce(updateYSlice, 25, false))
+  }, macro.debounce(updateYSlice, 10, false))
   ySliceElement.addEventListener(
     'input',
     action(event => {
@@ -134,7 +134,7 @@ function createPlaneIndexSliders(store, uiContainer) {
   zPlaneRow.style.display = 'none'
   reaction(() => {
     return store.imageUI.zSlice
-  }, macro.debounce(updateZSlice, 25, false))
+  }, macro.debounce(updateZSlice, 10, false))
   zSliceElement.addEventListener(
     'input',
     action(event => {

@@ -1,6 +1,6 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
-import toggleBackgroundColor from '../toggleBackgroundColor'
+import toggleBackgroundColor from '../../Rendering/Main/toggleBackgroundColor'
 
 import selectColorIcon from '../icons/select-color.svg'
 

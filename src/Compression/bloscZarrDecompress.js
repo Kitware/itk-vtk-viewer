@@ -1,7 +1,7 @@
 import runPipelineBrowser from 'itk/runPipelineBrowser'
 import IOTypes from 'itk/IOTypes'
 import WorkerPool from 'itk/WorkerPool'
-import dtypeToTypedArray from './dtypeToTypedArray'
+import dtypeToTypedArray from '../IO/dtypeToTypedArray'
 
 const dtypeToElementSize = new Map([
   ['<b', 1],

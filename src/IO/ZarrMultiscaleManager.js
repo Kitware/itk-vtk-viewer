@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 import MultiscaleManager from './MultiscaleManager'
-import bloscZarrDecompress from './bloscZarrDecompress'
-import CoordsDecompressor from './CoordsDecompressor'
+import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
+import CoordsDecompressor from '../Compression/CoordsDecompressor'
 
 class ZarrMultiscaleManager extends MultiscaleManager {
   url

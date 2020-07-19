@@ -4,7 +4,7 @@ import FloatTypes from 'itk/FloatTypes'
 import Matrix from 'itk/Matrix'
 
 import dtypeToTypedArray from './dtypeToTypedArray'
-import CoordsDecompressor from './CoordsDecompressor'
+import CoordsDecompressor from '../Compression/CoordsDecompressor'
 
 const dtypeToComponentType = new Map([
   ['<b', IntTypes.Int8],

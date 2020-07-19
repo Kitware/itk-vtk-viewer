@@ -14,8 +14,8 @@ import PromiseFileReader from 'promise-file-reader'
 
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
-import UserInterface from './UserInterface'
-import createViewer from './createViewer'
+import UserInterface from '../UserInterface'
+import createViewer from '../createViewer'
 
 function typedArrayForBuffer(typedArrayType, buffer) {
   let typedArrayFunction = null

@@ -1,13 +1,13 @@
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract'
 import getFileExtension from 'itk/getFileExtension'
 
-import fetchBinaryContent from './fetchBinaryContent'
-import fetchJsonContent from './fetchJsonContent'
-import { processFiles } from './processFiles'
+import fetchBinaryContent from './IO/fetchBinaryContent'
+import fetchJsonContent from './IO/fetchJsonContent'
+import { processFiles } from './IO/processFiles'
 import UserInterface from './UserInterface'
 import createFileDragAndDrop from './UserInterface/createFileDragAndDrop'
 import style from './UserInterface/ItkVtkViewer.module.css'
-import ZarrMultiscaleManager from './ZarrMultiscaleManager'
+import ZarrMultiscaleManager from './IO/ZarrMultiscaleManager'
 import createViewer from './createViewer'
 
 let doNotInitViewers = false

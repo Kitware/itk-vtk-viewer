@@ -25,14 +25,10 @@ function createSampleDistanceSlider(store, uiContainer) {
     () => {
       return store.imageUI.volumeSampleDistance
     },
-    macro.debounce(
-      () => {
-        spacingElement.value = store.imageUI.volumeSampleDistance
-        updateVolumeSampleDistance(store)
-      },
-      25,
-      false
-    )
+    macro.throttle(() => {
+      spacingElement.value = store.imageUI.volumeSampleDistance
+      updateVolumeSampleDistance(store)
+    }, 20)
   )
 
   function updateSpacing() {

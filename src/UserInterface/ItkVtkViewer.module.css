@@ -47,8 +47,8 @@
 
 .mainUIRow {
   composes: uiRow;
-  justify-content: flex-start;
-  max-width: 435px;
+  justify-content: space-around;
+  max-width: 420px;
 }
 
 .progress {
@@ -160,6 +160,16 @@
 [itk-vtk-tooltip-top-annotation]:hover::before {
     transform: translate(-50%, 0);
 }
+[itk-vtk-tooltip-top-axes]::before {
+    top: initial;
+    left: 160%;
+    right: initial;
+    bottom: calc(100% + 10px);
+    transform: translate(-50%, 15px);
+}
+[itk-vtk-tooltip-top-axes]:hover::before {
+    transform: translate(-50%, 0);
+}
 [itk-vtk-tooltip-top-fullscreen]::before {
     top: initial;
     left: 120%;
@@ -241,6 +251,22 @@
 }
 
 .annotationButton svg {
+  height: 1.2em;
+  width: 1.2em;
+}
+
+.axesButton {
+  flex: 1;
+  width: 8mm;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.axesButton svg {
   height: 1.2em;
   width: 1.2em;
 }

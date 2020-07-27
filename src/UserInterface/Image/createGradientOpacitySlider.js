@@ -27,12 +27,12 @@ function createGradientOpacitySlider(store, uiContainer) {
     () => {
       return store.imageUI.gradientOpacity
     },
-    macro.debounce(
+    macro.throttle(
       () => {
         edgeElement.value = store.imageUI.gradientOpacity
         updateGradientOpacity(store)
       },
-      25,
+      20,
       false
     )
   )

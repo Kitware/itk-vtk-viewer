@@ -8,7 +8,7 @@ import xPlaneIcon from '../icons/x-plane.svg'
 import yPlaneIcon from '../icons/y-plane.svg'
 import zPlaneIcon from '../icons/z-plane.svg'
 
-function createViewModeButtons(store, use2D, mainUIRow) {
+function createViewModeButtons(store, mainUIRow) {
   const viewerDOMId = store.id
   const uiContainer = store.mainUI.uiContainer
   function setViewModeXPlane() {
@@ -78,83 +78,82 @@ function createViewModeButtons(store, use2D, mainUIRow) {
       }
     }
   }
-  if (!use2D) {
-    const xPlaneButton = document.createElement('div')
-    store.mainUI.xPlaneButton = xPlaneButton
-    xPlaneButton.innerHTML = `<input id="${viewerDOMId}-xPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane [1]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-xPlaneButton">${xPlaneIcon}</label>`
-    const xPlaneButtonLabel = xPlaneButton.children[1]
-    applyContrastSensitiveStyle(store, 'tooltipButton', xPlaneButtonLabel)
-    xPlaneButton.addEventListener('click', event => {
-      event.preventDefault()
-      event.stopPropagation()
-      store.mainUI.viewMode = 'XPlane'
-    })
-    mainUIRow.appendChild(xPlaneButton)
 
-    const yPlaneButton = document.createElement('div')
-    store.mainUI.yPlaneButton = yPlaneButton
-    yPlaneButton.innerHTML = `<input id="${viewerDOMId}-yPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane [2]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-yPlaneButton">${yPlaneIcon}</label>`
-    const yPlaneButtonLabel = yPlaneButton.children[1]
-    applyContrastSensitiveStyle(store, 'tooltipButton', yPlaneButtonLabel)
-    yPlaneButton.addEventListener('click', event => {
-      event.preventDefault()
-      event.stopPropagation()
-      store.mainUI.viewMode = 'YPlane'
-    })
-    mainUIRow.appendChild(yPlaneButton)
+  const xPlaneButton = document.createElement('div')
+  store.mainUI.xPlaneButton = xPlaneButton
+  xPlaneButton.innerHTML = `<input id="${viewerDOMId}-xPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane [1]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-xPlaneButton">${xPlaneIcon}</label>`
+  const xPlaneButtonLabel = xPlaneButton.children[1]
+  applyContrastSensitiveStyle(store, 'tooltipButton', xPlaneButtonLabel)
+  xPlaneButton.addEventListener('click', event => {
+    event.preventDefault()
+    event.stopPropagation()
+    store.mainUI.viewMode = 'XPlane'
+  })
+  mainUIRow.appendChild(xPlaneButton)
 
-    const zPlaneButton = document.createElement('div')
-    store.mainUI.zPlaneButton = zPlaneButton
-    zPlaneButton.innerHTML = `<input id="${viewerDOMId}-zPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane [3]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-zPlaneButton">${zPlaneIcon}</label>`
-    const zPlaneButtonLabel = zPlaneButton.children[1]
-    applyContrastSensitiveStyle(store, 'tooltipButton', zPlaneButtonLabel)
-    zPlaneButton.addEventListener('click', event => {
-      event.preventDefault()
-      event.stopPropagation()
-      store.mainUI.viewMode = 'ZPlane'
-    })
-    mainUIRow.appendChild(zPlaneButton)
+  const yPlaneButton = document.createElement('div')
+  store.mainUI.yPlaneButton = yPlaneButton
+  yPlaneButton.innerHTML = `<input id="${viewerDOMId}-yPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane [2]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-yPlaneButton">${yPlaneIcon}</label>`
+  const yPlaneButtonLabel = yPlaneButton.children[1]
+  applyContrastSensitiveStyle(store, 'tooltipButton', yPlaneButtonLabel)
+  yPlaneButton.addEventListener('click', event => {
+    event.preventDefault()
+    event.stopPropagation()
+    store.mainUI.viewMode = 'YPlane'
+  })
+  mainUIRow.appendChild(yPlaneButton)
 
-    const volumeRenderingButton = document.createElement('div')
-    store.mainUI.volumeRenderingButton = volumeRenderingButton
-    volumeRenderingButton.innerHTML = `<input id="${viewerDOMId}-volumeRenderingButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume [4]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-volumeRenderingButton">${volumeRenderingIcon}</label>`
-    const volumeRenderingButtonLabel = volumeRenderingButton.children[1]
-    applyContrastSensitiveStyle(
-      store,
-      'tooltipButton',
-      volumeRenderingButtonLabel
-    )
-    volumeRenderingButton.addEventListener('click', event => {
-      event.preventDefault()
-      event.stopPropagation()
-      store.mainUI.viewMode = 'VolumeRendering'
-    })
-    mainUIRow.appendChild(volumeRenderingButton)
+  const zPlaneButton = document.createElement('div')
+  store.mainUI.zPlaneButton = zPlaneButton
+  zPlaneButton.innerHTML = `<input id="${viewerDOMId}-zPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane [3]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-zPlaneButton">${zPlaneIcon}</label>`
+  const zPlaneButtonLabel = zPlaneButton.children[1]
+  applyContrastSensitiveStyle(store, 'tooltipButton', zPlaneButtonLabel)
+  zPlaneButton.addEventListener('click', event => {
+    event.preventDefault()
+    event.stopPropagation()
+    store.mainUI.viewMode = 'ZPlane'
+  })
+  mainUIRow.appendChild(zPlaneButton)
 
-    reaction(
-      () => {
-        return store.mainUI.viewMode
-      },
-      viewMode => {
-        switch (viewMode) {
-          case 'XPlane':
-            setViewModeXPlane()
-            break
-          case 'YPlane':
-            setViewModeYPlane()
-            break
-          case 'ZPlane':
-            setViewModeZPlane()
-            break
-          case 'VolumeRendering':
-            setViewModeVolumeRendering()
-            break
-          default:
-            console.error('Invalid view mode: ' + viewMode)
-        }
+  const volumeRenderingButton = document.createElement('div')
+  store.mainUI.volumeRenderingButton = volumeRenderingButton
+  volumeRenderingButton.innerHTML = `<input id="${viewerDOMId}-volumeRenderingButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume [4]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-volumeRenderingButton">${volumeRenderingIcon}</label>`
+  const volumeRenderingButtonLabel = volumeRenderingButton.children[1]
+  applyContrastSensitiveStyle(
+    store,
+    'tooltipButton',
+    volumeRenderingButtonLabel
+  )
+  volumeRenderingButton.addEventListener('click', event => {
+    event.preventDefault()
+    event.stopPropagation()
+    store.mainUI.viewMode = 'VolumeRendering'
+  })
+  mainUIRow.appendChild(volumeRenderingButton)
+
+  reaction(
+    () => {
+      return store.mainUI.viewMode
+    },
+    viewMode => {
+      switch (viewMode) {
+        case 'XPlane':
+          setViewModeXPlane()
+          break
+        case 'YPlane':
+          setViewModeYPlane()
+          break
+        case 'ZPlane':
+          setViewModeZPlane()
+          break
+        case 'VolumeRendering':
+          setViewModeVolumeRendering()
+          break
+        default:
+          console.error('Invalid view mode: ' + viewMode)
       }
-    )
-  }
+    }
+  )
 }
 
 export default createViewModeButtons

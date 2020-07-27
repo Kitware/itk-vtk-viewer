@@ -22,6 +22,7 @@ class MainUIStore {
   uiContainer = null
   @observable collapsed = false
   @observable annotationsEnabled = true
+  @observable axesEnabled = false
   @observable fullscreenEnabled = false
   @observable rotateEnabled = false
   @observable interpolationEnabled = true

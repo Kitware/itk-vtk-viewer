@@ -5,6 +5,7 @@ import createScreenshotButton from './Main/createScreenshotButton'
 import createFullscreenButton from './Main/createFullscreenButton'
 import createRotateButton from './Main/createRotateButton'
 import createAnnotationButton from './Main/createAnnotationButton'
+import createAxesButton from './Main/createAxesButton'
 import createInterpolationButton from './Main/createInterpolationButton'
 import createViewModeButtons from './Main/createViewModeButtons'
 import createCroppingButtons from './Main/createCroppingButtons'
@@ -22,23 +23,34 @@ function createMainUI(rootContainer, store, use2D, uiContainer) {
   const mainUIGroup = document.createElement('div')
   mainUIGroup.setAttribute('class', style.uiGroup)
 
-  const mainUIRow = document.createElement('div')
-  mainUIRow.setAttribute('class', style.mainUIRow)
-  mainUIRow.className += ` ${store.id}-toggle`
-  mainUIGroup.appendChild(mainUIRow)
+  const mainUIRow1 = document.createElement('div')
+  mainUIRow1.setAttribute('class', style.mainUIRow)
+  mainUIRow1.className += ` ${store.id}-toggle`
+  mainUIGroup.appendChild(mainUIRow1)
 
   createToggleUserInterface(store)
-  createScreenshotButton(store, mainUIRow)
-  createFullscreenButton(store, rootContainer, mainUIRow)
+  createScreenshotButton(store, mainUIRow1)
+  createFullscreenButton(store, rootContainer, mainUIRow1)
   if (!use2D) {
-    createRotateButton(store, mainUIRow)
+    createRotateButton(store, mainUIRow1)
   }
-  createAnnotationButton(store, mainUIRow)
-  createInterpolationButton(store, mainUIRow)
-  createViewModeButtons(store, use2D, mainUIRow)
-  createCroppingButtons(store, mainUIRow)
-  createResetCameraButton(store, mainUIRow)
-  createBackgroundColorButton(store, mainUIRow)
+  createAnnotationButton(store, mainUIRow1)
+  createAxesButton(store, mainUIRow1)
+  createInterpolationButton(store, mainUIRow1)
+  createBackgroundColorButton(store, mainUIRow1)
+
+  const mainUIRow2 = document.createElement('div')
+  mainUIRow2.setAttribute('class', style.mainUIRow)
+  mainUIRow2.className += ` ${store.id}-toggle`
+  if (!use2D) {
+    createCroppingButtons(store, mainUIRow2)
+    createViewModeButtons(store, mainUIRow2)
+    createResetCameraButton(store, mainUIRow2)
+    mainUIGroup.appendChild(mainUIRow2)
+  } else {
+    createCroppingButtons(store, mainUIRow1)
+    createResetCameraButton(store, mainUIRow1)
+  }
 
   uiContainer.appendChild(mainUIGroup)
 }

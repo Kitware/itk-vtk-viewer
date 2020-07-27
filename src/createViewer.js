@@ -1063,9 +1063,6 @@ const createViewer = (
     publicAPI.setRotateEnabled(rotate)
   }
 
-  // Todo: add to publicAPI
-  store.itkVtkView.setEnableAxes(true)
-
   return publicAPI
 }
 

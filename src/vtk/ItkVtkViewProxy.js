@@ -36,6 +36,9 @@ function ItkVtkViewProxy(publicAPI, model) {
   // Private --------------------------------------------------------------------
   //
   function updateAxesVisibility() {
+    if (!!!model.axesOriginWidget) {
+      return
+    }
     if (!model.enableAxes) {
       model.axesGridActor.setVisibility(false)
       model.axesOriginWidget.setVisibility(false)
@@ -800,6 +803,7 @@ function ItkVtkViewProxy(publicAPI, model) {
       model.enableAxes = enable
       updateAxesVisibility()
       publicAPI.modified()
+      publicAPI.renderLater()
     }
   }
 

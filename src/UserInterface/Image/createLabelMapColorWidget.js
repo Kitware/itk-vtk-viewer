@@ -113,7 +113,7 @@ function createLabelMapColorWidget(store, uiContainer) {
   }
   reaction(() => {
     return store.imageUI.labelMapBlend
-  }, macro.debounce(updateLabelMapColorOpacity, 10))
+  }, macro.throttle(updateLabelMapColorOpacity, 20))
   updateLabelMapColorOpacity()
   opacityElement.addEventListener(
     'input',

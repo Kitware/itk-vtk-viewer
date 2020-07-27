@@ -77,7 +77,7 @@ function createLabelMapWeightWidget(store, uiContainer) {
 
   reaction(
     () => store.imageUI.labelMapWeights.slice(),
-    macro.debounce(pushLabelWeight, 25)
+    macro.throttle(pushLabelWeight, 20)
   )
 
   labelSelector.addEventListener('change', event => {

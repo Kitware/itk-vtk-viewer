@@ -476,6 +476,7 @@ const createViewer = (
     'opacityGaussiansChanged',
     'componentVisibilitiesChanged',
     'toggleAnnotations',
+    'toggleAxes',
     'toggleRotate',
     'toggleFullscreen',
     'toggleInterpolation',
@@ -653,6 +654,18 @@ const createViewer = (
     const annotations = store.mainUI.annotationsEnabled
     if ((enabled && !annotations) || (!enabled && annotations)) {
       store.mainUI.annotationsEnabled = enabled
+    }
+  }
+
+  autorun(() => {
+    const enabled = store.mainUI.axesEnabled
+    eventEmitter.emit('toggleAxes', enabled)
+  })
+
+  publicAPI.setAxesEnabled = enabled => {
+    const axes = store.mainUI.axesEnabled
+    if ((enabled && !axes) || (!enabled && axes)) {
+      store.mainUI.axesEnabled = enabled
     }
   }
 

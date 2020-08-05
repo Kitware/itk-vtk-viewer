@@ -483,7 +483,7 @@ const createViewer = (
     'toggleCroppingPlanes',
     'croppingPlanesChanged',
     'resetCrop',
-    'changeColorRange',
+    'colorRangesChanged',
     'selectColorMap',
     'selectLookupTable',
     'viewModeChanged',
@@ -721,12 +721,7 @@ const createViewer = (
 
   autorun(() => {
     const colorRanges = store.imageUI.colorRanges
-    const selectedComponentIndex = store.imageUI.selectedComponentIndex
-    eventEmitter.emit(
-      'changeColorRange',
-      selectedComponentIndex,
-      colorRanges[selectedComponentIndex]
-    )
+    eventEmitter.emit('colorRangesChanged', colorRanges)
   })
 
   publicAPI.setColorRange = (componentIndex, colorRange) => {

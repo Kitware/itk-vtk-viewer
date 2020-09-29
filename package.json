@@ -70,7 +70,7 @@
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkViewer.html",
     "commit": "git cz",
     "format": "prettier --write src/UserInterface/**/*.js src/*.js",
-    "start": "webpack-dev-server --mode development --content-base ./dist/ --watch-content-base",
+    "start": "webpack-dev-server --mode development --content-base ./dist/ --watch-content-base --open",
     "semantic-release": "semantic-release",
     "test": "karma start ./karma.conf.js --browsers Chrome,Firefox",
     "test:debug": "karma start ./karma.conf.js --no-single-run"

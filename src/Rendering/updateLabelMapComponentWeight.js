@@ -8,15 +8,18 @@ function updateLabelMapComponentWeight(store) {
   const sliceActor = store.imageUI.representationProxy.getActors()[0]
   const sliceProperty = sliceActor.getProperty()
   const numberOfComponents = store.imageUI.numberOfComponents
+  const visualizedComponents = store.imageUI.visualizedComponents
   const componentVisibilities = store.imageUI.componentVisibilities
-  for (let c = 0; c < numberOfComponents; c++) {
-    const componentVisibility = componentVisibilities[c]
+
+  visualizedComponents.forEach((componentIdx, fusedImgIdx) => {
+    const componentVisibility = componentVisibilities[componentIdx]
     componentVisibility.weight = 1.0 - labelMapBlend
     if (componentVisibility.visible) {
-      volumeProperty.setComponentWeight(c, componentVisibility.weight)
-      sliceProperty.setComponentWeight(c, componentVisibility.weight)
+      volumeProperty.setComponentWeight(fusedImgIdx, componentVisibility.weight)
+      sliceProperty.setComponentWeight(fusedImgIdx, componentVisibility.weight)
     }
-  }
+  })
+
   volumeProperty.setComponentWeight(numberOfComponents, labelMapBlend)
   sliceProperty.setComponentWeight(numberOfComponents, labelMapBlend)
 }

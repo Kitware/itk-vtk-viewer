@@ -3,7 +3,7 @@ function updateTransferFunctionHistogramValues(store, index) {
     return
   }
   const colorRange = store.imageUI.colorRanges[index]
-  const numberOfComponents = store.imageUI.numberOfComponents
+  const numberOfComponents = store.imageUI.totalIntensityComponents
   const transferFunctionWidget = store.imageUI.transferFunctionWidget
   const dataArray = store.imageUI.image.getPointData().getScalars()
   transferFunctionWidget.setDataArray(dataArray.getData(), {

@@ -1,4 +1,4 @@
-import { observable, computed } from 'mobx'
+import { observable, computed, trace } from 'mobx'
 import EventEmitter from 'eventemitter3'
 
 import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData'
@@ -40,6 +40,12 @@ class MainUIStore {
 }
 
 class ImageUIStore {
+  constructor(eventEmitter) {
+    this.eventEmitter = eventEmitter
+  }
+
+  eventEmitter = null
+
   @observable.ref image = null
   @observable.ref multiscaleImage = null
 
@@ -52,13 +58,22 @@ class ImageUIStore {
     if (!!!this.image) {
       return 0
     }
-    const dataArray = this.image.getPointData().getScalars()
+    const dataArray = this.fusedImageLabelMap.getPointData().getScalars()
+    if (!!this.labelMap) {
+      return dataArray.getNumberOfComponents() - 1
+    }
     return dataArray.getNumberOfComponents()
   }
+  totalIntensityComponents = 0
+  maximumIntensityComponents = 3
 
   lookupTableProxies = []
   piecewiseFunctionProxies = []
   @observable componentVisibilities = []
+  lastVisualizedComponents = []
+  fusedImageData = null
+  @observable visualizedComponents = []
+  lastComponentVisibilityChanged = 0
   transferFunctionWidget = null
   transferFunctionManipulator = {
     rangeManipulator: null,
@@ -91,6 +106,9 @@ class ImageUIStore {
 
   @observable.ref labelMap = null
   @observable.ref multiscaleLabelMap = null
+
+  // @observable fusingImages = false
+
   @computed get fusedImageLabelMap() {
     const image = this.image
     const labelMap = this.labelMap
@@ -101,55 +119,124 @@ class ImageUIStore {
     if (!!!image) {
       return labelMap
     }
-    if (!!!labelMap) {
+
+    if (this.visualizedComponents.length === 0) {
+      return null
+    } else if (!!labelMap && this.visualizedComponents.length === 4) {
+      return null
+    }
+
+    const imageScalars = image.getPointData().getScalars()
+    const imageData = imageScalars.getData()
+    const imageComponents = imageScalars.getNumberOfComponents()
+
+    this.totalIntensityComponents = imageComponents
+
+    if (!!!labelMap && imageComponents <= 4) {
       return image
     }
+
+    const visualizedComponents = this.visualizedComponents.map(idx => idx)
+
     const fusedImage = vtkImageData.newInstance()
     fusedImage.setOrigin(image.getOrigin())
     fusedImage.setSpacing(image.getSpacing())
     fusedImage.setDirection(image.getDirection())
     const imageDimensions = image.getDimensions()
-    const labelMapDimensions = labelMap.getDimensions()
-    const dimensionsEqual = imageDimensions.every((dim, index) => {
-      return labelMapDimensions[index] === dim
-    })
-    if (!dimensionsEqual) {
-      console.error(
-        `Dimensions not equal! Not fusing. Image: ${imageDimensions} Label map: ${labelMapDimensions}`
-      )
-      return image
+
+    if (!!labelMap) {
+      const labelMapDimensions = labelMap.getDimensions()
+      const dimensionsEqual = imageDimensions.every((dim, index) => {
+        return labelMapDimensions[index] === dim
+      })
+      if (!dimensionsEqual) {
+        console.error(
+          `Dimensions not equal! Not fusing. Image: ${imageDimensions} Label map: ${labelMapDimensions}`
+        )
+        return image
+      }
     }
+
+    const numVisualizedComponents = this.visualizedComponents.length
+
     fusedImage.setDimensions(image.getDimensions())
 
-    const imageScalars = image.getPointData().getScalars()
-    const imageData = imageScalars.getData()
-    const imageComponents = imageScalars.getNumberOfComponents()
     const imageTuples = imageScalars.getNumberOfTuples()
-    const labelMapScalars = labelMap.getPointData().getScalars()
-    const labelMapData = labelMapScalars.getData()
 
-    const fusedImageComponents = imageComponents + 1
+    let labelMapScalars = null
+    let labelMapData = null
+
+    if (!!labelMap) {
+      labelMapScalars = labelMap.getPointData().getScalars()
+      labelMapData = labelMapScalars.getData()
+      visualizedComponents.push(-1)
+    }
+
+    const fusedImageComponents = labelMapData
+      ? numVisualizedComponents + 1
+      : numVisualizedComponents
 
     const length = imageTuples * fusedImageComponents
-    const fusedImageData = new imageData.constructor(length)
+
+    // We only need to construct a new typed array if we don't already
+    // have one of the right length.
+    if (!!!this.fusedImageData || this.fusedImageData.length !== length) {
+      this.fusedImageData = new imageData.constructor(length)
+    }
+
+    const copyStructure = []
+
+    // Loop through comparing to last time and check which components need
+    // to be copied into fusedImageData.  This loop doesn't include the
+    // labelmap componentm, it will be checked next.
+    for (let i = 0; i < numVisualizedComponents; i++) {
+      if (visualizedComponents[i] !== this.lastVisualizedComponents[i]) {
+        copyStructure.push({
+          srcImageData: imageData,
+          imageComponents: imageComponents,
+          copyFromComponent: this.visualizedComponents[i],
+          copyToComponent: i,
+        })
+      }
+    }
+
+    // Check if we need to re-copy the labelmap component
+    if (
+      visualizedComponents[numVisualizedComponents] === -1 &&
+      this.lastVisualizedComponents[numVisualizedComponents] !== -1
+    ) {
+      copyStructure.push({
+        srcImageData: labelMapData,
+        imageComponents: 1,
+        copyFromComponent: 0,
+        copyToComponent: numVisualizedComponents,
+      })
+    }
+
+    // console.log(`Copying ${copyStructure.length} components into fused image`)
 
     let fusedIndex = 0
     let imageIndex = 0
-    let labelMapIndex = 0
     for (let tuple = 0; tuple < imageTuples; tuple++) {
-      for (let component = 0; component < imageComponents; component++) {
-        fusedImageData[fusedIndex++] = imageData[imageIndex++]
+      for (let cIdx = 0; cIdx < copyStructure.length; cIdx++) {
+        imageIndex =
+          tuple * copyStructure[cIdx].imageComponents +
+          copyStructure[cIdx].copyFromComponent
+        fusedIndex =
+          tuple * fusedImageComponents + copyStructure[cIdx].copyToComponent
+        this.fusedImageData[fusedIndex] =
+          copyStructure[cIdx].srcImageData[imageIndex]
       }
-      fusedImageData[fusedIndex++] = labelMapData[labelMapIndex++]
     }
 
     const fusedImageScalars = vtkDataArray.newInstance({
       name: imageScalars.getName() || 'Scalars',
-      values: fusedImageData,
+      values: this.fusedImageData,
       numberOfComponents: fusedImageComponents,
     })
 
     fusedImage.getPointData().setScalars(fusedImageScalars)
+    this.lastVisualizedComponents = visualizedComponents.map(idx => idx)
     return fusedImage
   }
 
@@ -190,6 +277,12 @@ class ImageUIStore {
 }
 
 class GeometriesUIStore {
+  constructor(eventEmitter) {
+    this.eventEmitter = eventEmitter
+  }
+
+  eventEmitter = null
+
   @observable.shallow geometries = []
 
   initialized = false
@@ -299,6 +392,12 @@ class GeometriesUIStore {
 }
 
 class PointSetsUIStore {
+  constructor(eventEmitter) {
+    this.eventEmitter = eventEmitter
+  }
+
+  eventEmitter = null
+
   @observable.shallow pointSets = []
 
   initialized = false
@@ -380,10 +479,12 @@ class PointSetsUIStore {
 
 class ViewerStore {
   constructor(proxyManager) {
-    this.mainUI = new MainUIStore()
-    this.imageUI = new ImageUIStore()
-    this.geometriesUI = new GeometriesUIStore()
-    this.pointSetsUI = new PointSetsUIStore()
+    this.eventEmitter = new EventEmitter()
+
+    this.mainUI = new MainUIStore(this.eventEmitter)
+    this.imageUI = new ImageUIStore(this.eventEmitter)
+    this.geometriesUI = new GeometriesUIStore(this.eventEmitter)
+    this.pointSetsUI = new PointSetsUIStore(this.eventEmitter)
 
     this.id =
       'itk-vtk-viewer-' +
@@ -403,8 +504,6 @@ class ViewerStore {
       'TrivialProducer',
       { name: 'Image' }
     )
-
-    this.eventEmitter = new EventEmitter()
   }
 
   eventEmitter = null

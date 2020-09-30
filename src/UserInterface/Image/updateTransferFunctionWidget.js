@@ -9,10 +9,10 @@ function doUpdates(store, widget, component) {
 }
 
 function updateTransferFunctionWidget(store) {
-  const numberOfComponents = store.imageUI.numberOfComponents
+  const totalComponents = store.imageUI.totalIntensityComponents
   const transferFunctionWidget = store.imageUI.transferFunctionWidget
   const selIdx = store.imageUI.selectedComponentIndex
-  for (let component = 0; component < numberOfComponents; component++) {
+  for (let component = 0; component < totalComponents; component++) {
     if (component !== selIdx) {
       doUpdates(store, transferFunctionWidget, component)
     }

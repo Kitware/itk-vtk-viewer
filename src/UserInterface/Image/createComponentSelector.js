@@ -20,7 +20,7 @@ function createComponentSelector(store, imageUIGroup) {
   componentRow.className += ` ${viewerDOMId}-volumeComponents ${viewerDOMId}-toggle`
 
   function updateAvailableComponents() {
-    const components = store.imageUI.numberOfComponents
+    const components = store.imageUI.totalIntensityComponents
     if (components > 1 && store.imageUI.independentComponents) {
       componentRow.style.display = 'flex'
     } else {
@@ -52,7 +52,7 @@ function createComponentSelector(store, imageUIGroup) {
   }
   reaction(
     () => {
-      return store.imageUI.image
+      return store.imageUI.fusedImageLabelMap
     },
     image => {
       updateAvailableComponents()
@@ -69,6 +69,22 @@ function createComponentSelector(store, imageUIGroup) {
     })
   }
 
+  function setEnabled(isFusing) {
+    componentSelector
+      .querySelectorAll('input[type="checkbox"],label')
+      .forEach(elt => {
+        if (isFusing) {
+          elt.classList.add(style.componentDisabled)
+        } else {
+          elt.classList.remove(style.componentDisabled)
+        }
+      })
+  }
+
+  store.eventEmitter.on('fusingStatusChanged', isFusing => {
+    setEnabled(isFusing)
+  })
+
   componentSelector.addEventListener(
     'change',
     action(event => {
@@ -79,7 +95,43 @@ function createComponentSelector(store, imageUIGroup) {
         store.imageUI.selectedComponentIndex = selIdx
       } else if (event.target.type === 'checkbox') {
         const visibility = event.target.checked
+        const currentVisualizedIndexOfSelected = store.imageUI.visualizedComponents.indexOf(
+          selIdx
+        )
+        let removed = -1
+        if (visibility && currentVisualizedIndexOfSelected < 0) {
+          // A component was made visible, and it was not already in the list
+          // of visualized components
+          if (
+            store.imageUI.visualizedComponents.length >=
+            store.imageUI.maximumIntensityComponents
+          ) {
+            // Find the index in the visulized components list of the last touched
+            // component.  We need to replace it with this component the user just
+            // turned on.
+            const currentVisualizedIndexOfLastTouched = store.imageUI.visualizedComponents.indexOf(
+              store.imageUI.lastComponentVisibilityChanged
+            )
+            removed = currentVisualizedIndexOfLastTouched
+            store.imageUI.componentVisibilities[removed].visible = false
+          } else {
+            store.imageUI.visualizedComponents.push(selIdx)
+          }
+        }
+
+        store.imageUI.lastComponentVisibilityChanged = selIdx
         store.imageUI.componentVisibilities[selIdx].visible = visibility
+
+        if (removed >= 0) {
+          // We are going to trigger a re-computation of the fusedImageLabelMap,
+          // so if we want the DOM to be able tor re-render to indicated we're
+          // busy, we should emit that event immediately, and then asynchronously
+          // change the property that will actually trigger the recomputation.
+          store.eventEmitter.emit('fusingStatusChanged', true)
+          setTimeout(() => {
+            store.imageUI.visualizedComponents.splice(removed, 1, selIdx)
+          }, 0)
+        }
       }
     })
   )

@@ -2,58 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/index.html</loc>
-    
-    <lastmod>2020-05-22T01:17:23.877Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/embeddedViewer.html</loc>
-    
-    <lastmod>2020-03-18T19:36:48.866Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/index.html</loc>
     
-    <lastmod>2019-10-09T19:45:46.716Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/shortcuts.html</loc>
-    
-    <lastmod>2019-10-09T19:45:46.716Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/viewer.html</loc>
-    
-    <lastmod>2019-10-09T19:45:46.716Z</lastmod>
+    <lastmod>2020-09-30T15:53:01.837Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/api/index.html</loc>
     
-    <lastmod>2019-10-09T19:45:46.708Z</lastmod>
+    <lastmod>2020-09-30T15:53:01.833Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/docs/cli.html</loc>
     
-    <lastmod>2019-10-09T19:45:46.708Z</lastmod>
+    <lastmod>2020-09-30T15:53:01.833Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/embeddedViewer.html</loc>
+    
+    <lastmod>2020-09-30T15:53:01.833Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/index.html</loc>
+    
+    <lastmod>2020-09-30T15:53:01.833Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/shortcuts.html</loc>
+    
+    <lastmod>2020-09-30T15:53:01.833Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/viewer.html</loc>
+    
+    <lastmod>2020-09-30T15:53:01.833Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/2016/04/29/kw-doc/</loc>
     
-    <lastmod>2019-10-09T19:45:46.696Z</lastmod>
+    <lastmod>2020-09-30T15:53:01.821Z</lastmod>
     
   </url>
   

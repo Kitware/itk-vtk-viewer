@@ -22,6 +22,7 @@
     href="/itk-vtk-viewer/logo.png">
     <link rel="apple-touch-icon" type="image/png" sizes="50x50" href="/itk-vtk-viewer/logo.png">
 
+    <script type="text/javascript" src="https://lib.imjoy.io/imjoy-loader.js"></script>
     <script>
       if ('serviceWorker' in navigator && document.location.protocol !== 'http:') {
         window.addEventListener('load', function () {
@@ -35,18 +36,82 @@
         })
       }
     </script>
+
     <link rel="icon" type="image/png" href="favicon-32x32.png">
   </head>
+
   <body>
     <div class="content" style="position: absolute; width: 100vw; height: 100vh; top: 0; left: 0; overflow: hidden; background: black; margin: 0; padding: 0;"></div>
     <script type="text/javascript" src="itkVtkViewer.js">
     </script>
     <script>
-      var container = document.querySelector('.content');
-      var viewer = itkVtkViewer.processURLParameters(container, { fullscreen: true });
+     async function setupViewerForImJoy(container) {
+      const imjoyRPC = await imjoyLoader.loadImJoyRPC({
+        api_version: '0.2.3'
+      })
+      const version = itkVtkViewer.version
+      const api = await imjoyRPC.setupRPC({
+        name: 'itk-vtk-viewer',
+        version,
+        description: '2D / 3D web image, mesh, and point set viewer using itk.js and vtk.js ',
+        type: 'rpc-window',
+        docs: 'https://kitware.github.io/itk-vtk-viewer/docs/imjoy.html',
+        authors: ['Matt McCormick', 'Wei Ouyang'],
+        license: '3-Clause BSD License',
+        labels: ['visualization', 'itk', 'vtk', 'image', 'mesh', 'geometry', 'point set', '2D', '3D'],
+        icon: 'https://kitware.github.io/itk-vtk-viewer/app/favicon-32x32.png',
+        cover: ['https://kitware.github.io/itk-vtk-viewer/docs/howToUse.jpg'],
+      })
+      api.export({
+        setup() {
+          this.viewer = null
+          itkVtkViewer.createViewerFromLocalFiles(container).then((viewer) => {
+            this.viewer = viewer
+          })
+          api.log("itk-vtk-viewer loaded successfully.")
+        },
+
+        async run(ctx) {
+          if (ctx.data && ctx.data.image) {
+            await this.setImage(ctx.data.image)
+          }
+        },
+
+        async setImage(image) {
+          let itkImage = image
+          if (image.shape !== undefined && image.stride !== undefined) {
+            itkImage = itkVtkViewer.utils.ndarrayToItkImage(image)
+          }
+
+          const vtkImage = itkVtkViewer.utils.vtkITKHelper.convertItkToVtkImage(itkImage)
+          const is2D = itkImage.imageType.dimension === 2
+          if (this.viewer === null) {
+            this.viewer = await itkVtkViewer.createViewer(container, {
+              image: vtkImage,
+              pointSets: null,
+              geometries: null,
+              use2D: is2D,
+              rotate: false
+            })
+          } else {
+            await this.viewer.setImage(vtkImage)
+          }
+        }
+      })
+    }
+
+    const container = document.querySelector('.content');
+    // inside an iframe
+    if (window.self !== window.top) {
+      setupViewerForImJoy(container)
+    } else {
+      const viewer = itkVtkViewer.processURLParameters(container, {
+        fullscreen: true
+      });
       if (!viewer) {
-        itkVtkViewer.createViewerFromLocalFiles(container);
+        itkVtkViewer.createViewerFromLocalFiles(container)
       }
-    </script>
+    }
+  </script>
   </body>
 </html>

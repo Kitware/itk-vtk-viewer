@@ -4,4 +4,5 @@ docs:
     viewer: viewer.html
     cli: cli.html
     embeddedViewer: embeddedViewer.html
+    imjoy: imjoy.html
     shortcuts: shortcuts.html

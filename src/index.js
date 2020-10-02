@@ -10,8 +10,11 @@ import style from './UserInterface/ItkVtkViewer.module.css'
 import ZarrMultiscaleManager from './IO/ZarrMultiscaleManager'
 import createViewer from './createViewer'
 
+import { version } from '../package.json'
+
 let doNotInitViewers = false
 
+export { version }
 export { default as createViewer } from './createViewer'
 import * as utils from './utils.js'
 export { utils }

@@ -63,6 +63,18 @@ module.exports = function init(config) {
         served: true,
         included: false,
       },
+      {
+        pattern: './dist/index.html',
+        watched: true,
+        served: true,
+        included: false,
+      },
+      {
+        pattern: './dist/itkVtkViewer.js',
+        watched: true,
+        served: true,
+        included: false,
+      },
     ],
 
     preprocessors: {

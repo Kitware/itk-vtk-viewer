@@ -17,6 +17,12 @@ https://kitware.github.io/itk-vtk-viewer/app/
 
 Note that the link can also be used directly.
 
+To install a specific version, e.g. version `10.8.0`, use the URI:
+
+```
+https://unpkg.com/itk-vtk-viewer@10.8.0/dist/index.html
+```
+
 ## Inputs
 
 Supported context `data` inputs:

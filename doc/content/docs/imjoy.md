@@ -5,6 +5,8 @@ title: ImJoy Plugin
 
 An *itk-vtk-viewer* plugin is available for [ImJoy](https://imjoy.io), a plugin powered hybrid computing platform for deploying deep learning applications such as advanced image analysis tools.
 
+![ImJoy itk-vtk-viewer plugin](./imjoy.png)
+
 ## Installation
 
 Install the plugin into the workspace with the following [ImJoy Web App](http://imjoy.io/#/app?plugin=https://kitware.github.io/itk-vtk-viewer/app/) or [ImJoy Lite App](http://imjoy.io/#/lite?plugin=https://kitware.github.io/itk-vtk-viewer/app/) links with the plugin URI:

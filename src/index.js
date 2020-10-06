@@ -7,7 +7,7 @@ import { processFiles } from './IO/processFiles'
 import UserInterface from './UserInterface'
 import createFileDragAndDrop from './UserInterface/createFileDragAndDrop'
 import style from './UserInterface/ItkVtkViewer.module.css'
-import ZarrMultiscaleManager from './IO/ZarrMultiscaleManager'
+import ZarrMultiscaleChunkedImage from './IO/ZarrMultiscaleChunkedImage'
 import createViewer from './createViewer'
 
 import { version } from '../package.json'
@@ -56,9 +56,10 @@ export async function createViewerFromUrl(
     if (extension === 'zarr') {
       console.time('meta')
       console.time('image')
-      const metadata = await ZarrMultiscaleManager.parseMetadata(image)
+      const metadata = await ZarrMultiscaleChunkedImage.parseMetadata(image)
+      console.log(metadata)
       console.timeEnd('meta')
-      multiscaleImageObject = new ZarrMultiscaleManager(image, metadata)
+      multiscaleImageObject = new ZarrMultiscaleChunkedImage(image, metadata)
       // Side effect to keep the spinner going
       const topLevelLargestImage = await multiscaleImageObject.topLevelLargestImage()
       console.timeEnd('image')
@@ -78,9 +79,12 @@ export async function createViewerFromUrl(
     if (extension === 'zarr') {
       console.time('labelMapMeta')
       console.time('labelMap')
-      const metadata = await ZarrMultiscaleManager.parseMetadata(labelMap)
+      const metadata = await ZarrMultiscaleChunkedImage.parseMetadata(labelMap)
       console.timeEnd('labelMapMeta')
-      multiscaleLabelMapObject = new ZarrMultiscaleManager(labelMap, metadata)
+      multiscaleLabelMapObject = new ZarrMultiscaleChunkedImage(
+        labelMap,
+        metadata
+      )
       // Side effect to keep the spinner going
       const topLevelLargestImage = await multiscaleLabelMapObject.topLevelLargestImage()
       console.timeEnd('labelMap')
@@ -99,9 +103,9 @@ export async function createViewerFromUrl(
     if (extension === 'zarr' && !!!multiscaleImageObject) {
       console.time('meta')
       console.time('image')
-      const metadata = await ZarrMultiscaleManager.parseMetadata(url)
+      const metadata = await ZarrMultiscaleChunkedImage.parseMetadata(url)
       console.timeEnd('meta')
-      multiscaleImageObject = new ZarrMultiscaleManager(url, metadata)
+      multiscaleImageObject = new ZarrMultiscaleChunkedImage(url, metadata)
       // Side effect to keep the spinner going
       const topLevelLargestImage = await multiscaleImageObject.topLevelLargestImage()
       console.timeEnd('image')

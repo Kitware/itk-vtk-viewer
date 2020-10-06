@@ -1,70 +1,38 @@
-import PixelTypes from 'itk/PixelTypes'
-import IntTypes from 'itk/IntTypes'
-import FloatTypes from 'itk/FloatTypes'
 import Matrix from 'itk/Matrix'
 
-import dtypeToTypedArray from './dtypeToTypedArray'
 import CoordsDecompressor from '../Compression/CoordsDecompressor'
 
-const dtypeToComponentType = new Map([
-  ['<b', IntTypes.Int8],
-  ['<B', IntTypes.UInt8],
-  ['<u1', IntTypes.UInt8],
-  ['|u1', IntTypes.UInt8],
-  ['<i1', IntTypes.Int8],
-  ['|i1', IntTypes.Int8],
-  ['<u2', IntTypes.UInt16],
-  ['<i2', IntTypes.Int16],
-  ['<u4', IntTypes.UInt32],
-  ['<i4', IntTypes.Int32],
-
-  ['<f4', FloatTypes.Float32],
-  ['<f8', FloatTypes.Float64],
-])
+import componentTypeToTypedArray from './componentTypeToTypedArray'
 
 const spatialDims = ['x', 'y', 'z']
 
-class MultiscaleManager {
-  /* Every element corresponds to a pyramid level
+/* Every element corresponds to a pyramid level
      Higher levels, corresponds to a higher index, correspond to a lower
      resolution. */
+/*
+  metadata = [{
+    // level 0 metadata
+    pixelArrayMetaData
+  },
+  {
+    // level 1 metadata
+    // [...]
+  },
+    // level N metadata
+    // [...]
+  ]
+  */
+class MultiscaleChunkedImage {
   metadata = []
 
-  constructor(metadata) {
+  constructor(metadata, imageType) {
     this.metadata = metadata
 
     const meta = this.metadata[0]
-    const dimension = meta.pixelArrayMetadata.shape.length
-    let pixelType = PixelTypes.Scalar
-    const dtype = meta.pixelArrayMetadata.dtype
-    if (dtype.includes('u1') && meta.coords.has('c')) {
-      switch (meta.coords.get('c').length) {
-        case 3:
-          pixelType = PixelTypes.RGB
-          break
-        case 4:
-          pixelType = PixelTypes.RGBA
-          break
-        default:
-          pixelType = PixelTypes.VariableLengthVector
-      }
-    } else if (meta.coords.has('c')) {
-      pixelType = PixelTypes.VariableLengthVector
-    } // Todo: add support for more pixel types
-    const componentType = dtypeToComponentType.get(dtype)
-    let components = 1
-    if (meta.coords.has('c')) {
-      components = meta.coords.get('c').length
-    }
 
-    this.imageType = {
-      dimension,
-      pixelType,
-      componentType,
-      components,
-    }
-    this.spatialDims = ['x', 'y', 'z'].slice(0, dimension)
-    this.pixelArrayType = dtypeToTypedArray.get(dtype)
+    this.imageType = imageType
+    this.pixelArrayType = componentTypeToTypedArray.get(imageType.componentType)
+    this.spatialDims = ['x', 'y', 'z'].slice(0, imageType.dimension)
     this.metadata.forEach(meta => {
       meta.numberOfXYZChunks = new Array(this.spatialDims.length)
       ;['c', 'x', 'y', 'z', 't'].forEach((dim, chunkIndex) => {
@@ -339,4 +307,4 @@ class MultiscaleManager {
   }
 }
 
-export default MultiscaleManager
+export default MultiscaleChunkedImage

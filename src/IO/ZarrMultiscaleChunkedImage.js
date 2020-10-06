@@ -1,15 +1,67 @@
 import axios from 'axios'
 
-import MultiscaleManager from './MultiscaleManager'
+import PixelTypes from 'itk/PixelTypes'
+import IntTypes from 'itk/IntTypes'
+import FloatTypes from 'itk/FloatTypes'
+
+import MultiscaleChunkedImage from './MultiscaleChunkedImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
 import CoordsDecompressor from '../Compression/CoordsDecompressor'
 
-class ZarrMultiscaleManager extends MultiscaleManager {
+const dtypeToComponentType = new Map([
+  ['<b', IntTypes.Int8],
+  ['<B', IntTypes.UInt8],
+  ['<u1', IntTypes.UInt8],
+  ['|u1', IntTypes.UInt8],
+  ['<i1', IntTypes.Int8],
+  ['|i1', IntTypes.Int8],
+  ['<u2', IntTypes.UInt16],
+  ['<i2', IntTypes.Int16],
+  ['<u4', IntTypes.UInt32],
+  ['<i4', IntTypes.Int32],
+
+  ['<f4', FloatTypes.Float32],
+  ['<f8', FloatTypes.Float64],
+])
+
+class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
   url
 
   // Call parseMetadata to retrieve metadata
   constructor(url, metadata) {
-    super(metadata)
+    const meta = metadata[0]
+    const dimension = meta.pixelArrayMetadata.shape.length
+
+    let pixelType = PixelTypes.Scalar
+    const dtype = meta.pixelArrayMetadata.dtype
+    if (dtype.includes('u1') && meta.coords.has('c')) {
+      switch (meta.coords.get('c').length) {
+        case 3:
+          pixelType = PixelTypes.RGB
+          break
+        case 4:
+          pixelType = PixelTypes.RGBA
+          break
+        default:
+          pixelType = PixelTypes.VariableLengthVector
+      }
+    } else if (meta.coords.has('c')) {
+      pixelType = PixelTypes.VariableLengthVector
+    } // Todo: add support for more pixel types
+    const componentType = dtypeToComponentType.get(dtype)
+    let components = 1
+    if (meta.coords.has('c')) {
+      components = meta.coords.get('c').length
+    }
+
+    const imageType = {
+      dimension,
+      pixelType,
+      componentType,
+      components,
+    }
+
+    super(metadata, imageType)
     this.url = url
     // utilitiy
     this.CXYZT = ['c', 'x', 'y', 'z', 't']
@@ -203,4 +255,4 @@ class ZarrMultiscaleManager extends MultiscaleManager {
   }
 }
 
-export default ZarrMultiscaleManager
+export default ZarrMultiscaleChunkedImage

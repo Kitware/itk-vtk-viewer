@@ -61,6 +61,21 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
       components,
     }
 
+    metadata.forEach(meta => {
+      ;['c', 'x', 'y', 'z', 't'].forEach((dim, chunkIndex) => {
+        const index = meta.dims.indexOf(dim)
+        if (index !== -1) {
+          meta.numberOfCXYZTChunks[chunkIndex] = Math.ceil(
+            meta.pixelArrayMetadata.shape[index] /
+              meta.pixelArrayMetadata.chunks[index]
+          )
+          meta.sizeCXYZTChunks[chunkIndex] =
+            meta.pixelArrayMetadata.chunks[index]
+          meta.sizeCXYZTElements[chunkIndex] =
+            meta.pixelArrayMetadata.shape[index]
+        }
+      })
+    })
     super(metadata, imageType)
     this.url = url
     // utilitiy
@@ -68,6 +83,12 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
   }
 
   // Constructor cannot be async
+  /*
+    metadata = [{
+      pixelArrayMetaData: {
+      }
+    }]
+    */
   static async parseMetadata(url) {
     const metadataUrl = url + '/.zmetadata'
     const response = await axios.get(metadataUrl, { responseType: 'json' })
@@ -236,7 +257,7 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
         chunkUrl = `${chunkUrl}${cxyztArray[index][this.CXYZT.indexOf(dim)]}.`
       }
       chunkUrl = chunkUrl.slice(0, -1)
-      console.log(chunkUrl)
+      // console.log(chunkUrl)
       chunkUrls.push(chunkUrl)
       chunkUrlPromises.push(
         axios.get(chunkUrl, { responseType: 'arraybuffer' })

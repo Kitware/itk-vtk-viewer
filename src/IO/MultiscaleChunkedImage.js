@@ -12,7 +12,11 @@ const spatialDims = ['x', 'y', 'z']
 /*
   metadata = [{
     // level 0 metadata
-    pixelArrayMetaData
+    dims: ['x', 'y'], // Valid elements: 'c', 'x', 'y', 'z', or 't'
+    coords: Map('x': Float64Array([0.0, 2.0, ...), 'y' ...
+    numberOfCXYZTChunks: [1, 10, 10, 5, 1], // array shape in chunks
+    sizeCXYZTChunks: [1, 64, 64, 64, 1], // chunk shape in elements
+    sizeCXYZTElements: [1, 1, 1, 1, 1], // array shape in elements
   },
   {
     // level 1 metadata
@@ -28,27 +32,9 @@ class MultiscaleChunkedImage {
   constructor(metadata, imageType) {
     this.metadata = metadata
 
-    const meta = this.metadata[0]
-
     this.imageType = imageType
     this.pixelArrayType = componentTypeToTypedArray.get(imageType.componentType)
     this.spatialDims = ['x', 'y', 'z'].slice(0, imageType.dimension)
-    this.metadata.forEach(meta => {
-      meta.numberOfXYZChunks = new Array(this.spatialDims.length)
-      ;['c', 'x', 'y', 'z', 't'].forEach((dim, chunkIndex) => {
-        const index = meta.dims.indexOf(dim)
-        if (index !== -1) {
-          meta.numberOfCXYZTChunks[chunkIndex] = Math.ceil(
-            meta.pixelArrayMetadata.shape[index] /
-              meta.pixelArrayMetadata.chunks[index]
-          )
-          meta.sizeCXYZTChunks[chunkIndex] =
-            meta.pixelArrayMetadata.chunks[index]
-          meta.sizeCXYZTElements[chunkIndex] =
-            meta.pixelArrayMetadata.shape[index]
-        }
-      })
-    })
     console.log(metadata)
   }
 
@@ -120,30 +106,6 @@ class MultiscaleChunkedImage {
     return direction
   }
 
-  async levelSize(level) {
-    const size = new Array(this.spatialDims.length)
-    const meta = this.metadata[level]
-    const dimension = this.imageType.dimension
-    const pixelMeta = meta.pixelArrayMetadata
-    let coords = meta.coords
-    if (coords instanceof CoordsDecompressor) {
-      const coordsResolved = await coords.getCoords()
-      meta.coords = coordsResolved
-      coords = coordsResolved
-    }
-    for (let index = 0; index < this.spatialDims.length; index++) {
-      const dim = this.spatialDims[index]
-      if (meta.coords.has(dim)) {
-        let coord = meta.coords.get(dim)
-        size[index] = coord.length
-      } else {
-        const negIndex = dimension - 1 - index
-        size[index] = pixelMeta.shape[negIndex]
-      }
-    }
-    return size
-  }
-
   /* Return a promise that provides the requested chunk at a given level and
    * chunk index. */
   async getChunks(level, cxyztArray) {
@@ -166,7 +128,7 @@ class MultiscaleChunkedImage {
       chunkSize[0] * chunkSize[1] * chunkSize[2] * chunkSize[3],
     ] // c, x, y, z,
 
-    const size = await this.levelSize(level)
+    const size = meta.sizeCXYZTElements.slice(1, 1 + this.imageType.dimension)
     const pixelArray = new this.pixelArrayType(
       size.reduce((a, b) => a * b) * this.imageType.components
     )

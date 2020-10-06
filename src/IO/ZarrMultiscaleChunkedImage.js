@@ -104,15 +104,15 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
       zmetadata['.zattrs']._MULTISCALE_LEVELS !== undefined
         ? zmetadata['.zattrs']._MULTISCALE_LEVELS
         : ['']
-    let pixelArrayName =
+    let name =
       zmetadata['.zattrs']._SPATIAL_IMAGE !== undefined
         ? zmetadata['.zattrs']._SPATIAL_IMAGE
         : null
-    if (pixelArrayName !== null) {
+    if (name !== null) {
       const pixelArrayAttrs =
         multiscaleLevels[0] === ''
-          ? `${pixelArrayName}/.zattrs`
-          : `${multiscaleLevels[0]}/${pixelArrayName}/.zattrs`
+          ? `${name}/.zattrs`
+          : `${multiscaleLevels[0]}/${name}/.zattrs`
       const arrayDims = zmetadata[pixelArrayAttrs]._ARRAY_DIMENSIONS || []
       bottomMeta.dims = arrayDims
       if (!!zmetadata[pixelArrayAttrs].direction) {
@@ -120,14 +120,14 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
       }
       const pixelArrayMeta =
         multiscaleLevels[0] === ''
-          ? `${pixelArrayName}/.zarray`
-          : `${multiscaleLevels[0]}/${pixelArrayName}/.zarray}`
+          ? `${name}/.zarray`
+          : `${multiscaleLevels[0]}/${name}/.zarray}`
       bottomMeta.pixelArrayMetadata = zmetadata[pixelArrayMeta]
-      bottomMeta.pixelArrayName = pixelArrayName
+      bottomMeta.name = name
       bottomMeta.pixelArrayUrl =
         multiscaleLevels[0] === ''
-          ? `${url}/${bottomMeta.pixelArrayName}/`
-          : `${url}/${multiscaleLevels[0]}/${bottomMeta.pixelArrayName}/`
+          ? `${url}/${bottomMeta.name}/`
+          : `${url}/${multiscaleLevels[0]}/${bottomMeta.name}/`
 
       const coordPrefix =
         multiscaleLevels[0] === '' ? '' : `${multiscaleLevels[0]}/`
@@ -148,10 +148,10 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
           if (!!zmetadata[obj].direction) {
             bottomMeta.direction = zmetadata[obj].direction
           }
-          const pixelArrayName = obj.replace('.zattrs', '.zarray')
-          bottomMeta.pixelArrayMetadata = zmetadata[pixelArrayName]
-          bottomMeta.pixelArrayName = pixelArrayName.replace('/.zarray', '')
-          bottomMeta.pixelArrayUrl = `${url}/${bottomMeta.pixelArrayName}/`
+          const name = obj.replace('.zattrs', '.zarray')
+          bottomMeta.pixelArrayMetadata = zmetadata[name]
+          bottomMeta.name = name.replace('/.zarray', '')
+          bottomMeta.pixelArrayUrl = `${url}/${bottomMeta.name}/`
         }
 
         if (obj.match(/^[xyzct]\/.zarray/) !== null) {
@@ -160,7 +160,7 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
         }
       }
     }
-    pixelArrayName = bottomMeta.pixelArrayName
+    name = bottomMeta.name
     const bottomMetaCoordPaths = new Map()
     bottomMeta.coords.forEach((value, key) => {
       const coordPrefix =
@@ -187,16 +187,16 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
         sizeCXYZTElements: [1, 1, 1, 1, 1],
       }
 
-      const pixelArrayAttrs = `${levelPath}/${pixelArrayName}/.zattrs`
+      const pixelArrayAttrs = `${levelPath}/${name}/.zattrs`
       const arrayDims = zmetadata[pixelArrayAttrs]._ARRAY_DIMENSIONS || []
       meta.dims = arrayDims
       if (!!zmetadata[pixelArrayAttrs].direction) {
         meta.direction = zmetadata[pixelArrayAttrs].direction
       }
-      const pixelArrayMeta = `${levelPath}/${pixelArrayName}/.zarray`
+      const pixelArrayMeta = `${levelPath}/${name}/.zarray`
       meta.pixelArrayMetadata = zmetadata[pixelArrayMeta]
-      meta.pixelArrayName = pixelArrayName
-      meta.pixelArrayUrl = `${url}/${levelPath}/${pixelArrayName}/`
+      meta.name = name
+      meta.pixelArrayUrl = `${url}/${levelPath}/${name}/`
 
       const coordPrefix = `${levelPath}/`
       ;['x', 'y', 'z', 'c', 't'].forEach(coord => {
@@ -233,12 +233,12 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
     } else {
       // Check for default multi-scale level names
       const level = 1
-      let levelZAttrs = `level_${level}.zarr/${pixelArrayName}/.zattrs`
+      let levelZAttrs = `level_${level}.zarr/${name}/.zattrs`
       while (zmetadata[levelZAttrs] !== undefined) {
         const meta = await levelMetadata(`level_${level}.zarr`)
         metadata.push(meta)
         level++
-        levelZAttrs = `level_${level}.zarr/${pixelArrayName}/.zattrs`
+        levelZAttrs = `level_${level}.zarr/${name}/.zattrs`
       }
     }
 

@@ -17,6 +17,7 @@ const spatialDims = ['x', 'y', 'z']
     numberOfCXYZTChunks: [1, 10, 10, 5, 1], // array shape in chunks
     sizeCXYZTChunks: [1, 64, 64, 64, 1], // chunk shape in elements
     sizeCXYZTElements: [1, 1, 1, 1, 1], // array shape in elements
+    name: 'dataset_name'
   },
   {
     // level 1 metadata
@@ -244,7 +245,7 @@ class MultiscaleChunkedImage {
 
     const image = {
       imageType: this.imageType,
-      name: this.metadata[level].pixelArrayName,
+      name: this.metadata[level].name,
       origin,
       spacing,
       direction: this.direction,

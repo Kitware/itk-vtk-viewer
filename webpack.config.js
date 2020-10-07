@@ -32,6 +32,12 @@ const moduleConfig = {
   rules: [
     { test: entry, loader: 'expose-loader?itkVtkViewer' },
     { test: /\.js$/, loader: 'babel-loader' },
+    {
+      test: /\.worker.js$/,
+      use: [
+        { loader: 'worker-loader', options: { inline: true, fallback: false } },
+      ],
+    },
     { test: /\.(png|jpg)$/, use: 'url-loader?limit=81920' },
     { test: /\.svg$/, use: [{ loader: 'raw-loader' }] },
   ].concat(vtkRules, cssRules),
@@ -79,6 +85,16 @@ module.exports = [
             'src',
             'Compression',
             'blosc-zarr',
+            'web-build'
+          ),
+          to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),
+        },
+        {
+          from: path.join(
+            __dirname,
+            'src',
+            'IO',
+            'Downsample',
             'web-build'
           ),
           to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),

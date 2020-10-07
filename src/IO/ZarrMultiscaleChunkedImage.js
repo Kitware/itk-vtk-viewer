@@ -41,29 +41,6 @@ class LazyCoords {
 class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
   url
 
-  // Call parseMetadata to retrieve metadata
-  constructor(url, metadata, imageType) {
-    metadata.forEach(meta => {
-      ;['c', 'x', 'y', 'z', 't'].forEach((dim, chunkIndex) => {
-        const index = meta.dims.indexOf(dim)
-        if (index !== -1) {
-          meta.numberOfCXYZTChunks[chunkIndex] = Math.ceil(
-            meta.pixelArrayMetadata.shape[index] /
-              meta.pixelArrayMetadata.chunks[index]
-          )
-          meta.sizeCXYZTChunks[chunkIndex] =
-            meta.pixelArrayMetadata.chunks[index]
-          meta.sizeCXYZTElements[chunkIndex] =
-            meta.pixelArrayMetadata.shape[index]
-        }
-      })
-    })
-    super(metadata, imageType)
-    this.url = url
-    // utilitiy
-    this.CXYZT = ['c', 'x', 'y', 'z', 't']
-  }
-
   // Constructor cannot be async
   /*
     metadata = [{
@@ -103,7 +80,7 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
       const pixelArrayMeta =
         multiscaleLevels[0] === ''
           ? `${name}/.zarray`
-          : `${multiscaleLevels[0]}/${name}/.zarray}`
+          : `${multiscaleLevels[0]}/${name}/.zarray`
       bottomMeta.pixelArrayMetadata = zmetadata[pixelArrayMeta]
       bottomMeta.name = name
       bottomMeta.pixelArrayUrl =
@@ -253,6 +230,29 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
     }
 
     return { metadata, imageType }
+  }
+
+  // Call parseMetadata to retrieve metadata
+  constructor(url, metadata, imageType) {
+    metadata.forEach(meta => {
+      ;['c', 'x', 'y', 'z', 't'].forEach((dim, chunkIndex) => {
+        const index = meta.dims.indexOf(dim)
+        if (index !== -1) {
+          meta.numberOfCXYZTChunks[chunkIndex] = Math.ceil(
+            meta.pixelArrayMetadata.shape[index] /
+              meta.pixelArrayMetadata.chunks[index]
+          )
+          meta.sizeCXYZTChunks[chunkIndex] =
+            meta.pixelArrayMetadata.chunks[index]
+          meta.sizeCXYZTElements[chunkIndex] =
+            meta.pixelArrayMetadata.shape[index]
+        }
+      })
+    })
+    super(metadata, imageType)
+    this.url = url
+    // utilitiy
+    this.CXYZT = ['c', 'x', 'y', 'z', 't']
   }
 
   async getChunksImpl(level, cxyztArray) {

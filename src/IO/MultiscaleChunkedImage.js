@@ -123,17 +123,18 @@ class MultiscaleChunkedImage {
     const pixelArray = new this.pixelArrayType(
       size.reduce((a, b) => a * b) * this.imageType.components
     )
+    const zSize = size[2] ? size[2] : 1
     const pixelStrides = [
       this.imageType.components,
       this.imageType.components * size[0],
       this.imageType.components * size[0] * size[1],
-      this.imageType.components * size[0] * size[1] * size[2],
+      this.imageType.components * size[0] * size[1] * zSize,
     ] // c, x, y, z
     const start = [0, 0, 0, 0] // x, y, z, t
     const end = [
       start[0] + size[0],
       start[1] + size[1],
-      start[2] + size[2],
+      start[2] + zSize,
       start[3] + 1,
     ] // x, y, z, t
 

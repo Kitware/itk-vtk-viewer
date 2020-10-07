@@ -24,43 +24,25 @@ const dtypeToComponentType = new Map([
   ['<f8', FloatTypes.Float64],
 ])
 
+class LazyCoords {
+  constructor(url, zmetadata, metaCoordsPaths) {
+    this.decompressor = new CoordsDecompressor(url, zmetadata, metaCoordsPaths)
+    this.coords = null
+  }
+
+  async get() {
+    if (this.coords === null) {
+      this.coords = await this.decompressor.getCoords()
+    }
+    return this.coords
+  }
+}
+
 class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
   url
 
   // Call parseMetadata to retrieve metadata
-  constructor(url, metadata) {
-    const meta = metadata[0]
-    const dimension = meta.pixelArrayMetadata.shape.length
-
-    let pixelType = PixelTypes.Scalar
-    const dtype = meta.pixelArrayMetadata.dtype
-    if (dtype.includes('u1') && meta.coords.has('c')) {
-      switch (meta.coords.get('c').length) {
-        case 3:
-          pixelType = PixelTypes.RGB
-          break
-        case 4:
-          pixelType = PixelTypes.RGBA
-          break
-        default:
-          pixelType = PixelTypes.VariableLengthVector
-      }
-    } else if (meta.coords.has('c')) {
-      pixelType = PixelTypes.VariableLengthVector
-    } // Todo: add support for more pixel types
-    const componentType = dtypeToComponentType.get(dtype)
-    let components = 1
-    if (meta.coords.has('c')) {
-      components = meta.coords.get('c').length
-    }
-
-    const imageType = {
-      dimension,
-      pixelType,
-      componentType,
-      components,
-    }
-
+  constructor(url, metadata, imageType) {
     metadata.forEach(meta => {
       ;['c', 'x', 'y', 'z', 't'].forEach((dim, chunkIndex) => {
         const index = meta.dims.indexOf(dim)
@@ -167,12 +149,7 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
         multiscaleLevels[0] === '' ? '' : `${multiscaleLevels[0]}/`
       bottomMetaCoordPaths.set(key, `${coordPrefix}${key}`)
     })
-    bottomMeta.coords = new CoordsDecompressor(
-      url,
-      zmetadata,
-      bottomMetaCoordPaths
-    )
-    bottomMeta.coords = await bottomMeta.coords.getCoords()
+    bottomMeta.coords = new LazyCoords(url, zmetadata, bottomMetaCoordPaths)
     if (bottomMeta.dims.length === 0) {
       const dimension = bottomMeta.pixelArrayMetadata.shape.length
       bottomMeta.dims = ['z', 'y', 'x'].slice(3 - dimension)
@@ -210,7 +187,7 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
       meta.coords.forEach((value, key) => {
         metaCoordPaths.set(key, `${levelPath}/${key}`)
       })
-      meta.coords = new CoordsDecompressor(url, zmetadata, metaCoordPaths)
+      meta.coords = new LazyCoords(url, zmetadata, metaCoordPaths)
       if (meta.dims.length === 0) {
         const dimension = meta.pixelArrayMetadata.shape.length
         meta.dims = ['z', 'y', 'x'].slice(3 - dimension)
@@ -242,7 +219,40 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
       }
     }
 
-    return metadata
+    const meta = metadata[metadata.length - 1]
+    const dimension = meta.pixelArrayMetadata.shape.length
+
+    let pixelType = PixelTypes.Scalar
+    const dtype = meta.pixelArrayMetadata.dtype
+    const coords = await meta.coords.get()
+    if (dtype.includes('u1') && coords.has('c')) {
+      switch (coords.get('c').length) {
+        case 3:
+          pixelType = PixelTypes.RGB
+          break
+        case 4:
+          pixelType = PixelTypes.RGBA
+          break
+        default:
+          pixelType = PixelTypes.VariableLengthVector
+      }
+    } else if (coords.has('c')) {
+      pixelType = PixelTypes.VariableLengthVector
+    } // Todo: add support for more pixel types
+    const componentType = dtypeToComponentType.get(dtype)
+    let components = 1
+    if (coords.has('c')) {
+      components = coords.get('c').length
+    }
+
+    const imageType = {
+      dimension,
+      pixelType,
+      componentType,
+      components,
+    }
+
+    return { metadata, imageType }
   }
 
   async getChunksImpl(level, cxyztArray) {

@@ -13,7 +13,7 @@ const spatialDims = ['x', 'y', 'z']
   metadata = [{
     // level 0 metadata
     dims: ['x', 'y'], // Valid elements: 'c', 'x', 'y', 'z', or 't'
-    coords: Map('x': Float64Array([0.0, 2.0, ...), 'y' ...
+    coords: .get() Promise resolves a Map('x': Float64Array([0.0, 2.0, ...), 'y' ...
     numberOfCXYZTChunks: [1, 10, 10, 5, 1], // array shape in chunks
     sizeCXYZTChunks: [1, 64, 64, 64, 1], // chunk shape in elements
     sizeCXYZTElements: [1, 1, 1, 1, 1], // array shape in elements
@@ -46,15 +46,10 @@ class MultiscaleChunkedImage {
   async levelOrigin(level) {
     const origin = new Array(this.spatialDims.length)
     const meta = this.metadata[level]
-    let coords = meta.coords
-    if (coords instanceof CoordsDecompressor) {
-      const coordsResolved = await coords.getCoords()
-      meta.coords = coordsResolved
-      coords = coordsResolved
-    }
+    const coords = await meta.coords.get()
     for (let index = 0; index < this.spatialDims.length; index++) {
       const dim = this.spatialDims[index]
-      if (meta.coords.has(dim)) {
+      if (coords.has(dim)) {
         origin[index] = coords.get(dim)[0]
       } else {
         origin[index] = 0.0
@@ -66,15 +61,10 @@ class MultiscaleChunkedImage {
   async levelSpacing(level) {
     const spacing = new Array(this.spatialDims.length)
     const meta = this.metadata[level]
-    let coords = meta.coords
-    if (coords instanceof CoordsDecompressor) {
-      const coordsResolved = await coords.getCoords()
-      meta.coords = coordsResolved
-      coords = coordsResolved
-    }
+    const coords = await meta.coords.get()
     for (let index = 0; index < this.spatialDims.length; index++) {
       const dim = this.spatialDims[index]
-      if (meta.coords.has(dim)) {
+      if (coords.has(dim)) {
         const coord = coords.get(dim)
         spacing[index] = coord[1] - coord[0]
       } else {

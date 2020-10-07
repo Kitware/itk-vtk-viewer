@@ -56,10 +56,17 @@ export async function createViewerFromUrl(
     if (extension === 'zarr') {
       console.time('meta')
       console.time('image')
-      const metadata = await ZarrMultiscaleChunkedImage.parseMetadata(image)
+      const {
+        metadata,
+        imageType,
+      } = await ZarrMultiscaleChunkedImage.parseMetadata(image)
       console.log(metadata)
       console.timeEnd('meta')
-      multiscaleImageObject = new ZarrMultiscaleChunkedImage(image, metadata)
+      multiscaleImageObject = new ZarrMultiscaleChunkedImage(
+        image,
+        metadata,
+        imageType
+      )
       // Side effect to keep the spinner going
       const topLevelLargestImage = await multiscaleImageObject.topLevelLargestImage()
       console.timeEnd('image')
@@ -79,11 +86,15 @@ export async function createViewerFromUrl(
     if (extension === 'zarr') {
       console.time('labelMapMeta')
       console.time('labelMap')
-      const metadata = await ZarrMultiscaleChunkedImage.parseMetadata(labelMap)
+      const {
+        metadata,
+        imageType,
+      } = await ZarrMultiscaleChunkedImage.parseMetadata(labelMap)
       console.timeEnd('labelMapMeta')
       multiscaleLabelMapObject = new ZarrMultiscaleChunkedImage(
         labelMap,
-        metadata
+        metadata,
+        imageType
       )
       // Side effect to keep the spinner going
       const topLevelLargestImage = await multiscaleLabelMapObject.topLevelLargestImage()
@@ -103,9 +114,16 @@ export async function createViewerFromUrl(
     if (extension === 'zarr' && !!!multiscaleImageObject) {
       console.time('meta')
       console.time('image')
-      const metadata = await ZarrMultiscaleChunkedImage.parseMetadata(url)
+      const {
+        metadata,
+        imageType,
+      } = await ZarrMultiscaleChunkedImage.parseMetadata(url)
       console.timeEnd('meta')
-      multiscaleImageObject = new ZarrMultiscaleChunkedImage(url, metadata)
+      multiscaleImageObject = new ZarrMultiscaleChunkedImage(
+        url,
+        metadata,
+        imageType
+      )
       // Side effect to keep the spinner going
       const topLevelLargestImage = await multiscaleImageObject.topLevelLargestImage()
       console.timeEnd('image')

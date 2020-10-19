@@ -21,6 +21,8 @@ import updateLabelMapPiecewiseFunction from './Rendering/updateLabelMapPiecewise
 import updateVolumeProperties from './Rendering/updateVolumeProperties'
 import updateGradientOpacity from './Rendering/updateGradientOpacity'
 
+import MultiscaleChunkedImage from './IO/MultiscaleChunkedImage'
+
 import { autorun, observable, reaction, toJS } from 'mobx'
 
 function updateVisualizedComponents(store) {
@@ -48,9 +50,7 @@ const createViewer = (
   rootContainer,
   {
     image,
-    multiscaleImage,
     labelMap,
-    multiscaleLabelMap,
     labelMapNames,
     geometries,
     pointSets,
@@ -73,6 +73,24 @@ const createViewer = (
   const store = new ViewerStore(proxyManager)
 
   UserInterface.applyContainerStyle(rootContainer, store, viewerStyle)
+
+  let imageData = image
+  let multiscaleImage = null
+  if (image instanceof MultiscaleChunkedImage) {
+    multiscaleImage = image
+    imageData = null
+  } else if (!!image && image.imageType !== undefined) {
+    imageData = vtkITKHelper.convertItkToVtkImage(image)
+  }
+
+  let labelMapData = labelMap
+  let multiscaleLabelMap = null
+  if (labelMap instanceof MultiscaleChunkedImage) {
+    multiscaleLabelMap = labelMap
+    labelMapData = null
+  } else if (!!labelMap && labelMap.imageType !== undefined) {
+    labelMapData = vtkITKHelper.convertItkToVtkImage(labelMap)
+  }
 
   let updatingImage = false
 
@@ -234,10 +252,10 @@ const createViewer = (
       }
     }
   )
-  store.imageUI.image = image
+  store.imageUI.image = imageData
   updateVisualizedComponents(store)
-  if (!!labelMap) {
-    store.imageUI.labelMap = labelMap
+  if (!!labelMapData) {
+    store.imageUI.labelMap = labelMapData
     updateVisualizedComponents(store)
   }
 

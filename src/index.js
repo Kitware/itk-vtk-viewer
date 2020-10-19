@@ -38,9 +38,7 @@ export async function createViewerFromUrl(
   {
     files = [],
     image,
-    multiscaleImage,
     labelMap,
-    multiscaleLabelMap,
     labelMapNames = null,
     rotate = true,
     use2D = false,
@@ -50,7 +48,6 @@ export async function createViewerFromUrl(
   const progressCallback = UserInterface.createLoadingProgress(el)
 
   let imageObject = null
-  let multiscaleImageObject = null
   if (!!image) {
     const extension = getFileExtension(image)
     if (extension === 'zarr') {
@@ -62,13 +59,9 @@ export async function createViewerFromUrl(
       } = await ZarrMultiscaleChunkedImage.parseMetadata(image)
       console.log(metadata)
       console.timeEnd('meta')
-      multiscaleImageObject = new ZarrMultiscaleChunkedImage(
-        image,
-        metadata,
-        imageType
-      )
+      imageObject = new ZarrMultiscaleChunkedImage(image, metadata, imageType)
       // Side effect to keep the spinner going
-      const topLevelLargestImage = await multiscaleImageObject.topLevelLargestImage()
+      const topLevelLargestImage = await imageObject.topLevelLargestImage()
       console.timeEnd('image')
     } else {
       const arrayBuffer = await fetchBinaryContent(image, progressCallback)
@@ -80,7 +73,6 @@ export async function createViewerFromUrl(
   }
 
   let labelMapObject = null
-  let multiscaleLabelMapObject = null
   if (!!labelMap) {
     const extension = getFileExtension(labelMap)
     if (extension === 'zarr') {
@@ -91,13 +83,13 @@ export async function createViewerFromUrl(
         imageType,
       } = await ZarrMultiscaleChunkedImage.parseMetadata(labelMap)
       console.timeEnd('labelMapMeta')
-      multiscaleLabelMapObject = new ZarrMultiscaleChunkedImage(
+      labelMapObject = new ZarrMultiscaleChunkedImage(
         labelMap,
         metadata,
         imageType
       )
       // Side effect to keep the spinner going
-      const topLevelLargestImage = await multiscaleLabelMapObject.topLevelLargestImage()
+      const topLevelLargestImage = await labelMapObject.topLevelLargestImage()
       console.timeEnd('labelMap')
     } else {
       const arrayBuffer = await fetchBinaryContent(labelMap, progressCallback)
@@ -111,7 +103,7 @@ export async function createViewerFromUrl(
   const fileObjects = []
   for (const url of files) {
     const extension = getFileExtension(url)
-    if (extension === 'zarr' && !!!multiscaleImageObject) {
+    if (extension === 'zarr') {
       console.time('meta')
       console.time('image')
       const {
@@ -119,13 +111,9 @@ export async function createViewerFromUrl(
         imageType,
       } = await ZarrMultiscaleChunkedImage.parseMetadata(url)
       console.timeEnd('meta')
-      multiscaleImageObject = new ZarrMultiscaleChunkedImage(
-        url,
-        metadata,
-        imageType
-      )
+      imageObject = new ZarrMultiscaleChunkedImage(url, metadata, imageType)
       // Side effect to keep the spinner going
-      const topLevelLargestImage = await multiscaleImageObject.topLevelLargestImage()
+      const topLevelLargestImage = await imageObject.topLevelLargestImage()
       console.timeEnd('image')
     } else {
       const arrayBuffer = await fetchBinaryContent(url, progressCallback)
@@ -143,9 +131,7 @@ export async function createViewerFromUrl(
   return processFiles(el, {
     files: fileObjects,
     image: imageObject,
-    multiscaleImage: multiscaleImageObject,
     labelMap: labelMapObject,
-    multiscaleLabelMap: multiscaleLabelMapObject,
     labelMapNames: labelMapNameObject,
     rotate,
     use2D,

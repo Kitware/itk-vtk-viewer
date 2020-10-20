@@ -5,14 +5,10 @@ import itkreadImageArrayBuffer from 'itk/readImageArrayBuffer'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import testUtils from 'vtk.js/Sources/Testing/testUtils'
 
-import createViewer from '../src/createViewer'
 import UserInterface from '../src/UserInterface'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
 const testImage3DPath2 = 'base/test/data/input/mri3D.nrrd'
-
-import createViewerBaseline from './data/baseline/createViewer.png'
-import createViewerSetImageBaseline from './data/baseline/createViewerSetImage.png'
 
 import * as imjoyCore from 'imjoy-core'
 import ndarray from 'ndarray'

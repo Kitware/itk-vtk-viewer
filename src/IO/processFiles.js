@@ -17,7 +17,6 @@ import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
 import UserInterface from '../UserInterface'
 import createViewer from '../createViewer'
-import InMemoryMultiscaleChunkedImage from './InMemoryMultiscaleChunkedImage'
 
 function typedArrayForBuffer(typedArrayType, buffer) {
   let typedArrayFunction = null
@@ -145,18 +144,7 @@ export const readFiles = async ({
       const { image: itkImage, webWorker } = await readImageFile(null, file)
       webWorker.terminate()
       const is3D = itkImage.imageType.dimension === 3 && !use2D
-      const {
-        metadata,
-        imageType,
-        pyramid,
-      } = await InMemoryMultiscaleChunkedImage.buildPyramid(itkImage)
-      const multiScale = new InMemoryMultiscaleChunkedImage(
-        pyramid,
-        metadata,
-        imageType
-      )
-      const reconstructedImage = await multiScale.topLevelLargestImage()
-      return { is3D, data: reconstructedImage }
+      return { is3D, data: itkImage }
     })
     const dataSets = await Promise.all(readers)
     const images = dataSets

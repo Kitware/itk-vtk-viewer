@@ -22,6 +22,7 @@ import updateVolumeProperties from './Rendering/updateVolumeProperties'
 import updateGradientOpacity from './Rendering/updateGradientOpacity'
 
 import MultiscaleChunkedImage from './IO/MultiscaleChunkedImage'
+import InMemoryMultiscaleChunkedImage from './IO/InMemoryMultiscaleChunkedImage'
 
 import { autorun, observable, reaction, toJS } from 'mobx'
 
@@ -46,7 +47,7 @@ function updateVisualizedComponents(store) {
   }
 }
 
-const createViewer = (
+const createViewer = async (
   rootContainer,
   {
     image,
@@ -80,7 +81,21 @@ const createViewer = (
     multiscaleImage = image
     imageData = null
   } else if (!!image && image.imageType !== undefined) {
-    imageData = vtkITKHelper.convertItkToVtkImage(image)
+    if (image.data.length > 2e6) {
+      const {
+        metadata,
+        imageType,
+        pyramid,
+      } = await InMemoryMultiscaleChunkedImage.buildPyramid(image)
+      multiscaleImage = new InMemoryMultiscaleChunkedImage(
+        pyramid,
+        metadata,
+        imageType
+      )
+      imageData = null
+    } else {
+      imageData = vtkITKHelper.convertItkToVtkImage(image)
+    }
   }
 
   let labelMapData = labelMap
@@ -455,6 +470,7 @@ const createViewer = (
     fps.push(nextFPS)
     fps.shift()
     const mean = Math.round((fps[0] + fps[1] + fps[2]) / 3)
+    console.log(mean)
     if (mean < 20) {
       store.mainUI.fpsTooLow = true
     }
@@ -480,7 +496,11 @@ const createViewer = (
   }
 
   const setImage = image => {
-    store.imageUI.image = image
+    let imageData = image
+    if (image.imageType !== undefined) {
+      imageData = vtkITKHelper.convertItkToVtkImage(image)
+    }
+    store.imageUI.image = imageData
     updateVisualizedComponents(store)
   }
   publicAPI.setImage = macro.throttle(setImage, 100)

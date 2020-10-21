@@ -79,7 +79,7 @@
 
         async setImage(image) {
           let itkImage = image
-          if (image.shape !== undefined && image.stride !== undefined) {
+          if(image._rtype === 'ndarray'){
             itkImage = itkVtkViewer.utils.ndarrayToItkImage(image)
           }
 

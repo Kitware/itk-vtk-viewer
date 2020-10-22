@@ -83,17 +83,17 @@
             itkImage = itkVtkViewer.utils.ndarrayToItkImage(image)
           }
 
-          const vtkImage = itkVtkViewer.utils.vtkITKHelper.convertItkToVtkImage(itkImage)
           const is2D = itkImage.imageType.dimension === 2
           if (this.viewer === null) {
             this.viewer = await itkVtkViewer.createViewer(container, {
-              image: vtkImage,
+              image: itkImage,
               pointSets: null,
               geometries: null,
               use2D: is2D,
               rotate: false
             })
           } else {
+            const vtkImage = itkVtkViewer.utils.vtkITKHelper.convertItkToVtkImage(itkImage)
             await this.viewer.setImage(vtkImage)
           }
         }

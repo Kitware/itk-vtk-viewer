@@ -40,6 +40,14 @@ function applyStyle(el, style) {
     el.style[key] = style[key]
   })
 }
+function encodeArray(array) {
+  return {
+    _rtype: 'ndarray',
+    _rdtype: array.dtype,
+    _rshape: array.shape,
+    _rvalue: array.data.buffer,
+  }
+}
 
 test('Test ImJoy Plugin', async t => {
   const gc = testUtils.createGarbageCollector(t)
@@ -79,7 +87,7 @@ test('Test ImJoy Plugin', async t => {
     src: 'http://localhost:9876/base/dist/index.html',
     data: { image: itkImage },
   })
-  await viewer.setImage(array)
+  await viewer.setImage(encodeArray(array))
 
   imjoy.destroy()
   console.log('ImJoy destroyed')

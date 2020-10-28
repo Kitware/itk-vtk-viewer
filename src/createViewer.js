@@ -1,3 +1,6 @@
+import { inspect } from '@xstate/inspect'
+import { interpret } from 'xstate'
+
 import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager'
 import macro from 'vtk.js/Sources/macro'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
@@ -23,10 +26,10 @@ import updateGradientOpacity from './Rendering/updateGradientOpacity'
 
 import MultiscaleChunkedImage from './IO/MultiscaleChunkedImage'
 import InMemoryMultiscaleChunkedImage from './IO/InMemoryMultiscaleChunkedImage'
-import vtkJSRendering from './Rendering/VTKJS/index'
+import vtkJSRenderingMachineOptions from './Rendering/VTKJS/MachineOptions'
+import createRenderingMachine from './Rendering/createRenderingMachine'
 
 import { autorun, observable, reaction, toJS } from 'mobx'
-import { inspect } from '@xstate/inspect'
 
 function updateVisualizedComponents(store) {
   const image = store.imageUI.image
@@ -78,14 +81,22 @@ const createViewer = async (
 
   UserInterface.applyContainerStyle(rootContainer, store, viewerStyle)
   if (debug) {
-    const stateIFrame = document.createElement('iframe')
-    store.container.style.height = '50%'
-    stateIFrame.style.height = '50%'
-    rootContainer.appendChild(stateIFrame)
+    //const stateIFrame = document.createElement('iframe')
+    //store.container.style.height = '50%'
+    //stateIFrame.style.height = '50%'
+    //rootContainer.appendChild(stateIFrame)
     inspect({
-      iframe: stateIFrame,
+      //iframe: stateIFrame,
+      iframe: false,
     })
   }
+
+  const renderingMachine = createRenderingMachine(vtkJSRenderingMachineOptions)
+  const renderingService = interpret(renderingMachine, {
+    devTools: debug,
+  }).start()
+  console.log(renderingMachine)
+  console.log(renderingService)
 
   let imageData = image
   let multiscaleImage = null

@@ -1,6 +1,6 @@
 import { Machine } from 'xstate'
 
-const createRenderingMachine = (options, context = {}) => {
+const createRenderingMachine = (options, context) => {
   return Machine(
     {
       id: 'rendering',

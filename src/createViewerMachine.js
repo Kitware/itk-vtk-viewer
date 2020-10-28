@@ -1,7 +1,9 @@
 import { Machine } from 'xstate'
 import createRenderingMachine from './Rendering/createRenderingMachine'
 
-const createViewerMachine = (options, context = {}) => {
+const createViewerMachine = (options, context) => {
+  const { uiOptions, renderingOptions } = options
+  const renderingMachine = createRenderingMachine(renderingOptions, context)
   return Machine(
     {
       id: 'viewer',
@@ -12,7 +14,13 @@ const createViewerMachine = (options, context = {}) => {
         idle: {
           always: 'active',
         },
-        active: {},
+        active: {
+          invoke: {
+            id: 'rendering',
+            src: renderingMachine,
+            autoForward: true,
+          },
+        },
       },
     },
     options

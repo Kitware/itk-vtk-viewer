@@ -4,6 +4,7 @@ import updateLabelMapPiecewiseFunction from './updateLabelMapPiecewiseFunction'
 import updateGradientOpacity from './updateGradientOpacity'
 import updateSliceProperties from './updateSliceProperties'
 import updateVolumeProperties from './updateVolumeProperties'
+import vtkJSRendering from './VTKJS/index'
 
 export default {
   createImageRendering,
@@ -12,4 +13,5 @@ export default {
   updateGradientOpacity,
   updateSliceProperties,
   updateVolumeProperties,
+  vtkJSRendering,
 }

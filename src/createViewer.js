@@ -23,6 +23,7 @@ import updateGradientOpacity from './Rendering/updateGradientOpacity'
 
 import MultiscaleChunkedImage from './IO/MultiscaleChunkedImage'
 import InMemoryMultiscaleChunkedImage from './IO/InMemoryMultiscaleChunkedImage'
+import vtkJSRendering from './Rendering/VTKJS/index'
 
 import { autorun, observable, reaction, toJS } from 'mobx'
 
@@ -470,7 +471,7 @@ const createViewer = async (
     fps.push(nextFPS)
     fps.shift()
     const mean = Math.round((fps[0] + fps[1] + fps[2]) / 3)
-    console.log(mean)
+    //console.log(mean)
     if (mean < 20) {
       store.mainUI.fpsTooLow = true
     }

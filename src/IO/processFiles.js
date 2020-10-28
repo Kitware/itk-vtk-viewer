@@ -214,14 +214,13 @@ export const readFiles = async ({
       })
       .map(({ data }) => data)
     const any3D = !dataSets.map(({ is3D }) => is3D).every(is3D => !is3D)
-    const is3D = any3D || !use2D
     return {
       image,
       labelMap,
       labelMapNames: labelMapNameData,
       geometries,
       pointSets,
-      use2D: !is3D,
+      use2D: use2D || !any3D,
     }
   }
 }

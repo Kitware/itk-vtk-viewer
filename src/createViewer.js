@@ -26,6 +26,7 @@ import InMemoryMultiscaleChunkedImage from './IO/InMemoryMultiscaleChunkedImage'
 import vtkJSRendering from './Rendering/VTKJS/index'
 
 import { autorun, observable, reaction, toJS } from 'mobx'
+import { inspect } from '@xstate/inspect'
 
 function updateVisualizedComponents(store) {
   const image = store.imageUI.image
@@ -61,6 +62,7 @@ const createViewer = async (
     viewerStyle,
     viewerState,
     uiContainer,
+    debug = true,
   }
 ) => {
   UserInterface.emptyContainer(rootContainer)
@@ -75,6 +77,15 @@ const createViewer = async (
   const store = new ViewerStore(proxyManager)
 
   UserInterface.applyContainerStyle(rootContainer, store, viewerStyle)
+  if (debug) {
+    const stateIFrame = document.createElement('iframe')
+    store.container.style.height = '50%'
+    stateIFrame.style.height = '50%'
+    rootContainer.appendChild(stateIFrame)
+    inspect({
+      iframe: stateIFrame,
+    })
+  }
 
   let imageData = image
   let multiscaleImage = null

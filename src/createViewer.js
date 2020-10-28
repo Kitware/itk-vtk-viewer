@@ -27,7 +27,8 @@ import updateGradientOpacity from './Rendering/updateGradientOpacity'
 import MultiscaleChunkedImage from './IO/MultiscaleChunkedImage'
 import InMemoryMultiscaleChunkedImage from './IO/InMemoryMultiscaleChunkedImage'
 import vtkJSRenderingMachineOptions from './Rendering/VTKJS/MachineOptions'
-import createRenderingMachine from './Rendering/createRenderingMachine'
+import createViewerMachine from './createViewerMachine'
+import ViewerContext from './Context/ViewerContext'
 
 import { autorun, observable, reaction, toJS } from 'mobx'
 
@@ -91,12 +92,15 @@ const createViewer = async (
     })
   }
 
-  const renderingMachine = createRenderingMachine(vtkJSRenderingMachineOptions)
-  const renderingService = interpret(renderingMachine, {
-    devTools: debug,
-  }).start()
-  console.log(renderingMachine)
-  console.log(renderingService)
+  const options = {
+    uiOptions: {},
+    renderingOptions: vtkJSRenderingMachineOptions,
+  }
+  const context = new ViewerContext()
+  const machine = createViewerMachine(options, context)
+  const service = interpret(machine, { devTools: debug }).start()
+  console.log(machine)
+  console.log(service)
 
   let imageData = image
   let multiscaleImage = null

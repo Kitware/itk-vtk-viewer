@@ -7,7 +7,7 @@ import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
 import ResizeSensor from 'css-element-queries/src/ResizeSensor'
 
-import proxyConfiguration from './vtk/proxyManagerConfiguration'
+import proxyConfiguration from './Rendering/VTKJS/proxyManagerConfiguration'
 import UserInterface from './UserInterface'
 import createLabelMapColorWidget from './UserInterface/Image/createLabelMapColorWidget'
 import createLabelMapWeightWidget from './UserInterface/Image/createLabelMapWeightWidget'
@@ -26,9 +26,9 @@ import updateGradientOpacity from './Rendering/updateGradientOpacity'
 
 import MultiscaleChunkedImage from './IO/MultiscaleChunkedImage'
 import InMemoryMultiscaleChunkedImage from './IO/InMemoryMultiscaleChunkedImage'
-import ViewerOptions from './ViewerOptions'
+import ViewerMachineOptions from './ViewerMachineOptions'
 import createViewerMachine from './createViewerMachine'
-import ViewerContext from './Context/ViewerContext'
+import ViewerMachineContext from './Context/ViewerMachineContext'
 
 import { autorun, observable, reaction, toJS } from 'mobx'
 
@@ -66,7 +66,7 @@ const createViewer = async (
     viewerStyle,
     viewerState,
     uiContainer,
-    debug = false,
+    debug = true,
   }
 ) => {
   UserInterface.emptyContainer(rootContainer)
@@ -91,12 +91,14 @@ const createViewer = async (
     })
   }
 
-  const options = new ViewerOptions()
-  const context = new ViewerContext()
+  const options = ViewerMachineOptions
+  const context = new ViewerMachineContext()
   context.use2D = use2D
   context.rootContainer = rootContainer
   // Todo: move to viewer machine
   context.container = store.container
+  // Todo: move to VTKJS/createRenderer
+  context.itkVtkView = store.itkVtkView
   const machine = createViewerMachine(options, context)
   const service = interpret(machine, { devTools: debug }).start()
   console.log(options)

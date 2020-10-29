@@ -17,7 +17,7 @@ const createViewerMachine = (options, context) => {
         idle: {
           always: {
             target: 'active',
-            actions: ['createContainer', 'applyContainerStyle'],
+            actions: ['createContainer', 'styleContainer'],
           },
         },
         active: {
@@ -33,6 +33,11 @@ const createViewerMachine = (options, context) => {
               autoForward: true,
             },
           ],
+          on: {
+            STYLE_CONTAINER: {
+              actions: 'styleContainer',
+            },
+          },
         },
       },
     },

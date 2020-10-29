@@ -4,12 +4,14 @@ const createRenderingMachine = (options, context) => {
   return Machine(
     {
       id: 'rendering',
-      strict: true,
       initial: 'idle',
       context,
       states: {
         idle: {
-          always: 'active',
+          always: {
+            target: 'active',
+            actions: ['createRenderer'],
+          },
         },
         active: {
           entry: [() => console.log('enter Rendering Machine')],

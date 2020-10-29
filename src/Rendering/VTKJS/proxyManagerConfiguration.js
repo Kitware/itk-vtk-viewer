@@ -4,9 +4,9 @@ import vtkVolumeRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/V
 import vtkSliceRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/SliceRepresentationProxy'
 import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy'
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
-import vtkPointSetRepresentationProxy from './PointSetRepresentationProxy'
+import vtkPointSetRepresentationProxy from './vtk/PointSetRepresentationProxy'
 
-import ItkVtkView from './ItkVtkViewProxy'
+import ItkVtkView from './vtk/ItkVtkViewProxy'
 
 const commonInteractor = [
   { type: 'pan', options: { button: 3 } }, // Pan on Right button drag

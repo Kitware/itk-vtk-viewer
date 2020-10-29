@@ -4,15 +4,12 @@ function applyStyle(el, style) {
   })
 }
 
-function applyContainerStyle(context, event) {
+function styleContainer(context, event) {
   if (event.data) {
     context.style.containerStyle = event.data
+    console.log(context.style.containerStyle)
   }
-  console.log('applying container style')
   applyStyle(context.container, context.style.containerStyle)
-  //autorun(() => {
-  //applyStyle(store.container, store.style.containerStyle)
-  //})
   //autorun(() => {
   //store.itkVtkView.setBackground(store.style.backgroundColor)
   //})
@@ -22,4 +19,4 @@ function applyContainerStyle(context, event) {
   //}
 }
 
-export default applyContainerStyle
+export default styleContainer

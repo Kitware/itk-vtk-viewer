@@ -4,12 +4,14 @@ const createUIMachine = (options, context) => {
   return Machine(
     {
       id: 'ui',
-      strict: true,
       initial: 'idle',
       context,
       states: {
         idle: {
-          always: 'active',
+          always: {
+            target: 'active',
+            actions: [],
+          },
         },
         active: {
           entry: [() => console.log('enter UI Machine')],

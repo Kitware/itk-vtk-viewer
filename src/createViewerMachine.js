@@ -10,12 +10,9 @@ const createViewerMachine = (options, context) => {
     {
       id: 'viewer',
       strict: true,
-      initial: 'idle',
+      initial: 'active',
       context,
       states: {
-        idle: {
-          always: 'active',
-        },
         active: {
           invoke: [
             {

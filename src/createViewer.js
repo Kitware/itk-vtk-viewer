@@ -26,7 +26,7 @@ import updateGradientOpacity from './Rendering/updateGradientOpacity'
 
 import MultiscaleChunkedImage from './IO/MultiscaleChunkedImage'
 import InMemoryMultiscaleChunkedImage from './IO/InMemoryMultiscaleChunkedImage'
-import vtkJSRenderingMachineOptions from './Rendering/VTKJS/MachineOptions'
+import ViewerOptions from './ViewerOptions'
 import createViewerMachine from './createViewerMachine'
 import ViewerContext from './Context/ViewerContext'
 
@@ -66,7 +66,7 @@ const createViewer = async (
     viewerStyle,
     viewerState,
     uiContainer,
-    debug = true,
+    debug = false,
   }
 ) => {
   UserInterface.emptyContainer(rootContainer)
@@ -77,7 +77,6 @@ const createViewer = async (
   const proxyManager = vtkProxyManager.newInstance({ proxyConfiguration })
   window.addEventListener('resize', proxyManager.resizeAllViews)
 
-  // Todo: deserialize from viewerState, if present
   const store = new ViewerStore(proxyManager)
 
   UserInterface.applyContainerStyle(rootContainer, store, viewerStyle)
@@ -92,13 +91,16 @@ const createViewer = async (
     })
   }
 
-  const options = {
-    uiOptions: {},
-    renderingOptions: vtkJSRenderingMachineOptions,
-  }
+  const options = new ViewerOptions()
   const context = new ViewerContext()
+  context.use2D = use2D
+  context.rootContainer = rootContainer
+  // Todo: move to viewer machine
+  context.container = store.container
   const machine = createViewerMachine(options, context)
   const service = interpret(machine, { devTools: debug }).start()
+  console.log(options)
+  console.log(context)
   console.log(machine)
   console.log(service)
 

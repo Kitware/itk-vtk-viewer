@@ -8,8 +8,12 @@ const createRenderingMachine = (options, context) => {
       initial: 'idle',
       context,
       states: {
-        idle: {},
-        started: {},
+        idle: {
+          always: 'active',
+        },
+        active: {
+          entry: [() => console.log('enter Rendering Machine')],
+        },
       },
     },
     options

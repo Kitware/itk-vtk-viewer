@@ -8,7 +8,7 @@ function applyStyle(el, style) {
 
 function applyContainerStyle(rootContainer, store, viewerStyle) {
   applyStyle(store.container, store.style.containerStyle)
-  rootContainer.appendChild(store.container)
+  //rootContainer.appendChild(store.container)
   autorun(() => {
     applyStyle(store.container, store.style.containerStyle)
   })

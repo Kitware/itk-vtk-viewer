@@ -1,6 +1,12 @@
-import { Machine } from 'xstate'
+import { Machine, forwardTo } from 'xstate'
 
-const createUIMachine = (options, context) => {
+import createMainUIMachine from './createMainUIMachine'
+
+function createUIMachine(options, context) {
+  console.log('options', options)
+  const { main } = options
+  console.log('main options', main)
+  const mainMachine = createMainUIMachine(main, context)
   return Machine(
     {
       id: 'ui',
@@ -15,6 +21,13 @@ const createUIMachine = (options, context) => {
         },
         active: {
           entry: [() => console.log('enter UI Machine')],
+          invoke: [
+            {
+              id: 'main',
+              src: mainMachine,
+            },
+          ],
+          on: {},
         },
       },
     },

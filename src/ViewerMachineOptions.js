@@ -10,9 +10,9 @@ const ViewerMachineOptions = {
     styleContainer,
   },
 
-  uiOptions: ReferenceUIMachineOptions,
+  ui: ReferenceUIMachineOptions,
 
-  renderingOptions: VTKJSRenderingMachineOptions,
+  rendering: VTKJSRenderingMachineOptions,
 }
 
 export default ViewerMachineOptions

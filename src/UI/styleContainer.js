@@ -6,17 +6,9 @@ function applyStyle(el, style) {
 
 function styleContainer(context, event) {
   if (event.data) {
-    context.style.containerStyle = event.data
-    console.log(context.style.containerStyle)
+    context.containerStyle = event.data
   }
-  applyStyle(context.container, context.style.containerStyle)
-  //autorun(() => {
-  //store.itkVtkView.setBackground(store.style.backgroundColor)
-  //})
-
-  //if (viewerStyle) {
-  //store.style = viewerStyle
-  //}
+  applyStyle(context.container, context.containerStyle)
 }
 
 export default styleContainer

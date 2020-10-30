@@ -3,9 +3,10 @@ import createRenderingMachine from './Rendering/createRenderingMachine'
 import createUIMachine from './UI/createUIMachine'
 
 const createViewerMachine = (options, context) => {
-  const { uiOptions, renderingOptions } = options
-  const renderingMachine = createRenderingMachine(renderingOptions, context)
-  const uiMachine = createUIMachine(uiOptions, context)
+  const { ui, rendering } = options
+  const renderingMachine = createRenderingMachine(rendering, context)
+  console.log('options', options)
+  const uiMachine = createUIMachine(ui, context)
 
   return Machine(
     {

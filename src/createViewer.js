@@ -66,7 +66,7 @@ const createViewer = async (
     viewerStyle,
     viewerState,
     uiContainer,
-    debug = true,
+    debug = false,
   }
 ) => {
   UserInterface.emptyContainer(rootContainer)
@@ -99,6 +99,7 @@ const createViewer = async (
   context.container = store.container
   // Todo: move to VTKJS/createRenderer
   context.itkVtkView = store.itkVtkView
+  context.renderWindow = store.renderWindow
   const machine = createViewerMachine(options, context)
   const service = interpret(machine, { devTools: debug }).start()
   console.log(options)
@@ -1143,13 +1144,11 @@ const createViewer = async (
   }
 
   publicAPI.setBackgroundColor = bgColor => {
-    store.style.backgroundColor = bgColor
-    store.itkVtkView.getRenderer().setBackground(store.style.backgroundColor)
-    store.renderWindow.render()
+    service.send({ type: 'SET_BACKGROUND_COLOR', data: bgColor })
   }
 
   publicAPI.getBackgroundColor = () => {
-    return store.style.backgroundColor.slice()
+    return context.main.backgroundColor.slice()
   }
 
   reaction(

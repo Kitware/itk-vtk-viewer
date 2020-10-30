@@ -15,6 +15,11 @@ const createRenderingMachine = (options, context) => {
         },
         active: {
           entry: [() => console.log('enter Rendering Machine')],
+          on: {
+            RENDER: {
+              actions: 'render',
+            },
+          },
         },
       },
     },

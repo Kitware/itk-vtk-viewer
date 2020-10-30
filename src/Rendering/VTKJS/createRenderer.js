@@ -8,6 +8,7 @@ function createRenderer(context) {
   //window.addEventListener('resize', proxyManager.resizeAllViews)
 
   //context.itkVtkView = proxyManager.createProxy('Views', 'ItkVtkView')
+  //context.renderWindow = context.itkVtkView.getRenderWindow()
 
   context.itkVtkView.setContainer(context.container)
 }

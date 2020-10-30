@@ -1,3 +1,5 @@
+import MainMachineContext from './MainMachineContext'
+
 const defaultContainerStyle = {
   position: 'relative',
   width: '100%',
@@ -11,7 +13,7 @@ const defaultContainerStyle = {
   overflow: 'hidden',
 }
 
-class ViewerContext {
+class ViewerMachineContext {
   constructor() {
     this.id =
       'itk-vtk-viewer-' +
@@ -19,6 +21,8 @@ class ViewerContext {
         .now()
         .toString()
         .replace('.', '')
+
+    this.main = new MainMachineContext()
   }
 
   // Contains the viewer container div and optionally the debugger
@@ -34,11 +38,11 @@ class ViewerContext {
   // A 2D viewer versus a 3D viewer
   use2D = false
 
-  // General viewer style
-  style = {
-    backgroundColor: [0.5, 0.5, 0.5],
-    containerStyle: defaultContainerStyle,
-  }
+  // Style of the container for the viewer
+  containerStyle = defaultContainerStyle
+
+  // Main machine context
+  main = null
 }
 
-export default ViewerContext
+export default ViewerMachineContext

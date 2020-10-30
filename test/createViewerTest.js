@@ -61,10 +61,10 @@ test('Test createViewer', async t => {
     viewerContainer.children[viewerContainer.children.length - 1]
   viewer.setUserInterfaceCollapsed(false)
   let collapsed = viewer.getUserInterfaceCollapsed()
-  t.equal(collapsed, false, 'viewer.setUserInterfaceCollapsed false')
+  t.equal(collapsed, false, 'setUserInterfaceCollapsed false')
   viewer.setUserInterfaceCollapsed(true)
   collapsed = viewer.getUserInterfaceCollapsed()
-  t.equal(collapsed, true, 'viewer.setUserInterfaceCollapsed true')
+  t.equal(collapsed, true, 'setUserInterfaceCollapsed true')
 
   const bgColor = [0.7, 0.2, 0.8]
   viewer.once('backgroundColorChanged', data => {

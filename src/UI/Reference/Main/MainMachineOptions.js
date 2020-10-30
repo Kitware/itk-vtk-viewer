@@ -1,8 +1,8 @@
-import setBackgroundColor from './setBackgroundColor'
+import createInterface from './createInterface'
 
 const MainMachineOptions = {
   actions: {
-    setBackgroundColor,
+    createInterface,
   },
 }
 

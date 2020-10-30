@@ -497,8 +497,6 @@ class ViewerStore {
     this.container = document.createElement('div')
     this.itkVtkView.setContainer(this.container)
 
-    this.itkVtkView.setBackground(this.style.backgroundColor)
-
     this.imageUI.source = proxyManager.createProxy(
       'Sources',
       'TrivialProducer',

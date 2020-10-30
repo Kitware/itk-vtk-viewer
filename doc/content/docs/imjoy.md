@@ -47,3 +47,12 @@ In addition to the standard `setup` and `run` methods, the *itk-vtk-viewer* plug
 ### setImage(image)
 
 Set the image to be visualized. Can be an [itk.js Image](https://insightsoftwareconsortium.github.io/itk-js/api/Image.html) or a [scijs ndarray](http://scijs.net/packages/#scijs/ndarray) for JavaScript; for Python, it can be a [numpy](https://numpy.org) array.
+
+### setBackgroundColor(bgColor)
+
+Set the rendering background color. An array of RGB values from 0.0 to 1.0,
+e.g. [1.0, 0.5, 0.5].
+
+### getBackgroundColor()
+
+Get the current rendering background color.

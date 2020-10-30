@@ -96,6 +96,13 @@
             const vtkImage = itkVtkViewer.utils.vtkITKHelper.convertItkToVtkImage(itkImage)
             await this.viewer.setImage(vtkImage)
           }
+        },
+
+        setBackgroundColor(bgColor) {
+          this.viewer.setBackgroundColor(bgColor)
+        },
+        getBackgroundColor() {
+          return this.viewer.getBackgroundColor()
         }
       })
     }

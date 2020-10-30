@@ -77,6 +77,11 @@ test('Test ImJoy Plugin', async t => {
   })
   await viewer.setImage(array)
 
+  const bgColor = [0.2, 0.8, 0.7]
+  await viewer.setBackgroundColor(bgColor)
+  const resultBGColor = await viewer.getBackgroundColor()
+  t.same(bgColor, resultBGColor)
+
   imjoy.destroy()
   console.log('ImJoy destroyed')
   gc.releaseResources()

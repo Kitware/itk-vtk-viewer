@@ -15,10 +15,10 @@ function createMainRenderingMachine(options, context) {
         },
         active: {
           entry: [() => console.log('enter Main Rendering Machine')],
-        },
-        on: {
-          SET_BACKGROUND_COLOR: {
-            actions: 'setBackgroundColor',
+          on: {
+            SET_BACKGROUND_COLOR: {
+              actions: ['setBackgroundColor'],
+            },
           },
         },
       },

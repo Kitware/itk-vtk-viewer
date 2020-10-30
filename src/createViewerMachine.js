@@ -1,8 +1,8 @@
-import { Machine } from 'xstate'
+import { forwardTo, Machine } from 'xstate'
 import createRenderingMachine from './Rendering/createRenderingMachine'
 import createUIMachine from './UI/createUIMachine'
 
-const createViewerMachine = (options, context) => {
+const createViewerMachine = (options, context, eventEmitterCallback) => {
   const { ui, rendering } = options
   const renderingMachine = createRenderingMachine(rendering, context)
   console.log('options', options)
@@ -33,10 +33,17 @@ const createViewerMachine = (options, context) => {
               src: renderingMachine,
               autoForward: true,
             },
+            {
+              id: 'eventEmitter',
+              src: eventEmitterCallback,
+            },
           ],
           on: {
             STYLE_CONTAINER: {
               actions: 'styleContainer',
+            },
+            SET_BACKGROUND_COLOR: {
+              actions: forwardTo('eventEmitter'),
             },
           },
         },

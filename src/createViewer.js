@@ -79,7 +79,6 @@ const createViewer = async (
 
   const store = new ViewerStore(proxyManager)
 
-  UserInterface.applyContainerStyle(rootContainer, store, viewerStyle)
   if (debug) {
     //const stateIFrame = document.createElement('iframe')
     //store.container.style.height = '50%'
@@ -91,6 +90,19 @@ const createViewer = async (
     })
   }
 
+  // Todo: const eventEmitter = new EventEmitter()
+  const eventEmitter = store.eventEmitter
+
+  function eventEmitterCallback(context, event) {
+    return (callback, onReceive) => {
+      onReceive(event => {
+        if (event.type === 'SET_BACKGROUND_COLOR') {
+          eventEmitter.emit('backgroundColorChanged', event.data)
+        }
+      })
+    }
+  }
+
   const options = ViewerMachineOptions
   const context = new ViewerMachineContext()
   context.use2D = use2D
@@ -100,12 +112,28 @@ const createViewer = async (
   // Todo: move to VTKJS/createRenderer
   context.itkVtkView = store.itkVtkView
   context.renderWindow = store.renderWindow
-  const machine = createViewerMachine(options, context)
+  const machine = createViewerMachine(options, context, eventEmitterCallback)
   const service = interpret(machine, { devTools: debug }).start()
   console.log(options)
   console.log(context)
   console.log(machine)
   console.log(service)
+
+  // Todo: deprecate/ remove these? -- use the viewer context instead
+  if (!!viewerStyle) {
+    if (!!viewerStyle.backgroundColor) {
+      service.send({
+        type: 'SET_BACKGROUND_COLOR',
+        data: viewerStyle.backgroundColor,
+      })
+    }
+    if (!!viewerStyle.containerStyle) {
+      service.send({
+        type: 'STYLE_CONTAINER',
+        data: viewerStyle.containerStyle,
+      })
+    }
+  }
 
   let imageData = image
   let multiscaleImage = null
@@ -572,8 +600,6 @@ const createViewer = async (
   publicAPI.getUserInterfaceCollapsed = () => {
     return store.mainUI.collapsed
   }
-
-  const eventEmitter = store.eventEmitter
 
   const eventNames = [
     'imagePicked',
@@ -1150,13 +1176,6 @@ const createViewer = async (
   publicAPI.getBackgroundColor = () => {
     return context.main.backgroundColor.slice()
   }
-
-  reaction(
-    () => store.style.backgroundColor.slice(),
-    bgColor => {
-      eventEmitter.emit('backgroundColorChanged', bgColor)
-    }
-  )
 
   // The `itkVtkView` is considered an internal implementation detail
   // and its interface and behavior may change without changes to the major version.

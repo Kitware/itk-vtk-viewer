@@ -166,7 +166,6 @@ export function initializeEmbeddedViewers() {
             color.slice(2, 4),
             color.slice(4, 6),
           ].map(v => parseInt(v, 16) / 255)
-          console.log(bgColor)
           viewer.setBackgroundColor(bgColor)
         }
 

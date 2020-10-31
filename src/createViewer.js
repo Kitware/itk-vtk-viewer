@@ -119,6 +119,9 @@ const createViewer = async (
   console.log(machine)
   console.log(service)
 
+  console.log(service.state)
+  service.send({ type: 'SET_BACKGROUND_COLOR', data: [0.0, 0.0, 0.0] })
+
   // Todo: deprecate/ remove these? -- use the viewer context instead
   if (!!viewerStyle) {
     if (!!viewerStyle.backgroundColor) {

@@ -14,18 +14,24 @@ function createUIMachine(options, context) {
         idle: {
           always: {
             target: 'active',
-            actions: [],
+            actions: ['createInterface'],
           },
         },
         active: {
-          entry: [() => console.log('enter UI Machine')],
           invoke: [
             {
               id: 'main',
               src: mainMachine,
             },
           ],
-          on: {},
+          on: {
+            UI_DARK_MODE: {
+              actions: forwardTo('main'),
+            },
+            UI_LIGHT_MODE: {
+              actions: forwardTo('main'),
+            },
+          },
         },
       },
     },

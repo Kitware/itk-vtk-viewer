@@ -10,13 +10,19 @@ function createMainUIMachine(options, context) {
         idle: {
           always: {
             target: 'active',
-            actions: ['createInterface'],
+            actions: ['createMainInterface'],
           },
         },
         active: {
-          entry: [() => console.log('enter Main UI Machine')],
+          on: {
+            UI_DARK_MODE: {
+              actions: 'applyContrastSensitiveStyle',
+            },
+            UI_LIGHT_MODE: {
+              actions: 'applyContrastSensitiveStyle',
+            },
+          },
         },
-        on: {},
       },
     },
     options

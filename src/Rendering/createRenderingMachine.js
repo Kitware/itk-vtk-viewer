@@ -1,6 +1,6 @@
-import { Machine, forwardTo } from 'xstate'
+import { Machine, forwardTo, sendParent } from 'xstate'
 
-import createMainRenderingMachine from './createMainRenderingMachine'
+import createMainRenderingMachine from './Main/createMainRenderingMachine'
 
 const createRenderingMachine = (options, context) => {
   const { main } = options
@@ -18,7 +18,6 @@ const createRenderingMachine = (options, context) => {
           },
         },
         active: {
-          entry: [() => console.log('enter Rendering Machine')],
           invoke: [
             {
               id: 'main',
@@ -31,6 +30,12 @@ const createRenderingMachine = (options, context) => {
             },
             SET_BACKGROUND_COLOR: {
               actions: forwardTo('main'),
+            },
+            BACKGROUND_TURNED_LIGHT: {
+              actions: sendParent('UI_LIGHT_MODE'),
+            },
+            BACKGROUND_TURNED_DARK: {
+              actions: sendParent('UI_DARK_MODE'),
             },
           },
         },

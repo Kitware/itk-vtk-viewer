@@ -1,8 +1,6 @@
-import { reaction, action } from 'mobx'
-
 import style from '../ItkVtkViewer.module.css'
 
-//import toggleIcon from '../icons/toggle.svg'
+import toggleIcon from '../../Icons/toggle.svg'
 import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
 
 function createToggleUserInterfaceButton(store) {
@@ -60,7 +58,7 @@ function createToggleUserInterfaceButton(store) {
   )
 
   toggleUserInterfaceButton.id = `${store.id}-toggleUserInterfaceButton`
-  //toggleUserInterfaceButton.innerHTML = `${toggleIcon}`
+  toggleUserInterfaceButton.innerHTML = `${toggleIcon}`
   toggleUserInterfaceButton.addEventListener(
     'click',
     action(event => {

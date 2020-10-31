@@ -5,7 +5,6 @@ import createUIMachine from './UI/createUIMachine'
 const createViewerMachine = (options, context, eventEmitterCallback) => {
   const { ui, rendering } = options
   const renderingMachine = createRenderingMachine(rendering, context)
-  console.log('options', options)
   const uiMachine = createUIMachine(ui, context)
 
   return Machine(
@@ -44,6 +43,12 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             },
             SET_BACKGROUND_COLOR: {
               actions: forwardTo('eventEmitter'),
+            },
+            UI_DARK_MODE: {
+              actions: forwardTo('ui'),
+            },
+            UI_LIGHT_MODE: {
+              actions: forwardTo('ui'),
             },
           },
         },

@@ -66,7 +66,7 @@ const createViewer = async (
     viewerStyle,
     viewerState,
     uiContainer,
-    debug = false,
+    debug = true,
   }
 ) => {
   UserInterface.emptyContainer(rootContainer)
@@ -79,16 +79,16 @@ const createViewer = async (
 
   const store = new ViewerStore(proxyManager)
 
-  if (debug) {
-    //const stateIFrame = document.createElement('iframe')
-    //store.container.style.height = '50%'
-    //stateIFrame.style.height = '50%'
-    //rootContainer.appendChild(stateIFrame)
-    inspect({
-      //iframe: stateIFrame,
-      iframe: false,
-    })
-  }
+  //if (debug) {
+  ////const stateIFrame = document.createElement('iframe')
+  ////store.container.style.height = '50%'
+  ////stateIFrame.style.height = '50%'
+  ////rootContainer.appendChild(stateIFrame)
+  //inspect({
+  ////iframe: stateIFrame,
+  //iframe: false,
+  //})
+  //}
 
   // Todo: const eventEmitter = new EventEmitter()
   const eventEmitter = store.eventEmitter

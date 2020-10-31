@@ -18,6 +18,7 @@ function createUIMachine(options, context) {
           },
         },
         active: {
+          type: 'parallel',
           invoke: [
             {
               id: 'main',
@@ -30,6 +31,24 @@ function createUIMachine(options, context) {
             },
             UI_LIGHT_MODE: {
               actions: forwardTo('main'),
+            },
+          },
+          states: {
+            // Optional feature of the user interface
+            uiCollapsed: {
+              initial: 'disabled',
+              states: {
+                enabled: {
+                  on: {
+                    TOGGLE_UI: 'disabled',
+                  },
+                },
+                disabled: {
+                  on: {
+                    TOGGLE_UI: 'enabled',
+                  },
+                },
+              },
             },
           },
         },

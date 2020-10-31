@@ -1,13 +1,13 @@
-import style from '../ItkVtkViewer.module.css'
+import style from './ItkVtkViewer.module.css'
 
-import toggleIcon from '../../Icons/toggle.svg'
-import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
+import toggleIcon from '../Icons/toggle.svg'
+import applyContrastSensitiveStyleToElement from './applyContrastSensitiveStyleToElement'
 
-function createToggleUserInterfaceButton(store) {
-  const toggleUserInterfaceButton = document.createElement('div')
+function createCollapseUIButton(context) {
+  const collapseUIButton = document.createElement('div')
   function toggleUIVisibility(collapsed) {
-    const uiContainer = store.mainUI.uiContainer
-    const viewerDOMId = store.id
+    const uiContainer = context.uiContainer
+    const viewerDOMId = context.id
     let elements = uiContainer.querySelectorAll(`.${viewerDOMId}-toggle`)
     let count = elements.length
     if (collapsed) {
@@ -78,4 +78,4 @@ function createToggleUserInterfaceButton(store) {
   store.mainUI.uiContainer.appendChild(toggleUserInterfaceButton)
 }
 
-export default createToggleUserInterfaceButton
+export default createCollapseUIButton

@@ -18,6 +18,7 @@ function createScreenshotButton(context, mainUIRow) {
     context.service.send('TAKE_SCREENSHOT')
     screenshotButton.checked = true
   })
+  context.main.screenshotButton = screenshotButton
   mainUIRow.appendChild(screenshotButton)
 }
 

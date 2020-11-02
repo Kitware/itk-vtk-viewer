@@ -26,10 +26,10 @@ const createRenderingMachine = (options, context) => {
           ],
           on: {
             BACKGROUND_TURNED_LIGHT: {
-              actions: sendParent('TOGGLE_UI_DARK_MODE'),
+              actions: sendParent('TOGGLE_DARK_MODE'),
             },
             BACKGROUND_TURNED_DARK: {
-              actions: sendParent('TOGGLE_UI_DARK_MODE'),
+              actions: sendParent('TOGGLE_DARK_MODE'),
             },
             RENDER: {
               actions: 'render',

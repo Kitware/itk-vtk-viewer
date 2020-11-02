@@ -13,13 +13,7 @@ function createMainUIMachine(options, context) {
             actions: ['createMainInterface'],
           },
         },
-        active: {
-          on: {
-            TOGGLE_UI_DARK_MODE: {
-              actions: 'applyContrastSensitiveStyle',
-            },
-          },
-        },
+        active: {},
       },
     },
     options

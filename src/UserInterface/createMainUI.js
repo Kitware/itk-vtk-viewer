@@ -1,6 +1,5 @@
 import style from './ItkVtkViewer.module.css'
 
-import createFullscreenButton from './Main/createFullscreenButton'
 import createRotateButton from './Main/createRotateButton'
 import createAnnotationButton from './Main/createAnnotationButton'
 import createAxesButton from './Main/createAxesButton'
@@ -26,7 +25,6 @@ function createMainUI(rootContainer, store, use2D, uiContainer) {
   mainUIRow1.className += ` ${store.id}-collapsible`
   mainUIGroup.appendChild(mainUIRow1)
 
-  createFullscreenButton(store, rootContainer, mainUIRow1)
   if (!use2D) {
     createRotateButton(store, mainUIRow1)
   }

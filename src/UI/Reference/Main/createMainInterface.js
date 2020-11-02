@@ -1,6 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 
 import createScreenshotButton from './createScreenshotButton'
+import createFullscreenButton from './createFullscreenButton'
 
 function createMainInterface(context) {
   const mainUIGroup = document.createElement('div')
@@ -12,6 +13,7 @@ function createMainInterface(context) {
   mainUIGroup.appendChild(mainUIRow1)
 
   createScreenshotButton(context, mainUIRow1)
+  createFullscreenButton(context, mainUIRow1)
 
   context.uiContainer.appendChild(mainUIGroup)
 }

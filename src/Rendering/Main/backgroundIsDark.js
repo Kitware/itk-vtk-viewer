@@ -1,5 +1,4 @@
 function backgroundIsDark(context, event) {
-  console.log('backgroundIsDark')
   if (event.data) {
     const backgroundColor = event.data
     const isDark =

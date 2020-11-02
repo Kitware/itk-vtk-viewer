@@ -23,6 +23,11 @@ function createMainRenderingMachine(options, context) {
               actions: ['setBackgroundColor'],
             },
           },
+          on: {
+            TAKE_SCREENSHOT: {
+              actions: 'takeScreenshot',
+            },
+          },
           states: {
             background: {
               initial: 'light',

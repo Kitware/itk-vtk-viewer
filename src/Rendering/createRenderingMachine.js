@@ -25,17 +25,20 @@ const createRenderingMachine = (options, context) => {
             },
           ],
           on: {
+            BACKGROUND_TURNED_LIGHT: {
+              actions: sendParent('TOGGLE_UI_DARK_MODE'),
+            },
+            BACKGROUND_TURNED_DARK: {
+              actions: sendParent('TOGGLE_UI_DARK_MODE'),
+            },
             RENDER: {
               actions: 'render',
             },
             SET_BACKGROUND_COLOR: {
               actions: forwardTo('main'),
             },
-            BACKGROUND_TURNED_LIGHT: {
-              actions: sendParent('TOGGLE_UI_DARK_MODE'),
-            },
-            BACKGROUND_TURNED_DARK: {
-              actions: sendParent('TOGGLE_UI_DARK_MODE'),
+            TAKE_SCREENSHOT: {
+              actions: forwardTo('main'),
             },
           },
         },

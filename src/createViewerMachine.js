@@ -40,7 +40,10 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
               actions: 'styleContainer',
             },
             SET_BACKGROUND_COLOR: {
-              actions: forwardTo('eventEmitter'),
+              actions: [forwardTo('rendering'), forwardTo('eventEmitter')],
+            },
+            TAKE_SCREENSHOT: {
+              actions: forwardTo('rendering'),
             },
             TOGGLE_UI_DARK_MODE: {
               actions: forwardTo('ui'),

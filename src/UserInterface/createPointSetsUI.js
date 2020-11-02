@@ -11,7 +11,7 @@ function createPointSetsUI(store) {
 
   const pointSetRepresentationRow = document.createElement('div')
   pointSetRepresentationRow.setAttribute('class', style.uiRow)
-  pointSetRepresentationRow.className += ` ${store.id}-toggle`
+  pointSetRepresentationRow.className += ` ${store.id}-collapsible`
   if (store.mainUI.collapsed) {
     pointSetRepresentationRow.style.display = 'none'
   }

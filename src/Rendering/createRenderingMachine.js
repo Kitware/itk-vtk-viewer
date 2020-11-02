@@ -32,10 +32,10 @@ const createRenderingMachine = (options, context) => {
               actions: forwardTo('main'),
             },
             BACKGROUND_TURNED_LIGHT: {
-              actions: sendParent('UI_LIGHT_MODE'),
+              actions: sendParent('TOGGLE_UI_DARK_MODE'),
             },
             BACKGROUND_TURNED_DARK: {
-              actions: sendParent('UI_DARK_MODE'),
+              actions: sendParent('TOGGLE_UI_DARK_MODE'),
             },
           },
         },

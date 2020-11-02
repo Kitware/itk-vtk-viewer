@@ -1,4 +1,4 @@
-import { Machine, sendParent } from 'xstate'
+import { Machine, assign, sendParent } from 'xstate'
 
 import backgroundIsDark from './backgroundIsDark'
 import backgroundIsLight from './backgroundIsLight'
@@ -28,6 +28,7 @@ function createMainRenderingMachine(options, context) {
               initial: 'light',
               states: {
                 dark: {
+                  entry: assign({ uiDarkMode: context => true }),
                   on: {
                     SET_BACKGROUND_COLOR: {
                       target: ['light'],
@@ -37,6 +38,7 @@ function createMainRenderingMachine(options, context) {
                   },
                 },
                 light: {
+                  entry: assign({ uiDarkMode: context => false }),
                   on: {
                     SET_BACKGROUND_COLOR: {
                       target: ['dark'],

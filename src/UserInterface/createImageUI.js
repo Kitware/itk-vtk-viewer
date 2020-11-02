@@ -46,7 +46,7 @@ function createImageUI(store, use2D) {
         'background: rgba(127, 127, 127, 0.5);'
       )
       createColorRangeInput(store, colorRangeInputRow)
-      colorRangeInputRow.className += ` ${viewerDOMId}-toggle`
+      colorRangeInputRow.className += ` ${viewerDOMId}-collapsible`
       imageUIGroup.appendChild(colorRangeInputRow)
     }
 
@@ -55,7 +55,7 @@ function createImageUI(store, use2D) {
     // Put distance tools in their own row
     const distanceRulerRow = document.createElement('div')
     distanceRulerRow.setAttribute('class', style.uiRow)
-    distanceRulerRow.className += ` ${viewerDOMId}-distanceRuler ${viewerDOMId}-toggle`
+    distanceRulerRow.className += ` ${viewerDOMId}-distanceRuler ${viewerDOMId}-collapsible`
     distanceRulerRow.style.display = use2D ? 'flex' : 'none'
 
     createDistanceButton(store, distanceRulerRow)
@@ -86,14 +86,14 @@ function createImageUI(store, use2D) {
   if (!use2D && haveImage) {
     const volumeRenderingRow1 = document.createElement('div')
     volumeRenderingRow1.setAttribute('class', style.uiRow)
-    volumeRenderingRow1.className += ` ${viewerDOMId}-volumeRendering1 ${viewerDOMId}-toggle`
+    volumeRenderingRow1.className += ` ${viewerDOMId}-volumeRendering1 ${viewerDOMId}-collapsible`
     createUseShadowToggle(store, volumeRenderingRow1)
     createGradientOpacitySlider(store, volumeRenderingRow1)
     imageUIGroup.appendChild(volumeRenderingRow1)
 
     const volumeRenderingRow2 = document.createElement('div')
     volumeRenderingRow2.setAttribute('class', style.uiRow)
-    volumeRenderingRow2.className += ` ${viewerDOMId}-volumeRendering2 ${viewerDOMId}-toggle`
+    volumeRenderingRow2.className += ` ${viewerDOMId}-volumeRendering2 ${viewerDOMId}-collapsible`
     createViewPlanesToggle(store, imageUIGroup, volumeRenderingRow2)
     createSampleDistanceSlider(store, volumeRenderingRow2)
     createBlendModeSelector(store, volumeRenderingRow2)

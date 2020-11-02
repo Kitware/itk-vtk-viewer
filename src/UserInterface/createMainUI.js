@@ -1,6 +1,5 @@
 import style from './ItkVtkViewer.module.css'
 
-import createToggleUserInterface from './Main/createToggleUserInterfaceButton'
 import createScreenshotButton from './Main/createScreenshotButton'
 import createFullscreenButton from './Main/createFullscreenButton'
 import createRotateButton from './Main/createRotateButton'
@@ -25,10 +24,9 @@ function createMainUI(rootContainer, store, use2D, uiContainer) {
 
   const mainUIRow1 = document.createElement('div')
   mainUIRow1.setAttribute('class', style.mainUIRow)
-  mainUIRow1.className += ` ${store.id}-toggle`
+  mainUIRow1.className += ` ${store.id}-collapsible`
   mainUIGroup.appendChild(mainUIRow1)
 
-  createToggleUserInterface(store)
   createScreenshotButton(store, mainUIRow1)
   createFullscreenButton(store, rootContainer, mainUIRow1)
   if (!use2D) {
@@ -41,7 +39,7 @@ function createMainUI(rootContainer, store, use2D, uiContainer) {
 
   const mainUIRow2 = document.createElement('div')
   mainUIRow2.setAttribute('class', style.mainUIRow)
-  mainUIRow2.className += ` ${store.id}-toggle`
+  mainUIRow2.className += ` ${store.id}-collapsible`
   if (!use2D) {
     createCroppingButtons(store, mainUIRow2)
     createViewModeButtons(store, mainUIRow2)

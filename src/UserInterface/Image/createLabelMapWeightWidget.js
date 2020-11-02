@@ -14,7 +14,7 @@ function createLabelMapWeightWidget(store, uiContainer) {
 
   const labelMapWidgetRow = document.createElement('div')
   labelMapWidgetRow.setAttribute('class', style.uiRow)
-  labelMapWidgetRow.className += ` ${viewerDOMId}-toggle`
+  labelMapWidgetRow.className += ` ${viewerDOMId}-collapsible`
 
   const uniqueLabelSelectorDiv = document.createElement('div')
   uniqueLabelSelectorDiv.id = `${store.id}-labelMapUniqueLabelSelector`

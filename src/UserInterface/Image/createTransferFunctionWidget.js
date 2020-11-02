@@ -206,7 +206,7 @@ function createTransferFunctionWidget(store, uiContainer, use2D) {
     'style',
     'background: rgba(127, 127, 127, 0.5);'
   )
-  transferFunctionWidgetRow.className += ` ${store.id}-toggle`
+  transferFunctionWidgetRow.className += ` ${store.id}-collapsible`
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer)
   uiContainer.appendChild(transferFunctionWidgetRow)
 

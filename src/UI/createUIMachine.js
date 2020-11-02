@@ -26,10 +26,7 @@ function createUIMachine(options, context) {
             },
           ],
           on: {
-            UI_DARK_MODE: {
-              actions: forwardTo('main'),
-            },
-            UI_LIGHT_MODE: {
+            TOGGLE_UI_DARK_MODE: {
               actions: forwardTo('main'),
             },
           },
@@ -39,13 +36,15 @@ function createUIMachine(options, context) {
               initial: 'disabled',
               states: {
                 enabled: {
+                  entry: 'toggleUICollapsed',
                   on: {
-                    TOGGLE_UI: 'disabled',
+                    TOGGLE_UI_COLLAPSED: 'disabled',
                   },
                 },
                 disabled: {
+                  entry: 'toggleUICollapsed',
                   on: {
-                    TOGGLE_UI: 'enabled',
+                    TOGGLE_UI_COLLAPSED: 'enabled',
                   },
                 },
               },

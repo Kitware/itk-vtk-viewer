@@ -9,13 +9,13 @@ import createPointSetColorRangeInput from './createPointSetColorRangeInput'
 function createPointSetColorWidget(store, pointSetsUIGroup) {
   const colorByRow = document.createElement('div')
   colorByRow.setAttribute('class', style.uiRow)
-  colorByRow.className += ` ${store.id}-toggle`
+  colorByRow.className += ` ${store.id}-collapsible`
   createPointSetColorBySelector(store, colorByRow)
   pointSetsUIGroup.appendChild(colorByRow)
 
   const pointSetColorRow = document.createElement('div')
   pointSetColorRow.setAttribute('class', style.uiRow)
-  pointSetColorRow.className += ` ${store.id}-toggle`
+  pointSetColorRow.className += ` ${store.id}-collapsible`
 
   createPointSetColorChooser(store, pointSetColorRow)
 
@@ -25,12 +25,12 @@ function createPointSetColorWidget(store, pointSetsUIGroup) {
   const colorRangeInputRow = document.createElement('div')
   colorRangeInputRow.setAttribute('class', style.uiRow)
   createPointSetColorRangeInput(store, colorRangeInputRow)
-  colorRangeInputRow.className += ` ${store.id}-toggle`
+  colorRangeInputRow.className += ` ${store.id}-collapsible`
   pointSetsUIGroup.appendChild(colorRangeInputRow)
 
   const pointSetSizeRow = document.createElement('div')
   pointSetSizeRow.setAttribute('class', style.uiRow)
-  pointSetSizeRow.className += ` ${store.id}-toggle`
+  pointSetSizeRow.className += ` ${store.id}-collapsible`
   createPointSetSizeSlider(store, pointSetSizeRow)
   pointSetsUIGroup.appendChild(pointSetSizeRow)
 

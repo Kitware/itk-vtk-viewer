@@ -41,6 +41,9 @@ class ViewerMachineContext {
   // Style of the container for the viewer
   containerStyle = defaultContainerStyle
 
+  // Is a "dark mode" enabled in the user interface?
+  uiDarkMode = false
+
   // Main machine context
   main = null
 }

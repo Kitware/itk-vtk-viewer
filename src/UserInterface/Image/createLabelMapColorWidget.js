@@ -19,7 +19,7 @@ function createLabelMapColorWidget(store, uiContainer) {
 
   const labelMapWidgetRow = document.createElement('div')
   labelMapWidgetRow.setAttribute('class', style.uiRow)
-  labelMapWidgetRow.className += ` ${viewerDOMId}-toggle`
+  labelMapWidgetRow.className += ` ${viewerDOMId}-collapsible`
 
   const categoricalColorSelector = document.createElement('div')
   categoricalColorSelector.id = `${store.id}-labelMapLookupTableSelector`

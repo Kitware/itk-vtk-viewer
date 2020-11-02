@@ -6,7 +6,7 @@ function createMainInterface(context) {
 
   const mainUIRow1 = document.createElement('div')
   mainUIRow1.setAttribute('class', style.mainUIRow)
-  mainUIRow1.className += ` ${context.id}-toggle`
+  mainUIRow1.className += ` ${context.id}-collapsible`
   mainUIGroup.appendChild(mainUIRow1)
 }
 

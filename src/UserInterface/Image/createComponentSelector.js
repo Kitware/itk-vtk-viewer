@@ -17,7 +17,7 @@ function createComponentSelector(store, imageUIGroup) {
   // This row needs custom bottom padding, to aid in the illusion
   // that it's the tabbed portion of a tabbed pane
   componentRow.setAttribute('style', 'padding-bottom: 0px;')
-  componentRow.className += ` ${viewerDOMId}-volumeComponents ${viewerDOMId}-toggle`
+  componentRow.className += ` ${viewerDOMId}-volumeComponents ${viewerDOMId}-collapsible`
 
   function updateAvailableComponents() {
     const components = store.imageUI.totalIntensityComponents

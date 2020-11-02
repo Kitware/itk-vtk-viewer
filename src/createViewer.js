@@ -112,14 +112,19 @@ const createViewer = async (
   // Todo: move to VTKJS/createRenderer
   context.itkVtkView = store.itkVtkView
   context.renderWindow = store.renderWindow
+  context.id = store.id
   const machine = createViewerMachine(options, context, eventEmitterCallback)
-  const service = interpret(machine, { devTools: debug }).start()
+  const service = interpret(machine, { devTools: debug })
+  context.service = service
+  if (uiContainer) {
+    context.uiContainer = uiContainer
+  }
   console.log(options)
   console.log(context)
   console.log(machine)
   console.log(service)
+  service.start()
 
-  console.log(service.state)
   service.send({ type: 'SET_BACKGROUND_COLOR', data: [0.0, 0.0, 0.0] })
 
   // Todo: deprecate/ remove these? -- use the viewer context instead
@@ -172,7 +177,7 @@ const createViewer = async (
 
   let updatingImage = false
 
-  UserInterface.createMainUI(rootContainer, store, use2D, uiContainer)
+  UserInterface.createMainUI(rootContainer, store, use2D, context.uiContainer)
 
   function imagePickedListener(lastPickedValues) {
     if (lastPickedValues.value !== null) {

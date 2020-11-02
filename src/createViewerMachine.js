@@ -25,12 +25,10 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             {
               id: 'ui',
               src: uiMachine,
-              autoForward: true,
             },
             {
               id: 'rendering',
               src: renderingMachine,
-              autoForward: true,
             },
             {
               id: 'eventEmitter',
@@ -44,10 +42,10 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             SET_BACKGROUND_COLOR: {
               actions: forwardTo('eventEmitter'),
             },
-            UI_DARK_MODE: {
+            TOGGLE_UI_DARK_MODE: {
               actions: forwardTo('ui'),
             },
-            UI_LIGHT_MODE: {
+            TOGGLE_UI_COLLAPSED: {
               actions: forwardTo('ui'),
             },
           },

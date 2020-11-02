@@ -15,10 +15,7 @@ function createMainUIMachine(options, context) {
         },
         active: {
           on: {
-            UI_DARK_MODE: {
-              actions: 'applyContrastSensitiveStyle',
-            },
-            UI_LIGHT_MODE: {
+            TOGGLE_UI_DARK_MODE: {
               actions: 'applyContrastSensitiveStyle',
             },
           },

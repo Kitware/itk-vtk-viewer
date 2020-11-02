@@ -1,4 +1,4 @@
-import { Machine, forwardTo } from 'xstate'
+import { Machine, forwardTo, assign } from 'xstate'
 
 import createMainUIMachine from './createMainUIMachine'
 
@@ -36,15 +36,15 @@ function createUIMachine(options, context) {
               initial: 'disabled',
               states: {
                 enabled: {
-                  exit: 'toggleUICollapsed',
+                  enter: ['toggleUICollapsed', assign({ uiCollapsed: true })],
                   on: {
-                    TOGGLE_COLLAPSED: 'disabled',
+                    TOGGLE_UI_COLLAPSED: 'disabled',
                   },
                 },
                 disabled: {
-                  exit: 'toggleUICollapsed',
+                  enter: ['toggleUICollapsed', assign({ uiCollapsed: false })],
                   on: {
-                    TOGGLE_COLLAPSED: 'enabled',
+                    TOGGLE_UI_COLLAPSED: 'enabled',
                   },
                 },
               },

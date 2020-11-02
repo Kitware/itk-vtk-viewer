@@ -11,10 +11,12 @@ import ZarrMultiscaleChunkedImage from './IO/ZarrMultiscaleChunkedImage'
 import createViewer from './createViewer'
 
 import { version } from '../package.json'
+import imJoyPluginAPI from './imJoyPluginAPI'
 
 let doNotInitViewers = false
 
 export { version }
+export { imJoyPluginAPI }
 export { default as createViewer } from './createViewer'
 import * as utils from './utils.js'
 export { utils }

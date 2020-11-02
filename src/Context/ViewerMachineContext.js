@@ -44,6 +44,10 @@ class ViewerMachineContext {
   // Is a "dark mode" enabled in the user interface?
   uiDarkMode = false
 
+  // Has the user interface been collapsed, leaving on the interactive
+  // rendering?
+  uiCollapsed = false
+
   // Main machine context
   main = null
 }

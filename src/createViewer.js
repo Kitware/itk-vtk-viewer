@@ -96,8 +96,15 @@ const createViewer = async (
   function eventEmitterCallback(context, event) {
     return (callback, onReceive) => {
       onReceive(event => {
-        if (event.type === 'SET_BACKGROUND_COLOR') {
-          eventEmitter.emit('backgroundColorChanged', event.data)
+        switch (event.type) {
+          case 'SET_BACKGROUND_COLOR':
+            eventEmitter.emit('backgroundColorChanged', event.data)
+            break
+          case 'TOGGLE_UI_COLLAPSED':
+            eventEmitter.emit('toggleUICollapsed', event.data)
+            break
+          default:
+            throw new Error(`Unexpected event type: ${event.type}`)
         }
       })
     }
@@ -125,9 +132,6 @@ const createViewer = async (
   console.log(service)
   service.start()
 
-  service.send({ type: 'SET_BACKGROUND_COLOR', data: [0.0, 0.0, 0.0] })
-
-  // Todo: deprecate/ remove these? -- use the viewer context instead
   if (!!viewerStyle) {
     if (!!viewerStyle.backgroundColor) {
       service.send({
@@ -598,22 +602,21 @@ const createViewer = async (
     return store.itkVtkView.getLabelNames()
   }
 
-  publicAPI.setUserInterfaceCollapsed = collapse => {
-    const collapsed = store.mainUI.collapsed
-    if ((collapse && !collapsed) || (!collapse && collapsed)) {
-      store.mainUI.collapsed = !collapsed
+  publicAPI.setUICollapsed = collapse => {
+    if (collapse !== context.uiCollapsed) {
+      service.send('TOGGLE_UI_COLLAPSED')
     }
   }
 
-  publicAPI.getUserInterfaceCollapsed = () => {
-    return store.mainUI.collapsed
+  publicAPI.getUICollapsed = () => {
+    return context.uiCollapsed
   }
 
   const eventNames = [
     'imagePicked',
     'labelMapBlendChanged',
     'labelMapWeightsChanged',
-    'toggleUserInterfaceCollapsed',
+    'toggleUICollapsed',
     'opacityGaussiansChanged',
     'componentVisibilitiesChanged',
     'toggleAnnotations',
@@ -730,11 +733,6 @@ const createViewer = async (
     }
   }
 
-  autorun(() => {
-    const collapsed = store.mainUI.collapsed
-    eventEmitter.emit('toggleUserInterfaceCollapsed', collapsed)
-  })
-
   publicAPI.getOpacityGaussians = () => store.imageUI.opacityGaussians.slice()
 
   publicAPI.setOpacityGaussians = gaussians => {
@@ -780,7 +778,7 @@ const createViewer = async (
 
   // Start collapsed on mobile devices or small pages
   if (window.screen.availWidth < 768 || window.screen.availHeight < 800) {
-    publicAPI.setUserInterfaceCollapsed(true)
+    publicAPI.setUICollapsed(true)
   }
 
   publicAPI.captureImage = () => {
@@ -1198,7 +1196,7 @@ const createViewer = async (
   //publicAPI.loadState = (state) => {
   //// todo
   //}
-  addKeyboardShortcuts(rootContainer, publicAPI, viewerDOMId)
+  addKeyboardShortcuts(service)
 
   if (!use2D) {
     publicAPI.setRotateEnabled(rotate)

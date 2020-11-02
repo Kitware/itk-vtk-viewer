@@ -56,3 +56,11 @@ e.g. [1.0, 0.5, 0.5].
 ### getBackgroundColor()
 
 Get the current rendering background color.
+
+### setUICollapsed(collapsed)
+
+Set whether the user interface is collapsed.
+
+### getUICollapsed()
+
+Get whether the user interface is collapsed.

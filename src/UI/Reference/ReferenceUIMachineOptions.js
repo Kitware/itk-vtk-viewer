@@ -1,9 +1,8 @@
 import MainMachineOptions from './Main/MainMachineOptions'
 
-import createInterface from './createInterface'
-import toggleFullscreen from './toggleFullscreen'
-import toggleUICollapsed from './toggleUICollapsed'
 import applyContrastSensitiveStyle from './applyContrastSensitiveStyle'
+import createInterface from './createInterface'
+import toggleUICollapsed from './toggleUICollapsed'
 
 const ReferenceUIMachineOptions = {
   main: MainMachineOptions,
@@ -12,8 +11,6 @@ const ReferenceUIMachineOptions = {
     applyContrastSensitiveStyle,
 
     createInterface,
-
-    toggleFullscreen,
 
     toggleUICollapsed,
   },

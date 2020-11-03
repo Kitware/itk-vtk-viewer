@@ -49,10 +49,10 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
               actions: forwardTo('ui'),
             },
             TOGGLE_UI_COLLAPSED: {
-              actions: forwardTo('ui'),
+              actions: [forwardTo('ui'), forwardTo('eventEmitter')],
             },
             TOGGLE_FULLSCREEN: {
-              actions: forwardTo('ui'),
+              actions: [forwardTo('ui'), forwardTo('eventEmitter')],
             },
             DISABLE_FULLSCREEN: {
               actions: forwardTo('ui'),

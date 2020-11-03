@@ -124,13 +124,10 @@ const addKeyboardShortcuts = service => {
     //)
     //toggleUserInterfaceButton.click()
     //})
-    //MOUSETRAP.bind('q', function(event, combo) {
-    //preventDefaults(event)
-    //const toggleUserInterfaceButton = document.getElementById(
-    //`${viewerDOMId}-toggleUserInterfaceButton`
-    //)
-    //toggleUserInterfaceButton.click()
-    //})
+    MOUSETRAP.bind('q', function(event, combo) {
+      preventDefaults(event)
+      service.send('TOGGLE_UI_COLLAPSED')
+    })
     MOUSETRAP.bind('alt+q', function(event, combo) {
       preventDefaults(event)
       service.send('TOGGLE_UI_COLLAPSED')
@@ -139,13 +136,10 @@ const addKeyboardShortcuts = service => {
       preventDefaults(event)
       service.send('TOGGLE_FULLSCREEN')
     })
-    //MOUSETRAP.bind('alt+f', function(event, combo) {
-    //preventDefaults(event)
-    //const toggleFullscreenButton = document.getElementById(
-    //`${viewerDOMId}-toggleFullscreenButton`
-    //)
-    //toggleFullscreenButton.click()
-    //})
+    MOUSETRAP.bind('alt+f', function(event, combo) {
+      preventDefaults(event)
+      service.send('TOGGLE_FULLSCREEN')
+    })
     //MOUSETRAP.bind('u', function(event, combo) {
     //preventDefaults(event)
     //const toggleFullscreenButton = document.getElementById(

@@ -29,6 +29,12 @@ function createUIMachine(options, context) {
             TOGGLE_DARK_MODE: {
               actions: 'applyContrastSensitiveStyle',
             },
+            TOGGLE_FULLSCREEN: {
+              actions: forwardTo('main'),
+            },
+            DISABLE_FULLSCREEN: {
+              actions: forwardTo('main'),
+            },
           },
           states: {
             // Optional feature of the user interface
@@ -36,33 +42,15 @@ function createUIMachine(options, context) {
               initial: 'disabled',
               states: {
                 enabled: {
-                  enter: ['toggleUICollapsed', assign({ uiCollapsed: true })],
+                  entry: 'toggleUICollapsed',
                   on: {
                     TOGGLE_UI_COLLAPSED: 'disabled',
                   },
                 },
                 disabled: {
-                  enter: ['toggleUICollapsed', assign({ uiCollapsed: false })],
+                  entry: 'toggleUICollapsed',
                   on: {
                     TOGGLE_UI_COLLAPSED: 'enabled',
-                  },
-                },
-              },
-            },
-            fullscreen: {
-              initial: 'disabled',
-              states: {
-                enabled: {
-                  exit: 'toggleFullscreen',
-                  on: {
-                    TOGGLE_FULLSCREEN: 'disabled',
-                    DISABLE_FULLSCREEN: 'disabled',
-                  },
-                },
-                disabled: {
-                  exit: 'toggleFullscreen',
-                  on: {
-                    TOGGLE_FULLSCREEN: 'enabled',
                   },
                 },
               },

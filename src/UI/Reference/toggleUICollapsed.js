@@ -1,5 +1,6 @@
 function toggleUICollapsed(context, event, actionMeta) {
   const collapsed = actionMeta.state.value.active.uiCollapsed === 'enabled'
+  context.uiCollapsed = collapsed
   const uiContainer = context.uiContainer
   const viewerDOMId = context.id
   let elements = uiContainer.querySelectorAll(`.${viewerDOMId}-collapsible`)

@@ -2,7 +2,7 @@ import style from '../ItkVtkViewer.module.css'
 
 import fullscreenIcon from '../../Icons/fullscreen.svg'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
-import fullscreenMethods from '../fullscreenMethods'
+import fullscreenMethods from './fullscreenMethods'
 
 function createFullscreenButton(context, mainUIRow) {
   if (fullscreenMethods) {

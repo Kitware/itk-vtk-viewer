@@ -1,4 +1,4 @@
-import { Machine } from 'xstate'
+import { Machine, assign } from 'xstate'
 
 function createMainUIMachine(options, context) {
   return Machine(
@@ -13,7 +13,29 @@ function createMainUIMachine(options, context) {
             actions: ['createMainInterface'],
           },
         },
-        active: {},
+        active: {
+          type: 'parallel',
+          states: {
+            fullscreen: {
+              initial: 'disabled',
+              states: {
+                enabled: {
+                  exit: 'toggleFullscreen',
+                  on: {
+                    TOGGLE_FULLSCREEN: 'disabled',
+                    DISABLE_FULLSCREEN: 'disabled',
+                  },
+                },
+                disabled: {
+                  exit: 'toggleFullscreen',
+                  on: {
+                    TOGGLE_FULLSCREEN: 'enabled',
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
     options

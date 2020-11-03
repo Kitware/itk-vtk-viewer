@@ -79,6 +79,8 @@ const createViewer = async (
 
   const store = new ViewerStore(proxyManager)
 
+  const publicAPI = {}
+
   //if (debug) {
   ////const stateIFrame = document.createElement('iframe')
   ////store.container.style.height = '50%'
@@ -100,8 +102,14 @@ const createViewer = async (
           case 'SET_BACKGROUND_COLOR':
             eventEmitter.emit('backgroundColorChanged', event.data)
             break
+          case 'TOGGLE_FULLSCREEN':
+            eventEmitter.emit(
+              'toggleFullscreen',
+              publicAPI.getFullscreenEnabled()
+            )
+            break
           case 'TOGGLE_UI_COLLAPSED':
-            eventEmitter.emit('toggleUICollapsed', event.data)
+            eventEmitter.emit('toggleUICollapsed', publicAPI.getUICollapsed())
             break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
@@ -123,7 +131,7 @@ const createViewer = async (
   const machine = createViewerMachine(options, context, eventEmitterCallback)
   const service = interpret(machine, { devTools: debug })
   context.service = service
-  if (uiContainer) {
+  if (!!uiContainer) {
     context.uiContainer = uiContainer
   }
   console.log(options)
@@ -549,8 +557,6 @@ const createViewer = async (
   }
   store.renderWindow.getInteractor().onAnimation(updateFPS)
 
-  const publicAPI = {}
-
   publicAPI.renderLater = () => {
     store.itkVtkView.renderLater()
   }
@@ -821,16 +827,14 @@ const createViewer = async (
     }
   }
 
-  autorun(() => {
-    const enabled = store.mainUI.fullscreenEnabled
-    eventEmitter.emit('toggleFullscreen', enabled)
-  })
-
   publicAPI.setFullscreenEnabled = enabled => {
-    const fullscreen = store.mainUI.fullscreenEnabled
-    if ((enabled && !fullscreen) || (!enabled && fullscreen)) {
-      store.mainUI.fullscreenEnabled = enabled
+    if (enabled !== context.main.fullscreenEnabled) {
+      service.send('TOGGLE_FULLSCREEN')
     }
+  }
+
+  publicAPI.getFullscreenEnabled = () => {
+    return context.main.fullscreenEnabled
   }
 
   const toggleInterpolationHandlers = []

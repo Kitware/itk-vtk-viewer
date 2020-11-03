@@ -1,11 +1,11 @@
-import MainMachineOptions from './Main/MainMachineOptions'
+import mainUIMachineOptions from './Main/mainUIMachineOptions'
 
 import applyContrastSensitiveStyle from './applyContrastSensitiveStyle'
 import createInterface from './createInterface'
 import toggleUICollapsed from './toggleUICollapsed'
 
-const ReferenceUIMachineOptions = {
-  main: MainMachineOptions,
+const referenceUIMachineOptions = {
+  main: mainUIMachineOptions,
 
   actions: {
     applyContrastSensitiveStyle,
@@ -16,4 +16,4 @@ const ReferenceUIMachineOptions = {
   },
 }
 
-export default ReferenceUIMachineOptions
+export default referenceUIMachineOptions

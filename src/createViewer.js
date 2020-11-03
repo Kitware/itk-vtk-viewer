@@ -26,7 +26,7 @@ import updateGradientOpacity from './Rendering/updateGradientOpacity'
 
 import MultiscaleChunkedImage from './IO/MultiscaleChunkedImage'
 import InMemoryMultiscaleChunkedImage from './IO/InMemoryMultiscaleChunkedImage'
-import ViewerMachineOptions from './ViewerMachineOptions'
+import viewerMachineOptions from './viewerMachineOptions'
 import createViewerMachine from './createViewerMachine'
 import ViewerMachineContext from './Context/ViewerMachineContext'
 
@@ -118,7 +118,7 @@ const createViewer = async (
     }
   }
 
-  const options = ViewerMachineOptions
+  const options = viewerMachineOptions
   const context = new ViewerMachineContext()
   context.use2D = use2D
   context.rootContainer = rootContainer

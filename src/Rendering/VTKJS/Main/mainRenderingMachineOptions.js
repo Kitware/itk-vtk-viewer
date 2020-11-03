@@ -1,7 +1,7 @@
 import setBackgroundColor from './setBackgroundColor'
 import takeScreenshot from './takeScreenshot'
 
-const MainMachineOptions = {
+const mainRenderingMachineOptions = {
   actions: {
     setBackgroundColor,
 
@@ -9,4 +9,4 @@ const MainMachineOptions = {
   },
 }
 
-export default MainMachineOptions
+export default mainRenderingMachineOptions

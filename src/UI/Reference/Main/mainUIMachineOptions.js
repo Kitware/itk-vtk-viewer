@@ -1,7 +1,7 @@
 import createMainInterface from './createMainInterface'
 import toggleFullscreen from './toggleFullscreen'
 
-const MainMachineOptions = {
+const mainUIMachineOptions = {
   actions: {
     createMainInterface,
 
@@ -9,4 +9,4 @@ const MainMachineOptions = {
   },
 }
 
-export default MainMachineOptions
+export default mainUIMachineOptions

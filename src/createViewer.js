@@ -111,6 +111,12 @@ const createViewer = async (
           case 'TOGGLE_UI_COLLAPSED':
             eventEmitter.emit('toggleUICollapsed', publicAPI.getUICollapsed())
             break
+          case 'TOGGLE_ANNOTATIONS':
+            eventEmitter.emit(
+              'toggleAnnotations',
+              publicAPI.getAnnotationsEnabled()
+            )
+            break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
         }
@@ -791,16 +797,14 @@ const createViewer = async (
     return store.itkVtkView.captureImage()
   }
 
-  autorun(() => {
-    const enabled = store.mainUI.annotationsEnabled
-    eventEmitter.emit('toggleAnnotations', enabled)
-  })
-
   publicAPI.setAnnotationsEnabled = enabled => {
-    const annotations = store.mainUI.annotationsEnabled
-    if ((enabled && !annotations) || (!enabled && annotations)) {
-      store.mainUI.annotationsEnabled = enabled
+    if (enabled !== context.main.annotationsEnabled) {
+      service.send('TOGGLE_ANNOTATIONS')
     }
+  }
+
+  publicAPI.getAnnotationsEnabled = () => {
+    return context.main.annotationsEnabled
   }
 
   autorun(() => {

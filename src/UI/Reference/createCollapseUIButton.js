@@ -18,7 +18,6 @@ function createCollapseUIButton(context) {
   collapseUIButton.addEventListener('click', event => {
     event.preventDefault()
     event.stopPropagation()
-    console.log('sending')
     context.service.send('TOGGLE_UI_COLLAPSED')
   })
 

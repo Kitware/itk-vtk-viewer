@@ -150,14 +150,14 @@
 [itk-vtk-tooltip-top-screenshot]:hover::before {
     transform: translate(-50%, 0);
 }
-[itk-vtk-tooltip-top-annotation]::before {
+[itk-vtk-tooltip-top-annotations]::before {
     top: initial;
     left: 160%;
     right: initial;
     bottom: calc(100% + 10px);
     transform: translate(-50%, 15px);
 }
-[itk-vtk-tooltip-top-annotation]:hover::before {
+[itk-vtk-tooltip-top-annotations]:hover::before {
     transform: translate(-50%, 0);
 }
 [itk-vtk-tooltip-top-axes]::before {
@@ -239,7 +239,7 @@
   width: 1.2em;
 }
 
-.annotationButton {
+.annotationsButton {
   flex: 1;
   width: 8mm;
   padding-top: 2px;
@@ -250,7 +250,7 @@
   z-index: 1000;
 }
 
-.annotationButton svg {
+.annotationsButton svg {
   height: 1.2em;
   width: 1.2em;
 }

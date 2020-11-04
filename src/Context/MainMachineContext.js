@@ -4,6 +4,9 @@ class MainMachineContext {
 
   // Is fullscreen mode enabled?
   fullscreenEnabled = false
+
+  // Are annotations, e.g. pixel values, an orientation widget, displayed?
+  annotationsEnabled = true
 }
 
 export default MainMachineContext

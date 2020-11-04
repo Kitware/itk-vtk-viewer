@@ -18,6 +18,11 @@ function applyMainContrastSensitiveStyle(context, event) {
       context.main.fullscreenButton
     )
   }
+  applyContrastSensitiveStyleToElement(
+    context,
+    'invertibleButton',
+    context.main.annotationButtonLabel
+  )
 }
 
 export default applyMainContrastSensitiveStyle

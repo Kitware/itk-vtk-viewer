@@ -64,3 +64,11 @@ Set whether the user interface is collapsed.
 ### getUICollapsed()
 
 Get whether the user interface is collapsed.
+
+### setAnnotationsEnabled(enabled)
+
+Set whether annotations such as the current pixel value, scale bar, or orientation widget are displayed.
+
+### getAnnotationsEnabled()
+
+Get whether annotations such as the current pixel value, scale bar, or orientation widget are displayed.

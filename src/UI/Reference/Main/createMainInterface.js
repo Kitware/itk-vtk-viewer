@@ -2,6 +2,7 @@ import style from '../ItkVtkViewer.module.css'
 
 import createScreenshotButton from './createScreenshotButton'
 import createFullscreenButton from './createFullscreenButton'
+import createAnnotationsButton from './createAnnotationsButton'
 
 function createMainInterface(context) {
   const mainUIGroup = document.createElement('div')
@@ -14,6 +15,10 @@ function createMainInterface(context) {
 
   createScreenshotButton(context, mainUIRow1)
   createFullscreenButton(context, mainUIRow1)
+  if (context.use2D) {
+    // createRotateButton
+  }
+  createAnnotationsButton(context, mainUIRow1)
 
   context.uiContainer.appendChild(mainUIGroup)
 }

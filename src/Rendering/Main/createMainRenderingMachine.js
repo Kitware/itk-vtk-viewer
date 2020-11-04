@@ -54,6 +54,23 @@ function createMainRenderingMachine(options, context) {
                 },
               },
             },
+            annotations: {
+              initial: 'enabled',
+              states: {
+                enabled: {
+                  exit: 'toggleAnnotations',
+                  on: {
+                    TOGGLE_ANNOTATIONS: 'disabled',
+                  },
+                },
+                disabled: {
+                  exit: 'toggleAnnotations',
+                  on: {
+                    TOGGLE_ANNOTATIONS: 'enabled',
+                  },
+                },
+              },
+            },
           },
         },
       },

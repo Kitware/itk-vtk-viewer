@@ -26,6 +26,9 @@ function createUIMachine(options, context) {
             },
           ],
           on: {
+            TOGGLE_ANNOTATIONS: {
+              actions: forwardTo('main'),
+            },
             TOGGLE_DARK_MODE: {
               actions: 'applyContrastSensitiveStyle',
             },

@@ -49,6 +49,13 @@ const imJoyPluginAPI = {
   getUICollapsed() {
     return this.viewer.getUICollapsed()
   },
+
+  setAnnotationsEnabled(enabled) {
+    this.viewer.setAnnotationsEnabled(enabled)
+  },
+  getAnnotationsEnabled() {
+    return this.viewer.getAnnotationsEnabled()
+  },
 }
 
 export default imJoyPluginAPI

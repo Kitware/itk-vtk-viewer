@@ -45,6 +45,13 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             TAKE_SCREENSHOT: {
               actions: forwardTo('rendering'),
             },
+            TOGGLE_ANNOTATIONS: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
             TOGGLE_DARK_MODE: {
               actions: forwardTo('ui'),
             },

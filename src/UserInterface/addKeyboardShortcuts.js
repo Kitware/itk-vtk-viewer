@@ -182,20 +182,14 @@ const addKeyboardShortcuts = service => {
     //)
     //toggleSlicingPlanesButton.click()
     //})
-    //MOUSETRAP.bind('p', function(event, combo) {
-    //preventDefaults(event)
-    //const toggleRotateButton = document.getElementById(
-    //`${viewerDOMId}-toggleRotateButton`
-    //)
-    //toggleRotateButton.click()
-    //})
-    //MOUSETRAP.bind('alt+p', function(event, combo) {
-    //preventDefaults(event)
-    //const toggleRotateButton = document.getElementById(
-    //`${viewerDOMId}-toggleRotateButton`
-    //)
-    //toggleRotateButton.click()
-    //})
+    MOUSETRAP.bind('p', function(event, combo) {
+      preventDefaults(event)
+      service.send('TOGGLE_ROTATE')
+    })
+    MOUSETRAP.bind('alt+p', function(event, combo) {
+      preventDefaults(event)
+      service.send('TOGGLE_ROTATE')
+    })
   })
 
   container.addEventListener('mouseleave', () => {

@@ -117,6 +117,9 @@ const createViewer = async (
               publicAPI.getAnnotationsEnabled()
             )
             break
+          case 'TOGGLE_ROTATE':
+            eventEmitter.emit('toggleRotate', publicAPI.getRotateEnabled())
+            break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
         }
@@ -819,16 +822,14 @@ const createViewer = async (
     }
   }
 
-  autorun(() => {
-    const enabled = store.mainUI.rotateEnabled
-    eventEmitter.emit('toggleRotate', enabled)
-  })
-
   publicAPI.setRotateEnabled = enabled => {
-    const rotate = store.mainUI.rotateEnabled
-    if ((enabled && !rotate) || (!enabled && rotate)) {
-      store.mainUI.rotateEnabled = enabled
+    if (enabled !== context.main.rotateEnabled) {
+      service.send('TOGGLE_ROTATE')
     }
+  }
+
+  publicAPI.getRotateEnabled = () => {
+    return context.main.rotateEnabled
   }
 
   publicAPI.setFullscreenEnabled = enabled => {

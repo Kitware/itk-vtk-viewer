@@ -43,6 +43,9 @@ const createRenderingMachine = (options, context) => {
             TOGGLE_ANNOTATIONS: {
               actions: forwardTo('main'),
             },
+            TOGGLE_ROTATE: {
+              actions: forwardTo('main'),
+            },
           },
         },
       },

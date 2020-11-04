@@ -2,6 +2,7 @@ import style from '../ItkVtkViewer.module.css'
 
 import createScreenshotButton from './createScreenshotButton'
 import createFullscreenButton from './createFullscreenButton'
+import createRotateButton from './createRotateButton'
 import createAnnotationsButton from './createAnnotationsButton'
 
 function createMainInterface(context) {
@@ -15,8 +16,8 @@ function createMainInterface(context) {
 
   createScreenshotButton(context, mainUIRow1)
   createFullscreenButton(context, mainUIRow1)
-  if (context.use2D) {
-    // createRotateButton
+  if (!context.use2D) {
+    createRotateButton(context, mainUIRow1)
   }
   createAnnotationsButton(context, mainUIRow1)
 

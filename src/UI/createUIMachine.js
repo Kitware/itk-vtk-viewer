@@ -35,6 +35,9 @@ function createUIMachine(options, context) {
             TOGGLE_FULLSCREEN: {
               actions: forwardTo('main'),
             },
+            TOGGLE_ROTATE: {
+              actions: forwardTo('main'),
+            },
             DISABLE_FULLSCREEN: {
               actions: forwardTo('main'),
             },

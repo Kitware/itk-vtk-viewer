@@ -1,6 +1,5 @@
 import style from './ItkVtkViewer.module.css'
 
-import createRotateButton from './Main/createRotateButton'
 import createAxesButton from './Main/createAxesButton'
 import createInterpolationButton from './Main/createInterpolationButton'
 import createViewModeButtons from './Main/createViewModeButtons'
@@ -24,9 +23,6 @@ function createMainUI(rootContainer, store, use2D, uiContainer) {
   mainUIRow1.className += ` ${store.id}-collapsible`
   mainUIGroup.appendChild(mainUIRow1)
 
-  if (!use2D) {
-    createRotateButton(store, mainUIRow1)
-  }
   createAxesButton(store, mainUIRow1)
   createInterpolationButton(store, mainUIRow1)
   createBackgroundColorButton(store, mainUIRow1)

@@ -2,6 +2,7 @@ import style from '../ItkVtkViewer.module.css'
 
 import annotationsIcon from '../../Icons/annotations.svg'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
+import toggleAnnotations from './toggleAnnotations'
 
 function createAnnotationsButton(context, mainUIRow) {
   const annotationsButton = document.createElement('div')
@@ -15,6 +16,8 @@ function createAnnotationsButton(context, mainUIRow) {
     'invertibleButton',
     annotationsButtonLabel
   )
+
+  toggleAnnotations(context)
 
   annotationsButton.addEventListener('change', event => {
     event.preventDefault()

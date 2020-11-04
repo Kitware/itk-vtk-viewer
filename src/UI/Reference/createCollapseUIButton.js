@@ -2,6 +2,7 @@ import style from './ItkVtkViewer.module.css'
 
 import toggleIcon from '../Icons/toggle.svg'
 import applyContrastSensitiveStyleToElement from './applyContrastSensitiveStyleToElement'
+import toggleUICollapsed from './toggleUICollapsed'
 
 function createCollapseUIButton(context) {
   const collapseUIButton = document.createElement('div')
@@ -14,6 +15,8 @@ function createCollapseUIButton(context) {
 
   collapseUIButton.id = `${context.id}-collapseUIButton`
   collapseUIButton.innerHTML = `${toggleIcon}`
+
+  toggleUICollapsed(event)
 
   collapseUIButton.addEventListener('click', event => {
     event.preventDefault()

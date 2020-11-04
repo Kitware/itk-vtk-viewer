@@ -7,6 +7,9 @@ class MainMachineContext {
 
   // Are annotations, e.g. pixel values, an orientation widget, displayed?
   annotationsEnabled = true
+
+  // Continuously rotate the 3D rendering?
+  rotateEnabled = false
 }
 
 export default MainMachineContext

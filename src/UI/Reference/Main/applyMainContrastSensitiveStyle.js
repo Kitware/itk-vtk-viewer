@@ -21,7 +21,12 @@ function applyMainContrastSensitiveStyle(context, event) {
   applyContrastSensitiveStyleToElement(
     context,
     'invertibleButton',
-    context.main.annotationButtonLabel
+    context.main.rotateButtonLabel
+  )
+  applyContrastSensitiveStyleToElement(
+    context,
+    'invertibleButton',
+    context.main.annotationsButtonLabel
   )
 }
 

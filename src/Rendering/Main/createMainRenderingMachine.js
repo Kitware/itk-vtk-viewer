@@ -58,15 +58,32 @@ function createMainRenderingMachine(options, context) {
               initial: 'enabled',
               states: {
                 enabled: {
-                  exit: 'toggleAnnotations',
+                  entry: 'toggleAnnotations',
                   on: {
                     TOGGLE_ANNOTATIONS: 'disabled',
                   },
                 },
                 disabled: {
-                  exit: 'toggleAnnotations',
+                  entry: 'toggleAnnotations',
                   on: {
                     TOGGLE_ANNOTATIONS: 'enabled',
+                  },
+                },
+              },
+            },
+            rotate: {
+              initial: 'disabled',
+              states: {
+                enabled: {
+                  entry: 'toggleRotate',
+                  on: {
+                    TOGGLE_ROTATE: 'disabled',
+                  },
+                },
+                disabled: {
+                  entry: 'toggleRotate',
+                  on: {
+                    TOGGLE_ROTATE: 'enabled',
                   },
                 },
               },

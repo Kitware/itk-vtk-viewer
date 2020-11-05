@@ -10,6 +10,9 @@ class MainMachineContext {
 
   // Continuously rotate the 3D rendering?
   rotateEnabled = false
+
+  // Visualize the spatial axes on the viewable scene content
+  axesEnabled = false
 }
 
 export default MainMachineContext

@@ -40,10 +40,13 @@ const createRenderingMachine = (options, context) => {
             TAKE_SCREENSHOT: {
               actions: forwardTo('main'),
             },
+            TOGGLE_ROTATE: {
+              actions: forwardTo('main'),
+            },
             TOGGLE_ANNOTATIONS: {
               actions: forwardTo('main'),
             },
-            TOGGLE_ROTATE: {
+            TOGGLE_AXES: {
               actions: forwardTo('main'),
             },
           },

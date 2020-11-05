@@ -16,7 +16,7 @@ function createCollapseUIButton(context) {
   collapseUIButton.id = `${context.id}-collapseUIButton`
   collapseUIButton.innerHTML = `${toggleIcon}`
 
-  toggleUICollapsed(event)
+  toggleUICollapsed(context)
 
   collapseUIButton.addEventListener('click', event => {
     event.preventDefault()

@@ -1,11 +1,8 @@
-function backgroundIsDark(context, event) {
-  if (event.data) {
-    const backgroundColor = event.data
-    const isDark =
-      backgroundColor[0] + backgroundColor[1] + backgroundColor[2] < 1.5
-    return isDark
-  }
-  return false
+function backgroundIsDark(context) {
+  const backgroundColor = context.main.backgroundColor
+  const isDark =
+    backgroundColor[0] + backgroundColor[1] + backgroundColor[2] < 1.5
+  return isDark
 }
 
 export default backgroundIsDark

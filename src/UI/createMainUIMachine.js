@@ -68,6 +68,23 @@ function createMainUIMachine(options, context) {
                 },
               },
             },
+            axes: {
+              initial: 'disabled',
+              states: {
+                enabled: {
+                  entry: 'toggleAxes',
+                  on: {
+                    TOGGLE_AXES: 'disabled',
+                  },
+                },
+                disabled: {
+                  entry: 'toggleAxes',
+                  on: {
+                    TOGGLE_AXES: 'enabled',
+                  },
+                },
+              },
+            },
           },
         },
       },

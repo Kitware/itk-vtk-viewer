@@ -111,14 +111,17 @@ const createViewer = async (
           case 'TOGGLE_UI_COLLAPSED':
             eventEmitter.emit('toggleUICollapsed', publicAPI.getUICollapsed())
             break
+          case 'TOGGLE_ROTATE':
+            eventEmitter.emit('toggleRotate', publicAPI.getRotateEnabled())
+            break
           case 'TOGGLE_ANNOTATIONS':
             eventEmitter.emit(
               'toggleAnnotations',
               publicAPI.getAnnotationsEnabled()
             )
             break
-          case 'TOGGLE_ROTATE':
-            eventEmitter.emit('toggleRotate', publicAPI.getRotateEnabled())
+          case 'TOGGLE_AXES':
+            eventEmitter.emit('toggleAxes', publicAPI.getAxesEnabled())
             break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
@@ -810,16 +813,14 @@ const createViewer = async (
     return context.main.annotationsEnabled
   }
 
-  autorun(() => {
-    const enabled = store.mainUI.axesEnabled
-    eventEmitter.emit('toggleAxes', enabled)
-  })
-
   publicAPI.setAxesEnabled = enabled => {
-    const axes = store.mainUI.axesEnabled
-    if ((enabled && !axes) || (!enabled && axes)) {
-      store.mainUI.axesEnabled = enabled
+    if (enabled !== context.main.axesEnabled) {
+      service.send('TOGGLE_AXES')
     }
+  }
+
+  publicAPI.getAxesEnabled = () => {
+    return context.main.axesEnabled
   }
 
   publicAPI.setRotateEnabled = enabled => {
@@ -1205,7 +1206,7 @@ const createViewer = async (
   //publicAPI.loadState = (state) => {
   //// todo
   //}
-  addKeyboardShortcuts(service)
+  addKeyboardShortcuts(context.uiContainer, service)
 
   if (!use2D) {
     publicAPI.setRotateEnabled(rotate)

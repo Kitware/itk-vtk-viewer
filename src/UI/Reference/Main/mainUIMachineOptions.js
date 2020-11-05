@@ -1,7 +1,8 @@
 import createMainInterface from './createMainInterface'
-import toggleAnnotations from './toggleAnnotations'
 import toggleFullscreen from './toggleFullscreen'
 import toggleRotate from './toggleRotate'
+import toggleAnnotations from './toggleAnnotations'
+import toggleAxes from './toggleAxes'
 
 const mainUIMachineOptions = {
   actions: {
@@ -12,6 +13,8 @@ const mainUIMachineOptions = {
     toggleFullscreen,
 
     toggleRotate,
+
+    toggleAxes,
   },
 }
 

@@ -3,8 +3,7 @@ import preventDefaults from './preventDefaults'
 
 const MOUSETRAP = new Mousetrap()
 
-//const addKeyboardShortcuts = (container, viewer, viewerDOMId) => {
-const addKeyboardShortcuts = service => {
+const addKeyboardShortcuts = (container, service) => {
   container.addEventListener('mouseenter', () => {
     //MOUSETRAP.bind('1', function(event, combo) {
     //preventDefaults(event)

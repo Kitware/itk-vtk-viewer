@@ -3,12 +3,13 @@ function toggleUICollapsed(context, event, actionMeta) {
     context.uiCollapsed =
       actionMeta.state.value.active.uiCollapsed === 'enabled'
   }
-  const uiContainer = context.uiContainer
-  if (!uiContainer) {
+  if (!context.uiContainer) {
     return
   }
   const viewerDOMId = context.id
-  let elements = uiContainer.querySelectorAll(`.${viewerDOMId}-collapsible`)
+  let elements = context.uiContainer.querySelectorAll(
+    `.${viewerDOMId}-collapsible`
+  )
   let count = elements.length
   if (context.uiCollapsed) {
     while (count--) {

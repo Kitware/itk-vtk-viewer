@@ -1,7 +1,8 @@
 import setBackgroundColor from './setBackgroundColor'
 import takeScreenshot from './takeScreenshot'
-import toggleAnnotations from './toggleAnnotations'
 import toggleRotate from './toggleRotate'
+import toggleAnnotations from './toggleAnnotations'
+import toggleAxes from './toggleAxes'
 
 const mainRenderingMachineOptions = {
   actions: {
@@ -9,9 +10,11 @@ const mainRenderingMachineOptions = {
 
     takeScreenshot,
 
+    toggleRotate,
+
     toggleAnnotations,
 
-    toggleRotate,
+    toggleAxes,
   },
 }
 

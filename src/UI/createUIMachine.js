@@ -26,19 +26,22 @@ function createUIMachine(options, context) {
             },
           ],
           on: {
-            TOGGLE_ANNOTATIONS: {
-              actions: forwardTo('main'),
-            },
             TOGGLE_DARK_MODE: {
               actions: 'applyContrastSensitiveStyle',
             },
             TOGGLE_FULLSCREEN: {
               actions: forwardTo('main'),
             },
+            DISABLE_FULLSCREEN: {
+              actions: forwardTo('main'),
+            },
             TOGGLE_ROTATE: {
               actions: forwardTo('main'),
             },
-            DISABLE_FULLSCREEN: {
+            TOGGLE_ANNOTATIONS: {
+              actions: forwardTo('main'),
+            },
+            TOGGLE_AXES: {
               actions: forwardTo('main'),
             },
           },

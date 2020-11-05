@@ -65,6 +65,14 @@ Set whether the user interface is collapsed.
 
 Get whether the user interface is collapsed.
 
+### setRotateEnabled(enabled)
+
+Set whether the 3D scene is continuously rotated.
+
+### getRotateEnabled()
+
+Get whether the 3D scene is continuously rotated.
+
 ### setAnnotationsEnabled(enabled)
 
 Set whether annotations such as the current pixel value, scale bar, or orientation widget are displayed.
@@ -72,3 +80,11 @@ Set whether annotations such as the current pixel value, scale bar, or orientati
 ### getAnnotationsEnabled()
 
 Get whether annotations such as the current pixel value, scale bar, or orientation widget are displayed.
+
+### setAxesEnabled(enabled)
+
+Set whether spatial axes are visualized in the scene.
+
+### getAxesEnabled()
+
+Get whether spatial axes are visualized in the scene.

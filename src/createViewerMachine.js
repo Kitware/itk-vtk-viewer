@@ -55,6 +55,13 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             TOGGLE_DARK_MODE: {
               actions: forwardTo('ui'),
             },
+            TOGGLE_AXES: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
             TOGGLE_ROTATE: {
               actions: [
                 forwardTo('ui'),

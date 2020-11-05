@@ -50,11 +50,25 @@ const imJoyPluginAPI = {
     return this.viewer.getUICollapsed()
   },
 
+  setRotateEnabled(enabled) {
+    this.viewer.setRotateEnabled(enabled)
+  },
+  getRotateEnabled() {
+    return this.viewer.getRotateEnabled()
+  },
+
   setAnnotationsEnabled(enabled) {
     this.viewer.setAnnotationsEnabled(enabled)
   },
   getAnnotationsEnabled() {
     return this.viewer.getAnnotationsEnabled()
+  },
+
+  setAxesEnabled(enabled) {
+    this.viewer.setAxesEnabled(enabled)
+  },
+  getAxesEnabled() {
+    return this.viewer.getAxesEnabled()
   },
 }
 

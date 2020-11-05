@@ -18,15 +18,22 @@ function applyMainContrastSensitiveStyle(context, event) {
       context.main.fullscreenButton
     )
   }
-  applyContrastSensitiveStyleToElement(
-    context,
-    'invertibleButton',
-    context.main.rotateButtonLabel
-  )
+  if (context.main.rotateButtonLabel) {
+    applyContrastSensitiveStyleToElement(
+      context,
+      'invertibleButton',
+      context.main.rotateButtonLabel
+    )
+  }
   applyContrastSensitiveStyleToElement(
     context,
     'invertibleButton',
     context.main.annotationsButtonLabel
+  )
+  applyContrastSensitiveStyleToElement(
+    context,
+    'invertibleButton',
+    context.main.axesButtonLabel
   )
 }
 

@@ -35,7 +35,7 @@ const TEST_VIEWER_STYLE = {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(4)
+  t.plan(8)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -59,12 +59,12 @@ test('Test createViewer', async t => {
 
   const uiContainer =
     viewerContainer.children[viewerContainer.children.length - 1]
-  viewer.setUserInterfaceCollapsed(false)
-  let collapsed = viewer.getUserInterfaceCollapsed()
-  t.equal(collapsed, false, 'setUserInterfaceCollapsed false')
-  viewer.setUserInterfaceCollapsed(true)
-  collapsed = viewer.getUserInterfaceCollapsed()
-  t.equal(collapsed, true, 'setUserInterfaceCollapsed true')
+  viewer.setUICollapsed(false)
+  let collapsed = viewer.getUICollapsed()
+  t.equal(collapsed, false, 'setUICollapsed false')
+  viewer.setUICollapsed(true)
+  collapsed = viewer.getUICollapsed()
+  t.equal(collapsed, true, 'setUICollapsed true')
 
   const bgColor = [0.7, 0.2, 0.8]
   viewer.once('backgroundColorChanged', data => {
@@ -73,6 +73,31 @@ test('Test createViewer', async t => {
   viewer.setBackgroundColor(bgColor)
   const resultBGColor = viewer.getBackgroundColor()
   t.same(resultBGColor, bgColor, 'background color')
+
+  // skip for screenshot consistency
+  //viewer.once('toggleRotate', data => {
+  //t.pass('toggleRotate event')
+  //})
+  //viewer.setRotateEnabled(true)
+  //const resultRotate = viewer.getRotateEnabled()
+  //t.same(resultRotate, true, 'rotate')
+  //viewer.setRotateEnabled(false)
+
+  viewer.once('toggleAnnotations', data => {
+    t.pass('toggleAnnotations event')
+  })
+  viewer.setAnnotationsEnabled(false)
+  const resultAnnotations = viewer.getAnnotationsEnabled()
+  t.same(resultAnnotations, false, 'annotations')
+  viewer.setAnnotationsEnabled(true)
+
+  viewer.once('toggleAxes', data => {
+    t.pass('toggleAxes event')
+  })
+  viewer.setAxesEnabled(true)
+  const resultAxes = viewer.getAxesEnabled()
+  t.same(resultAxes, true, 'axes')
+  viewer.setAxesEnabled(false)
 
   const viewProxy = viewer.getViewProxy()
   const renderWindow = viewProxy.getOpenglRenderWindow()

@@ -1,12 +1,8 @@
 function backgroundIsLight(context, event) {
-  console.log('backgroundIsLight')
-  if (event.data) {
-    const backgroundColor = event.data
-    const isLight =
-      backgroundColor[0] + backgroundColor[1] + backgroundColor[2] >= 1.5
-    return isLight
-  }
-  return false
+  const backgroundColor = context.main.backgroundColor
+  const isLight =
+    backgroundColor[0] + backgroundColor[1] + backgroundColor[2] >= 1.5
+  return isLight
 }
 
 export default backgroundIsLight

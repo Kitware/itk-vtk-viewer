@@ -51,7 +51,7 @@ function createUIMachine(options, context) {
           states: {
             // Optional feature of the user interface
             uiCollapsed: {
-              initial: 'disabled',
+              initial: context.uiCollapsed ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleUICollapsed',

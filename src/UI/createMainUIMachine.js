@@ -17,7 +17,7 @@ function createMainUIMachine(options, context) {
           type: 'parallel',
           states: {
             fullscreen: {
-              initial: 'disabled',
+              initial: context.fullscreenEnabled ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   exit: 'toggleFullscreen',
@@ -35,7 +35,7 @@ function createMainUIMachine(options, context) {
               },
             },
             annotations: {
-              initial: 'enabled',
+              initial: context.annotationsEnabled ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleAnnotations',
@@ -52,7 +52,7 @@ function createMainUIMachine(options, context) {
               },
             },
             rotate: {
-              initial: 'disabled',
+              initial: context.rotateEnabled ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleRotate',
@@ -69,7 +69,7 @@ function createMainUIMachine(options, context) {
               },
             },
             axes: {
-              initial: 'disabled',
+              initial: context.axesEnabled ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleAxes',
@@ -86,7 +86,7 @@ function createMainUIMachine(options, context) {
               },
             },
             interpolation: {
-              initial: 'enabled',
+              initial: context.interpolationEnabled ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleInterpolation',

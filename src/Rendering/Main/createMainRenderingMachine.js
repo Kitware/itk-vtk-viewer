@@ -36,7 +36,7 @@ function createMainRenderingMachine(options, context) {
           },
           states: {
             background: {
-              initial: 'light',
+              initial: backgroundIsLight(context) ? 'light' : 'dark',
               states: {
                 dark: {
                   entry: [
@@ -65,7 +65,7 @@ function createMainRenderingMachine(options, context) {
               },
             },
             annotations: {
-              initial: 'enabled',
+              initial: context.annotationsEnabled ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleAnnotations',
@@ -82,7 +82,7 @@ function createMainRenderingMachine(options, context) {
               },
             },
             rotate: {
-              initial: 'disabled',
+              initial: context.rotateEnabled ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleRotate',
@@ -99,7 +99,7 @@ function createMainRenderingMachine(options, context) {
               },
             },
             axes: {
-              initial: 'disabled',
+              initial: context.axesEnabled ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleAxes',
@@ -116,7 +116,7 @@ function createMainRenderingMachine(options, context) {
               },
             },
             interpolation: {
-              initial: 'enabled',
+              initial: context.interpolationEnabled ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleInterpolation',

@@ -102,6 +102,12 @@ const createViewer = async (
           case 'SET_BACKGROUND_COLOR':
             eventEmitter.emit('backgroundColorChanged', event.data)
             break
+          case 'TOGGLE_BACKGROUND_COLOR':
+            eventEmitter.emit(
+              'backgroundColorChanged',
+              context.main.backgroundColor
+            )
+            break
           case 'TOGGLE_FULLSCREEN':
             eventEmitter.emit(
               'toggleFullscreen',

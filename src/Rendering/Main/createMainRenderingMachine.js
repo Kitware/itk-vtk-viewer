@@ -22,13 +22,14 @@ function createMainRenderingMachine(options, context) {
             TAKE_SCREENSHOT: {
               actions: 'takeScreenshot',
             },
-          },
-          on: {
             SET_BACKGROUND_COLOR: {
               actions: [
                 'setBackgroundColor',
                 send('CHECK_BACKGROUND_CONTRAST'),
               ],
+            },
+            TOGGLE_BACKGROUND_COLOR: {
+              actions: 'toggleBackgroundColor',
             },
             SET_UNITS: {
               actions: 'setUnits',

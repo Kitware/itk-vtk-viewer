@@ -15,6 +15,11 @@ function createMainUIMachine(options, context) {
         },
         active: {
           type: 'parallel',
+          on: {
+            TOGGLE_BACKGROUND_COLOR: {
+              actions: 'toggleBackgroundColor',
+            },
+          },
           states: {
             fullscreen: {
               initial: context.fullscreenEnabled ? 'enabled' : 'disabled',

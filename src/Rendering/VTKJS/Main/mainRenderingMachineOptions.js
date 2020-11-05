@@ -5,6 +5,7 @@ import toggleRotate from './toggleRotate'
 import toggleAnnotations from './toggleAnnotations'
 import toggleAxes from './toggleAxes'
 import toggleInterpolation from './toggleInterpolation'
+import toggleBackgroundColor from './toggleBackgroundColor'
 
 const mainRenderingMachineOptions = {
   actions: {
@@ -21,6 +22,8 @@ const mainRenderingMachineOptions = {
     toggleAxes,
 
     toggleInterpolation,
+
+    toggleBackgroundColor,
   },
 }
 

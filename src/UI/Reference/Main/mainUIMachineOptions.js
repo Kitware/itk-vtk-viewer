@@ -4,6 +4,7 @@ import toggleRotate from './toggleRotate'
 import toggleAnnotations from './toggleAnnotations'
 import toggleAxes from './toggleAxes'
 import toggleInterpolation from './toggleInterpolation'
+import toggleBackgroundColor from './toggleBackgroundColor'
 
 const mainUIMachineOptions = {
   actions: {
@@ -18,6 +19,8 @@ const mainUIMachineOptions = {
     toggleAxes,
 
     toggleInterpolation,
+
+    toggleBackgroundColor,
   },
 }
 

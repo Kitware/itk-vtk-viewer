@@ -3,7 +3,6 @@ import style from './ItkVtkViewer.module.css'
 import createViewModeButtons from './Main/createViewModeButtons'
 import createCroppingButtons from './Main/createCroppingButtons'
 import createResetCameraButton from './Main/createResetCameraButton'
-import createBackgroundColorButton from './Main/createBackgroundColorButton'
 
 function createMainUI(rootContainer, store, use2D, uiContainer) {
   if (!uiContainer) {
@@ -20,8 +19,6 @@ function createMainUI(rootContainer, store, use2D, uiContainer) {
   mainUIRow1.setAttribute('class', style.mainUIRow)
   mainUIRow1.className += ` ${store.id}-collapsible`
   mainUIGroup.appendChild(mainUIRow1)
-
-  createBackgroundColorButton(store, mainUIRow1)
 
   const mainUIRow2 = document.createElement('div')
   mainUIRow2.setAttribute('class', style.mainUIRow)

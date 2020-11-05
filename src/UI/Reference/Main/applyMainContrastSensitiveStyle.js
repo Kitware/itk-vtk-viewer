@@ -40,6 +40,11 @@ function applyMainContrastSensitiveStyle(context, event) {
     'invertibleButton',
     context.main.interpolationButtonLabel
   )
+  applyContrastSensitiveStyleToElement(
+    context,
+    'invertibleButton',
+    context.main.bgColorButtonLabel
+  )
 }
 
 export default applyMainContrastSensitiveStyle

@@ -6,6 +6,7 @@ import createRotateButton from './createRotateButton'
 import createAnnotationsButton from './createAnnotationsButton'
 import createAxesButton from './createAxesButton'
 import createInterpolationButton from './createInterpolationButton'
+import createBackgroundColorButton from './createBackgroundColorButton'
 
 function createMainInterface(context) {
   const mainUIGroup = document.createElement('div')
@@ -24,6 +25,7 @@ function createMainInterface(context) {
   createAnnotationsButton(context, mainUIRow1)
   createAxesButton(context, mainUIRow1)
   createInterpolationButton(context, mainUIRow1)
+  createBackgroundColorButton(context, mainUIRow1)
 
   context.uiContainer.appendChild(mainUIGroup)
 }

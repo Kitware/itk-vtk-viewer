@@ -85,6 +85,23 @@ function createMainUIMachine(options, context) {
                 },
               },
             },
+            interpolation: {
+              initial: 'enabled',
+              states: {
+                enabled: {
+                  entry: 'toggleInterpolation',
+                  on: {
+                    TOGGLE_INTERPOLATION: 'disabled',
+                  },
+                },
+                disabled: {
+                  entry: 'toggleInterpolation',
+                  on: {
+                    TOGGLE_INTERPOLATION: 'enabled',
+                  },
+                },
+              },
+            },
           },
         },
       },

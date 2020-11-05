@@ -1,4 +1,4 @@
-function toggleAxes(context, event, actionMeta) {
+function toggleAxes(context) {
   context.itkVtkView.setEnableAxes(context.main.axesEnabled)
 }
 

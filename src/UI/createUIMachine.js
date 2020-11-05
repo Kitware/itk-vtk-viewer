@@ -44,6 +44,9 @@ function createUIMachine(options, context) {
             TOGGLE_AXES: {
               actions: forwardTo('main'),
             },
+            TOGGLE_INTERPOLATION: {
+              actions: forwardTo('main'),
+            },
           },
           states: {
             // Optional feature of the user interface

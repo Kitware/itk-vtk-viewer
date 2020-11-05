@@ -3,6 +3,7 @@ import toggleFullscreen from './toggleFullscreen'
 import toggleRotate from './toggleRotate'
 import toggleAnnotations from './toggleAnnotations'
 import toggleAxes from './toggleAxes'
+import toggleInterpolation from './toggleInterpolation'
 
 const mainUIMachineOptions = {
   actions: {
@@ -15,6 +16,8 @@ const mainUIMachineOptions = {
     toggleRotate,
 
     toggleAxes,
+
+    toggleInterpolation,
   },
 }
 

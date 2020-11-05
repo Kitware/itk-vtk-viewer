@@ -35,7 +35,7 @@ const TEST_VIEWER_STYLE = {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(8)
+  t.plan(10)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -98,6 +98,14 @@ test('Test createViewer', async t => {
   const resultAxes = viewer.getAxesEnabled()
   t.same(resultAxes, true, 'axes')
   viewer.setAxesEnabled(false)
+
+  viewer.once('toggleInterpolation', data => {
+    t.pass('toggleInterpolation event')
+  })
+  viewer.setInterpolationEnabled(false)
+  const resultInterpolation = viewer.getInterpolationEnabled()
+  t.same(resultInterpolation, false, 'interpolation')
+  viewer.setInterpolationEnabled(true)
 
   const viewProxy = viewer.getViewProxy()
   const renderWindow = viewProxy.getOpenglRenderWindow()

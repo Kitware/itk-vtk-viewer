@@ -123,6 +123,12 @@ const createViewer = async (
           case 'TOGGLE_AXES':
             eventEmitter.emit('toggleAxes', publicAPI.getAxesEnabled())
             break
+          case 'TOGGLE_INTERPOLATION':
+            eventEmitter.emit(
+              'toggleInterpolation',
+              publicAPI.getInterpolationEnabled()
+            )
+            break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
         }
@@ -843,17 +849,14 @@ const createViewer = async (
     return context.main.fullscreenEnabled
   }
 
-  const toggleInterpolationHandlers = []
-  autorun(() => {
-    const enabled = store.mainUI.interpolationEnabled
-    eventEmitter.emit('toggleInterpolation', enabled)
-  })
-
   publicAPI.setInterpolationEnabled = enabled => {
-    const interpolation = store.mainUI.interpolationEnabled
-    if ((enabled && !interpolation) || (!enabled && interpolation)) {
-      store.mainUI.interpolationEnabled = enabled
+    if (enabled !== context.main.interpolationEnabled) {
+      service.send('TOGGLE_INTERPOLATION')
     }
+  }
+
+  publicAPI.getInterpolationEnabled = () => {
+    return context.main.interpolationEnabled
   }
 
   const toggleCroppingPlanesHandlers = []

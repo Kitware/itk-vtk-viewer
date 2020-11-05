@@ -13,6 +13,9 @@ class MainMachineContext {
 
   // Visualize the spatial axes on the viewable scene content
   axesEnabled = false
+
+  // Enable interpolation on slicing planes
+  interpolationEnabled = true
 }
 
 export default MainMachineContext

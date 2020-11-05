@@ -42,32 +42,8 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             SET_BACKGROUND_COLOR: {
               actions: [forwardTo('rendering'), forwardTo('eventEmitter')],
             },
-            TAKE_SCREENSHOT: {
-              actions: forwardTo('rendering'),
-            },
-            TOGGLE_ANNOTATIONS: {
-              actions: [
-                forwardTo('ui'),
-                forwardTo('rendering'),
-                forwardTo('eventEmitter'),
-              ],
-            },
             TOGGLE_DARK_MODE: {
               actions: forwardTo('ui'),
-            },
-            TOGGLE_AXES: {
-              actions: [
-                forwardTo('ui'),
-                forwardTo('rendering'),
-                forwardTo('eventEmitter'),
-              ],
-            },
-            TOGGLE_ROTATE: {
-              actions: [
-                forwardTo('ui'),
-                forwardTo('rendering'),
-                forwardTo('eventEmitter'),
-              ],
             },
             TOGGLE_UI_COLLAPSED: {
               actions: [forwardTo('ui'), forwardTo('eventEmitter')],
@@ -77,6 +53,37 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             },
             DISABLE_FULLSCREEN: {
               actions: forwardTo('ui'),
+            },
+            TAKE_SCREENSHOT: {
+              actions: forwardTo('rendering'),
+            },
+            TOGGLE_ROTATE: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
+            TOGGLE_ANNOTATIONS: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
+            TOGGLE_AXES: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
+            TOGGLE_INTERPOLATION: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
             },
           },
         },

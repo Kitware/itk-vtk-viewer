@@ -88,3 +88,11 @@ Set whether spatial axes are visualized in the scene.
 ### getAxesEnabled()
 
 Get whether spatial axes are visualized in the scene.
+
+### setInterpolationEnabled(enabled)
+
+Set whether bilinear interpolation is used in the image slicing planes.
+
+### getInterpolationEnabled()
+
+Get whether bilinear interpolation is used in the image slicing planes.

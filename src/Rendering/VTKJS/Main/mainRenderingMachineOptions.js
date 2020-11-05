@@ -3,6 +3,7 @@ import takeScreenshot from './takeScreenshot'
 import toggleRotate from './toggleRotate'
 import toggleAnnotations from './toggleAnnotations'
 import toggleAxes from './toggleAxes'
+import toggleInterpolation from './toggleInterpolation'
 
 const mainRenderingMachineOptions = {
   actions: {
@@ -15,6 +16,8 @@ const mainRenderingMachineOptions = {
     toggleAnnotations,
 
     toggleAxes,
+
+    toggleInterpolation,
   },
 }
 

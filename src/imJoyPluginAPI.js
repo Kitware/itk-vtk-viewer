@@ -70,6 +70,13 @@ const imJoyPluginAPI = {
   getAxesEnabled() {
     return this.viewer.getAxesEnabled()
   },
+
+  setInterpolationEnabled(enabled) {
+    this.viewer.setInterpolationEnabled(enabled)
+  },
+  getInterpolationEnabled() {
+    return this.viewer.getInterpolationEnabled()
+  },
 }
 
 export default imJoyPluginAPI

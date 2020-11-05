@@ -49,6 +49,9 @@ const createRenderingMachine = (options, context) => {
             TOGGLE_AXES: {
               actions: forwardTo('main'),
             },
+            TOGGLE_INTERPOLATION: {
+              actions: forwardTo('main'),
+            },
           },
         },
       },

@@ -1,4 +1,5 @@
 import setBackgroundColor from './setBackgroundColor'
+import setUnits from './setUnits'
 import takeScreenshot from './takeScreenshot'
 import toggleRotate from './toggleRotate'
 import toggleAnnotations from './toggleAnnotations'
@@ -8,6 +9,8 @@ import toggleInterpolation from './toggleInterpolation'
 const mainRenderingMachineOptions = {
   actions: {
     setBackgroundColor,
+
+    setUnits,
 
     takeScreenshot,
 

@@ -43,6 +43,13 @@ const imJoyPluginAPI = {
     return this.viewer.getBackgroundColor()
   },
 
+  setUnits(units) {
+    this.viewer.setUnits(units)
+  },
+  getUnits() {
+    return this.viewer.getUnits()
+  },
+
   setUICollapsed(collapsed) {
     this.viewer.setUICollapsed(collapsed)
   },

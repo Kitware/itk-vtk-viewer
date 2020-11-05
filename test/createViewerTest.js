@@ -35,7 +35,7 @@ const TEST_VIEWER_STYLE = {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(10)
+  t.plan(11)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -73,6 +73,10 @@ test('Test createViewer', async t => {
   viewer.setBackgroundColor(bgColor)
   const resultBGColor = viewer.getBackgroundColor()
   t.same(resultBGColor, bgColor, 'background color')
+
+  viewer.setUnits('mm')
+  const resultUnits = viewer.getUnits()
+  t.same(resultUnits, 'mm', 'units')
 
   // skip for screenshot consistency
   //viewer.once('toggleRotate', data => {

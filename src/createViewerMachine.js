@@ -42,6 +42,9 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             SET_BACKGROUND_COLOR: {
               actions: [forwardTo('rendering'), forwardTo('eventEmitter')],
             },
+            SET_UNITS: {
+              actions: [forwardTo('rendering')],
+            },
             TOGGLE_DARK_MODE: {
               actions: forwardTo('ui'),
             },

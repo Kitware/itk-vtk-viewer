@@ -16,7 +16,7 @@ function createMainRenderingMachine(options, context) {
           },
         },
         active: {
-          entry: ['setBackgroundColor'],
+          entry: ['setBackgroundColor', 'setUnits'],
           type: 'parallel',
           on: {
             TAKE_SCREENSHOT: {
@@ -29,6 +29,9 @@ function createMainRenderingMachine(options, context) {
                 'setBackgroundColor',
                 send('CHECK_BACKGROUND_CONTRAST'),
               ],
+            },
+            SET_UNITS: {
+              actions: 'setUnits',
             },
           },
           states: {

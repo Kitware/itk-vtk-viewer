@@ -1196,6 +1196,14 @@ const createViewer = async (
     return context.main.backgroundColor.slice()
   }
 
+  publicAPI.setUnits = units => {
+    service.send({ type: 'SET_UNITS', data: units })
+  }
+
+  publicAPI.getUnits = () => {
+    return context.main.units
+  }
+
   // The `itkVtkView` is considered an internal implementation detail
   // and its interface and behavior may change without changes to the major version.
   publicAPI.getViewProxy = () => {

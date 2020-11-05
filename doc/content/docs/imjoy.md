@@ -57,6 +57,14 @@ e.g. [1.0, 0.5, 0.5].
 
 Get the current rendering background color.
 
+### setUnits(units)
+
+Set the string identifying the spatial length units in the scale bar.
+
+### getUnits()
+
+Get the string identifying the spatial length units in the scale bar.
+
 ### setUICollapsed(collapsed)
 
 Set whether the user interface is collapsed.

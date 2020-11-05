@@ -37,6 +37,9 @@ const createRenderingMachine = (options, context) => {
             SET_BACKGROUND_COLOR: {
               actions: forwardTo('main'),
             },
+            SET_UNITS: {
+              actions: forwardTo('main'),
+            },
             TAKE_SCREENSHOT: {
               actions: forwardTo('main'),
             },

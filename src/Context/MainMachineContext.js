@@ -16,6 +16,9 @@ class MainMachineContext {
 
   // Enable interpolation on slicing planes
   interpolationEnabled = true
+
+  // Spatial length units displayed in the scale bar
+  units = ''
 }
 
 export default MainMachineContext

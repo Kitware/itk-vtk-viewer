@@ -5,7 +5,6 @@ import toggleRotate from './toggleRotate'
 import toggleAnnotations from './toggleAnnotations'
 import toggleAxes from './toggleAxes'
 import toggleInterpolation from './toggleInterpolation'
-import toggleBackgroundColor from './toggleBackgroundColor'
 import viewModeXPlane from './viewModeXPlane'
 import viewModeYPlane from './viewModeYPlane'
 import viewModeZPlane from './viewModeZPlane'
@@ -27,8 +26,6 @@ const mainRenderingMachineOptions = {
     toggleAxes,
 
     toggleInterpolation,
-
-    toggleBackgroundColor,
 
     viewModeXPlane,
     viewModeYPlane,

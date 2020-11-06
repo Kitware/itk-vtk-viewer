@@ -47,7 +47,10 @@ function createMainRenderingMachine(options, context) {
               ],
             },
             TOGGLE_BACKGROUND_COLOR: {
-              actions: 'toggleBackgroundColor',
+              actions: [
+                'setBackgroundColor',
+                send('CHECK_BACKGROUND_CONTRAST'),
+              ],
             },
             SET_UNITS: {
               actions: 'setUnits',

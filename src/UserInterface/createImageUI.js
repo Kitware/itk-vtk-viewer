@@ -12,7 +12,7 @@ import createSampleDistanceSlider from './Image/createSampleDistanceSlider'
 import createGradientOpacitySlider from './Image/createGradientOpacitySlider'
 import createDistanceButton from './Image/createDistanceButton'
 
-function createImageUI(store, use2D) {
+function createImageUI(store, use2D, uiContainer) {
   const viewerDOMId = store.id
 
   const imageUIGroup = document.createElement('div')
@@ -94,7 +94,12 @@ function createImageUI(store, use2D) {
     const volumeRenderingRow2 = document.createElement('div')
     volumeRenderingRow2.setAttribute('class', style.uiRow)
     volumeRenderingRow2.className += ` ${viewerDOMId}-volumeRendering2 ${viewerDOMId}-collapsible`
-    createViewPlanesToggle(store, imageUIGroup, volumeRenderingRow2)
+    createViewPlanesToggle(
+      store,
+      imageUIGroup,
+      volumeRenderingRow2,
+      uiContainer
+    )
     createSampleDistanceSlider(store, volumeRenderingRow2)
     createBlendModeSelector(store, volumeRenderingRow2)
     imageUIGroup.appendChild(volumeRenderingRow2)
@@ -142,7 +147,7 @@ function createImageUI(store, use2D) {
     )
   }
 
-  store.mainUI.uiContainer.appendChild(imageUIGroup)
+  uiContainer.appendChild(imageUIGroup)
 }
 
 export default createImageUI

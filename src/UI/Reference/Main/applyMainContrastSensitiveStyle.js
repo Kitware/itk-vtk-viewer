@@ -67,6 +67,11 @@ function applyMainContrastSensitiveStyle(context, event) {
       context.main.volumeRenderingButtonLabel
     )
   }
+  applyContrastSensitiveStyleToElement(
+    context,
+    'invertibleButton',
+    context.main.resetCameraButtonLabel
+  )
 }
 
 export default applyMainContrastSensitiveStyle

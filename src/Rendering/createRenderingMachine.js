@@ -61,6 +61,9 @@ const createRenderingMachine = (options, context) => {
             VIEW_MODE_CHANGED: {
               actions: forwardTo('main'),
             },
+            RESET_CAMERA: {
+              actions: forwardTo('main'),
+            },
           },
         },
       },

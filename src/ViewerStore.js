@@ -29,10 +29,6 @@ class MainUIStore {
   @observable croppingPlanesEnabled = false
 
   @observable viewMode = 'VolumeRendering'
-  xPlaneButton = null
-  yPlaneButton = null
-  zPlaneButton = null
-  volumeRenderingButton = null
 
   fps = [60, 60, 60]
   @observable fpsTooLow = false

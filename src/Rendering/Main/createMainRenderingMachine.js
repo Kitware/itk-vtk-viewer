@@ -52,6 +52,9 @@ function createMainRenderingMachine(options, context) {
             SET_UNITS: {
               actions: 'setUnits',
             },
+            RESET_CAMERA: {
+              actions: 'resetCamera',
+            },
           },
           states: {
             background: {

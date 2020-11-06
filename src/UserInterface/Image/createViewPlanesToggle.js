@@ -5,7 +5,12 @@ import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
 
 import viewPlansIcon from '../icons/view-planes.svg'
 
-function createViewPlanesToggle(store, imageUIGroup, volumeRenderingRow) {
+function createViewPlanesToggle(
+  store,
+  imageUIGroup,
+  volumeRenderingRow,
+  uiContainer
+) {
   const viewerDOMId = store.id
 
   const viewPlanesButton = document.createElement('div')
@@ -17,7 +22,6 @@ function createViewPlanesToggle(store, imageUIGroup, volumeRenderingRow) {
     const viewPlanes = store.imageUI.slicingPlanesEnabled
     viewPlanesButtonInput.checked = viewPlanes
     store.itkVtkView.setViewPlanes(viewPlanes)
-    const uiContainer = store.mainUI.uiContainer
     const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`)
     const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`)
     const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`)

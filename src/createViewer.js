@@ -216,8 +216,6 @@ const createViewer = async (
 
   let updatingImage = false
 
-  UserInterface.createMainUI(rootContainer, store, use2D, context.uiContainer)
-
   function imagePickedListener(lastPickedValues) {
     if (lastPickedValues.value !== null) {
       store.imageUI.selectedLabel = lastPickedValues.label
@@ -301,16 +299,16 @@ const createViewer = async (
       }
 
       if (!!store.imageUI.image && !!!store.imageUI.imageUIGroup) {
-        UserInterface.createImageUI(store, use2D)
+        UserInterface.createImageUI(store, use2D, context.uiContainer)
       }
 
       if (!!store.imageUI.labelMap && !!!store.imageUI.labelMapColorUIGroup) {
-        createLabelMapColorWidget(store, store.mainUI.uiContainer)
-        createLabelMapWeightWidget(store, store.mainUI.uiContainer)
+        createLabelMapColorWidget(store, context.uiContainer)
+        createLabelMapWeightWidget(store, context.uiContainer)
       }
 
       if (!use2D && !!!store.imageUI.placeIndexUIGroup) {
-        createPlaneIndexSliders(store, store.mainUI.uiContainer)
+        createPlaneIndexSliders(store, context.uiContainer)
       }
 
       if (!initialRender) {
@@ -465,7 +463,7 @@ const createViewer = async (
       }
 
       if (!store.geometriesUI.initialized) {
-        UserInterface.createGeometriesUI(store)
+        UserInterface.createGeometriesUI(store, context.uiContainer)
       }
       store.geometriesUI.names = geometries.map(
         (geometry, index) => `Geometry ${index}`
@@ -536,7 +534,7 @@ const createViewer = async (
       }
 
       if (!store.pointSetsUI.initialized) {
-        UserInterface.createPointSetsUI(store)
+        UserInterface.createPointSetsUI(store, context.uiContainer)
       }
     }
   )

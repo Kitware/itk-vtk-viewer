@@ -10,6 +10,7 @@ import viewModeXPlane from './viewModeXPlane'
 import viewModeYPlane from './viewModeYPlane'
 import viewModeZPlane from './viewModeZPlane'
 import viewModeVolumeRendering from './viewModeVolumeRendering'
+import resetCamera from './resetCamera'
 
 const mainRenderingMachineOptions = {
   actions: {
@@ -33,6 +34,8 @@ const mainRenderingMachineOptions = {
     viewModeYPlane,
     viewModeZPlane,
     viewModeVolumeRendering,
+
+    resetCamera,
   },
 }
 

@@ -5,7 +5,7 @@ import style from './ItkVtkViewer.module.css'
 import createPointSetRepresentationSelector from './PointSets/createPointSetRepresentationSelector'
 import createPointSetColorWidget from './PointSets/createPointSetColorWidget'
 
-function createPointSetsUI(store) {
+function createPointSetsUI(store, uiContainer) {
   const pointSetsUIGroup = document.createElement('div')
   pointSetsUIGroup.setAttribute('class', style.uiGroup)
 
@@ -63,7 +63,7 @@ function createPointSetsUI(store) {
 
   createPointSetColorWidget(store, pointSetsUIGroup)
 
-  store.mainUI.uiContainer.appendChild(pointSetsUIGroup)
+  uiContainer.appendChild(pointSetsUIGroup)
   store.pointSetsUI.initialized = true
 }
 

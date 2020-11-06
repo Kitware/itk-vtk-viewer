@@ -1,4 +1,5 @@
 import MainMachineContext from './MainMachineContext'
+import LayerMachineContext from './LayerMachineContext'
 import ImageMachineContext from './ImageMachineContext'
 
 const defaultContainerStyle = {
@@ -24,6 +25,7 @@ class ViewerMachineContext {
         .replace('.', '')
 
     this.main = new MainMachineContext()
+    this.layer = new LayerMachineContext()
     this.image = new ImageMachineContext()
   }
 
@@ -52,6 +54,9 @@ class ViewerMachineContext {
 
   // Main machine context
   main = null
+
+  // Layer machine context
+  layer = null
 
   // Image machine context
   image = null

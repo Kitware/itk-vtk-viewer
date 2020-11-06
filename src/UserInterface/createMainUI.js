@@ -1,7 +1,6 @@
 import style from './ItkVtkViewer.module.css'
 
 import createViewModeButtons from './Main/createViewModeButtons'
-import createCroppingButtons from './Main/createCroppingButtons'
 import createResetCameraButton from './Main/createResetCameraButton'
 
 function createMainUI(rootContainer, store, use2D, uiContainer) {
@@ -24,12 +23,10 @@ function createMainUI(rootContainer, store, use2D, uiContainer) {
   mainUIRow2.setAttribute('class', style.mainUIRow)
   mainUIRow2.className += ` ${store.id}-collapsible`
   if (!use2D) {
-    createCroppingButtons(store, mainUIRow2)
     createViewModeButtons(store, mainUIRow2)
     createResetCameraButton(store, mainUIRow2)
     mainUIGroup.appendChild(mainUIRow2)
   } else {
-    createCroppingButtons(store, mainUIRow1)
     createResetCameraButton(store, mainUIRow1)
   }
 

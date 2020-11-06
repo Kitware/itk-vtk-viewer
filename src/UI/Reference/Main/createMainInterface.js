@@ -7,6 +7,7 @@ import createAnnotationsButton from './createAnnotationsButton'
 import createAxesButton from './createAxesButton'
 import createInterpolationButton from './createInterpolationButton'
 import createBackgroundColorButton from './createBackgroundColorButton'
+import createCroppingButtons from './createCroppingButtons'
 
 function createMainInterface(context) {
   const mainUIGroup = document.createElement('div')
@@ -25,7 +26,18 @@ function createMainInterface(context) {
   createAnnotationsButton(context, mainUIRow1)
   createAxesButton(context, mainUIRow1)
   createInterpolationButton(context, mainUIRow1)
+
   createBackgroundColorButton(context, mainUIRow1)
+  const mainUIRow2 = document.createElement('div')
+  mainUIRow2.setAttribute('class', style.mainUIRow)
+  mainUIRow2.className += ` ${context.id}-collapsible`
+
+  if (context.use2D) {
+    createCroppingButtons(context, mainUIRow1)
+  } else {
+    createCroppingButtons(context, mainUIRow2)
+    mainUIGroup.appendChild(mainUIRow2)
+  }
 
   context.uiContainer.appendChild(mainUIGroup)
 }

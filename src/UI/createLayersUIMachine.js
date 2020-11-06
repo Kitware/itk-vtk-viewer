@@ -1,6 +1,6 @@
 import { Machine } from 'xstate'
 
-function createLayerUIMachine(options, context) {
+function createLayersUIMachine(options, context) {
   return Machine(
     {
       id: 'layer',
@@ -10,7 +10,7 @@ function createLayerUIMachine(options, context) {
         idle: {
           always: {
             target: 'active',
-            actions: ['createLayerInterface'],
+            actions: ['createLayersInterface'],
           },
         },
         active: {
@@ -24,4 +24,4 @@ function createLayerUIMachine(options, context) {
   )
 }
 
-export default createLayerUIMachine
+export default createLayersUIMachine

@@ -51,6 +51,12 @@
   max-width: 420px;
 }
 
+.layersUIRow {
+  composes: uiRow;
+  justify-content: space-around;
+  max-width: 420px;
+}
+
 .progress {
   color: white;
   font-size: 200%;

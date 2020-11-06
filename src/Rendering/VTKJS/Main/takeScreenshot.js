@@ -1,6 +1,6 @@
 async function takeScreenshot(context) {
-  // Todo: re-enable after context.image is redefined
-  //const proxy = context.image.representationProxy
+  // Todo: re-enable after context.images.is redefined
+  //const proxy = context.images.representationProxy
   let mapper = null
   //if (proxy) {
   //mapper = proxy.getMapper()

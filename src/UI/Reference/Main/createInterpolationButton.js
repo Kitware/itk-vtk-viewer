@@ -7,7 +7,7 @@ import toggleInterpolation from './toggleInterpolation'
 function createInterpolationButton(context, mainUIRow) {
   const interpolationButton = document.createElement('div')
   // Todo: send event to disable interpolation when label maps added
-  //if (context.image.labelMaps.length) {
+  //if (context.images.labelMaps.length) {
   //context.main.interpolationEnabled = false
   //}
   // and the "input" element needs to get the 'disabled' attribute added

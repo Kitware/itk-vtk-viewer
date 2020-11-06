@@ -11,19 +11,19 @@ function createCroppingButtons(context, mainUIRow) {
   const viewerDOMId = context.id
   const eventEmitter = context.eventEmitter
   function setupCroppingWidget() {
-    context.imageUI.croppingWidget = vtkImageCroppingRegionsWidget.newInstance()
-    context.imageUI.croppingWidget.setHandleSize(16)
-    context.imageUI.croppingWidget.setFaceHandlesEnabled(false)
-    context.imageUI.croppingWidget.setEdgeHandlesEnabled(false)
-    context.imageUI.croppingWidget.setCornerHandlesEnabled(true)
-    context.imageUI.croppingWidget.setInteractor(
+    context.images.croppingWidget = vtkImageCroppingRegionsWidget.newInstance()
+    context.images.croppingWidget.setHandleSize(16)
+    context.images.croppingWidget.setFaceHandlesEnabled(false)
+    context.images.croppingWidget.setEdgeHandlesEnabled(false)
+    context.images.croppingWidget.setCornerHandlesEnabled(true)
+    context.images.croppingWidget.setInteractor(
       context.itkVtkView.getInteractor()
     )
-    context.imageUI.croppingWidget.setEnabled(false)
-    context.imageUI.croppingWidget.setVolumeMapper(
-      context.imageUI.representationProxy.getMapper()
+    context.images.croppingWidget.setEnabled(false)
+    context.images.croppingWidget.setVolumeMapper(
+      context.images.representationProxy.getMapper()
     )
-    context.imageUI.addCroppingPlanesChangedHandler = handler => {
+    context.images.addCroppingPlanesChangedHandler = handler => {
       eventEmitter.on('croppingPlanesChanged', handler)
       function unsubscribe() {
         eventEmitter.off('croppingPlanesChanged', handler)
@@ -36,16 +36,16 @@ function createCroppingButtons(context, mainUIRow) {
         return
       }
       croppingUpdateInProgress = true
-      const planes = context.imageUI.croppingWidget.getWidgetState().planes
-      context.imageUI.representationProxy.setCroppingPlanes(planes)
-      const bboxCorners = context.imageUI.croppingWidget.planesToBBoxCorners(
+      const planes = context.images.croppingWidget.getWidgetState().planes
+      context.images.representationProxy.setCroppingPlanes(planes)
+      const bboxCorners = context.images.croppingWidget.planesToBBoxCorners(
         planes
       )
       eventEmitter.emit('croppingPlanesChanged', planes, bboxCorners)
       croppingUpdateInProgress = false
     }
     const debouncedSetCroppingPlanes = macro.debounce(setCroppingPlanes, 100)
-    context.imageUI.croppingWidget.onCroppingPlanesChanged(
+    context.images.croppingWidget.onCroppingPlanesChanged(
       debouncedSetCroppingPlanes
     )
 
@@ -60,7 +60,7 @@ function createCroppingButtons(context, mainUIRow) {
     )
     function toggleCrop(cropEnabled) {
       cropButtonInput.checked = cropEnabled
-      context.imageUI.croppingWidget.setEnabled(cropEnabled)
+      context.images.croppingWidget.setEnabled(cropEnabled)
       context.renderWindow.render()
     }
     reaction(
@@ -87,7 +87,7 @@ function createCroppingButtons(context, mainUIRow) {
       'invertibleButton',
       resetCropButtonLabel
     )
-    context.imageUI.addResetCropHandler = handler => {
+    context.images.addResetCropHandler = handler => {
       eventEmitter.on('resetCrop', handler)
       function unsubscribe() {
         eventEmitter.off('resetCrop', handler)
@@ -95,8 +95,8 @@ function createCroppingButtons(context, mainUIRow) {
       return Object.freeze({ unsubscribe })
     }
     function resetCrop() {
-      context.imageUI.representationProxy.getCropFilter().reset()
-      context.imageUI.croppingWidget.resetWidgetState()
+      context.images.representationProxy.getCropFilter().reset()
+      context.images.croppingWidget.resetWidgetState()
       eventEmitter.emit('resetCrop')
     }
     resetCropButton.addEventListener('change', event => {
@@ -112,10 +112,10 @@ function createCroppingButtons(context, mainUIRow) {
     mainUIRow.appendChild(resetCropButton)
   } // if(imageRepresentationProxy)
   // Todo: setup when an image or labelMap is added
-  //if (context.imageUI.representationProxy) {
+  //if (context.images.representationProxy) {
   //setupCroppingWidget()
   //} else {
-  //when(() => !!context.imageUI.representationProxy, setupCroppingWidget)
+  //when(() => !!context.images.representationProxy, setupCroppingWidget)
   //}
 }
 

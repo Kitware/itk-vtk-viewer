@@ -1,10 +1,12 @@
 import { Machine, forwardTo } from 'xstate'
 
 import createMainUIMachine from './createMainUIMachine'
+import createLayerUIMachine from './createLayerUIMachine'
 
 function createUIMachine(options, context) {
-  const { main } = options
+  const { main, layer } = options
   const mainMachine = createMainUIMachine(main, context)
+  const layerMachine = createLayerUIMachine(main, context)
   return Machine(
     {
       id: 'ui',

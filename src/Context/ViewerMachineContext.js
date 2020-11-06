@@ -1,6 +1,6 @@
 import MainMachineContext from './MainMachineContext'
-import LayerMachineContext from './LayerMachineContext'
-import ImageMachineContext from './ImageMachineContext'
+import LayersMachineContext from './LayersMachineContext'
+import ImagesMachineContext from './ImagesMachineContext'
 
 const defaultContainerStyle = {
   position: 'relative',
@@ -25,8 +25,8 @@ class ViewerMachineContext {
         .replace('.', '')
 
     this.main = new MainMachineContext()
-    this.layer = new LayerMachineContext()
-    this.image = new ImageMachineContext()
+    this.layers = new LayersMachineContext()
+    this.images = new ImagesMachineContext()
   }
 
   // Contains the viewer container div and optionally the debugger
@@ -55,11 +55,11 @@ class ViewerMachineContext {
   // Main machine context
   main = null
 
-  // Layer machine context
-  layer = null
+  // Layers machine context
+  layers = null
 
   // Image machine context
-  image = null
+  images = null
 }
 
 export default ViewerMachineContext

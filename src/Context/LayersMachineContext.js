@@ -1,4 +1,4 @@
-class LayerMachineContext {
+class LayersMachineContext {
   // Map of layer dataset name to an object describing the layer. The object
   // has the members:
   //
@@ -11,3 +11,5 @@ class LayerMachineContext {
   // the selected layer.
   selectedLayer = ''
 }
+
+export default LayersMachineContext

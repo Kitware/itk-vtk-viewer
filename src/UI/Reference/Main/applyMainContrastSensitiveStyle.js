@@ -45,6 +45,28 @@ function applyMainContrastSensitiveStyle(context, event) {
     'invertibleButton',
     context.main.bgColorButtonLabel
   )
+  if (!context.use2D) {
+    applyContrastSensitiveStyleToElement(
+      context,
+      'tooltipButton',
+      context.main.xPlaneButtonLabel
+    )
+    applyContrastSensitiveStyleToElement(
+      context,
+      'tooltipButton',
+      context.main.yPlaneButtonLabel
+    )
+    applyContrastSensitiveStyleToElement(
+      context,
+      'tooltipButton',
+      context.main.zPlaneButtonLabel
+    )
+    applyContrastSensitiveStyleToElement(
+      context,
+      'tooltipButton',
+      context.main.volumeRenderingButtonLabel
+    )
+  }
 }
 
 export default applyMainContrastSensitiveStyle

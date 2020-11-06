@@ -111,6 +111,7 @@ function createCroppingButtons(context, mainUIRow) {
     })
     mainUIRow.appendChild(resetCropButton)
   } // if(imageRepresentationProxy)
+  // Todo: setup when an image or labelMap is added
   //if (context.imageUI.representationProxy) {
   //setupCroppingWidget()
   //} else {

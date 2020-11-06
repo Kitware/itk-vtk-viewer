@@ -30,6 +30,10 @@ class MainMachineContext {
 
   // Spatial length units displayed in the scale bar
   units = ''
+
+  // In the single view layout, the an X plane, Y plane, Z plane, or volume
+  // rendering.
+  viewMode = 'VolumeRendering'
 }
 
 export default MainMachineContext

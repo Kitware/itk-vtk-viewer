@@ -8,6 +8,7 @@ import createAxesButton from './createAxesButton'
 import createInterpolationButton from './createInterpolationButton'
 import createBackgroundColorButton from './createBackgroundColorButton'
 import createCroppingButtons from './createCroppingButtons'
+import createViewModeButtons from './createViewModeButtons'
 
 function createMainInterface(context) {
   const mainUIGroup = document.createElement('div')
@@ -36,6 +37,7 @@ function createMainInterface(context) {
     createCroppingButtons(context, mainUIRow1)
   } else {
     createCroppingButtons(context, mainUIRow2)
+    createViewModeButtons(context, mainUIRow2)
     mainUIGroup.appendChild(mainUIRow2)
   }
 

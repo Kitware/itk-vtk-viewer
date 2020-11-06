@@ -26,6 +26,9 @@ function createUIMachine(options, context) {
             },
           ],
           on: {
+            TOGGLE_BACKGROUND_COLOR: {
+              actions: forwardTo('main'),
+            },
             TOGGLE_DARK_MODE: {
               actions: 'applyContrastSensitiveStyle',
             },
@@ -47,7 +50,7 @@ function createUIMachine(options, context) {
             TOGGLE_INTERPOLATION: {
               actions: forwardTo('main'),
             },
-            TOGGLE_BACKGROUND_COLOR: {
+            VIEW_MODE_CHANGED: {
               actions: forwardTo('main'),
             },
           },

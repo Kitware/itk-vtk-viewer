@@ -135,6 +135,9 @@ const createViewer = async (
               publicAPI.getInterpolationEnabled()
             )
             break
+          case 'VIEW_MODE_CHANGED':
+            eventEmitter.emit('viewModeChanged', publicAPI.getViewMode())
+            break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
         }
@@ -650,6 +653,7 @@ const createViewer = async (
     'toggleAxes',
     'toggleRotate',
     'toggleInterpolation',
+    'viewModeChanged',
     'resetCrop',
     'imagePicked',
     'labelMapBlendChanged',
@@ -661,7 +665,6 @@ const createViewer = async (
     'colorRangesChanged',
     'selectColorMap',
     'selectLookupTable',
-    'viewModeChanged',
     'xSliceChanged',
     'ySliceChanged',
     'zSliceChanged',
@@ -865,6 +868,16 @@ const createViewer = async (
     return context.main.interpolationEnabled
   }
 
+  publicAPI.setViewMode = mode => {
+    if (mode !== context.main.viewMode) {
+      service.send({ type: 'VIEW_MODE_CHANGED', data: mode })
+    }
+  }
+
+  publicAPI.getViewMode = () => {
+    return context.main.viewMode
+  }
+
   const toggleCroppingPlanesHandlers = []
   autorun(() => {
     const enabled = store.mainUI.croppingPlanesEnabled
@@ -933,37 +946,6 @@ const createViewer = async (
   }
 
   if (!use2D) {
-    reaction(
-      () => {
-        return store.mainUI.viewMode
-      },
-      viewMode => {
-        switch (viewMode) {
-          case 'XPlane':
-            eventEmitter.emit('viewModeChanged', 'XPlane')
-            break
-          case 'YPlane':
-            eventEmitter.emit('viewModeChanged', 'YPlane')
-            break
-          case 'ZPlane':
-            eventEmitter.emit('viewModeChanged', 'ZPlane')
-            break
-          case 'VolumeRendering':
-            eventEmitter.emit('viewModeChanged', 'VolumeRendering')
-            break
-          default:
-            console.error('Invalid view mode: ' + viewMode)
-        }
-      }
-    )
-
-    publicAPI.setViewMode = mode => {
-      if (!image) {
-        return
-      }
-      store.mainUI.viewMode = mode
-    }
-
     reaction(
       () => {
         return store.imageUI.xSlice

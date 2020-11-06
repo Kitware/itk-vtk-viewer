@@ -1,6 +1,5 @@
 import style from './ItkVtkViewer.module.css'
 
-import createViewModeButtons from './Main/createViewModeButtons'
 import createResetCameraButton from './Main/createResetCameraButton'
 
 function createMainUI(rootContainer, store, use2D, uiContainer) {
@@ -23,7 +22,6 @@ function createMainUI(rootContainer, store, use2D, uiContainer) {
   mainUIRow2.setAttribute('class', style.mainUIRow)
   mainUIRow2.className += ` ${store.id}-collapsible`
   if (!use2D) {
-    createViewModeButtons(store, mainUIRow2)
     createResetCameraButton(store, mainUIRow2)
     mainUIGroup.appendChild(mainUIRow2)
   } else {

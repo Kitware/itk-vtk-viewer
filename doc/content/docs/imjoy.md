@@ -104,3 +104,11 @@ Set whether bilinear interpolation is used in the image slicing planes.
 ### getInterpolationEnabled()
 
 Get whether bilinear interpolation is used in the image slicing planes.
+
+### setViewMode(mode)
+
+Set the viewer mode for the current primary view. Valid values: 'XPlane', 'YPlane', 'ZPlane', or 'VolumeRendering'.
+
+### getViewMode()
+
+Get the viewer mode for the current primary view.

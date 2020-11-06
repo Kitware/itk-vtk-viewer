@@ -518,14 +518,6 @@ class ViewerStore {
     return backgroundColor[0] + backgroundColor[1] + backgroundColor[2] < 1.5
   }
 
-  backgroundColors = [
-    [0, 0, 0],
-    [1, 1, 1],
-    [0.5, 0.5, 0.5],
-  ]
-
-  selectedBackgroundColor = 2
-
   @observable style = {
     backgroundColor: [0.5, 0.5, 0.5],
     containerStyle: STYLE_CONTAINER,

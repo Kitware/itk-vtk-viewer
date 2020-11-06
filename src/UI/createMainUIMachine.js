@@ -1,6 +1,24 @@
 import { Machine } from 'xstate'
 
 function createMainUIMachine(options, context) {
+  let initialViewMode = 'volumeRendering'
+  switch (context.main.viewMode) {
+    case 'XPlane':
+      initialViewMode = 'xPlane'
+      break
+    case 'YPlane':
+      initialViewMode = 'yPlane'
+      break
+    case 'ZPlane':
+      initialViewMode = 'zPlane'
+      break
+    case 'VolumeRendering':
+      initialViewMode = 'volumeRendering'
+      break
+    default:
+      throw new Error(`Invalid initial view mode: ${context.main.viewMode}`)
+  }
+
   return Machine(
     {
       id: 'main',
@@ -105,6 +123,34 @@ function createMainUIMachine(options, context) {
                     TOGGLE_INTERPOLATION: 'enabled',
                   },
                 },
+              },
+            },
+            viewMode: {
+              initial: initialViewMode,
+              states: {
+                xPlane: {
+                  entry: 'viewModeXPlane',
+                },
+                yPlane: {
+                  entry: 'viewModeYPlane',
+                },
+                zPlane: {
+                  entry: 'viewModeZPlane',
+                },
+                volumeRendering: {
+                  entry: 'viewModeVolumeRendering',
+                },
+              },
+              on: {
+                VIEW_MODE_CHANGED: [
+                  { target: '.xPlane', cond: (c, e) => e.data === 'XPlane' },
+                  { target: '.yPlane', cond: (c, e) => e.data === 'YPlane' },
+                  { target: '.zPlane', cond: (c, e) => e.data === 'ZPlane' },
+                  {
+                    target: '.volumeRendering',
+                    cond: (c, e) => e.data === 'VolumeRendering',
+                  },
+                ],
               },
             },
           },

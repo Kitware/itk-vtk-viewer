@@ -84,6 +84,13 @@ const imJoyPluginAPI = {
   getInterpolationEnabled() {
     return this.viewer.getInterpolationEnabled()
   },
+
+  setViewMode(mode) {
+    this.viewer.setViewMode(mode)
+  },
+  getViewMode() {
+    return this.viewer.getViewMode()
+  },
 }
 
 export default imJoyPluginAPI

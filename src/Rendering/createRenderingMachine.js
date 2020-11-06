@@ -58,6 +58,9 @@ const createRenderingMachine = (options, context) => {
             TOGGLE_INTERPOLATION: {
               actions: forwardTo('main'),
             },
+            VIEW_MODE_CHANGED: {
+              actions: forwardTo('main'),
+            },
           },
         },
       },

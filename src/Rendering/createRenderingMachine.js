@@ -1,10 +1,13 @@
 import { Machine, forwardTo, sendParent } from 'xstate'
 
 import createMainRenderingMachine from './Main/createMainRenderingMachine'
+import createLayersRenderingMachine from './Layers/createLayersRenderingMachine'
 
 const createRenderingMachine = (options, context) => {
-  const { main } = options
+  const { main, layers } = options
   const mainMachine = createMainRenderingMachine(main, context)
+  console.log('layers', layers)
+  const layersMachine = createLayersRenderingMachine(layers, context)
   return Machine(
     {
       id: 'rendering',
@@ -22,6 +25,10 @@ const createRenderingMachine = (options, context) => {
             {
               id: 'main',
               src: mainMachine,
+            },
+            {
+              id: 'layers',
+              src: layersMachine,
             },
           ],
           on: {

@@ -26,6 +26,10 @@ function createUIMachine(options, context) {
               id: 'main',
               src: mainMachine,
             },
+            {
+              id: 'layers',
+              src: layersMachine,
+            },
           ],
           on: {
             TOGGLE_BACKGROUND_COLOR: {

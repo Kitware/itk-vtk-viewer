@@ -2,11 +2,13 @@ import { Machine, forwardTo } from 'xstate'
 
 import createMainUIMachine from './createMainUIMachine'
 import createLayersUIMachine from './createLayersUIMachine'
+import createImagesUIMachine from './createImagesUIMachine'
 
 function createUIMachine(options, context) {
-  const { main, layers } = options
+  const { main, layers, images } = options
   const mainMachine = createMainUIMachine(main, context)
   const layersMachine = createLayersUIMachine(layers, context)
+  const imagesMachine = createImagesUIMachine(images, context)
   return Machine(
     {
       id: 'ui',
@@ -29,6 +31,10 @@ function createUIMachine(options, context) {
             {
               id: 'layers',
               src: layersMachine,
+            },
+            {
+              id: 'images',
+              src: imagesMachine,
             },
           ],
           on: {

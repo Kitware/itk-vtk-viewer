@@ -36,6 +36,7 @@ class MultiscaleChunkedImage {
     this.imageType = imageType
     this.pixelArrayType = componentTypeToTypedArray.get(imageType.componentType)
     this.spatialDims = ['x', 'y', 'z'].slice(0, imageType.dimension)
+    this.cachedLevelLargestImage = new Map()
     console.log(metadata)
   }
 
@@ -109,6 +110,10 @@ class MultiscaleChunkedImage {
 
   /* Retrieve the entire image at the given level. */
   async levelLargestImage(level) {
+    if (this.cachedLevelLargestImage.has(level)) {
+      return this.cachedLevelLargestImage.get(level)
+    }
+
     const meta = this.metadata[level]
 
     const chunkSize = meta.sizeCXYZTChunks
@@ -244,20 +249,8 @@ class MultiscaleChunkedImage {
       data: pixelArray,
     }
 
+    this.cachedLevelLargestImage.set(level, image)
     return image
-  }
-
-  /* Retrieve the entire image at the top level. */
-  async topLevelLargestImage() {
-    if (!!this.cachedTopLevelLargestImage) {
-      return this.cachedTopLevelLargestImage
-    }
-    const level = this.topLevel
-
-    this.cachedTopLevelLargestImage = await this.levelLargestImage(level)
-    console.log(this.cachedTopLevelLargestImage)
-
-    return this.cachedTopLevelLargestImage
   }
 }
 

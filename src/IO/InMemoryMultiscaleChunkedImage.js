@@ -202,6 +202,7 @@ function chunkImage(image, chunkSize) {
 class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
   static async buildPyramid(image, chunkSize = [64, 64, 64]) {
     const level0 = chunkImage(image, chunkSize)
+    console.log('image', image)
     const metadata = [level0.metadata]
     const pyramid = [
       {
@@ -279,6 +280,10 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
         ]
     }
     return result
+  }
+
+  async levelLargestImage(level) {
+    return this.pyramid[level].largestImage
   }
 }
 

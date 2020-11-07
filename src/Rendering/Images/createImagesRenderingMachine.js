@@ -8,8 +8,11 @@ function createImagesRenderingMachine(options, context) {
       context,
       states: {
         idle: {
-          always: {
-            target: 'active',
+          on: {
+            ADD_IMAGE: {
+              target: 'active',
+              actions: ['createImagesRenderer'],
+            },
           },
         },
         active: {},

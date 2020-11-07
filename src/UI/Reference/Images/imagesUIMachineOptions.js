@@ -1,5 +1,9 @@
+import createImagesInterface from './createImagesInterface'
+
 const imagesUIMachineOptions = {
-  actions: {},
+  actions: {
+    createImagesInterface,
+  },
 }
 
 export default imagesUIMachineOptions

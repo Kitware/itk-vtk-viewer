@@ -24,8 +24,7 @@ import updateLabelMapPiecewiseFunction from './Rendering/updateLabelMapPiecewise
 import updateVolumeProperties from './Rendering/updateVolumeProperties'
 import updateGradientOpacity from './Rendering/updateGradientOpacity'
 
-import MultiscaleChunkedImage from './IO/MultiscaleChunkedImage'
-import InMemoryMultiscaleChunkedImage from './IO/InMemoryMultiscaleChunkedImage'
+import toMultiscaleChunkedImage from './IO/toMultiscaleChunkedImage'
 import viewerMachineOptions from './viewerMachineOptions'
 import createViewerMachine from './createViewerMachine'
 import ViewerMachineContext from './Context/ViewerMachineContext'
@@ -64,7 +63,6 @@ const createViewer = async (
     use2D = false,
     rotate = true,
     viewerStyle,
-    viewerState,
     uiContainer,
     debug = true,
   }
@@ -153,6 +151,7 @@ const createViewer = async (
   context.container = store.container
   // Todo: move to VTKJS/createRenderer
   context.itkVtkView = store.itkVtkView
+  context.proxyManager = store.proxyManager
   context.renderWindow = store.renderWindow
   context.id = store.id
   const machine = createViewerMachine(options, context, eventEmitterCallback)
@@ -182,37 +181,14 @@ const createViewer = async (
     }
   }
 
-  let imageData = image
-  let multiscaleImage = null
-  if (image instanceof MultiscaleChunkedImage) {
-    multiscaleImage = image
-    imageData = null
-  } else if (!!image && image.imageType !== undefined) {
-    if (image.data.length > 2e6) {
-      const {
-        metadata,
-        imageType,
-        pyramid,
-      } = await InMemoryMultiscaleChunkedImage.buildPyramid(image)
-      multiscaleImage = new InMemoryMultiscaleChunkedImage(
-        pyramid,
-        metadata,
-        imageType
-      )
-      imageData = null
-    } else {
-      imageData = vtkITKHelper.convertItkToVtkImage(image)
-    }
-  }
-
   let labelMapData = labelMap
   let multiscaleLabelMap = null
-  if (labelMap instanceof MultiscaleChunkedImage) {
-    multiscaleLabelMap = labelMap
-    labelMapData = null
-  } else if (!!labelMap && labelMap.imageType !== undefined) {
-    labelMapData = vtkITKHelper.convertItkToVtkImage(labelMap)
-  }
+  //if (labelMap instanceof MultiscaleChunkedImage) {
+  //multiscaleLabelMap = labelMap
+  //labelMapData = null
+  //} else if (!!labelMap && labelMap.imageType !== undefined) {
+  //labelMapData = vtkITKHelper.convertItkToVtkImage(labelMap)
+  //}
 
   let updatingImage = false
 
@@ -372,7 +348,13 @@ const createViewer = async (
       }
     }
   )
-  store.imageUI.image = imageData
+  if (!!image) {
+    const multiscaleImage = await toMultiscaleChunkedImage(image)
+    service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
+  }
+
+  console.log(multiscaleImage)
+  //store.imageUI.image = imageData
   updateVisualizedComponents(store)
   if (!!labelMapData) {
     store.imageUI.labelMap = labelMapData
@@ -411,8 +393,8 @@ const createViewer = async (
       }
     }
   )
-  store.imageUI.multiscaleImage = multiscaleImage
-  store.imageUI.multiscaleLabelMap = multiscaleLabelMap
+  //store.imageUI.multiscaleImage = multiscaleImage
+  //store.imageUI.multiscaleLabelMap = multiscaleLabelMap
 
   // After all the other "store.imageUI.image" reactions have run, we
   // need to trigger all of the transfer function widget

@@ -105,6 +105,9 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             RESET_CAMERA: {
               actions: forwardTo('rendering'),
             },
+            ADD_IMAGE: {
+              actions: [forwardTo('ui'), forwardTo('rendering')],
+            },
           },
         },
       },

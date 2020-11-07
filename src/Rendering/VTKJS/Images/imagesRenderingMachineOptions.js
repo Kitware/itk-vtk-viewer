@@ -1,5 +1,9 @@
+import createImagesRenderer from './createImagesRenderer'
+
 const imagesRenderingMachineOptions = {
-  actions: {},
+  actions: {
+    createImagesRenderer,
+  },
 }
 
 export default imagesRenderingMachineOptions

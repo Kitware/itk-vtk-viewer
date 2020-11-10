@@ -1,21 +1,51 @@
-import { Machine } from 'xstate'
+import { Machine, assign, spawn } from 'xstate'
+
+import createImageRenderingActor from './createImageRenderingActor'
+
+function spawnImageRenderingActor(options) {
+  return assign({
+    images: (context, event) => {
+      const images = context.images
+      const name = Array.from(context.images.images.keys()).pop()
+      images.imageRenderingActors.set(
+        name,
+        spawn(
+          createImageRenderingActor(options, context),
+          `imageRenderingActor-${name}`
+        )
+      )
+      return images
+    },
+  })
+}
 
 function createImagesRenderingMachine(options, context) {
+  const { imageRenderingActor } = options
+
   return Machine(
     {
-      id: 'images',
+      id: 'imagesRendering',
       initial: 'idle',
       context,
       states: {
         idle: {
           on: {
-            ADD_IMAGE: {
+            ASSIGN_IMAGE: {
               target: 'active',
-              actions: ['createImagesRenderer'],
+              actions: [
+                'createImagesRenderer',
+                spawnImageRenderingActor(imageRenderingActor),
+              ],
             },
           },
         },
-        active: {},
+        active: {
+          on: {
+            ASSIGN_IMAGE: {
+              actions: spawnImageRenderingActor(imageRenderingActor),
+            },
+          },
+        },
       },
     },
     options

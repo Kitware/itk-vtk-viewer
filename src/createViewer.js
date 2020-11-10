@@ -64,7 +64,7 @@ const createViewer = async (
     rotate = true,
     viewerStyle,
     uiContainer,
-    debug = true,
+    debug = false,
   }
 ) => {
   UserInterface.emptyContainer(rootContainer)
@@ -91,6 +91,7 @@ const createViewer = async (
   //}
 
   // Todo: const eventEmitter = new EventEmitter()
+  // Migrate to a module
   const eventEmitter = store.eventEmitter
 
   function eventEmitterCallback(context, event) {
@@ -353,7 +354,6 @@ const createViewer = async (
     service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
   }
 
-  console.log(multiscaleImage)
   //store.imageUI.image = imageData
   updateVisualizedComponents(store)
   if (!!labelMapData) {

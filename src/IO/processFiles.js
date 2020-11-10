@@ -62,6 +62,7 @@ export const readFiles = async ({
   }
   try {
     const { image: itkImage, webWorkerPool } = await readDICOMSeries(files)
+    itkImage.name = files[0].name
     const is3D = itkImage.imageType.dimension === 3 && !use2D
     return {
       image: itkImage,
@@ -142,6 +143,7 @@ export const readFiles = async ({
           })
       }
       const { image: itkImage, webWorker } = await readImageFile(null, file)
+      itkImage.name = file.name
       webWorker.terminate()
       const is3D = itkImage.imageType.dimension === 3 && !use2D
       return { is3D, data: itkImage }

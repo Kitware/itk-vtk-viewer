@@ -259,8 +259,8 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
     return { metadata, imageType, pyramid }
   }
 
-  constructor(pyramid, metadata, imageType) {
-    super(metadata, imageType)
+  constructor(pyramid, metadata, imageType, name = 'Image') {
+    super(metadata, imageType, name)
     this.pyramid = pyramid
   }
 

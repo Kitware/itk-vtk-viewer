@@ -65,6 +65,9 @@ function createUIMachine(options, context) {
             VIEW_MODE_CHANGED: {
               actions: forwardTo('main'),
             },
+            ADD_IMAGE: {
+              actions: forwardTo('images'),
+            },
           },
           states: {
             // Optional feature of the user interface

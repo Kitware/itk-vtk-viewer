@@ -3,7 +3,7 @@ import { Machine } from 'xstate'
 function createImagesUIMachine(options, context) {
   return Machine(
     {
-      id: 'layer',
+      id: 'images',
       initial: 'idle',
       context,
       states: {

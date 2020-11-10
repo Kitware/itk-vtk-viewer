@@ -4,10 +4,6 @@ function createImagesRendering(context, event) {
     'TrivialProducer',
     { name: 'Image' }
   )
-
-  if (event.data) {
-    // spawn
-  }
 }
 
 export default createImagesRendering

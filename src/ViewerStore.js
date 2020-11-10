@@ -493,11 +493,11 @@ class ViewerStore {
     this.container = document.createElement('div')
     this.itkVtkView.setContainer(this.container)
 
-    this.imageUI.source = proxyManager.createProxy(
-      'Sources',
-      'TrivialProducer',
-      { name: 'Image' }
-    )
+    //this.imageUI.source = proxyManager.createProxy(
+    //'Sources',
+    //'TrivialProducer',
+    //{ name: 'Image' }
+    //)
   }
 
   eventEmitter = null

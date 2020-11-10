@@ -3,7 +3,7 @@ import { Machine } from 'xstate'
 function createLayersUIMachine(options, context) {
   return Machine(
     {
-      id: 'layer',
+      id: 'layers',
       initial: 'idle',
       context,
       states: {

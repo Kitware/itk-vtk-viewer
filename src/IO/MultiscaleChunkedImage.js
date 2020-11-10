@@ -29,9 +29,11 @@ const spatialDims = ['x', 'y', 'z']
   */
 class MultiscaleChunkedImage {
   metadata = []
+  name = 'Image'
 
-  constructor(metadata, imageType) {
+  constructor(metadata, imageType, name = 'Image') {
     this.metadata = metadata
+    this.name = name
 
     this.imageType = imageType
     this.pixelArrayType = componentTypeToTypedArray.get(imageType.componentType)

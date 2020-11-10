@@ -22,7 +22,8 @@ async function toMultiscaleChunkedImage(image) {
     multiscaleImage = new InMemoryMultiscaleChunkedImage(
       pyramid,
       metadata,
-      imageType
+      imageType,
+      image.name
     )
   } else {
     throw new Error('Unexpected image')

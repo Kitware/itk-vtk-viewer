@@ -1,13 +1,13 @@
 import style from '../ItkVtkViewer.module.css'
 
+import createComponentSelector from './createComponentSelector'
+
 function createImagesInterface(context) {
   const imagesUIGroup = document.createElement('div')
   imagesUIGroup.setAttribute('class', style.uiGroup)
+  context.images.imagesUIGroup = imagesUIGroup
 
-  const imagesUIRow1 = document.createElement('div')
-  imagesUIRow1.setAttribute('class', style.imagesUIRow)
-  imagesUIRow1.className += ` ${context.id}-collapsible`
-  imagesUIGroup.appendChild(imagesUIRow1)
+  const componentSelector = createComponentSelector(context, imagesUIGroup)
 
   context.uiContainer.appendChild(imagesUIGroup)
 }

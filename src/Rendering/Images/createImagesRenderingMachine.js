@@ -6,7 +6,7 @@ function spawnImageRenderingActor(options) {
   return assign({
     images: (context, event) => {
       const images = context.images
-      const name = Array.from(context.images.images.keys()).pop()
+      const name = images.selectedName
       images.imageRenderingActors.set(
         name,
         spawn(
@@ -32,10 +32,7 @@ function createImagesRenderingMachine(options, context) {
           on: {
             ASSIGN_IMAGE: {
               target: 'active',
-              actions: [
-                'createImagesRenderer',
-                spawnImageRenderingActor(imageRenderingActor),
-              ],
+              actions: [spawnImageRenderingActor(imageRenderingActor)],
             },
           },
         },

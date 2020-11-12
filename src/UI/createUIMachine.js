@@ -1,8 +1,8 @@
 import { Machine, forwardTo } from 'xstate'
 
-import createMainUIMachine from './createMainUIMachine'
-import createLayersUIMachine from './createLayersUIMachine'
-import createImagesUIMachine from './createImagesUIMachine'
+import createMainUIMachine from './Main/createMainUIMachine'
+import createLayersUIMachine from './Layers/createLayersUIMachine'
+import createImagesUIMachine from './Images/createImagesUIMachine'
 
 function createUIMachine(options, context) {
   const { main, layers, images } = options
@@ -65,7 +65,13 @@ function createUIMachine(options, context) {
             VIEW_MODE_CHANGED: {
               actions: forwardTo('main'),
             },
+            SELECT_LAYER: {
+              actions: forwardTo('layers'),
+            },
             ADD_IMAGE: {
+              actions: forwardTo('layers'),
+            },
+            ASSIGN_IMAGE: {
               actions: forwardTo('images'),
             },
           },

@@ -80,7 +80,7 @@ const createRenderingMachine = (options, context) => {
               actions: forwardTo('layers'),
             },
             ASSIGN_IMAGE: {
-              actions: [forwardTo('layers'), forwardTo('images')],
+              actions: forwardTo('images'),
             },
           },
         },

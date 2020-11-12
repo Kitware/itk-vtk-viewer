@@ -61,7 +61,7 @@ class ImageUIStore {
     return dataArray.getNumberOfComponents()
   }
   totalIntensityComponents = 0
-  maximumIntensityComponents = 3
+  maxIntensityComponents = 3
 
   lookupTableProxies = []
   piecewiseFunctionProxies = []

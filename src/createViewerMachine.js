@@ -105,8 +105,11 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             RESET_CAMERA: {
               actions: forwardTo('rendering'),
             },
+            SELECT_LAYER: {
+              actions: forwardTo('ui'),
+            },
             ADD_IMAGE: {
-              actions: forwardTo('rendering'),
+              actions: forwardTo('ui'),
             },
             ASSIGN_IMAGE: {
               actions: [forwardTo('ui'), forwardTo('rendering')],

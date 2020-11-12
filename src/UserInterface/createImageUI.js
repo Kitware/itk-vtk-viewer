@@ -4,7 +4,7 @@ import style from './ItkVtkViewer.module.css'
 
 import createColorRangeInput from './Image/createColorRangeInput'
 import createBlendModeSelector from './Image/createBlendModeSelector'
-import createComponentSelector from './Image/createComponentSelector'
+//import createComponentSelector from './Image/createComponentSelector'
 import createTransferFunctionWidget from './Image/createTransferFunctionWidget'
 import createViewPlanesToggle from './Image/createViewPlanesToggle'
 import createUseShadowToggle from './Image/createUseShadowToggle'
@@ -19,7 +19,7 @@ function createImageUI(store, use2D, uiContainer) {
   store.imageUI.imageUIGroup = imageUIGroup
   imageUIGroup.setAttribute('class', style.uiGroup)
 
-  const componentSelector = createComponentSelector(store, imageUIGroup)
+  //const componentSelector = createComponentSelector(store, imageUIGroup)
 
   const haveImage = !!store.imageUI.image
 

@@ -39,10 +39,10 @@ function updateVisualizedComponents(store) {
       .getPointData()
       .getScalars()
       .getNumberOfComponents()
-    store.imageUI.maximumIntensityComponents = !!labelMap ? 3 : 4
+    store.imageUI.maxIntensityComponents = !!labelMap ? 3 : 4
     const numVizComps = Math.min(
       imageComponents,
-      store.imageUI.maximumIntensityComponents
+      store.imageUI.maxIntensityComponents
     )
     const vizComps = []
     for (let i = 0; i < numVizComps; i++) {
@@ -229,8 +229,6 @@ const createViewer = async (
     },
 
     fusedImage => {
-      store.eventEmitter.emit('fusingStatusChanged', false)
-
       if (!!!fusedImage) {
         return
       }
@@ -657,7 +655,6 @@ const createViewer = async (
     'pointSetSizeChanged',
     'pointSetRepresentationChanged',
     'volumeSampleDistanceChanged',
-    'fusingStatusChanged',
   ]
 
   publicAPI.getEventNames = () => eventNames

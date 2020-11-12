@@ -104,7 +104,7 @@ function createComponentSelector(store, imageUIGroup) {
           // of visualized components
           if (
             store.imageUI.visualizedComponents.length >=
-            store.imageUI.maximumIntensityComponents
+            store.imageUI.maxIntensityComponents
           ) {
             // Find the index in the visulized components list of the last touched
             // component.  We need to replace it with this component the user just

@@ -55,6 +55,9 @@ class ViewerMachineContext {
   // Main machine context
   main = null
 
+  // Whether slicing planes are enabled in the 3D view mode.
+  slicingPlanesEnabled = false
+
   // Layers machine context
   layers = null
 

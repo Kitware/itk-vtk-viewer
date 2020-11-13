@@ -71,8 +71,8 @@ function createUIMachine(options, context) {
             ADD_IMAGE: {
               actions: forwardTo('layers'),
             },
-            ASSIGN_IMAGE: {
-              actions: forwardTo('images'),
+            IMAGE_ASSIGNED: {
+              actions: [forwardTo('layers'), forwardTo('images')],
             },
           },
           states: {

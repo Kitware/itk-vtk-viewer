@@ -1,13 +1,16 @@
 import style from '../ItkVtkViewer.module.css'
 
+import addLayerUIRow from './addLayerUIRow'
+
 function createLayersInterface(context) {
   const layersUIGroup = document.createElement('div')
   layersUIGroup.setAttribute('class', style.uiGroup)
+  context.layers.layersUIGroup = layersUIGroup
 
-  const layersUIRow1 = document.createElement('div')
-  layersUIRow1.setAttribute('class', style.layersUIRow)
-  layersUIRow1.className += ` ${context.id}-collapsible`
-  layersUIGroup.appendChild(layersUIRow1)
+  context.layers.layersUIRows = []
+  addLayerUIRow(context)
+
+  context.layers.uiRowLayers = new Map()
 
   context.uiContainer.appendChild(layersUIGroup)
 }

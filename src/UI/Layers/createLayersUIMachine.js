@@ -34,7 +34,6 @@ const assignImage = assign({
     )
     images.actorContext.set(name, actorContext)
     images.selectedName = name
-    console.log(context)
     return images
   },
 })
@@ -59,7 +58,7 @@ function createLayersUIMachine(options, context) {
                 assignImage,
                 c =>
                   c.service.send({
-                    type: 'ASSIGN_IMAGE',
+                    type: 'IMAGE_ASSIGNED',
                     data: c.images.selectedName,
                   }),
                 c =>
@@ -68,6 +67,12 @@ function createLayersUIMachine(options, context) {
                     data: c.images.selectedName,
                   }),
               ],
+            },
+            IMAGE_ASSIGNED: {
+              actions: 'updateLayerInterface',
+            },
+            SELECT_LAYER: {
+              actions: 'selectLayer',
             },
           },
         },

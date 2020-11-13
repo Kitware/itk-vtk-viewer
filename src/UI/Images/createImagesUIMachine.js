@@ -9,17 +9,17 @@ function createImagesUIMachine(options, context) {
       states: {
         idle: {
           on: {
-            ASSIGN_IMAGE: {
+            IMAGE_ASSIGNED: {
               target: 'active',
-              actions: ['createImagesInterface', 'assignImage'],
+              actions: ['createImagesInterface', 'updateImageInterface'],
             },
           },
         },
         active: {
           on: {
-            ASSIGN_IMAGE: {
+            IMAGE_ASSIGNED: {
               target: 'active',
-              actions: ['assignImage'],
+              actions: ['updateImageInterface'],
             },
           },
         },

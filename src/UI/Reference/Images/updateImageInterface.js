@@ -1,7 +1,7 @@
 import updateAvailableComponents from './updateAvailableComponents'
 
-function assignImage(context) {
+function updateImageInterface(context) {
   updateAvailableComponents(context)
 }
 
-export default assignImage
+export default updateImageInterface

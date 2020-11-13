@@ -111,7 +111,7 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             ADD_IMAGE: {
               actions: forwardTo('ui'),
             },
-            ASSIGN_IMAGE: {
+            IMAGE_ASSIGNED: {
               actions: [forwardTo('ui'), forwardTo('rendering')],
             },
           },

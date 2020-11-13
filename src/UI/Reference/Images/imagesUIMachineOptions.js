@@ -1,11 +1,11 @@
 import createImagesInterface from './createImagesInterface'
-import assignImage from './assignImage'
+import updateImageInterface from './updateImageInterface'
 
 const imagesUIMachineOptions = {
   actions: {
     createImagesInterface,
 
-    assignImage,
+    updateImageInterface,
   },
 }
 

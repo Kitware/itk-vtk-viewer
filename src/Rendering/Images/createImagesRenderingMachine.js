@@ -30,7 +30,7 @@ function createImagesRenderingMachine(options, context) {
       states: {
         idle: {
           on: {
-            ASSIGN_IMAGE: {
+            IMAGE_ASSIGNED: {
               target: 'active',
               actions: [spawnImageRenderingActor(imageRenderingActor)],
             },
@@ -38,7 +38,7 @@ function createImagesRenderingMachine(options, context) {
         },
         active: {
           on: {
-            ASSIGN_IMAGE: {
+            IMAGE_ASSIGNED: {
               actions: spawnImageRenderingActor(imageRenderingActor),
             },
           },

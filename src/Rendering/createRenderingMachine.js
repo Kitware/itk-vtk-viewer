@@ -76,9 +76,6 @@ const createRenderingMachine = (options, context) => {
             RESET_CAMERA: {
               actions: forwardTo('main'),
             },
-            ADD_IMAGE: {
-              actions: forwardTo('layers'),
-            },
             IMAGE_ASSIGNED: {
               actions: forwardTo('images'),
             },

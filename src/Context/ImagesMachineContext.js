@@ -1,4 +1,4 @@
-class ImageMachineContext {
+class ImagesMachineContext {
   // Actors for rendering images and label images
   imageRenderingActors = new Map()
 
@@ -9,4 +9,4 @@ class ImageMachineContext {
   selectedName = 'Image'
 }
 
-export default ImageMachineContext
+export default ImagesMachineContext

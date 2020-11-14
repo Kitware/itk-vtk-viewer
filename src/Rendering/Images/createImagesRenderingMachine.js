@@ -6,14 +6,16 @@ function spawnImageRenderingActor(options) {
   return assign({
     images: (context, event) => {
       const images = context.images
-      const name = images.selectedName
-      images.imageRenderingActors.set(
-        name,
-        spawn(
-          createImageRenderingActor(options, context),
-          `imageRenderingActor-${name}`
+      const name = context.layers.lastAddedData.name
+      if (!images.imageRenderingActors.has(name)) {
+        images.imageRenderingActors.set(
+          name,
+          spawn(
+            createImageRenderingActor(options, context),
+            `imageRenderingActor-${name}`
+          )
         )
-      )
+      }
       return images
     },
   })

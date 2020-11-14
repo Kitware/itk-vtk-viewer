@@ -22,13 +22,9 @@ const createImageRenderingActor = (options, context, event) => {
             SET_COMPONENT_WEIGHT: {
               actions: 'applyComponentWeight',
             },
-          },
-          on: {
             ADD_IMAGE_COLOR: {
               actions: 'applyImageColors',
             },
-          },
-          on: {
             SET_GRADIENT_OPACITY: {
               actions: 'applyGradientOpacity',
             },

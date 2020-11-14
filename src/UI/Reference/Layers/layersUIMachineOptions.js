@@ -1,11 +1,15 @@
 import createLayersInterface from './createLayersInterface'
-import updateLayerInterface from './updateLayerInterface'
+import createLayerInterface from './createLayerInterface'
 
 const layersUIMachineOptions = {
+  layerUIActor: {
+    actions: {
+      createLayerInterface,
+    },
+  },
+
   actions: {
     createLayersInterface,
-
-    updateLayerInterface,
   },
 }
 

@@ -10,7 +10,10 @@ function createLayersInterface(context) {
   context.layers.layersUIRows = []
   addLayerUIRow(context)
 
+  // row index -> layerUI array map
   context.layers.uiRowLayers = new Map()
+  // layer name -> layerUI map
+  context.layers.uiLayers = new Map()
 
   context.uiContainer.appendChild(layersUIGroup)
 }

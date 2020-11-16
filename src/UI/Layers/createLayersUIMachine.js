@@ -1,4 +1,4 @@
-import { Machine, assign, spawn } from 'xstate'
+import { Machine, assign, spawn, send } from 'xstate'
 
 import createLayerUIActor from './createLayerUIActor'
 import LayerActorContext from '../../Context/LayerActorContext'
@@ -81,6 +81,11 @@ function createLayersUIMachine(options, context) {
         },
         active: {
           on: {
+            TOGGLE_LAYER_VISIBILITY: {
+              actions: send((_, e) => e, {
+                to: (c, e) => `layerUIActor-${e.data}`,
+              }),
+            },
             ADD_IMAGE: {
               actions: [
                 spawnLayerRenderingActor(layerUIActor),

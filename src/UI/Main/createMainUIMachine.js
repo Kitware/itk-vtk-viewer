@@ -1,4 +1,12 @@
-import { Machine } from 'xstate'
+import { Machine, assign } from 'xstate'
+
+const assignInterpolationEnabled = assign({
+  main: (context, event) => {
+    const main = context.main
+    main.interpolationEnabled = !main.interpolationEnabled
+    return main
+  },
+})
 
 function createMainUIMachine(options, context) {
   let initialViewMode = 'volumeRendering'
@@ -114,13 +122,19 @@ function createMainUIMachine(options, context) {
                 enabled: {
                   entry: 'toggleInterpolation',
                   on: {
-                    TOGGLE_INTERPOLATION: 'disabled',
+                    TOGGLE_INTERPOLATION: {
+                      target: 'disabled',
+                      actions: assignInterpolationEnabled,
+                    },
                   },
                 },
                 disabled: {
                   entry: 'toggleInterpolation',
                   on: {
-                    TOGGLE_INTERPOLATION: 'enabled',
+                    TOGGLE_INTERPOLATION: {
+                      target: 'enabled',
+                      actions: assignInterpolationEnabled,
+                    },
                   },
                 },
               },

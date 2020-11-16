@@ -1,4 +1,15 @@
-import { Machine } from 'xstate'
+import { Machine, assign } from 'xstate'
+
+const assignLayerVisibility = assign({
+  layers: (context, event) => {
+    const layers = context.layers
+    const name = event.data
+    const actorContext = layers.actorContext.get(name)
+    actorContext.visible = !actorContext.visible
+    layers.actorContext.set(name, actorContext)
+    return layers
+  },
+})
 
 const createLayerUIActor = (options, context) => {
   return Machine(
@@ -17,6 +28,9 @@ const createLayerUIActor = (options, context) => {
           on: {
             SELECT_LAYER: {
               actions: 'selectLayer',
+            },
+            TOGGLE_LAYER_VISIBILITY: {
+              actions: [assignLayerVisibility, 'toggleLayerVisibility'],
             },
           },
         },

@@ -142,8 +142,10 @@ function ItkVtkViewProxy(publicAPI, model) {
         } else {
           publicAPI.setCornerAnnotation('se', '')
         }
-        model.volumeRepresentation.setSliceVisibility(model.viewPlanes)
-        model.volumeRepresentation.setVolumeVisibility(true)
+        if (model.imageVisibility) {
+          model.volumeRepresentation.setSliceVisibility(model.viewPlanes)
+          model.volumeRepresentation.setVolumeVisibility(true)
+        }
       }
     } else {
       model.camera.setParallelProjection(true)
@@ -158,7 +160,7 @@ function ItkVtkViewProxy(publicAPI, model) {
         model.volumeRepresentation.setVolumeVisibility(false)
         model.volumeRepresentation.getActors().forEach((actor, index) => {
           if (index === axisIndex) {
-            actor.setVisibility(true)
+            model.imageVisibility && actor.setVisibility(true)
           } else {
             actor.setVisibility(false)
           }
@@ -747,6 +749,41 @@ function ItkVtkViewProxy(publicAPI, model) {
     updateDataProbeSize()
   }
 
+  publicAPI.setImageVisibility = visible => {
+    if (model.imageVisibility === visible) {
+      return
+    }
+    model.imageVisibility = visible
+    publicAPI.modified()
+    if (visible) {
+      switch (model.viewMode) {
+        case 'VolumeRendering': {
+          if (model.viewPlanes) {
+            model.volumeRepresentation.setXSliceVisibility(true)
+            model.volumeRepresentation.setYSliceVisibility(true)
+            model.volumeRepresentation.setZSliceVisibility(true)
+          }
+          model.volumeRepresentation.setVolumeVisibility(true)
+          break
+        }
+        case 'XPlane':
+          model.volumeRepresentation.setXSliceVisibility(true)
+          break
+        case 'YPlane':
+          model.volumeRepresentation.setYSliceVisibility(true)
+          break
+        case 'ZPlane':
+          model.volumeRepresentation.setZSliceVisibility(true)
+          break
+      }
+    } else {
+      model.volumeRepresentation.setXSliceVisibility(false)
+      model.volumeRepresentation.setYSliceVisibility(false)
+      model.volumeRepresentation.setZSliceVisibility(false)
+      model.volumeRepresentation.setVolumeVisibility(false)
+    }
+  }
+
   publicAPI.setViewPlanes = viewPlanes => {
     model.viewPlanes = viewPlanes
     if (model.viewMode === 'VolumeRendering' && model.volumeRepresentation) {
@@ -778,20 +815,20 @@ function ItkVtkViewProxy(publicAPI, model) {
     if (model.volumeRepresentation) {
       if (interpolate) {
         model.volumeRepresentation.getActors().forEach(actor => {
-          actor.getProperty().setInterpolationTypeToLinear()
-          actor
-            .getProperty()
-            .getRGBTransferFunction()
-            .modified()
+          const property = actor.getProperty()
+          property.setInterpolationTypeToLinear()
+          if (property.getRGBTransferFunction()) {
+            property.getRGBTransferFunction().modified()
+          }
         })
         model.renderWindow.render()
       } else {
         model.volumeRepresentation.getActors().forEach(actor => {
-          actor.getProperty().setInterpolationTypeToNearest()
-          actor
-            .getProperty()
-            .getRGBTransferFunction()
-            .modified()
+          const property = actor.getProperty()
+          property.setInterpolationTypeToNearest()
+          if (property.getRGBTransferFunction()) {
+            property.getRGBTransferFunction().modified()
+          }
         })
         model.renderWindow.render()
       }
@@ -911,6 +948,7 @@ function ItkVtkViewProxy(publicAPI, model) {
 const DEFAULT_VALUES = {
   viewMode: 'VolumeRendering',
   viewPlanes: false,
+  imageVisibility: true,
   rotate: false,
   units: '',
   seCornerAnnotation: CursorCornerAnnotation,
@@ -940,6 +978,7 @@ export function extend(publicAPI, model, initialValues = {}) {
   macro.get(publicAPI, model, [
     'viewMode',
     'viewPlanes',
+    'imageVisibility',
     'rotate',
     'lengthPixelRatio',
     'axesActor',

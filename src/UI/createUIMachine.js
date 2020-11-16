@@ -1,8 +1,14 @@
-import { Machine, forwardTo } from 'xstate'
+import { Machine, forwardTo, assign } from 'xstate'
 
 import createMainUIMachine from './Main/createMainUIMachine'
 import createLayersUIMachine from './Layers/createLayersUIMachine'
 import createImagesUIMachine from './Images/createImagesUIMachine'
+
+const assignUICollapsed = assign({
+  uiCollapsed: context => {
+    return !context.uiCollapsed
+  },
+})
 
 function createUIMachine(options, context) {
   const { main, layers, images } = options
@@ -42,7 +48,7 @@ function createUIMachine(options, context) {
               actions: forwardTo('main'),
             },
             TOGGLE_DARK_MODE: {
-              actions: 'applyContrastSensitiveStyle',
+              actions: 'toggleDarkMode',
             },
             TOGGLE_FULLSCREEN: {
               actions: forwardTo('main'),
@@ -68,6 +74,9 @@ function createUIMachine(options, context) {
             SELECT_LAYER: {
               actions: forwardTo('layers'),
             },
+            TOGGLE_LAYER_VISIBILITY: {
+              actions: forwardTo('layers'),
+            },
             ADD_IMAGE: {
               actions: forwardTo('layers'),
             },
@@ -83,13 +92,19 @@ function createUIMachine(options, context) {
                 enabled: {
                   entry: 'toggleUICollapsed',
                   on: {
-                    TOGGLE_UI_COLLAPSED: 'disabled',
+                    TOGGLE_UI_COLLAPSED: {
+                      target: 'disabled',
+                      actions: assignUICollapsed,
+                    },
                   },
                 },
                 disabled: {
                   entry: 'toggleUICollapsed',
                   on: {
-                    TOGGLE_UI_COLLAPSED: 'enabled',
+                    TOGGLE_UI_COLLAPSED: {
+                      target: 'enabled',
+                      actions: assignUICollapsed,
+                    },
                   },
                 },
               },

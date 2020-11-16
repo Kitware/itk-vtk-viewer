@@ -1,8 +1,4 @@
-function toggleUICollapsed(context, event, actionMeta) {
-  if (actionMeta) {
-    context.uiCollapsed =
-      actionMeta.state.value.active.uiCollapsed === 'enabled'
-  }
+function toggleUICollapsed(context) {
   if (!context.uiContainer) {
     return
   }

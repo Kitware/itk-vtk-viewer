@@ -108,11 +108,21 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             SELECT_LAYER: {
               actions: forwardTo('ui'),
             },
+            TOGGLE_LAYER_VISIBILITY: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
             ADD_IMAGE: {
               actions: forwardTo('ui'),
             },
             IMAGE_ASSIGNED: {
               actions: [forwardTo('ui'), forwardTo('rendering')],
+            },
+            RENDER: {
+              actions: forwardTo('rendering'),
             },
           },
         },

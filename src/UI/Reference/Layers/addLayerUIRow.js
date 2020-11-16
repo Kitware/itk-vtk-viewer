@@ -5,7 +5,6 @@ function addLayerUIRow(context) {
   layersUIRow.setAttribute('class', style.layersUIRow)
   layersUIRow.className += ` ${context.id}-collapsible`
   context.layers.layersUIGroup.appendChild(layersUIRow)
-  context.layers.layersUIRows.push(layersUIRow)
 }
 
 export default addLayerUIRow

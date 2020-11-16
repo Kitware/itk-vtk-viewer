@@ -2,7 +2,7 @@ import mainUIMachineOptions from './Main/mainUIMachineOptions'
 import layersUIMachineOptions from './Layers/layersUIMachineOptions'
 import imagesUIMachineOptions from './Images/imagesUIMachineOptions'
 
-import applyContrastSensitiveStyle from './applyContrastSensitiveStyle'
+import toggleDarkMode from './toggleDarkMode'
 import createInterface from './createInterface'
 import toggleUICollapsed from './toggleUICollapsed'
 
@@ -14,7 +14,7 @@ const referenceUIMachineOptions = {
   images: imagesUIMachineOptions,
 
   actions: {
-    applyContrastSensitiveStyle,
+    toggleDarkMode,
 
     createInterface,
 

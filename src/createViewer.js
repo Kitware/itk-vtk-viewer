@@ -137,6 +137,9 @@ const createViewer = async (
           case 'VIEW_MODE_CHANGED':
             eventEmitter.emit('viewModeChanged', publicAPI.getViewMode())
             break
+          case 'TOGGLE_LAYER_VISIBILITY':
+            eventEmitter.emit('toggleLayerVisibility', event.data)
+            break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
         }
@@ -633,6 +636,7 @@ const createViewer = async (
     'toggleInterpolation',
     'viewModeChanged',
     'resetCrop',
+    'toggleLayerVisibility',
     'imagePicked',
     'labelMapBlendChanged',
     'labelMapWeightsChanged',

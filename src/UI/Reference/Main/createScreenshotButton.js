@@ -5,7 +5,7 @@ import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyle
 
 function createScreenshotButton(context, mainUIRow) {
   const screenshotButton = document.createElement('div')
-  screenshotButton.innerHTML = `<input id="${context.d}-screenshotButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotation itk-vtk-tooltip-content="Screenshot" class="${style.screenshotButton} ${style.toggleButton}" for="${context.id}-screenshotButton">${screenshotIcon}</label>`
+  screenshotButton.innerHTML = `<input id="${context.id}-screenshotButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Screenshot" class="${style.screenshotButton} ${style.toggleButton}" for="${context.id}-screenshotButton">${screenshotIcon}</label>`
   const screenshotButtonInput = screenshotButton.children[0]
   const screenshotLabel = screenshotButton.children[1]
   applyContrastSensitiveStyleToElement(
@@ -14,7 +14,9 @@ function createScreenshotButton(context, mainUIRow) {
     screenshotLabel
   )
 
-  screenshotButton.addEventListener('click', () => {
+  screenshotButton.addEventListener('click', event => {
+    event.preventDefault()
+    event.stopPropagation()
     context.service.send('TAKE_SCREENSHOT')
     screenshotButton.checked = true
   })

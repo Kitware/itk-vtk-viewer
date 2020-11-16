@@ -1,4 +1,4 @@
-import { Machine, assign, spawn } from 'xstate'
+import { Machine, assign, spawn, send } from 'xstate'
 
 import createImageRenderingActor from './createImageRenderingActor'
 
@@ -42,6 +42,11 @@ function createImagesRenderingMachine(options, context) {
           on: {
             IMAGE_ASSIGNED: {
               actions: spawnImageRenderingActor(imageRenderingActor),
+            },
+            TOGGLE_LAYER_VISIBILITY: {
+              actions: send((_, e) => e, {
+                to: (c, e) => `imageRenderingActor-${e.data}`,
+              }),
             },
           },
         },

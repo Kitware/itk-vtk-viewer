@@ -1,4 +1,4 @@
-import { Machine, forwardTo, sendParent } from 'xstate'
+import { Machine, forwardTo, sendParent, send } from 'xstate'
 
 import createMainRenderingMachine from './Main/createMainRenderingMachine'
 import createLayersRenderingMachine from './Layers/createLayersRenderingMachine'
@@ -75,6 +75,16 @@ const createRenderingMachine = (options, context) => {
             },
             RESET_CAMERA: {
               actions: forwardTo('main'),
+            },
+            TOGGLE_LAYER_VISIBILITY: {
+              actions: send((_, e) => e, {
+                to: (c, e) => {
+                  switch (c.layers.actorContext.get(e.data).type) {
+                    case 'image':
+                      return 'images'
+                  }
+                },
+              }),
             },
             IMAGE_ASSIGNED: {
               actions: forwardTo('images'),

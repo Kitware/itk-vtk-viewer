@@ -2,6 +2,7 @@ import createImageRenderer from './createImageRenderer'
 import applyComponentWeight from './applyComponentWeight'
 import applyImageColors from './applyImageColors'
 import applyGradientOpacity from './applyGradientOpacity'
+import applyVisibility from './applyVisibility'
 
 const imagesRenderingMachineOptions = {
   imageRenderingActor: {
@@ -13,6 +14,8 @@ const imagesRenderingMachineOptions = {
       applyComponentWeight,
 
       applyImageColors,
+
+      applyVisibility,
     },
   },
 

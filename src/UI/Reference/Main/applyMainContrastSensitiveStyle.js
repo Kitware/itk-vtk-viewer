@@ -1,6 +1,6 @@
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-function applyMainContrastSensitiveStyle(context, event) {
+function applyMainContrastSensitiveStyle(context) {
   applyContrastSensitiveStyleToElement(
     context,
     'invertibleButton',

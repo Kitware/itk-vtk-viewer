@@ -19,6 +19,9 @@ const createImageRenderingActor = (options, context, event) => {
         active: {
           type: 'parallel',
           on: {
+            TOGGLE_LAYER_VISIBILITY: {
+              actions: 'applyVisibility',
+            },
             SET_COMPONENT_WEIGHT: {
               actions: 'applyComponentWeight',
             },

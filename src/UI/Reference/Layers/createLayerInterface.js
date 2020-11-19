@@ -85,7 +85,6 @@ function createLayerInterface(context, event) {
     const uiRow = layersUIGroup.children[row]
     if (uiRow.children.length < 3) {
       layerEntry = createLayerEntry(context, name, layer)
-      console.log(layersUIGroup)
       uiRow.appendChild(layerEntry)
     }
   }

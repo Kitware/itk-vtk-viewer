@@ -140,6 +140,9 @@ const createViewer = async (
           case 'TOGGLE_LAYER_VISIBILITY':
             eventEmitter.emit('toggleLayerVisibility', event.data)
             break
+          case 'IMAGE_VISUALIZED_COMPONENT_CHANGED':
+            eventEmitter.emit('imageVisualizedComponentChanged', event.data)
+            break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
         }
@@ -641,7 +644,7 @@ const createViewer = async (
     'labelMapBlendChanged',
     'labelMapWeightsChanged',
     'opacityGaussiansChanged',
-    'componentVisibilitiesChanged',
+    'imageVisualizedComponentChanged',
     'toggleCroppingPlanes',
     'croppingPlanesChanged',
     'colorRangesChanged',
@@ -771,25 +774,6 @@ const createViewer = async (
     )
   }, macro.debounce(emitOpacityGaussians, 100))
 
-  publicAPI.getComponentVisibilities = () => {
-    return store.imageUI.componentVisibilities.map(compVis => compVis.visible)
-  }
-
-  publicAPI.setComponentVisibilities = visibilities => {
-    visibilities.forEach((visibility, index) => {
-      store.imageUI.componentVisibilities[index].visible = visibility
-    })
-  }
-
-  reaction(
-    () => {
-      return store.imageUI.componentVisibilities.map(compVis => compVis.visible)
-    },
-    visibilities => {
-      eventEmitter.emit('componentVisibilitiesChanged', visibilities)
-    }
-  )
-
   // Start collapsed on mobile devices or small pages
   if (window.screen.availWidth < 768 || window.screen.availHeight < 800) {
     publicAPI.setUICollapsed(true)
@@ -857,6 +841,24 @@ const createViewer = async (
 
   publicAPI.getViewMode = () => {
     return context.main.viewMode
+  }
+
+  publicAPI.getImageComponentVisibility = (index, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.visualizedComponents[index]
+  }
+
+  publicAPI.setImageComponentVisibility = (index, visibility, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    service.send({
+      type: 'IMAGE_VISUALIZED_COMPONENT_CHANGED',
+      data: { name, index, visibility },
+    })
   }
 
   const toggleCroppingPlanesHandlers = []

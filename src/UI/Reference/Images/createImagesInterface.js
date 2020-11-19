@@ -7,7 +7,7 @@ function createImagesInterface(context) {
   imagesUIGroup.setAttribute('class', style.uiGroup)
   context.images.imagesUIGroup = imagesUIGroup
 
-  const componentSelector = createComponentSelector(context, imagesUIGroup)
+  createComponentSelector(context, imagesUIGroup)
 
   context.uiContainer.appendChild(imagesUIGroup)
 }

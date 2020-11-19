@@ -562,7 +562,7 @@ input:checked.toggleInput + label {
   pointer-events: none;
 }
 
-.componentDisabled {
+.disableInterface {
   pointer-events: none;
   opacity: 0.5;
 }

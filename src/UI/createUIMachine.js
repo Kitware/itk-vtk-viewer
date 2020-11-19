@@ -83,6 +83,12 @@ function createUIMachine(options, context) {
             IMAGE_ASSIGNED: {
               actions: [forwardTo('layers'), forwardTo('images')],
             },
+            SELECT_IMAGE_COMPONENT: {
+              actions: forwardTo('images'),
+            },
+            IMAGE_VISUALIZED_COMPONENT_CHANGED: {
+              actions: forwardTo('images'),
+            },
           },
           states: {
             // Optional feature of the user interface

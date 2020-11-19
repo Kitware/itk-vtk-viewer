@@ -18,10 +18,22 @@ function updateVisualizedComponents(actorContext, name) {
       actorContext.maxIntensityComponents
     )
     const vizComps = []
-    for (let i = 0; i < numVizComps; i++) {
-      vizComps.push(i)
+    if (actorContext.visualizedComponents.length > numVizComps) {
+      actorContext.visualizedComponents = actorContext.visualizedComponents.slice(
+        0,
+        numVizComps
+      )
+    } else {
+      actorContext.visualizedComponents.sort()
+      for (
+        let i = actorContext.visualizedComponents.length - 1;
+        i < numVizComps;
+        i++
+      ) {
+        vizComps.push(i)
+      }
+      actorContext.visualizedComponents = vizComps
     }
-    actorContext.visualizedComponents = vizComps
   }
 }
 

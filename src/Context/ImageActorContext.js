@@ -9,11 +9,21 @@ class ImageActorContext {
   // interactive, manual editing as opposed to stored or algorithmic results
   editorLabelImage = null
 
+  // Whether the image components are dependent, e.g. RGB, are independent, in
+  // which they are passed through separate color maps
+  independentComponents = true
+
   // For multi-component images, the selected component index
   selectedComponentIndex = 0
 
+  // Maximum number of intensity components that can be visualized
+  maxIntensityComponents = 3
+
+  // The index of the last component whose visibility changed
+  lastComponentVisibilityChanged = 0
+
   // Whether a given image component is visible
-  componentWeights = [1.0]
+  visualizedComponents = [true]
 
   colorMaps = new Map()
   colorRanges = new Map()

@@ -112,3 +112,11 @@ Set the viewer mode for the current primary view. Valid values: 'XPlane', 'YPlan
 ### getViewMode()
 
 Get the viewer mode for the current primary view.
+
+### setImageComponentVisibility(index, visibility, name)
+
+Set the given image intensity component index's visibility.
+
+### setImageComponentVisibility(index, name)
+
+Set the given image intensity component index's visibility.

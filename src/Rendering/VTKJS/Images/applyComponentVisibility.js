@@ -1,11 +1,26 @@
-function applyComponentWeight(context, event) {
+import updateFusedImage from './updateFusedImage'
+
+function applyComponentVisibility(context, event) {
+  const name = event.data.name
   const index = event.data.index
-  const weight = event.data.weight
-  const name = context.images.selectedName
+  const visibility = event.data.visibility
 
   const actorContext = context.images.actorContext.get(name)
+  const componentVisibilities = actorContext.componentVisibilities
   const visualizedComponents = actorContext.visualizedComponents
-  const fusedImageIndex = visualizedComponents.indexOf(index)
+
+  if (visibility && visualizedComponents.indexOf(index) < 0) {
+    visualizedComponents.push(index)
+    for (let i = 0; i < visualizedComponents.length; i++) {
+      if (!componentVisibilities[visualizedComponents[i]]) {
+        visualizedComponents.splice(i, 1)
+        break
+      }
+    }
+    updateFusedImage(context, name)
+  }
+
+  const fusedImageIndex = componentVisibilities.indexOf(index)
   const sliceActors = store.images.representationProxy.getActors()
   sliceActors.forEach((actor, actorIdx) => {
     const actorProp = actor.getProperty()
@@ -19,7 +34,7 @@ function applyComponentWeight(context, event) {
     volumeProperty.setOpacityMode(numberOfComponents, mode)
 
     let componentsVisible = false
-    visualizedComponents.forEach((componentIdx, fusedImgIdx) => {
+    componentVisibilities.forEach((componentIdx, fusedImgIdx) => {
       componentsVisible = weight > 0.0 ? true : componentsVisible
     })
     if (!!context.images.labelImage || !!context.images.editorLabelImage) {
@@ -28,7 +43,7 @@ function applyComponentWeight(context, event) {
         mode = OpacityMode.FRACTIONAL
       }
       for (
-        let comp = visualizedComponents.length;
+        let comp = componentVisibilities.length;
         comp < actorContext.fusedImage;
         comp++
       ) {
@@ -38,4 +53,4 @@ function applyComponentWeight(context, event) {
   })
 }
 
-export default applyComponentWeight
+export default applyComponentVisibility

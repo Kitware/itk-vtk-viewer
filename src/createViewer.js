@@ -140,7 +140,7 @@ const createViewer = async (
           case 'TOGGLE_LAYER_VISIBILITY':
             eventEmitter.emit('toggleLayerVisibility', event.data)
             break
-          case 'IMAGE_VISUALIZED_COMPONENT_CHANGED':
+          case 'IMAGE_COMPONENT_VISIBILITY_CHANGED':
             eventEmitter.emit('imageVisualizedComponentChanged', event.data)
             break
           default:
@@ -856,7 +856,7 @@ const createViewer = async (
       name = context.images.selectedName
     }
     service.send({
-      type: 'IMAGE_VISUALIZED_COMPONENT_CHANGED',
+      type: 'IMAGE_COMPONENT_VISIBILITY_CHANGED',
       data: { name, index, visibility },
     })
   }

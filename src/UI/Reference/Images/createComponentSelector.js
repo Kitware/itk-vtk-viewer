@@ -40,7 +40,7 @@ function createComponentSelector(context, imageUIGroup) {
     } else if (event.target.type === 'checkbox') {
       const visibility = event.target.checked
       context.service.send({
-        type: 'IMAGE_VISUALIZED_COMPONENT_CHANGED',
+        type: 'IMAGE_COMPONENT_VISIBILITY_CHANGED',
         data: {
           name: context.images.selectedName,
           index: selectedIndex,

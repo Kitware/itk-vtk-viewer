@@ -28,7 +28,7 @@ function updateAvailableComponents(context) {
         }" data-component-index="${component}"/><label for="tab-${component}" class="${
           style.compTabLabel
         }">&nbsp;${component}&nbsp;<input type="checkbox" ${
-          actorContext.visualizedComponents[idx] ? 'checked="checked"' : ''
+          actorContext.componentVisibilities[idx] ? 'checked="checked"' : ''
         } class="${
           style.componentVisibility
         }" data-component-index="${component}"\></label>`

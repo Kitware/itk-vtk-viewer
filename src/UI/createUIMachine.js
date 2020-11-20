@@ -86,7 +86,7 @@ function createUIMachine(options, context) {
             SELECT_IMAGE_COMPONENT: {
               actions: forwardTo('images'),
             },
-            IMAGE_VISUALIZED_COMPONENT_CHANGED: {
+            IMAGE_COMPONENT_VISIBILITY_CHANGED: {
               actions: forwardTo('images'),
             },
           },

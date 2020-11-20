@@ -1,11 +1,11 @@
 import style from '../ItkVtkViewer.module.css'
 
-function applyVisualizedComponents(context, event) {
+function applyComponentVisibility(context, event) {
   const name = event.data.name
   const actorContext = context.images.actorContext.get(name)
   const componentSelector = context.images.componentSelector
 
-  actorContext.visualizedComponents.forEach((visibility, compIdx) => {
+  actorContext.componentVisibilities.forEach((visibility, compIdx) => {
     const element = componentSelector.querySelector(
       `input[data-component-index="${compIdx}"][type="checkbox"]`
     )
@@ -13,4 +13,4 @@ function applyVisualizedComponents(context, event) {
   })
 }
 
-export default applyVisualizedComponents
+export default applyComponentVisibility

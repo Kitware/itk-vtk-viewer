@@ -11,18 +11,18 @@ const assignSelectedComponentIndex = assign({
   },
 })
 
-const assignVisualizedComponent = assign({
+const assignComponentVisibility = assign({
   images: (context, event) => {
     const images = context.images
     const name = event.data.name
     const actorContext = context.images.actorContext.get(name)
-    const visualizedComponents = actorContext.visualizedComponents
+    const componentVisibilities = actorContext.componentVisibilities
     const index = event.data.index
     const visibility = event.data.visibility
-    if (visibility && !visualizedComponents[index]) {
+    if (visibility && !componentVisibilities[index]) {
       // A component was made visible, and it was not already in the list
       // of visualized components
-      const currentNumVisualized = visualizedComponents.reduce(
+      const currentNumVisualized = componentVisibilities.reduce(
         (a, c) => (c + a) | 0,
         0
       )
@@ -30,13 +30,13 @@ const assignVisualizedComponent = assign({
         // Find the index in the visulized components list of the last touched
         // component.  We need to replace it with this component the user just
         // turned on.
-        visualizedComponents[
+        componentVisibilities[
           actorContext.lastComponentVisibilityChanged
         ] = false
       }
     }
 
-    visualizedComponents[index] = visibility
+    componentVisibilities[index] = visibility
     actorContext.lastComponentVisibilityChanged = index
 
     context.images.actorContext.set(name, actorContext)
@@ -67,8 +67,8 @@ function createImagesUIMachine(options, context) {
             SELECT_IMAGE_COMPONENT: {
               actions: [assignSelectedComponentIndex, 'selectImageComponent'],
             },
-            IMAGE_VISUALIZED_COMPONENT_CHANGED: {
-              actions: [assignVisualizedComponent, 'applyVisualizedComponents'],
+            IMAGE_COMPONENT_VISIBILITY_CHANGED: {
+              actions: [assignComponentVisibility, 'applyComponentVisibility'],
             },
           },
         },

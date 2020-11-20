@@ -1,9 +1,16 @@
-function updateVisualizedComponents(actorContext, name) {
+function updateVisualizedComponents(context, name) {
+  const actorContext = context.images.actorContext.get(name)
   const image = actorContext.image
   const labelImage = actorContext.labelImage
   const editorLabelImage = actorContext.editorLabelImage
   if (image) {
     const imageComponents = image.imageType.components
+    if (typeof actorContext.visualizedComponents === 'undefined') {
+      actorContext.visualizedComponents = Array(image.imageType.components)
+        .fill(0)
+        .map((_, idx) => idx)
+        .filter(i => actorContext.componentVisibilities[i])
+    }
 
     actorContext.maxIntensityComponents = 4
     if (!!labelImage) {
@@ -17,22 +24,19 @@ function updateVisualizedComponents(actorContext, name) {
       imageComponents,
       actorContext.maxIntensityComponents
     )
-    const vizComps = []
-    if (actorContext.visualizedComponents.length > numVizComps) {
+    if (actorContext.visualizedComponents.length <= numVizComps) {
+      return
+    } else {
       actorContext.visualizedComponents = actorContext.visualizedComponents.slice(
         0,
         numVizComps
       )
-    } else {
-      actorContext.visualizedComponents.sort()
-      for (
-        let i = actorContext.visualizedComponents.length - 1;
-        i < numVizComps;
-        i++
-      ) {
-        vizComps.push(i)
+      for (let i = numVizComps; i < imageComponents; i++) {
+        context.service.send({
+          type: 'IMAGE_COMPONENT_VISIBILITY_CHANGED',
+          data: { name, index: i, visibility: false },
+        })
       }
-      actorContext.visualizedComponents = vizComps
     }
   }
 }

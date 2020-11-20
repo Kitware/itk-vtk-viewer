@@ -54,8 +54,8 @@ const assignImageContext = assign({
       ? images.actorContext.get(name)
       : new ImageActorContext()
     actorContext.image = context.layers.lastAddedData.data
-    actorContext.visualizedComponents = resize(
-      actorContext.visualizedComponents,
+    actorContext.componentVisibilities = resize(
+      actorContext.componentVisibilities,
       actorContext.image.imageType.components,
       true
     )

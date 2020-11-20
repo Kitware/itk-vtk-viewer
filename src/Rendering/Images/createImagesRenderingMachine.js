@@ -48,6 +48,11 @@ function createImagesRenderingMachine(options, context) {
                 to: (c, e) => `imageRenderingActor-${e.data}`,
               }),
             },
+            IMAGE_COMPONENT_VISIBILITY_CHANGED: {
+              actions: send((_, e) => e, {
+                to: (c, e) => `imageRenderingActor-${e.data.name}`,
+              }),
+            },
           },
         },
       },

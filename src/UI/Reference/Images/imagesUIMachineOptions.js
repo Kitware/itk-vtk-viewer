@@ -1,7 +1,7 @@
 import createImagesInterface from './createImagesInterface'
 import updateImageInterface from './updateImageInterface'
 import selectImageComponent from './selectImageComponent'
-import applyVisualizedComponents from './applyVisualizedComponents'
+import applyComponentVisibility from './applyComponentVisibility'
 
 const imagesUIMachineOptions = {
   actions: {
@@ -11,7 +11,7 @@ const imagesUIMachineOptions = {
 
     selectImageComponent,
 
-    applyVisualizedComponents,
+    applyComponentVisibility,
   },
 }
 

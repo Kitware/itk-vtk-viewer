@@ -22,8 +22,8 @@ class ImageActorContext {
   // The index of the last component whose visibility changed
   lastComponentVisibilityChanged = 0
 
-  // Whether a given image component is visible
-  visualizedComponents = [true]
+  // Whether a given image intensity component is visible
+  componentVisibilities = [true]
 
   colorMaps = new Map()
   colorRanges = new Map()

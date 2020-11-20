@@ -12,6 +12,15 @@ const createImageRenderingActor = (options, context, event) => {
             id: 'createImageRenderer',
             src: 'createImageRenderer',
             onDone: {
+              target: 'updateData',
+            },
+          },
+        },
+        updateData: {
+          invoke: {
+            id: 'updateData',
+            src: 'updateData',
+            onDone: {
               target: 'active',
             },
           },
@@ -22,14 +31,14 @@ const createImageRenderingActor = (options, context, event) => {
             TOGGLE_LAYER_VISIBILITY: {
               actions: 'applyVisibility',
             },
-            SET_COMPONENT_WEIGHT: {
-              actions: 'applyComponentWeight',
-            },
             ADD_IMAGE_COLOR: {
               actions: 'applyImageColors',
             },
             SET_GRADIENT_OPACITY: {
               actions: 'applyGradientOpacity',
+            },
+            IMAGE_COMPONENT_VISIBILITY_CHANGED: {
+              actions: 'applyComponentVisibility',
             },
           },
           states: {

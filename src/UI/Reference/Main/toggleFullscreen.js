@@ -1,9 +1,7 @@
 import fullscreenMethods from './fullscreenMethods'
 
 function toggleFullscreen(context, event, actionMeta) {
-  const fullscreenEnabled =
-    actionMeta.state.value.active.fullscreen === 'enabled'
-  context.main.fullscreenEnabled = fullscreenEnabled
+  const fullscreenEnabled = context.main.fullscreenEnabled
   const fullscreenButtonInput = context.main.fullscreenButton.children[0]
   fullscreenButtonInput.checked = fullscreenEnabled
 

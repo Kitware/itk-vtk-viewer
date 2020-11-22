@@ -8,6 +8,14 @@ const assignInterpolationEnabled = assign({
   },
 })
 
+const assignFullscreenEnabled = assign({
+  main: (context, event) => {
+    const main = context.main
+    main.fullscreenEnabled = !main.fullscreenEnabled
+    return main
+  },
+})
+
 function createMainUIMachine(options, context) {
   let initialViewMode = 'volumeRendering'
   switch (context.main.viewMode) {
@@ -53,14 +61,23 @@ function createMainUIMachine(options, context) {
                 enabled: {
                   exit: 'toggleFullscreen',
                   on: {
-                    TOGGLE_FULLSCREEN: 'disabled',
-                    DISABLE_FULLSCREEN: 'disabled',
+                    TOGGLE_FULLSCREEN: {
+                      target: 'disabled',
+                      actions: assignFullscreenEnabled,
+                    },
+                    DISABLE_FULLSCREEN: {
+                      target: 'disabled',
+                      actions: assignFullscreenEnabled,
+                    },
                   },
                 },
                 disabled: {
                   exit: 'toggleFullscreen',
                   on: {
-                    TOGGLE_FULLSCREEN: 'enabled',
+                    TOGGLE_FULLSCREEN: {
+                      target: 'enabled',
+                      actions: assignFullscreenEnabled,
+                    },
                   },
                 },
               },

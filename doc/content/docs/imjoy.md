@@ -113,10 +113,22 @@ Set the viewer mode for the current primary view. Valid values: 'XPlane', 'YPlan
 
 Get the viewer mode for the current primary view.
 
-### setImageComponentVisibility(index, visibility, name)
+### getLayerNames()
+
+Get the names of all data layers.
+
+### setLayerVisibility(visible, name)
+
+Set whether the named layer is visible.
+
+### getLayerVisibility(name)
+
+Get whether the named layer is visible.
+
+### setImageComponentVisibility(component, visibility, name)
 
 Set the given image intensity component index's visibility.
 
-### setImageComponentVisibility(index, name)
+### setImageComponentVisibility(component, name)
 
 Set the given image intensity component index's visibility.

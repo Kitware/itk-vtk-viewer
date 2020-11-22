@@ -1,5 +1,40 @@
+import applyColorRangeBounds from './applyColorRangeBounds'
+import applyColorRange from './applyColorRange'
+
 function selectImageComponent(context, event) {
   context.images.componentSelector.value = event.data
+
+  const name = context.images.selectedName
+  const actorContext = context.images.actorContext.get(name)
+
+  if (actorContext.colorRanges.has(name)) {
+    applyColorRange(context, {
+      data: {
+        name,
+        component: actorContext.selectedComponentIndex,
+        range: actorContext.colorRanges.get(name),
+      },
+    })
+  }
+  if (actorContext.colorRangeBounds.has(name)) {
+    applyColorRangeBounds(context, {
+      data: {
+        name,
+        component: actorContext.selectedComponentIndex,
+        range: actorContext.colorRangeBounds.get(name),
+      },
+    })
+  }
+  if (actorContext.colorMaps.has(name)) {
+    applyColorMap(context, {
+      data: {
+        name,
+        component: actorContext.selectedComponentIndex,
+        colorMap: actorContext.colorMaps.get(name),
+      },
+    })
+    context.images.iconSelector.setSelectedValue(colorMaps)
+  }
 }
 
 export default selectImageComponent

@@ -1,5 +1,5 @@
 class LayersMachineContext {
-  // Actors for rendering the layers
+  // Actors for providing an interface to the layers
   layerUIActors = new Map()
 
   // Context for the layer actors

@@ -4,6 +4,9 @@ import applyGradientOpacity from './applyGradientOpacity'
 import applyVisibility from './applyVisibility'
 import applyComponentVisibility from './applyComponentVisibility'
 import updateData from './updateData'
+import selectImageLayer from './selectImageLayer'
+import applyColorRange from './applyColorRange'
+import applyColorMap from './applyColorMap'
 
 const imagesRenderingMachineOptions = {
   imageRenderingActor: {
@@ -19,10 +22,16 @@ const imagesRenderingMachineOptions = {
       applyVisibility,
 
       applyComponentVisibility,
+
+      applyColorRange,
+
+      applyColorMap,
     },
   },
 
-  actions: {},
+  actions: {
+    selectImageLayer,
+  },
 }
 
 export default imagesRenderingMachineOptions

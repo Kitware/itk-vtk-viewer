@@ -11,7 +11,9 @@ class ImageActorContext {
 
   // Whether the image components are dependent, e.g. RGB, are independent, in
   // which they are passed through separate color maps
-  independentComponents = true
+  // An initial null value will be replaced by heuristics based on the image
+  // component type and number of components.
+  independentComponents = null
 
   // For multi-component images, the selected component index
   selectedComponentIndex = 0
@@ -25,8 +27,17 @@ class ImageActorContext {
   // Whether a given image intensity component is visible
   componentVisibilities = [true]
 
+  // Map of image intensity component to color maps
   colorMaps = new Map()
+
+  // Map of image intensity component to array of [minValue, maxValue] for
+  // mapping colors
   colorRanges = new Map()
+
+  // Map of image intensity component to array of [minBound, maxBound] for
+  // limiting the color range in the UI
+  colorRangeBounds = new Map()
+
   opacityGaussians = new Map()
 
   blendMode = 0

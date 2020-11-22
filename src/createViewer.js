@@ -79,16 +79,16 @@ const createViewer = async (
 
   const publicAPI = {}
 
-  //if (debug) {
-  ////const stateIFrame = document.createElement('iframe')
-  ////store.container.style.height = '50%'
-  ////stateIFrame.style.height = '50%'
-  ////rootContainer.appendChild(stateIFrame)
-  //inspect({
-  ////iframe: stateIFrame,
-  //iframe: false,
-  //})
-  //}
+  if (debug) {
+    //const stateIFrame = document.createElement('iframe')
+    //store.container.style.height = '50%'
+    //stateIFrame.style.height = '50%'
+    //rootContainer.appendChild(stateIFrame)
+    inspect({
+      //iframe: stateIFrame,
+      iframe: false,
+    })
+  }
 
   // Todo: const eventEmitter = new EventEmitter()
   // Migrate to a module
@@ -142,6 +142,15 @@ const createViewer = async (
             break
           case 'IMAGE_COMPONENT_VISIBILITY_CHANGED':
             eventEmitter.emit('imageVisualizedComponentChanged', event.data)
+            break
+          case 'IMAGE_COLOR_RANGE_CHANGED':
+            eventEmitter.emit('imageColorRangeChanged', event.data)
+            break
+          case 'IMAGE_COLOR_RANGE_BOUNDS_CHANGED':
+            eventEmitter.emit('imageColorRangeBoundsChanged', event.data)
+            break
+          case 'IMAGE_COLOR_MAP_CHANGED':
+            eventEmitter.emit('imageColorMapChanged', event.data)
             break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
@@ -645,9 +654,11 @@ const createViewer = async (
     'labelMapWeightsChanged',
     'opacityGaussiansChanged',
     'imageVisualizedComponentChanged',
+    'imageColorRangeChanged',
+    'imageColorRangeBoundsChanged',
+    'imageColorMapChanged',
     'toggleCroppingPlanes',
     'croppingPlanesChanged',
-    'colorRangesChanged',
     'selectColorMap',
     'selectLookupTable',
     'xSliceChanged',
@@ -843,22 +854,37 @@ const createViewer = async (
     return context.main.viewMode
   }
 
-  publicAPI.getImageComponentVisibility = (index, name) => {
-    if (typeof name === 'undefined') {
-      name = context.images.selectedName
-    }
-    const actorContext = context.images.actorContext.get(name)
-    return actorContext.visualizedComponents[index]
+  publicAPI.getLayerNames = () => {
+    return Array.from(context.layers.actorContext.keys())
   }
 
-  publicAPI.setImageComponentVisibility = (index, visibility, name) => {
+  publicAPI.setLayerVisibility = (visible, name) => {
+    const actorContext = context.layers.actorContext.get(name)
+    if (visible !== actorContext.visible) {
+      context.service.send({ type: 'TOGGLE_LAYER_VISIBILITY', data: name })
+    }
+  }
+
+  publicAPI.getLayerVisibility = name => {
+    return context.layers.actorContext.get(name).visible
+  }
+
+  publicAPI.setImageComponentVisibility = (component, visibility, name) => {
     if (typeof name === 'undefined') {
       name = context.images.selectedName
     }
     service.send({
       type: 'IMAGE_COMPONENT_VISIBILITY_CHANGED',
-      data: { name, index, visibility },
+      data: { name, component, visibility },
     })
+  }
+
+  publicAPI.getImageComponentVisibility = (component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.componentVisibilities[component]
   }
 
   const toggleCroppingPlanesHandlers = []
@@ -874,23 +900,68 @@ const createViewer = async (
     }
   }
 
-  autorun(() => {
-    const colorRanges = store.imageUI.colorRanges
-    eventEmitter.emit('colorRangesChanged', colorRanges)
-  })
-
-  publicAPI.setColorRange = (componentIndex, colorRange) => {
-    const currentColorRange = store.imageUI.colorRanges[componentIndex]
+  publicAPI.setImageColorRange = (range, component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (typeof component === 'undefined') {
+      component = 0
+    }
+    const actorContext = context.images.actorContext.get(name)
+    const currentRange = actorContext.colorRanges.get(component)
     if (
-      currentColorRange[0] !== colorRange[0] ||
-      currentColorRange[1] !== colorRange[1]
+      typeof currentRange !== 'undefined' ||
+      currentRange[0] !== range[0] ||
+      currentRange[1] !== range[1]
     ) {
-      store.imageUI.colorRanges[componentIndex] = colorRange
+      service.send({
+        type: 'IMAGE_COLOR_RANGE_CHANGED',
+        data: { name, component, range },
+      })
     }
   }
 
-  publicAPI.getColorRange = componentIndex => {
-    return store.imageUI.colorRanges[componentIndex]
+  publicAPI.getImageColorRange = (component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (typeof component === 'undefined') {
+      component = 0
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.colorRanges.get(component)
+  }
+
+  publicAPI.setImageColorRangeBounds = (range, component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (typeof component === 'undefined') {
+      component = 0
+    }
+    const actorContext = context.images.actorContext.get(name)
+    const currentRange = actorContext.colorRanges.get(component)
+    if (
+      typeof currentRange !== 'undefined' ||
+      currentRange[0] !== range[0] ||
+      currentRange[1] !== range[1]
+    ) {
+      service.send({
+        type: 'IMAGE_COLOR_RANGE_BOUNDS_CHANGED',
+        data: { name, component, range },
+      })
+    }
+  }
+
+  publicAPI.getImageColorRangeBounds = (component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (typeof component === 'undefined') {
+      component = 0
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.colorRangeBounds.get(component)
   }
 
   autorun(() => {
@@ -901,15 +972,36 @@ const createViewer = async (
     }
   })
 
-  publicAPI.setColorMap = (componentIndex, colorMap) => {
-    const currentColorMap = store.imageUI.colorMaps[componentIndex]
-    if (currentColorMap !== colorMap) {
-      store.imageUI.colorMaps[componentIndex] = colorMap
+  publicAPI.setImageColorMap = (colorMap, componentIndex, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (typeof componentIndex === 'undefined') {
+      componentIndex = 0
+    }
+    const actorContext = context.images.actorContext.get(name)
+    const currentColorMap = actorContext.colorRanges.get(componentIndex)
+    if (
+      typeof currentColorMap !== 'undefined' ||
+      currentColorMap[0] !== colorMap[0] ||
+      currentColorMap[1] !== colorMap[1]
+    ) {
+      service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, index: componentIndex, colorMap },
+      })
     }
   }
 
-  publicAPI.getColorMap = componentIndex => {
-    return store.imageUI.colorMaps[componentIndex]
+  publicAPI.getImageColorMap = (componentIndex, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (typeof componentIndex === 'undefined') {
+      componentIndex = 0
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.colorMap.get(componentIndex)
   }
 
   autorun(() => {

@@ -750,7 +750,7 @@ function ItkVtkViewProxy(publicAPI, model) {
   }
 
   publicAPI.setImageVisibility = visible => {
-    if (model.imageVisibility === visible) {
+    if (model.imageVisibility === visible || !model.volumeRepresentation) {
       return
     }
     model.imageVisibility = visible

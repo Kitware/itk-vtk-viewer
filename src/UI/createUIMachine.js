@@ -4,12 +4,6 @@ import createMainUIMachine from './Main/createMainUIMachine'
 import createLayersUIMachine from './Layers/createLayersUIMachine'
 import createImagesUIMachine from './Images/createImagesUIMachine'
 
-const assignUICollapsed = assign({
-  uiCollapsed: context => {
-    return !context.uiCollapsed
-  },
-})
-
 function createUIMachine(options, context) {
   const { main, layers, images } = options
   const mainMachine = createMainUIMachine(main, context)
@@ -89,6 +83,15 @@ function createUIMachine(options, context) {
             IMAGE_COMPONENT_VISIBILITY_CHANGED: {
               actions: forwardTo('images'),
             },
+            IMAGE_COLOR_RANGE_CHANGED: {
+              actions: forwardTo('images'),
+            },
+            IMAGE_COLOR_RANGE_BOUNDS_CHANGED: {
+              actions: forwardTo('images'),
+            },
+            IMAGE_COLOR_MAP_CHANGED: {
+              actions: forwardTo('images'),
+            },
           },
           states: {
             // Optional feature of the user interface
@@ -100,7 +103,6 @@ function createUIMachine(options, context) {
                   on: {
                     TOGGLE_UI_COLLAPSED: {
                       target: 'disabled',
-                      actions: assignUICollapsed,
                     },
                   },
                 },
@@ -109,7 +111,6 @@ function createUIMachine(options, context) {
                   on: {
                     TOGGLE_UI_COLLAPSED: {
                       target: 'enabled',
-                      actions: assignUICollapsed,
                     },
                   },
                 },

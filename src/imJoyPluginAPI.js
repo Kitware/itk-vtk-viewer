@@ -91,6 +91,18 @@ const imJoyPluginAPI = {
   getViewMode() {
     return this.viewer.getViewMode()
   },
+
+  getLayerNames() {
+    return this.viewer.getLayerNames()
+  },
+
+  setImageComponentVisibility(component, visibility, name) {
+    this.viewer.setImageComponentVisibility(component, visibility, name)
+  },
+
+  getImageComponentVisibility(component, name) {
+    return this.viewer.getImageComponentVisibility(component, name)
+  },
 }
 
 export default imJoyPluginAPI

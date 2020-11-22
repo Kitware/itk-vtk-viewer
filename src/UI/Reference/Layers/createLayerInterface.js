@@ -8,6 +8,7 @@ import imageIcon from '../../Icons/image.svg'
 function createLayerEntry(context, name, layer) {
   const layerEntry = document.createElement('div')
   layerEntry.setAttribute('class', style.layerEntryCommon)
+  layerEntry.style.borderWidth = '3px'
   applyContrastSensitiveStyleToElement(context, 'layerEntry', layerEntry)
 
   const visibleButton = document.createElement('div')
@@ -70,6 +71,11 @@ function createLayerEntry(context, name, layer) {
   iconElement.setAttribute('class', style.layerIcon)
   applyContrastSensitiveStyleToElement(context, 'invertibleButton', iconElement)
   layerEntry.appendChild(iconElement)
+
+  layerEntry.addEventListener('click', event => {
+    event.preventDefault()
+    context.service.send({ type: 'SELECT_LAYER', data: name })
+  })
 
   return layerEntry
 }

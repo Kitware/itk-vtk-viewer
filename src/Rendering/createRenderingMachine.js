@@ -76,6 +76,9 @@ const createRenderingMachine = (options, context) => {
             RESET_CAMERA: {
               actions: forwardTo('main'),
             },
+            SELECT_LAYER: {
+              actions: forwardTo('images'),
+            },
             TOGGLE_LAYER_VISIBILITY: {
               actions: send((_, e) => e, {
                 to: (c, e) => {
@@ -90,6 +93,12 @@ const createRenderingMachine = (options, context) => {
               actions: forwardTo('images'),
             },
             UPDATE_IMAGE_DATA: {
+              actions: forwardTo('images'),
+            },
+            IMAGE_COLOR_RANGE_CHANGED: {
+              actions: forwardTo('images'),
+            },
+            IMAGE_COLOR_MAP_CHANGED: {
               actions: forwardTo('images'),
             },
           },

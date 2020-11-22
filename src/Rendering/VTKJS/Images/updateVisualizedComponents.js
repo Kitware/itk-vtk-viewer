@@ -34,7 +34,7 @@ function updateVisualizedComponents(context, name) {
       for (let i = numVizComps; i < imageComponents; i++) {
         context.service.send({
           type: 'IMAGE_COMPONENT_VISIBILITY_CHANGED',
-          data: { name, index: i, visibility: false },
+          data: { name, component: i, visibility: false },
         })
       }
     }

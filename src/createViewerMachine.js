@@ -106,7 +106,7 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
               actions: forwardTo('rendering'),
             },
             SELECT_LAYER: {
-              actions: forwardTo('ui'),
+              actions: [forwardTo('ui'), forwardTo('rendering')],
             },
             TOGGLE_LAYER_VISIBILITY: {
               actions: [
@@ -128,6 +128,27 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
               actions: forwardTo('ui'),
             },
             IMAGE_COMPONENT_VISIBILITY_CHANGED: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
+            IMAGE_COLOR_RANGE_CHANGED: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
+            IMAGE_COLOR_RANGE_BOUNDS_CHANGED: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
+            IMAGE_COLOR_MAP_CHANGED: {
               actions: [
                 forwardTo('ui'),
                 forwardTo('rendering'),

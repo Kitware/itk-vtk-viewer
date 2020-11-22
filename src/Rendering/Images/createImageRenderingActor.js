@@ -16,6 +16,31 @@ const assignUpdateNameToSelectedName = assign({
   },
 })
 
+const eventResponses = {
+  UPDATE_IMAGE_DATA: {
+    target: 'updateData',
+    actions: assignUpdateName,
+  },
+  TOGGLE_LAYER_VISIBILITY: {
+    actions: 'applyVisibility',
+  },
+  ADD_IMAGE_COLOR: {
+    actions: 'applyImageColors',
+  },
+  SET_GRADIENT_OPACITY: {
+    actions: 'applyGradientOpacity',
+  },
+  IMAGE_COMPONENT_VISIBILITY_CHANGED: {
+    actions: 'applyComponentVisibility',
+  },
+  IMAGE_COLOR_RANGE_CHANGED: {
+    actions: 'applyColorRange',
+  },
+  IMAGE_COLOR_MAP_CHANGED: {
+    actions: 'applyColorMap',
+  },
+}
+
 const createImageRenderingActor = (options, context, event) => {
   return Machine(
     {
@@ -41,27 +66,11 @@ const createImageRenderingActor = (options, context, event) => {
               target: 'active',
             },
           },
+          on: eventResponses,
         },
         active: {
           type: 'parallel',
-          on: {
-            UPDATE_IMAGE_DATA: {
-              target: 'updateData',
-              actions: assignUpdateName,
-            },
-            TOGGLE_LAYER_VISIBILITY: {
-              actions: 'applyVisibility',
-            },
-            ADD_IMAGE_COLOR: {
-              actions: 'applyImageColors',
-            },
-            SET_GRADIENT_OPACITY: {
-              actions: 'applyGradientOpacity',
-            },
-            IMAGE_COMPONENT_VISIBILITY_CHANGED: {
-              actions: 'applyComponentVisibility',
-            },
-          },
+          on: eventResponses,
           states: {
             independentComponents: {
               enabled: {},

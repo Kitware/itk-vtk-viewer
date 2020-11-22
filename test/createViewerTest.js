@@ -35,7 +35,7 @@ const TEST_VIEWER_STYLE = {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(14)
+  t.plan(23)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -119,26 +119,61 @@ test('Test createViewer', async t => {
   t.same(resultViewMode, 'XPlane', 'view mode')
   viewer.setViewMode('VolumeRendering')
 
+  const firstLayer = viewer.getLayerNames()[0]
+  t.same(firstLayer, 'Image', 'getLayerNames')
+
+  viewer.once('toggleLayerVisibility', data => {
+    t.pass('toggleLayerVisibility event')
+  })
+  viewer.setLayerVisibility(false, firstLayer)
+  const resultLayerVisibility = viewer.getLayerVisibility(firstLayer)
+  t.same(resultLayerVisibility, false, 'layer visibility')
+  viewer.setLayerVisibility(true, firstLayer)
+
+  viewer.once('imageVisualizedComponentChanged', data => {
+    t.pass('imageVisualizedComponentChanged event')
+  })
+  viewer.setImageComponentVisibility(0, false)
+  const resultImageComponentVisibility = viewer.getImageComponentVisibility(0)
+  t.same(resultImageComponentVisibility, false, 'image component visibility')
+  viewer.setImageComponentVisibility(0, true)
+
   const viewProxy = viewer.getViewProxy()
   const renderWindow = viewProxy.getOpenglRenderWindow()
   // Consistent baseline image size for regression testing
   renderWindow.setSize(600, 600)
-  const representation = viewProxy.getRepresentations()[0]
-  const volumeMapper = representation.getMapper()
   viewer.renderLater()
-  setTimeout(() => {
-    viewer.captureImage().then(screenshot => {
-      t.pass()
-      //gc.releaseResources()
-      //testUtils.compareImages(
-      //screenshot,
-      //[createViewerBaseline],
-      //'Test createViewer',
-      //t,
-      //2.0,
-      //gc.releaseResources
-      //)
+  setTimeout(async () => {
+    viewer.once('imageColorRangeChanged', data => {
+      t.pass('imageColorRangeChanged event')
     })
+    const oldRange = viewer.getImageColorRange(0)
+    viewer.setImageColorRange([20, 80], 0)
+    const resultImageColorRange = viewer.getImageColorRange(0)
+    t.same(resultImageColorRange, [20, 80], 'image color range')
+    viewer.setImageColorRange(oldRange, 0)
+
+    viewer.once('imageColorRangeBoundsChanged', data => {
+      t.pass('imageColorRangeBoundsChanged event')
+    })
+    const oldBounds = viewer.getImageColorRangeBounds(0)
+    viewer.setImageColorRangeBounds([-20, 800], 0)
+    const resultImageColorRangeBounds = viewer.getImageColorRangeBounds(0)
+    t.same(resultImageColorRangeBounds, [-20, 800], 'image color range bounds')
+    viewer.setImageColorRangeBounds(oldBounds, 0)
+
+    t.pass()
+
+    const screenshot = await viewer.captureImage()
+    gc.releaseResources()
+    testUtils.compareImages(
+      screenshot,
+      [createViewerBaseline],
+      'Test createViewer',
+      t,
+      2.0,
+      gc.releaseResources
+    )
   }, 100)
 })
 

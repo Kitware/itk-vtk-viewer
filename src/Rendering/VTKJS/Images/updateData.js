@@ -1,6 +1,8 @@
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData'
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
+import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
+import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy'
 
 import updateVisualizedComponents from './updateVisualizedComponents'
 
@@ -18,11 +20,11 @@ async function updateData(context) {
     return
   }
 
+  const numberOfComponents = image ? image.imageType.components : 0
+
   if (image && !labelImage && !editorLabelImage) {
     const topLevelImage = await image.levelLargestImage(image.topLevel)
-    const vtkImage = vtkITKHelper.convertItkToVtkImage(topLevelImage)
-
-    context.images.source.setInputData(vtkImage)
+    actorContext.fusedImage = vtkITKHelper.convertItkToVtkImage(topLevelImage)
   } else if (image) {
     const topLevelImage = await image.levelLargestImage(image.topLevel)
     const vtkImage = vtkITKHelper.convertItkToVtkImage(topLevelImage)
@@ -132,11 +134,10 @@ async function updateData(context) {
 
     fusedImage.getPointData().setScalars(fusedImageScalars)
     actorContext.lastVisualizedComponents = visualizedComponents.slice()
-
-    context.images.source.setInputData(fusedImage)
   } else {
     // Todo: just labelImage
   }
+  context.images.source.setInputData(actorContext.fusedImage)
 
   // VTK.js currently only supports a single image
   if (!!!context.images.representationProxy) {
@@ -157,20 +158,87 @@ async function updateData(context) {
     annotationContainer.style.fontFamily = 'monospace'
   }
 
+  // Create color map and piecewise function objects as needed
+  for (let component = 0; component < numberOfComponents; component++) {
+    if (context.images.lookupTableProxies.has(component)) {
+      continue
+    }
+    const lookupTableProxy = vtkLookupTableProxy.newInstance()
+
+    if (actorContext.colorMaps.has(component)) {
+      const preset = actorContext.colorMaps.get(component)
+      lookupTableProxy.setPresetName(preset)
+      lookupTableProxy.setMode(vtkLookupTableProxy.Mode.Preset)
+    }
+    const lut = lookupTableProxy.getLookupTable()
+    if (actorContext.colorRanges.has(component)) {
+      const range = actorContext.colorRanges.get(component)
+      lut.setMappingRange(range[0], range[1])
+      lut.updateRange()
+    }
+
+    context.images.lookupTableProxies.set(component, lookupTableProxy)
+  }
+  for (let component = 0; component < numberOfComponents; component++) {
+    if (context.images.piecewiseFunctionProxies.has(component)) {
+      continue
+    }
+
+    const piecewiseFunctionProxy = {
+      slice: vtkPiecewiseFunctionProxy.newInstance(),
+      volume: vtkPiecewiseFunctionProxy.newInstance(),
+    }
+    context.images.piecewiseFunctionProxies.set(
+      component,
+      piecewiseFunctionProxy
+    )
+  }
+
+  const sliceActors = context.images.representationProxy.getActors()
+  sliceActors.forEach((actor, actorIdx) => {
+    const actorProp = actor.getProperty()
+    actorProp.setIndependentComponents(actorContext.independentComponents)
+    actorContext.visualizedComponents.forEach(
+      (componentIndex, fusedImageIndex) => {
+        const colorTransferFunction = context.images.lookupTableProxies
+          .get(componentIndex)
+          .getLookupTable()
+        actorProp.setRGBTransferFunction(fusedImageIndex, colorTransferFunction)
+        const piecewiseFunction = context.images.piecewiseFunctionProxies
+          .get(componentIndex)
+          .slice.getPiecewiseFunction()
+        actorProp.setPiecewiseFunction(fusedImageIndex, piecewiseFunction)
+      }
+    )
+  })
+
+  // Set component visibilities, independent components
   const volumeProps = context.images.representationProxy.getVolumes()
   volumeProps.forEach((volume, volumeIndex) => {
     const volumeProperty = volume.getProperty()
+
+    volumeProperty.setIndependentComponents(actorContext.independentComponents)
+
     let componentsVisible = false
     actorContext.visualizedComponents.forEach(
       (componentIndex, fusedImageIndex) => {
-        //const lut = store.imageUI.lookupTableProxies[
-        //componentIndex
-        //].getLookupTable()
-        //volumeProperty.setRGBTransferFunction(fusedImageIndex, lut)
-        //const piecewiseFunction = store.imageUI.piecewiseFunctionProxies[
-        //componentIndex
-        //].volume.getPiecewiseFunction()
-        //volumeProperty.setScalarOpacity(fusedImageIndex, piecewiseFunction)
+        const colorTransferFunction = context.images.lookupTableProxies
+          .get(componentIndex)
+          .getLookupTable()
+        volumeProperty.setRGBTransferFunction(
+          fusedImageIndex,
+          colorTransferFunction
+        )
+
+        const piecewiseFunction = context.images.piecewiseFunctionProxies
+          .get(componentIndex)
+          .volume.getPiecewiseFunction()
+        volumeProperty.setScalarOpacity(fusedImageIndex, piecewiseFunction)
+        volumeProperty.setRGBTransferFunction(
+          fusedImageIndex,
+          colorTransferFunction
+        )
+
         const componentVisibility =
           actorContext.componentVisibilities[componentIndex]
         componentsVisible = componentVisibility ? true : componentsVisible
@@ -190,7 +258,33 @@ async function updateData(context) {
       volumeProperty.setOpacityMode(numberOfComponents, mode)
     }
   })
+
   //updateGradientOpacity(store)
+
+  // Set default color ranges
+  actorContext.visualizedComponents.forEach(
+    (componentIndex, fusedImageIndex) => {
+      if (
+        !actorContext.colorRanges.has(componentIndex) ||
+        !actorContext.colorRangeBounds.has(componentIndex)
+      ) {
+        const dataArray = actorContext.fusedImage.getPointData().getScalars()
+        const range = dataArray.getRange(fusedImageIndex)
+        if (!actorContext.colorRangeBounds.has(componentIndex)) {
+          context.service.send({
+            type: 'IMAGE_COLOR_RANGE_BOUNDS_CHANGED',
+            data: { name, component: componentIndex, range },
+          })
+        }
+        if (!actorContext.colorRanges.has(componentIndex)) {
+          context.service.send({
+            type: 'IMAGE_COLOR_RANGE_CHANGED',
+            data: { name, component: componentIndex, range },
+          })
+        }
+      }
+    }
+  )
 }
 
 export default updateData

@@ -2,7 +2,7 @@ import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Consta
 
 function applyComponentVisibility(context, event) {
   const name = event.data.name
-  const index = event.data.index
+  const index = event.data.component
   const visibility = event.data.visibility
 
   const actorContext = context.images.actorContext.get(name)
@@ -28,7 +28,6 @@ function applyComponentVisibility(context, event) {
     actorProp.setComponentWeight(fusedImageIndex, weight)
   })
 
-  // todo: next
   const volumeProps = context.images.representationProxy.getVolumes()
   volumeProps.forEach((volume, volIdx) => {
     const volumeProperty = volume.getProperty()
@@ -59,6 +58,8 @@ function applyComponentVisibility(context, event) {
       }
     }
   })
+
+  context.service.send('RENDER')
 }
 
 export default applyComponentVisibility

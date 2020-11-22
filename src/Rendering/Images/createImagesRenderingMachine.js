@@ -43,6 +43,9 @@ function createImagesRenderingMachine(options, context) {
             IMAGE_ASSIGNED: {
               actions: spawnImageRenderingActor(imageRenderingActor),
             },
+            SELECT_LAYER: {
+              actions: 'selectImageLayer',
+            },
             UPDATE_IMAGE_DATA: {
               actions: send((_, e) => e, {
                 to: (c, e) => `imageRenderingActor-${e.data.name}`,
@@ -54,6 +57,16 @@ function createImagesRenderingMachine(options, context) {
               }),
             },
             IMAGE_COMPONENT_VISIBILITY_CHANGED: {
+              actions: send((_, e) => e, {
+                to: (c, e) => `imageRenderingActor-${e.data.name}`,
+              }),
+            },
+            IMAGE_COLOR_RANGE_CHANGED: {
+              actions: send((_, e) => e, {
+                to: (c, e) => `imageRenderingActor-${e.data.name}`,
+              }),
+            },
+            IMAGE_COLOR_MAP_CHANGED: {
               actions: send((_, e) => e, {
                 to: (c, e) => `imageRenderingActor-${e.data.name}`,
               }),

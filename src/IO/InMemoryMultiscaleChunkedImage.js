@@ -120,7 +120,7 @@ function chunkImage(image, chunkSize) {
     sizeCXYZTElements[1] *
     sizeCXYZTElements[2] *
     sizeCXYZTElements[3] *
-    sizeCXYZTChunks[4]
+    sizeCXYZTElements[4]
   let data = image.data
   //const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
   //if (haveSharedArrayBuffer && !data.buffer instanceof SharedArrayBuffer) {
@@ -131,60 +131,66 @@ function chunkImage(image, chunkSize) {
   //}
   let offset = 0
   const cxElements = sizeCXYZTChunks[0] * sizeCXYZTChunks[1]
-  //if (haveSharedArrayBuffer) {
-  // Poorer performance
-  //if (false) {
-  //const taskArgs = new Array(chunks.length)
-  //for (let k = 0; k < numberOfCXYZTChunks[3]; k++) {
-  //const kOffset = k * sizeCXYZTChunks[3]
-  //for (let j = 0; j < numberOfCXYZTChunks[2]; j++) {
-  //const jOffset = j * sizeCXYZTChunks[2]
-  //for (let i = 0; i < numberOfCXYZTChunks[1]; i++) {
-  //const iOffset = i * sizeCXYZTChunks[1]
-  //taskArgs[offset] = [
-  //{
-  //data,
-  //componentType,
-  //chunkElements,
-  //cxElements,
-  //sizeCXYZTChunks,
-  //dataStride,
-  //kOffset,
-  //jOffset,
-  //iOffset,
-  //},
-  //]
-  //offset++
-  //} // for every x chunk
-  //} // for every y chunk
-  //} // for every z chunk
-  //// const result = await chunkerWorkerPool.runTasks(taskArgs)
-  //// chunks = result.map(e => e.chunk)
-  //} else {
-  for (let k = 0; k < numberOfCXYZTChunks[3]; k++) {
-    const kOffset = k * sizeCXYZTChunks[3]
-    for (let j = 0; j < numberOfCXYZTChunks[2]; j++) {
-      const jOffset = j * sizeCXYZTChunks[2]
-      for (let i = 0; i < numberOfCXYZTChunks[1]; i++) {
-        const iOffset = i * sizeCXYZTChunks[1]
-        const chunk = new chunkType(chunkElements)
-        let cxOffset = 0
-        for (let kk = 0; kk < sizeCXYZTChunks[3]; kk++) {
-          const kaOffset = dataStride[3] * (kOffset + kk)
-          for (let jj = 0; jj < sizeCXYZTChunks[2]; jj++) {
-            const jaOffset = kaOffset + dataStride[2] * (jOffset + jj)
-            const iaOffset = jaOffset + dataStride[1] * iOffset
-            const dataSlice = data.subarray(iaOffset, iaOffset + cxElements)
-            chunk.set(dataSlice, Math.min(cxOffset, chunk.length))
-            cxOffset += cxElements
+
+  const singleChunk = numberOfCXYZTChunks.every(e => e === 1)
+  if (singleChunk) {
+    chunks[0] = data
+  } else {
+    //if (haveSharedArrayBuffer) {
+    // Poorer performance
+    //if (false) {
+    //const taskArgs = new Array(chunks.length)
+    //for (let k = 0; k < numberOfCXYZTChunks[3]; k++) {
+    //const kOffset = k * sizeCXYZTChunks[3]
+    //for (let j = 0; j < numberOfCXYZTChunks[2]; j++) {
+    //const jOffset = j * sizeCXYZTChunks[2]
+    //for (let i = 0; i < numberOfCXYZTChunks[1]; i++) {
+    //const iOffset = i * sizeCXYZTChunks[1]
+    //taskArgs[offset] = [
+    //{
+    //data,
+    //componentType,
+    //chunkElements,
+    //cxElements,
+    //sizeCXYZTChunks,
+    //dataStride,
+    //kOffset,
+    //jOffset,
+    //iOffset,
+    //},
+    //]
+    //offset++
+    //} // for every x chunk
+    //} // for every y chunk
+    //} // for every z chunk
+    //// const result = await chunkerWorkerPool.runTasks(taskArgs)
+    //// chunks = result.map(e => e.chunk)
+    //} else {
+    for (let k = 0; k < numberOfCXYZTChunks[3]; k++) {
+      const kOffset = k * sizeCXYZTChunks[3]
+      for (let j = 0; j < numberOfCXYZTChunks[2]; j++) {
+        const jOffset = j * sizeCXYZTChunks[2]
+        for (let i = 0; i < numberOfCXYZTChunks[1]; i++) {
+          const iOffset = i * sizeCXYZTChunks[1]
+          const chunk = new chunkType(chunkElements)
+          let cxOffset = 0
+          for (let kk = 0; kk < sizeCXYZTChunks[3]; kk++) {
+            const kaOffset = dataStride[3] * (kOffset + kk)
+            for (let jj = 0; jj < sizeCXYZTChunks[2]; jj++) {
+              const jaOffset = kaOffset + dataStride[2] * (jOffset + jj)
+              const iaOffset = jaOffset + dataStride[1] * iOffset
+              const dataSlice = data.subarray(iaOffset, iaOffset + cxElements)
+              chunk.set(dataSlice, Math.min(cxOffset, chunk.length))
+              cxOffset += cxElements
+            }
           }
-        }
-        chunks[offset] = chunk
-        offset++
-      } // for every x chunk
-    } // for every y chunk
-  } // for every z chunk
-  //}
+          chunks[offset] = chunk
+          offset++
+        } // for every x chunk
+      } // for every y chunk
+    } // for every z chunk
+    //}
+  }
   console.timeEnd('chunky')
 
   const coords = new Coords(image, dims)

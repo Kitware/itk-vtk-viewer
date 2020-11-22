@@ -16,6 +16,14 @@ const assignFullscreenEnabled = assign({
   },
 })
 
+const assignAnnotationsEnabled = assign({
+  main: (context, event) => {
+    const main = context.main
+    main.annotationsEnabled = !main.annotationsEnabled
+    return main
+  },
+})
+
 function createMainUIMachine(options, context) {
   let initialViewMode = 'volumeRendering'
   switch (context.main.viewMode) {
@@ -88,13 +96,19 @@ function createMainUIMachine(options, context) {
                 enabled: {
                   entry: 'toggleAnnotations',
                   on: {
-                    TOGGLE_ANNOTATIONS: 'disabled',
+                    TOGGLE_ANNOTATIONS: {
+                      target: 'disabled',
+                      actions: assignAnnotationsEnabled,
+                    },
                   },
                 },
                 disabled: {
                   entry: 'toggleAnnotations',
                   on: {
-                    TOGGLE_ANNOTATIONS: 'enabled',
+                    TOGGLE_ANNOTATIONS: {
+                      target: 'enabled',
+                      actions: assignAnnotationsEnabled,
+                    },
                   },
                 },
               },

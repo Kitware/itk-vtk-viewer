@@ -1,8 +1,5 @@
-function toggleAnnotations(context, event, actionMeta) {
+function toggleAnnotations(context) {
   let annotationsEnabled = context.main.annotationsEnabled
-  if (actionMeta) {
-    annotationsEnabled = actionMeta.state.value.active.annotations === 'enabled'
-  }
   context.itkVtkView.setOrientationAnnotationVisibility(annotationsEnabled)
 }
 

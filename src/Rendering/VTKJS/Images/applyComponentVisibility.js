@@ -1,4 +1,4 @@
-import updateFusedImage from './updateFusedImage'
+import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 
 function applyComponentVisibility(context, event) {
   const name = event.data.name
@@ -8,6 +8,7 @@ function applyComponentVisibility(context, event) {
   const actorContext = context.images.actorContext.get(name)
   const componentVisibilities = actorContext.componentVisibilities
   const visualizedComponents = actorContext.visualizedComponents
+  const weight = visibility ? 1.0 : 0.0
 
   if (visibility && visualizedComponents.indexOf(index) < 0) {
     visualizedComponents.push(index)
@@ -17,34 +18,41 @@ function applyComponentVisibility(context, event) {
         break
       }
     }
-    updateFusedImage(context, name)
+    context.service.send({ type: 'UPDATE_IMAGE_DATA', data: { name } })
   }
 
-  const fusedImageIndex = componentVisibilities.indexOf(index)
+  const fusedImageIndex = visualizedComponents.indexOf(index)
   const sliceActors = store.images.representationProxy.getActors()
   sliceActors.forEach((actor, actorIdx) => {
     const actorProp = actor.getProperty()
     actorProp.setComponentWeight(fusedImageIndex, weight)
   })
 
+  // todo: next
   const volumeProps = context.images.representationProxy.getVolumes()
   volumeProps.forEach((volume, volIdx) => {
     const volumeProperty = volume.getProperty()
     volumeProperty.setComponentWeight(fusedImageIndex, weight)
     volumeProperty.setOpacityMode(numberOfComponents, mode)
 
-    let componentsVisible = false
-    componentVisibilities.forEach((componentIdx, fusedImgIdx) => {
-      componentsVisible = weight > 0.0 ? true : componentsVisible
-    })
     if (!!context.images.labelImage || !!context.images.editorLabelImage) {
+      let componentsVisible = false
+      for (let i = 0; i < visualizedComponents.length; i++) {
+        componentsVisible = visualizedComponents[i] ? true : componentsVisible
+      }
+
       let mode = OpacityMode.PROPORTIONAL
       if (!componentsVisible) {
         mode = OpacityMode.FRACTIONAL
       }
+
+      const fusedImageComponents = actorContext.fusedImage
+        .getPointData()
+        .getScalars()
+        .getNumberOfComponents()
       for (
         let comp = componentVisibilities.length;
-        comp < actorContext.fusedImage;
+        comp < fusedImageComponents;
         comp++
       ) {
         volumeProperty.setOpacityMode(comp, mode)

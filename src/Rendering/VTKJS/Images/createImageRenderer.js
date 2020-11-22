@@ -1,4 +1,4 @@
-import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
+import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData'
 import applyIndependentComponents from './applyIndependentComponents'
 
 async function createImageRenderer(context) {
@@ -9,6 +9,12 @@ async function createImageRenderer(context) {
       { name: 'Image' }
     )
   }
+
+  const actorContext = context.images.actorContext.get(
+    context.images.selectedName
+  )
+  actorContext.fusedImage = vtkImageData.newInstance()
+  actorContext.lastVisualizedComponents = []
 
   applyIndependentComponents(context)
 }

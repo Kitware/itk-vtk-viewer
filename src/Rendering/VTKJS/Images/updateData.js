@@ -2,7 +2,7 @@ import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import updateVisualizedComponents from './updateVisualizedComponents'
 
 async function updateData(context) {
-  const name = context.images.selectedName
+  const name = context.images.updateName
   const actorContext = context.images.actorContext.get(name)
 
   updateVisualizedComponents(context, name)

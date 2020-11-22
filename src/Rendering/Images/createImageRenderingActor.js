@@ -1,4 +1,20 @@
-import { Machine } from 'xstate'
+import { Machine, assign } from 'xstate'
+
+const assignUpdateName = assign({
+  images: (context, event) => {
+    const images = context.images
+    images.updateName = event.data.name
+    return images
+  },
+})
+
+const assignUpdateNameToSelectedName = assign({
+  images: (context, event) => {
+    const images = context.images
+    images.updateName = images.selectedName
+    return images
+  },
+})
 
 const createImageRenderingActor = (options, context, event) => {
   return Machine(
@@ -13,6 +29,7 @@ const createImageRenderingActor = (options, context, event) => {
             src: 'createImageRenderer',
             onDone: {
               target: 'updateData',
+              actions: assignUpdateNameToSelectedName,
             },
           },
         },
@@ -28,6 +45,10 @@ const createImageRenderingActor = (options, context, event) => {
         active: {
           type: 'parallel',
           on: {
+            UPDATE_IMAGE_DATA: {
+              target: 'updateData',
+              actions: assignUpdateName,
+            },
             TOGGLE_LAYER_VISIBILITY: {
               actions: 'applyVisibility',
             },

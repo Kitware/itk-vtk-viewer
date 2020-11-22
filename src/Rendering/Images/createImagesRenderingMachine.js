@@ -43,6 +43,11 @@ function createImagesRenderingMachine(options, context) {
             IMAGE_ASSIGNED: {
               actions: spawnImageRenderingActor(imageRenderingActor),
             },
+            UPDATE_IMAGE_DATA: {
+              actions: send((_, e) => e, {
+                to: (c, e) => `imageRenderingActor-${e.data.name}`,
+              }),
+            },
             TOGGLE_LAYER_VISIBILITY: {
               actions: send((_, e) => e, {
                 to: (c, e) => `imageRenderingActor-${e.data}`,

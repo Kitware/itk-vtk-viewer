@@ -7,6 +7,9 @@ class ImagesMachineContext {
 
   // Name of the selected image
   selectedName = 'Image'
+
+  // Name of the image whose data needs to be updated
+  updateName = 'Image'
 }
 
 export default ImagesMachineContext

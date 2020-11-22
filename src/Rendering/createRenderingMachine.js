@@ -89,6 +89,9 @@ const createRenderingMachine = (options, context) => {
             IMAGE_ASSIGNED: {
               actions: forwardTo('images'),
             },
+            UPDATE_IMAGE_DATA: {
+              actions: forwardTo('images'),
+            },
           },
         },
       },

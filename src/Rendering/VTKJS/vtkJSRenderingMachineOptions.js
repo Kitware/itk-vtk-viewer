@@ -1,5 +1,7 @@
 import createRenderer from './createRenderer'
 import render from './render'
+import requestAnimation from './requestAnimation'
+import cancelAnimation from './cancelAnimation'
 
 import mainRenderingMachineOptions from './Main/mainRenderingMachineOptions'
 import layersRenderingMachineOptions from './Layers/layersRenderingMachineOptions'
@@ -16,6 +18,8 @@ const vtkJSRenderingMachineOptions = {
     createRenderer,
 
     render,
+    requestAnimation,
+    cancelAnimation,
   },
 }
 

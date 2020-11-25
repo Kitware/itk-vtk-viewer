@@ -39,12 +39,6 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
     iconSize, // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
     padding: 10,
   })
-  //const dataArray = store.imageUI.image.getPointData().getScalars()
-  //console.log(dataArray)
-  //transferFunctionWidget.setDataArray(dataArray.getData(), {
-  //numberOfComponents: store.imageUI.totalIntensityComponents,
-  //component: store.imageUI.selectedComponentIndex,
-  //})
 
   const piecewiseWidgetContainer = document.createElement('div')
   piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget)
@@ -52,15 +46,20 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
   transferFunctionWidget.setContainer(piecewiseWidgetContainer)
   transferFunctionWidget.bindMouseListeners()
 
-  //// Manage update when opacity changes
-  //transferFunctionWidget.onAnimation(start => {
-  //if (start) {
-  //renderWindow.getInteractor().requestAnimation(transferFunctionWidget)
-  //} else {
-  //renderWindow.getInteractor().cancelAnimation(transferFunctionWidget)
-  //renderWindow.render()
-  //}
-  //})
+  // Manage update when opacity changes
+  transferFunctionWidget.onAnimation(start => {
+    if (start) {
+      context.service.send({
+        type: 'REQUEST_ANIMATION',
+        data: 'transferFunctionWidget',
+      })
+    } else {
+      context.service.send({
+        type: 'CANCEL_ANIMATION',
+        data: 'transferFunctionWidget',
+      })
+    }
+  })
   //transferFunctionWidget.onOpacityChange(() => {
   //const component = store.imageUI.selectedComponentIndex
   //updateComponentPiecewiseFunction(store, component)

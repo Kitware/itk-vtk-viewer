@@ -161,6 +161,12 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             RENDER: {
               actions: forwardTo('rendering'),
             },
+            REQUEST_ANIMATION: {
+              actions: forwardTo('rendering'),
+            },
+            CANCEL_ANIMATION: {
+              actions: forwardTo('rendering'),
+            },
           },
         },
       },

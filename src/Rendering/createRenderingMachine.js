@@ -46,6 +46,12 @@ const createRenderingMachine = (options, context) => {
             RENDER: {
               actions: 'render',
             },
+            REQUEST_ANIMATION: {
+              actions: 'requestAnimation',
+            },
+            CANCEL_ANIMATION: {
+              actions: 'cancelAnimation',
+            },
             SET_BACKGROUND_COLOR: {
               actions: forwardTo('main'),
             },

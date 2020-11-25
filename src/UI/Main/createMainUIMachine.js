@@ -24,6 +24,14 @@ const assignAnnotationsEnabled = assign({
   },
 })
 
+const assignRotateEnabled = assign({
+  main: (context, event) => {
+    const main = context.main
+    main.rotateEnabled = !main.rotateEnabled
+    return main
+  },
+})
+
 function createMainUIMachine(options, context) {
   let initialViewMode = 'volumeRendering'
   switch (context.main.viewMode) {
@@ -119,13 +127,19 @@ function createMainUIMachine(options, context) {
                 enabled: {
                   entry: 'toggleRotate',
                   on: {
-                    TOGGLE_ROTATE: 'disabled',
+                    TOGGLE_ROTATE: {
+                      target: 'disabled',
+                      actions: assignRotateEnabled,
+                    },
                   },
                 },
                 disabled: {
                   entry: 'toggleRotate',
                   on: {
-                    TOGGLE_ROTATE: 'enabled',
+                    TOGGLE_ROTATE: {
+                      target: 'enabled',
+                      actions: assignRotateEnabled,
+                    },
                   },
                 },
               },

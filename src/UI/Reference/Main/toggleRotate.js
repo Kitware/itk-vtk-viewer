@@ -1,8 +1,4 @@
-function toggleRotate(context, event, actionMeta) {
-  if (actionMeta) {
-    context.main.rotateEnabled =
-      actionMeta.state.value.active.rotate === 'enabled'
-  }
+function toggleRotate(context) {
   if (context.main.rotateButtonInput) {
     context.main.rotateButtonInput.checked = context.main.rotateEnabled
   }

@@ -869,7 +869,7 @@ const createViewer = async (
     return context.layers.actorContext.get(name).visible
   }
 
-  publicAPI.setImageComponentVisibility = (component, visibility, name) => {
+  publicAPI.setImageComponentVisibility = (visibility, component, name) => {
     if (typeof name === 'undefined') {
       name = context.images.selectedName
     }

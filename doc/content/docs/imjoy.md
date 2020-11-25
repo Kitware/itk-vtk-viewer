@@ -125,10 +125,30 @@ Set whether the named layer is visible.
 
 Get whether the named layer is visible.
 
-### setImageComponentVisibility(component, visibility, name)
+### setImageComponentVisibility(visibility, component, name)
 
 Set the given image intensity component index's visibility.
 
 ### setImageComponentVisibility(component, name)
 
 Set the given image intensity component index's visibility.
+
+### setImageColorRange(range, component, name)
+
+Set the [min, max] range of intensity values mapped to colors for the given
+image component identified by name.
+
+### getImageColorRange(component, name)
+
+Get the [min, max] range of intensity values mapped to colors for the given
+image component identified by name.
+
+### setImageColorRangeBounds(bounds, component, name)
+
+Set the [min, max] range of intensity values for color maps that provide a bounds
+for user inputs.
+
+### getImageColorRangeBounds(component, name)
+
+Get the [min, max] range of intensity values for color maps that provide a bounds
+for user inputs.

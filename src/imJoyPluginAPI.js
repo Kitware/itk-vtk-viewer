@@ -96,12 +96,28 @@ const imJoyPluginAPI = {
     return this.viewer.getLayerNames()
   },
 
-  setImageComponentVisibility(component, visibility, name) {
-    this.viewer.setImageComponentVisibility(component, visibility, name)
+  setImageComponentVisibility(visibility, component, name) {
+    this.viewer.setImageComponentVisibility(visibility, component, name)
   },
 
   getImageComponentVisibility(component, name) {
     return this.viewer.getImageComponentVisibility(component, name)
+  },
+
+  setImageColorRange(range, component, name) {
+    this.viewer.setImageColorRange(range, component, name)
+  },
+
+  getImageColorRange(component, name) {
+    return this.viewer.getImageColorRange(component, name)
+  },
+
+  setImageColorRangeBounds(bounds, component, name) {
+    this.viewer.setImageColorRange(bounds, component, name)
+  },
+
+  getImageColorRangeBounds(component, name) {
+    return this.viewer.getImageColorRangeBounds(component, name)
   },
 }
 

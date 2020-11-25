@@ -133,10 +133,10 @@ test('Test createViewer', async t => {
   viewer.once('imageVisualizedComponentChanged', data => {
     t.pass('imageVisualizedComponentChanged event')
   })
-  viewer.setImageComponentVisibility(0, false)
+  viewer.setImageComponentVisibility(false, 0)
   const resultImageComponentVisibility = viewer.getImageComponentVisibility(0)
   t.same(resultImageComponentVisibility, false, 'image component visibility')
-  viewer.setImageComponentVisibility(0, true)
+  viewer.setImageComponentVisibility(true, 0)
 
   const viewProxy = viewer.getViewProxy()
   const renderWindow = viewProxy.getOpenglRenderWindow()

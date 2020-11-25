@@ -18,7 +18,7 @@ function applyComponentVisibility(context, event) {
         break
       }
     }
-    context.service.send({ type: 'UPDATE_IMAGE_DATA', data: { name } })
+    context.service.send({ type: 'UPDATE_RENDERED_IMAGE', data: { name } })
   }
 
   const fusedImageIndex = visualizedComponents.indexOf(index)

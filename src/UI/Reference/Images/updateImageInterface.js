@@ -3,6 +3,8 @@ import applyColorRangeBounds from './applyColorRangeBounds'
 import applyColorRange from './applyColorRange'
 import applyColorMap from './applyColorMap'
 
+import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
+
 function updateImageInterface(context) {
   updateAvailableComponents(context)
 
@@ -32,6 +34,7 @@ function updateImageInterface(context) {
         },
       })
     }
+
     if (actorContext.colorRangeBounds.has(name)) {
       applyColorRangeBounds(context, {
         data: {
@@ -41,6 +44,7 @@ function updateImageInterface(context) {
         },
       })
     }
+
     if (actorContext.colorMaps.has(name)) {
       applyColorMap(context, {
         data: {
@@ -50,6 +54,11 @@ function updateImageInterface(context) {
         },
       })
       context.images.iconSelector.setSelectedValue(colorMaps)
+    }
+
+    if (actorContext.fusedImage) {
+      const dataArray = actorContext.fusedImage.getPointData().getScalars()
+      console.log(dataArray)
     }
   }
 }

@@ -103,7 +103,10 @@ function createImagesUIMachine(options, context) {
         active: {
           on: {
             IMAGE_ASSIGNED: {
-              actions: ['updateImageInterface'],
+              actions: 'updateImageInterface',
+            },
+            RENDERED_IMAGE_ASSIGNED: {
+              actions: 'updateRenderedImageInterface',
             },
             SELECT_IMAGE_COMPONENT: {
               actions: [assignSelectedComponentIndex, 'selectImageComponent'],

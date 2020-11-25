@@ -2,6 +2,9 @@ class ImageActorContext {
   // MultiscaleChunkedImage to be visualized
   image = null
 
+  // The rendered image, derived from the overall `image`
+  renderedImage = null
+
   // MultiscaleChunked label image to be visualized
   labelImage = null
 

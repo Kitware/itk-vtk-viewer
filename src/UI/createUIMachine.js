@@ -77,6 +77,9 @@ function createUIMachine(options, context) {
             IMAGE_ASSIGNED: {
               actions: [forwardTo('layers'), forwardTo('images')],
             },
+            RENDERED_IMAGE_ASSIGNED: {
+              actions: forwardTo('images'),
+            },
             SELECT_IMAGE_COMPONENT: {
               actions: forwardTo('images'),
             },

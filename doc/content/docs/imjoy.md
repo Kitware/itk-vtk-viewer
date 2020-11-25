@@ -44,9 +44,7 @@ viewer = await api.createWindow(src="https://kitware.github.io/itk-vtk-viewer/ap
 
 In addition to the standard `setup` and `run` methods, the *itk-vtk-viewer* plugin provides the following methods:
 
-### setImage(image)
-
-Set the image to be visualized. Can be an [itk.js Image](https://insightsoftwareconsortium.github.io/itk-js/api/Image.html) or a [scijs ndarray](http://scijs.net/packages/#scijs/ndarray) for JavaScript; for Python, it can be a [numpy](https://numpy.org) array.
+## Main
 
 ### setBackgroundColor(bgColor)
 
@@ -124,6 +122,12 @@ Set whether the named layer is visible.
 ### getLayerVisibility(name)
 
 Get whether the named layer is visible.
+
+## Image
+
+### setImage(image)
+
+Set the image to be visualized. Can be an [itk.js Image](https://insightsoftwareconsortium.github.io/itk-js/api/Image.html) or a [scijs ndarray](http://scijs.net/packages/#scijs/ndarray) for JavaScript; for Python, it can be a [numpy](https://numpy.org) array.
 
 ### setImageComponentVisibility(visibility, component, name)
 

@@ -46,9 +46,14 @@ function createImagesRenderingMachine(options, context) {
             SELECT_LAYER: {
               actions: 'selectImageLayer',
             },
-            UPDATE_IMAGE_DATA: {
+            UPDATE_RENDERED_IMAGE: {
               actions: send((_, e) => e, {
                 to: (c, e) => `imageRenderingActor-${e.data.name}`,
+              }),
+            },
+            RENDERED_IMAGE_ASSIGNED: {
+              actions: send((_, e) => e, {
+                to: (c, e) => `imageRenderingActor-${e.data}`,
               }),
             },
             TOGGLE_LAYER_VISIBILITY: {

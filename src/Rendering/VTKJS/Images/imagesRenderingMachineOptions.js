@@ -3,20 +3,22 @@ import applyImageColors from './applyImageColors'
 import applyGradientOpacity from './applyGradientOpacity'
 import applyVisibility from './applyVisibility'
 import applyComponentVisibility from './applyComponentVisibility'
-import updateData from './updateData'
+import updateRenderedImage from './updateRenderedImage'
 import selectImageLayer from './selectImageLayer'
 import applyColorRange from './applyColorRange'
 import applyColorMap from './applyColorMap'
+import applyRenderedImage from './applyRenderedImage'
 
 const imagesRenderingMachineOptions = {
   imageRenderingActor: {
     services: {
       createImageRenderer,
-
-      updateData,
+      updateRenderedImage,
     },
 
     actions: {
+      applyRenderedImage,
+
       applyImageColors,
 
       applyVisibility,

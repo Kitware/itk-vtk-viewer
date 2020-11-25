@@ -1,5 +1,6 @@
 import createImagesInterface from './createImagesInterface'
 import updateImageInterface from './updateImageInterface'
+import updateRenderedImageInterface from './updateRenderedImageInterface'
 import selectImageComponent from './selectImageComponent'
 import applyComponentVisibility from './applyComponentVisibility'
 import applyColorRange from './applyColorRange'
@@ -9,8 +10,8 @@ import applyColorMap from './applyColorMap'
 const imagesUIMachineOptions = {
   actions: {
     createImagesInterface,
-
     updateImageInterface,
+    updateRenderedImageInterface,
 
     selectImageComponent,
 

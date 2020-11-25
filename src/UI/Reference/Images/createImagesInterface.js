@@ -2,6 +2,7 @@ import style from '../ItkVtkViewer.module.css'
 
 import createComponentSelector from './createComponentSelector'
 import createColorRangeInput from './createColorRangeInput'
+import createTransferFunctionWidget from './createTransferFunctionWidget'
 
 function createImagesInterface(context) {
   const imagesUIGroup = document.createElement('div')
@@ -10,6 +11,7 @@ function createImagesInterface(context) {
 
   createComponentSelector(context, imagesUIGroup)
   createColorRangeInput(context, imagesUIGroup)
+  createTransferFunctionWidget(context, imagesUIGroup)
 
   context.uiContainer.appendChild(imagesUIGroup)
 }

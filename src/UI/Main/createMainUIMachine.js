@@ -32,6 +32,14 @@ const assignRotateEnabled = assign({
   },
 })
 
+const assignAxesEnabled = assign({
+  main: (context, event) => {
+    const main = context.main
+    main.axesEnabled = !main.axesEnabled
+    return main
+  },
+})
+
 function createMainUIMachine(options, context) {
   let initialViewMode = 'volumeRendering'
   switch (context.main.viewMode) {
@@ -150,13 +158,19 @@ function createMainUIMachine(options, context) {
                 enabled: {
                   entry: 'toggleAxes',
                   on: {
-                    TOGGLE_AXES: 'disabled',
+                    TOGGLE_AXES: {
+                      target: 'disabled',
+                      actions: assignAxesEnabled,
+                    },
                   },
                 },
                 disabled: {
                   entry: 'toggleAxes',
                   on: {
-                    TOGGLE_AXES: 'enabled',
+                    TOGGLE_AXES: {
+                      target: 'enabled',
+                      actions: assignAxesEnabled,
+                    },
                   },
                 },
               },

@@ -43,6 +43,35 @@ const assignComponentVisibility = assign({
   },
 })
 
+const assignComponentPiecewiseFunction = assign({
+  images: (context, event) => {
+    const images = context.images
+    const name = event.data.name
+    const actorContext = context.images.actorContext.get(name)
+    const component = event.data.component
+    const range = event.data.range
+    const nodes = event.data.nodes
+
+    actorContext.piecewiseFunctions.set(component, { range, nodes })
+
+    return images
+  },
+})
+
+const assignComponentPiecewiseFunctionGaussians = assign({
+  images: (context, event) => {
+    const images = context.images
+    const name = event.data.name
+    const actorContext = context.images.actorContext.get(name)
+    const component = event.data.component
+    const gaussians = event.data.gaussians
+
+    actorContext.piecewiseFunctionGaussians.set(component, gaussians)
+
+    return images
+  },
+})
+
 const assignColorRange = assign({
   images: (context, event) => {
     const images = context.images
@@ -113,6 +142,15 @@ function createImagesUIMachine(options, context) {
             },
             IMAGE_COMPONENT_VISIBILITY_CHANGED: {
               actions: [assignComponentVisibility, 'applyComponentVisibility'],
+            },
+            IMAGE_PIECEWISE_FUNCTION_CHANGED: {
+              actions: assignComponentPiecewiseFunction,
+            },
+            IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED: {
+              actions: [
+                assignComponentPiecewiseFunctionGaussians,
+                'applyPiecewiseFunctionGaussians',
+              ],
             },
             IMAGE_COLOR_RANGE_CHANGED: {
               actions: [assignColorRange, 'applyColorRange'],

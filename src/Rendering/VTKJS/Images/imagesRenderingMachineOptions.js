@@ -8,6 +8,7 @@ import selectImageLayer from './selectImageLayer'
 import applyColorRange from './applyColorRange'
 import applyColorMap from './applyColorMap'
 import applyRenderedImage from './applyRenderedImage'
+import applyPiecewiseFunction from './applyPiecewiseFunction'
 
 const imagesRenderingMachineOptions = {
   imageRenderingActor: {
@@ -24,6 +25,8 @@ const imagesRenderingMachineOptions = {
       applyVisibility,
 
       applyComponentVisibility,
+
+      applyPiecewiseFunction,
 
       applyColorRange,
 

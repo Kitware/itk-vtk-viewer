@@ -4,6 +4,7 @@ function updateRenderedImageInterface(context, event) {
   const name = event.data
   const actorContext = context.images.actorContext.get(name)
   const renderedImage = actorContext.renderedImage
+  const component = actorContext.selectedComponentIndex
 
   if (!renderedImage) {
     return
@@ -11,10 +12,14 @@ function updateRenderedImageInterface(context, event) {
 
   const vtkImage = vtkITKHelper.convertItkToVtkImage(renderedImage)
   const dataArray = vtkImage.getPointData().getScalars()
-  context.images.transferFunctionWidget.setDataArray(dataArray.getData(), {
+  const transferFunctionWidget = context.images.transferFunctionWidget
+  transferFunctionWidget.setDataArray(dataArray.getData(), {
     numberOfComponents: renderedImage.imageType.components,
-    component: actorContext.selectedComponentIndex,
+    component,
   })
+
+  const gaussians = actorContext.piecewiseFunctionGaussians.get(component)
+  transferFunctionWidget.setGaussians(gaussians)
 }
 
 export default updateRenderedImageInterface

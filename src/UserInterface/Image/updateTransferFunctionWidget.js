@@ -1,10 +1,8 @@
-import applyPiecewiseFunctionOpacities from '../../Rendering/applyPiecewiseFunctionOpacities'
 import updateTransferFunctionHistogramValues from './updateTransferFunctionHistogramValues'
 import updateTransferFunctionLookupTable from './updateTransferFunctionLookupTable'
 
 function doUpdates(store, widget, component) {
   updateTransferFunctionHistogramValues(store, component)
-  applyPiecewiseFunctionOpacities(store, component)
   updateTransferFunctionLookupTable(store, component)
 }
 

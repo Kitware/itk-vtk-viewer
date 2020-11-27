@@ -86,6 +86,12 @@ function createUIMachine(options, context) {
             IMAGE_COMPONENT_VISIBILITY_CHANGED: {
               actions: forwardTo('images'),
             },
+            IMAGE_PIECEWISE_FUNCTION_CHANGED: {
+              actions: forwardTo('images'),
+            },
+            IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED: {
+              actions: forwardTo('images'),
+            },
             IMAGE_COLOR_RANGE_CHANGED: {
               actions: forwardTo('images'),
             },

@@ -6,6 +6,7 @@ import applyComponentVisibility from './applyComponentVisibility'
 import applyColorRange from './applyColorRange'
 import applyColorRangeBounds from './applyColorRangeBounds'
 import applyColorMap from './applyColorMap'
+import applyPiecewiseFunctionGaussians from './applyPiecewiseFunctionGaussians'
 
 const imagesUIMachineOptions = {
   actions: {
@@ -19,6 +20,7 @@ const imagesUIMachineOptions = {
     applyColorRange,
     applyColorRangeBounds,
     applyColorMap,
+    applyPiecewiseFunctionGaussians,
   },
 }
 

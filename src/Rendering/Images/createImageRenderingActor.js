@@ -32,6 +32,9 @@ const eventResponses = {
   IMAGE_COMPONENT_VISIBILITY_CHANGED: {
     actions: 'applyComponentVisibility',
   },
+  IMAGE_PIECEWISE_FUNCTION_CHANGED: {
+    actions: 'applyPiecewiseFunction',
+  },
   IMAGE_COLOR_RANGE_CHANGED: {
     actions: 'applyColorRange',
   },

@@ -2,11 +2,6 @@ import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/Mo
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget'
 import macro from 'vtk.js/Sources/macro'
 
-//import updateComponentPiecewiseFunction from '../../Rendering/updateComponentPiecewiseFunction'
-//import updateTransferFunctionWidget from './updateTransferFunctionWidget'
-//import updateTransferFunctionHistogramValues from './updateTransferFunctionHistogramValues'
-//import updateTransferFunctionLookupTable from './updateTransferFunctionLookupTable'
-
 import style from '../ItkVtkViewer.module.css'
 
 function createTransferFunctionWidget(context, imagesUIGroup) {
@@ -46,6 +41,11 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
   transferFunctionWidget.setContainer(piecewiseWidgetContainer)
   transferFunctionWidget.bindMouseListeners()
 
+  // Create color map and piecewise function objects as needed
+  if (typeof context.images.lookupTableProxies === 'undefined') {
+    context.images.lookupTableProxies = new Map()
+  }
+
   // Manage update when opacity changes
   transferFunctionWidget.onAnimation(start => {
     if (start) {
@@ -60,139 +60,37 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
       })
     }
   })
-  //transferFunctionWidget.onOpacityChange(() => {
-  //const component = store.imageUI.selectedComponentIndex
-  //updateComponentPiecewiseFunction(store, component)
-  //})
-  //reaction(
-  //() => {
-  //return store.imageUI.colorRanges.slice()
-  //},
-  //colorRanges => {
-  //const component = store.imageUI.selectedComponentIndex
-  //const colorRange = colorRanges[component]
-  //const gaussians = transferFunctionWidget.getGaussians()
-  //const newGaussians = gaussians.slice()
-  //const dataArray = store.imageUI.image.getPointData().getScalars()
-  //const fullRange = dataArray.getRange(component)
-  //const diff = fullRange[1] - fullRange[0]
-  //const colorRangeNormalized = new Array(2)
-  //colorRangeNormalized[0] = (colorRange[0] - fullRange[0]) / diff
-  //colorRangeNormalized[1] = (colorRange[1] - fullRange[0]) / diff
 
-  //let minValue = Infinity
-  //let maxValue = -Infinity
+  transferFunctionWidget.onOpacityChange(() => {
+    const name = context.images.selectedName
+    const actorContext = context.images.actorContext.get(name)
+    const dataRange = actorContext.colorRangeBounds.get(name)
+    context.service.send({
+      type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
+      data: {
+        name,
+        component: actorContext.selectedComponentIndex,
+        range: transferFunctionWidget.getOpacityRange(dataRange),
+        nodes: transferFunctionWidget.getOpacityNodes(dataRange),
+      },
+    })
+  })
 
-  //let count = gaussians.length
-  //while (count--) {
-  //let { position, width, xBias, yBias } = newGaussians[count]
-  //if (position - width < colorRangeNormalized[0]) {
-  //position = colorRangeNormalized[0] + width
-  //newGaussians[count].position = position
-  //if (position + width > colorRangeNormalized[1]) {
-  //const newWidth =
-  //(colorRangeNormalized[1] - colorRangeNormalized[0]) / 2
-  //position = colorRangeNormalized[0] + newWidth
-  //newGaussians[count].position = position
-  //newGaussians[count].width = newWidth
-  //newGaussians[count].xBias = (newWidth / width) * xBias
-  //newGaussians[count].yBias = (newWidth / width) * yBias
-  //}
-  //}
-  //if (position + width > colorRangeNormalized[1]) {
-  //position = colorRangeNormalized[1] - width
-  //newGaussians[count].position = position
-  //if (position - width < colorRangeNormalized[0]) {
-  //const newWidth =
-  //(colorRangeNormalized[1] - colorRangeNormalized[0]) / 2
-  //position = colorRangeNormalized[0] + newWidth
-  //newGaussians[count].position = position
-  //newGaussians[count].width = newWidth
-  //newGaussians[count].xBias = (newWidth / width) * xBias
-  //newGaussians[count].yBias = (newWidth / width) * yBias
-  //}
-  //}
-  //minValue = Math.min(minValue, position - width)
-  //maxValue = Math.max(maxValue, position + width)
-  //}
-  //if (
-  //colorRangeNormalized[0] < minValue ||
-  //colorRangeNormalized[1] > maxValue
-  //) {
-  //const newWidth = (colorRangeNormalized[1] - colorRangeNormalized[0]) / 2
-  //const position = colorRangeNormalized[0] + newWidth
-  //newGaussians[0].position = position
-  //newGaussians[0].xBias =
-  //(newWidth / newGaussians[0].width) * newGaussians[0].xBias
-  //newGaussians[0].yBias =
-  //(newWidth / newGaussians[0].width) * newGaussians[0].yBias
-  //newGaussians[0].width = newWidth
-  //}
-  //transferFunctionWidget.setRangeZoom(colorRangeNormalized)
-  //store.imageUI.opacityGaussians[component] = newGaussians
-  //transferFunctionWidget.setGaussians(newGaussians)
-  //}
-  //)
-  //const onZoomChange = action(zoom => {
-  //const component = store.imageUI.selectedComponentIndex
-  //const dataArray = store.imageUI.image.getPointData().getScalars()
-  //const fullRange = dataArray.getRange(component)
-  //const diff = fullRange[1] - fullRange[0]
-  //const colorRange = new Array(2)
-  //colorRange[0] = fullRange[0] + zoom[0] * diff
-  //colorRange[1] = fullRange[0] + zoom[1] * diff
-  //store.imageUI.colorRanges[component] = colorRange
-  //})
-  //transferFunctionWidget.onZoomChange(macro.throttle(onZoomChange, 150))
-
-  //reaction(
-  //() => {
-  //return store.imageUI.selectedComponentIndex
-  //},
-  //index => {
-  //updateTransferFunctionHistogramValues(store, index)
-  //updateTransferFunctionLookupTable(store, index)
-
-  //if (!renderWindow.getInteractor().isAnimating()) {
-  //renderWindow.render()
-  //}
-  //}
-  //)
-
-  //function setupOpacityGaussians() {
-  //const numberOfComponents = store.imageUI.totalIntensityComponents
-  //const gaussians = []
-  //for (let component = 0; component < numberOfComponents; component++) {
-  //if (store.imageUI.opacityGaussians.length > component) {
-  //gaussians.push(store.imageUI.opacityGaussians[component])
-  //} else {
-  //if (use2D) {
-  //// Necessary side effect: addGaussian calls invokeOpacityChange, which
-  //// calls onOpacityChange, which updates the lut (does not have a low
-  //// opacity in 2D)
-  //gaussians.push([
-  //{ position: 0.5, height: 1.0, width: 0.5, xBias: 0.0, yBias: 3.0 },
-  //])
-  //} else {
-  //gaussians.push([
-  //{ position: 0.5, height: 1.0, width: 0.5, xBias: 0.51, yBias: 0.4 },
-  //])
-  //}
-  //}
-  //}
-
-  //store.imageUI.opacityGaussians.replace(gaussians)
-  //updateTransferFunctionWidget(store)
-  //}
-  //reaction(
-  //() => {
-  //return store.imageUI.image
-  //},
-  //image => {
-  //setupOpacityGaussians()
-  //}
-  //)
-  //setupOpacityGaussians()
+  const onZoomChange = zoom => {
+    const name = context.images.selectedName
+    const actorContext = context.images.actorContext.get(name)
+    const component = actorContext.selectedComponentIndex
+    const fullRange = actorContext.colorRangeBounds.get(component)
+    const diff = fullRange[1] - fullRange[0]
+    const colorRange = new Array(2)
+    colorRange[0] = fullRange[0] + zoom[0] * diff
+    colorRange[1] = fullRange[0] + zoom[1] * diff
+    context.service.send({
+      type: 'IMAGE_COLOR_RANGE_CHANGED',
+      data: { name, component, range: colorRange },
+    })
+  }
+  transferFunctionWidget.onZoomChange(macro.throttle(onZoomChange, 150))
 
   const transferFunctionWidgetRow = document.createElement('div')
   transferFunctionWidgetRow.setAttribute('class', style.uiRow)
@@ -206,101 +104,124 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer)
   imagesUIGroup.appendChild(transferFunctionWidgetRow)
 
-  //// Create range manipulator
-  //const rangeManipulator = vtkMouseRangeManipulator.newInstance({
-  //button: 1,
-  //alt: true,
-  //})
-  //store.imageUI.transferFunctionManipulator.rangeManipulator = rangeManipulator
+  // Create range manipulator
+  const rangeManipulator = vtkMouseRangeManipulator.newInstance({
+    button: 1,
+    alt: true,
+  })
+  context.images.transferFunctionManipulator = {
+    rangeManipulator: null,
+    windowMotionScale: 150.0,
+    levelMotionScale: 150.0,
+    windowGet: null,
+    windowSet: null,
+    levelGet: null,
+    levelSet: null,
+  }
+  context.images.transferFunctionManipulator.rangeManipulator = rangeManipulator
 
-  //// Window
-  //const windowGet = () => {
-  //const gaussian = transferFunctionWidget.getGaussians()[0]
-  //return gaussian.width * store.imageUI.windowMotionScale
-  //}
-  //store.imageUI.transferFunctionManipulator.windowGet = windowGet
-  //const windowSet = value => {
-  //const gaussians = transferFunctionWidget.getGaussians()
-  //const newGaussians = gaussians.slice()
-  //newGaussians[0].width = value / store.imageUI.windowMotionScale
-  //store.imageUI.opacityGaussians[
-  //store.imageUI.selectedComponentIndex
-  //] = newGaussians
-  //transferFunctionWidget.setGaussians(newGaussians)
-  //}
-  //store.imageUI.transferFunctionManipulator.windowSet = windowSet
+  // Window
+  const windowGet = () => {
+    const gaussian = transferFunctionWidget.getGaussians()[0]
+    return (
+      gaussian.width *
+      context.images.transferFunctionManipulator.windowMotionScale
+    )
+  }
+  context.images.transferFunctionManipulator.windowGet = windowGet
+  const windowSet = value => {
+    const gaussians = transferFunctionWidget.getGaussians()
+    const newGaussians = gaussians.slice()
+    newGaussians[0].width =
+      value / context.images.transferFunctionManipulator.windowMotionScale
+    const name = context.images.selectedName
+    const actorContext = context.images.actorContext.get(name)
+    const component = context.images.selectedComponentIndex
+    context.service.send({
+      type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
+      data: { name, component, gaussians: newGaussians },
+    })
+  }
+  context.images.transferFunctionManipulator.windowSet = windowSet
 
-  //// Level
-  //const levelGet = () => {
-  //const gaussian = transferFunctionWidget.getGaussians()[0]
-  //return gaussian.position * store.imageUI.levelMotionScale
-  //}
-  //store.imageUI.transferFunctionManipulator.levelGet = levelGet
-  //const levelSet = value => {
-  //const gaussians = transferFunctionWidget.getGaussians()
-  //const newGaussians = gaussians.slice()
-  //newGaussians[0].position = value / store.imageUI.levelMotionScale
-  //store.imageUI.opacityGaussians[
-  //store.imageUI.selectedComponentIndex
-  //] = newGaussians
-  //transferFunctionWidget.setGaussians(newGaussians)
-  //}
-  //store.imageUI.transferFunctionManipulator.levelSet = levelSet
+  // Level
+  const levelGet = () => {
+    const gaussian = transferFunctionWidget.getGaussians()[0]
+    return (
+      gaussian.position *
+      context.images.transferFunctionManipulator.levelMotionScale
+    )
+  }
+  context.images.transferFunctionManipulator.levelGet = levelGet
+  const levelSet = value => {
+    const gaussians = transferFunctionWidget.getGaussians()
+    const newGaussians = gaussians.slice()
+    const name = context.images.selectedName
+    const actorContext = context.images.actorContext.get(name)
+    const component = context.images.selectedComponentIndex
+    context.service.send({
+      type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
+      data: { name, component, gaussians: newGaussians },
+    })
+  }
+  context.images.transferFunctionManipulator.levelSet = levelSet
 
-  //// Add range manipulator
-  //store.itkVtkView.getInteractorStyle2D().addMouseManipulator(rangeManipulator)
-  //store.itkVtkView.getInteractorStyle3D().addMouseManipulator(rangeManipulator)
-  //// Update the window / level motion scales
-  //updateTransferFunctionHistogramValues(
-  //store,
-  //store.imageUI.selectedComponentIndex
-  //)
+  // Add range manipulator
+  context.itkVtkView
+    .getInteractorStyle2D()
+    .addMouseManipulator(rangeManipulator)
+  context.itkVtkView
+    .getInteractorStyle3D()
+    .addMouseManipulator(rangeManipulator)
 
-  //const opacityRangeManipulator = vtkMouseRangeManipulator.newInstance({
-  //button: 3, // Right mouse
-  //alt: true,
-  //})
-  //const opacityRangeManipulatorShift = vtkMouseRangeManipulator.newInstance({
-  //button: 1, // Left mouse
-  //shift: true, // For the macOS folks
-  //alt: true,
-  //})
+  const opacityRangeManipulator = vtkMouseRangeManipulator.newInstance({
+    button: 3, // Right mouse
+    alt: true,
+  })
+  const opacityRangeManipulatorShift = vtkMouseRangeManipulator.newInstance({
+    button: 1, // Left mouse
+    shift: true, // For the macOS folks
+    alt: true,
+  })
 
-  //// Opacity
-  //const opacityMotionScale = 200.0
-  //const opacityGet = () => {
-  //const gaussian = transferFunctionWidget.getGaussians()[0]
-  //return gaussian.height * opacityMotionScale
-  //}
-  //const opacitySet = value => {
-  //const gaussians = transferFunctionWidget.getGaussians()
-  //const newGaussians = gaussians.slice()
-  //newGaussians[0].height = value / opacityMotionScale
-  //store.imageUI.opacityGaussians[
-  //store.imageUI.selectedComponentIndex
-  //] = newGaussians
-  //transferFunctionWidget.setGaussians(newGaussians)
-  //}
-  //opacityRangeManipulator.setVerticalListener(
-  //0,
-  //opacityMotionScale,
-  //1,
-  //opacityGet,
-  //opacitySet
-  //)
-  //opacityRangeManipulatorShift.setVerticalListener(
-  //0,
-  //opacityMotionScale,
-  //1,
-  //opacityGet,
-  //opacitySet
-  //)
-  //store.itkVtkView
-  //.getInteractorStyle3D()
-  //.addMouseManipulator(opacityRangeManipulator)
-  //store.itkVtkView
-  //.getInteractorStyle3D()
-  //.addMouseManipulator(opacityRangeManipulatorShift)
+  // Opacity
+  const opacityMotionScale = 200.0
+  const opacityGet = () => {
+    const gaussian = transferFunctionWidget.getGaussians()[0]
+    return gaussian.height * opacityMotionScale
+  }
+  const opacitySet = value => {
+    const gaussians = transferFunctionWidget.getGaussians()
+    const newGaussians = gaussians.slice()
+    newGaussians[0].height = value / opacityMotionScale
+    const name = context.images.selectedName
+    const actorContext = context.images.actorContext.get(name)
+    const component = context.images.selectedComponentIndex
+    context.service.send({
+      type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
+      data: { name, component, gaussians: newGaussians },
+    })
+  }
+  opacityRangeManipulator.setVerticalListener(
+    0,
+    opacityMotionScale,
+    1,
+    opacityGet,
+    opacitySet
+  )
+  opacityRangeManipulatorShift.setVerticalListener(
+    0,
+    opacityMotionScale,
+    1,
+    opacityGet,
+    opacitySet
+  )
+  context.itkVtkView
+    .getInteractorStyle3D()
+    .addMouseManipulator(opacityRangeManipulator)
+  context.itkVtkView
+    .getInteractorStyle3D()
+    .addMouseManipulator(opacityRangeManipulatorShift)
 }
 
 export default createTransferFunctionWidget

@@ -41,7 +41,17 @@ class ImageActorContext {
   // limiting the color range in the UI
   colorRangeBounds = new Map()
 
-  opacityGaussians = new Map()
+  // Map of the image intensity component to an object representing the
+  // piecewise function. This object has two properties: range and nodes.
+  // The range property is a [min, max] array of intensity values. The nodes
+  // property is a an array of { x, y, midpoint, sharpness } objects
+  // characterizing a VTK piecewise function
+  piecewiseFunctions = new Map()
+
+  // Map of the image intensity component to the array of
+  // { position, width, xBias, yBias } gaussian parameters that define the
+  // piecewise functions
+  piecewiseFunctionGaussians = new Map()
 
   blendMode = 0
   useShadow = true

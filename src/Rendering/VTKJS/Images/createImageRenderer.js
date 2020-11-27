@@ -17,9 +17,6 @@ async function createImageRenderer(context) {
   actorContext.lastVisualizedComponents = []
 
   applyIndependentComponents(context)
-
-  context.images.lookupTableProxies = new Map()
-  context.images.piecewiseFunctionProxies = new Map()
 }
 
 export default createImageRenderer

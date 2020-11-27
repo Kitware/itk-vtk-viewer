@@ -2,7 +2,6 @@ import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 
 import style from '../ItkVtkViewer.module.css'
 
-//import applyPiecewiseFunctionOpacities from '../../Rendering/applyPiecewiseFunctionOpacities'
 import createColorMapIconSelector from '../createColorMapIconSelector'
 //import customColorMapIcon from '../customColorMapIcon'
 

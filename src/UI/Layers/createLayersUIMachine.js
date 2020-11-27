@@ -67,7 +67,7 @@ const assignImageContext = assign({
     const components = image.imageType.components
     const componentType = image.imageType.componentType
 
-    let colorMap = 'Viridis (matplotlib)'
+    // Assign default independentComponents
     if (actorContext.independentComponents === null) {
       // If a 2D RGB image
       if (
@@ -75,15 +75,14 @@ const assignImageContext = assign({
         componentType === IntTypes.UInt8 &&
         (components === 3 || components === 4)
       ) {
-        colorMap = 'Grayscale'
         actorContext.independentComponents = false
       } else if (components === 1 && !!labelImage) {
-        colorMap = 'Grayscale'
       } else {
         actorContext.independentComponents = true
       }
     }
 
+    // Assign default colorMaps
     for (let component = 0; component < components; component++) {
       if (actorContext.colorMaps.has(component)) {
         continue
@@ -121,6 +120,36 @@ const assignImageContext = assign({
         }
       }
       actorContext.colorMaps.set(component, colorMap)
+    }
+
+    // Assign default piecewiseFunctionGaussians
+    for (let component = 0; component < components; component++) {
+      if (actorContext.piecewiseFunctionGaussians.has(component)) {
+        continue
+      }
+
+      const gaussians = []
+      if (context.use2D) {
+        // Necessary side effect: addGaussian calls invokeOpacityChange, which
+        // calls onOpacityChange, which updates the lut (does not have a low
+        // opacity in 2D)
+        gaussians.push({
+          position: 0.5,
+          height: 1.0,
+          width: 0.5,
+          xBias: 0.0,
+          yBias: 3.0,
+        })
+      } else {
+        gaussians.push({
+          position: 0.5,
+          height: 1.0,
+          width: 0.5,
+          xBias: 0.51,
+          yBias: 0.4,
+        })
+      }
+      actorContext.piecewiseFunctionGaussians.set(component, gaussians)
     }
 
     images.actorContext.set(name, actorContext)

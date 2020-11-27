@@ -4,7 +4,6 @@ import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/Mo
 import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget'
 import macro from 'vtk.js/Sources/macro'
 
-import updateComponentPiecewiseFunction from '../../Rendering/updateComponentPiecewiseFunction'
 import updateTransferFunctionWidget from './updateTransferFunctionWidget'
 import updateTransferFunctionHistogramValues from './updateTransferFunctionHistogramValues'
 import updateTransferFunctionLookupTable from './updateTransferFunctionLookupTable'
@@ -66,7 +65,6 @@ function createTransferFunctionWidget(store, uiContainer, use2D) {
   })
   transferFunctionWidget.onOpacityChange(() => {
     const component = store.imageUI.selectedComponentIndex
-    updateComponentPiecewiseFunction(store, component)
   })
   reaction(
     () => {

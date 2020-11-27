@@ -11,6 +11,7 @@ function updateImageInterface(context) {
   const name = context.images.selectedName
   const actorContext = context.images.actorContext.get(name)
   const image = actorContext.image
+  const component = actorContext.selectedComponentIndex
 
   const collapsibleClass = `${context.id}-collapsible`
   // If not a 2D RGB image
@@ -25,40 +26,36 @@ function updateImageInterface(context) {
   }
 
   if (image) {
-    if (actorContext.colorRanges.has(name)) {
+    if (actorContext.colorRanges.has(component)) {
       applyColorRange(context, {
         data: {
           name,
-          component: actorContext.selectedComponentIndex,
-          range: actorContext.colorRanges.get(name),
+          component,
+          range: actorContext.colorRanges.get(component),
         },
       })
     }
 
-    if (actorContext.colorRangeBounds.has(name)) {
+    if (actorContext.colorRangeBounds.has(component)) {
       applyColorRangeBounds(context, {
         data: {
           name,
-          component: actorContext.selectedComponentIndex,
-          range: actorContext.colorRangeBounds.get(name),
+          component,
+          range: actorContext.colorRangeBounds.get(component),
         },
       })
     }
 
-    if (actorContext.colorMaps.has(name)) {
+    if (actorContext.colorMaps.has(component)) {
+      const colorMap = actorContext.colorMaps.get(component)
       applyColorMap(context, {
         data: {
           name,
-          component: actorContext.selectedComponentIndex,
-          colorMap: actorContext.colorMaps.get(name),
+          component,
+          colorMap,
         },
       })
-      context.images.iconSelector.setSelectedValue(colorMaps)
-    }
-
-    if (actorContext.fusedImage) {
-      const dataArray = actorContext.fusedImage.getPointData().getScalars()
-      console.log(dataArray)
+      context.images.iconSelector.setSelectedValue(colorMap)
     }
   }
 }

@@ -137,6 +137,12 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
                 forwardTo('eventEmitter'),
               ],
             },
+            IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED: {
+              actions: forwardTo('ui'),
+            },
+            IMAGE_PIECEWISE_FUNCTION_CHANGED: {
+              actions: [forwardTo('ui'), forwardTo('rendering')],
+            },
             IMAGE_COLOR_RANGE_CHANGED: {
               actions: [
                 forwardTo('ui'),

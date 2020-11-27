@@ -36,6 +36,13 @@ function applyRenderedImage(context, event) {
   }
 
   // Create color map and piecewise function objects as needed
+  if (typeof context.images.lookupTableProxies === 'undefined') {
+    context.images.lookupTableProxies = new Map()
+  }
+  if (typeof context.images.piecewiseFunctionProxies === 'undefined') {
+    context.images.piecewiseFunctionProxies = new Map()
+  }
+  // Create color map and piecewise function objects as needed
   for (let component = 0; component < numberOfComponents; component++) {
     if (context.images.lookupTableProxies.has(component)) {
       continue

@@ -110,6 +110,12 @@ const createRenderingMachine = (options, context) => {
             IMAGE_COLOR_MAP_CHANGED: {
               actions: forwardTo('images'),
             },
+            IMAGE_COMPONENT_VISIBILITY_CHANGED: {
+              actions: forwardTo('images'),
+            },
+            IMAGE_PIECEWISE_FUNCTION_CHANGED: {
+              actions: forwardTo('images'),
+            },
           },
         },
       },

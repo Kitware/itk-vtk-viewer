@@ -2,7 +2,6 @@ import { reaction } from 'mobx'
 
 import style from './ItkVtkViewer.module.css'
 
-import createColorRangeInput from './Image/createColorRangeInput'
 import createBlendModeSelector from './Image/createBlendModeSelector'
 //import createComponentSelector from './Image/createComponentSelector'
 import createTransferFunctionWidget from './Image/createTransferFunctionWidget'
@@ -45,7 +44,6 @@ function createImageUI(store, use2D, uiContainer) {
         'style',
         'background: rgba(127, 127, 127, 0.5);'
       )
-      createColorRangeInput(store, colorRangeInputRow)
       colorRangeInputRow.className += ` ${viewerDOMId}-collapsible`
       imageUIGroup.appendChild(colorRangeInputRow)
     }

@@ -1,25 +1,49 @@
+import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
+
 let customIcon = null
 
 function applyColorMap(context, event) {
   const name = event.data.name
-  const componentIndex = event.data.component
+  const component = event.data.component
   const actorContext = context.images.actorContext.get(name)
+  const colorMap = event.data.colorMap
 
   if (
     name !== context.images.selectedName ||
-    componentIndex !== actorContext.selectedComponentIndex
+    component !== actorContext.selectedComponentIndex
   ) {
     return
   }
 
-  const colorMap = event.data.colorMap
+  let lookupTableProxy = null
+  if (context.images.lookupTableProxies.has(component)) {
+    lookupTableProxy = context.images.lookupTableProxies.get(component)
+  } else {
+    lookupTableProxy = vtkLookupTableProxy.newInstance()
+    context.images.lookupTableProxies.set(component, lookupTableProxy)
+  }
+  const currentColorMap = lookupTableProxy.getPresetName()
+  if (currentColorMap !== colorMap) {
+    lookupTableProxy.setPresetName(colorMap)
+    lookupTableProxy.setMode(vtkLookupTableProxy.Mode.Preset)
+    const colorTransferFunction = lookupTableProxy.getLookupTable()
+    if (actorContext.colorRanges.has(component)) {
+      const range = actorContext.colorRanges.get(component)
+      colorTransferFunction.setMappingRange(range[0], range[1])
+      colorTransferFunction.updateRange()
+    }
+  }
+  const transferFunctionWidget = context.images.transferFunctionWidget
+  transferFunctionWidget.setColorTransferFunction(
+    lookupTableProxy.getLookupTable()
+  )
+  transferFunctionWidget.render()
 
   // Todo:
   //const transferFunctionWidget = store.imageUI.transferFunctionWidget
 
   //if (colorMap.startsWith('Custom')) {
   //lookupTableProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)
-  //applyPiecewiseFunctionOpacities(store, componentIndex)
   //const colorDataRange = transferFunctionWidget.getOpacityRange()
   //if (!!colorDataRange) {
   //colorTransferFunction.setMappingRange(...colorDataRange)

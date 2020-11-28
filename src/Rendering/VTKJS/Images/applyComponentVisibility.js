@@ -21,45 +21,47 @@ function applyComponentVisibility(context, event) {
     context.service.send({ type: 'UPDATE_RENDERED_IMAGE', data: { name } })
   }
 
-  const fusedImageIndex = visualizedComponents.indexOf(index)
-  const sliceActors = store.images.representationProxy.getActors()
-  sliceActors.forEach((actor, actorIdx) => {
-    const actorProp = actor.getProperty()
-    actorProp.setComponentWeight(fusedImageIndex, weight)
-  })
+  if (context.images.representationProxy) {
+    const fusedImageIndex = visualizedComponents.indexOf(index)
+    const sliceActors = context.images.representationProxy.getActors()
+    sliceActors.forEach((actor, actorIdx) => {
+      const actorProp = actor.getProperty()
+      actorProp.setComponentWeight(fusedImageIndex, weight)
+    })
 
-  const volumeProps = context.images.representationProxy.getVolumes()
-  volumeProps.forEach((volume, volIdx) => {
-    const volumeProperty = volume.getProperty()
-    volumeProperty.setComponentWeight(fusedImageIndex, weight)
-    volumeProperty.setOpacityMode(numberOfComponents, mode)
+    const volumeProps = context.images.representationProxy.getVolumes()
+    volumeProps.forEach((volume, volIdx) => {
+      const volumeProperty = volume.getProperty()
+      volumeProperty.setComponentWeight(fusedImageIndex, weight)
+      volumeProperty.setOpacityMode(numberOfComponents, mode)
 
-    if (!!context.images.labelImage || !!context.images.editorLabelImage) {
-      let componentsVisible = false
-      for (let i = 0; i < visualizedComponents.length; i++) {
-        componentsVisible = visualizedComponents[i] ? true : componentsVisible
+      if (!!context.images.labelImage || !!context.images.editorLabelImage) {
+        let componentsVisible = false
+        for (let i = 0; i < visualizedComponents.length; i++) {
+          componentsVisible = visualizedComponents[i] ? true : componentsVisible
+        }
+
+        let mode = OpacityMode.PROPORTIONAL
+        if (!componentsVisible) {
+          mode = OpacityMode.FRACTIONAL
+        }
+
+        const fusedImageComponents = actorContext.fusedImage
+          .getPointData()
+          .getScalars()
+          .getNumberOfComponents()
+        for (
+          let comp = componentVisibilities.length;
+          comp < fusedImageComponents;
+          comp++
+        ) {
+          volumeProperty.setOpacityMode(comp, mode)
+        }
       }
+    })
 
-      let mode = OpacityMode.PROPORTIONAL
-      if (!componentsVisible) {
-        mode = OpacityMode.FRACTIONAL
-      }
-
-      const fusedImageComponents = actorContext.fusedImage
-        .getPointData()
-        .getScalars()
-        .getNumberOfComponents()
-      for (
-        let comp = componentVisibilities.length;
-        comp < fusedImageComponents;
-        comp++
-      ) {
-        volumeProperty.setOpacityMode(comp, mode)
-      }
-    }
-  })
-
-  context.service.send('RENDER')
+    context.service.send('RENDER')
+  }
 }
 
 export default applyComponentVisibility

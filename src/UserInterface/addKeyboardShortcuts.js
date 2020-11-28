@@ -37,22 +37,22 @@ const addKeyboardShortcuts = (container, service) => {
       preventDefaults(event)
       service.send({ type: 'VIEW_MODE_CHANGED', data: 'VolumeRendering' })
     })
-    //MOUSETRAP.bind('r', function(event, combo) {
-    //preventDefaults(event)
-    //viewer.getViewProxy().resetCamera()
-    //})
-    //MOUSETRAP.bind('alt+r', function(event, combo) {
-    //preventDefaults(event)
-    //viewer.getViewProxy().resetCamera()
-    //})
-    //MOUSETRAP.bind('p', function(event, combo) {
-    //preventDefaults(event)
-    //viewer.getViewProxy().resetCamera()
-    //})
-    //MOUSETRAP.bind('alt+p', function(event, combo) {
-    //preventDefaults(event)
-    //viewer.getViewProxy().resetCamera()
-    //})
+    MOUSETRAP.bind('r', function(event, combo) {
+      preventDefaults(event)
+      service.send('RESET_CAMERA')
+    })
+    MOUSETRAP.bind('alt+r', function(event, combo) {
+      preventDefaults(event)
+      service.send('RESET_CAMERA')
+    })
+    MOUSETRAP.bind('p', function(event, combo) {
+      preventDefaults(event)
+      service.send('RESET_CAMERA')
+    })
+    MOUSETRAP.bind('alt+p', function(event, combo) {
+      preventDefaults(event)
+      service.send('RESET_CAMERA')
+    })
     //MOUSETRAP.bind('e', function(event, combo) {
     //preventDefaults(event)
     //const resetCroppingPlanesButton = document.getElementById(

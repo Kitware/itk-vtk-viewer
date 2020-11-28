@@ -5,38 +5,38 @@ const MOUSETRAP = new Mousetrap()
 
 const addKeyboardShortcuts = (container, service) => {
   container.addEventListener('mouseenter', () => {
-    //MOUSETRAP.bind('1', function(event, combo) {
-    //preventDefaults(event)
-    //viewer.setViewMode('XPlane')
-    //})
-    //MOUSETRAP.bind('alt+1', function(event, combo) {
-    //preventDefaults(event)
-    //viewer.setViewMode('XPlane')
-    //})
-    //MOUSETRAP.bind('2', function(event, combo) {
-    //preventDefaults(event)
-    //viewer.setViewMode('YPlane')
-    //})
-    //MOUSETRAP.bind('alt+2', function(event, combo) {
-    //preventDefaults(event)
-    //viewer.setViewMode('YPlane')
-    //})
-    //MOUSETRAP.bind('3', function(event, combo) {
-    //preventDefaults(event)
-    //viewer.setViewMode('ZPlane')
-    //})
-    //MOUSETRAP.bind('alt+3', function(event, combo) {
-    //preventDefaults(event)
-    //viewer.setViewMode('ZPlane')
-    //})
-    //MOUSETRAP.bind('4', function(event, combo) {
-    //preventDefaults(event)
-    //viewer.setViewMode('VolumeRendering')
-    //})
-    //MOUSETRAP.bind('alt+4', function(event, combo) {
-    //preventDefaults(event)
-    //viewer.setViewMode('VolumeRendering')
-    //})
+    MOUSETRAP.bind('1', function(event, combo) {
+      preventDefaults(event)
+      service.send({ type: 'VIEW_MODE_CHANGED', data: 'XPlane' })
+    })
+    MOUSETRAP.bind('alt+1', function(event, combo) {
+      preventDefaults(event)
+      service.send({ type: 'VIEW_MODE_CHANGED', data: 'XPlane' })
+    })
+    MOUSETRAP.bind('2', function(event, combo) {
+      preventDefaults(event)
+      service.send({ type: 'VIEW_MODE_CHANGED', data: 'YPlane' })
+    })
+    MOUSETRAP.bind('alt+2', function(event, combo) {
+      preventDefaults(event)
+      service.send({ type: 'VIEW_MODE_CHANGED', data: 'YPlane' })
+    })
+    MOUSETRAP.bind('3', function(event, combo) {
+      preventDefaults(event)
+      service.send({ type: 'VIEW_MODE_CHANGED', data: 'ZPlane' })
+    })
+    MOUSETRAP.bind('alt+3', function(event, combo) {
+      preventDefaults(event)
+      service.send({ type: 'VIEW_MODE_CHANGED', data: 'ZPlane' })
+    })
+    MOUSETRAP.bind('4', function(event, combo) {
+      preventDefaults(event)
+      service.send({ type: 'VIEW_MODE_CHANGED', data: 'VolumeRendering' })
+    })
+    MOUSETRAP.bind('alt+4', function(event, combo) {
+      preventDefaults(event)
+      service.send({ type: 'VIEW_MODE_CHANGED', data: 'VolumeRendering' })
+    })
     //MOUSETRAP.bind('r', function(event, combo) {
     //preventDefaults(event)
     //viewer.getViewProxy().resetCamera()

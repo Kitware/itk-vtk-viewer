@@ -162,7 +162,7 @@ test('Test createViewer', async t => {
     t.same(resultImageColorRangeBounds, [-20, 800], 'image color range bounds')
     viewer.setImageColorRangeBounds(oldBounds, 0)
 
-    t.pass()
+    t.pass('test completed')
 
     const screenshot = await viewer.captureImage()
     gc.releaseResources()

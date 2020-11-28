@@ -40,6 +40,14 @@ const assignAxesEnabled = assign({
   },
 })
 
+const assignViewMode = assign({
+  main: (context, event) => {
+    const main = context.main
+    main.viewMode = event.data
+    return main
+  },
+})
+
 function createMainUIMachine(options, context) {
   let initialViewMode = 'volumeRendering'
   switch (context.main.viewMode) {
@@ -216,12 +224,25 @@ function createMainUIMachine(options, context) {
               },
               on: {
                 VIEW_MODE_CHANGED: [
-                  { target: '.xPlane', cond: (c, e) => e.data === 'XPlane' },
-                  { target: '.yPlane', cond: (c, e) => e.data === 'YPlane' },
-                  { target: '.zPlane', cond: (c, e) => e.data === 'ZPlane' },
+                  {
+                    target: '.xPlane',
+                    cond: (c, e) => e.data === 'XPlane',
+                    actions: assignViewMode,
+                  },
+                  {
+                    target: '.yPlane',
+                    cond: (c, e) => e.data === 'YPlane',
+                    actions: assignViewMode,
+                  },
+                  {
+                    target: '.zPlane',
+                    cond: (c, e) => e.data === 'ZPlane',
+                    actions: assignViewMode,
+                  },
                   {
                     target: '.volumeRendering',
                     cond: (c, e) => e.data === 'VolumeRendering',
+                    actions: assignViewMode,
                   },
                 ],
               },

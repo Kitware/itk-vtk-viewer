@@ -35,7 +35,7 @@ function updateAvailableComponents(context) {
           }" data-component-index="${component}"\></label>`
       )
       .join('')
-    context.images.componentSelector.value = actorContext.selectedComponentIndex
+    context.images.componentSelector.value = actorContext.selectedComponent
   }
 }
 

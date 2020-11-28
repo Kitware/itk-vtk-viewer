@@ -5,7 +5,7 @@ const assignSelectedComponentIndex = assign({
     const images = context.images
     const name = event.data.name
     const actorContext = context.images.actorContext.get(name)
-    actorContext.selectedComponentIndex = event.data.component
+    actorContext.selectedComponent = event.data.component
     return images
   },
 })

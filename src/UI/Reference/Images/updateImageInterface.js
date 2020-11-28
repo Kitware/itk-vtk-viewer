@@ -11,7 +11,7 @@ function updateImageInterface(context) {
   const name = context.images.selectedName
   const actorContext = context.images.actorContext.get(name)
   const image = actorContext.image
-  const component = actorContext.selectedComponentIndex
+  const component = actorContext.selectedComponent
 
   const collapsibleClass = `${context.id}-collapsible`
   // If not a 2D RGB image

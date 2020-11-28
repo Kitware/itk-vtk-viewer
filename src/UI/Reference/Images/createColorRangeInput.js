@@ -31,14 +31,14 @@ function createColorRangeInput(context, imageUIGroup) {
     const name = context.images.selectedName
     const actorContext = context.images.actorContext.get(name)
     const currentRange = actorContext.colorRanges.get(
-      actorContext.selectedComponentIndex
+      actorContext.selectedComponent
     )
     const newRange = [Number(event.target.value), currentRange[1]]
     context.service.send({
       type: 'IMAGE_COLOR_RANGE_CHANGED',
       data: {
         name,
-        component: actorContext.selectedComponentIndex,
+        component: actorContext.selectedComponent,
         range: newRange,
       },
     })
@@ -49,14 +49,14 @@ function createColorRangeInput(context, imageUIGroup) {
     const name = context.images.selectedName
     const actorContext = context.images.actorContext.get(name)
     const currentRange = actorContext.colorRanges.get(
-      actorContext.selectedComponentIndex
+      actorContext.selectedComponent
     )
     const newRange = [currentRange[0], Number(event.target.value)]
     context.service.send({
       type: 'IMAGE_COLOR_RANGE_CHANGED',
       data: {
         name,
-        component: actorContext.selectedComponentIndex,
+        component: actorContext.selectedComponent,
         range: newRange,
       },
     })
@@ -77,7 +77,7 @@ function createColorRangeInput(context, imageUIGroup) {
     event.stopPropagation()
     const name = context.images.selectedName
     const actorContext = context.images.actorContext.get(name)
-    const componentIndex = actorContext.selectedComponentIndex
+    const componentIndex = actorContext.selectedComponent
     const colorMap = iconSelector.getSelectedValue()
     context.service.send({
       type: 'IMAGE_COLOR_MAP_CHANGED',

@@ -5,7 +5,7 @@ function applyColorRange(context, event) {
 
   if (
     name !== context.images.selectedName ||
-    component !== actorContext.selectedComponentIndex
+    component !== actorContext.selectedComponent
   ) {
     return
   }

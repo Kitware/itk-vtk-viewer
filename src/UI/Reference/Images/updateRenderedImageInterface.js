@@ -4,7 +4,7 @@ function updateRenderedImageInterface(context, event) {
   const name = event.data
   const actorContext = context.images.actorContext.get(name)
   const renderedImage = actorContext.renderedImage
-  const component = actorContext.selectedComponentIndex
+  const component = actorContext.selectedComponent
 
   if (!renderedImage) {
     return

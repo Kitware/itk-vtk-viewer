@@ -48,7 +48,7 @@ function createComponentSelector(store, imageUIGroup) {
       )
       .join('')
     componentSelector.value = 0
-    store.imageUI.selectedComponentIndex = 0
+    store.imageUI.selectedComponent = 0
   }
   reaction(
     () => {
@@ -92,7 +92,7 @@ function createComponentSelector(store, imageUIGroup) {
       event.stopPropagation()
       const selIdx = Number(event.target.dataset.componentIndex)
       if (event.target.type === 'radio') {
-        store.imageUI.selectedComponentIndex = selIdx
+        store.imageUI.selectedComponent = selIdx
       } else if (event.target.type === 'checkbox') {
         const visibility = event.target.checked
         const currentVisualizedIndexOfSelected = store.imageUI.visualizedComponents.indexOf(

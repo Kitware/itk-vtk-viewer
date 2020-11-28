@@ -19,7 +19,7 @@ class ImageActorContext {
   independentComponents = null
 
   // For multi-component images, the selected component index
-  selectedComponentIndex = 0
+  selectedComponent = 0
 
   // Maximum number of intensity components that can be visualized
   maxIntensityComponents = 3

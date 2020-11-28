@@ -15,7 +15,7 @@ function selectImageComponent(context, event) {
     applyColorRange(context, {
       data: {
         name,
-        component: actorContext.selectedComponentIndex,
+        component: actorContext.selectedComponent,
         range: actorContext.colorRanges.get(name),
       },
     })
@@ -25,7 +25,7 @@ function selectImageComponent(context, event) {
     applyColorRangeBounds(context, {
       data: {
         name,
-        component: actorContext.selectedComponentIndex,
+        component: actorContext.selectedComponent,
         range: actorContext.colorRangeBounds.get(name),
       },
     })
@@ -35,7 +35,7 @@ function selectImageComponent(context, event) {
     applyColorMap(context, {
       data: {
         name,
-        component: actorContext.selectedComponentIndex,
+        component: actorContext.selectedComponent,
         colorMap: actorContext.colorMaps.get(name),
       },
     })

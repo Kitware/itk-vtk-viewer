@@ -69,7 +69,7 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
       type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
       data: {
         name,
-        component: actorContext.selectedComponentIndex,
+        component: actorContext.selectedComponent,
         range: transferFunctionWidget.getOpacityRange(dataRange),
         nodes: transferFunctionWidget.getOpacityNodes(dataRange),
       },
@@ -79,7 +79,7 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
   const onZoomChange = zoom => {
     const name = context.images.selectedName
     const actorContext = context.images.actorContext.get(name)
-    const component = actorContext.selectedComponentIndex
+    const component = actorContext.selectedComponent
     const fullRange = actorContext.colorRangeBounds.get(component)
     const diff = fullRange[1] - fullRange[0]
     const colorRange = new Array(2)
@@ -136,7 +136,7 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
       value / context.images.transferFunctionManipulator.windowMotionScale
     const name = context.images.selectedName
     const actorContext = context.images.actorContext.get(name)
-    const component = context.images.selectedComponentIndex
+    const component = context.images.selectedComponent
     context.service.send({
       type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
       data: { name, component, gaussians: newGaussians },
@@ -158,7 +158,7 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
     const newGaussians = gaussians.slice()
     const name = context.images.selectedName
     const actorContext = context.images.actorContext.get(name)
-    const component = context.images.selectedComponentIndex
+    const component = context.images.selectedComponent
     context.service.send({
       type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
       data: { name, component, gaussians: newGaussians },
@@ -196,7 +196,7 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
     newGaussians[0].height = value / opacityMotionScale
     const name = context.images.selectedName
     const actorContext = context.images.actorContext.get(name)
-    const component = context.images.selectedComponentIndex
+    const component = context.images.selectedComponent
     context.service.send({
       type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
       data: { name, component, gaussians: newGaussians },

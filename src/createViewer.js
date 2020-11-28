@@ -321,7 +321,7 @@ const createViewer = async (
               .getData(),
             {
               numberOfComponents: store.imageUI.totalIntensityComponents,
-              component: store.imageUI.selectedComponentIndex,
+              component: store.imageUI.selectedComponent,
             }
           )
           transferFunctionWidget.invokeOpacityChange(transferFunctionWidget)
@@ -413,7 +413,7 @@ const createViewer = async (
   // need to trigger all of the transfer function widget
   // "store.imageUI.selectedComponent" reactions.
   for (let i = store.imageUI.numberOfComponents - 1; i >= 0; i--) {
-    store.imageUI.selectedComponentIndex = i
+    store.imageUI.selectedComponent = i
   }
 
   reaction(
@@ -965,10 +965,10 @@ const createViewer = async (
   }
 
   autorun(() => {
-    const selectedComponentIndex = store.imageUI.selectedComponentIndex
+    const selectedComponent = store.imageUI.selectedComponent
     if (store.imageUI.colorMaps) {
-      const colorMap = store.imageUI.colorMaps[selectedComponentIndex]
-      eventEmitter.emit('selectColorMap', selectedComponentIndex, colorMap)
+      const colorMap = store.imageUI.colorMaps[selectedComponent]
+      eventEmitter.emit('selectColorMap', selectedComponent, colorMap)
     }
   })
 

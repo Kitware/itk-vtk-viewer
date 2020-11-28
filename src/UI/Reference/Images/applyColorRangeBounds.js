@@ -7,7 +7,7 @@ function applyColorRangeBounds(context, event) {
 
   if (
     name !== context.images.selectedName ||
-    componentIndex !== actorContext.selectedComponentIndex
+    componentIndex !== actorContext.selectedComponent
   ) {
     return
   }

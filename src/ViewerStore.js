@@ -48,7 +48,7 @@ class ImageUIStore {
   source = null
   @observable.ref representationProxy = null
 
-  @observable selectedComponentIndex = 0
+  @observable selectedComponent = 0
   // Does not include the label map
   @computed get numberOfComponents() {
     if (!!!this.image) {

@@ -43,7 +43,7 @@ const assignComponentVisibility = assign({
   },
 })
 
-const assignComponentPiecewiseFunction = assign({
+const assignPiecewiseFunction = assign({
   images: (context, event) => {
     const images = context.images
     const name = event.data.name
@@ -58,7 +58,7 @@ const assignComponentPiecewiseFunction = assign({
   },
 })
 
-const assignComponentPiecewiseFunctionGaussians = assign({
+const assignPiecewiseFunctionGaussians = assign({
   images: (context, event) => {
     const images = context.images
     const name = event.data.name
@@ -144,11 +144,11 @@ function createImagesUIMachine(options, context) {
               actions: [assignComponentVisibility, 'applyComponentVisibility'],
             },
             IMAGE_PIECEWISE_FUNCTION_CHANGED: {
-              actions: assignComponentPiecewiseFunction,
+              actions: assignPiecewiseFunction,
             },
             IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED: {
               actions: [
-                assignComponentPiecewiseFunctionGaussians,
+                assignPiecewiseFunctionGaussians,
                 'applyPiecewiseFunctionGaussians',
               ],
             },

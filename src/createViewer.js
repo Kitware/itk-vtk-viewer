@@ -143,6 +143,12 @@ const createViewer = async (
           case 'IMAGE_COMPONENT_VISIBILITY_CHANGED':
             eventEmitter.emit('imageVisualizedComponentChanged', event.data)
             break
+          case 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED':
+            eventEmitter.emit(
+              'imagePiecewiseFunctionGaussiansChanged',
+              event.data
+            )
+            break
           case 'IMAGE_COLOR_RANGE_CHANGED':
             eventEmitter.emit('imageColorRangeChanged', event.data)
             break
@@ -652,7 +658,7 @@ const createViewer = async (
     'imagePicked',
     'labelMapBlendChanged',
     'labelMapWeightsChanged',
-    'opacityGaussiansChanged',
+    'imagePiecewiseFunctionGaussiansChanged',
     'imageVisualizedComponentChanged',
     'imageColorRangeChanged',
     'imageColorRangeBoundsChanged',
@@ -761,29 +767,34 @@ const createViewer = async (
     }
   }
 
-  publicAPI.getOpacityGaussians = () => store.imageUI.opacityGaussians.slice()
-
-  publicAPI.setOpacityGaussians = gaussians => {
-    store.imageUI.opacityGaussians.replace(gaussians)
-    updateTransferFunctionWidget(store)
-    store.renderWindow.render()
+  publicAPI.setImagePiecewiseFunctionGaussians = (
+    gaussians,
+    component,
+    name
+  ) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (typeof component === 'undefined') {
+      component = 0
+    }
+    const actorContext = context.images.actorContext.get(name)
+    service.send({
+      type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
+      data: { name, component, gaussians },
+    })
   }
 
-  function emitOpacityGaussians() {
-    eventEmitter.emit(
-      'opacityGaussiansChanged',
-      toJS(store.imageUI.opacityGaussians)
-    )
+  publicAPI.getImagePiecewiseFunctionGaussians = (component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (typeof component === 'undefined') {
+      component = 0
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.piecewiseFunctionGaussians.get(component)
   }
-
-  reaction(() => {
-    return store.imageUI.opacityGaussians.map((glist, compIdx) =>
-      glist.map(
-        (g, gIdx) =>
-          `${compIdx}:${gIdx}:${g.position}:${g.height}:${g.width}:${g.xBias}:${g.yBias}`
-      )
-    )
-  }, macro.debounce(emitOpacityGaussians, 100))
 
   // Start collapsed on mobile devices or small pages
   if (window.screen.availWidth < 768 || window.screen.availHeight < 800) {

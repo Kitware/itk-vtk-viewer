@@ -48,68 +48,52 @@ In addition to the standard `setup` and `run` methods, the *itk-vtk-viewer* plug
 
 ### setBackgroundColor(bgColor)
 
-Set the rendering background color. An array of RGB values from 0.0 to 1.0,
-e.g. [1.0, 0.5, 0.5].
-
 ### getBackgroundColor()
 
-Get the current rendering background color.
+Set/get the rendering background color. An array of RGB values from 0.0 to 1.0,
+e.g. [1.0, 0.5, 0.5].
 
 ### setUnits(units)
 
-Set the string identifying the spatial length units in the scale bar.
-
 ### getUnits()
 
-Get the string identifying the spatial length units in the scale bar.
+Set/get the string identifying the spatial length units in the scale bar.
 
 ### setUICollapsed(collapsed)
 
-Set whether the user interface is collapsed.
-
 ### getUICollapsed()
 
-Get whether the user interface is collapsed.
+Set/get whether the user interface is collapsed.
 
 ### setRotateEnabled(enabled)
 
-Set whether the 3D scene is continuously rotated.
-
 ### getRotateEnabled()
 
-Get whether the 3D scene is continuously rotated.
+Set/get whether the 3D scene is continuously rotated.
 
 ### setAnnotationsEnabled(enabled)
 
-Set whether annotations such as the current pixel value, scale bar, or orientation widget are displayed.
-
 ### getAnnotationsEnabled()
 
-Get whether annotations such as the current pixel value, scale bar, or orientation widget are displayed.
+Set/get whether annotations such as the current pixel value, scale bar, or orientation widget are displayed.
 
 ### setAxesEnabled(enabled)
 
-Set whether spatial axes are visualized in the scene.
-
 ### getAxesEnabled()
 
-Get whether spatial axes are visualized in the scene.
+Set/get whether spatial axes are visualized in the scene.
 
 ### setInterpolationEnabled(enabled)
 
-Set whether bilinear interpolation is used in the image slicing planes.
-
 ### getInterpolationEnabled()
 
-Get whether bilinear interpolation is used in the image slicing planes.
+Set/get whether bilinear interpolation is used in the image slicing planes.
 
 ### setViewMode(mode)
 
-Set the viewer mode for the current primary view. Valid values: 'XPlane', 'YPlane', 'ZPlane', or 'VolumeRendering'.
-
 ### getViewMode()
 
-Get the viewer mode for the current primary view.
+Set/get the viewer mode for the current primary view. Valid values: 'XPlane', 'YPlane', 'ZPlane', or 'VolumeRendering'.
 
 ### getLayerNames()
 
@@ -117,11 +101,9 @@ Get the names of all data layers.
 
 ### setLayerVisibility(visible, name)
 
-Set whether the named layer is visible.
-
 ### getLayerVisibility(name)
 
-Get whether the named layer is visible.
+Set/get whether the named layer is visible.
 
 ## Image
 
@@ -131,28 +113,27 @@ Set the image to be visualized. Can be an [itk.js Image](https://insightsoftware
 
 ### setImageComponentVisibility(visibility, component, name)
 
-Set the given image intensity component index's visibility.
+### getImageComponentVisibility(component, name)
 
-### setImageComponentVisibility(component, name)
-
-Set the given image intensity component index's visibility.
+Set/get the given image intensity component index's visibility.
 
 ### setImageColorRange(range, component, name)
 
-Set the [min, max] range of intensity values mapped to colors for the given
-image component identified by name.
-
 ### getImageColorRange(component, name)
 
-Get the [min, max] range of intensity values mapped to colors for the given
+Set/get the [min, max] range of intensity values mapped to colors for the given
 image component identified by name.
 
 ### setImageColorRangeBounds(bounds, component, name)
 
-Set the [min, max] range of intensity values for color maps that provide a bounds
-for user inputs.
-
 ### getImageColorRangeBounds(component, name)
 
-Get the [min, max] range of intensity values for color maps that provide a bounds
+Set/get the [min, max] range of intensity values for color maps that provide a bounds
 for user inputs.
+
+### setImagePiecewiseFunctionGaussians(gaussians, component, name)
+
+### getImagePiecewiseFunctionGaussians(component, name)
+
+Set/get the gaussian parameters that define the piecewise function used to define
+the volume rendering opacity transfer function and multi-component slice blending.

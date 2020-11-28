@@ -35,7 +35,7 @@ const TEST_VIEWER_STYLE = {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(23)
+  t.plan(25)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -161,6 +161,18 @@ test('Test createViewer', async t => {
     const resultImageColorRangeBounds = viewer.getImageColorRangeBounds(0)
     t.same(resultImageColorRangeBounds, [-20, 800], 'image color range bounds')
     viewer.setImageColorRangeBounds(oldBounds, 0)
+
+    viewer.once('imagePiecewiseFunctionGaussiansChanged', data => {
+      t.pass('imagePiecewiseFunctionGaussiansChanged event')
+    })
+    const oldGaussians = viewer.getImagePiecewiseFunctionGaussians(0)
+    const newGaussians = [
+      { position: 0.3, height: 0.4, width: 0.5, xBias: 0.21, yBias: 0.6 },
+    ]
+    viewer.setImagePiecewiseFunctionGaussians(newGaussians, 0)
+    const resultGaussians = viewer.getImagePiecewiseFunctionGaussians(0)
+    t.same(resultGaussians, newGaussians, 'image piecewise function gaussians')
+    viewer.setImagePiecewiseFunctionGaussians(oldGaussians, 0)
 
     t.pass('test completed')
 

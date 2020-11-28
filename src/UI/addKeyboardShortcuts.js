@@ -1,5 +1,5 @@
 import Mousetrap from 'mousetrap'
-import preventDefaults from './preventDefaults'
+import preventDefaults from '../UserInterface/preventDefaults'
 
 const MOUSETRAP = new Mousetrap()
 

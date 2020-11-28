@@ -13,7 +13,7 @@ import createLabelMapColorWidget from './UserInterface/Image/createLabelMapColor
 import createLabelMapWeightWidget from './UserInterface/Image/createLabelMapWeightWidget'
 import createPlaneIndexSliders from './UserInterface/Image/createPlaneIndexSliders'
 import updateTransferFunctionWidget from './UserInterface/Image/updateTransferFunctionWidget'
-import addKeyboardShortcuts from './UserInterface/addKeyboardShortcuts'
+import addKeyboardShortcuts from './UI/addKeyboardShortcuts'
 import rgb2hex from './UserInterface/rgb2hex'
 import hex2rgb from './UserInterface/hex2rgb'
 import ViewerStore from './ViewerStore'

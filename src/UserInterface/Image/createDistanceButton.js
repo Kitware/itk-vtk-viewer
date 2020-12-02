@@ -1,7 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
 
-import distanceIcon from '../icons/length-tool.svg'
+//import distanceIcon from '../icons/length-tool.svg'
 import { reaction, action } from 'mobx'
 import vtkDistanceWidget from 'vtk.js/Sources/Interaction/Widgets/DistanceWidget'
 import vtkDistanceRepresentation from 'vtk.js/Sources/Interaction/Widgets/DistanceRepresentation'

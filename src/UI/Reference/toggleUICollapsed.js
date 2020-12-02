@@ -35,7 +35,7 @@ function toggleUICollapsed(context, event, actionMeta) {
     //case 'ZPlane':
     //zPlaneRow.style.display = 'flex'
     //break
-    //case 'VolumeRendering':
+    //case 'Volume':
     //const viewPlanes = store.imageUI.slicingPlanesEnabled
     //if (viewPlanes) {
     //xPlaneRow.style.display = 'flex'

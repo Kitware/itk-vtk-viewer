@@ -49,7 +49,7 @@ const assignViewMode = assign({
 })
 
 function createMainUIMachine(options, context) {
-  let initialViewMode = 'volumeRendering'
+  let initialViewMode = 'volume'
   switch (context.main.viewMode) {
     case 'XPlane':
       initialViewMode = 'xPlane'
@@ -60,8 +60,8 @@ function createMainUIMachine(options, context) {
     case 'ZPlane':
       initialViewMode = 'zPlane'
       break
-    case 'VolumeRendering':
-      initialViewMode = 'volumeRendering'
+    case 'Volume':
+      initialViewMode = 'volume'
       break
     default:
       throw new Error(`Invalid initial view mode: ${context.main.viewMode}`)
@@ -218,8 +218,8 @@ function createMainUIMachine(options, context) {
                 zPlane: {
                   entry: 'viewModeZPlane',
                 },
-                volumeRendering: {
-                  entry: 'viewModeVolumeRendering',
+                volume: {
+                  entry: 'viewModeVolume',
                 },
               },
               on: {
@@ -240,8 +240,8 @@ function createMainUIMachine(options, context) {
                     actions: assignViewMode,
                   },
                   {
-                    target: '.volumeRendering',
-                    cond: (c, e) => e.data === 'VolumeRendering',
+                    target: '.volume',
+                    cond: (c, e) => e.data === 'Volume',
                     actions: assignViewMode,
                   },
                 ],

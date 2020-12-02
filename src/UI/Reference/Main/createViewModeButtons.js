@@ -1,6 +1,6 @@
 import style from '../ItkVtkViewer.module.css'
 
-import volumeRenderingIcon from '../../Icons/volume-rendering.svg'
+import volumeIcon from '../../Icons/volume.svg'
 import xPlaneIcon from '../../Icons/x-plane.svg'
 import yPlaneIcon from '../../Icons/y-plane.svg'
 import zPlaneIcon from '../../Icons/z-plane.svg'
@@ -60,22 +60,22 @@ function createViewModeButtons(context, mainRow) {
   })
   mainRow.appendChild(zPlaneButton)
 
-  const volumeRenderingButton = document.createElement('div')
-  context.main.volumeRenderingButton = volumeRenderingButton
-  volumeRenderingButton.innerHTML = `<input id="${viewerDOMId}-volumeRenderingButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume [4]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-volumeRenderingButton">${volumeRenderingIcon}</label>`
-  const volumeRenderingButtonLabel = volumeRenderingButton.children[1]
-  context.main.volumeRenderingButtonLabel = volumeRenderingButtonLabel
+  const volumeButton = document.createElement('div')
+  context.main.volumeButton = volumeButton
+  volumeButton.innerHTML = `<input id="${viewerDOMId}-volumeButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume [4]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-volumeButton">${volumeIcon}</label>`
+  const volumeButtonLabel = volumeButton.children[1]
+  context.main.volumeButtonLabel = volumeButtonLabel
   applyContrastSensitiveStyleToElement(
     context,
     'tooltipButton',
-    volumeRenderingButtonLabel
+    volumeButtonLabel
   )
-  volumeRenderingButton.addEventListener('click', event => {
+  volumeButton.addEventListener('click', event => {
     event.preventDefault()
     event.stopPropagation()
-    context.service.send({ type: 'VIEW_MODE_CHANGED', data: 'VolumeRendering' })
+    context.service.send({ type: 'VIEW_MODE_CHANGED', data: 'Volume' })
   })
-  mainRow.appendChild(volumeRenderingButton)
+  mainRow.appendChild(volumeButton)
 }
 
 export default createViewModeButtons

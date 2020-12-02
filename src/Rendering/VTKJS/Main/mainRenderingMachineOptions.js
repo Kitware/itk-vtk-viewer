@@ -8,7 +8,7 @@ import toggleInterpolation from './toggleInterpolation'
 import viewModeXPlane from './viewModeXPlane'
 import viewModeYPlane from './viewModeYPlane'
 import viewModeZPlane from './viewModeZPlane'
-import viewModeVolumeRendering from './viewModeVolumeRendering'
+import viewModeVolume from './viewModeVolume'
 import resetCamera from './resetCamera'
 
 const mainRenderingMachineOptions = {
@@ -30,7 +30,7 @@ const mainRenderingMachineOptions = {
     viewModeXPlane,
     viewModeYPlane,
     viewModeZPlane,
-    viewModeVolumeRendering,
+    viewModeVolume,
 
     resetCamera,
   },

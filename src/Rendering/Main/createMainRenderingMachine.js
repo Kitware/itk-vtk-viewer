@@ -4,7 +4,7 @@ import backgroundIsDark from './backgroundIsDark'
 import backgroundIsLight from './backgroundIsLight'
 
 function createMainRenderingMachine(options, context) {
-  let initialViewMode = 'volumeRendering'
+  let initialViewMode = 'volume'
   switch (context.main.viewMode) {
     case 'XPlane':
       initialViewMode = 'xPlane'
@@ -15,8 +15,8 @@ function createMainRenderingMachine(options, context) {
     case 'ZPlane':
       initialViewMode = 'zPlane'
       break
-    case 'VolumeRendering':
-      initialViewMode = 'volumeRendering'
+    case 'Volume':
+      initialViewMode = 'volume'
       break
     default:
       throw new Error(`Invalid initial view mode: ${context.main.viewMode}`)
@@ -90,7 +90,7 @@ function createMainRenderingMachine(options, context) {
               },
             },
             annotations: {
-              initial: context.annotationsEnabled ? 'enabled' : 'disabled',
+              initial: context.main.annotationsEnabled ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleAnnotations',
@@ -107,7 +107,7 @@ function createMainRenderingMachine(options, context) {
               },
             },
             rotate: {
-              initial: context.rotateEnabled ? 'enabled' : 'disabled',
+              initial: context.main.rotateEnabled ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleRotate',
@@ -124,7 +124,7 @@ function createMainRenderingMachine(options, context) {
               },
             },
             axes: {
-              initial: context.axesEnabled ? 'enabled' : 'disabled',
+              initial: context.main.axesEnabled ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleAxes',
@@ -141,7 +141,9 @@ function createMainRenderingMachine(options, context) {
               },
             },
             interpolation: {
-              initial: context.interpolationEnabled ? 'enabled' : 'disabled',
+              initial: context.main.interpolationEnabled
+                ? 'enabled'
+                : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleInterpolation',
@@ -169,8 +171,8 @@ function createMainRenderingMachine(options, context) {
                 zPlane: {
                   entry: 'viewModeZPlane',
                 },
-                volumeRendering: {
-                  entry: 'viewModeVolumeRendering',
+                volume: {
+                  entry: 'viewModeVolume',
                 },
               },
               on: {
@@ -179,8 +181,8 @@ function createMainRenderingMachine(options, context) {
                   { target: '.yPlane', cond: (c, e) => e.data === 'YPlane' },
                   { target: '.zPlane', cond: (c, e) => e.data === 'ZPlane' },
                   {
-                    target: '.volumeRendering',
-                    cond: (c, e) => e.data === 'VolumeRendering',
+                    target: '.volume',
+                    cond: (c, e) => e.data === 'Volume',
                   },
                 ],
               },

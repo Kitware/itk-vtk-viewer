@@ -3,12 +3,14 @@ import { Machine, forwardTo, sendParent, send } from 'xstate'
 import createMainRenderingMachine from './Main/createMainRenderingMachine'
 import createLayersRenderingMachine from './Layers/createLayersRenderingMachine'
 import createImagesRenderingMachine from './Images/createImagesRenderingMachine'
+import createWidgetsRenderingMachine from './Widgets/createWidgetsRenderingMachine'
 
 const createRenderingMachine = (options, context) => {
-  const { main, layers, images } = options
+  const { main, layers, images, widgets } = options
   const mainMachine = createMainRenderingMachine(main, context)
   const layersMachine = createLayersRenderingMachine(layers, context)
   const imagesMachine = createImagesRenderingMachine(images, context)
+  const widgetsMachine = createWidgetsRenderingMachine(widgets, context)
   return Machine(
     {
       id: 'rendering',
@@ -34,6 +36,10 @@ const createRenderingMachine = (options, context) => {
             {
               id: 'images',
               src: imagesMachine,
+            },
+            {
+              id: 'widgets',
+              src: widgetsMachine,
             },
           ],
           on: {
@@ -115,6 +121,9 @@ const createRenderingMachine = (options, context) => {
             },
             IMAGE_PIECEWISE_FUNCTION_CHANGED: {
               actions: forwardTo('images'),
+            },
+            TOGGLE_DISTANCE_WIDGET: {
+              actions: forwardTo('widgets'),
             },
           },
         },

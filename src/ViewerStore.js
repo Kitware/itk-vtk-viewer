@@ -28,7 +28,7 @@ class MainUIStore {
   @observable interpolationEnabled = true
   @observable croppingPlanesEnabled = false
 
-  @observable viewMode = 'VolumeRendering'
+  @observable viewMode = 'Volume'
 
   fps = [60, 60, 60]
   @observable fpsTooLow = false

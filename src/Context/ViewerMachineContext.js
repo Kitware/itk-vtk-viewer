@@ -1,6 +1,7 @@
 import MainMachineContext from './MainMachineContext'
 import LayersMachineContext from './LayersMachineContext'
 import ImagesMachineContext from './ImagesMachineContext'
+import WidgetsMachineContext from './WidgetsMachineContext'
 
 const defaultContainerStyle = {
   position: 'relative',
@@ -27,6 +28,7 @@ class ViewerMachineContext {
     this.main = new MainMachineContext()
     this.layers = new LayersMachineContext()
     this.images = new ImagesMachineContext()
+    this.widgets = new WidgetsMachineContext()
   }
 
   // Contains the viewer container div and optionally the debugger

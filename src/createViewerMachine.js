@@ -173,6 +173,12 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             CANCEL_ANIMATION: {
               actions: forwardTo('rendering'),
             },
+            TOGGLE_DISTANCE_WIDGET: {
+              actions: [forwardTo('ui'), forwardTo('rendering')],
+            },
+            DISTANCE_WIDGET_VALUE_CHANGED: {
+              actions: [forwardTo('ui')],
+            },
           },
         },
       },

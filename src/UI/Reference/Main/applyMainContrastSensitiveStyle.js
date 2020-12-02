@@ -64,7 +64,7 @@ function applyMainContrastSensitiveStyle(context) {
     applyContrastSensitiveStyleToElement(
       context,
       'tooltipButton',
-      context.main.volumeRenderingButtonLabel
+      context.main.volumeButtonLabel
     )
   }
   applyContrastSensitiveStyleToElement(

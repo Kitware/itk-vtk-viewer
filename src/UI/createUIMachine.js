@@ -3,12 +3,14 @@ import { Machine, forwardTo, assign } from 'xstate'
 import createMainUIMachine from './Main/createMainUIMachine'
 import createLayersUIMachine from './Layers/createLayersUIMachine'
 import createImagesUIMachine from './Images/createImagesUIMachine'
+import createWidgetsUIMachine from './Widgets/createWidgetsUIMachine'
 
 function createUIMachine(options, context) {
-  const { main, layers, images } = options
+  const { main, layers, images, widgets } = options
   const mainMachine = createMainUIMachine(main, context)
   const layersMachine = createLayersUIMachine(layers, context)
   const imagesMachine = createImagesUIMachine(images, context)
+  const widgetsMachine = createWidgetsUIMachine(widgets, context)
   return Machine(
     {
       id: 'ui',
@@ -35,6 +37,10 @@ function createUIMachine(options, context) {
             {
               id: 'images',
               src: imagesMachine,
+            },
+            {
+              id: 'widgets',
+              src: widgetsMachine,
             },
           ],
           on: {
@@ -63,7 +69,7 @@ function createUIMachine(options, context) {
               actions: forwardTo('main'),
             },
             VIEW_MODE_CHANGED: {
-              actions: forwardTo('main'),
+              actions: [forwardTo('main'), forwardTo('widgets')],
             },
             SELECT_LAYER: {
               actions: forwardTo('layers'),
@@ -75,7 +81,11 @@ function createUIMachine(options, context) {
               actions: forwardTo('layers'),
             },
             IMAGE_ASSIGNED: {
-              actions: [forwardTo('layers'), forwardTo('images')],
+              actions: [
+                forwardTo('layers'),
+                forwardTo('images'),
+                forwardTo('widgets'),
+              ],
             },
             RENDERED_IMAGE_ASSIGNED: {
               actions: forwardTo('images'),
@@ -100,6 +110,12 @@ function createUIMachine(options, context) {
             },
             IMAGE_COLOR_MAP_CHANGED: {
               actions: forwardTo('images'),
+            },
+            TOGGLE_DISTANCE_WIDGET: {
+              actions: forwardTo('widgets'),
+            },
+            DISTANCE_WIDGET_VALUE_CHANGED: {
+              actions: forwardTo('widgets'),
             },
           },
           states: {

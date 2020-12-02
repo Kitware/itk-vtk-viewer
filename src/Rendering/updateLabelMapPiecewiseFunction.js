@@ -15,7 +15,7 @@ function updateLabelMapPiecewiseFunction(store, selectedIndices = null) {
   let maxLabelWeight = 1.0
   if (store.imageUI.haveOnlyLabelMap) {
     maxLabelWeight = 0.05
-    if (store.mainUI.viewMode !== 'VolumeRendering') {
+    if (store.mainUI.viewMode !== 'Volume') {
       maxLabelWeight = 1.0
       minLabelWeight = 0.4
     }

@@ -117,7 +117,7 @@ test('Test createViewer', async t => {
   viewer.setViewMode('XPlane')
   const resultViewMode = viewer.getViewMode()
   t.same(resultViewMode, 'XPlane', 'view mode')
-  viewer.setViewMode('VolumeRendering')
+  viewer.setViewMode('Volume')
 
   const firstLayer = viewer.getLayerNames()[0]
   t.same(firstLayer, 'Image', 'getLayerNames')

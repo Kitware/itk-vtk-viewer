@@ -269,7 +269,7 @@ const createViewer = async (
           store.itkVtkView.setViewMode('ZPlane')
           store.itkVtkView.setOrientationAxesVisibility(false)
         } else {
-          store.itkVtkView.setViewMode('VolumeRendering')
+          store.itkVtkView.setViewMode('Volume')
         }
 
         const annotationContainer = store.container.querySelector('.js-se')

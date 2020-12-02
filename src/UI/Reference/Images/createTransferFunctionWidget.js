@@ -174,26 +174,25 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
     .getInteractorStyle3D()
     .addMouseManipulator(rangeManipulator)
 
-  const opacityRangeManipulator = vtkMouseRangeManipulator.newInstance({
+  const pwfRangeManipulator = vtkMouseRangeManipulator.newInstance({
     button: 3, // Right mouse
     alt: true,
   })
-  const opacityRangeManipulatorShift = vtkMouseRangeManipulator.newInstance({
+  const pwfRangeManipulatorShift = vtkMouseRangeManipulator.newInstance({
     button: 1, // Left mouse
     shift: true, // For the macOS folks
     alt: true,
   })
 
-  // Opacity
-  const opacityMotionScale = 200.0
-  const opacityGet = () => {
+  const pwfMotionScale = 200.0
+  const pwfGet = () => {
     const gaussian = transferFunctionWidget.getGaussians()[0]
-    return gaussian.height * opacityMotionScale
+    return gaussian.height * pwfMotionScale
   }
-  const opacitySet = value => {
+  const pwfSet = value => {
     const gaussians = transferFunctionWidget.getGaussians()
     const newGaussians = gaussians.slice()
-    newGaussians[0].height = value / opacityMotionScale
+    newGaussians[0].height = value / pwfMotionScale
     const name = context.images.selectedName
     const actorContext = context.images.actorContext.get(name)
     const component = context.images.selectedComponent
@@ -202,26 +201,26 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
       data: { name, component, gaussians: newGaussians },
     })
   }
-  opacityRangeManipulator.setVerticalListener(
+  pwfRangeManipulator.setVerticalListener(
     0,
-    opacityMotionScale,
+    pwfMotionScale,
     1,
-    opacityGet,
-    opacitySet
+    pwfGet,
+    pwfSet
   )
-  opacityRangeManipulatorShift.setVerticalListener(
+  pwfRangeManipulatorShift.setVerticalListener(
     0,
-    opacityMotionScale,
+    pwfMotionScale,
     1,
-    opacityGet,
-    opacitySet
+    pwfGet,
+    pwfSet
   )
   context.itkVtkView
     .getInteractorStyle3D()
-    .addMouseManipulator(opacityRangeManipulator)
+    .addMouseManipulator(pwfRangeManipulator)
   context.itkVtkView
     .getInteractorStyle3D()
-    .addMouseManipulator(opacityRangeManipulatorShift)
+    .addMouseManipulator(pwfRangeManipulatorShift)
 }
 
 export default createTransferFunctionWidget

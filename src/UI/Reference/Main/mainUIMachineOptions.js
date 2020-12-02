@@ -8,7 +8,7 @@ import toggleBackgroundColor from './toggleBackgroundColor'
 import viewModeXPlane from './viewModeXPlane'
 import viewModeYPlane from './viewModeYPlane'
 import viewModeZPlane from './viewModeZPlane'
-import viewModeVolumeRendering from './viewModeVolumeRendering'
+import viewModeVolume from './viewModeVolume'
 
 const mainUIMachineOptions = {
   actions: {
@@ -29,7 +29,7 @@ const mainUIMachineOptions = {
     viewModeXPlane,
     viewModeYPlane,
     viewModeZPlane,
-    viewModeVolumeRendering,
+    viewModeVolume,
   },
 }
 

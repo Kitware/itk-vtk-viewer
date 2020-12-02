@@ -31,11 +31,11 @@ const addKeyboardShortcuts = (container, service) => {
     })
     MOUSETRAP.bind('4', function(event, combo) {
       preventDefaults(event)
-      service.send({ type: 'VIEW_MODE_CHANGED', data: 'VolumeRendering' })
+      service.send({ type: 'VIEW_MODE_CHANGED', data: 'Volume' })
     })
     MOUSETRAP.bind('alt+4', function(event, combo) {
       preventDefaults(event)
-      service.send({ type: 'VIEW_MODE_CHANGED', data: 'VolumeRendering' })
+      service.send({ type: 'VIEW_MODE_CHANGED', data: 'Volume' })
     })
     MOUSETRAP.bind('r', function(event, combo) {
       preventDefaults(event)

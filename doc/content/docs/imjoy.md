@@ -93,7 +93,7 @@ Set/get whether bilinear interpolation is used in the image slicing planes.
 
 ### getViewMode()
 
-Set/get the viewer mode for the current primary view. Valid values: 'XPlane', 'YPlane', 'ZPlane', or 'VolumeRendering'.
+Set/get the viewer mode for the current primary view. Valid values: 'XPlane', 'YPlane', 'ZPlane', or 'Volume'.
 
 ### getLayerNames()
 

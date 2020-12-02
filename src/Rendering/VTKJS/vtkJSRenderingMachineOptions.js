@@ -6,6 +6,7 @@ import cancelAnimation from './cancelAnimation'
 import mainRenderingMachineOptions from './Main/mainRenderingMachineOptions'
 import layersRenderingMachineOptions from './Layers/layersRenderingMachineOptions'
 import imagesRenderingMachineOptions from './Images/imagesRenderingMachineOptions'
+import widgetsRenderingMachineOptions from './Widgets/widgetsRenderingMachineOptions'
 
 const vtkJSRenderingMachineOptions = {
   main: mainRenderingMachineOptions,
@@ -13,6 +14,8 @@ const vtkJSRenderingMachineOptions = {
   layers: layersRenderingMachineOptions,
 
   images: imagesRenderingMachineOptions,
+
+  widgets: widgetsRenderingMachineOptions,
 
   actions: {
     createRenderer,

@@ -8,7 +8,7 @@ import viewPlansIcon from '../icons/view-planes.svg'
 function createViewPlanesToggle(
   store,
   imageUIGroup,
-  volumeRenderingRow,
+  volumeRow,
   uiContainer
 ) {
   const viewerDOMId = store.id
@@ -25,7 +25,7 @@ function createViewPlanesToggle(
     const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`)
     const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`)
     const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`)
-    if (store.itkVtkView.getViewMode() === 'VolumeRendering') {
+    if (store.itkVtkView.getViewMode() === 'Volume') {
       if (viewPlanes) {
         xPlaneRow.style.display = 'flex'
         yPlaneRow.style.display = 'flex'
@@ -48,7 +48,7 @@ function createViewPlanesToggle(
       store.imageUI.slicingPlanesEnabled = !store.imageUI.slicingPlanesEnabled
     })
   )
-  volumeRenderingRow.appendChild(viewPlanesButton)
+  volumeRow.appendChild(viewPlanesButton)
 }
 
 export default createViewPlanesToggle

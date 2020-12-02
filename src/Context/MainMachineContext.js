@@ -33,7 +33,7 @@ class MainMachineContext {
 
   // In the single view layout, the an X plane, Y plane, Z plane, or volume
   // rendering.
-  viewMode = 'VolumeRendering'
+  viewMode = 'Volume'
 }
 
 export default MainMachineContext

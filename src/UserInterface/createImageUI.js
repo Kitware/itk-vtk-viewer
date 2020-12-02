@@ -49,58 +49,23 @@ function createImageUI(store, use2D, uiContainer) {
     }
 
     createTransferFunctionWidget(store, imageUIGroup, use2D)
-
-    // Put distance tools in their own row
-    const distanceRulerRow = document.createElement('div')
-    distanceRulerRow.setAttribute('class', style.uiRow)
-    distanceRulerRow.className += ` ${viewerDOMId}-distanceRuler ${viewerDOMId}-collapsible`
-    distanceRulerRow.style.display = use2D ? 'flex' : 'none'
-
-    createDistanceButton(store, distanceRulerRow)
-
-    imageUIGroup.appendChild(distanceRulerRow)
-
-    reaction(
-      () => {
-        return store.mainUI.viewMode
-      },
-      viewMode => {
-        switch (viewMode) {
-          case 'XPlane':
-          case 'YPlane':
-          case 'ZPlane':
-            distanceRulerRow.style.display = 'flex'
-            break
-          case 'VolumeRendering':
-            distanceRulerRow.style.display = 'none'
-            break
-          default:
-            console.error('Invalid view mode: ' + viewMode)
-        }
-      }
-    )
   }
 
   if (!use2D && haveImage) {
-    const volumeRenderingRow1 = document.createElement('div')
-    volumeRenderingRow1.setAttribute('class', style.uiRow)
-    volumeRenderingRow1.className += ` ${viewerDOMId}-volumeRendering1 ${viewerDOMId}-collapsible`
-    createUseShadowToggle(store, volumeRenderingRow1)
-    createGradientOpacitySlider(store, volumeRenderingRow1)
-    imageUIGroup.appendChild(volumeRenderingRow1)
+    const volumeRow1 = document.createElement('div')
+    volumeRow1.setAttribute('class', style.uiRow)
+    volumeRow1.className += ` ${viewerDOMId}-volume1 ${viewerDOMId}-collapsible`
+    createUseShadowToggle(store, volumeRow1)
+    createGradientOpacitySlider(store, volumeRow1)
+    imageUIGroup.appendChild(volumeRow1)
 
-    const volumeRenderingRow2 = document.createElement('div')
-    volumeRenderingRow2.setAttribute('class', style.uiRow)
-    volumeRenderingRow2.className += ` ${viewerDOMId}-volumeRendering2 ${viewerDOMId}-collapsible`
-    createViewPlanesToggle(
-      store,
-      imageUIGroup,
-      volumeRenderingRow2,
-      uiContainer
-    )
-    createSampleDistanceSlider(store, volumeRenderingRow2)
-    createBlendModeSelector(store, volumeRenderingRow2)
-    imageUIGroup.appendChild(volumeRenderingRow2)
+    const volumeRow2 = document.createElement('div')
+    volumeRow2.setAttribute('class', style.uiRow)
+    volumeRow2.className += ` ${viewerDOMId}-volume2 ${viewerDOMId}-collapsible`
+    createViewPlanesToggle(store, imageUIGroup, volumeRow2, uiContainer)
+    createSampleDistanceSlider(store, volumeRow2)
+    createBlendModeSelector(store, volumeRow2)
+    imageUIGroup.appendChild(volumeRow2)
 
     reaction(
       () => {
@@ -111,12 +76,12 @@ function createImageUI(store, use2D, uiContainer) {
           case 'XPlane':
           case 'YPlane':
           case 'ZPlane':
-            volumeRenderingRow1.style.display = 'none'
-            volumeRenderingRow2.style.display = 'none'
+            volumeRow1.style.display = 'none'
+            volumeRow2.style.display = 'none'
             break
-          case 'VolumeRendering':
-            volumeRenderingRow1.style.display = 'flex'
-            volumeRenderingRow2.style.display = 'flex'
+          case 'Volume':
+            volumeRow1.style.display = 'flex'
+            volumeRow2.style.display = 'flex'
             break
           default:
             console.error('Invalid view mode: ' + viewMode)
@@ -131,12 +96,12 @@ function createImageUI(store, use2D, uiContainer) {
       blendMode => {
         switch (blendMode) {
           case 0:
-            volumeRenderingRow1.style.display = 'flex'
+            volumeRow1.style.display = 'flex'
             break
           case 1:
           case 2:
           case 3:
-            volumeRenderingRow1.style.display = 'none'
+            volumeRow1.style.display = 'none'
             break
           default:
             console.error('Invalid blend mode: ' + blendMode)

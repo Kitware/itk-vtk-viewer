@@ -28,7 +28,7 @@ function applyRenderedImage(context, event) {
       context.itkVtkView.setViewMode('ZPlane')
       context.itkVtkView.setOrientationAxesVisibility(false)
     } else {
-      context.itkVtkView.setViewMode('VolumeRendering')
+      context.itkVtkView.setViewMode('Volume')
     }
 
     const annotationContainer = context.container.querySelector('.js-se')

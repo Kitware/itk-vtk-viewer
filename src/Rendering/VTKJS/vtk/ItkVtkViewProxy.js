@@ -89,7 +89,7 @@ function ItkVtkViewProxy(publicAPI, model) {
         model.axesZWidget.setVisibility(false)
         model.axesZActor.setVisibility(false)
         break
-      case 'VolumeRendering':
+      case 'Volume':
         model.axesGridActor.setVisibility(true)
         model.axesOriginHandle.setText(model.axesOriginVText)
         model.axesXHandle.setText(model.axesXVText)
@@ -121,18 +121,18 @@ function ItkVtkViewProxy(publicAPI, model) {
         )
         model.interactor.requestAnimation('itk-vtk-view-rotate')
       }
-      if (model.volumeRenderingCameraState) {
+      if (model.volumeCameraState) {
         model.camera.setFocalPoint(
-          ...model.volumeRenderingCameraState.focalPoint
+          ...model.volumeCameraState.focalPoint
         )
-        model.camera.setPosition(...model.volumeRenderingCameraState.position)
-        model.camera.setViewUp(...model.volumeRenderingCameraState.viewUp)
-        model.camera.setViewAngle(model.volumeRenderingCameraState.viewAngle)
+        model.camera.setPosition(...model.volumeCameraState.position)
+        model.camera.setViewUp(...model.volumeCameraState.viewUp)
+        model.camera.setViewAngle(model.volumeCameraState.viewAngle)
         model.camera.setParallelScale(
-          model.volumeRenderingCameraState.parallelScale
+          model.volumeCameraState.parallelScale
         )
         model.camera.setPhysicalTranslation(
-          ...model.volumeRenderingCameraState.physicalTranslation
+          ...model.volumeCameraState.physicalTranslation
         )
       }
       model.camera.setParallelProjection(false)
@@ -384,12 +384,12 @@ function ItkVtkViewProxy(publicAPI, model) {
     updateAnnotations(event)
   })
   model.interactor.onStartMouseMove(event => {
-    if (model.viewMode !== 'VolumeRendering' || model.viewPlanes) {
+    if (model.viewMode !== 'Volume' || model.viewPlanes) {
       publicAPI.getInteractor().requestAnimation('annotationMouseMove')
     }
   })
   model.interactor.onEndMouseMove(event => {
-    if (model.viewMode !== 'VolumeRendering' || model.viewPlanes) {
+    if (model.viewMode !== 'Volume' || model.viewPlanes) {
       publicAPI.getInteractor().cancelAnimation('annotationMouseMove')
     }
   })
@@ -708,8 +708,8 @@ function ItkVtkViewProxy(publicAPI, model) {
   }
 
   publicAPI.setViewMode = mode => {
-    if (model.viewMode === 'VolumeRendering') {
-      model.volumeRenderingCameraState = model.camera.getState()
+    if (model.viewMode === 'Volume') {
+      model.volumeCameraState = model.camera.getState()
     }
     switch (mode) {
       case 'XPlane':
@@ -735,8 +735,8 @@ function ItkVtkViewProxy(publicAPI, model) {
         model.viewMode = mode
         setVisualizationMode(2)
         break
-      case 'VolumeRendering':
-        if (model.viewMode === 'VolumeRendering') {
+      case 'Volume':
+        if (model.viewMode === 'Volume') {
           break
         }
         model.viewMode = mode
@@ -757,7 +757,7 @@ function ItkVtkViewProxy(publicAPI, model) {
     publicAPI.modified()
     if (visible) {
       switch (model.viewMode) {
-        case 'VolumeRendering': {
+        case 'Volume': {
           if (model.viewPlanes) {
             model.volumeRepresentation.setXSliceVisibility(true)
             model.volumeRepresentation.setYSliceVisibility(true)
@@ -786,7 +786,7 @@ function ItkVtkViewProxy(publicAPI, model) {
 
   publicAPI.setViewPlanes = viewPlanes => {
     model.viewPlanes = viewPlanes
-    if (model.viewMode === 'VolumeRendering' && model.volumeRepresentation) {
+    if (model.viewMode === 'Volume' && model.volumeRepresentation) {
       model.volumeRepresentation.setSliceVisibility(viewPlanes)
       if (viewPlanes) {
         publicAPI.setCornerAnnotation('se', model.seCornerAnnotation)
@@ -946,7 +946,7 @@ function ItkVtkViewProxy(publicAPI, model) {
 // ----------------------------------------------------------------------------
 
 const DEFAULT_VALUES = {
-  viewMode: 'VolumeRendering',
+  viewMode: 'Volume',
   viewPlanes: false,
   imageVisibility: true,
   rotate: false,

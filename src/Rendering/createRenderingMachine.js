@@ -122,6 +122,9 @@ const createRenderingMachine = (options, context) => {
             IMAGE_PIECEWISE_FUNCTION_CHANGED: {
               actions: forwardTo('images'),
             },
+            TOGGLE_IMAGE_SHADOW: {
+              actions: forwardTo('images'),
+            },
             TOGGLE_DISTANCE_WIDGET: {
               actions: forwardTo('widgets'),
             },

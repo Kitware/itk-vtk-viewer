@@ -41,6 +41,9 @@ const eventResponses = {
   IMAGE_COLOR_MAP_CHANGED: {
     actions: 'applyColorMap',
   },
+  TOGGLE_LAYER_VISIBILITY: {
+    actions: 'applyShadow',
+  },
 }
 
 const createImageRenderingActor = (options, context, event) => {

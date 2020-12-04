@@ -127,6 +127,14 @@ const imJoyPluginAPI = {
   getImagePiecewiseFunctionGaussians(component, name) {
     return this.viewer.getImagePiecewiseFunctionGaussians(component, name)
   },
+
+  setImageShadowEnabled(shadow, name) {
+    this.viewer.setImageShadowEnabled(shadow, name)
+  },
+
+  getImageShadowEnabled(name) {
+    return this.viewer.getImageShadowEnabled(name)
+  },
 }
 
 export default imJoyPluginAPI

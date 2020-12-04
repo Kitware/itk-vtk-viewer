@@ -7,6 +7,7 @@ import applyColorRange from './applyColorRange'
 import applyColorRangeBounds from './applyColorRangeBounds'
 import applyColorMap from './applyColorMap'
 import applyPiecewiseFunctionGaussians from './applyPiecewiseFunctionGaussians'
+import toggleShadow from './toggleShadow'
 
 const imagesUIMachineOptions = {
   actions: {
@@ -21,6 +22,8 @@ const imagesUIMachineOptions = {
     applyColorRangeBounds,
     applyColorMap,
     applyPiecewiseFunctionGaussians,
+
+    toggleShadow,
   },
 }
 

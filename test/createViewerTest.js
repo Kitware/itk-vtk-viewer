@@ -35,7 +35,7 @@ const TEST_VIEWER_STYLE = {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(25)
+  t.plan(27)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -173,6 +173,14 @@ test('Test createViewer', async t => {
     const resultGaussians = viewer.getImagePiecewiseFunctionGaussians(0)
     t.same(resultGaussians, newGaussians, 'image piecewise function gaussians')
     viewer.setImagePiecewiseFunctionGaussians(oldGaussians, 0)
+
+    viewer.once('toggleImageShadow', data => {
+      t.pass('toggleImageShadow event')
+    })
+    viewer.setImageShadowEnabled(false)
+    const resultImageShadowEnabled = viewer.getImageShadowEnabled()
+    t.same(resultImageShadowEnabled, false, 'image shadow enabled')
+    viewer.setImageShadowEnabled(true)
 
     t.pass('test completed')
 

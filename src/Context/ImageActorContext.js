@@ -53,12 +53,14 @@ class ImageActorContext {
   // piecewise functions
   piecewiseFunctionGaussians = new Map()
 
-  blendMode = 0
-  useShadow = true
+  // Use gradient-based shadows in the volume rendering
+  shadowEnabled = true
 
   // Gradient opacity in the volume rendering
   gradientOpacity = 0.2
   volumeSampleDistance = 0.25
+
+  blendMode = 0
 
   labelMapBlend = 0.5
   labelMapLookupTable = 'glasbey'

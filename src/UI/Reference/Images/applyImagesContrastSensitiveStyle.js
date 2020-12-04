@@ -13,6 +13,13 @@ function applyImagesContrastSensitiveStyle(context) {
       context.images.distanceLabel
     )
   }
+  if (context.images.shadowButtonLabel) {
+    applyContrastSensitiveStyleToElement(
+      context,
+      'invertibleButton',
+      context.images.shadowButtonLabel
+    )
+  }
 }
 
 export default applyImagesContrastSensitiveStyle

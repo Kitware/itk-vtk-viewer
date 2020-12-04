@@ -9,6 +9,7 @@ import applyColorRange from './applyColorRange'
 import applyColorMap from './applyColorMap'
 import applyRenderedImage from './applyRenderedImage'
 import applyPiecewiseFunction from './applyPiecewiseFunction'
+import applyShadow from './applyShadow'
 
 const imagesRenderingMachineOptions = {
   imageRenderingActor: {
@@ -31,6 +32,8 @@ const imagesRenderingMachineOptions = {
       applyColorRange,
 
       applyColorMap,
+
+      applyShadow,
     },
   },
 

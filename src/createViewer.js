@@ -158,6 +158,9 @@ const createViewer = async (
           case 'IMAGE_COLOR_MAP_CHANGED':
             eventEmitter.emit('imageColorMapChanged', event.data)
             break
+          case 'TOGGLE_IMAGE_SHADOW':
+            eventEmitter.emit('toggleImageShadow', event.data)
+            break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
         }
@@ -663,6 +666,7 @@ const createViewer = async (
     'imageColorRangeChanged',
     'imageColorRangeBoundsChanged',
     'imageColorMapChanged',
+    'toggleImageShadow',
     'toggleCroppingPlanes',
     'croppingPlanesChanged',
     'selectColorMap',
@@ -670,7 +674,6 @@ const createViewer = async (
     'xSliceChanged',
     'ySliceChanged',
     'zSliceChanged',
-    'toggleShadow',
     'toggleSlicingPlanes',
     'gradientOpacityChanged',
     'blendModeChanged',
@@ -1089,16 +1092,25 @@ const createViewer = async (
       return store.imageUI.zSlice
     }
 
-    autorun(() => {
-      const enabled = store.imageUI.useShadow
-      eventEmitter.emit('toggleShadow', enabled)
-    })
-
-    publicAPI.setShadowEnabled = enabled => {
-      const shadow = store.imageUI.useShadow
-      if ((enabled && !shadow) || (!enabled && shadow)) {
-        store.imageUI.useShadow = enabled
+    publicAPI.setImageShadowEnabled = (enabled, name) => {
+      if (typeof name === 'undefined') {
+        name = context.images.selectedName
       }
+      const actorContext = context.images.actorContext.get(name)
+      if (enabled !== actorContext.shadowEnabled) {
+        service.send({
+          type: 'TOGGLE_IMAGE_SHADOW',
+          data: name,
+        })
+      }
+    }
+
+    publicAPI.getImageShadowEnabled = name => {
+      if (typeof name === 'undefined') {
+        name = context.images.selectedName
+      }
+      const actorContext = context.images.actorContext.get(name)
+      return actorContext.shadowEnabled
     }
 
     autorun(() => {

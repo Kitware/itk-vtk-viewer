@@ -137,3 +137,9 @@ for user inputs.
 
 Set/get the gaussian parameters that define the piecewise function used to define
 the volume rendering opacity transfer function and multi-component slice blending.
+
+### setImageShadowEnabled(enabled, name)
+
+### getImageShadowEnabled(name)
+
+Set/get whether to used gradient-based shadows in the volume rendering.

@@ -81,6 +81,11 @@ function createImagesRenderingMachine(options, context) {
                 to: (c, e) => `imageRenderingActor-${e.data.name}`,
               }),
             },
+            TOGGLE_IMAGE_SHADOW: {
+              actions: send((_, e) => e, {
+                to: (c, e) => `imageRenderingActor-${e.data}`,
+              }),
+            },
           },
         },
       },

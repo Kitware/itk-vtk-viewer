@@ -114,6 +114,17 @@ const assignColorMap = assign({
   },
 })
 
+const assignShadowEnabled = assign({
+  images: (context, event) => {
+    const images = context.images
+    const name = event.data
+
+    const actorContext = context.images.actorContext.get(name)
+    actorContext.shadowEnabled = !actorContext.shadowEnabled
+    return images
+  },
+})
+
 function createImagesUIMachine(options, context) {
   return Machine(
     {
@@ -160,6 +171,9 @@ function createImagesUIMachine(options, context) {
             },
             IMAGE_COLOR_MAP_CHANGED: {
               actions: [assignColorMap, 'applyColorMap'],
+            },
+            TOGGLE_IMAGE_SHADOW: {
+              actions: [assignShadowEnabled, 'toggleShadow'],
             },
           },
         },

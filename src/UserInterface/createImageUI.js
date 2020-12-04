@@ -2,13 +2,13 @@ import { reaction } from 'mobx'
 
 import style from './ItkVtkViewer.module.css'
 
-import createBlendModeSelector from './Image/createBlendModeSelector'
+//import createBlendModeSelector from './Image/createBlendModeSelector'
 //import createComponentSelector from './Image/createComponentSelector'
 import createTransferFunctionWidget from './Image/createTransferFunctionWidget'
 import createViewPlanesToggle from './Image/createViewPlanesToggle'
-import createUseShadowToggle from './Image/createUseShadowToggle'
-import createSampleDistanceSlider from './Image/createSampleDistanceSlider'
-import createGradientOpacitySlider from './Image/createGradientOpacitySlider'
+//import createUseShadowToggle from './Image/createUseShadowToggle'
+//import createSampleDistanceSlider from './Image/createSampleDistanceSlider'
+//import createGradientOpacitySlider from './Image/createGradientOpacitySlider'
 import createDistanceButton from './Image/createDistanceButton'
 
 function createImageUI(store, use2D, uiContainer) {
@@ -55,16 +55,16 @@ function createImageUI(store, use2D, uiContainer) {
     const volumeRow1 = document.createElement('div')
     volumeRow1.setAttribute('class', style.uiRow)
     volumeRow1.className += ` ${viewerDOMId}-volume1 ${viewerDOMId}-collapsible`
-    createUseShadowToggle(store, volumeRow1)
-    createGradientOpacitySlider(store, volumeRow1)
+    //createUseShadowToggle(store, volumeRow1)
+    //createGradientOpacitySlider(store, volumeRow1)
     imageUIGroup.appendChild(volumeRow1)
 
     const volumeRow2 = document.createElement('div')
     volumeRow2.setAttribute('class', style.uiRow)
     volumeRow2.className += ` ${viewerDOMId}-volume2 ${viewerDOMId}-collapsible`
-    createViewPlanesToggle(store, imageUIGroup, volumeRow2, uiContainer)
-    createSampleDistanceSlider(store, volumeRow2)
-    createBlendModeSelector(store, volumeRow2)
+    //createViewPlanesToggle(store, imageUIGroup, volumeRow2, uiContainer)
+    //createSampleDistanceSlider(store, volumeRow2)
+    //createBlendModeSelector(store, volumeRow2)
     imageUIGroup.appendChild(volumeRow2)
 
     reaction(

@@ -1,6 +1,5 @@
 import createImageRenderer from './createImageRenderer'
 import applyImageColors from './applyImageColors'
-import applyGradientOpacity from './applyGradientOpacity'
 import applyVisibility from './applyVisibility'
 import applyComponentVisibility from './applyComponentVisibility'
 import updateRenderedImage from './updateRenderedImage'
@@ -10,6 +9,7 @@ import applyColorMap from './applyColorMap'
 import applyRenderedImage from './applyRenderedImage'
 import applyPiecewiseFunction from './applyPiecewiseFunction'
 import applyShadow from './applyShadow'
+import applyGradientOpacity from './applyGradientOpacity'
 
 const imagesRenderingMachineOptions = {
   imageRenderingActor: {
@@ -34,6 +34,8 @@ const imagesRenderingMachineOptions = {
       applyColorMap,
 
       applyShadow,
+
+      applyGradientOpacity,
     },
   },
 

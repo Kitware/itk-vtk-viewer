@@ -125,6 +125,18 @@ const assignShadowEnabled = assign({
   },
 })
 
+const assignGradientOpacity = assign({
+  images: (context, event) => {
+    const images = context.images
+    const name = event.data.name
+    const gradientOpacity = event.data.gradientOpacity
+
+    const actorContext = context.images.actorContext.get(name)
+    actorContext.gradientOpacity = gradientOpacity
+    return images
+  },
+})
+
 function createImagesUIMachine(options, context) {
   return Machine(
     {
@@ -174,6 +186,9 @@ function createImagesUIMachine(options, context) {
             },
             TOGGLE_IMAGE_SHADOW: {
               actions: [assignShadowEnabled, 'toggleShadow'],
+            },
+            IMAGE_GRADIENT_OPACITY_CHANGED: {
+              actions: [assignGradientOpacity, 'applyGradientOpacity'],
             },
           },
         },

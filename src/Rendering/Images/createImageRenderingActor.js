@@ -44,6 +44,9 @@ const eventResponses = {
   TOGGLE_LAYER_VISIBILITY: {
     actions: 'applyShadow',
   },
+  IMAGE_GRADIENT_OPACITY_CHANGED: {
+    actions: 'applyGradientOpacity',
+  },
 }
 
 const createImageRenderingActor = (options, context, event) => {

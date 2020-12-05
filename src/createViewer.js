@@ -22,7 +22,6 @@ import createImageRendering from './Rendering/createImageRendering'
 import updateLabelMapComponentWeight from './Rendering/updateLabelMapComponentWeight'
 import updateLabelMapPiecewiseFunction from './Rendering/updateLabelMapPiecewiseFunction'
 import updateVolumeProperties from './Rendering/updateVolumeProperties'
-import updateGradientOpacity from './Rendering/updateGradientOpacity'
 
 import toMultiscaleChunkedImage from './IO/toMultiscaleChunkedImage'
 import viewerMachineOptions from './viewerMachineOptions'
@@ -160,6 +159,9 @@ const createViewer = async (
             break
           case 'TOGGLE_IMAGE_SHADOW':
             eventEmitter.emit('toggleImageShadow', event.data)
+            break
+          case 'IMAGE_GRADIENT_OPACITY_CHANGED':
+            eventEmitter.emit('imageGradientOpacityChanged', event.data)
             break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
@@ -346,7 +348,6 @@ const createViewer = async (
 
         setTimeout(() => {
           !!transferFunctionWidget && transferFunctionWidget.render()
-          updateGradientOpacity(store)
           const numberOfComponents = store.imageUI.numberOfComponents
           // May need to update intensity preset in case labelMap was
           // not yet loaded at time createImageRendering was called
@@ -667,6 +668,7 @@ const createViewer = async (
     'imageColorRangeBoundsChanged',
     'imageColorMapChanged',
     'toggleImageShadow',
+    'imageGradientOpacityChanged',
     'toggleCroppingPlanes',
     'croppingPlanesChanged',
     'selectColorMap',
@@ -675,7 +677,6 @@ const createViewer = async (
     'ySliceChanged',
     'zSliceChanged',
     'toggleSlicingPlanes',
-    'gradientOpacityChanged',
     'blendModeChanged',
     'pointSetColorChanged',
     'pointSetOpacityChanged',
@@ -1125,20 +1126,23 @@ const createViewer = async (
       }
     }
 
-    autorun(() => {
-      const gradientOpacity = store.imageUI.gradientOpacity
-      eventEmitter.emit('gradientOpacityChanged', gradientOpacity)
-    })
-
-    publicAPI.setGradientOpacity = opacity => {
-      const currentOpacity = store.imageUI.gradientOpacity
-      if (currentOpacity !== parseFloat(opacity)) {
-        store.imageUI.gradientOpacity = opacity
+    publicAPI.setImageGradientOpacity = (opacity, name) => {
+      if (typeof name === 'undefined') {
+        name = context.images.selectedName
       }
+      const actorContext = context.images.actorContext.get(name)
+      service.send({
+        type: 'IMAGE_GRADIENT_OPACITY_CHANGED',
+        data: { name, gradientOpacity: opacity },
+      })
     }
 
-    publicAPI.getGradientOpacity = () => {
-      return store.imageUI.gradientOpacity
+    publicAPI.getImageGradientOpacity = name => {
+      if (typeof name === 'undefined') {
+        name = context.images.selectedName
+      }
+      const actorContext = context.images.actorContext.get(name)
+      return actorContext.gradientOpacity
     }
 
     autorun(() => {

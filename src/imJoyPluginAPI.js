@@ -135,6 +135,14 @@ const imJoyPluginAPI = {
   getImageShadowEnabled(name) {
     return this.viewer.getImageShadowEnabled(name)
   },
+
+  setImageGradientOpacity(opacity, name) {
+    this.viewer.setImageGradientOpacity(opacity, name)
+  },
+
+  getImageGradientOpacity(name) {
+    return this.viewer.getImageGradientOpacity(name)
+  },
 }
 
 export default imJoyPluginAPI

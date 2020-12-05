@@ -19,6 +19,11 @@ function applyImagesContrastSensitiveStyle(context) {
       'invertibleButton',
       context.images.shadowButtonLabel
     )
+    applyContrastSensitiveStyleToElement(
+      context,
+      'invertibleButton',
+      context.images.sliderEntryDiv
+    )
   }
 }
 

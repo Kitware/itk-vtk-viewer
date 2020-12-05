@@ -125,6 +125,9 @@ const createRenderingMachine = (options, context) => {
             TOGGLE_IMAGE_SHADOW: {
               actions: forwardTo('images'),
             },
+            IMAGE_GRADIENT_OPACITY_CHANGED: {
+              actions: forwardTo('images'),
+            },
             TOGGLE_DISTANCE_WIDGET: {
               actions: forwardTo('widgets'),
             },

@@ -1,7 +1,5 @@
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 
-import updateGradientOpacity from './updateGradientOpacity'
-
 function updateVolumeProperties(store) {
   const visualizedComponents = store.imageUI.visualizedComponents
   if (!!store.imageUI.representationProxy) {
@@ -46,7 +44,6 @@ function updateVolumeProperties(store) {
         volumeProperty.setOpacityMode(numberOfComponents, mode)
       }
     })
-    updateGradientOpacity(store)
   }
 }
 

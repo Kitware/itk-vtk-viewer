@@ -143,3 +143,9 @@ the volume rendering opacity transfer function and multi-component slice blendin
 ### getImageShadowEnabled(name)
 
 Set/get whether to used gradient-based shadows in the volume rendering.
+
+### setImageGradientOpacity(opacity, name)
+
+### getImageGradientOpacity(name)
+
+Set/get the gradient opacity in the volume rendering.

@@ -26,6 +26,13 @@ function updateImageInterface(context) {
   }
 
   if (image) {
+    if (image.imageType.dimension === 3) {
+      context.images.volumeRow1.style.display = 'flex'
+      context.images.volumeRow2.style.display = 'flex'
+    } else {
+      context.images.volumeRow1.style.display = 'none'
+      context.images.volumeRow2.style.display = 'none'
+    }
     if (actorContext.colorRanges.has(component)) {
       applyColorRange(context, {
         data: {

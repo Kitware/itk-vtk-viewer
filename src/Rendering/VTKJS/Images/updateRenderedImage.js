@@ -2,6 +2,7 @@ import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
 
 import updateVisualizedComponents from './updateVisualizedComponents'
+import applyGradientOpacity from './applyGradientOpacity'
 
 async function updateRenderedImage(context) {
   const name = context.images.updateRenderedName
@@ -23,6 +24,9 @@ async function updateRenderedImage(context) {
     actorContext.fusedImage = vtkITKHelper.convertItkToVtkImage(topLevelImage)
 
     actorContext.renderedImage = topLevelImage
+    applyGradientOpacity(context, {
+      data: { name, gradientOpacity: actorContext.gradientOpacity },
+    })
     context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
   } else if (image) {
     const topLevelImage = await image.levelLargestImage(image.topLevel)
@@ -135,6 +139,9 @@ async function updateRenderedImage(context) {
     actorContext.lastVisualizedComponents = visualizedComponents.slice()
 
     actorContext.renderedImage = topLevelImage
+    applyGradientOpacity(context, {
+      data: { name, gradientOpacity: actorContext.gradientOpacity },
+    })
     context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
   } else {
     // Todo: just labelImage

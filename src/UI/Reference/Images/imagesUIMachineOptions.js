@@ -9,6 +9,7 @@ import applyColorMap from './applyColorMap'
 import applyPiecewiseFunctionGaussians from './applyPiecewiseFunctionGaussians'
 import toggleShadow from './toggleShadow'
 import applyGradientOpacity from './applyGradientOpacity'
+import applyGradientOpacityScale from './applyGradientOpacityScale'
 
 const imagesUIMachineOptions = {
   actions: {
@@ -26,6 +27,7 @@ const imagesUIMachineOptions = {
 
     toggleShadow,
     applyGradientOpacity,
+    applyGradientOpacityScale,
   },
 }
 

@@ -148,4 +148,10 @@ Set/get whether to used gradient-based shadows in the volume rendering.
 
 ### getImageGradientOpacity(name)
 
-Set/get the gradient opacity in the volume rendering.
+Set/get the gradient opacity in the volume rendering. Value values range from 0.0 to 1.0.
+
+### setImageGradientOpacityScale(scale, name)
+
+### getImageGradientOpacityScale(name)
+
+Set/get the gradient scale for gradient-based opacity in the volume rendering. Value values range from 0.0 to 1.0.

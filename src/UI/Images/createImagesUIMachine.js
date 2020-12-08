@@ -137,6 +137,18 @@ const assignGradientOpacity = assign({
   },
 })
 
+const assignGradientOpacityScale = assign({
+  images: (context, event) => {
+    const images = context.images
+    const name = event.data.name
+    const gradientOpacityScale = event.data.gradientOpacityScale
+
+    const actorContext = context.images.actorContext.get(name)
+    actorContext.gradientOpacityScale = gradientOpacityScale
+    return images
+  },
+})
+
 function createImagesUIMachine(options, context) {
   return Machine(
     {
@@ -189,6 +201,12 @@ function createImagesUIMachine(options, context) {
             },
             IMAGE_GRADIENT_OPACITY_CHANGED: {
               actions: [assignGradientOpacity, 'applyGradientOpacity'],
+            },
+            IMAGE_GRADIENT_OPACITY_SCALE_CHANGED: {
+              actions: [
+                assignGradientOpacityScale,
+                'applyGradientOpacityScale',
+              ],
             },
           },
         },

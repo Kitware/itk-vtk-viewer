@@ -143,6 +143,14 @@ const imJoyPluginAPI = {
   getImageGradientOpacity(name) {
     return this.viewer.getImageGradientOpacity(name)
   },
+
+  setImageGradientOpacityScale(scale, name) {
+    this.viewer.setImageGradientOpacityScale(scale, name)
+  },
+
+  getImageGradientOpacityScale(name) {
+    return this.viewer.getImageGradientOpacityScale(name)
+  },
 }
 
 export default imJoyPluginAPI

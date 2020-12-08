@@ -35,7 +35,7 @@ const TEST_VIEWER_STYLE = {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(29)
+  t.plan(31)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -187,8 +187,16 @@ test('Test createViewer', async t => {
     })
     viewer.setImageGradientOpacity(0.5)
     const resultImageGradientOpacity = viewer.getImageGradientOpacity()
-    t.same(resultImageGradientOpacity, 0.5, 'image shadow enabled')
+    t.same(resultImageGradientOpacity, 0.5, 'image gradient opacity')
     viewer.setImageGradientOpacity(0.3)
+
+    viewer.once('imageGradientOpacityScaleChanged', data => {
+      t.pass('imageGradientOpacityScaleChanged event')
+    })
+    viewer.setImageGradientOpacityScale(0.8)
+    const resultImageGradientOpacityScale = viewer.getImageGradientOpacityScale()
+    t.same(resultImageGradientOpacityScale, 0.8, 'image gradient opacity scale')
+    viewer.setImageGradientOpacity(0.5)
 
     t.pass('test completed')
 

@@ -163,6 +163,9 @@ const createViewer = async (
           case 'IMAGE_GRADIENT_OPACITY_CHANGED':
             eventEmitter.emit('imageGradientOpacityChanged', event.data)
             break
+          case 'IMAGE_GRADIENT_OPACITY_SCALE_CHANGED':
+            eventEmitter.emit('imageGradientOpacityScaleChanged', event.data)
+            break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
         }
@@ -669,6 +672,7 @@ const createViewer = async (
     'imageColorMapChanged',
     'toggleImageShadow',
     'imageGradientOpacityChanged',
+    'imageGradientOpacityScaleChanged',
     'toggleCroppingPlanes',
     'croppingPlanesChanged',
     'selectColorMap',
@@ -1143,6 +1147,25 @@ const createViewer = async (
       }
       const actorContext = context.images.actorContext.get(name)
       return actorContext.gradientOpacity
+    }
+
+    publicAPI.setImageGradientOpacityScale = (min, name) => {
+      if (typeof name === 'undefined') {
+        name = context.images.selectedName
+      }
+      const actorContext = context.images.actorContext.get(name)
+      service.send({
+        type: 'IMAGE_GRADIENT_OPACITY_SCALE_CHANGED',
+        data: { name, gradientOpacityScale: min },
+      })
+    }
+
+    publicAPI.getImageGradientOpacityScale = name => {
+      if (typeof name === 'undefined') {
+        name = context.images.selectedName
+      }
+      const actorContext = context.images.actorContext.get(name)
+      return actorContext.gradientOpacityScale
     }
 
     autorun(() => {

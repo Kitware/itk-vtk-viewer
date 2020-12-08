@@ -1,8 +1,9 @@
 function applyGradientOpacity(context, event) {
   const name = event.data.name
-  const gradientOpacity = event.data.gradientOpacity
 
   const actorContext = context.images.actorContext.get(name)
+  const gradientOpacity = actorContext.gradientOpacity
+  const gradientOpacityScale = actorContext.gradientOpacityScale
   const visualizedComponents = actorContext.visualizedComponents
 
   if (!!context.images.representationProxy) {
@@ -23,7 +24,11 @@ function applyGradientOpacity(context, event) {
             .setGradientOpacityMinimumValue(
               fusedImgIdx,
               Math.exp(
-                Math.log((dataRange[1] - dataRange[0]) * 0.2) * minV * minV
+                Math.log((dataRange[1] - dataRange[0]) * 0.2) *
+                  2 *
+                  gradientOpacityScale *
+                  minV *
+                  minV
               )
             )
         } else {
@@ -35,6 +40,8 @@ function applyGradientOpacity(context, event) {
             fusedImgIdx,
             Math.exp(
               Math.log((dataRange[1] - dataRange[0]) * 1.0) *
+                2 *
+                gradientOpacityScale *
                 gradientOpacity *
                 gradientOpacity
             )

@@ -47,6 +47,9 @@ const eventResponses = {
   IMAGE_GRADIENT_OPACITY_CHANGED: {
     actions: 'applyGradientOpacity',
   },
+  IMAGE_GRADIENT_OPACITY_SCALE_CHANGED: {
+    actions: 'applyGradientOpacity',
+  },
 }
 
 const createImageRenderingActor = (options, context, event) => {

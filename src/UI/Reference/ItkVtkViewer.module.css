@@ -656,7 +656,7 @@ select:focus {
 
 .sliderLabelCommon {
   padding-left: 6px;
-  padding-right: 6px;
+  padding-right: 2px;
   font-size: 1.1em;
   font-family: monospace;
 }
@@ -667,6 +667,20 @@ select:focus {
 
 .sliderLabelDarkBG {
   color: white;
+}
+
+.gradientOpacityScale {
+  z-index: 1100;
+  position: relative;
+}
+
+.gradientOpacityScale input {
+  position: absolute;
+  bottom: 20px;
+  left: -24px;
+  width: 12px;
+  writing-mode: bt-lr;
+  -webkit-appearance: slider-vertical;
 }
 
 .bigFileDrop {

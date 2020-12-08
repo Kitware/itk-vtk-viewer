@@ -178,6 +178,13 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
                 forwardTo('eventEmitter'),
               ],
             },
+            IMAGE_GRADIENT_OPACITY_SCALE_CHANGED: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
             RENDER: {
               actions: forwardTo('rendering'),
             },

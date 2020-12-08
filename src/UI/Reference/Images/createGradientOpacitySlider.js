@@ -9,35 +9,61 @@ function createGradientOpacitySlider(context, uiContainer) {
   const sliderEntry = document.createElement('div')
   sliderEntry.setAttribute('class', style.sliderEntry)
   sliderEntry.innerHTML = `
-    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Gradient opacity" class="${style.gradientOpacitySlider}">
+    <div itk-vtk-tooltip itk-vtk-tooltip-top-fullscreen itk-vtk-tooltip-content="Gradient opacity min" class="${style.gradientOpacitySlider}">
       ${gradientOpacityIcon}
     </div>
-    <input type="range" min="0" max="1" value="0.2" step="0.01"
+    <div class="${style.gradientOpacityScale}" style="display: none;">
+      <input type="range" min="0" max="0.99" value="0.5" step="0.01" id="${context.id}-gradientOpacityScaleSlider" />
+    </div>
+
+    <input type="range" min="0" max="1" value="0.2" step="0.01" orient="vertical"
       id="${context.id}-gradientOpacitySlider"
       class="${style.slider}" />`
-  const gradientOpacityElement = sliderEntry.querySelector(
-    `#${context.id}-gradientOpacitySlider`
-  )
   const sliderEntryDiv = sliderEntry.children[0]
+  const gradientOpacityScaleDiv = sliderEntry.children[1]
+  const gradientOpacityScaleSlider = gradientOpacityScaleDiv.children[0]
+  const gradientOpacitySlider = sliderEntry.children[2]
   context.images.sliderEntryDiv = sliderEntryDiv
   applyContrastSensitiveStyleToElement(
     context,
     'invertibleButton',
     sliderEntryDiv
   )
-  context.images.gradientOpacityElement = gradientOpacityElement
+  context.images.gradientOpacitySlider = gradientOpacitySlider
+  context.images.gradientOpacityScaleSlider = gradientOpacityScaleSlider
 
-  gradientOpacityElement.addEventListener('input', event => {
+  sliderEntryDiv.addEventListener('click', event => {
+    if (gradientOpacityScaleDiv.style.display === 'none') {
+      gradientOpacityScaleDiv.style.display = 'block'
+    } else {
+      gradientOpacityScaleDiv.style.display = 'none'
+    }
+  })
+
+  gradientOpacitySlider.addEventListener('input', event => {
     event.preventDefault()
     event.stopPropagation()
     context.service.send({
       type: 'IMAGE_GRADIENT_OPACITY_CHANGED',
       data: {
         name: context.images.selectedName,
-        gradientOpacity: Number(gradientOpacityElement.value),
+        gradientOpacity: Number(gradientOpacitySlider.value),
       },
     })
   })
+
+  gradientOpacityScaleSlider.addEventListener('input', event => {
+    event.preventDefault()
+    event.stopPropagation()
+    context.service.send({
+      type: 'IMAGE_GRADIENT_OPACITY_SCALE_CHANGED',
+      data: {
+        name: context.images.selectedName,
+        gradientOpacityScale: Number(gradientOpacityScaleSlider.value),
+      },
+    })
+  })
+
   uiContainer.appendChild(sliderEntry)
 }
 

@@ -258,8 +258,7 @@
 }
 
 .visibleButton {
-  flex: 1;
-  width: 8mm;
+  flex-basis: 2.5em;
   cursor: pointer;
   z-index: 1000;
 }

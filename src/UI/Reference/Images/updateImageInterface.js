@@ -34,9 +34,9 @@ function updateImageInterface(context) {
     if (image.imageType.dimension === 3) {
       context.images.volumeRow1.style.display = 'flex'
       context.images.volumeRow2.style.display = 'flex'
-      context.main.xPlaneRow.style.display = 'block'
-      context.main.yPlaneRow.style.display = 'block'
-      context.main.zPlaneRow.style.display = 'block'
+      context.main.xPlaneRow.style.display = 'flex'
+      context.main.yPlaneRow.style.display = 'flex'
+      context.main.zPlaneRow.style.display = 'flex'
     } else {
       context.images.volumeRow1.style.display = 'none'
       context.images.volumeRow2.style.display = 'none'

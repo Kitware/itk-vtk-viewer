@@ -20,35 +20,9 @@ function toggleUICollapsed(context, event, actionMeta) {
     while (count--) {
       elements[count].style.display = 'flex'
     }
-    // move sliders to the bottom of the window
-    //const viewMode = store.mainUI.viewMode
-    //const xPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-x-plane-row`)
-    //const yPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-y-plane-row`)
-    //const zPlaneRow = uiContainer.querySelector(`.${viewerDOMId}-z-plane-row`)
-    //switch (viewMode) {
-    //case 'XPlane':
-    //xPlaneRow.style.display = 'flex'
-    //break
-    //case 'YPlane':
-    //yPlaneRow.style.display = 'flex'
-    //break
-    //case 'ZPlane':
-    //zPlaneRow.style.display = 'flex'
-    //break
-    //case 'Volume':
-    //const viewPlanes = store.imageUI.slicingPlanesEnabled
-    //if (viewPlanes) {
-    //xPlaneRow.style.display = 'flex'
-    //yPlaneRow.style.display = 'flex'
-    //zPlaneRow.style.display = 'flex'
-    //}
-    //break
-    //default:
-    //console.error('Invalid view mode: ' + viewMode)
-    //}
   }
   if (!context.use2D && !!context.main.planeUIGroup) {
-    if (context.uiCollapsed) {
+    if (context.uiCollapsed && context.main.viewMode === 'Volume') {
       context.main.planeUIGroup.style.display = 'none'
     } else {
       context.main.planeUIGroup.style.display = 'block'

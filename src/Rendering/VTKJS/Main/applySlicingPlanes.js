@@ -14,12 +14,15 @@ function applySlicingPlanes(context, event) {
           break
         case 'XPlane':
           volumeRep.setXSliceVisibility(slicingPlanes.x.visible)
+          volumeRep.getActors()[0].setVisibility(true)
           break
         case 'YPlane':
           volumeRep.setYSliceVisibility(slicingPlanes.y.visible)
+          volumeRep.getActors()[1].setVisibility(true)
           break
         case 'ZPlane':
           volumeRep.setZSliceVisibility(slicingPlanes.z.visible)
+          volumeRep.getActors()[2].setVisibility(true)
           break
       }
     } else {
@@ -37,6 +40,8 @@ function applySlicingPlanes(context, event) {
       context.itkVtkView.setViewPlanes(false)
     }
   }
+
+  context.service.send('RENDER')
 }
 
 export default applySlicingPlanes

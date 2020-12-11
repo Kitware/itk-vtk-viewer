@@ -17,24 +17,7 @@ function createViewPlanesToggle(context, volumeRow) {
     'tooltipButton',
     viewPlanesButtonLabel
   )
-  function setViewPlanes() {
-    const viewPlanes = context.imageUI.slicingPlanesEnabled
-    context.itkVtkView.setViewPlanes(viewPlanes)
-    const xPlaneRow = context.main.xPlaneRow
-    const yPlaneRow = context.main.yPlaneRow
-    const zPlaneRow = context.main.zPlaneRow
-    if (context.itkVtkView.getViewMode() === 'Volume') {
-      if (viewPlanes) {
-        xPlaneRow.style.display = 'block'
-        yPlaneRow.style.display = 'block'
-        zPlaneRow.style.display = 'block'
-      } else {
-        xPlaneRow.style.display = 'none'
-        yPlaneRow.style.display = 'none'
-        zPlaneRow.style.display = 'none'
-      }
-    }
-  }
+
   viewPlanesButton.addEventListener('change', event => {
     event.preventDefault()
     event.stopPropagation()

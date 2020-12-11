@@ -1,13 +1,15 @@
 import macro from 'vtk.js/Sources/macro'
 import style from '../ItkVtkViewer.module.css'
 
+import visibleIcon from '../../Icons/visible.svg'
+import invisibleIcon from '../../Icons/invisible.svg'
+
 function createPlaneSliders(context) {
   const planeUIGroup = document.createElement('div')
   planeUIGroup.setAttribute('class', style.uiGroup)
 
   const numberOfValueChars = 6
   const viewerDOMId = context.id
-  const renderWindow = context.renderWindow
 
   const xPlaneRow = document.createElement('div')
   xPlaneRow.setAttribute('class', style.planeUIRow)
@@ -34,7 +36,6 @@ function createPlaneSliders(context) {
   context.main.xSliceElement = xSliceElement
 
   xPlaneRow.appendChild(xSliderEntry)
-  xPlaneRow.style.display = 'none'
   planeUIGroup.appendChild(xPlaneRow)
 
   const yPlaneRow = document.createElement('div')
@@ -62,7 +63,6 @@ function createPlaneSliders(context) {
   context.main.ySliceElement = ySliceElement
 
   yPlaneRow.appendChild(ySliderEntry)
-  yPlaneRow.style.display = 'none'
   planeUIGroup.appendChild(yPlaneRow)
 
   const zPlaneRow = document.createElement('div')
@@ -90,11 +90,15 @@ function createPlaneSliders(context) {
   context.main.zSliceElement = zSliceElement
 
   zPlaneRow.appendChild(zSliderEntry)
-  zPlaneRow.style.display = 'none'
   planeUIGroup.appendChild(zPlaneRow)
 
   const viewContainer = context.viewContainers.get('unified')
   viewContainer.appendChild(planeUIGroup)
+
+  if (context.use2D || context.uiCollapsed) {
+    planeUIGroup.style.display = 'none'
+  }
+  context.main.planeUIGroup = planeUIGroup
 }
 
 export default createPlaneSliders

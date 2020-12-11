@@ -47,6 +47,13 @@ function toggleUICollapsed(context, event, actionMeta) {
     //console.error('Invalid view mode: ' + viewMode)
     //}
   }
+  if (!context.use2D && !!context.main.planeUIGroup) {
+    if (context.uiCollapsed) {
+      context.main.planeUIGroup.style.display = 'none'
+    } else {
+      context.main.planeUIGroup.style.display = 'block'
+    }
+  }
 }
 
 export default toggleUICollapsed

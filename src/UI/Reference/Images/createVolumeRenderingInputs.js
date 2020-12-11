@@ -16,7 +16,6 @@ function createVolumeRenderingInputs(context, imagesUIGroup) {
   const volumeRow2 = document.createElement('div')
   volumeRow2.setAttribute('class', style.uiRow)
   volumeRow2.className += ` ${viewerDOMId}-volume2 ${viewerDOMId}-collapsible`
-  //createViewPlanesToggle(store, imageUIGroup, volumeRow2, uiContainer)
   //createSampleDistanceSlider(store, volumeRow2)
   //createBlendModeSelector(store, volumeRow2)
   imagesUIGroup.appendChild(volumeRow2)

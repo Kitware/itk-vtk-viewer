@@ -12,8 +12,8 @@ function applyColorRange(context, event) {
 
   const colorRange = event.data.range
 
-  const minimumInput = context.images.colorRangeInputRow.children[0]
-  const maximumInput = context.images.colorRangeInputRow.children[2]
+  const minimumInput = context.images.colorRangeInputRow.children[1]
+  const maximumInput = context.images.colorRangeInputRow.children[3]
 
   minimumInput.value = colorRange[0]
   maximumInput.value = colorRange[1]

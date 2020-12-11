@@ -18,6 +18,9 @@ class ImageActorContext {
   // component type and number of components.
   independentComponents = null
 
+  // Enable interpolation on slicing planes
+  interpolationEnabled = true
+
   // For multi-component images, the selected component index
   selectedComponent = 0
 
@@ -57,7 +60,7 @@ class ImageActorContext {
   shadowEnabled = true
 
   // Gradient opacity weight in the volume rendering
-  gradientOpacity = 0.2
+  gradientOpacity = 0.5
 
   // Gradient opacity scale in the volume rendering
   gradientOpacityScale = 0.5

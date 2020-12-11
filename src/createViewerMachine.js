@@ -88,13 +88,6 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
                 forwardTo('eventEmitter'),
               ],
             },
-            TOGGLE_INTERPOLATION: {
-              actions: [
-                forwardTo('ui'),
-                forwardTo('rendering'),
-                forwardTo('eventEmitter'),
-              ],
-            },
             VIEW_MODE_CHANGED: {
               actions: [
                 forwardTo('ui'),
@@ -104,6 +97,30 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             },
             RESET_CAMERA: {
               actions: forwardTo('rendering'),
+            },
+            SLICING_PLANES_CHANGED: {
+              actions: [forwardTo('ui'), forwardTo('rendering')],
+            },
+            X_SLICE_CHANGED: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
+            Y_SLICE_CHANGED: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
+            Z_SLICE_CHANGED: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
             },
             SELECT_LAYER: {
               actions: [forwardTo('ui'), forwardTo('rendering')],
@@ -129,6 +146,13 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             },
             SELECT_IMAGE_COMPONENT: {
               actions: forwardTo('ui'),
+            },
+            TOGGLE_IMAGE_INTERPOLATION: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
             },
             IMAGE_COMPONENT_VISIBILITY_CHANGED: {
               actions: [

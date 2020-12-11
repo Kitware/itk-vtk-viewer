@@ -23,11 +23,11 @@ const eventResponses = {
   TOGGLE_LAYER_VISIBILITY: {
     actions: 'applyVisibility',
   },
-  ADD_IMAGE_COLOR: {
-    actions: 'applyImageColors',
-  },
   SET_GRADIENT_OPACITY: {
     actions: 'applyGradientOpacity',
+  },
+  TOGGLE_IMAGE_INTERPOLATION: {
+    actions: 'toggleInterpolation',
   },
   IMAGE_COMPONENT_VISIBILITY_CHANGED: {
     actions: 'applyComponentVisibility',
@@ -41,7 +41,7 @@ const eventResponses = {
   IMAGE_COLOR_MAP_CHANGED: {
     actions: 'applyColorMap',
   },
-  TOGGLE_LAYER_VISIBILITY: {
+  TOGGLE_IMAGE_SHADOW: {
     actions: 'applyShadow',
   },
   IMAGE_GRADIENT_OPACITY_CHANGED: {

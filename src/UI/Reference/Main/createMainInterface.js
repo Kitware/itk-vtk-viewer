@@ -5,7 +5,8 @@ import createFullscreenButton from './createFullscreenButton'
 import createRotateButton from './createRotateButton'
 import createAnnotationsButton from './createAnnotationsButton'
 import createAxesButton from './createAxesButton'
-import createInterpolationButton from './createInterpolationButton'
+import createViewPlanesToggle from './createViewPlanesToggle'
+import createPlaneSliders from './createPlaneSliders'
 import createBackgroundColorButton from './createBackgroundColorButton'
 import createCroppingButtons from './createCroppingButtons'
 import createViewModeButtons from './createViewModeButtons'
@@ -27,7 +28,8 @@ function createMainInterface(context) {
   }
   createAnnotationsButton(context, mainUIRow1)
   createAxesButton(context, mainUIRow1)
-  createInterpolationButton(context, mainUIRow1)
+  createViewPlanesToggle(context, mainUIRow1)
+  createPlaneSliders(context)
 
   createBackgroundColorButton(context, mainUIRow1)
   const mainUIRow2 = document.createElement('div')

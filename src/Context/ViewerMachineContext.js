@@ -6,13 +6,15 @@ import WidgetsMachineContext from './WidgetsMachineContext'
 const defaultContainerStyle = {
   position: 'relative',
   width: '100%',
-  height: '100%',
+  height: 'auto',
+  //height: '100%',
   minHeight: '200px',
   minWidth: '450px',
   margin: '0',
   padding: '0',
   top: '0',
   left: '0',
+  flex: '1 1 0px',
   overflow: 'hidden',
 }
 

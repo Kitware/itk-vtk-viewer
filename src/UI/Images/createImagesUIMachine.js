@@ -125,6 +125,17 @@ const assignShadowEnabled = assign({
   },
 })
 
+const assignInterpolationEnabled = assign({
+  images: (context, event) => {
+    const images = context.images
+    const name = event.data
+
+    const actorContext = context.images.actorContext.get(name)
+    actorContext.interpolationEnabled = !actorContext.interpolationEnabled
+    return images
+  },
+})
+
 const assignGradientOpacity = assign({
   images: (context, event) => {
     const images = context.images
@@ -171,6 +182,9 @@ function createImagesUIMachine(options, context) {
             },
             RENDERED_IMAGE_ASSIGNED: {
               actions: 'updateRenderedImageInterface',
+            },
+            TOGGLE_IMAGE_INTERPOLATION: {
+              actions: [assignInterpolationEnabled, 'toggleInterpolation'],
             },
             SELECT_IMAGE_COMPONENT: {
               actions: [assignSelectedComponentIndex, 'selectImageComponent'],

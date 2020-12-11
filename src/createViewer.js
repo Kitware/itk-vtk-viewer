@@ -127,10 +127,10 @@ const createViewer = async (
           case 'TOGGLE_AXES':
             eventEmitter.emit('toggleAxes', publicAPI.getAxesEnabled())
             break
-          case 'TOGGLE_INTERPOLATION':
+          case 'TOGGLE_IMAGE_INTERPOLATION':
             eventEmitter.emit(
-              'toggleInterpolation',
-              publicAPI.getInterpolationEnabled()
+              'toggleImageInterpolation',
+              publicAPI.getImageInterpolationEnabled()
             )
             break
           case 'VIEW_MODE_CHANGED':
@@ -165,6 +165,15 @@ const createViewer = async (
             break
           case 'IMAGE_GRADIENT_OPACITY_SCALE_CHANGED':
             eventEmitter.emit('imageGradientOpacityScaleChanged', event.data)
+            break
+          case 'X_SLICE_CHANGED':
+            eventEmitter.emit('xSliceChanged', event.data)
+            break
+          case 'Y_SLICE_CHANGED':
+            eventEmitter.emit('ySliceChanged', event.data)
+            break
+          case 'Z_SLICE_CHANGED':
+            eventEmitter.emit('zSliceChanged', event.data)
             break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
@@ -658,7 +667,6 @@ const createViewer = async (
     'toggleAnnotations',
     'toggleAxes',
     'toggleRotate',
-    'toggleInterpolation',
     'viewModeChanged',
     'resetCrop',
     'toggleLayerVisibility',
@@ -667,6 +675,7 @@ const createViewer = async (
     'labelMapWeightsChanged',
     'imagePiecewiseFunctionGaussiansChanged',
     'imageVisualizedComponentChanged',
+    'toggleImageInterpolation',
     'imageColorRangeChanged',
     'imageColorRangeBoundsChanged',
     'imageColorMapChanged',
@@ -675,7 +684,6 @@ const createViewer = async (
     'imageGradientOpacityScaleChanged',
     'toggleCroppingPlanes',
     'croppingPlanesChanged',
-    'selectColorMap',
     'selectLookupTable',
     'xSliceChanged',
     'ySliceChanged',
@@ -853,16 +861,6 @@ const createViewer = async (
     return context.main.fullscreenEnabled
   }
 
-  publicAPI.setInterpolationEnabled = enabled => {
-    if (enabled !== context.main.interpolationEnabled) {
-      service.send('TOGGLE_INTERPOLATION')
-    }
-  }
-
-  publicAPI.getInterpolationEnabled = () => {
-    return context.main.interpolationEnabled
-  }
-
   publicAPI.setViewMode = mode => {
     if (mode !== context.main.viewMode) {
       service.send({ type: 'VIEW_MODE_CHANGED', data: mode })
@@ -886,6 +884,23 @@ const createViewer = async (
 
   publicAPI.getLayerVisibility = name => {
     return context.layers.actorContext.get(name).visible
+  }
+
+  publicAPI.setImageInterpolationEnabled = (enabled, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (enabled !== context.main.interpolationEnabled) {
+      service.send({ type: 'TOGGLE_IMAGE_INTERPOLATION', data: name })
+    }
+  }
+
+  publicAPI.getImageInterpolationEnabled = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.interpolationEnabled
   }
 
   publicAPI.setImageComponentVisibility = (visibility, component, name) => {
@@ -983,14 +998,6 @@ const createViewer = async (
     return actorContext.colorRangeBounds.get(component)
   }
 
-  autorun(() => {
-    const selectedComponent = store.imageUI.selectedComponent
-    if (store.imageUI.colorMaps) {
-      const colorMap = store.imageUI.colorMaps[selectedComponent]
-      eventEmitter.emit('selectColorMap', selectedComponent, colorMap)
-    }
-  })
-
   publicAPI.setImageColorMap = (colorMap, componentIndex, name) => {
     if (typeof name === 'undefined') {
       name = context.images.selectedName
@@ -1039,166 +1046,140 @@ const createViewer = async (
     return store.imageUI.labelMapLookupTable
   }
 
-  if (!use2D) {
-    reaction(
-      () => {
-        return store.imageUI.xSlice
-      },
-      xSlice => {
-        eventEmitter.emit('xSliceChanged', xSlice)
-      }
-    )
-
-    publicAPI.setXSlice = position => {
-      const currentPosition = store.imageUI.xSlice
-      if (currentPosition !== parseFloat(position)) {
-        store.imageUI.xSlice = position
-      }
-    }
-    publicAPI.getXSlice = () => {
-      return store.imageUI.xSlice
-    }
-
-    reaction(
-      () => {
-        return store.imageUI.ySlice
-      },
-      ySlice => {
-        eventEmitter.emit('ySliceChanged', ySlice)
-      }
-    )
-
-    publicAPI.setYSlice = position => {
-      const currentPosition = store.imageUI.ySlice
-      if (currentPosition !== parseFloat(position)) {
-        store.imageUI.ySlice = position
-      }
-    }
-    publicAPI.getYSlice = () => {
-      return store.imageUI.ySlice
-    }
-
-    reaction(
-      () => {
-        return store.imageUI.zSlice
-      },
-      zSlice => {
-        eventEmitter.emit('zSliceChanged', zSlice)
-      }
-    )
-
-    publicAPI.setZSlice = position => {
-      const currentPosition = store.imageUI.zSlice
-      if (currentPosition !== parseFloat(position)) {
-        store.imageUI.zSlice = position
-      }
-    }
-    publicAPI.getZSlice = () => {
-      return store.imageUI.zSlice
-    }
-
-    publicAPI.setImageShadowEnabled = (enabled, name) => {
-      if (typeof name === 'undefined') {
-        name = context.images.selectedName
-      }
-      const actorContext = context.images.actorContext.get(name)
-      if (enabled !== actorContext.shadowEnabled) {
-        service.send({
-          type: 'TOGGLE_IMAGE_SHADOW',
-          data: name,
-        })
-      }
-    }
-
-    publicAPI.getImageShadowEnabled = name => {
-      if (typeof name === 'undefined') {
-        name = context.images.selectedName
-      }
-      const actorContext = context.images.actorContext.get(name)
-      return actorContext.shadowEnabled
-    }
-
-    autorun(() => {
-      const enabled = store.imageUI.slicingPlanesEnabled
-      eventEmitter.emit('toggleSlicingPlanes', enabled)
+  publicAPI.setXSlice = position => {
+    service.send({
+      type: 'X_SLICE_CHANGED',
+      data: position,
     })
+  }
 
-    publicAPI.setSlicingPlanesEnabled = enabled => {
-      const slicingPlanes = store.imageUI.slicingPlanesEnabled
-      if ((enabled && !slicingPlanes) || (!enabled && slicingPlanes)) {
-        store.imageUI.slicingPlanesEnabled = enabled
-      }
+  publicAPI.getXSlice = () => {
+    return context.main.xSlice
+  }
+
+  publicAPI.setYSlice = position => {
+    service.send({
+      type: 'Y_SLICE_CHANGED',
+      data: position,
+    })
+  }
+
+  publicAPI.getYSlice = () => {
+    return context.main.ySlice
+  }
+
+  publicAPI.setZSlice = position => {
+    service.send({
+      type: 'Z_SLICE_CHANGED',
+      data: position,
+    })
+  }
+
+  publicAPI.getZSlice = () => {
+    return context.main.zSlice
+  }
+
+  publicAPI.setImageShadowEnabled = (enabled, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
-
-    publicAPI.setImageGradientOpacity = (opacity, name) => {
-      if (typeof name === 'undefined') {
-        name = context.images.selectedName
-      }
-      const actorContext = context.images.actorContext.get(name)
+    const actorContext = context.images.actorContext.get(name)
+    if (enabled !== actorContext.shadowEnabled) {
       service.send({
-        type: 'IMAGE_GRADIENT_OPACITY_CHANGED',
-        data: { name, gradientOpacity: opacity },
+        type: 'TOGGLE_IMAGE_SHADOW',
+        data: name,
       })
     }
+  }
 
-    publicAPI.getImageGradientOpacity = name => {
-      if (typeof name === 'undefined') {
-        name = context.images.selectedName
-      }
-      const actorContext = context.images.actorContext.get(name)
-      return actorContext.gradientOpacity
+  publicAPI.getImageShadowEnabled = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.shadowEnabled
+  }
 
-    publicAPI.setImageGradientOpacityScale = (min, name) => {
-      if (typeof name === 'undefined') {
-        name = context.images.selectedName
-      }
-      const actorContext = context.images.actorContext.get(name)
-      service.send({
-        type: 'IMAGE_GRADIENT_OPACITY_SCALE_CHANGED',
-        data: { name, gradientOpacityScale: min },
-      })
+  autorun(() => {
+    const enabled = store.imageUI.slicingPlanesEnabled
+    eventEmitter.emit('toggleSlicingPlanes', enabled)
+  })
+
+  publicAPI.setSlicingPlanesEnabled = enabled => {
+    const slicingPlanes = store.imageUI.slicingPlanesEnabled
+    if ((enabled && !slicingPlanes) || (!enabled && slicingPlanes)) {
+      store.imageUI.slicingPlanesEnabled = enabled
     }
+  }
 
-    publicAPI.getImageGradientOpacityScale = name => {
-      if (typeof name === 'undefined') {
-        name = context.images.selectedName
-      }
-      const actorContext = context.images.actorContext.get(name)
-      return actorContext.gradientOpacityScale
+  publicAPI.setImageGradientOpacity = (opacity, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
-
-    autorun(() => {
-      const volumeSampleDistance = store.imageUI.volumeSampleDistance
-      eventEmitter.emit('volumeSampleDistanceChanged', volumeSampleDistance)
+    const actorContext = context.images.actorContext.get(name)
+    service.send({
+      type: 'IMAGE_GRADIENT_OPACITY_CHANGED',
+      data: { name, gradientOpacity: opacity },
     })
+  }
 
-    publicAPI.setVolumeSampleDistance = distance => {
-      const currentDistance = store.imageUI.volumeSampleDistance
-      if (currentDistance !== parseFloat(distance)) {
-        store.imageUI.volumeSampleDistance = distance
-      }
+  publicAPI.getImageGradientOpacity = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.gradientOpacity
+  }
 
-    publicAPI.getVolumeSampleDistance = () => {
-      return store.imageUI.volumeSampleDistance
+  publicAPI.setImageGradientOpacityScale = (min, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
-
-    autorun(() => {
-      const blendMode = store.imageUI.blendMode
-      eventEmitter.emit('blendModeChanged', blendMode)
+    const actorContext = context.images.actorContext.get(name)
+    service.send({
+      type: 'IMAGE_GRADIENT_OPACITY_SCALE_CHANGED',
+      data: { name, gradientOpacityScale: min },
     })
+  }
 
-    publicAPI.setBlendMode = blendMode => {
-      const currentBlendMode = store.imageUI.blendMode
-      if (currentBlendMode !== parseInt(blendMode)) {
-        store.imageUI.blendMode = blendMode
-      }
+  publicAPI.getImageGradientOpacityScale = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.gradientOpacityScale
+  }
 
-    publicAPI.getBlendMode = () => {
-      return store.imageUI.blendMode
+  autorun(() => {
+    const volumeSampleDistance = store.imageUI.volumeSampleDistance
+    eventEmitter.emit('volumeSampleDistanceChanged', volumeSampleDistance)
+  })
+
+  publicAPI.setVolumeSampleDistance = distance => {
+    const currentDistance = store.imageUI.volumeSampleDistance
+    if (currentDistance !== parseFloat(distance)) {
+      store.imageUI.volumeSampleDistance = distance
     }
+  }
+
+  publicAPI.getVolumeSampleDistance = () => {
+    return store.imageUI.volumeSampleDistance
+  }
+
+  autorun(() => {
+    const blendMode = store.imageUI.blendMode
+    eventEmitter.emit('blendModeChanged', blendMode)
+  })
+
+  publicAPI.setBlendMode = blendMode => {
+    const currentBlendMode = store.imageUI.blendMode
+    if (currentBlendMode !== parseInt(blendMode)) {
+      store.imageUI.blendMode = blendMode
+    }
+  }
+
+  publicAPI.getBlendMode = () => {
+    return store.imageUI.blendMode
   }
 
   reaction(

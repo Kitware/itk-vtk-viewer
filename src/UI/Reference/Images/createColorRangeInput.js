@@ -2,6 +2,7 @@ import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 
 import style from '../ItkVtkViewer.module.css'
 
+import createInterpolationButton from './createInterpolationButton'
 import createColorMapIconSelector from '../createColorMapIconSelector'
 //import customColorMapIcon from '../customColorMapIcon'
 
@@ -17,6 +18,7 @@ function createColorRangeInput(context, imageUIGroup) {
     'background: rgba(127, 127, 127, 0.5);'
   )
   context.images.colorRangeInputRow = colorRangeInputRow
+  createInterpolationButton(context, colorRangeInputRow)
 
   const minimumInput = document.createElement('input')
   minimumInput.type = 'number'

@@ -16,6 +16,17 @@
   100% { transform: rotate(360deg); }
 }
 
+.viewContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  background: rgba(128, 128, 128, 0.8);
+}
+
 .uiContainer {
   display: flex;
   align-items: stretch;
@@ -49,6 +60,11 @@
   composes: uiRow;
   justify-content: space-around;
   max-width: 420px;
+}
+
+.planeUIRow {
+  composes: uiRow;
+  background: rgba(128, 128, 128, 0.5);
 }
 
 .layersUIRow {
@@ -358,8 +374,8 @@
   width: 8mm;
   padding-top: 2px;
   padding-bottom: 2px;
-  padding-left: 6px;
-  padding-right: 6px;
+  padding-left: 2px;
+  padding-right: 4px;
   cursor: pointer;
   z-index: 1000;
 }
@@ -546,7 +562,8 @@ input:checked.toggleInput + label {
   color: white;
   background: transparent;
   font-size: 1.0em;
-  width: 80px;
+  padding-left: 2px;
+  width: 70px;
 }
 
 .selector {
@@ -654,19 +671,30 @@ select:focus {
   width: 5px;
 }
 
-.sliderLabelCommon {
+.planeLabel {
   padding-left: 6px;
-  padding-right: 2px;
+  padding: 2px;
+  display: block;
   font-size: 1.1em;
   font-family: monospace;
-}
-
-.sliderLabelBrightBG {
   color: black;
+  border-width: 2px;
+  border-radius: 10%;
 }
 
-.sliderLabelDarkBG {
-  color: white;
+.xPlaneLabel {
+  composes: planeLabel;
+  background-color: #ef5350;
+}
+
+.yPlaneLabel {
+  composes: planeLabel;
+  background-color: #fdd835;
+}
+
+.zPlaneLabel {
+  composes: planeLabel;
+  background-color: #4caf50;
 }
 
 .gradientOpacityScale {

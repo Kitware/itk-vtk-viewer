@@ -2,6 +2,7 @@ import createImagesInterface from './createImagesInterface'
 import updateImageInterface from './updateImageInterface'
 import updateRenderedImageInterface from './updateRenderedImageInterface'
 import selectImageComponent from './selectImageComponent'
+import toggleInterpolation from './toggleInterpolation'
 import applyComponentVisibility from './applyComponentVisibility'
 import applyColorRange from './applyColorRange'
 import applyColorRangeBounds from './applyColorRangeBounds'
@@ -18,6 +19,8 @@ const imagesUIMachineOptions = {
     updateRenderedImageInterface,
 
     selectImageComponent,
+
+    toggleInterpolation,
 
     applyComponentVisibility,
     applyColorRange,

@@ -122,15 +122,11 @@ function ItkVtkViewProxy(publicAPI, model) {
         model.interactor.requestAnimation('itk-vtk-view-rotate')
       }
       if (model.volumeCameraState) {
-        model.camera.setFocalPoint(
-          ...model.volumeCameraState.focalPoint
-        )
+        model.camera.setFocalPoint(...model.volumeCameraState.focalPoint)
         model.camera.setPosition(...model.volumeCameraState.position)
         model.camera.setViewUp(...model.volumeCameraState.viewUp)
         model.camera.setViewAngle(model.volumeCameraState.viewAngle)
-        model.camera.setParallelScale(
-          model.volumeCameraState.parallelScale
-        )
+        model.camera.setParallelScale(model.volumeCameraState.parallelScale)
         model.camera.setPhysicalTranslation(
           ...model.volumeCameraState.physicalTranslation
         )
@@ -143,7 +139,6 @@ function ItkVtkViewProxy(publicAPI, model) {
           publicAPI.setCornerAnnotation('se', '')
         }
         if (model.imageVisibility) {
-          model.volumeRepresentation.setSliceVisibility(model.viewPlanes)
           model.volumeRepresentation.setVolumeVisibility(true)
         }
       }
@@ -758,11 +753,6 @@ function ItkVtkViewProxy(publicAPI, model) {
     if (visible) {
       switch (model.viewMode) {
         case 'Volume': {
-          if (model.viewPlanes) {
-            model.volumeRepresentation.setXSliceVisibility(true)
-            model.volumeRepresentation.setYSliceVisibility(true)
-            model.volumeRepresentation.setZSliceVisibility(true)
-          }
           model.volumeRepresentation.setVolumeVisibility(true)
           break
         }
@@ -787,11 +777,9 @@ function ItkVtkViewProxy(publicAPI, model) {
   publicAPI.setViewPlanes = viewPlanes => {
     model.viewPlanes = viewPlanes
     if (model.viewMode === 'Volume' && model.volumeRepresentation) {
-      model.volumeRepresentation.setSliceVisibility(viewPlanes)
       if (viewPlanes) {
         publicAPI.setCornerAnnotation('se', model.seCornerAnnotation)
       }
-      model.renderWindow.render()
     }
   }
 

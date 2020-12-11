@@ -58,6 +58,18 @@ function createMainRenderingMachine(options, context) {
             RESET_CAMERA: {
               actions: 'resetCamera',
             },
+            SLICING_PLANES_CHANGED: {
+              actions: 'applySlicingPlanes',
+            },
+            X_SLICE_CHANGED: {
+              actions: 'applyXSlice',
+            },
+            Y_SLICE_CHANGED: {
+              actions: 'applyYSlice',
+            },
+            Z_SLICE_CHANGED: {
+              actions: 'applyZSlice',
+            },
           },
           states: {
             background: {
@@ -136,25 +148,6 @@ function createMainRenderingMachine(options, context) {
                   entry: 'toggleAxes',
                   on: {
                     TOGGLE_AXES: 'enabled',
-                  },
-                },
-              },
-            },
-            interpolation: {
-              initial: context.main.interpolationEnabled
-                ? 'enabled'
-                : 'disabled',
-              states: {
-                enabled: {
-                  entry: 'toggleInterpolation',
-                  on: {
-                    TOGGLE_INTERPOLATION: 'disabled',
-                  },
-                },
-                disabled: {
-                  entry: 'toggleInterpolation',
-                  on: {
-                    TOGGLE_INTERPOLATION: 'enabled',
                   },
                 },
               },

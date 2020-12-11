@@ -4,12 +4,15 @@ import takeScreenshot from './takeScreenshot'
 import toggleRotate from './toggleRotate'
 import toggleAnnotations from './toggleAnnotations'
 import toggleAxes from './toggleAxes'
-import toggleInterpolation from './toggleInterpolation'
 import viewModeXPlane from './viewModeXPlane'
 import viewModeYPlane from './viewModeYPlane'
 import viewModeZPlane from './viewModeZPlane'
 import viewModeVolume from './viewModeVolume'
 import resetCamera from './resetCamera'
+import applySlicingPlanes from './applySlicingPlanes'
+import applyXSlice from './applyXSlice'
+import applyYSlice from './applyYSlice'
+import applyZSlice from './applyZSlice'
 
 const mainRenderingMachineOptions = {
   actions: {
@@ -25,14 +28,17 @@ const mainRenderingMachineOptions = {
 
     toggleAxes,
 
-    toggleInterpolation,
-
     viewModeXPlane,
     viewModeYPlane,
     viewModeZPlane,
     viewModeVolume,
 
     resetCamera,
+
+    applySlicingPlanes,
+    applyXSlice,
+    applyYSlice,
+    applyZSlice,
   },
 }
 

@@ -34,7 +34,6 @@ function createWidgetsUIMachine(options, context) {
     default:
       throw new Error(`Invalid initial view mode: ${context.main.viewMode}`)
   }
-  console.log('initial ', initialViewMode)
 
   return Machine(
     {

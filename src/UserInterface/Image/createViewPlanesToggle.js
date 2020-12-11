@@ -3,14 +3,9 @@ import { autorun, action } from 'mobx'
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
 
-import viewPlansIcon from '../icons/view-planes.svg'
+//import viewPlansIcon from '../icons/view-planes.svg'
 
-function createViewPlanesToggle(
-  store,
-  imageUIGroup,
-  volumeRow,
-  uiContainer
-) {
+function createViewPlanesToggle(store, imageUIGroup, volumeRow, uiContainer) {
   const viewerDOMId = store.id
 
   const viewPlanesButton = document.createElement('div')

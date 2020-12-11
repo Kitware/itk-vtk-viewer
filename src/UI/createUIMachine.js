@@ -65,11 +65,20 @@ function createUIMachine(options, context) {
             TOGGLE_AXES: {
               actions: forwardTo('main'),
             },
-            TOGGLE_INTERPOLATION: {
-              actions: forwardTo('main'),
-            },
             VIEW_MODE_CHANGED: {
               actions: [forwardTo('main'), forwardTo('widgets')],
+            },
+            SLICING_PLANES_CHANGED: {
+              actions: forwardTo('main'),
+            },
+            X_SLICE_CHANGED: {
+              actions: forwardTo('main'),
+            },
+            Y_SLICE_CHANGED: {
+              actions: forwardTo('main'),
+            },
+            Z_SLICE_CHANGED: {
+              actions: forwardTo('main'),
             },
             SELECT_LAYER: {
               actions: forwardTo('layers'),
@@ -88,6 +97,9 @@ function createUIMachine(options, context) {
               ],
             },
             RENDERED_IMAGE_ASSIGNED: {
+              actions: forwardTo('images'),
+            },
+            TOGGLE_IMAGE_INTERPOLATION: {
               actions: forwardTo('images'),
             },
             SELECT_IMAGE_COMPONENT: {

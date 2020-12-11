@@ -38,11 +38,6 @@ function applyMainContrastSensitiveStyle(context) {
   applyContrastSensitiveStyleToElement(
     context,
     'invertibleButton',
-    context.main.interpolationButtonLabel
-  )
-  applyContrastSensitiveStyleToElement(
-    context,
-    'invertibleButton',
     context.main.bgColorButtonLabel
   )
   if (!context.use2D) {
@@ -65,6 +60,11 @@ function applyMainContrastSensitiveStyle(context) {
       context,
       'tooltipButton',
       context.main.volumeButtonLabel
+    )
+    applyContrastSensitiveStyleToElement(
+      context,
+      'tooltipButton',
+      context.main.viewPlanesButtonLabel
     )
   }
   applyContrastSensitiveStyleToElement(

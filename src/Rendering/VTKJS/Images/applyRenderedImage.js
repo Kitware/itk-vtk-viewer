@@ -1,6 +1,8 @@
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy'
 
+import applyGradientOpacity from './applyGradientOpacity'
+
 function applyRenderedImage(context, event) {
   const name = event.data
   const actorContext = context.images.actorContext.get(name)
@@ -154,7 +156,8 @@ function applyRenderedImage(context, event) {
     }
   })
 
-  //updateGradientOpacity(store)
+  // Todo: results in necessary side-effect?
+  applyGradientOpacity(context, { data: { name } })
 
   // Set default color ranges
   actorContext.visualizedComponents.forEach(
@@ -180,6 +183,29 @@ function applyRenderedImage(context, event) {
       }
     }
   )
+
+  // Update the slice parameters
+  const volumeRep = context.images.representationProxy
+  const xSliceDomain = volumeRep.getPropertyDomainByName('xSlice')
+  const ySliceDomain = volumeRep.getPropertyDomainByName('ySlice')
+  const zSliceDomain = volumeRep.getPropertyDomainByName('zSlice')
+  const slicingPlanes = context.main.slicingPlanes
+  Object.assign(slicingPlanes.x, xSliceDomain)
+  Object.assign(slicingPlanes.y, ySliceDomain)
+  Object.assign(slicingPlanes.z, zSliceDomain)
+  context.service.send({ type: 'SLICING_PLANES_CHANGED', data: slicingPlanes })
+  if (context.main.xSlice === null) {
+    const xSlice = volumeRep.getXSlice()
+    context.service.send({ type: 'X_SLICE_CHANGED', data: xSlice })
+  }
+  if (context.main.ySlice === null) {
+    const ySlice = volumeRep.getYSlice()
+    context.service.send({ type: 'Y_SLICE_CHANGED', data: ySlice })
+  }
+  if (context.main.zSlice === null) {
+    const zSlice = volumeRep.getZSlice()
+    context.service.send({ type: 'Z_SLICE_CHANGED', data: zSlice })
+  }
 }
 
 export default applyRenderedImage

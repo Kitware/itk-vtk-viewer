@@ -9,7 +9,7 @@ function createGradientOpacitySlider(context, uiContainer) {
   const sliderEntry = document.createElement('div')
   sliderEntry.setAttribute('class', style.sliderEntry)
   sliderEntry.innerHTML = `
-    <div itk-vtk-tooltip itk-vtk-tooltip-top-fullscreen itk-vtk-tooltip-content="Gradient opacity min" class="${style.gradientOpacitySlider}">
+    <div itk-vtk-tooltip itk-vtk-tooltip-top-fullscreen itk-vtk-tooltip-content="Gradient opacity scale" class="${style.gradientOpacitySlider}">
       ${gradientOpacityIcon}
     </div>
     <div class="${style.gradientOpacityScale}" style="display: none;">

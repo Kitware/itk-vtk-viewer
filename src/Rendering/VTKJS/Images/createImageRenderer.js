@@ -1,5 +1,8 @@
 import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData'
 import applyIndependentComponents from './applyIndependentComponents'
+import applyXSlice from '../Main/applyXSlice'
+import applyYSlice from '../Main/applyYSlice'
+import applyZSlice from '../Main/applyZSlice'
 
 async function createImageRenderer(context) {
   if (!!!context.images.source) {
@@ -17,6 +20,9 @@ async function createImageRenderer(context) {
   actorContext.lastVisualizedComponents = []
 
   applyIndependentComponents(context)
+  applyXSlice(context, { data: context.main.xSlice })
+  applyYSlice(context, { data: context.main.ySlice })
+  applyZSlice(context, { data: context.main.zSlice })
 }
 
 export default createImageRenderer

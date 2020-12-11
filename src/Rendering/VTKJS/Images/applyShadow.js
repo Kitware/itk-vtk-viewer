@@ -5,7 +5,7 @@ function applyShadow(context, event) {
 
   if (!!context.images.representationProxy) {
     context.images.representationProxy.setUseShadow(useShadow)
-    context.send('RENDER')
+    context.service.send('RENDER')
   }
 }
 

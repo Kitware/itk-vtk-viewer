@@ -79,10 +79,19 @@ const createRenderingMachine = (options, context) => {
             TOGGLE_AXES: {
               actions: forwardTo('main'),
             },
-            TOGGLE_INTERPOLATION: {
+            VIEW_MODE_CHANGED: {
               actions: forwardTo('main'),
             },
-            VIEW_MODE_CHANGED: {
+            SLICING_PLANES_CHANGED: {
+              actions: forwardTo('main'),
+            },
+            X_SLICE_CHANGED: {
+              actions: forwardTo('main'),
+            },
+            Y_SLICE_CHANGED: {
+              actions: forwardTo('main'),
+            },
+            Z_SLICE_CHANGED: {
               actions: forwardTo('main'),
             },
             RESET_CAMERA: {
@@ -108,6 +117,9 @@ const createRenderingMachine = (options, context) => {
               actions: forwardTo('images'),
             },
             RENDERED_IMAGE_ASSIGNED: {
+              actions: forwardTo('images'),
+            },
+            TOGGLE_IMAGE_INTERPOLATION: {
               actions: forwardTo('images'),
             },
             IMAGE_COLOR_RANGE_CHANGED: {

@@ -1,9 +1,9 @@
 import createImageRenderer from './createImageRenderer'
-import applyImageColors from './applyImageColors'
 import applyVisibility from './applyVisibility'
 import applyComponentVisibility from './applyComponentVisibility'
 import updateRenderedImage from './updateRenderedImage'
 import selectImageLayer from './selectImageLayer'
+import toggleInterpolation from './toggleInterpolation'
 import applyColorRange from './applyColorRange'
 import applyColorMap from './applyColorMap'
 import applyRenderedImage from './applyRenderedImage'
@@ -21,9 +21,9 @@ const imagesRenderingMachineOptions = {
     actions: {
       applyRenderedImage,
 
-      applyImageColors,
-
       applyVisibility,
+
+      toggleInterpolation,
 
       applyComponentVisibility,
 

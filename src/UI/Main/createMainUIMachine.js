@@ -1,13 +1,5 @@
 import { Machine, assign } from 'xstate'
 
-const assignInterpolationEnabled = assign({
-  main: (context, event) => {
-    const main = context.main
-    main.interpolationEnabled = !main.interpolationEnabled
-    return main
-  },
-})
-
 const assignFullscreenEnabled = assign({
   main: (context, event) => {
     const main = context.main
@@ -48,6 +40,38 @@ const assignViewMode = assign({
   },
 })
 
+const assignSlicingPlanes = assign({
+  main: (context, event) => {
+    const main = context.main
+    main.slicingPlanes = event.data
+    return main
+  },
+})
+
+const assignXSlice = assign({
+  main: (context, event) => {
+    const main = context.main
+    main.xSlice = event.data
+    return main
+  },
+})
+
+const assignYSlice = assign({
+  main: (context, event) => {
+    const main = context.main
+    main.ySlice = event.data
+    return main
+  },
+})
+
+const assignZSlice = assign({
+  main: (context, event) => {
+    const main = context.main
+    main.zSlice = event.data
+    return main
+  },
+})
+
 function createMainUIMachine(options, context) {
   let initialViewMode = 'volume'
   switch (context.main.viewMode) {
@@ -84,6 +108,18 @@ function createMainUIMachine(options, context) {
           on: {
             TOGGLE_BACKGROUND_COLOR: {
               actions: 'toggleBackgroundColor',
+            },
+            SLICING_PLANES_CHANGED: {
+              actions: [assignSlicingPlanes, 'applySlicingPlanes'],
+            },
+            X_SLICE_CHANGED: {
+              actions: [assignXSlice, 'applyXSlice'],
+            },
+            Y_SLICE_CHANGED: {
+              actions: [assignYSlice, 'applyYSlice'],
+            },
+            Z_SLICE_CHANGED: {
+              actions: [assignZSlice, 'applyZSlice'],
             },
           },
           states: {
@@ -178,29 +214,6 @@ function createMainUIMachine(options, context) {
                     TOGGLE_AXES: {
                       target: 'enabled',
                       actions: assignAxesEnabled,
-                    },
-                  },
-                },
-              },
-            },
-            interpolation: {
-              initial: context.interpolationEnabled ? 'enabled' : 'disabled',
-              states: {
-                enabled: {
-                  entry: 'toggleInterpolation',
-                  on: {
-                    TOGGLE_INTERPOLATION: {
-                      target: 'disabled',
-                      actions: assignInterpolationEnabled,
-                    },
-                  },
-                },
-                disabled: {
-                  entry: 'toggleInterpolation',
-                  on: {
-                    TOGGLE_INTERPOLATION: {
-                      target: 'enabled',
-                      actions: assignInterpolationEnabled,
                     },
                   },
                 },

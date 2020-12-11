@@ -25,15 +25,44 @@ class MainMachineContext {
   // Visualize the spatial axes on the viewable scene content
   axesEnabled = false
 
-  // Enable interpolation on slicing planes
-  interpolationEnabled = true
-
   // Spatial length units displayed in the scale bar
   units = ''
 
   // In the single view layout, the an X plane, Y plane, Z plane, or volume
   // rendering.
   viewMode = 'Volume'
+
+  // Slicing planes specification
+  slicingPlanes = {
+    x: {
+      min: 0.0,
+      max: 1.0,
+      step: 0.1,
+      scroll: false,
+      visible: false,
+    },
+    y: {
+      min: 0.0,
+      max: 1.0,
+      step: 0.1,
+      scroll: false,
+      visible: false,
+    },
+    z: {
+      min: 0.0,
+      max: 1.0,
+      step: 0.1,
+      scroll: false,
+      visible: false,
+    },
+  }
+
+  // x slice value
+  xSlice = null
+  // y slice value
+  ySlice = null
+  // z slice value
+  zSlice = null
 }
 
 export default MainMachineContext

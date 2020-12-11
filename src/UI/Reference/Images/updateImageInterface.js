@@ -1,7 +1,12 @@
 import updateAvailableComponents from './updateAvailableComponents'
+import toggleInterpolation from './toggleInterpolation'
 import applyColorRangeBounds from './applyColorRangeBounds'
 import applyColorRange from './applyColorRange'
 import applyColorMap from './applyColorMap'
+import applyPiecewiseFunctionGaussians from './applyPiecewiseFunctionGaussians'
+import toggleShadow from './toggleShadow'
+import applyGradientOpacity from './applyGradientOpacity'
+import applyGradientOpacityScale from './applyGradientOpacityScale'
 
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
@@ -29,10 +34,19 @@ function updateImageInterface(context) {
     if (image.imageType.dimension === 3) {
       context.images.volumeRow1.style.display = 'flex'
       context.images.volumeRow2.style.display = 'flex'
+      context.main.xPlaneRow.style.display = 'block'
+      context.main.yPlaneRow.style.display = 'block'
+      context.main.zPlaneRow.style.display = 'block'
     } else {
       context.images.volumeRow1.style.display = 'none'
       context.images.volumeRow2.style.display = 'none'
+      context.main.xPlaneRow.style.display = 'none'
+      context.main.yPlaneRow.style.display = 'none'
+      context.main.zPlaneRow.style.display = 'none'
     }
+
+    toggleInterpolation(context, { data: name })
+
     if (actorContext.colorRanges.has(component)) {
       applyColorRange(context, {
         data: {
@@ -43,6 +57,7 @@ function updateImageInterface(context) {
       })
     }
 
+    //debugger
     if (actorContext.colorRangeBounds.has(component)) {
       applyColorRangeBounds(context, {
         data: {
@@ -64,6 +79,25 @@ function updateImageInterface(context) {
       })
       context.images.iconSelector.setSelectedValue(colorMap)
     }
+
+    if (actorContext.piecewiseFunctionGaussians.has(component)) {
+      const gaussians = actorContext.piecewiseFunctionGaussians.get(component)
+      applyPiecewiseFunctionGaussians(context, {
+        data: {
+          name,
+          component,
+          gaussians,
+        },
+      })
+    }
+
+    toggleShadow(context, { data: name })
+    applyGradientOpacity(context, {
+      data: { name, gradientOpacity: actorContext.gradientOpacity },
+    })
+    applyGradientOpacityScale(context, {
+      data: { name, gradientOpacityScale: actorContext.gradientOpacityScale },
+    })
   }
 }
 

@@ -787,6 +787,7 @@ function ItkVtkViewProxy(publicAPI, model) {
     if (visible) {
       model.scaleBarCanvas.style.display = 'block'
       if (model.volumeRepresentation) {
+        console.log(model.volumeRepresentation)
         publicAPI.setAnnotationOpacity(1.0)
         model.orientationWidget.setEnabled(true)
         model.renderWindow.render()

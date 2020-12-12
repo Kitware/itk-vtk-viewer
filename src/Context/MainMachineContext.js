@@ -39,6 +39,7 @@ class MainMachineContext {
       max: 1.0,
       step: 0.1,
       scroll: false,
+      scrollDirection: 1,
       visible: false,
     },
     y: {
@@ -46,6 +47,7 @@ class MainMachineContext {
       max: 1.0,
       step: 0.1,
       scroll: false,
+      scrollDirection: 1,
       visible: false,
     },
     z: {
@@ -53,6 +55,7 @@ class MainMachineContext {
       max: 1.0,
       step: 0.1,
       scroll: false,
+      scrollDirection: 1,
       visible: false,
     },
   }

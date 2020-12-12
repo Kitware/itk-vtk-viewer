@@ -43,6 +43,25 @@ function applySlicingPlanes(context, event) {
       ? 'none'
       : 'flex'
   }
+
+  context.main.xPlanePauseButton.style.display = slicingPlanes.x.scroll
+    ? 'flex'
+    : 'none'
+  context.main.xPlanePlayButton.style.display = slicingPlanes.x.scroll
+    ? 'none'
+    : 'flex'
+  context.main.yPlanePauseButton.style.display = slicingPlanes.y.scroll
+    ? 'flex'
+    : 'none'
+  context.main.yPlanePlayButton.style.display = slicingPlanes.y.scroll
+    ? 'none'
+    : 'flex'
+  context.main.zPlanePauseButton.style.display = slicingPlanes.z.scroll
+    ? 'flex'
+    : 'none'
+  context.main.zPlanePlayButton.style.display = slicingPlanes.z.scroll
+    ? 'none'
+    : 'flex'
 }
 
 export default applySlicingPlanes

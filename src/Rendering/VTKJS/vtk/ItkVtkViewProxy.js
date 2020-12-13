@@ -11,6 +11,7 @@ import vtkPolyData from 'vtk.js/Sources/Common/DataModel/PolyData'
 import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 import vtkAxesLabelsWidget from './AxesLabelsWidget'
 import vtkWidgetManager from 'vtk.js/Sources/Widgets/Core/WidgetManager'
+import vtkSliceOutlineFilter from './SliceOutlineFilter'
 
 const CursorCornerAnnotation =
   '<table class="corner-annotation" style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
@@ -437,6 +438,32 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.camera.pitch(-30.0)
   model.camera.azimuth(30.0)
 
+  model.xSliceOutliner = vtkSliceOutlineFilter.newInstance()
+  model.xSliceMapper = vtkMapper.newInstance()
+  model.xSliceMapper.setInputConnection(model.xSliceOutliner.getOutputPort())
+  model.xSliceActor = vtkActor.newInstance()
+  model.xSliceActor.getProperty().setColor([0.94, 0.32, 0.31])
+  model.xSliceActor.setMapper(model.xSliceMapper)
+  model.xSliceActor.setVisibility(false)
+  model.ySliceOutliner = vtkSliceOutlineFilter.newInstance()
+  model.ySliceMapper = vtkMapper.newInstance()
+  model.ySliceMapper.setInputConnection(model.ySliceOutliner.getOutputPort())
+  model.ySliceActor = vtkActor.newInstance()
+  model.ySliceActor.getProperty().setColor([0.99, 0.84, 0.21])
+  model.ySliceActor.setMapper(model.ySliceMapper)
+  model.ySliceActor.setVisibility(false)
+  model.zSliceOutliner = vtkSliceOutlineFilter.newInstance()
+  model.zSliceMapper = vtkMapper.newInstance()
+  model.zSliceMapper.setInputConnection(model.zSliceOutliner.getOutputPort())
+  model.zSliceActor = vtkActor.newInstance()
+  model.zSliceActor.getProperty().setColor([0.3, 0.67, 0.31])
+  model.zSliceActor.setMapper(model.zSliceMapper)
+  model.zSliceActor.setVisibility(false)
+
+  publicAPI.getSliceOutlineActors = () => {
+    return [model.xSliceActor, model.ySliceActor, model.zSliceActor]
+  }
+
   model.orientationWidget.setViewportSize(0.1)
   const superRenderLater = publicAPI.renderLater
   publicAPI.renderLater = () => {
@@ -787,16 +814,19 @@ function ItkVtkViewProxy(publicAPI, model) {
     if (visible) {
       model.scaleBarCanvas.style.display = 'block'
       if (model.volumeRepresentation) {
-        console.log(model.volumeRepresentation)
         publicAPI.setAnnotationOpacity(1.0)
         model.orientationWidget.setEnabled(true)
-        model.renderWindow.render()
+        if (!model.renderWindow.getInteractor().isAnimating()) {
+          model.renderWindow.render()
+        }
       }
     } else {
       model.scaleBarCanvas.style.display = 'none'
       publicAPI.setAnnotationOpacity(0.0)
       model.orientationWidget.setEnabled(false)
-      model.renderWindow.render()
+      if (!model.renderWindow.getInteractor().isAnimating()) {
+        model.renderWindow.render()
+      }
     }
   }
 
@@ -810,7 +840,9 @@ function ItkVtkViewProxy(publicAPI, model) {
             property.getRGBTransferFunction().modified()
           }
         })
-        model.renderWindow.render()
+        if (!model.renderWindow.getInteractor().isAnimating()) {
+          model.renderWindow.render()
+        }
       } else {
         model.volumeRepresentation.getActors().forEach(actor => {
           const property = actor.getProperty()
@@ -819,7 +851,9 @@ function ItkVtkViewProxy(publicAPI, model) {
             property.getRGBTransferFunction().modified()
           }
         })
-        model.renderWindow.render()
+        if (!model.renderWindow.getInteractor().isAnimating()) {
+          model.renderWindow.render()
+        }
       }
     }
   }
@@ -829,7 +863,9 @@ function ItkVtkViewProxy(publicAPI, model) {
       model.enableAxes = enable
       updateAxesVisibility()
       publicAPI.modified()
-      publicAPI.renderLater()
+      if (!model.renderWindow.getInteractor().isAnimating()) {
+        model.renderWindow.render()
+      }
     }
   }
 
@@ -853,9 +889,14 @@ function ItkVtkViewProxy(publicAPI, model) {
       property.setDiffuse(1.0)
       property.setSpecular(0.4)
       property.setSpecularPower(25)
-      model.volumeRepresentation
-        .getActors()
-        .forEach(model.annotationPicker.addPickList)
+      const actors = model.volumeRepresentation.getActors()
+      actors.forEach(model.annotationPicker.addPickList)
+      model.xSliceOutliner.setInputData(actors[0].getMapper())
+      model.renderer.addActor(model.xSliceActor)
+      model.ySliceOutliner.setInputData(actors[1].getMapper())
+      model.renderer.addActor(model.ySliceActor)
+      model.zSliceOutliner.setInputData(actors[2].getMapper())
+      model.renderer.addActor(model.zSliceActor)
       updateDataProbeSize()
       publicAPI.setAnnotationOpacity(1.0)
     }
@@ -871,6 +912,11 @@ function ItkVtkViewProxy(publicAPI, model) {
 
     if (!representation) {
       return
+    }
+    if (representation.getVolumes().length) {
+      model.renderer.removeActor(model.xSliceActor)
+      model.renderer.removeActor(model.ySliceActor)
+      model.renderer.removeActor(model.zSliceActor)
     }
     representation.getActors().forEach(model.annotationPicker.deletePickList)
   }

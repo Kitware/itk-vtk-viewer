@@ -5,30 +5,56 @@ function applySlicingPlanes(context, event) {
   if (volumeRep) {
     const name = context.images.selectedName
     const imageVisible = context.layers.actorContext.get(name).visible
+    const outlineActors = context.itkVtkView.getSliceOutlineActors()
     if (imageVisible) {
+      const annotations = context.main.annotationsEnabled
       switch (context.main.viewMode) {
         case 'Volume':
           volumeRep.setXSliceVisibility(slicingPlanes.x.visible)
           volumeRep.setYSliceVisibility(slicingPlanes.y.visible)
           volumeRep.setZSliceVisibility(slicingPlanes.z.visible)
+          if (annotations) {
+            outlineActors[0].setVisibility(slicingPlanes.x.visible)
+            outlineActors[1].setVisibility(slicingPlanes.y.visible)
+            outlineActors[2].setVisibility(slicingPlanes.z.visible)
+          }
           break
         case 'XPlane':
-          volumeRep.setXSliceVisibility(slicingPlanes.x.visible)
           volumeRep.getActors()[0].setVisibility(true)
+          volumeRep.getActors()[1].setVisibility(false)
+          volumeRep.getActors()[2].setVisibility(false)
+          if (annotations) {
+            outlineActors[0].setVisibility(true)
+            outlineActors[1].setVisibility(false)
+            outlineActors[2].setVisibility(false)
+          }
           break
         case 'YPlane':
-          volumeRep.setYSliceVisibility(slicingPlanes.y.visible)
+          volumeRep.getActors()[0].setVisibility(false)
           volumeRep.getActors()[1].setVisibility(true)
+          volumeRep.getActors()[2].setVisibility(false)
+          if (annotations) {
+            outlineActors[0].setVisibility(false)
+            outlineActors[1].setVisibility(true)
+            outlineActors[2].setVisibility(false)
+          }
           break
         case 'ZPlane':
-          volumeRep.setZSliceVisibility(slicingPlanes.z.visible)
+          volumeRep.getActors()[0].setVisibility(false)
+          volumeRep.getActors()[1].setVisibility(false)
           volumeRep.getActors()[2].setVisibility(true)
+          if (annotations) {
+            outlineActors[0].setVisibility(false)
+            outlineActors[1].setVisibility(false)
+            outlineActors[2].setVisibility(true)
+          }
           break
       }
     } else {
       volumeRep.setXSliceVisibility(false)
       volumeRep.setYSliceVisibility(false)
       volumeRep.setZSliceVisibility(false)
+      outlineActors.forEach(a => a.setVisibility(false))
     }
     if (
       slicingPlanes.x.visible ||

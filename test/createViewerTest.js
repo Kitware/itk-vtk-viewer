@@ -103,13 +103,13 @@ test('Test createViewer', async t => {
   t.same(resultAxes, true, 'axes')
   viewer.setAxesEnabled(false)
 
-  viewer.once('toggleInterpolation', data => {
-    t.pass('toggleInterpolation event')
+  viewer.once('toggleImageInterpolation', data => {
+    t.pass('toggleImageInterpolation event')
   })
-  viewer.setInterpolationEnabled(false)
-  const resultInterpolation = viewer.getInterpolationEnabled()
-  t.same(resultInterpolation, false, 'interpolation')
-  viewer.setInterpolationEnabled(true)
+  viewer.setImageInterpolationEnabled(false)
+  const resultImageInterpolation = viewer.getImageInterpolationEnabled()
+  t.same(resultImageInterpolation, false, 'interpolation')
+  viewer.setImageInterpolationEnabled(true)
 
   viewer.once('viewModeChanged', data => {
     t.pass('viewModeChanged event')

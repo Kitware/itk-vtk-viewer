@@ -78,11 +78,11 @@ const imJoyPluginAPI = {
     return this.viewer.getAxesEnabled()
   },
 
-  setInterpolationEnabled(enabled) {
-    this.viewer.setInterpolationEnabled(enabled)
+  setImageInterpolationEnabled(enabled) {
+    this.viewer.setImageInterpolationEnabled(enabled)
   },
-  getInterpolationEnabled() {
-    return this.viewer.getInterpolationEnabled()
+  getImageInterpolationEnabled() {
+    return this.viewer.getImageInterpolationEnabled()
   },
 
   setViewMode(mode) {

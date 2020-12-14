@@ -83,12 +83,6 @@ Set/get whether annotations such as the current pixel value, scale bar, or orien
 
 Set/get whether spatial axes are visualized in the scene.
 
-### setInterpolationEnabled(enabled)
-
-### getInterpolationEnabled()
-
-Set/get whether bilinear interpolation is used in the image slicing planes.
-
 ### setViewMode(mode)
 
 ### getViewMode()
@@ -110,6 +104,12 @@ Set/get whether the named layer is visible.
 ### setImage(image)
 
 Set the image to be visualized. Can be an [itk.js Image](https://insightsoftwareconsortium.github.io/itk-js/api/Image.html) or a [scijs ndarray](http://scijs.net/packages/#scijs/ndarray) for JavaScript; for Python, it can be a [numpy](https://numpy.org) array.
+
+### setImageInterpolationEnabled(enabled)
+
+### getImageInterpolationEnabled()
+
+Set/get whether bilinear interpolation is used in the image slicing planes.
 
 ### setImageComponentVisibility(visibility, component, name)
 

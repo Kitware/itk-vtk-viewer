@@ -78,11 +78,28 @@ const imJoyPluginAPI = {
     return this.viewer.getAxesEnabled()
   },
 
-  setImageInterpolationEnabled(enabled) {
-    this.viewer.setImageInterpolationEnabled(enabled)
+  setXSlice(position) {
+    this.viewer.setXSlice(position)
   },
-  getImageInterpolationEnabled() {
-    return this.viewer.getImageInterpolationEnabled()
+
+  getXSlice() {
+    return this.viewer.getXSlice()
+  },
+
+  setYSlice(position) {
+    this.viewer.setYSlice(position)
+  },
+
+  getYSlice() {
+    return this.viewer.getYSlice()
+  },
+
+  setZSlice(position) {
+    this.viewer.setZSlice(position)
+  },
+
+  getZSlice() {
+    return this.viewer.getZSlice()
   },
 
   setViewMode(mode) {
@@ -102,6 +119,13 @@ const imJoyPluginAPI = {
 
   getImageComponentVisibility(component, name) {
     return this.viewer.getImageComponentVisibility(component, name)
+  },
+
+  setImageInterpolationEnabled(enabled) {
+    this.viewer.setImageInterpolationEnabled(enabled)
+  },
+  getImageInterpolationEnabled() {
+    return this.viewer.getImageInterpolationEnabled()
   },
 
   setImageColorRange(range, component, name) {

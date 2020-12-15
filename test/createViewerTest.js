@@ -35,7 +35,7 @@ const TEST_VIEWER_STYLE = {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(33)
+  t.plan(39)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -206,6 +206,33 @@ test('Test createViewer', async t => {
     const resultImageGradientOpacityScale = viewer.getImageGradientOpacityScale()
     t.same(resultImageGradientOpacityScale, 0.8, 'image gradient opacity scale')
     viewer.setImageGradientOpacity(0.5)
+
+    viewer.once('xSliceChanged', data => {
+      t.pass('xSliceChanged event')
+    })
+    const oldXSlice = viewer.getXSlice()
+    viewer.setXSlice(5)
+    const resultXSlice = viewer.getXSlice()
+    t.same(resultXSlice, 5, 'x slice')
+    viewer.setXSlice(oldXSlice)
+
+    viewer.once('ySliceChanged', data => {
+      t.pass('ySliceChanged event')
+    })
+    const oldYSlice = viewer.getYSlice()
+    viewer.setYSlice(5)
+    const resultYSlice = viewer.getYSlice()
+    t.same(resultYSlice, 5, 'y slice')
+    viewer.setYSlice(oldYSlice)
+
+    viewer.once('zSliceChanged', data => {
+      t.pass('zSliceChanged event')
+    })
+    const oldZSlice = viewer.getZSlice()
+    viewer.setZSlice(5)
+    const resultZSlice = viewer.getZSlice()
+    t.same(resultZSlice, 5, 'z slice')
+    viewer.setZSlice(oldZSlice)
 
     t.pass('test completed')
 

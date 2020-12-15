@@ -83,6 +83,24 @@ Set/get whether annotations such as the current pixel value, scale bar, or orien
 
 Set/get whether spatial axes are visualized in the scene.
 
+### setXSlice(position)
+
+### getXSlice()
+
+Set/get the position in world space of the X slicing plane.
+
+### setYSlice(position)
+
+### getYSlice()
+
+Set/get the position in world space of the Y slicing plane.
+
+### setZSlice(position)
+
+### getZSlice()
+
+Set/get the position in world space of the Z slicing plane.
+
 ### setViewMode(mode)
 
 ### getViewMode()

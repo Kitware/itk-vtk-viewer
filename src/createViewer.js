@@ -688,7 +688,6 @@ const createViewer = async (
     'xSliceChanged',
     'ySliceChanged',
     'zSliceChanged',
-    'toggleSlicingPlanes',
     'blendModeChanged',
     'pointSetColorChanged',
     'pointSetOpacityChanged',
@@ -1098,18 +1097,6 @@ const createViewer = async (
     }
     const actorContext = context.images.actorContext.get(name)
     return actorContext.shadowEnabled
-  }
-
-  autorun(() => {
-    const enabled = store.imageUI.slicingPlanesEnabled
-    eventEmitter.emit('toggleSlicingPlanes', enabled)
-  })
-
-  publicAPI.setSlicingPlanesEnabled = enabled => {
-    const slicingPlanes = store.imageUI.slicingPlanesEnabled
-    if ((enabled && !slicingPlanes) || (!enabled && slicingPlanes)) {
-      store.imageUI.slicingPlanesEnabled = enabled
-    }
   }
 
   publicAPI.setImageGradientOpacity = (opacity, name) => {

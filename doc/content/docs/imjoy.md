@@ -131,6 +131,12 @@ image component identified by name.
 Set/get the [min, max] range of intensity values for color maps that provide a bounds
 for user inputs.
 
+### setImageColorMap(colorMap, componentIndex, name)
+
+### getImageColorMap(componentIndex, name)
+
+Set/get the color map for the given component/channel.
+
 ### setImagePiecewiseFunctionGaussians(gaussians, component, name)
 
 ### getImagePiecewiseFunctionGaussians(component, name)

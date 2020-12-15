@@ -120,6 +120,14 @@ const imJoyPluginAPI = {
     return this.viewer.getImageColorRangeBounds(component, name)
   },
 
+  setImageColorMap(colorMap, component, name) {
+    this.viewer.setImageColorMap(colorMap, component, name)
+  },
+
+  getImageColorMap(component, name) {
+    return this.viewer.getImageColorMap(component, name)
+  },
+
   setImagePiecewiseFunctionGaussians(gaussians, component, name) {
     this.viewer.setImagePiecewiseFunctionGaussians(gaussians, component, name)
   },

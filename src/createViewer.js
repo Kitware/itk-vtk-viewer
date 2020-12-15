@@ -1014,7 +1014,7 @@ const createViewer = async (
     ) {
       service.send({
         type: 'IMAGE_COLOR_MAP_CHANGED',
-        data: { name, index: componentIndex, colorMap },
+        data: { name, component: componentIndex, colorMap },
       })
     }
   }
@@ -1027,7 +1027,7 @@ const createViewer = async (
       componentIndex = 0
     }
     const actorContext = context.images.actorContext.get(name)
-    return actorContext.colorMap.get(componentIndex)
+    return actorContext.colorMaps.get(componentIndex)
   }
 
   autorun(() => {

@@ -10,6 +10,7 @@ function createViewPlanesToggle(context, volumeRow) {
   viewPlanesButton.innerHTML = `<input id="${viewerDOMId}-toggleSlicingPlanesButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-axes itk-vtk-tooltip-content="View planes [s]" class="${style.viewPlanesButton} ${style.toggleButton}" for="${viewerDOMId}-toggleSlicingPlanesButton">${viewPlansIcon}</label>`
   const viewPlanesButtonInput = viewPlanesButton.children[0]
   const viewPlanesButtonLabel = viewPlanesButton.children[1]
+  context.main.viewPlanesButton = viewPlanesButton
   context.main.viewPlanesButtonLabel = viewPlanesButtonLabel
   context.main.viewPlanesButtonInput = viewPlanesButtonInput
   applyContrastSensitiveStyleToElement(

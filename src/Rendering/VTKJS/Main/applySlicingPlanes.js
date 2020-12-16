@@ -3,9 +3,19 @@ function applySlicingPlanes(context, event) {
 
   const volumeRep = context.images.representationProxy
   if (volumeRep) {
+    const outlineActors = context.itkVtkView.getSliceOutlineActors()
+    if (context.use2D) {
+      volumeRep.getActors()[0].setVisibility(false)
+      volumeRep.getActors()[1].setVisibility(false)
+      volumeRep.getActors()[2].setVisibility(true)
+      outlineActors[0].setVisibility(false)
+      outlineActors[1].setVisibility(false)
+      outlineActors[2].setVisibility(false)
+      return
+    }
+
     const name = context.images.selectedName
     const imageVisible = context.layers.actorContext.get(name).visible
-    const outlineActors = context.itkVtkView.getSliceOutlineActors()
     if (imageVisible) {
       const annotations = context.main.annotationsEnabled
       switch (context.main.viewMode) {

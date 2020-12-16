@@ -1,6 +1,11 @@
 function applySlicingPlanes(context, event) {
   const slicingPlanes = event.data
 
+  if (context.use2D) {
+    context.main.viewPlanesButton.style.display = 'none'
+    return
+  }
+
   context.main.xSliceElement.min = slicingPlanes.x.min
   context.main.xSliceElement.max = slicingPlanes.x.max
   context.main.xSliceElement.step = slicingPlanes.x.step

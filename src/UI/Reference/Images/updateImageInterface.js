@@ -7,6 +7,7 @@ import applyPiecewiseFunctionGaussians from './applyPiecewiseFunctionGaussians'
 import toggleShadow from './toggleShadow'
 import applyGradientOpacity from './applyGradientOpacity'
 import applyGradientOpacityScale from './applyGradientOpacityScale'
+import applyVolumeSampleDistance from './applyVolumeSampleDistance'
 
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
@@ -97,6 +98,9 @@ function updateImageInterface(context) {
     })
     applyGradientOpacityScale(context, {
       data: { name, gradientOpacityScale: actorContext.gradientOpacityScale },
+    })
+    applyVolumeSampleDistance(context, {
+      data: { name, volumeSampleDistance: actorContext.volumeSampleDistance },
     })
   }
 }

@@ -166,6 +166,9 @@ const createViewer = async (
           case 'IMAGE_GRADIENT_OPACITY_SCALE_CHANGED':
             eventEmitter.emit('imageGradientOpacityScaleChanged', event.data)
             break
+          case 'IMAGE_VOLUME_SAMPLE_DISTANCE_CHANGED':
+            eventEmitter.emit('imageVolumeSampleDistanceChanged', event.data)
+            break
           case 'X_SLICE_CHANGED':
             eventEmitter.emit('xSliceChanged', event.data)
             break
@@ -682,6 +685,7 @@ const createViewer = async (
     'toggleImageShadow',
     'imageGradientOpacityChanged',
     'imageGradientOpacityScaleChanged',
+    'imageVolumeSampleDistanceChanged',
     'toggleCroppingPlanes',
     'croppingPlanesChanged',
     'selectLookupTable',
@@ -693,7 +697,6 @@ const createViewer = async (
     'pointSetOpacityChanged',
     'pointSetSizeChanged',
     'pointSetRepresentationChanged',
-    'volumeSampleDistanceChanged',
   ]
 
   publicAPI.getEventNames = () => eventNames
@@ -1137,20 +1140,23 @@ const createViewer = async (
     return actorContext.gradientOpacityScale
   }
 
-  autorun(() => {
-    const volumeSampleDistance = store.imageUI.volumeSampleDistance
-    eventEmitter.emit('volumeSampleDistanceChanged', volumeSampleDistance)
-  })
-
-  publicAPI.setVolumeSampleDistance = distance => {
-    const currentDistance = store.imageUI.volumeSampleDistance
-    if (currentDistance !== parseFloat(distance)) {
-      store.imageUI.volumeSampleDistance = distance
+  publicAPI.setImageVolumeSampleDistance = (distance, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
+    const actorContext = context.images.actorContext.get(name)
+    service.send({
+      type: 'IMAGE_VOLUME_SAMPLE_DISTANCE_CHANGED',
+      data: { name, volumeSampleDistance: distance },
+    })
   }
 
-  publicAPI.getVolumeSampleDistance = () => {
-    return store.imageUI.volumeSampleDistance
+  publicAPI.getImageVolumeSampleDistance = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.volumeSampleDistance
   }
 
   autorun(() => {

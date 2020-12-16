@@ -132,6 +132,9 @@ function createUIMachine(options, context) {
             IMAGE_GRADIENT_OPACITY_SCALE_CHANGED: {
               actions: forwardTo('images'),
             },
+            IMAGE_VOLUME_SAMPLE_DISTANCE_CHANGED: {
+              actions: forwardTo('images'),
+            },
             TOGGLE_DISTANCE_WIDGET: {
               actions: forwardTo('widgets'),
             },

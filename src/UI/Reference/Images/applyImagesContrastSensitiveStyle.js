@@ -24,6 +24,11 @@ function applyImagesContrastSensitiveStyle(context) {
       'invertibleButton',
       context.images.sliderEntryDiv
     )
+    applyContrastSensitiveStyleToElement(
+      context,
+      'invertibleButton',
+      context.images.volumeSampleDistanceDiv
+    )
   }
 }
 

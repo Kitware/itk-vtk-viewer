@@ -10,6 +10,7 @@ import applyRenderedImage from './applyRenderedImage'
 import applyPiecewiseFunction from './applyPiecewiseFunction'
 import applyShadow from './applyShadow'
 import applyGradientOpacity from './applyGradientOpacity'
+import applyVolumeSampleDistance from './applyVolumeSampleDistance'
 
 const imagesRenderingMachineOptions = {
   imageRenderingActor: {
@@ -36,6 +37,8 @@ const imagesRenderingMachineOptions = {
       applyShadow,
 
       applyGradientOpacity,
+
+      applyVolumeSampleDistance,
     },
   },
 

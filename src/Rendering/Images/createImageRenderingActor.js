@@ -50,6 +50,9 @@ const eventResponses = {
   IMAGE_GRADIENT_OPACITY_SCALE_CHANGED: {
     actions: 'applyGradientOpacity',
   },
+  IMAGE_VOLUME_SAMPLE_DISTANCE_CHANGED: {
+    actions: 'applyVolumeSampleDistance',
+  },
 }
 
 const createImageRenderingActor = (options, context, event) => {

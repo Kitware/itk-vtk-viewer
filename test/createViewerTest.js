@@ -35,7 +35,7 @@ const TEST_VIEWER_STYLE = {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(39)
+  t.plan(41)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -233,6 +233,14 @@ test('Test createViewer', async t => {
     const resultZSlice = viewer.getZSlice()
     t.same(resultZSlice, 5, 'z slice')
     viewer.setZSlice(oldZSlice)
+
+    viewer.once('imageVolumeSampleDistanceChanged', data => {
+      t.pass('imageVolumeSampleDistanceChanged event')
+    })
+    viewer.setImageVolumeSampleDistance(0.5)
+    const resultImageVolumeSampleDistance = viewer.getImageVolumeSampleDistance()
+    t.same(resultImageVolumeSampleDistance, 0.5, 'volume sample distance')
+    viewer.setImageVolumeSampleDistance(0.25)
 
     t.pass('test completed')
 

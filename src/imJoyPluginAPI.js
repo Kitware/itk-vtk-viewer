@@ -183,6 +183,14 @@ const imJoyPluginAPI = {
   getImageGradientOpacityScale(name) {
     return this.viewer.getImageGradientOpacityScale(name)
   },
+
+  setImageVolumeSampleDistance(distance, name) {
+    this.viewer.setImageVolumeSampleDistance(distance, name)
+  },
+
+  getImageVolumeSampleDistance(name) {
+    return this.viewer.getImageVolumeSampleDistance(name)
+  },
 }
 
 export default imJoyPluginAPI

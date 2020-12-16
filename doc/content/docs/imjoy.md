@@ -179,3 +179,10 @@ Set/get the gradient opacity in the volume rendering. Value values range from 0.
 ### getImageGradientOpacityScale(name)
 
 Set/get the gradient scale for gradient-based opacity in the volume rendering. Value values range from 0.0 to 1.0.
+
+### setImageVolumeSampleDistance(distance, name)
+
+### getImageVolumeSampleDistance(name)
+
+Set/get the depth sampling distance in the volume rendering. Value values range from 0.0 to 1.0.
+

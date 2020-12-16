@@ -216,6 +216,13 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
                 forwardTo('eventEmitter'),
               ],
             },
+            IMAGE_BLEND_MODE_CHANGED: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
             RENDER: {
               actions: forwardTo('rendering'),
             },

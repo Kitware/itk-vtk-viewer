@@ -25,7 +25,7 @@ function applyGradientOpacity(context, event) {
               fusedImgIdx,
               Math.exp(
                 Math.log((dataRange[1] - dataRange[0]) * 0.2) *
-                  2 *
+                  7 *
                   gradientOpacityScale *
                   minV *
                   minV
@@ -40,7 +40,7 @@ function applyGradientOpacity(context, event) {
             fusedImgIdx,
             Math.exp(
               Math.log((dataRange[1] - dataRange[0]) * 1.0) *
-                2 *
+                7 *
                 gradientOpacityScale *
                 gradientOpacity *
                 gradientOpacity

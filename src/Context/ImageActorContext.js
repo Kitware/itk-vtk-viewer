@@ -68,7 +68,8 @@ class ImageActorContext {
   // Distance in depth samples for the volume rendering
   volumeSampleDistance = 0.25
 
-  blendMode = 0
+  // Volume rendering blend mode
+  blendMode = 'Composite'
 
   labelMapBlend = 0.5
   labelMapLookupTable = 'glasbey'

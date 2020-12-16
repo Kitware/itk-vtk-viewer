@@ -53,6 +53,9 @@ const eventResponses = {
   IMAGE_VOLUME_SAMPLE_DISTANCE_CHANGED: {
     actions: 'applyVolumeSampleDistance',
   },
+  IMAGE_BLEND_MODE_CHANGED: {
+    actions: 'applyBlendMode',
+  },
 }
 
 const createImageRenderingActor = (options, context, event) => {

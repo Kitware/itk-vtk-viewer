@@ -11,6 +11,7 @@ import applyPiecewiseFunction from './applyPiecewiseFunction'
 import applyShadow from './applyShadow'
 import applyGradientOpacity from './applyGradientOpacity'
 import applyVolumeSampleDistance from './applyVolumeSampleDistance'
+import applyBlendMode from './applyBlendMode'
 
 const imagesRenderingMachineOptions = {
   imageRenderingActor: {
@@ -39,6 +40,8 @@ const imagesRenderingMachineOptions = {
       applyGradientOpacity,
 
       applyVolumeSampleDistance,
+
+      applyBlendMode,
     },
   },
 

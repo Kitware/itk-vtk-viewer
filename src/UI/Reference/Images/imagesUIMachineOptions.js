@@ -12,6 +12,7 @@ import toggleShadow from './toggleShadow'
 import applyGradientOpacity from './applyGradientOpacity'
 import applyGradientOpacityScale from './applyGradientOpacityScale'
 import applyVolumeSampleDistance from './applyVolumeSampleDistance'
+import applyBlendMode from './applyBlendMode'
 
 const imagesUIMachineOptions = {
   actions: {
@@ -33,6 +34,7 @@ const imagesUIMachineOptions = {
     applyGradientOpacity,
     applyGradientOpacityScale,
     applyVolumeSampleDistance,
+    applyBlendMode,
   },
 }
 

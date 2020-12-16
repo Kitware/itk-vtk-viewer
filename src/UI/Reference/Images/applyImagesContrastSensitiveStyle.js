@@ -29,6 +29,11 @@ function applyImagesContrastSensitiveStyle(context) {
       'invertibleButton',
       context.images.volumeSampleDistanceDiv
     )
+    applyContrastSensitiveStyleToElement(
+      context,
+      'invertibleButton',
+      context.images.blendModeDiv
+    )
   }
 }
 

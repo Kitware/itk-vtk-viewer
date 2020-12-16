@@ -169,6 +169,9 @@ const createViewer = async (
           case 'IMAGE_VOLUME_SAMPLE_DISTANCE_CHANGED':
             eventEmitter.emit('imageVolumeSampleDistanceChanged', event.data)
             break
+          case 'IMAGE_BLEND_MODE_CHANGED':
+            eventEmitter.emit('imageBlendModeChanged', event.data)
+            break
           case 'X_SLICE_CHANGED':
             eventEmitter.emit('xSliceChanged', event.data)
             break
@@ -686,13 +689,13 @@ const createViewer = async (
     'imageGradientOpacityChanged',
     'imageGradientOpacityScaleChanged',
     'imageVolumeSampleDistanceChanged',
+    'imageBlendModeChanged',
     'toggleCroppingPlanes',
     'croppingPlanesChanged',
     'selectLookupTable',
     'xSliceChanged',
     'ySliceChanged',
     'zSliceChanged',
-    'blendModeChanged',
     'pointSetColorChanged',
     'pointSetOpacityChanged',
     'pointSetSizeChanged',
@@ -1159,20 +1162,23 @@ const createViewer = async (
     return actorContext.volumeSampleDistance
   }
 
-  autorun(() => {
-    const blendMode = store.imageUI.blendMode
-    eventEmitter.emit('blendModeChanged', blendMode)
-  })
-
-  publicAPI.setBlendMode = blendMode => {
-    const currentBlendMode = store.imageUI.blendMode
-    if (currentBlendMode !== parseInt(blendMode)) {
-      store.imageUI.blendMode = blendMode
+  publicAPI.setImageBlendMode = (mode, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
+    const actorContext = context.images.actorContext.get(name)
+    service.send({
+      type: 'IMAGE_BLEND_MODE_CHANGED',
+      data: { name, blendMode: mode },
+    })
   }
 
-  publicAPI.getBlendMode = () => {
-    return store.imageUI.blendMode
+  publicAPI.getImageBlendMode = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.blendMode
   }
 
   reaction(

@@ -106,6 +106,11 @@ function createImagesRenderingMachine(options, context) {
                 to: (c, e) => `imageRenderingActor-${e.data.name}`,
               }),
             },
+            IMAGE_BLEND_MODE_CHANGED: {
+              actions: send((_, e) => e, {
+                to: (c, e) => `imageRenderingActor-${e.data.name}`,
+              }),
+            },
           },
         },
       },

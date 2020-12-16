@@ -35,7 +35,7 @@ const TEST_VIEWER_STYLE = {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(41)
+  t.plan(43)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -241,6 +241,14 @@ test('Test createViewer', async t => {
     const resultImageVolumeSampleDistance = viewer.getImageVolumeSampleDistance()
     t.same(resultImageVolumeSampleDistance, 0.5, 'volume sample distance')
     viewer.setImageVolumeSampleDistance(0.25)
+
+    viewer.once('imageBlendModeChanged', data => {
+      t.pass('imageBlendModeChanged event')
+    })
+    viewer.setImageBlendMode('Maximum')
+    const resultImageBlendMode = viewer.getImageBlendMode()
+    t.same(resultImageBlendMode, 'Maximum', 'blend mode')
+    viewer.setImageBlendMode('Composite')
 
     t.pass('test completed')
 

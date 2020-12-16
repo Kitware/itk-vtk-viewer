@@ -8,6 +8,7 @@ import toggleShadow from './toggleShadow'
 import applyGradientOpacity from './applyGradientOpacity'
 import applyGradientOpacityScale from './applyGradientOpacityScale'
 import applyVolumeSampleDistance from './applyVolumeSampleDistance'
+import applyBlendMode from './applyBlendMode'
 
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
@@ -101,6 +102,9 @@ function updateImageInterface(context) {
     })
     applyVolumeSampleDistance(context, {
       data: { name, volumeSampleDistance: actorContext.volumeSampleDistance },
+    })
+    applyBlendMode(context, {
+      data: { name, blendMode: actorContext.blendMode },
     })
   }
 }

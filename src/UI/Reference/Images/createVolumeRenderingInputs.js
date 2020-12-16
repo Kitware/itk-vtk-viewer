@@ -3,6 +3,7 @@ import style from '../ItkVtkViewer.module.css'
 import createShadowToggle from './createShadowToggle'
 import createGradientOpacitySlider from './createGradientOpacitySlider'
 import createSampleDistanceSlider from './createSampleDistanceSlider'
+import createBlendModeSelector from './createBlendModeSelector'
 
 function createVolumeRenderingInputs(context, imagesUIGroup) {
   const viewerDOMId = context.id
@@ -18,7 +19,7 @@ function createVolumeRenderingInputs(context, imagesUIGroup) {
   volumeRow2.setAttribute('class', style.uiRow)
   volumeRow2.className += ` ${viewerDOMId}-volume2 ${viewerDOMId}-collapsible`
   createSampleDistanceSlider(context, volumeRow2)
-  //createBlendModeSelector(context, volumeRow2)
+  createBlendModeSelector(context, volumeRow2)
   imagesUIGroup.appendChild(volumeRow2)
 
   context.images.volumeRow1 = volumeRow1

@@ -191,6 +191,14 @@ const imJoyPluginAPI = {
   getImageVolumeSampleDistance(name) {
     return this.viewer.getImageVolumeSampleDistance(name)
   },
+
+  setImageBlendMode(mode, name) {
+    this.viewer.setImageBlendMode(mode, name)
+  },
+
+  getImageBlendMode(name) {
+    return this.viewer.getImageBlendMode(name)
+  },
 }
 
 export default imJoyPluginAPI

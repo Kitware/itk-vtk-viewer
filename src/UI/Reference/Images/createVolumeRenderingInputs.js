@@ -14,6 +14,7 @@ function createVolumeRenderingInputs(context, imagesUIGroup) {
   createShadowToggle(context, volumeRow1)
   createGradientOpacitySlider(context, volumeRow1)
   imagesUIGroup.appendChild(volumeRow1)
+  context.images.volumeRow1 = volumeRow1
 
   const volumeRow2 = document.createElement('div')
   volumeRow2.setAttribute('class', style.uiRow)

@@ -88,7 +88,14 @@ test('Test ImJoy Plugin', async t => {
     data: { image: itkImage },
   })
   await viewer.setImage(encodeArray(array))
-
+  await viewer.setImage(testImage3DPath)
+  await viewer.setImage([testImage3DPath])
+  const file = new File(
+    [new Blob([response.data], { type: 'application/octet-stream' })],
+    'data.nrrd'
+  )
+  await viewer.setImage(file)
+  await viewer.setImage([file])
   imjoy.destroy()
   console.log('ImJoy destroyed')
   gc.releaseResources()

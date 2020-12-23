@@ -78,23 +78,45 @@
         },
 
         async setImage(image) {
-          let itkImage = image
-          if(image._rtype === 'ndarray'){
-            itkImage = itkVtkViewer.utils.ndarrayToItkImage(image)
+          // load image from an URL
+          if(typeof image === 'string'){
+            this.viewer = await itkVtkViewer.processURLParameters(container, {image})
           }
-
-          const vtkImage = itkVtkViewer.utils.vtkITKHelper.convertItkToVtkImage(itkImage)
-          const is2D = itkImage.imageType.dimension === 2
-          if (this.viewer === null) {
-            this.viewer = await itkVtkViewer.createViewer(container, {
-              image: vtkImage,
-              pointSets: null,
-              geometries: null,
-              use2D: is2D,
-              rotate: false
-            })
-          } else {
-            await this.viewer.setImage(vtkImage)
+          // load image from a File object
+          else if(image instanceof File){
+            this.viewer = await itkVtkViewer.createViewerFromFiles(container, [image])
+          }
+          // load image from a list of file URL or files
+          else if(Array.isArray(image)){
+            if(typeof image[0] === 'string') {
+              this.viewer = await itkVtkViewer.processURLParameters(container, {filesToLoad: image.join(",")})
+            }
+            else if(image[0] instanceof File){
+              this.viewer = await itkVtkViewer.createViewerFromFiles(container, image)
+            }
+          }
+          // load image from an ndarray or itkimage
+          else if(image._rtype === 'ndarray' || (image.imageType && image.data)){
+            let itkImage = image
+            if(image._rtype === 'ndarray'){
+              itkImage = itkVtkViewer.utils.ndarrayToItkImage(image)
+            }
+            const vtkImage = itkVtkViewer.utils.vtkITKHelper.convertItkToVtkImage(itkImage)
+            const is2D = itkImage.imageType.dimension === 2
+            if (this.viewer === null) {
+              this.viewer = await itkVtkViewer.createViewer(container, {
+                image: vtkImage,
+                pointSets: null,
+                geometries: null,
+                use2D: is2D,
+                rotate: false
+              })
+            } else {
+              await this.viewer.setImage(vtkImage)
+            }
+          }
+          else{
+            throw new Error("Unsupported image type")
           }
         }
       })

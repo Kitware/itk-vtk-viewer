@@ -27,9 +27,40 @@ https://unpkg.com/itk-vtk-viewer@10.8.0/dist/index.html
 
 Supported context `data` inputs:
 
-**image**: Image to be visualized. Can be an [itk.js Image](https://insightsoftwareconsortium.github.io/itk-js/api/Image.html) or an [imjoy-rpc](https://github.com/imjoy-team/imjoy-rpc) encoded ndarray for JavaScript; for Python, it can be a [numpy](https://numpy.org) array.
+**image**: Image to be visualized. See **setImage(image)** API function for the supported image types.
 
-For [scijs ndarray](http://scijs.net/packages/#scijs/ndarray), you can use the following function to encoded it into an imjoy-rpc encoded array.
+
+The `image` key is optional; one can also call `setImage()` later.
+
+Usage in javascript:
+```javascript
+const viewer = await api.createWindow({
+  src: "https://kitware.github.io/itk-vtk-viewer/app/",
+  data: { image: "https://thewtex.github.io/allen-ccf-itk-vtk-zarr/average_template_50_chunked.zarr"}
+  })
+```
+
+Usage in Python
+```python
+# a 2D or 3D numpy array
+image_array = np.random.randint(0, 255, [500, 500], dtype='uint8')
+viewer = await api.createWindow(src="https://kitware.github.io/itk-vtk-viewer/app/",
+                                data={"image": image_array})
+```
+
+## API functions
+
+In addition to the standard `setup` and `run` methods, the *itk-vtk-viewer* plugin provides the following methods:
+
+### setImage(image)
+
+Set the image to be visualized. It can be one of the following:
+  - An [itk.js Image](https://insightsoftwareconsortium.github.io/itk-js/api/Image.html)
+  - An [imjoy-rpc](https://github.com/imjoy-team/imjoy-rpc) encoded ndarray for JavaScript; for Python, it can be a [numpy](https://numpy.org) array
+  - An image `File` or `FileList` (can also be an array of `File`) in Javascript
+  - A URL or a list of URLs to a remote image file (e.g. a zarr file)
+
+If you want to pass a [scijs ndarray](http://scijs.net/packages/#scijs/ndarray) to `setImage`, you can use the following function to encoded it into an imjoy-rpc encoded array.
 ```
 function encodeScijsArray(array){
   return {
@@ -40,30 +71,3 @@ function encodeScijsArray(array){
   }
 }
 ```
-
-The `image` key is optional; one can also call `setImage()` later.
-
-Usage in javascript:
-```javascript
-const imageArray = ... // itk.js Image or imjoy-rpc encoded ndarray
-const viewer = await api.createWindow({
-  src: "https://kitware.github.io/itk-vtk-viewer/app/",
-  data: { image: imageArray }
-  })
-```
-
-Usage in Python
-```python
-# a 2D or 3D numpy array
-image_array = np.random.randint(0, 255, [500, 500], dtype='uint8')
-viewer = await api.createWindow(src="https://kitware.github.io/itk-vtk-viewer/app/",
-                                data={"image": imageArray})
-```
-
-## API functions
-
-In addition to the standard `setup` and `run` methods, the *itk-vtk-viewer* plugin provides the following methods:
-
-### setImage(image)
-
-Set the image to be visualized. Can be an [itk.js Image](https://insightsoftwareconsortium.github.io/itk-js/api/Image.html) or an [imjoy-rpc](https://github.com/imjoy-team/imjoy-rpc) encoded ndarray for JavaScript; for Python, it can be a [numpy](https://numpy.org) array.

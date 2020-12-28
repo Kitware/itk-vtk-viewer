@@ -146,6 +146,10 @@ async function updateRenderedImage(context) {
   } else {
     // Todo: just labelImage
   }
+
+  if (!!actorContext.labelImageLabelNames) {
+    context.itkVtkView.setLabelNames(actorContext.labelImageLabelNames)
+  }
 }
 
 export default updateRenderedImage

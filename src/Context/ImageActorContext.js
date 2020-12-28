@@ -71,10 +71,17 @@ class ImageActorContext {
   // Volume rendering blend mode
   blendMode = 'Composite'
 
-  labelMapBlend = 0.5
-  labelMapLookupTable = 'glasbey'
-  labelMapWeights = []
-  labelMapToggleWeight
+  labelImageBlend = 0.5
+
+  labelImageLookupTable = 'glasbey'
+
+  labelImageWeights = []
+
+  labelImageToggleWeight = 0.1
+
+  // String names for the label values
+  labelImageLabelNames = null
+
   selectedLabel = 'all'
 }
 

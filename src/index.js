@@ -8,6 +8,7 @@ import UserInterface from './UserInterface'
 import createFileDragAndDrop from './UserInterface/createFileDragAndDrop'
 import style from './UserInterface/ItkVtkViewer.module.css'
 import ZarrMultiscaleChunkedImage from './IO/ZarrMultiscaleChunkedImage'
+import readImageArrayBuffer from 'itk/readImageArrayBuffer'
 import createViewer from './createViewer'
 
 import { version } from '../package.json'
@@ -40,8 +41,8 @@ export async function createViewerFromUrl(
   {
     files = [],
     image,
-    labelMap,
-    labelMapNames = null,
+    labelImage,
+    labelImageNames = null,
     rotate = true,
     use2D = false,
   }
@@ -67,38 +68,44 @@ export async function createViewerFromUrl(
       console.timeEnd('image')
     } else {
       const arrayBuffer = await fetchBinaryContent(image, progressCallback)
-      imageObject = new File(
-        [new Blob([arrayBuffer])],
+      const result = await readImageArrayBuffer(
+        null,
+        arrayBuffer,
         image.split('/').slice(-1)[0]
       )
+      result.webWorker.terminate()
+      imageObject = result.image
     }
   }
 
-  let labelMapObject = null
-  if (!!labelMap) {
-    const extension = getFileExtension(labelMap)
+  let labelImageObject = null
+  if (!!labelImage) {
+    const extension = getFileExtension(labelImage)
     if (extension === 'zarr') {
-      console.time('labelMapMeta')
-      console.time('labelMap')
+      console.time('labelImageMeta')
+      console.time('labelImage')
       const {
         metadata,
         imageType,
-      } = await ZarrMultiscaleChunkedImage.parseMetadata(labelMap)
-      console.timeEnd('labelMapMeta')
-      labelMapObject = new ZarrMultiscaleChunkedImage(
-        labelMap,
+      } = await ZarrMultiscaleChunkedImage.parseMetadata(labelImage)
+      console.timeEnd('labelImageMeta')
+      labelImageObject = new ZarrMultiscaleChunkedImage(
+        labelImage,
         metadata,
         imageType
       )
       // Side effect to keep the spinner going
-      const topLevelLargestImage = await labelMapObject.topLevelLargestImage()
-      console.timeEnd('labelMap')
+      const topLevelLargestImage = await labelImageObject.topLevelLargestImage()
+      console.timeEnd('labelImage')
     } else {
-      const arrayBuffer = await fetchBinaryContent(labelMap, progressCallback)
-      labelMapObject = new File(
-        [new Blob([arrayBuffer])],
-        labelMap.split('/').slice(-1)[0]
+      const arrayBuffer = await fetchBinaryContent(labelImage, progressCallback)
+      const result = await readImageArrayBuffer(
+        null,
+        arrayBuffer,
+        image.split('/').slice(-1)[0]
       )
+      result.webWorker.terminate()
+      labelImageObject = result.image
     }
   }
 
@@ -125,16 +132,16 @@ export async function createViewerFromUrl(
     }
   }
 
-  let labelMapNameObject = null
-  if (!!labelMapNames) {
-    labelMapNameObject = await fetchJsonContent(labelMapNames)
+  let labelImageNameObject = null
+  if (!!labelImageNames) {
+    labelImageNameObject = await fetchJsonContent(labelImageNames)
   }
 
   return processFiles(el, {
     files: fileObjects,
     image: imageObject,
-    labelMap: labelMapObject,
-    labelMapNames: labelMapNameObject,
+    labelImage: labelImageObject,
+    labelImageNames: labelImageNameObject,
     rotate,
     use2D,
   })
@@ -206,12 +213,12 @@ export function processURLParameters(container, addOnParameters = {}) {
     rotate = vtkURLExtract.toNativeType(userParams.rotate)
   }
 
-  if (filesToLoad.length || userParams.image || userParams.labelMap) {
+  if (filesToLoad.length || userParams.image || userParams.labelImage) {
     return createViewerFromUrl(myContainer, {
       files: filesToLoad,
       image: userParams.image,
-      labelMap: userParams.labelMap,
-      labelMapNames: userParams.labelMapNames,
+      labelImage: userParams.labelImage,
+      labelImageNames: userParams.labelImageNames,
       rotate,
       use2D: !!userParams.use2D,
     })

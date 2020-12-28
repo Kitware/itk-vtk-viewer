@@ -31,15 +31,15 @@ function typedArrayForBuffer(typedArrayType, buffer) {
 
 export const processFiles = async (
   container,
-  { files, image, labelMap, labelMapNames, rotate, use2D }
+  { files, image, labelImage, labelImageNames, rotate, use2D }
 ) => {
   UserInterface.emptyContainer(container)
   UserInterface.createLoadingProgress(container)
   const config = await readFiles({
     files,
     image,
-    labelMap,
-    labelMapNames,
+    labelImage,
+    labelImageNames,
     use2D,
   })
   config.rotate = rotate
@@ -49,8 +49,8 @@ export const processFiles = async (
 export const readFiles = async ({
   files,
   image,
-  labelMap,
-  labelMapNames,
+  labelImage,
+  labelImageNames,
   rotate,
   use2D,
 }) => {
@@ -66,7 +66,7 @@ export const readFiles = async ({
     const is3D = itkImage.imageType.dimension === 3 && !use2D
     return {
       image: itkImage,
-      labelMap,
+      labelImage,
       use2D: !is3D,
     }
   } catch (error) {
@@ -153,14 +153,14 @@ export const readFiles = async ({
       .filter(({ data }) => !!data && data.imageType !== undefined)
       .map(({ data }) => data)
 
-    let labelMapNameData = null
-    if (!!labelMapNames) {
-      labelMapNameData = new Map(labelMapNames)
+    let labelImageNameData = null
+    if (!!labelImageNames) {
+      labelImageNameData = new Map(labelImageNames)
     }
     if (images.length > 0) {
       for (let index = 0; index < images.length; index++) {
         const componentType = images[index].imageType.componentType
-        if (!!!labelMap) {
+        if (!!!labelImage) {
           // Only integer-based pixels considered for label maps
           if (
             componentType === FloatTypes.Float32 ||
@@ -175,9 +175,9 @@ export const readFiles = async ({
           const uniqueLabels = new Set(data).size
           // If there are more values than this, it will not be considered a
           // label map
-          const maxLabelsInLabelMap = 64
-          if (uniqueLabels <= maxLabelsInLabelMap) {
-            labelMap = images[index]
+          const maxLabelsInLabelImage = 64
+          if (uniqueLabels <= maxLabelsInLabelImage) {
+            labelImage = images[index]
           } else {
             image = images[index]
           }
@@ -215,11 +215,14 @@ export const readFiles = async ({
         )
       })
       .map(({ data }) => data)
-    const any3D = !dataSets.map(({ is3D }) => is3D).every(is3D => !is3D)
+    let any3D = !dataSets.map(({ is3D }) => is3D).every(is3D => !is3D)
+    any3D = !!image ? any3D || image.imageType.dimension === 3 : any3D
+    any3D = !!labelImage ? any3D || labelImage.imageType.dimension === 3 : any3D
+
     return {
       image,
-      labelMap,
-      labelMapNames: labelMapNameData,
+      labelImage,
+      labelImageNames: labelImageNameData,
       geometries,
       pointSets,
       use2D: use2D || !any3D,

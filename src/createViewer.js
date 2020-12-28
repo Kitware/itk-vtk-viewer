@@ -53,7 +53,7 @@ const createViewer = async (
   rootContainer,
   {
     image,
-    labelMap,
+    labelImage,
     labelMapNames,
     geometries,
     pointSets,
@@ -224,15 +224,6 @@ const createViewer = async (
     }
   }
 
-  let labelMapData = labelMap
-  let multiscaleLabelMap = null
-  //if (labelMap instanceof MultiscaleChunkedImage) {
-  //multiscaleLabelMap = labelMap
-  //labelMapData = null
-  //} else if (!!labelMap && labelMap.imageType !== undefined) {
-  //labelMapData = vtkITKHelper.convertItkToVtkImage(labelMap)
-  //}
-
   let updatingImage = false
 
   function imagePickedListener(lastPickedValues) {
@@ -388,17 +379,19 @@ const createViewer = async (
       }
     }
   )
+  console.log(image)
   if (!!image) {
     const multiscaleImage = await toMultiscaleChunkedImage(image)
     service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
   }
 
+  console.log(labelImage)
   //store.imageUI.image = imageData
-  updateVisualizedComponents(store)
-  if (!!labelMapData) {
-    store.imageUI.labelMap = labelMapData
-    updateVisualizedComponents(store)
-  }
+  //updateVisualizedComponents(store)
+  //if (!!labelMapData) {
+    //store.imageUI.labelMap = labelMapData
+    //updateVisualizedComponents(store)
+  //}
 
   autorun(() => {
     if (store.imageUI.haveOnlyLabelMap) {
@@ -618,16 +611,6 @@ const createViewer = async (
   publicAPI.getImage = () => {
     return store.imageUI.image
   }
-
-  const setImage = image => {
-    let imageData = image
-    if (image.imageType !== undefined) {
-      imageData = vtkITKHelper.convertItkToVtkImage(image)
-    }
-    store.imageUI.image = imageData
-    updateVisualizedComponents(store)
-  }
-  publicAPI.setImage = macro.throttle(setImage, 100)
 
   publicAPI.getLookupTableProxies = () => {
     return store.imageUI.lookupTableProxies

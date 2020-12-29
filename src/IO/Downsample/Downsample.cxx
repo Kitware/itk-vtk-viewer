@@ -17,20 +17,25 @@
  *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#if defined(__EMSCRIPTEN__)
 #include "itkJSONImageIO.h"
+#endif
 #include "itkBinShrinkImageFilter.h"
 #include "itkVectorImage.h"
+#include "itkResampleImageFilter.h"
+#include "itkLabelImageGaussianInterpolateImageFunction.h"
 
 template < typename TImage >
 int
 Downsample( char * argv [] )
 {
   using ImageType = TImage;
-  const char * inputImageFile = argv[1];
-  const char * outputImageFile = argv[2];
-  unsigned int factorI = atoi( argv[3] );
-  unsigned int factorJ = atoi( argv[4] );
-  unsigned int factorK = atoi( argv[5] );
+  unsigned int isLabelImage = atoi( argv[1] );
+  const char * inputImageFile = argv[2];
+  const char * outputImageFile = argv[3];
+  unsigned int factorI = atoi( argv[4] );
+  unsigned int factorJ = atoi( argv[5] );
+  unsigned int factorK = atoi( argv[6] );
 
   using ReaderType = itk::ImageFileReader< ImageType >;
   auto reader = ReaderType::New();
@@ -47,8 +52,39 @@ Downsample( char * argv [] )
 
   using WriterType = itk::ImageFileWriter< ImageType >;
   auto writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
   writer->SetFileName( outputImageFile );
+
+  using ResampleFilterType = itk::ResampleImageFilter< ImageType, ImageType >;
+  auto resampleFilter = ResampleFilterType::New();
+  resampleFilter->SetInput( reader->GetOutput() );
+  if (isLabelImage) {
+    writer->SetInput( resampleFilter->GetOutput() );
+    filter->UpdateOutputInformation();
+    const ImageType * shrunk = filter->GetOutput();
+    resampleFilter->SetSize( shrunk->GetLargestPossibleRegion().GetSize() );
+    resampleFilter->SetOutputOrigin( shrunk->GetOrigin() );
+    auto spacing = shrunk->GetSpacing();
+    resampleFilter->SetOutputSpacing( spacing );
+    resampleFilter->SetOutputDirection( shrunk->GetDirection() );
+    using CoordRepType = double;
+    using InterpolatorType = itk::LabelImageGaussianInterpolateImageFunction< ImageType, CoordRepType >;
+    auto interpolator = InterpolatorType::New();
+    double sigma[ImageType::ImageDimension];
+    double sigmaMax = 0.0;
+    for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim ) {
+      sigma[dim] = spacing[dim] * 0.7355;
+      if (sigma[dim] > sigmaMax) {
+        sigmaMax = sigma[dim];
+      }
+    }
+    interpolator->SetSigma( sigma );
+    interpolator->SetAlpha( sigmaMax * 2.5 );
+    resampleFilter->SetInterpolator( interpolator );
+  }
+  else {
+    writer->SetInput( filter->GetOutput() );
+  }
+
 
   try
   {
@@ -152,14 +188,19 @@ ComponentDownsample( const itk::IOComponentEnum componentType, char * argv[] )
 
 int main( int argc, char * argv[] )
 {
-  if( argc < 6 )
+  if( argc < 7 )
     {
-    std::cerr << "Usage: " << argv[0] << " <inputImage> <outputImage> <factorI> <factorJ> <factorK>" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <isLabelImage> <inputImage> <outputImage> <factorI> <factorJ> <factorK>" << std::endl;
     return EXIT_FAILURE;
     }
-  const char * inputImageFile = argv[1];
+  const char * inputImageFile = argv[2];
+  std::cout << "input image file: " << inputImageFile << std::endl;
 
+#if defined(__EMSCRIPTEN__)
   itk::JSONImageIO::Pointer imageIO = itk::JSONImageIO::New();
+#else
+  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO( inputImageFile, itk::CommonEnums::IOFileMode::ReadMode);
+#endif
   imageIO->SetFileName( inputImageFile );
   imageIO->ReadImageInformation();
 

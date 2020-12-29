@@ -8,6 +8,7 @@ endif()
 find_package(ITK REQUIRED
   COMPONENTS ${io_components}
     ITKImageGrid
+    ITKImageFunction
   )
 include(${ITK_USE_FILE})
 
@@ -16,9 +17,21 @@ target_link_libraries(Downsample ${ITK_LIBRARIES})
 
 enable_testing()
 add_test(NAME DownsampleTest
-  COMMAND Downsample ${CMAKE_CURRENT_SOURCE_DIR}/cthead1.png
-  ${CMAKE_CURRENT_BINARY_DIR}/cthead1.shrink.png
-  2
-  2
-  2
+  COMMAND Downsample
+    0
+    ${CMAKE_CURRENT_SOURCE_DIR}/cthead1.png
+    ${CMAKE_CURRENT_BINARY_DIR}/cthead1.shrink.png
+    2
+    2
+    2
+  )
+
+add_test(NAME DownsampleTestLabelImage
+  COMMAND Downsample
+    1
+    ${CMAKE_CURRENT_SOURCE_DIR}/cthead1-bin.png
+    ${CMAKE_CURRENT_BINARY_DIR}/cthead1Label.shrink.png
+    2
+    2
+    2
   )

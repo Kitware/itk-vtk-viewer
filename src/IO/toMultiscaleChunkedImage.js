@@ -1,7 +1,7 @@
 import MultiscaleChunkedImage from './MultiscaleChunkedImage'
 import InMemoryMultiscaleChunkedImage from './InMemoryMultiscaleChunkedImage'
 
-async function toMultiscaleChunkedImage(image) {
+async function toMultiscaleChunkedImage(image, isLabelImage=false) {
   let multiscaleImage = null
   if (image instanceof MultiscaleChunkedImage) {
     multiscaleImage = image
@@ -18,7 +18,7 @@ async function toMultiscaleChunkedImage(image) {
       metadata,
       imageType,
       pyramid,
-    } = await InMemoryMultiscaleChunkedImage.buildPyramid(image, chunkSize)
+    } = await InMemoryMultiscaleChunkedImage.buildPyramid(image, chunkSize, isLabelImage)
     multiscaleImage = new InMemoryMultiscaleChunkedImage(
       pyramid,
       metadata,

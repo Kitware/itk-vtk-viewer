@@ -379,19 +379,15 @@ const createViewer = async (
       }
     }
   )
-  console.log(image)
   if (!!image) {
     const multiscaleImage = await toMultiscaleChunkedImage(image)
     service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
   }
 
-  console.log(labelImage)
-  //store.imageUI.image = imageData
-  //updateVisualizedComponents(store)
-  //if (!!labelMapData) {
-    //store.imageUI.labelMap = labelMapData
-    //updateVisualizedComponents(store)
-  //}
+  if (!!labelImage) {
+    const multiscaleLabelImage = await toMultiscaleChunkedImage(labelImage, true)
+    service.send({ type: 'ADD_LABEL_IMAGE', data: multiscaleLabelImage })
+  }
 
   autorun(() => {
     if (store.imageUI.haveOnlyLabelMap) {

@@ -206,7 +206,7 @@ function chunkImage(image, chunkSize) {
 }
 
 class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
-  static async buildPyramid(image, chunkSize = [64, 64, 64]) {
+  static async buildPyramid(image, chunkSize = [64, 64, 64], isLabelImage=false) {
     const level0 = chunkImage(image, chunkSize)
     console.log('image', image)
     const metadata = [level0.metadata]
@@ -238,6 +238,7 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
       ]
       const desiredOutputs = [{ path: 'output.json', type: IOTypes.Image }]
       const args = [
+        isLabelImage ? '1' : '0',
         'input.json',
         'output.json',
         factors[0].toString(),

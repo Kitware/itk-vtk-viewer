@@ -1,5 +1,5 @@
 class LayerActorContext {
-  //  One of "image", "geometry", "pointset", or "widget"
+  //  One of "image", "labelImage", "geometry", "pointSet", or "widget"
   type = 'image'
 
   //  Boolean indicating whether the dataset is visible

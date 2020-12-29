@@ -99,6 +99,9 @@ function createUIMachine(options, context) {
             RENDERED_IMAGE_ASSIGNED: {
               actions: forwardTo('images'),
             },
+            ADD_LABEL_IMAGE: {
+              actions: forwardTo('layers'),
+            },
             TOGGLE_IMAGE_INTERPOLATION: {
               actions: forwardTo('images'),
             },

@@ -379,14 +379,22 @@ const createViewer = async (
       }
     }
   )
+  let imageName = null
   if (!!image) {
     const multiscaleImage = await toMultiscaleChunkedImage(image)
+    imageName = multiscaleImage.name
     service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
   }
 
   if (!!labelImage) {
-    const multiscaleLabelImage = await toMultiscaleChunkedImage(labelImage, true)
-    service.send({ type: 'ADD_LABEL_IMAGE', data: multiscaleLabelImage })
+    const multiscaleLabelImage = await toMultiscaleChunkedImage(
+      labelImage,
+      true
+    )
+    service.send({
+      type: 'ADD_LABEL_IMAGE',
+      data: { imageName, labelImage: multiscaleLabelImage },
+    })
   }
 
   autorun(() => {

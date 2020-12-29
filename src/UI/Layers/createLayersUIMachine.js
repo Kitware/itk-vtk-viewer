@@ -39,6 +39,27 @@ function spawnLayerRenderingActor(options) {
           )
           break
         }
+        case 'ADD_LABEL_IMAGE': {
+          let name = event.data.labelImage.name
+          // Ensure unique name
+          let nameNumber = 0
+          while (layers.layerUIActors.has(name)) {
+            name = `${event.data.labelImage.name}-${nameNumber + 1}`
+            nameNumber++
+          }
+
+          const actorContext = layers.actorContext.has(name)
+            ? layers.actorContext.get(name)
+            : new LayerActorContext()
+          actorContext.type = 'labelImage'
+          layers.actorContext.set(name, actorContext)
+          layers.lastAddedData = { name, data: event.data }
+          layers.layerUIActors.set(
+            name,
+            spawn(createLayerUIActor(options, context), `layerUIActor-${name}`)
+          )
+          break
+        }
         default:
           throw new Error(`Unexpected event type: ${event.type}`)
       }
@@ -204,6 +225,17 @@ function createLayersUIMachine(options, context) {
                 c =>
                   c.service.send({
                     type: 'IMAGE_ASSIGNED',
+                    data: c.layers.lastAddedData.name,
+                  }),
+              ],
+            },
+            ADD_LABEL_IMAGE: {
+              actions: [
+                spawnLayerRenderingActor(layerUIActor),
+                assignImageContext,
+                c =>
+                  c.service.send({
+                    type: 'LABEL_IMAGE_ASSIGNED',
                     data: c.layers.lastAddedData.name,
                   }),
               ],

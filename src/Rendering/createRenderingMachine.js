@@ -149,6 +149,9 @@ const createRenderingMachine = (options, context) => {
             IMAGE_BLEND_MODE_CHANGED: {
               actions: forwardTo('images'),
             },
+            LABEL_IMAGE_ASSIGNED: {
+              actions: forwardTo('images'),
+            },
             TOGGLE_DISTANCE_WIDGET: {
               actions: forwardTo('widgets'),
             },

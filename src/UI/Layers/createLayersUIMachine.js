@@ -71,14 +71,35 @@ function spawnLayerRenderingActor(options) {
 const assignImageContext = assign({
   images: context => {
     const images = context.images
-    const labelImage = context.labelImage
-    const name = context.layers.lastAddedData.name
+    let name = null
+    let image = null
+    let labelImage = null
+    if ('labelImage' in context.layers.lastAddedData.data) {
+      labelImage = context.layers.lastAddedData.data.labelImage
+      if (context.layers.lastAddedData.data.imageName) {
+        name = context.layers.lastAddedData.data.imageName
+      } else {
+        name = context.layers.lastAddedData.data.labelImage.name
+      }
+    } else {
+      name = context.layers.lastAddedData.name
+    }
     images.selectedName = name
     const actorContext = images.actorContext.has(name)
       ? images.actorContext.get(name)
       : new ImageActorContext()
-    const image = context.layers.lastAddedData.data
-    actorContext.image = image
+    if (labelImage) {
+      actorContext.labelImage = labelImage
+    } else {
+      image = context.layers.lastAddedData.data
+      actorContext.image = image
+    }
+
+    if (image === null) {
+      images.actorContext.set(name, actorContext)
+      return images
+    }
+
     actorContext.componentVisibilities = resize(
       actorContext.componentVisibilities,
       image.imageType.components,
@@ -183,7 +204,7 @@ const assignSelectedName = assign({
     const images = context.images
     const name = event.data
     const type = context.layers.layersUIActors.get(name).type
-    if (type === 'image') {
+    if (type === 'image' || type === 'labelImage') {
       images.selectedName = name
     }
     return images
@@ -227,6 +248,11 @@ function createLayersUIMachine(options, context) {
                     type: 'IMAGE_ASSIGNED',
                     data: c.layers.lastAddedData.name,
                   }),
+                c =>
+                  c.service.send({
+                    type: 'SELECT_LAYER',
+                    data: c.layers.lastAddedData.name,
+                  }),
               ],
             },
             ADD_LABEL_IMAGE: {
@@ -236,7 +262,12 @@ function createLayersUIMachine(options, context) {
                 c =>
                   c.service.send({
                     type: 'LABEL_IMAGE_ASSIGNED',
-                    data: c.layers.lastAddedData.name,
+                    data: c.images.selectedName,
+                  }),
+                c =>
+                  c.service.send({
+                    type: 'SELECT_LAYER',
+                    data: c.images.selectedName,
                   }),
               ],
             },

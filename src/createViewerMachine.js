@@ -147,6 +147,9 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             ADD_LABEL_IMAGE: {
               actions: forwardTo('ui'),
             },
+            LABEL_IMAGE_ASSIGNED: {
+              actions: [forwardTo('ui'), forwardTo('rendering')],
+            },
             SELECT_IMAGE_COMPONENT: {
               actions: forwardTo('ui'),
             },
@@ -220,6 +223,13 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
               ],
             },
             IMAGE_BLEND_MODE_CHANGED: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
+            LABEL_IMAGE_LOOKUP_TABLE_CHANGED: {
               actions: [
                 forwardTo('ui'),
                 forwardTo('rendering'),

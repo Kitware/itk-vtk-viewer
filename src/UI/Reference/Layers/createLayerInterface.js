@@ -4,6 +4,7 @@ import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyle
 import visibleIcon from '../../Icons/visible.svg'
 import invisibleIcon from '../../Icons/invisible.svg'
 import imageIcon from '../../Icons/image.svg'
+import labelsIcon from '../../Icons/labels.svg'
 
 function createLayerEntry(context, name, layer) {
   const layerEntry = document.createElement('div')
@@ -65,6 +66,10 @@ function createLayerEntry(context, name, layer) {
       iconElement.innerHTML = `${imageIcon}`
       break
     }
+    case 'labelImage': {
+      iconElement.innerHTML = `${labelsIcon}`
+      break
+    }
     default:
       throw new Error(`Unsupported layer type: ${layer.type}`)
   }
@@ -89,7 +94,7 @@ function createLayerInterface(context, event) {
   const numRows = layersUIGroup.children.length
   for (let row = 0; row < numRows; row++) {
     const uiRow = layersUIGroup.children[row]
-    if (uiRow.children.length < 3) {
+    if (uiRow.children.length < 2) {
       layerEntry = createLayerEntry(context, name, layer)
       uiRow.appendChild(layerEntry)
     }

@@ -170,6 +170,9 @@ const createViewer = async (
           case 'IMAGE_BLEND_MODE_CHANGED':
             eventEmitter.emit('imageBlendModeChanged', event.data)
             break
+          case 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED':
+            eventEmitter.emit('labelImageLookupTableChanged', event.data)
+            break
           case 'X_SLICE_CHANGED':
             eventEmitter.emit('xSliceChanged', event.data)
             break
@@ -391,6 +394,9 @@ const createViewer = async (
       labelImage,
       true
     )
+    if (multiscaleLabelImage.name === 'Image') {
+      multiscaleLabelImage.name = 'LabelImage'
+    }
     service.send({
       type: 'ADD_LABEL_IMAGE',
       data: { imageName, labelImage: multiscaleLabelImage },
@@ -675,9 +681,9 @@ const createViewer = async (
     'imageGradientOpacityScaleChanged',
     'imageVolumeSampleDistanceChanged',
     'imageBlendModeChanged',
+    'labelImageLookupTableChanged',
     'toggleCroppingPlanes',
     'croppingPlanesChanged',
-    'selectLookupTable',
     'xSliceChanged',
     'ySliceChanged',
     'zSliceChanged',
@@ -1019,11 +1025,6 @@ const createViewer = async (
     const actorContext = context.images.actorContext.get(name)
     return actorContext.colorMaps.get(componentIndex)
   }
-
-  autorun(() => {
-    const lut = store.imageUI.labelMapLookupTable
-    eventEmitter.emit('selectLookupTable', lut)
-  })
 
   publicAPI.setLookupTable = lut => {
     const currentLut = store.imageUI.labelMapLookupTable

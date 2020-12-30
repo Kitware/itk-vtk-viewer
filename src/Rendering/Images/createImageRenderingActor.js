@@ -17,6 +17,14 @@ const assignUpdateRenderedNameToSelectedName = assign({
 })
 
 const eventResponses = {
+  IMAGE_ASSIGNED: {
+    target: 'updateRenderedImage',
+    actions: assignUpdateRenderedNameToSelectedName,
+  },
+  LABEL_IMAGE_ASSIGNED: {
+    target: 'updateRenderedImage',
+    actions: assignUpdateRenderedNameToSelectedName,
+  },
   RENDERED_IMAGE_ASSIGNED: {
     actions: 'applyRenderedImage',
   },

@@ -6,7 +6,7 @@ function spawnImageRenderingActor(options) {
   return assign({
     images: (context, event) => {
       const images = context.images
-      const name = context.layers.lastAddedData.name
+      const name = event.data
       if (!images.imageRenderingActors.has(name)) {
         images.imageRenderingActors.set(
           name,
@@ -15,6 +15,9 @@ function spawnImageRenderingActor(options) {
             `imageRenderingActor-${name}`
           )
         )
+      } else {
+        const actor = images.imageRenderingActors.get(name)
+        actor.send(event)
       }
       return images
     },
@@ -36,11 +39,18 @@ function createImagesRenderingMachine(options, context) {
               target: 'active',
               actions: [spawnImageRenderingActor(imageRenderingActor)],
             },
+            LABEL_IMAGE_ASSIGNED: {
+              target: 'active',
+              actions: [spawnImageRenderingActor(imageRenderingActor)],
+            },
           },
         },
         active: {
           on: {
             IMAGE_ASSIGNED: {
+              actions: spawnImageRenderingActor(imageRenderingActor),
+            },
+            LABEL_IMAGE_ASSIGNED: {
               actions: spawnImageRenderingActor(imageRenderingActor),
             },
             SELECT_LAYER: {

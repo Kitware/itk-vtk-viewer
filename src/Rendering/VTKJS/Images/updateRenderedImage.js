@@ -4,6 +4,15 @@ import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
 import updateVisualizedComponents from './updateVisualizedComponents'
 import applyGradientOpacity from './applyGradientOpacity'
 
+function numericalSort(eltA, eltB) {
+  if (eltA < eltB) {
+    return -1
+  } else if (eltB < eltA) {
+    return 1
+  }
+  return 0
+}
+
 async function updateRenderedImage(context) {
   const name = context.images.updateRenderedName
   const actorContext = context.images.actorContext.get(name)
@@ -36,39 +45,74 @@ async function updateRenderedImage(context) {
     const imageData = imageScalars.getData()
     const imageComponents = imageScalars.getNumberOfComponents()
 
-    const fusedImage = actorContext.fusedImage
+    let fusedImage = actorContext.fusedImage
+    if (!fusedImage) {
+      actorContext.fusedImage = vtkITKHelper.convertItkToVtkImage(topLevelImage)
+    }
     fusedImage.setOrigin(vtkImage.getOrigin())
     fusedImage.setSpacing(vtkImage.getSpacing())
     fusedImage.setDirection(vtkImage.getDirection())
 
     const imageDimensions = vtkImage.getDimensions()
+    const topLevelLabelImage = await labelImage.levelLargestImage(
+      labelImage.topLevel
+    )
     if (!!labelImage) {
-      const labelImageDimensions = labelImage.getDimensions()
-      const dimensionsEqual = imageDimensions.every((dim, index) => {
-        return labelImageDimensions[index] === dim
+      const labelImageSize = topLevelLabelImage.size
+      const imageSize = topLevelImage.size
+      const dimensionsEqual = imageSize.every((dim, index) => {
+        return labelImageSize[index] === dim
       })
       if (!dimensionsEqual) {
         // Todo: throw error, handle error
         console.error(
-          `Dimensions not equal! Not fusing. Image: ${imageDimensions} Label map: ${labelImageDimensions}`
+          `Size not equal! Not fusing. Image: ${imageSize} Label map: ${labelImageSize}`
         )
-        return image
       }
     }
     const numVisualizedComponents = actorContext.visualizedComponents.length
     fusedImage.setDimensions(vtkImage.getDimensions())
 
-    const imageTuples = imageScalars.getNumberOfTuples()
+    const imageTuples = vtkImage
+      .getPointData()
+      .getScalars()
+      .getNumberOfTuples()
 
-    let labelImageScalars = null
     let labelImageData = null
 
     const visualizedComponents = actorContext.visualizedComponents.slice()
     if (!!labelImage) {
-      labelImageScalars = labelImage.getPointData().getScalars()
-      labelImageData = labelImageScalars.getData()
+      labelImageData = topLevelLabelImage.data
       visualizedComponents.push(-1)
+
+      if (actorContext.labelImageLabelNames === null) {
+        const uniqueLabelsSet = new Set(labelImageData)
+        const uniqueLabels = Array.from(uniqueLabelsSet)
+        // The volume mapper currently only supports ColorTransferFunction's,
+        // not LookupTable's
+        // lut.setAnnotations(uniqueLabels, uniqueLabels);
+        uniqueLabels.sort(numericalSort)
+        const labelNames = new Map()
+        for (let index = 0; index < uniqueLabels.length; index++) {
+          const label = uniqueLabels[index]
+          labelNames.set(label, label.toString())
+        }
+        actorContext.labelImageLabelNames = labelNames
+        context.itkVtkView.setLabelNames(labelNames)
+
+        if (actorContext.labelImageWeights === null) {
+          const labelImageWeights = new Array(uniqueLabels.length)
+          labelImageWeights.fill(1.0)
+          if (uniqueLabels[0] === 0) {
+            // 0 is usually the background label -- suppress it
+            labelImageWeights[0] = 0.1
+          }
+          actorContext.labelImageWeights = labelImageWeights
+        }
+      }
     }
+
+    context.itkVtkView.setLabelIndex(numVisualizedComponents)
 
     const fusedImageComponents = labelImageData
       ? numVisualizedComponents + 1

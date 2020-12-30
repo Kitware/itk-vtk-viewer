@@ -71,11 +71,13 @@ class ImageActorContext {
   // Volume rendering blend mode
   blendMode = 'Composite'
 
+  // Blend, 0.0 to 1.0 of the label image into the image
   labelImageBlend = 0.5
 
+  // Color lookup table for the label image
   labelImageLookupTable = 'glasbey'
 
-  labelImageWeights = []
+  labelImageWeights = null
 
   labelImageToggleWeight = 0.1
 

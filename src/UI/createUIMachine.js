@@ -90,17 +90,16 @@ function createUIMachine(options, context) {
               actions: forwardTo('layers'),
             },
             IMAGE_ASSIGNED: {
-              actions: [
-                forwardTo('layers'),
-                forwardTo('images'),
-                forwardTo('widgets'),
-              ],
+              actions: [forwardTo('images'), forwardTo('widgets')],
             },
             RENDERED_IMAGE_ASSIGNED: {
               actions: forwardTo('images'),
             },
             ADD_LABEL_IMAGE: {
               actions: forwardTo('layers'),
+            },
+            LABEL_IMAGE_ASSIGNED: {
+              actions: [forwardTo('images')],
             },
             TOGGLE_IMAGE_INTERPOLATION: {
               actions: forwardTo('images'),
@@ -139,6 +138,9 @@ function createUIMachine(options, context) {
               actions: forwardTo('images'),
             },
             IMAGE_BLEND_MODE_CHANGED: {
+              actions: forwardTo('images'),
+            },
+            LABEL_IMAGE_LOOKUP_TABLE_CHANGED: {
               actions: forwardTo('images'),
             },
             TOGGLE_DISTANCE_WIDGET: {

@@ -1,5 +1,6 @@
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy'
+import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 
 import applyGradientOpacity from './applyGradientOpacity'
 
@@ -78,6 +79,10 @@ function applyRenderedImage(context, event) {
       component,
       piecewiseFunctionProxy
     )
+  }
+  if (!context.images.lookupTableProxies.has('labelImage')) {
+    const lutProxy = vtkLookupTableProxy.newInstance()
+    context.images.lookupTableProxies.set('labelImage', lutProxy)
   }
 
   // Visualized components may have updated -> set color transfer function, piecewise function, component visibility, independent components in slices

@@ -114,6 +114,19 @@ const assignColorMap = assign({
   },
 })
 
+const assignLookupTable = assign({
+  images: (context, event) => {
+    const images = context.images
+    const name = event.data.name
+    const lookupTable = event.data.lookupTable
+
+    const actorContext = context.images.actorContext.get(name)
+    actorContext.labelImageLookupTable = lookupTable
+
+    return images
+  },
+})
+
 const assignShadowEnabled = assign({
   images: (context, event) => {
     const images = context.images
@@ -197,6 +210,10 @@ function createImagesUIMachine(options, context) {
               target: 'active',
               actions: ['createImagesInterface', 'updateImageInterface'],
             },
+            LABEL_IMAGE_ASSIGNED: {
+              target: 'active',
+              actions: ['createImagesInterface', 'updateLabelImageInterface'],
+            },
           },
         },
         active: {
@@ -254,6 +271,9 @@ function createImagesUIMachine(options, context) {
             },
             IMAGE_BLEND_MODE_CHANGED: {
               actions: [assignBlendMode, 'applyBlendMode'],
+            },
+            LABEL_IMAGE_LOOKUP_TABLE_CHANGED: {
+              actions: [assignLookupTable, 'applyLookupTable'],
             },
           },
         },

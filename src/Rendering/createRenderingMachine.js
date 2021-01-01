@@ -155,6 +155,9 @@ const createRenderingMachine = (options, context) => {
             TOGGLE_DISTANCE_WIDGET: {
               actions: forwardTo('widgets'),
             },
+            LABEL_IMAGE_LOOKUP_TABLE: {
+              actions: forwardTo('images'),
+            },
           },
         },
       },

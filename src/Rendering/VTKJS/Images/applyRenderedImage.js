@@ -80,9 +80,13 @@ function applyRenderedImage(context, event) {
       piecewiseFunctionProxy
     )
   }
-  if (!context.images.lookupTableProxies.has('labelImage')) {
+  if (!!labelImage && !context.images.lookupTableProxies.has('labelImage')) {
     const lutProxy = vtkLookupTableProxy.newInstance()
     context.images.lookupTableProxies.set('labelImage', lutProxy)
+    context.service.send({
+      type: 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
+      data: { name, lookupTable: actorContext.labelImageLookupTable },
+    })
   }
 
   // Visualized components may have updated -> set color transfer function, piecewise function, component visibility, independent components in slices

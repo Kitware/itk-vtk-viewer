@@ -12,6 +12,7 @@ import applyShadow from './applyShadow'
 import applyGradientOpacity from './applyGradientOpacity'
 import applyVolumeSampleDistance from './applyVolumeSampleDistance'
 import applyBlendMode from './applyBlendMode'
+import applyLookupTable from './applyLookupTable'
 
 const imagesRenderingMachineOptions = {
   imageRenderingActor: {
@@ -42,6 +43,8 @@ const imagesRenderingMachineOptions = {
       applyVolumeSampleDistance,
 
       applyBlendMode,
+
+      applyLookupTable,
     },
   },
 

@@ -25,60 +25,8 @@ function createLabelImageColorWidget(context) {
   const iconSelector = createCategoricalColorIconSelector(
     categoricalColorSelector
   )
+  context.images.labelImageIconSelector = iconSelector
 
-  let customIcon = null
-  function updateDisplayedCategoricalColor() {
-    const categoricalColor = context.imageUI.labelImageLookupTable
-
-    const lookupTableProxy = context.imageUI.labelImageLookupTableProxy
-    const colorTransferFunction = lookupTableProxy.getLookupTable()
-
-    if (categoricalColor.startsWith('Custom')) {
-      // TODO
-      //lookupTableProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)
-      //transferFunctionWidget.applyOpacity(piecewiseFunction);
-      //const colorDataRange = transferFunctionWidget.getOpacityRange();
-      //if (!!colorDataRange) {
-      //colorTransferFunction.setMappingRange(...colorDataRange);
-      //}
-      //colorTransferFunction.updateRange();
-      //const isIcons = iconSelector.getIcons();
-      //if (!!!customIcon) {
-      //const categoricalColorIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
-      //customIcon = { 'iconFilePath': categoricalColorIcon, 'iconValue': categoricalColor };
-      //icons.push(customIcon);
-      //iconSelector.refresh(icons);
-      //} else if(isIcons[isIcons.length-1].iconValue !== categoricalColor) {
-      //const categoricalColorIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
-      //isIcons[isIcons.length-1].element.src = categoricalColorIcon;
-      //isIcons[isIcons.length-1].iconFilePath = categoricalColorIcon;
-      //isIcons[isIcons.length-1].iconValue = categoricalColor;
-      //isIcons[isIcons.length-1].element.setAttribute('icon-value', categoricalColor);
-      //isIcons[isIcons.length-1].element.setAttribute('alt', categoricalColor);
-      //isIcons[isIcons.length-1].element.setAttribute('title', categoricalColor);
-      //}
-    } else {
-      applyCategoricalColorToLookupTableProxy(
-        lookupTableProxy,
-        context.imageUI.labelImageLabels,
-        categoricalColor
-      )
-    }
-    iconSelector.setSelectedValue(categoricalColor)
-
-    const renderWindow = context.renderWindow
-    if (!renderWindow.getInteractor().isAnimating()) {
-      renderWindow.render()
-    }
-  }
-  //reaction(
-  //() => {
-  //return context.imageUI.labelImageLookupTable
-  //},
-  //categoricalColor => {
-  //updateDisplayedCategoricalColor()
-  //}
-  //)
   categoricalColorSelector.addEventListener('changed', event => {
     event.preventDefault()
     event.stopPropagation()
@@ -89,9 +37,7 @@ function createLabelImageColorWidget(context) {
       type: 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
       data: { name, lookupTable: lut },
     })
-    context.imageUI.labelImageLookupTable = iconSelector.getSelectedValue()
   })
-  //iconSelector.setSelectedValue(context.imageUI.labelImageLookupTable)
 
   //const sliderEntry = document.createElement('div')
   //sliderEntry.setAttribute('class', style.sliderEntry)

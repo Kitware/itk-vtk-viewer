@@ -1,5 +1,7 @@
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 
+import applyCategoricalColorToLookupTableProxy from '../applyCategoricalColorToLookupTableProxy'
+
 let customIcon = null
 
 function applyLookupTable(context, event) {
@@ -12,63 +14,53 @@ function applyLookupTable(context, event) {
     return
   }
 
-  let lookupTableProxy = null
-  if (context.images.lookupTableProxies.has('labelImage')) {
-    lookupTableProxy = context.images.lookupTableProxies.get('labelImage')
-  } else {
-    lookupTableProxy = vtkLookupTableProxy.newInstance()
-    context.images.lookupTableProxies.set('labelImage', lookupTableProxy)
+  //let lookupTableProxy = null
+  //if (context.images.lookupTableProxies.has('labelImage')) {
+  //lookupTableProxy = context.images.lookupTableProxies.get('labelImage')
+  //} else {
+  //lookupTableProxy = vtkLookupTableProxy.newInstance()
+  //context.images.lookupTableProxies.set('labelImage', lookupTableProxy)
+  //}
+  //const currentLut = lookupTableProxy.getPresetName()
+  //if (currentLut !== lut) {
+  //// If we are not using the vtk.js / Reference
+  //applyCategoricalColorToLookupTableProxy(
+  //lookupTableProxy,
+  //Array.from(actorContext.labelImageLabelNames.keys()),
+  //lut
+  //)
+  //}
+
+  if (lut !== context.images.labelImageIconSelector.getSelectedValue()) {
+    context.images.labelImageIconSelector.setSelectedValue(lut)
   }
-  const currentColorMap = lookupTableProxy.getPresetName()
-  if (currentColorMap !== colorMap) {
-    lookupTableProxy.setPresetName(colorMap)
-    lookupTableProxy.setMode(vtkLookupTableProxy.Mode.Preset)
-    const colorTransferFunction = lookupTableProxy.getLookupTable()
-    if (actorContext.colorRanges.has(component)) {
-      const range = actorContext.colorRanges.get(component)
-      colorTransferFunction.setMappingRange(range[0], range[1])
-      colorTransferFunction.updateRange()
-    }
-  }
-  const transferFunctionWidget = context.images.transferFunctionWidget
-  transferFunctionWidget.setColorTransferFunction(
-    lookupTableProxy.getLookupTable()
-  )
-  transferFunctionWidget.render()
 
   // Todo:
-  //const transferFunctionWidget = store.imageUI.transferFunctionWidget
-
-  //if (colorMap.startsWith('Custom')) {
-  //lookupTableProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)
-  //const colorDataRange = transferFunctionWidget.getOpacityRange()
-  //if (!!colorDataRange) {
-  //colorTransferFunction.setMappingRange(...colorDataRange)
-  //}
-  //colorTransferFunction.updateRange()
-
-  //const isIcons = iconSelector.getIcons()
-  //if (!!!customIcon) {
-  //const colorMapIcon = customColorMapIcon(
-  //colorTransferFunction,
-  //colorDataRange
-  //)
-  //customIcon = { iconFilePath: colorMapIcon, iconValue: colorMap }
-  //icons.push(customIcon)
-  //iconSelector.refresh(icons)
-  //} else if (isIcons[isIcons.length - 1].iconValue !== colorMap) {
-  //const colorMapIcon = customColorMapIcon(
-  //colorTransferFunction,
-  //colorDataRange
-  //)
-  //isIcons[isIcons.length - 1].element.src = colorMapIcon
-  //isIcons[isIcons.length - 1].iconFilePath = colorMapIcon
-  //isIcons[isIcons.length - 1].iconValue = colorMap
-  //isIcons[isIcons.length - 1].element.setAttribute('icon-value', colorMap)
-  //isIcons[isIcons.length - 1].element.setAttribute('alt', colorMap)
-  //isIcons[isIcons.length - 1].element.setAttribute('title', colorMap)
-  //}
-  //}
+  //
+  //if (categoricalColor.startsWith('Custom')) {
+  //// TODO
+  ////lookupTableProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)
+  ////transferFunctionWidget.applyOpacity(piecewiseFunction);
+  ////const colorDataRange = transferFunctionWidget.getOpacityRange();
+  ////if (!!colorDataRange) {
+  ////colorTransferFunction.setMappingRange(...colorDataRange);
+  ////}
+  ////colorTransferFunction.updateRange();
+  ////const isIcons = iconSelector.getIcons();
+  ////if (!!!customIcon) {
+  ////const categoricalColorIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
+  ////customIcon = { 'iconFilePath': categoricalColorIcon, 'iconValue': categoricalColor };
+  ////icons.push(customIcon);
+  ////iconSelector.refresh(icons);
+  ////} else if(isIcons[isIcons.length-1].iconValue !== categoricalColor) {
+  ////const categoricalColorIcon = customColorMapIcon(colorTransferFunction, colorDataRange);
+  ////isIcons[isIcons.length-1].element.src = categoricalColorIcon;
+  ////isIcons[isIcons.length-1].iconFilePath = categoricalColorIcon;
+  ////isIcons[isIcons.length-1].iconValue = categoricalColor;
+  ////isIcons[isIcons.length-1].element.setAttribute('icon-value', categoricalColor);
+  ////isIcons[isIcons.length-1].element.setAttribute('alt', categoricalColor);
+  ////isIcons[isIcons.length-1].element.setAttribute('title', categoricalColor);
+  ////}
   //context.images.iconSelector.setSelectedValue(colorMap)
 }
 

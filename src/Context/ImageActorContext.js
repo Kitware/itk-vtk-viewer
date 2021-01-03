@@ -75,7 +75,7 @@ class ImageActorContext {
   labelImageBlend = 0.5
 
   // Color lookup table for the label image
-  labelImageLookupTable = 'glasbey'
+  lookupTable = 'glasbey'
 
   labelImageWeights = null
 

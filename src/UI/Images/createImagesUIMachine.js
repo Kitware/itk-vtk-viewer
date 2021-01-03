@@ -121,7 +121,7 @@ const assignLookupTable = assign({
     const lookupTable = event.data.lookupTable
 
     const actorContext = context.images.actorContext.get(name)
-    actorContext.labelImageLookupTable = lookupTable
+    actorContext.lookupTable = lookupTable
 
     return images
   },

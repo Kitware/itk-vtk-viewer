@@ -85,7 +85,7 @@ function applyRenderedImage(context, event) {
     context.images.lookupTableProxies.set('labelImage', lutProxy)
     context.service.send({
       type: 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
-      data: { name, lookupTable: actorContext.labelImageLookupTable },
+      data: { name, lookupTable: actorContext.lookupTable },
     })
   }
 

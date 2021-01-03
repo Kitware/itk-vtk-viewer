@@ -20,7 +20,7 @@ function createLabelImageColorWidget(context) {
   labelImageWidgetRow.className += ` ${viewerDOMId}-collapsible`
 
   const categoricalColorSelector = document.createElement('div')
-  categoricalColorSelector.id = `${context.id}-labelImageLookupTableSelector`
+  categoricalColorSelector.id = `${context.id}-lookupTableSelector`
 
   const iconSelector = createCategoricalColorIconSelector(
     categoricalColorSelector
@@ -39,20 +39,24 @@ function createLabelImageColorWidget(context) {
     })
   })
 
-  //const sliderEntry = document.createElement('div')
-  //sliderEntry.setAttribute('class', style.sliderEntry)
-  //sliderEntry.innerHTML = `
-  //<div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Label map blend" class="${style.gradientOpacitySlider}">
-  //${opacityIcon}
-  //</div>
-  //<input type="range" min="0" max="1" value="${context.imageUI.labelImageBlend}" step="0.01"
-  //id="${context.id}-labelImageColorOpacitySlider"
-  //class="${style.slider}" />`
-  //const opacityElement = sliderEntry.querySelector(
-  //`#${context.id}-labelImageColorOpacitySlider`
-  //)
-  //const sliderEntryDiv = sliderEntry.children[0]
-  //applyContrastSensitiveStyle(context, 'invertibleButton', sliderEntryDiv)
+  const sliderEntry = document.createElement('div')
+  sliderEntry.setAttribute('class', style.sliderEntry)
+  sliderEntry.innerHTML = `
+  <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Label image blend" class="${style.gradientOpacitySlider}">
+  ${opacityIcon}
+  </div>
+  <input type="range" min="0" max="1" value="0.5" step="0.01"
+  id="${context.id}-labelImageColorOpacitySlider"
+  class="${style.slider}" />`
+  const opacityElement = sliderEntry.querySelector(
+    `#${context.id}-labelImageColorOpacitySlider`
+  )
+  const sliderEntryDiv = sliderEntry.children[0]
+  applyContrastSensitiveStyleToElement(
+    context,
+    'invertibleButton',
+    sliderEntryDiv
+  )
   //function updateLabelImageColorOpacity() {
   //const labelImageBlend = context.imageUI.labelImageBlend
   //opacityElement.value = labelImageBlend

@@ -171,7 +171,7 @@ const createViewer = async (
             eventEmitter.emit('imageBlendModeChanged', event.data)
             break
           case 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED':
-            eventEmitter.emit('labelImageLookupTableChanged', event.data)
+            eventEmitter.emit('lookupTableChanged', event.data)
             break
           case 'X_SLICE_CHANGED':
             eventEmitter.emit('xSliceChanged', event.data)
@@ -681,7 +681,7 @@ const createViewer = async (
     'imageGradientOpacityScaleChanged',
     'imageVolumeSampleDistanceChanged',
     'imageBlendModeChanged',
-    'labelImageLookupTableChanged',
+    'lookupTableChanged',
     'toggleCroppingPlanes',
     'croppingPlanesChanged',
     'xSliceChanged',

@@ -67,6 +67,9 @@ const eventResponses = {
   LABEL_IMAGE_LOOKUP_TABLE_CHANGED: {
     actions: 'applyLookupTable',
   },
+  LABEL_IMAGE_BLEND_CHANGED: {
+    actions: 'applyLabelImageBlend',
+  },
 }
 
 const createImageRenderingActor = (options, context, event) => {

@@ -14,6 +14,7 @@ import applyGradientOpacityScale from './applyGradientOpacityScale'
 import applyVolumeSampleDistance from './applyVolumeSampleDistance'
 import applyBlendMode from './applyBlendMode'
 import applyLookupTable from './applyLookupTable'
+import applyLabelImageBlend from './applyLabelImageBlend'
 
 const imagesUIMachineOptions = {
   actions: {
@@ -38,6 +39,7 @@ const imagesUIMachineOptions = {
     applyBlendMode,
 
     applyLookupTable,
+    applyLabelImageBlend,
   },
 }
 

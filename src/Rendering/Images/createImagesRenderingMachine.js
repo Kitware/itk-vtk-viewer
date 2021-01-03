@@ -126,6 +126,11 @@ function createImagesRenderingMachine(options, context) {
                 to: (c, e) => `imageRenderingActor-${e.data.name}`,
               }),
             },
+            LABEL_IMAGE_BLEND_CHANGED: {
+              actions: send((_, e) => e, {
+                to: (c, e) => `imageRenderingActor-${e.data.name}`,
+              }),
+            },
           },
         },
       },

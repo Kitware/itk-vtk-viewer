@@ -1,7 +1,5 @@
 import macro from 'vtk.js/Sources/macro'
 import createCategoricalColorIconSelector from '../createCategoricalColorIconSelector'
-//import applyCategoricalColorToLookupTableProxy from '../applyCategoricalColorToLookupTableProxy'
-//import updateLabelImageComponentWeight from '../../Rendering/updateLabelImageComponentWeight'
 
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
@@ -31,7 +29,6 @@ function createLabelImageColorWidget(context) {
     event.preventDefault()
     event.stopPropagation()
     const name = context.images.selectedName
-    const actorContext = context.images.actorContext.get(name)
     const lut = iconSelector.getSelectedValue()
     context.service.send({
       type: 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
@@ -46,49 +43,34 @@ function createLabelImageColorWidget(context) {
   ${opacityIcon}
   </div>
   <input type="range" min="0" max="1" value="0.5" step="0.01"
-  id="${context.id}-labelImageColorOpacitySlider"
+  id="${context.id}-labelImageBlendSlider"
   class="${style.slider}" />`
-  const opacityElement = sliderEntry.querySelector(
-    `#${context.id}-labelImageColorOpacitySlider`
+  const labelImageBlendSlider = sliderEntry.querySelector(
+    `#${context.id}-labelImageBlendSlider`
   )
+  context.images.labelImageBlendSlider = labelImageBlendSlider
   const sliderEntryDiv = sliderEntry.children[0]
+  context.images.labelImageBlendDiv = sliderEntryDiv
   applyContrastSensitiveStyleToElement(
     context,
     'invertibleButton',
     sliderEntryDiv
   )
-  //function updateLabelImageColorOpacity() {
-  //const labelImageBlend = context.imageUI.labelImageBlend
-  //opacityElement.value = labelImageBlend
-  //updateLabelImageComponentWeight(context)
-  //context.renderWindow.render()
-  //}
-  //reaction(() => {
-  //return context.imageUI.labelImageBlend
-  //}, macro.throttle(updateLabelImageColorOpacity, 20))
-  //updateLabelImageColorOpacity()
-  //opacityElement.addEventListener(
-  //'input',
-  //action(event => {
-  //event.preventDefault()
-  //event.stopPropagation()
-  //context.imageUI.labelImageBlend = Number(opacityElement.value)
-  //})
-  //)
-  //autorun(() => {
-  //const haveImage = !!context.imageUI.image
-  //if (haveImage) {
-  //sliderEntry.style.display = 'flex'
-  //} else {
-  //sliderEntry.style.display = 'none'
-  //}
-  //})
+  labelImageBlendSlider.addEventListener('input', event => {
+    event.preventDefault()
+    event.stopPropagation()
+    const name = context.images.selectedName
+    context.service.send({
+      type: 'LABEL_IMAGE_BLEND_CHANGED',
+      data: { name, labelImageBlend: Number(labelImageBlendSlider.value) },
+    })
+  })
 
-  //labelImageWidgetRow.appendChild(categoricalColorSelector)
-  //labelImageWidgetRow.appendChild(sliderEntry)
+  labelImageWidgetRow.appendChild(categoricalColorSelector)
+  labelImageWidgetRow.appendChild(sliderEntry)
 
-  //labelImageColorUIGroup.appendChild(labelImageWidgetRow)
-  //uiContainer.appendChild(labelImageColorUIGroup)
+  labelImageColorUIGroup.appendChild(labelImageWidgetRow)
+  context.uiContainer.appendChild(labelImageColorUIGroup)
 }
 
 export default createLabelImageColorWidget

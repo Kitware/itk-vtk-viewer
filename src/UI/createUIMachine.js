@@ -143,6 +143,9 @@ function createUIMachine(options, context) {
             LABEL_IMAGE_LOOKUP_TABLE_CHANGED: {
               actions: forwardTo('images'),
             },
+            LABEL_IMAGE_BLEND_CHANGED: {
+              actions: forwardTo('images'),
+            },
             TOGGLE_DISTANCE_WIDGET: {
               actions: forwardTo('widgets'),
             },

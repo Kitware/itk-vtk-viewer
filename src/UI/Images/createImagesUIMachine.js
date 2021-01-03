@@ -197,6 +197,18 @@ const assignBlendMode = assign({
   },
 })
 
+const assignLabelImageBlend = assign({
+  images: (context, event) => {
+    const images = context.images
+    const name = event.data.name
+    const labelImageBlend = event.data.labelImageBlend
+
+    const actorContext = context.images.actorContext.get(name)
+    actorContext.labelImageBlend = labelImageBlend
+    return images
+  },
+})
+
 function createImagesUIMachine(options, context) {
   return Machine(
     {
@@ -273,6 +285,9 @@ function createImagesUIMachine(options, context) {
               actions: [assignBlendMode, 'applyBlendMode'],
             },
             LABEL_IMAGE_LOOKUP_TABLE_CHANGED: {
+              actions: [assignLookupTable, 'applyLookupTable'],
+            },
+            LABEL_IMAGE_BLEND_CHANGED: {
               actions: [assignLookupTable, 'applyLookupTable'],
             },
           },

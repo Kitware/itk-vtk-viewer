@@ -173,6 +173,9 @@ const createViewer = async (
           case 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED':
             eventEmitter.emit('lookupTableChanged', event.data)
             break
+          case 'LABEL_IMAGE_BLEND_CHANGED':
+            eventEmitter.emit('lookupTableChanged', event.data)
+            break
           case 'X_SLICE_CHANGED':
             eventEmitter.emit('xSliceChanged', event.data)
             break
@@ -406,7 +409,7 @@ const createViewer = async (
   autorun(() => {
     if (store.imageUI.haveOnlyLabelMap) {
       // If we only have a labelmap component, give it full weight
-      store.imageUI.labelMapBlend = 1.0
+      store.imageUI.labelImageBlend = 1.0
     }
   })
 
@@ -668,7 +671,7 @@ const createViewer = async (
     'resetCrop',
     'toggleLayerVisibility',
     'imagePicked',
-    'labelMapBlendChanged',
+    'labelImageBlendChanged',
     'labelMapWeightsChanged',
     'imagePiecewiseFunctionGaussiansChanged',
     'imageVisualizedComponentChanged',
@@ -711,17 +714,10 @@ const createViewer = async (
     }
   )
 
-  reaction(
-    () => store.imageUI.labelMapBlend,
-    blend => {
-      eventEmitter.emit('labelMapBlendChanged', blend)
-    }
-  )
-
-  publicAPI.getLabelMapBlend = () => store.imageUI.labelMapBlend
+  publicAPI.getLabelMapBlend = () => store.imageUI.labelImageBlend
 
   publicAPI.setLabelMapBlend = blend => {
-    store.imageUI.labelMapBlend = blend
+    store.imageUI.labelImageBlend = blend
     // already have a reaction that updates actors and re-renders
   }
 

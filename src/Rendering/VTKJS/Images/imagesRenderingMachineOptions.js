@@ -13,6 +13,7 @@ import applyGradientOpacity from './applyGradientOpacity'
 import applyVolumeSampleDistance from './applyVolumeSampleDistance'
 import applyBlendMode from './applyBlendMode'
 import applyLookupTable from './applyLookupTable'
+import applyLabelImageBlend from './applyLabelImageBlend'
 
 const imagesRenderingMachineOptions = {
   imageRenderingActor: {
@@ -45,6 +46,7 @@ const imagesRenderingMachineOptions = {
       applyBlendMode,
 
       applyLookupTable,
+      applyLabelImageBlend,
     },
   },
 

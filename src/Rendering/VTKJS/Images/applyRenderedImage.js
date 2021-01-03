@@ -3,6 +3,7 @@ import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFuncti
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 
 import applyGradientOpacity from './applyGradientOpacity'
+import applyLabelImageBlend from './applyLabelImageBlend'
 
 function applyRenderedImage(context, event) {
   const name = event.data
@@ -167,6 +168,9 @@ function applyRenderedImage(context, event) {
 
   // Todo: results in necessary side-effect?
   applyGradientOpacity(context, { data: { name } })
+  applyLabelImageBlend(context, {
+    data: { name, labelImageBlend: actorContext.labelImageBlend },
+  })
 
   // Set default color ranges
   actorContext.visualizedComponents.forEach(

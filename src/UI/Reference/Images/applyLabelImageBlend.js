@@ -1,5 +1,6 @@
 function applyLabelImageBlend(context, event) {
   const name = event.data.name
+  const actorContext = context.images.actorContext.get(name)
   const labelImageBlend = event.data.labelImageBlend
 
   const slider = context.images.labelImageBlendSlider

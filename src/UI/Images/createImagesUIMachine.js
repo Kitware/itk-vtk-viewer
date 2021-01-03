@@ -231,7 +231,7 @@ function createImagesUIMachine(options, context) {
         active: {
           on: {
             IMAGE_ASSIGNED: {
-              actions: 'updateImageInterface',
+              actions: ['updateImageInterface', 'updateLabelImageInterface'],
             },
             RENDERED_IMAGE_ASSIGNED: {
               actions: 'updateRenderedImageInterface',
@@ -283,6 +283,9 @@ function createImagesUIMachine(options, context) {
             },
             IMAGE_BLEND_MODE_CHANGED: {
               actions: [assignBlendMode, 'applyBlendMode'],
+            },
+            LABEL_IMAGE_ASSIGNED: {
+              actions: ['updateLabelImageInterface'],
             },
             LABEL_IMAGE_LOOKUP_TABLE_CHANGED: {
               actions: [assignLookupTable, 'applyLookupTable'],

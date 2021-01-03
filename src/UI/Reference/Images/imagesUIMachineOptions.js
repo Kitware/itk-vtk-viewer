@@ -1,5 +1,6 @@
 import createImagesInterface from './createImagesInterface'
 import updateImageInterface from './updateImageInterface'
+import updateLabelImageInterface from './updateLabelImageInterface'
 import updateRenderedImageInterface from './updateRenderedImageInterface'
 import selectImageComponent from './selectImageComponent'
 import toggleInterpolation from './toggleInterpolation'
@@ -20,6 +21,7 @@ const imagesUIMachineOptions = {
   actions: {
     createImagesInterface,
     updateImageInterface,
+    updateLabelImageInterface,
     updateRenderedImageInterface,
 
     selectImageComponent,

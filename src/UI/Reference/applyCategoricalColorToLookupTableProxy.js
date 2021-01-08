@@ -2,7 +2,6 @@ import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 import CategoricalColors from './CategoricalColors'
 
 function applyCategoricalColorToLookupTableProxy(lutProxy, labels, presetName) {
-  console.log(lutProxy, labels, presetName)
   const numberOfLabels = labels.length
 
   const colors = CategoricalColors.get(presetName)

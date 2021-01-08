@@ -146,6 +146,15 @@ function createUIMachine(options, context) {
             LABEL_IMAGE_BLEND_CHANGED: {
               actions: forwardTo('images'),
             },
+            LABEL_IMAGE_WEIGHTS_CHANGED: {
+              actions: forwardTo('images'),
+            },
+            LABEL_IMAGE_LABEL_NAMES_CHANGED: {
+              actions: forwardTo('images'),
+            },
+            LABEL_IMAGE_SELECTED_LABEL_CHANGED: {
+              actions: forwardTo('images'),
+            },
             TOGGLE_DISTANCE_WIDGET: {
               actions: forwardTo('widgets'),
             },

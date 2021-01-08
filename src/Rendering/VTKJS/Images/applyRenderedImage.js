@@ -3,7 +3,6 @@ import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFuncti
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 
 import applyGradientOpacity from './applyGradientOpacity'
-import applyLabelImageBlend from './applyLabelImageBlend'
 
 function applyRenderedImage(context, event) {
   const name = event.data
@@ -84,9 +83,66 @@ function applyRenderedImage(context, event) {
   if (!!labelImage && !context.images.lookupTableProxies.has('labelImage')) {
     const lutProxy = vtkLookupTableProxy.newInstance()
     context.images.lookupTableProxies.set('labelImage', lutProxy)
+
+    if (context.images.lookupTableProxies.has('labelImage')) {
+      lutProxy = context.images.lookupTableProxies.get('labelImage')
+    } else {
+      lutProxy = vtkLookupTableProxy.newInstance()
+      context.images.lookupTableProxies.set('labelImage', lookupTableProxy)
+    }
+
+    const colorTransferFunction = lutProxy.getLookupTable()
+    colorTransferFunction.setMappingRange(
+      uniqueLabels[0],
+      uniqueLabels[uniqueLabels.length - 1]
+    )
+
+    const volume = context.images.representationProxy.getVolumes()[0]
+    const volumeProperty = volume.getProperty()
+
+    const numberOfComponents = actorContext.image
+      ? actorContext.image.imageType.components
+      : 0
+    volumeProperty.setRGBTransferFunction(
+      numberOfComponents,
+      colorTransferFunction
+    )
+    volumeProperty.setIndependentComponents(true)
+    volumeProperty.setOpacityMode(numberOfComponents, OpacityMode.PROPORTIONAL)
+
+    // The slice shows the same lut as the volume for label map
+    const sliceActors = context.images.representationProxy.getActors()
+    sliceActors.forEach(actor => {
+      const actorProp = actor.getProperty()
+      actorProp.setIndependentComponents(true)
+      actorProp.setRGBTransferFunction(
+        numberOfComponents,
+        colorTransferFunction
+      )
+    })
+
     context.service.send({
       type: 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
       data: { name, lookupTable: actorContext.lookupTable },
+    })
+  }
+  if (
+    !!labelImage &&
+    !context.images.piecewiseFunctionProxies.has('labelImage')
+  ) {
+    const piecewiseFunction = vtkPiecewiseFunctionProxy.newInstance()
+    context.images.piecewiseFunctionProxies.set('labelImage', piecewiseFunction)
+
+    const volume = context.images.representationProxy.getVolumes()[0]
+    const volumeProperty = volume.getProperty()
+
+    volumeProperty.setScalarOpacity(numberOfComponents, piecewiseFunction)
+
+    // The slice shows the same piecewise function as the volume for label map
+    const sliceActors = context.images.representationProxy.getActors()
+    sliceActors.forEach(actor => {
+      const actorProp = actor.getProperty()
+      actorProp.setPiecewiseFunction(numberOfComponents, piecewiseFunction)
     })
   }
 
@@ -168,9 +224,6 @@ function applyRenderedImage(context, event) {
 
   // Todo: results in necessary side-effect?
   applyGradientOpacity(context, { data: { name } })
-  applyLabelImageBlend(context, {
-    data: { name, labelImageBlend: actorContext.labelImageBlend },
-  })
 
   // Set default color ranges
   actorContext.visualizedComponents.forEach(

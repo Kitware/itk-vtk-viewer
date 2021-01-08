@@ -158,7 +158,16 @@ const createRenderingMachine = (options, context) => {
             LABEL_IMAGE_LOOKUP_TABLE: {
               actions: forwardTo('images'),
             },
-            LABEL_IMAGE_BLEND: {
+            LABEL_IMAGE_BLEND_CHANGED: {
+              actions: forwardTo('images'),
+            },
+            LABEL_IMAGE_WEIGHTS_CHANGED: {
+              actions: forwardTo('images'),
+            },
+            LABEL_IMAGE_LABEL_NAMES_CHANGED: {
+              actions: forwardTo('images'),
+            },
+            LABEL_IMAGE_SELECTED_LABEL_CHANGED: {
               actions: forwardTo('images'),
             },
           },

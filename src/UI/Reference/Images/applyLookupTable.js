@@ -26,7 +26,7 @@ function applyLookupTable(context, event) {
   //// If we are not using the vtk.js / Reference
   //applyCategoricalColorToLookupTableProxy(
   //lookupTableProxy,
-  //Array.from(actorContext.labelImageLabelNames.keys()),
+  //Array.from(actorContext.labelNames.keys()),
   //lut
   //)
   //}

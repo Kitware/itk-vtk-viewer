@@ -123,16 +123,13 @@ const createViewer = async (
             )
             break
           case 'TOGGLE_AXES':
-            eventEmitter.emit('toggleAxes', publicAPI.getAxesEnabled())
+            eventEmitter.emit('toggleAxes', event.data)
             break
           case 'TOGGLE_IMAGE_INTERPOLATION':
-            eventEmitter.emit(
-              'toggleImageInterpolation',
-              publicAPI.getImageInterpolationEnabled()
-            )
+            eventEmitter.emit('toggleImageInterpolation', event.data)
             break
           case 'VIEW_MODE_CHANGED':
-            eventEmitter.emit('viewModeChanged', publicAPI.getViewMode())
+            eventEmitter.emit('viewModeChanged', event.data)
             break
           case 'TOGGLE_LAYER_VISIBILITY':
             eventEmitter.emit('toggleLayerVisibility', event.data)
@@ -174,7 +171,13 @@ const createViewer = async (
             eventEmitter.emit('lookupTableChanged', event.data)
             break
           case 'LABEL_IMAGE_BLEND_CHANGED':
-            eventEmitter.emit('lookupTableChanged', event.data)
+            eventEmitter.emit('labelImageBlendChanged', event.data)
+            break
+          case 'LABEL_IMAGE_WEIGHTS_CHANGED':
+            eventEmitter.emit('labelImageWeightsChanged', event.data)
+            break
+          case 'LABEL_IMAGE_LABEL_NAMES_CHANGED':
+            eventEmitter.emit('labelImageLabelNamesChanged', event.data)
             break
           case 'X_SLICE_CHANGED':
             eventEmitter.emit('xSliceChanged', event.data)
@@ -672,7 +675,8 @@ const createViewer = async (
     'toggleLayerVisibility',
     'imagePicked',
     'labelImageBlendChanged',
-    'labelMapWeightsChanged',
+    'labelImageLabelNamesChanged',
+    'labelImageWeightsChanged',
     'imagePiecewiseFunctionGaussiansChanged',
     'imageVisualizedComponentChanged',
     'toggleImageInterpolation',

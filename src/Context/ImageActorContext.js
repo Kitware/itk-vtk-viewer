@@ -77,13 +77,16 @@ class ImageActorContext {
   // Color lookup table for the label image
   lookupTable = 'glasbey'
 
-  labelImageWeights = null
+  // Rendering weights assigned to to labels, Map of label value to weight
+  labelImageWeights = new Map()
 
   labelImageToggleWeight = 0.1
 
   // String names for the label values
-  labelImageLabelNames = null
+  labelNames = new Map()
 
+  // Label index selected for changes in the UI, or special 'all' value that
+  // identifies all non-backgound (index 0) labels
   selectedLabel = 'all'
 }
 

@@ -14,6 +14,36 @@ function applyLookupTable(context, event) {
   } else {
     lookupTableProxy = vtkLookupTableProxy.newInstance()
     context.images.lookupTableProxies.set('labelImage', lookupTableProxy)
+
+    const colorTransferFunction = lookupTableProxy.getLookupTable()
+    colorTransferFunction.setMappingRange(
+      uniqueLabels[0],
+      uniqueLabels[uniqueLabels.length - 1]
+    )
+
+    const volume = context.images.representationProxy.getVolumes()[0]
+    const volumeProperty = volume.getProperty()
+
+    const numberOfComponents = actorContext.image
+      ? actorContext.image.imageType.components
+      : 0
+    volumeProperty.setRGBTransferFunction(
+      numberOfComponents,
+      colorTransferFunction
+    )
+    volumeProperty.setIndependentComponents(true)
+    volumeProperty.setOpacityMode(numberOfComponents, OpacityMode.PROPORTIONAL)
+
+    // The slice shows the same lut as the volume for label map
+    const sliceActors = context.images.representationProxy.getActors()
+    sliceActors.forEach(actor => {
+      const actorProp = actor.getProperty()
+      actorProp.setIndependentComponents(true)
+      actorProp.setRGBTransferFunction(
+        numberOfComponents,
+        colorTransferFunction
+      )
+    })
   }
 
   const currentLut = lookupTableProxy.getPresetName()
@@ -21,7 +51,7 @@ function applyLookupTable(context, event) {
     // If we are not using the vtk.js / Reference
     applyCategoricalColorToLookupTableProxy(
       lookupTableProxy,
-      Array.from(actorContext.labelImageLabelNames.keys()),
+      Array.from(actorContext.labelNames.keys()),
       lut
     )
   }

@@ -1,8 +1,11 @@
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
+import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
+import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 
 import updateVisualizedComponents from './updateVisualizedComponents'
 import applyGradientOpacity from './applyGradientOpacity'
+import applyLabelImageBlend from './applyLabelImageBlend'
 
 function numericalSort(eltA, eltB) {
   if (eltA < eltB) {
@@ -85,31 +88,86 @@ async function updateRenderedImage(context) {
       labelImageData = topLevelLabelImage.data
       visualizedComponents.push(-1)
 
-      if (actorContext.labelImageLabelNames === null) {
-        const uniqueLabelsSet = new Set(labelImageData)
-        const uniqueLabels = Array.from(uniqueLabelsSet)
-        // The volume mapper currently only supports ColorTransferFunction's,
-        // not LookupTable's
-        // lut.setAnnotations(uniqueLabels, uniqueLabels);
-        uniqueLabels.sort(numericalSort)
-        const labelNames = new Map()
-        for (let index = 0; index < uniqueLabels.length; index++) {
-          const label = uniqueLabels[index]
-          labelNames.set(label, label.toString())
-        }
-        actorContext.labelImageLabelNames = labelNames
-        context.itkVtkView.setLabelNames(labelNames)
+      // How often should this be updated?
+      const uniqueLabelsSet = new Set(labelImageData)
+      const uniqueLabels = Array.from(uniqueLabelsSet)
+      // The volume mapper currently only supports ColorTransferFunction's,
+      // not LookupTable's
+      // lut.setAnnotations(uniqueLabels, uniqueLabels);
+      uniqueLabels.sort(numericalSort)
 
-        if (actorContext.labelImageWeights === null) {
-          const labelImageWeights = new Array(uniqueLabels.length)
-          labelImageWeights.fill(1.0)
-          if (uniqueLabels[0] === 0) {
-            // 0 is usually the background label -- suppress it
-            labelImageWeights[0] = 0.1
-          }
-          actorContext.labelImageWeights = labelImageWeights
+      const labelNames = actorContext.labelNames
+      let labelNameAdded = false
+      const labelImageWeights = actorContext.labelImageWeights
+      let labelImageWeightAdded = false
+      for (let index = 0; index < uniqueLabels.length; index++) {
+        const label = uniqueLabels[index]
+        if (!labelNames.has(label)) {
+          labelNames.set(label, label.toString())
+          labelNameAdded = true
+        }
+        if (!labelImageWeights.has(label)) {
+          // 0 is usually the background label -- suppress it
+          label === 0
+            ? labelImageWeights.set(label, 0.1)
+            : labelImageWeights.set(label, 1.0)
+          labelImageWeightAdded = true
         }
       }
+      if (labelNameAdded) {
+        context.service.send({
+          type: 'LABEL_IMAGE_LABEL_NAMES_CHANGED',
+          data: { name, labelNames },
+        })
+      }
+      if (labelImageWeightAdded) {
+        context.service.send({
+          type: 'LABEL_IMAGE_WEIGHTS_CHANGED',
+          data: { name, labelImageWeights },
+        })
+      }
+
+      let lutProxy = null
+      if (context.images.lookupTableProxies.has('labelImage')) {
+        lutProxy = context.images.lookupTableProxies.get('labelImage')
+      } else {
+        lutProxy = vtkLookupTableProxy.newInstance()
+        context.images.lookupTableProxies.set('labelImage', lutProxy)
+      }
+
+      const colorTransferFunction = lutProxy.getLookupTable()
+      const labels = Array.from(labelImageWeights.keys())
+      colorTransferFunction.setMappingRange(
+        labels[0],
+        labels[labels.length - 1]
+      )
+
+      const volume = context.images.representationProxy.getVolumes()[0]
+      const volumeProperty = volume.getProperty()
+
+      const numberOfComponents = actorContext.image
+        ? actorContext.image.imageType.components
+        : 0
+      volumeProperty.setRGBTransferFunction(
+        numberOfComponents,
+        colorTransferFunction
+      )
+      volumeProperty.setIndependentComponents(true)
+      volumeProperty.setOpacityMode(
+        numberOfComponents,
+        OpacityMode.PROPORTIONAL
+      )
+
+      // The slice shows the same lut as the volume for label map
+      const sliceActors = context.images.representationProxy.getActors()
+      sliceActors.forEach(actor => {
+        const actorProp = actor.getProperty()
+        actorProp.setIndependentComponents(true)
+        actorProp.setRGBTransferFunction(
+          numberOfComponents,
+          colorTransferFunction
+        )
+      })
     }
 
     context.itkVtkView.setLabelIndex(numVisualizedComponents)
@@ -186,13 +244,12 @@ async function updateRenderedImage(context) {
     applyGradientOpacity(context, {
       data: { name, gradientOpacity: actorContext.gradientOpacity },
     })
+    applyLabelImageBlend(context, {
+      data: { name, labelImageBlend: actorContext.labelImageBlend },
+    })
     context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
   } else {
     // Todo: just labelImage
-  }
-
-  if (!!actorContext.labelImageLabelNames) {
-    context.itkVtkView.setLabelNames(actorContext.labelImageLabelNames)
   }
 }
 

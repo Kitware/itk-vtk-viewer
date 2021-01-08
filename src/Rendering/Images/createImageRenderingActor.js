@@ -70,6 +70,15 @@ const eventResponses = {
   LABEL_IMAGE_BLEND_CHANGED: {
     actions: 'applyLabelImageBlend',
   },
+  LABEL_IMAGE_WEIGHTS_CHANGED: {
+    actions: 'applyLabelImageWeights',
+  },
+  LABEL_IMAGE_LABEL_NAMES_CHANGED: {
+    actions: 'applyLabelNames',
+  },
+  LABEL_IMAGE_SELECTED_LABEL_CHANGED: {
+    actions: 'applySelectedLabel',
+  },
 }
 
 const createImageRenderingActor = (options, context, event) => {

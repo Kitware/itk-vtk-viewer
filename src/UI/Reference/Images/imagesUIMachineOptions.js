@@ -16,6 +16,9 @@ import applyVolumeSampleDistance from './applyVolumeSampleDistance'
 import applyBlendMode from './applyBlendMode'
 import applyLookupTable from './applyLookupTable'
 import applyLabelImageBlend from './applyLabelImageBlend'
+import applyLabelImageWeights from './applyLabelImageWeights'
+import applyLabelNames from './applyLabelNames'
+import applySelectedLabel from './applySelectedLabel'
 
 const imagesUIMachineOptions = {
   actions: {
@@ -42,6 +45,9 @@ const imagesUIMachineOptions = {
 
     applyLookupTable,
     applyLabelImageBlend,
+    applyLabelImageWeights,
+    applyLabelNames,
+    applySelectedLabel,
   },
 }
 

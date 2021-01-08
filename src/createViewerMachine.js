@@ -243,6 +243,23 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
                 forwardTo('eventEmitter'),
               ],
             },
+            LABEL_IMAGE_WEIGHTS_CHANGED: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
+            LABEL_IMAGE_LABEL_NAMES_CHANGED: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
+            LABEL_IMAGE_SELECTED_LABEL_CHANGED: {
+              actions: [forwardTo('ui'), forwardTo('rendering')],
+            },
             RENDER: {
               actions: forwardTo('rendering'),
             },

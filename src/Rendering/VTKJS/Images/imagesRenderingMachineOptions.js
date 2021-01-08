@@ -14,6 +14,9 @@ import applyVolumeSampleDistance from './applyVolumeSampleDistance'
 import applyBlendMode from './applyBlendMode'
 import applyLookupTable from './applyLookupTable'
 import applyLabelImageBlend from './applyLabelImageBlend'
+import applyLabelNames from './applyLabelNames'
+import applyLabelImageWeights from './applyLabelImageWeights'
+import applySelectedLabel from './applySelectedLabel'
 
 const imagesRenderingMachineOptions = {
   imageRenderingActor: {
@@ -47,6 +50,9 @@ const imagesRenderingMachineOptions = {
 
       applyLookupTable,
       applyLabelImageBlend,
+      applyLabelNames,
+      applyLabelImageWeights,
+      applySelectedLabel,
     },
   },
 

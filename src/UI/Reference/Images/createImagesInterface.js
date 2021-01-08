@@ -6,6 +6,7 @@ import createTransferFunctionWidget from './createTransferFunctionWidget'
 import createVolumeRenderingInputs from './createVolumeRenderingInputs'
 
 import createLabelImageColorWidget from './createLabelImageColorWidget'
+import createLabelImageWeightWidget from './createLabelImageWeightWidget'
 
 function createImagesInterface(context) {
   const imagesUIGroup = document.createElement('div')
@@ -17,9 +18,10 @@ function createImagesInterface(context) {
   createTransferFunctionWidget(context, imagesUIGroup)
   createVolumeRenderingInputs(context, imagesUIGroup)
 
-  createLabelImageColorWidget(context)
-
   context.uiContainer.appendChild(imagesUIGroup)
+
+  createLabelImageColorWidget(context)
+  createLabelImageWeightWidget(context)
 }
 
 export default createImagesInterface

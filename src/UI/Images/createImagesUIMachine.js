@@ -209,6 +209,42 @@ const assignLabelImageBlend = assign({
   },
 })
 
+const assignLabelImageWeights = assign({
+  images: (context, event) => {
+    const images = context.images
+    const name = event.data.name
+    const labelImageWeights = event.data.labelImageWeights
+
+    const actorContext = context.images.actorContext.get(name)
+    actorContext.labelImageWeights = labelImageWeights
+    return images
+  },
+})
+
+const assignLabelNames = assign({
+  images: (context, event) => {
+    const images = context.images
+    const name = event.data.name
+    const labelNames = event.data.labelNames
+
+    const actorContext = context.images.actorContext.get(name)
+    actorContext.labelNames = labelNames
+    return images
+  },
+})
+
+const assignSelectedLabel = assign({
+  images: (context, event) => {
+    const images = context.images
+    const name = event.data.name
+    const selectedLabel = event.data.selectedLabel
+
+    const actorContext = context.images.actorContext.get(name)
+    actorContext.selectedLabel = selectedLabel
+    return images
+  },
+})
+
 function createImagesUIMachine(options, context) {
   return Machine(
     {
@@ -291,7 +327,16 @@ function createImagesUIMachine(options, context) {
               actions: [assignLookupTable, 'applyLookupTable'],
             },
             LABEL_IMAGE_BLEND_CHANGED: {
-              actions: [assignLookupTable, 'applyLookupTable'],
+              actions: [assignLabelImageBlend, 'applyLabelImageBlend'],
+            },
+            LABEL_IMAGE_WEIGHTS_CHANGED: {
+              actions: [assignLabelImageWeights, 'applyLabelImageWeights'],
+            },
+            LABEL_IMAGE_LABEL_NAMES_CHANGED: {
+              actions: [assignLabelNames, 'applyLabelNames'],
+            },
+            LABEL_IMAGE_SELECTED_LABEL_CHANGED: {
+              actions: [assignSelectedLabel, 'applySelectedLabel'],
             },
           },
         },

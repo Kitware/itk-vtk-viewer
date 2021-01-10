@@ -14,14 +14,14 @@
   "main": "./dist/itkVtkViewer.js",
   "dependencies": {
     "@thewtex/iconselect.js": "^2.1.2",
-    "@xstate/inspect": "^0.1.1",
-    "axios": "^0.19.2",
+    "@xstate/inspect": "^0.4.1",
+    "axios": "^0.21.1",
     "commander": "^2.20.3",
     "css-element-queries": "^1.2.3",
     "curry": "^1.2.0",
     "eventemitter3": "^4.0.4",
     "express": "^4.17.1",
-    "itk": "^13.3.0",
+    "itk": "^13.3.1",
     "mobx": "^5.15.4",
     "mousetrap": "^1.6.5",
     "open": "^6.4.0",
@@ -29,7 +29,7 @@
     "regenerator-runtime": "^0.13.5",
     "vtk.js": "^14.11.4",
     "webworker-promise": "^0.4.2",
-    "xstate": "^4.13.0"
+    "xstate": "^4.15.4"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.9.6",

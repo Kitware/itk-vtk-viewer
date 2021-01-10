@@ -210,7 +210,7 @@ export function processURLParameters(container, addOnParameters = {}) {
   }
   let rotate = true
   if (typeof userParams.rotate !== 'undefined') {
-    rotate = vtkURLExtract.toNativeType(userParams.rotate)
+    rotate = userParams.rotate
   }
 
   if (filesToLoad.length || userParams.image || userParams.labelImage) {

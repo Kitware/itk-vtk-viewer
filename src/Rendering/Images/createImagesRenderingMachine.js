@@ -68,7 +68,7 @@ function createImagesRenderingMachine(options, context) {
             },
             TOGGLE_LAYER_VISIBILITY: {
               actions: send((_, e) => e, {
-                to: (c, e) => `imageRenderingActor-${e.data}`,
+                to: (c, e) => `imageRenderingActor-${c.images.selectedName}`,
               }),
             },
             TOGGLE_IMAGE_INTERPOLATION: {

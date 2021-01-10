@@ -106,6 +106,10 @@ const createRenderingMachine = (options, context) => {
                   switch (c.layers.actorContext.get(e.data).type) {
                     case 'image':
                       return 'images'
+                    case 'labelImage':
+                      return 'images'
+                    default:
+                      console.error(`Unsupported layer type for ${e.data}`)
                   }
                 },
               }),

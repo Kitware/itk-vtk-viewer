@@ -1,5 +1,5 @@
 import createImageRenderer from './createImageRenderer'
-import applyVisibility from './applyVisibility'
+import toggleLayerVisibility from './toggleLayerVisibility'
 import applyComponentVisibility from './applyComponentVisibility'
 import updateRenderedImage from './updateRenderedImage'
 import selectImageLayer from './selectImageLayer'
@@ -28,7 +28,7 @@ const imagesRenderingMachineOptions = {
     actions: {
       applyRenderedImage,
 
-      applyVisibility,
+      toggleLayerVisibility,
 
       toggleInterpolation,
 

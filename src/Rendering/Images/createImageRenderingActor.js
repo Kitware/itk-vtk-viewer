@@ -29,7 +29,7 @@ const eventResponses = {
     actions: 'applyRenderedImage',
   },
   TOGGLE_LAYER_VISIBILITY: {
-    actions: 'applyVisibility',
+    actions: 'toggleLayerVisibility',
   },
   SET_GRADIENT_OPACITY: {
     actions: 'applyGradientOpacity',

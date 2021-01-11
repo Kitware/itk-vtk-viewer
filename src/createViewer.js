@@ -1050,6 +1050,28 @@ const createViewer = async (
     return actorContext.labelImageBlend
   }
 
+  publicAPI.setLabelImageLabelNames = (names, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    const currentLabelNames = actorContext.labelNames
+    if (currentLabelNames !== names) {
+      service.send({
+        type: 'LABEL_IMAGE_LABEL_NAMES_CHANGED',
+        data: { name, labelNames: names },
+      })
+    }
+  }
+
+  publicAPI.getLabelImageLabelNames = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.labelNames
+  }
+
   publicAPI.setXSlice = position => {
     service.send({
       type: 'X_SLICE_CHANGED',

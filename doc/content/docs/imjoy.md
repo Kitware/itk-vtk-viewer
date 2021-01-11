@@ -204,3 +204,10 @@ Set/get the label image lookup table.
 ### getLabelImageBlend(name)
 
 Set/get the blend ratio between the label image and the intensity image.
+
+### setLabelImageLabelNames(labeNames, name)
+
+### getLabelImageLabelNames(name)
+
+Set/get the string names for the integer label values. A Map of integer to
+string values.

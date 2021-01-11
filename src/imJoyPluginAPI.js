@@ -215,6 +215,14 @@ const imJoyPluginAPI = {
   getLabelImageBlend(name) {
     return this.viewer.getLabelImageBlend(name)
   },
+
+  setLabelImageLabelNames(labelNames, name) {
+    this.viewer.setLabelImageLabelNames(labelNames, name)
+  },
+
+  getLabelImageLabelNames(name) {
+    return this.viewer.getLabelImageLabelNames(name)
+  },
 }
 
 export default imJoyPluginAPI

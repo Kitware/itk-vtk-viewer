@@ -14,7 +14,7 @@
   "main": "./dist/itkVtkViewer.js",
   "dependencies": {
     "@thewtex/iconselect.js": "^2.1.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "commander": "^2.20.3",
     "css-element-queries": "^1.2.3",
     "curry": "^1.2.0",

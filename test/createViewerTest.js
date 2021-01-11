@@ -9,6 +9,7 @@ import createViewer from '../src/createViewer'
 import UserInterface from '../src/UserInterface'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
+const testLabelImage3DPath = 'base/test/data/input/HeadMRVolumeLabels.nrrd'
 const testImage3DPath2 = 'base/test/data/input/mri3D.nrrd'
 
 import createViewerBaseline from './data/baseline/createViewer.png'
@@ -35,7 +36,7 @@ const TEST_VIEWER_STYLE = {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(43)
+  t.plan(45)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -51,8 +52,18 @@ test('Test createViewer', async t => {
   )
   webWorker.terminate()
 
+  const labelResponse = await axios.get(testLabelImage3DPath, {
+    responseType: 'arraybuffer',
+  })
+  const {
+    image: itkLabelImage,
+    webWorker: labelWebWorker,
+  } = await itkreadImageArrayBuffer(null, labelResponse.data, 'data.nrrd')
+  labelWebWorker.terminate()
+
   const viewer = await createViewer(viewerContainer, {
     image: itkImage,
+    labelImage: itkLabelImage,
     rotate: false,
     viewerStyle: TEST_VIEWER_STYLE,
   })
@@ -249,6 +260,15 @@ test('Test createViewer', async t => {
     const resultImageBlendMode = viewer.getImageBlendMode()
     t.same(resultImageBlendMode, 'Maximum', 'blend mode')
     viewer.setImageBlendMode('Composite')
+
+    viewer.once('labelImageLookupTableChanged', data => {
+      t.pass('labelImageLookupTableChanged event')
+    })
+    const oldLookupTable = viewer.getLabelImageLookupTable()
+    viewer.setLabelImageLookupTable('glasbey_warm')
+    const resultLabelImageLookupTable = viewer.getLabelImageLookupTable()
+    t.same(resultLabelImageLookupTable, 'glasbey_warm', 'image lookup table')
+    viewer.setLabelImageLookupTable(oldLookupTable)
 
     t.pass('test completed')
 

@@ -193,3 +193,8 @@ Set/get the depth sampling distance in the volume rendering. Values range from 0
 Set/get the volume rendering blend mode. Supported modes: 'Composite',
 'Maximum', 'Minimum', 'Average'.
 
+### setLabelImageLookupTable(lookupTable, name)
+
+### getLabelImageLookupTable(name)
+
+Set/get the label image lookup table.

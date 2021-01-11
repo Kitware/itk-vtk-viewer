@@ -47,12 +47,12 @@ function applyLookupTable(context, event) {
   }
 
   const currentLut = lookupTableProxy.getPresetName()
-  if (currentLut !== lut) {
+  if (currentLut !== lookupTable) {
     // If we are not using the vtk.js / Reference
     applyCategoricalColorToLookupTableProxy(
       lookupTableProxy,
       Array.from(actorContext.labelNames.keys()),
-      lut
+      lookupTable
     )
   }
 

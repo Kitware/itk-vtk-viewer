@@ -54,7 +54,7 @@ const createViewer = async (
   {
     image,
     labelImage,
-    labelMapNames,
+    labelImageNames,
     geometries,
     pointSets,
     use2D = false,
@@ -168,7 +168,7 @@ const createViewer = async (
             eventEmitter.emit('imageBlendModeChanged', event.data)
             break
           case 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED':
-            eventEmitter.emit('lookupTableChanged', event.data)
+            eventEmitter.emit('labelImageLookupTableChanged', event.data)
             break
           case 'LABEL_IMAGE_BLEND_CHANGED':
             eventEmitter.emit('labelImageBlendChanged', event.data)
@@ -640,19 +640,6 @@ const createViewer = async (
     store.geometriesUI.geometries = geometries
   }
 
-  publicAPI.setLabelMap = labelMap => {
-    store.imageUI.labelMap = labelMap
-    updateVisualizedComponents(store)
-  }
-
-  publicAPI.setLabelMapNames = names => {
-    store.itkVtkView.setLabelNames(names)
-  }
-
-  publicAPI.getLabelMapNames = () => {
-    return store.itkVtkView.getLabelNames()
-  }
-
   publicAPI.setUICollapsed = collapse => {
     if (collapse !== context.uiCollapsed) {
       service.send('TOGGLE_UI_COLLAPSED')
@@ -674,9 +661,6 @@ const createViewer = async (
     'resetCrop',
     'toggleLayerVisibility',
     'imagePicked',
-    'labelImageBlendChanged',
-    'labelImageLabelNamesChanged',
-    'labelImageWeightsChanged',
     'imagePiecewiseFunctionGaussiansChanged',
     'imageVisualizedComponentChanged',
     'toggleImageInterpolation',
@@ -688,7 +672,10 @@ const createViewer = async (
     'imageGradientOpacityScaleChanged',
     'imageVolumeSampleDistanceChanged',
     'imageBlendModeChanged',
-    'lookupTableChanged',
+    'labelImageLookupTableChanged',
+    'labelImageBlendChanged',
+    'labelImageLabelNamesChanged',
+    'labelImageWeightsChanged',
     'toggleCroppingPlanes',
     'croppingPlanesChanged',
     'xSliceChanged',
@@ -1026,15 +1013,26 @@ const createViewer = async (
     return actorContext.colorMaps.get(componentIndex)
   }
 
-  publicAPI.setLookupTable = lut => {
-    const currentLut = store.imageUI.labelMapLookupTable
-    if (currentLut !== lut) {
-      store.imageUI.labelMapLookupTable = lut
+  publicAPI.setLabelImageLookupTable = (lookupTable, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    const currentLookupTable = actorContext.lookupTable
+    if (currentLookupTable !== lookupTable) {
+      service.send({
+        type: 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
+        data: { name, lookupTable },
+      })
     }
   }
 
-  publicAPI.getLookupTable = () => {
-    return store.imageUI.labelMapLookupTable
+  publicAPI.getLabelImageLookupTable = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.lookupTable
   }
 
   publicAPI.setXSlice = position => {

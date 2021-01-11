@@ -199,6 +199,14 @@ const imJoyPluginAPI = {
   getImageBlendMode(name) {
     return this.viewer.getImageBlendMode(name)
   },
+
+  setLabelImageLookupTable(lookupTable, name) {
+    this.viewer.setLabelImageLookupTable(lookupTable, name)
+  },
+
+  getLabelImageLookupTable(name) {
+    return this.viewer.getLabelImageLookupTable(name)
+  },
 }
 
 export default imJoyPluginAPI

@@ -17,6 +17,8 @@ function updateRenderedImageInterface(context, event) {
     numberOfComponents: renderedImage.imageType.components,
     component,
   })
+  transferFunctionWidget.invokeOpacityChange(transferFunctionWidget)
+  transferFunctionWidget.modified()
 
   const gaussians = actorContext.piecewiseFunctionGaussians.get(component)
   transferFunctionWidget.setGaussians(gaussians)

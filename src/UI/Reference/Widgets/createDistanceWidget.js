@@ -9,12 +9,9 @@ function createDistanceWidget(context, widgetsUIGroup) {
   // Put distance tools in their own row
   const distanceRulerRow = document.createElement('div')
   distanceRulerRow.setAttribute('class', style.uiRow)
-  const collapsibleClass = `${context.id}-collapsible`
-  distanceRulerRow.className += ` ${viewerDOMId}-distanceRuler ${collapsibleClass}`
   distanceRulerRow.style.display = context.use2D ? 'flex' : 'none'
   if (context.main.viewMode === 'Volume' && !context.use2D) {
     distanceRulerRow.style.display = 'none'
-    distanceRulerRow.classList.remove(collapsibleClass)
   } else {
     distanceRulerRow.style.display = 'flex'
   }

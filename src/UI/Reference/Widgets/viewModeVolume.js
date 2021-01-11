@@ -4,8 +4,6 @@ function viewModeVolume(context) {
     context.service.send('TOGGLE_DISTANCE_WIDGET')
   }
   context.widgets.distanceRulerRow.style.display = 'none'
-  const collapsibleClass = `${context.id}-collapsible`
-  context.widgets.distanceRulerRow.classList.remove(collapsibleClass)
 }
 
 export default viewModeVolume

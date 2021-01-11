@@ -6,6 +6,7 @@ function createLayersInterface(context) {
   const layersUIGroup = document.createElement('div')
   layersUIGroup.setAttribute('class', style.uiGroup)
   context.layers.layersUIGroup = layersUIGroup
+  context.uiGroups.set('layers', layersUIGroup)
 
   // layer name -> layerEntry map
   context.layers.uiLayers = new Map()

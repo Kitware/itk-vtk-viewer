@@ -9,6 +9,10 @@ function createInterface(context) {
     context.uiContainer = uiContainer
   }
   context.rootContainer.appendChild(context.uiContainer)
+  if (!!!context.uiGroups) {
+    // String to UI group element map
+    context.uiGroups = new Map()
+  }
 
   createCollapseUIButton(context)
 }

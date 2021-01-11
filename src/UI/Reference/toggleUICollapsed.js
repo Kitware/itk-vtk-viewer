@@ -1,3 +1,5 @@
+import applyGroupVisibility from './applyGroupVisibility'
+
 function toggleUICollapsed(context, event, actionMeta) {
   if (!context.uiContainer) {
     return
@@ -7,20 +9,12 @@ function toggleUICollapsed(context, event, actionMeta) {
       actionMeta.state.value.active.uiCollapsed === 'enabled'
   }
 
-  const viewerDOMId = context.id
-  let elements = context.uiContainer.querySelectorAll(
-    `.${viewerDOMId}-collapsible`
+  applyGroupVisibility(
+    context,
+    ['main', 'layers', 'widgets', 'images', 'labelImages', 'labelImageWeights'],
+    !context.uiCollapsed
   )
-  let count = elements.length
-  if (context.uiCollapsed) {
-    while (count--) {
-      elements[count].style.display = 'none'
-    }
-  } else {
-    while (count--) {
-      elements[count].style.display = 'flex'
-    }
-  }
+
   if (!context.use2D && !!context.main.planeUIGroup) {
     if (context.uiCollapsed && context.main.viewMode === 'Volume') {
       context.main.planeUIGroup.style.display = 'none'

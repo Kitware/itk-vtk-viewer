@@ -12,6 +12,7 @@ function createImagesInterface(context) {
   const imagesUIGroup = document.createElement('div')
   imagesUIGroup.setAttribute('class', style.uiGroup)
   context.images.imagesUIGroup = imagesUIGroup
+  context.uiGroups.set('images', imagesUIGroup)
 
   createComponentSelector(context, imagesUIGroup)
   createColorRangeInput(context, imagesUIGroup)

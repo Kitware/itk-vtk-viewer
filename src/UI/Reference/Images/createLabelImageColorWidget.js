@@ -12,10 +12,10 @@ function createLabelImageColorWidget(context) {
   const labelImageColorUIGroup = document.createElement('div')
   context.images.labelImageColorUIGroup = labelImageColorUIGroup
   labelImageColorUIGroup.setAttribute('class', style.uiGroup)
+  context.uiGroups.set('labelImages', labelImageColorUIGroup)
 
   const labelImageWidgetRow = document.createElement('div')
   labelImageWidgetRow.setAttribute('class', style.uiRow)
-  labelImageWidgetRow.className += ` ${viewerDOMId}-collapsible`
 
   const categoricalColorSelector = document.createElement('div')
   categoricalColorSelector.id = `${context.id}-lookupTableSelector`

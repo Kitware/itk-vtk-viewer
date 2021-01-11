@@ -8,13 +8,10 @@ function updateAvailableComponents(context) {
   if (image) {
     const components = image.imageType.components
     const viewerDOMId = context.id
-    const collapsibleClass = `${viewerDOMId}-collapsible`
     if (components > 1 && actorContext.independentComponents) {
       context.images.componentRow.style.display = 'flex'
-      context.images.componentRow.classList.add(collapsibleClass)
     } else {
       context.images.componentRow.style.display = 'none'
-      context.images.componentRow.classList.remove(collapsibleClass)
     }
 
     context.images.componentSelector.innerHTML = new Array(components)

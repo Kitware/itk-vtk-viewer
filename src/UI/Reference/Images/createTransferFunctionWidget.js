@@ -100,7 +100,6 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
     'style',
     'background: rgba(127, 127, 127, 0.5);'
   )
-  transferFunctionWidgetRow.className += ` ${context.id}-collapsible`
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer)
   imagesUIGroup.appendChild(transferFunctionWidgetRow)
 
@@ -201,13 +200,7 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
       data: { name, component, gaussians: newGaussians },
     })
   }
-  pwfRangeManipulator.setVerticalListener(
-    0,
-    pwfMotionScale,
-    1,
-    pwfGet,
-    pwfSet
-  )
+  pwfRangeManipulator.setVerticalListener(0, pwfMotionScale, 1, pwfGet, pwfSet)
   pwfRangeManipulatorShift.setVerticalListener(
     0,
     pwfMotionScale,

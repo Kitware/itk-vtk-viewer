@@ -10,7 +10,6 @@ function createVolumeRenderingInputs(context, imagesUIGroup) {
 
   const volumeRow1 = document.createElement('div')
   volumeRow1.setAttribute('class', style.uiRow)
-  volumeRow1.className += ` ${viewerDOMId}-volume1 ${viewerDOMId}-collapsible`
   createShadowToggle(context, volumeRow1)
   createGradientOpacitySlider(context, volumeRow1)
   imagesUIGroup.appendChild(volumeRow1)
@@ -18,7 +17,6 @@ function createVolumeRenderingInputs(context, imagesUIGroup) {
 
   const volumeRow2 = document.createElement('div')
   volumeRow2.setAttribute('class', style.uiRow)
-  volumeRow2.className += ` ${viewerDOMId}-volume2 ${viewerDOMId}-collapsible`
   createSampleDistanceSlider(context, volumeRow2)
   createBlendModeSelector(context, volumeRow2)
   imagesUIGroup.appendChild(volumeRow2)

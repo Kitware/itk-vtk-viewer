@@ -20,15 +20,12 @@ function updateImageInterface(context) {
   const image = actorContext.image
   const component = actorContext.selectedComponent
 
-  const collapsibleClass = `${context.id}-collapsible`
   // If not a 2D RGB image
   if (actorContext.independentComponents) {
     context.images.colorRangeInputRow.style.display = 'flex'
-    context.images.colorRangeInputRow.classList.add(collapsibleClass)
     context.images.colorMapSelector.style.display = 'block'
   } else {
     context.images.colorRangeInputRow.style.display = 'none'
-    context.images.colorRangeInputRow.classList.remove(collapsibleClass)
     context.images.colorMapSelector.style.display = 'none'
   }
 

@@ -8,10 +8,10 @@ function createLabelMapWeightWidget(context) {
   const labelImageWeightUIGroup = document.createElement('div')
   context.images.labelImageWeightUIGroup = labelImageWeightUIGroup
   labelImageWeightUIGroup.setAttribute('class', style.uiGroup)
+  context.uiGroups.set('labelImageWeights', labelImageWeightUIGroup)
 
   const labelImageWidgetRow = document.createElement('div')
   labelImageWidgetRow.setAttribute('class', style.uiRow)
-  labelImageWidgetRow.className += ` ${viewerDOMId}-collapsible`
 
   const uniqueLabelSelectorDiv = document.createElement('div')
   uniqueLabelSelectorDiv.id = `${context.id}-labelImageUniqueLabelSelector`

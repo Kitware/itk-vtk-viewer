@@ -6,6 +6,7 @@ function createWidgetsInterface(context) {
   const widgetsUIGroup = document.createElement('div')
   widgetsUIGroup.setAttribute('class', style.uiGroup)
   context.widgets.widgetsUIGroup = widgetsUIGroup
+  context.uiGroups.set('widgets', widgetsUIGroup)
 
   createDistanceWidget(context, widgetsUIGroup)
 

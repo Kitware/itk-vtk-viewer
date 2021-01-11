@@ -649,6 +649,9 @@ const createViewer = async (
     'toggleRotate',
     'viewModeChanged',
     'resetCrop',
+    'xSliceChanged',
+    'ySliceChanged',
+    'zSliceChanged',
     'toggleLayerVisibility',
     'imagePicked',
     'imagePiecewiseFunctionGaussiansChanged',
@@ -668,9 +671,6 @@ const createViewer = async (
     'labelImageWeightsChanged',
     'toggleCroppingPlanes',
     'croppingPlanesChanged',
-    'xSliceChanged',
-    'ySliceChanged',
-    'zSliceChanged',
     'pointSetColorChanged',
     'pointSetOpacityChanged',
     'pointSetSizeChanged',
@@ -704,60 +704,6 @@ const createViewer = async (
       eventEmitter.emit('imagePicked', toJS(lastPickedValues))
     }
   )
-
-  reaction(
-    () => store.imageUI.labelMapWeights.slice(),
-    () => {
-      const labels = store.imageUI.labelMapLabels.slice()
-      const weights = store.imageUI.labelMapWeights.slice()
-      eventEmitter.emit('labelMapWeightsChanged', { labels, weights })
-    }
-  )
-
-  // Replace all weights
-  publicAPI.setLabelMapWeights = weights => {
-    if (weights.length !== store.imageUI.labelMapWeights.length) {
-      console.error(
-        `Provided ${weights.length} weights, expecting ${store.imageUI.labelMapWeights.length}`
-      )
-      return false
-    }
-
-    store.imageUI.labelMapWeights.replace(weights)
-    updateLabelMapPiecewiseFunction(store)
-    store.renderWindow.render()
-
-    return true
-  }
-
-  // Replace a subset of weights by providing parallel array of corresponding
-  // label values
-  publicAPI.updateLabelMapWeights = ({ labels, weights }) => {
-    const indicesToUpdate = []
-
-    labels.forEach((label, labelIdx) => {
-      const idx = store.imageUI.labelMapLabels.indexOf(label)
-      if (idx >= 0) {
-        indicesToUpdate.push(labelIdx)
-        store.imageUI.labelMapWeights[idx] = weights[labelIdx]
-      }
-    })
-
-    if (indicesToUpdate.length > 0) {
-      updateLabelMapPiecewiseFunction(store, indicesToUpdate)
-      store.renderWindow.render()
-      return true
-    }
-
-    return false
-  }
-
-  publicAPI.getLabelMapWeights = () => {
-    return {
-      labels: store.imageUI.labelMapLabels.slice(),
-      weights: store.imageUI.labelMapWeights.slice(),
-    }
-  }
 
   publicAPI.setImagePiecewiseFunctionGaussians = (
     gaussians,
@@ -845,6 +791,39 @@ const createViewer = async (
 
   publicAPI.getViewMode = () => {
     return context.main.viewMode
+  }
+
+  publicAPI.setXSlice = position => {
+    service.send({
+      type: 'X_SLICE_CHANGED',
+      data: position,
+    })
+  }
+
+  publicAPI.getXSlice = () => {
+    return context.main.xSlice
+  }
+
+  publicAPI.setYSlice = position => {
+    service.send({
+      type: 'Y_SLICE_CHANGED',
+      data: position,
+    })
+  }
+
+  publicAPI.getYSlice = () => {
+    return context.main.ySlice
+  }
+
+  publicAPI.setZSlice = position => {
+    service.send({
+      type: 'Z_SLICE_CHANGED',
+      data: position,
+    })
+  }
+
+  publicAPI.getZSlice = () => {
+    return context.main.zSlice
   }
 
   publicAPI.getLayerNames = () => {
@@ -1072,37 +1051,26 @@ const createViewer = async (
     return actorContext.labelNames
   }
 
-  publicAPI.setXSlice = position => {
-    service.send({
-      type: 'X_SLICE_CHANGED',
-      data: position,
-    })
+  publicAPI.setLabelImageWeights = (weights, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    const currentWeights = actorContext.labelImageWeights
+    if (currentWeights !== weights) {
+      service.send({
+        type: 'LABEL_IMAGE_WEIGHTS_CHANGED',
+        data: { name, labelImageWeights: weights },
+      })
+    }
   }
 
-  publicAPI.getXSlice = () => {
-    return context.main.xSlice
-  }
-
-  publicAPI.setYSlice = position => {
-    service.send({
-      type: 'Y_SLICE_CHANGED',
-      data: position,
-    })
-  }
-
-  publicAPI.getYSlice = () => {
-    return context.main.ySlice
-  }
-
-  publicAPI.setZSlice = position => {
-    service.send({
-      type: 'Z_SLICE_CHANGED',
-      data: position,
-    })
-  }
-
-  publicAPI.getZSlice = () => {
-    return context.main.zSlice
+  publicAPI.getLabelImageWeights = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.labelImageWeights
   }
 
   publicAPI.setImageShadowEnabled = (enabled, name) => {

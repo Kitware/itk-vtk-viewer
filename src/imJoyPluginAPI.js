@@ -223,6 +223,14 @@ const imJoyPluginAPI = {
   getLabelImageLabelNames(name) {
     return this.viewer.getLabelImageLabelNames(name)
   },
+
+  setLabelImageWeights(weights, name) {
+    this.viewer.setLabelImageWeights(weights, name)
+  },
+
+  getLabelImageWeights(name) {
+    return this.viewer.getLabelImageWeights(name)
+  },
 }
 
 export default imJoyPluginAPI

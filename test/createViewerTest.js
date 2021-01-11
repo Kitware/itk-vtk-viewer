@@ -36,7 +36,7 @@ const TEST_VIEWER_STYLE = {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(49)
+  t.plan(51)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -288,7 +288,19 @@ test('Test createViewer', async t => {
     ])
     viewer.setLabelImageLabelNames(labelNames)
     const resultLabelImageLabelNames = viewer.getLabelImageLabelNames()
-    t.same(resultLabelImageLabelNames, labelNames, 'label image blend')
+    t.same(resultLabelImageLabelNames, labelNames, 'label image label names')
+
+    viewer.once('labelImageWeightsChanged', data => {
+      t.pass('labelImageWeightsChanged event')
+    })
+    const labelWeights = new Map([
+      [0, 0.1],
+      [1, 0.5],
+      [2, 0.9],
+    ])
+    viewer.setLabelImageWeights(labelWeights)
+    const resultLabelImageWeights = viewer.getLabelImageWeights()
+    t.same(resultLabelImageWeights, labelWeights, 'label image weights')
 
     t.pass('test completed')
 

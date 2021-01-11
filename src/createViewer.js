@@ -640,16 +640,6 @@ const createViewer = async (
     store.geometriesUI.geometries = geometries
   }
 
-  publicAPI.setUICollapsed = collapse => {
-    if (collapse !== context.uiCollapsed) {
-      service.send('TOGGLE_UI_COLLAPSED')
-    }
-  }
-
-  publicAPI.getUICollapsed = () => {
-    return context.uiCollapsed
-  }
-
   const eventNames = [
     'toggleUICollapsed',
     'backgroundColorChanged',
@@ -695,6 +685,16 @@ const createViewer = async (
 
   publicAPI.getEventEmitter = () => eventEmitter
 
+  publicAPI.setUICollapsed = collapse => {
+    if (collapse !== context.uiCollapsed) {
+      service.send('TOGGLE_UI_COLLAPSED')
+    }
+  }
+
+  publicAPI.getUICollapsed = () => {
+    return context.uiCollapsed
+  }
+
   reaction(
     () => {
       return store.imageUI.lastPickedValues
@@ -704,13 +704,6 @@ const createViewer = async (
       eventEmitter.emit('imagePicked', toJS(lastPickedValues))
     }
   )
-
-  publicAPI.getLabelMapBlend = () => store.imageUI.labelImageBlend
-
-  publicAPI.setLabelMapBlend = blend => {
-    store.imageUI.labelImageBlend = blend
-    // already have a reaction that updates actors and re-renders
-  }
 
   reaction(
     () => store.imageUI.labelMapWeights.slice(),
@@ -1033,6 +1026,28 @@ const createViewer = async (
     }
     const actorContext = context.images.actorContext.get(name)
     return actorContext.lookupTable
+  }
+
+  publicAPI.setLabelImageBlend = (blend, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    const currentBlend = actorContext.labelImageBlend
+    if (currentBlend !== blend) {
+      service.send({
+        type: 'LABEL_IMAGE_BLEND_CHANGED',
+        data: { name, labelImageBlend: blend },
+      })
+    }
+  }
+
+  publicAPI.getLabelImageBlend = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.labelImageBlend
   }
 
   publicAPI.setXSlice = position => {

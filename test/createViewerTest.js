@@ -36,7 +36,7 @@ const TEST_VIEWER_STYLE = {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(45)
+  t.plan(47)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -269,6 +269,14 @@ test('Test createViewer', async t => {
     const resultLabelImageLookupTable = viewer.getLabelImageLookupTable()
     t.same(resultLabelImageLookupTable, 'glasbey_warm', 'image lookup table')
     viewer.setLabelImageLookupTable(oldLookupTable)
+
+    viewer.once('labelImageBlendChanged', data => {
+      t.pass('labelImageBlendChanged event')
+    })
+    viewer.setLabelImageBlend(0.8)
+    const resultLabelImageBlend = viewer.getLabelImageBlend()
+    t.same(resultLabelImageBlend, 0.8, 'label image blend')
+    viewer.setLabelImageBlend(0.5)
 
     t.pass('test completed')
 

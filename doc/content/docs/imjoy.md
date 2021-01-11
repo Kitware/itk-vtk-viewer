@@ -198,3 +198,9 @@ Set/get the volume rendering blend mode. Supported modes: 'Composite',
 ### getLabelImageLookupTable(name)
 
 Set/get the label image lookup table.
+
+### setLabelImageBlend(blend, name)
+
+### getLabelImageBlend(name)
+
+Set/get the blend ratio between the label image and the intensity image.

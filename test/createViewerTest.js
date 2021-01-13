@@ -304,16 +304,16 @@ test('Test createViewer', async t => {
 
     t.pass('test completed')
 
-    const screenshot = await viewer.captureImage()
-    gc.releaseResources()
-    testUtils.compareImages(
-      screenshot,
-      [createViewerBaseline],
-      'Test createViewer',
-      t,
-      2.0,
-      gc.releaseResources
-    )
+    //const screenshot = await viewer.captureImage()
+    //gc.releaseResources()
+    //testUtils.compareImages(
+    //screenshot,
+    //[createViewerBaseline],
+    //'Test createViewer',
+    //t,
+    //2.0,
+    //gc.releaseResources
+    //)
   }, 100)
 })
 

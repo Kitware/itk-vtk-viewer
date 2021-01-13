@@ -80,71 +80,6 @@ function applyRenderedImage(context, event) {
       piecewiseFunctionProxy
     )
   }
-  if (!!labelImage && !context.images.lookupTableProxies.has('labelImage')) {
-    const lutProxy = vtkLookupTableProxy.newInstance()
-    context.images.lookupTableProxies.set('labelImage', lutProxy)
-
-    if (context.images.lookupTableProxies.has('labelImage')) {
-      lutProxy = context.images.lookupTableProxies.get('labelImage')
-    } else {
-      lutProxy = vtkLookupTableProxy.newInstance()
-      context.images.lookupTableProxies.set('labelImage', lookupTableProxy)
-    }
-
-    const colorTransferFunction = lutProxy.getLookupTable()
-    colorTransferFunction.setMappingRange(
-      uniqueLabels[0],
-      uniqueLabels[uniqueLabels.length - 1]
-    )
-
-    const volume = context.images.representationProxy.getVolumes()[0]
-    const volumeProperty = volume.getProperty()
-
-    const numberOfComponents = actorContext.image
-      ? actorContext.image.imageType.components
-      : 0
-    volumeProperty.setRGBTransferFunction(
-      numberOfComponents,
-      colorTransferFunction
-    )
-    volumeProperty.setIndependentComponents(true)
-    volumeProperty.setOpacityMode(numberOfComponents, OpacityMode.PROPORTIONAL)
-
-    // The slice shows the same lut as the volume for label map
-    const sliceActors = context.images.representationProxy.getActors()
-    sliceActors.forEach(actor => {
-      const actorProp = actor.getProperty()
-      actorProp.setIndependentComponents(true)
-      actorProp.setRGBTransferFunction(
-        numberOfComponents,
-        colorTransferFunction
-      )
-    })
-
-    context.service.send({
-      type: 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
-      data: { name, lookupTable: actorContext.lookupTable },
-    })
-  }
-  if (
-    !!labelImage &&
-    !context.images.piecewiseFunctionProxies.has('labelImage')
-  ) {
-    const piecewiseFunction = vtkPiecewiseFunctionProxy.newInstance()
-    context.images.piecewiseFunctionProxies.set('labelImage', piecewiseFunction)
-
-    const volume = context.images.representationProxy.getVolumes()[0]
-    const volumeProperty = volume.getProperty()
-
-    volumeProperty.setScalarOpacity(numberOfComponents, piecewiseFunction)
-
-    // The slice shows the same piecewise function as the volume for label map
-    const sliceActors = context.images.representationProxy.getActors()
-    sliceActors.forEach(actor => {
-      const actorProp = actor.getProperty()
-      actorProp.setPiecewiseFunction(numberOfComponents, piecewiseFunction)
-    })
-  }
 
   // Visualized components may have updated -> set color transfer function, piecewise function, component visibility, independent components in slices
   const sliceActors = context.images.representationProxy.getActors()
@@ -188,11 +123,6 @@ function applyRenderedImage(context, event) {
         const colorTransferFunction = context.images.lookupTableProxies
           .get(componentIndex)
           .getLookupTable()
-        volumeProperty.setRGBTransferFunction(
-          fusedImageIndex,
-          colorTransferFunction
-        )
-
         const piecewiseFunction = context.images.piecewiseFunctionProxies
           .get(componentIndex)
           .volume.getPiecewiseFunction()

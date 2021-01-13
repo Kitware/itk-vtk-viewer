@@ -48,10 +48,10 @@ async function updateRenderedImage(context) {
     const imageData = imageScalars.getData()
     const imageComponents = imageScalars.getNumberOfComponents()
 
-    let fusedImage = actorContext.fusedImage
-    if (!fusedImage) {
+    if (!actorContext.fusedImage) {
       actorContext.fusedImage = vtkITKHelper.convertItkToVtkImage(topLevelImage)
     }
+    const fusedImage = actorContext.fusedImage
     fusedImage.setOrigin(vtkImage.getOrigin())
     fusedImage.setSpacing(vtkImage.getSpacing())
     fusedImage.setDirection(vtkImage.getDirection())

@@ -2,8 +2,6 @@ import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFuncti
 
 import transformLabelImageWeight from './transformLabelImageWeight'
 
-import updateLabelImagePiecewiseFunction from './updateLabelImagePiecewiseFunction'
-
 function applyLabelImageWeights(context, event) {
   const name = event.data.name
   const actorContext = context.images.actorContext.get(name)

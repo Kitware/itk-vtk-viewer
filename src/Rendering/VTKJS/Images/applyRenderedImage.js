@@ -1,5 +1,5 @@
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
-import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy'
+import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction'
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 
 import applyGradientOpacity from './applyGradientOpacity'
@@ -42,9 +42,10 @@ function applyRenderedImage(context, event) {
   if (typeof context.images.lookupTableProxies === 'undefined') {
     context.images.lookupTableProxies = new Map()
   }
-  if (typeof context.images.piecewiseFunctionProxies === 'undefined') {
-    context.images.piecewiseFunctionProxies = new Map()
+  if (typeof context.images.piecewiseFunctions === 'undefined') {
+    context.images.piecewiseFunctions = new Map()
   }
+
   // Create color map and piecewise function objects as needed
   for (let component = 0; component < numberOfComponents; component++) {
     if (context.images.lookupTableProxies.has(component)) {
@@ -67,18 +68,15 @@ function applyRenderedImage(context, event) {
     context.images.lookupTableProxies.set(component, lookupTableProxy)
   }
   for (let component = 0; component < numberOfComponents; component++) {
-    if (context.images.piecewiseFunctionProxies.has(component)) {
+    if (context.images.piecewiseFunctions.has(component)) {
       continue
     }
 
-    const piecewiseFunctionProxy = {
-      slice: vtkPiecewiseFunctionProxy.newInstance(),
-      volume: vtkPiecewiseFunctionProxy.newInstance(),
+    const piecewiseFunction = {
+      slice: vtkPiecewiseFunction.newInstance(),
+      volume: vtkPiecewiseFunction.newInstance(),
     }
-    context.images.piecewiseFunctionProxies.set(
-      component,
-      piecewiseFunctionProxy
-    )
+    context.images.piecewiseFunctions.set(component, piecewiseFunction)
   }
 
   // Visualized components may have updated -> set color transfer function, piecewise function, component visibility, independent components in slices
@@ -95,9 +93,9 @@ function applyRenderedImage(context, event) {
           fusedImageIndex,
           colorTransferFunction
         )
-        const piecewiseFunction = context.images.piecewiseFunctionProxies
-          .get(componentIndex)
-          .slice.getPiecewiseFunction()
+        const piecewiseFunction = context.images.piecewiseFunctions.get(
+          componentIndex
+        ).slice
         actorProperty.setPiecewiseFunction(fusedImageIndex, piecewiseFunction)
 
         const componentVisibility =
@@ -123,9 +121,9 @@ function applyRenderedImage(context, event) {
         const colorTransferFunction = context.images.lookupTableProxies
           .get(componentIndex)
           .getLookupTable()
-        const piecewiseFunction = context.images.piecewiseFunctionProxies
-          .get(componentIndex)
-          .volume.getPiecewiseFunction()
+        const piecewiseFunction = context.images.piecewiseFunctions.get(
+          componentIndex
+        ).volume
         volumeProperty.setScalarOpacity(fusedImageIndex, piecewiseFunction)
         volumeProperty.setRGBTransferFunction(
           fusedImageIndex,
@@ -179,6 +177,86 @@ function applyRenderedImage(context, event) {
       }
     }
   )
+
+  if (!!labelImage) {
+    const labelImageData = context.images.renderedLabelImage.data
+    visualizedComponents.push(-1)
+
+    // How often should this be updated?
+    const uniqueLabelsSet = new Set(labelImageData)
+    const uniqueLabels = Array.from(uniqueLabelsSet)
+    // The volume mapper currently only supports ColorTransferFunction's,
+    // not LookupTable's
+    // lut.setAnnotations(uniqueLabels, uniqueLabels);
+    uniqueLabels.sort(numericalSort)
+
+    const labelNames = actorContext.labelNames
+    let labelNameAdded = false
+    const labelImageWeights = actorContext.labelImageWeights
+    let labelImageWeightAdded = false
+    for (let index = 0; index < uniqueLabels.length; index++) {
+      const label = uniqueLabels[index]
+      if (!labelNames.has(label)) {
+        labelNames.set(label, label.toString())
+        labelNameAdded = true
+      }
+      if (!labelImageWeights.has(label)) {
+        // 0 is usually the background label -- suppress it
+        label === 0
+          ? labelImageWeights.set(label, 0.1)
+          : labelImageWeights.set(label, 1.0)
+        labelImageWeightAdded = true
+      }
+    }
+    if (labelNameAdded) {
+      context.service.send({
+        type: 'LABEL_IMAGE_LABEL_NAMES_CHANGED',
+        data: { name, labelNames },
+      })
+    }
+    if (labelImageWeightAdded) {
+      context.service.send({
+        type: 'LABEL_IMAGE_WEIGHTS_CHANGED',
+        data: { name, labelImageWeights },
+      })
+    }
+
+    let lutProxy = null
+    if (context.images.lookupTableProxies.has('labelImage')) {
+      lutProxy = context.images.lookupTableProxies.get('labelImage')
+    } else {
+      lutProxy = vtkLookupTableProxy.newInstance()
+      context.images.lookupTableProxies.set('labelImage', lutProxy)
+    }
+
+    const colorTransferFunction = lutProxy.getLookupTable()
+    const labels = Array.from(labelImageWeights.keys())
+    colorTransferFunction.setMappingRange(labels[0], labels[labels.length - 1])
+
+    const volume = context.images.representationProxy.getVolumes()[0]
+    const volumeProperty = volume.getProperty()
+
+    const numberOfComponents = actorContext.image
+      ? actorContext.image.imageType.components
+      : 0
+    volumeProperty.setRGBTransferFunction(
+      numberOfComponents,
+      colorTransferFunction
+    )
+    volumeProperty.setIndependentComponents(true)
+    volumeProperty.setOpacityMode(numberOfComponents, OpacityMode.PROPORTIONAL)
+
+    // The slice shows the same lut as the volume for label map
+    const sliceActors = context.images.representationProxy.getActors()
+    sliceActors.forEach(actor => {
+      const actorProp = actor.getProperty()
+      actorProp.setIndependentComponents(true)
+      actorProp.setRGBTransferFunction(
+        numberOfComponents,
+        colorTransferFunction
+      )
+    })
+  }
 
   // Update the slice parameters
   const volumeRep = context.images.representationProxy

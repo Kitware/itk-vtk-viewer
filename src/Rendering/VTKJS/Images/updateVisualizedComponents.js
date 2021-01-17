@@ -39,6 +39,9 @@ function updateVisualizedComponents(context, name) {
       }
     }
   }
+  if (labelImage) {
+    actorContext.visualizedComponents.push(-1)
+  }
 }
 
 export default updateVisualizedComponents

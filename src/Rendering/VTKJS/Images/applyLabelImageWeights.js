@@ -1,4 +1,4 @@
-import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy'
+import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction'
 
 import transformLabelImageWeight from './transformLabelImageWeight'
 
@@ -8,13 +8,9 @@ function applyLabelImageWeights(context, event) {
   const labelImageWeights = actorContext.labelImageWeights
 
   let piecewiseFunction = null
-  if (!context.images.piecewiseFunctionProxies.has('labelImage')) {
-    const piecewiseFunctionProxy = vtkPiecewiseFunctionProxy.newInstance()
-    context.images.piecewiseFunctionProxies.set(
-      'labelImage',
-      piecewiseFunctionProxy
-    )
-    piecewiseFunction = piecewiseFunctionProxy.getPiecewiseFunction()
+  if (!context.images.piecewiseFunctions.has('labelImage')) {
+    const piecewiseFunction = vtkPiecewiseFunction.newInstance()
+    context.images.piecewiseFunctions.set('labelImage', piecewiseFunction)
 
     const volume = context.images.representationProxy.getVolumes()[0]
     const volumeProperty = volume.getProperty()
@@ -31,9 +27,7 @@ function applyLabelImageWeights(context, event) {
       actorProp.setPiecewiseFunction(numberOfComponents, piecewiseFunction)
     })
   } else {
-    piecewiseFunction = context.images.piecewiseFunctionProxies
-      .get('labelImage')
-      .getPiecewiseFunction()
+    piecewiseFunction = context.images.piecewiseFunctions.get('labelImage')
   }
 
   const maxOpacity = 1.0

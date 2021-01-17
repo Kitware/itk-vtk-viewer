@@ -60,6 +60,7 @@ async function updateRenderedImage(context) {
     const topLevelLabelImage = await labelImage.levelLargestImage(
       labelImage.topLevel
     )
+    actorContext.renderedLabelImage = topLevelLabelImage
     if (!!labelImage) {
       const labelImageSize = topLevelLabelImage.size
       const imageSize = topLevelImage.size
@@ -81,98 +82,11 @@ async function updateRenderedImage(context) {
       .getScalars()
       .getNumberOfTuples()
 
-    let labelImageData = null
-
     const visualizedComponents = actorContext.visualizedComponents.slice()
-    if (!!labelImage) {
-      labelImageData = topLevelLabelImage.data
-      visualizedComponents.push(-1)
-
-      // How often should this be updated?
-      const uniqueLabelsSet = new Set(labelImageData)
-      const uniqueLabels = Array.from(uniqueLabelsSet)
-      // The volume mapper currently only supports ColorTransferFunction's,
-      // not LookupTable's
-      // lut.setAnnotations(uniqueLabels, uniqueLabels);
-      uniqueLabels.sort(numericalSort)
-
-      const labelNames = actorContext.labelNames
-      let labelNameAdded = false
-      const labelImageWeights = actorContext.labelImageWeights
-      let labelImageWeightAdded = false
-      for (let index = 0; index < uniqueLabels.length; index++) {
-        const label = uniqueLabels[index]
-        if (!labelNames.has(label)) {
-          labelNames.set(label, label.toString())
-          labelNameAdded = true
-        }
-        if (!labelImageWeights.has(label)) {
-          // 0 is usually the background label -- suppress it
-          label === 0
-            ? labelImageWeights.set(label, 0.1)
-            : labelImageWeights.set(label, 1.0)
-          labelImageWeightAdded = true
-        }
-      }
-      if (labelNameAdded) {
-        context.service.send({
-          type: 'LABEL_IMAGE_LABEL_NAMES_CHANGED',
-          data: { name, labelNames },
-        })
-      }
-      if (labelImageWeightAdded) {
-        context.service.send({
-          type: 'LABEL_IMAGE_WEIGHTS_CHANGED',
-          data: { name, labelImageWeights },
-        })
-      }
-
-      let lutProxy = null
-      if (context.images.lookupTableProxies.has('labelImage')) {
-        lutProxy = context.images.lookupTableProxies.get('labelImage')
-      } else {
-        lutProxy = vtkLookupTableProxy.newInstance()
-        context.images.lookupTableProxies.set('labelImage', lutProxy)
-      }
-
-      const colorTransferFunction = lutProxy.getLookupTable()
-      const labels = Array.from(labelImageWeights.keys())
-      colorTransferFunction.setMappingRange(
-        labels[0],
-        labels[labels.length - 1]
-      )
-
-      const volume = context.images.representationProxy.getVolumes()[0]
-      const volumeProperty = volume.getProperty()
-
-      const numberOfComponents = actorContext.image
-        ? actorContext.image.imageType.components
-        : 0
-      volumeProperty.setRGBTransferFunction(
-        numberOfComponents,
-        colorTransferFunction
-      )
-      volumeProperty.setIndependentComponents(true)
-      volumeProperty.setOpacityMode(
-        numberOfComponents,
-        OpacityMode.PROPORTIONAL
-      )
-
-      // The slice shows the same lut as the volume for label map
-      const sliceActors = context.images.representationProxy.getActors()
-      sliceActors.forEach(actor => {
-        const actorProp = actor.getProperty()
-        actorProp.setIndependentComponents(true)
-        actorProp.setRGBTransferFunction(
-          numberOfComponents,
-          colorTransferFunction
-        )
-      })
-    }
 
     context.itkVtkView.setLabelIndex(numVisualizedComponents)
 
-    const fusedImageComponents = labelImageData
+    const fusedImageComponents = actorContext.renderedLabelImage.data
       ? numVisualizedComponents + 1
       : numVisualizedComponents
     const length = imageTuples * fusedImageComponents

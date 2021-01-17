@@ -11,9 +11,7 @@ function updateLabelImagePiecewiseFunction(
     return
   }
 
-  const piecewiseFunction = context.images.piecewiseFunctionProxies.get(
-    'labelImage'
-  )
+  const piecewiseFunction = context.images.piecewiseFunctions.get('labelImage')
   const labelImageWeights = actorContext.labelImageWeights
 
   let minLabelWeight = 0.0

@@ -9,27 +9,13 @@ function applyLabelImageWeights(context, event) {
 
   let piecewiseFunction = null
   if (!context.images.piecewiseFunctions.has('labelImage')) {
-    const piecewiseFunction = vtkPiecewiseFunction.newInstance()
+    piecewiseFunction = vtkPiecewiseFunction.newInstance()
     context.images.piecewiseFunctions.set('labelImage', piecewiseFunction)
-
-    const volume = context.images.representationProxy.getVolumes()[0]
-    const volumeProperty = volume.getProperty()
-
-    const numberOfComponents = actorContext.image
-      ? actorContext.image.imageType.components
-      : 0
-    volumeProperty.setScalarOpacity(numberOfComponents, piecewiseFunction)
-
-    // The slice shows the same piecewise function as the volume for label map
-    const sliceActors = context.images.representationProxy.getActors()
-    sliceActors.forEach(actor => {
-      const actorProp = actor.getProperty()
-      actorProp.setPiecewiseFunction(numberOfComponents, piecewiseFunction)
-    })
   } else {
     piecewiseFunction = context.images.piecewiseFunctions.get('labelImage')
   }
 
+  console.log('label image weights', labelImageWeights)
   const maxOpacity = 1.0
   const haveBackground =
     labelImageWeights.keys().next().value === 0 ? true : false
@@ -67,6 +53,25 @@ function applyLabelImageWeights(context, event) {
     )
     entry = weightIter.next()
   }
+
+  console.log('piecewiseFunction', piecewiseFunction.getState())
+
+  const volume = context.images.representationProxy.getVolumes()[0]
+  const volumeProperty = volume.getProperty()
+
+  const component = actorContext.visualizedComponents.length - 1
+  console.log('COPMONENTS', component)
+  volumeProperty.setScalarOpacity(component, piecewiseFunction)
+
+  // The slice shows the same piecewise function as the volume for label map
+  const sliceActors = context.images.representationProxy.getActors()
+  sliceActors.forEach(actor => {
+    const actorProp = actor.getProperty()
+    actorProp.setPiecewiseFunction(component, piecewiseFunction)
+  })
+
+  console.log(name, volume, volumeProperty)
+
   context.service.send('RENDER')
 }
 

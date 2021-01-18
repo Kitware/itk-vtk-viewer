@@ -19,7 +19,7 @@ function applyLabelImageBlend(context, event) {
       : 0
 
     visualizedComponents.forEach((componentIdx, fusedImgIdx) => {
-      if (componentVisibilities[componentIdx]) {
+      if (componentIdx >= 0 && componentVisibilities[componentIdx]) {
         volumeProperty.setComponentWeight(fusedImgIdx, weight)
         sliceProperty.setComponentWeight(fusedImgIdx, weight)
       }

@@ -3,6 +3,7 @@ import vtkGeometryRepresentationProxy from 'vtk.js/Sources/Proxy/Representations
 import vtkVolumeRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/VolumeRepresentationProxy'
 import vtkSliceRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/SliceRepresentationProxy'
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
+import vtkPiecewiseFunctionProxy from 'vtk.js/Sources/Proxy/Core/PiecewiseFunctionProxy'
 import vtkPointSetRepresentationProxy from './vtk/PointSetRepresentationProxy'
 
 import ItkVtkView from './vtk/ItkVtkViewProxy'
@@ -27,6 +28,9 @@ const proxyManagerConfiguration = {
     Proxy: {
       LookupTable: {
         class: vtkLookupTableProxy,
+      },
+      PiecewiseFunction: {
+        class: vtkPiecewiseFunctionProxy,
       },
     },
     Sources: {

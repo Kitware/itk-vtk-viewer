@@ -86,6 +86,9 @@ function applyRenderedImage(context, event) {
     actorProperty.setIndependentComponents(actorContext.independentComponents)
     actorContext.visualizedComponents.forEach(
       (componentIndex, fusedImageIndex) => {
+        if (!context.images.lookupTableProxies.has(componentIndex)) {
+          return
+        }
         const colorTransferFunction = context.images.lookupTableProxies
           .get(componentIndex)
           .getLookupTable()
@@ -118,6 +121,9 @@ function applyRenderedImage(context, event) {
     let componentsVisible = false
     actorContext.visualizedComponents.forEach(
       (componentIndex, fusedImageIndex) => {
+        if (!context.images.lookupTableProxies.has(componentIndex)) {
+          return
+        }
         const colorTransferFunction = context.images.lookupTableProxies
           .get(componentIndex)
           .getLookupTable()
@@ -160,6 +166,9 @@ function applyRenderedImage(context, event) {
         !actorContext.colorRanges.has(componentIndex) ||
         !actorContext.colorRangeBounds.has(componentIndex)
       ) {
+        if (componentIndex < 0) {
+          return
+        }
         const dataArray = actorContext.fusedImage.getPointData().getScalars()
         const range = dataArray.getRange(fusedImageIndex)
         if (!actorContext.colorRangeBounds.has(componentIndex)) {
@@ -179,16 +188,7 @@ function applyRenderedImage(context, event) {
   )
 
   if (!!labelImage) {
-    const labelImageData = context.images.renderedLabelImage.data
-    visualizedComponents.push(-1)
-
-    // How often should this be updated?
-    const uniqueLabelsSet = new Set(labelImageData)
-    const uniqueLabels = Array.from(uniqueLabelsSet)
-    // The volume mapper currently only supports ColorTransferFunction's,
-    // not LookupTable's
-    // lut.setAnnotations(uniqueLabels, uniqueLabels);
-    uniqueLabels.sort(numericalSort)
+    const uniqueLabels = actorContext.uniqueLabels
 
     const labelNames = actorContext.labelNames
     let labelNameAdded = false
@@ -219,43 +219,11 @@ function applyRenderedImage(context, event) {
         type: 'LABEL_IMAGE_WEIGHTS_CHANGED',
         data: { name, labelImageWeights },
       })
+      context.service.send({
+        type: 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
+        data: { name, lookupTable: actorContext.lookupTable },
+      })
     }
-
-    let lutProxy = null
-    if (context.images.lookupTableProxies.has('labelImage')) {
-      lutProxy = context.images.lookupTableProxies.get('labelImage')
-    } else {
-      lutProxy = vtkLookupTableProxy.newInstance()
-      context.images.lookupTableProxies.set('labelImage', lutProxy)
-    }
-
-    const colorTransferFunction = lutProxy.getLookupTable()
-    const labels = Array.from(labelImageWeights.keys())
-    colorTransferFunction.setMappingRange(labels[0], labels[labels.length - 1])
-
-    const volume = context.images.representationProxy.getVolumes()[0]
-    const volumeProperty = volume.getProperty()
-
-    const numberOfComponents = actorContext.image
-      ? actorContext.image.imageType.components
-      : 0
-    volumeProperty.setRGBTransferFunction(
-      numberOfComponents,
-      colorTransferFunction
-    )
-    volumeProperty.setIndependentComponents(true)
-    volumeProperty.setOpacityMode(numberOfComponents, OpacityMode.PROPORTIONAL)
-
-    // The slice shows the same lut as the volume for label map
-    const sliceActors = context.images.representationProxy.getActors()
-    sliceActors.forEach(actor => {
-      const actorProp = actor.getProperty()
-      actorProp.setIndependentComponents(true)
-      actorProp.setRGBTransferFunction(
-        numberOfComponents,
-        colorTransferFunction
-      )
-    })
   }
 
   // Update the slice parameters

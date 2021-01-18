@@ -32,7 +32,6 @@ function applyComponentVisibility(context, event) {
     const volumeProps = context.images.representationProxy.getVolumes()
     volumeProps.forEach((volume, volIdx) => {
       const volumeProperty = volume.getProperty()
-      console.log(index, fusedImageIndex)
       volumeProperty.setComponentWeight(fusedImageIndex, weight)
       volumeProperty.setOpacityMode(
         componentVisibilities.length,
@@ -41,8 +40,8 @@ function applyComponentVisibility(context, event) {
 
       if (!!context.images.labelImage || !!context.images.editorLabelImage) {
         let componentsVisible = false
-        for (let i = 0; i < visualizedComponents.length; i++) {
-          componentsVisible = visualizedComponents[i] ? true : componentsVisible
+        for (let i = 0; i < visualizedComponents.length - 1; i++) {
+          componentsVisible = componentsVisible[i] ? true : componentsVisible
         }
 
         let mode = OpacityMode.PROPORTIONAL

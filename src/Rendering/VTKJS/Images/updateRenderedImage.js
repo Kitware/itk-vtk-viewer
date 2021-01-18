@@ -61,6 +61,14 @@ async function updateRenderedImage(context) {
       labelImage.topLevel
     )
     actorContext.renderedLabelImage = topLevelLabelImage
+    const uniqueLabelsSet = new Set(actorContext.renderedLabelImage.data)
+    const uniqueLabels = Array.from(uniqueLabelsSet)
+    // The volume mapper currently only supports ColorTransferFunction's,
+    // not LookupTable's
+    // lut.setAnnotations(uniqueLabels, uniqueLabels);
+    uniqueLabels.sort(numericalSort)
+    actorContext.uniqueLabels = uniqueLabels
+
     if (!!labelImage) {
       const labelImageSize = topLevelLabelImage.size
       const imageSize = topLevelImage.size
@@ -74,7 +82,6 @@ async function updateRenderedImage(context) {
         )
       }
     }
-    const numVisualizedComponents = actorContext.visualizedComponents.length
     fusedImage.setDimensions(vtkImage.getDimensions())
 
     const imageTuples = vtkImage
@@ -84,11 +91,7 @@ async function updateRenderedImage(context) {
 
     const visualizedComponents = actorContext.visualizedComponents.slice()
 
-    context.itkVtkView.setLabelIndex(numVisualizedComponents)
-
-    const fusedImageComponents = actorContext.renderedLabelImage.data
-      ? numVisualizedComponents + 1
-      : numVisualizedComponents
+    const fusedImageComponents = actorContext.visualizedComponents.length
     const length = imageTuples * fusedImageComponents
 
     // We only need to construct a new typed array if we don't already
@@ -105,9 +108,10 @@ async function updateRenderedImage(context) {
     // Loop through comparing to last time and check which components need
     // to be copied into fusedImageData.  This loop doesn't include the
     // labelimage component, it will be checked next.
-    for (let i = 0; i < numVisualizedComponents; i++) {
+    for (let i = 0; i < fusedImageComponents; i++) {
       if (
-        visualizedComponents[i] !== actorContext.lastVisualizedComponents[i]
+        visualizedComponents[i] !== actorContext.lastVisualizedComponents[i] &&
+        visualizedComponents[i] >= 0
       ) {
         copyStructure.push({
           srcImageData: imageData,
@@ -120,14 +124,14 @@ async function updateRenderedImage(context) {
 
     // Check if we need to re-copy the labelmap component
     if (
-      visualizedComponents[numVisualizedComponents] === -1 &&
-      actorContext.lastVisualizedComponents[numVisualizedComponents] !== -1
+      visualizedComponents[fusedImageComponents - 1] === -1 &&
+      actorContext.lastVisualizedComponents[fusedImageComponents - 1] !== -1
     ) {
       copyStructure.push({
-        srcImageData: labelImageData,
+        srcImageData: actorContext.renderedLabelImage.data,
         imageComponents: 1,
         copyFromComponent: 0,
-        copyToComponent: numVisualizedComponents,
+        copyToComponent: fusedImageComponents - 1,
       })
     }
 

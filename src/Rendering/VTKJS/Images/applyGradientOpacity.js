@@ -11,10 +11,14 @@ function applyGradientOpacity(context, event) {
     const volume = context.images.representationProxy.getVolumes()[0]
     if (gradientOpacity === 0) {
       visualizedComponents.forEach((componentIdx, fusedImgIdx) => {
-        volume.getProperty().setUseGradientOpacity(fusedImgIdx, false)
+        componentIdx >= 0 &&
+          volume.getProperty().setUseGradientOpacity(fusedImgIdx, false)
       })
     } else {
       visualizedComponents.forEach((componentIdx, fusedImgIdx) => {
+        if (componentIdx < 0) {
+          return
+        }
         const dataRange = dataArray.getRange(componentIdx)
         volume.getProperty().setUseGradientOpacity(fusedImgIdx, true)
         const minV = Math.max(0.0, gradientOpacity - 0.3) / 0.7

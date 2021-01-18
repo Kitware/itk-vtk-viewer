@@ -1,4 +1,5 @@
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
+import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 
 import applyCategoricalColorToLookupTableProxy from '../../../UI/Reference/applyCategoricalColorToLookupTableProxy'
 
@@ -14,47 +15,41 @@ function applyLookupTable(context, event) {
   } else {
     lookupTableProxy = vtkLookupTableProxy.newInstance()
     context.images.lookupTableProxies.set('labelImage', lookupTableProxy)
-
-    const colorTransferFunction = lookupTableProxy.getLookupTable()
-    colorTransferFunction.setMappingRange(
-      uniqueLabels[0],
-      uniqueLabels[uniqueLabels.length - 1]
-    )
-
-    const volume = context.images.representationProxy.getVolumes()[0]
-    const volumeProperty = volume.getProperty()
-
-    const numberOfComponents = actorContext.image
-      ? actorContext.image.imageType.components
-      : 0
-    volumeProperty.setRGBTransferFunction(
-      numberOfComponents,
-      colorTransferFunction
-    )
-    volumeProperty.setIndependentComponents(true)
-    volumeProperty.setOpacityMode(numberOfComponents, OpacityMode.PROPORTIONAL)
-
-    // The slice shows the same lut as the volume for label map
-    const sliceActors = context.images.representationProxy.getActors()
-    sliceActors.forEach(actor => {
-      const actorProp = actor.getProperty()
-      actorProp.setIndependentComponents(true)
-      actorProp.setRGBTransferFunction(
-        numberOfComponents,
-        colorTransferFunction
-      )
-    })
   }
+
+  const uniqueLabels = Array.from(actorContext.uniqueLabels)
+
+  const colorTransferFunction = lookupTableProxy.getLookupTable()
+  colorTransferFunction.setMappingRange(
+    uniqueLabels[0],
+    uniqueLabels[uniqueLabels.length - 1]
+  )
 
   const currentLut = lookupTableProxy.getPresetName()
   if (currentLut !== lookupTable) {
     // If we are not using the vtk.js / Reference
     applyCategoricalColorToLookupTableProxy(
       lookupTableProxy,
-      Array.from(actorContext.labelNames.keys()),
+      uniqueLabels,
       lookupTable
     )
   }
+
+  const volume = context.images.representationProxy.getVolumes()[0]
+  const volumeProperty = volume.getProperty()
+
+  const component = actorContext.visualizedComponents.length - 1
+  volumeProperty.setRGBTransferFunction(component, colorTransferFunction)
+  volumeProperty.setIndependentComponents(true)
+  volumeProperty.setOpacityMode(component, OpacityMode.PROPORTIONAL)
+
+  // The slice shows the same lut as the volume for label map
+  const sliceActors = context.images.representationProxy.getActors()
+  sliceActors.forEach(actor => {
+    const actorProp = actor.getProperty()
+    actorProp.setIndependentComponents(true)
+    actorProp.setRGBTransferFunction(component, colorTransferFunction)
+  })
 
   context.service.send('RENDER')
 }

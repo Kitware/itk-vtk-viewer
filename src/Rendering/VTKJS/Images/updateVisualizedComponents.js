@@ -24,9 +24,7 @@ function updateVisualizedComponents(context, name) {
       imageComponents,
       actorContext.maxIntensityComponents
     )
-    if (actorContext.visualizedComponents.length <= numVizComps) {
-      return
-    } else {
+    if (!actorContext.visualizedComponents.length <= numVizComps) {
       actorContext.visualizedComponents = actorContext.visualizedComponents.slice(
         0,
         numVizComps
@@ -40,7 +38,13 @@ function updateVisualizedComponents(context, name) {
     }
   }
   if (labelImage) {
-    actorContext.visualizedComponents.push(-1)
+    if (
+      actorContext.visualizedComponents[
+        actorContext.visualizedComponents.length - 1
+      ] !== -1
+    ) {
+      actorContext.visualizedComponents.push(-1)
+    }
   }
 }
 

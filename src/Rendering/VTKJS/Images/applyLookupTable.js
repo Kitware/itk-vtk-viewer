@@ -39,7 +39,6 @@ function applyLookupTable(context, event) {
   const volumeProperty = volume.getProperty()
 
   const component = actorContext.visualizedComponents.length - 1
-  console.log('component', component, colorTransferFunction, uniqueLabels)
   volumeProperty.setRGBTransferFunction(component, colorTransferFunction)
   volumeProperty.setIndependentComponents(true)
   volumeProperty.setOpacityMode(component, OpacityMode.PROPORTIONAL)

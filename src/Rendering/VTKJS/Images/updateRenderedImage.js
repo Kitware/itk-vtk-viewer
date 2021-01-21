@@ -1,11 +1,7 @@
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
-import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
-import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 
 import updateVisualizedComponents from './updateVisualizedComponents'
-import applyGradientOpacity from './applyGradientOpacity'
-import applyLabelImageBlend from './applyLabelImageBlend'
 
 function numericalSort(eltA, eltB) {
   if (eltA < eltB) {
@@ -36,9 +32,6 @@ async function updateRenderedImage(context) {
     actorContext.fusedImage = vtkITKHelper.convertItkToVtkImage(topLevelImage)
 
     actorContext.renderedImage = topLevelImage
-    applyGradientOpacity(context, {
-      data: { name, gradientOpacity: actorContext.gradientOpacity },
-    })
     context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
   } else if (image) {
     const topLevelImage = await image.levelLargestImage(image.topLevel)
@@ -161,12 +154,6 @@ async function updateRenderedImage(context) {
     actorContext.lastVisualizedComponents = visualizedComponents.slice()
 
     actorContext.renderedImage = topLevelImage
-    applyGradientOpacity(context, {
-      data: { name, gradientOpacity: actorContext.gradientOpacity },
-    })
-    applyLabelImageBlend(context, {
-      data: { name, labelImageBlend: actorContext.labelImageBlend },
-    })
     context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
   } else {
     // Todo: just labelImage

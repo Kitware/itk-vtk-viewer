@@ -160,7 +160,9 @@ function applyRenderedImage(context, event) {
   })
 
   // Todo: results in necessary side-effect?
-  applyGradientOpacity(context, { data: { name } })
+  applyGradientOpacity(context, {
+    data: { name, gradientOpacity: actorContext.gradientOpacity },
+  })
 
   // Set default color ranges
   actorContext.visualizedComponents.forEach(

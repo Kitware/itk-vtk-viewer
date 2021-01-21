@@ -16,7 +16,10 @@ function applyPiecewiseFunction(context, event) {
 
     volumePiecewiseFunction.setNodes(nodes)
 
-    const numberOfComponents = actorContext.image.imageType.components
+    const numberOfComponents = actorContext.componentVisibilities.reduce(
+      (a, c) => +a + c,
+      0
+    )
     const filteredNodes = filterAndProcessOpacityNodes(
       numberOfComponents,
       nodes

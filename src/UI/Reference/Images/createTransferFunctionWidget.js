@@ -64,14 +64,17 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
   transferFunctionWidget.onOpacityChange(() => {
     const name = context.images.selectedName
     const actorContext = context.images.actorContext.get(name)
-    const dataRange = actorContext.colorRangeBounds.get(name)
+    const component = actorContext.selectedComponent
+    const dataRange = actorContext.colorRangeBounds.get(component)
+    const range = transferFunctionWidget.getOpacityRange(dataRange)
+    const nodes = transferFunctionWidget.getOpacityNodes(dataRange)
     context.service.send({
       type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
       data: {
         name,
-        component: actorContext.selectedComponent,
-        range: transferFunctionWidget.getOpacityRange(dataRange),
-        nodes: transferFunctionWidget.getOpacityNodes(dataRange),
+        component,
+        range,
+        nodes,
       },
     })
   })

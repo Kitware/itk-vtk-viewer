@@ -1,8 +1,9 @@
 function filterAndProcessOpacityNodes(numComps, opacityNodes) {
-  const filteredNodes = [...opacityNodes]
+  const filteredNodes = new Array(opacityNodes.length)
   const baseLevel = 1.0 / numComps
 
   for (let i = 0; i < filteredNodes.length; i++) {
+    filteredNodes[i] = { ...opacityNodes[i] }
     if (filteredNodes[i].y < baseLevel) {
       filteredNodes[i].y = baseLevel
     }

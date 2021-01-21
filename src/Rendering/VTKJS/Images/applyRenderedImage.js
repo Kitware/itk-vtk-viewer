@@ -84,6 +84,7 @@ function applyRenderedImage(context, event) {
   sliceActors.forEach((actor, actorIdx) => {
     const actorProperty = actor.getProperty()
     actorProperty.setIndependentComponents(actorContext.independentComponents)
+    actor.getMapper().setInputData(actorContext.fusedImage)
     actorContext.visualizedComponents.forEach(
       (componentIndex, fusedImageIndex) => {
         if (!context.images.lookupTableProxies.has(componentIndex)) {
@@ -115,6 +116,7 @@ function applyRenderedImage(context, event) {
   const volumeProps = context.images.representationProxy.getVolumes()
   volumeProps.forEach((volume, volumeIndex) => {
     const volumeProperty = volume.getProperty()
+    volume.getMapper().setInputData(actorContext.fusedImage)
 
     volumeProperty.setIndependentComponents(actorContext.independentComponents)
 

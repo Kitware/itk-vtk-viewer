@@ -3,6 +3,7 @@ import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunct
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 
 import applyGradientOpacity from './applyGradientOpacity'
+import applyLabelImageBlend from './applyLabelImageBlend'
 
 function applyRenderedImage(context, event) {
   const name = event.data
@@ -226,6 +227,10 @@ function applyRenderedImage(context, event) {
         data: { name, lookupTable: actorContext.lookupTable },
       })
     }
+
+    applyLabelImageBlend(context, {
+      data: { name, labelImageBlend: actorContext.labelImageBlend },
+    })
   }
 
   // Update the slice parameters

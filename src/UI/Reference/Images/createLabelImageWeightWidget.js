@@ -67,7 +67,7 @@ function createLabelMapWeightWidget(context) {
       actorContext.labelImageToggleWeight = weight
     } else {
       labelImageWeights.set(
-        actorContext.selectedLabel,
+        parseInt(actorContext.selectedLabel),
         Number(weightElement.value)
       )
     }

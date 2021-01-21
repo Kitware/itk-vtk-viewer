@@ -14,9 +14,6 @@ function applyLabelImageBlend(context, event) {
     const visualizedComponents = actorContext.visualizedComponents
     const componentVisibilities = actorContext.componentVisibilities
     const weight = 1.0 - labelImageBlend
-    const numberOfComponents = actorContext.image
-      ? actorContext.image.imageType.components
-      : 0
 
     visualizedComponents.forEach((componentIdx, fusedImgIdx) => {
       if (componentIdx >= 0 && componentVisibilities[componentIdx]) {
@@ -25,8 +22,9 @@ function applyLabelImageBlend(context, event) {
       }
     })
 
-    volumeProperty.setComponentWeight(numberOfComponents, labelImageBlend)
-    sliceProperty.setComponentWeight(numberOfComponents, labelImageBlend)
+    const labelComponent = actorContext.visualizedComponents.length - 1
+    volumeProperty.setComponentWeight(labelComponent, labelImageBlend)
+    sliceProperty.setComponentWeight(labelComponent, labelImageBlend)
     context.service.send('RENDER')
   }
 }

@@ -15,7 +15,6 @@ function applyLabelImageWeights(context, event) {
     piecewiseFunction = context.images.piecewiseFunctions.get('labelImage')
   }
 
-  console.log('label image weights', labelImageWeights)
   const maxOpacity = 1.0
   const haveBackground =
     labelImageWeights.keys().next().value === 0 ? true : false
@@ -54,13 +53,10 @@ function applyLabelImageWeights(context, event) {
     entry = weightIter.next()
   }
 
-  console.log('piecewiseFunction', piecewiseFunction.getState())
-
   const volume = context.images.representationProxy.getVolumes()[0]
   const volumeProperty = volume.getProperty()
 
   const component = actorContext.visualizedComponents.length - 1
-  console.log('COPMONENTS', component)
   volumeProperty.setScalarOpacity(component, piecewiseFunction)
 
   // The slice shows the same piecewise function as the volume for label map
@@ -69,8 +65,6 @@ function applyLabelImageWeights(context, event) {
     const actorProp = actor.getProperty()
     actorProp.setPiecewiseFunction(component, piecewiseFunction)
   })
-
-  console.log(name, volume, volumeProperty)
 
   context.service.send('RENDER')
 }

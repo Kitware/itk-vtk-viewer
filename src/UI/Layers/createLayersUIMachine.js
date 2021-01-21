@@ -129,17 +129,9 @@ const assignImageContext = assign({
       if (actorContext.colorMaps.has(component)) {
         continue
       }
-      let colorMap = 'Viridis (matplotlib)'
+      let colorMap = 'Grayscale'
       // If a 2D RGB or RGBA
-      if (
-        context.use2D &&
-        componentType === IntTypes.UInt8 &&
-        (components === 3 || components === 4)
-      ) {
-        colorMap = 'Grayscale'
-      } else if (components === 1 && !!labelImage) {
-        colorMap = 'Grayscale'
-      } else if (components === 2) {
+      if (components === 2) {
         switch (component) {
           case 0:
             colorMap = 'BkMa'

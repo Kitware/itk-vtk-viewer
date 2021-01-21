@@ -156,7 +156,23 @@ async function updateRenderedImage(context) {
     actorContext.renderedImage = topLevelImage
     context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
   } else {
-    // Todo: just labelImage
+    const topLevelLabelImage = await labelImage.levelLargestImage(
+      labelImage.topLevel
+    )
+    actorContext.renderedLabelImage = topLevelLabelImage
+    actorContext.fusedImage = vtkITKHelper.convertItkToVtkImage(
+      topLevelLabelImage
+    )
+
+    const uniqueLabelsSet = new Set(actorContext.renderedLabelImage.data)
+    const uniqueLabels = Array.from(uniqueLabelsSet)
+    // The volume mapper currently only supports ColorTransferFunction's,
+    // not LookupTable's
+    // lut.setAnnotations(uniqueLabels, uniqueLabels);
+    uniqueLabels.sort(numericalSort)
+    actorContext.uniqueLabels = uniqueLabels
+
+    context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
   }
 }
 

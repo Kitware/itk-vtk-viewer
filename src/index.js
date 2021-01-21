@@ -100,7 +100,7 @@ export async function createViewerFromUrl(
       const result = await readImageArrayBuffer(
         null,
         arrayBuffer,
-        image.split('/').slice(-1)[0]
+        labelImage.split('/').slice(-1)[0]
       )
       result.webWorker.terminate()
       labelImageObject = result.image

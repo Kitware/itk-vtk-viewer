@@ -38,7 +38,9 @@ function updateVisualizedComponents(context, name) {
     }
   }
   if (labelImage) {
-    if (
+    if (typeof actorContext.visualizedComponents === 'undefined') {
+      actorContext.visualizedComponents = [-1]
+    } else if (
       actorContext.visualizedComponents[
         actorContext.visualizedComponents.length - 1
       ] !== -1

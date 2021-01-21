@@ -9,11 +9,26 @@ function toggleUICollapsed(context, event, actionMeta) {
       actionMeta.state.value.active.uiCollapsed === 'enabled'
   }
 
-  applyGroupVisibility(
-    context,
-    ['main', 'layers', 'widgets', 'images', 'labelImages', 'labelImageWeights'],
-    !context.uiCollapsed
-  )
+  if (context.uiCollapsed) {
+    applyGroupVisibility(
+      context,
+      [
+        'main',
+        'layers',
+        'widgets',
+        'images',
+        'labelImages',
+        'labelImageWeights',
+      ],
+      !context.uiCollapsed
+    )
+  } else {
+    applyGroupVisibility(
+      context,
+      ['main', 'layers', 'widgets'],
+      !context.uiCollapsed
+    )
+  }
 
   if (!context.use2D && !!context.main.planeUIGroup) {
     if (context.uiCollapsed && context.main.viewMode === 'Volume') {

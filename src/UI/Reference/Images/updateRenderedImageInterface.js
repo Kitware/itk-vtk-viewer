@@ -7,8 +7,10 @@ function updateRenderedImageInterface(context, event) {
 
   const gaussians = actorContext.piecewiseFunctionGaussians.get(component)
   const transferFunctionWidget = context.images.transferFunctionWidget
-  transferFunctionWidget.setGaussians(gaussians)
-  transferFunctionWidget.modified()
+  if (transferFunctionWidget && gaussians) {
+    transferFunctionWidget.setGaussians(gaussians)
+    transferFunctionWidget.modified()
+  }
 
   // Todo: remove
   const renderedImage = actorContext.renderedImage

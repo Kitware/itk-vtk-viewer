@@ -1,3 +1,5 @@
+import applyGroupVisibility from '../applyGroupVisibility'
+
 function toggleLayerVisibility(context, event) {
   const layers = context.layers
   const name = event.data
@@ -13,6 +15,20 @@ function toggleLayerVisibility(context, event) {
   } else {
     visibleButton.style.display = 'none'
     invisibleButton.style.display = 'flex'
+    switch (actorContext.type) {
+      case 'image':
+        applyGroupVisibility(context, ['images'], false)
+        break
+      case 'labelImage':
+        applyGroupVisibility(
+          context,
+          ['labelImages', 'labelImageWeights'],
+          false
+        )
+        break
+      default:
+        console.error(`Unsupported layer type: ${type}`)
+    }
   }
 }
 

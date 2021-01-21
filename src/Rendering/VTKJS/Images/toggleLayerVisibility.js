@@ -26,18 +26,18 @@ function toggleLayerVisibility(context, event) {
         data: actorContext.imageName,
       })
     }
-  } else if (
-    actorContext.type === 'image' &&
-    context.layers.actorContext.has(actorContext.labelImageName)
-  ) {
-    const labelImageLayerContext = context.layers.actorContext.get(
-      actorContext.labelImageName
-    )
-    if (labelImageLayerContext.visible !== visible) {
-      context.service.send({
-        type: 'TOGGLE_LAYER_VISIBILITY',
-        data: actorContext.labelImageName,
-      })
+  } else if (actorContext.type === 'image') {
+    const imageActorContext = context.images.actorContext.get(name)
+    if (context.layers.actorContext.has(imageActorContext.labelImageName)) {
+      const labelImageLayerContext = context.layers.actorContext.get(
+        imageActorContext.labelImageName
+      )
+      if (labelImageLayerContext.visible !== visible) {
+        context.service.send({
+          type: 'TOGGLE_LAYER_VISIBILITY',
+          data: imageActorContext.labelImageName,
+        })
+      }
     }
   }
 

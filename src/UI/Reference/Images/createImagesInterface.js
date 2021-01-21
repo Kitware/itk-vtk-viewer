@@ -1,4 +1,5 @@
 import style from '../ItkVtkViewer.module.css'
+import applyGroupVisibility from '../applyGroupVisibility'
 
 import createComponentSelector from './createComponentSelector'
 import createColorRangeInput from './createColorRangeInput'
@@ -23,6 +24,12 @@ function createImagesInterface(context) {
 
   createLabelImageColorWidget(context)
   createLabelImageWeightWidget(context)
+
+  applyGroupVisibility(
+    context,
+    ['images', 'labelImages', 'labelImageWeights'],
+    false
+  )
 }
 
 export default createImagesInterface

@@ -71,6 +71,9 @@ class ImageActorContext {
   // Volume rendering blend mode
   blendMode = 'Composite'
 
+  // Name of the labelImage layer
+  labelImageName = null
+
   // Blend, 0.0 to 1.0 of the label image into the image
   labelImageBlend = 0.5
 

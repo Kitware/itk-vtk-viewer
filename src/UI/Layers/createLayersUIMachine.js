@@ -74,13 +74,22 @@ const assignImageContext = assign({
     let name = null
     let image = null
     let labelImage = null
+    let imageName = null
+    let labelImageName = null
+    // The ImageActorContext is identified with the image layer name, unless
+    // there is only a labelImage, in which case it is the labelImage name.
+    // If there is an image and labelImage the actorContext.labelImageName
+    // will be set to the labelImage layer name. The labelImage layer context
+    // will have .imageName set to the image name.
     if ('labelImage' in context.layers.lastAddedData.data) {
       labelImage = context.layers.lastAddedData.data.labelImage
       if (context.layers.lastAddedData.data.imageName) {
         name = context.layers.lastAddedData.data.imageName
+        imageName = name
       } else {
         name = context.layers.lastAddedData.data.labelImage.name
       }
+      labelImageName = context.layers.lastAddedData.name
     } else {
       name = context.layers.lastAddedData.name
     }
@@ -93,6 +102,13 @@ const assignImageContext = assign({
     } else {
       image = context.layers.lastAddedData.data
       actorContext.image = image
+    }
+    if (labelImageName) {
+      actorContext.labelImageName = labelImageName
+      if (imageName) {
+        const layerContext = context.layers.actorContext.get(labelImageName)
+        layerContext.imageName = imageName
+      }
     }
 
     if (image === null) {

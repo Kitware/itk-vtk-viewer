@@ -156,6 +156,8 @@ async function updateRenderedImage(context) {
     })
 
     fusedImage.getPointData().setScalars(fusedImageScalars)
+    // Trigger VolumeMapper scalarTexture update
+    fusedImage.modified()
     actorContext.lastVisualizedComponents = visualizedComponents.slice()
 
     actorContext.renderedImage = topLevelImage

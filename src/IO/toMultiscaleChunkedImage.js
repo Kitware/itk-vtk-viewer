@@ -1,3 +1,6 @@
+import axios from 'axios'
+import readImageArrayBuffer from 'itk/readImageArrayBuffer'
+
 import MultiscaleChunkedImage from './MultiscaleChunkedImage'
 import InMemoryMultiscaleChunkedImage from './InMemoryMultiscaleChunkedImage'
 import ndarrayToItkImage from './ndarrayToItkImage'
@@ -44,6 +47,23 @@ async function toMultiscaleChunkedImage(image, isLabelImage = false) {
   } else if (image.shape !== undefined && image.stride !== undefined) {
     // ndarray
     const itkImage = ndarrayToItkImage(image)
+    multiscaleImage = await itkImageToInMemoryMultiscaleChunkedImage(
+      itkImage,
+      isLabelImage
+    )
+  } else if (image.href !== undefined) {
+    // URL, assumed to be an image file.
+    // Todo: support .zarr URL's
+    const imageHref = image.href
+    const response = await axios.get(imageHref, {
+      responseType: 'arraybuffer',
+    })
+    const { image: itkImage, webWorker } = await readImageArrayBuffer(
+      null,
+      response.data,
+      imageHref.split('/').slice(-1)[0]
+    )
+    webWorker.terminate()
     multiscaleImage = await itkImageToInMemoryMultiscaleChunkedImage(
       itkImage,
       isLabelImage

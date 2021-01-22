@@ -38,7 +38,7 @@ function applyStyle(el, style) {
 }
 
 test('Test ImJoy Plugin', async t => {
-  t.plan(2)
+  t.plan(5)
   const gc = testUtils.createGarbageCollector(t)
 
   const container = document.querySelector('body')
@@ -77,11 +77,19 @@ test('Test ImJoy Plugin', async t => {
     data: { image: itkImage },
   })
   await viewer.setImage(array)
+  t.pass('setImage ndarray')
 
   const bgColor = [0.2, 0.8, 0.7]
   await viewer.setBackgroundColor(bgColor)
   const resultBGColor = await viewer.getBackgroundColor()
   t.same(bgColor, resultBGColor, 'background color')
+
+  await viewer.setImage(itkImage)
+  t.pass('setImage itk.js Image')
+
+  const imageURL = new URL(testImage3DPath, document.location.origin)
+  await viewer.setImage(imageURL)
+  t.pass('setImage URL')
 
   imjoy.destroy()
   console.log('ImJoy destroyed')

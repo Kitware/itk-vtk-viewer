@@ -1,3 +1,3 @@
-//import './convertItkImageToVtkImageTest.js'
+import './convertItkImageToVtkImageTest.js'
 import './createViewerTest.js'
-//import './imjoyTest.js'
+import './imjoyTest.js'

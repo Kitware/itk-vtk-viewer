@@ -4,7 +4,6 @@ const imJoyPluginAPI = {
     itkVtkViewer.createViewerFromLocalFiles(container).then(viewer => {
       this.viewer = viewer
     })
-    api.log('itk-vtk-viewer loaded successfully.')
   },
 
   async run(ctx) {

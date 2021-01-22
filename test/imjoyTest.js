@@ -38,6 +38,7 @@ function applyStyle(el, style) {
 }
 
 test('Test ImJoy Plugin', async t => {
+  t.plan(2)
   const gc = testUtils.createGarbageCollector(t)
 
   const container = document.querySelector('body')
@@ -80,11 +81,11 @@ test('Test ImJoy Plugin', async t => {
   const bgColor = [0.2, 0.8, 0.7]
   await viewer.setBackgroundColor(bgColor)
   const resultBGColor = await viewer.getBackgroundColor()
-  t.same(bgColor, resultBGColor)
+  t.same(bgColor, resultBGColor, 'background color')
 
   imjoy.destroy()
   console.log('ImJoy destroyed')
-  gc.releaseResources()
 
-  t.pass()
+  t.pass('test completed')
+  gc.releaseResources()
 })

@@ -304,8 +304,7 @@ test('Test createViewer', async t => {
 
     t.pass('test completed')
 
-    //const screenshot = await viewer.captureImage()
-    //gc.releaseResources()
+    gc.releaseResources()
     //testUtils.compareImages(
     //screenshot,
     //[createViewerBaseline],
@@ -317,55 +316,56 @@ test('Test createViewer', async t => {
   }, 100)
 })
 
-//test('Test createViewer.setImage', async t => {
-//const gc = testUtils.createGarbageCollector(t)
+test('Test createViewer.setImage', async t => {
+  const gc = testUtils.createGarbageCollector(t)
 
-//const container = document.querySelector('body')
-//const viewerContainer = gc.registerDOMElement(document.createElement('div'))
-//container.appendChild(viewerContainer)
+  const container = document.querySelector('body')
+  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+  container.appendChild(viewerContainer)
 
-//const response = await axios.get(testImage3DPath, {
-//responseType: 'arraybuffer',
-//})
-//const { image: itkImage, webWorker } = await itkreadImageArrayBuffer(
-//null,
-//response.data,
-//'data.nrrd'
-//)
-//webWorker.terminate()
+  const response = await axios.get(testImage3DPath, {
+    responseType: 'arraybuffer',
+  })
+  const { image: itkImage, webWorker } = await itkreadImageArrayBuffer(
+    null,
+    response.data,
+    'data.nrrd'
+  )
+  webWorker.terminate()
 
-//const viewer = await createViewer(container, {
-//image: itkImage,
-//rotate: false,
-//viewerStyle: TEST_VIEWER_STYLE,
-//})
-//const response2 = await axios.get(testImage3DPath2, {
-//responseType: 'arraybuffer',
-//})
-//const {
-//image: itkImage2,
-//webWorker: webWorker2,
-//} = await itkreadImageArrayBuffer(null, response2.data, 'data.nrrd')
-//webWorker2.terminate()
+  const viewer = await createViewer(container, {
+    image: itkImage,
+    rotate: false,
+    viewerStyle: TEST_VIEWER_STYLE,
+  })
+  const response2 = await axios.get(testImage3DPath2, {
+    responseType: 'arraybuffer',
+  })
+  const {
+    image: itkImage2,
+    webWorker: webWorker2,
+  } = await itkreadImageArrayBuffer(null, response2.data, 'data.nrrd')
+  webWorker2.terminate()
 
-//viewer.setImage(itkImage2)
-//const viewProxy = viewer.getViewProxy()
-//const renderWindow = viewProxy.getOpenglRenderWindow()
-//// Consistent baseline image size for regression testing
-//renderWindow.setSize(600, 600)
-//const representation = viewProxy.getRepresentations()[0]
-//const volumeMapper = representation.getMapper()
-//viewer.renderLater()
-//setTimeout(() => {
-//viewer.captureImage().then(screenshot => {
-//testUtils.compareImages(
-//screenshot,
-//[createViewerSetImageBaseline],
-//'Test createViewer.setImage',
-//t,
-//2.0,
-//gc.releaseResources
-//)
-//}, 100)
-//})
-//})
+  viewer.setImage(itkImage2)
+  const viewProxy = viewer.getViewProxy()
+  const renderWindow = viewProxy.getOpenglRenderWindow()
+  // Consistent baseline image size for regression testing
+  renderWindow.setSize(600, 600)
+  const representation = viewProxy.getRepresentations()[0]
+  const volumeMapper = representation.getMapper()
+  viewer.renderLater()
+  setTimeout(() => {
+    viewer.captureImage().then(screenshot => {
+      gc.releaseResources()
+      //testUtils.compareImages(
+      //screenshot,
+      //[createViewerSetImageBaseline],
+      //'Test createViewer.setImage',
+      //t,
+      //2.0,
+      //gc.releaseResources
+      //)
+    }, 100)
+  })
+})

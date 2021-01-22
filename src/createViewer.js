@@ -28,40 +28,17 @@ import ViewerMachineContext from './Context/ViewerMachineContext'
 
 import { autorun, observable, reaction, toJS } from 'mobx'
 
-function updateVisualizedComponents(store) {
-  const image = store.imageUI.image
-  const labelMap = store.imageUI.labelMap
-  if (image) {
-    const imageComponents = image
-      .getPointData()
-      .getScalars()
-      .getNumberOfComponents()
-    store.imageUI.maxIntensityComponents = !!labelMap ? 3 : 4
-    const numVizComps = Math.min(
-      imageComponents,
-      store.imageUI.maxIntensityComponents
-    )
-    const vizComps = []
-    for (let i = 0; i < numVizComps; i++) {
-      vizComps.push(i)
-    }
-    store.imageUI.visualizedComponents.replace(vizComps)
-  }
-}
-
 const createViewer = async (
   rootContainer,
   {
     image,
     labelImage,
-    labelImageNames,
     geometries,
     pointSets,
     use2D = false,
     rotate = true,
     viewerStyle,
     uiContainer,
-    debug = false,
   }
 ) => {
   UserInterface.emptyContainer(rootContainer)
@@ -76,6 +53,7 @@ const createViewer = async (
 
   const publicAPI = {}
 
+  const debug = false
   if (debug) {
     //const stateIFrame = document.createElement('iframe')
     //store.container.style.height = '50%'
@@ -624,10 +602,6 @@ const createViewer = async (
     return store
   }
 
-  publicAPI.getImage = () => {
-    return store.imageUI.image
-  }
-
   publicAPI.getLookupTableProxies = () => {
     return store.imageUI.lookupTableProxies
   }
@@ -839,6 +813,28 @@ const createViewer = async (
 
   publicAPI.getLayerVisibility = name => {
     return context.layers.actorContext.get(name).visible
+  }
+
+  publicAPI.setImage = async (image, name) => {
+    if (typeof name === 'undefined' && context.images.selectedName) {
+      name = context.images.selectedName
+    }
+    const multiscaleImage = await toMultiscaleChunkedImage(image)
+    multiscaleImage.name = name
+    if (context.images.actorContext.has(name)) {
+      const actorContext = context.images.actorContext.get(name)
+      actorContext.image = multiscaleImage
+      service.send({ type: 'IMAGE_ASSIGNED', data: name })
+    } else {
+      service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
+    }
+  }
+
+  publicAPI.getImage = name => {
+    if (typeof name === 'undefined' && context.images.selectedName) {
+      name = context.images.selectedName
+    }
+    return context.images.actorContext.get(name).image
   }
 
   publicAPI.setImageInterpolationEnabled = (enabled, name) => {

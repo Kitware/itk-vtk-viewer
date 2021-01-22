@@ -29,11 +29,12 @@ const imJoyPluginAPI = {
         rotate: false,
       })
     } else {
-      const vtkImage = itkVtkViewer.utils.vtkITKHelper.convertItkToVtkImage(
-        itkImage
-      )
-      await this.viewer.setImage(vtkImage)
+      await this.viewer.setImage(itkImage)
     }
+  },
+
+  getImage(name) {
+    return this.viewer.getImage(name)
   },
 
   setBackgroundColor(bgColor) {

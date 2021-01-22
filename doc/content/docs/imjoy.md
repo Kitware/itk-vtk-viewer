@@ -46,6 +46,17 @@ In addition to the standard `setup` and `run` methods, the *itk-vtk-viewer* plug
 
 ## Main
 
+### getConfig()
+
+Get the viewer configuration. This can be used to restore a viewer's
+configuration when created.
+
+### setContainerStyle(containerStyle)
+
+### getContainerStyle()
+
+Set/get the CSS style for the viewer.
+
 ### setBackgroundColor(bgColor)
 
 ### getBackgroundColor()

@@ -1,4 +1,22 @@
 class MainMachineContext {
+  constructor(config) {
+    if (!!config) {
+      this.backgroundColor = config.backgroundColor
+      this.units = config.units
+
+      // Todo: more
+    }
+  }
+
+  getConfig() {
+    const config = {
+      backgroundColor: [...this.backgroundColor],
+      units: this.units,
+    }
+
+    return config
+  }
+
   // Background color of the renderer
   backgroundColor = [0.5, 0.5, 0.5]
 

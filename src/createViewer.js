@@ -37,8 +37,8 @@ const createViewer = async (
     pointSets,
     use2D = false,
     rotate = true,
-    viewerStyle,
     uiContainer,
+    config,
   }
 ) => {
   UserInterface.emptyContainer(rootContainer)
@@ -174,7 +174,7 @@ const createViewer = async (
   }
 
   const options = viewerMachineOptions
-  const context = new ViewerMachineContext()
+  const context = new ViewerMachineContext(config)
   context.use2D = use2D
   context.rootContainer = rootContainer
   // Todo: move to viewer machine
@@ -195,21 +195,6 @@ const createViewer = async (
   console.log(machine)
   console.log(service)
   service.start()
-
-  if (!!viewerStyle) {
-    if (!!viewerStyle.backgroundColor) {
-      service.send({
-        type: 'SET_BACKGROUND_COLOR',
-        data: viewerStyle.backgroundColor,
-      })
-    }
-    if (!!viewerStyle.containerStyle) {
-      service.send({
-        type: 'STYLE_CONTAINER',
-        data: viewerStyle.containerStyle,
-      })
-    }
-  }
 
   let updatingImage = false
 
@@ -659,6 +644,10 @@ const createViewer = async (
 
   publicAPI.getEventEmitter = () => eventEmitter
 
+  publicAPI.getConfig = () => {
+    return context.getConfig()
+  }
+
   publicAPI.setUICollapsed = collapse => {
     if (collapse !== context.uiCollapsed) {
       service.send('TOGGLE_UI_COLLAPSED')
@@ -667,6 +656,14 @@ const createViewer = async (
 
   publicAPI.getUICollapsed = () => {
     return context.uiCollapsed
+  }
+
+  publicAPI.setContainerStyle = containerStyle => {
+    service.send({ type: 'STYLE_CONTAINER', data: containerStyle })
+  }
+
+  publicAPI.getContainerStyle = () => {
+    return { ...context.containerStyle }
   }
 
   reaction(
@@ -678,6 +675,22 @@ const createViewer = async (
       eventEmitter.emit('imagePicked', toJS(lastPickedValues))
     }
   )
+
+  publicAPI.setBackgroundColor = bgColor => {
+    service.send({ type: 'SET_BACKGROUND_COLOR', data: bgColor })
+  }
+
+  publicAPI.getBackgroundColor = () => {
+    return context.main.backgroundColor.slice()
+  }
+
+  publicAPI.setUnits = units => {
+    service.send({ type: 'SET_UNITS', data: units })
+  }
+
+  publicAPI.getUnits = () => {
+    return context.main.units
+  }
 
   publicAPI.setImagePiecewiseFunctionGaussians = (
     gaussians,
@@ -713,6 +726,7 @@ const createViewer = async (
     publicAPI.setUICollapsed(true)
   }
 
+  // https://github.com/eligrey/canvas-toBlob.js ?
   publicAPI.captureImage = () => {
     return store.itkVtkView.captureImage()
   }
@@ -1266,35 +1280,12 @@ const createViewer = async (
     store.geometriesUI.opacities[index] = opacity
   }
 
-  publicAPI.setBackgroundColor = bgColor => {
-    service.send({ type: 'SET_BACKGROUND_COLOR', data: bgColor })
-  }
-
-  publicAPI.getBackgroundColor = () => {
-    return context.main.backgroundColor.slice()
-  }
-
-  publicAPI.setUnits = units => {
-    service.send({ type: 'SET_UNITS', data: units })
-  }
-
-  publicAPI.getUnits = () => {
-    return context.main.units
-  }
-
   // The `itkVtkView` is considered an internal implementation detail
   // and its interface and behavior may change without changes to the major version.
   publicAPI.getViewProxy = () => {
     return store.itkVtkView
   }
 
-  //publicAPI.saveState = () => {
-  //// todo
-  //}
-
-  //publicAPI.loadState = (state) => {
-  //// todo
-  //}
   addKeyboardShortcuts(context.uiContainer, service)
 
   if (!use2D) {

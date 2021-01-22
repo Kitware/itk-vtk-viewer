@@ -34,9 +34,13 @@ const TEST_VIEWER_STYLE = {
   containerStyle: TEST_STYLE_CONTAINER,
 }
 
+const baselineConfig = JSON.parse(
+  '{"viewerConfigVersion":"0.1","containerStyle":{"position":"relative","width":"600px","height":"600px","minHeight":"600px","minWidth":"600px","maxHeight":"600px","maxWidth":"600px","margin":"0","padding":"0","top":"0","left":"0","overflow":"hidden"},"main":{"backgroundColor":[0.7,0.2,0.8],"units":"mm"}}'
+)
+
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(51)
+  t.plan(52)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -65,8 +69,9 @@ test('Test createViewer', async t => {
     image: itkImage,
     labelImage: itkLabelImage,
     rotate: false,
-    viewerStyle: TEST_VIEWER_STYLE,
   })
+  viewer.setContainerStyle(TEST_VIEWER_STYLE.containerStyle)
+  viewer.setBackgroundColor(TEST_VIEWER_STYLE.backgroundColor)
 
   const uiContainer =
     viewerContainer.children[viewerContainer.children.length - 1]
@@ -302,6 +307,10 @@ test('Test createViewer', async t => {
     const resultLabelImageWeights = viewer.getLabelImageWeights()
     t.same(resultLabelImageWeights, labelWeights, 'label image weights')
 
+    const config = viewer.getConfig()
+    //console.log('ViewerConfig', JSON.stringify(config))
+    t.same(config, baselineConfig, 'get config')
+
     t.pass('test completed')
 
     gc.releaseResources()
@@ -336,8 +345,9 @@ test('Test createViewer.setImage', async t => {
   const viewer = await createViewer(container, {
     image: itkImage,
     rotate: false,
-    viewerStyle: TEST_VIEWER_STYLE,
   })
+  viewer.setContainerStyle(TEST_VIEWER_STYLE.containerStyle)
+  viewer.setBackgroundColor(TEST_VIEWER_STYLE.backgroundColor)
   const response2 = await axios.get(testImage3DPath2, {
     responseType: 'arraybuffer',
   })

@@ -189,6 +189,22 @@ const addKeyboardShortcuts = (container, service) => {
       preventDefaults(event)
       service.send('TOGGLE_ROTATE')
     })
+    MOUSETRAP.bind('c', function(event, combo) {
+      preventDefaults(event)
+      const config = context.getConfig()
+      const blob = new Blob([JSON.stringify(config)], {
+        type: 'text/plain;charset=utf-8',
+      })
+      saveAs(blob, 'viewerConfig.json')
+    })
+    MOUSETRAP.bind('alt+c', function(event, combo) {
+      preventDefaults(event)
+      const config = context.getConfig()
+      const blob = new Blob([JSON.stringify(config)], {
+        type: 'text/plain;charset=utf-8',
+      })
+      saveAs(blob, 'viewerConfig.json')
+    })
   })
 
   container.addEventListener('mouseleave', () => {

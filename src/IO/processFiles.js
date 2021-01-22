@@ -31,19 +31,20 @@ function typedArrayForBuffer(typedArrayType, buffer) {
 
 export const processFiles = async (
   container,
-  { files, image, labelImage, labelImageNames, rotate, use2D }
+  { files, image, labelImage, config, labelImageNames, rotate, use2D }
 ) => {
   UserInterface.emptyContainer(container)
   UserInterface.createLoadingProgress(container)
-  const config = await readFiles({
+  const viewerConfig = await readFiles({
     files,
     image,
     labelImage,
     labelImageNames,
     use2D,
   })
-  config.rotate = rotate
-  return createViewer(container, config)
+  viewerConfig.config = config
+  viewerConfig.rotate = rotate
+  return createViewer(container, viewerConfig)
 }
 
 export const readFiles = async ({

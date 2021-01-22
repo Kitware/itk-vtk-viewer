@@ -34,6 +34,17 @@ const imJoyPluginAPI = {
     return this.viewer.getImage(name)
   },
 
+  getConfig() {
+    return this.viewer.getConfig()
+  },
+
+  setContainerStyle(containerStyle) {
+    this.viewer.setContainerStyle(containerStyle)
+  },
+  getContainerStyle() {
+    return this.viewer.getContainerStyle()
+  },
+
   setBackgroundColor(bgColor) {
     this.viewer.setBackgroundColor(bgColor)
   },

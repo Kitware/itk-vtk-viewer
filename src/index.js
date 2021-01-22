@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract'
 import getFileExtension from 'itk/getFileExtension'
 
@@ -40,6 +42,7 @@ export async function createViewerFromUrl(
     files = [],
     image,
     labelImage,
+    config,
     labelImageNames = null,
     rotate = true,
     use2D = false,
@@ -130,6 +133,14 @@ export async function createViewerFromUrl(
     }
   }
 
+  let viewerConfig = null
+  if (config) {
+    const response = await axios.get(config, {
+      responseType: 'json',
+    })
+    viewerConfig = response.data
+  }
+
   let labelImageNameObject = null
   if (!!labelImageNames) {
     labelImageNameObject = await fetchJsonContent(labelImageNames)
@@ -139,6 +150,7 @@ export async function createViewerFromUrl(
     files: fileObjects,
     image: imageObject,
     labelImage: labelImageObject,
+    config: viewerConfig,
     labelImageNames: labelImageNameObject,
     rotate,
     use2D,
@@ -210,12 +222,17 @@ export function processURLParameters(container, addOnParameters = {}) {
   if (typeof userParams.rotate !== 'undefined') {
     rotate = userParams.rotate
   }
+  let config = null
+  if (typeof userParams.config !== 'undefined') {
+    config = userParams.config
+  }
 
   if (filesToLoad.length || userParams.image || userParams.labelImage) {
     return createViewerFromUrl(myContainer, {
       files: filesToLoad,
       image: userParams.image,
       labelImage: userParams.labelImage,
+      config,
       labelImageNames: userParams.labelImageNames,
       rotate,
       use2D: !!userParams.use2D,

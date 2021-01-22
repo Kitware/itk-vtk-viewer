@@ -1,5 +1,6 @@
 import MultiscaleChunkedImage from './MultiscaleChunkedImage'
 import InMemoryMultiscaleChunkedImage from './InMemoryMultiscaleChunkedImage'
+import ndarrayToItkImage from './ndarrayToItkImage'
 
 async function itkImageToInMemoryMultiscaleChunkedImage(image, isLabelImage) {
   let chunkSize = [64, 64, 64]
@@ -38,6 +39,13 @@ async function toMultiscaleChunkedImage(image, isLabelImage = false) {
     // itk.js Image
     multiscaleImage = await itkImageToInMemoryMultiscaleChunkedImage(
       image,
+      isLabelImage
+    )
+  } else if (image.shape !== undefined && image.stride !== undefined) {
+    // ndarray
+    const itkImage = ndarrayToItkImage(image)
+    multiscaleImage = await itkImageToInMemoryMultiscaleChunkedImage(
+      itkImage,
       isLabelImage
     )
   } else {

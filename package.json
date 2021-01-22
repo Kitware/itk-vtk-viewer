@@ -101,7 +101,7 @@
     "doc:www": "kw-doc -c ./doc/config.js -s",
     "doc:publish": "kw-doc -c ./doc/config.js -mp",
     "build": "webpack --progress --color --mode production",
-    "build:debug": "webpack --progress --color --display-modules --mode development",
+    "build:debug": "webpack --progress --color --mode development",
     "build:release": "npm run build -- -p",
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkViewer.html",
     "commit": "git cz",

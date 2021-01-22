@@ -47,8 +47,8 @@ const moduleConfig = {
 }
 
 const performance = {
-  maxAssetSize: 15000000,
-  maxEntrypointSize: 15000000,
+  maxAssetSize: 20000000,
+  maxEntrypointSize: 20000000,
 }
 
 module.exports = [

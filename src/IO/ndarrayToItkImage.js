@@ -1,3 +1,5 @@
+import PixelTypes from 'itk/PixelTypes'
+
 const typedArray2itkType = {
   Int8Array: 'int8_t',
   Uint8Array: 'uint8_t',

@@ -13,22 +13,20 @@ const imJoyPluginAPI = {
   },
 
   async setImage(image) {
-    let itkImage = image
-    if (image.shape !== undefined && image.stride !== undefined) {
-      itkImage = itkVtkViewer.utils.ndarrayToItkImage(image)
-    }
-
-    const is2D = itkImage.imageType.dimension === 2
+    const multiscaleImage = await itkVtkViewer.utils.toMultiscaleChunkedImage(
+      image
+    )
+    const is2D = multiscaleImage.imageType.dimension === 2
     if (this.viewer === null) {
       this.viewer = await itkVtkViewer.createViewer(container, {
-        image: itkImage,
+        image: multiscaleImage,
         pointSets: null,
         geometries: null,
         use2D: is2D,
         rotate: false,
       })
     } else {
-      await this.viewer.setImage(itkImage)
+      await this.viewer.setImage(multiscaleImage)
     }
   },
 

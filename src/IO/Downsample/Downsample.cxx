@@ -194,7 +194,6 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
   const char * inputImageFile = argv[2];
-  std::cout << "input image file: " << inputImageFile << std::endl;
 
 #if defined(__EMSCRIPTEN__)
   itk::JSONImageIO::Pointer imageIO = itk::JSONImageIO::New();

@@ -7,7 +7,7 @@ import ndarrayToItkImage from './ndarrayToItkImage'
 
 async function itkImageToInMemoryMultiscaleChunkedImage(image, isLabelImage) {
   let chunkSize = [64, 64, 64]
-  if (image.data.length > 2e6) {
+  if (image.data.length < 2e6) {
     // Keep a single chunk
     chunkSize = image.size
   } else if (image.imageType.dimension === 2) {

@@ -28,7 +28,7 @@ const createChunk = async (webWorker, args) => {
 }
 const numberOfWorkers = navigator.hardwareConcurrency
   ? navigator.hardwareConcurrency
-  : 4
+  : 8
 //const chunkerWorkerPool = new WorkerPool(numberOfWorkers, createChunk)
 const downsampleWorkerPool = new WorkerPool(numberOfWorkers, runPipelineBrowser)
 
@@ -116,11 +116,11 @@ function chunkImage(image, chunkSize) {
   console.time('chunky')
   const chunkType = componentTypeToTypedArray.get(componentType)
   const chunkElements =
-    sizeCXYZTElements[0] *
-    sizeCXYZTElements[1] *
-    sizeCXYZTElements[2] *
-    sizeCXYZTElements[3] *
-    sizeCXYZTElements[4]
+    sizeCXYZTChunks[0] *
+    sizeCXYZTChunks[1] *
+    sizeCXYZTChunks[2] *
+    sizeCXYZTChunks[3] *
+    sizeCXYZTChunks[4]
   let data = image.data
   //const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
   //if (haveSharedArrayBuffer && !data.buffer instanceof SharedArrayBuffer) {
@@ -211,8 +211,8 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
     chunkSize = [64, 64, 64],
     isLabelImage = false
   ) {
+    console.time('pyramid')
     const scale0 = chunkImage(image, chunkSize)
-    console.log('image', image)
     const metadata = [scale0.metadata]
     const pyramid = [
       {
@@ -223,7 +223,6 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
     ]
 
     let currentImage = image
-    //for (let index = 0; index < chunks.length; index++) {
     while (
       currentImage.size.reduce((a, c, i) => a || c / chunkSize[i] >= 2.0, false)
     ) {
@@ -232,6 +231,7 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
         const factor = n >= chunkSize[i] ? 2 : 1
         return factor
       })
+      console.log('factors', factors, currentImage.size)
       const data = imageSharedBufferOrCopy(currentImage)
       const inputs = [
         {
@@ -250,22 +250,26 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
         factors.length > 2 ? factors[2].toString() : '1',
       ]
       const downsampleTaskArgs = [['Downsample', args, desiredOutputs, inputs]]
+      console.time('downsample')
+      console.log(downsampleTaskArgs)
       const results = await downsampleWorkerPool.runTasks(downsampleTaskArgs)
+      console.timeEnd('downsample')
       currentImage = results[0].outputs[0].data
 
       const scaleN = chunkImage(currentImage, chunkSize)
-      const metadata = [scaleN.metadata]
-      const pyramid = [
+      metadata.push(scaleN.metadata)
+      pyramid.push(
         {
           chunksStride: scaleN.chunksStride,
           chunks: scaleN.chunks,
           largestImage: currentImage,
         },
-      ]
+      )
     }
 
     // scale
 
+    console.timeEnd('pyramid')
     const imageType = image.imageType
     return { metadata, imageType, pyramid }
   }

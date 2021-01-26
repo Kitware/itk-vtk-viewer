@@ -6,7 +6,6 @@ import backgroundIsLight from './backgroundIsLight'
 const assignFps = assign({
   main: (context, event) => {
     const main = context.main
-    console.log('assigning fps', event.data)
     main.fps = event.data
     return main
   },

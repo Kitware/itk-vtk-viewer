@@ -66,7 +66,7 @@ class ImageActorContext {
   gradientOpacityScale = 0.5
 
   // Distance in depth samples for the volume rendering
-  volumeSampleDistance = 0.25
+  volumeSampleDistance = 0.2
 
   // Volume rendering blend mode
   blendMode = 'Composite'

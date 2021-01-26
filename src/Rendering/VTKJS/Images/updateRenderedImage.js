@@ -18,9 +18,6 @@ async function updateRenderedImage(context) {
     return
   }
 
-  console.log('lowest scale', image.lowestScale)
-  console.log('rendered scale', actorContext.renderedScale)
-
   // Construct the fused image
   if (image && !labelImage && !editorLabelImage) {
     const scaleImage = await image.scaleLargestImage(actorContext.renderedScale)

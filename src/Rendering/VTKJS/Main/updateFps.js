@@ -1,19 +1,39 @@
 import numericalSort from '../numericalSort'
 
 function updateFps(context, event) {
-  const fpsSamples = []
-  let t0 = performance.now()
-  for (let i = 0; i < 3; i++) {
-    context.renderWindow.render()
-    const t1 = performance.now()
-    fpsSamples.push((1.0 / (t1 - t0)) * 1000)
+  const proxy = context.images.representationProxy
+  let mapper = null
+  let imageSampleDistance = 1.0
+  if (proxy) {
+    mapper = proxy.getMapper()
+    mapper.setAutoAdjustSampleDistances(false)
   }
-  fpsSamples.sort(numericalSort)
-  console.log('fpsSamples', fpsSamples)
-  // Median
-  context.fps = fpsSamples[1]
 
-  context.service.send({ type: 'FPS_UPDATED', data: context.fps })
+  const fpsSamples = [-1]
+  const interactor = context.renderWindow.getInteractor()
+  const requestId = `updateFps${performance.now().toString()}`
+
+  function addSample() {
+    const nextFPS = 1.0 / interactor.getLastFrameTime()
+    fpsSamples.push(nextFPS)
+  }
+  const subscription = interactor.onAnimation(addSample)
+
+  interactor.requestAnimation(requestId)
+  setTimeout(() => {
+    subscription.unsubscribe()
+    interactor.cancelAnimation(requestId)
+
+    fpsSamples.sort(numericalSort)
+    // Median
+    const fps = fpsSamples[Math.ceil(fpsSamples.length / 2.0)]
+
+    if (proxy) {
+      mapper.setAutoAdjustSampleDistances(true)
+    }
+
+    context.service.send({ type: 'FPS_UPDATED', data: fps })
+  }, 200)
 }
 
 export default updateFps

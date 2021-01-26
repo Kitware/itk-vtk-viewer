@@ -20,12 +20,10 @@ const defaultContainerStyle = {
 
 class ViewerMachineContext {
   constructor(config) {
-    this.id =
-      'itk-vtk-viewer-' +
-      performance
-        .now()
-        .toString()
-        .replace('.', '')
+    this.id = `itk-vtk-viewer-${performance
+      .now()
+      .toString()
+      .replace('.', '')}`
     if (
       !!config &&
       parseInt(config.viewerConfigVersion.split('.')[0]) ===

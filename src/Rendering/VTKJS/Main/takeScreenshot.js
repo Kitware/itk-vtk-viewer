@@ -1,16 +1,18 @@
 async function takeScreenshot(context) {
-  // Todo: re-enable after context.images.is redefined
-  //const proxy = context.images.representationProxy
+  const proxy = context.images.representationProxy
   let mapper = null
-  //if (proxy) {
-  //mapper = proxy.getMapper()
-  //mapper.setAutoAdjustSampleDistances(false)
-  //mapper.setImageSampleDistance(0.1)
-  //}
+  let imageSampleDistance = 1.0
+  if (proxy) {
+    mapper = proxy.getMapper()
+    mapper.setAutoAdjustSampleDistances(false)
+    imageSampleDistance = mapper.getImageSampleDistance()
+    mapper.setImageSampleDistance(0.1)
+  }
   await context.itkVtkView.openCaptureImage()
-  //if (proxy) {
-  //mapper.setAutoAdjustSampleDistances(true)
-  //}
+  if (proxy) {
+    mapper.setImageSampleDistance(imageSampleDistance)
+    mapper.setAutoAdjustSampleDistances(true)
+  }
 }
 
 export default takeScreenshot

@@ -13,6 +13,7 @@ import applySlicingPlanes from './applySlicingPlanes'
 import applyXSlice from './applyXSlice'
 import applyYSlice from './applyYSlice'
 import applyZSlice from './applyZSlice'
+import updateFps from './updateFps'
 
 const mainRenderingMachineOptions = {
   actions: {
@@ -39,6 +40,8 @@ const mainRenderingMachineOptions = {
     applyXSlice,
     applyYSlice,
     applyZSlice,
+
+    updateFps,
   },
 }
 

@@ -6,12 +6,12 @@ import componentTypeToTypedArray from './componentTypeToTypedArray'
 
 const spatialDims = ['x', 'y', 'z']
 
-/* Every element corresponds to a pyramid level
-     Higher levels, corresponds to a higher index, correspond to a lower
+/* Every element corresponds to a pyramid scale
+     Lower scales, corresponds to a higher index, correspond to a lower
      resolution. */
 /*
   metadata = [{
-    // level 0 metadata
+    // scale 0 metadata
     dims: ['x', 'y'], // Valid elements: 'c', 'x', 'y', 'z', or 't'
     coords: .get() Promise resolves a Map('x': Float64Array([0.0, 2.0, ...), 'y' ...
     numberOfCXYZTChunks: [1, 10, 10, 5, 1], // array shape in chunks
@@ -20,10 +20,10 @@ const spatialDims = ['x', 'y', 'z']
     name: 'dataset_name'
   },
   {
-    // level 1 metadata
+    // scale 1 metadata
     // [...]
   },
-    // level N metadata
+    // scale N metadata
     // [...]
   ]
   */
@@ -38,17 +38,17 @@ class MultiscaleChunkedImage {
     this.imageType = imageType
     this.pixelArrayType = componentTypeToTypedArray.get(imageType.componentType)
     this.spatialDims = ['x', 'y', 'z'].slice(0, imageType.dimension)
-    this.cachedLevelLargestImage = new Map()
+    this.cachedScaleLargestImage = new Map()
     console.log(metadata)
   }
 
-  get topLevel() {
+  get lowestScale() {
     return this.metadata.length - 1
   }
 
-  async levelOrigin(level) {
+  async scaleOrigin(scale) {
     const origin = new Array(this.spatialDims.length)
-    const meta = this.metadata[level]
+    const meta = this.metadata[scale]
     const coords = await meta.coords.get()
     for (let index = 0; index < this.spatialDims.length; index++) {
       const dim = this.spatialDims[index]
@@ -61,9 +61,9 @@ class MultiscaleChunkedImage {
     return origin
   }
 
-  async levelSpacing(level) {
+  async scaleSpacing(scale) {
     const spacing = new Array(this.spatialDims.length)
-    const meta = this.metadata[level]
+    const meta = this.metadata[scale]
     const coords = await meta.coords.get()
     for (let index = 0; index < this.spatialDims.length; index++) {
       const dim = this.spatialDims[index]
@@ -80,7 +80,7 @@ class MultiscaleChunkedImage {
   get direction() {
     const dimension = this.imageType.dimension
     const direction = new Matrix(dimension, dimension)
-    // Direction should be consistent over levels
+    // Direction should be consistent over scales
     const metaDirection = this.metadata[0].direction
     if (!!metaDirection) {
       // Todo: verify this logic
@@ -100,23 +100,23 @@ class MultiscaleChunkedImage {
     return direction
   }
 
-  /* Return a promise that provides the requested chunk at a given level and
+  /* Return a promise that provides the requested chunk at a given scale and
    * chunk index. */
-  async getChunks(level, cxyztArray) {
-    return this.getChunksImpl(level, cxyztArray)
+  async getChunks(scale, cxyztArray) {
+    return this.getChunksImpl(scale, cxyztArray)
   }
 
-  async getChunksImpl(level, cxyztArray) {
+  async getChunksImpl(scale, cxyztArray) {
     console.error('Override me in a derived class')
   }
 
-  /* Retrieve the entire image at the given level. */
-  async levelLargestImage(level) {
-    if (this.cachedLevelLargestImage.has(level)) {
-      return this.cachedLevelLargestImage.get(level)
+  /* Retrieve the entire image at the given scale. */
+  async scaleLargestImage(scale) {
+    if (this.cachedScaleLargestImage.has(scale)) {
+      return this.cachedScaleLargestImage.get(scale)
     }
 
-    const meta = this.metadata[level]
+    const meta = this.metadata[scale]
 
     const chunkSize = meta.sizeCXYZTChunks
     const chunkStrides = [
@@ -167,7 +167,7 @@ class MultiscaleChunkedImage {
       } // for every yChunk
     } // for every zChunk
 
-    const chunks = await this.getChunks(level, chunkIndices)
+    const chunks = await this.getChunks(scale, chunkIndices)
 
     for (let index = 0; index < chunkIndices.length; index++) {
       const chunk = chunks[index]
@@ -238,12 +238,12 @@ class MultiscaleChunkedImage {
       } // for every slice
     }
 
-    const origin = await this.levelOrigin(level)
-    const spacing = await this.levelSpacing(level)
+    const origin = await this.scaleOrigin(scale)
+    const spacing = await this.scaleSpacing(scale)
 
     const image = {
       imageType: this.imageType,
-      name: this.metadata[level].name,
+      name: this.metadata[scale].name,
       origin,
       spacing,
       direction: this.direction,
@@ -251,7 +251,7 @@ class MultiscaleChunkedImage {
       data: pixelArray,
     }
 
-    this.cachedLevelLargestImage.set(level, image)
+    this.cachedScaleLargestImage.set(scale, image)
     return image
   }
 }

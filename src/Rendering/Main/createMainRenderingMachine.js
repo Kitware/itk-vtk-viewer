@@ -1,7 +1,16 @@
-import { Machine, sendParent, send } from 'xstate'
+import { Machine, assign, sendParent, send } from 'xstate'
 
 import backgroundIsDark from './backgroundIsDark'
 import backgroundIsLight from './backgroundIsLight'
+
+const assignFps = assign({
+  main: (context, event) => {
+    const main = context.main
+    console.log('assigning fps', event.data)
+    main.fps = event.data
+    return main
+  },
+})
 
 function createMainRenderingMachine(options, context) {
   let initialViewMode = 'volume'
@@ -39,6 +48,12 @@ function createMainRenderingMachine(options, context) {
           on: {
             TAKE_SCREENSHOT: {
               actions: 'takeScreenshot',
+            },
+            UPDATE_FPS: {
+              actions: 'updateFps',
+            },
+            FPS_UPDATED: {
+              actions: assignFps,
             },
             SET_BACKGROUND_COLOR: {
               actions: [

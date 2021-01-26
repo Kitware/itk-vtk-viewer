@@ -61,6 +61,12 @@ function createImagesRenderingMachine(options, context) {
                 to: (c, e) => `imageRenderingActor-${e.data.name}`,
               }),
             },
+            FPS_UPDATED: {
+              actions: send((_, e) => e, {
+                to: (c, e) =>
+                  `imageRenderingActor-${c.images.updateRenderedName}`,
+              }),
+            },
             RENDERED_IMAGE_ASSIGNED: {
               actions: send((_, e) => e, {
                 to: (c, e) => `imageRenderingActor-${e.data}`,

@@ -52,6 +52,12 @@ const createRenderingMachine = (options, context) => {
             RENDER: {
               actions: 'render',
             },
+            UPDATE_FPS: {
+              actions: forwardTo('main'),
+            },
+            FPS_UPDATED: {
+              actions: [forwardTo('main'), forwardTo('images')],
+            },
             REQUEST_ANIMATION: {
               actions: 'requestAnimation',
             },

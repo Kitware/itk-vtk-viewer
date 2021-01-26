@@ -50,6 +50,9 @@ class MainMachineContext {
   // rendering.
   viewMode = 'Volume'
 
+  // Current viewer frames per second
+  fps = null
+
   // Slicing planes specification
   slicingPlanes = {
     x: {

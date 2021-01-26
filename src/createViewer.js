@@ -551,29 +551,6 @@ const createViewer = async (
   }, 1)
 
   UserInterface.addLogo(store)
-  reaction(
-    () => {
-      return store.mainUI.fpsTooLow
-    },
-
-    tooLow => {
-      if (!tooLow) {
-        return
-      }
-    }
-  )
-  function updateFPS() {
-    const nextFPS = 1 / store.renderWindow.getInteractor().getLastFrameTime()
-    const fps = store.mainUI.fps
-    fps.push(nextFPS)
-    fps.shift()
-    const mean = Math.round((fps[0] + fps[1] + fps[2]) / 3)
-    //console.log(mean)
-    if (mean < 20) {
-      store.mainUI.fpsTooLow = true
-    }
-  }
-  store.renderWindow.getInteractor().onAnimation(updateFPS)
 
   publicAPI.renderLater = () => {
     store.itkVtkView.renderLater()

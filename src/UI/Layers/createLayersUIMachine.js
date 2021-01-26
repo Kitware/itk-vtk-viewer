@@ -99,6 +99,7 @@ const assignImageContext = assign({
       : new ImageActorContext()
     if (labelImage) {
       actorContext.labelImage = labelImage
+      actorContext.renderedScale = labelImage.lowestScale
     } else {
       image = context.layers.lastAddedData.data
       actorContext.image = image
@@ -115,6 +116,8 @@ const assignImageContext = assign({
       images.actorContext.set(name, actorContext)
       return images
     }
+
+    actorContext.renderedScale = image.lowestScale
 
     actorContext.componentVisibilities = resize(
       actorContext.componentVisibilities,

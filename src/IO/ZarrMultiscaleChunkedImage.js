@@ -59,7 +59,7 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
       sizeCXYZTChunks: [1, 1, 1, 1, 1],
       sizeCXYZTElements: [1, 1, 1, 1, 1],
     }
-    const multiscaleLevels =
+    const multiscaleScales =
       zmetadata['.zattrs']._MULTISCALE_LEVELS !== undefined
         ? zmetadata['.zattrs']._MULTISCALE_LEVELS
         : ['']
@@ -69,27 +69,27 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
         : null
     if (name !== null) {
       const pixelArrayAttrs =
-        multiscaleLevels[0] === ''
+        multiscaleScales[0] === ''
           ? `${name}/.zattrs`
-          : `${multiscaleLevels[0]}/${name}/.zattrs`
+          : `${multiscaleScales[0]}/${name}/.zattrs`
       const arrayDims = zmetadata[pixelArrayAttrs]._ARRAY_DIMENSIONS || []
       bottomMeta.dims = arrayDims
       if (!!zmetadata[pixelArrayAttrs].direction) {
         bottomMeta.direction = zmetadata[pixelArrayAttrs].direction
       }
       const pixelArrayMeta =
-        multiscaleLevels[0] === ''
+        multiscaleScales[0] === ''
           ? `${name}/.zarray`
-          : `${multiscaleLevels[0]}/${name}/.zarray`
+          : `${multiscaleScales[0]}/${name}/.zarray`
       bottomMeta.pixelArrayMetadata = zmetadata[pixelArrayMeta]
       bottomMeta.name = name
       bottomMeta.pixelArrayUrl =
-        multiscaleLevels[0] === ''
+        multiscaleScales[0] === ''
           ? `${url}/${bottomMeta.name}/`
-          : `${url}/${multiscaleLevels[0]}/${bottomMeta.name}/`
+          : `${url}/${multiscaleScales[0]}/${bottomMeta.name}/`
 
       const coordPrefix =
-        multiscaleLevels[0] === '' ? '' : `${multiscaleLevels[0]}/`
+        multiscaleScales[0] === '' ? '' : `${multiscaleScales[0]}/`
       ;['x', 'y', 'z', 'c', 't'].forEach(coord => {
         const arrayAttr = `${coordPrefix}${coord}/.zarray`
         if (zmetadata[arrayAttr] !== undefined) {
@@ -99,7 +99,7 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
     } else {
       for (let obj in zmetadata) {
         // Assume the pixel buffer array will have the most dimensions
-        // And by a top level array
+        // And by a top scale array
         const arrayDims = zmetadata[obj]._ARRAY_DIMENSIONS || []
         const slashCount = obj.split('/').length
         if (arrayDims.length > bottomMeta.dims.length && slashCount < 3) {
@@ -123,7 +123,7 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
     const bottomMetaCoordPaths = new Map()
     bottomMeta.coords.forEach((value, key) => {
       const coordPrefix =
-        multiscaleLevels[0] === '' ? '' : `${multiscaleLevels[0]}/`
+        multiscaleScales[0] === '' ? '' : `${multiscaleScales[0]}/`
       bottomMetaCoordPaths.set(key, `${coordPrefix}${key}`)
     })
     bottomMeta.coords = new LazyCoords(url, zmetadata, bottomMetaCoordPaths)
@@ -132,7 +132,7 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
       bottomMeta.dims = ['z', 'y', 'x'].slice(3 - dimension)
     }
 
-    async function levelMetadata(levelPath) {
+    async function scaleMetadata(scalePath) {
       const meta = {
         dims: [],
         coords: new Map(),
@@ -141,18 +141,18 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
         sizeCXYZTElements: [1, 1, 1, 1, 1],
       }
 
-      const pixelArrayAttrs = `${levelPath}/${name}/.zattrs`
+      const pixelArrayAttrs = `${scalePath}/${name}/.zattrs`
       const arrayDims = zmetadata[pixelArrayAttrs]._ARRAY_DIMENSIONS || []
       meta.dims = arrayDims
       if (!!zmetadata[pixelArrayAttrs].direction) {
         meta.direction = zmetadata[pixelArrayAttrs].direction
       }
-      const pixelArrayMeta = `${levelPath}/${name}/.zarray`
+      const pixelArrayMeta = `${scalePath}/${name}/.zarray`
       meta.pixelArrayMetadata = zmetadata[pixelArrayMeta]
       meta.name = name
-      meta.pixelArrayUrl = `${url}/${levelPath}/${name}/`
+      meta.pixelArrayUrl = `${url}/${scalePath}/${name}/`
 
-      const coordPrefix = `${levelPath}/`
+      const coordPrefix = `${scalePath}/`
       ;['x', 'y', 'z', 'c', 't'].forEach(coord => {
         const arrayAttr = `${coordPrefix}${coord}/.zarray`
         if (zmetadata[arrayAttr] !== undefined) {
@@ -162,7 +162,7 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
 
       const metaCoordPaths = new Map()
       meta.coords.forEach((value, key) => {
-        metaCoordPaths.set(key, `${levelPath}/${key}`)
+        metaCoordPaths.set(key, `${scalePath}/${key}`)
       })
       meta.coords = new LazyCoords(url, zmetadata, metaCoordPaths)
       if (meta.dims.length === 0) {
@@ -173,26 +173,26 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
       return meta
     }
 
-    const metadata = new Array(multiscaleLevels.length)
+    const metadata = new Array(multiscaleScales.length)
     metadata[0] = bottomMeta
-    if (multiscaleLevels.length > 1) {
-      const levelPromises = new Array(multiscaleLevels.length - 1)
-      for (let level = 1; level < multiscaleLevels.length; level++) {
-        levelPromises[level - 1] = levelMetadata(multiscaleLevels[level])
+    if (multiscaleScales.length > 1) {
+      const scalePromises = new Array(multiscaleScales.length - 1)
+      for (let scale = 1; scale < multiscaleScales.length; scale++) {
+        scalePromises[scale - 1] = scaleMetadata(multiscaleScales[scale])
       }
-      const resolved = await Promise.all(levelPromises)
-      for (let level = 1; level < multiscaleLevels.length; level++) {
-        metadata[level] = resolved[level - 1]
+      const resolved = await Promise.all(scalePromises)
+      for (let scale = 1; scale < multiscaleScales.length; scale++) {
+        metadata[scale] = resolved[scale - 1]
       }
     } else {
-      // Check for default multi-scale level names
-      const level = 1
-      let levelZAttrs = `level_${level}.zarr/${name}/.zattrs`
-      while (zmetadata[levelZAttrs] !== undefined) {
-        const meta = await levelMetadata(`level_${level}.zarr`)
+      // Check for default multi-scale scale names
+      const scale = 1
+      let scaleZAttrs = `scale_${scale}.zarr/${name}/.zattrs`
+      while (zmetadata[scaleZAttrs] !== undefined) {
+        const meta = await scaleMetadata(`scale_${scale}.zarr`)
         metadata.push(meta)
-        level++
-        levelZAttrs = `level_${level}.zarr/${name}/.zattrs`
+        scale++
+        scaleZAttrs = `scale_${scale}.zarr/${name}/.zattrs`
       }
     }
 
@@ -255,8 +255,8 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
     this.CXYZT = ['c', 'x', 'y', 'z', 't']
   }
 
-  async getChunksImpl(level, cxyztArray) {
-    const meta = this.metadata[level]
+  async getChunksImpl(scale, cxyztArray) {
+    const meta = this.metadata[scale]
     const chunkUrlBase = meta.pixelArrayUrl
     const chunkUrls = []
     const chunkUrlPromises = []

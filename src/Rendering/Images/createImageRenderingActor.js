@@ -16,6 +16,48 @@ const assignUpdateRenderedNameToSelectedName = assign({
   },
 })
 
+const assignHigherScale = assign({
+  images: (context, event) => {
+    const images = context.images
+    const actorContext = images.actorContext.get(images.updateRenderedName)
+    actorContext.renderedScale--
+    console.log('assigned higher scale', actorContext.renderedScale)
+    return images
+  },
+})
+
+const assignLowerScale = assign({
+  images: (context, event) => {
+    const images = context.images
+    const actorContext = images.actorContext.get(images.updateRenderedName)
+    actorContext.renderedScale++
+    console.log('assigned lower scale', actorContext.renderedScale)
+    return images
+  },
+})
+
+function highestScaleOrScaleJustRight(context, event, condMeta) {
+  const actorContext = context.images.actorContext.get(
+    context.images.updateRenderedName
+  )
+  console.log('fps', context.main.fps, actorContext.renderedScale, condMeta)
+  if (actorContext.renderedScale === 0) {
+    return true
+  }
+  if (context.main.fps > 22.0 && context.main.fps < 33.0) {
+    return true
+  }
+  if (condMeta.state.value.checkFps === 'scaleJustRight') {
+    console.log('scale is baby bear')
+    return true
+  }
+  return false
+}
+
+function scaleTooHigh(context, event, condMeta) {
+  return context.main.fps <= 22.0
+}
+
 const eventResponses = {
   IMAGE_ASSIGNED: {
     target: 'updateRenderedImage',
@@ -103,7 +145,7 @@ const createImageRenderingActor = (options, context, event) => {
             id: 'updateRenderedImage',
             src: 'updateRenderedImage',
             onDone: {
-              target: 'active',
+              target: 'checkFps',
             },
           },
           on: {
@@ -114,7 +156,57 @@ const createImageRenderingActor = (options, context, event) => {
             },
           },
         },
+        checkFps: {
+          entry: [(c, _) => c.service.send('UPDATE_FPS')],
+          on: {
+            ...eventResponses,
+            UPDATE_RENDERED_IMAGE: {
+              target: 'updateRenderedImage',
+              actions: assignUpdateRenderedName,
+            },
+            FPS_UPDATED: [
+              {
+                target: 'active',
+                cond: highestScaleOrScaleJustRight,
+              },
+              {
+                target: '.scaleJustRight',
+                cond: scaleTooHigh,
+              },
+              {
+                target: '.scaleTooLow',
+              },
+            ],
+          },
+          initial: 'checkStarted',
+          states: {
+            checkStarted: {},
+            scaleTooLow: {
+              entry: assignHigherScale,
+              invoke: {
+                id: 'updateRenderedImage',
+                src: 'updateRenderedImage',
+                onDone: {
+                  actions: [(c, _) => c.service.send('UPDATE_FPS')],
+                },
+              },
+            },
+            scaleJustRight: {
+              entry: assignLowerScale,
+              invoke: {
+                id: 'updateRenderedImage',
+                src: 'updateRenderedImage',
+                onDone: {
+                  actions: [(c, _) => c.service.send('UPDATE_FPS')],
+                },
+              },
+            },
+          },
+        },
         active: {
+          entry: [
+            (c, _) => console.log('entering active image rendering actor'),
+          ],
           type: 'parallel',
           on: eventResponses,
           states: {

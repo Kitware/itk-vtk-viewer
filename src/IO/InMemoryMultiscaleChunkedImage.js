@@ -206,14 +206,18 @@ function chunkImage(image, chunkSize) {
 }
 
 class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
-  static async buildPyramid(image, chunkSize = [64, 64, 64], isLabelImage=false) {
-    const level0 = chunkImage(image, chunkSize)
+  static async buildPyramid(
+    image,
+    chunkSize = [64, 64, 64],
+    isLabelImage = false
+  ) {
+    const scale0 = chunkImage(image, chunkSize)
     console.log('image', image)
-    const metadata = [level0.metadata]
+    const metadata = [scale0.metadata]
     const pyramid = [
       {
-        chunksStride: level0.chunksStride,
-        chunks: level0.chunks,
+        chunksStride: scale0.chunksStride,
+        chunks: scale0.chunks,
         largestImage: image,
       },
     ]
@@ -249,18 +253,18 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
       const results = await downsampleWorkerPool.runTasks(downsampleTaskArgs)
       currentImage = results[0].outputs[0].data
 
-      const levelN = chunkImage(currentImage, chunkSize)
-      const metadata = [levelN.metadata]
+      const scaleN = chunkImage(currentImage, chunkSize)
+      const metadata = [scaleN.metadata]
       const pyramid = [
         {
-          chunksStride: levelN.chunksStride,
-          chunks: levelN.chunks,
+          chunksStride: scaleN.chunksStride,
+          chunks: scaleN.chunks,
           largestImage: currentImage,
         },
       ]
     }
 
-    // level
+    // scale
 
     const imageType = image.imageType
     return { metadata, imageType, pyramid }
@@ -271,10 +275,10 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
     this.pyramid = pyramid
   }
 
-  async getChunksImpl(level, cxyztArray) {
+  async getChunksImpl(scale, cxyztArray) {
     const result = new Array(cxyztArray.length)
-    const strides = this.pyramid[level].chunksStride
-    const chunks = this.pyramid[level].chunks
+    const strides = this.pyramid[scale].chunksStride
+    const chunks = this.pyramid[scale].chunks
     for (let i = 0; i < result.length; i++) {
       const cxyzt = cxyztArray[i]
       result[i] =
@@ -289,8 +293,8 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
     return result
   }
 
-  async levelLargestImage(level) {
-    return this.pyramid[level].largestImage
+  async scaleLargestImage(scale) {
+    return this.pyramid[scale].largestImage
   }
 }
 

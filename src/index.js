@@ -65,7 +65,9 @@ export async function createViewerFromUrl(
       console.timeEnd('meta')
       imageObject = new ZarrMultiscaleChunkedImage(image, metadata, imageType)
       // Side effect to keep the spinner going
-      const topLevelLargestImage = await imageObject.topLevelLargestImage()
+      const lowestScaleLargestImage = await imageObject.scaleLargestImage(
+        imageObject.lowestScale
+      )
       console.timeEnd('image')
     } else {
       const arrayBuffer = await fetchBinaryContent(image, progressCallback)
@@ -96,7 +98,9 @@ export async function createViewerFromUrl(
         imageType
       )
       // Side effect to keep the spinner going
-      const topLevelLargestImage = await labelImageObject.topLevelLargestImage()
+      const lowestScaleLargestImage = await labelImageObject.scaleLargestImage(
+        labelImageObject.lowestScale
+      )
       console.timeEnd('labelImage')
     } else {
       const arrayBuffer = await fetchBinaryContent(labelImage, progressCallback)
@@ -123,7 +127,9 @@ export async function createViewerFromUrl(
       console.timeEnd('meta')
       imageObject = new ZarrMultiscaleChunkedImage(url, metadata, imageType)
       // Side effect to keep the spinner going
-      const topLevelLargestImage = await imageObject.topLevelLargestImage()
+      const lowestScaleLargestImage = await imageObject.scaleLargestImage(
+        imageObject.lowestScale
+      )
       console.timeEnd('image')
     } else {
       const arrayBuffer = await fetchBinaryContent(url, progressCallback)

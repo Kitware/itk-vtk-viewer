@@ -2,15 +2,7 @@ import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
 
 import updateVisualizedComponents from './updateVisualizedComponents'
-
-function numericalSort(eltA, eltB) {
-  if (eltA < eltB) {
-    return -1
-  } else if (eltB < eltA) {
-    return 1
-  }
-  return 0
-}
+import numericalSort from '../numericalSort'
 
 async function updateRenderedImage(context) {
   const name = context.images.updateRenderedName
@@ -26,23 +18,26 @@ async function updateRenderedImage(context) {
     return
   }
 
+  console.log('lowest scale', image.lowestScale)
+  console.log('rendered scale', actorContext.renderedScale)
+
   // Construct the fused image
   if (image && !labelImage && !editorLabelImage) {
-    const topLevelImage = await image.levelLargestImage(image.topLevel)
-    actorContext.fusedImage = vtkITKHelper.convertItkToVtkImage(topLevelImage)
+    const scaleImage = await image.scaleLargestImage(actorContext.renderedScale)
+    actorContext.fusedImage = vtkITKHelper.convertItkToVtkImage(scaleImage)
 
-    actorContext.renderedImage = topLevelImage
+    actorContext.renderedImage = scaleImage
     context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
   } else if (image) {
-    const topLevelImage = await image.levelLargestImage(image.topLevel)
-    const vtkImage = vtkITKHelper.convertItkToVtkImage(topLevelImage)
+    const scaleImage = await image.scaleLargestImage(actorContext.renderedScale)
+    const vtkImage = vtkITKHelper.convertItkToVtkImage(scaleImage)
 
     const imageScalars = vtkImage.getPointData().getScalars()
     const imageData = imageScalars.getData()
     const imageComponents = imageScalars.getNumberOfComponents()
 
     if (!actorContext.fusedImage) {
-      actorContext.fusedImage = vtkITKHelper.convertItkToVtkImage(topLevelImage)
+      actorContext.fusedImage = vtkITKHelper.convertItkToVtkImage(scaleImage)
     }
     const fusedImage = actorContext.fusedImage
     fusedImage.setOrigin(vtkImage.getOrigin())
@@ -50,10 +45,10 @@ async function updateRenderedImage(context) {
     fusedImage.setDirection(vtkImage.getDirection())
 
     const imageDimensions = vtkImage.getDimensions()
-    const topLevelLabelImage = await labelImage.levelLargestImage(
-      labelImage.topLevel
+    const scaleLabelImage = await labelImage.scaleLargestImage(
+      actorContext.renderedScale
     )
-    actorContext.renderedLabelImage = topLevelLabelImage
+    actorContext.renderedLabelImage = scaleLabelImage
     const uniqueLabelsSet = new Set(actorContext.renderedLabelImage.data)
     const uniqueLabels = Array.from(uniqueLabelsSet)
     // The volume mapper currently only supports ColorTransferFunction's,
@@ -63,8 +58,8 @@ async function updateRenderedImage(context) {
     actorContext.uniqueLabels = uniqueLabels
 
     if (!!labelImage) {
-      const labelImageSize = topLevelLabelImage.size
-      const imageSize = topLevelImage.size
+      const labelImageSize = scaleLabelImage.size
+      const imageSize = scaleImage.size
       const dimensionsEqual = imageSize.every((dim, index) => {
         return labelImageSize[index] === dim
       })
@@ -153,16 +148,14 @@ async function updateRenderedImage(context) {
     fusedImage.modified()
     actorContext.lastVisualizedComponents = visualizedComponents.slice()
 
-    actorContext.renderedImage = topLevelImage
+    actorContext.renderedImage = scaleImage
     context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
   } else {
-    const topLevelLabelImage = await labelImage.levelLargestImage(
-      labelImage.topLevel
+    const scaleLabelImage = await labelImage.scaleLargestImage(
+      actorContext.renderedScale
     )
-    actorContext.renderedLabelImage = topLevelLabelImage
-    actorContext.fusedImage = vtkITKHelper.convertItkToVtkImage(
-      topLevelLabelImage
-    )
+    actorContext.renderedLabelImage = scaleLabelImage
+    actorContext.fusedImage = vtkITKHelper.convertItkToVtkImage(scaleLabelImage)
 
     const uniqueLabelsSet = new Set(actorContext.renderedLabelImage.data)
     const uniqueLabels = Array.from(uniqueLabelsSet)

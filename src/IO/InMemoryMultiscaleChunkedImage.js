@@ -9,6 +9,7 @@ import runPipelineBrowser from 'itk/runPipelineBrowser'
 import Image from 'itk/Image'
 import IOTypes from 'itk/IOTypes'
 import imageSharedBufferOrCopy from 'itk/imageSharedBufferOrCopy'
+import stackImages from 'itk/stackImages'
 
 const createChunkerWorker = existingWorker => {
   if (existingWorker) {
@@ -113,7 +114,6 @@ function chunkImage(image, chunkSize) {
   dataStride[2] = 1 * imageType.components * image.size[0]
   dataStride[3] = 1 * imageType.components * image.size[0] * image.size[1]
   dataStride[4] = dataStride[3]
-  console.time('chunky')
   const chunkType = componentTypeToTypedArray.get(componentType)
   const chunkElements =
     sizeCXYZTChunks[0] *
@@ -191,7 +191,6 @@ function chunkImage(image, chunkSize) {
     } // for every z chunk
     //}
   }
-  console.timeEnd('chunky')
 
   const coords = new Coords(image, dims)
   const metadata = {
@@ -211,7 +210,6 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
     chunkSize = [64, 64, 64],
     isLabelImage = false
   ) {
-    console.time('pyramid')
     const scale0 = chunkImage(image, chunkSize)
     const metadata = [scale0.metadata]
     const pyramid = [
@@ -223,6 +221,8 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
     ]
 
     let currentImage = image
+    const maxTotalSplits = parseInt(numberOfWorkers * 1.0)
+    const pipelinePath = 'Downsample'
     while (
       currentImage.size.reduce((a, c, i) => a || c / chunkSize[i] >= 2.0, false)
     ) {
@@ -231,30 +231,33 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
         const factor = n >= chunkSize[i] ? 2 : 1
         return factor
       })
-      console.log('factors', factors, currentImage.size)
-      const data = imageSharedBufferOrCopy(currentImage)
-      const inputs = [
-        {
-          path: 'input.json',
-          type: IOTypes.Image,
-          data: data,
-        },
-      ]
-      const desiredOutputs = [{ path: 'output.json', type: IOTypes.Image }]
-      const args = [
-        isLabelImage ? '1' : '0',
-        'input.json',
-        'output.json',
-        factors[0].toString(),
-        factors[1].toString(),
-        factors.length > 2 ? factors[2].toString() : '1',
-      ]
-      const downsampleTaskArgs = [['Downsample', args, desiredOutputs, inputs]]
-      console.time('downsample')
-      console.log(downsampleTaskArgs)
+
+      const downsampleTaskArgs = []
+      for (let index = 0; index < maxTotalSplits; index++) {
+        const data = imageSharedBufferOrCopy(currentImage)
+        const inputs = [
+          {
+            path: 'input.json',
+            type: IOTypes.Image,
+            data: data,
+          },
+        ]
+        const desiredOutputs = [{ path: 'output.json', type: IOTypes.Image }]
+        const args = [
+          isLabelImage ? '1' : '0',
+          'input.json',
+          'output.json',
+          factors[0].toString(),
+          factors[1].toString(),
+          factors.length > 2 ? factors[2].toString() : '1',
+          '' + maxTotalSplits,
+          '' + index,
+        ]
+        downsampleTaskArgs.push([pipelinePath, args, desiredOutputs, inputs])
+      }
       const results = await downsampleWorkerPool.runTasks(downsampleTaskArgs)
-      console.timeEnd('downsample')
-      currentImage = results[0].outputs[0].data
+      const imageSplits = results.map(({ outputs }) => outputs[0].data)
+      currentImage = stackImages(imageSplits)
 
       const scaleN = chunkImage(currentImage, chunkSize)
       metadata.push(scaleN.metadata)
@@ -268,8 +271,6 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
     }
 
     // scale
-
-    console.timeEnd('pyramid')
     const imageType = image.imageType
     return { metadata, imageType, pyramid }
   }

@@ -24,6 +24,8 @@
 #include "itkVectorImage.h"
 #include "itkResampleImageFilter.h"
 #include "itkLabelImageGaussianInterpolateImageFunction.h"
+#include "itkImageRegionSplitterSlowDimension.h"
+#include "itkExtractImageFilter.h"
 
 template < typename TImage >
 int
@@ -36,6 +38,8 @@ Downsample( char * argv [] )
   unsigned int factorI = atoi( argv[4] );
   unsigned int factorJ = atoi( argv[5] );
   unsigned int factorK = atoi( argv[6] );
+  unsigned int maxTotalSplits = atoi( argv[7] );
+  unsigned int split = atoi( argv[8] );
 
   using ReaderType = itk::ImageFileReader< ImageType >;
   auto reader = ReaderType::New();
@@ -57,9 +61,29 @@ Downsample( char * argv [] )
   using ResampleFilterType = itk::ResampleImageFilter< ImageType, ImageType >;
   auto resampleFilter = ResampleFilterType::New();
   resampleFilter->SetInput( reader->GetOutput() );
+
+  filter->UpdateOutputInformation();
+  using ROIFilterType = itk::ExtractImageFilter< ImageType, ImageType >;
+  auto roiFilter = ROIFilterType::New();
+  using RegionType = typename ImageType::RegionType;
+  const RegionType largestRegion( filter->GetOutput()->GetLargestPossibleRegion() );
+
+  using SplitterType = itk::ImageRegionSplitterSlowDimension;
+  auto splitter = SplitterType::New();
+  const unsigned int numberOfSplits = splitter->GetNumberOfSplits( largestRegion, maxTotalSplits );
+  if (split >= numberOfSplits)
+  {
+    //std::cerr << "Error: requested split: " << split << " is outside the number of splits: " << numberOfSplits << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  RegionType requestedRegion( largestRegion );
+  splitter->GetSplit( split, numberOfSplits, requestedRegion );
+  roiFilter->SetExtractionRegion( requestedRegion );
+  writer->SetInput( roiFilter->GetOutput() );
+
   if (isLabelImage) {
-    writer->SetInput( resampleFilter->GetOutput() );
-    filter->UpdateOutputInformation();
+    roiFilter->SetInput( resampleFilter->GetOutput() );
     const ImageType * shrunk = filter->GetOutput();
     resampleFilter->SetSize( shrunk->GetLargestPossibleRegion().GetSize() );
     resampleFilter->SetOutputOrigin( shrunk->GetOrigin() );
@@ -82,7 +106,7 @@ Downsample( char * argv [] )
     resampleFilter->SetInterpolator( interpolator );
   }
   else {
-    writer->SetInput( filter->GetOutput() );
+    roiFilter->SetInput( filter->GetOutput() );
   }
 
 
@@ -188,9 +212,9 @@ ComponentDownsample( const itk::IOComponentEnum componentType, char * argv[] )
 
 int main( int argc, char * argv[] )
 {
-  if( argc < 7 )
+  if( argc < 9 )
     {
-    std::cerr << "Usage: " << argv[0] << " <isLabelImage> <inputImage> <outputImage> <factorI> <factorJ> <factorK>" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <isLabelImage> <inputImage> <outputImage> <factorI> <factorJ> <factorK> <maxTotalSplits> <split>" << std::endl;
     return EXIT_FAILURE;
     }
   const char * inputImageFile = argv[2];

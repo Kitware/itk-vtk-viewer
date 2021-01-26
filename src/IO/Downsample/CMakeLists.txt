@@ -24,6 +24,8 @@ add_test(NAME DownsampleTest
     2
     2
     2
+    1
+    0
   )
 
 add_test(NAME DownsampleTestLabelImage
@@ -34,4 +36,6 @@ add_test(NAME DownsampleTestLabelImage
     2
     2
     2
+    1
+    0
   )

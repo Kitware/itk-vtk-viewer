@@ -6,8 +6,8 @@
 [![Dependency Status](https://david-dm.org/kitware/itk-vtk-viewer.svg)](https://david-dm.org/kitware/itk-vtk-viewer)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 ![npm-download](https://img.shields.io/npm/dm/itk-vtk-viewer.svg)
-![npm-version-requirement](https://img.shields.io/badge/npm->=5.0.0-brightgreen.svg)
-![node-version-requirement](https://img.shields.io/badge/node->=8.0.0-brightgreen.svg)
+![npm-version-requirement](https://img.shields.io/badge/npm->=6.0.0-brightgreen.svg)
+![node-version-requirement](https://img.shields.io/badge/node->=10.0.0-brightgreen.svg)
 [![launch ImJoy](https://imjoy.io/static/badge/launch-imjoy-badge.svg)](http://imjoy.io/#/app?plugin=https://kitware.github.io/itk-vtk-viewer/app/)
 [![DOI](https://zenodo.org/badge/92198432.svg)](https://zenodo.org/badge/latestdoi/92198432)
 

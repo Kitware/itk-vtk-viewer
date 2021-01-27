@@ -5,6 +5,13 @@ import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Consta
 import applyGradientOpacity from './applyGradientOpacity'
 import applyLabelImageBlend from './applyLabelImageBlend'
 
+const ANNOTATION_DEFAULT =
+  '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
+const ANNOTATION_CUSTOM_PREFIX =
+  '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Scale:</td>'
+const ANNOTATION_CUSTOM_POSTFIX =
+  '<td></td><td></td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
+
 function applyRenderedImage(context, event) {
   const name = event.data
   const actorContext = context.images.actorContext.get(name)
@@ -233,6 +240,14 @@ function applyRenderedImage(context, event) {
     applyLabelImageBlend(context, {
       data: { name, labelImageBlend: actorContext.labelImageBlend },
     })
+  }
+
+  if (actorContext.renderedScale === 0) {
+    context.itkVtkView.setSeCornerAnnotation(ANNOTATION_DEFAULT)
+  } else {
+    context.itkVtkView.setSeCornerAnnotation(
+      `${ANNOTATION_CUSTOM_PREFIX}<td style="margin-left: 0; margin-right: auto;">${actorContext.renderedScale}</td>${ANNOTATION_CUSTOM_POSTFIX}`
+    )
   }
 
   // Update the slice parameters

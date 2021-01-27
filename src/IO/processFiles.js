@@ -182,8 +182,7 @@ export const readFiles = async ({
           } else {
             image = images[index]
           }
-        }
-        if (!!!image) {
+        } else if (!!!image) {
           image = images[index]
         }
       }

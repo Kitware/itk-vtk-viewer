@@ -31,7 +31,7 @@ Supported context `data` inputs:
 
 - An [itk.js Image](https://insightsoftwareconsortium.github.io/itk-js/api/Image.html)
 - A [scijs ndarray](http://scijs.net/packages/#scijs/ndarray) for JavaScript; for Python, it can be a [numpy](https://numpy.org) array.
-- A [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) pointing to an [image file supported by itk.js]https://insightsoftwareconsortium.github.io/itk-js/docs/image_formats.html).
+- A [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) pointing to an [image file supported by itk.js](https://insightsoftwareconsortium.github.io/itk-js/docs/image_formats.html).
 
 For [scijs ndarray](http://scijs.net/packages/#scijs/ndarray), you can use the following function to encoded it into an imjoy-rpc encoded array.
 ```
@@ -49,7 +49,7 @@ The `image` key is optional; one can also call `setImage()` later.
 
 Context `config`:
 
-An optional viewer configuration can be passed with the context `config`. To
+An optional [viewer configuration](../config/) can be passed with the context `config`. To
 retrieve the configuration from an existing viewer, call `viewer.getConfig()`.
 
 Usage in javascript:

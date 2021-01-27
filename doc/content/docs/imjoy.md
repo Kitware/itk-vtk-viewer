@@ -47,12 +47,18 @@ function encodeScijsArray(array){
 
 The `image` key is optional; one can also call `setImage()` later.
 
+Context `config`:
+
+An optional viewer configuration can be passed with the context `config`. To
+retrieve the configuration from an existing viewer, call `viewer.getConfig()`.
+
 Usage in javascript:
 ```javascript
 const imageArray = ... // itk.js Image or imjoy-rpc encoded ndarray
 const viewer = await api.createWindow({
   src: "https://kitware.github.io/itk-vtk-viewer/app/",
-  data: { image: imageArray }
+  data: { image: imageArray },
+  config: config,
   })
 ```
 
@@ -61,7 +67,8 @@ Usage in Python
 # a 2D or 3D numpy array
 image_array = np.random.randint(0, 255, [500, 500], dtype='uint8')
 viewer = await api.createWindow(src="https://kitware.github.io/itk-vtk-viewer/app/",
-                                data={"image": imageArray})
+                                data={"image": imageArray},
+                                config=config)
 ```
 
 ## API functions

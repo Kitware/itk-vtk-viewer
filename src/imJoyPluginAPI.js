@@ -8,7 +8,31 @@ const imJoyPluginAPI = {
 
   async run(ctx) {
     if (ctx.data && ctx.data.image) {
-      await this.setImage(ctx.data.image)
+      if (ctx.config && !this.viewer) {
+        const multiscaleImage = await itkVtkViewer.utils.toMultiscaleChunkedImage(
+          ctx.data.image
+        )
+        const is2D = multiscaleImage.imageType.dimension === 2
+        this.viewer = await itkVtkViewer.createViewer(container, {
+          image: multiscaleImage,
+          pointSets: null,
+          geometries: null,
+          use2D: is2D,
+          rotate: false,
+          config: ctx.config,
+        })
+      } else {
+        await this.setImage(ctx.data.image)
+      }
+    } else if (ctx.config && !this.viewer) {
+      this.viewer = await itkVtkViewer.createViewer(container, {
+        image: multiscaleImage,
+        pointSets: null,
+        geometries: null,
+        use2D: is2D,
+        rotate: false,
+        config: ctx.config,
+      })
     }
   },
 

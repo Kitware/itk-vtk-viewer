@@ -26,6 +26,7 @@
 #include "itkLabelImageGaussianInterpolateImageFunction.h"
 #include "itkImageRegionSplitterSlowDimension.h"
 #include "itkExtractImageFilter.h"
+#include <fstream>
 
 template < typename TImage >
 int
@@ -40,6 +41,7 @@ Downsample( char * argv [] )
   unsigned int factorK = atoi( argv[6] );
   unsigned int maxTotalSplits = atoi( argv[7] );
   unsigned int split = atoi( argv[8] );
+  const char * numberOfSplitsFile = argv[9];
 
   using ReaderType = itk::ImageFileReader< ImageType >;
   auto reader = ReaderType::New();
@@ -71,10 +73,16 @@ Downsample( char * argv [] )
   using SplitterType = itk::ImageRegionSplitterSlowDimension;
   auto splitter = SplitterType::New();
   const unsigned int numberOfSplits = splitter->GetNumberOfSplits( largestRegion, maxTotalSplits );
+
+  std::ofstream ostream(numberOfSplitsFile);
+  ostream << numberOfSplits;
+  ostream.close();
+
   if (split >= numberOfSplits)
   {
     //std::cerr << "Error: requested split: " << split << " is outside the number of splits: " << numberOfSplits << std::endl;
-    return EXIT_FAILURE;
+    split = 0;
+    //return EXIT_FAILURE;
   }
 
   RegionType requestedRegion( largestRegion );
@@ -212,9 +220,9 @@ ComponentDownsample( const itk::IOComponentEnum componentType, char * argv[] )
 
 int main( int argc, char * argv[] )
 {
-  if( argc < 9 )
+  if( argc < 10 )
     {
-    std::cerr << "Usage: " << argv[0] << " <isLabelImage> <inputImage> <outputImage> <factorI> <factorJ> <factorK> <maxTotalSplits> <split>" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <isLabelImage> <inputImage> <outputImage> <factorI> <factorJ> <factorK> <maxTotalSplits> <split> <numberOfSplitsFile>" << std::endl;
     return EXIT_FAILURE;
     }
   const char * inputImageFile = argv[2];

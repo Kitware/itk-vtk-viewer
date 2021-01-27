@@ -29,7 +29,7 @@ const createChunk = async (webWorker, args) => {
 }
 const numberOfWorkers = navigator.hardwareConcurrency
   ? navigator.hardwareConcurrency
-  : 8
+  : 10
 //const chunkerWorkerPool = new WorkerPool(numberOfWorkers, createChunk)
 const downsampleWorkerPool = new WorkerPool(numberOfWorkers, runPipelineBrowser)
 
@@ -242,7 +242,8 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
             data: data,
           },
         ]
-        const desiredOutputs = [{ path: 'output.json', type: IOTypes.Image }]
+        const desiredOutputs = [{ path: 'output.json', type: IOTypes.Image },
+          { path: 'numberOfSplits.txt', type: IOTypes.Text }]
         const args = [
           isLabelImage ? '1' : '0',
           'input.json',
@@ -252,11 +253,13 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
           factors.length > 2 ? factors[2].toString() : '1',
           '' + maxTotalSplits,
           '' + index,
+          'numberOfSplits.txt'
         ]
         downsampleTaskArgs.push([pipelinePath, args, desiredOutputs, inputs])
       }
       const results = await downsampleWorkerPool.runTasks(downsampleTaskArgs)
-      const imageSplits = results.map(({ outputs }) => outputs[0].data)
+      const validResults = results.filter((r, i) => parseInt(r.outputs[1].data) > i)
+      const imageSplits = validResults.map(({ outputs }) => outputs[0].data)
       currentImage = stackImages(imageSplits)
 
       const scaleN = chunkImage(currentImage, chunkSize)

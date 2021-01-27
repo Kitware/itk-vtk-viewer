@@ -26,6 +26,7 @@ add_test(NAME DownsampleTest
     2
     1
     0
+    ${CMAKE_CURRENT_BINARY_DIR}/numberOfSplits.txt
   )
 
 add_test(NAME DownsampleTestLabelImage
@@ -38,4 +39,5 @@ add_test(NAME DownsampleTestLabelImage
     2
     1
     0
+    ${CMAKE_CURRENT_BINARY_DIR}/numberOfSplitsLabels.txt
   )

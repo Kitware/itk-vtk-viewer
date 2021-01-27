@@ -163,7 +163,7 @@ const assignImageContext = assign({
             colorMap = 'BkCy'
             break
         }
-      } else if (components === 3) {
+      } else if (components === 3 && actorContext.independentComponents) {
         switch (component) {
           case 0:
             colorMap = 'BkRd'

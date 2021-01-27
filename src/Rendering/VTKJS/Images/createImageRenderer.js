@@ -17,7 +17,6 @@ async function createImageRenderer(context) {
     context.images.selectedName
   )
   actorContext.fusedImage = vtkImageData.newInstance()
-  actorContext.lastVisualizedComponents = []
 
   applyIndependentComponents(context)
   applyXSlice(context, { data: context.main.xSlice })

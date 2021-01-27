@@ -46,10 +46,10 @@ function highestScaleOrScaleJustRight(context, event, condMeta) {
   const actorContext = context.images.actorContext.get(
     context.images.updateRenderedName
   )
-  if (actorContext.renderedScale === 0 && context.main.fps > 15.0) {
+  if (actorContext.renderedScale === 0 && context.main.fps > 10.0) {
     return true
   }
-  if (context.main.fps > 15.0 && context.main.fps < 33.0) {
+  if (context.main.fps > 10.0 && context.main.fps < 33.0) {
     return true
   }
   if (condMeta.state.value.adjustScaleForFramerate === 'scaleJustRight') {
@@ -62,7 +62,7 @@ function scaleTooHigh(context, event, condMeta) {
   const actorContext = context.images.actorContext.get(
     context.images.updateRenderedName
   )
-  return context.main.fps <= 15.0
+  return context.main.fps <= 10.0
 }
 
 const eventResponses = {

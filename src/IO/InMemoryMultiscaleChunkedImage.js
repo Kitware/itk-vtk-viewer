@@ -29,7 +29,7 @@ const createChunk = async (webWorker, args) => {
 }
 const numberOfWorkers = navigator.hardwareConcurrency
   ? navigator.hardwareConcurrency
-  : 10
+  : 6
 //const chunkerWorkerPool = new WorkerPool(numberOfWorkers, createChunk)
 const downsampleWorkerPool = new WorkerPool(numberOfWorkers, runPipelineBrowser)
 
@@ -242,8 +242,10 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
             data: data,
           },
         ]
-        const desiredOutputs = [{ path: 'output.json', type: IOTypes.Image },
-          { path: 'numberOfSplits.txt', type: IOTypes.Text }]
+        const desiredOutputs = [
+          { path: 'output.json', type: IOTypes.Image },
+          { path: 'numberOfSplits.txt', type: IOTypes.Text },
+        ]
         const args = [
           isLabelImage ? '1' : '0',
           'input.json',
@@ -253,24 +255,24 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
           factors.length > 2 ? factors[2].toString() : '1',
           '' + maxTotalSplits,
           '' + index,
-          'numberOfSplits.txt'
+          'numberOfSplits.txt',
         ]
         downsampleTaskArgs.push([pipelinePath, args, desiredOutputs, inputs])
       }
       const results = await downsampleWorkerPool.runTasks(downsampleTaskArgs)
-      const validResults = results.filter((r, i) => parseInt(r.outputs[1].data) > i)
+      const validResults = results.filter(
+        (r, i) => parseInt(r.outputs[1].data) > i
+      )
       const imageSplits = validResults.map(({ outputs }) => outputs[0].data)
       currentImage = stackImages(imageSplits)
 
       const scaleN = chunkImage(currentImage, chunkSize)
       metadata.push(scaleN.metadata)
-      pyramid.push(
-        {
-          chunksStride: scaleN.chunksStride,
-          chunks: scaleN.chunks,
-          largestImage: currentImage,
-        },
-      )
+      pyramid.push({
+        chunksStride: scaleN.chunksStride,
+        chunks: scaleN.chunks,
+        largestImage: currentImage,
+      })
     }
 
     // scale

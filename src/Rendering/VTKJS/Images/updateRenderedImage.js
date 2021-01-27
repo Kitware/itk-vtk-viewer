@@ -27,6 +27,7 @@ async function updateRenderedImage(context) {
     context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
   } else if (image) {
     const scaleImage = await image.scaleLargestImage(actorContext.renderedScale)
+    actorContext.renderedImage = scaleImage
     const vtkImage = vtkITKHelper.convertItkToVtkImage(scaleImage)
 
     const imageScalars = vtkImage.getPointData().getScalars()
@@ -94,10 +95,7 @@ async function updateRenderedImage(context) {
     // to be copied into fusedImageData.  This loop doesn't include the
     // labelimage component, it will be checked next.
     for (let i = 0; i < fusedImageComponents; i++) {
-      if (
-        visualizedComponents[i] !== actorContext.lastVisualizedComponents[i] &&
-        visualizedComponents[i] >= 0
-      ) {
+      if (visualizedComponents[i] >= 0) {
         copyStructure.push({
           srcImageData: imageData,
           imageComponents: imageComponents,
@@ -108,10 +106,7 @@ async function updateRenderedImage(context) {
     }
 
     // Check if we need to re-copy the labelmap component
-    if (
-      visualizedComponents[fusedImageComponents - 1] === -1 &&
-      actorContext.lastVisualizedComponents[fusedImageComponents - 1] !== -1
-    ) {
+    if (visualizedComponents[fusedImageComponents - 1] === -1) {
       copyStructure.push({
         srcImageData: actorContext.renderedLabelImage.data,
         imageComponents: 1,
@@ -143,7 +138,6 @@ async function updateRenderedImage(context) {
     fusedImage.getPointData().setScalars(fusedImageScalars)
     // Trigger VolumeMapper scalarTexture update
     fusedImage.modified()
-    actorContext.lastVisualizedComponents = visualizedComponents.slice()
 
     actorContext.renderedImage = scaleImage
     context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })

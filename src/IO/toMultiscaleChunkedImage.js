@@ -44,7 +44,7 @@ async function toMultiscaleChunkedImage(image, isLabelImage = false) {
       image,
       isLabelImage
     )
-  } else if (image.shape !== undefined && image.stride !== undefined) {
+  } else if (image._rtype !== undefined && image._rtype === 'ndarray') {
     // ndarray
     const itkImage = ndarrayToItkImage(image)
     multiscaleImage = await itkImageToInMemoryMultiscaleChunkedImage(

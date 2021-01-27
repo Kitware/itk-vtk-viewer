@@ -36,6 +36,14 @@ function applyStyle(el, style) {
     el.style[key] = style[key]
   })
 }
+function encodeArray(array) {
+  return {
+    _rtype: 'ndarray',
+    _rdtype: array.dtype,
+    _rshape: array.shape,
+    _rvalue: array.data.buffer,
+  }
+}
 
 test('Test ImJoy Plugin', async t => {
   t.plan(5)
@@ -76,7 +84,7 @@ test('Test ImJoy Plugin', async t => {
     src: 'http://localhost:9876/base/dist/index.html',
     data: { image: itkImage },
   })
-  await viewer.setImage(array)
+  await viewer.setImage(encodeArray(array))
   t.pass('setImage ndarray')
 
   const bgColor = [0.2, 0.8, 0.7]

@@ -1,6 +1,7 @@
 menu:
   docs: Documentation
   api: API
+  config: Config
   examples: Examples
   news: News
   search: Search

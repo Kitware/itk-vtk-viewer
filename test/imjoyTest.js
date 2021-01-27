@@ -45,6 +45,10 @@ function encodeArray(array) {
   }
 }
 
+const testConfig = JSON.parse(
+  '{"viewerConfigVersion":"0.1","containerStyle":{"position":"relative","width":"600px","height":"600px","minHeight":"600px","minWidth":"600px","maxHeight":"600px","maxWidth":"600px","margin":"0","padding":"0","top":"0","left":"0","overflow":"hidden"},"main":{"backgroundColor":[0.7,0.2,0.8],"units":"mm"}}'
+)
+
 test('Test ImJoy Plugin', async t => {
   t.plan(5)
   const gc = testUtils.createGarbageCollector(t)
@@ -83,6 +87,7 @@ test('Test ImJoy Plugin', async t => {
   const viewer = await imjoy.pm.createWindow(null, {
     src: 'http://localhost:9876/base/dist/index.html',
     data: { image: itkImage },
+    config: testConfig,
   })
   await viewer.setImage(encodeArray(array))
   t.pass('setImage ndarray')

@@ -109,6 +109,8 @@
     "start": "webpack serve --mode development --content-base ./dist/ --watch-content-base --open",
     "semantic-release": "semantic-release",
     "test": "karma start ./karma.conf.js --browsers Chrome,Firefox",
+    "test:headless": "./test/run.sh",
+    "test:headless-debug": "./test/run.sh -d",
     "test:debug": "karma start ./karma.conf.js --no-single-run"
   },
   "config": {

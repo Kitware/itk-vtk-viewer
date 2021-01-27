@@ -5,13 +5,13 @@ import style from './ItkVtkViewer.module.css'
 import createGeometryRepresentationSelector from './Geometries/createGeometryRepresentationSelector'
 import createGeometryColorWidget from './Geometries/createGeometryColorWidget'
 
-function createGeometriesUI(store) {
+function createGeometriesUI(store, uiContainer) {
   const geometriesUIGroup = document.createElement('div')
   geometriesUIGroup.setAttribute('class', style.uiGroup)
 
   const geometryRepresentationRow = document.createElement('div')
   geometryRepresentationRow.setAttribute('class', style.uiRow)
-  geometryRepresentationRow.className += ` ${store.id}-toggle`
+  geometryRepresentationRow.className += ` ${store.id}-collapsible`
   if (store.mainUI.collapsed) {
     geometryRepresentationRow.style.display = 'none'
   }
@@ -60,7 +60,7 @@ function createGeometriesUI(store) {
 
   createGeometryColorWidget(store, geometriesUIGroup)
 
-  store.mainUI.uiContainer.appendChild(geometriesUIGroup)
+  uiContainer.appendChild(geometriesUIGroup)
   store.geometriesUI.initialized = true
 }
 

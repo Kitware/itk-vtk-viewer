@@ -1,64 +1,44 @@
+import { inspect } from '@xstate/inspect'
+import { interpret } from 'xstate'
+
 import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager'
 import macro from 'vtk.js/Sources/macro'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
 import ResizeSensor from 'css-element-queries/src/ResizeSensor'
 
-import proxyConfiguration from './vtk/proxyManagerConfiguration'
+import proxyConfiguration from './Rendering/VTKJS/proxyManagerConfiguration'
 import UserInterface from './UserInterface'
 import createLabelMapColorWidget from './UserInterface/Image/createLabelMapColorWidget'
 import createLabelMapWeightWidget from './UserInterface/Image/createLabelMapWeightWidget'
 import createPlaneIndexSliders from './UserInterface/Image/createPlaneIndexSliders'
 import updateTransferFunctionWidget from './UserInterface/Image/updateTransferFunctionWidget'
-import addKeyboardShortcuts from './UserInterface/addKeyboardShortcuts'
+import addKeyboardShortcuts from './UI/addKeyboardShortcuts'
 import rgb2hex from './UserInterface/rgb2hex'
 import hex2rgb from './UserInterface/hex2rgb'
 import ViewerStore from './ViewerStore'
 import createLabelMapRendering from './Rendering/createLabelMapRendering'
-import createImageRendering from './Rendering/createImageRendering'
 import updateLabelMapComponentWeight from './Rendering/updateLabelMapComponentWeight'
 import updateLabelMapPiecewiseFunction from './Rendering/updateLabelMapPiecewiseFunction'
-import updateVolumeProperties from './Rendering/updateVolumeProperties'
-import updateGradientOpacity from './Rendering/updateGradientOpacity'
+
+import toMultiscaleChunkedImage from './IO/toMultiscaleChunkedImage'
+import viewerMachineOptions from './viewerMachineOptions'
+import createViewerMachine from './createViewerMachine'
+import ViewerMachineContext from './Context/ViewerMachineContext'
 
 import { autorun, observable, reaction, toJS } from 'mobx'
 
-function updateVisualizedComponents(store) {
-  const image = store.imageUI.image
-  const labelMap = store.imageUI.labelMap
-  if (image) {
-    const imageComponents = image
-      .getPointData()
-      .getScalars()
-      .getNumberOfComponents()
-    store.imageUI.maximumIntensityComponents = !!labelMap ? 3 : 4
-    const numVizComps = Math.min(
-      imageComponents,
-      store.imageUI.maximumIntensityComponents
-    )
-    const vizComps = []
-    for (let i = 0; i < numVizComps; i++) {
-      vizComps.push(i)
-    }
-    store.imageUI.visualizedComponents.replace(vizComps)
-  }
-}
-
-const createViewer = (
+const createViewer = async (
   rootContainer,
   {
     image,
-    multiscaleImage,
-    labelMap,
-    multiscaleLabelMap,
-    labelMapNames,
+    labelImage,
     geometries,
     pointSets,
     use2D = false,
     rotate = true,
-    viewerStyle,
-    viewerState,
     uiContainer,
+    config,
   }
 ) => {
   UserInterface.emptyContainer(rootContainer)
@@ -69,14 +49,154 @@ const createViewer = (
   const proxyManager = vtkProxyManager.newInstance({ proxyConfiguration })
   window.addEventListener('resize', proxyManager.resizeAllViews)
 
-  // Todo: deserialize from viewerState, if present
   const store = new ViewerStore(proxyManager)
 
-  UserInterface.applyContainerStyle(rootContainer, store, viewerStyle)
+  const publicAPI = {}
+
+  const debug = false
+  if (debug) {
+    //const stateIFrame = document.createElement('iframe')
+    //store.container.style.height = '50%'
+    //stateIFrame.style.height = '50%'
+    //rootContainer.appendChild(stateIFrame)
+    inspect({
+      //iframe: stateIFrame,
+      iframe: false,
+    })
+  }
+
+  // Todo: const eventEmitter = new EventEmitter()
+  // Migrate to a module
+  const eventEmitter = store.eventEmitter
+
+  function eventEmitterCallback(context, event) {
+    return (callback, onReceive) => {
+      onReceive(event => {
+        switch (event.type) {
+          case 'SET_BACKGROUND_COLOR':
+            eventEmitter.emit('backgroundColorChanged', event.data)
+            break
+          case 'TOGGLE_BACKGROUND_COLOR':
+            eventEmitter.emit(
+              'backgroundColorChanged',
+              context.main.backgroundColor
+            )
+            break
+          case 'TOGGLE_FULLSCREEN':
+            eventEmitter.emit(
+              'toggleFullscreen',
+              publicAPI.getFullscreenEnabled()
+            )
+            break
+          case 'TOGGLE_UI_COLLAPSED':
+            eventEmitter.emit('toggleUICollapsed', publicAPI.getUICollapsed())
+            break
+          case 'TOGGLE_ROTATE':
+            eventEmitter.emit('toggleRotate', publicAPI.getRotateEnabled())
+            break
+          case 'TOGGLE_ANNOTATIONS':
+            eventEmitter.emit(
+              'toggleAnnotations',
+              publicAPI.getAnnotationsEnabled()
+            )
+            break
+          case 'TOGGLE_AXES':
+            eventEmitter.emit('toggleAxes', event.data)
+            break
+          case 'TOGGLE_IMAGE_INTERPOLATION':
+            eventEmitter.emit('toggleImageInterpolation', event.data)
+            break
+          case 'VIEW_MODE_CHANGED':
+            eventEmitter.emit('viewModeChanged', event.data)
+            break
+          case 'TOGGLE_LAYER_VISIBILITY':
+            eventEmitter.emit('toggleLayerVisibility', event.data)
+            break
+          case 'IMAGE_COMPONENT_VISIBILITY_CHANGED':
+            eventEmitter.emit('imageVisualizedComponentChanged', event.data)
+            break
+          case 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED':
+            eventEmitter.emit(
+              'imagePiecewiseFunctionGaussiansChanged',
+              event.data
+            )
+            break
+          case 'IMAGE_COLOR_RANGE_CHANGED':
+            eventEmitter.emit('imageColorRangeChanged', event.data)
+            break
+          case 'IMAGE_COLOR_RANGE_BOUNDS_CHANGED':
+            eventEmitter.emit('imageColorRangeBoundsChanged', event.data)
+            break
+          case 'IMAGE_COLOR_MAP_CHANGED':
+            eventEmitter.emit('imageColorMapChanged', event.data)
+            break
+          case 'TOGGLE_IMAGE_SHADOW':
+            eventEmitter.emit('toggleImageShadow', event.data)
+            break
+          case 'IMAGE_GRADIENT_OPACITY_CHANGED':
+            eventEmitter.emit('imageGradientOpacityChanged', event.data)
+            break
+          case 'IMAGE_GRADIENT_OPACITY_SCALE_CHANGED':
+            eventEmitter.emit('imageGradientOpacityScaleChanged', event.data)
+            break
+          case 'IMAGE_VOLUME_SAMPLE_DISTANCE_CHANGED':
+            eventEmitter.emit('imageVolumeSampleDistanceChanged', event.data)
+            break
+          case 'IMAGE_BLEND_MODE_CHANGED':
+            eventEmitter.emit('imageBlendModeChanged', event.data)
+            break
+          case 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED':
+            eventEmitter.emit('labelImageLookupTableChanged', event.data)
+            break
+          case 'LABEL_IMAGE_BLEND_CHANGED':
+            eventEmitter.emit('labelImageBlendChanged', event.data)
+            break
+          case 'LABEL_IMAGE_WEIGHTS_CHANGED':
+            eventEmitter.emit('labelImageWeightsChanged', event.data)
+            break
+          case 'LABEL_IMAGE_LABEL_NAMES_CHANGED':
+            eventEmitter.emit('labelImageLabelNamesChanged', event.data)
+            break
+          case 'X_SLICE_CHANGED':
+            eventEmitter.emit('xSliceChanged', event.data)
+            break
+          case 'Y_SLICE_CHANGED':
+            eventEmitter.emit('ySliceChanged', event.data)
+            break
+          case 'Z_SLICE_CHANGED':
+            eventEmitter.emit('zSliceChanged', event.data)
+            break
+          default:
+            throw new Error(`Unexpected event type: ${event.type}`)
+        }
+      })
+    }
+  }
+
+  const options = viewerMachineOptions
+  const context = new ViewerMachineContext(config)
+  context.use2D = use2D
+  context.rootContainer = rootContainer
+  // Todo: move to viewer machine
+  context.container = store.container
+  // Todo: move to VTKJS/createRenderer
+  context.itkVtkView = store.itkVtkView
+  context.proxyManager = store.proxyManager
+  context.renderWindow = store.renderWindow
+  context.id = store.id
+  const machine = createViewerMachine(options, context, eventEmitterCallback)
+  const service = interpret(machine, { devTools: debug })
+  context.service = service
+  if (!!uiContainer) {
+    context.uiContainer = uiContainer
+  }
+  console.log(options)
+  console.log(context)
+  console.log(machine)
+  console.log(service)
+  service.start()
 
   let updatingImage = false
-
-  UserInterface.createMainUI(rootContainer, store, use2D, uiContainer)
 
   function imagePickedListener(lastPickedValues) {
     if (lastPickedValues.value !== null) {
@@ -114,8 +234,6 @@ const createViewer = (
     },
 
     fusedImage => {
-      store.eventEmitter.emit('fusingStatusChanged', false)
-
       if (!!!fusedImage) {
         return
       }
@@ -135,7 +253,7 @@ const createViewer = (
           store.itkVtkView.setViewMode('ZPlane')
           store.itkVtkView.setOrientationAxesVisibility(false)
         } else {
-          store.itkVtkView.setViewMode('VolumeRendering')
+          store.itkVtkView.setViewMode('Volume')
         }
 
         const annotationContainer = store.container.querySelector('.js-se')
@@ -161,16 +279,16 @@ const createViewer = (
       }
 
       if (!!store.imageUI.image && !!!store.imageUI.imageUIGroup) {
-        UserInterface.createImageUI(store, use2D)
+        UserInterface.createImageUI(store, use2D, context.uiContainer)
       }
 
       if (!!store.imageUI.labelMap && !!!store.imageUI.labelMapColorUIGroup) {
-        createLabelMapColorWidget(store, store.mainUI.uiContainer)
-        createLabelMapWeightWidget(store, store.mainUI.uiContainer)
+        createLabelMapColorWidget(store, context.uiContainer)
+        createLabelMapWeightWidget(store, context.uiContainer)
       }
 
       if (!use2D && !!!store.imageUI.placeIndexUIGroup) {
-        createPlaneIndexSliders(store, store.mainUI.uiContainer)
+        createPlaneIndexSliders(store, context.uiContainer)
       }
 
       if (!initialRender) {
@@ -193,7 +311,7 @@ const createViewer = (
               .getData(),
             {
               numberOfComponents: store.imageUI.totalIntensityComponents,
-              component: store.imageUI.selectedComponentIndex,
+              component: store.imageUI.selectedComponent,
             }
           )
           transferFunctionWidget.invokeOpacityChange(transferFunctionWidget)
@@ -209,7 +327,6 @@ const createViewer = (
 
         setTimeout(() => {
           !!transferFunctionWidget && transferFunctionWidget.render()
-          updateGradientOpacity(store)
           const numberOfComponents = store.imageUI.numberOfComponents
           // May need to update intensity preset in case labelMap was
           // not yet loaded at time createImageRendering was called
@@ -234,17 +351,31 @@ const createViewer = (
       }
     }
   )
-  store.imageUI.image = image
-  updateVisualizedComponents(store)
-  if (!!labelMap) {
-    store.imageUI.labelMap = labelMap
-    updateVisualizedComponents(store)
+  let imageName = null
+  if (!!image) {
+    const multiscaleImage = await toMultiscaleChunkedImage(image)
+    imageName = multiscaleImage.name
+    service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
+  }
+
+  if (!!labelImage) {
+    const multiscaleLabelImage = await toMultiscaleChunkedImage(
+      labelImage,
+      true
+    )
+    if (multiscaleLabelImage.name === 'Image') {
+      multiscaleLabelImage.name = 'LabelImage'
+    }
+    service.send({
+      type: 'ADD_LABEL_IMAGE',
+      data: { imageName, labelImage: multiscaleLabelImage },
+    })
   }
 
   autorun(() => {
     if (store.imageUI.haveOnlyLabelMap) {
       // If we only have a labelmap component, give it full weight
-      store.imageUI.labelMapBlend = 1.0
+      store.imageUI.labelImageBlend = 1.0
     }
   })
 
@@ -273,14 +404,14 @@ const createViewer = (
       }
     }
   )
-  store.imageUI.multiscaleImage = multiscaleImage
-  store.imageUI.multiscaleLabelMap = multiscaleLabelMap
+  //store.imageUI.multiscaleImage = multiscaleImage
+  //store.imageUI.multiscaleLabelMap = multiscaleLabelMap
 
   // After all the other "store.imageUI.image" reactions have run, we
   // need to trigger all of the transfer function widget
   // "store.imageUI.selectedComponent" reactions.
   for (let i = store.imageUI.numberOfComponents - 1; i >= 0; i--) {
-    store.imageUI.selectedComponentIndex = i
+    store.imageUI.selectedComponent = i
   }
 
   reaction(
@@ -325,7 +456,7 @@ const createViewer = (
       }
 
       if (!store.geometriesUI.initialized) {
-        UserInterface.createGeometriesUI(store)
+        UserInterface.createGeometriesUI(store, context.uiContainer)
       }
       store.geometriesUI.names = geometries.map(
         (geometry, index) => `Geometry ${index}`
@@ -396,7 +527,7 @@ const createViewer = (
       }
 
       if (!store.pointSetsUI.initialized) {
-        UserInterface.createPointSetsUI(store)
+        UserInterface.createPointSetsUI(store, context.uiContainer)
       }
     }
   )
@@ -420,30 +551,6 @@ const createViewer = (
   }, 1)
 
   UserInterface.addLogo(store)
-  reaction(
-    () => {
-      return store.mainUI.fpsTooLow
-    },
-
-    tooLow => {
-      if (!tooLow) {
-        return
-      }
-    }
-  )
-  function updateFPS() {
-    const nextFPS = 1 / store.renderWindow.getInteractor().getLastFrameTime()
-    const fps = store.mainUI.fps
-    fps.push(nextFPS)
-    fps.shift()
-    const mean = Math.round((fps[0] + fps[1] + fps[2]) / 3)
-    if (mean < 20) {
-      store.mainUI.fpsTooLow = true
-    }
-  }
-  store.renderWindow.getInteractor().onAnimation(updateFPS)
-
-  const publicAPI = {}
 
   publicAPI.renderLater = () => {
     store.itkVtkView.renderLater()
@@ -457,16 +564,6 @@ const createViewer = (
     return store
   }
 
-  publicAPI.getImage = () => {
-    return store.imageUI.image
-  }
-
-  const setImage = image => {
-    store.imageUI.image = image
-    updateVisualizedComponents(store)
-  }
-  publicAPI.setImage = macro.throttle(setImage, 100)
-
   publicAPI.getLookupTableProxies = () => {
     return store.imageUI.lookupTableProxies
   }
@@ -479,65 +576,41 @@ const createViewer = (
     store.geometriesUI.geometries = geometries
   }
 
-  publicAPI.setLabelMap = labelMap => {
-    store.imageUI.labelMap = labelMap
-    updateVisualizedComponents(store)
-  }
-
-  publicAPI.setLabelMapNames = names => {
-    store.itkVtkView.setLabelNames(names)
-  }
-
-  publicAPI.getLabelMapNames = () => {
-    return store.itkVtkView.getLabelNames()
-  }
-
-  publicAPI.setUserInterfaceCollapsed = collapse => {
-    const collapsed = store.mainUI.collapsed
-    if ((collapse && !collapsed) || (!collapse && collapsed)) {
-      store.mainUI.collapsed = !collapsed
-    }
-  }
-
-  publicAPI.getUserInterfaceCollapsed = () => {
-    return store.mainUI.collapsed
-  }
-
-  const eventEmitter = store.eventEmitter
-
   const eventNames = [
-    'imagePicked',
-    'labelMapBlendChanged',
-    'labelMapWeightsChanged',
-    'toggleUserInterfaceCollapsed',
-    'opacityGaussiansChanged',
-    'componentVisibilitiesChanged',
+    'toggleUICollapsed',
+    'backgroundColorChanged',
+    'toggleFullscreen',
     'toggleAnnotations',
     'toggleAxes',
     'toggleRotate',
-    'toggleFullscreen',
-    'toggleInterpolation',
-    'toggleCroppingPlanes',
-    'croppingPlanesChanged',
-    'resetCrop',
-    'colorRangesChanged',
-    'selectColorMap',
-    'selectLookupTable',
     'viewModeChanged',
+    'resetCrop',
     'xSliceChanged',
     'ySliceChanged',
     'zSliceChanged',
-    'toggleShadow',
-    'toggleSlicingPlanes',
-    'gradientOpacityChanged',
-    'blendModeChanged',
+    'toggleLayerVisibility',
+    'imagePicked',
+    'imagePiecewiseFunctionGaussiansChanged',
+    'imageVisualizedComponentChanged',
+    'toggleImageInterpolation',
+    'imageColorRangeChanged',
+    'imageColorRangeBoundsChanged',
+    'imageColorMapChanged',
+    'toggleImageShadow',
+    'imageGradientOpacityChanged',
+    'imageGradientOpacityScaleChanged',
+    'imageVolumeSampleDistanceChanged',
+    'imageBlendModeChanged',
+    'labelImageLookupTableChanged',
+    'labelImageBlendChanged',
+    'labelImageLabelNamesChanged',
+    'labelImageWeightsChanged',
+    'toggleCroppingPlanes',
+    'croppingPlanesChanged',
     'pointSetColorChanged',
     'pointSetOpacityChanged',
     'pointSetSizeChanged',
     'pointSetRepresentationChanged',
-    'backgroundColorChanged',
-    'volumeSampleDistanceChanged',
-    'fusingStatusChanged',
   ]
 
   publicAPI.getEventNames = () => eventNames
@@ -547,6 +620,28 @@ const createViewer = (
   publicAPI.once = (...onceArgs) => eventEmitter.once(...onceArgs)
 
   publicAPI.getEventEmitter = () => eventEmitter
+
+  publicAPI.getConfig = () => {
+    return context.getConfig()
+  }
+
+  publicAPI.setUICollapsed = collapse => {
+    if (collapse !== context.uiCollapsed) {
+      service.send('TOGGLE_UI_COLLAPSED')
+    }
+  }
+
+  publicAPI.getUICollapsed = () => {
+    return context.uiCollapsed
+  }
+
+  publicAPI.setContainerStyle = containerStyle => {
+    service.send({ type: 'STYLE_CONTAINER', data: containerStyle })
+  }
+
+  publicAPI.getContainerStyle = () => {
+    return { ...context.containerStyle }
+  }
 
   reaction(
     () => {
@@ -558,190 +653,214 @@ const createViewer = (
     }
   )
 
-  reaction(
-    () => store.imageUI.labelMapBlend,
-    blend => {
-      eventEmitter.emit('labelMapBlendChanged', blend)
+  publicAPI.setBackgroundColor = bgColor => {
+    service.send({ type: 'SET_BACKGROUND_COLOR', data: bgColor })
+  }
+
+  publicAPI.getBackgroundColor = () => {
+    return context.main.backgroundColor.slice()
+  }
+
+  publicAPI.setUnits = units => {
+    service.send({ type: 'SET_UNITS', data: units })
+  }
+
+  publicAPI.getUnits = () => {
+    return context.main.units
+  }
+
+  publicAPI.setImagePiecewiseFunctionGaussians = (
+    gaussians,
+    component,
+    name
+  ) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
-  )
-
-  publicAPI.getLabelMapBlend = () => store.imageUI.labelMapBlend
-
-  publicAPI.setLabelMapBlend = blend => {
-    store.imageUI.labelMapBlend = blend
-    // already have a reaction that updates actors and re-renders
-  }
-
-  reaction(
-    () => store.imageUI.labelMapWeights.slice(),
-    () => {
-      const labels = store.imageUI.labelMapLabels.slice()
-      const weights = store.imageUI.labelMapWeights.slice()
-      eventEmitter.emit('labelMapWeightsChanged', { labels, weights })
+    if (typeof component === 'undefined') {
+      component = 0
     }
-  )
-
-  // Replace all weights
-  publicAPI.setLabelMapWeights = weights => {
-    if (weights.length !== store.imageUI.labelMapWeights.length) {
-      console.error(
-        `Provided ${weights.length} weights, expecting ${store.imageUI.labelMapWeights.length}`
-      )
-      return false
-    }
-
-    store.imageUI.labelMapWeights.replace(weights)
-    updateLabelMapPiecewiseFunction(store)
-    store.renderWindow.render()
-
-    return true
-  }
-
-  // Replace a subset of weights by providing parallel array of corresponding
-  // label values
-  publicAPI.updateLabelMapWeights = ({ labels, weights }) => {
-    const indicesToUpdate = []
-
-    labels.forEach((label, labelIdx) => {
-      const idx = store.imageUI.labelMapLabels.indexOf(label)
-      if (idx >= 0) {
-        indicesToUpdate.push(labelIdx)
-        store.imageUI.labelMapWeights[idx] = weights[labelIdx]
-      }
-    })
-
-    if (indicesToUpdate.length > 0) {
-      updateLabelMapPiecewiseFunction(store, indicesToUpdate)
-      store.renderWindow.render()
-      return true
-    }
-
-    return false
-  }
-
-  publicAPI.getLabelMapWeights = () => {
-    return {
-      labels: store.imageUI.labelMapLabels.slice(),
-      weights: store.imageUI.labelMapWeights.slice(),
-    }
-  }
-
-  autorun(() => {
-    const collapsed = store.mainUI.collapsed
-    eventEmitter.emit('toggleUserInterfaceCollapsed', collapsed)
-  })
-
-  publicAPI.getOpacityGaussians = () => store.imageUI.opacityGaussians.slice()
-
-  publicAPI.setOpacityGaussians = gaussians => {
-    store.imageUI.opacityGaussians.replace(gaussians)
-    updateTransferFunctionWidget(store)
-    store.renderWindow.render()
-  }
-
-  function emitOpacityGaussians() {
-    eventEmitter.emit(
-      'opacityGaussiansChanged',
-      toJS(store.imageUI.opacityGaussians)
-    )
-  }
-
-  reaction(() => {
-    return store.imageUI.opacityGaussians.map((glist, compIdx) =>
-      glist.map(
-        (g, gIdx) =>
-          `${compIdx}:${gIdx}:${g.position}:${g.height}:${g.width}:${g.xBias}:${g.yBias}`
-      )
-    )
-  }, macro.debounce(emitOpacityGaussians, 100))
-
-  publicAPI.getComponentVisibilities = () => {
-    return store.imageUI.componentVisibilities.map(compVis => compVis.visible)
-  }
-
-  publicAPI.setComponentVisibilities = visibilities => {
-    visibilities.forEach((visibility, index) => {
-      store.imageUI.componentVisibilities[index].visible = visibility
+    const actorContext = context.images.actorContext.get(name)
+    service.send({
+      type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
+      data: { name, component, gaussians },
     })
   }
 
-  reaction(
-    () => {
-      return store.imageUI.componentVisibilities.map(compVis => compVis.visible)
-    },
-    visibilities => {
-      eventEmitter.emit('componentVisibilitiesChanged', visibilities)
+  publicAPI.getImagePiecewiseFunctionGaussians = (component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
-  )
+    if (typeof component === 'undefined') {
+      component = 0
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.piecewiseFunctionGaussians.get(component)
+  }
 
   // Start collapsed on mobile devices or small pages
   if (window.screen.availWidth < 768 || window.screen.availHeight < 800) {
-    publicAPI.setUserInterfaceCollapsed(true)
+    publicAPI.setUICollapsed(true)
   }
 
+  // https://github.com/eligrey/canvas-toBlob.js ?
   publicAPI.captureImage = () => {
     return store.itkVtkView.captureImage()
   }
 
-  autorun(() => {
-    const enabled = store.mainUI.annotationsEnabled
-    eventEmitter.emit('toggleAnnotations', enabled)
-  })
-
   publicAPI.setAnnotationsEnabled = enabled => {
-    const annotations = store.mainUI.annotationsEnabled
-    if ((enabled && !annotations) || (!enabled && annotations)) {
-      store.mainUI.annotationsEnabled = enabled
+    if (enabled !== context.main.annotationsEnabled) {
+      service.send('TOGGLE_ANNOTATIONS')
     }
   }
 
-  autorun(() => {
-    const enabled = store.mainUI.axesEnabled
-    eventEmitter.emit('toggleAxes', enabled)
-  })
+  publicAPI.getAnnotationsEnabled = () => {
+    return context.main.annotationsEnabled
+  }
 
   publicAPI.setAxesEnabled = enabled => {
-    const axes = store.mainUI.axesEnabled
-    if ((enabled && !axes) || (!enabled && axes)) {
-      store.mainUI.axesEnabled = enabled
+    if (enabled !== context.main.axesEnabled) {
+      service.send('TOGGLE_AXES')
     }
   }
 
-  autorun(() => {
-    const enabled = store.mainUI.rotateEnabled
-    eventEmitter.emit('toggleRotate', enabled)
-  })
+  publicAPI.getAxesEnabled = () => {
+    return context.main.axesEnabled
+  }
 
   publicAPI.setRotateEnabled = enabled => {
-    const rotate = store.mainUI.rotateEnabled
-    if ((enabled && !rotate) || (!enabled && rotate)) {
-      store.mainUI.rotateEnabled = enabled
+    if (enabled !== context.main.rotateEnabled) {
+      service.send('TOGGLE_ROTATE')
     }
   }
 
-  autorun(() => {
-    const enabled = store.mainUI.fullscreenEnabled
-    eventEmitter.emit('toggleFullscreen', enabled)
-  })
+  publicAPI.getRotateEnabled = () => {
+    return context.main.rotateEnabled
+  }
 
   publicAPI.setFullscreenEnabled = enabled => {
-    const fullscreen = store.mainUI.fullscreenEnabled
-    if ((enabled && !fullscreen) || (!enabled && fullscreen)) {
-      store.mainUI.fullscreenEnabled = enabled
+    if (enabled !== context.main.fullscreenEnabled) {
+      service.send('TOGGLE_FULLSCREEN')
     }
   }
 
-  const toggleInterpolationHandlers = []
-  autorun(() => {
-    const enabled = store.mainUI.interpolationEnabled
-    eventEmitter.emit('toggleInterpolation', enabled)
-  })
+  publicAPI.getFullscreenEnabled = () => {
+    return context.main.fullscreenEnabled
+  }
 
-  publicAPI.setInterpolationEnabled = enabled => {
-    const interpolation = store.mainUI.interpolationEnabled
-    if ((enabled && !interpolation) || (!enabled && interpolation)) {
-      store.mainUI.interpolationEnabled = enabled
+  publicAPI.setViewMode = mode => {
+    if (mode !== context.main.viewMode) {
+      service.send({ type: 'VIEW_MODE_CHANGED', data: mode })
     }
+  }
+
+  publicAPI.getViewMode = () => {
+    return context.main.viewMode
+  }
+
+  publicAPI.setXSlice = position => {
+    service.send({
+      type: 'X_SLICE_CHANGED',
+      data: position,
+    })
+  }
+
+  publicAPI.getXSlice = () => {
+    return context.main.xSlice
+  }
+
+  publicAPI.setYSlice = position => {
+    service.send({
+      type: 'Y_SLICE_CHANGED',
+      data: position,
+    })
+  }
+
+  publicAPI.getYSlice = () => {
+    return context.main.ySlice
+  }
+
+  publicAPI.setZSlice = position => {
+    service.send({
+      type: 'Z_SLICE_CHANGED',
+      data: position,
+    })
+  }
+
+  publicAPI.getZSlice = () => {
+    return context.main.zSlice
+  }
+
+  publicAPI.getLayerNames = () => {
+    return Array.from(context.layers.actorContext.keys())
+  }
+
+  publicAPI.setLayerVisibility = (visible, name) => {
+    const actorContext = context.layers.actorContext.get(name)
+    if (visible !== actorContext.visible) {
+      context.service.send({ type: 'TOGGLE_LAYER_VISIBILITY', data: name })
+    }
+  }
+
+  publicAPI.getLayerVisibility = name => {
+    return context.layers.actorContext.get(name).visible
+  }
+
+  publicAPI.setImage = async (image, name) => {
+    if (typeof name === 'undefined' && context.images.selectedName) {
+      name = context.images.selectedName
+    }
+    const multiscaleImage = await toMultiscaleChunkedImage(image)
+    multiscaleImage.name = name
+    if (context.images.actorContext.has(name)) {
+      const actorContext = context.images.actorContext.get(name)
+      actorContext.image = multiscaleImage
+      service.send({ type: 'IMAGE_ASSIGNED', data: name })
+    } else {
+      service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
+    }
+  }
+
+  publicAPI.getImage = name => {
+    if (typeof name === 'undefined' && context.images.selectedName) {
+      name = context.images.selectedName
+    }
+    return context.images.actorContext.get(name).image
+  }
+
+  publicAPI.setImageInterpolationEnabled = (enabled, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (enabled !== context.main.interpolationEnabled) {
+      service.send({ type: 'TOGGLE_IMAGE_INTERPOLATION', data: name })
+    }
+  }
+
+  publicAPI.getImageInterpolationEnabled = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.interpolationEnabled
+  }
+
+  publicAPI.setImageComponentVisibility = (visibility, component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    service.send({
+      type: 'IMAGE_COMPONENT_VISIBILITY_CHANGED',
+      data: { name, component, visibility },
+    })
+  }
+
+  publicAPI.getImageComponentVisibility = (component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.componentVisibilities[component]
   }
 
   const toggleCroppingPlanesHandlers = []
@@ -757,220 +876,285 @@ const createViewer = (
     }
   }
 
-  autorun(() => {
-    const colorRanges = store.imageUI.colorRanges
-    eventEmitter.emit('colorRangesChanged', colorRanges)
-  })
-
-  publicAPI.setColorRange = (componentIndex, colorRange) => {
-    const currentColorRange = store.imageUI.colorRanges[componentIndex]
+  publicAPI.setImageColorRange = (range, component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (typeof component === 'undefined') {
+      component = 0
+    }
+    const actorContext = context.images.actorContext.get(name)
+    const currentRange = actorContext.colorRanges.get(component)
     if (
-      currentColorRange[0] !== colorRange[0] ||
-      currentColorRange[1] !== colorRange[1]
+      typeof currentRange !== 'undefined' ||
+      currentRange[0] !== range[0] ||
+      currentRange[1] !== range[1]
     ) {
-      store.imageUI.colorRanges[componentIndex] = colorRange
+      service.send({
+        type: 'IMAGE_COLOR_RANGE_CHANGED',
+        data: { name, component, range },
+      })
     }
   }
 
-  publicAPI.getColorRange = componentIndex => {
-    return store.imageUI.colorRanges[componentIndex]
-  }
-
-  autorun(() => {
-    const selectedComponentIndex = store.imageUI.selectedComponentIndex
-    if (store.imageUI.colorMaps) {
-      const colorMap = store.imageUI.colorMaps[selectedComponentIndex]
-      eventEmitter.emit('selectColorMap', selectedComponentIndex, colorMap)
+  publicAPI.getImageColorRange = (component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
-  })
-
-  publicAPI.setColorMap = (componentIndex, colorMap) => {
-    const currentColorMap = store.imageUI.colorMaps[componentIndex]
-    if (currentColorMap !== colorMap) {
-      store.imageUI.colorMaps[componentIndex] = colorMap
+    if (typeof component === 'undefined') {
+      component = 0
     }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.colorRanges.get(component)
   }
 
-  publicAPI.getColorMap = componentIndex => {
-    return store.imageUI.colorMaps[componentIndex]
-  }
-
-  autorun(() => {
-    const lut = store.imageUI.labelMapLookupTable
-    eventEmitter.emit('selectLookupTable', lut)
-  })
-
-  publicAPI.setLookupTable = lut => {
-    const currentLut = store.imageUI.labelMapLookupTable
-    if (currentLut !== lut) {
-      store.imageUI.labelMapLookupTable = lut
+  publicAPI.setImageColorRangeBounds = (range, component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (typeof component === 'undefined') {
+      component = 0
+    }
+    const actorContext = context.images.actorContext.get(name)
+    const currentRange = actorContext.colorRanges.get(component)
+    if (
+      typeof currentRange !== 'undefined' ||
+      currentRange[0] !== range[0] ||
+      currentRange[1] !== range[1]
+    ) {
+      service.send({
+        type: 'IMAGE_COLOR_RANGE_BOUNDS_CHANGED',
+        data: { name, component, range },
+      })
     }
   }
 
-  publicAPI.getLookupTable = () => {
-    return store.imageUI.labelMapLookupTable
+  publicAPI.getImageColorRangeBounds = (component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (typeof component === 'undefined') {
+      component = 0
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.colorRangeBounds.get(component)
   }
 
-  if (!use2D) {
-    reaction(
-      () => {
-        return store.mainUI.viewMode
-      },
-      viewMode => {
-        switch (viewMode) {
-          case 'XPlane':
-            eventEmitter.emit('viewModeChanged', 'XPlane')
-            break
-          case 'YPlane':
-            eventEmitter.emit('viewModeChanged', 'YPlane')
-            break
-          case 'ZPlane':
-            eventEmitter.emit('viewModeChanged', 'ZPlane')
-            break
-          case 'VolumeRendering':
-            eventEmitter.emit('viewModeChanged', 'VolumeRendering')
-            break
-          default:
-            console.error('Invalid view mode: ' + viewMode)
-        }
-      }
-    )
-
-    publicAPI.setViewMode = mode => {
-      if (!image) {
-        return
-      }
-      store.mainUI.viewMode = mode
+  publicAPI.setImageColorMap = (colorMap, componentIndex, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
-
-    reaction(
-      () => {
-        return store.imageUI.xSlice
-      },
-      xSlice => {
-        eventEmitter.emit('xSliceChanged', xSlice)
-      }
-    )
-
-    publicAPI.setXSlice = position => {
-      const currentPosition = store.imageUI.xSlice
-      if (currentPosition !== parseFloat(position)) {
-        store.imageUI.xSlice = position
-      }
+    if (typeof componentIndex === 'undefined') {
+      componentIndex = 0
     }
-    publicAPI.getXSlice = () => {
-      return store.imageUI.xSlice
+    const actorContext = context.images.actorContext.get(name)
+    const currentColorMap = actorContext.colorRanges.get(componentIndex)
+    if (
+      typeof currentColorMap !== 'undefined' ||
+      currentColorMap[0] !== colorMap[0] ||
+      currentColorMap[1] !== colorMap[1]
+    ) {
+      service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component: componentIndex, colorMap },
+      })
     }
+  }
 
-    reaction(
-      () => {
-        return store.imageUI.ySlice
-      },
-      ySlice => {
-        eventEmitter.emit('ySliceChanged', ySlice)
-      }
-    )
-
-    publicAPI.setYSlice = position => {
-      const currentPosition = store.imageUI.ySlice
-      if (currentPosition !== parseFloat(position)) {
-        store.imageUI.ySlice = position
-      }
+  publicAPI.getImageColorMap = (componentIndex, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
-    publicAPI.getYSlice = () => {
-      return store.imageUI.ySlice
+    if (typeof componentIndex === 'undefined') {
+      componentIndex = 0
     }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.colorMaps.get(componentIndex)
+  }
 
-    reaction(
-      () => {
-        return store.imageUI.zSlice
-      },
-      zSlice => {
-        eventEmitter.emit('zSliceChanged', zSlice)
-      }
-    )
-
-    publicAPI.setZSlice = position => {
-      const currentPosition = store.imageUI.zSlice
-      if (currentPosition !== parseFloat(position)) {
-        store.imageUI.zSlice = position
-      }
+  publicAPI.setLabelImageLookupTable = (lookupTable, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
-    publicAPI.getZSlice = () => {
-      return store.imageUI.zSlice
+    const actorContext = context.images.actorContext.get(name)
+    const currentLookupTable = actorContext.lookupTable
+    if (currentLookupTable !== lookupTable) {
+      service.send({
+        type: 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
+        data: { name, lookupTable },
+      })
     }
+  }
 
-    autorun(() => {
-      const enabled = store.imageUI.useShadow
-      eventEmitter.emit('toggleShadow', enabled)
+  publicAPI.getLabelImageLookupTable = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.lookupTable
+  }
+
+  publicAPI.setLabelImageBlend = (blend, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    const currentBlend = actorContext.labelImageBlend
+    if (currentBlend !== blend) {
+      service.send({
+        type: 'LABEL_IMAGE_BLEND_CHANGED',
+        data: { name, labelImageBlend: blend },
+      })
+    }
+  }
+
+  publicAPI.getLabelImageBlend = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.labelImageBlend
+  }
+
+  publicAPI.setLabelImageLabelNames = (names, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    const currentLabelNames = actorContext.labelNames
+    if (currentLabelNames !== names) {
+      service.send({
+        type: 'LABEL_IMAGE_LABEL_NAMES_CHANGED',
+        data: { name, labelNames: names },
+      })
+    }
+  }
+
+  publicAPI.getLabelImageLabelNames = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.labelNames
+  }
+
+  publicAPI.setLabelImageWeights = (weights, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    const currentWeights = actorContext.labelImageWeights
+    if (currentWeights !== weights) {
+      service.send({
+        type: 'LABEL_IMAGE_WEIGHTS_CHANGED',
+        data: { name, labelImageWeights: weights },
+      })
+    }
+  }
+
+  publicAPI.getLabelImageWeights = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.labelImageWeights
+  }
+
+  publicAPI.setImageShadowEnabled = (enabled, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    if (enabled !== actorContext.shadowEnabled) {
+      service.send({
+        type: 'TOGGLE_IMAGE_SHADOW',
+        data: name,
+      })
+    }
+  }
+
+  publicAPI.getImageShadowEnabled = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.shadowEnabled
+  }
+
+  publicAPI.setImageGradientOpacity = (opacity, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    service.send({
+      type: 'IMAGE_GRADIENT_OPACITY_CHANGED',
+      data: { name, gradientOpacity: opacity },
     })
+  }
 
-    publicAPI.setShadowEnabled = enabled => {
-      const shadow = store.imageUI.useShadow
-      if ((enabled && !shadow) || (!enabled && shadow)) {
-        store.imageUI.useShadow = enabled
-      }
+  publicAPI.getImageGradientOpacity = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.gradientOpacity
+  }
 
-    autorun(() => {
-      const enabled = store.imageUI.slicingPlanesEnabled
-      eventEmitter.emit('toggleSlicingPlanes', enabled)
+  publicAPI.setImageGradientOpacityScale = (min, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    service.send({
+      type: 'IMAGE_GRADIENT_OPACITY_SCALE_CHANGED',
+      data: { name, gradientOpacityScale: min },
     })
+  }
 
-    publicAPI.setSlicingPlanesEnabled = enabled => {
-      const slicingPlanes = store.imageUI.slicingPlanesEnabled
-      if ((enabled && !slicingPlanes) || (!enabled && slicingPlanes)) {
-        store.imageUI.slicingPlanesEnabled = enabled
-      }
+  publicAPI.getImageGradientOpacityScale = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.gradientOpacityScale
+  }
 
-    autorun(() => {
-      const gradientOpacity = store.imageUI.gradientOpacity
-      eventEmitter.emit('gradientOpacityChanged', gradientOpacity)
+  publicAPI.setImageVolumeSampleDistance = (distance, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    service.send({
+      type: 'IMAGE_VOLUME_SAMPLE_DISTANCE_CHANGED',
+      data: { name, volumeSampleDistance: distance },
     })
+  }
 
-    publicAPI.setGradientOpacity = opacity => {
-      const currentOpacity = store.imageUI.gradientOpacity
-      if (currentOpacity !== parseFloat(opacity)) {
-        store.imageUI.gradientOpacity = opacity
-      }
+  publicAPI.getImageVolumeSampleDistance = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.volumeSampleDistance
+  }
 
-    publicAPI.getGradientOpacity = () => {
-      return store.imageUI.gradientOpacity
+  publicAPI.setImageBlendMode = (mode, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
-
-    autorun(() => {
-      const volumeSampleDistance = store.imageUI.volumeSampleDistance
-      eventEmitter.emit('volumeSampleDistanceChanged', volumeSampleDistance)
+    const actorContext = context.images.actorContext.get(name)
+    service.send({
+      type: 'IMAGE_BLEND_MODE_CHANGED',
+      data: { name, blendMode: mode },
     })
+  }
 
-    publicAPI.setVolumeSampleDistance = distance => {
-      const currentDistance = store.imageUI.volumeSampleDistance
-      if (currentDistance !== parseFloat(distance)) {
-        store.imageUI.volumeSampleDistance = distance
-      }
+  publicAPI.getImageBlendMode = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
     }
-
-    publicAPI.getVolumeSampleDistance = () => {
-      return store.imageUI.volumeSampleDistance
-    }
-
-    autorun(() => {
-      const blendMode = store.imageUI.blendMode
-      eventEmitter.emit('blendModeChanged', blendMode)
-    })
-
-    publicAPI.setBlendMode = blendMode => {
-      const currentBlendMode = store.imageUI.blendMode
-      if (currentBlendMode !== parseInt(blendMode)) {
-        store.imageUI.blendMode = blendMode
-      }
-    }
-
-    publicAPI.getBlendMode = () => {
-      return store.imageUI.blendMode
-    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.blendMode
   }
 
   reaction(
@@ -1073,37 +1257,13 @@ const createViewer = (
     store.geometriesUI.opacities[index] = opacity
   }
 
-  publicAPI.setBackgroundColor = bgColor => {
-    store.style.backgroundColor = bgColor
-    store.itkVtkView.getRenderer().setBackground(store.style.backgroundColor)
-    store.renderWindow.render()
-  }
-
-  publicAPI.getBackgroundColor = () => {
-    return store.style.backgroundColor.slice()
-  }
-
-  reaction(
-    () => store.style.backgroundColor.slice(),
-    bgColor => {
-      eventEmitter.emit('backgroundColorChanged', bgColor)
-    }
-  )
-
   // The `itkVtkView` is considered an internal implementation detail
   // and its interface and behavior may change without changes to the major version.
   publicAPI.getViewProxy = () => {
     return store.itkVtkView
   }
 
-  //publicAPI.saveState = () => {
-  //// todo
-  //}
-
-  //publicAPI.loadState = (state) => {
-  //// todo
-  //}
-  addKeyboardShortcuts(rootContainer, publicAPI, viewerDOMId)
+  addKeyboardShortcuts(context.uiContainer, service)
 
   if (!use2D) {
     publicAPI.setRotateEnabled(rotate)

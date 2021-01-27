@@ -27,7 +27,11 @@ https://unpkg.com/itk-vtk-viewer@10.8.0/dist/index.html
 
 Supported context `data` inputs:
 
-**image**: Image to be visualized. Can be an [itk.js Image](https://insightsoftwareconsortium.github.io/itk-js/api/Image.html) or an [imjoy-rpc](https://github.com/imjoy-team/imjoy-rpc) encoded ndarray for JavaScript; for Python, it can be a [numpy](https://numpy.org) array.
+**image**: Image to be visualized. Can be:
+
+- An [itk.js Image](https://insightsoftwareconsortium.github.io/itk-js/api/Image.html)
+- A [scijs ndarray](http://scijs.net/packages/#scijs/ndarray) for JavaScript; for Python, it can be a [numpy](https://numpy.org) array.
+- A [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) pointing to an [image file supported by itk.js]https://insightsoftwareconsortium.github.io/itk-js/docs/image_formats.html).
 
 For [scijs ndarray](http://scijs.net/packages/#scijs/ndarray), you can use the following function to encoded it into an imjoy-rpc encoded array.
 ```
@@ -62,8 +66,4 @@ viewer = await api.createWindow(src="https://kitware.github.io/itk-vtk-viewer/ap
 
 ## API functions
 
-In addition to the standard `setup` and `run` methods, the *itk-vtk-viewer* plugin provides the following methods:
-
-### setImage(image)
-
-Set the image to be visualized. Can be an [itk.js Image](https://insightsoftwareconsortium.github.io/itk-js/api/Image.html) or an [imjoy-rpc](https://github.com/imjoy-team/imjoy-rpc) encoded ndarray for JavaScript; for Python, it can be a [numpy](https://numpy.org) array.
+In addition to the standard `setup` and `run` methods, the *itk-vtk-viewer* plugin exposes the full [viewer API](../api/).

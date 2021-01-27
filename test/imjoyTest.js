@@ -5,14 +5,10 @@ import itkreadImageArrayBuffer from 'itk/readImageArrayBuffer'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import testUtils from 'vtk.js/Sources/Testing/testUtils'
 
-import createViewer from '../src/createViewer'
 import UserInterface from '../src/UserInterface'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
 const testImage3DPath2 = 'base/test/data/input/mri3D.nrrd'
-
-import createViewerBaseline from './data/baseline/createViewer.png'
-import createViewerSetImageBaseline from './data/baseline/createViewerSetImage.png'
 
 import * as imjoyCore from 'imjoy-core'
 import ndarray from 'ndarray'
@@ -50,6 +46,7 @@ function encodeArray(array) {
 }
 
 test('Test ImJoy Plugin', async t => {
+  t.plan(5)
   const gc = testUtils.createGarbageCollector(t)
 
   const container = document.querySelector('body')
@@ -88,10 +85,23 @@ test('Test ImJoy Plugin', async t => {
     data: { image: itkImage },
   })
   await viewer.setImage(encodeArray(array))
+  t.pass('setImage ndarray')
+
+  const bgColor = [0.2, 0.8, 0.7]
+  await viewer.setBackgroundColor(bgColor)
+  const resultBGColor = await viewer.getBackgroundColor()
+  t.same(bgColor, resultBGColor, 'background color')
+
+  await viewer.setImage(itkImage)
+  t.pass('setImage itk.js Image')
+
+  const imageURL = new URL(testImage3DPath, document.location.origin)
+  await viewer.setImage(imageURL)
+  t.pass('setImage URL')
 
   imjoy.destroy()
   console.log('ImJoy destroyed')
-  gc.releaseResources()
 
-  t.pass()
+  t.pass('test completed')
+  gc.releaseResources()
 })

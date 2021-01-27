@@ -5,13 +5,13 @@ import style from './ItkVtkViewer.module.css'
 import createPointSetRepresentationSelector from './PointSets/createPointSetRepresentationSelector'
 import createPointSetColorWidget from './PointSets/createPointSetColorWidget'
 
-function createPointSetsUI(store) {
+function createPointSetsUI(store, uiContainer) {
   const pointSetsUIGroup = document.createElement('div')
   pointSetsUIGroup.setAttribute('class', style.uiGroup)
 
   const pointSetRepresentationRow = document.createElement('div')
   pointSetRepresentationRow.setAttribute('class', style.uiRow)
-  pointSetRepresentationRow.className += ` ${store.id}-toggle`
+  pointSetRepresentationRow.className += ` ${store.id}-collapsible`
   if (store.mainUI.collapsed) {
     pointSetRepresentationRow.style.display = 'none'
   }
@@ -63,7 +63,7 @@ function createPointSetsUI(store) {
 
   createPointSetColorWidget(store, pointSetsUIGroup)
 
-  store.mainUI.uiContainer.appendChild(pointSetsUIGroup)
+  uiContainer.appendChild(pointSetsUIGroup)
   store.pointSetsUI.initialized = true
 }
 

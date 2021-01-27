@@ -22,34 +22,44 @@ const cdnPath = 'https://unpkg.com/itk@' + itkVersion
 const devServer = {
   noInfo: true,
   stats: 'minimal',
-}
-
-const node = {
-  fs: 'empty',
+  port: 8080,
 }
 
 const moduleConfig = {
   rules: [
-    { test: entry, loader: 'expose-loader?itkVtkViewer' },
-    { test: /\.js$/, loader: 'babel-loader' },
-    { test: /\.(png|jpg)$/, use: 'url-loader?limit=81920' },
-    { test: /\.svg$/, use: [{ loader: 'raw-loader' }] },
+    {
+      test: entry,
+      loader: 'expose-loader',
+      options: { exposes: 'itkVtkViewer' },
+    },
+    { test: /\.js$/, loader: 'babel-loader', dependency: { not: ['url'] } },
+    {
+      test: /\.worker.js$/,
+      use: [{ loader: 'worker-loader', options: { inline: 'no-fallback' } }],
+    },
+    {
+      test: /\.(png|jpg)$/,
+      type: 'asset',
+      parser: { dataUrlCondition: { maxSize: 4 * 1024 } },
+    }, // 4kb
+    { test: /\.svg$/, type: 'asset/source' },
   ].concat(vtkRules, cssRules),
 }
 
 const performance = {
-  maxAssetSize: 15000000,
-  maxEntrypointSize: 15000000,
+  maxAssetSize: 20000000,
+  maxEntrypointSize: 20000000,
 }
 
 module.exports = [
   // Progressive web app
   {
-    node,
     module: moduleConfig,
     output: {
-      path: outputPath,
       filename: 'itkVtkViewer.js',
+    },
+    resolve: {
+      fallback: { fs: false, stream: require.resolve('stream-browserify') },
     },
     plugins: [
       new CopyPlugin([
@@ -81,6 +91,10 @@ module.exports = [
             'blosc-zarr',
             'web-build'
           ),
+          to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),
+        },
+        {
+          from: path.join(__dirname, 'src', 'IO', 'Downsample', 'web-build'),
           to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),
         },
       ]),
@@ -115,10 +129,8 @@ module.exports = [
   },
   // For use in <script> tags
   {
-    node,
     module: moduleConfig,
     output: {
-      path: outputPath,
       filename: 'itkVtkViewerCDN.js',
       publicPath: cdnPath,
     },
@@ -127,8 +139,8 @@ module.exports = [
       alias: {
         './itkConfig$': path.resolve(__dirname, 'src', 'itkConfigCDN.js'),
       },
+      fallback: { fs: false, stream: require.resolve('stream-browserify') },
     },
     performance,
-    devServer,
   },
 ]

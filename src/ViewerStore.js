@@ -28,11 +28,7 @@ class MainUIStore {
   @observable interpolationEnabled = true
   @observable croppingPlanesEnabled = false
 
-  @observable viewMode = 'VolumeRendering'
-  xPlaneButton = null
-  yPlaneButton = null
-  zPlaneButton = null
-  volumeRenderingButton = null
+  @observable viewMode = 'Volume'
 
   fps = [60, 60, 60]
   @observable fpsTooLow = false
@@ -52,7 +48,7 @@ class ImageUIStore {
   source = null
   @observable.ref representationProxy = null
 
-  @observable selectedComponentIndex = 0
+  @observable selectedComponent = 0
   // Does not include the label map
   @computed get numberOfComponents() {
     if (!!!this.image) {
@@ -65,7 +61,7 @@ class ImageUIStore {
     return dataArray.getNumberOfComponents()
   }
   totalIntensityComponents = 0
-  maximumIntensityComponents = 3
+  maxIntensityComponents = 3
 
   lookupTableProxies = []
   piecewiseFunctionProxies = []
@@ -497,13 +493,11 @@ class ViewerStore {
     this.container = document.createElement('div')
     this.itkVtkView.setContainer(this.container)
 
-    this.itkVtkView.setBackground(this.style.backgroundColor)
-
-    this.imageUI.source = proxyManager.createProxy(
-      'Sources',
-      'TrivialProducer',
-      { name: 'Image' }
-    )
+    //this.imageUI.source = proxyManager.createProxy(
+    //'Sources',
+    //'TrivialProducer',
+    //{ name: 'Image' }
+    //)
   }
 
   eventEmitter = null
@@ -519,14 +513,6 @@ class ViewerStore {
     const backgroundColor = this.style.backgroundColor
     return backgroundColor[0] + backgroundColor[1] + backgroundColor[2] < 1.5
   }
-
-  backgroundColors = [
-    [0, 0, 0],
-    [1, 1, 1],
-    [0.5, 0.5, 0.5],
-  ]
-
-  selectedBackgroundColor = 2
 
   @observable style = {
     backgroundColor: [0.5, 0.5, 0.5],

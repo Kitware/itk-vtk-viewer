@@ -8,13 +8,13 @@ import createGeometryColorRangeInput from './createGeometryColorRangeInput'
 function createGeometryColorWidget(store, geometriesUIGroup) {
   const colorByRow = document.createElement('div')
   colorByRow.setAttribute('class', style.uiRow)
-  colorByRow.className += ` ${store.id}-toggle`
+  colorByRow.className += ` ${store.id}-collapsible`
   createGeometryColorBySelector(store, colorByRow)
   geometriesUIGroup.appendChild(colorByRow)
 
   const geometryColorRow = document.createElement('div')
   geometryColorRow.setAttribute('class', style.uiRow)
-  geometryColorRow.className += ` ${store.id}-toggle`
+  geometryColorRow.className += ` ${store.id}-collapsible`
 
   createGeometryColorChooser(store, geometryColorRow)
 
@@ -24,7 +24,7 @@ function createGeometryColorWidget(store, geometriesUIGroup) {
   const colorRangeInputRow = document.createElement('div')
   colorRangeInputRow.setAttribute('class', style.uiRow)
   createGeometryColorRangeInput(store, colorRangeInputRow)
-  colorRangeInputRow.className += ` ${store.id}-toggle`
+  colorRangeInputRow.className += ` ${store.id}-collapsible`
   geometriesUIGroup.appendChild(colorRangeInputRow)
 
   if (store.mainUI.collapsed) {

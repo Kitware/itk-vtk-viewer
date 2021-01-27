@@ -62,42 +62,8 @@
         icon: 'https://kitware.github.io/itk-vtk-viewer/app/favicon-32x32.png',
         cover: ['https://kitware.github.io/itk-vtk-viewer/docs/howToUse.jpg', 'https://kitware.github.io/itk-vtk-viewer/docs/imjoy.png'],
       })
-      api.export({
-        setup() {
-          this.viewer = null
-          itkVtkViewer.createViewerFromLocalFiles(container).then((viewer) => {
-            this.viewer = viewer
-          })
-          api.log("itk-vtk-viewer loaded successfully.")
-        },
-
-        async run(ctx) {
-          if (ctx.data && ctx.data.image) {
-            await this.setImage(ctx.data.image)
-          }
-        },
-
-        async setImage(image) {
-          let itkImage = image
-          if(image._rtype === 'ndarray'){
-            itkImage = itkVtkViewer.utils.ndarrayToItkImage(image)
-          }
-
-          const vtkImage = itkVtkViewer.utils.vtkITKHelper.convertItkToVtkImage(itkImage)
-          const is2D = itkImage.imageType.dimension === 2
-          if (this.viewer === null) {
-            this.viewer = await itkVtkViewer.createViewer(container, {
-              image: vtkImage,
-              pointSets: null,
-              geometries: null,
-              use2D: is2D,
-              rotate: false
-            })
-          } else {
-            await this.viewer.setImage(vtkImage)
-          }
-        }
-      })
+      api.export(itkVtkViewer.imJoyPluginAPI)
+      api.log('itk-vtk-viewer loaded successfully.')
     }
 
     const container = document.querySelector('.content');

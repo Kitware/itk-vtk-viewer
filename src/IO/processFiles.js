@@ -4,6 +4,7 @@ import readMeshFile from 'itk/readMeshFile'
 import readPolyDataFile from 'itk/readPolyDataFile'
 import runPipelineBrowser from 'itk/runPipelineBrowser'
 import IOTypes from 'itk/IOTypes'
+import FloatTypes from 'itk/FloatTypes'
 import getFileExtension from 'itk/getFileExtension'
 import extensionToMeshIO from 'itk/extensionToMeshIO'
 import extensionToPolyDataIO from 'itk/extensionToPolyDataIO'
@@ -30,62 +31,47 @@ function typedArrayForBuffer(typedArrayType, buffer) {
 
 export const processFiles = async (
   container,
-  {
-    files,
-    image,
-    multiscaleImage,
-    labelMap,
-    multiscaleLabelMap,
-    labelMapNames,
-    rotate,
-    use2D,
-  }
+  { files, image, labelImage, config, labelImageNames, rotate, use2D }
 ) => {
   UserInterface.emptyContainer(container)
   UserInterface.createLoadingProgress(container)
-  const config = await readFiles({
+  const viewerConfig = await readFiles({
     files,
     image,
-    multiscaleImage,
-    labelMap,
-    multiscaleLabelMap,
-    labelMapNames,
+    labelImage,
+    labelImageNames,
     use2D,
   })
-  config.rotate = rotate
-  return createViewer(container, config)
+  viewerConfig.config = config
+  viewerConfig.rotate = rotate
+  return createViewer(container, viewerConfig)
 }
 
 export const readFiles = async ({
   files,
   image,
-  multiscaleImage,
-  labelMap,
-  multiscaleLabelMap,
-  labelMapNames,
+  labelImage,
+  labelImageNames,
   rotate,
   use2D,
 }) => {
   let readDICOMSeries = readImageDICOMFileSeries
-  if (files.length < 2 || !!image || !!multiscaleImage) {
+  if (files.length < 2 || !!!image) {
     readDICOMSeries = function() {
       return Promise.reject('Skip DICOM series read attempt')
     }
   }
-
   try {
     const { image: itkImage, webWorkerPool } = await readDICOMSeries(files)
-    const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
+    itkImage.name = files[0].name
     const is3D = itkImage.imageType.dimension === 3 && !use2D
     return {
-      image: imageData,
-      multiscaleImage,
-      labelMap,
-      multiscaleLabelMap,
+      image: itkImage,
+      labelImage,
       use2D: !is3D,
     }
   } catch (error) {
-    const readers = Array.from(files).map(file => {
+    const readers = Array.from(files).map(async file => {
       const extension = getFileExtension(file.name)
       if (extension === 'vti') {
         return PromiseFileReader.readAsArrayBuffer(file).then(fileContents => {
@@ -150,72 +136,55 @@ export const readFiles = async ({
               .then(({ image: itkImage, webWorker }) => {
                 webWorker.terminate()
                 is3D = itkImage.imageType.dimension === 3 && !use2D
-                const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
-                return Promise.resolve({ is3D, data: imageData })
+                return Promise.resolve({ is3D, data: itkImage })
               })
               .catch(error => {
                 return Promise.reject(error)
               })
           })
       }
-      return readImageFile(null, file)
-        .then(({ image: itkImage, webWorker }) => {
-          webWorker.terminate()
-          const is3D = itkImage.imageType.dimension === 3 && !use2D
-          const imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
-          return Promise.resolve({ is3D, data: imageData })
-        })
-        .catch(error => {
-          return Promise.reject(error)
-        })
+      const { image: itkImage, webWorker } = await readImageFile(null, file)
+      itkImage.name = file.name
+      webWorker.terminate()
+      const is3D = itkImage.imageType.dimension === 3 && !use2D
+      return { is3D, data: itkImage }
     })
     const dataSets = await Promise.all(readers)
     const images = dataSets
-      .filter(({ data }) => !!data && data.isA('vtkImageData'))
+      .filter(({ data }) => !!data && data.imageType !== undefined)
       .map(({ data }) => data)
-    let imageData = null
-    let imageIs3D = null
-    if (!!image) {
-      const { image: itkImage, webWorker } = await readImageFile(null, image)
-      webWorker.terminate()
-      imageIs3D = itkImage.imageType.dimension === 3 && !use2D
-      imageData = vtkITKHelper.convertItkToVtkImage(itkImage)
-    }
-    let labelMapData = null
-    if (!!labelMap) {
-      const { image: itkImage, webWorker } = await readImageFile(null, labelMap)
-      webWorker.terminate()
-      labelMapData = vtkITKHelper.convertItkToVtkImage(itkImage)
-    }
-    let labelMapNameData = null
-    if (!!labelMapNames) {
-      labelMapNameData = new Map(labelMapNames)
+
+    let labelImageNameData = null
+    if (!!labelImageNames) {
+      labelImageNameData = new Map(labelImageNames)
     }
     if (images.length > 0) {
       for (let index = 0; index < images.length; index++) {
-        const dataArray = images[index].getPointData().getScalars()
-        const dataType = dataArray.getDataType()
-        if (!!!labelMapData) {
+        const componentType = images[index].imageType.componentType
+        if (!!!labelImage) {
           // Only integer-based pixels considered for label maps
-          if (dataType === 'Float32Array' || dataType === 'Float64Array') {
-            if (!!!imageData) {
-              imageData = images[index]
+          if (
+            componentType === FloatTypes.Float32 ||
+            componentType === FloatTypes.Float64
+          ) {
+            if (!!!image) {
+              image = images[index]
             }
             continue
           }
-          const data = dataArray.getData()
+          const data = images[index].data
           const uniqueLabels = new Set(data).size
           // If there are more values than this, it will not be considered a
           // label map
-          const maxLabelsInLabelMap = 64
-          if (uniqueLabels <= maxLabelsInLabelMap) {
-            labelMapData = images[index]
+          const maxLabelsInLabelImage = 64
+          if (uniqueLabels <= maxLabelsInLabelImage) {
+            labelImage = images[index]
           } else {
-            imageData = images[index]
+            image = images[index]
           }
         }
-        if (!!!imageData) {
-          imageData = images[index]
+        if (!!!image) {
+          image = images[index]
         }
       }
     }
@@ -223,6 +192,7 @@ export const readFiles = async ({
       .filter(({ data }) => {
         return (
           !!data &&
+          data.isA !== undefined &&
           data.isA('vtkPolyData') &&
           !!(
             data.getPolys().getNumberOfValues() ||
@@ -236,6 +206,7 @@ export const readFiles = async ({
       .filter(({ data }) => {
         return (
           !!data &&
+          data.isA !== undefined &&
           data.isA('vtkPolyData') &&
           !!!(
             data.getPolys().getNumberOfValues() ||
@@ -245,21 +216,17 @@ export const readFiles = async ({
         )
       })
       .map(({ data }) => data)
-    const any3D = !dataSets.map(({ is3D }) => is3D).every(is3D => !is3D)
-    const is3D =
-      any3D ||
-      (!!multiscaleImage && multiscaleImage.imageType.dimension === 3) ||
-      (!!multiscaleLabelMap && multiscaleLabelMap.imageType.dimension === 3) ||
-      (imageIs3D && !use2D)
+    let any3D = !dataSets.map(({ is3D }) => is3D).every(is3D => !is3D)
+    any3D = !!image ? any3D || image.imageType.dimension === 3 : any3D
+    any3D = !!labelImage ? any3D || labelImage.imageType.dimension === 3 : any3D
+
     return {
-      image: imageData,
-      multiscaleImage,
-      labelMap: labelMapData,
-      multiscaleLabelMap,
-      labelMapNames: labelMapNameData,
+      image,
+      labelImage,
+      labelImageNames: labelImageNameData,
       geometries,
       pointSets,
-      use2D: !is3D,
+      use2D: use2D || !any3D,
     }
   }
 }

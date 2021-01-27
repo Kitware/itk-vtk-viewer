@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 /* eslint-disable react/require-extension */
-var path = require('path')
+const path = require('path')
 
 const vtkRules = require('vtk.js/Utilities/config/rules-vtk.js')
 
@@ -24,7 +24,7 @@ module.exports = function init(config) {
     ],
 
     basePath: '',
-    frameworks: ['tap'],
+    frameworks: ['tap', 'webpack'],
     files: [
       './test/tests.js',
       {
@@ -83,11 +83,8 @@ module.exports = function init(config) {
 
     webpack: {
       mode: 'development',
-      node: {
-        fs: 'empty',
-      },
       module: {
-        rules: [{ test: /\.(png|jpg)$/, use: 'url-loader?limit=81920' }].concat(
+        rules: [{ test: /\.(png|jpg)$/, type: 'asset/inline' }].concat(
           vtkRules
         ),
       },
@@ -99,12 +96,19 @@ module.exports = function init(config) {
             'test',
             'itkConfigBrowserTest.js'
           ),
+          stream: 'stream-browserify',
+          buffer: 'buffer',
+        },
+        fallback: {
+          path: false,
+          fs: false,
         },
       },
       plugins: [
         new webpack.DefinePlugin({
           __BASE_PATH__: "'/base'",
         }),
+        new webpack.ProvidePlugin({ process: ['process/browser'] }),
       ],
     },
 

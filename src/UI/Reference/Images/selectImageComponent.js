@@ -2,6 +2,7 @@ import applyColorRangeBounds from './applyColorRangeBounds'
 import applyColorRange from './applyColorRange'
 import updateRenderedImageInterface from './updateRenderedImageInterface'
 import applyColorMap from './applyColorMap'
+import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
 function selectImageComponent(context, event) {
   context.images.componentSelector.value = event.data
@@ -10,7 +11,11 @@ function selectImageComponent(context, event) {
   const actorContext = context.images.actorContext.get(name)
   const component = event.data.component
 
-  updateRenderedImageInterface(context, { data: name })
+  const gaussians = actorContext.piecewiseFunctionGaussians.get(component)
+  const transferFunctionWidget = context.images.transferFunctionWidget
+  if (transferFunctionWidget && gaussians) {
+    transferFunctionWidget.setGaussians(gaussians)
+  }
 
   if (actorContext.colorRanges.has(component)) {
     applyColorRange(context, {
@@ -44,6 +49,19 @@ function selectImageComponent(context, event) {
       actorContext.colorMaps.get(component)
     )
   }
+
+  // Todo: remove
+  const renderedImage = actorContext.renderedImage
+  if (!renderedImage) {
+    return
+  }
+
+  const vtkImage = vtkITKHelper.convertItkToVtkImage(renderedImage)
+  const dataArray = vtkImage.getPointData().getScalars()
+  transferFunctionWidget.setDataArray(dataArray.getData(), {
+    numberOfComponents: renderedImage.imageType.components,
+    component,
+  })
 }
 
 export default selectImageComponent

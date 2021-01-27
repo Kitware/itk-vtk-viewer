@@ -41,7 +41,7 @@ function applyLookupTable(context, event) {
   //// TODO
   ////lookupTableProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)
   ////transferFunctionWidget.applyOpacity(piecewiseFunction);
-  ////const colorDataRange = transferFunctionWidget.getOpacityRange();
+  ////const colorDataRange = transferFunctionWidget.getOpacityRange(dataRange);
   ////if (!!colorDataRange) {
   ////colorTransferFunction.setMappingRange(...colorDataRange);
   ////}

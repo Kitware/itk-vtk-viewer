@@ -44,7 +44,7 @@ function applyColorMap(context, event) {
 
   //if (colorMap.startsWith('Custom')) {
   //lookupTableProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)
-  //const colorDataRange = transferFunctionWidget.getOpacityRange()
+  //const colorDataRange = transferFunctionWidget.getOpacityRange(dataRange)
   //if (!!colorDataRange) {
   //colorTransferFunction.setMappingRange(...colorDataRange)
   //}

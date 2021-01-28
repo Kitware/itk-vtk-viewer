@@ -22,7 +22,10 @@ jobs:
       - name: Build
         run: npm run build:release
       - name: Test
-        run: npm run test:headless
+        run: |
+          # Allow writing test/output.html
+          sudo chmod 777 test
+          npm run test:headless
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -81,9 +81,6 @@ class ViewerMachineContext {
   // rendering?
   uiCollapsed = false
 
-  // Whether slicing planes are enabled in the 3D view mode.
-  slicingPlanesEnabled = false
-
   // Main machine context
   main = null
 

@@ -33,7 +33,9 @@ class ViewerMachineContext {
         this.xyLowerLeft = config.xyLowerLeft
       }
       this.containerStyle = config.containerStyle
-      // Todo: more
+      if (typeof config.uiCollapsed !== 'undefined') {
+        this.uiCollapsed = config.uiCollapsed
+      }
 
       this.main = new MainMachineContext(config.main)
     } else {
@@ -52,6 +54,7 @@ class ViewerMachineContext {
 
       xyLowerLeft: this.xyLowerLeft,
       containerStyle: { ...this.containerStyle },
+      uiCollapsed: this.uiCollapsed,
 
       main: this.main.getConfig(),
     }

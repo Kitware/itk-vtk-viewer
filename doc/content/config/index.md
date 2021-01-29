@@ -22,12 +22,16 @@ supported configuration entries.
 
 ### xyLowerLeft
 
-When viewing the Z slice, the X-Y plane, is the origin in the lower left
-or upper left?
+When viewing the Z slice, the X-Y plane, whether the origin is in the lower left
+or upper left.
 
 ### containerStyle
 
 CSS style of the container (`div`) for the viewer.
+
+### uiCollapsed
+
+Whether the user interface is collapsed.
 
 ## Main Config
 

@@ -10,6 +10,7 @@ function createRenderer(context) {
   //context.renderWindow = context.itkVtkView.getRenderWindow()
 
   context.itkVtkView.setContainer(context.container)
+  context.itkVtkView.setXyLowerLeft(context.xyLowerLeft)
 }
 
 export default createRenderer

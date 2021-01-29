@@ -170,7 +170,11 @@ function ItkVtkViewProxy(publicAPI, model) {
           publicAPI.updateOrientation(1, -1, [0, 0, 1])
           break
         case 2:
-          publicAPI.updateOrientation(2, -1, [0, -1, 0])
+          if (model.xyLowerLeft) {
+            publicAPI.updateOrientation(2, 1, [0, 1, 0])
+          } else {
+            publicAPI.updateOrientation(2, -1, [0, -1, 0])
+          }
           break
         default:
           vtkErrorMacro('Unexpected view mode')
@@ -1002,6 +1006,7 @@ const DEFAULT_VALUES = {
     label: null,
   },
   enableAxes: false,
+  xyLowerLeft: false,
 }
 
 // ----------------------------------------------------------------------------
@@ -1026,6 +1031,7 @@ export function extend(publicAPI, model, initialValues = {}) {
     'labelNames',
     'labelIndex',
     'clickCallback',
+    'xyLowerLeft',
   ])
 
   // Object specific methods

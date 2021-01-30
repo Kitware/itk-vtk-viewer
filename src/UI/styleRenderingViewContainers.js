@@ -6,9 +6,11 @@ function applyStyle(el, style) {
 
 function styleContainer(context, event) {
   if (event.data) {
-    context.containerStyle = event.data
+    context.renderingViewContainerStyle = event.data
   }
-  applyStyle(context.container, context.containerStyle)
+  for (let container of context.renderingViewContainers.values()) {
+    applyStyle(container, context.renderingViewContainerStyle)
+  }
 }
 
 export default styleContainer

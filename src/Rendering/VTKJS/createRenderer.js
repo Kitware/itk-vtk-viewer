@@ -9,7 +9,7 @@ function createRenderer(context) {
   //context.itkVtkView = proxyManager.createProxy('Views', 'ItkVtkView')
   //context.renderWindow = context.itkVtkView.getRenderWindow()
 
-  context.itkVtkView.setContainer(context.container)
+  context.itkVtkView.setContainer(context.renderingViewContainers.get('volume'))
   context.itkVtkView.setXyLowerLeft(context.xyLowerLeft)
 }
 

@@ -5,7 +5,7 @@ import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData'
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
 import { VtkDataTypes } from 'vtk.js/Sources/Common/Core/DataArray/Constants'
 
-const STYLE_CONTAINER = {
+const STYLE_RENDERING_VIEW_CONTAINER = {
   position: 'relative',
   width: '100%',
   height: '100%',
@@ -516,7 +516,7 @@ class ViewerStore {
 
   @observable style = {
     backgroundColor: [0.5, 0.5, 0.5],
-    containerStyle: STYLE_CONTAINER,
+    containerStyle: STYLE_RENDERING_VIEW_CONTAINER,
   }
 
   mainUI = null

@@ -17,7 +17,10 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
         idle: {
           always: {
             target: 'active',
-            actions: ['createContainer', 'styleContainer'],
+            actions: [
+              'createRenderingViewContainers',
+              'styleRenderingViewContainers',
+            ],
           },
         },
         active: {
@@ -36,8 +39,8 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             },
           ],
           on: {
-            STYLE_CONTAINER: {
-              actions: 'styleContainer',
+            STYLE_RENDERING_VIEW_CONTAINER: {
+              actions: 'styleRenderingViewContainers',
             },
             SET_BACKGROUND_COLOR: {
               actions: [forwardTo('rendering'), forwardTo('eventEmitter')],

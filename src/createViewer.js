@@ -645,12 +645,15 @@ const createViewer = async (
     return context.uiCollapsed
   }
 
-  publicAPI.setContainerStyle = containerStyle => {
-    service.send({ type: 'STYLE_CONTAINER', data: containerStyle })
+  publicAPI.setRenderingViewContainerStyle = containerStyle => {
+    service.send({
+      type: 'STYLE_RENDERING_VIEW_CONTAINER',
+      data: containerStyle,
+    })
   }
 
-  publicAPI.getContainerStyle = () => {
-    return { ...context.containerStyle }
+  publicAPI.getRenderingViewContainerStyle = () => {
+    return { ...context.renderingViewContainerStyle }
   }
 
   reaction(

@@ -3,7 +3,7 @@ import LayersMachineContext from './LayersMachineContext'
 import ImagesMachineContext from './ImagesMachineContext'
 import WidgetsMachineContext from './WidgetsMachineContext'
 
-const defaultContainerStyle = {
+const defaultRenderingViewContainerStyle = {
   position: 'relative',
   width: '100%',
   height: 'auto',
@@ -32,11 +32,10 @@ class ViewerMachineContext {
       if (typeof config.xyLowerLeft !== 'undefined') {
         this.xyLowerLeft = config.xyLowerLeft
       }
-      this.containerStyle = config.containerStyle
+      this.renderingViewContainerStyle = config.renderingViewContainerStyle
       if (typeof config.uiCollapsed !== 'undefined') {
         this.uiCollapsed = config.uiCollapsed
       }
-
       this.main = new MainMachineContext(config.main)
     } else {
       this.main = new MainMachineContext()
@@ -53,7 +52,7 @@ class ViewerMachineContext {
       viewerConfigVersion: this.viewerConfigVersion,
 
       xyLowerLeft: this.xyLowerLeft,
-      containerStyle: { ...this.containerStyle },
+      renderingViewContainerStyle: { ...this.renderingViewContainerStyle },
       uiCollapsed: this.uiCollapsed,
 
       main: this.main.getConfig(),
@@ -82,8 +81,11 @@ class ViewerMachineContext {
   // or upper left?
   xyLowerLeft = false
 
-  // Style of the container for the viewer
-  containerStyle = defaultContainerStyle
+  // Container's (html div's) containing rendering views
+  renderingViewContainers = new Map()
+
+  // Style of the container for the rendering views
+  renderingViewContainerStyle = defaultRenderingViewContainerStyle
 
   // Is a "dark mode" enabled in the user interface?
   uiDarkMode = false

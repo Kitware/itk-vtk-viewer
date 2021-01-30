@@ -13,7 +13,7 @@ const testImage3DPath2 = 'base/test/data/input/mri3D.nrrd'
 import * as imjoyCore from 'imjoy-core'
 import ndarray from 'ndarray'
 
-const TEST_STYLE_CONTAINER = {
+const TEST_STYLE_RENDERING_VIEW_CONTAINER = {
   position: 'relative',
   width: '600px',
   height: '600px',
@@ -29,7 +29,7 @@ const TEST_STYLE_CONTAINER = {
 }
 const TEST_VIEWER_STYLE = {
   backgroundColor: [1, 1, 1],
-  containerStyle: TEST_STYLE_CONTAINER,
+  containerStyle: TEST_STYLE_RENDERING_VIEW_CONTAINER,
 }
 function applyStyle(el, style) {
   Object.keys(style).forEach(key => {
@@ -46,7 +46,7 @@ function encodeArray(array) {
 }
 
 const testConfig = JSON.parse(
-  '{"viewerConfigVersion":"0.2","xyLowerLeft":true,"containerStyle":{"position":"relative","width":"600px","height":"600px","minHeight":"600px","minWidth":"600px","maxHeight":"600px","maxWidth":"600px","margin":"0","padding":"0","top":"0","left":"0","overflow":"hidden"},"main":{"backgroundColor":[0.7,0.2,0.8],"units":"mm"}}'
+  '{"viewerConfigVersion":"0.2","xyLowerLeft":true,"renderingViewContainerStyle":{"position":"relative","width":"600px","height":"600px","minHeight":"600px","minWidth":"600px","maxHeight":"600px","maxWidth":"600px","margin":"0","padding":"0","top":"0","left":"0","overflow":"hidden"},"main":{"backgroundColor":[0.7,0.2,0.8],"units":"mm"}}'
 )
 
 test('Test ImJoy Plugin', async t => {
@@ -79,7 +79,7 @@ test('Test ImJoy Plugin', async t => {
   imjoy.event_bus.on('show_message', console.log)
   imjoy.event_bus.on('add_window', async w => {
     viewerContainer.id = w.window_id
-    applyStyle(viewerContainer, TEST_STYLE_CONTAINER)
+    applyStyle(viewerContainer, TEST_STYLE_RENDERING_VIEW_CONTAINER)
   })
   await imjoy.start({ workspace: 'default' })
   console.log('ImJoy started')

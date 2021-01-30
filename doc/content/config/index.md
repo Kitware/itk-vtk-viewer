@@ -25,9 +25,9 @@ supported configuration entries.
 When viewing the Z slice, the X-Y plane, whether the origin is in the lower left
 or upper left.
 
-### containerStyle
+### renderingViewContainerStyle
 
-CSS style of the container (`div`) for the viewer.
+CSS style of the container (`div`) for the rendering views.
 
 ### uiCollapsed
 

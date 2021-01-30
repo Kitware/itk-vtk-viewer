@@ -89,11 +89,11 @@ const imJoyPluginAPI = {
     return this.viewer.getConfig()
   },
 
-  setContainerStyle(containerStyle) {
-    this.viewer.setContainerStyle(containerStyle)
+  setRenderingViewContainerStyle(containerStyle) {
+    this.viewer.setRenderingViewContainerStyle(containerStyle)
   },
-  getContainerStyle() {
-    return this.viewer.getContainerStyle()
+  getRenderingViewStyle() {
+    return this.viewer.getRenderingViewStyle()
   },
 
   setBackgroundColor(bgColor) {

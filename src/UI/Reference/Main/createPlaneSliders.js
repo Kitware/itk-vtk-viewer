@@ -394,7 +394,7 @@ function createPlaneSliders(context) {
   zPlaneRow.appendChild(zSliderEntry)
   planeUIGroup.appendChild(zPlaneRow)
 
-  const viewContainer = context.viewContainers.get('unified')
+  const viewContainer = context.viewContainers.get('volume')
   viewContainer.appendChild(planeUIGroup)
 
   if (context.use2D || context.uiCollapsed) {

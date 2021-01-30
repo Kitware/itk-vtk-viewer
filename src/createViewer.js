@@ -37,7 +37,6 @@ const createViewer = async (
     pointSets,
     use2D = false,
     rotate = true,
-    uiContainer,
     config,
   }
 ) => {
@@ -187,9 +186,6 @@ const createViewer = async (
   const machine = createViewerMachine(options, context, eventEmitterCallback)
   const service = interpret(machine, { devTools: debug })
   context.service = service
-  if (!!uiContainer) {
-    context.uiContainer = uiContainer
-  }
   //console.log(options)
   //console.log(context)
   //console.log(machine)

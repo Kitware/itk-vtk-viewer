@@ -7,6 +7,7 @@ import testUtils from 'vtk.js/Sources/Testing/testUtils'
 import vtk from 'vtk.js/Sources/vtk'
 
 import createViewer from '../src/createViewer'
+import referenceUIMachineOptions from '../src/UI/Reference/referenceUIMachineOptions'
 import UserInterface from '../src/UserInterface'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
@@ -70,7 +71,7 @@ function makePointSet() {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(52)
+  t.plan(53)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -95,10 +96,22 @@ test('Test createViewer', async t => {
   } = await itkreadImageArrayBuffer(null, labelResponse.data, 'data.nrrd')
   labelWebWorker.terminate()
 
+  const uiMachineOptions = { ...referenceUIMachineOptions }
+  const originalCreateInterface =
+    referenceUIMachineOptions.actions.createInterface
+  function testCreateInterface(context) {
+    t.pass('Modified uiMachineOptions')
+    originalCreateInterface(context)
+  }
+  const testUIMachineActions = { ...uiMachineOptions.actions }
+  testUIMachineActions.createInterface = testCreateInterface
+  uiMachineOptions.actions = testUIMachineActions
+
   const viewer = await createViewer(viewerContainer, {
     image: itkImage,
     labelImage: itkLabelImage,
     rotate: false,
+    uiMachineOptions,
   })
   viewer.setRenderingViewContainerStyle(TEST_VIEWER_STYLE.containerStyle)
   viewer.setBackgroundColor(TEST_VIEWER_STYLE.backgroundColor)

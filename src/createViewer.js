@@ -38,6 +38,7 @@ const createViewer = async (
     use2D = false,
     rotate = true,
     config,
+    uiMachineOptions,
   }
 ) => {
   UserInterface.emptyContainer(rootContainer)
@@ -172,7 +173,10 @@ const createViewer = async (
     }
   }
 
-  const options = viewerMachineOptions
+  const options = { ...viewerMachineOptions }
+  if (typeof uiMachineOptions !== 'undefined') {
+    options.ui = uiMachineOptions
+  }
   const context = new ViewerMachineContext(config)
   context.use2D = use2D
   context.rootContainer = rootContainer

@@ -35,8 +35,8 @@ const moduleConfigRules = [
   {
     test: /\.(png|jpg)$/,
     type: 'asset',
-    parser: { dataUrlCondition: { maxSize: 4 * 1024 } },
-  }, // 4kb
+    parser: { dataUrlCondition: { maxSize: 128 * 1024 } },
+  }, // 128kb
   { test: /\.svg$/, type: 'asset/source' },
 ].concat(vtkRules, cssRules)
 
@@ -154,32 +154,6 @@ module.exports = [
         './itkConfig$': path.resolve(__dirname, 'src', 'itkConfigCDN.js'),
       },
       fallback: { fs: false, stream: require.resolve('stream-browserify') },
-    },
-    performance,
-  },
-  {
-    name: 'Reference UI Machine Options Module',
-    entry: path.resolve(
-      __dirname,
-      'src',
-      'UI',
-      'Reference',
-      'referenceUIMachineOptions.js'
-    ),
-    module: {
-      rules: moduleConfigRules,
-    },
-    experiments: {
-      outputModule: true,
-    },
-    output: {
-      filename: 'referenceUIMachineOptions.mjs',
-      library: {
-        type: 'module',
-      },
-    },
-    resolve: {
-      modules: [path.resolve(__dirname, 'node_modules')],
     },
     performance,
   },

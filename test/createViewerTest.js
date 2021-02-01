@@ -7,7 +7,7 @@ import testUtils from 'vtk.js/Sources/Testing/testUtils'
 import vtk from 'vtk.js/Sources/vtk'
 
 import createViewer from '../src/createViewer'
-import referenceUIMachineOptions from '../src/UI/Reference/referenceUIMachineOptions'
+import referenceUIMachineOptions from '../src/UI/reference-ui/src/referenceUIMachineOptions'
 import UserInterface from '../src/UserInterface'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
@@ -449,7 +449,7 @@ test('Test createViewer custom UI options', async t => {
   webWorker.terminate()
 
   const referenceUIUrl = new URL(
-    '/base/dist/referenceUIMachineOptions.mjs',
+    '/base/src/UI/reference-ui/dist/referenceUIMachineOptions.js',
     document.location.origin
   )
   const referenceUIMachineOptions = { href: referenceUIUrl.href }

@@ -6,7 +6,6 @@
       },
       useBuiltIns: false,
     }],
-    "mobx",
   ],
   "plugins": ["@babel/plugin-transform-runtime"]
 }

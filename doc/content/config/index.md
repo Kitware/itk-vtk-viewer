@@ -20,9 +20,18 @@ changes with incompatible configuration -- a viewer will only use a
 configuration that has the same major version. The minor version indicates
 supported configuration entries.
 
+### xyLowerLeft
+
+When viewing the Z slice, the X-Y plane, whether the origin is in the lower left
+or upper left.
+
 ### containerStyle
 
 CSS style of the container (`div`) for the viewer.
+
+### uiCollapsed
+
+Whether the user interface is collapsed.
 
 ## Main Config
 

@@ -29,8 +29,13 @@ class ViewerMachineContext {
       parseInt(config.viewerConfigVersion.split('.')[0]) ===
         parseInt(this.viewerConfigVersion.split('.')[0])
     ) {
+      if (typeof config.xyLowerLeft !== 'undefined') {
+        this.xyLowerLeft = config.xyLowerLeft
+      }
       this.containerStyle = config.containerStyle
-      // Todo: more
+      if (typeof config.uiCollapsed !== 'undefined') {
+        this.uiCollapsed = config.uiCollapsed
+      }
 
       this.main = new MainMachineContext(config.main)
     } else {
@@ -47,7 +52,9 @@ class ViewerMachineContext {
     const config = {
       viewerConfigVersion: this.viewerConfigVersion,
 
+      xyLowerLeft: this.xyLowerLeft,
       containerStyle: { ...this.containerStyle },
+      uiCollapsed: this.uiCollapsed,
 
       main: this.main.getConfig(),
     }
@@ -62,7 +69,7 @@ class ViewerMachineContext {
   container = null
 
   // Version for compatibility check
-  viewerConfigVersion = '0.1'
+  viewerConfigVersion = '0.2'
 
   // Unique identifier used to identify a viewer in the DOM when multiple are
   // on a page
@@ -70,6 +77,10 @@ class ViewerMachineContext {
 
   // A 2D viewer versus a 3D viewer
   use2D = false
+
+  // When viewing the Z slice, the X-Y plane, is the origin in the lower left
+  // or upper left?
+  xyLowerLeft = false
 
   // Style of the container for the viewer
   containerStyle = defaultContainerStyle
@@ -80,9 +91,6 @@ class ViewerMachineContext {
   // Has the user interface been collapsed, leaving on the interactive
   // rendering?
   uiCollapsed = false
-
-  // Whether slicing planes are enabled in the 3D view mode.
-  slicingPlanesEnabled = false
 
   // Main machine context
   main = null

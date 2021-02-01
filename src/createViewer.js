@@ -89,10 +89,10 @@ const createViewer = async (
             )
             break
           case 'TOGGLE_UI_COLLAPSED':
-            eventEmitter.emit('toggleUICollapsed', publicAPI.getUICollapsed())
+            eventEmitter.emit('toggleUICollapsed', event.data)
             break
           case 'TOGGLE_ROTATE':
-            eventEmitter.emit('toggleRotate', publicAPI.getRotateEnabled())
+            eventEmitter.emit('toggleRotate', event.data)
             break
           case 'TOGGLE_ANNOTATIONS':
             eventEmitter.emit(
@@ -699,7 +699,12 @@ const createViewer = async (
   }
 
   // Start collapsed on mobile devices or small pages
-  if (window.screen.availWidth < 768 || window.screen.availHeight < 800) {
+  if (
+    (typeof config !== 'undefined' &&
+      typeof config.uiCollapsed !== 'undefined' &&
+      window.screen.availWidth < 768) ||
+    window.screen.availHeight < 800
+  ) {
     publicAPI.setUICollapsed(true)
   }
 

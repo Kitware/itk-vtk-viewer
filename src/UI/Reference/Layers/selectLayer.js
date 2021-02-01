@@ -25,26 +25,32 @@ function selectLayer(context, event) {
     })
   }
 
-  switch (type) {
-    case 'image':
-      applyGroupVisibility(context, ['images'], true)
-      const imageActorContext = context.images.actorContext.get(name)
-      if (imageActorContext.labelImageName) {
+  if (!context.uiCollapsed) {
+    switch (type) {
+      case 'image':
+        applyGroupVisibility(context, ['images'], true)
+        const imageActorContext = context.images.actorContext.get(name)
+        if (imageActorContext.labelImageName) {
+          applyGroupVisibility(
+            context,
+            ['labelImages', 'labelImageWeights'],
+            true
+          )
+        }
+        break
+      case 'labelImage':
+        if (actorContext.imageName) {
+          applyGroupVisibility(context, ['images'], true)
+        }
         applyGroupVisibility(
           context,
           ['labelImages', 'labelImageWeights'],
           true
         )
-      }
-      break
-    case 'labelImage':
-      if (actorContext.imageName) {
-        applyGroupVisibility(context, ['images'], true)
-      }
-      applyGroupVisibility(context, ['labelImages', 'labelImageWeights'], true)
-      break
-    default:
-      console.error(`Unsupported layer type: ${type}`)
+        break
+      default:
+        console.error(`Unsupported layer type: ${type}`)
+    }
   }
 }
 

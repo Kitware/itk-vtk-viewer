@@ -700,7 +700,7 @@ const createViewer = async (
 
   // Start collapsed on mobile devices or small pages
   if (
-    (typeof config !== 'undefined' &&
+    (config &&
       typeof config.uiCollapsed !== 'undefined' &&
       window.screen.availWidth < 768) ||
     window.screen.availHeight < 800

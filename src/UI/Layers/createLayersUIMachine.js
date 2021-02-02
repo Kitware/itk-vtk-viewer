@@ -1,6 +1,7 @@
 import { Machine, assign, spawn, send } from 'xstate'
 
 import IntTypes from 'itk/IntTypes'
+import PixelTypes from 'itk/PixelTypes'
 
 import createLayerUIActor from './createLayerUIActor'
 import LayerActorContext from '../../Context/LayerActorContext'
@@ -136,9 +137,11 @@ const assignImageContext = assign({
     if (actorContext.independentComponents === null) {
       // If a 2D RGB image
       if (
-        context.use2D &&
-        componentType === IntTypes.UInt8 &&
-        (components === 3 || components === 4)
+        (context.use2D &&
+          componentType === IntTypes.UInt8 &&
+          (components === 3 || components === 4)) ||
+        image.imageType.pixelType === PixelTypes.RGB ||
+          image.imageType.pixelType === PixelTypes.RGBA
       ) {
         actorContext.independentComponents = false
       } else if (components === 1 && !!labelImage) {

@@ -14,6 +14,8 @@ const dtypeToElementSize = new Map([
   ['<i2', 2],
   ['<u4', 4],
   ['<i4', 4],
+  ['<u8', 8],
+  ['<i8', 8],
 
   ['<f4', 8],
   ['<f8', 8],

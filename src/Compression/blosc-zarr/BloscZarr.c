@@ -49,7 +49,7 @@ int main(int argc, char * argv[]){
     blosc_destroy();
     return rcode;
     }
-  printf("Using %s compressor\n", compressor);
+  // printf("Using %s compressor\n", compressor);
 
 
   FILE * input_array_file = fopen(input_filename, "rb");

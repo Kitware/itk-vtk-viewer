@@ -7,13 +7,14 @@ class ConsolidatedMetadataStore {
    * Constructor cannot be async -- call this and pass the result to the
    * constructor.
    */
-  static async parseMetadata(url) {
-    const metadataUrl = url + '/.zmetadata'
+  static async retrieveMetadata(url) {
+    const metadataUrl = `${url.href}/.zmetadata`
     const response = await axios.get(metadataUrl, { responseType: 'json' })
     return response.data.metadata
   }
 
-  constructor(metadata) {
+  constructor(url, metadata) {
+    this.url = url
     this.zmetadata = metadata
   }
 
@@ -25,11 +26,17 @@ class ConsolidatedMetadataStore {
     ) {
       return this.zmetadata[item]
     } else {
-      // todo
+      // Assume chunks
+      const groupIndex = item.lastIndexOf('/')
+      const zarray = this.zmetadata[`${item.substring(0, groupIndex)}/.zarray`]
+      const chunkUrl = `${this.url.href}/${item}`
+      const response = await axios.get(chunkUrl, {
+        responseType: 'arraybuffer',
+      })
+      const data = response.data
+      return data
     }
   }
-
-  containsItem(item) {}
 }
 
 export default ConsolidatedMetadataStore

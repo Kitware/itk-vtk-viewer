@@ -17,9 +17,19 @@ class ConsolidatedMetadataStore {
     this.zmetadata = metadata
   }
 
-  async getItem(item) {}
+  async getItem(item) {
+    if (
+      item.includes('.zattrs') ||
+      item.includes('.zgroup') ||
+      item.includes('.zarray')
+    ) {
+      return this.zmetadata[item]
+    } else {
+      // todo
+    }
+  }
 
-  async containsItem(item) {}
+  containsItem(item) {}
 }
 
 export default ConsolidatedMetadataStore

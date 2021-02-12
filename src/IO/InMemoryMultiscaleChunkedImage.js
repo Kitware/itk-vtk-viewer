@@ -59,8 +59,12 @@ class Coords {
     }
   }
 
-  async get() {
-    return this.coords
+  async get(coord) {
+    return this.coords.get(coord)
+  }
+
+  has(coord) {
+    return this.coords.has(coord)
   }
 }
 
@@ -193,7 +197,7 @@ function chunkImage(image, chunkSize) {
   }
 
   const coords = new Coords(image, dims)
-  const metadata = {
+  const scaleInfo = {
     dims,
     coords,
     numberOfCXYZTChunks,
@@ -201,7 +205,7 @@ function chunkImage(image, chunkSize) {
     sizeCXYZTElements,
   }
 
-  return { metadata, chunksStride, chunks }
+  return { scaleInfo, chunksStride, chunks }
 }
 
 class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
@@ -211,7 +215,7 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
     isLabelImage = false
   ) {
     const scale0 = chunkImage(image, chunkSize)
-    const metadata = [scale0.metadata]
+    const scaleInfo = [scale0.scaleInfo]
     const pyramid = [
       {
         chunksStride: scale0.chunksStride,
@@ -268,7 +272,7 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
       currentImage = stackImages(imageSplits)
 
       const scaleN = chunkImage(currentImage, chunkSize)
-      metadata.push(scaleN.metadata)
+      scaleInfo.push(scaleN.scaleInfo)
       pyramid.push({
         chunksStride: scaleN.chunksStride,
         chunks: scaleN.chunks,
@@ -278,11 +282,11 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
 
     // scale
     const imageType = image.imageType
-    return { metadata, imageType, pyramid }
+    return { scaleInfo, imageType, pyramid }
   }
 
-  constructor(pyramid, metadata, imageType, name = 'Image') {
-    super(metadata, imageType, name)
+  constructor(pyramid, scaleInfo, imageType, name = 'Image') {
+    super(scaleInfo, imageType, name)
     this.pyramid = pyramid
   }
 

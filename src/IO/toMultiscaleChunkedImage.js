@@ -15,7 +15,7 @@ async function itkImageToInMemoryMultiscaleChunkedImage(image, isLabelImage) {
   }
 
   const {
-    metadata,
+    scaleInfo,
     imageType,
     pyramid,
   } = await InMemoryMultiscaleChunkedImage.buildPyramid(
@@ -25,7 +25,7 @@ async function itkImageToInMemoryMultiscaleChunkedImage(image, isLabelImage) {
   )
   const multiscaleImage = new InMemoryMultiscaleChunkedImage(
     pyramid,
-    metadata,
+    scaleInfo,
     imageType,
     image.name
   )

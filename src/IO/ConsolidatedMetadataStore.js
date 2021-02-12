@@ -37,6 +37,27 @@ class ConsolidatedMetadataStore {
       return data
     }
   }
+
+  async containsItem(item) {
+    if (
+      item.includes('.zattrs') ||
+      item.includes('.zgroup') ||
+      item.includes('.zarray')
+    ) {
+      return this.zmetadata[item] !== undefined
+    } else {
+      // Assume chunks
+      const groupIndex = item.lastIndexOf('/')
+      const zarray = this.zmetadata[`${item.substring(0, groupIndex)}/.zarray`]
+      const chunkUrl = `${this.url.href}/${item}`
+      try {
+        const response = await axios.head(chunkUrl)
+        return true
+      } catch (err) {
+        return false
+      }
+    }
+  }
 }
 
 export default ConsolidatedMetadataStore

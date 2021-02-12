@@ -10,8 +10,8 @@ const spatialDims = ['x', 'y', 'z']
      Lower scales, corresponds to a higher index, correspond to a lower
      resolution. */
 /*
-  metadata = [{
-    // scale 0 metadata
+  scaleInfo = [{
+    // scale 0 information
     dims: ['x', 'y'], // Valid elements: 'c', 'x', 'y', 'z', or 't'
     coords: .get() Promise resolves a Map('x': Float64Array([0.0, 2.0, ...), 'y' ...
     numberOfCXYZTChunks: [1, 10, 10, 5, 1], // array shape in chunks
@@ -20,40 +20,39 @@ const spatialDims = ['x', 'y', 'z']
     name: 'dataset_name'
   },
   {
-    // scale 1 metadata
+    // scale 1 information
     // [...]
   },
-    // scale N metadata
+    // scale N information
     // [...]
   ]
   */
 class MultiscaleChunkedImage {
-  metadata = []
+  scaleInfo = []
   name = 'Image'
 
-  constructor(metadata, imageType, name = 'Image') {
-    this.metadata = metadata
+  constructor(scaleInfo, imageType, name = 'Image') {
+    this.scaleInfo = scaleInfo
     this.name = name
 
     this.imageType = imageType
     this.pixelArrayType = componentTypeToTypedArray.get(imageType.componentType)
     this.spatialDims = ['x', 'y', 'z'].slice(0, imageType.dimension)
     this.cachedScaleLargestImage = new Map()
-    console.log(metadata)
   }
 
   get lowestScale() {
-    return this.metadata.length - 1
+    return this.scaleInfo.length - 1
   }
 
   async scaleOrigin(scale) {
     const origin = new Array(this.spatialDims.length)
-    const meta = this.metadata[scale]
-    const coords = await meta.coords.get()
+    const info = this.scaleInfo[scale]
     for (let index = 0; index < this.spatialDims.length; index++) {
       const dim = this.spatialDims[index]
-      if (coords.has(dim)) {
-        origin[index] = coords.get(dim)[0]
+      if (info.coords.has(dim)) {
+        const coords = await info.coords.get(dim)
+        origin[index] = coords[0]
       } else {
         origin[index] = 0.0
       }
@@ -63,13 +62,12 @@ class MultiscaleChunkedImage {
 
   async scaleSpacing(scale) {
     const spacing = new Array(this.spatialDims.length)
-    const meta = this.metadata[scale]
-    const coords = await meta.coords.get()
+    const info = this.scaleInfo[scale]
     for (let index = 0; index < this.spatialDims.length; index++) {
       const dim = this.spatialDims[index]
-      if (coords.has(dim)) {
-        const coord = coords.get(dim)
-        spacing[index] = coord[1] - coord[0]
+      if (info.coords.has(dim)) {
+        const coords = await info.coords.get(dim)
+        spacing[index] = coords[1] - coords[0]
       } else {
         spacing[index] = 1.0
       }
@@ -81,17 +79,17 @@ class MultiscaleChunkedImage {
     const dimension = this.imageType.dimension
     const direction = new Matrix(dimension, dimension)
     // Direction should be consistent over scales
-    const metaDirection = this.metadata[0].direction
-    if (!!metaDirection) {
+    const infoDirection = this.scaleInfo[0].direction
+    if (!!infoDirection) {
       // Todo: verify this logic
-      const dims = this.metadata[0].dims
+      const dims = this.scaleInfo[0].dims
       for (let d1 = 0; d1 < dimension; d1++) {
         const sd1 = this.spatialDims[d1]
         const di1 = dims.indexOf(sd1)
         for (let d2 = 0; d2 < dimension; d2++) {
           const sd2 = this.spatialDims[d2]
           const di2 = dims.indexOf(sd2)
-          direction.setElement(d1, d2, metaDirection[di1][di2])
+          direction.setElement(d1, d2, infoDirection[di1][di2])
         }
       }
     } else {
@@ -116,9 +114,9 @@ class MultiscaleChunkedImage {
       return this.cachedScaleLargestImage.get(scale)
     }
 
-    const meta = this.metadata[scale]
+    const info = this.scaleInfo[scale]
 
-    const chunkSize = meta.sizeCXYZTChunks
+    const chunkSize = info.sizeCXYZTChunks
     const chunkStrides = [
       chunkSize[0],
       chunkSize[0] * chunkSize[1],
@@ -126,16 +124,17 @@ class MultiscaleChunkedImage {
       chunkSize[0] * chunkSize[1] * chunkSize[2] * chunkSize[3],
     ] // c, x, y, z,
 
-    const size = meta.sizeCXYZTElements.slice(1, 1 + this.imageType.dimension)
+    const size = info.sizeCXYZTElements.slice(1, 1 + this.imageType.dimension)
+    const components = this.imageType.components
     const pixelArray = new this.pixelArrayType(
-      size.reduce((a, b) => a * b) * this.imageType.components
+      size.reduce((a, b) => a * b) * components
     )
     const zSize = size[2] ? size[2] : 1
     const pixelStrides = [
-      this.imageType.components,
-      this.imageType.components * size[0],
-      this.imageType.components * size[0] * size[1],
-      this.imageType.components * size[0] * size[1] * zSize,
+      components,
+      components * size[0],
+      components * size[0] * size[1],
+      components * size[0] * size[1] * zSize,
     ] // c, x, y, z
     const start = [0, 0, 0, 0] // x, y, z, t
     const end = [
@@ -145,7 +144,7 @@ class MultiscaleChunkedImage {
       start[3] + 1,
     ] // x, y, z, t
 
-    const numChunks = meta.numberOfCXYZTChunks
+    const numChunks = info.numberOfCXYZTChunks
     const l = 0
     const zChunkStart = 0
     const zChunkEnd = numChunks[3]
@@ -226,12 +225,12 @@ class MultiscaleChunkedImage {
               itChunkOffsets[1] +
               itChunkOffsets[2] +
               itChunkOffsets[3]
-            const end = begin + chunkSize[0] * (itEnd[0] - itStart[0])
+            const end = begin + components * (itEnd[0] - itStart[0])
             const offset =
               pixelStrides[0] * (itStart[0] - start[0]) +
               itPixelOffsets[1] +
-              pixelStrides[2] * (kk - start[2])
-            itPixelOffsets[2]
+              itPixelOffsets[2]
+            const subarray = chunk.subarray(begin, end)
             pixelArray.set(chunk.subarray(begin, end), offset)
           } // for every column
         } // for every row
@@ -243,7 +242,7 @@ class MultiscaleChunkedImage {
 
     const image = {
       imageType: this.imageType,
-      name: this.metadata[scale].name,
+      name: this.scaleInfo[scale].name,
       origin,
       spacing,
       direction: this.direction,

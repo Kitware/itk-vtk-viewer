@@ -182,7 +182,7 @@ function applyRenderedImage(context, event) {
           return
         }
         const dataArray = actorContext.fusedImage.getPointData().getScalars()
-        const range = dataArray.getRange(fusedImageIndex)
+        const range = dataArray.getRange(fusedImageIndex).slice()
         if (!actorContext.colorRangeBounds.has(componentIndex)) {
           context.service.send({
             type: 'IMAGE_COLOR_RANGE_BOUNDS_CHANGED',

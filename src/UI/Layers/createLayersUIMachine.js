@@ -137,14 +137,10 @@ const assignImageContext = assign({
     if (actorContext.independentComponents === null) {
       // If a 2D RGB image
       if (
-        (context.use2D &&
-          componentType === IntTypes.UInt8 &&
-          (components === 3 || components === 4)) ||
         image.imageType.pixelType === PixelTypes.RGB ||
-          image.imageType.pixelType === PixelTypes.RGBA
+        image.imageType.pixelType === PixelTypes.RGBA
       ) {
         actorContext.independentComponents = false
-      } else if (components === 1 && !!labelImage) {
       } else {
         actorContext.independentComponents = true
       }

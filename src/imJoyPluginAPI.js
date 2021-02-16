@@ -24,15 +24,6 @@ const imJoyPluginAPI = {
       } else {
         await this.setImage(ctx.data.image)
       }
-    } else if (ctx.config && !this.viewer) {
-      this.viewer = await itkVtkViewer.createViewer(container, {
-        image: multiscaleImage,
-        pointSets: null,
-        geometries: null,
-        use2D: is2D,
-        rotate: false,
-        config: ctx.config,
-      })
     }
   },
 

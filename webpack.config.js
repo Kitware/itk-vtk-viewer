@@ -57,6 +57,9 @@ module.exports = [
     module: moduleConfig,
     output: {
       filename: 'itkVtkViewer.js',
+      library: 'itkVtkViewer',
+      libraryTarget: 'umd',
+      umdNamedDefine: true,
     },
     resolve: {
       fallback: { fs: false, stream: require.resolve('stream-browserify') },

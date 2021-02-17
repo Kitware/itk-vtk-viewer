@@ -52,14 +52,11 @@ const performance = {
 }
 
 module.exports = [
-  // Progressive web app
   {
+    name: 'itkVtkViewer.js progressive web app',
     module: moduleConfig,
     output: {
       filename: 'itkVtkViewer.js',
-      library: 'itkVtkViewer',
-      libraryTarget: 'umd',
-      umdNamedDefine: true,
     },
     resolve: {
       fallback: { fs: false, stream: require.resolve('stream-browserify') },
@@ -130,12 +127,17 @@ module.exports = [
     performance,
     devServer,
   },
-  // For use in <script> tags
   {
+    name: 'itkVtkViewerCDN.js <script> tag',
     module: moduleConfig,
     output: {
       filename: 'itkVtkViewerCDN.js',
       publicPath: cdnPath,
+      library: {
+        name: 'itkVtkViewer',
+        type: 'umd',
+        umdNamedDefine: true,
+      },
     },
     resolve: {
       modules: [path.resolve(__dirname, 'node_modules')],

@@ -190,10 +190,10 @@ const createViewer = async (
   if (!!uiContainer) {
     context.uiContainer = uiContainer
   }
-  console.log(options)
-  console.log(context)
-  console.log(machine)
-  console.log(service)
+  //console.log(options)
+  //console.log(context)
+  //console.log(machine)
+  //console.log(service)
   service.start()
 
   let updatingImage = false

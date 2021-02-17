@@ -137,6 +137,10 @@ const imJoyPluginAPI = {
     return this.viewer.getLayerNames()
   },
 
+  selectLayer(name) {
+    this.viewer.selectLayer(name)
+  },
+
   setImageComponentVisibility(visibility, component, name) {
     this.viewer.setImageComponentVisibility(visibility, component, name)
   },

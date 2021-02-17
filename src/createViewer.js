@@ -811,6 +811,10 @@ const createViewer = async (
     return context.layers.actorContext.get(name).visible
   }
 
+  publicAPI.selectLayer = name => {
+    context.service.send({ type: 'SELECT_LAYER', data: name })
+  }
+
   publicAPI.setImage = async (image, name) => {
     if (typeof name === 'undefined' && context.images.selectedName) {
       name = context.images.selectedName

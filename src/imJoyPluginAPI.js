@@ -137,6 +137,14 @@ const imJoyPluginAPI = {
     return this.viewer.getLayerNames()
   },
 
+  setLayerVisibility(visible, name) {
+    this.viewer.setLayerVisibility(visible, name)
+  },
+
+  getLayerVisibility(name) {
+    return this.viewer.getLayerVisibility(name)
+  },
+
   selectLayer(name) {
     this.viewer.selectLayer(name)
   },

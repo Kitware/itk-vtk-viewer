@@ -28,6 +28,12 @@ function toggleUICollapsed(context, event, actionMeta) {
       ['main', 'layers', 'widgets'],
       !context.uiCollapsed
     )
+    if (context.images.selectedName) {
+      context.service.send({
+        type: 'SELECT_LAYER',
+        data: context.images.selectedName,
+      })
+    }
   }
 
   if (!context.use2D && !!context.main.planeUIGroup) {

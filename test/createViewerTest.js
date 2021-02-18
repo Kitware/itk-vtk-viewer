@@ -146,6 +146,8 @@ test('Test createViewer', async t => {
   t.same(resultLayerVisibility, false, 'layer visibility')
   viewer.setLayerVisibility(true, firstLayer)
 
+  viewer.selectLayer(firstLayer)
+
   viewer.once('imageVisualizedComponentChanged', data => {
     t.pass('imageVisualizedComponentChanged event')
   })

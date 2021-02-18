@@ -89,6 +89,10 @@ Get the names of all data layers.
 
 Set/get whether the named layer is visible.
 
+### selectLayer(name)
+
+Select the layer identified by `name` in the user interface.
+
 ## Viewer Image API
 
 ### setImage(image)

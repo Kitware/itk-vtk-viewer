@@ -190,10 +190,10 @@ const createViewer = async (
   if (!!uiContainer) {
     context.uiContainer = uiContainer
   }
-  console.log(options)
-  console.log(context)
-  console.log(machine)
-  console.log(service)
+  //console.log(options)
+  //console.log(context)
+  //console.log(machine)
+  //console.log(service)
   service.start()
 
   let updatingImage = false
@@ -809,6 +809,10 @@ const createViewer = async (
 
   publicAPI.getLayerVisibility = name => {
     return context.layers.actorContext.get(name).visible
+  }
+
+  publicAPI.selectLayer = name => {
+    context.service.send({ type: 'SELECT_LAYER', data: name })
   }
 
   publicAPI.setImage = async (image, name) => {

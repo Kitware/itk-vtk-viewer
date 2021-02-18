@@ -14,9 +14,11 @@ import readImageArrayBuffer from 'itk/readImageArrayBuffer'
 import createViewer from './createViewer'
 
 import imJoyPluginAPI from './imJoyPluginAPI'
+import { version } from '../package.json'
 
 let doNotInitViewers = false
 
+export { version }
 export { imJoyPluginAPI }
 export { default as createViewer } from './createViewer'
 import * as utils from './utils.js'

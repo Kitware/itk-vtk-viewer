@@ -16,8 +16,8 @@ const cssRules = require('vtk.js/Utilities/config/dependency.js').webpack.css
   .rules
 
 const packageJSON = require('./package.json')
-const itkVersion = packageJSON.dependencies.itk.substring(1)
-const cdnPath = 'https://unpkg.com/itk@' + itkVersion
+const version = packageJSON.version
+const cdnPath = `https://unpkg.com/itk-vtk-viewer@${version}/dist/itk`
 
 const devServer = {
   noInfo: true,

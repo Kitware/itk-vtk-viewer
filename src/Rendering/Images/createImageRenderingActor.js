@@ -169,7 +169,7 @@ const createImageRenderingActor = (options, context, event) => {
             ...eventResponses,
             UPDATE_RENDERED_IMAGE: {
               target: 'updateRenderedImage',
-              actions: assignUpdateRenderedName,
+              actions: [assignUpdateRenderedName],
             },
             FPS_UPDATED: [
               {

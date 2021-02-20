@@ -4,6 +4,7 @@ import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Consta
 
 import applyGradientOpacity from './applyGradientOpacity'
 import applyLabelImageBlend from './applyLabelImageBlend'
+import applyVolumeSampleDistance from './applyVolumeSampleDistance'
 
 const ANNOTATION_DEFAULT =
   '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
@@ -41,6 +42,11 @@ function applyRenderedImage(context, event) {
     } else {
       context.itkVtkView.setViewMode('Volume')
     }
+
+    context.images.representationProxy.getMapper().setMaximumSamplesPerRay(2048)
+    context.images.representationProxy.setSampleDistance(
+      actorContext.volumeSampleDistance
+    )
 
     const annotationContainer = context.container.querySelector('.js-se')
     annotationContainer.style.fontFamily = 'monospace'
@@ -169,6 +175,9 @@ function applyRenderedImage(context, event) {
   // Todo: results in necessary side-effect?
   applyGradientOpacity(context, {
     data: { name, gradientOpacity: actorContext.gradientOpacity },
+  })
+  applyVolumeSampleDistance(context, {
+    data: { name, volumeSampleDistance: actorContext.volumeSampleDistance },
   })
 
   // Set default color ranges

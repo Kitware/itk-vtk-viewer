@@ -102,7 +102,7 @@ module.exports = [
       new GenerateSW({
         importWorkboxFrom: 'local',
         globDirectory: outputPath,
-        maximumFileSizeToCacheInBytes: 5000000,
+        maximumFileSizeToCacheInBytes: 10000000,
         include: [],
         exclude: [],
         globPatterns: ['*.{html,js,jpg,png,svg}'],

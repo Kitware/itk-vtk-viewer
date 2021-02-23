@@ -183,6 +183,52 @@ function applyRenderedImage(context, event) {
         }
         const dataArray = actorContext.fusedImage.getPointData().getScalars()
         const range = dataArray.getRange(fusedImageIndex).slice()
+        if (!actorContext.independentComponents || range[1] === range[0]) {
+          switch (dataArray.getDataType()) {
+            case 'Uint8Array':
+              range[0] = 0
+              range[1] = 255
+              break
+            case 'Int8Array':
+              range[0] = -128
+              range[1] = 127
+              break
+            case 'Uint16Array':
+              range[0] = 0
+              range[1] = 65535
+              break
+            case 'Int16Array':
+              range[0] = -32768
+              range[1] = 32767
+              break
+            case 'Uint32Array':
+              range[0] = 0
+              range[1] = 4294967295
+              break
+            case 'Int32Array':
+              range[0] = -2147483648
+              range[1] = 2147483647
+              break
+            case 'BigUint64Array':
+              range[0] = 0
+              range[1] = BigInt(18446744073709551615)
+              break
+            case 'BigInt64Array':
+              range[0] = BigInt(-9223372036854775808)
+              range[1] = BigInt(9223372036854775808)
+              break
+            case 'Float32Array':
+              range[0] = 0.0
+              range[1] = 1.0
+              break
+            case 'Float64Array':
+              range[0] = 0.0
+              range[1] = 1.0
+              break
+            default:
+              console.error('Unsupported data type')
+          }
+        }
         if (!actorContext.colorRangeBounds.has(componentIndex)) {
           context.service.send({
             type: 'IMAGE_COLOR_RANGE_BOUNDS_CHANGED',

@@ -66,7 +66,7 @@ async function bloscZarrDecompress(chunkData) {
     ]
     taskArgsArray.push(['BloscZarr', args, desiredOutputs, inputs])
   }
-  const results = await workerPool.runTasks(taskArgsArray)
+  const results = await workerPool.runTasks(taskArgsArray).promise
 
   const typedArray = dtypeToTypedArray.get(dtype)
   const decompressedChunks = []

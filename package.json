@@ -45,7 +45,7 @@
     "regenerator-runtime": "^0.13.7",
     "vtk.js": "^16.1.2",
     "webworker-promise": "^0.4.2",
-    "xstate": "^4.15.4"
+    "xstate": "^4.16.2"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.12.10",

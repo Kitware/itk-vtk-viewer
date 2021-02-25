@@ -163,7 +163,7 @@ function chunkImage(image, chunkSize) {
     //} // for every x chunk
     //} // for every y chunk
     //} // for every z chunk
-    //// const result = await chunkerWorkerPool.runTasks(taskArgs)
+    //// const result = await chunkerWorkerPool.runTasks(taskArgs).promise
     //// chunks = result.map(e => e.chunk)
     //} else {
     for (let k = 0; k < numberOfCXYZTChunks[3]; k++) {
@@ -260,6 +260,7 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
         downsampleTaskArgs.push([pipelinePath, args, desiredOutputs, inputs])
       }
       const results = await downsampleWorkerPool.runTasks(downsampleTaskArgs)
+        .promise
       const validResults = results.filter(
         (r, i) => parseInt(r.outputs[1].data) > i
       )

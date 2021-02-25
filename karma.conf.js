@@ -120,7 +120,6 @@ module.exports = function init(config) {
 
     tapReporter: {
       outputFile: 'test/output.html',
-      prettifier: 'tap-markdown',
       separator:
         '\n=========================================================\n=========================================================\n',
     },

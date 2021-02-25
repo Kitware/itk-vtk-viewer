@@ -5,6 +5,7 @@ import updateVisualizedComponents from './updateVisualizedComponents'
 import numericalSort from '../numericalSort'
 import WebworkerPromise from 'webworker-promise'
 import UpdateFusedImage from './UpdateFusedImage.worker'
+import computeRange from '../computeRange'
 
 const createUpdateFusedImageWorker = existingWorker => {
   if (existingWorker) {
@@ -179,6 +180,19 @@ async function updateRenderedImage(context) {
     actorContext.uniqueLabels = uniqueLabels
 
     context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
+  }
+
+  const dataArray = actorContext.fusedImage.getPointData().getScalars()
+  const numberOfComponents = dataArray.getNumberOfComponents()
+  actorContext.fusedImageRanges = []
+  for (let comp = 0; comp < numberOfComponents; comp++) {
+    const range = await computeRange(
+      dataArray.getData(),
+      comp,
+      numberOfComponents
+    )
+    dataArray.setRange(range, comp)
+    actorContext.fusedImageRanges.push(range)
   }
 }
 

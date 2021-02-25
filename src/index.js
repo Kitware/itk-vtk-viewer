@@ -9,12 +9,13 @@ import { processFiles } from './IO/processFiles'
 import UserInterface from './UserInterface'
 import createFileDragAndDrop from './UserInterface/createFileDragAndDrop'
 import style from './UserInterface/ItkVtkViewer.module.css'
-import ZarrMultiscaleChunkedImage from './IO/ZarrMultiscaleChunkedImage'
+import toMultiscaleChunkedImage from './IO/toMultiscaleChunkedImage'
 import readImageArrayBuffer from 'itk/readImageArrayBuffer'
 import createViewer from './createViewer'
 
 import imJoyPluginAPI from './imJoyPluginAPI'
-import { version } from '../package.json'
+import packageJson from '../package.json'
+const { version } = packageJson
 
 let doNotInitViewers = false
 
@@ -57,20 +58,7 @@ export async function createViewerFromUrl(
   if (!!image) {
     const extension = getFileExtension(image)
     if (extension === 'zarr') {
-      console.time('meta')
-      console.time('image')
-      const {
-        metadata,
-        imageType,
-      } = await ZarrMultiscaleChunkedImage.parseMetadata(image)
-      console.log(metadata)
-      console.timeEnd('meta')
-      imageObject = new ZarrMultiscaleChunkedImage(image, metadata, imageType)
-      // Side effect to keep the spinner going
-      const lowestScaleLargestImage = await imageObject.scaleLargestImage(
-        imageObject.lowestScale
-      )
-      console.timeEnd('image')
+      imageObject = await toMultiscaleChunkedImage(new URL(image))
     } else {
       const arrayBuffer = await fetchBinaryContent(image, progressCallback)
       const result = await readImageArrayBuffer(
@@ -87,23 +75,10 @@ export async function createViewerFromUrl(
   if (!!labelImage) {
     const extension = getFileExtension(labelImage)
     if (extension === 'zarr') {
-      console.time('labelImageMeta')
-      console.time('labelImage')
-      const {
-        metadata,
-        imageType,
-      } = await ZarrMultiscaleChunkedImage.parseMetadata(labelImage)
-      console.timeEnd('labelImageMeta')
-      labelImageObject = new ZarrMultiscaleChunkedImage(
-        labelImage,
-        metadata,
-        imageType
+      labelImageObject = await toMultiscaleChunkedImage(
+        new URL(labelImage),
+        true
       )
-      // Side effect to keep the spinner going
-      const lowestScaleLargestImage = await labelImageObject.scaleLargestImage(
-        labelImageObject.lowestScale
-      )
-      console.timeEnd('labelImage')
     } else {
       const arrayBuffer = await fetchBinaryContent(labelImage, progressCallback)
       const result = await readImageArrayBuffer(
@@ -120,19 +95,7 @@ export async function createViewerFromUrl(
   for (const url of files) {
     const extension = getFileExtension(url)
     if (extension === 'zarr') {
-      console.time('meta')
-      console.time('image')
-      const {
-        metadata,
-        imageType,
-      } = await ZarrMultiscaleChunkedImage.parseMetadata(url)
-      console.timeEnd('meta')
-      imageObject = new ZarrMultiscaleChunkedImage(url, metadata, imageType)
-      // Side effect to keep the spinner going
-      const lowestScaleLargestImage = await imageObject.scaleLargestImage(
-        imageObject.lowestScale
-      )
-      console.timeEnd('image')
+      imageObject = await toMultiscaleChunkedImage(new URL(url))
     } else {
       const arrayBuffer = await fetchBinaryContent(url, progressCallback)
       fileObjects.push(

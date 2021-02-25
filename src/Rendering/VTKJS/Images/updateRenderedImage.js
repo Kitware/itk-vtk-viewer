@@ -3,6 +3,21 @@ import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
 
 import updateVisualizedComponents from './updateVisualizedComponents'
 import numericalSort from '../numericalSort'
+import WebworkerPromise from 'webworker-promise'
+import UpdateFusedImage from './UpdateFusedImage.worker'
+import computeRange from '../computeRange'
+
+const createUpdateFusedImageWorker = existingWorker => {
+  if (existingWorker) {
+    const webworkerPromise = new WebworkerPromise(existingWorker)
+    return { webworkerPromise, worker: existingWorker }
+  }
+
+  const newWorker = new UpdatedFusedImageWorker()
+  const newWebworkerPromise = new WebworkerPromise(newWorker)
+  return { webworkerPromise: newWebworkerPromise, worker: newWorker }
+}
+let updateFusedImageWorker = null
 
 async function updateRenderedImage(context) {
   const name = context.images.updateRenderedName
@@ -79,6 +94,14 @@ async function updateRenderedImage(context) {
 
     const fusedImageComponents = actorContext.visualizedComponents.length
     const length = imageTuples * fusedImageComponents
+
+    const { webworkerPromise, worker } = createUpdateFusedImageWorker(
+      updateFusedImageWorker
+    )
+    updateFusedImageWorker = worker
+    // todo
+    //console.log('imageData', imageData)
+    //const chunk = await webworkerPromise.exec('chunk', args)
 
     // We only need to construct a new typed array if we don't already
     // have one of the right length.
@@ -157,6 +180,19 @@ async function updateRenderedImage(context) {
     actorContext.uniqueLabels = uniqueLabels
 
     context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
+  }
+
+  const dataArray = actorContext.fusedImage.getPointData().getScalars()
+  const numberOfComponents = dataArray.getNumberOfComponents()
+  actorContext.fusedImageRanges = []
+  for (let comp = 0; comp < numberOfComponents; comp++) {
+    const range = await computeRange(
+      dataArray.getData(),
+      comp,
+      numberOfComponents
+    )
+    dataArray.setRange(range, comp)
+    actorContext.fusedImageRanges.push(range)
   }
 }
 

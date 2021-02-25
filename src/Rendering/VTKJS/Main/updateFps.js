@@ -33,7 +33,7 @@ function updateFps(context, event) {
     }
 
     context.service.send({ type: 'FPS_UPDATED', data: fps })
-  }, 400)
+  }, 500)
 }
 
 export default updateFps

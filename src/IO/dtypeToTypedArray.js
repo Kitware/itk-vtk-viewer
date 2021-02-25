@@ -9,6 +9,8 @@ const dtypeToTypedArray = new Map([
   ['<i2', Int16Array],
   ['<u4', Uint32Array],
   ['<i4', Int32Array],
+  ['<u8', BigUint64Array],
+  ['<i8', BigInt64Array],
 
   ['<f4', Float32Array],
   ['<f8', Float64Array],

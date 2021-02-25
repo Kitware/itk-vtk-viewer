@@ -1,8 +1,11 @@
 import axios from 'axios'
 import readImageArrayBuffer from 'itk/readImageArrayBuffer'
 
+import getFileExtension from 'itk/getFileExtension'
+import ConsolidatedMetadataStore from './ConsolidatedMetadataStore'
 import MultiscaleChunkedImage from './MultiscaleChunkedImage'
 import InMemoryMultiscaleChunkedImage from './InMemoryMultiscaleChunkedImage'
+import ZarrMultiscaleChunkedImage from './ZarrMultiscaleChunkedImage'
 import ndarrayToItkImage from './ndarrayToItkImage'
 
 async function itkImageToInMemoryMultiscaleChunkedImage(image, isLabelImage) {
@@ -15,7 +18,7 @@ async function itkImageToInMemoryMultiscaleChunkedImage(image, isLabelImage) {
   }
 
   const {
-    metadata,
+    scaleInfo,
     imageType,
     pyramid,
   } = await InMemoryMultiscaleChunkedImage.buildPyramid(
@@ -25,7 +28,7 @@ async function itkImageToInMemoryMultiscaleChunkedImage(image, isLabelImage) {
   )
   const multiscaleImage = new InMemoryMultiscaleChunkedImage(
     pyramid,
-    metadata,
+    scaleInfo,
     imageType,
     image.name
   )
@@ -52,22 +55,35 @@ async function toMultiscaleChunkedImage(image, isLabelImage = false) {
       isLabelImage
     )
   } else if (image.href !== undefined) {
-    // URL, assumed to be an image file.
-    // Todo: support .zarr URL's
     const imageHref = image.href
-    const response = await axios.get(imageHref, {
-      responseType: 'arraybuffer',
-    })
-    const { image: itkImage, webWorker } = await readImageArrayBuffer(
-      null,
-      response.data,
-      imageHref.split('/').slice(-1)[0]
-    )
-    webWorker.terminate()
-    multiscaleImage = await itkImageToInMemoryMultiscaleChunkedImage(
-      itkImage,
-      isLabelImage
-    )
+    const extension = getFileExtension(imageHref)
+    if (extension === 'zarr') {
+      const metadata = await ConsolidatedMetadataStore.retrieveMetadata(image)
+      const store = new ConsolidatedMetadataStore(image, metadata)
+      const {
+        scaleInfo,
+        imageType,
+      } = await ZarrMultiscaleChunkedImage.extractScaleInfo(store)
+      multiscaleImage = new ZarrMultiscaleChunkedImage(
+        store,
+        scaleInfo,
+        imageType
+      )
+    } else {
+      const response = await axios.get(imageHref, {
+        responseType: 'arraybuffer',
+      })
+      const { image: itkImage, webWorker } = await readImageArrayBuffer(
+        null,
+        response.data,
+        imageHref.split('/').slice(-1)[0]
+      )
+      webWorker.terminate()
+      multiscaleImage = await itkImageToInMemoryMultiscaleChunkedImage(
+        itkImage,
+        isLabelImage
+      )
+    }
   } else {
     throw new Error('Unexpected image')
   }

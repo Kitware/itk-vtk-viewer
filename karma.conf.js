@@ -64,6 +64,12 @@ module.exports = function init(config) {
         included: false,
       },
       {
+        pattern: './test/data/**/.*',
+        watched: false,
+        served: true,
+        included: false,
+      },
+      {
         pattern: './dist/index.html',
         watched: true,
         served: true,

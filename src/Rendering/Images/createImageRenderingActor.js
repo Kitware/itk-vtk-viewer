@@ -46,6 +46,19 @@ function highestScaleOrScaleJustRight(context, event, condMeta) {
   const actorContext = context.images.actorContext.get(
     context.images.updateRenderedName
   )
+
+  let image = actorContext.image
+  if (!image) {
+    image = actorContext.labelImage
+  }
+  const size = image.scaleInfo[
+    actorContext.renderedScale
+  ].sizeCXYZTElements.slice(1, 4)
+  const renderedVoxels = size[0] * size[1] * size[2]
+  if (renderedVoxels > 25e6) {
+    return true
+  }
+
   if (actorContext.renderedScale === 0 && context.main.fps > 10.0) {
     return true
   }

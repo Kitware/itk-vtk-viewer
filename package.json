@@ -43,7 +43,7 @@
     "open": "^6.4.0",
     "promise-file-reader": "^1.0.3",
     "regenerator-runtime": "^0.13.7",
-    "vtk.js": "^16.7.2",
+    "vtk.js": "^16.7.6",
     "webworker-promise": "^0.4.2",
     "xstate": "^4.16.2"
   },

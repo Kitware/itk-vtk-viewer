@@ -4,9 +4,70 @@ const testZarr = 'base/test/data/input/logo.zarr'
 
 import ConsolidatedMetadataStore from '../src/IO/ConsolidatedMetadataStore'
 import ZarrMultiscaleChunkedImage from '../src/IO/ZarrMultiscaleChunkedImage'
+import toMultiscaleChunkedImage from '../src/IO/toMultiscaleChunkedImage'
 
 import PixelTypes from 'itk/PixelTypes'
 import IntTypes from 'itk/IntTypes'
+
+async function verifyImage(t, image) {
+  const imageTypeBaseline = {
+    dimension: 2,
+    pixelType: PixelTypes.RGB,
+    componentType: IntTypes.UInt8,
+    components: 3,
+  }
+  t.deepEqual(image.imageType, imageTypeBaseline, 'RGB imageType')
+
+  const cxyztArray = [
+    [0, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0],
+  ]
+  const scale = 1
+  const chunks = await image.getChunks(scale, cxyztArray)
+  const chunkBaseline = [255, 255, 255, 0, 0, 0]
+  t.deepEqual(
+    Array.from(chunks[0].slice(0, chunkBaseline.length)),
+    chunkBaseline,
+    'decompressed chunk 0'
+  )
+  t.deepEqual(
+    Array.from(chunks[1].slice(0, chunkBaseline.length)),
+    chunkBaseline,
+    'decompressed chunk 1'
+  )
+  t.deepEqual(
+    Array.from(chunks[2].slice(0, chunkBaseline.length)),
+    chunkBaseline,
+    'decompressed chunk 2'
+  )
+
+  const lowestScale = image.lowestScale
+  t.equal(lowestScale, 3, 'lowestScale')
+
+  const origin0 = await image.scaleOrigin(0)
+  t.deepEqual(origin0, [0, 0], 'origin 0')
+  const origin1 = await image.scaleOrigin(1)
+  t.deepEqual(origin1, [0.5, 0.5], 'origin 1')
+
+  const spacing0 = await image.scaleSpacing(0)
+  t.deepEqual(spacing0, [1, 1], 'spacing 0')
+  const spacing1 = await image.scaleSpacing(1)
+  t.deepEqual(spacing1, [2, 2], 'spacing 1')
+
+  const direction = image.direction
+  t.deepEqual(direction.data, [1, 0, 0, 1], 'direction')
+
+  const image0 = await image.scaleLargestImage(0)
+  t.deepEqual(image0.imageType, imageTypeBaseline, 'image0 imageType')
+  t.deepEqual(image0.size, [480, 294], 'image0 size')
+  t.deepEqual(image0.data.length, 423360, 'image0 data length')
+
+  const image1 = await image.scaleLargestImage(1)
+  t.deepEqual(image1.imageType, imageTypeBaseline, 'image1 imageType')
+  t.deepEqual(image1.size, [240, 147], 'image1 size')
+  t.deepEqual(image1.data.length, 105840, 'image1 data length')
+}
 
 test('Test ConsolidatedMetadataStore', async t => {
   const storeURL = new URL(testZarr, document.location.origin)
@@ -254,65 +315,25 @@ test('Test ZarrMultiscaleChunkedImage', async t => {
   } = await ZarrMultiscaleChunkedImage.extractScaleInfo(store)
 
   t.equal(scaleInfo.length, 4, 'number of scales')
-  const imageTypeBaseline = {
-    dimension: 2,
-    pixelType: PixelTypes.RGB,
-    componentType: IntTypes.UInt8,
-    components: 3,
-  }
-  t.deepEqual(imageType, imageTypeBaseline, 'RGB imageType')
 
   const image = new ZarrMultiscaleChunkedImage(store, scaleInfo, imageType)
 
-  const cxyztArray = [
-    [0, 0, 0, 0, 0],
-    [0, 1, 0, 0, 0],
-    [0, 0, 1, 0, 0],
-  ]
-  const scale = 1
-  const chunks = await image.getChunks(scale, cxyztArray)
-  const chunkBaseline = [255, 255, 255, 0, 0, 0]
-  t.deepEqual(
-    Array.from(chunks[0].slice(0, chunkBaseline.length)),
-    chunkBaseline,
-    'decompressed chunk 0'
-  )
-  t.deepEqual(
-    Array.from(chunks[1].slice(0, chunkBaseline.length)),
-    chunkBaseline,
-    'decompressed chunk 1'
-  )
-  t.deepEqual(
-    Array.from(chunks[2].slice(0, chunkBaseline.length)),
-    chunkBaseline,
-    'decompressed chunk 2'
+  await verifyImage(t, image)
+
+  t.end()
+})
+
+test('Test toMultiscaleChunkedImage from store', async t => {
+  const storeURL = new URL(testZarr, document.location.origin)
+  const consolidatedMetadata = await ConsolidatedMetadataStore.retrieveMetadata(
+    storeURL
   )
 
-  const lowestScale = image.lowestScale
-  t.equal(lowestScale, 3, 'lowestScale')
+  const store = new ConsolidatedMetadataStore(storeURL, consolidatedMetadata)
 
-  const origin0 = await image.scaleOrigin(0)
-  t.deepEqual(origin0, [0, 0], 'origin 0')
-  const origin1 = await image.scaleOrigin(1)
-  t.deepEqual(origin1, [0.5, 0.5], 'origin 1')
+  const image = await toMultiscaleChunkedImage(store)
 
-  const spacing0 = await image.scaleSpacing(0)
-  t.deepEqual(spacing0, [1, 1], 'spacing 0')
-  const spacing1 = await image.scaleSpacing(1)
-  t.deepEqual(spacing1, [2, 2], 'spacing 1')
-
-  const direction = image.direction
-  t.deepEqual(direction.data, [1, 0, 0, 1], 'direction')
-
-  const image0 = await image.scaleLargestImage(0)
-  t.deepEqual(image0.imageType, imageTypeBaseline, 'image0 imageType')
-  t.deepEqual(image0.size, [480, 294], 'image0 size')
-  t.deepEqual(image0.data.length, 423360, 'image0 data length')
-
-  const image1 = await image.scaleLargestImage(1)
-  t.deepEqual(image1.imageType, imageTypeBaseline, 'image1 imageType')
-  t.deepEqual(image1.size, [240, 147], 'image1 size')
-  t.deepEqual(image1.data.length, 105840, 'image1 data length')
+  await verifyImage(t, image)
 
   t.end()
 })

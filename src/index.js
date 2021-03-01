@@ -159,7 +159,7 @@ export function initializeEmbeddedViewers() {
           viewer.setBackgroundColor(bgColor)
         }
 
-        viewer.setUserInterfaceCollapsed(true)
+        viewer.setUICollapsed(true)
         // Render
         if (viewer.renderWindow && viewer.renderWindow.render) {
           viewer.renderWindow.render()

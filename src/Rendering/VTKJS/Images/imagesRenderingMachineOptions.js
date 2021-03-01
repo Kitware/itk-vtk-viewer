@@ -2,6 +2,7 @@ import createImageRenderer from './createImageRenderer'
 import toggleLayerVisibility from './toggleLayerVisibility'
 import applyComponentVisibility from './applyComponentVisibility'
 import updateRenderedImage from './updateRenderedImage'
+import updateHistogram from './updateHistogram'
 import selectImageLayer from './selectImageLayer'
 import toggleInterpolation from './toggleInterpolation'
 import applyColorRange from './applyColorRange'
@@ -23,6 +24,7 @@ const imagesRenderingMachineOptions = {
     services: {
       createImageRenderer,
       updateRenderedImage,
+      updateHistogram,
     },
 
     actions: {

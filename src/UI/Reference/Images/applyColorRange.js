@@ -113,6 +113,9 @@ function applyColorRange(context, event) {
     newGaussians[0].width = newWidth
   }
 
+  context.images.transferFunctionWidget.setDataRange(colorRange)
+  context.images.transferFunctionWidget.render()
+
   context.service.send({
     type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
     data: { name, component, gaussians: newGaussians },

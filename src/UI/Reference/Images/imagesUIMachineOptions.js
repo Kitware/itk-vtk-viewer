@@ -14,6 +14,7 @@ import applyGradientOpacity from './applyGradientOpacity'
 import applyGradientOpacityScale from './applyGradientOpacityScale'
 import applyVolumeSampleDistance from './applyVolumeSampleDistance'
 import applyBlendMode from './applyBlendMode'
+import applyHistogram from './applyHistogram'
 import applyLookupTable from './applyLookupTable'
 import applyLabelImageBlend from './applyLabelImageBlend'
 import applyLabelImageWeights from './applyLabelImageWeights'
@@ -42,6 +43,7 @@ const imagesUIMachineOptions = {
     applyGradientOpacityScale,
     applyVolumeSampleDistance,
     applyBlendMode,
+    applyHistogram,
 
     applyLookupTable,
     applyLabelImageBlend,

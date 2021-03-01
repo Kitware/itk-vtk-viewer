@@ -1,60 +1,64 @@
-import WebworkerPromise from 'webworker-promise'
 import ComputeRangeWorker from './ComputeRange.worker'
-import WorkerPool from 'itk/WorkerPool'
 const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
-
-const createComputeRangeWorker = existingWorker => {
-  if (existingWorker) {
-    const webworkerPromise = new WebworkerPromise(existingWorker)
-    return { webworkerPromise, worker: existingWorker }
-  }
-
-  const newWorker = new ComputeRangeWorker()
-  const newWebworkerPromise = new WebworkerPromise(newWorker)
-  return { webworkerPromise: newWebworkerPromise, worker: newWorker }
-}
-
-const computeSplitRange = async (webWorker, args) => {
-  const { webworkerPromise, worker } = createComputeRangeWorker(webWorker)
-  const range = await webworkerPromise.exec('computeRange', args)
-  return { range, webWorker: worker }
-}
+import webWorkerPromiseWorkerPool from './webWorkerPromiseWorkerPool'
 
 const numberOfWorkers = navigator.hardwareConcurrency
   ? Math.min(navigator.hardwareConcurrency, 6)
   : 4
 
-const computeRangeWorkerPool = new WorkerPool(
+const computeRangeWorkerPool = webWorkerPromiseWorkerPool(
   numberOfWorkers,
-  computeSplitRange
+  ComputeRangeWorker,
+  'computeRange'
 )
 
 async function computeRange(values, component = 0, numberOfComponents = 1) {
-  let numberOfSplits = 1
-  if (haveSharedArrayBuffer && values.buffer instanceof SharedArrayBuffer) {
-    numberOfSplits = numberOfWorkers
-  }
+  const numberOfSplits = numberOfWorkers
 
   const taskArgs = new Array(numberOfSplits)
-  for (let split = 0; split < numberOfSplits; split++) {
-    taskArgs[split] = [
-      {
-        split,
-        numberOfSplits,
-        values,
-        component,
-        numberOfComponents,
-      },
-    ]
+  if (haveSharedArrayBuffer && values.buffer instanceof SharedArrayBuffer) {
+    for (let split = 0; split < numberOfSplits; split++) {
+      taskArgs[split] = [
+        {
+          split,
+          numberOfSplits,
+          values,
+          component,
+          numberOfComponents,
+        },
+      ]
+    }
+  } else {
+    let arrayStride = Math.floor(values.length / numberOfSplits) || 1
+    arrayStride += arrayStride % numberOfComponents
+    let arrayIndex = 0
+    for (let split = 0; split < numberOfSplits; split++) {
+      const arrayStart = arrayIndex
+      const arrayEnd = Math.min(arrayIndex + arrayStride, values.length - 1)
+      const subArray = new values.constructor(
+        values.slice(arrayStart, arrayEnd + 1)
+      )
+      taskArgs[split] = [
+        {
+          split,
+          numberOfSplits,
+          values: subArray,
+          component,
+          numberOfComponents,
+        },
+        [subArray.buffer],
+      ]
+      arrayIndex += arrayStride
+    }
   }
 
   const ranges = await computeRangeWorkerPool.runTasks(taskArgs).promise
   const min = ranges.reduce(
-    (m, r) => Math.min(m, r.range.min),
+    (m, r) => Math.min(m, r.result.min),
     Number.MAX_VALUE
   )
   const max = ranges.reduce(
-    (m, r) => Math.max(m, r.range.max),
+    (m, r) => Math.max(m, r.result.max),
     -Number.MAX_VALUE
   )
   const range = { min, max }

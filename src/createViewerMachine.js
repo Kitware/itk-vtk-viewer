@@ -229,6 +229,12 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
                 forwardTo('eventEmitter'),
               ],
             },
+            UPDATE_IMAGE_HISTOGRAM: {
+              actions: [forwardTo('rendering')],
+            },
+            IMAGE_HISTOGRAM_UPDATED: {
+              actions: [forwardTo('ui')],
+            },
             LABEL_IMAGE_LOOKUP_TABLE_CHANGED: {
               actions: [
                 forwardTo('ui'),

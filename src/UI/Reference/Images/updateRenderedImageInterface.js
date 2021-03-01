@@ -38,19 +38,6 @@ function updateRenderedImageInterface(context, event) {
   if (transferFunctionWidget && gaussians) {
     transferFunctionWidget.setGaussians(gaussians)
   }
-
-  // Todo: remove
-  const renderedImage = actorContext.renderedImage
-  if (!renderedImage) {
-    return
-  }
-
-  const vtkImage = vtkITKHelper.convertItkToVtkImage(renderedImage)
-  const dataArray = vtkImage.getPointData().getScalars()
-  transferFunctionWidget.setDataArray(dataArray.getData(), {
-    numberOfComponents: renderedImage.imageType.components,
-    selectedComponent,
-  })
 }
 
 export default updateRenderedImageInterface

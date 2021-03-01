@@ -31,12 +31,28 @@ self.addEventListener('message', (event) => {
  */
 self.__precacheManifest = [
   {
+    "url": "b4ead4d3696006a600b8.jpg",
+    "revision": "e73ecf6eac4e16c51b94aff6ec40ac3f"
+  },
+  {
+    "url": "f15a50b65e584afdbf29.png",
+    "revision": "d607682ba3901d2d5de998c3355079f8"
+  },
+  {
     "url": "favicon-32x32.png",
     "revision": "7b1da026f1c9dc9d8caadbe4bdb7b2a8"
   },
   {
     "url": "index.html",
     "revision": "a2b34729386d363499348b41885886cd"
+  },
+  {
+    "url": "itkVtkViewer.js",
+    "revision": "11cafc74367b67aa43f25617b1c0204e"
+  },
+  {
+    "url": "itkVtkViewerCDN.js",
+    "revision": "d501676e06e0bd93b2ce83e0299951b3"
   },
   {
     "url": "test.html",

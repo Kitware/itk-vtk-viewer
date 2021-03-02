@@ -23,6 +23,7 @@ const devServer = {
   noInfo: true,
   stats: 'minimal',
   port: 8080,
+  writeToDisk: true,
 }
 
 const moduleConfig = {

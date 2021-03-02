@@ -4,7 +4,7 @@ import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
 import updateVisualizedComponents from './updateVisualizedComponents'
 import numericalSort from '../numericalSort'
 import WebworkerPromise from 'webworker-promise'
-import UpdateFusedImage from './UpdateFusedImage.worker'
+import UpdateFusedImageWorker from './UpdateFusedImage.worker'
 import computeRange from '../computeRange'
 
 const createUpdateFusedImageWorker = existingWorker => {
@@ -95,10 +95,10 @@ async function updateRenderedImage(context) {
     const fusedImageComponents = actorContext.visualizedComponents.length
     const length = imageTuples * fusedImageComponents
 
-    const { webworkerPromise, worker } = createUpdateFusedImageWorker(
-      updateFusedImageWorker
-    )
-    updateFusedImageWorker = worker
+    //const { webworkerPromise, worker } = createUpdateFusedImageWorker(
+    //updateFusedImageWorker
+    //)
+    //updateFusedImageWorker = worker
     // todo
     //console.log('imageData', imageData)
     //const chunk = await webworkerPromise.exec('chunk', args)
@@ -163,7 +163,6 @@ async function updateRenderedImage(context) {
     fusedImage.modified()
 
     actorContext.renderedImage = scaleImage
-    context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
   } else {
     const scaleLabelImage = await labelImage.scaleLargestImage(
       actorContext.renderedScale
@@ -178,8 +177,6 @@ async function updateRenderedImage(context) {
     // lut.setAnnotations(uniqueLabels, uniqueLabels);
     uniqueLabels.sort(numericalSort)
     actorContext.uniqueLabels = uniqueLabels
-
-    context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
   }
 
   const dataArray = actorContext.fusedImage.getPointData().getScalars()
@@ -194,6 +191,8 @@ async function updateRenderedImage(context) {
     dataArray.setRange(range, comp)
     actorContext.fusedImageRanges.push(range)
   }
+
+  context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
 }
 
 export default updateRenderedImage

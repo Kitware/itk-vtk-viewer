@@ -140,6 +140,9 @@ function createUIMachine(options, context) {
             IMAGE_BLEND_MODE_CHANGED: {
               actions: forwardTo('images'),
             },
+            IMAGE_HISTOGRAM_UPDATED: {
+              actions: forwardTo('images'),
+            },
             LABEL_IMAGE_LOOKUP_TABLE_CHANGED: {
               actions: forwardTo('images'),
             },

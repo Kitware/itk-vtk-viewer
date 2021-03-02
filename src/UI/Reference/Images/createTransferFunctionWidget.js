@@ -1,11 +1,11 @@
 import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator'
-import vtkPiecewiseGaussianWidget from 'vtk.js/Sources/Interaction/Widgets/PiecewiseGaussianWidget'
+import vtkItkPiecewiseGaussianWidget from '../vtk/ItkPiecewiseGaussianWidget'
 import macro from 'vtk.js/Sources/macro'
 
 import style from '../ItkVtkViewer.module.css'
 
 function createTransferFunctionWidget(context, imagesUIGroup) {
-  const transferFunctionWidget = vtkPiecewiseGaussianWidget.newInstance({
+  const transferFunctionWidget = vtkItkPiecewiseGaussianWidget.newInstance({
     numberOfBins: 256,
     size: [400, 150],
   })

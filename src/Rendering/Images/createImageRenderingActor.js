@@ -87,6 +87,10 @@ const eventResponses = {
     target: 'updateRenderedImage',
     actions: assignUpdateRenderedNameToSelectedName,
   },
+  UPDATE_RENDERED_IMAGE: {
+    target: 'updateRenderedImage',
+    actions: assignUpdateRenderedName,
+  },
   RENDERED_IMAGE_ASSIGNED: {
     actions: 'applyRenderedImage',
   },
@@ -125,6 +129,9 @@ const eventResponses = {
   },
   IMAGE_BLEND_MODE_CHANGED: {
     actions: 'applyBlendMode',
+  },
+  UPDATE_IMAGE_HISTOGRAM: {
+    target: 'updateHistogram',
   },
   LABEL_IMAGE_LOOKUP_TABLE_CHANGED: {
     actions: 'applyLookupTable',
@@ -170,23 +177,15 @@ const createImageRenderingActor = (options, context, event) => {
           },
           on: {
             ...eventResponses,
-            UPDATE_RENDERED_IMAGE: {
-              target: 'updateRenderedImage',
-              actions: assignUpdateRenderedName,
-            },
           },
         },
         adjustScaleForFramerate: {
           entry: [(c, _) => c.service.send('UPDATE_FPS')],
           on: {
             ...eventResponses,
-            UPDATE_RENDERED_IMAGE: {
-              target: 'updateRenderedImage',
-              actions: [assignUpdateRenderedName],
-            },
             FPS_UPDATED: [
               {
-                target: 'active',
+                target: 'updateHistogram',
                 cond: highestScaleOrScaleJustRight,
               },
               {
@@ -222,6 +221,18 @@ const createImageRenderingActor = (options, context, event) => {
                 },
               },
             },
+          },
+        },
+        updateHistogram: {
+          invoke: {
+            id: 'updateHistogram',
+            src: 'updateHistogram',
+            onDone: {
+              target: 'active',
+            },
+          },
+          on: {
+            ...eventResponses,
           },
         },
         active: {

@@ -1,6 +1,5 @@
 import applyColorRangeBounds from './applyColorRangeBounds'
 import applyColorRange from './applyColorRange'
-import updateRenderedImageInterface from './updateRenderedImageInterface'
 import applyColorMap from './applyColorMap'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
@@ -18,13 +17,16 @@ function selectImageComponent(context, event) {
   }
 
   if (actorContext.colorRanges.has(component)) {
+    const range = actorContext.colorRanges.get(component)
     applyColorRange(context, {
       data: {
         name,
         component,
-        range: actorContext.colorRanges.get(component),
+        range,
       },
     })
+    transferFunctionWidget.setDataRange(range)
+    transferFunctionWidget.render()
   }
 
   if (actorContext.colorRangeBounds.has(component)) {
@@ -50,17 +52,9 @@ function selectImageComponent(context, event) {
     )
   }
 
-  // Todo: remove
-  const renderedImage = actorContext.renderedImage
-  if (!renderedImage) {
-    return
-  }
-
-  const vtkImage = vtkITKHelper.convertItkToVtkImage(renderedImage)
-  const dataArray = vtkImage.getPointData().getScalars()
-  transferFunctionWidget.setDataArray(dataArray.getData(), {
-    numberOfComponents: renderedImage.imageType.components,
-    component,
+  context.service.send({
+    type: 'UPDATE_IMAGE_HISTOGRAM',
+    data: { name, component },
   })
 }
 

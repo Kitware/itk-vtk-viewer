@@ -40,7 +40,7 @@ function applyLookupTable(context, event) {
   //if (categoricalColor.startsWith('Custom')) {
   //// TODO
   ////lookupTableProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)
-  ////transferFunctionWidget.applyOpacity(piecewiseFunction);
+  ////transferFunctionWidget.applyOpacity(piecewiseFunction, dataRange);
   ////const colorDataRange = transferFunctionWidget.getOpacityRange(dataRange);
   ////if (!!colorDataRange) {
   ////colorTransferFunction.setMappingRange(...colorDataRange);

@@ -26,12 +26,6 @@ function applyRenderedImage(context, event) {
   const editorLabelImage = actorContext.editorLabelImage
   const numberOfComponents = image ? image.imageType.components : 0
 
-  if (actorContext.fusedImageRanges) {
-    const fusedImageData = actorContext.fusedImage.getPointData().getScalars()
-    for (let comp = 0; comp < fusedImageData.getNumberOfComponents(); comp++) {
-      fusedImageData.setRange(actorContext.fusedImageRanges[comp], comp)
-    }
-  }
   context.images.source.setInputData(actorContext.fusedImage)
 
   // VTK.js currently only supports a single image

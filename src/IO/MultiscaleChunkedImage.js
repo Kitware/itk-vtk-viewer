@@ -26,6 +26,7 @@ const spatialDims = ['x', 'y', 'z']
     numberOfCXYZTChunks: [1, 10, 10, 5, 1], // array shape in chunks
     sizeCXYZTChunks: [1, 64, 64, 64, 1], // chunk shape in elements
     sizeCXYZTElements: [1, 1, 1, 1, 1], // array shape in elements
+    ranges: [[0, 255],], // or null if unknown. Range of values for each component
     name: 'dataset_name'
   },
   {

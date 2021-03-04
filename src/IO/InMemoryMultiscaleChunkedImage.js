@@ -10,6 +10,7 @@ import Image from 'itk/Image'
 import IOTypes from 'itk/IOTypes'
 import imageSharedBufferOrCopy from 'itk/imageSharedBufferOrCopy'
 import stackImages from 'itk/stackImages'
+import computeRange from '../Rendering/VTKJS/computeRange'
 
 const createChunkerWorker = existingWorker => {
   if (existingWorker) {
@@ -68,7 +69,7 @@ class Coords {
   }
 }
 
-function chunkImage(image, chunkSize) {
+async function chunkImage(image, chunkSize) {
   const imageType = image.imageType
   const componentType = imageType.componentType
 
@@ -196,6 +197,12 @@ function chunkImage(image, chunkSize) {
     //}
   }
 
+  const ranges = []
+  for (let comp = 0; comp < sizeCXYZTElements[0]; comp++) {
+    const range = await computeRange(image.data, comp, sizeCXYZTElements[0])
+    ranges.push([range.min, range.max])
+  }
+
   const coords = new Coords(image, dims)
   const scaleInfo = {
     dims,
@@ -203,6 +210,7 @@ function chunkImage(image, chunkSize) {
     numberOfCXYZTChunks,
     sizeCXYZTChunks,
     sizeCXYZTElements,
+    ranges,
   }
 
   return { scaleInfo, chunksStride, chunks }
@@ -214,7 +222,7 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
     chunkSize = [64, 64, 64],
     isLabelImage = false
   ) {
-    const scale0 = chunkImage(image, chunkSize)
+    const scale0 = await chunkImage(image, chunkSize)
     const scaleInfo = [scale0.scaleInfo]
     const pyramid = [
       {
@@ -271,7 +279,7 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
       const imageSplits = validResults.map(({ outputs }) => outputs[0].data)
       currentImage = stackImages(imageSplits)
 
-      const scaleN = chunkImage(currentImage, chunkSize)
+      const scaleN = await chunkImage(currentImage, chunkSize)
       scaleInfo.push(scaleN.scaleInfo)
       pyramid.push({
         chunksStride: scaleN.chunksStride,

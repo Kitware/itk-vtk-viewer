@@ -468,6 +468,15 @@ function ItkVtkViewProxy(publicAPI, model) {
     return [model.xSliceActor, model.ySliceActor, model.zSliceActor]
   }
 
+  // Must be called before the initial render.
+  publicAPI.addWidgetToRegister = widget => {
+    model.widgetsToRegister.push(widget)
+  }
+
+  publicAPI.getWidgetProp = widget => {
+    return model.widgetProps.get(widget)
+  }
+
   model.orientationWidget.setViewportSize(0.1)
   const superRenderLater = publicAPI.renderLater
   publicAPI.renderLater = () => {
@@ -476,12 +485,13 @@ function ItkVtkViewProxy(publicAPI, model) {
       // Needs to come after initial render
       model.widgetManager.setRenderer(model.renderer)
       model.widgetManager.disablePicking()
-      model.axesOriginWidget = model.widgetManager.addWidget(
-        model.axesOriginLabel
-      )
-      model.axesXWidget = model.widgetManager.addWidget(model.axesXLabels)
-      model.axesYWidget = model.widgetManager.addWidget(model.axesYLabels)
-      model.axesZWidget = model.widgetManager.addWidget(model.axesZLabels)
+      model.widgetsToRegister.forEach(widget => {
+        model.widgetProps.set(widget, model.widgetManager.addWidget(widget))
+      })
+      model.axesOriginWidget = model.widgetProps.get(model.axesOriginLabel)
+      model.axesXWidget = model.widgetProps.get(model.axesXLabels)
+      model.axesYWidget = model.widgetProps.get(model.axesYLabels)
+      model.axesZWidget = model.widgetProps.get(model.axesZLabels)
       const color =
         model.axesGridActor.getProperty().getColor()[0] === 0.0
           ? 'black'
@@ -610,6 +620,11 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.interactor.onEndMouseWheel(updateScaleBar)
   model.interactor.onEndPinch(updateScaleBar)
 
+  model.widgetManagerInitialized = false
+  model.widgetManager = vtkWidgetManager.newInstance()
+  model.widgetsToRegister = []
+  model.widgetProps = new Map()
+
   model.axesPolyData = vtkPolyData.newInstance()
   model.axesMapper = vtkMapper.newInstance()
   model.axesMapper.setInputData(model.axesPolyData)
@@ -620,10 +635,8 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.renderer.addActor(model.axesGridActor)
   model.numberOfAxisTicks = 7
   model.axesBoundingBox = vtkBoundingBox.newInstance()
-  model.widgetManagerInitialized = false
-  model.widgetManager = vtkWidgetManager.newInstance()
-  model.widgetsToRegister = []
   model.axesOriginLabel = vtkAxesLabelsWidget.newInstance()
+  model.widgetsToRegister.push(model.axesOriginLabel)
   model.axesXLabels = vtkAxesLabelsWidget.newInstance()
   model.widgetsToRegister.push(model.axesXLabels)
   model.axesYLabels = vtkAxesLabelsWidget.newInstance()

@@ -227,8 +227,8 @@ function createMainUIMachine(options, context) {
                 },
               },
             },
-            axes: {
-              initial: context.axesEnabled ? 'enabled' : 'disabled',
+            croppingPlanes: {
+              initial: context.croppingPlanesEnabled ? 'enabled' : 'disabled',
               states: {
                 enabled: {
                   entry: 'toggleCroppingPlanes',

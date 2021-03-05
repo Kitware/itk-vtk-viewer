@@ -3,7 +3,7 @@ const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
 import webWorkerPromiseWorkerPool from './webWorkerPromiseWorkerPool'
 
 const numberOfWorkers = navigator.hardwareConcurrency
-  ? Math.min(navigator.hardwareConcurrency, 6)
+  ? Math.min(navigator.hardwareConcurrency, 8)
   : 4
 
 const computeRangeWorkerPool = webWorkerPromiseWorkerPool(

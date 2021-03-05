@@ -352,13 +352,27 @@ const createViewer = async (
     }
   )
   let imageName = null
-  if (!!image) {
+  if (image) {
     const multiscaleImage = await toMultiscaleChunkedImage(image)
     imageName = multiscaleImage.name
     service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
+    if (multiscaleImage.scaleInfo[0].ranges) {
+      const components = multiscaleImage.imageType.components
+      for (let comp = 0; comp < components; comp++) {
+        const range = multiscaleImage.scaleInfo[0].ranges[comp]
+        service.send({
+          type: 'IMAGE_COLOR_RANGE_CHANGED',
+          data: { name: imageName, component: comp, range },
+        })
+        service.send({
+          type: 'IMAGE_COLOR_RANGE_BOUNDS_CHANGED',
+          data: { name: imageName, component: comp, range },
+        })
+      }
+    }
   }
 
-  if (!!labelImage) {
+  if (labelImage) {
     const multiscaleLabelImage = await toMultiscaleChunkedImage(
       labelImage,
       true
@@ -827,6 +841,20 @@ const createViewer = async (
       service.send({ type: 'IMAGE_ASSIGNED', data: name })
     } else {
       service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
+      if (multiscaleImage.scaleInfo[0].ranges) {
+        const components = multiscaleImage.imageType.components
+        for (let comp = 0; comp < components; comp++) {
+          const range = multiscaleImage.scaleInfo[0].ranges[comp]
+          service.send({
+            type: 'IMAGE_COLOR_RANGE_CHANGED',
+            data: { name, component: comp, range },
+          })
+          service.send({
+            type: 'IMAGE_COLOR_RANGE_BOUNDS_CHANGED',
+            data: { name, component: comp, range },
+          })
+        }
+      }
     }
   }
 

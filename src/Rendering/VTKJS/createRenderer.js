@@ -1,5 +1,6 @@
 import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager'
 import proxyConfiguration from './proxyManagerConfiguration'
+import createMainRenderer from './Main/createMainRenderer'
 
 function createRenderer(context) {
   //const proxyManager = vtkProxyManager.newInstance({ proxyConfiguration })
@@ -11,6 +12,8 @@ function createRenderer(context) {
 
   context.itkVtkView.setContainer(context.container)
   context.itkVtkView.setXyLowerLeft(context.xyLowerLeft)
+
+  createMainRenderer(context)
 }
 
 export default createRenderer

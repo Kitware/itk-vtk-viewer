@@ -106,6 +106,12 @@ const createViewer = async (
           case 'TOGGLE_IMAGE_INTERPOLATION':
             eventEmitter.emit('toggleImageInterpolation', event.data)
             break
+          case 'TOGGLE_CROPPING_PLANES':
+            eventEmitter.emit('toggleCroppingPlanes', event.data)
+            break
+          case 'RESET_CROPPING_PLANES':
+            eventEmitter.emit('resetCroppingPlanes', event.data)
+            break
           case 'VIEW_MODE_CHANGED':
             eventEmitter.emit('viewModeChanged', event.data)
             break
@@ -597,8 +603,10 @@ const createViewer = async (
     'toggleAnnotations',
     'toggleAxes',
     'toggleRotate',
+    'toggleCroppingPlanes',
+    'croppingPlanesChanged',
+    'resetCroppingPlanes',
     'viewModeChanged',
-    'resetCrop',
     'xSliceChanged',
     'ySliceChanged',
     'zSliceChanged',
@@ -619,8 +627,6 @@ const createViewer = async (
     'labelImageBlendChanged',
     'labelImageLabelNamesChanged',
     'labelImageWeightsChanged',
-    'toggleCroppingPlanes',
-    'croppingPlanesChanged',
     'pointSetColorChanged',
     'pointSetOpacityChanged',
     'pointSetSizeChanged',
@@ -900,17 +906,18 @@ const createViewer = async (
     return actorContext.componentVisibilities[component]
   }
 
-  const toggleCroppingPlanesHandlers = []
-  autorun(() => {
-    const enabled = store.mainUI.croppingPlanesEnabled
-    eventEmitter.emit('toggleCroppingPlanes', enabled)
-  })
-
   publicAPI.setCroppingPlanesEnabled = enabled => {
-    const cropping = store.mainUI.croppingPlanesEnabled
-    if ((enabled && !cropping) || (!enabled && cropping)) {
-      store.mainUI.croppingPlanesEnabled = enabled
+    if (enabled !== context.main.croppingPlanesEnabled) {
+      service.send('TOGGLE_CROPPING_PLANES')
     }
+  }
+
+  publicAPI.getCroppingPlanesEnabled = () => {
+    return context.main.croppingPlanesEnabled
+  }
+
+  publicAPI.resetCroppingPlanes = () => {
+    service.send('RESET_CROPPING_PLANES')
   }
 
   publicAPI.setImageColorRange = (range, component, name) => {

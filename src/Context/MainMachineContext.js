@@ -1,6 +1,6 @@
 class MainMachineContext {
   constructor(config) {
-    if (!!config) {
+    if (config) {
       this.backgroundColor = config.backgroundColor
       this.units = config.units
 
@@ -45,6 +45,9 @@ class MainMachineContext {
 
   // Spatial length units displayed in the scale bar
   units = ''
+
+  // Cropping planes widget enabled
+  croppingPlanesEnabled = false
 
   // In the single view layout, the an X plane, Y plane, Z plane, or volume
   // rendering.

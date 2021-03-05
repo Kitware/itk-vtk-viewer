@@ -36,12 +36,12 @@ function createMainInterface(context) {
   mainUIRow2.setAttribute('class', style.mainUIRow)
 
   if (context.use2D) {
-    createCroppingButtons(context, mainUIRow1)
     createViewModeButtons(context, mainUIRow2)
+    createCroppingButtons(context, mainUIRow1)
     createResetCameraButton(context, mainUIRow1)
   } else {
-    createCroppingButtons(context, mainUIRow2)
     createViewModeButtons(context, mainUIRow2)
+    createCroppingButtons(context, mainUIRow2)
     createResetCameraButton(context, mainUIRow2)
     mainUIGroup.appendChild(mainUIRow2)
   }

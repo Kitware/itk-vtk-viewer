@@ -32,6 +32,14 @@ const assignAxesEnabled = assign({
   },
 })
 
+const assignCroppingPlanesEnabled = assign({
+  main: (context, event) => {
+    const main = context.main
+    main.croppingPlanesEnabled = !main.croppingPlanesEnabled
+    return main
+  },
+})
+
 const assignViewMode = assign({
   main: (context, event) => {
     const main = context.main
@@ -214,6 +222,29 @@ function createMainUIMachine(options, context) {
                     TOGGLE_AXES: {
                       target: 'enabled',
                       actions: assignAxesEnabled,
+                    },
+                  },
+                },
+              },
+            },
+            axes: {
+              initial: context.axesEnabled ? 'enabled' : 'disabled',
+              states: {
+                enabled: {
+                  entry: 'toggleCroppingPlanes',
+                  on: {
+                    TOGGLE_CROPPING_PLANES: {
+                      target: 'disabled',
+                      actions: assignCroppingPlanesEnabled,
+                    },
+                  },
+                },
+                disabled: {
+                  entry: 'toggleCroppingPlanes',
+                  on: {
+                    TOGGLE_CROPPING_PLANES: {
+                      target: 'enabled',
+                      actions: assignCroppingPlanesEnabled,
                     },
                   },
                 },

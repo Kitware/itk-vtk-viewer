@@ -47,7 +47,7 @@ class MainMachineContext {
   units = ''
 
   // Cropping planes widget enabled
-  croppingPlanesEnabled = false
+  croppingPlanesEnabled = true
 
   // In the single view layout, the an X plane, Y plane, Z plane, or volume
   // rendering.

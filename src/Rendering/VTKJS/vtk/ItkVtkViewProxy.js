@@ -622,10 +622,14 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.axesBoundingBox = vtkBoundingBox.newInstance()
   model.widgetManagerInitialized = false
   model.widgetManager = vtkWidgetManager.newInstance()
+  model.widgetsToRegister = []
   model.axesOriginLabel = vtkAxesLabelsWidget.newInstance()
   model.axesXLabels = vtkAxesLabelsWidget.newInstance()
+  model.widgetsToRegister.push(model.axesXLabels)
   model.axesYLabels = vtkAxesLabelsWidget.newInstance()
+  model.widgetsToRegister.push(model.axesYLabels)
   model.axesZLabels = vtkAxesLabelsWidget.newInstance()
+  model.widgetsToRegister.push(model.axesZLabels)
   model.axesCircleRadius = 4
   model.axesTextOffset = 14
 
@@ -1023,6 +1027,7 @@ export function extend(publicAPI, model, initialValues = {}) {
     'lengthPixelRatio',
     'axesActor',
     'enableAxes',
+    'widgetManager',
   ])
 
   macro.setGet(publicAPI, model, [

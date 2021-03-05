@@ -1,8 +1,14 @@
 import macro from 'vtk.js/Sources/macro'
 import vtkImageCroppingWidget from 'vtk.js/Sources/Widgets/Widgets3D/ImageCroppingWidget'
 
+import toggleCroppingPlanes from './toggleCroppingPlanes'
+
 function createMainRenderer(context) {
-  context.main.croppingWidget = vtkImageCroppingWidget.newInstance()
+  const croppingWidget = vtkImageCroppingWidget.newInstance()
+  context.main.croppingWidget = croppingWidget
+  //const widgetManager = context.itkVtkView.getWidgetManager()
+  //widgetManager.addWidget(croppingWidget)
+  console.log(croppingWidget)
   //context.images.croppingWidget.setHandleSize(16)
   //context.images.croppingWidget.setFaceHandlesEnabled(false)
   //context.images.croppingWidget.setEdgeHandlesEnabled(false)
@@ -39,6 +45,8 @@ function createMainRenderer(context) {
   //context.images.croppingWidget.onCroppingPlanesChanged(
   //debouncedSetCroppingPlanes
   //)
+  //
+  toggleCroppingPlanes(context)
 }
 
 export default createMainRenderer

@@ -73,6 +73,7 @@ test('Test ConsolidatedMetadataStore', async t => {
   const storeURL = new URL(testZarr, document.location.origin)
   const metadata = await ConsolidatedMetadataStore.retrieveMetadata(storeURL)
   const store = new ConsolidatedMetadataStore(storeURL, metadata)
+  const decoder = new TextDecoder()
 
   const topZattrsBaseline = {
     multiscales: [
@@ -97,19 +98,31 @@ test('Test ConsolidatedMetadataStore', async t => {
     ],
   }
   const topZattrs = await store.getItem('.zattrs')
-  t.deepEqual(topZattrs, topZattrsBaseline, 'getItem top .zattrs')
+  t.deepEqual(
+    JSON.parse(decoder.decode(topZattrs)),
+    topZattrsBaseline,
+    'getItem top .zattrs'
+  )
 
   const nestedZattrsBaseline = {
     _ARRAY_DIMENSIONS: ['c'],
   }
   const nestedZattrs = await store.getItem('0/c/.zattrs')
-  t.deepEqual(nestedZattrs, nestedZattrsBaseline, 'getItem nested .zattrs')
+  t.deepEqual(
+    JSON.parse(decoder.decode(nestedZattrs)),
+    nestedZattrsBaseline,
+    'getItem nested .zattrs'
+  )
 
   const zgroupBaseline = {
     zarr_format: 2,
   }
   const zgroup = await store.getItem('1/.zgroup')
-  t.deepEqual(zgroup, zgroupBaseline, 'getItem .zgroup')
+  t.deepEqual(
+    JSON.parse(decoder.decode(zgroup)),
+    zgroupBaseline,
+    'getItem .zgroup'
+  )
 
   const zarrayBaseline = {
     chunks: [3],
@@ -128,7 +141,11 @@ test('Test ConsolidatedMetadataStore', async t => {
     zarr_format: 2,
   }
   const zarray = await store.getItem('0/c/.zarray')
-  t.deepEqual(zarray, zarrayBaseline, 'getItem .zarray')
+  t.deepEqual(
+    JSON.parse(decoder.decode(zarray)),
+    zarrayBaseline,
+    'getItem .zarray'
+  )
 
   const chunk1DArrayBuffer = await store.getItem('0/c/0')
   const chunk1D = new Uint8Array(chunk1DArrayBuffer)

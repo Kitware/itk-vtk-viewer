@@ -16,6 +16,7 @@ class ConsolidatedMetadataStore {
   constructor(url, metadata) {
     this.url = url
     this.zmetadata = metadata
+    this.encoder = new TextEncoder()
   }
 
   async getItem(item) {
@@ -24,11 +25,10 @@ class ConsolidatedMetadataStore {
       item.includes('.zgroup') ||
       item.includes('.zarray')
     ) {
-      return this.zmetadata[item]
+      const value = JSON.stringify(this.zmetadata[item])
+      return this.encoder.encode(value).buffer
     } else {
       // Assume chunks
-      const groupIndex = item.lastIndexOf('/')
-      const zarray = this.zmetadata[`${item.substring(0, groupIndex)}/.zarray`]
       const chunkUrl = `${this.url.href}/${item}`
       const response = await axios.get(chunkUrl, {
         responseType: 'arraybuffer',
@@ -47,8 +47,6 @@ class ConsolidatedMetadataStore {
       return this.zmetadata[item] !== undefined
     } else {
       // Assume chunks
-      const groupIndex = item.lastIndexOf('/')
-      const zarray = this.zmetadata[`${item.substring(0, groupIndex)}/.zarray`]
       const chunkUrl = `${this.url.href}/${item}`
       try {
         const response = await axios.head(chunkUrl)

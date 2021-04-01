@@ -37,7 +37,7 @@ function ItkVtkViewProxy(publicAPI, model) {
   // Private --------------------------------------------------------------------
   //
   function updateAxesVisibility() {
-    if (!!!model.axesOriginWidget) {
+    if (!model.axesOriginWidget) {
       return
     }
     if (!model.enableAxes) {
@@ -245,12 +245,15 @@ function ItkVtkViewProxy(publicAPI, model) {
   }
 
   function updateAxes() {
-    model.axesBoundingBox.reset()
+    vtkBoundingBox.reset(model.axesBoundingBox)
     model.representations.forEach(representation => {
-      model.axesBoundingBox.addBounds(...representation.getBounds())
+      vtkBoundingBox.addBounds(
+        model.axesBoundingBox,
+        ...representation.getBounds()
+      )
     })
-    const minPoint = model.axesBoundingBox.getMinPoint()
-    const maxPoint = model.axesBoundingBox.getMaxPoint()
+    const minPoint = vtkBoundingBox.getMinPoint(model.axesBoundingBox)
+    const maxPoint = vtkBoundingBox.getMaxPoint(model.axesBoundingBox)
     const axisTicks = model.numberOfAxisTicks
     const xDelta = (maxPoint[0] - minPoint[0]) / (axisTicks - 1)
     const yDelta = (maxPoint[1] - minPoint[1]) / (axisTicks - 1)
@@ -634,7 +637,7 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.axesGridActor.setVisibility(false)
   model.renderer.addActor(model.axesGridActor)
   model.numberOfAxisTicks = 7
-  model.axesBoundingBox = vtkBoundingBox.newInstance()
+  model.axesBoundingBox = [...vtkBoundingBox.INIT_BOUNDS]
   model.axesOriginLabel = vtkAxesLabelsWidget.newInstance()
   model.widgetsToRegister.push(model.axesOriginLabel)
   model.axesXLabels = vtkAxesLabelsWidget.newInstance()

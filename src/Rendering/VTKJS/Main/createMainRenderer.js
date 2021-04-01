@@ -15,7 +15,7 @@ function createMainRenderer(context) {
   croppingWidget.setCornerHandlesEnabled(true)
 
   context.main.croppingVirtualImage = vtkImageData.newInstance()
-  context.main.croppingBoundingBox = vtkBoundingBox.newInstance()
+  context.main.croppingBoundingBox = [...vtkBoundingBox.INIT_BOUNDS]
 
   //   -  //context.images.representationProxy.setCroppingPlanes(planes)
   //

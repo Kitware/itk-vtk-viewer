@@ -85,6 +85,12 @@ const createRenderingMachine = (options, context) => {
             TOGGLE_AXES: {
               actions: forwardTo('main'),
             },
+            TOGGLE_CROPPING_PLANES: {
+              actions: forwardTo('main'),
+            },
+            RESET_CROPPING_PLANES: {
+              actions: forwardTo('main'),
+            },
             VIEW_MODE_CHANGED: {
               actions: forwardTo('main'),
             },

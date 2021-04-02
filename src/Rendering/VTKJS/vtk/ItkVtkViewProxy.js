@@ -37,7 +37,7 @@ function ItkVtkViewProxy(publicAPI, model) {
   // Private --------------------------------------------------------------------
   //
   function updateAxesVisibility() {
-    if (!!!model.axesOriginWidget) {
+    if (!model.axesOriginWidget) {
       return
     }
     if (!model.enableAxes) {
@@ -245,12 +245,15 @@ function ItkVtkViewProxy(publicAPI, model) {
   }
 
   function updateAxes() {
-    model.axesBoundingBox.reset()
+    vtkBoundingBox.reset(model.axesBoundingBox)
     model.representations.forEach(representation => {
-      model.axesBoundingBox.addBounds(...representation.getBounds())
+      vtkBoundingBox.addBounds(
+        model.axesBoundingBox,
+        ...representation.getBounds()
+      )
     })
-    const minPoint = model.axesBoundingBox.getMinPoint()
-    const maxPoint = model.axesBoundingBox.getMaxPoint()
+    const minPoint = vtkBoundingBox.getMinPoint(model.axesBoundingBox)
+    const maxPoint = vtkBoundingBox.getMaxPoint(model.axesBoundingBox)
     const axisTicks = model.numberOfAxisTicks
     const xDelta = (maxPoint[0] - minPoint[0]) / (axisTicks - 1)
     const yDelta = (maxPoint[1] - minPoint[1]) / (axisTicks - 1)
@@ -468,6 +471,15 @@ function ItkVtkViewProxy(publicAPI, model) {
     return [model.xSliceActor, model.ySliceActor, model.zSliceActor]
   }
 
+  // Must be called before the initial render.
+  publicAPI.addWidgetToRegister = widget => {
+    model.widgetsToRegister.push(widget)
+  }
+
+  publicAPI.getWidgetProp = widget => {
+    return model.widgetProps.get(widget)
+  }
+
   model.orientationWidget.setViewportSize(0.1)
   const superRenderLater = publicAPI.renderLater
   publicAPI.renderLater = () => {
@@ -476,12 +488,13 @@ function ItkVtkViewProxy(publicAPI, model) {
       // Needs to come after initial render
       model.widgetManager.setRenderer(model.renderer)
       model.widgetManager.disablePicking()
-      model.axesOriginWidget = model.widgetManager.addWidget(
-        model.axesOriginLabel
-      )
-      model.axesXWidget = model.widgetManager.addWidget(model.axesXLabels)
-      model.axesYWidget = model.widgetManager.addWidget(model.axesYLabels)
-      model.axesZWidget = model.widgetManager.addWidget(model.axesZLabels)
+      model.widgetsToRegister.forEach(widget => {
+        model.widgetProps.set(widget, model.widgetManager.addWidget(widget))
+      })
+      model.axesOriginWidget = model.widgetProps.get(model.axesOriginLabel)
+      model.axesXWidget = model.widgetProps.get(model.axesXLabels)
+      model.axesYWidget = model.widgetProps.get(model.axesYLabels)
+      model.axesZWidget = model.widgetProps.get(model.axesZLabels)
       const color =
         model.axesGridActor.getProperty().getColor()[0] === 0.0
           ? 'black'
@@ -610,6 +623,11 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.interactor.onEndMouseWheel(updateScaleBar)
   model.interactor.onEndPinch(updateScaleBar)
 
+  model.widgetManagerInitialized = false
+  model.widgetManager = vtkWidgetManager.newInstance()
+  model.widgetsToRegister = []
+  model.widgetProps = new Map()
+
   model.axesPolyData = vtkPolyData.newInstance()
   model.axesMapper = vtkMapper.newInstance()
   model.axesMapper.setInputData(model.axesPolyData)
@@ -619,13 +637,15 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.axesGridActor.setVisibility(false)
   model.renderer.addActor(model.axesGridActor)
   model.numberOfAxisTicks = 7
-  model.axesBoundingBox = vtkBoundingBox.newInstance()
-  model.widgetManagerInitialized = false
-  model.widgetManager = vtkWidgetManager.newInstance()
+  model.axesBoundingBox = [...vtkBoundingBox.INIT_BOUNDS]
   model.axesOriginLabel = vtkAxesLabelsWidget.newInstance()
+  model.widgetsToRegister.push(model.axesOriginLabel)
   model.axesXLabels = vtkAxesLabelsWidget.newInstance()
+  model.widgetsToRegister.push(model.axesXLabels)
   model.axesYLabels = vtkAxesLabelsWidget.newInstance()
+  model.widgetsToRegister.push(model.axesYLabels)
   model.axesZLabels = vtkAxesLabelsWidget.newInstance()
+  model.widgetsToRegister.push(model.axesZLabels)
   model.axesCircleRadius = 4
   model.axesTextOffset = 14
 
@@ -1023,6 +1043,7 @@ export function extend(publicAPI, model, initialValues = {}) {
     'lengthPixelRatio',
     'axesActor',
     'enableAxes',
+    'widgetManager',
   ])
 
   macro.setGet(publicAPI, model, [

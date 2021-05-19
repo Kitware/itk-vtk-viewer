@@ -49,6 +49,17 @@ class MainMachineContext {
   // Cropping planes widget enabled
   croppingPlanesEnabled = true
 
+  // Cropping planes. These typically define square or a cube of a region of
+  // interest in space. The visualization is cropped outside of these planes.
+  // Each is characterized with: { center, normal }.
+  //
+  // center: x,y,z point in the center af the plane
+  // normal: 3-component vector definig the normal to the plane
+  //
+  // An array of six planes that are ordered, when the planes are axis aligned:
+  // -x, +x, -y, +y, -z, +z
+  croppingPlanes = null
+
   // In the single view layout, the an X plane, Y plane, Z plane, or volume
   // rendering.
   viewMode = 'Volume'

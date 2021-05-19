@@ -1,6 +1,7 @@
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction'
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
+import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 
 import applyGradientOpacity from './applyGradientOpacity'
 import applyLabelImageBlend from './applyLabelImageBlend'
@@ -12,6 +13,29 @@ const ANNOTATION_CUSTOM_PREFIX =
   '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Scale:</td>'
 const ANNOTATION_CUSTOM_POSTFIX =
   '<td></td><td></td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
+
+function updateCroppingWidgetParameters(context, fusedImage) {
+  const spacing = fusedImage.getSpacing().slice()
+  const croppingVirtualImage = context.main.croppingVirtualImage
+  croppingVirtualImage.setSpacing(spacing)
+  croppingVirtualImage.setDirection(fusedImage.getDirection().slice())
+
+  vtkBoundingBox.addBounds(
+    context.main.croppingBoundingBox,
+    ...fusedImage.getBounds()
+  )
+  const bbox = context.main.croppingBoundingBox
+  croppingVirtualImage.setOrigin([bbox[0], bbox[2], bbox[4]])
+  croppingVirtualImage.setDimensions([
+    (bbox[1] - bbox[0]) / spacing[0] + 1,
+    (bbox[3] - bbox[2]) / spacing[1] + 1,
+    (bbox[5] - bbox[4]) / spacing[2] + 1,
+  ])
+
+  context.main.croppingWidget.copyImageDataDescription(
+    context.main.croppingVirtualImage
+  )
+}
 
 function applyRenderedImage(context, event) {
   const name = event.data
@@ -27,6 +51,8 @@ function applyRenderedImage(context, event) {
   const numberOfComponents = image ? image.imageType.components : 0
 
   context.images.source.setInputData(actorContext.fusedImage)
+
+  updateCroppingWidgetParameters(context, actorContext.fusedImage)
 
   // VTK.js currently only supports a single image
   if (!!!context.images.representationProxy) {

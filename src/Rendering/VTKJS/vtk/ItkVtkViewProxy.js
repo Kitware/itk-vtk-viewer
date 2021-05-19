@@ -220,9 +220,9 @@ function ItkVtkViewProxy(publicAPI, model) {
           iIndex: ijk[0],
           jIndex: ijk[1],
           kIndex: ijk[2],
-          xPosition: String(worldPosition[0]).substring(0, 4),
-          yPosition: String(worldPosition[1]).substring(0, 4),
-          zPosition: String(worldPosition[2]).substring(0, 4),
+          xPosition: Number.parseFloat(worldPosition[0]).toPrecision(4),
+          yPosition: Number.parseFloat(worldPosition[1]).toPrecision(4),
+          zPosition: Number.parseFloat(worldPosition[2]).toPrecision(4),
           value:
             model.labelIndex === null
               ? fusedValue

@@ -22,7 +22,7 @@ const cdnPath = `https://unpkg.com/itk-vtk-viewer@${version}/dist/itk`
 const devServer = {
   noInfo: true,
   stats: 'minimal',
-  port: 8080,
+  port: 8088,
   writeToDisk: true,
 }
 

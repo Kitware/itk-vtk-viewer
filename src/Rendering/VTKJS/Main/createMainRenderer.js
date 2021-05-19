@@ -5,6 +5,11 @@ import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 
 import toggleCroppingPlanes from './toggleCroppingPlanes'
 
+// Load the rendering pieces we want to use (for both WebGL and WebGPU)
+import 'vtk.js/Sources/Rendering/Profiles/Geometry'
+import 'vtk.js/Sources/Rendering/Profiles/Glyph'
+import 'vtk.js/Sources/Rendering/Profiles/Volume'
+
 function createMainRenderer(context) {
   const croppingWidget = vtkImageCroppingWidget.newInstance()
   context.main.croppingWidget = croppingWidget

@@ -20,10 +20,9 @@ function updateCroppingWidgetParameters(context, fusedImage) {
   croppingVirtualImage.setSpacing(spacing)
   croppingVirtualImage.setDirection(fusedImage.getDirection().slice())
 
-  vtkBoundingBox.addBounds(
-    context.main.croppingBoundingBox,
-    ...fusedImage.getBounds()
-  )
+  const fusedImageBounds = [...fusedImage.getBounds()]
+
+  vtkBoundingBox.addBounds(context.main.croppingBoundingBox, fusedImageBounds)
   const bbox = context.main.croppingBoundingBox
   croppingVirtualImage.setOrigin([bbox[0], bbox[2], bbox[4]])
   croppingVirtualImage.setDimensions([
@@ -32,9 +31,15 @@ function updateCroppingWidgetParameters(context, fusedImage) {
     (bbox[5] - bbox[4]) / spacing[2] + 1,
   ])
 
-  context.main.croppingWidget.copyImageDataDescription(
-    context.main.croppingVirtualImage
-  )
+  const widgetState = context.main.croppingWidget.getWidgetState()
+  widgetState.setIndexToWorldT(croppingVirtualImage.getIndexToWorld())
+  widgetState.setWorldToIndexT(croppingVirtualImage.getWorldToIndex())
+
+  if (!context.main.croppingPlanes) {
+    const dims = croppingVirtualImage.getDimensions()
+    const croppingPlanes = widgetState.getCroppingPlanes()
+    croppingPlanes.setPlanes([0, dims[0], 0, dims[1], 0, dims[2]])
+  }
 }
 
 function applyRenderedImage(context, event) {

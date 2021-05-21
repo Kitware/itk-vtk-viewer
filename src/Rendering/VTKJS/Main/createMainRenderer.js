@@ -2,6 +2,8 @@ import macro from 'vtk.js/Sources/macro'
 import vtkImageCroppingWidget from 'vtk.js/Sources/Widgets/Widgets3D/ImageCroppingWidget'
 import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData'
 import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
+import { transformVec3 } from 'vtk.js/Sources/Widgets/Widgets3D/ImageCroppingWidget/helpers'
+import vtkMath from 'vtk.js/Sources/Common/Core/Math'
 
 import toggleCroppingPlanes from './toggleCroppingPlanes'
 
@@ -48,42 +50,100 @@ function createMainRenderer(context) {
   // Todo: Initialize croppingVirtualImage, croppingBoundingBox, based on the
   // main.croppingPlanes context, if present.
   //
-  croppingWidget.copyImageDataDescription(context.main.croppingVirtualImage)
 
   const cropState = croppingWidget.getWidgetState().getCroppingPlanes()
-  console.log(cropState)
-  console.log(
-    croppingWidget
-      .getWidgetState()
-      .getCroppingPlanes()
-      .getPlanes()
-  )
-  console.log(
-    croppingWidget
-      .getWidgetState()
-      .getCroppingPlanes()
-      .getBounds()
-  )
-  console.log(
-    croppingWidget
-      .getWidgetState()
-      .getCroppingPlanes()
-      .getBoundsByReference()
-  )
   cropState.onModified(
     macro.debounce(() => {
-      const planeIndices = cropState.getPlanes()
-      //const boundBoxCorners =
-      //* -  //const bboxCorners =
-      //*    context.images.croppingWidget.planesToBBoxCorners(
-      //*
-      //context.service.send({
-      //type: 'CROPPING_PLANES_CHANGED',
-      //data: { planeIndices, boundBoxCorners },
-      //})
+      const prop = context.itkVtkView.getWidgetProp(context.main.croppingWidget)
+      if (prop && prop.getEnabled()) {
+        const indexes = cropState.getPlanes()
+        const midpoints = [
+          (indexes[0] + indexes[1]) / 2,
+          (indexes[2] + indexes[3]) / 2,
+          (indexes[4] + indexes[5]) / 2,
+        ]
+
+        const indexToWorld = context.main.croppingVirtualImage.getIndexToWorld()
+        const direction = context.main.croppingVirtualImage.getDirection()
+        const croppingPlanes = [
+          {
+            center: Array.from(
+              transformVec3(
+                [indexes[0], midpoints[1], midpoints[2]],
+                indexToWorld
+              )
+            ),
+            normal: Array.from(direction.slice(0, 3)),
+          },
+          {
+            center: Array.from(
+              transformVec3(
+                [indexes[1], midpoints[1], midpoints[2]],
+                indexToWorld
+              )
+            ),
+            normal: vtkMath.multiplyScalar(
+              Array.from(direction.slice(0, 3)),
+              -1
+            ),
+          },
+          {
+            center: Array.from(
+              transformVec3(
+                [midpoints[0], indexes[2], midpoints[2]],
+                indexToWorld
+              )
+            ),
+            normal: Array.from(direction.slice(3, 6)),
+          },
+          {
+            center: Array.from(
+              transformVec3(
+                [midpoints[0], indexes[3], midpoints[2]],
+                indexToWorld
+              )
+            ),
+            normal: vtkMath.multiplyScalar(
+              Array.from(direction.slice(3, 6)),
+              -1
+            ),
+          },
+          {
+            center: Array.from(
+              transformVec3(
+                [midpoints[0], midpoints[1], indexes[4]],
+                indexToWorld
+              )
+            ),
+            normal: Array.from(direction.slice(6, 9)),
+          },
+          {
+            center: Array.from(
+              transformVec3(
+                [midpoints[0], midpoints[1], indexes[5]],
+                indexToWorld
+              )
+            ),
+            normal: vtkMath.multiplyScalar(
+              Array.from(direction.slice(6, 9)),
+              -1
+            ),
+          },
+        ]
+
+        console.log('updating')
+        console.log(croppingPlanes)
+
+        //context.service.send({
+        //type: 'CROPPING_PLANES_CHANGED',
+        //data: croppingPlanes,
+        //})
+      }
     }, 100)
   )
-  toggleCroppingPlanes(context)
+  context.itkVtkView.setWidgetManagerInitializedCallback(() => {
+    toggleCroppingPlanes(context)
+  })
 }
 
 export default createMainRenderer

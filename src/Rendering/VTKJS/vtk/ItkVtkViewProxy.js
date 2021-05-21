@@ -567,8 +567,16 @@ function ItkVtkViewProxy(publicAPI, model) {
 
       updateAxes()
       updateAxesVisibility()
+
+      if (model.widgetManagerInitializedCallback) {
+        model.widgetManagerInitializedCallback()
+      }
     }
     updateScaleBar()
+  }
+
+  publicAPI.setWidgetManagerInitializedCallback = callback => {
+    model.widgetManagerInitializedCallback = callback
   }
 
   model.scaleBarCanvas = document.createElement('canvas')
@@ -1025,6 +1033,7 @@ const DEFAULT_VALUES = {
     value: null,
     label: null,
   },
+  widgetManagerInitializedCallback: null,
   enableAxes: false,
   xyLowerLeft: false,
 }

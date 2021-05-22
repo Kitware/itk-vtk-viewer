@@ -155,6 +155,9 @@ function ItkVtkViewProxy(publicAPI, model) {
       if (model.volumeRepresentation) {
         model.volumeRepresentation.setVolumeVisibility(false)
         model.volumeRepresentation.getActors().forEach((actor, index) => {
+          console.log(actor)
+          console.log('actors', actor.getActors())
+          console.log('actors2D', actor.getActors2D())
           if (index === axisIndex) {
             model.imageVisibility && actor.setVisibility(true)
           } else {

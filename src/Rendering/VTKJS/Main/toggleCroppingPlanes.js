@@ -1,6 +1,5 @@
 function toggleCroppingPlanes(context) {
   const enabled = context.main.croppingPlanesEnabled
-  context.main.croppingWidget.setVisibility(enabled)
   const prop = context.itkVtkView.getWidgetProp(context.main.croppingWidget)
   // Only available after the widget manager has been initialized
   if (prop) {
@@ -10,6 +9,8 @@ function toggleCroppingPlanes(context) {
       context.itkVtkView.getWidgetManager().enablePicking()
     }
   }
+  context.main.croppingWidget.setVisibility(enabled)
+  context.service.send('RENDER')
 }
 
 export default toggleCroppingPlanes

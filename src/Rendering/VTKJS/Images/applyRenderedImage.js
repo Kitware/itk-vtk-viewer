@@ -60,7 +60,7 @@ function applyRenderedImage(context, event) {
   updateCroppingWidgetParameters(context, actorContext.fusedImage)
 
   // VTK.js currently only supports a single image
-  if (!!!context.images.representationProxy) {
+  if (!context.images.representationProxy) {
     context.proxyManager.createRepresentationInAllViews(context.images.source)
     context.images.representationProxy = context.proxyManager.getRepresentation(
       context.images.source,
@@ -86,6 +86,13 @@ function applyRenderedImage(context, event) {
 
     const annotationContainer = context.container.querySelector('.js-se')
     annotationContainer.style.fontFamily = 'monospace'
+
+    const sliceActors = representationProxy.getActors()
+    sliceActors.forEach((actor, actorIdx) => {
+      context.main.widgetCroppingPlanes.forEach(plane => {
+        actor.getMapper().addClippingPlane(plane)
+      })
+    })
   }
 
   // Create color map and piecewise function objects as needed

@@ -6,6 +6,7 @@ import toggleAnnotations from './toggleAnnotations'
 import toggleAxes from './toggleAxes'
 import toggleCroppingPlanes from './toggleCroppingPlanes'
 import resetCroppingPlanes from './resetCroppingPlanes'
+import applyCroppingPlanes from './applyCroppingPlanes'
 import viewModeXPlane from './viewModeXPlane'
 import viewModeYPlane from './viewModeYPlane'
 import viewModeZPlane from './viewModeZPlane'
@@ -33,6 +34,7 @@ const mainRenderingMachineOptions = {
 
     resetCroppingPlanes,
     toggleCroppingPlanes,
+    applyCroppingPlanes,
 
     viewModeXPlane,
     viewModeYPlane,

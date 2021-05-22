@@ -112,6 +112,9 @@ const createViewer = async (
           case 'RESET_CROPPING_PLANES':
             eventEmitter.emit('resetCroppingPlanes', event.data)
             break
+          case 'CROPPING_PLANES_CHANGED':
+            eventEmitter.emit('croppingPlanesChanged', event.data)
+            break
           case 'VIEW_MODE_CHANGED':
             eventEmitter.emit('viewModeChanged', event.data)
             break
@@ -918,6 +921,17 @@ const createViewer = async (
 
   publicAPI.resetCroppingPlanes = () => {
     service.send('RESET_CROPPING_PLANES')
+  }
+
+  publicAPI.getCroppingPlanes = () => {
+    return context.main.croppingPlanes
+  }
+
+  publicAPI.setCroppingPlanes = croppingPlanes => {
+    service.send({
+      type: 'CROPPING_PLANES_CHANGED',
+      data: croppingPlanes,
+    })
   }
 
   publicAPI.setImageColorRange = (range, component, name) => {

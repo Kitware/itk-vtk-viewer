@@ -66,6 +66,7 @@ function applyRenderedImage(context, event) {
       context.images.source,
       context.itkVtkView
     )
+    const representationProxy = context.images.representationProxy
 
     if (context.use2D) {
       context.itkVtkView.setViewMode('ZPlane')
@@ -74,7 +75,11 @@ function applyRenderedImage(context, event) {
       context.itkVtkView.setViewMode('Volume')
     }
 
-    context.images.representationProxy.getMapper().setMaximumSamplesPerRay(2048)
+    const mapper = representationProxy.getMapper()
+    mapper.setMaximumSamplesPerRay(2048)
+    context.main.widgetCroppingPlanes.forEach(plane => {
+      mapper.addClippingPlane(plane)
+    })
     context.images.representationProxy.setSampleDistance(
       actorContext.volumeSampleDistance
     )

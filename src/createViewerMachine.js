@@ -98,6 +98,13 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             RESET_CROPPING_PLANES: {
               actions: [forwardTo('rendering'), forwardTo('eventEmitter')],
             },
+            CROPPING_PLANES_CHANGED: {
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
+            },
             VIEW_MODE_CHANGED: {
               actions: [
                 forwardTo('ui'),

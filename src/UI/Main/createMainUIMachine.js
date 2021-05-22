@@ -40,6 +40,14 @@ const assignCroppingPlanesEnabled = assign({
   },
 })
 
+const assignCroppingPlanes = assign({
+  main: (context, event) => {
+    const main = context.main
+    main.croppingPlanes = event.data
+    return main
+  },
+})
+
 const assignViewMode = assign({
   main: (context, event) => {
     const main = context.main
@@ -128,6 +136,9 @@ function createMainUIMachine(options, context) {
             },
             Z_SLICE_CHANGED: {
               actions: [assignZSlice, 'applyZSlice'],
+            },
+            CROPPING_PLANES_CHANGED: {
+              actions: assignCroppingPlanes,
             },
           },
           states: {

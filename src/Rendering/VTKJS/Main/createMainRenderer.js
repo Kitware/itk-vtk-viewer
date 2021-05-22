@@ -4,6 +4,7 @@ import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData'
 import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 import { transformVec3 } from 'vtk.js/Sources/Widgets/Widgets3D/ImageCroppingWidget/helpers'
 import vtkMath from 'vtk.js/Sources/Common/Core/Math'
+import vtkPlane from 'vtk.js/Sources/Common/DataModel/Plane'
 
 import toggleCroppingPlanes from './toggleCroppingPlanes'
 
@@ -15,8 +16,14 @@ import 'vtk.js/Sources/Rendering/Profiles/Volume'
 function createMainRenderer(context) {
   const croppingWidget = vtkImageCroppingWidget.newInstance()
   context.main.croppingWidget = croppingWidget
+  context.main.widgetCroppingPlanes = Array.from({ length: 6 }, () =>
+    vtkPlane.newInstance()
+  )
   context.itkVtkView.addWidgetToRegister(croppingWidget)
-  //context.images.croppingWidget.setHandleSize(16)
+  croppingWidget
+    .getWidgetState()
+    .getStatesWithLabel('handles')
+    .forEach(h => h.setScale1(14))
   croppingWidget.setFaceHandlesEnabled(false)
   croppingWidget.setEdgeHandlesEnabled(false)
   croppingWidget.setCornerHandlesEnabled(true)
@@ -134,10 +141,10 @@ function createMainRenderer(context) {
         console.log('updating')
         console.log(croppingPlanes)
 
-        //context.service.send({
-        //type: 'CROPPING_PLANES_CHANGED',
-        //data: croppingPlanes,
-        //})
+        context.service.send({
+          type: 'CROPPING_PLANES_CHANGED',
+          data: croppingPlanes,
+        })
       }
     }, 100)
   )

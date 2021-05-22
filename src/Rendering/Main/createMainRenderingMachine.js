@@ -75,6 +75,9 @@ function createMainRenderingMachine(options, context) {
             RESET_CROPPING_PLANES: {
               actions: 'resetCroppingPlanes',
             },
+            CROPPING_PLANES_CHANGED: {
+              actions: 'applyCroppingPlanes',
+            },
             SLICING_PLANES_CHANGED: {
               actions: 'applySlicingPlanes',
             },

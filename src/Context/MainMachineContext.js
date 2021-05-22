@@ -54,7 +54,7 @@ class MainMachineContext {
   // Each is characterized with: { center, normal }.
   //
   // center: x,y,z point in the center af the plane
-  // normal: 3-component vector definig the normal to the plane
+  // normal: 3-component vector defining the normal to the plane
   //
   // An array of six planes that are ordered, when the planes are axis aligned:
   // -x, +x, -y, +y, -z, +z

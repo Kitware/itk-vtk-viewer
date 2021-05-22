@@ -5,7 +5,7 @@ import applyYSlice from '../Main/applyYSlice'
 import applyZSlice from '../Main/applyZSlice'
 
 async function createImageRenderer(context) {
-  if (!!!context.images.source) {
+  if (!context.images.source) {
     context.images.source = context.proxyManager.createProxy(
       'Sources',
       'TrivialProducer',

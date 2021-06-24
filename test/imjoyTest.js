@@ -50,7 +50,7 @@ const testConfig = JSON.parse(
 )
 
 test('Test ImJoy Plugin', async t => {
-  t.plan(5)
+  t.plan(6)
   const gc = testUtils.createGarbageCollector(t)
 
   const container = document.querySelector('body')

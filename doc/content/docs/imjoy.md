@@ -47,7 +47,7 @@ function encodeScijsArray(array){
 
 The `image` key is optional; one can also call `setImage()` later.
 
-**pointSets**: An array of pointSet or a single pointSet to be visualized. Can be **an arrray** of imjoy-rpc encoded ndarray (as described in **image**):
+**pointSets**: An array of pointSet or a single pointSet to be visualized. Can be **an array** of imjoy-rpc encoded ndarray (as described in **image**):
 
 The `pointSets` key is optional; one can also call `setPointSets()` later.
 

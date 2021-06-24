@@ -69,13 +69,40 @@ const viewer = await api.createWindow({
 
 Usage in Python
 ```python
+from imjoy import api
+import numpy as np
+
 # a 2D or 3D numpy array
 image_array = np.random.randint(0, 255, [500, 500], dtype='uint8')
-viewer = await api.createWindow(src="https://kitware.github.io/itk-vtk-viewer/app/",
-                                data={"image": imageArray},
-                                config=config)
+
+async def setup():
+    viewer = await api.createWindow(src="https://kitware.github.io/itk-vtk-viewer/app/", data={"image": imageArray}, config=config)
+
+api.export({"setup": setup})
 ```
 
+Displaying a point cloud in Python:
+```python
+import numpy as np
+from imjoy import api
+
+# make a point set array
+gaussian_1_mean = [0.0, 0.0, 0.0]
+gaussian_1_cov = [[1.0, 0.0, 0.0], [0.0, 2.0, 0.0], [0.0, 0.0, 0.5]]
+number_of_points = 1000000
+point_set_array = np.random.multivariate_normal(gaussian_1_mean,
+                                                gaussian_1_cov,
+                                                number_of_points)
+point_set_array = point_set_array.astype('float32')
+
+async def setup():
+    viewer = await api.createWindow(
+        src="https://kitware.github.io/itk-vtk-viewer/app/"
+    )
+    await viewer.setPointSets([point_set_array])
+
+api.export({"setup": setup})
+```
 ## API functions
 
 In addition to the standard `setup` and `run` methods, the *itk-vtk-viewer* plugin exposes the full [viewer API](../api/).

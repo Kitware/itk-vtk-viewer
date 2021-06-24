@@ -15,7 +15,7 @@ function ndarrayToPointSet(array) {
   if (array._rtype !== 'ndarray') {
     throw new Error('Invalid ndarray type: ' + array._rtype)
   }
-  const arrayType = numpy2TypedArray[array._rdtype]
+  let arrayType = numpy2TypedArray[array._rdtype]
   if (array._rshape.length !== 2) {
     throw new Error(`Unsupported dimension: ${array._rshape.length}`)
   }
@@ -30,6 +30,7 @@ function ndarrayToPointSet(array) {
       newPoints[i * 3 + 1] = originalPoints[i * 2 + 1]
       newPoints[i * 3 + 2] = -5.0e-6
     }
+    arrayType = Float32Array
     array = {
       _rtype: 'ndarray',
       _rdtype: 'float32',

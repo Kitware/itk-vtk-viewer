@@ -4,6 +4,7 @@ import axios from 'axios'
 import itkreadImageArrayBuffer from 'itk/readImageArrayBuffer'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import testUtils from 'vtk.js/Sources/Testing/testUtils'
+import vtk from 'vtk.js/Sources/vtk'
 
 import createViewer from '../src/createViewer'
 import UserInterface from '../src/UserInterface'
@@ -37,6 +38,35 @@ const TEST_VIEWER_STYLE = {
 const baselineConfig = JSON.parse(
   '{"viewerConfigVersion":"0.2","xyLowerLeft":false,"containerStyle":{"position":"relative","width":"600px","height":"600px","minHeight":"600px","minWidth":"600px","maxHeight":"600px","maxWidth":"600px","margin":"0","padding":"0","top":"0","left":"0","overflow":"hidden"},"uiCollapsed":true,"main":{"backgroundColor":[0.7,0.2,0.8],"units":"mm"}}'
 )
+
+function makePointSet() {
+  return vtk({
+    vtkClass: 'vtkPolyData',
+    points: {
+      vtkClass: 'vtkPoints',
+      name: '_points',
+      numberOfComponents: 3,
+      dataType: 'Float32Array',
+      size: 2,
+      values: new Float32Array([
+        -0.44442534,
+        -1.1349318,
+        0.8388769,
+        2.0538256,
+        -1.9028517,
+        0.71276945,
+      ]),
+    },
+    verts: {
+      vtkClass: 'vtkCellArray',
+      name: '_verts',
+      numberOfComponents: 1,
+      dataType: 'Uint32Array',
+      size: 4,
+      values: new Uint16Array([1, 0, 1, 1]),
+    },
+  })
+}
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
@@ -312,6 +342,12 @@ test('Test createViewer', async t => {
     const config = viewer.getConfig()
     //console.log('ViewerConfig', JSON.stringify(config))
     t.same(config, baselineConfig, 'get config')
+
+    const points = makePointSet()
+    await createViewer(viewerContainer, {
+      pointSets: [points],
+      rotate: false,
+    })
 
     t.pass('test completed')
 

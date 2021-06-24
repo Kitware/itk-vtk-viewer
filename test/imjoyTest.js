@@ -50,7 +50,7 @@ const testConfig = JSON.parse(
 )
 
 test('Test ImJoy Plugin', async t => {
-  t.plan(5)
+  t.plan(6)
   const gc = testUtils.createGarbageCollector(t)
 
   const container = document.querySelector('body')
@@ -84,7 +84,19 @@ test('Test ImJoy Plugin', async t => {
   await imjoy.start({ workspace: 'default' })
   console.log('ImJoy started')
 
-  const viewer = await imjoy.pm.createWindow(null, {
+  const points = ndarray(new Float32Array([1, 0, 0, 0, 1, 0]), [2, 3])
+  const pointSets = [encodeArray(points)]
+  let viewer = await imjoy.pm.createWindow(null, {
+    src: 'http://localhost:9876/base/dist/index.html',
+    data: { pointSets },
+    config: testConfig,
+  })
+  const points2D = ndarray(new Float32Array([1, 0, 0, 1]), [2, 2])
+  const pointSets2D = [encodeArray(points2D)]
+  await viewer.setPointSets(pointSets2D)
+  t.pass('setPointSets ndarray')
+
+  viewer = await imjoy.pm.createWindow(null, {
     src: 'http://localhost:9876/base/dist/index.html',
     data: { image: itkImage },
     config: testConfig,

@@ -99,6 +99,9 @@ Select the layer identified by `name` in the user interface.
 
 Set the image to be visualized. Can be an [itk.js Image](https://insightsoftwareconsortium.github.io/itk-js/api/Image.html) or a [scijs ndarray](http://scijs.net/packages/#scijs/ndarray) for JavaScript; for Python, it can be a [numpy](https://numpy.org) array.
 
+### setPointSets(pointSets)
+Set a set of points to be visualized. It can be an array of or a single imjoy-rpc encoded ndarray. The ndarray should be an array with the shape [x, 2] or [x, 3].
+
 ### setImageInterpolationEnabled(enabled)
 
 ### getImageInterpolationEnabled()

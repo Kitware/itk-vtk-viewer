@@ -24,6 +24,38 @@ const imJoyPluginAPI = {
       } else {
         await this.setImage(ctx.data.image)
       }
+    } else if (ctx.data && ctx.data.pointSets) {
+      if (ctx.config && !this.viewer) {
+        const pointSets = ctx.data.pointSets.map(points =>
+          itkVtkViewer.utils.ndarrayToPointSet(points)
+        )
+        this.viewer = await itkVtkViewer.createViewer(container, {
+          image: null,
+          pointSets: pointSets,
+          geometries: null,
+          rotate: false,
+          config: ctx.config,
+        })
+      } else {
+        await this.setPointSets(ctx.data.pointSets)
+      }
+    }
+  },
+
+  async setPointSets(pointSets) {
+    if (!Array.isArray(pointSets)) pointSets = [pointSets]
+    pointSets = pointSets.map(points =>
+      itkVtkViewer.utils.ndarrayToPointSet(points)
+    )
+    if (this.viewer === null) {
+      this.viewer = await itkVtkViewer.createViewer(container, {
+        image: null,
+        pointSets,
+        geometries: null,
+        rotate: false,
+      })
+    } else {
+      await this.viewer.setPointSets(pointSets)
     }
   },
 

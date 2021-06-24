@@ -4,6 +4,7 @@ import axios from 'axios'
 import itkreadImageArrayBuffer from 'itk/readImageArrayBuffer'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import testUtils from 'vtk.js/Sources/Testing/testUtils'
+import vtk from 'vtk.js/Sources/vtk'
 
 import createViewer from '../src/createViewer'
 import UserInterface from '../src/UserInterface'
@@ -37,6 +38,120 @@ const TEST_VIEWER_STYLE = {
 const baselineConfig = JSON.parse(
   '{"viewerConfigVersion":"0.2","xyLowerLeft":false,"containerStyle":{"position":"relative","width":"600px","height":"600px","minHeight":"600px","minWidth":"600px","maxHeight":"600px","maxWidth":"600px","margin":"0","padding":"0","top":"0","left":"0","overflow":"hidden"},"uiCollapsed":true,"main":{"backgroundColor":[0.7,0.2,0.8],"units":"mm"}}'
 )
+
+function makePointSet() {
+  return vtk({
+    vtkClass: 'vtkPolyData',
+    points: {
+      vtkClass: 'vtkPoints',
+      name: '_points',
+      numberOfComponents: 3,
+      dataType: 'Float32Array',
+      size: 30,
+      values: new Float32Array([
+        -0.44442534,
+        -1.1349318,
+        0.8388769,
+        2.0538256,
+        -1.9028517,
+        0.71276945,
+        -0.56047213,
+        -0.58603436,
+        0.554672,
+        -1.2207333,
+        -2.038436,
+        -0.0936531,
+        2.2630265,
+        0.48342946,
+        -0.40602198,
+        -0.5185534,
+        -2.366148,
+        0.60345286,
+        2.106546,
+        0.18299437,
+        0.30385447,
+        -0.84949416,
+        1.0901117,
+        -0.58975905,
+        1.1423702,
+        3.1416214,
+        -0.38213685,
+        -0.4910744,
+        0.13347846,
+        -0.6717127,
+      ]),
+    },
+    verts: {
+      vtkClass: 'vtkCellArray',
+      name: '_verts',
+      numberOfComponents: 1,
+      dataType: 'Uint32Array',
+      size: 60,
+      values: new Uint16Array([
+        1,
+        100,
+        1,
+        100,
+        1,
+        2,
+        1,
+        3,
+        1,
+        4,
+        1,
+        5,
+        1,
+        6,
+        1,
+        7,
+        1,
+        8,
+        1,
+        9,
+        1,
+        10,
+        1,
+        11,
+        1,
+        12,
+        1,
+        13,
+        1,
+        14,
+        1,
+        15,
+        1,
+        16,
+        1,
+        17,
+        1,
+        18,
+        1,
+        19,
+        1,
+        20,
+        1,
+        21,
+        1,
+        22,
+        1,
+        23,
+        1,
+        24,
+        1,
+        25,
+        1,
+        26,
+        1,
+        27,
+        1,
+        28,
+        1,
+        29,
+      ]),
+    },
+  })
+}
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
@@ -312,6 +427,12 @@ test('Test createViewer', async t => {
     const config = viewer.getConfig()
     //console.log('ViewerConfig', JSON.stringify(config))
     t.same(config, baselineConfig, 'get config')
+
+    const points = makePointSet()
+    await createViewer(viewerContainer, {
+      pointSets: [points],
+      rotate: false,
+    })
 
     t.pass('test completed')
 

@@ -33,7 +33,7 @@ Supported context `data` inputs:
 - A [scijs ndarray](http://scijs.net/packages/#scijs/ndarray) for JavaScript; for Python, it can be a [numpy](https://numpy.org) array.
 - A [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) pointing to an [image file supported by itk.js](https://insightsoftwareconsortium.github.io/itk-js/docs/image_formats.html).
 
-For [scijs ndarray](http://scijs.net/packages/#scijs/ndarray), you can use the following function to encoded it into an imjoy-rpc encoded array.
+For [scijs ndarray](http://scijs.net/packages/#scijs/ndarray), you can use the following function to encoded it into an imjoy-rpc encoded ndarray.
 ```
 function encodeScijsArray(array){
   return {
@@ -46,6 +46,11 @@ function encodeScijsArray(array){
 ```
 
 The `image` key is optional; one can also call `setImage()` later.
+
+**pointSets**: An array of pointSet or a single pointSet to be visualized. Can be **an arrray** of imjoy-rpc encoded ndarray (as described in **image**):
+
+The `pointSets` key is optional; one can also call `setPointSets()` later.
+
 
 Context `config`:
 

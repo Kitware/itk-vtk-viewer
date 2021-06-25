@@ -50,7 +50,7 @@ const testConfig = JSON.parse(
 )
 
 test('Test ImJoy Plugin', async t => {
-  t.plan(6)
+  t.plan(7)
   const gc = testUtils.createGarbageCollector(t)
 
   const container = document.querySelector('body')
@@ -115,6 +115,13 @@ test('Test ImJoy Plugin', async t => {
   const imageURL = new URL(testImage3DPath, document.location.origin)
   await viewer.setImage(imageURL)
   t.pass('setImage URL')
+
+  const image = await viewer.captureImage()
+  t.same(
+    image.startsWith('data:image/png;base64,'),
+    true,
+    'captured image format'
+  )
 
   imjoy.destroy()
   console.log('ImJoy destroyed')

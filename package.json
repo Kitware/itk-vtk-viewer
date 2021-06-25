@@ -70,7 +70,7 @@
     "karma-tap": "^4.2.0",
     "karma-tap-pretty-reporter": "^4.2.0",
     "karma-webpack": "git://github.com/ryanclark/karma-webpack.git#eec6dfc",
-    "kw-doc": "^3.0.1",
+    "kw-doc": "^3.0.6",
     "lint-staged": "^10.5.4",
     "ndarray": "^1.0.19",
     "postcss": "^8.2.6",

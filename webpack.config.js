@@ -99,19 +99,18 @@ module.exports = [
           to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),
         },
       ]),
-      // workbox plugin should be last plugin
+      // workbox
+      // plugin should be last plugin
       new GenerateSW({
-        importWorkboxFrom: 'local',
-        globDirectory: outputPath,
+        cacheId: 'itk-vtk-viewer-',
+        cleanupOutdatedCaches: true,
         maximumFileSizeToCacheInBytes: 10000000,
-        include: [],
-        exclude: [],
-        globPatterns: ['*.{html,js,jpg,png,svg}'],
-        globIgnores: ['serviceWorker.js', 'precache-manifest.*.js', 'itk/**'],
+        include: [/(\.js|\.html|\.jpg|\.png)$/],
+        exclude: ['serviceWorker.js', /workbox-.*\.js/],
         swDest: path.join(__dirname, 'dist', 'serviceWorker.js'),
         runtimeCaching: [
           {
-            urlPattern: /\.js|\.png|\.wasm$/,
+            urlPattern: /(\.js|\.png|\.wasm)$/,
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'itk-vtk-viewer-StaleWhileRevalidate',

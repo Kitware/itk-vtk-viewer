@@ -102,6 +102,9 @@ Set the image to be visualized. Can be an [itk.js Image](https://insightsoftware
 ### setPointSets(pointSets)
 Set a set of points to be visualized. It can be an array of or a single imjoy-rpc encoded ndarray. The ndarray should be an array with the shape [x, 2] or [x, 3].
 
+### captureImage()
+Take a screenshot for the current view and return a base64 encoded image string.
+
 ### setImageInterpolationEnabled(enabled)
 
 ### getImageInterpolationEnabled()

@@ -59,6 +59,10 @@ const imJoyPluginAPI = {
     }
   },
 
+  async captureImage() {
+    return await this.viewer.captureImage()
+  },
+
   async setImage(image) {
     const multiscaleImage = await itkVtkViewer.utils.toMultiscaleChunkedImage(
       image

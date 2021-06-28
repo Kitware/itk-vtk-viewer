@@ -35,14 +35,14 @@ In general ITK/VTK Viewer tries to be as portable as possible; the specific conf
 
 ITK/VTK Viewer supports the following development environments:
 
-- Node 8+
-- NPM 5+
+- Node 10+
+- NPM 6+
 
 and the following browsers:
 
-- Firefox 45+
-- Chrome 50+
-- Safari 9.1+
+- Firefox
+- Chrome
+- Safari
 
 Documentation
 =============

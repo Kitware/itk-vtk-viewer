@@ -81,6 +81,12 @@ module.exports = function init(config) {
         served: true,
         included: false,
       },
+      {
+        pattern: './dist/referenceUIMachineOptions.mjs',
+        watched: true,
+        served: true,
+        included: false,
+      },
     ],
 
     preprocessors: {

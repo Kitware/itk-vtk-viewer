@@ -430,3 +430,43 @@ test('Test createViewer.setImage', async t => {
     }, 100)
   })
 })
+
+test('Test createViewer custom UI options', async t => {
+  const gc = testUtils.createGarbageCollector(t)
+
+  const container = document.querySelector('body')
+  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+  container.appendChild(viewerContainer)
+
+  const response = await axios.get(testImage3DPath, {
+    responseType: 'arraybuffer',
+  })
+  const { image: itkImage, webWorker } = await itkreadImageArrayBuffer(
+    null,
+    response.data,
+    'data.nrrd'
+  )
+  webWorker.terminate()
+
+  const referenceUIUrl = new URL(
+    '/base/dist/referenceUIMachineOptions.mjs',
+    document.location.origin
+  )
+  const referenceUIMachineOptions = { href: referenceUIUrl.href }
+
+  await createViewer(container, {
+    image: itkImage,
+    rotate: false,
+    uiMachineOptions: referenceUIMachineOptions,
+  })
+  t.pass('Viewer with UI module URL')
+
+  await createViewer(container, {
+    image: itkImage,
+    rotate: false,
+    uiMachineOptions: { href: referenceUIUrl.href, export: 'default' },
+  })
+  t.pass('Viewer with UI module URL, explicit export')
+
+  gc.releaseResources()
+})

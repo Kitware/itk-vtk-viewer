@@ -174,8 +174,20 @@ const createViewer = async (
   }
 
   const options = { ...viewerMachineOptions }
-  if (typeof uiMachineOptions !== 'undefined') {
-    options.ui = uiMachineOptions
+  if (uiMachineOptions) {
+    if (uiMachineOptions.href) {
+      const loadedUIMachineOptions = await import(
+        /* webpackIgnore: true */
+        uiMachineOptions.href
+      )
+      if (uiMachineOptions.export) {
+        options.ui = loadedUIMachineOptions[uiMachineOptions.export]
+      } else {
+        options.ui = loadedUIMachineOptions.default
+      }
+    } else {
+      options.ui = uiMachineOptions
+    }
   }
   const context = new ViewerMachineContext(config)
   context.use2D = use2D

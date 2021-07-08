@@ -29,7 +29,7 @@
   "homepage": "https://kitware.github.io/itk-vtk-viewer/",
   "main": "./dist/itkVtkViewer.js",
   "dependencies": {
-    "@kitware/vtk.js": "^18.4.0",
+    "@thewtex/vtk.js-esm": "^18.4.2-77b22c7239.1",
     "@thewtex/iconselect.js": "^2.1.2",
     "@xstate/inspect": "^0.4.1",
     "axios": "^0.21.1",

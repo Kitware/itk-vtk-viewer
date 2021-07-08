@@ -1,7 +1,7 @@
 import applyColorRangeBounds from './applyColorRangeBounds'
 import applyColorRange from './applyColorRange'
 import applyColorMap from './applyColorMap'
-import vtkITKHelper from '@kitware/vtk.js/Common/DataModel/ITKHelper'
+import vtkITKHelper from '@thewtex/vtk.js-esm/Common/DataModel/ITKHelper'
 
 function selectImageComponent(context, event) {
   context.images.componentSelector.value = event.data

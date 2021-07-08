@@ -1,5 +1,5 @@
-import macro from '@kitware/vtk.js/macro'
-import vtkImageCroppingRegionsWidget from '@kitware/vtk.js/Interaction/Widgets/ImageCroppingRegionsWidget'
+import macro from '@thewtex/vtk.js-esm/macro'
+import vtkImageCroppingRegionsWidget from '@thewtex/vtk.js-esm/Interaction/Widgets/ImageCroppingRegionsWidget'
 
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'

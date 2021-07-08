@@ -1,4 +1,4 @@
-import macro from '@kitware/vtk.js/macro'
+import macro from '@thewtex/vtk.js-esm/macro'
 import createCategoricalColorIconSelector from '../createCategoricalColorIconSelector'
 
 import style from '../ItkVtkViewer.module.css'

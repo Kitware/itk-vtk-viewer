@@ -10,7 +10,7 @@ import applyGradientOpacityScale from './applyGradientOpacityScale'
 import applyVolumeSampleDistance from './applyVolumeSampleDistance'
 import applyBlendMode from './applyBlendMode'
 
-import vtkITKHelper from '@kitware/vtk.js/Common/DataModel/ITKHelper'
+import vtkITKHelper from '@thewtex/vtk.js-esm/Common/DataModel/ITKHelper'
 
 function updateImageInterface(context) {
   updateAvailableComponents(context)

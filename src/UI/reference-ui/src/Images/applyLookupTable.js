@@ -1,4 +1,4 @@
-import vtkLookupTableProxy from '@kitware/vtk.js/Proxy/Core/LookupTableProxy'
+import vtkLookupTableProxy from '@thewtex/vtk.js-esm/Proxy/Core/LookupTableProxy'
 
 import applyCategoricalColorToLookupTableProxy from '../applyCategoricalColorToLookupTableProxy'
 

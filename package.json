@@ -111,7 +111,7 @@
     "build": "npm-run-all --parallel build:release build:ui",
     "build:debug": "webpack --progress --color --mode development",
     "build:release": "webpack --progress --color --mode production",
-    "build:ui": "cd src/UI/reference-ui && npm ci && npm run build && cd -",
+    "build:ui": "node ./buildUI.js",
     "build:test-ui": "rollup -c ./test/test-ui-rollup.config.js",
     "prepublishOnly": "npm run build",
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkViewer.html",

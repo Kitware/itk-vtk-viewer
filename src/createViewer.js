@@ -37,8 +37,8 @@ const createViewer = async (
     pointSets,
     use2D = false,
     rotate = true,
-    uiContainer,
     config,
+    uiMachineOptions,
   }
 ) => {
   UserInterface.emptyContainer(rootContainer)
@@ -173,7 +173,22 @@ const createViewer = async (
     }
   }
 
-  const options = viewerMachineOptions
+  const options = { ...viewerMachineOptions }
+  if (uiMachineOptions) {
+    if (uiMachineOptions.href) {
+      const loadedUIMachineOptions = await import(
+        /* webpackIgnore: true */
+        uiMachineOptions.href
+      )
+      if (uiMachineOptions.export) {
+        options.ui = loadedUIMachineOptions[uiMachineOptions.export]
+      } else {
+        options.ui = loadedUIMachineOptions.default
+      }
+    } else {
+      options.ui = uiMachineOptions
+    }
+  }
   const context = new ViewerMachineContext(config)
   context.use2D = use2D
   context.rootContainer = rootContainer
@@ -187,9 +202,6 @@ const createViewer = async (
   const machine = createViewerMachine(options, context, eventEmitterCallback)
   const service = interpret(machine, { devTools: debug })
   context.service = service
-  if (!!uiContainer) {
-    context.uiContainer = uiContainer
-  }
   //console.log(options)
   //console.log(context)
   //console.log(machine)
@@ -649,12 +661,15 @@ const createViewer = async (
     return context.uiCollapsed
   }
 
-  publicAPI.setContainerStyle = containerStyle => {
-    service.send({ type: 'STYLE_CONTAINER', data: containerStyle })
+  publicAPI.setRenderingViewContainerStyle = containerStyle => {
+    service.send({
+      type: 'STYLE_RENDERING_VIEW_CONTAINER',
+      data: containerStyle,
+    })
   }
 
-  publicAPI.getContainerStyle = () => {
-    return { ...context.containerStyle }
+  publicAPI.getRenderingViewContainerStyle = () => {
+    return { ...context.renderingViewContainerStyle }
   }
 
   reaction(

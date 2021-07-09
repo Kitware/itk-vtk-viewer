@@ -48,7 +48,9 @@ function applyRenderedImage(context, event) {
       actorContext.volumeSampleDistance
     )
 
-    const annotationContainer = context.container.querySelector('.js-se')
+    const annotationContainer = context.renderingViewContainers
+      .get('volume')
+      .querySelector('.js-se')
     annotationContainer.style.fontFamily = 'monospace'
   }
 

@@ -26,26 +26,19 @@ const devServer = {
   writeToDisk: true,
 }
 
-const moduleConfig = {
-  rules: [
-    {
-      test: entry,
-      loader: 'expose-loader',
-      options: { exposes: 'itkVtkViewer' },
-    },
-    { test: /\.js$/, loader: 'babel-loader', dependency: { not: ['url'] } },
-    {
-      test: /\.worker.js$/,
-      use: [{ loader: 'worker-loader', options: { inline: 'no-fallback' } }],
-    },
-    {
-      test: /\.(png|jpg)$/,
-      type: 'asset',
-      parser: { dataUrlCondition: { maxSize: 4 * 1024 } },
-    }, // 4kb
-    { test: /\.svg$/, type: 'asset/source' },
-  ].concat(vtkRules, cssRules),
-}
+const moduleConfigRules = [
+  { test: /\.js$/, loader: 'babel-loader', dependency: { not: ['url'] } },
+  {
+    test: /\.worker.js$/,
+    use: [{ loader: 'worker-loader', options: { inline: 'no-fallback' } }],
+  },
+  {
+    test: /\.(png|jpg)$/,
+    type: 'asset',
+    parser: { dataUrlCondition: { maxSize: 128 * 1024 } },
+  }, // 128kb
+  { test: /\.svg$/, type: 'asset/source' },
+].concat(vtkRules, cssRules)
 
 const performance = {
   maxAssetSize: 20000000,
@@ -55,7 +48,15 @@ const performance = {
 module.exports = [
   {
     name: 'itkVtkViewer.js progressive web app',
-    module: moduleConfig,
+    module: {
+      rules: moduleConfigRules.concat([
+        {
+          test: entry,
+          loader: 'expose-loader',
+          options: { exposes: 'itkVtkViewer' },
+        },
+      ]),
+    },
     output: {
       filename: 'itkVtkViewer.js',
     },
@@ -129,7 +130,15 @@ module.exports = [
   },
   {
     name: 'itkVtkViewerCDN.js <script> tag',
-    module: moduleConfig,
+    module: {
+      rules: moduleConfigRules.concat([
+        {
+          test: entry,
+          loader: 'expose-loader',
+          options: { exposes: 'itkVtkViewer' },
+        },
+      ]),
+    },
     output: {
       filename: 'itkVtkViewerCDN.js',
       publicPath: cdnPath,

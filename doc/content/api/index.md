@@ -10,11 +10,11 @@ This documentation provides more detailed information about the viewer applicati
 Get the viewer configuration. This can be used to restore a viewer's
 configuration when created.
 
-### setContainerStyle(containerStyle)
+### setRenderingViewContainerStyle(containerStyle)
 
-### getContainerStyle()
+### getRenderingViewContainerStyle()
 
-Set/get the CSS style for the viewer.
+Set/get the CSS style for the rendering view `div`'s.
 
 ### setBackgroundColor(bgColor)
 

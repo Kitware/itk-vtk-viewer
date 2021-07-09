@@ -1,7 +1,7 @@
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 
-import applyCategoricalColorToLookupTableProxy from '../../../UI/Reference/applyCategoricalColorToLookupTableProxy'
+import applyCategoricalColorToLookupTableProxy from '../../../UI/reference-ui/src/applyCategoricalColorToLookupTableProxy'
 
 function applyLookupTable(context, event) {
   const name = event.data.name

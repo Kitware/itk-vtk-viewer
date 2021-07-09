@@ -7,8 +7,12 @@ const imJoyPluginAPI = {
   },
 
   async run(ctx) {
+    let uiMachineOptions = null
+    if (ctx.data.uiMachineOptions) {
+      uiMachineOptions = ctx.data.uiMachineOptions
+    }
     if (ctx.data && ctx.data.image) {
-      if (ctx.config && !this.viewer) {
+      if (ctx.config || ctx.data.uiMachineOptions) {
         const multiscaleImage = await itkVtkViewer.utils.toMultiscaleChunkedImage(
           ctx.data.image
         )
@@ -20,12 +24,13 @@ const imJoyPluginAPI = {
           use2D: is2D,
           rotate: false,
           config: ctx.config,
+          uiMachineOptions,
         })
       } else {
         await this.setImage(ctx.data.image)
       }
     } else if (ctx.data && ctx.data.pointSets) {
-      if (ctx.config && !this.viewer) {
+      if (ctx.config || ctx.data.uiMachineOptions) {
         const pointSets = ctx.data.pointSets.map(points =>
           itkVtkViewer.utils.ndarrayToPointSet(points)
         )
@@ -35,6 +40,7 @@ const imJoyPluginAPI = {
           geometries: null,
           rotate: false,
           config: ctx.config,
+          uiMachineOptions,
         })
       } else {
         await this.setPointSets(ctx.data.pointSets)
@@ -89,11 +95,11 @@ const imJoyPluginAPI = {
     return this.viewer.getConfig()
   },
 
-  setContainerStyle(containerStyle) {
-    this.viewer.setContainerStyle(containerStyle)
+  setRenderingViewContainerStyle(containerStyle) {
+    this.viewer.setRenderingViewContainerStyle(containerStyle)
   },
-  getContainerStyle() {
-    return this.viewer.getContainerStyle()
+  getRenderingViewStyle() {
+    return this.viewer.getRenderingViewStyle()
   },
 
   setBackgroundColor(bgColor) {

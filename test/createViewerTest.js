@@ -7,6 +7,7 @@ import testUtils from 'vtk.js/Sources/Testing/testUtils'
 import vtk from 'vtk.js/Sources/vtk'
 
 import createViewer from '../src/createViewer'
+import referenceUIMachineOptions from '../src/UI/reference-ui/src/referenceUIMachineOptions'
 import UserInterface from '../src/UserInterface'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
@@ -16,7 +17,7 @@ const testImage3DPath2 = 'base/test/data/input/mri3D.nrrd'
 import createViewerBaseline from './data/baseline/createViewer.png'
 import createViewerSetImageBaseline from './data/baseline/createViewerSetImage.png'
 
-const TEST_STYLE_CONTAINER = {
+const TEST_STYLE_RENDERING_VIEW_CONTAINER = {
   position: 'relative',
   width: '600px',
   height: '600px',
@@ -32,11 +33,11 @@ const TEST_STYLE_CONTAINER = {
 }
 const TEST_VIEWER_STYLE = {
   backgroundColor: [1, 1, 1],
-  containerStyle: TEST_STYLE_CONTAINER,
+  containerStyle: TEST_STYLE_RENDERING_VIEW_CONTAINER,
 }
 
 const baselineConfig = JSON.parse(
-  '{"viewerConfigVersion":"0.2","xyLowerLeft":false,"containerStyle":{"position":"relative","width":"600px","height":"600px","minHeight":"600px","minWidth":"600px","maxHeight":"600px","maxWidth":"600px","margin":"0","padding":"0","top":"0","left":"0","overflow":"hidden"},"uiCollapsed":true,"main":{"backgroundColor":[0.7,0.2,0.8],"units":"mm"}}'
+  '{"viewerConfigVersion":"0.2","xyLowerLeft":false,"renderingViewContainerStyle":{"position":"relative","width":"600px","height":"600px","minHeight":"600px","minWidth":"600px","maxHeight":"600px","maxWidth":"600px","margin":"0","padding":"0","top":"0","left":"0","overflow":"hidden"},"uiCollapsed":true,"main":{"backgroundColor":[0.7,0.2,0.8],"units":"mm"}}'
 )
 
 function makePointSet() {
@@ -70,7 +71,7 @@ function makePointSet() {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(52)
+  t.plan(53)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -95,12 +96,24 @@ test('Test createViewer', async t => {
   } = await itkreadImageArrayBuffer(null, labelResponse.data, 'data.nrrd')
   labelWebWorker.terminate()
 
+  const uiMachineOptions = { ...referenceUIMachineOptions }
+  const originalCreateInterface =
+    referenceUIMachineOptions.actions.createInterface
+  function testCreateInterface(context) {
+    t.pass('Modified uiMachineOptions')
+    originalCreateInterface(context)
+  }
+  const testUIMachineActions = { ...uiMachineOptions.actions }
+  testUIMachineActions.createInterface = testCreateInterface
+  uiMachineOptions.actions = testUIMachineActions
+
   const viewer = await createViewer(viewerContainer, {
     image: itkImage,
     labelImage: itkLabelImage,
     rotate: false,
+    uiMachineOptions,
   })
-  viewer.setContainerStyle(TEST_VIEWER_STYLE.containerStyle)
+  viewer.setRenderingViewContainerStyle(TEST_VIEWER_STYLE.containerStyle)
   viewer.setBackgroundColor(TEST_VIEWER_STYLE.backgroundColor)
 
   const uiContainer =
@@ -384,7 +397,7 @@ test('Test createViewer.setImage', async t => {
     image: itkImage,
     rotate: false,
   })
-  viewer.setContainerStyle(TEST_VIEWER_STYLE.containerStyle)
+  viewer.setRenderingViewContainerStyle(TEST_VIEWER_STYLE.containerStyle)
   viewer.setBackgroundColor(TEST_VIEWER_STYLE.backgroundColor)
   const response2 = await axios.get(testImage3DPath2, {
     responseType: 'arraybuffer',
@@ -416,4 +429,44 @@ test('Test createViewer.setImage', async t => {
       //)
     }, 100)
   })
+})
+
+test('Test createViewer custom UI options', async t => {
+  const gc = testUtils.createGarbageCollector(t)
+
+  const container = document.querySelector('body')
+  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+  container.appendChild(viewerContainer)
+
+  const response = await axios.get(testImage3DPath, {
+    responseType: 'arraybuffer',
+  })
+  const { image: itkImage, webWorker } = await itkreadImageArrayBuffer(
+    null,
+    response.data,
+    'data.nrrd'
+  )
+  webWorker.terminate()
+
+  const referenceUIUrl = new URL(
+    '/base/src/UI/reference-ui/dist/referenceUIMachineOptions.js',
+    document.location.origin
+  )
+  const referenceUIMachineOptions = { href: referenceUIUrl.href }
+
+  await createViewer(container, {
+    image: itkImage,
+    rotate: false,
+    uiMachineOptions: referenceUIMachineOptions,
+  })
+  t.pass('Viewer with UI module URL')
+
+  await createViewer(container, {
+    image: itkImage,
+    rotate: false,
+    uiMachineOptions: { href: referenceUIUrl.href, export: 'default' },
+  })
+  t.pass('Viewer with UI module URL, explicit export')
+
+  gc.releaseResources()
 })

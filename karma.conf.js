@@ -81,6 +81,24 @@ module.exports = function init(config) {
         served: true,
         included: false,
       },
+      {
+        pattern: './src/UI/reference-ui/dist/referenceUIMachineOptions.js',
+        watched: true,
+        served: true,
+        included: false,
+      },
+      {
+        pattern: './src/UI/Reference/**/**',
+        watched: true,
+        served: true,
+        included: false,
+      },
+      {
+        pattern: './test/testUINoPlaneSlidersBundle.js',
+        watched: true,
+        served: true,
+        included: false,
+      },
     ],
 
     preprocessors: {

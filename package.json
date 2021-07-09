@@ -108,7 +108,7 @@
     "doc": "kw-doc -c ./doc/config.js",
     "doc:www": "kw-doc -c ./doc/config.js -s",
     "doc:publish": "kw-doc -c ./doc/config.js -mp",
-    "build": "npm-run-all --parallel build:release build:ui",
+    "build": "npm-run-all build:release build:ui",
     "build:debug": "webpack --progress --color --mode development",
     "build:release": "webpack --progress --color --mode production",
     "build:ui": "node ./buildUI.js",

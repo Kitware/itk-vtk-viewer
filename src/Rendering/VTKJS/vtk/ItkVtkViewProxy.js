@@ -290,29 +290,29 @@ function ItkVtkViewProxy(publicAPI, model) {
       for (let i = 0; i < axisTicks - 1; i++) {
         for (let j = 0; j < axisTicks - 1; j++) {
           const start = i * axisTicks + j + offset
-          linesArray = linesArray.concat([
+          linesArray.push(
             5,
             start,
             start + 1,
             (i + 1) * axisTicks + j + 1 + offset,
             (i + 1) * axisTicks + j + offset,
-            start,
-          ])
+            start
+          )
         }
       }
       return linesArray
     }
 
-    let axesLines = []
+    const axesLines = []
     // x-y plane
     offset = 0
-    axesLines = addLines(axesLines, offset, axisTicks)
+    addLines(axesLines, offset, axisTicks)
     // y-z plane
     offset += axisTicks * axisTicks
-    axesLines = addLines(axesLines, offset, axisTicks)
+    addLines(axesLines, offset, axisTicks)
     // x-z plane
     offset += axisTicks * axisTicks
-    axesLines = addLines(axesLines, offset, axisTicks)
+    addLines(axesLines, offset, axisTicks)
 
     const verts = new Uint32Array(axesPoints.length)
     verts.fill(1)

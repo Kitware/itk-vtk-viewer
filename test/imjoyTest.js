@@ -97,6 +97,7 @@ test('Test ImJoy Plugin', async t => {
       document.location.origin
     ).href,
   }
+  testConfig.uiMachineOptions = uiMachineOptions
   viewer = await imjoy.pm.createWindow(null, {
     src: viewerIndex.href,
     data: { image: itkImage, uiMachineOptions },

@@ -7,12 +7,8 @@ const imJoyPluginAPI = {
   },
 
   async run(ctx) {
-    let uiMachineOptions = null
-    if (ctx.data.uiMachineOptions) {
-      uiMachineOptions = ctx.data.uiMachineOptions
-    }
     if (ctx.data && ctx.data.image) {
-      if (ctx.config || ctx.data.uiMachineOptions) {
+      if (ctx.config) {
         const multiscaleImage = await itkVtkViewer.utils.toMultiscaleChunkedImage(
           ctx.data.image
         )
@@ -24,13 +20,12 @@ const imJoyPluginAPI = {
           use2D: is2D,
           rotate: false,
           config: ctx.config,
-          uiMachineOptions,
         })
       } else {
         await this.setImage(ctx.data.image)
       }
     } else if (ctx.data && ctx.data.pointSets) {
-      if (ctx.config || ctx.data.uiMachineOptions) {
+      if (ctx.config) {
         const pointSets = ctx.data.pointSets.map(points =>
           itkVtkViewer.utils.ndarrayToPointSet(points)
         )
@@ -40,7 +35,6 @@ const imJoyPluginAPI = {
           geometries: null,
           rotate: false,
           config: ctx.config,
-          uiMachineOptions,
         })
       } else {
         await this.setPointSets(ctx.data.pointSets)

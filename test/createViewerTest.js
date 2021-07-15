@@ -37,7 +37,7 @@ const TEST_VIEWER_STYLE = {
 }
 
 const baselineConfig = JSON.parse(
-  '{"viewerConfigVersion":"0.2","xyLowerLeft":false,"renderingViewContainerStyle":{"position":"relative","width":"600px","height":"600px","minHeight":"600px","minWidth":"600px","maxHeight":"600px","maxWidth":"600px","margin":"0","padding":"0","top":"0","left":"0","overflow":"hidden"},"uiCollapsed":true,"main":{"backgroundColor":[0.7,0.2,0.8],"units":"mm"}}'
+  '{"viewerConfigVersion":"0.3","uiMachineOptions":"reference","xyLowerLeft":false,"renderingViewContainerStyle":{"position":"relative","width":"600px","height":"600px","minHeight":"600px","minWidth":"600px","maxHeight":"600px","maxWidth":"600px","margin":"0","padding":"0","top":"0","left":"0","overflow":"hidden"},"uiCollapsed":true,"main":{"backgroundColor":[0.7,0.2,0.8],"units":"mm"}}'
 )
 
 function makePointSet() {
@@ -111,7 +111,7 @@ test('Test createViewer', async t => {
     image: itkImage,
     labelImage: itkLabelImage,
     rotate: false,
-    uiMachineOptions,
+    config: { uiMachineOptions },
   })
   viewer.setRenderingViewContainerStyle(TEST_VIEWER_STYLE.containerStyle)
   viewer.setBackgroundColor(TEST_VIEWER_STYLE.backgroundColor)
@@ -457,14 +457,16 @@ test('Test createViewer custom UI options', async t => {
   await createViewer(container, {
     image: itkImage,
     rotate: false,
-    uiMachineOptions: referenceUIMachineOptions,
+    config: { uiMachineOptions: referenceUIMachineOptions },
   })
   t.pass('Viewer with UI module URL')
 
   await createViewer(container, {
     image: itkImage,
     rotate: false,
-    uiMachineOptions: { href: referenceUIUrl.href, export: 'default' },
+    config: {
+      uiMachineOptions: { href: referenceUIUrl.href, export: 'default' },
+    },
   })
   t.pass('Viewer with UI module URL, explicit export')
 

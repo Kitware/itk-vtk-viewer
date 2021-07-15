@@ -25,14 +25,20 @@ class ViewerMachineContext {
       .toString()
       .replace('.', '')}`
     if (
-      !!config &&
-      parseInt(config.viewerConfigVersion.split('.')[0]) ===
-        parseInt(this.viewerConfigVersion.split('.')[0])
+      typeof config !== 'undefined' &&
+      (typeof config.viewerConfigVersion === 'undefined' ||
+        parseInt(config.viewerConfigVersion.split('.')[0]) ===
+          parseInt(this.viewerConfigVersion.split('.')[0]))
     ) {
+      if (typeof config.uiMachineOptions !== 'undefined') {
+        this.uiMachineOptions = config.uiMachineOptions
+      }
       if (typeof config.xyLowerLeft !== 'undefined') {
         this.xyLowerLeft = config.xyLowerLeft
       }
-      this.renderingViewContainerStyle = config.renderingViewContainerStyle
+      if (typeof config.renderingViewContainerStyle !== 'undefined') {
+        this.renderingViewContainerStyle = config.renderingViewContainerStyle
+      }
       if (typeof config.uiCollapsed !== 'undefined') {
         this.uiCollapsed = config.uiCollapsed
       }
@@ -48,7 +54,13 @@ class ViewerMachineContext {
   }
 
   getConfig() {
+    let uiMachineOptions = 'reference'
+    if (this.uiMachineOptions.href) {
+      uiMachineOptions = this.uiMachineOptions
+    }
     const config = {
+      uiMachineOptions,
+
       viewerConfigVersion: this.viewerConfigVersion,
 
       xyLowerLeft: this.xyLowerLeft,
@@ -68,7 +80,10 @@ class ViewerMachineContext {
   container = null
 
   // Version for compatibility check
-  viewerConfigVersion = '0.2'
+  viewerConfigVersion = '0.3'
+
+  // How to render the user interface, Either 'reference' or { href: 'https://url.to/uiMachineOptionsESM.js, export: 'default' }, or a JavaScript object with the ui machine options
+  uiMachineOptions = 'reference'
 
   // Unique identifier used to identify a viewer in the DOM when multiple are
   // on a page

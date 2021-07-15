@@ -38,7 +38,6 @@ const createViewer = async (
     use2D = false,
     rotate = true,
     config,
-    uiMachineOptions,
   }
 ) => {
   UserInterface.emptyContainer(rootContainer)
@@ -173,8 +172,10 @@ const createViewer = async (
     }
   }
 
+  const context = new ViewerMachineContext(config)
   const options = { ...viewerMachineOptions }
-  if (uiMachineOptions) {
+  if (context.uiMachineOptions !== 'reference') {
+    const uiMachineOptions = context.uiMachineOptions
     if (uiMachineOptions.href) {
       const loadedUIMachineOptions = await import(
         /* webpackIgnore: true */
@@ -189,7 +190,7 @@ const createViewer = async (
       options.ui = uiMachineOptions
     }
   }
-  const context = new ViewerMachineContext(config)
+
   context.use2D = use2D
   context.rootContainer = rootContainer
   // Todo: move to viewer machine

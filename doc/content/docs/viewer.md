@@ -7,11 +7,6 @@ Additionally, visualization links for data files available on the web can be cre
 
 For example,
 
-<iframe
-title="Visualization link preview"
-src="https://kitware.github.io/itk-vtk-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/564a65d58d777f7522dbfb61/download/data.nrrd"
-width="800" height="600" id="linkPreview"></iframe>
-
 <div>
 <label for="dataVisualizationLink"><a href="https://kitware.github.io/itk-vtk-viewer/app/?fileToLoad=https://data.kitware.com/api/v1/file/564a65d58d777f7522dbfb61/download/data.nrrd" target="_blank" id="linkForNewTab">Visualization link:</a></label>
 <textarea name="dataVisualizationLink" id="dataVisualizationLink" rows="1" cols="100" wrap="off" readonly></textarea>

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import any from 'promise.any'
 
 async function fetchBinaryContent(url, progressCallback) {
   const urlObj = new URL(url)
@@ -20,7 +21,7 @@ async function fetchBinaryContent(url, progressCallback) {
           responseType: 'arraybuffer',
         })
       })
-      const response = await Promise.any(responses)
+      const response = await any(responses)
       return response.data
     } catch (error) {
       // Possibly no local node or network connection

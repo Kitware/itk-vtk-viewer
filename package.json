@@ -117,7 +117,7 @@
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkViewer.html",
     "commit": "git cz",
     "format": "prettier --write src/UserInterface/**/*.js src/*.js",
-    "start": "webpack serve --mode development --content-base ./dist/ --watch-content-base --open",
+    "start": "webpack serve --mode development --content-base ./dist/ --watch-content-base --open --port 8082",
     "semantic-release": "semantic-release",
     "test": "npm run build:test-ui && karma start ./karma.conf.js --browsers Chrome,Firefox",
     "test:headless": "./test/run.sh",

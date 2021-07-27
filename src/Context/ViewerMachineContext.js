@@ -25,7 +25,7 @@ class ViewerMachineContext {
       .toString()
       .replace('.', '')}`
     if (
-      typeof config !== 'undefined' &&
+      config &&
       (typeof config.viewerConfigVersion === 'undefined' ||
         parseInt(config.viewerConfigVersion.split('.')[0]) ===
           parseInt(this.viewerConfigVersion.split('.')[0]))

@@ -7,6 +7,7 @@ import MultiscaleChunkedImage from './MultiscaleChunkedImage'
 import InMemoryMultiscaleChunkedImage from './InMemoryMultiscaleChunkedImage'
 import ZarrMultiscaleChunkedImage from './ZarrMultiscaleChunkedImage'
 import ndarrayToItkImage from './ndarrayToItkImage'
+import fetchBinaryContent from './fetchBinaryContent'
 
 async function itkImageToInMemoryMultiscaleChunkedImage(image, isLabelImage) {
   let chunkSize = [64, 64, 64]
@@ -85,12 +86,10 @@ async function toMultiscaleChunkedImage(image, isLabelImage = false) {
         imageType
       )
     } else {
-      const response = await axios.get(imageHref, {
-        responseType: 'arraybuffer',
-      })
+      const dataBuffer = await fetchBinaryContent(imageHref)
       const { image: itkImage, webWorker } = await readImageArrayBuffer(
         null,
-        response.data,
+        dataBuffer,
         imageHref.split('/').slice(-1)[0]
       )
       webWorker.terminate()

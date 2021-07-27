@@ -1,4 +1,4 @@
-import vtkITKHelper from '@thewtex/vtk.js-esm/Common/DataModel/ITKHelper'
+import vtkITKHelper from '@kitware/vtk.js/Common/DataModel/ITKHelper'
 
 function updateRenderedImageInterface(context, event) {
   const name = event.data

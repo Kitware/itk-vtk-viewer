@@ -1,5 +1,5 @@
-import macro from '@thewtex/vtk.js-esm/macro'
-import vtkPiecewiseGaussianWidget from '@thewtex/vtk.js-esm/Interaction/Widgets/PiecewiseGaussianWidget'
+import macro from '@kitware/vtk.js/macro'
+import vtkPiecewiseGaussianWidget from '@kitware/vtk.js/Interaction/Widgets/PiecewiseGaussianWidget'
 
 /* eslint-disable no-continue */
 

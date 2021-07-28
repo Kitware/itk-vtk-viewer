@@ -9,27 +9,6 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/imjoy.html</loc>
-    
-    <lastmod>2021-07-28</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/index.html</loc>
-    
-    <lastmod>2021-07-28</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/shortcuts.html</loc>
-    
-    <lastmod>2021-07-28</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/docs/viewer.html</loc>
     
     <lastmod>2021-07-28</lastmod>
@@ -37,7 +16,7 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/embeddedViewer.html</loc>
+    <loc>https://kitware.github.io/itk-vtk-viewer/api/index.html</loc>
     
     <lastmod>2021-07-28</lastmod>
     
@@ -58,7 +37,28 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/api/index.html</loc>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/embeddedViewer.html</loc>
+    
+    <lastmod>2021-07-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/imjoy.html</loc>
+    
+    <lastmod>2021-07-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/index.html</loc>
+    
+    <lastmod>2021-07-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/shortcuts.html</loc>
     
     <lastmod>2021-07-28</lastmod>
     

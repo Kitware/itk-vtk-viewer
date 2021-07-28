@@ -114,7 +114,7 @@
     "build:release": "webpack --progress --color --mode production",
     "build:ui": "node ./buildUI.js",
     "build:test-ui": "rollup -c ./test/test-ui-rollup.config.js",
-    "prepublishOnly": "npm run build",
+    "prepack": "npm run build",
     "bundle": "StandaloneHTML ./dist/index.html ./dist/ItkVtkViewer.html",
     "commit": "git cz",
     "format": "prettier --write src/UserInterface/**/*.js src/*.js",

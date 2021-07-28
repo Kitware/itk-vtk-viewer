@@ -90,7 +90,7 @@
     "rollup": "^2.52.7",
     "rollup-plugin-postcss": "^4.0.0",
     "rollup-plugin-svgo": "^1.1.0",
-    "semantic-release": "^17.3.9",
+    "semantic-release": "^17.4.4",
     "sockjs-client": "^1.5.0",
     "stream-browserify": "^3.0.0",
     "style-loader": "^2.0.0",

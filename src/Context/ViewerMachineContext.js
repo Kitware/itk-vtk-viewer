@@ -3,7 +3,7 @@ import LayersMachineContext from './LayersMachineContext'
 import ImagesMachineContext from './ImagesMachineContext'
 import WidgetsMachineContext from './WidgetsMachineContext'
 
-const defaultContainerStyle = {
+const defaultRenderingViewContainerStyle = {
   position: 'relative',
   width: '100%',
   height: 'auto',
@@ -25,18 +25,23 @@ class ViewerMachineContext {
       .toString()
       .replace('.', '')}`
     if (
-      !!config &&
-      parseInt(config.viewerConfigVersion.split('.')[0]) ===
-        parseInt(this.viewerConfigVersion.split('.')[0])
+      config &&
+      (typeof config.viewerConfigVersion === 'undefined' ||
+        parseInt(config.viewerConfigVersion.split('.')[0]) ===
+          parseInt(this.viewerConfigVersion.split('.')[0]))
     ) {
+      if (typeof config.uiMachineOptions !== 'undefined') {
+        this.uiMachineOptions = config.uiMachineOptions
+      }
       if (typeof config.xyLowerLeft !== 'undefined') {
         this.xyLowerLeft = config.xyLowerLeft
       }
-      this.containerStyle = config.containerStyle
+      if (typeof config.renderingViewContainerStyle !== 'undefined') {
+        this.renderingViewContainerStyle = config.renderingViewContainerStyle
+      }
       if (typeof config.uiCollapsed !== 'undefined') {
         this.uiCollapsed = config.uiCollapsed
       }
-
       this.main = new MainMachineContext(config.main)
     } else {
       this.main = new MainMachineContext()
@@ -49,11 +54,17 @@ class ViewerMachineContext {
   }
 
   getConfig() {
+    let uiMachineOptions = 'reference'
+    if (this.uiMachineOptions.href) {
+      uiMachineOptions = this.uiMachineOptions
+    }
     const config = {
+      uiMachineOptions,
+
       viewerConfigVersion: this.viewerConfigVersion,
 
       xyLowerLeft: this.xyLowerLeft,
-      containerStyle: { ...this.containerStyle },
+      renderingViewContainerStyle: { ...this.renderingViewContainerStyle },
       uiCollapsed: this.uiCollapsed,
 
       main: this.main.getConfig(),
@@ -69,7 +80,10 @@ class ViewerMachineContext {
   container = null
 
   // Version for compatibility check
-  viewerConfigVersion = '0.2'
+  viewerConfigVersion = '0.3'
+
+  // How to render the user interface, Either 'reference' or { href: 'https://url.to/uiMachineOptionsESM.js, export: 'default' }, or a JavaScript object with the ui machine options
+  uiMachineOptions = 'reference'
 
   // Unique identifier used to identify a viewer in the DOM when multiple are
   // on a page
@@ -82,8 +96,11 @@ class ViewerMachineContext {
   // or upper left?
   xyLowerLeft = false
 
-  // Style of the container for the viewer
-  containerStyle = defaultContainerStyle
+  // Container's (html div's) containing rendering views
+  renderingViewContainers = new Map()
+
+  // Style of the container for the rendering views
+  renderingViewContainerStyle = defaultRenderingViewContainerStyle
 
   // Is a "dark mode" enabled in the user interface?
   uiDarkMode = false

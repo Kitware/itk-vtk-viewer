@@ -1,8 +1,12 @@
 class MainMachineContext {
   constructor(config) {
     if (config) {
-      this.backgroundColor = config.backgroundColor
-      this.units = config.units
+      if (typeof config.backgroundColor !== 'undefined') {
+        this.backgroundColor = config.backgroundColor
+      }
+      if (typeof config.units !== 'undefined') {
+        this.units = config.units
+      }
 
       // Todo: more
     }

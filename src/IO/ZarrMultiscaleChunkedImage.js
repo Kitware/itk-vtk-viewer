@@ -68,7 +68,18 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
     }]
     */
   static async extractScaleInfo(store) {
-    const zattrs = await store.getItem('.zattrs')
+    const decoder = new TextDecoder()
+
+    let bottomScaleInfo = {
+      dims: [],
+      coords: new Map(),
+      numberOfCXYZTChunks: [1, 1, 1, 1, 1],
+      sizeCXYZTChunks: [1, 1, 1, 1, 1],
+      sizeCXYZTElements: [1, 1, 1, 1, 1],
+    }
+
+    const zattrsBytes = await store.getItem('.zattrs')
+    const zattrs = JSON.parse(decoder.decode(zattrsBytes))
     const multiscales = zattrs.multiscales
     const name = multiscales[0]['name']
     const datasets = multiscales[0].datasets
@@ -84,7 +95,9 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
       }
 
       const pixelArrayAttrsPath = `${scalePath}/.zattrs`
-      const pixelArrayAttrs = await store.getItem(pixelArrayAttrsPath)
+      const pixelArrayAttrsBytes = await store.getItem(pixelArrayAttrsPath)
+      const pixelArrayAttrs = JSON.parse(decoder.decode(pixelArrayAttrsBytes))
+
       const arrayDims = pixelArrayAttrs._ARRAY_DIMENSIONS || []
       info.dims = arrayDims
       if (pixelArrayAttrs.direction) {
@@ -94,7 +107,9 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
         info.ranges = pixelArrayAttrs.ranges
       }
       const pixelArrayMetaPath = `${scalePath}/.zarray`
-      const pixelArrayMeta = await store.getItem(pixelArrayMetaPath)
+      const pixelArrayMetaBytes = await store.getItem(pixelArrayMetaPath)
+      const pixelArrayMeta = JSON.parse(decoder.decode(pixelArrayMetaBytes))
+
       info.pixelArrayMetadata = pixelArrayMeta
       info.name = name
       info.pixelArrayPath = scalePath

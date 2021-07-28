@@ -20,14 +20,18 @@ changes with incompatible configuration -- a viewer will only use a
 configuration that has the same major version. The minor version indicates
 supported configuration entries.
 
+### uiMachineOptions
+
+How to render the user interface. Either `'reference'` or `{ href: 'https://url.to/uiMachineOptionsESM.js, export: 'default' }`, or a JavaScript object with the UI machine options. If a JavaScript object, it will not be serializable.
+
 ### xyLowerLeft
 
 When viewing the Z slice, the X-Y plane, whether the origin is in the lower left
 or upper left.
 
-### containerStyle
+### renderingViewContainerStyle
 
-CSS style of the container (`div`) for the viewer.
+CSS style of the container (`div`) for the rendering views.
 
 ### uiCollapsed
 

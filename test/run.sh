@@ -142,7 +142,7 @@ docker run \
   --workdir /home/user/work \
   ${mount_local} \
   $port_arg \
-  --env="APP=npm run test -- --browsers Firefox" \
+  --env="APP=npm run test -- --browsers Chrome" \
   $extra_run_args \
   $debug_arg \
   $image >/dev/null

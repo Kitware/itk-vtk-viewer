@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build
-        run: npm run build:release
+        run: npm run build
       - name: Test
         run: |
           # Allow writing test/output.html

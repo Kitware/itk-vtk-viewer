@@ -220,9 +220,9 @@ function ItkVtkViewProxy(publicAPI, model) {
           iIndex: ijk[0],
           jIndex: ijk[1],
           kIndex: ijk[2],
-          xPosition: String(worldPosition[0]).substring(0, 4),
-          yPosition: String(worldPosition[1]).substring(0, 4),
-          zPosition: String(worldPosition[2]).substring(0, 4),
+          xPosition: Number.parseFloat(worldPosition[0]).toPrecision(4),
+          yPosition: Number.parseFloat(worldPosition[1]).toPrecision(4),
+          zPosition: Number.parseFloat(worldPosition[2]).toPrecision(4),
           value:
             model.labelIndex === null
               ? fusedValue
@@ -293,29 +293,29 @@ function ItkVtkViewProxy(publicAPI, model) {
       for (let i = 0; i < axisTicks - 1; i++) {
         for (let j = 0; j < axisTicks - 1; j++) {
           const start = i * axisTicks + j + offset
-          linesArray = linesArray.concat([
+          linesArray.push(
             5,
             start,
             start + 1,
             (i + 1) * axisTicks + j + 1 + offset,
             (i + 1) * axisTicks + j + offset,
-            start,
-          ])
+            start
+          )
         }
       }
       return linesArray
     }
 
-    let axesLines = []
+    const axesLines = []
     // x-y plane
     offset = 0
-    axesLines = addLines(axesLines, offset, axisTicks)
+    addLines(axesLines, offset, axisTicks)
     // y-z plane
     offset += axisTicks * axisTicks
-    axesLines = addLines(axesLines, offset, axisTicks)
+    addLines(axesLines, offset, axisTicks)
     // x-z plane
     offset += axisTicks * axisTicks
-    axesLines = addLines(axesLines, offset, axisTicks)
+    addLines(axesLines, offset, axisTicks)
 
     const verts = new Uint32Array(axesPoints.length)
     verts.fill(1)

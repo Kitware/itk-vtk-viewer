@@ -1,6 +1,6 @@
-import vtkMouseRangeManipulator from '@thewtex/vtk.js-esm/Interaction/Manipulators/MouseRangeManipulator'
+import vtkMouseRangeManipulator from '@kitware/vtk.js/Interaction/Manipulators/MouseRangeManipulator'
 import vtkItkPiecewiseGaussianWidget from '../vtk/ItkPiecewiseGaussianWidget'
-import macro from '@thewtex/vtk.js-esm/macro'
+import macro from '@kitware/vtk.js/macro'
 
 import style from '../ItkVtkViewer.module.css'
 

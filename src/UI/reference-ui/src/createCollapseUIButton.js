@@ -1,6 +1,6 @@
 import style from './ItkVtkViewer.module.css'
 
-import toggleIcon from './Icons/toggle.svg'
+import { toggleIconDataUri } from '../../icons/dist/index.js'
 import applyContrastSensitiveStyleToElement from './applyContrastSensitiveStyleToElement'
 import toggleUICollapsed from './toggleUICollapsed'
 
@@ -14,7 +14,7 @@ function createCollapseUIButton(context) {
   )
 
   collapseUIButton.id = `${context.id}-collapseUIButton`
-  collapseUIButton.innerHTML = `${toggleIcon}`
+  collapseUIButton.innerHTML = `<img src="${toggleIconDataUri}" alt="toggle"/>`
 
   toggleUICollapsed(context)
 

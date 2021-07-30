@@ -4,8 +4,10 @@ import vtkImageCroppingRegionsWidget from '@kitware/vtk.js/Interaction/Widgets/I
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import cropIcon from '.././Icons/crop.svg'
-import resetCropIcon from '.././Icons/reset-crop.svg'
+import {
+  cropIconDataUri,
+  resetCropIconDataUri,
+} from '../../../icons/dist/index.js'
 
 function createCroppingButtons(context, mainUIRow) {
   const viewerDOMId = context.id
@@ -50,7 +52,7 @@ function createCroppingButtons(context, mainUIRow) {
     )
 
     const cropButton = document.createElement('div')
-    cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Select ROI [w]" class="${style.cropButton} ${style.toggleButton}" for="${viewerDOMId}-toggleCroppingPlanesButton">${cropIcon}</label>`
+    cropButton.innerHTML = `<input id="${viewerDOMId}-toggleCroppingPlanesButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Select ROI [w]" class="${style.cropButton} ${style.toggleButton}" for="${viewerDOMId}-toggleCroppingPlanesButton"><img src="${cropIconDataUri}" alt="crop" /></label>`
     const cropButtonInput = cropButton.children[0]
     const cropButtonLabel = cropButton.children[1]
     applyContrastSensitiveStyleToElement(
@@ -80,7 +82,7 @@ function createCroppingButtons(context, mainUIRow) {
     mainUIRow.appendChild(cropButton)
 
     const resetCropButton = document.createElement('div')
-    resetCropButton.innerHTML = `<input id="${viewerDOMId}-resetCroppingPlanesButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset ROI [e]" class="${style.resetCropButton} ${style.toggleButton}" for="${viewerDOMId}-resetCroppingPlanesButton">${resetCropIcon}</label>`
+    resetCropButton.innerHTML = `<input id="${viewerDOMId}-resetCroppingPlanesButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Reset ROI [e]" class="${style.resetCropButton} ${style.toggleButton}" for="${viewerDOMId}-resetCroppingPlanesButton"><img src="${resetCropIconDataUri}" alt="reset crop" /></label>`
     const resetCropButtonLabel = resetCropButton.children[1]
     applyContrastSensitiveStyleToElement(
       context,

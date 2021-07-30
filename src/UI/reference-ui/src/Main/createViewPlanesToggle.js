@@ -1,13 +1,13 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import viewPlansIcon from '.././Icons/view-planes.svg'
+import { viewPlanesIconDataUri } from '../../../icons/dist/index.js'
 
 function createViewPlanesToggle(context, volumeRow) {
   const viewerDOMId = context.id
 
   const viewPlanesButton = document.createElement('div')
-  viewPlanesButton.innerHTML = `<input id="${viewerDOMId}-toggleSlicingPlanesButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-axes itk-vtk-tooltip-content="View planes [s]" class="${style.viewPlanesButton} ${style.toggleButton}" for="${viewerDOMId}-toggleSlicingPlanesButton">${viewPlansIcon}</label>`
+  viewPlanesButton.innerHTML = `<input id="${viewerDOMId}-toggleSlicingPlanesButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-axes itk-vtk-tooltip-content="View planes [s]" class="${style.viewPlanesButton} ${style.toggleButton}" for="${viewerDOMId}-toggleSlicingPlanesButton"><img src="${viewPlanesIconDataUri}" alt="view planes" /></label>`
   const viewPlanesButtonInput = viewPlanesButton.children[0]
   const viewPlanesButtonLabel = viewPlanesButton.children[1]
   context.main.viewPlanesButton = viewPlanesButton

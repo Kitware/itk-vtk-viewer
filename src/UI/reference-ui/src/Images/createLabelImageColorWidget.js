@@ -4,7 +4,7 @@ import createCategoricalColorIconSelector from '../createCategoricalColorIconSel
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import opacityIcon from '.././Icons/opacity.svg'
+import { opacityIconDataUri } from '../../../icons/dist/index.js'
 
 function createLabelImageColorWidget(context) {
   const viewerDOMId = context.id
@@ -40,7 +40,7 @@ function createLabelImageColorWidget(context) {
   sliderEntry.setAttribute('class', style.sliderEntry)
   sliderEntry.innerHTML = `
   <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Label image blend" class="${style.gradientOpacitySlider}">
-  ${opacityIcon}
+    <img src="${opacityIconDataUri}" alt="opacity"/>
   </div>
   <input type="range" min="0" max="1" value="0.5" step="0.01"
   id="${context.id}-labelImageBlendSlider"

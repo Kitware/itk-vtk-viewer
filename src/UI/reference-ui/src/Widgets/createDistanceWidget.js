@@ -1,7 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import distanceIcon from '.././Icons/length-tool.svg'
+import { lengthToolIconDataUri } from '../../../icons/dist/index.js'
 
 function createDistanceWidget(context, widgetsUIGroup) {
   const viewerDOMId = context.id
@@ -20,7 +20,7 @@ function createDistanceWidget(context, widgetsUIGroup) {
   distanceEntry.setAttribute('class', style.distanceEntry)
 
   const distanceButton = document.createElement('span')
-  distanceButton.innerHTML = `<input id="${viewerDOMId}-toggleDistanceButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Length" class="${style.distanceButton} ${style.toggleButton}" for="${viewerDOMId}-toggleDistanceButton">${distanceIcon}</label>`
+  distanceButton.innerHTML = `<input id="${viewerDOMId}-toggleDistanceButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Length" class="${style.distanceButton} ${style.toggleButton}" for="${viewerDOMId}-toggleDistanceButton"><img src="${lengthToolIconDataUri}" alt="distance"/></label>`
   context.widgets.distanceButtonInput = distanceButton.children[0]
   context.widgets.distanceButtonInput.checked = context.widgets.distanceEnabled
   const distanceButtonLabel = distanceButton.children[1]

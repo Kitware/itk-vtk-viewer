@@ -1,6 +1,6 @@
 {
   "name": "itk-viewer-icons",
-  "version": "11.9.2",
+  "version": "11.10.0",
   "description": "UI icons for itk-viewer",
   "module": "dist/index.js",
   "scripts": {

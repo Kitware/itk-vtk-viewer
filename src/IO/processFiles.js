@@ -77,9 +77,11 @@ export const readFiles = async ({
         return PromiseFileReader.readAsArrayBuffer(file).then(fileContents => {
           const vtiReader = vtkXMLImageDataReader.newInstance()
           vtiReader.parseAsArrayBuffer(fileContents)
+          const vtkImage = vtiReader.getOutputData(0)
+          const itkImage = vtkITKHelper.convertVtkToItkImage(vtkImage)
           return Promise.resolve({
             is3D: true,
-            data: vtiReader.getOutputData(0),
+            data: itkImage,
           })
         })
       } else if (extensionToPolyDataIO.has(extension)) {

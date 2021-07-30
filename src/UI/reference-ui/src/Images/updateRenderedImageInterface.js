@@ -1,5 +1,3 @@
-import vtkITKHelper from '@kitware/vtk.js/Common/DataModel/ITKHelper'
-
 function updateRenderedImageInterface(context, event) {
   const name = event.data
   const actorContext = context.images.actorContext.get(name)

@@ -1,10 +1,12 @@
 import style from '../ItkVtkViewer.module.css'
 
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
-import visibleIcon from '.././Icons/visible.svg'
-import invisibleIcon from '.././Icons/invisible.svg'
-import imageIcon from '.././Icons/image.svg'
-import labelsIcon from '.././Icons/labels.svg'
+import {
+  visibleIconDataUri,
+  invisibleIconDataUri,
+  imageIconDataUri,
+  labelsIconDataUri,
+} from '../../../icons/dist/index.js'
 
 function createLayerEntry(context, name, layer) {
   const layerEntry = document.createElement('div')
@@ -13,7 +15,7 @@ function createLayerEntry(context, name, layer) {
   applyContrastSensitiveStyleToElement(context, 'layerEntry', layerEntry)
 
   const visibleButton = document.createElement('div')
-  visibleButton.innerHTML = `<input id="${context.id}-visibleButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-visibleButton">${visibleIcon}</label>`
+  visibleButton.innerHTML = `<input id="${context.id}-visibleButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-visibleButton"><img src="${visibleIconDataUri}" alt="visible"/></label>`
   const visibleButtonInput = visibleButton.children[0]
   const visibleLabel = visibleButton.children[1]
   applyContrastSensitiveStyleToElement(
@@ -23,7 +25,7 @@ function createLayerEntry(context, name, layer) {
   )
   layerEntry.appendChild(visibleButton)
   const invisibleButton = document.createElement('div')
-  invisibleButton.innerHTML = `<input id="${context.id}-invisibleButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-invisibleButton">${invisibleIcon}</label>`
+  invisibleButton.innerHTML = `<input id="${context.id}-invisibleButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-invisibleButton"><img src="${invisibleIconDataUri} alt="invisible""/></label>`
   const invisibleButtonInput = invisibleButton.children[0]
   const invisibleLabel = invisibleButton.children[1]
   applyContrastSensitiveStyleToElement(
@@ -63,11 +65,11 @@ function createLayerEntry(context, name, layer) {
   const iconElement = document.createElement('div')
   switch (layer.type) {
     case 'image': {
-      iconElement.innerHTML = `${imageIcon}`
+      iconElement.innerHTML = `<img src="${imageIconDataUri}" alt="image"/>`
       break
     }
     case 'labelImage': {
-      iconElement.innerHTML = `${labelsIcon}`
+      iconElement.innerHTML = `<img src="${labelsIconDataUri}" alt="labels"/>`
       break
     }
     default:

@@ -1,11 +1,11 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import shadowIcon from '.././Icons/shadow.svg'
+import { shadowIconDataUri } from '../../../icons/dist/index.js'
 
 function createShadowToggle(context, uiContainer) {
   const shadowButton = document.createElement('div')
-  shadowButton.innerHTML = `<input id="${context.id}-toggleShadowButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Use shadow" class="${style.shadowButton} ${style.toggleButton}" for="${context.id}-toggleShadowButton">${shadowIcon}</label>`
+  shadowButton.innerHTML = `<input id="${context.id}-toggleShadowButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Use shadow" class="${style.shadowButton} ${style.toggleButton}" for="${context.id}-toggleShadowButton"><img src="${shadowIconDataUri}" alt="shadow" /></label>`
   const shadowButtonInput = shadowButton.children[0]
   const shadowButtonLabel = shadowButton.children[1]
   applyContrastSensitiveStyleToElement(

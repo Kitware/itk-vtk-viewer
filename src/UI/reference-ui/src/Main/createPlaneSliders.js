@@ -1,10 +1,12 @@
 import macro from '@kitware/vtk.js/macro'
 import style from '../ItkVtkViewer.module.css'
 
-import visibleIcon from '.././Icons/visible.svg'
-import invisibleIcon from '.././Icons/invisible.svg'
-import pauseIcon from '.././Icons/pause.svg'
-import playIcon from '.././Icons/play.svg'
+import {
+  visibleIconDataUri,
+  invisibleIconDataUri,
+  pauseIconDataUri,
+  playIconDataUri,
+} from '../../../icons/dist/index.js'
 
 function createPlaneSliders(context) {
   const planeUIGroup = document.createElement('div')
@@ -19,7 +21,7 @@ function createPlaneSliders(context) {
   context.main.xPlaneRow = xPlaneRow
 
   const xPlaneVisibleButton = document.createElement('div')
-  xPlaneVisibleButton.innerHTML = `<input id="${context.id}-xPlaneVisibleButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="X plane visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-xPlaneVisibleButton">${visibleIcon}</label>`
+  xPlaneVisibleButton.innerHTML = `<input id="${context.id}-xPlaneVisibleButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="X plane visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-xPlaneVisibleButton"><img src="${visibleIconDataUri}" alt="visible" /></label>`
   const xPlaneVisibleButtonInput = xPlaneVisibleButton.children[0]
   const xPlaneVisibleLabel = xPlaneVisibleButton.children[1]
   xPlaneRow.appendChild(xPlaneVisibleButton)
@@ -28,7 +30,7 @@ function createPlaneSliders(context) {
   const xPlaneInvisibleButton = document.createElement('div')
   xPlaneVisibleButton.setAttribute('class', style.visibleButton)
   xPlaneInvisibleButton.setAttribute('class', style.visibleButton)
-  xPlaneInvisibleButton.innerHTML = `<input id="${context.id}-invisibleButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="X plane visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-xPlaneInvisibleButton">${invisibleIcon}</label>`
+  xPlaneInvisibleButton.innerHTML = `<input id="${context.id}-invisibleButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="X plane visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-xPlaneInvisibleButton"><img src="${invisibleIconDataUri}" alt="invisible" /></label>`
   const xPlaneInvisibleButtonInput = xPlaneInvisibleButton.children[0]
   const xPlaneInvisibleLabel = xPlaneInvisibleButton.children[1]
   xPlaneRow.appendChild(xPlaneInvisibleButton)
@@ -71,7 +73,7 @@ function createPlaneSliders(context) {
   })
 
   const xPlanePauseButton = document.createElement('div')
-  xPlanePauseButton.innerHTML = `<input id="${context.id}-xPlanePauseButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="X plane pause scroll" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-xPlanePauseButton">${pauseIcon}</label>`
+  xPlanePauseButton.innerHTML = `<input id="${context.id}-xPlanePauseButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="X plane pause scroll" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-xPlanePauseButton"><img src="${pauseIconDataUri}" alt="pause" /></label>`
   const xPlanePauseButtonInput = xPlanePauseButton.children[0]
   const xPlanePauseLabel = xPlanePauseButton.children[1]
   xPlaneRow.appendChild(xPlanePauseButton)
@@ -80,7 +82,7 @@ function createPlaneSliders(context) {
   const xPlanePlayButton = document.createElement('div')
   xPlanePauseButton.setAttribute('class', style.visibleButton)
   xPlanePlayButton.setAttribute('class', style.visibleButton)
-  xPlanePlayButton.innerHTML = `<input id="${context.id}-xPlanePlayButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="X plane play scroll" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-xPlanePlayButton">${playIcon}</label>`
+  xPlanePlayButton.innerHTML = `<input id="${context.id}-xPlanePlayButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="X plane play scroll" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-xPlanePlayButton"><img src="${playIconDataUri}" alt="play"/></label>`
   const xPlanePlayButtonInput = xPlanePlayButton.children[0]
   const xPlanePlayLabel = xPlanePlayButton.children[1]
   xPlaneRow.appendChild(xPlanePlayButton)
@@ -147,7 +149,7 @@ function createPlaneSliders(context) {
 
   const yPlaneVisibleButton = document.createElement('div')
   yPlaneVisibleButton.setAttribute('class', style.visibleButton)
-  yPlaneVisibleButton.innerHTML = `<input id="${context.id}-yPlaneVisibleButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Y plane visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-yPlaneVisibleButton">${visibleIcon}</label>`
+  yPlaneVisibleButton.innerHTML = `<input id="${context.id}-yPlaneVisibleButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Y plane visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-yPlaneVisibleButton"><img src="${visibleIconDataUri}" alt="visible"/></label>`
   const yPlaneVisibleButtonInput = yPlaneVisibleButton.children[0]
   const yPlaneVisibleLabel = yPlaneVisibleButton.children[1]
   yPlaneRow.appendChild(yPlaneVisibleButton)
@@ -155,7 +157,7 @@ function createPlaneSliders(context) {
 
   const yPlaneInvisibleButton = document.createElement('div')
   yPlaneInvisibleButton.setAttribute('class', style.visibleButton)
-  yPlaneInvisibleButton.innerHTML = `<input id="${context.id}-invisibleButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Y plane visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-yPlaneInvisibleButton">${invisibleIcon}</label>`
+  yPlaneInvisibleButton.innerHTML = `<input id="${context.id}-invisibleButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Y plane visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-yPlaneInvisibleButton"><img src="${invisibleIconDataUri}" alt="invisible" /></label>`
   const yPlaneInvisibleButtonInput = yPlaneInvisibleButton.children[0]
   const yPlaneInvisibleLabel = yPlaneInvisibleButton.children[1]
   yPlaneRow.appendChild(yPlaneInvisibleButton)
@@ -198,7 +200,7 @@ function createPlaneSliders(context) {
   })
 
   const yPlanePauseButton = document.createElement('div')
-  yPlanePauseButton.innerHTML = `<input id="${context.id}-yPlanePauseButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Y plane pause scroll" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-yPlanePauseButton">${pauseIcon}</label>`
+  yPlanePauseButton.innerHTML = `<input id="${context.id}-yPlanePauseButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Y plane pause scroll" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-yPlanePauseButton"><img src="${pauseIconDataUri}" alt="pause" /></label>`
   const yPlanePauseButtonInput = yPlanePauseButton.children[0]
   const yPlanePauseLabel = yPlanePauseButton.children[1]
   yPlaneRow.appendChild(yPlanePauseButton)
@@ -207,7 +209,7 @@ function createPlaneSliders(context) {
   const yPlanePlayButton = document.createElement('div')
   yPlanePauseButton.setAttribute('class', style.visibleButton)
   yPlanePlayButton.setAttribute('class', style.visibleButton)
-  yPlanePlayButton.innerHTML = `<input id="${context.id}-yPlanePlayButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Y plane play scroll" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-yPlanePlayButton">${playIcon}</label>`
+  yPlanePlayButton.innerHTML = `<input id="${context.id}-yPlanePlayButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Y plane play scroll" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-yPlanePlayButton"><img src="${playIconDataUri}" alt="play"/></label>`
   const yPlanePlayButtonInput = yPlanePlayButton.children[0]
   const yPlanePlayLabel = yPlanePlayButton.children[1]
   yPlaneRow.appendChild(yPlanePlayButton)
@@ -274,7 +276,7 @@ function createPlaneSliders(context) {
 
   const zPlaneVisibleButton = document.createElement('div')
   zPlaneVisibleButton.setAttribute('class', style.visibleButton)
-  zPlaneVisibleButton.innerHTML = `<input id="${context.id}-zPlaneVisibleButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Z plane visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-zPlaneVisibleButton">${visibleIcon}</label>`
+  zPlaneVisibleButton.innerHTML = `<input id="${context.id}-zPlaneVisibleButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Z plane visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-zPlaneVisibleButton"><img src="${visibleIconDataUri}" alt="visible" /></label>`
   const zPlaneVisibleButtonInput = zPlaneVisibleButton.children[0]
   const zPlaneVisibleLabel = zPlaneVisibleButton.children[1]
   zPlaneRow.appendChild(zPlaneVisibleButton)
@@ -282,7 +284,7 @@ function createPlaneSliders(context) {
 
   const zPlaneInvisibleButton = document.createElement('div')
   zPlaneInvisibleButton.setAttribute('class', style.visibleButton)
-  zPlaneInvisibleButton.innerHTML = `<input id="${context.id}-invisibleButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Z plane visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-zPlaneInvisibleButton">${invisibleIcon}</label>`
+  zPlaneInvisibleButton.innerHTML = `<input id="${context.id}-invisibleButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Z plane visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-zPlaneInvisibleButton"><img src="${invisibleIconDataUri}" alt="invisible" /></label>`
   const zPlaneInvisibleButtonInput = zPlaneInvisibleButton.children[0]
   const zPlaneInvisibleLabel = zPlaneInvisibleButton.children[1]
   zPlaneRow.appendChild(zPlaneInvisibleButton)
@@ -325,7 +327,7 @@ function createPlaneSliders(context) {
   })
 
   const zPlanePauseButton = document.createElement('div')
-  zPlanePauseButton.innerHTML = `<input id="${context.id}-zPlanePauseButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Z plane pause scroll" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-zPlanePauseButton">${pauseIcon}</label>`
+  zPlanePauseButton.innerHTML = `<input id="${context.id}-zPlanePauseButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Z plane pause scroll" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-zPlanePauseButton"><img src="${pauseIconDataUri}" alt="pause" /></label>`
   const zPlanePauseButtonInput = zPlanePauseButton.children[0]
   const zPlanePauseLabel = zPlanePauseButton.children[1]
   zPlaneRow.appendChild(zPlanePauseButton)
@@ -334,7 +336,7 @@ function createPlaneSliders(context) {
   const zPlanePlayButton = document.createElement('div')
   zPlanePauseButton.setAttribute('class', style.visibleButton)
   zPlanePlayButton.setAttribute('class', style.visibleButton)
-  zPlanePlayButton.innerHTML = `<input id="${context.id}-zPlanePlayButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Z plane play scroll" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-zPlanePlayButton">${playIcon}</label>`
+  zPlanePlayButton.innerHTML = `<input id="${context.id}-zPlanePlayButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Z plane play scroll" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-zPlanePlayButton"><img src="${playIconDataUri}" alt="play" /></label>`
   const zPlanePlayButtonInput = zPlanePlayButton.children[0]
   const zPlanePlayLabel = zPlanePlayButton.children[1]
   zPlaneRow.appendChild(zPlanePlayButton)

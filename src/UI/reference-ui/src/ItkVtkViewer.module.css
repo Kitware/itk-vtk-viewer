@@ -263,7 +263,7 @@
   z-index: 1000;
 }
 
-.visibleButton svg {
+.visibleButton img {
   height: 1.2em;
   width: 1.2em;
   padding-top: 2px;
@@ -272,7 +272,7 @@
   padding-right: 6px;
 }
 
-.layerIcon svg {
+.layerIcon img {
   height: 1.2em;
   width: 1.2em;
   padding-top: 2px;
@@ -315,7 +315,7 @@
   z-index: 1000;
 }
 
-.screenshotButton svg {
+.screenshotButton img {
   height: 1.2em;
   width: 1.2em;
 }
@@ -331,7 +331,7 @@
   z-index: 1000;
 }
 
-.annotationsButton svg {
+.annotationsButton img {
   height: 1.2em;
   width: 1.2em;
 }
@@ -347,7 +347,7 @@
   z-index: 1000;
 }
 
-.axesButton svg {
+.axesButton img {
   height: 1.2em;
   width: 1.2em;
 }
@@ -363,7 +363,7 @@
   z-index: 1000;
 }
 
-.fullscreenButton svg {
+.fullscreenButton img {
   height: 1.2em;
   width: 1.2em;
 }
@@ -379,7 +379,7 @@
   z-index: 1000;
 }
 
-.interpolationButton svg {
+.interpolationButton img {
   height: 1.2em;
   width: 1.2em;
 }
@@ -395,7 +395,7 @@
   z-index: 1000;
 }
 
-.cropButton svg {
+.cropButton img {
   height: 1.2em;
   width: 1.2em;
 }
@@ -411,7 +411,7 @@
   z-index: 1000;
 }
 
-.resetCropButton svg {
+.resetCropButton img {
   height: 1.2em;
   width: 1.2em;
 }
@@ -434,7 +434,7 @@
   z-index: 1000;
 }
 
-.distanceButton svg {
+.distanceButton img {
   height: 1.2em;
   width: 1.2em;
 }
@@ -473,7 +473,7 @@
   z-index: 1000;
 }
 
-.resetCameraButton svg {
+.resetCameraButton img {
   height: 1.2em;
   width: 1.2em;
 }
@@ -489,7 +489,7 @@
   z-index: 1000;
 }
 
-.bgColorButton svg {
+.bgColorButton img {
   height: 1.2em;
   width: 1.2em;
 }
@@ -505,7 +505,7 @@
   z-index: 1000;
 }
 
-.viewModeButton svg {
+.viewModeButton img {
   width: 1.3em;
   height: 1.3em;
 }
@@ -518,7 +518,7 @@
   z-index: 1000;
 }
 
-.shadowButton svg {
+.shadowButton img {
   width: 1.3em;
   height: 1.3em;
 }
@@ -535,7 +535,7 @@
   z-index: 1000;
 }
 
-.viewPlanesButton svg {
+.viewPlanesButton img {
   width: 1.3em;
   height: 1.3em;
 }
@@ -626,7 +626,7 @@ select:focus {
   z-index: 1000;
 }
 
-.sampleDistanceButton svg {
+.sampleDistanceButton img {
   width: 1.2em;
   height: 1.2em;
 }
@@ -639,7 +639,7 @@ select:focus {
   z-index: 1000;
 }
 
-.blendModeButton svg {
+.blendModeButton img {
   width: 1.2em;
   height: 1.2em;
 }
@@ -652,7 +652,7 @@ select:focus {
   z-index: 1000;
 }
 
-.gradientOpacitySlider svg {
+.gradientOpacitySlider img {
   width: 1.2em;
   height: 1.2em;
 }

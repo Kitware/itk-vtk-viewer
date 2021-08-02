@@ -1,6 +1,6 @@
 import style from '../ItkVtkViewer.module.css'
 
-import { annotationsIconDataUri } from '../../../icons/dist/index.js'
+import { annotationsIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import toggleAnnotations from './toggleAnnotations'
 

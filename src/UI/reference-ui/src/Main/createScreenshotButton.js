@@ -1,6 +1,6 @@
 import style from '../ItkVtkViewer.module.css'
 
-import { screenshotIconDataUri } from '../../../icons/dist/index.js'
+import { screenshotIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
 function createScreenshotButton(context, mainUIRow) {

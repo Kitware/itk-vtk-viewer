@@ -1,6 +1,6 @@
 import style from '../ItkVtkViewer.module.css'
 
-import { axesIconDataUri } from '../../../icons/dist/index.js'
+import { axesIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import toggleAxes from './toggleAxes'
 

@@ -3,7 +3,7 @@ import macro from '@kitware/vtk.js/macro'
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import { sampleDistanceIconDataUri } from '../../../icons/dist/index.js'
+import { sampleDistanceIconDataUri } from 'itk-viewer-icons'
 
 function createSampleDistanceSlider(context, uiContainer) {
   const sliderEntry = document.createElement('div')

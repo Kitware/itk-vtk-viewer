@@ -1,6 +1,6 @@
 import style from '../ItkVtkViewer.module.css'
 
-import { resetCameraIconDataUri } from '../../../icons/dist/index.js'
+import { resetCameraIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
 function createResetCameraButton(context, mainUIRow) {

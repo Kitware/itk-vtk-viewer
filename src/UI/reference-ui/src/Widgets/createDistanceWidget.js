@@ -1,7 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import { lengthToolIconDataUri } from '../../../icons/dist/index.js'
+import { lengthToolIconDataUri } from 'itk-viewer-icons'
 
 function createDistanceWidget(context, widgetsUIGroup) {
   const viewerDOMId = context.id

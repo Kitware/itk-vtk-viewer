@@ -4,10 +4,7 @@ import vtkImageCroppingRegionsWidget from '@kitware/vtk.js/Interaction/Widgets/I
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import {
-  cropIconDataUri,
-  resetCropIconDataUri,
-} from '../../../icons/dist/index.js'
+import { cropIconDataUri, resetCropIconDataUri } from 'itk-viewer-icons'
 
 function createCroppingButtons(context, mainUIRow) {
   const viewerDOMId = context.id

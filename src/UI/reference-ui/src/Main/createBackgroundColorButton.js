@@ -1,6 +1,6 @@
 import style from '../ItkVtkViewer.module.css'
 
-import { selectColorIconDataUri } from '../../../icons/dist/index.js'
+import { selectColorIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
 function createBackgroundColorButton(context, mainUIRow) {

@@ -1,6 +1,6 @@
 import style from './ItkVtkViewer.module.css'
 
-import { toggleIconDataUri } from '../../icons/dist/index.js'
+import { toggleIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from './applyContrastSensitiveStyleToElement'
 import toggleUICollapsed from './toggleUICollapsed'
 

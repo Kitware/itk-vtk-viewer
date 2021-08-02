@@ -1,6 +1,6 @@
 import style from '../ItkVtkViewer.module.css'
 
-import { rotateIconDataUri } from '../../../icons/dist/index.js'
+import { rotateIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import toggleRotate from './toggleRotate'
 

@@ -1,6 +1,6 @@
 {
   "name": "itk-viewer-reference-ui",
-  "version": "11.10.1",
+  "version": "11.11.0",
   "description": "Reference UI for itk-viewer",
   "module": "dist/referenceUIMachineOptions.js",
   "scripts": {

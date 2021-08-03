@@ -1,7 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import { shadowIconDataUri } from '../../../icons/dist/index.js'
+import { shadowIconDataUri } from 'itk-viewer-icons'
 
 function createShadowToggle(context, uiContainer) {
   const shadowButton = document.createElement('div')

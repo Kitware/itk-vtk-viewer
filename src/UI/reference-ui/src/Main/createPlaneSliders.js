@@ -6,7 +6,7 @@ import {
   invisibleIconDataUri,
   pauseIconDataUri,
   playIconDataUri,
-} from '../../../icons/dist/index.js'
+} from 'itk-viewer-icons'
 
 function createPlaneSliders(context) {
   const planeUIGroup = document.createElement('div')

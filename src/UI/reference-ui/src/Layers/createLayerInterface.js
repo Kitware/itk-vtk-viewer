@@ -6,7 +6,7 @@ import {
   invisibleIconDataUri,
   imageIconDataUri,
   labelsIconDataUri,
-} from '../../../icons/dist/index.js'
+} from 'itk-viewer-icons'
 
 function createLayerEntry(context, name, layer) {
   const layerEntry = document.createElement('div')

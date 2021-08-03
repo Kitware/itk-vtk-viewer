@@ -1,7 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import { viewPlanesIconDataUri } from '../../../icons/dist/index.js'
+import { viewPlanesIconDataUri } from 'itk-viewer-icons'
 
 function createViewPlanesToggle(context, volumeRow) {
   const viewerDOMId = context.id

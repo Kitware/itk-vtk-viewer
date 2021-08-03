@@ -3,7 +3,7 @@ import macro from '@kitware/vtk.js/macro'
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import { gradientIconDataUri } from '../../../icons/dist/index.js'
+import { gradientIconDataUri } from 'itk-viewer-icons'
 
 function createGradientOpacitySlider(context, uiContainer) {
   const sliderEntry = document.createElement('div')

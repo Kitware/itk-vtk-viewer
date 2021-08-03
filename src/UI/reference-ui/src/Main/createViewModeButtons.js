@@ -5,7 +5,7 @@ import {
   xPlaneIconDataUri,
   yPlaneIconDataUri,
   zPlaneIconDataUri,
-} from '../../../icons/dist/index.js'
+} from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
 function createViewModeButtons(context, mainRow) {

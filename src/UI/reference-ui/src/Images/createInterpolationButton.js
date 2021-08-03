@@ -1,6 +1,6 @@
 import style from '../ItkVtkViewer.module.css'
 
-import { interpolationIconDataUri } from '../../../icons/dist/index.js'
+import { interpolationIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import toggleInterpolation from './toggleInterpolation'
 

@@ -4,7 +4,7 @@ import createCategoricalColorIconSelector from '../createCategoricalColorIconSel
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import { opacityIconDataUri } from '../../../icons/dist/index.js'
+import { opacityIconDataUri } from 'itk-viewer-icons'
 
 function createLabelImageColorWidget(context) {
   const viewerDOMId = context.id

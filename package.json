@@ -39,7 +39,7 @@
     "eventemitter3": "^4.0.7",
     "express": "^4.17.1",
     "itk": "^14.0.2",
-    "itk-viewer-icons": "^11.10.2",
+    "itk-viewer-icons": "^11.11.2",
     "mobx": "^5.15.7",
     "mousetrap": "^1.6.5",
     "open": "^6.4.0",

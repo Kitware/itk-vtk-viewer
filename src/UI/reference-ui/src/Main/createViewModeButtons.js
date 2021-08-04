@@ -2,9 +2,9 @@ import style from '../ItkVtkViewer.module.css'
 
 import {
   volumeIconDataUri,
-  xPlaneIconDataUri,
-  yPlaneIconDataUri,
-  zPlaneIconDataUri,
+  redPlaneIconDataUri,
+  yellowPlaneIconDataUri,
+  greenPlaneIconDataUri,
 } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
@@ -13,7 +13,7 @@ function createViewModeButtons(context, mainRow) {
 
   const xPlaneButton = document.createElement('div')
   context.main.xPlaneButton = xPlaneButton
-  xPlaneButton.innerHTML = `<input id="${viewerDOMId}-xPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane [1]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-xPlaneButton"><img src="${xPlaneIconDataUri}" alt="x plane"/></label>`
+  xPlaneButton.innerHTML = `<input id="${viewerDOMId}-xPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane [1]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-xPlaneButton"><img src="${redPlaneIconDataUri}" alt="x plane"/></label>`
   const xPlaneButtonLabel = xPlaneButton.children[1]
   context.main.xPlaneButtonLabel = xPlaneButtonLabel
   applyContrastSensitiveStyleToElement(
@@ -30,7 +30,7 @@ function createViewModeButtons(context, mainRow) {
 
   const yPlaneButton = document.createElement('div')
   context.main.yPlaneButton = yPlaneButton
-  yPlaneButton.innerHTML = `<input id="${viewerDOMId}-yPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane [2]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-yPlaneButton"><img src="${yPlaneIconDataUri}" alt="y plane" /></label>`
+  yPlaneButton.innerHTML = `<input id="${viewerDOMId}-yPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane [2]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-yPlaneButton"><img src="${yellowPlaneIconDataUri}" alt="y plane" /></label>`
   const yPlaneButtonLabel = yPlaneButton.children[1]
   context.main.yPlaneButtonLabel = yPlaneButtonLabel
   applyContrastSensitiveStyleToElement(
@@ -47,7 +47,7 @@ function createViewModeButtons(context, mainRow) {
 
   const zPlaneButton = document.createElement('div')
   context.main.zPlaneButton = zPlaneButton
-  zPlaneButton.innerHTML = `<input id="${viewerDOMId}-zPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane [3]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-zPlaneButton"><img src="${zPlaneIconDataUri}" alt="z plane" /></label>`
+  zPlaneButton.innerHTML = `<input id="${viewerDOMId}-zPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane [3]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-zPlaneButton"><img src="${greenPlaneIconDataUri}" alt="z plane" /></label>`
   const zPlaneButtonLabel = zPlaneButton.children[1]
   context.main.zPlaneButtonLabel = zPlaneButtonLabel
   applyContrastSensitiveStyleToElement(

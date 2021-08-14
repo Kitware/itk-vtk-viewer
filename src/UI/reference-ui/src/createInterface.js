@@ -10,13 +10,13 @@ function createInterface(context) {
   viewContainer.appendChild(context.renderingViewContainers.get('volume'))
   context.rootContainer.appendChild(viewContainer)
 
-  if (!!!context.uiContainer) {
+  if (!context.uiContainer) {
     const uiContainer = document.createElement('div')
     uiContainer.setAttribute('class', style.uiContainer)
     context.uiContainer = uiContainer
   }
   context.rootContainer.appendChild(context.uiContainer)
-  if (!!!context.uiGroups) {
+  if (!context.uiGroups) {
     // String to UI group element map
     context.uiGroups = new Map()
   }

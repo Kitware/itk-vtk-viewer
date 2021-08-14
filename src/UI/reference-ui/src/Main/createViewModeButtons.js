@@ -1,9 +1,11 @@
 import style from '../ItkVtkViewer.module.css'
 
-import volumeIcon from '.././Icons/volume.svg'
-import xPlaneIcon from '.././Icons/x-plane.svg'
-import yPlaneIcon from '.././Icons/y-plane.svg'
-import zPlaneIcon from '.././Icons/z-plane.svg'
+import {
+  volumeIconDataUri,
+  redPlaneIconDataUri,
+  yellowPlaneIconDataUri,
+  greenPlaneIconDataUri,
+} from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
 function createViewModeButtons(context, mainRow) {
@@ -11,7 +13,7 @@ function createViewModeButtons(context, mainRow) {
 
   const xPlaneButton = document.createElement('div')
   context.main.xPlaneButton = xPlaneButton
-  xPlaneButton.innerHTML = `<input id="${viewerDOMId}-xPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane [1]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-xPlaneButton">${xPlaneIcon}</label>`
+  xPlaneButton.innerHTML = `<input id="${viewerDOMId}-xPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="X plane [1]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-xPlaneButton"><img src="${redPlaneIconDataUri}" alt="x plane"/></label>`
   const xPlaneButtonLabel = xPlaneButton.children[1]
   context.main.xPlaneButtonLabel = xPlaneButtonLabel
   applyContrastSensitiveStyleToElement(
@@ -28,7 +30,7 @@ function createViewModeButtons(context, mainRow) {
 
   const yPlaneButton = document.createElement('div')
   context.main.yPlaneButton = yPlaneButton
-  yPlaneButton.innerHTML = `<input id="${viewerDOMId}-yPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane [2]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-yPlaneButton">${yPlaneIcon}</label>`
+  yPlaneButton.innerHTML = `<input id="${viewerDOMId}-yPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Y plane [2]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-yPlaneButton"><img src="${yellowPlaneIconDataUri}" alt="y plane" /></label>`
   const yPlaneButtonLabel = yPlaneButton.children[1]
   context.main.yPlaneButtonLabel = yPlaneButtonLabel
   applyContrastSensitiveStyleToElement(
@@ -45,7 +47,7 @@ function createViewModeButtons(context, mainRow) {
 
   const zPlaneButton = document.createElement('div')
   context.main.zPlaneButton = zPlaneButton
-  zPlaneButton.innerHTML = `<input id="${viewerDOMId}-zPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane [3]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-zPlaneButton">${zPlaneIcon}</label>`
+  zPlaneButton.innerHTML = `<input id="${viewerDOMId}-zPlaneButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Z plane [3]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-zPlaneButton"><img src="${greenPlaneIconDataUri}" alt="z plane" /></label>`
   const zPlaneButtonLabel = zPlaneButton.children[1]
   context.main.zPlaneButtonLabel = zPlaneButtonLabel
   applyContrastSensitiveStyleToElement(
@@ -62,7 +64,7 @@ function createViewModeButtons(context, mainRow) {
 
   const volumeButton = document.createElement('div')
   context.main.volumeButton = volumeButton
-  volumeButton.innerHTML = `<input id="${viewerDOMId}-volumeButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume [4]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-volumeButton">${volumeIcon}</label>`
+  volumeButton.innerHTML = `<input id="${viewerDOMId}-volumeButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Volume [4]" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-volumeButton"><img src="${volumeIconDataUri}" alt="volume" /></label>`
   const volumeButtonLabel = volumeButton.children[1]
   context.main.volumeButtonLabel = volumeButtonLabel
   applyContrastSensitiveStyleToElement(

@@ -3,14 +3,14 @@ import macro from '@kitware/vtk.js/macro'
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import gradientOpacityIcon from '.././Icons/gradient.svg'
+import { gradientIconDataUri } from 'itk-viewer-icons'
 
 function createGradientOpacitySlider(context, uiContainer) {
   const sliderEntry = document.createElement('div')
   sliderEntry.setAttribute('class', style.sliderEntry)
   sliderEntry.innerHTML = `
     <div itk-vtk-tooltip itk-vtk-tooltip-top-fullscreen itk-vtk-tooltip-content="Gradient opacity scale" class="${style.gradientOpacitySlider}">
-      ${gradientOpacityIcon}
+      <img src="${gradientIconDataUri}" alt="gradient opacity"/>
     </div>
     <div class="${style.gradientOpacityScale}" style="display: none;">
       <input type="range" min="0" max="0.99" value="0.5" step="0.01" id="${context.id}-gradientOpacityScaleSlider" />

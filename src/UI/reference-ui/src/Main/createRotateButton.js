@@ -1,12 +1,12 @@
 import style from '../ItkVtkViewer.module.css'
 
-import rotateIcon from '.././Icons/rotate.svg'
+import { rotateIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import toggleRotate from './toggleRotate'
 
 function createRotateButton(context, mainUIRow) {
   const rotateButton = document.createElement('div')
-  rotateButton.innerHTML = `<input id="${context.id}-toggleRotateButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-fullscreen itk-vtk-tooltip-content="Spin in 3D [p]" class="${style.rotateButton} ${style.toggleButton}" for="${context.id}-toggleRotateButton">${rotateIcon}</label>`
+  rotateButton.innerHTML = `<input id="${context.id}-toggleRotateButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-fullscreen itk-vtk-tooltip-content="Spin in 3D [p]" class="${style.rotateButton} ${style.toggleButton}" for="${context.id}-toggleRotateButton"><img src="${rotateIconDataUri}" alt="rotate"/></label>`
   const rotateButtonInput = rotateButton.children[0]
   const rotateButtonLabel = rotateButton.children[1]
   context.main.rotateButtonLabel = rotateButtonLabel

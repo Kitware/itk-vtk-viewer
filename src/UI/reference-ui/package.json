@@ -1,6 +1,6 @@
 {
   "name": "itk-viewer-reference-ui",
-  "version": "11.7.1",
+  "version": "11.11.2",
   "description": "Reference UI for itk-viewer",
   "module": "dist/referenceUIMachineOptions.js",
   "scripts": {
@@ -34,6 +34,7 @@
     "rollup-plugin-terser": "^7.0.2"
   },
   "dependencies": {
-    "@babel/runtime": "^7.14.6"
+    "@babel/runtime": "^7.14.6",
+    "itk-viewer-icons": "^11.11.2"
   }
 }

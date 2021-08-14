@@ -88,7 +88,7 @@ module.exports = function init(config) {
         included: false,
       },
       {
-        pattern: './src/UI/Reference/**/**',
+        pattern: './src/UI/reference-ui/**/**',
         watched: true,
         served: true,
         included: false,

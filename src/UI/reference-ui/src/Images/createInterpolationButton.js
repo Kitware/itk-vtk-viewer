@@ -1,6 +1,6 @@
 import style from '../ItkVtkViewer.module.css'
 
-import interpolationIcon from '.././Icons/interpolation.svg'
+import { interpolationIconDataUri } from 'itk-viewer-icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import toggleInterpolation from './toggleInterpolation'
 
@@ -11,7 +11,7 @@ function createInterpolationButton(context, uiRow) {
   //context.images.interpolationEnabled = false
   //}
   // and the "input" element needs to get the 'disabled' attribute added
-  interpolationButton.innerHTML = `<input id="${context.id}-toggleInterpolationButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Interpolation" class="${style.interpolationButton} ${style.toggleButton}" for="${context.id}-toggleInterpolationButton">${interpolationIcon}</label>`
+  interpolationButton.innerHTML = `<input id="${context.id}-toggleInterpolationButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Interpolation" class="${style.interpolationButton} ${style.toggleButton}" for="${context.id}-toggleInterpolationButton"><img src="${interpolationIconDataUri}" alt="interpolation" /></label>`
   const interpolationButtonInput = interpolationButton.children[0]
   const interpolationButtonLabel = interpolationButton.children[1]
   context.images.interpolationButtonLabel = interpolationButtonLabel

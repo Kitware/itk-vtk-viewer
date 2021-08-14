@@ -1,14 +1,14 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import blendModeIcon from '.././Icons/blend-mode.svg'
+import { blendModeIconDataUri } from 'itk-viewer-icons'
 
 function createBlendModeSelector(context, uiContainer) {
   const blendModeEntry = document.createElement('div')
   blendModeEntry.innerHTML = `
     <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Blend mode"
       class="${style.blendModeButton}">
-      ${blendModeIcon}
+      <img src="${blendModeIconDataUri}" alt="blend mode" />
     </div>
     `
   const blendModeDiv = blendModeEntry.children[0]

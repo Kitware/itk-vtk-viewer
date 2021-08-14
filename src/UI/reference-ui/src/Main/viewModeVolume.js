@@ -1,39 +1,49 @@
 function viewModeVolume(context) {
-  context.main.xPlaneButton.checked = false
-  context.main.yPlaneButton.checked = false
-  context.main.zPlaneButton.checked = false
-  context.main.volumeButton.checked = true
+  const main = context.main
 
-  if (!context.main.planeUIGroup) {
+  if (main.xPlaneButton) {
+    main.xPlaneButton.checked = false
+  }
+  if (main.yPlaneButton) {
+    main.yPlaneButton.checked = false
+  }
+  if (main.zPlaneButton) {
+    main.zPlaneButton.checked = false
+  }
+  if (main.volumeButton) {
+    main.volumeButton.checked = true
+  }
+
+  if (!main.planeUIGroup) {
     return
   }
-  const slicingPlanes = context.main.slicingPlanes
-  context.main.xPlaneVisibleButton.style.display = slicingPlanes.x.visible
+  const slicingPlanes = main.slicingPlanes
+  main.xPlaneVisibleButton.style.display = slicingPlanes.x.visible
     ? 'flex'
     : 'none'
-  context.main.xPlaneInvisibleButton.style.display = slicingPlanes.x.visible
+  main.xPlaneInvisibleButton.style.display = slicingPlanes.x.visible
     ? 'none'
     : 'flex'
-  context.main.yPlaneVisibleButton.style.display = slicingPlanes.y.visible
+  main.yPlaneVisibleButton.style.display = slicingPlanes.y.visible
     ? 'flex'
     : 'none'
-  context.main.yPlaneInvisibleButton.style.display = slicingPlanes.y.visible
+  main.yPlaneInvisibleButton.style.display = slicingPlanes.y.visible
     ? 'none'
     : 'flex'
-  context.main.zPlaneVisibleButton.style.display = slicingPlanes.z.visible
+  main.zPlaneVisibleButton.style.display = slicingPlanes.z.visible
     ? 'flex'
     : 'none'
-  context.main.zPlaneInvisibleButton.style.display = slicingPlanes.z.visible
+  main.zPlaneInvisibleButton.style.display = slicingPlanes.z.visible
     ? 'none'
     : 'flex'
 
   if (context.uiCollapsed) {
-    context.main.planeUIGroup.style.display = 'none'
+    main.planeUIGroup.style.display = 'none'
   } else {
-    context.main.planeUIGroup.style.display = 'block'
-    context.main.xPlaneRow.style.display = 'flex'
-    context.main.yPlaneRow.style.display = 'flex'
-    context.main.zPlaneRow.style.display = 'flex'
+    main.planeUIGroup.style.display = 'block'
+    main.xPlaneRow.style.display = 'flex'
+    main.yPlaneRow.style.display = 'flex'
+    main.zPlaneRow.style.display = 'flex'
   }
 }
 

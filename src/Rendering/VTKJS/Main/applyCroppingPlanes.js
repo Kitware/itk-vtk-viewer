@@ -4,9 +4,14 @@ import { transformVec3 } from 'vtk.js/Sources/Widgets/Widgets3D/ImageCroppingWid
 function applyCroppingPlanes(context, event) {
   if (event.data) {
     const planes = event.data
+    console.log('planes', planes)
     planes.forEach((plane, idx) => {
       context.main.widgetCroppingPlanes[idx].setOriginFrom(plane.center)
       context.main.widgetCroppingPlanes[idx].setNormalFrom(plane.normal)
+      context.main.widgetCroppingPlanesFlip[idx].setOriginFrom(plane.center)
+      const flipped = vtkMath.multiplyScalar(Array.from(plane.normal), 1)
+      //console.log('flip', plane.normal, flipped)
+      context.main.widgetCroppingPlanesFlip[idx].setNormalFrom(flipped)
     })
     const worldToIndex = context.main.croppingVirtualImage.getWorldToIndex()
     const cropIndexes = context.main.croppingWidget
@@ -36,6 +41,15 @@ function applyCroppingPlanes(context, event) {
     if (volumeMapper) {
       volumeMapper.modified()
     }
+    const sliceActors = context.images.representationProxy.getActors()
+    sliceActors.forEach(actor => {
+      actor.modified()
+      const clippingPlanes = actor.getMapper().getClippingPlanes()
+      clippingPlanes.forEach(p => {
+        console.log('center', p.getOrigin())
+        console.log('normal', p.getNormal())
+      })
+    })
     context.service.send('RENDER')
   }
 }

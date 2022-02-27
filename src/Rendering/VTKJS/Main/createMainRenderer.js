@@ -19,6 +19,9 @@ function createMainRenderer(context) {
   context.main.widgetCroppingPlanes = Array.from({ length: 6 }, () =>
     vtkPlane.newInstance()
   )
+  context.main.widgetCroppingPlanesFlip = Array.from({ length: 6 }, () =>
+    vtkPlane.newInstance()
+  )
   context.itkVtkView.addWidgetToRegister(croppingWidget)
   croppingWidget
     .getWidgetState()
@@ -64,30 +67,19 @@ function createMainRenderer(context) {
       const prop = context.itkVtkView.getWidgetProp(context.main.croppingWidget)
       if (prop && prop.getEnabled()) {
         const indexes = cropState.getPlanes()
-        const midpoints = [
-          (indexes[0] + indexes[1]) / 2,
-          (indexes[2] + indexes[3]) / 2,
-          (indexes[4] + indexes[5]) / 2,
-        ]
 
         const indexToWorld = context.main.croppingVirtualImage.getIndexToWorld()
         const direction = context.main.croppingVirtualImage.getDirection()
         const croppingPlanes = [
           {
             center: Array.from(
-              transformVec3(
-                [indexes[0], midpoints[1], midpoints[2]],
-                indexToWorld
-              )
+              transformVec3([indexes[0], indexes[2], indexes[4]], indexToWorld)
             ),
             normal: Array.from(direction.slice(0, 3)),
           },
           {
             center: Array.from(
-              transformVec3(
-                [indexes[1], midpoints[1], midpoints[2]],
-                indexToWorld
-              )
+              transformVec3([indexes[1], indexes[3], indexes[5]], indexToWorld)
             ),
             normal: vtkMath.multiplyScalar(
               Array.from(direction.slice(0, 3)),
@@ -96,19 +88,13 @@ function createMainRenderer(context) {
           },
           {
             center: Array.from(
-              transformVec3(
-                [midpoints[0], indexes[2], midpoints[2]],
-                indexToWorld
-              )
+              transformVec3([indexes[0], indexes[2], indexes[4]], indexToWorld)
             ),
             normal: Array.from(direction.slice(3, 6)),
           },
           {
             center: Array.from(
-              transformVec3(
-                [midpoints[0], indexes[3], midpoints[2]],
-                indexToWorld
-              )
+              transformVec3([indexes[1], indexes[3], indexes[5]], indexToWorld)
             ),
             normal: vtkMath.multiplyScalar(
               Array.from(direction.slice(3, 6)),
@@ -117,19 +103,13 @@ function createMainRenderer(context) {
           },
           {
             center: Array.from(
-              transformVec3(
-                [midpoints[0], midpoints[1], indexes[4]],
-                indexToWorld
-              )
+              transformVec3([indexes[0], indexes[2], indexes[4]], indexToWorld)
             ),
             normal: Array.from(direction.slice(6, 9)),
           },
           {
             center: Array.from(
-              transformVec3(
-                [midpoints[0], midpoints[1], indexes[5]],
-                indexToWorld
-              )
+              transformVec3([indexes[1], indexes[3], indexes[5]], indexToWorld)
             ),
             normal: vtkMath.multiplyScalar(
               Array.from(direction.slice(6, 9)),

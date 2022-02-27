@@ -8,38 +8,32 @@ function resetCroppingPlanes(context) {
   const indexToWorld = context.main.croppingVirtualImage.getIndexToWorld()
   const croppingPlanes = [
     {
-      center: Array.from(
-        transformVec3([0, midpoints[1], midpoints[2]], indexToWorld)
-      ),
+      center: Array.from(transformVec3([0, 0, 0], indexToWorld)),
       normal: Array.from(direction.slice(0, 3)),
     },
     {
       center: Array.from(
-        transformVec3([dims[1], midpoints[1], midpoints[2]], indexToWorld)
+        transformVec3([dims[1], dims[1], dims[2]], indexToWorld)
       ),
       normal: vtkMath.multiplyScalar(Array.from(direction.slice(0, 3)), -1),
     },
     {
-      center: Array.from(
-        transformVec3([midpoints[0], 0, midpoints[2]], indexToWorld)
-      ),
+      center: Array.from(transformVec3([0, 0, 0], indexToWorld)),
       normal: Array.from(direction.slice(3, 6)),
     },
     {
       center: Array.from(
-        transformVec3([midpoints[0], dims[1], midpoints[2]], indexToWorld)
+        transformVec3([dims[0], dims[1], dims[2]], indexToWorld)
       ),
       normal: vtkMath.multiplyScalar(Array.from(direction.slice(3, 6)), -1),
     },
     {
-      center: Array.from(
-        transformVec3([midpoints[0], midpoints[1], 0], indexToWorld)
-      ),
+      center: Array.from(transformVec3([0, 0, 0], indexToWorld)),
       normal: Array.from(direction.slice(6, 9)),
     },
     {
       center: Array.from(
-        transformVec3([midpoints[0], midpoints[1], dims[2]], indexToWorld)
+        transformVec3([dims[0], dims[1], dims[2]], indexToWorld)
       ),
       normal: vtkMath.multiplyScalar(Array.from(direction.slice(6, 9)), -1),
     },

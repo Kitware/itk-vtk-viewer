@@ -2,6 +2,8 @@ import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction'
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
+import vtkMath from 'vtk.js/Sources/Common/Core/Math'
+import vtkPlane from 'vtk.js/Sources/Common/DataModel/Plane'
 
 import applyGradientOpacity from './applyGradientOpacity'
 import applyLabelImageBlend from './applyLabelImageBlend'
@@ -67,6 +69,8 @@ function applyRenderedImage(context, event) {
       context.itkVtkView
     )
     const representationProxy = context.images.representationProxy
+    const croppingPlanes = context.main.widgetCroppingPlanes
+    const croppingPlanesFlip = context.main.widgetCroppingPlanesFlip
 
     if (context.use2D) {
       context.itkVtkView.setViewMode('ZPlane')
@@ -77,7 +81,7 @@ function applyRenderedImage(context, event) {
 
     const mapper = representationProxy.getMapper()
     mapper.setMaximumSamplesPerRay(2048)
-    context.main.widgetCroppingPlanes.forEach(plane => {
+    croppingPlanes.forEach(plane => {
       mapper.addClippingPlane(plane)
     })
     context.images.representationProxy.setSampleDistance(
@@ -91,9 +95,30 @@ function applyRenderedImage(context, event) {
 
     const sliceActors = representationProxy.getActors()
     sliceActors.forEach((actor, actorIdx) => {
-      context.main.widgetCroppingPlanes.forEach(plane => {
-        actor.getMapper().addClippingPlane(plane)
-      })
+      console.log('actor', actor, actorIdx)
+      const sliceMapper = actor.getMapper()
+      switch (actorIdx) {
+        case 0:
+          sliceMapper.addClippingPlane(croppingPlanesFlip[2])
+          sliceMapper.addClippingPlane(croppingPlanesFlip[3])
+          sliceMapper.addClippingPlane(croppingPlanesFlip[4])
+          sliceMapper.addClippingPlane(croppingPlanesFlip[5])
+          break
+        case 1:
+          //sliceMapper.addClippingPlane(croppingPlanes[0])
+          //sliceMapper.addClippingPlane(croppingPlanes[1])
+          //sliceMapper.addClippingPlane(croppingPlanes[4])
+          //sliceMapper.addClippingPlane(croppingPlanes[5])
+          break
+        case 2:
+          //sliceMapper.addClippingPlane(croppingPlanes[0])
+          //sliceMapper.addClippingPlane(croppingPlanes[1])
+          //sliceMapper.addClippingPlane(croppingPlanes[2])
+          //sliceMapper.addClippingPlane(croppingPlanes[3])
+          break
+        default:
+          console.error('Unexpected slice actor')
+      }
     })
   }
 

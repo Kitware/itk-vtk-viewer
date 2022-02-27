@@ -5,7 +5,6 @@ function toggleCroppingPlanes(context) {
   if (prop) {
     prop.setEnabled(enabled)
     if (enabled) {
-      context.itkVtkView.getWidgetManager().grabFocus(prop)
       context.itkVtkView.getWidgetManager().enablePicking()
     }
   }

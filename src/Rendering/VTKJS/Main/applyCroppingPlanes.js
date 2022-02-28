@@ -6,9 +6,9 @@ function applyCroppingPlanes(context, event) {
     const planes = event.data
     console.log('planes', planes)
     planes.forEach((plane, idx) => {
-      context.main.widgetCroppingPlanes[idx].setOriginFrom(plane.center)
+      context.main.widgetCroppingPlanes[idx].setOriginFrom(plane.origin)
       context.main.widgetCroppingPlanes[idx].setNormalFrom(plane.normal)
-      context.main.widgetCroppingPlanesFlip[idx].setOriginFrom(plane.center)
+      context.main.widgetCroppingPlanesFlip[idx].setOriginFrom(plane.origin)
       const flipped = vtkMath.multiplyScalar(Array.from(plane.normal), 1)
       //console.log('flip', plane.normal, flipped)
       context.main.widgetCroppingPlanesFlip[idx].setNormalFrom(flipped)
@@ -19,17 +19,17 @@ function applyCroppingPlanes(context, event) {
       .getCroppingPlanes()
       .getPlanes()
     const newCropIndexes = new Array(6)
-    let index = transformVec3(planes[0].center, worldToIndex)
+    let index = transformVec3(planes[0].origin, worldToIndex)
     newCropIndexes[0] = index[0]
-    index = transformVec3(planes[1].center, worldToIndex)
+    index = transformVec3(planes[1].origin, worldToIndex)
     newCropIndexes[1] = index[0]
-    index = transformVec3(planes[2].center, worldToIndex)
+    index = transformVec3(planes[2].origin, worldToIndex)
     newCropIndexes[2] = index[1]
-    index = transformVec3(planes[3].center, worldToIndex)
+    index = transformVec3(planes[3].origin, worldToIndex)
     newCropIndexes[3] = index[1]
-    index = transformVec3(planes[4].center, worldToIndex)
+    index = transformVec3(planes[4].origin, worldToIndex)
     newCropIndexes[4] = index[2]
-    index = transformVec3(planes[5].center, worldToIndex)
+    index = transformVec3(planes[5].origin, worldToIndex)
     newCropIndexes[5] = index[2]
     if (!vtkMath.areEquals(cropIndexes, newCropIndexes, 1e-8)) {
       context.main.croppingWidget
@@ -46,7 +46,7 @@ function applyCroppingPlanes(context, event) {
       actor.modified()
       const clippingPlanes = actor.getMapper().getClippingPlanes()
       clippingPlanes.forEach(p => {
-        console.log('center', p.getOrigin())
+        console.log('origin', p.getOrigin())
         console.log('normal', p.getNormal())
       })
     })

@@ -55,9 +55,9 @@ class MainMachineContext {
 
   // Cropping planes. These typically define square or a cube of a region of
   // interest in space. The visualization is cropped outside of these planes.
-  // Each is characterized with: { center, normal }.
+  // Each is characterized with: { origin, normal }.
   //
-  // center: x,y,z point in the center af the plane
+  // origin: x,y,z point at a point in the plane
   // normal: 3-component vector defining the normal to the plane
   //
   // An array of six planes that are ordered, when the planes are axis aligned:

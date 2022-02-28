@@ -4,35 +4,34 @@ import { transformVec3 } from 'vtk.js/Sources/Widgets/Widgets3D/ImageCroppingWid
 function resetCroppingPlanes(context) {
   const dims = context.main.croppingVirtualImage.getDimensions()
   const direction = context.main.croppingVirtualImage.getDirection()
-  const midpoints = [dims[0] / 2, dims[1] / 2, dims[2] / 2]
   const indexToWorld = context.main.croppingVirtualImage.getIndexToWorld()
   const croppingPlanes = [
     {
-      center: Array.from(transformVec3([0, 0, 0], indexToWorld)),
+      origin: Array.from(transformVec3([0, 0, 0], indexToWorld)),
       normal: Array.from(direction.slice(0, 3)),
     },
     {
-      center: Array.from(
+      origin: Array.from(
         transformVec3([dims[1], dims[1], dims[2]], indexToWorld)
       ),
       normal: vtkMath.multiplyScalar(Array.from(direction.slice(0, 3)), -1),
     },
     {
-      center: Array.from(transformVec3([0, 0, 0], indexToWorld)),
+      origin: Array.from(transformVec3([0, 0, 0], indexToWorld)),
       normal: Array.from(direction.slice(3, 6)),
     },
     {
-      center: Array.from(
+      origin: Array.from(
         transformVec3([dims[0], dims[1], dims[2]], indexToWorld)
       ),
       normal: vtkMath.multiplyScalar(Array.from(direction.slice(3, 6)), -1),
     },
     {
-      center: Array.from(transformVec3([0, 0, 0], indexToWorld)),
+      origin: Array.from(transformVec3([0, 0, 0], indexToWorld)),
       normal: Array.from(direction.slice(6, 9)),
     },
     {
-      center: Array.from(
+      origin: Array.from(
         transformVec3([dims[0], dims[1], dims[2]], indexToWorld)
       ),
       normal: vtkMath.multiplyScalar(Array.from(direction.slice(6, 9)), -1),

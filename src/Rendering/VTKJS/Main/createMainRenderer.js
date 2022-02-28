@@ -72,13 +72,13 @@ function createMainRenderer(context) {
         const direction = context.main.croppingVirtualImage.getDirection()
         const croppingPlanes = [
           {
-            center: Array.from(
+            origin: Array.from(
               transformVec3([indexes[0], indexes[2], indexes[4]], indexToWorld)
             ),
             normal: Array.from(direction.slice(0, 3)),
           },
           {
-            center: Array.from(
+            origin: Array.from(
               transformVec3([indexes[1], indexes[3], indexes[5]], indexToWorld)
             ),
             normal: vtkMath.multiplyScalar(
@@ -87,13 +87,13 @@ function createMainRenderer(context) {
             ),
           },
           {
-            center: Array.from(
+            origin: Array.from(
               transformVec3([indexes[0], indexes[2], indexes[4]], indexToWorld)
             ),
             normal: Array.from(direction.slice(3, 6)),
           },
           {
-            center: Array.from(
+            origin: Array.from(
               transformVec3([indexes[1], indexes[3], indexes[5]], indexToWorld)
             ),
             normal: vtkMath.multiplyScalar(
@@ -102,13 +102,13 @@ function createMainRenderer(context) {
             ),
           },
           {
-            center: Array.from(
+            origin: Array.from(
               transformVec3([indexes[0], indexes[2], indexes[4]], indexToWorld)
             ),
             normal: Array.from(direction.slice(6, 9)),
           },
           {
-            center: Array.from(
+            origin: Array.from(
               transformVec3([indexes[1], indexes[3], indexes[5]], indexToWorld)
             ),
             normal: vtkMath.multiplyScalar(

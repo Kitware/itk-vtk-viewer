@@ -99,22 +99,22 @@ function applyRenderedImage(context, event) {
       const sliceMapper = actor.getMapper()
       switch (actorIdx) {
         case 0:
-          sliceMapper.addClippingPlane(croppingPlanesFlip[2])
-          sliceMapper.addClippingPlane(croppingPlanesFlip[3])
-          sliceMapper.addClippingPlane(croppingPlanesFlip[4])
-          sliceMapper.addClippingPlane(croppingPlanesFlip[5])
+          sliceMapper.addClippingPlane(croppingPlanes[2])
+          sliceMapper.addClippingPlane(croppingPlanes[3])
+          sliceMapper.addClippingPlane(croppingPlanes[4])
+          sliceMapper.addClippingPlane(croppingPlanes[5])
           break
         case 1:
-          //sliceMapper.addClippingPlane(croppingPlanes[0])
-          //sliceMapper.addClippingPlane(croppingPlanes[1])
-          //sliceMapper.addClippingPlane(croppingPlanes[4])
-          //sliceMapper.addClippingPlane(croppingPlanes[5])
+          sliceMapper.addClippingPlane(croppingPlanes[0])
+          sliceMapper.addClippingPlane(croppingPlanes[1])
+          sliceMapper.addClippingPlane(croppingPlanes[4])
+          sliceMapper.addClippingPlane(croppingPlanes[5])
           break
         case 2:
-          //sliceMapper.addClippingPlane(croppingPlanes[0])
-          //sliceMapper.addClippingPlane(croppingPlanes[1])
-          //sliceMapper.addClippingPlane(croppingPlanes[2])
-          //sliceMapper.addClippingPlane(croppingPlanes[3])
+          sliceMapper.addClippingPlane(croppingPlanes[0])
+          sliceMapper.addClippingPlane(croppingPlanes[1])
+          sliceMapper.addClippingPlane(croppingPlanes[2])
+          sliceMapper.addClippingPlane(croppingPlanes[3])
           break
         default:
           console.error('Unexpected slice actor')

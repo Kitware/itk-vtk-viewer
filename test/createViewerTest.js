@@ -1,7 +1,7 @@
 import test from 'tape-catch'
 import axios from 'axios'
 
-import itkreadImageArrayBuffer from 'itk/readImageArrayBuffer'
+import { readImageArrayBuffer } from 'itk-wasm'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import testUtils from 'vtk.js/Sources/Testing/testUtils'
 import vtk from 'vtk.js/Sources/vtk'
@@ -80,7 +80,7 @@ test('Test createViewer', async t => {
   const response = await axios.get(testImage3DPath, {
     responseType: 'arraybuffer',
   })
-  const { image: itkImage, webWorker } = await itkreadImageArrayBuffer(
+  const { image: itkImage, webWorker } = await readImageArrayBuffer(
     null,
     response.data,
     'data.nrrd'
@@ -93,7 +93,7 @@ test('Test createViewer', async t => {
   const {
     image: itkLabelImage,
     webWorker: labelWebWorker,
-  } = await itkreadImageArrayBuffer(null, labelResponse.data, 'data.nrrd')
+  } = await readImageArrayBuffer(null, labelResponse.data, 'data.nrrd')
   labelWebWorker.terminate()
 
   const uiMachineOptions = { ...referenceUIMachineOptions }
@@ -386,7 +386,7 @@ test('Test createViewer.setImage', async t => {
   const response = await axios.get(testImage3DPath, {
     responseType: 'arraybuffer',
   })
-  const { image: itkImage, webWorker } = await itkreadImageArrayBuffer(
+  const { image: itkImage, webWorker } = await readImageArrayBuffer(
     null,
     response.data,
     'data.nrrd'
@@ -405,7 +405,7 @@ test('Test createViewer.setImage', async t => {
   const {
     image: itkImage2,
     webWorker: webWorker2,
-  } = await itkreadImageArrayBuffer(null, response2.data, 'data.nrrd')
+  } = await readImageArrayBuffer(null, response2.data, 'data.nrrd')
   webWorker2.terminate()
 
   viewer.setImage(itkImage2)
@@ -441,7 +441,7 @@ test('Test createViewer custom UI options', async t => {
   const response = await axios.get(testImage3DPath, {
     responseType: 'arraybuffer',
   })
-  const { image: itkImage, webWorker } = await itkreadImageArrayBuffer(
+  const { image: itkImage, webWorker } = await readImageArrayBuffer(
     null,
     response.data,
     'data.nrrd'

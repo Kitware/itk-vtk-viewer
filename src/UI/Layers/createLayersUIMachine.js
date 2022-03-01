@@ -1,7 +1,6 @@
 import { Machine, assign, spawn, send } from 'xstate'
 
-import IntTypes from 'itk/IntTypes'
-import PixelTypes from 'itk/PixelTypes'
+import { PixelTypes } from 'itk-wasm'
 
 import createLayerUIActor from './createLayerUIActor'
 import LayerActorContext from '../../Context/LayerActorContext'

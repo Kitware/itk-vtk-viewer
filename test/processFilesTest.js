@@ -1,8 +1,7 @@
 import test from 'tape-catch'
 import axios from 'axios'
 
-import FloatTypes from 'itk/FloatTypes'
-import PixelTypes from 'itk/PixelTypes'
+import { FloatTypes, PixelTypes } from 'itk-wasm'
 
 const testVtiPath = 'base/test/data/input/test.vti'
 

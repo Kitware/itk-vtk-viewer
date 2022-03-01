@@ -4,12 +4,13 @@ import WebworkerPromise from 'webworker-promise'
 
 import ChuckerWorker from './Chunker.worker'
 
-import WorkerPool from 'itk/WorkerPool'
-import runPipelineBrowser from 'itk/runPipelineBrowser'
-import Image from 'itk/Image'
-import IOTypes from 'itk/IOTypes'
-import imageSharedBufferOrCopy from 'itk/imageSharedBufferOrCopy'
-import stackImages from 'itk/stackImages'
+import {
+  WorkerPool,
+  runPipeline,
+  InterfaceTypes,
+  imageSharedBufferOrCopy,
+  stackImages,
+} from 'itk-wasm'
 import computeRange from '../Rendering/VTKJS/computeRange'
 
 const createChunkerWorker = existingWorker => {
@@ -32,7 +33,7 @@ const numberOfWorkers = navigator.hardwareConcurrency
   ? navigator.hardwareConcurrency
   : 6
 //const chunkerWorkerPool = new WorkerPool(numberOfWorkers, createChunk)
-const downsampleWorkerPool = new WorkerPool(numberOfWorkers, runPipelineBrowser)
+const downsampleWorkerPool = new WorkerPool(numberOfWorkers, runPipeline)
 
 class Coords {
   constructor(image, dims) {
@@ -233,8 +234,8 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
     ]
 
     let currentImage = image
-    const maxTotalSplits = parseInt(numberOfWorkers * 1.0)
-    const pipelinePath = 'Downsample'
+    const maxTotalSplits = parseInt(numberOfWorkers / 2)
+    const pipelinePath = isLabelImage ? 'DownsampleLabelImage' : 'Downsample'
     while (
       currentImage.size.reduce((a, c, i) => a || c / chunkSize[i] >= 2.0, false)
     ) {
@@ -249,32 +250,29 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
         const data = imageSharedBufferOrCopy(currentImage)
         const inputs = [
           {
-            path: 'input.json',
-            type: IOTypes.Image,
+            type: InterfaceTypes.Image,
             data: data,
           },
         ]
         const desiredOutputs = [
-          { path: 'output.json', type: IOTypes.Image },
-          { path: 'numberOfSplits.txt', type: IOTypes.Text },
+          { type: InterfaceTypes.Image },
+          { type: InterfaceTypes.TextStream },
         ]
         const args = [
-          isLabelImage ? '1' : '0',
-          'input.json',
-          'output.json',
-          factors[0].toString(),
-          factors[1].toString(),
-          factors.length > 2 ? factors[2].toString() : '1',
-          '' + maxTotalSplits,
-          '' + index,
-          'numberOfSplits.txt',
+          '0',
+          '0',
+          factors.join(','),
+          '--max-total-splits', '' + maxTotalSplits,
+          '--split', '' + index,
+          '--number-of-splits', '1',
+          '--memory-io',
         ]
         downsampleTaskArgs.push([pipelinePath, args, desiredOutputs, inputs])
       }
       const results = await downsampleWorkerPool.runTasks(downsampleTaskArgs)
         .promise
       const validResults = results.filter(
-        (r, i) => parseInt(r.outputs[1].data) > i
+        (r, i) => i < parseInt(r.outputs[1].data.data)
       )
       const imageSplits = validResults.map(({ outputs }) => outputs[0].data)
       currentImage = stackImages(imageSplits)

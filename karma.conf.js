@@ -12,6 +12,21 @@ if (!process.env.NODE_ENV) process.env.NODE_ENV = 'test'
 
 process.env.CHROME_BIN = require('puppeteer').executablePath()
 
+const fallback = {
+  path: false,
+  url: false,
+  module: false,
+  fs: false,
+  stream: require.resolve('stream-browserify'),
+  crypto: false,
+}
+
+const itkConfigTest = path.resolve(
+            __dirname,
+            'test',
+            'itkConfigBrowserTest.js'
+          )
+
 module.exports = function init(config) {
   config.set({
     plugins: [
@@ -28,31 +43,25 @@ module.exports = function init(config) {
     files: [
       './test/tests.js',
       {
-        pattern: './dist/itk/ImageIOs/**',
+        pattern: './dist/itk/image-io/**',
         watched: true,
         served: true,
         included: false,
       },
       {
-        pattern: './dist/itk/MeshIOs/**',
+        pattern: './dist/itk/mesh-io/**',
         watched: true,
         served: true,
         included: false,
       },
       {
-        pattern: './dist/itk/PolyDataIOs/**',
+        pattern: './dist/itk/web-workers/**',
         watched: true,
         served: true,
         included: false,
       },
       {
-        pattern: './dist/itk/WebWorkers/**',
-        watched: true,
-        served: true,
-        included: false,
-      },
-      {
-        pattern: './dist/itk/Pipelines/**',
+        pattern: './dist/itk/pipeline/**',
         watched: true,
         served: true,
         included: false,
@@ -115,18 +124,12 @@ module.exports = function init(config) {
       resolve: {
         modules: [path.resolve(__dirname, 'node_modules'), sourcePath],
         alias: {
-          './itkConfig$': path.resolve(
-            __dirname,
-            'test',
-            'itkConfigBrowserTest.js'
-          ),
+          '../itkConfig.js': itkConfigTest,
+          '../../itkConfig.js': itkConfigTest,
           stream: 'stream-browserify',
           buffer: 'buffer',
         },
-        fallback: {
-          path: false,
-          fs: false,
-        },
+        fallback
       },
       plugins: [
         new webpack.DefinePlugin({

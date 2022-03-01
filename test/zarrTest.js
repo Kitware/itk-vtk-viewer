@@ -6,8 +6,7 @@ import ConsolidatedMetadataStore from '../src/IO/ConsolidatedMetadataStore'
 import ZarrMultiscaleChunkedImage from '../src/IO/ZarrMultiscaleChunkedImage'
 import toMultiscaleChunkedImage from '../src/IO/toMultiscaleChunkedImage'
 
-import PixelTypes from 'itk/PixelTypes'
-import IntTypes from 'itk/IntTypes'
+import { PixelTypes, IntTypes } from 'itk-wasm'
 
 async function verifyImage(t, image) {
   const imageTypeBaseline = {

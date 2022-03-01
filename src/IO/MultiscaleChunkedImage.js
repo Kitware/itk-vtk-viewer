@@ -1,6 +1,4 @@
-import Matrix from 'itk/Matrix'
-
-import CoordsDecompressor from '../Compression/CoordsDecompressor'
+import { setMatrixElement } from 'itk-wasm'
 
 import componentTypeToTypedArray from './componentTypeToTypedArray'
 
@@ -87,7 +85,7 @@ class MultiscaleChunkedImage {
 
   get direction() {
     const dimension = this.imageType.dimension
-    const direction = new Matrix(dimension, dimension)
+    const direction = new Float64Array(dimension * dimension)
     // Direction should be consistent over scales
     const infoDirection = this.scaleInfo[0].direction
     if (!!infoDirection) {
@@ -99,11 +97,14 @@ class MultiscaleChunkedImage {
         for (let d2 = 0; d2 < dimension; d2++) {
           const sd2 = this.spatialDims[d2]
           const di2 = dims.indexOf(sd2)
-          direction.setElement(d1, d2, infoDirection[di1][di2])
+          setMatrixElement(direction, d1, d2, infoDirection[di1][di2])
         }
       }
     } else {
-      direction.setIdentity()
+      direction.fill(0.0)
+      for (let d = 0; d < dimension; d++) {
+        setMatrixElement(direction, d, d, 1.0)
+      }
     }
     return direction
   }

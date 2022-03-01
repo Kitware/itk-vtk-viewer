@@ -1,8 +1,4 @@
-import axios from 'axios'
-
-import PixelTypes from 'itk/PixelTypes'
-import IntTypes from 'itk/IntTypes'
-import FloatTypes from 'itk/FloatTypes'
+import { PixelTypes, IntTypes, FloatTypes } from 'itk-wasm'
 
 import MultiscaleChunkedImage from './MultiscaleChunkedImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'

@@ -3,6 +3,7 @@ import autoprefixer from 'autoprefixer'
 import postcss from 'rollup-plugin-postcss'
 import svgo from 'rollup-plugin-svgo'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 import { babel } from '@rollup/plugin-babel'
 
@@ -17,6 +18,9 @@ export default {
     },
   ],
   plugins: [
+    commonjs({
+      transformMixedEsModules: true,
+    }),
     babel({
       include: ['src/**'],
       extensions: ['.js'],

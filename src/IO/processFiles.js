@@ -31,8 +31,7 @@ import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader'
 import vtkXMLImageDataReader from 'vtk.js/Sources/IO/XML/XMLImageDataReader'
 import PromiseFileReader from 'promise-file-reader'
 
-import vtkITKHelper from './vtkITKHelper.js'
-// import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
+import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
 import UserInterface from '../UserInterface'
 import createViewer from '../createViewer'

@@ -102,6 +102,16 @@ export const readFiles = async ({
             data: itkImage,
           })
         })
+      } else if (extension === 'vtp') {
+        return PromiseFileReader.readAsArrayBuffer(file).then(fileContents => {
+          const vtpReader = vtkXMLPolyDataReader.newInstance()
+          vtpReader.parseAsArrayBuffer(fileContents)
+          const polyData = vtpReader.getOutputData(0)
+          return Promise.resolve({
+            is3D: true,
+            data: polyData,
+          })
+        })
       } else if (extensionToMeshIO.has(extension)) {
         let is3D = true
         try {

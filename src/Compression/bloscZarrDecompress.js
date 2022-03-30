@@ -41,9 +41,7 @@ const workerPool = new WorkerPool(numberOfWorkers, runPipeline)
  *   An Array of decompressed ArrayBuffer chunks.
  */
 async function bloscZarrDecompress(chunkData) {
-  const desiredOutputs = [
-    { type: InterfaceTypes.BinaryStream },
-  ]
+  const desiredOutputs = [{ type: InterfaceTypes.BinaryStream }]
   const taskArgsArray = []
   let dtype = null
   for (let index = 0; index < chunkData.length; index++) {
@@ -66,7 +64,7 @@ async function bloscZarrDecompress(chunkData) {
       '--output-size',
       outputSize.toString(),
       '--decompress',
-      '--memory-io'
+      '--memory-io',
     ]
     taskArgsArray.push(['BloscZarr', args, desiredOutputs, inputs])
   }
@@ -78,7 +76,7 @@ async function bloscZarrDecompress(chunkData) {
     // console.log(results[index].stdout);
     // console.error(results[index].stderr);
     decompressedChunks.push(
-      new typedArray(results[index].outputs[0].data.buffer)
+      new typedArray(results[index].outputs[0].data.data.buffer)
     )
   }
   return decompressedChunks

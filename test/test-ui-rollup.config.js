@@ -4,7 +4,6 @@ import postcss from 'rollup-plugin-postcss'
 import svgo from 'rollup-plugin-svgo'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import { terser } from 'rollup-plugin-terser'
 import { babel } from '@rollup/plugin-babel'
 import ignore from 'rollup-plugin-ignore'
 

@@ -1,7 +1,5 @@
-import axios from 'axios'
-import readImageArrayBuffer from 'itk/readImageArrayBuffer'
+import { readImageArrayBuffer, getFileExtension } from 'itk-wasm'
 
-import getFileExtension from 'itk/getFileExtension'
 import ConsolidatedMetadataStore from './ConsolidatedMetadataStore'
 import MultiscaleChunkedImage from './MultiscaleChunkedImage'
 import InMemoryMultiscaleChunkedImage from './InMemoryMultiscaleChunkedImage'

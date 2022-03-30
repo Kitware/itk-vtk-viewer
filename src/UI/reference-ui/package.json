@@ -23,18 +23,20 @@
   },
   "homepage": "https://github.com/Kitware/itk-vtk-viewer#readme",
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.14.5",
-    "@kitware/vtk.js": "^19.0.2",
+    "@babel/plugin-transform-runtime": "^7.17.0",
+    "@kitware/vtk.js": "^23.2.0",
+    "@rollup/plugin-commonjs": "^21.0.2",
     "@rollup/plugin-node-resolve": "^13.0.0",
-    "autoprefixer": "^10.2.6",
-    "postcss": "^8.3.5",
-    "rollup": "^2.52.7",
-    "rollup-plugin-postcss": "^4.0.0",
+    "autoprefixer": "^10.4.4",
+    "postcss": "^8.4.12",
+    "rollup": "^2.70.1",
+    "rollup-plugin-ignore": "^1.0.10",
+    "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-svgo": "^1.1.0",
     "rollup-plugin-terser": "^7.0.2"
   },
   "dependencies": {
-    "@babel/runtime": "^7.14.6",
+    "@babel/runtime": "^7.17.6",
     "itk-viewer-icons": "^11.11.2"
   }
 }

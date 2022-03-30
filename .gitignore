@@ -12,3 +12,15 @@ test/output.html
 test/TESTS-*.xml
 src/blosc-zarr/web-build
 test/testUINoPlaneSlidersBundle.js
+src/IO/Downsample/web-build/.ninja_deps
+src/IO/Downsample/web-build/.ninja_log
+src/IO/Downsample/web-build/CMakeCache.txt
+src/IO/Downsample/web-build/CMakeFiles/
+src/IO/Downsample/web-build/CTestTestfile.cmake
+src/IO/Downsample/web-build/Downsample.umd.wasm
+src/IO/Downsample/web-build/DownsampleLabelImage.umd.wasm
+src/IO/Downsample/web-build/ITKFactoryRegistration/
+src/IO/Downsample/web-build/build.ninja
+src/IO/Downsample/web-build/cmake_install.cmake
+src/IO/Downsample/web-build/itk-wasm-build-env
+

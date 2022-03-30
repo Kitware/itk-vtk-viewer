@@ -1,36 +1,36 @@
-import PixelTypes from 'itk/PixelTypes'
+import { PixelTypes } from 'itk-wasm'
 
 const numpy2itkType = {
   int8: {
-    componentType: 'int8_t',
+    componentType: 'int8',
     arrayType: Int8Array,
   },
   uint8: {
-    componentType: 'uint8_t',
+    componentType: 'uint8',
     arrayType: Uint8Array,
   },
   int16: {
-    componentType: 'int16_t',
+    componentType: 'int16',
     arrayType: Int16Array,
   },
   uint16: {
-    componentType: 'uint16_t',
+    componentType: 'uint16',
     arrayType: Uint16Array,
   },
   int32: {
-    componentType: 'int32_t',
+    componentType: 'int32',
     arrayType: Int32Array,
   },
   uint32: {
-    componentType: 'uint32_t',
+    componentType: 'uint32',
     arrayType: Uint32Array,
   },
   float32: {
-    componentType: 'float',
+    componentType: 'float32',
     arrayType: Float32Array,
   },
   float64: {
-    componentType: 'double',
+    componentType: 'float64',
     arrayType: Float64Array,
   },
 }

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>itk-wasm UMD Example</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/itk-wasm@1.0.0-b.7/dist/umd/itk-wasm.js"></script>
+    <script src="https://unpkg.com/itk-vtk-viewer@9.23.2/dist/itkVtkViewerCDN.js"></script>
+  </head>
+
+  <body>
+    <!-- Selector -->
+    <div>
+      <label>Select input image:</label>
+      <input name="inputFile" id="inputImage" type="file">
+    </div>
+
+    <div>
+      <label>Label image:</label>
+      <input name="labelImage" id="labelImage" type="checkbox">
+    </div>
+
+    <!-- File information -->
+    <textarea readonly id="outputImageInformation">Output image information...</textarea>
+
+    <!-- File visualization -->
+    <div id="outputViewer"></div>
+
+    <!-- Javascript -->
+    <script>
+      function processFile(event) {
+        const dataTransfer = event.dataTransfer;
+        const files = event.target.files || dataTransfer.files;
+
+        return itk.readImageFile(null, files[0]).then(async function({ image, webWorker }) {
+
+          
+          const isLabelImage = document.getElementById('labelImage').checked
+          const pipelinePath = false ? new URL('./web-build/DownsampleLabelImage', document.location) : new URL('./web-build/Downsample', document.location)
+
+          const factors = [2,2,2]
+          const inputs = [
+            {
+              type: itk.InterfaceTypes.Image,
+              data: image,
+            },
+          ]
+          const desiredOutputs = [
+            { type: itk.InterfaceTypes.Image },
+          ]
+          const args = [
+            '0',
+            '0',
+            factors.join(','),
+            // '--max-total-splits', '' + maxTotalSplits,
+            // '--split', '' + index,
+            // '--number-of-splits', '1',
+            '--memory-io',
+          ]
+
+          const { returnValue, stdout, stderr, outputs } = await itk.runPipeline(webWorker, pipelinePath, args, desiredOutputs, inputs)
+          webWorker.terminate();
+
+          console.log('stdout', stdout)
+          console.error('stderr', stderr)
+          console.log(outputs)
+          const outputImage = outputs[0].data
+
+          const outputTextArea = document.getElementById("outputImageInformation");
+          outputTextArea.textContent = "Loading...";
+
+          function replacer(key, value) {
+            if (!!value && value.byteLength !== undefined) {
+              return String(value.slice(0, 6)) + "...";
+            }
+            return value;
+          }
+          outputTextArea.textContent = JSON.stringify(outputImage, replacer, 4);
+        });
+      }
+
+      const fileInput = document.getElementById("inputImage");
+      fileInput.addEventListener("change", processFile);
+    </script>
+
+  </body>
+</html>
+

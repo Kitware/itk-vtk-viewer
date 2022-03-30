@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract'
-import getFileExtension from 'itk/getFileExtension'
+import { getFileExtension, readImageArrayBuffer } from 'itk-wasm'
 
 import fetchBinaryContent from './IO/fetchBinaryContent'
 import fetchJsonContent from './IO/fetchJsonContent'
@@ -10,8 +10,6 @@ import UserInterface from './UserInterface'
 import createFileDragAndDrop from './UserInterface/createFileDragAndDrop'
 import style from './UserInterface/ItkVtkViewer.module.css'
 import toMultiscaleChunkedImage from './IO/toMultiscaleChunkedImage'
-import readImageArrayBuffer from 'itk/readImageArrayBuffer'
-import createViewer from './createViewer'
 
 import imJoyPluginAPI from './imJoyPluginAPI'
 import packageJson from '../package.json'

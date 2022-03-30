@@ -16,14 +16,24 @@ const cssRules = require('vtk.js/Utilities/config/dependency.js').webpack.css
   .rules
 
 const packageJSON = require('./package.json')
-const version = packageJSON.version
-const cdnPath = `https://unpkg.com/itk-vtk-viewer@${version}/dist/itk`
+const cdnPath = 'https://cdn.jsdelivr.net/npm/'
+const itkConfigCDN = path.resolve(__dirname, 'src', 'itkConfigCDN.js')
+const itkConfig = path.resolve(__dirname, 'src', 'itkConfig.js')
 
 const devServer = {
-  noInfo: true,
-  stats: 'minimal',
-  port: 8080,
-  writeToDisk: true,
+  port: 8082,
+  devMiddleware: {
+    writeToDisk: true,
+  },
+}
+
+const fallback = {
+  path: false,
+  url: false,
+  module: false,
+  fs: false,
+  stream: require.resolve('stream-browserify'),
+  crypto: false,
 }
 
 const moduleConfigRules = [
@@ -61,45 +71,49 @@ module.exports = [
       filename: 'itkVtkViewer.js',
     },
     resolve: {
-      fallback: { fs: false, stream: require.resolve('stream-browserify') },
+      alias: {
+        '../itkConfig.js': itkConfig,
+        '../../itkConfig.js': itkConfig,
+      },
+      fallback,
     },
     plugins: [
-      new CopyPlugin([
-        {
-          from: path.join(__dirname, 'node_modules', 'itk', 'WebWorkers'),
-          to: path.join(__dirname, 'dist', 'itk', 'WebWorkers'),
-        },
-        {
-          from: path.join(__dirname, 'node_modules', 'itk', 'ImageIOs'),
-          to: path.join(__dirname, 'dist', 'itk', 'ImageIOs'),
-        },
-        {
-          from: path.join(__dirname, 'node_modules', 'itk', 'MeshIOs'),
-          to: path.join(__dirname, 'dist', 'itk', 'MeshIOs'),
-        },
-        {
-          from: path.join(__dirname, 'node_modules', 'itk', 'PolyDataIOs'),
-          to: path.join(__dirname, 'dist', 'itk', 'PolyDataIOs'),
-        },
-        {
-          from: path.join(__dirname, 'node_modules', 'itk', 'Pipelines'),
-          to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),
-        },
-        {
-          from: path.join(
-            __dirname,
-            'src',
-            'Compression',
-            'blosc-zarr',
-            'web-build'
-          ),
-          to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),
-        },
-        {
-          from: path.join(__dirname, 'src', 'IO', 'Downsample', 'web-build'),
-          to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),
-        },
-      ]),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.join(
+              __dirname,
+              'node_modules',
+              'itk-wasm',
+              'dist',
+              'web-workers'
+            ),
+            to: path.join(__dirname, 'dist', 'itk', 'web-workers'),
+          },
+          {
+            from: path.join(__dirname, 'node_modules', 'itk-image-io'),
+            to: path.join(__dirname, 'dist', 'itk', 'image-io'),
+          },
+          {
+            from: path.join(__dirname, 'node_modules', 'itk-mesh-io'),
+            to: path.join(__dirname, 'dist', 'itk', 'mesh-io'),
+          },
+          {
+            from: path.join(
+              __dirname,
+              'src',
+              'Compression',
+              'blosc-zarr',
+              'web-build'
+            ),
+            to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
+          },
+          {
+            from: path.join(__dirname, 'src', 'IO', 'Downsample', 'web-build'),
+            to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
+          },
+        ],
+      }),
       // workbox
       // plugin should be last plugin
       new GenerateSW({
@@ -151,10 +165,17 @@ module.exports = [
     resolve: {
       modules: [path.resolve(__dirname, 'node_modules')],
       alias: {
-        './itkConfig$': path.resolve(__dirname, 'src', 'itkConfigCDN.js'),
+        '../itkConfig.js': itkConfigCDN,
+        '../../itkConfig.js': itkConfigCDN,
       },
-      fallback: { fs: false, stream: require.resolve('stream-browserify') },
+      fallback,
     },
+    plugins: [
+      new webpack.DefinePlugin({
+        __itk_version__: JSON.stringify(packageJSON.dependencies['itk-wasm']),
+        __itk_vtk_viewer_version__: JSON.stringify(packageJSON.version),
+      }),
+    ],
     performance,
   },
 ]

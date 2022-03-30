@@ -1,6 +1,4 @@
-import runPipelineBrowser from 'itk/runPipelineBrowser'
-import IOTypes from 'itk/IOTypes'
-import WorkerPool from 'itk/WorkerPool'
+import { runPipeline, InterfaceTypes, WorkerPool } from 'itk-wasm'
 import dtypeToTypedArray from '../IO/dtypeToTypedArray'
 
 const dtypeToElementSize = new Map([
@@ -23,7 +21,7 @@ const dtypeToElementSize = new Map([
 
 const cores = navigator.hardwareConcurrency ? navigator.hardwareConcurrency : 4
 const numberOfWorkers = cores + Math.floor(Math.sqrt(cores))
-const workerPool = new WorkerPool(numberOfWorkers, runPipelineBrowser)
+const workerPool = new WorkerPool(numberOfWorkers, runPipeline)
 
 /**
  * Input:
@@ -43,7 +41,7 @@ const workerPool = new WorkerPool(numberOfWorkers, runPipelineBrowser)
  *   An Array of decompressed ArrayBuffer chunks.
  */
 async function bloscZarrDecompress(chunkData) {
-  const desiredOutputs = [{ path: 'outputArray', type: IOTypes.Binary }]
+  const desiredOutputs = [{ type: InterfaceTypes.BinaryStream }]
   const taskArgsArray = []
   let dtype = null
   for (let index = 0; index < chunkData.length; index++) {
@@ -54,17 +52,19 @@ async function bloscZarrDecompress(chunkData) {
     const outputSize = nElements * dtypeToElementSize.get(dtype)
     const inputs = [
       {
-        path: 'inputArray',
-        type: IOTypes.Binary,
-        data: new Uint8Array(compressedChunk),
+        type: InterfaceTypes.BinaryStream,
+        data: { data: new Uint8Array(compressedChunk) },
       },
     ]
     const args = [
-      'inputArray',
-      'outputArray',
+      '0',
+      '0',
       zarrayMetadata.compressor.cname,
       compressedChunk.byteLength.toString(),
+      '--output-size',
       outputSize.toString(),
+      '--decompress',
+      '--memory-io',
     ]
     taskArgsArray.push(['BloscZarr', args, desiredOutputs, inputs])
   }
@@ -76,7 +76,7 @@ async function bloscZarrDecompress(chunkData) {
     // console.log(results[index].stdout);
     // console.error(results[index].stderr);
     decompressedChunks.push(
-      new typedArray(results[index].outputs[0].data.buffer)
+      new typedArray(results[index].outputs[0].data.data.buffer)
     )
   }
   return decompressedChunks

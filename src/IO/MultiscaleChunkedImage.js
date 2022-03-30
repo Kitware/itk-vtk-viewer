@@ -88,7 +88,7 @@ class MultiscaleChunkedImage {
     const direction = new Float64Array(dimension * dimension)
     // Direction should be consistent over scales
     const infoDirection = this.scaleInfo[0].direction
-    if (!!infoDirection) {
+    if (infoDirection) {
       // Todo: verify this logic
       const dims = this.scaleInfo[0].dims
       for (let d1 = 0; d1 < dimension; d1++) {
@@ -97,13 +97,19 @@ class MultiscaleChunkedImage {
         for (let d2 = 0; d2 < dimension; d2++) {
           const sd2 = this.spatialDims[d2]
           const di2 = dims.indexOf(sd2)
-          setMatrixElement(direction, d1, d2, infoDirection[di1][di2])
+          setMatrixElement(
+            direction,
+            dimension,
+            d1,
+            d2,
+            infoDirection[di1][di2]
+          )
         }
       }
     } else {
       direction.fill(0.0)
       for (let d = 0; d < dimension; d++) {
-        setMatrixElement(direction, d, d, 1.0)
+        setMatrixElement(direction, dimension, d, d, 1.0)
       }
     }
     return direction

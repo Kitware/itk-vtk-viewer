@@ -55,7 +55,7 @@ async function verifyImage(t, image) {
   t.deepEqual(spacing1, [2, 2], 'spacing 1')
 
   const direction = image.direction
-  t.deepEqual(direction.data, [1, 0, 0, 1], 'direction')
+  t.deepEqual(direction, new Float64Array([1, 0, 0, 1]), 'direction')
 
   const image0 = await image.scaleLargestImage(0)
   t.deepEqual(image0.imageType, imageTypeBaseline, 'image0 imageType')

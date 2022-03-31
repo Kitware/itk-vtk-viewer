@@ -1,0 +1,1 @@
+const MeshIOIndex=["BYUMeshIO","FreeSurferAsciiMeshIO","FreeSurferBinaryMeshIO","OBJMeshIO","OFFMeshIO","STLMeshIO","VTKPolyDataMeshIO","WASMMeshIO","WASMZstdMeshIO"];export default MeshIOIndex;

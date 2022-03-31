@@ -22,7 +22,7 @@
 
     <script type="text/javascript" src="https://lib.imjoy.io/imjoy-loader.js"></script>
     <script>
-      if ('serviceWorker' in navigator && document.location.protocol !== 'http:') {
+      if ('serviceWorker' in navigator && document.location.protocol !== 'http:' && document.location.hostname !== 'localhost') {
         window.addEventListener('load', function () {
           navigator.serviceWorker.register('./serviceWorker.js').then(function (registration) {
             // Registration was successful

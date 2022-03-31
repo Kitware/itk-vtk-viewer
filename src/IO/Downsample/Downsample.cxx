@@ -165,10 +165,18 @@ int main( int argc, char * argv[] )
    itk::VariableLengthVector<int64_t>,
    itk::VariableLengthVector<float>,
    itk::VariableLengthVector<double>,
-   itk::Vector<float>,
-   itk::Vector<double>,
-   itk::CovariantVector<float>,
-   itk::CovariantVector<double>
+   itk::Vector<float, 2>,
+   itk::Vector<double, 2>,
+   itk::Vector<float, 3>,
+   itk::Vector<double, 3>,
+   itk::Vector<uint8_t, 3>,
+   itk::Vector<uint8_t, 3>,
+   itk::Vector<uint8_t, 4>,
+   itk::Vector<uint8_t, 4>,
+   itk::CovariantVector<float, 2>,
+   itk::CovariantVector<double, 2>,
+   itk::CovariantVector<float, 3>,
+   itk::CovariantVector<double, 3>
    >
   ::Dimensions<2U,3U>("InputImage", pipeline);
 }

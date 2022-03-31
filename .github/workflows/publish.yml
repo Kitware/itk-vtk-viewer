@@ -24,7 +24,14 @@ jobs:
       - name: Build
         run: npm run build
       - name: Chrome and Firefox tests
-        run: xvfb-run --auto-servernum npm run test -- --browsers Chrome,Firefox
+        run: |
+          # Failing based on vtk.js piecewisegaussian?
+          # xvfb-run --auto-servernum npm run test -- --browsers Chrome,Firefox
+
+          # Allow writing test/output.html
+          sudo chmod 777 test
+          # To debug, run `./test/run.sh -d`
+          npm run test:headless
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

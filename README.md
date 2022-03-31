@@ -1,7 +1,6 @@
 ## [ITK/VTK Viewer - Web based Image, Mesh, and Point Set Viewer](http://kitware.github.io/itk-vtk-viewer/)
 
 ![Build and Test](https://github.com/Kitware/itk-vtk-viewer/workflows/Build%20and%20Test/badge.svg)
-[![Build Status](https://dev.azure.com/Kitware/itk-vtk-viewer/_apis/build/status/Kitware.itk-vtk-viewer?branchName=master)](https://dev.azure.com/Kitware/itk-vtk-viewer/_build/latest?definitionId=1&branchName=master)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 ![npm-download](https://img.shields.io/npm/dm/itk-vtk-viewer.svg)
 ![npm-version-requirement](https://img.shields.io/badge/npm->=6.0.0-brightgreen.svg)

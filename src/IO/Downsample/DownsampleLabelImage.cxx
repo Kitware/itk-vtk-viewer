@@ -176,7 +176,9 @@ int main( int argc, char * argv[] )
    uint32_t,
    int32_t,
    uint64_t,
-   int64_t
+   int64_t,
+   float,
+   double
    >
   ::Dimensions<2U,3U>("InputImage", pipeline);
 }

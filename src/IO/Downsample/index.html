@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/itk-wasm@1.0.0-b.7/dist/umd/itk-wasm.js"></script>
-    <script src="https://unpkg.com/itk-vtk-viewer@9.23.2/dist/itkVtkViewerCDN.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/itk-vtk-viewer@11.12.0/dist/itkVtkViewerCDN.js"></script>
   </head>
 
   <body>
@@ -76,6 +76,10 @@
             return value;
           }
           outputTextArea.textContent = JSON.stringify(outputImage, replacer, 4);
+
+          const viewerElement = document.getElementById("outputViewer")
+          window.itkVtkViewer.createViewer(viewerElement, { image: outputImage })
+
         });
       }
 

@@ -57,9 +57,7 @@ function ndarrayToItkImage(array) {
       name: 'Image',
       origin: [0.0, 0.0],
       spacing: [1.0, 1.0],
-      direction: {
-        data: [1.0, 0.0, 0.0, 1.0],
-      },
+      direction: new Float64Array([1.0, 0.0, 0.0, 1.0]),
       size: [array._rshape[1], array._rshape[0]],
       data: new arrayType(array._rvalue),
     }
@@ -74,9 +72,17 @@ function ndarrayToItkImage(array) {
       name: 'Image',
       origin: [0.0, 0.0, 0.0],
       spacing: [1.0, 1.0, 1.0],
-      direction: {
-        data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0],
-      },
+      direction: new Float64Array([
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+      ]),
       size: [array._rshape[2], array._rshape[1], array._rshape[0]],
       data: new arrayType(array._rvalue),
     }
@@ -91,9 +97,17 @@ function ndarrayToItkImage(array) {
       name: 'Image',
       origin: [0.0, 0.0, 0.0],
       spacing: [1.0, 1.0, 1.0],
-      direction: {
-        data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0],
-      },
+      direction: new Float64Array([
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+      ]),
       size: [array._rshape[2], array._rshape[1], array._rshape[0]],
       data: new arrayType(array._rvalue),
     }

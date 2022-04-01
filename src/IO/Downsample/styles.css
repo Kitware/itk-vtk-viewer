@@ -14,7 +14,7 @@ textarea {
   top: 50px;
 }
 
-#inputViewer {
+#outputViewer {
   position: relative;
   box-sizing: border-box;
   height: 500px;

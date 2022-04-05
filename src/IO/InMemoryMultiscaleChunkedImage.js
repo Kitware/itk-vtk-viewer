@@ -234,7 +234,10 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
     ]
 
     let currentImage = image
-    const maxTotalSplits = parseInt(numberOfWorkers / 2)
+    const maxTotalSplits = Math.min(
+      parseInt(numberOfWorkers / 2),
+      Math.max(currentImage.size[currentImage.size.length - 1], 1)
+    )
     const pipelinePath = isLabelImage ? 'DownsampleLabelImage' : 'Downsample'
     while (
       currentImage.size.reduce((a, c, i) => a || c / chunkSize[i] >= 2.0, false)
@@ -254,6 +257,7 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
             data: data,
           },
         ]
+
         const desiredOutputs = [
           { type: InterfaceTypes.Image },
           { type: InterfaceTypes.TextStream },
@@ -262,18 +266,19 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
           '0',
           '0',
           factors.join(','),
-          '--max-total-splits', '' + maxTotalSplits,
-          '--split', '' + index,
-          '--number-of-splits', '1',
+          '--max-total-splits',
+          '' + maxTotalSplits,
+          '--split',
+          '' + index,
+          '--number-of-splits',
+          '' + maxTotalSplits,
           '--memory-io',
         ]
         downsampleTaskArgs.push([pipelinePath, args, desiredOutputs, inputs])
       }
       const results = await downsampleWorkerPool.runTasks(downsampleTaskArgs)
         .promise
-      const validResults = results.filter(
-        (r, i) => i < parseInt(r.outputs[1].data.data)
-      )
+      const validResults = results.filter((r, i) => r.returnValue === 0)
       const imageSplits = validResults.map(({ outputs }) => outputs[0].data)
       currentImage = stackImages(imageSplits)
 

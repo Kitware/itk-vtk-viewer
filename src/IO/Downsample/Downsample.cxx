@@ -95,9 +95,8 @@ Downsample(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImage> & input
 
   if (split >= numberOfSplits)
   {
-    //std::cerr << "Error: requested split: " << split << " is outside the number of splits: " << numberOfSplits << std::endl;
-    split = 0;
-    //return EXIT_FAILURE;
+    std::cerr << "Error: requested split: " << split << " is outside the number of splits: " << numberOfSplits << std::endl;
+    return EXIT_FAILURE;
   }
 
   if (!numberOfSplitsStreamOption->empty())

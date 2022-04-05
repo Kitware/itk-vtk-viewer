@@ -94,9 +94,8 @@ DownsampleLabelImage(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImag
 
   if (split >= numberOfSplits)
   {
-    //std::cerr << "Error: requested split: " << split << " is outside the number of splits: " << numberOfSplits << std::endl;
-    split = 0;
-    //return EXIT_FAILURE;
+    std::cerr << "Error: requested split: " << split << " is outside the number of splits: " << numberOfSplits << std::endl;
+    return EXIT_FAILURE;
   }
 
   if (!numberOfSplitsStreamOption->empty())
@@ -132,7 +131,7 @@ DownsampleLabelImage(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImag
 
   try
   {
-    resampleFilter->Update();
+    roiFilter->Update();
   }
   catch( std::exception & error )
   {
@@ -140,7 +139,7 @@ DownsampleLabelImage(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImag
     return EXIT_FAILURE;
   }
 
-  outputImage.Set(resampleFilter->GetOutput());
+  outputImage.Set(roiFilter->GetOutput());
 
   return EXIT_SUCCESS;
 }

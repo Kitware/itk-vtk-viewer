@@ -132,7 +132,7 @@ DownsampleLabelImage(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImag
 
   try
   {
-    resampleFilter->Update();
+    roiFilter->Update();
   }
   catch( std::exception & error )
   {
@@ -140,7 +140,7 @@ DownsampleLabelImage(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImag
     return EXIT_FAILURE;
   }
 
-  outputImage.Set(resampleFilter->GetOutput());
+  outputImage.Set(roiFilter->GetOutput());
 
   return EXIT_SUCCESS;
 }

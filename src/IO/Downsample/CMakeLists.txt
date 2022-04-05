@@ -8,6 +8,7 @@ if (NOT EMSCRIPTEN AND NOT WASI)
   set(io_components
     ITKIOPNG
     ITKIOMeta
+    ITKIONRRD
     )
 endif()
 find_package(ITK REQUIRED

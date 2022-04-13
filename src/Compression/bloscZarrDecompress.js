@@ -49,7 +49,9 @@ async function bloscZarrDecompress(chunkData) {
     const compressedChunk = chunkData[index].data
     dtype = zarrayMetadata.dtype
     const nElements = zarrayMetadata.chunks.reduce((a, b) => a * b)
-    const outputSize = nElements * dtypeToElementSize.get(dtype)
+    const elementSize = dtypeToElementSize.get(dtype)
+    if (!elementSize) throw Error('Unknown dtype in .zarray metadata')
+    const outputSize = nElements * elementSize
     const inputs = [
       {
         type: InterfaceTypes.BinaryStream,
@@ -73,8 +75,8 @@ async function bloscZarrDecompress(chunkData) {
   const typedArray = dtypeToTypedArray.get(dtype)
   const decompressedChunks = []
   for (let index = 0; index < results.length; index++) {
-    // console.log(results[index].stdout);
-    // console.error(results[index].stderr);
+    // console.log(results[index].stdout)
+    // console.error(results[index].stderr)
     decompressedChunks.push(
       new typedArray(results[index].outputs[0].data.data.buffer)
     )

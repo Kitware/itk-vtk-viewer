@@ -1,9 +1,10 @@
 import { readImageArrayBuffer, getFileExtension } from 'itk-wasm'
 
-import ConsolidatedMetadataStore from './ConsolidatedMetadataStore'
 import MultiscaleChunkedImage from './MultiscaleChunkedImage'
 import InMemoryMultiscaleChunkedImage from './InMemoryMultiscaleChunkedImage'
-import ZarrMultiscaleChunkedImage from './ZarrMultiscaleChunkedImage'
+import ZarrMultiscaleChunkedImage, {
+  isZarr,
+} from './ZarrMultiscaleChunkedImage'
 import ndarrayToItkImage from './ndarrayToItkImage'
 import fetchBinaryContent from './fetchBinaryContent'
 
@@ -46,21 +47,9 @@ async function toMultiscaleChunkedImage(image, isLabelImage = false) {
       image,
       isLabelImage
     )
-  } else if (
-    typeof image.getItem === 'function' &&
-    typeof image.containsItem === 'function'
-  ) {
+  } else if (typeof image.getItem === 'function') {
     // Zarr store
-    const store = image
-    const {
-      scaleInfo,
-      imageType,
-    } = await ZarrMultiscaleChunkedImage.extractScaleInfo(store)
-    multiscaleImage = new ZarrMultiscaleChunkedImage(
-      store,
-      scaleInfo,
-      imageType
-    )
+    multiscaleImage = ZarrMultiscaleChunkedImage.fromStore(image)
   } else if (image._rtype !== undefined && image._rtype === 'ndarray') {
     // ndarray
     const itkImage = ndarrayToItkImage(image)
@@ -70,19 +59,8 @@ async function toMultiscaleChunkedImage(image, isLabelImage = false) {
     )
   } else if (image.href !== undefined) {
     const imageHref = image.href
-    const extension = getFileExtension(imageHref)
-    if (extension === 'zarr') {
-      const metadata = await ConsolidatedMetadataStore.retrieveMetadata(image)
-      const store = new ConsolidatedMetadataStore(image, metadata)
-      const {
-        scaleInfo,
-        imageType,
-      } = await ZarrMultiscaleChunkedImage.extractScaleInfo(store)
-      multiscaleImage = new ZarrMultiscaleChunkedImage(
-        store,
-        scaleInfo,
-        imageType
-      )
+    if (isZarr(image.href)) {
+      multiscaleImage = ZarrMultiscaleChunkedImage.fromUrl(image)
     } else {
       const dataBuffer = await fetchBinaryContent(imageHref)
       const { image: itkImage, webWorker } = await readImageArrayBuffer(

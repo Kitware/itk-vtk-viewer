@@ -1,23 +1,23 @@
 {
-  "chunks" : [
+  "chunks": [
     64,
     64
   ],
-  "compressor" : {
-    "clevel" : 5,
-    "blocksize" : 0,
-    "shuffle" : 1,
-    "cname" : "lz4",
-    "id" : "blosc"
+  "compressor": {
+    "clevel": 5,
+    "blocksize": 0,
+    "shuffle": 1,
+    "cname": "lz4",
+    "id": "blosc"
   },
-  "dtype" : "|u1",
-  "fill_value" : 0,
-  "filters" : null,
-  "order" : "C",
-  "shape" : [
+  "dtype": ">u1",
+  "fill_value": 0,
+  "filters": null,
+  "order": "C",
+  "shape": [
     64,
     64
   ],
-  "zarr_format" : 2,
-  "dimension_separator" : "/"
+  "zarr_format": 2,
+  "dimension_separator": "/"
 }

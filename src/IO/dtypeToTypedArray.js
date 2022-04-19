@@ -10,6 +10,7 @@ const dtypeToTypedArray = new Map([
   ['<b', Int8Array],
   ['<B', Uint8Array],
   ['<u1', Uint8Array],
+  ['>u1', Uint8Array],
   ['|u1', Uint8Array],
   ['<i1', Int8Array],
   ['|i1', Int8Array],

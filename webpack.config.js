@@ -61,7 +61,6 @@ const performance = {
 module.exports = (env, argv) => [
   {
     name: 'itkVtkViewer.js progressive web app',
-    devtool: 'source-maps',
     module: {
       rules: moduleConfigRules.concat([
         {

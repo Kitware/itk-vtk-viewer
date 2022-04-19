@@ -4,12 +4,14 @@ import MultiscaleChunkedImage from './MultiscaleChunkedImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
 import ZarrStore from './ZarrStore'
 
-export const isZarr = url => /\.zarr(\/0)?$/.test(url)
+// ends with .zarr and optional nested image name like foo.zarr/image1
+export const isZarr = url => /\.zarr((\/|\.)\w+)?$/.test(url)
 
 const dtypeToComponentType = new Map([
   ['<b', IntTypes.Int8],
   ['<B', IntTypes.UInt8],
   ['<u1', IntTypes.UInt8],
+  ['>u1', IntTypes.UInt8],
   ['|u1', IntTypes.UInt8],
   ['<i1', IntTypes.Int8],
   ['|i1', IntTypes.Int8],
@@ -41,16 +43,13 @@ const getScaleTransform = metadata => {
     : [1, 1, 1, 1, 1]
 }
 
-const extractDatasetScaleInfo = (
-  store,
+const computeScaleSpacing = ({
   zattrs,
-  multiscaleImage
-) => async dataset => {
-  const { path: scalePath } = dataset
-
+  multiscaleImage,
+  pixelArrayMetadata,
+  dataset,
+}) => {
   const dims = multiscaleImage.axes.map(({ name }) => name)
-
-  const pixelArrayMetadata = await store.getItem(`${scalePath}/.zarray`)
 
   // calculate voxel/pixel positions
   const imageScale = getScaleTransform(multiscaleImage)
@@ -67,10 +66,10 @@ const extractDatasetScaleInfo = (
     .map(({ dim, spacing, size }) => {
       // calculate coords for each voxel/pixel/time
       const coordsPerElement = new Float32Array(size)
-      const origin = spatialDimsSet.has(dim) ? spacing / 2 : 0 // translate transformations not implemented
-      coordsPerElement.forEach(
-        (_, i) => (coordsPerElement[i] = origin + i * spacing)
-      )
+      const origin = 0 // translate transformations not implemented
+      for (let i = 0; i < coordsPerElement.length; i++) {
+        coordsPerElement[i] = origin + i * spacing
+      }
       return { dim, coordsPerElement }
     })
     .reduce(
@@ -78,11 +77,11 @@ const extractDatasetScaleInfo = (
       new Map()
     )
 
-  const info = {
+  return {
     dims,
     pixelArrayMetadata,
     name: multiscaleImage.name,
-    pixelArrayPath: scalePath,
+    pixelArrayPath: dataset.path,
     coords,
     numberOfCXYZTChunks: [1, 1, 1, 1, 1],
     sizeCXYZTChunks: [1, 1, 1, 1, 1],
@@ -90,10 +89,9 @@ const extractDatasetScaleInfo = (
     ranges: zattrs.ranges ?? undefined,
     direction: zattrs.direction ?? undefined,
   }
-  return info
 }
 
-const extractScaleInfo = async store => {
+const extractScaleSpacing = async store => {
   const zattrs = await store.getItem('.zattrs')
 
   const { multiscales } = zattrs
@@ -101,9 +99,16 @@ const extractScaleInfo = async store => {
     ? multiscales[0] // if multiple images (multiscales), just grab first one
     : multiscales
 
-  const extractScale = extractDatasetScaleInfo(store, zattrs, multiscaleImage)
   const scaleInfo = await Promise.all(
-    multiscaleImage.datasets.map(extractScale)
+    multiscaleImage.datasets.map(async dataset => {
+      const pixelArrayMetadata = await store.getItem(`${dataset.path}/.zarray`)
+      return computeScaleSpacing({
+        zattrs,
+        multiscaleImage,
+        pixelArrayMetadata,
+        dataset,
+      })
+    })
   )
 
   const info = scaleInfo[scaleInfo.length - 1]
@@ -142,9 +147,10 @@ const extractScaleInfo = async store => {
   return { scaleInfo, imageType }
 }
 
+const CXYZT = ['c', 'x', 'y', 'z', 't']
 class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
   static async fromStore(store) {
-    const { scaleInfo, imageType } = await extractScaleInfo(store)
+    const { scaleInfo, imageType } = await extractScaleSpacing(store)
     return new ZarrMultiscaleChunkedImage(store, scaleInfo, imageType)
   }
 
@@ -152,10 +158,9 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
     return ZarrMultiscaleChunkedImage.fromStore(new ZarrStore(url))
   }
 
-  // Call extractScaleInfo to retrieve scaleInfo, imageType
   constructor(store, scaleInfo, imageType) {
     scaleInfo.forEach(info => {
-      ;['c', 'x', 'y', 'z', 't'].forEach((dim, chunkIndex) => {
+      CXYZT.forEach((dim, chunkIndex) => {
         const index = info.dims.indexOf(dim)
         if (index !== -1) {
           info.numberOfCXYZTChunks[chunkIndex] = Math.ceil(
@@ -171,8 +176,6 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
     })
     super(scaleInfo, imageType)
     this.store = store
-    // utility
-    this.CXYZT = ['c', 'x', 'y', 'z', 't']
   }
 
   async getChunksImpl(scale, cxyztArray) {
@@ -185,7 +188,7 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
       let chunkPath = `${chunkPathBase}/`
       for (let dd = 0; dd < info.dims.length; dd++) {
         const dim = info.dims[dd]
-        chunkPath = `${chunkPath}${cxyztArray[index][this.CXYZT.indexOf(dim)]}/`
+        chunkPath = `${chunkPath}${cxyztArray[index][CXYZT.indexOf(dim)]}/`
       }
       chunkPath = chunkPath.slice(0, -1)
       chunkPaths.push(chunkPath)

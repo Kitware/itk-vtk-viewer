@@ -5,6 +5,7 @@ const dtypeToElementSize = new Map([
   ['<b', 1],
   ['<B', 1],
   ['<u1', 1],
+  ['>u1', 1],
   ['|u1', 1],
   ['<i1', 1],
   ['|i1', 1],

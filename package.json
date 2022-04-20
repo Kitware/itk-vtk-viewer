@@ -129,7 +129,7 @@
     "lint:types": "tsc --noEmit",
     "start": "webpack serve --mode development --static ./dist/ --open --port 8082",
     "semantic-release": "semantic-release",
-    "test": "npm run build:test-ui && karma start ./karma.conf.js --browsers Chrome,Firefox",
+    "test": "npm run lint:types && npm run build:test-ui && karma start ./karma.conf.js --browsers Chrome,Firefox",
     "test:headless": "./test/run.sh",
     "test:headless-debug": "./test/run.sh -d",
     "test:debug": "karma start ./karma.conf.js --no-single-run"

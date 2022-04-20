@@ -1,14 +1,13 @@
-declare interface ItkImage {
-  imageType: any
+import { Image } from 'itk-wasm'
+
+declare interface Store {
+  getItem(): Promise<any>
 }
-declare interface ZarrStore {
-  getItem(): any
-}
-declare interface ndarray {
-  _rtype: any
+declare type ndarray = {
+  _rtype: 'ndarray'
 }
 
-declare type LoadableImage = URL | ItkImage | ZarrStore | ndarray
+declare type LoadableImage = URL | Image | Store | ndarray
 
 declare type ViewerOptions = {
   image?: LoadableImage

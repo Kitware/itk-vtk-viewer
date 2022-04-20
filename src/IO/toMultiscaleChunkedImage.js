@@ -48,7 +48,7 @@ async function toMultiscaleChunkedImage(image, isLabelImage = false) {
       isLabelImage
     )
   } else if (typeof image.getItem === 'function') {
-    // Zarr store
+    // key value store
     multiscaleImage = ZarrMultiscaleChunkedImage.fromStore(image)
   } else if (image._rtype !== undefined && image._rtype === 'ndarray') {
     // ndarray

@@ -1,25 +1,22 @@
-import axios from 'axios'
-
 const isMetadata = item =>
   ['.zattrs', '.zgroup', '.zarray'].some(knownMetadataFile =>
     item.endsWith(knownMetadataFile)
   )
 
 class ZarrStore {
-  /*
-   * Zarr HTTP store.
-   */
+  constructor(store) {
+    this.store = store
+    this.decoder = new TextDecoder()
+  }
 
-  constructor(url) {
-    this.url = url
+  toJson(data) {
+    return JSON.parse(this.decoder.decode(data))
   }
 
   async getItem(item) {
-    const itemUrl = `${this.url.href}/${item}`
-    const { data } = await axios.get(itemUrl, {
-      responseType: isMetadata(item) ? 'json' : 'arraybuffer',
-    })
-    return data
+    const data = await this.store.getItem(item)
+    console.log(data)
+    return isMetadata(item) ? this.toJson(data) : data
   }
 }
 

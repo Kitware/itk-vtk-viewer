@@ -3,9 +3,10 @@ import { PixelTypes, IntTypes, FloatTypes } from 'itk-wasm'
 import MultiscaleChunkedImage from './MultiscaleChunkedImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
 import ZarrStore from './ZarrStore'
+import HttpStore from './HttpStore'
 
 // ends with .zarr and optional nested image name like foo.zarr/image1
-export const isZarr = url => /\.zarr((\/|\.)\w+)?$/.test(url)
+export const isZarr = url => /\.zarr((\/)\w+)?$/.test(url)
 
 const dtypeToComponentType = new Map([
   ['<b', IntTypes.Int8],
@@ -24,17 +25,8 @@ const dtypeToComponentType = new Map([
   ['<f8', FloatTypes.Float64],
 ])
 
-const spatialDimsSet = new Set(['x', 'y', 'z'])
-
-function setIntersection(setA, setB) {
-  let _intersection = new Set()
-  for (let elem of setB) {
-    if (setA.has(elem)) {
-      _intersection.add(elem)
-    }
-  }
-  return _intersection
-}
+const CXYZT = ['c', 'x', 'y', 'z', 't']
+const TCZXY = ['t', 'c', 'z', 'x', 'y']
 
 const getScaleTransform = metadata => {
   const { coordinateTransformations } = metadata
@@ -49,24 +41,24 @@ const computeScaleSpacing = ({
   pixelArrayMetadata,
   dataset,
 }) => {
-  const dims = multiscaleImage.axes.map(({ name }) => name)
+  const dims = multiscaleImage.axes?.map(({ name }) => name) ?? TCZXY
 
   // calculate voxel/pixel positions
   const imageScale = getScaleTransform(multiscaleImage)
   const datasetScale = getScaleTransform(dataset)
-  const { shape } = pixelArrayMetadata
+  const { shape, chunks } = pixelArrayMetadata
 
   const coords = dims
     .map((dim, dimIdx) => ({
       // Zip dim with shape and transformations
       dim,
       spacing: imageScale[dimIdx] * datasetScale[dimIdx],
+      origin: 0, // translate transformations not implemented
       size: shape[dimIdx],
     }))
-    .map(({ dim, spacing, size }) => {
+    .map(({ dim, spacing, origin, size }) => {
       // calculate coords for each voxel/pixel/time
       const coordsPerElement = new Float32Array(size)
-      const origin = 0 // translate transformations not implemented
       for (let i = 0; i < coordsPerElement.length; i++) {
         coordsPerElement[i] = origin + i * spacing
       }
@@ -77,17 +69,29 @@ const computeScaleSpacing = ({
       new Map()
     )
 
+  const numberOfCXYZTChunks = [1, 1, 1, 1, 1]
+  const sizeCXYZTChunks = [1, 1, 1, 1, 1]
+  const sizeCXYZTElements = [1, 1, 1, 1, 1]
+  CXYZT.forEach((dim, chunkIndex) => {
+    const index = dims.indexOf(dim)
+    if (index !== -1) {
+      numberOfCXYZTChunks[chunkIndex] = Math.ceil(shape[index] / chunks[index])
+      sizeCXYZTChunks[chunkIndex] = chunks[index]
+      sizeCXYZTElements[chunkIndex] = shape[index]
+    }
+  })
+
   return {
     dims,
     pixelArrayMetadata,
     name: multiscaleImage.name,
     pixelArrayPath: dataset.path,
     coords,
-    numberOfCXYZTChunks: [1, 1, 1, 1, 1],
-    sizeCXYZTChunks: [1, 1, 1, 1, 1],
-    sizeCXYZTElements: [1, 1, 1, 1, 1],
     ranges: zattrs.ranges ?? undefined,
     direction: zattrs.direction ?? undefined,
+    numberOfCXYZTChunks,
+    sizeCXYZTChunks,
+    sizeCXYZTElements,
   }
 }
 
@@ -111,8 +115,10 @@ const extractScaleSpacing = async store => {
     })
   )
 
-  const info = scaleInfo[scaleInfo.length - 1]
-  const dimension = setIntersection(new Set(info.dims), spatialDimsSet).size
+  const info = scaleInfo[0]
+  // How many spatial dimensions?  Count non 1 X, Y, Z elements as "axis" metadata not defined in V0.1
+  const dimension = info.sizeCXYZTElements.slice(1, 4).filter(dim => dim > 1)
+    .length
 
   let pixelType = PixelTypes.Scalar
   const dtype = info.pixelArrayMetadata.dtype
@@ -147,35 +153,22 @@ const extractScaleSpacing = async store => {
   return { scaleInfo, imageType }
 }
 
-const CXYZT = ['c', 'x', 'y', 'z', 't']
 class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
+  // Store parameter is object with getItem, but not a ZarrStore
   static async fromStore(store) {
-    const { scaleInfo, imageType } = await extractScaleSpacing(store)
-    return new ZarrMultiscaleChunkedImage(store, scaleInfo, imageType)
+    const zarrStore = new ZarrStore(store)
+    const { scaleInfo, imageType } = await extractScaleSpacing(zarrStore)
+    return new ZarrMultiscaleChunkedImage(zarrStore, scaleInfo, imageType)
   }
 
   static async fromUrl(url) {
-    return ZarrMultiscaleChunkedImage.fromStore(new ZarrStore(url))
+    return ZarrMultiscaleChunkedImage.fromStore(new HttpStore(url))
   }
 
-  constructor(store, scaleInfo, imageType) {
-    scaleInfo.forEach(info => {
-      CXYZT.forEach((dim, chunkIndex) => {
-        const index = info.dims.indexOf(dim)
-        if (index !== -1) {
-          info.numberOfCXYZTChunks[chunkIndex] = Math.ceil(
-            info.pixelArrayMetadata.shape[index] /
-              info.pixelArrayMetadata.chunks[index]
-          )
-          info.sizeCXYZTChunks[chunkIndex] =
-            info.pixelArrayMetadata.chunks[index]
-          info.sizeCXYZTElements[chunkIndex] =
-            info.pixelArrayMetadata.shape[index]
-        }
-      })
-    })
+  // Use static factory functions to construct
+  constructor(zarrStore, scaleInfo, imageType) {
     super(scaleInfo, imageType)
-    this.store = store
+    this.store = zarrStore
   }
 
   async getChunksImpl(scale, cxyztArray) {
@@ -184,17 +177,20 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
     const chunkPaths = []
     const chunkPromises = []
 
+    const { dimension_separator: dimSeparator } = info.pixelArrayMetadata
+
     for (let index = 0; index < cxyztArray.length; index++) {
       let chunkPath = `${chunkPathBase}/`
       for (let dd = 0; dd < info.dims.length; dd++) {
         const dim = info.dims[dd]
-        chunkPath = `${chunkPath}${cxyztArray[index][CXYZT.indexOf(dim)]}/`
+        chunkPath = `${chunkPath}${
+          cxyztArray[index][CXYZT.indexOf(dim)]
+        }${dimSeparator}`
       }
       chunkPath = chunkPath.slice(0, -1)
       chunkPaths.push(chunkPath)
       chunkPromises.push(this.store.getItem(chunkPath))
     }
-
     const compressedChunks = await Promise.all(chunkPromises)
 
     const toDecompress = []

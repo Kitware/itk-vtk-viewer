@@ -1,27 +1,28 @@
 import { IntTypes, PixelTypes } from 'itk-wasm'
 import test from 'tape-catch'
 
-const testZarr = 'base/test/data/input/64x64-fake-v0.4.zarr/0'
+const testZarrV1 = 'base/test/data/input/64x64-fake-v0.1.zarr/0'
+const testZarrV4 = 'base/test/data/input/64x64-fake-v0.4.zarr/0'
 
+import HttpStore from '../src/IO/HttpStore'
 import ZarrStore from '../src/IO/ZarrStore'
 import toMultiscaleChunkedImage from '../src/IO/toMultiscaleChunkedImage'
 import ZarrMultiscaleChunkedImage, {
   isZarr,
 } from '../src/IO/ZarrMultiscaleChunkedImage'
 
-const verifyImage = (t, image) => {
+const verifyImage = (t, image, msgPrefix = '') => {
   const imageTypeBaseline = {
     dimension: 2,
     pixelType: PixelTypes.Scalar,
     componentType: IntTypes.UInt8,
     components: 1,
   }
-  t.deepEqual(image.imageType, imageTypeBaseline, 'image type set')
-  t.equal(image.name, 'testimage', 'image name set')
-  t.deepEqual(image.origin, [0, 0], 'image origin set')
-  t.deepEqual(image.spacing, [1, 1], 'image spacing set')
-  t.deepEqual(image.size, [64, 64], 'image size set')
-  t.equal(image.data.length, 4096, 'image data length set')
+  t.deepEqual(image.imageType, imageTypeBaseline, msgPrefix + ' image type set')
+  t.deepEqual(image.origin, [0, 0], msgPrefix + ' image origin set')
+  t.deepEqual(image.spacing, [1, 1], msgPrefix + ' image spacing set')
+  t.deepEqual(image.size, [64, 64], msgPrefix + ' image size set')
+  t.equal(image.data.length, 4096, msgPrefix + ' image data length set')
 }
 
 test('Test isZarr', t => {
@@ -35,19 +36,18 @@ test('Test isZarr', t => {
     'not when .asdf extension and has suffix'
   )
 
-  t.true(isZarr('foo.zarr.asdf'), '.asdf suffix')
   t.false(isZarr('foo.zarr.asdf.baz'), '.baz suffix')
   t.false(isZarr('foo.zarrX.png'), '.zarrX extension, not .zarr')
-
-  // not working, could be trouble
-  // t.false(isZarr('foo.zarr.png'), 'known other file type extension')
 
   t.end()
 })
 
-test('Test MetadataStore', async t => {
-  const storeURL = new URL(testZarr, document.location.origin)
-  const store = new ZarrStore(storeURL)
+test('Test ZarrStore', async t => {
+  const storeURL = new URL(testZarrV4, document.location.origin)
+
+  const httpStore = new HttpStore(storeURL)
+
+  const zarrStore = new ZarrStore(httpStore)
 
   const topZattrsBaseline = {
     multiscales: [
@@ -81,7 +81,8 @@ test('Test MetadataStore', async t => {
     ],
   }
 
-  const topZattrs = await store.getItem('.zattrs')
+  const topZattrs = await zarrStore.getItem('.zattrs')
+  console.log(topZattrs)
   t.deepEqual(topZattrs, topZattrsBaseline, 'getItem top .zattrs')
 
   const arrayBaseline = {
@@ -104,13 +105,13 @@ test('Test MetadataStore', async t => {
 
   const firstArrayPath = topZattrs.multiscales[0].datasets[0].path
   const arrayMetadataPath = `${firstArrayPath}/.zarray`
-  const arrayMetadata = await store.getItem(arrayMetadataPath)
+  const arrayMetadata = await zarrStore.getItem(arrayMetadataPath)
 
   t.deepEqual(arrayMetadata, arrayBaseline, 'getItem .zarray')
 
   const { dimension_separator: separator } = arrayMetadata
   const firstChunkPath = `${firstArrayPath}${separator}0${separator}0`
-  const firstChunk = await store.getItem(firstChunkPath)
+  const firstChunk = await zarrStore.getItem(firstChunkPath)
 
   t.equal(firstChunk.byteLength, 128, 'getItem of chunk data has bytes')
 
@@ -118,21 +119,28 @@ test('Test MetadataStore', async t => {
 })
 
 test('Test ZarrMultiscaleChunkedImage', async t => {
-  const storeURL = new URL(testZarr, document.location.origin)
-  const zarrImage = await ZarrMultiscaleChunkedImage.fromUrl(storeURL)
+  const versionTests = [
+    [testZarrV1, 'v0.1'],
+    [testZarrV4, 'v0.4'],
+  ].map(async ([filePath, version]) => {
+    const storeURL = new URL(filePath, document.location.origin)
+    const zarrImage = await ZarrMultiscaleChunkedImage.fromUrl(storeURL)
 
-  t.equal(zarrImage.scaleInfo.length, 1, 'number of scales')
+    t.equal(zarrImage.scaleInfo.length, 1, `${version} number of scales`)
 
-  const viewerImage = await zarrImage.scaleLargestImage(0)
+    const viewerImage = await zarrImage.scaleLargestImage(0)
 
-  verifyImage(t, viewerImage)
+    verifyImage(t, viewerImage, version)
+  })
+
+  await Promise.all(versionTests)
 
   t.end()
 })
 
 test('Test toMultiscaleChunkedImage from store', async t => {
-  const storeURL = new URL(testZarr, document.location.origin)
-  const zarrImage = await toMultiscaleChunkedImage(new ZarrStore(storeURL))
+  const storeURL = new URL(testZarrV4, document.location.origin)
+  const zarrImage = await toMultiscaleChunkedImage(new HttpStore(storeURL))
   const viewerImage = await zarrImage.scaleLargestImage(0)
 
   verifyImage(t, viewerImage)

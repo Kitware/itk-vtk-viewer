@@ -25,8 +25,8 @@ const dtypeToComponentType = new Map([
   ['<f8', FloatTypes.Float64],
 ])
 
-const CXYZT = ['c', 'x', 'y', 'z', 't']
-const TCZXY = ['t', 'c', 'z', 'x', 'y']
+const CXYZT = ['c', 'x', 'y', 'z', 't'] // viewer indexing
+const TCZYX = ['t', 'c', 'z', 'y', 'x'] // ngff indexing
 
 const getScaleTransform = metadata => {
   const { coordinateTransformations } = metadata
@@ -41,7 +41,7 @@ const computeScaleSpacing = ({
   pixelArrayMetadata,
   dataset,
 }) => {
-  const dims = multiscaleImage.axes?.map(({ name }) => name) ?? TCZXY
+  const dims = multiscaleImage.axes?.map(({ name }) => name) ?? TCZYX
 
   // calculate voxel/pixel positions
   const imageScale = getScaleTransform(multiscaleImage)

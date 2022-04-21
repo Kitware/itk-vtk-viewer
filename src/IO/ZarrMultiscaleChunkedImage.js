@@ -177,7 +177,7 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
     const chunkPaths = []
     const chunkPromises = []
 
-    const { dimension_separator: dimSeparator } = info.pixelArrayMetadata
+    const { dimension_separator: dimSeparator = '.' } = info.pixelArrayMetadata
 
     for (let index = 0; index < cxyztArray.length; index++) {
       let chunkPath = `${chunkPathBase}/`

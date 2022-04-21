@@ -29,6 +29,13 @@ test('Test isZarr', t => {
   t.true(isZarr('foo.zarr'), 'no suffix')
   t.true(isZarr('foo.zarr/0'), '/0 suffix')
   t.true(isZarr('foo.zarr/asdf'), '/asdf suffix')
+  t.true(isZarr('foo/zarr/asdf'), 'no dot before zarr')
+  t.true(
+    isZarr(
+      'https://dandiarchive.s3.amazonaws.com/zarr/3d313fc2-0204-496d-bfa1-5c90951ee640'
+    ),
+    'real url'
+  )
 
   t.false(isZarr('foo.asdf'), 'not when .asdf extension')
   t.false(

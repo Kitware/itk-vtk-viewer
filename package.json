@@ -67,6 +67,8 @@
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^5.0.2",
     "es-abstract": "1.18.0-next.1",
+    "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
     "expose-loader": "^1.0.3",
     "husky": "^4.3.7",
     "imjoy-core": "^0.13.74",

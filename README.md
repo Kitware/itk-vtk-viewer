@@ -8,14 +8,12 @@
 [![launch ImJoy](https://imjoy.io/static/badge/launch-imjoy-badge.svg)](http://imjoy.io/#/app?plugin=https://kitware.github.io/itk-vtk-viewer/app/)
 [![DOI](https://zenodo.org/badge/92198432.svg)](https://zenodo.org/badge/latestdoi/92198432)
 
-Introduction
-============
+# Introduction
 
 ITK/VTK Viewer is an open-source software system for medical and
 scientific image, mesh, and point set visualization.
 
-Reporting Issues
-=================
+# Reporting Issues
 
 If you would like to discuss a bug or possible improvement:
 
@@ -23,11 +21,10 @@ If you would like to discuss a bug or possible improvement:
 
 2. Open an entry in the [Issue Tracker][].
 
-[CONTRIBUTING.md]: CONTRIBUTING.md
-[Issue Tracker]: https://github.com/Kitware/itk-vtk-viewer/issues
+[contributing.md]: CONTRIBUTING.md
+[issue tracker]: https://github.com/Kitware/itk-vtk-viewer/issues
 
-Requirements
-============
+# Requirements
 
 In general ITK/VTK Viewer tries to be as portable as possible; the specific configurations below are tested and known to work.
 
@@ -42,21 +39,24 @@ and the following browsers:
 - Chrome
 - Safari
 
-Documentation
-=============
+# Documentation
 
 See the [documentation](https://kitware.github.io/itk-vtk-viewer) for a
 getting started guide, advanced documentation, and API descriptions.
 
-Contributing
-============
+# Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for instructions to contribute.
 
-License
-=======
+# License
 
 ITK/VTK Viewer is distributed under the OSI-approved BSD 3-clause License.
 See [Copyright.txt][] for details.
 
-[Copyright.txt]: Copyright.txt
+[copyright.txt]: Copyright.txt
+
+# Build Blosc with Debug
+
+Checkout `c-blosc` git submodule, then
+
+`itk-wasm --build-dir web-build build -- -DCMAKE_BUILD_TYPE=Debug`

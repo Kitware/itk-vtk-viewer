@@ -11,8 +11,6 @@ const imageDataFromChunksWorkerPromise = new WebworkerPromise(
 
 const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
 
-const spatialDims = ['x', 'y', 'z']
-
 /* Every element corresponds to a pyramid scale
      Lower scales, corresponds to a higher index, correspond to a lower
      resolution. */

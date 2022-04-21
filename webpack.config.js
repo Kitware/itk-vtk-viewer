@@ -1,14 +1,11 @@
 const webpack = require('webpack')
 const path = require('path')
-const autoprefixer = require('autoprefixer')
 
 const CopyPlugin = require('copy-webpack-plugin')
 const { GenerateSW } = require('workbox-webpack-plugin')
 const WebPackBar = require('webpackbar')
 
 const entry = path.join(__dirname, './src/index.js')
-const sourcePath = path.join(__dirname, './source')
-const outputPath = path.join(__dirname, './dist')
 
 const vtkRules = require('vtk.js/Utilities/config/dependency.js').webpack.core
   .rules
@@ -24,6 +21,12 @@ const devServer = {
   port: 8082,
   devMiddleware: {
     writeToDisk: true,
+  },
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+    'Access-Control-Allow-Headers':
+      'X-Requested-With, content-type, Authorization',
   },
 }
 
@@ -55,7 +58,7 @@ const performance = {
   maxEntrypointSize: 20000000,
 }
 
-module.exports = [
+module.exports = (env, argv) => [
   {
     name: 'itkVtkViewer.js progressive web app',
     module: {
@@ -67,6 +70,7 @@ module.exports = [
         },
       ]),
     },
+    devtool: argv.mode === 'development' ? 'eval-source-map' : 'source-map',
     output: {
       filename: 'itkVtkViewer.js',
     },
@@ -114,31 +118,32 @@ module.exports = [
           },
         ],
       }),
-      // workbox
-      // plugin should be last plugin
-      new GenerateSW({
-        cacheId: 'itk-vtk-viewer-',
-        cleanupOutdatedCaches: true,
-        maximumFileSizeToCacheInBytes: 10000000,
-        include: [/(\.js|\.html|\.jpg|\.png)$/],
-        exclude: ['serviceWorker.js', /workbox-.*\.js/],
-        swDest: path.join(__dirname, 'dist', 'serviceWorker.js'),
-        runtimeCaching: [
-          {
-            urlPattern: /(\.js|\.png|\.wasm)$/,
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'itk-vtk-viewer-StaleWhileRevalidate',
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 7 * 24 * 60 * 60 * 2,
+      // workbox plugin should be last plugin.  Don't create in development to avoid warining with devServer --watch
+      argv.mode !== 'development'
+        ? new GenerateSW({
+            cacheId: 'itk-vtk-viewer-',
+            cleanupOutdatedCaches: true,
+            maximumFileSizeToCacheInBytes: 10000000,
+            include: [/(\.js|\.html|\.jpg|\.png)$/],
+            exclude: ['serviceWorker.js', /workbox-.*\.js/],
+            swDest: path.join(__dirname, 'dist', 'serviceWorker.js'),
+            runtimeCaching: [
+              {
+                urlPattern: /(\.js|\.png|\.wasm)$/,
+                handler: 'StaleWhileRevalidate',
+                options: {
+                  cacheName: 'itk-vtk-viewer-StaleWhileRevalidate',
+                  expiration: {
+                    maxEntries: 50,
+                    maxAgeSeconds: 7 * 24 * 60 * 60 * 2,
+                  },
+                },
               },
-            },
-          },
-        ],
-      }),
+            ],
+          })
+        : undefined,
       new WebPackBar(),
-    ],
+    ].filter(Boolean), // filter removes optional workbox placehoder
     performance,
     devServer,
   },

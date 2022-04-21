@@ -21,11 +21,7 @@ const fallback = {
   crypto: false,
 }
 
-const itkConfigTest = path.resolve(
-            __dirname,
-            'test',
-            'itkConfigBrowserTest.js'
-          )
+const itkConfigTest = path.resolve(__dirname, 'test', 'itkConfigBrowserTest.js')
 
 module.exports = function init(config) {
   config.set({
@@ -116,6 +112,7 @@ module.exports = function init(config) {
 
     webpack: {
       mode: 'development',
+      devtool: 'eval-source-map',
       module: {
         rules: [{ test: /\.(png|jpg)$/, type: 'asset/inline' }].concat(
           vtkRules
@@ -129,7 +126,7 @@ module.exports = function init(config) {
           stream: 'stream-browserify',
           buffer: 'buffer',
         },
-        fallback
+        fallback,
       },
       plugins: [
         new webpack.DefinePlugin({

@@ -10,6 +10,7 @@ import UserInterface from './UserInterface'
 import createFileDragAndDrop from './UserInterface/createFileDragAndDrop'
 import style from './UserInterface/ItkVtkViewer.module.css'
 import toMultiscaleChunkedImage from './IO/toMultiscaleChunkedImage'
+import { isZarr } from './IO/ZarrMultiscaleChunkedImage'
 
 import imJoyPluginAPI from './imJoyPluginAPI'
 import packageJson from '../package.json'
@@ -54,8 +55,7 @@ export async function createViewerFromUrl(
 
   let imageObject = null
   if (!!image) {
-    const extension = getFileExtension(image)
-    if (extension === 'zarr') {
+    if (isZarr(url)) {
       imageObject = await toMultiscaleChunkedImage(new URL(image))
     } else {
       const arrayBuffer = await fetchBinaryContent(image, progressCallback)
@@ -71,8 +71,7 @@ export async function createViewerFromUrl(
 
   let labelImageObject = null
   if (!!labelImage) {
-    const extension = getFileExtension(labelImage)
-    if (extension === 'zarr') {
+    if (isZarr(url)) {
       labelImageObject = await toMultiscaleChunkedImage(
         new URL(labelImage),
         true
@@ -91,8 +90,7 @@ export async function createViewerFromUrl(
 
   const fileObjects = []
   for (const url of files) {
-    const extension = getFileExtension(url)
-    if (extension === 'zarr') {
+    if (isZarr(url)) {
       imageObject = await toMultiscaleChunkedImage(new URL(url))
     } else {
       const arrayBuffer = await fetchBinaryContent(url, progressCallback)

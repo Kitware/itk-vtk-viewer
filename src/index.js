@@ -55,7 +55,7 @@ export async function createViewerFromUrl(
 
   let imageObject = null
   if (!!image) {
-    if (isZarr(url)) {
+    if (isZarr(image)) {
       imageObject = await toMultiscaleChunkedImage(new URL(image))
     } else {
       const arrayBuffer = await fetchBinaryContent(image, progressCallback)
@@ -71,7 +71,7 @@ export async function createViewerFromUrl(
 
   let labelImageObject = null
   if (!!labelImage) {
-    if (isZarr(url)) {
+    if (isZarr(labelImage)) {
       labelImageObject = await toMultiscaleChunkedImage(
         new URL(labelImage),
         true

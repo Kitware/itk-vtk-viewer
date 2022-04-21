@@ -5,8 +5,8 @@ import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
 import ZarrStore from './ZarrStore'
 import HttpStore from './HttpStore'
 
-// ends with .zarr and optional nested image name like foo.zarr/image1
-export const isZarr = url => /\.zarr((\/)\w+)?$/.test(url)
+// ends with zarr and optional nested image name like foo.zarr/image1
+export const isZarr = url => /zarr((\/)[\w-]+\/?)?$/.test(url)
 
 const dtypeToComponentType = new Map([
   ['<b', IntTypes.Int8],

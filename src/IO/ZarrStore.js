@@ -15,7 +15,6 @@ class ZarrStore {
 
   async getItem(item) {
     const data = await this.store.getItem(item)
-    console.log(data)
     return isMetadata(item) ? this.toJson(data) : data
   }
 }

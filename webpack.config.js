@@ -73,6 +73,7 @@ module.exports = (env, argv) => [
     devtool: argv.mode === 'development' ? 'eval-source-map' : 'source-map',
     output: {
       filename: 'itkVtkViewer.js',
+      publicPath: '',
     },
     resolve: {
       alias: {

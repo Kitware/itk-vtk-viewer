@@ -12,7 +12,6 @@ import UserInterface from './UserInterface'
 import createLabelMapColorWidget from './UserInterface/Image/createLabelMapColorWidget'
 import createLabelMapWeightWidget from './UserInterface/Image/createLabelMapWeightWidget'
 import createPlaneIndexSliders from './UserInterface/Image/createPlaneIndexSliders'
-import updateTransferFunctionWidget from './UserInterface/Image/updateTransferFunctionWidget'
 import addKeyboardShortcuts from './UI/addKeyboardShortcuts'
 import rgb2hex from './UserInterface/rgb2hex'
 import hex2rgb from './UserInterface/hex2rgb'
@@ -26,7 +25,7 @@ import viewerMachineOptions from './viewerMachineOptions'
 import createViewerMachine from './createViewerMachine'
 import ViewerMachineContext from './Context/ViewerMachineContext'
 
-import { autorun, observable, reaction, toJS } from 'mobx'
+import { autorun, reaction, toJS } from 'mobx'
 
 const createViewer = async (
   rootContainer,
@@ -38,6 +37,7 @@ const createViewer = async (
     use2D = false,
     rotate = true,
     config,
+    gradientOpacity,
   }
 ) => {
   UserInterface.emptyContainer(rootContainer)
@@ -247,12 +247,12 @@ const createViewer = async (
     },
 
     fusedImage => {
-      if (!!!fusedImage) {
+      if (!fusedImage) {
         return
       }
 
       let initialRender = false
-      if (!!!store.imageUI.representationProxy) {
+      if (!store.imageUI.representationProxy) {
         initialRender = true
         store.imageUI.source.setInputData(fusedImage)
 
@@ -273,12 +273,12 @@ const createViewer = async (
         annotationContainer.style.fontFamily = 'monospace'
       }
 
-      if (!!labelMapNames) {
+      if (labelMapNames) {
         store.itkVtkView.setLabelNames(labelMapNames)
       }
 
       // if (!!store.imageUI.image && !!!store.imageUI.lookupTableProxies.length) {
-      if (!!store.imageUI.image) {
+      if (store.imageUI.image) {
         createImageRendering(store, use2D)
         updateVolumeProperties(store)
       }
@@ -287,20 +287,20 @@ const createViewer = async (
       //   !!store.imageUI.labelMap &&
       //   !!!store.imageUI.labelMapLookupTableProxy
       // ) {
-      if (!!store.imageUI.labelMap) {
+      if (store.imageUI.labelMap) {
         createLabelMapRendering(store)
       }
 
-      if (!!store.imageUI.image && !!!store.imageUI.imageUIGroup) {
+      if (!!store.imageUI.image && !store.imageUI.imageUIGroup) {
         UserInterface.createImageUI(store, use2D, context.uiContainer)
       }
 
-      if (!!store.imageUI.labelMap && !!!store.imageUI.labelMapColorUIGroup) {
+      if (!!store.imageUI.labelMap && !store.imageUI.labelMapColorUIGroup) {
         createLabelMapColorWidget(store, context.uiContainer)
         createLabelMapWeightWidget(store, context.uiContainer)
       }
 
-      if (!use2D && !!!store.imageUI.placeIndexUIGroup) {
+      if (!use2D && !store.imageUI.placeIndexUIGroup) {
         createPlaneIndexSliders(store, context.uiContainer)
       }
 
@@ -414,16 +414,16 @@ const createViewer = async (
     },
 
     async ({ multiscaleImage, multiscaleLabelMap }) => {
-      if (!!!multiscaleImage && !!!multiscaleLabelMap) {
+      if (!multiscaleImage && !multiscaleLabelMap) {
         return
       }
-      if (!!multiscaleLabelMap) {
+      if (multiscaleLabelMap) {
         const topLevelImage = await multiscaleLabelMap.topLevelLargestImage()
         const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage)
         store.imageUI.labelMap = imageData
         updateVisualizedComponents(store)
       }
-      if (!!multiscaleImage) {
+      if (multiscaleImage) {
         const topLevelImage = await multiscaleImage.topLevelLargestImage()
         const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage)
         store.imageUI.image = imageData
@@ -445,7 +445,7 @@ const createViewer = async (
     () =>
       !!store.geometriesUI.geometries && store.geometriesUI.geometries.slice(),
     geometries => {
-      if (!!!geometries || geometries.length === 0) {
+      if (!geometries || geometries.length === 0) {
         return
       }
 
@@ -508,7 +508,7 @@ const createViewer = async (
   reaction(
     () => !!store.pointSetsUI.pointSets && store.pointSetsUI.pointSets.slice(),
     pointSets => {
-      if (!!!pointSets || pointSets.length === 0) {
+      if (!pointSets || pointSets.length === 0) {
         return
       }
 
@@ -1320,6 +1320,11 @@ const createViewer = async (
 
   if (!use2D) {
     publicAPI.setRotateEnabled(rotate)
+  }
+
+  // check with isNaN as may be 0
+  if (!isNaN(gradientOpacity)) {
+    publicAPI.setImageGradientOpacity(gradientOpacity)
   }
 
   return publicAPI

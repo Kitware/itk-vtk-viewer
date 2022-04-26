@@ -36,20 +36,9 @@ import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import UserInterface from '../UserInterface'
 import createViewer from '../createViewer'
 
-function typedArrayForBuffer(typedArrayType, buffer) {
-  let typedArrayFunction = null
-  if (typeof window !== 'undefined') {
-    // browser
-    typedArrayFunction = window[typedArrayType]
-  } else {
-    typedArrayFunction = global[typedArrayType]
-  }
-  return new typedArrayFunction(buffer)
-}
-
 export const processFiles = async (
   container,
-  { files, image, labelImage, config, labelImageNames, rotate, use2D }
+  { files, image, labelImage, config, labelImageNames, rotate, use2D, ...rest }
 ) => {
   UserInterface.emptyContainer(container)
   UserInterface.createLoadingProgress(container)
@@ -60,9 +49,12 @@ export const processFiles = async (
     labelImageNames,
     use2D,
   })
-  viewerConfig.config = config
-  viewerConfig.rotate = rotate
-  return createViewer(container, viewerConfig)
+  return createViewer(container, {
+    ...viewerConfig,
+    config,
+    rotate,
+    ...rest,
+  })
 }
 
 export const readFiles = async ({
@@ -70,17 +62,16 @@ export const readFiles = async ({
   image,
   labelImage,
   labelImageNames,
-  rotate,
   use2D,
 }) => {
   let readDICOMSeries = readImageDICOMFileSeries
-  if (files.length < 2 || !!!image) {
+  if (files.length < 2 || !image) {
     readDICOMSeries = function() {
       return Promise.reject('Skip DICOM series read attempt')
     }
   }
   try {
-    const { image: itkImage, webWorkerPool } = await readDICOMSeries(files)
+    const { image: itkImage } = await readDICOMSeries(files)
     itkImage.name = files[0].name
     const is3D = itkImage.imageType.dimension === 3 && !use2D
     return {
@@ -153,19 +144,19 @@ export const readFiles = async ({
       .map(({ data }) => data)
 
     let labelImageNameData = null
-    if (!!labelImageNames) {
+    if (labelImageNames) {
       labelImageNameData = new Map(labelImageNames)
     }
     if (images.length > 0) {
       for (let index = 0; index < images.length; index++) {
         const componentType = images[index].imageType.componentType
-        if (!!!labelImage) {
+        if (!labelImage) {
           // Only integer-based pixels considered for label maps
           if (
             componentType === FloatTypes.Float32 ||
             componentType === FloatTypes.Float64
           ) {
-            if (!!!image) {
+            if (!image) {
               image = images[index]
             }
             continue
@@ -180,7 +171,7 @@ export const readFiles = async ({
           } else {
             image = images[index]
           }
-        } else if (!!!image) {
+        } else if (!image) {
           image = images[index]
         }
       }
@@ -205,7 +196,7 @@ export const readFiles = async ({
           !!data &&
           data.isA !== undefined &&
           data.isA('vtkPolyData') &&
-          !!!(
+          !(
             data.getPolys().getNumberOfValues() ||
             data.getLines().getNumberOfValues() ||
             data.getStrips().getNumberOfValues()
@@ -214,8 +205,8 @@ export const readFiles = async ({
       })
       .map(({ data }) => data)
     let any3D = !dataSets.map(({ is3D }) => is3D).every(is3D => !is3D)
-    any3D = !!image ? any3D || image.imageType.dimension === 3 : any3D
-    any3D = !!labelImage ? any3D || labelImage.imageType.dimension === 3 : any3D
+    any3D = image ? any3D || image.imageType.dimension === 3 : any3D
+    any3D = labelImage ? any3D || labelImage.imageType.dimension === 3 : any3D
 
     return {
       image,

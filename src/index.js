@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract'
-import { getFileExtension, readImageArrayBuffer } from 'itk-wasm'
+import { getFileExtsion, readImageArrayBuffer } from 'itk-wasm'
 
 import fetchBinaryContent from './IO/fetchBinaryContent'
 import fetchJsonContent from './IO/fetchJsonContent'
@@ -48,13 +48,14 @@ export async function createViewerFromUrl(
     labelImageNames = null,
     rotate = true,
     use2D = false,
+    ...rest
   }
 ) {
   UserInterface.emptyContainer(el)
   const progressCallback = UserInterface.createLoadingProgress(el)
 
   let imageObject = null
-  if (!!image) {
+  if (image) {
     if (isZarr(image)) {
       imageObject = await toMultiscaleChunkedImage(new URL(image))
     } else {
@@ -70,7 +71,7 @@ export async function createViewerFromUrl(
   }
 
   let labelImageObject = null
-  if (!!labelImage) {
+  if (labelImage) {
     if (isZarr(labelImage)) {
       labelImageObject = await toMultiscaleChunkedImage(
         new URL(labelImage),
@@ -109,7 +110,7 @@ export async function createViewerFromUrl(
   }
 
   let labelImageNameObject = null
-  if (!!labelImageNames) {
+  if (labelImageNames) {
     labelImageNameObject = await fetchJsonContent(labelImageNames)
   }
 
@@ -121,6 +122,7 @@ export async function createViewerFromUrl(
     labelImageNames: labelImageNameObject,
     rotate,
     use2D,
+    ...rest,
   })
 }
 
@@ -182,9 +184,6 @@ export function processURLParameters(container, addOnParameters = {}) {
   if (userParams.fileToLoad) {
     filesToLoad = userParams.fileToLoad.split(',')
   }
-  if (userParams.filesToLoad) {
-    filesToLoad = userParams.filesToLoad.split(',')
-  }
   let rotate = true
   if (typeof userParams.rotate !== 'undefined') {
     rotate = userParams.rotate
@@ -194,7 +193,14 @@ export function processURLParameters(container, addOnParameters = {}) {
     config = userParams.config
   }
 
-  if (filesToLoad.length || userParams.image || userParams.labelImage) {
+  if (userParams.gradientOpacity && isNaN(userParams.gradientOpacity))
+    throw new Error('gradientOpacity URL paramter is not a number')
+
+  if (
+    userParams.filesToLoad?.length ||
+    userParams.image ||
+    userParams.labelImage
+  ) {
     return createViewerFromUrl(myContainer, {
       files: filesToLoad,
       image: userParams.image,
@@ -203,6 +209,7 @@ export function processURLParameters(container, addOnParameters = {}) {
       labelImageNames: userParams.labelImageNames,
       rotate,
       use2D: !!userParams.use2D,
+      gradientOpacity: userParams.gradientOpacity,
     })
   }
   return null

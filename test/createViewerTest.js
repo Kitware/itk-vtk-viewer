@@ -71,7 +71,7 @@ function makePointSet() {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(53)
+  t.plan(54)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -107,26 +107,31 @@ test('Test createViewer', async t => {
   testUIMachineActions.createInterface = testCreateInterface
   uiMachineOptions.actions = testUIMachineActions
 
+  const GRADIENT_OPACITY = 0.1
   const viewer = await createViewer(viewerContainer, {
     image: itkImage,
     labelImage: itkLabelImage,
     rotate: false,
+    gradientOpacity: 0.1,
     config: { uiMachineOptions },
   })
   viewer.setRenderingViewContainerStyle(TEST_VIEWER_STYLE.containerStyle)
   viewer.setBackgroundColor(TEST_VIEWER_STYLE.backgroundColor)
 
-  const uiContainer =
-    viewerContainer.children[viewerContainer.children.length - 1]
   viewer.setUICollapsed(false)
   let collapsed = viewer.getUICollapsed()
   t.equal(collapsed, false, 'setUICollapsed false')
   viewer.setUICollapsed(true)
   collapsed = viewer.getUICollapsed()
   t.equal(collapsed, true, 'setUICollapsed true')
+  t.equal(
+    viewer.getImageGradientOpacity(),
+    GRADIENT_OPACITY,
+    'gradientOpacity set'
+  )
 
   const bgColor = [0.7, 0.2, 0.8]
-  viewer.once('backgroundColorChanged', data => {
+  viewer.once('backgroundColorChanged', () => {
     t.pass('backgroundColorChanged event')
   })
   viewer.setBackgroundColor(bgColor)
@@ -138,7 +143,7 @@ test('Test createViewer', async t => {
   t.same(resultUnits, 'mm', 'units')
 
   // skip for screenshot consistency
-  //viewer.once('toggleRotate', data => {
+  //viewer.once('toggleRotate', () => {
   //t.pass('toggleRotate event')
   //})
   //viewer.setRotateEnabled(true)
@@ -146,7 +151,7 @@ test('Test createViewer', async t => {
   //t.same(resultRotate, true, 'rotate')
   //viewer.setRotateEnabled(false)
 
-  viewer.once('toggleAnnotations', data => {
+  viewer.once('toggleAnnotations', () => {
     t.pass('toggleAnnotations event')
   })
   viewer.setAnnotationsEnabled(false)
@@ -154,7 +159,7 @@ test('Test createViewer', async t => {
   t.same(resultAnnotations, false, 'annotations')
   viewer.setAnnotationsEnabled(true)
 
-  viewer.once('toggleAxes', data => {
+  viewer.once('toggleAxes', () => {
     t.pass('toggleAxes event')
   })
   viewer.setAxesEnabled(true)
@@ -162,7 +167,7 @@ test('Test createViewer', async t => {
   t.same(resultAxes, true, 'axes')
   viewer.setAxesEnabled(false)
 
-  viewer.once('toggleImageInterpolation', data => {
+  viewer.once('toggleImageInterpolation', () => {
     t.pass('toggleImageInterpolation event')
   })
   viewer.setImageInterpolationEnabled(false)
@@ -170,7 +175,7 @@ test('Test createViewer', async t => {
   t.same(resultImageInterpolation, false, 'interpolation')
   viewer.setImageInterpolationEnabled(true)
 
-  viewer.once('viewModeChanged', data => {
+  viewer.once('viewModeChanged', () => {
     t.pass('viewModeChanged event')
   })
   viewer.setViewMode('XPlane')
@@ -181,7 +186,7 @@ test('Test createViewer', async t => {
   const firstLayer = viewer.getLayerNames()[0]
   t.same(firstLayer, 'Image', 'getLayerNames')
 
-  viewer.once('toggleLayerVisibility', data => {
+  viewer.once('toggleLayerVisibility', () => {
     t.pass('toggleLayerVisibility event')
   })
   viewer.setLayerVisibility(false, firstLayer)
@@ -191,7 +196,7 @@ test('Test createViewer', async t => {
 
   viewer.selectLayer(firstLayer)
 
-  viewer.once('imageVisualizedComponentChanged', data => {
+  viewer.once('imageVisualizedComponentChanged', () => {
     t.pass('imageVisualizedComponentChanged event')
   })
   viewer.setImageComponentVisibility(false, 0)
@@ -205,7 +210,7 @@ test('Test createViewer', async t => {
   renderWindow.setSize(600, 600)
   viewer.renderLater()
   setTimeout(async () => {
-    viewer.once('imageColorRangeChanged', data => {
+    viewer.once('imageColorRangeChanged', () => {
       t.pass('imageColorRangeChanged event')
     })
     const oldRange = viewer.getImageColorRange(0)
@@ -214,7 +219,7 @@ test('Test createViewer', async t => {
     t.same(resultImageColorRange, [20, 80], 'image color range')
     viewer.setImageColorRange(oldRange, 0)
 
-    viewer.once('imageColorRangeBoundsChanged', data => {
+    viewer.once('imageColorRangeBoundsChanged', () => {
       t.pass('imageColorRangeBoundsChanged event')
     })
     const oldBounds = viewer.getImageColorRangeBounds(0)
@@ -223,7 +228,7 @@ test('Test createViewer', async t => {
     t.same(resultImageColorRangeBounds, [-20, 800], 'image color range bounds')
     viewer.setImageColorRangeBounds(oldBounds, 0)
 
-    viewer.once('imageColorMapChanged', data => {
+    viewer.once('imageColorMapChanged', () => {
       t.pass('imageColorMapChanged event')
     })
     const oldColorMap = viewer.getImageColorMap(0)
@@ -232,7 +237,7 @@ test('Test createViewer', async t => {
     t.same(resultImageColorMap, '2hot', 'image color range')
     viewer.setImageColorMap(oldColorMap, 0)
 
-    viewer.once('imagePiecewiseFunctionGaussiansChanged', data => {
+    viewer.once('imagePiecewiseFunctionGaussiansChanged', () => {
       t.pass('imagePiecewiseFunctionGaussiansChanged event')
     })
     const oldGaussians = viewer.getImagePiecewiseFunctionGaussians(0)
@@ -244,7 +249,7 @@ test('Test createViewer', async t => {
     t.same(resultGaussians, newGaussians, 'image piecewise function gaussians')
     viewer.setImagePiecewiseFunctionGaussians(oldGaussians, 0)
 
-    viewer.once('toggleImageShadow', data => {
+    viewer.once('toggleImageShadow', () => {
       t.pass('toggleImageShadow event')
     })
     viewer.setImageShadowEnabled(false)
@@ -252,7 +257,7 @@ test('Test createViewer', async t => {
     t.same(resultImageShadowEnabled, false, 'image shadow enabled')
     viewer.setImageShadowEnabled(true)
 
-    viewer.once('imageGradientOpacityChanged', data => {
+    viewer.once('imageGradientOpacityChanged', () => {
       t.pass('imageGradientOpacityChanged event')
     })
     viewer.setImageGradientOpacity(0.5)
@@ -260,7 +265,7 @@ test('Test createViewer', async t => {
     t.same(resultImageGradientOpacity, 0.5, 'image gradient opacity')
     viewer.setImageGradientOpacity(0.3)
 
-    viewer.once('imageGradientOpacityScaleChanged', data => {
+    viewer.once('imageGradientOpacityScaleChanged', () => {
       t.pass('imageGradientOpacityScaleChanged event')
     })
     viewer.setImageGradientOpacityScale(0.8)
@@ -268,7 +273,7 @@ test('Test createViewer', async t => {
     t.same(resultImageGradientOpacityScale, 0.8, 'image gradient opacity scale')
     viewer.setImageGradientOpacity(0.5)
 
-    viewer.once('xSliceChanged', data => {
+    viewer.once('xSliceChanged', () => {
       t.pass('xSliceChanged event')
     })
     const oldXSlice = viewer.getXSlice()
@@ -277,7 +282,7 @@ test('Test createViewer', async t => {
     t.same(resultXSlice, 5, 'x slice')
     viewer.setXSlice(oldXSlice)
 
-    viewer.once('ySliceChanged', data => {
+    viewer.once('ySliceChanged', () => {
       t.pass('ySliceChanged event')
     })
     const oldYSlice = viewer.getYSlice()
@@ -286,7 +291,7 @@ test('Test createViewer', async t => {
     t.same(resultYSlice, 5, 'y slice')
     viewer.setYSlice(oldYSlice)
 
-    viewer.once('zSliceChanged', data => {
+    viewer.once('zSliceChanged', () => {
       t.pass('zSliceChanged event')
     })
     const oldZSlice = viewer.getZSlice()
@@ -295,7 +300,7 @@ test('Test createViewer', async t => {
     t.same(resultZSlice, 5, 'z slice')
     viewer.setZSlice(oldZSlice)
 
-    viewer.once('imageVolumeSampleDistanceChanged', data => {
+    viewer.once('imageVolumeSampleDistanceChanged', () => {
       t.pass('imageVolumeSampleDistanceChanged event')
     })
     viewer.setImageVolumeSampleDistance(0.5)
@@ -303,7 +308,7 @@ test('Test createViewer', async t => {
     t.same(resultImageVolumeSampleDistance, 0.5, 'volume sample distance')
     viewer.setImageVolumeSampleDistance(0.25)
 
-    viewer.once('imageBlendModeChanged', data => {
+    viewer.once('imageBlendModeChanged', () => {
       t.pass('imageBlendModeChanged event')
     })
     viewer.setImageBlendMode('Maximum')
@@ -311,7 +316,7 @@ test('Test createViewer', async t => {
     t.same(resultImageBlendMode, 'Maximum', 'blend mode')
     viewer.setImageBlendMode('Composite')
 
-    viewer.once('labelImageLookupTableChanged', data => {
+    viewer.once('labelImageLookupTableChanged', () => {
       t.pass('labelImageLookupTableChanged event')
     })
     const oldLookupTable = viewer.getLabelImageLookupTable()
@@ -320,7 +325,7 @@ test('Test createViewer', async t => {
     t.same(resultLabelImageLookupTable, 'glasbey_warm', 'image lookup table')
     viewer.setLabelImageLookupTable(oldLookupTable)
 
-    viewer.once('labelImageBlendChanged', data => {
+    viewer.once('labelImageBlendChanged', () => {
       t.pass('labelImageBlendChanged event')
     })
     viewer.setLabelImageBlend(0.8)
@@ -328,7 +333,7 @@ test('Test createViewer', async t => {
     t.same(resultLabelImageBlend, 0.8, 'label image blend')
     viewer.setLabelImageBlend(0.5)
 
-    viewer.once('labelImageLabelNamesChanged', data => {
+    viewer.once('labelImageLabelNamesChanged', () => {
       t.pass('labelImageLabelNamesChanged event')
     })
     const labelNames = new Map([
@@ -340,7 +345,7 @@ test('Test createViewer', async t => {
     const resultLabelImageLabelNames = viewer.getLabelImageLabelNames()
     t.same(resultLabelImageLabelNames, labelNames, 'label image label names')
 
-    viewer.once('labelImageWeightsChanged', data => {
+    viewer.once('labelImageWeightsChanged', () => {
       t.pass('labelImageWeightsChanged event')
     })
     const labelWeights = new Map([

@@ -1,4 +1,4 @@
-import MultiscaleChunkedImage from './MultiscaleChunkedImage'
+import MultiscaleSpatialImage from './MultiscaleSpatialImage'
 import componentTypeToTypedArray from './componentTypeToTypedArray'
 import WebworkerPromise from 'webworker-promise'
 
@@ -218,7 +218,7 @@ async function chunkImage(image, chunkSize) {
   return { scaleInfo, chunksStride, chunks }
 }
 
-class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
+class InMemoryMultiscaleSpatialImage extends MultiscaleSpatialImage {
   static async buildPyramid(
     image,
     chunkSize = [64, 64, 64],
@@ -325,4 +325,4 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
   }
 }
 
-export default InMemoryMultiscaleChunkedImage
+export default InMemoryMultiscaleSpatialImage

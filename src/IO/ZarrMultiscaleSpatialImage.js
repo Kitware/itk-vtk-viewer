@@ -1,6 +1,6 @@
 import { PixelTypes, IntTypes, FloatTypes } from 'itk-wasm'
 
-import MultiscaleChunkedImage from './MultiscaleChunkedImage'
+import MultiscaleSpatialImage from './MultiscaleSpatialImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
 import ZarrStore from './ZarrStore'
 import HttpStore from './HttpStore'
@@ -28,6 +28,30 @@ const dtypeToComponentType = new Map([
 
 const CONTIGUOUS_CHANNEL_INDEXING = Object.freeze(['t', 'c', 'z', 'y', 'x'])
 
+// lazy creation of coords array
+const makeCoords = (dims, imageScale, datasetScale, shape) => {
+  const coords = new Map(dims.map(dim => [dim, null]))
+
+  return {
+    get(dim) {
+      if (coords.get(dim) === null) {
+        // make array
+        const dimIdx = dims.indexOf(dim)
+        const spacing = imageScale[dimIdx] * datasetScale[dimIdx]
+        const coordsPerElement = new Float32Array(shape[dimIdx])
+        for (let i = 0; i < coordsPerElement.length; i++) {
+          coordsPerElement[i] = i * spacing // + origin translate transformations not implemented
+        }
+        coords.set(dim, coordsPerElement)
+      }
+      return coords.get(dim)
+    },
+    has(dim) {
+      return dims.includes(dim)
+    },
+  }
+}
+
 const getScaleTransform = metadata => {
   const { coordinateTransformations } = metadata
   return coordinateTransformations
@@ -49,33 +73,12 @@ const computeScaleSpacing = ({
   const datasetScale = getScaleTransform(dataset)
   const { shape, chunks } = pixelArrayMetadata
 
-  const coords = dims
-    // Zip dim with shape and transformations
-    .map((dim, dimIdx) => ({
-      dim,
-      spacing: imageScale[dimIdx] * datasetScale[dimIdx],
-      origin: 0, // translate transformations not implemented
-      size: shape[dimIdx],
-    }))
-    // calculate coords for each voxel/pixel/time
-    .map(({ dim, spacing, origin, size }) => {
-      const coordsPerElement = new Float32Array(size)
-      for (let i = 0; i < coordsPerElement.length; i++) {
-        coordsPerElement[i] = origin + i * spacing
-      }
-      return { dim, coordsPerElement }
-    })
-    .reduce(
-      (coords, { dim, coordsPerElement }) => coords.set(dim, coordsPerElement),
-      new Map()
-    )
-
   return {
     dims,
     pixelArrayMetadata,
     name: multiscaleImage.name,
     pixelArrayPath: dataset.path,
-    coords,
+    coords: makeCoords(dims, imageScale, datasetScale, shape),
     ranges: zattrs.ranges ?? undefined,
     direction: zattrs.direction ?? undefined,
     chunkCount: toDimensionMap(
@@ -145,16 +148,16 @@ const extractScaleSpacing = async store => {
   return { scaleInfo, imageType }
 }
 
-class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
+class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
   // Store parameter is object with getItem, but not a ZarrStore
   static async fromStore(store) {
     const zarrStore = new ZarrStore(store)
     const { scaleInfo, imageType } = await extractScaleSpacing(zarrStore)
-    return new ZarrMultiscaleChunkedImage(zarrStore, scaleInfo, imageType)
+    return new ZarrMultiscaleSpatialImage(zarrStore, scaleInfo, imageType)
   }
 
   static async fromUrl(url) {
-    return ZarrMultiscaleChunkedImage.fromStore(new HttpStore(url))
+    return ZarrMultiscaleSpatialImage.fromStore(new HttpStore(url))
   }
 
   // Use static factory functions to construct
@@ -197,4 +200,4 @@ class ZarrMultiscaleChunkedImage extends MultiscaleChunkedImage {
   }
 }
 
-export default ZarrMultiscaleChunkedImage
+export default ZarrMultiscaleSpatialImage

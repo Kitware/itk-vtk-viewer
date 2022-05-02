@@ -1,5 +1,5 @@
 class ImageActorContext {
-  // MultiscaleChunkedImage to be visualized
+  // MultiscaleSpatialImage to be visualized
   image = null
 
   // The rendered image / label image scale

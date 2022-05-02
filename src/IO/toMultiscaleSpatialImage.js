@@ -1,14 +1,14 @@
-import { readImageArrayBuffer, getFileExtension } from 'itk-wasm'
+import { readImageArrayBuffer } from 'itk-wasm'
 
-import MultiscaleChunkedImage from './MultiscaleChunkedImage'
-import InMemoryMultiscaleChunkedImage from './InMemoryMultiscaleChunkedImage'
-import ZarrMultiscaleChunkedImage, {
+import MultiscaleSpatialImage from './MultiscaleSpatialImage'
+import InMemoryMultiscaleSpatialImage from './InMemoryMultiscaleSpatialImage'
+import ZarrMultiscaleSpatialImage, {
   isZarr,
-} from './ZarrMultiscaleChunkedImage'
+} from './ZarrMultiscaleSpatialImage'
 import ndarrayToItkImage from './ndarrayToItkImage'
 import fetchBinaryContent from './fetchBinaryContent'
 
-async function itkImageToInMemoryMultiscaleChunkedImage(image, isLabelImage) {
+async function itkImageToInMemoryMultiscaleSpatialImage(image, isLabelImage) {
   let chunkSize = [64, 64, 64]
   if (image.data.length < 2e6) {
     // Keep a single chunk
@@ -21,12 +21,12 @@ async function itkImageToInMemoryMultiscaleChunkedImage(image, isLabelImage) {
     scaleInfo,
     imageType,
     pyramid,
-  } = await InMemoryMultiscaleChunkedImage.buildPyramid(
+  } = await InMemoryMultiscaleSpatialImage.buildPyramid(
     image,
     chunkSize,
     isLabelImage
   )
-  const multiscaleImage = new InMemoryMultiscaleChunkedImage(
+  const multiscaleImage = new InMemoryMultiscaleSpatialImage(
     pyramid,
     scaleInfo,
     imageType,
@@ -36,31 +36,31 @@ async function itkImageToInMemoryMultiscaleChunkedImage(image, isLabelImage) {
   return multiscaleImage
 }
 
-async function toMultiscaleChunkedImage(image, isLabelImage = false) {
+async function toMultiscaleSpatialImage(image, isLabelImage = false) {
   let multiscaleImage = null
-  if (image instanceof MultiscaleChunkedImage) {
+  if (image instanceof MultiscaleSpatialImage) {
     // Already a multi-scale, chunked image
     multiscaleImage = image
   } else if (image.imageType !== undefined) {
     // itk.js Image
-    multiscaleImage = await itkImageToInMemoryMultiscaleChunkedImage(
+    multiscaleImage = await itkImageToInMemoryMultiscaleSpatialImage(
       image,
       isLabelImage
     )
   } else if (typeof image.getItem === 'function') {
     // key value store
-    multiscaleImage = ZarrMultiscaleChunkedImage.fromStore(image)
+    multiscaleImage = ZarrMultiscaleSpatialImage.fromStore(image)
   } else if (image._rtype !== undefined && image._rtype === 'ndarray') {
     // ndarray
     const itkImage = ndarrayToItkImage(image)
-    multiscaleImage = await itkImageToInMemoryMultiscaleChunkedImage(
+    multiscaleImage = await itkImageToInMemoryMultiscaleSpatialImage(
       itkImage,
       isLabelImage
     )
   } else if (image.href !== undefined) {
     const imageHref = image.href
     if (isZarr(image.href)) {
-      multiscaleImage = ZarrMultiscaleChunkedImage.fromUrl(image)
+      multiscaleImage = ZarrMultiscaleSpatialImage.fromUrl(image)
     } else {
       const dataBuffer = await fetchBinaryContent(imageHref)
       const { image: itkImage, webWorker } = await readImageArrayBuffer(
@@ -69,7 +69,7 @@ async function toMultiscaleChunkedImage(image, isLabelImage = false) {
         imageHref.split('/').slice(-1)[0]
       )
       webWorker.terminate()
-      multiscaleImage = await itkImageToInMemoryMultiscaleChunkedImage(
+      multiscaleImage = await itkImageToInMemoryMultiscaleSpatialImage(
         itkImage,
         isLabelImage
       )
@@ -81,4 +81,4 @@ async function toMultiscaleChunkedImage(image, isLabelImage = false) {
   return multiscaleImage
 }
 
-export default toMultiscaleChunkedImage
+export default toMultiscaleSpatialImage

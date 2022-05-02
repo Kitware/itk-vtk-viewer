@@ -35,7 +35,7 @@ const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
   ]
 */
 
-class MultiscaleChunkedImage {
+class MultiscaleSpatialImage {
   scaleInfo = []
   name = 'Image'
 
@@ -207,4 +207,4 @@ class MultiscaleChunkedImage {
   }
 }
 
-export default MultiscaleChunkedImage
+export default MultiscaleSpatialImage

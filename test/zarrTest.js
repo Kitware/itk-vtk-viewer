@@ -6,10 +6,10 @@ const testZarrV4 = 'base/test/data/input/64x64-fake-v0.4.zarr/0'
 
 import HttpStore from '../src/IO/HttpStore'
 import ZarrStore from '../src/IO/ZarrStore'
-import toMultiscaleChunkedImage from '../src/IO/toMultiscaleChunkedImage'
-import ZarrMultiscaleChunkedImage, {
+import toMultiscaleSpatialImage from '../src/IO/toMultiscaleSpatialImage'
+import ZarrMultiscaleSpatialImage, {
   isZarr,
-} from '../src/IO/ZarrMultiscaleChunkedImage'
+} from '../src/IO/ZarrMultiscaleSpatialImage'
 
 const verifyImage = (t, image, msgPrefix = '') => {
   const imageTypeBaseline = {
@@ -125,13 +125,13 @@ test('Test ZarrStore', async t => {
   t.end()
 })
 
-test('Test ZarrMultiscaleChunkedImage', async t => {
+test('Test ZarrMultiscaleSpatialImage', async t => {
   const versionTests = [
     [testZarrV1, 'v0.1'],
     [testZarrV4, 'v0.4'],
   ].map(async ([filePath, version]) => {
     const storeURL = new URL(filePath, document.location.origin)
-    const zarrImage = await ZarrMultiscaleChunkedImage.fromUrl(storeURL)
+    const zarrImage = await ZarrMultiscaleSpatialImage.fromUrl(storeURL)
 
     t.equal(zarrImage.scaleInfo.length, 1, `${version} number of scales`)
 
@@ -145,9 +145,9 @@ test('Test ZarrMultiscaleChunkedImage', async t => {
   t.end()
 })
 
-test('Test toMultiscaleChunkedImage from store', async t => {
+test('Test toMultiscaleSpatialImage from store', async t => {
   const storeURL = new URL(testZarrV4, document.location.origin)
-  const zarrImage = await toMultiscaleChunkedImage(new HttpStore(storeURL))
+  const zarrImage = await toMultiscaleSpatialImage(new HttpStore(storeURL))
   const viewerImage = await zarrImage.scaleLargestImage(0)
 
   verifyImage(t, viewerImage)

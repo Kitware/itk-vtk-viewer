@@ -4,7 +4,7 @@ import MultiscaleSpatialImage from './MultiscaleSpatialImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
 import ZarrStore from './ZarrStore'
 import HttpStore from './HttpStore'
-import { CXYZT, toDimensionMap } from './dimensionUtils'
+import { CXYZT, toDimensionArray, toDimensionMap } from './dimensionUtils'
 
 // ends with zarr and optional nested image name like foo.zarr/image1
 export const isZarr = url => /zarr((\/)[\w-]+\/?)?$/.test(url)
@@ -113,9 +113,7 @@ const extractScaleSpacing = async store => {
   const info = scaleInfo[0]
 
   let pixelType = PixelTypes.Scalar
-  const dtype = info.pixelArrayMetadata.dtype
-  const componentType = dtypeToComponentType.get(dtype)
-  let components = 1
+  let components = 1 //Math.min(info.arrayShape.get('c') ?? 1, 3)
   // if (info.coords.has('c')) {
   //   const componentValues = await info.coords.get('c')
   //   components = componentValues.length
@@ -137,11 +135,11 @@ const extractScaleSpacing = async store => {
 
   const imageType = {
     // How many spatial dimensions?  Count greater than 1, X Y Z elements because "axis" metadata not defined in ngff V0.1
-    dimension: ['x', 'y', 'z']
-      .map(dim => info.arrayShape.get(dim))
-      .filter(size => size && size > 1).length,
+    dimension: toDimensionArray(['x', 'y', 'z'], info.arrayShape).filter(
+      size => size > 1
+    ).length,
     pixelType,
-    componentType,
+    componentType: dtypeToComponentType.get(info.pixelArrayMetadata.dtype),
     components,
   }
 

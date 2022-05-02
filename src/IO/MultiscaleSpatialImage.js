@@ -20,10 +20,10 @@ const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
     // scale 0 information
     dims: ['x', 'y'], // Valid elements: 'c', 'x', 'y', 'z', or 't'
     coords: .get() Promise resolves a Map('x': Float64Array([0.0, 2.0, ...), 'y' ...
-    chunkCount: [1, 10, 10, 5, 1], // array shape in chunks
-    chunkSize: [1, 64, 64, 64, 1], // chunk shape in elements
-    arrayShape: [1, 1, 1, 1, 1], // array shape in elements
-    ranges: [[0, 255],], // or null if unknown. Range of values for each component
+    chunkCount: Map('t': 1, 'c': 1, 'z': 10, 'y': 10, 'x': 10]), // array shape in chunks
+    chunkSize: Map('t': 1, 'c': 1, 'z': 1, 'y': 64, 'x': 64]), // chunk shape in elements
+    arrayShape: Map('t': 1, 'c': 1, 'z': 1, 'y': 64, 'x': 64]), // array shape in elements
+    ranges: Map('1': [0, 140], '2': [3, 130]) // or null if unknown. Range of values for each component
     name: 'dataset_name'
   },
   {

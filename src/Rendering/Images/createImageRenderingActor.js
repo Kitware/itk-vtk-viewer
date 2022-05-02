@@ -57,8 +57,8 @@ function highestScaleOrScaleJustRight(context, event, condMeta) {
 
   // is voxels count of next scale too much
   const nextScale = actorContext.renderedScale - 1
-  const voxelCount = image.scaleInfo[nextScale].sizeCXYZTElements
-    .slice(1, 4)
+  const voxelCount = ['x', 'y', 'z']
+    .map(dim => image.scaleInfo[nextScale].arrayShape.get(dim))
     .reduce((voxels, dimSize) => voxels * dimSize, 1)
   if (voxelCount > RENDERED_VOXEL_MAX) {
     return true

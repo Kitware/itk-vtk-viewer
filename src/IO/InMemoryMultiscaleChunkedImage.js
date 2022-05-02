@@ -12,6 +12,7 @@ import {
   stackImages,
 } from 'itk-wasm'
 import computeRange from '../Rendering/VTKJS/computeRange'
+import { CXYZT, toDimensionMap } from './dimensionUtils'
 
 const createChunkerWorker = existingWorker => {
   if (existingWorker) {
@@ -208,9 +209,9 @@ async function chunkImage(image, chunkSize) {
   const scaleInfo = {
     dims,
     coords,
-    numberOfCXYZTChunks,
-    sizeCXYZTChunks,
-    sizeCXYZTElements,
+    chunkCount: toDimensionMap(CXYZT, numberOfCXYZTChunks),
+    chunkSize: toDimensionMap(CXYZT, sizeCXYZTChunks),
+    arrayShape: toDimensionMap(CXYZT, sizeCXYZTElements),
     ranges,
   }
 

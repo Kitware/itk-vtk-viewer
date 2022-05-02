@@ -4,6 +4,7 @@ import MultiscaleChunkedImage from './MultiscaleChunkedImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
 import ZarrStore from './ZarrStore'
 import HttpStore from './HttpStore'
+import { CXYZT, toDimensionMap } from './dimensionUtils'
 
 // ends with zarr and optional nested image name like foo.zarr/image1
 export const isZarr = url => /zarr((\/)[\w-]+\/?)?$/.test(url)
@@ -25,8 +26,7 @@ const dtypeToComponentType = new Map([
   ['<f8', FloatTypes.Float64],
 ])
 
-const CXYZT = ['c', 'x', 'y', 'z', 't'] // viewer indexing
-const TCZYX = ['t', 'c', 'z', 'y', 'x'] // ngff indexing
+const CONTIGUOUS_CHANNEL_INDEXING = Object.freeze(['t', 'c', 'z', 'y', 'x'])
 
 const getScaleTransform = metadata => {
   const { coordinateTransformations } = metadata
@@ -41,7 +41,8 @@ const computeScaleSpacing = ({
   pixelArrayMetadata,
   dataset,
 }) => {
-  const dims = multiscaleImage.axes?.map(({ name }) => name) ?? TCZYX
+  const dims =
+    multiscaleImage.axes?.map(({ name }) => name) ?? CONTIGUOUS_CHANNEL_INDEXING
 
   // calculate voxel/pixel positions
   const imageScale = getScaleTransform(multiscaleImage)
@@ -49,15 +50,15 @@ const computeScaleSpacing = ({
   const { shape, chunks } = pixelArrayMetadata
 
   const coords = dims
+    // Zip dim with shape and transformations
     .map((dim, dimIdx) => ({
-      // Zip dim with shape and transformations
       dim,
       spacing: imageScale[dimIdx] * datasetScale[dimIdx],
       origin: 0, // translate transformations not implemented
       size: shape[dimIdx],
     }))
+    // calculate coords for each voxel/pixel/time
     .map(({ dim, spacing, origin, size }) => {
-      // calculate coords for each voxel/pixel/time
       const coordsPerElement = new Float32Array(size)
       for (let i = 0; i < coordsPerElement.length; i++) {
         coordsPerElement[i] = origin + i * spacing
@@ -69,18 +70,6 @@ const computeScaleSpacing = ({
       new Map()
     )
 
-  const numberOfCXYZTChunks = [1, 1, 1, 1, 1]
-  const sizeCXYZTChunks = [1, 1, 1, 1, 1]
-  const sizeCXYZTElements = [1, 1, 1, 1, 1]
-  CXYZT.forEach((dim, chunkIndex) => {
-    const index = dims.indexOf(dim)
-    if (index !== -1) {
-      numberOfCXYZTChunks[chunkIndex] = Math.ceil(shape[index] / chunks[index])
-      sizeCXYZTChunks[chunkIndex] = chunks[index]
-      sizeCXYZTElements[chunkIndex] = shape[index]
-    }
-  })
-
   return {
     dims,
     pixelArrayMetadata,
@@ -89,9 +78,12 @@ const computeScaleSpacing = ({
     coords,
     ranges: zattrs.ranges ?? undefined,
     direction: zattrs.direction ?? undefined,
-    numberOfCXYZTChunks,
-    sizeCXYZTChunks,
-    sizeCXYZTElements,
+    chunkCount: toDimensionMap(
+      dims,
+      dims.map((_, i) => Math.ceil(shape[i] / chunks[i]))
+    ),
+    chunkSize: toDimensionMap(dims, chunks),
+    arrayShape: toDimensionMap(dims, shape),
   }
 }
 
@@ -116,9 +108,6 @@ const extractScaleSpacing = async store => {
   )
 
   const info = scaleInfo[0]
-  // How many spatial dimensions?  Count non 1 X, Y, Z elements as "axis" metadata not defined in V0.1
-  const dimension = info.sizeCXYZTElements.slice(1, 4).filter(dim => dim > 1)
-    .length
 
   let pixelType = PixelTypes.Scalar
   const dtype = info.pixelArrayMetadata.dtype
@@ -144,7 +133,10 @@ const extractScaleSpacing = async store => {
   // } // Todo: add support for more pixel types
 
   const imageType = {
-    dimension,
+    // How many spatial dimensions?  Count greater than 1, X Y Z elements because "axis" metadata not defined in ngff V0.1
+    dimension: ['x', 'y', 'z']
+      .map(dim => info.arrayShape.get(dim))
+      .filter(size => size && size > 1).length,
     pixelType,
     componentType,
     components,

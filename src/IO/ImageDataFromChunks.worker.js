@@ -1,5 +1,6 @@
 import registerWebworker from 'webworker-promise/lib/register'
 import componentTypeToTypedArray from './componentTypeToTypedArray'
+import { toDimensionArray } from './dimensionUtils'
 
 const haveSharedArrayBuffer = typeof self.SharedArrayBuffer === 'function'
 
@@ -13,7 +14,7 @@ registerWebworker().operation(
     indexStart,
     indexEnd,
   }) => {
-    const chunkSize = info.sizeCXYZTChunks
+    const chunkSize = toDimensionArray(['c', 'x', 'y', 'z'], info.chunkSize)
     const chunkStrides = [
       chunkSize[0],
       chunkSize[0] * chunkSize[1],
@@ -21,15 +22,14 @@ registerWebworker().operation(
       chunkSize[0] * chunkSize[1] * chunkSize[2] * chunkSize[3],
     ] // c, x, y, z,
 
-    const size = info.sizeCXYZTElements.slice(1, 1 + imageType.dimension)
+    const size = toDimensionArray(['x', 'y', 'z'], info.arrayShape)
     const components = imageType.components
-    const zSize = size[2] ? size[2] : 1
 
     const pixelStrides = [
       components,
       components * size[0],
       components * size[0] * size[1],
-      components * size[0] * size[1] * zSize,
+      components * size[0] * size[1] * size[2],
     ] // c, x, y, z
 
     const pixelArrayType = componentTypeToTypedArray.get(

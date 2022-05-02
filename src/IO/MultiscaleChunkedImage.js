@@ -4,6 +4,7 @@ import componentTypeToTypedArray from './componentTypeToTypedArray'
 
 import WebworkerPromise from 'webworker-promise'
 import ImageDataFromChunksWorker from './ImageDataFromChunks.worker'
+import { CXYZT, toDimensionArray } from './dimensionUtils'
 const imageDataFromChunksWorker = new ImageDataFromChunksWorker()
 const imageDataFromChunksWorkerPromise = new WebworkerPromise(
   imageDataFromChunksWorker
@@ -13,15 +14,15 @@ const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
 
 /* Every element corresponds to a pyramid scale
      Lower scales, corresponds to a higher index, correspond to a lower
-     resolution. */
-/*
+     resolution. 
+
   scaleInfo = [{
     // scale 0 information
     dims: ['x', 'y'], // Valid elements: 'c', 'x', 'y', 'z', or 't'
     coords: .get() Promise resolves a Map('x': Float64Array([0.0, 2.0, ...), 'y' ...
-    numberOfCXYZTChunks: [1, 10, 10, 5, 1], // array shape in chunks
-    sizeCXYZTChunks: [1, 64, 64, 64, 1], // chunk shape in elements
-    sizeCXYZTElements: [1, 1, 1, 1, 1], // array shape in elements
+    chunkCount: [1, 10, 10, 5, 1], // array shape in chunks
+    chunkSize: [1, 64, 64, 64, 1], // chunk shape in elements
+    arrayShape: [1, 1, 1, 1, 1], // array shape in elements
     ranges: [[0, 255],], // or null if unknown. Range of values for each component
     name: 'dataset_name'
   },
@@ -32,7 +33,8 @@ const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
     // scale N information
     // [...]
   ]
-  */
+*/
+
 class MultiscaleChunkedImage {
   scaleInfo = []
   name = 'Image'
@@ -119,7 +121,7 @@ class MultiscaleChunkedImage {
     return this.getChunksImpl(scale, cxyztArray)
   }
 
-  async getChunksImpl(scale, cxyztArray) {
+  async getChunksImpl(/* scale, cxyztArray */) {
     console.error('Override me in a derived class')
   }
 
@@ -131,20 +133,16 @@ class MultiscaleChunkedImage {
 
     const info = this.scaleInfo[scale]
 
-    const chunkSize = info.sizeCXYZTChunks
-
-    const size = info.sizeCXYZTElements.slice(1, 1 + this.imageType.dimension)
-    const components = this.imageType.components
-    const zSize = size[2] ? size[2] : 1
+    const size = toDimensionArray(['x', 'y', 'z'], info.arrayShape)
     const start = [0, 0, 0, 0] // x, y, z, t
     const end = [
       start[0] + size[0],
       start[1] + size[1],
-      start[2] + zSize,
+      start[2] + size[2],
       start[3] + 1,
     ] // x, y, z, t
 
-    const numChunks = info.numberOfCXYZTChunks
+    const numChunks = toDimensionArray(CXYZT, info.chunkCount)
     const l = 0
     const zChunkStart = 0
     const zChunkEnd = numChunks[3]
@@ -174,12 +172,11 @@ class MultiscaleChunkedImage {
       }
     }
 
-    const scaleInfo = {
-      sizeCXYZTChunks: info.sizeCXYZTChunks,
-      sizeCXYZTElements: info.sizeCXYZTElements,
-    }
     const args = {
-      scaleInfo,
+      scaleInfo: {
+        chunkSize: info.chunkSize,
+        arrayShape: info.arrayShape,
+      },
       imageType: this.imageType,
       chunkIndices,
       chunks,
@@ -201,7 +198,7 @@ class MultiscaleChunkedImage {
       origin,
       spacing,
       direction: this.direction,
-      size,
+      size: size.slice(0, this.imageType.dimension),
       data: pixelArray,
     }
 

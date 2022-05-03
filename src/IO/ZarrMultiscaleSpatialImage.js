@@ -28,19 +28,66 @@ const dtypeToComponentType = new Map([
 
 const CONTIGUOUS_CHANNEL_INDEXING = Object.freeze(['t', 'c', 'z', 'y', 'x'])
 
-// lazy creation of coords array
-const makeCoords = (dims, imageScale, datasetScale, shape) => {
+const composeTransforms = (transforms = [], dimCount) =>
+  transforms.reduce(
+    ({ scale, translation }, transform) => {
+      if (transform.type === 'scale') {
+        const scaleTransform = transform.scale
+        return {
+          scale: scale.map((s, i) => s * scaleTransform[i]),
+          translation: translation.map((t, i) => t * scaleTransform[i]),
+        }
+      } else if (transform.type === 'translation') {
+        const translationTransform = transform.translation
+        return {
+          scale,
+          translation: translation.map((t, i) => t + translationTransform[i]),
+        }
+      }
+    },
+    { scale: Array(dimCount).fill(1), translation: Array(dimCount).fill(0) }
+  )
+
+export const computeTransform = (imageMetadata, datasetMetadata, dimCount) => {
+  const global = composeTransforms(
+    imageMetadata.coordinateTransformations,
+    dimCount
+  )
+  const dataset = composeTransforms(
+    datasetMetadata.coordinateTransformations,
+    dimCount
+  )
+
+  return composeTransforms(
+    [
+      { type: 'scale', scale: dataset.scale },
+      { type: 'translation', translation: dataset.translation },
+      { type: 'scale', scale: global.scale },
+      { type: 'translation', translation: global.translation },
+    ],
+    dimCount
+  )
+}
+
+// lazy creation of voxel/pixel/dimenstion coordinates array
+const makeCoords = (dims, shape, imageScale, datasetScale) => {
   const coords = new Map(dims.map(dim => [dim, null]))
+
+  const {
+    scale: spacingDataset,
+    translation: originDataset,
+  } = computeTransform(imageScale, datasetScale, dims.length)
 
   return {
     get(dim) {
       if (coords.get(dim) === null) {
         // make array
         const dimIdx = dims.indexOf(dim)
-        const spacing = imageScale[dimIdx] * datasetScale[dimIdx]
+        const spacing = spacingDataset[dimIdx]
+        const origin = originDataset[dimIdx]
         const coordsPerElement = new Float32Array(shape[dimIdx])
         for (let i = 0; i < coordsPerElement.length; i++) {
-          coordsPerElement[i] = i * spacing // + origin translate transformations not implemented
+          coordsPerElement[i] = i * spacing + origin
         }
         coords.set(dim, coordsPerElement)
       }
@@ -52,13 +99,6 @@ const makeCoords = (dims, imageScale, datasetScale, shape) => {
   }
 }
 
-const getScaleTransform = metadata => {
-  const { coordinateTransformations } = metadata
-  return coordinateTransformations
-    ? coordinateTransformations[0].scale
-    : [1, 1, 1, 1, 1]
-}
-
 const computeScaleSpacing = ({
   zattrs,
   multiscaleImage,
@@ -68,9 +108,6 @@ const computeScaleSpacing = ({
   const dims =
     multiscaleImage.axes?.map(({ name }) => name) ?? CONTIGUOUS_CHANNEL_INDEXING
 
-  // calculate voxel/pixel positions
-  const imageScale = getScaleTransform(multiscaleImage)
-  const datasetScale = getScaleTransform(dataset)
   const { shape, chunks } = pixelArrayMetadata
 
   return {
@@ -78,7 +115,7 @@ const computeScaleSpacing = ({
     pixelArrayMetadata,
     name: multiscaleImage.name,
     pixelArrayPath: dataset.path,
-    coords: makeCoords(dims, imageScale, datasetScale, shape),
+    coords: makeCoords(dims, shape, multiscaleImage, dataset),
     ranges: zattrs.ranges ?? undefined,
     direction: zattrs.direction ?? undefined,
     chunkCount: toDimensionMap(

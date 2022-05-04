@@ -105,6 +105,7 @@ const computeScaleSpacing = ({
   pixelArrayMetadata,
   dataset,
 }) => {
+  // "axis" metadata not defined in ngff V0.1 so fallback to CONTIGUOUS_CHANNEL_INDEXING
   const dims =
     multiscaleImage.axes?.map(({ name }) => name) ?? CONTIGUOUS_CHANNEL_INDEXING
 
@@ -149,33 +150,21 @@ const extractScaleSpacing = async store => {
 
   const info = scaleInfo[0]
 
-  let pixelType = PixelTypes.Scalar
-  let components = 1 //Math.min(info.arrayShape.get('c') ?? 1, 3)
-  // if (info.coords.has('c')) {
-  //   const componentValues = await info.coords.get('c')
-  //   components = componentValues.length
-  //   if (dtype.includes('u1')) {
-  //     switch (components) {
-  //       case 3:
-  //         pixelType = PixelTypes.RGB
-  //         break
-  //       case 4:
-  //         pixelType = PixelTypes.RGBA
-  //         break
-  //       default:
-  //         pixelType = PixelTypes.VariableLengthVector
-  //     }
-  //   } else {
-  //     pixelType = PixelTypes.VariableLengthVector
-  //   }
-  // } // Todo: add support for more pixel types
+  const componentsInData = info.arrayShape.get('c') ?? 1
+  const components = Math.min(componentsInData, 3)
+  if (componentsInData !== components) {
+    console.warn(
+      `itk-vtk-viewer: ${componentsInData} components are not supported.  Maximum 3 components are supported.`
+    )
+  }
 
   const imageType = {
     // How many spatial dimensions?  Count greater than 1, X Y Z elements because "axis" metadata not defined in ngff V0.1
     dimension: toDimensionArray(['x', 'y', 'z'], info.arrayShape).filter(
       size => size > 1
     ).length,
-    pixelType,
+    pixelType:
+      components === 1 ? PixelTypes.Scalar : PixelTypes.VariableLengthVector,
     componentType: dtypeToComponentType.get(info.pixelArrayMetadata.dtype),
     components,
   }

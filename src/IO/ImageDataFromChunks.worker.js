@@ -78,7 +78,7 @@ registerWebworker().operation(
       }
       const itStart = [
         Math.max(chunkStart[0], indexStart[0]),
-        Math.max(chunkStart[1], indexStart[1]),
+        Math.max(chunkStart[1], indexStart[1]) - i,
         Math.max(chunkStart[2], indexStart[2]),
         Math.max(chunkStart[3], indexStart[3]),
       ]
@@ -96,20 +96,14 @@ registerWebworker().operation(
         itPixelOffsets[2] = pixelStrides[2] * (kk - indexStart[2])
         for (let jj = itStart[1]; jj < itEnd[1]; jj++) {
           itChunkOffsets[1] = chunkStrides[1] * (jj - j * chunkSize[2])
-          itPixelOffsets[1] = pixelStrides[1] * (jj - indexStart[1])
+          itPixelOffsets[1] = pixelStrides[1] * (i + jj - indexStart[1])
           for (let ii = itStart[0]; ii < itEnd[0]; ii++) {
             const begin =
-              chunkStrides[0] * (itStart[0] - i * chunkSize[1]) +
-              itChunkOffsets[1] +
-              itChunkOffsets[2] +
-              itChunkOffsets[3]
-            const end = begin + components * (itEnd[0] - itStart[0])
+              ii + itChunkOffsets[1] + itChunkOffsets[2] + itChunkOffsets[3]
             const offset =
-              pixelStrides[0] * (itStart[0] - indexStart[0]) +
-              itPixelOffsets[1] +
-              itPixelOffsets[2]
-            const subarray = chunk.subarray(begin, end)
-            pixelArray.set(subarray, offset)
+              h + ii * pixelStrides[0] + itPixelOffsets[1] + itPixelOffsets[2]
+
+            pixelArray[offset] = chunk[begin]
           } // for every column
         } // for every row
       } // for every slice

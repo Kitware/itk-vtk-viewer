@@ -6,10 +6,11 @@ const testZarrV4 = 'base/test/data/input/64x64-fake-v0.4.zarr/0'
 
 import HttpStore from '../src/IO/HttpStore'
 import ZarrStore from '../src/IO/ZarrStore'
-import toMultiscaleChunkedImage from '../src/IO/toMultiscaleChunkedImage'
-import ZarrMultiscaleChunkedImage, {
+import toMultiscaleSpatialImage from '../src/IO/toMultiscaleSpatialImage'
+import ZarrMultiscaleSpatialImage, {
+  computeTransform,
   isZarr,
-} from '../src/IO/ZarrMultiscaleChunkedImage'
+} from '../src/IO/ZarrMultiscaleSpatialImage'
 
 const verifyImage = (t, image, msgPrefix = '') => {
   const imageTypeBaseline = {
@@ -125,13 +126,13 @@ test('Test ZarrStore', async t => {
   t.end()
 })
 
-test('Test ZarrMultiscaleChunkedImage', async t => {
+test('Test ZarrMultiscaleSpatialImage', async t => {
   const versionTests = [
     [testZarrV1, 'v0.1'],
     [testZarrV4, 'v0.4'],
   ].map(async ([filePath, version]) => {
     const storeURL = new URL(filePath, document.location.origin)
-    const zarrImage = await ZarrMultiscaleChunkedImage.fromUrl(storeURL)
+    const zarrImage = await ZarrMultiscaleSpatialImage.fromUrl(storeURL)
 
     t.equal(zarrImage.scaleInfo.length, 1, `${version} number of scales`)
 
@@ -145,12 +146,148 @@ test('Test ZarrMultiscaleChunkedImage', async t => {
   t.end()
 })
 
-test('Test toMultiscaleChunkedImage from store', async t => {
+test('Test toMultiscaleSpatialImage from store', async t => {
   const storeURL = new URL(testZarrV4, document.location.origin)
-  const zarrImage = await toMultiscaleChunkedImage(new HttpStore(storeURL))
+  const zarrImage = await toMultiscaleSpatialImage(new HttpStore(storeURL))
   const viewerImage = await zarrImage.scaleLargestImage(0)
 
   verifyImage(t, viewerImage)
 
+  t.end()
+})
+
+test('Test ngff metadata coordinate transformations image and dataset interaction', t => {
+  const { scale, translation } = computeTransform(
+    {
+      coordinateTransformations: [
+        {
+          scale: [1, 2, 5],
+          type: 'scale',
+        },
+      ],
+    },
+    {
+      coordinateTransformations: [
+        {
+          translation: [1, 1, 2],
+          type: 'translation',
+        },
+      ],
+    },
+    3
+  )
+
+  t.deepEqual(scale, [1, 2, 5], 'dataset scale computed')
+  t.deepEqual(translation, [1, 2, 10], 'dataset translation computed')
+  t.end()
+})
+
+test('Test ngff metadata coordinate transformations missing image coordinateTransformations', t => {
+  const { scale, translation } = computeTransform(
+    {},
+    {
+      coordinateTransformations: [
+        {
+          translation: [3, 3, 3],
+          type: 'translation',
+        },
+        {
+          scale: [2, 2, 2],
+          type: 'scale',
+        },
+      ],
+    },
+    3
+  )
+
+  t.deepEqual(scale, [2, 2, 2], 'dataset scale computed')
+  t.deepEqual(translation, [6, 6, 6], 'dataset translation computed')
+  t.end()
+})
+
+test('Test ngff metadata coordinate transformations stacking', t => {
+  const { scale, translation } = computeTransform(
+    {},
+    {
+      coordinateTransformations: [
+        {
+          scale: [1, 1, 2],
+          type: 'scale',
+        },
+        {
+          translation: [1, 1, 2],
+          type: 'translation',
+        },
+        {
+          scale: [2, 1, 1],
+          type: 'scale',
+        },
+        {
+          translation: [1, 1, 2],
+          type: 'translation',
+        },
+      ],
+    },
+    3
+  )
+
+  t.deepEqual(scale, [2, 1, 2], 'dataset scale computed')
+  t.deepEqual(translation, [3, 2, 4], 'dataset translation computed')
+  t.end()
+})
+
+const REAL_TRANSFORMATIONS = {
+  coordinateTransformations: [
+    {
+      scale: [10, 1, 1, 1, 1],
+      type: 'scale',
+    },
+    {
+      translation: [2, 0, 0, 0, 2],
+      type: 'translation',
+    },
+  ],
+  datasets: [
+    {
+      coordinateTransformations: [
+        {
+          scale: [1, 1, 1.0, 0.65, 0.65],
+          type: 'scale',
+        },
+      ],
+      path: 's0',
+    },
+    {
+      coordinateTransformations: [
+        {
+          scale: [1, 1, 2.0, 1.3, 1.3],
+          type: 'scale',
+        },
+      ],
+      path: 's1',
+    },
+    {
+      coordinateTransformations: [
+        {
+          scale: [1, 1, 4.0, 2.6, 2.6],
+          type: 'scale',
+        },
+      ],
+      path: 's2',
+    },
+  ],
+}
+
+test('Test ngff metadata coordinate transformations with real JSON', t => {
+  const imageMetadata = REAL_TRANSFORMATIONS
+  const datasetMetadata = REAL_TRANSFORMATIONS.datasets[2]
+  const { scale, translation } = computeTransform(
+    imageMetadata,
+    datasetMetadata,
+    5
+  )
+
+  t.deepEqual(scale, [10, 1, 4.0, 2.6, 2.6], 'dataset scale computed')
+  t.deepEqual(translation, [2, 0, 0, 0, 2], 'dataset translation computed')
   t.end()
 })

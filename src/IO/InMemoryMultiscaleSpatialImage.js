@@ -1,4 +1,4 @@
-import MultiscaleChunkedImage from './MultiscaleChunkedImage'
+import MultiscaleSpatialImage from './MultiscaleSpatialImage'
 import componentTypeToTypedArray from './componentTypeToTypedArray'
 import WebworkerPromise from 'webworker-promise'
 
@@ -12,6 +12,7 @@ import {
   stackImages,
 } from 'itk-wasm'
 import computeRange from '../Rendering/VTKJS/computeRange'
+import { CXYZT, toDimensionMap } from './dimensionUtils'
 
 const createChunkerWorker = existingWorker => {
   if (existingWorker) {
@@ -208,16 +209,16 @@ async function chunkImage(image, chunkSize) {
   const scaleInfo = {
     dims,
     coords,
-    numberOfCXYZTChunks,
-    sizeCXYZTChunks,
-    sizeCXYZTElements,
+    chunkCount: toDimensionMap(CXYZT, numberOfCXYZTChunks),
+    chunkSize: toDimensionMap(CXYZT, sizeCXYZTChunks),
+    arrayShape: toDimensionMap(CXYZT, sizeCXYZTElements),
     ranges,
   }
 
   return { scaleInfo, chunksStride, chunks }
 }
 
-class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
+class InMemoryMultiscaleSpatialImage extends MultiscaleSpatialImage {
   static async buildPyramid(
     image,
     chunkSize = [64, 64, 64],
@@ -324,4 +325,4 @@ class InMemoryMultiscaleChunkedImage extends MultiscaleChunkedImage {
   }
 }
 
-export default InMemoryMultiscaleChunkedImage
+export default InMemoryMultiscaleSpatialImage

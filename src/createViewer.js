@@ -20,7 +20,7 @@ import createLabelMapRendering from './Rendering/createLabelMapRendering'
 import updateLabelMapComponentWeight from './Rendering/updateLabelMapComponentWeight'
 import updateLabelMapPiecewiseFunction from './Rendering/updateLabelMapPiecewiseFunction'
 
-import toMultiscaleChunkedImage from './IO/toMultiscaleChunkedImage'
+import toMultiscaleSpatialImage from './IO/toMultiscaleSpatialImage'
 import viewerMachineOptions from './viewerMachineOptions'
 import createViewerMachine from './createViewerMachine'
 import ViewerMachineContext from './Context/ViewerMachineContext'
@@ -366,7 +366,7 @@ const createViewer = async (
   )
   let imageName = null
   if (image) {
-    const multiscaleImage = await toMultiscaleChunkedImage(image)
+    const multiscaleImage = await toMultiscaleSpatialImage(image)
     imageName = multiscaleImage.name
     service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
     if (multiscaleImage.scaleInfo[0].ranges) {
@@ -386,7 +386,7 @@ const createViewer = async (
   }
 
   if (labelImage) {
-    const multiscaleLabelImage = await toMultiscaleChunkedImage(
+    const multiscaleLabelImage = await toMultiscaleSpatialImage(
       labelImage,
       true
     )
@@ -849,7 +849,7 @@ const createViewer = async (
     if (typeof name === 'undefined' && context.images.selectedName) {
       name = context.images.selectedName
     }
-    const multiscaleImage = await toMultiscaleChunkedImage(image)
+    const multiscaleImage = await toMultiscaleSpatialImage(image)
     multiscaleImage.name = name
     if (context.images.actorContext.has(name)) {
       const actorContext = context.images.actorContext.get(name)

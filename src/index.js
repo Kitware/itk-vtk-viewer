@@ -9,8 +9,8 @@ import { processFiles } from './IO/processFiles'
 import UserInterface from './UserInterface'
 import createFileDragAndDrop from './UserInterface/createFileDragAndDrop'
 import style from './UserInterface/ItkVtkViewer.module.css'
-import toMultiscaleChunkedImage from './IO/toMultiscaleChunkedImage'
-import { isZarr } from './IO/ZarrMultiscaleChunkedImage'
+import toMultiscaleSpatialImage from './IO/toMultiscaleSpatialImage'
+import { isZarr } from './IO/ZarrMultiscaleSpatialImage'
 
 import imJoyPluginAPI from './imJoyPluginAPI'
 import packageJson from '../package.json'
@@ -57,7 +57,7 @@ export async function createViewerFromUrl(
   let imageObject = null
   if (image) {
     if (isZarr(image)) {
-      imageObject = await toMultiscaleChunkedImage(new URL(image))
+      imageObject = await toMultiscaleSpatialImage(new URL(image))
     } else {
       const arrayBuffer = await fetchBinaryContent(image, progressCallback)
       const result = await readImageArrayBuffer(
@@ -73,7 +73,7 @@ export async function createViewerFromUrl(
   let labelImageObject = null
   if (labelImage) {
     if (isZarr(labelImage)) {
-      labelImageObject = await toMultiscaleChunkedImage(
+      labelImageObject = await toMultiscaleSpatialImage(
         new URL(labelImage),
         true
       )
@@ -92,7 +92,7 @@ export async function createViewerFromUrl(
   const fileObjects = []
   for (const url of files) {
     if (isZarr(url)) {
-      imageObject = await toMultiscaleChunkedImage(new URL(url))
+      imageObject = await toMultiscaleSpatialImage(new URL(url))
     } else {
       const arrayBuffer = await fetchBinaryContent(url, progressCallback)
       fileObjects.push(

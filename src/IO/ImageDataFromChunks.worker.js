@@ -1,8 +1,18 @@
 import registerWebworker from 'webworker-promise/lib/register'
 import componentTypeToTypedArray from './componentTypeToTypedArray'
-import { toDimensionArray } from './dimensionUtils'
 
 const haveSharedArrayBuffer = typeof self.SharedArrayBuffer === 'function'
+
+const validateIndices = ({ chunkStart, chunkEnd, roiStart, roiEnd }) => {
+  if (
+    ['x', 'y', 'z'].some(
+      dim => chunkStart[dim] > roiEnd[dim] || chunkEnd[dim] < roiStart[dim]
+    )
+  ) {
+    // We should never get here...
+    console.error('Requested a chunk outside the region of interest!')
+  }
+}
 
 registerWebworker().operation(
   'imageDataFromChunks',
@@ -14,29 +24,15 @@ registerWebworker().operation(
     indexStart,
     indexEnd,
   }) => {
-    const chunkSize = toDimensionArray(['c', 'x', 'y', 'z'], info.chunkSize)
-    const chunkStrides = [
-      chunkSize[0],
-      chunkSize[0] * chunkSize[1],
-      chunkSize[0] * chunkSize[1] * chunkSize[2],
-      chunkSize[0] * chunkSize[1] * chunkSize[2] * chunkSize[3],
-    ] // c, x, y, z,
-
-    const size = toDimensionArray(['x', 'y', 'z'], info.arrayShape)
-    const components = imageType.components
-
-    const pixelStrides = [
-      components,
-      components * size[0],
-      components * size[0] * size[1],
-      components * size[0] * size[1] * size[2],
-    ] // c, x, y, z
+    info.arrayShape.set('c', imageType.components)
 
     const pixelArrayType = componentTypeToTypedArray.get(
       imageType.componentType
     )
     let pixelArray = null
-    const pixelArrayElements = size.reduce((a, b) => a * b) * components
+    const pixelArrayElements = Array.from(info.arrayShape.values()).reduce(
+      (a, b) => a * b
+    )
     if (haveSharedArrayBuffer) {
       const pixelArrayBytes =
         pixelArrayElements * pixelArrayType.BYTES_PER_ELEMENT
@@ -46,68 +42,82 @@ registerWebworker().operation(
       pixelArray = new pixelArrayType(pixelArrayElements)
     }
 
+    const arrayShape = Object.fromEntries(info.arrayShape)
+    const pixelStrides = {
+      z: arrayShape.c * arrayShape.x * arrayShape.y,
+      y: arrayShape.c * arrayShape.x,
+      x: arrayShape.c,
+    }
+
+    const chunkSize = Object.fromEntries(info.chunkSize)
+
+    // stride is the number of elements between elements in a dimension
+    const [chunkStrides] = Array.from(info.chunkSize)
+      .reverse()
+      .reduce(
+        ([strides, size], [dim, dimSize]) => [
+          { [dim]: size, ...strides },
+          size * dimSize,
+        ],
+        [{}, 1]
+      )
+
     for (let index = 0; index < chunkIndices.length; index++) {
       const chunk = chunks[index]
-      const [h, i, j, k, l] = chunkIndices[index]
+      const [c, x, y, z /*t*/] = chunkIndices[index]
 
-      const chunkStart = [
-        i * chunkSize[1],
-        j * chunkSize[2],
-        k * chunkSize[3],
-        l * chunkSize[4],
-      ]
-      const chunkEnd = [
-        (i + 1) * chunkSize[1],
-        (j + 1) * chunkSize[2],
-        (k + 1) * chunkSize[3],
-        (l + 1) * chunkSize[4],
-      ]
-      // Skip if the chunk lives outside the region of interest
-      if (
-        chunkStart[0] > indexEnd[0] ||
-        chunkEnd[0] < indexStart[0] ||
-        chunkStart[1] > indexEnd[1] ||
-        chunkEnd[1] < indexStart[1] ||
-        chunkStart[2] > indexEnd[2] ||
-        chunkEnd[2] < indexStart[2] ||
-        chunkStart[3] > indexEnd[3] ||
-        chunkEnd[3] < indexStart[3]
-      ) {
-        // We should never get here...
-        console.error('Requested a chunk outside the region of interest!')
+      const chunkStart = {
+        c: c * chunkSize.c,
+        z: z * chunkSize.z,
+        y: y * chunkSize.y,
+        x: x * chunkSize.x,
       }
-      const itStart = [
-        Math.max(chunkStart[0], indexStart[0]),
-        Math.max(chunkStart[1], indexStart[1]) - i,
-        Math.max(chunkStart[2], indexStart[2]),
-        Math.max(chunkStart[3], indexStart[3]),
-      ]
-      const itEnd = [
-        Math.min(chunkEnd[0], indexEnd[0]),
-        Math.min(chunkEnd[1], indexEnd[1]),
-        Math.min(chunkEnd[2], indexEnd[2]),
-        Math.min(chunkEnd[3], indexEnd[3]),
-      ]
-      const itChunkOffsets = [0, 0, 0, 0]
-      itChunkOffsets[3] = chunkStrides[3] * l
-      const itPixelOffsets = [0, 0, 0]
-      for (let kk = itStart[2]; kk < itEnd[2]; kk++) {
-        itChunkOffsets[2] = chunkStrides[2] * (kk - k * chunkSize[3])
-        itPixelOffsets[2] = pixelStrides[2] * (kk - indexStart[2])
-        for (let jj = itStart[1]; jj < itEnd[1]; jj++) {
-          itChunkOffsets[1] = chunkStrides[1] * (jj - j * chunkSize[2])
-          itPixelOffsets[1] = pixelStrides[1] * (i + jj - indexStart[1])
-          for (let ii = itStart[0]; ii < itEnd[0]; ii++) {
-            const begin =
-              ii + itChunkOffsets[1] + itChunkOffsets[2] + itChunkOffsets[3]
-            const offset =
-              h + ii * pixelStrides[0] + itPixelOffsets[1] + itPixelOffsets[2]
+      const chunkEnd = {
+        c: (c + 1) * chunkSize.c,
+        z: (z + 1) * chunkSize.z,
+        y: (y + 1) * chunkSize.y,
+        x: (x + 1) * chunkSize.x,
+      }
+      const roiStart = Object.fromEntries(indexStart)
+      const roiEnd = Object.fromEntries(indexEnd)
+      validateIndices({ chunkStart, chunkEnd, roiStart, roiEnd })
 
-            pixelArray[offset] = chunk[begin]
-          } // for every column
-        } // for every row
-      } // for every slice
-    }
+      // iterate on image from chunk or ROI start
+      const itStart = {
+        c: Math.max(chunkStart.c, roiStart.c),
+        z: Math.max(chunkStart.z, roiStart.z),
+        y: Math.max(chunkStart.y, roiStart.y),
+        x: Math.max(chunkStart.x, roiStart.x),
+      }
+      const itEnd = {
+        c: Math.min(chunkEnd.c, roiEnd.c),
+        z: Math.min(chunkEnd.z, roiEnd.z),
+        y: Math.min(chunkEnd.y, roiEnd.y),
+        x: Math.min(chunkEnd.x, roiEnd.x),
+      }
+
+      for (let cc = itStart.c; cc < itEnd.c; cc++) {
+        for (let zz = itStart.z; zz < itEnd.z; zz++) {
+          for (let yy = itStart.y; yy < itEnd.y; yy++) {
+            for (let xx = itStart.x; xx < itEnd.x; xx++) {
+              pixelArray[
+                cc +
+                  xx * pixelStrides.x +
+                  yy * pixelStrides.y +
+                  zz * pixelStrides.z
+              ] =
+                chunk[
+                  // subtract x * chunkSize.x from xx to start at beginning of chunk despite itStart.x
+                  (xx - x * chunkSize.x) * chunkStrides.x +
+                    (yy - y * chunkSize.y) * chunkStrides.y +
+                    (zz - z * chunkSize.z) * chunkStrides.z +
+                    (cc - c * chunkSize.c) * chunkStrides.c
+                ]
+            } // column
+          } // row
+        } // slice
+      } // component
+    } // chunk
 
     let response = pixelArray
     if (!haveSharedArrayBuffer) {

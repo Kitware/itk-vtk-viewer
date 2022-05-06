@@ -133,14 +133,12 @@ class MultiscaleSpatialImage {
 
     const info = this.scaleInfo[scale]
 
-    const size = toDimensionArray(['x', 'y', 'z'], info.arrayShape)
-    const start = [0, 0, 0, 0] // x, y, z, t
-    const end = [
-      start[0] + size[0],
-      start[1] + size[1],
-      start[2] + size[2],
-      start[3] + 1,
-    ] // x, y, z, t
+    const start = new Map(Object.entries({ t: 0, c: 0, z: 0, y: 0, x: 0 }))
+    const end = Array.from(start).reduce(
+      (end, [dim, startIndex]) =>
+        end.set(dim, startIndex + info.arrayShape.get(dim)),
+      new Map()
+    )
 
     const numChunks = toDimensionArray(CXYZT, info.chunkCount)
     const l = 0
@@ -198,7 +196,9 @@ class MultiscaleSpatialImage {
       origin,
       spacing,
       direction: this.direction,
-      size: size.slice(0, this.imageType.dimension),
+      size: ['x', 'y', 'z']
+        .slice(0, this.imageType.dimension)
+        .map(dim => info.arrayShape.get(dim)),
       data: pixelArray,
     }
 

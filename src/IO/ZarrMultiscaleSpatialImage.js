@@ -4,7 +4,7 @@ import MultiscaleSpatialImage from './MultiscaleSpatialImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
 import ZarrStore from './ZarrStore'
 import HttpStore from './HttpStore'
-import { CXYZT, toDimensionArray, toDimensionMap } from './dimensionUtils'
+import { CXYZT, toDimensionMap } from './dimensionUtils'
 
 // ends with zarr and optional nested image name like foo.zarr/image1
 export const isZarr = url => /zarr((\/)[\w-]+\/?)?$/.test(url)
@@ -26,7 +26,8 @@ const dtypeToComponentType = new Map([
   ['<f8', FloatTypes.Float64],
 ])
 
-const CONTIGUOUS_CHANNEL_INDEXING = Object.freeze(['t', 'c', 'z', 'y', 'x'])
+const TCZYX = Object.freeze(['t', 'c', 'z', 'y', 'x'])
+const toDimensionMapTCZYX = (dims, array) => toDimensionMap(dims, array, TCZYX)
 
 const composeTransforms = (transforms = [], dimCount) =>
   transforms.reduce(
@@ -105,11 +106,22 @@ const computeScaleSpacing = ({
   pixelArrayMetadata,
   dataset,
 }) => {
-  // "axis" metadata not defined in ngff V0.1 so fallback to CONTIGUOUS_CHANNEL_INDEXING
-  const dims =
-    multiscaleImage.axes?.map(({ name }) => name) ?? CONTIGUOUS_CHANNEL_INDEXING
+  // "axis" metadata not defined in ngff V0.1 so fallback to TCZYX
+  const dims = multiscaleImage.axes?.map(({ name }) => name) ?? TCZYX
 
   const { shape, chunks } = pixelArrayMetadata
+
+  const chunkSize = toDimensionMapTCZYX(dims, chunks)
+  const arrayShape = toDimensionMapTCZYX(dims, shape)
+
+  const componentsInData = arrayShape.get('c')
+  const components = Math.min(componentsInData, 3)
+  if (componentsInData !== components) {
+    console.warn(
+      `itk-vtk-viewer: ${componentsInData} components are not supported.`
+    )
+    arrayShape.set('c', components)
+  }
 
   return {
     dims,
@@ -119,12 +131,12 @@ const computeScaleSpacing = ({
     coords: makeCoords(dims, shape, multiscaleImage, dataset),
     ranges: zattrs.ranges ?? undefined,
     direction: zattrs.direction ?? undefined,
-    chunkCount: toDimensionMap(
+    chunkCount: toDimensionMapTCZYX(
       dims,
-      dims.map((_, i) => Math.ceil(shape[i] / chunks[i]))
+      dims.map(dim => Math.ceil(arrayShape.get(dim) / chunkSize.get(dim)))
     ),
-    chunkSize: toDimensionMap(dims, chunks),
-    arrayShape: toDimensionMap(dims, shape),
+    chunkSize,
+    arrayShape,
   }
 }
 
@@ -150,19 +162,12 @@ const extractScaleSpacing = async store => {
 
   const info = scaleInfo[0]
 
-  const componentsInData = info.arrayShape.get('c') ?? 1
-  const components = Math.min(componentsInData, 3)
-  if (componentsInData !== components) {
-    console.warn(
-      `itk-vtk-viewer: ${componentsInData} components are not supported.  Maximum 3 components are supported.`
-    )
-  }
+  const components = info.arrayShape.get('c')
 
   const imageType = {
     // How many spatial dimensions?  Count greater than 1, X Y Z elements because "axis" metadata not defined in ngff V0.1
-    dimension: toDimensionArray(['x', 'y', 'z'], info.arrayShape).filter(
-      size => size > 1
-    ).length,
+    dimension: ['x', 'y', 'z'].filter(dim => info.arrayShape.get(dim) > 1)
+      .length,
     pixelType:
       components === 1 ? PixelTypes.Scalar : PixelTypes.VariableLengthVector,
     componentType: dtypeToComponentType.get(info.pixelArrayMetadata.dtype),

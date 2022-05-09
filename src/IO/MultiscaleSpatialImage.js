@@ -163,12 +163,14 @@ class MultiscaleSpatialImage {
     } // for every zChunk
 
     const chunks = await this.getChunks(scale, chunkIndices)
-    let transferables = []
-    if (!haveSharedArrayBuffer || !chunks.buffer instanceof SharedArrayBuffer) {
-      for (let chunkIndex = 0; chunkIndex < chunks.length; chunkIndex++) {
-        transferables.push(chunks[chunkIndex].buffer)
-      }
-    }
+
+    const transferables = chunks
+      .map(chunk => chunk.buffer)
+      .filter(
+        buffer =>
+          // transferables cannot have SharedArrayBuffers
+          !haveSharedArrayBuffer || !(buffer instanceof SharedArrayBuffer)
+      )
 
     const args = {
       scaleInfo: {

@@ -2,7 +2,7 @@ import { PixelTypes, IntTypes, FloatTypes } from 'itk-wasm'
 
 import MultiscaleSpatialImage from './MultiscaleSpatialImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
-import ZarrStore from './ZarrStore'
+import ZarrStoreParser from './ZarrStoreParser'
 import HttpStore from './HttpStore'
 import { CXYZT, toDimensionMap } from './dimensionUtils'
 
@@ -27,7 +27,6 @@ const dtypeToComponentType = new Map([
 ])
 
 const TCZYX = Object.freeze(['t', 'c', 'z', 'y', 'x'])
-const toDimensionMapTCZYX = (dims, array) => toDimensionMap(dims, array, TCZYX)
 
 const composeTransforms = (transforms = [], dimCount) =>
   transforms.reduce(
@@ -111,14 +110,14 @@ const computeScaleSpacing = ({
 
   const { shape, chunks } = pixelArrayMetadata
 
-  const chunkSize = toDimensionMapTCZYX(dims, chunks)
-  const arrayShape = toDimensionMapTCZYX(dims, shape)
+  const chunkSize = toDimensionMap(dims, chunks)
+  const arrayShape = toDimensionMap(dims, shape)
 
-  const componentsInData = arrayShape.get('c')
+  const componentsInData = arrayShape.get('c') ?? 1
   const components = Math.min(componentsInData, 3)
   if (componentsInData !== components) {
     console.warn(
-      `itk-vtk-viewer: ${componentsInData} components are not supported.`
+      `itk-vtk-viewer: ${componentsInData} components are not supported. Falling back to ${components} components.`
     )
     arrayShape.set('c', components)
   }
@@ -131,7 +130,7 @@ const computeScaleSpacing = ({
     coords: makeCoords(dims, shape, multiscaleImage, dataset),
     ranges: zattrs.ranges ?? undefined,
     direction: zattrs.direction ?? undefined,
-    chunkCount: toDimensionMapTCZYX(
+    chunkCount: toDimensionMap(
       dims,
       dims.map(dim => Math.ceil(arrayShape.get(dim) / chunkSize.get(dim)))
     ),
@@ -140,8 +139,8 @@ const computeScaleSpacing = ({
   }
 }
 
-const extractScaleSpacing = async store => {
-  const zattrs = await store.getItem('.zattrs')
+const extractScaleSpacing = async dataSource => {
+  const zattrs = await dataSource.getItem('.zattrs')
 
   const { multiscales } = zattrs
   const multiscaleImage = Array.isArray(multiscales)
@@ -150,7 +149,9 @@ const extractScaleSpacing = async store => {
 
   const scaleInfo = await Promise.all(
     multiscaleImage.datasets.map(async dataset => {
-      const pixelArrayMetadata = await store.getItem(`${dataset.path}/.zarray`)
+      const pixelArrayMetadata = await dataSource.getItem(
+        `${dataset.path}/.zarray`
+      )
       return computeScaleSpacing({
         zattrs,
         multiscaleImage,
@@ -162,7 +163,7 @@ const extractScaleSpacing = async store => {
 
   const info = scaleInfo[0]
 
-  const components = info.arrayShape.get('c')
+  const components = info.arrayShape.get('c') ?? 1
 
   const imageType = {
     // How many spatial dimensions?  Count greater than 1, X Y Z elements because "axis" metadata not defined in ngff V0.1
@@ -178,11 +179,11 @@ const extractScaleSpacing = async store => {
 }
 
 class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
-  // Store parameter is object with getItem, but not a ZarrStore
+  // Store parameter is object with getItem (but not a ZarrStoreParser)
   static async fromStore(store) {
-    const zarrStore = new ZarrStore(store)
-    const { scaleInfo, imageType } = await extractScaleSpacing(zarrStore)
-    return new ZarrMultiscaleSpatialImage(zarrStore, scaleInfo, imageType)
+    const zarrStoreParser = new ZarrStoreParser(store)
+    const { scaleInfo, imageType } = await extractScaleSpacing(zarrStoreParser)
+    return new ZarrMultiscaleSpatialImage(zarrStoreParser, scaleInfo, imageType)
   }
 
   static async fromUrl(url) {
@@ -190,9 +191,9 @@ class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
   }
 
   // Use static factory functions to construct
-  constructor(zarrStore, scaleInfo, imageType) {
+  constructor(zarrStoreParser, scaleInfo, imageType) {
     super(scaleInfo, imageType)
-    this.store = zarrStore
+    this.dataSource = zarrStoreParser
   }
 
   async getChunksImpl(scale, cxyztArray) {
@@ -213,7 +214,7 @@ class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
       }
       chunkPath = chunkPath.slice(0, -1)
       chunkPaths.push(chunkPath)
-      chunkPromises.push(this.store.getItem(chunkPath))
+      chunkPromises.push(this.dataSource.getItem(chunkPath))
     }
     const compressedChunks = await Promise.all(chunkPromises)
 

@@ -133,7 +133,7 @@ class MultiscaleSpatialImage {
 
     const info = this.scaleInfo[scale]
 
-    const start = new Map(Object.entries({ t: 0, c: 0, z: 0, y: 0, x: 0 }))
+    const start = new Map(info.dims.map(dim => [dim, 0]))
     const end = Array.from(start).reduce(
       (end, [dim, startIndex]) =>
         end.set(dim, startIndex + info.arrayShape.get(dim)),

@@ -1,5 +1,6 @@
 import registerWebworker from 'webworker-promise/lib/register'
 import componentTypeToTypedArray from './componentTypeToTypedArray'
+import { CXYZT, ensuredDims } from './dimensionUtils'
 
 const haveSharedArrayBuffer = typeof self.SharedArrayBuffer === 'function'
 
@@ -24,8 +25,6 @@ registerWebworker().operation(
     indexStart,
     indexEnd,
   }) => {
-    info.arrayShape.set('c', imageType.components)
-
     const pixelArrayType = componentTypeToTypedArray.get(
       imageType.componentType
     )
@@ -42,17 +41,20 @@ registerWebworker().operation(
       pixelArray = new pixelArrayType(pixelArrayElements)
     }
 
-    const arrayShape = Object.fromEntries(info.arrayShape)
+    const arrayShape = Object.fromEntries(
+      ensuredDims(1, CXYZT, info.arrayShape)
+    )
     const pixelStrides = {
       z: arrayShape.c * arrayShape.x * arrayShape.y,
       y: arrayShape.c * arrayShape.x,
       x: arrayShape.c,
     }
 
-    const chunkSize = Object.fromEntries(info.chunkSize)
+    const chunkSizeDefault1 = ensuredDims(1, CXYZT, info.chunkSize)
+    const chunkSize = Object.fromEntries(chunkSizeDefault1)
 
     // stride is the number of elements between elements in a dimension
-    const [chunkStrides] = Array.from(info.chunkSize)
+    const [chunkStrides] = Array.from(chunkSizeDefault1)
       .reverse()
       .reduce(
         ([strides, size], [dim, dimSize]) => [
@@ -78,8 +80,8 @@ registerWebworker().operation(
         y: (y + 1) * chunkSize.y,
         x: (x + 1) * chunkSize.x,
       }
-      const roiStart = Object.fromEntries(indexStart)
-      const roiEnd = Object.fromEntries(indexEnd)
+      const roiStart = Object.fromEntries(ensuredDims(0, CXYZT, indexStart))
+      const roiEnd = Object.fromEntries(ensuredDims(1, CXYZT, indexEnd))
       validateIndices({ chunkStart, chunkEnd, roiStart, roiEnd })
 
       // iterate on image from chunk or ROI start

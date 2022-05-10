@@ -5,7 +5,7 @@ const testZarrV1 = 'base/test/data/input/64x64-fake-v0.1.zarr/0'
 const testZarrV4 = 'base/test/data/input/64x64-fake-v0.4.zarr/0'
 
 import HttpStore from '../src/IO/HttpStore'
-import ZarrStore from '../src/IO/ZarrStore'
+import ZarrStoreParser from '../src/IO/ZarrStoreParser'
 import toMultiscaleSpatialImage from '../src/IO/toMultiscaleSpatialImage'
 import ZarrMultiscaleSpatialImage, {
   computeTransform,
@@ -50,12 +50,12 @@ test('Test isZarr', t => {
   t.end()
 })
 
-test('Test ZarrStore', async t => {
+test('Test ZarrStoreParser', async t => {
   const storeURL = new URL(testZarrV4, document.location.origin)
 
   const httpStore = new HttpStore(storeURL)
 
-  const zarrStore = new ZarrStore(httpStore)
+  const zarrStoreParser = new ZarrStoreParser(httpStore)
 
   const topZattrsBaseline = {
     multiscales: [
@@ -89,7 +89,7 @@ test('Test ZarrStore', async t => {
     ],
   }
 
-  const topZattrs = await zarrStore.getItem('.zattrs')
+  const topZattrs = await zarrStoreParser.getItem('.zattrs')
   console.log(topZattrs)
   t.deepEqual(topZattrs, topZattrsBaseline, 'getItem top .zattrs')
 
@@ -113,13 +113,13 @@ test('Test ZarrStore', async t => {
 
   const firstArrayPath = topZattrs.multiscales[0].datasets[0].path
   const arrayMetadataPath = `${firstArrayPath}/.zarray`
-  const arrayMetadata = await zarrStore.getItem(arrayMetadataPath)
+  const arrayMetadata = await zarrStoreParser.getItem(arrayMetadataPath)
 
   t.deepEqual(arrayMetadata, arrayBaseline, 'getItem .zarray')
 
   const { dimension_separator: separator } = arrayMetadata
   const firstChunkPath = `${firstArrayPath}${separator}0${separator}0`
-  const firstChunk = await zarrStore.getItem(firstChunkPath)
+  const firstChunk = await zarrStoreParser.getItem(firstChunkPath)
 
   t.equal(firstChunk.byteLength, 128, 'getItem of chunk data has bytes')
 

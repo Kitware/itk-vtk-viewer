@@ -97,22 +97,19 @@ registerWebworker().operation(
       }
 
       for (let cc = itStart.c; cc < itEnd.c; cc++) {
+        // subtract c * chunkSize.c from cc to start at beginning of chunk despite itStart.c
+        const cChunkOffset = (cc - c * chunkSize.c) * chunkStrides.c
         for (let zz = itStart.z; zz < itEnd.z; zz++) {
+          const zChunkOffset =
+            (zz - z * chunkSize.z) * chunkStrides.z + cChunkOffset
+          const zPixelOffset = zz * pixelStrides.z + cc
           for (let yy = itStart.y; yy < itEnd.y; yy++) {
+            const yChunkOffset =
+              (yy - y * chunkSize.y) * chunkStrides.y + zChunkOffset
+            const yPixelOffset = yy * pixelStrides.y + zPixelOffset
             for (let xx = itStart.x; xx < itEnd.x; xx++) {
-              pixelArray[
-                cc +
-                  xx * pixelStrides.x +
-                  yy * pixelStrides.y +
-                  zz * pixelStrides.z
-              ] =
-                chunk[
-                  // subtract x * chunkSize.x from xx to start at beginning of chunk despite itStart.x
-                  (xx - x * chunkSize.x) * chunkStrides.x +
-                    (yy - y * chunkSize.y) * chunkStrides.y +
-                    (zz - z * chunkSize.z) * chunkStrides.z +
-                    (cc - c * chunkSize.c) * chunkStrides.c
-                ]
+              pixelArray[xx * pixelStrides.x + yPixelOffset] =
+                chunk[(xx - x * chunkSize.x) * chunkStrides.x + yChunkOffset]
             } // column
           } // row
         } // slice

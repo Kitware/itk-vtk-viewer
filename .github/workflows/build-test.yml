@@ -23,9 +23,31 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Setup ipfs
+        uses: ibnesayeed/setup-ipfs@master
+        with:
+          ipfs_version: ^0.12
+      - name: Connect to ipfs peers with our data
+        shell: bash
+        run: |
+          export MSYS_NO_PATHCONV=1
+          # web3.storage
+          ipfs swarm connect /ip4/139.178.69.155/tcp/4001/p2p/12D3KooWR19qPPiZH4khepNjS3CLXiB7AbrbAD4ZcDjN1UjGUNE1
+          ipfs swarm connect /ip4/139.178.68.91/tcp/4001/p2p/12D3KooWEDMw7oRqQkdCJbyeqS5mUmWGwTp8JJ2tjCzTkHboF6wK
+          ipfs swarm connect /ip4/147.75.33.191/tcp/4001/p2p/12D3KooWPySxxWQjBgX9Jp6uAHQfVmdq8HG1gVvS1fRawHNSrmqW
+          ipfs swarm connect /ip4/147.75.32.73/tcp/4001/p2p/12D3KooWNuoVEfVLJvU3jWY2zLYjGUaathsecwT19jhByjnbQvkj
+          ipfs swarm connect /ip4/145.40.89.195/tcp/4001/p2p/12D3KooWSnniGsyAF663gvHdqhyfJMCjWJv54cGSzcPiEMAfanvU
+          ipfs swarm connect /ip4/136.144.56.153/tcp/4001/p2p/12D3KooWKytRAd2ujxhGzaLHKJuje8sVrHXvjGNvHXovpar5KaKQ
+      - name: Pin ipfs testing data locally
+        shell: bash
+        run: |
+          cid=$(grep 'IPFS_CID =' test/downloadData.mjs | cut -d ' ' -f 4 | tr -d "'")
+          ipfs get -o ./test/data -- $cid
+
       - name: Test
         if: ${{ runner.os == 'Linux' }}
         run: |
+          npm run test:downloadData
           # Allow writing test/output.html
           sudo chmod 777 test
           # To debug, run `./test/run.sh -d`

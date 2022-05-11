@@ -60,6 +60,7 @@
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^21.0.2",
     "@rollup/plugin-node-resolve": "^13.0.0",
+    "@web3-storage/w3": "^2.6.0",
     "autoprefixer": "^10.2.6",
     "babel-loader": "^8.2.2",
     "babel-plugin-istanbul": "^6.0.0",
@@ -131,7 +132,8 @@
     "lint:types": "tsc --noEmit",
     "start": "webpack serve --mode development --static ./dist/ --open --port 8082",
     "semantic-release": "semantic-release",
-    "test": "npm run lint:types && npm run build:test-ui && karma start ./karma.conf.js --browsers Chrome,Firefox",
+    "test": "npm run test:downloadData && npm run lint:types && npm run build:test-ui && karma start ./karma.conf.js --browsers Chrome,Firefox",
+    "test:downloadData": "node test/downloadData.mjs",
     "test:headless": "./test/run.sh",
     "test:headless-debug": "./test/run.sh -d",
     "test:debug": "karma start ./karma.conf.js --no-single-run"

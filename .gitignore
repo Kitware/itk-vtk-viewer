@@ -28,3 +28,4 @@ src/Compression/blosc-zarr/web-build/*
 !src/Compression/blosc-zarr/web-build/BloscZarr.js
 !src/Compression/blosc-zarr/web-build/BloscZarr.umd.js
 !src/Compression/blosc-zarr/web-build/BloscZarr.wasm
+test/data/

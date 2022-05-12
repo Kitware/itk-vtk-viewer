@@ -22,6 +22,14 @@ const devServer = {
   devMiddleware: {
     writeToDisk: true,
   },
+  // serve test data, alowing this: data-url="test-data/astronaut.zarr"
+  static: {
+    publicPath: '/test-data',
+    directory: path.join(__dirname, 'test', 'data', 'input'),
+    staticOptions: {
+      dotfiles: 'allow',
+    },
+  },
   headers: {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',

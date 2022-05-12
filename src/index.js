@@ -57,7 +57,9 @@ export async function createViewerFromUrl(
   let imageObject = null
   if (image) {
     if (isZarr(image)) {
-      imageObject = await toMultiscaleSpatialImage(new URL(image))
+      imageObject = await toMultiscaleSpatialImage(
+        new URL(image, document.location)
+      )
     } else {
       const arrayBuffer = await fetchBinaryContent(image, progressCallback)
       const result = await readImageArrayBuffer(
@@ -74,7 +76,7 @@ export async function createViewerFromUrl(
   if (labelImage) {
     if (isZarr(labelImage)) {
       labelImageObject = await toMultiscaleSpatialImage(
-        new URL(labelImage),
+        new URL(labelImage, document.location),
         true
       )
     } else {
@@ -92,7 +94,9 @@ export async function createViewerFromUrl(
   const fileObjects = []
   for (const url of files) {
     if (isZarr(url)) {
-      imageObject = await toMultiscaleSpatialImage(new URL(url))
+      imageObject = await toMultiscaleSpatialImage(
+        new URL(url, document.location)
+      )
     } else {
       const arrayBuffer = await fetchBinaryContent(url, progressCallback)
       fileObjects.push(

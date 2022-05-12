@@ -11,6 +11,7 @@ import ZarrMultiscaleSpatialImage, {
   computeTransform,
   isZarr,
 } from '../src/IO/ZarrMultiscaleSpatialImage'
+import { imageBaselines, takeSnapshot } from './zarrImageBaselines'
 
 const verifyImage = (t, image, msgPrefix = '') => {
   const imageTypeBaseline = {
@@ -126,7 +127,7 @@ test('Test ZarrStoreParser', async t => {
   t.end()
 })
 
-test('Test ZarrMultiscaleSpatialImage', async t => {
+test('Test ZarrMultiscaleSpatialImage metadata fetching', async t => {
   const versionTests = [
     [testZarrV1, 'v0.1'],
     [testZarrV4, 'v0.4'],
@@ -142,6 +143,26 @@ test('Test ZarrMultiscaleSpatialImage', async t => {
   })
 
   await Promise.all(versionTests)
+
+  t.end()
+})
+
+test('Test ZarrMultiscaleSpatialImage chunk assembly', async t => {
+  const imageTests = imageBaselines.map(async ({ path, baseline }) => {
+    const storeURL = new URL(path, document.location.origin)
+    const zarrImage = await ZarrMultiscaleSpatialImage.fromUrl(storeURL)
+    const itkImage = await zarrImage.scaleLargestImage(
+      zarrImage.scaleInfo.length - 1
+    )
+
+    t.deepEqual(
+      takeSnapshot(itkImage),
+      baseline,
+      `${path} image matches baseline`
+    )
+  })
+
+  await Promise.all(imageTests)
 
   t.end()
 })

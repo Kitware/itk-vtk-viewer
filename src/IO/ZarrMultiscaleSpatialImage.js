@@ -1,30 +1,14 @@
-import { PixelTypes, IntTypes, FloatTypes } from 'itk-wasm'
+import { PixelTypes } from 'itk-wasm'
 
 import MultiscaleSpatialImage from './MultiscaleSpatialImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
 import ZarrStoreParser from './ZarrStoreParser'
 import HttpStore from './HttpStore'
 import { CXYZT, toDimensionMap } from './dimensionUtils'
+import { getComponentType } from './dtypeUtils'
 
 // ends with zarr and optional nested image name like foo.zarr/image1
 export const isZarr = url => /zarr((\/)[\w-]+\/?)?$/.test(url)
-
-const dtypeToComponentType = new Map([
-  ['<b', IntTypes.Int8],
-  ['<B', IntTypes.UInt8],
-  ['<u1', IntTypes.UInt8],
-  ['>u1', IntTypes.UInt8],
-  ['|u1', IntTypes.UInt8],
-  ['<i1', IntTypes.Int8],
-  ['|i1', IntTypes.Int8],
-  ['<u2', IntTypes.UInt16],
-  ['<i2', IntTypes.Int16],
-  ['<u4', IntTypes.UInt32],
-  ['<i4', IntTypes.Int32],
-
-  ['<f4', FloatTypes.Float32],
-  ['<f8', FloatTypes.Float64],
-])
 
 const TCZYX = Object.freeze(['t', 'c', 'z', 'y', 'x'])
 
@@ -177,7 +161,7 @@ const extractScaleSpacing = async dataSource => {
       .length,
     pixelType:
       components === 1 ? PixelTypes.Scalar : PixelTypes.VariableLengthVector,
-    componentType: dtypeToComponentType.get(info.pixelArrayMetadata.dtype),
+    componentType: getComponentType(info.pixelArrayMetadata.dtype),
     components,
   }
 

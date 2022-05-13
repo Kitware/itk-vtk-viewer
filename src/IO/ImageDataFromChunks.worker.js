@@ -1,6 +1,7 @@
 import registerWebworker from 'webworker-promise/lib/register'
 import componentTypeToTypedArray from './componentTypeToTypedArray'
 import { CXYZT, ensuredDims } from './dimensionUtils'
+import { ElementGetter } from './dtypeUtils'
 
 const haveSharedArrayBuffer = typeof self.SharedArrayBuffer === 'function'
 
@@ -65,7 +66,7 @@ registerWebworker().operation(
       )
 
     for (let index = 0; index < chunkIndices.length; index++) {
-      const chunk = chunks[index]
+      const getChunkElement = ElementGetter(info.dtype, chunks[index])
       const [c, x, y, z /*t*/] = chunkIndices[index]
 
       const chunkStart = {
@@ -110,8 +111,9 @@ registerWebworker().operation(
               (yy - y * chunkSize.y) * chunkStrides.y + zChunkOffset
             const yPixelOffset = yy * pixelStrides.y + zPixelOffset
             for (let xx = itStart.x; xx < itEnd.x; xx++) {
-              pixelArray[xx * pixelStrides.x + yPixelOffset] =
-                chunk[(xx - x * chunkSize.x) * chunkStrides.x + yChunkOffset]
+              pixelArray[xx * pixelStrides.x + yPixelOffset] = getChunkElement(
+                (xx - x * chunkSize.x) * chunkStrides.x + yChunkOffset
+              )
             } // column
           } // row
         } // slice

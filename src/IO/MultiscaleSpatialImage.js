@@ -164,18 +164,17 @@ class MultiscaleSpatialImage {
 
     const chunks = await this.getChunks(scale, chunkIndices)
 
-    const transferables = chunks
-      .map(chunk => chunk.buffer)
-      .filter(
-        buffer =>
-          // transferables cannot have SharedArrayBuffers
-          !haveSharedArrayBuffer || !(buffer instanceof SharedArrayBuffer)
-      )
+    const transferables = chunks.filter(
+      buffer =>
+        // transferables cannot have SharedArrayBuffers
+        !haveSharedArrayBuffer || !(buffer instanceof SharedArrayBuffer)
+    )
 
     const args = {
       scaleInfo: {
         chunkSize: info.chunkSize,
         arrayShape: info.arrayShape,
+        dtype: this.scaleInfo[scale].pixelArrayMetadata.dtype,
       },
       imageType: this.imageType,
       chunkIndices,

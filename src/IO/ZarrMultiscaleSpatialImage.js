@@ -87,13 +87,11 @@ const makeCoords = ({ shape, multiscaleImage, dataset }) => {
 const createScaledImageInfo = ({
   multiscaleImage,
   pixelArrayMetadata,
-  pixelArrayAttrs,
   dataset,
 }) => {
   const dims =
-    pixelArrayAttrs?._ARRAY_DIMENSIONS ?? // xarray
-    multiscaleImage.axes?.map(({ name }) => name) ?? // NGFF
-    TCZYX // NGFF v0.1
+    // pixelArrayAttrs?._ARRAY_DIMENSIONS ?? // xarray
+    multiscaleImage.axes?.map(({ name }) => name) ?? TCZYX // NGFF // NGFF v0.1
 
   const { shape, chunks } = pixelArrayMetadata
 
@@ -115,8 +113,8 @@ const createScaledImageInfo = ({
     name: multiscaleImage.name,
     pixelArrayPath: dataset.path,
     coords: makeCoords({ shape, multiscaleImage, dataset }),
-    ranges: pixelArrayAttrs?.ranges,
-    direction: pixelArrayAttrs?.direction,
+    ranges: multiscaleImage.ranges,
+    direction: multiscaleImage.direction,
     chunkCount: toDimensionMap(
       dims,
       dims.map(dim => Math.ceil(arrayShape.get(dim) / chunkSize.get(dim)))
@@ -139,13 +137,9 @@ const extractScaleSpacing = async dataSource => {
       const pixelArrayMetadata = await dataSource.getItem(
         `${dataset.path}/.zarray`
       )
-      const pixelArrayAttrs = await dataSource
-        .getItem(`${dataset.path}/.zattrs`)
-        .catch(() => Promise.resolve(undefined)) // in xarray, maybe not in NGFF
       return createScaledImageInfo({
         multiscaleImage,
         pixelArrayMetadata,
-        pixelArrayAttrs,
         dataset,
       })
     })

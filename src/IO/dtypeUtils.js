@@ -1,4 +1,5 @@
 import { IntTypes, FloatTypes } from 'itk-wasm'
+
 // Currently missing on Safari
 const bigIntArrayType =
   typeof globalThis.BigInt64Array === 'function'
@@ -9,73 +10,48 @@ const bigUintArrayType =
     ? globalThis.BigUint64Array
     : Uint32Array
 
-const dtypeToTypedArray = new Map([
-  ['<b', Int8Array],
-  ['<B', Uint8Array],
-  ['<u1', Uint8Array],
-  ['>u1', Uint8Array],
-  ['|u1', Uint8Array],
-  ['<i1', Int8Array],
-  ['|i1', Int8Array],
-  ['<u2', Uint16Array],
-  ['<i2', Int16Array],
-  ['<u4', Uint32Array],
-  ['<i4', Int32Array],
-  ['<u8', bigUintArrayType],
-  ['<i8', bigIntArrayType],
+// key is sans endian
+const dtypeUtils = Array.from(
+  new Map([
+    ['b', [Int8Array, 'getInt8', IntTypes.Int8]],
+    ['B', [Uint8Array, 'getUint8', IntTypes.UInt8]],
+    ['u1', [Uint8Array, 'getUint8', IntTypes.UInt8]],
+    ['i1', [Int8Array, 'getInt8', IntTypes.Int8]],
+    ['u2', [Uint16Array, 'getUint16', IntTypes.UInt16]],
+    ['i2', [Int16Array, 'getInt16', IntTypes.Int16]],
+    ['u4', [Uint32Array, 'getUint32', IntTypes.UInt32]],
+    ['i4', [Int32Array, 'getInt32', IntTypes.Int32]],
+    ['u8', [bigUintArrayType, 'getBigUint64', IntTypes.UInt64]],
+    ['i8', [bigIntArrayType, 'getBigInt64', IntTypes.Int64]],
 
-  ['<f4', Float32Array],
-  ['<f8', Float64Array],
-])
+    ['f4', [Float32Array, 'getFloat32', FloatTypes.Float32]],
+    ['f8', [Float64Array, 'getFloat64', FloatTypes.Float64]],
+  ])
+).reduce(
+  (map, [dtype, [TypedArray, dataViewGetter, itkComponent]]) =>
+    map.set(dtype, { TypedArray, dataViewGetter, itkComponent }),
+  new Map()
+)
 
-export default dtypeToTypedArray
+const getType = dtype => dtype.replace(/^(<|>|=|\|)/, '') // remove starting < > = | endiness
 
 export const getSize = dtype => {
-  if (dtype.length < 2) return 1 // handle <b and <B
-  return Number(dtype.slice(-1))
+  const type = getType(dtype)
+  return type.length < 2 ? 1 : Number(type.slice(-1))
 }
 
-// sans endian
-const dtypeToComponentType = new Map([
-  ['b', IntTypes.Int8],
-  ['B', IntTypes.UInt8],
-  ['u1', IntTypes.UInt8],
-  ['i1', IntTypes.Int8],
-  ['u2', IntTypes.UInt16],
-  ['i2', IntTypes.Int16],
-  ['u4', IntTypes.UInt32],
-  ['i4', IntTypes.Int32],
-  ['f4', FloatTypes.Float32],
-  ['f4', FloatTypes.Float32],
-  ['f8', FloatTypes.Float64],
-])
+export const getComponentType = dtype =>
+  dtypeUtils.get(getType(dtype)).itkComponent
 
-export const getComponentType = dtype => {
-  const sansEndian = dtype.slice(1)
-  return dtypeToComponentType.get(sansEndian)
-}
+export const getTypedArray = dtype => dtypeUtils.get(getType(dtype)).TypedArray
 
 export const testLittleEndian = dtype => dtype.charAt(0) === '<'
-
-const dtypeToGetter = new Map([
-  ['b', 'getInt8'],
-  ['B', 'getUint8'],
-  ['u1', 'getUint8'],
-  ['i1', 'getInt8'],
-  ['u2', 'getUint16'],
-  ['i2', 'getInt16'],
-  ['u4', 'getUint32'],
-  ['i4', 'getInt32'],
-  ['f4', 'getFloat32'],
-  ['f8', 'getFloat64'],
-])
 
 export const ElementGetter = (dtype, buffer) => {
   const view = new DataView(buffer)
   const size = getSize(dtype)
   const isLittleEndian = testLittleEndian(dtype)
-  const type = dtype.slice(1)
-  const getter = dtypeToGetter.get(type)
+  const { dataViewGetter } = dtypeUtils.get(getType(dtype))
 
-  return index => view[getter](index * size, isLittleEndian)
+  return index => view[dataViewGetter](index * size, isLittleEndian)
 }

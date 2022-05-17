@@ -1,7 +1,12 @@
 import registerWebworker from 'webworker-promise/lib/register'
 import componentTypeToTypedArray from './componentTypeToTypedArray'
 import { CXYZT, ensuredDims } from './dimensionUtils'
-import { ElementGetter, getSize, testLittleEndian } from './dtypeUtils'
+import {
+  getTypedArray,
+  ElementGetter,
+  getSize,
+  testLittleEndian,
+} from './dtypeUtils'
 
 const haveSharedArrayBuffer = typeof self.SharedArrayBuffer === 'function'
 
@@ -115,7 +120,8 @@ registerWebworker().operation(
         IS_SYSTEM_LITTLE_ENDIAN === testLittleEndian(info.dtype)
       if (areComponentsInterleaved && dataEndiennesOK) {
         // copy whole row TURBO MODE
-        const typedChunk = new Uint8Array(chunks[index])
+        const TypedArray = getTypedArray(info.dtype)
+        const typedChunk = new TypedArray(chunks[index])
         for (let zz = itStart.z; zz < itEnd.z; zz++) {
           const zChunkOffset = (zz - z * chunkSize.z) * chunkStrides.z
           const zPixelOffset = zz * pixelStrides.z

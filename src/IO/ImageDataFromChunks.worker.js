@@ -1,7 +1,7 @@
 import registerWebworker from 'webworker-promise/lib/register'
 import componentTypeToTypedArray from './componentTypeToTypedArray'
 import { CXYZT, ensuredDims } from './dimensionUtils'
-import { ElementGetter } from './dtypeUtils'
+import { ElementGetter, getSize, testLittleEndian } from './dtypeUtils'
 
 const haveSharedArrayBuffer = typeof self.SharedArrayBuffer === 'function'
 
@@ -15,6 +15,13 @@ const validateIndices = ({ chunkStart, chunkEnd, roiStart, roiEnd }) => {
     console.error('Requested a chunk outside the region of interest!')
   }
 }
+
+const IS_SYSTEM_LITTLE_ENDIAN = (function() {
+  const buffer = new ArrayBuffer(2)
+  new DataView(buffer).setInt16(0, 256, true /* littleEndian */)
+  // Int16Array uses the platform's endianness.
+  return new Int16Array(buffer)[0] === 256
+})()
 
 registerWebworker().operation(
   'imageDataFromChunks',
@@ -66,7 +73,6 @@ registerWebworker().operation(
       )
 
     for (let index = 0; index < chunkIndices.length; index++) {
-      const getChunkElement = ElementGetter(info.dtype, chunks[index])
       const [c, x, y, z /*t*/] = chunkIndices[index]
 
       const chunkStart = {
@@ -99,25 +105,59 @@ registerWebworker().operation(
         x: Math.min(chunkEnd.x, roiEnd.x),
       }
 
-      for (let cc = itStart.c; cc < itEnd.c; cc++) {
-        // subtract c * chunkSize.c from cc to start at beginning of chunk despite itStart.c
-        const cChunkOffset = (cc - c * chunkSize.c) * chunkStrides.c
+      // Does input data group component(s) with each pixel?
+      const areComponentsInterleaved = Array.from(info.arrayShape.keys())
+        .join('')
+        .endsWith(arrayShape.c === 1 ? 'x' : 'xc') // if one component, can end with just 'x'
+      // Input data endiennes matches system or just 1 byte?
+      const dataEndiennesOK =
+        getSize(info.dtype) === 1 ||
+        IS_SYSTEM_LITTLE_ENDIAN === testLittleEndian(info.dtype)
+      if (areComponentsInterleaved && dataEndiennesOK) {
+        // copy whole row TURBO MODE
+        const typedChunk = new Uint8Array(chunks[index])
         for (let zz = itStart.z; zz < itEnd.z; zz++) {
-          const zChunkOffset =
-            (zz - z * chunkSize.z) * chunkStrides.z + cChunkOffset
-          const zPixelOffset = zz * pixelStrides.z + cc
+          const zChunkOffset = (zz - z * chunkSize.z) * chunkStrides.z
+          const zPixelOffset = zz * pixelStrides.z
           for (let yy = itStart.y; yy < itEnd.y; yy++) {
             const yChunkOffset =
               (yy - y * chunkSize.y) * chunkStrides.y + zChunkOffset
-            const yPixelOffset = yy * pixelStrides.y + zPixelOffset
-            for (let xx = itStart.x; xx < itEnd.x; xx++) {
-              pixelArray[xx * pixelStrides.x + yPixelOffset] = getChunkElement(
-                (xx - x * chunkSize.x) * chunkStrides.x + yChunkOffset
-              )
-            } // column
+            const subarray = typedChunk.subarray(
+              yChunkOffset,
+              yChunkOffset + itEnd.c * (itEnd.x - itStart.x)
+            )
+            const pixelOffset =
+              (itStart.x - roiStart.x) * pixelStrides.x + // chunk's x index mapped to image's x index
+              yy * pixelStrides.y +
+              zPixelOffset
+            pixelArray.set(subarray, pixelOffset)
           } // row
         } // slice
-      } // component
+      } else {
+        // copy element by element tortoise mode
+        const getChunkElement = ElementGetter(info.dtype, chunks[index])
+        for (let cc = itStart.c; cc < itEnd.c; cc++) {
+          // subtract c * chunkSize.c from cc to start at beginning of chunk despite itStart.c
+          const cChunkOffset = (cc - c * chunkSize.c) * chunkStrides.c
+          for (let zz = itStart.z; zz < itEnd.z; zz++) {
+            const zChunkOffset =
+              (zz - z * chunkSize.z) * chunkStrides.z + cChunkOffset
+            const zPixelOffset = zz * pixelStrides.z + cc
+            for (let yy = itStart.y; yy < itEnd.y; yy++) {
+              const yChunkOffset =
+                (yy - y * chunkSize.y) * chunkStrides.y + zChunkOffset
+              const yPixelOffset = yy * pixelStrides.y + zPixelOffset
+              for (let xx = itStart.x; xx < itEnd.x; xx++) {
+                pixelArray[
+                  xx * pixelStrides.x + yPixelOffset
+                ] = getChunkElement(
+                  (xx - x * chunkSize.x) * chunkStrides.x + yChunkOffset
+                )
+              } // column
+            } // row
+          } // slice
+        } // component
+      } // copy by row or element
     } // chunk
 
     let response = pixelArray

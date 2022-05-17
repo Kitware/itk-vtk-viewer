@@ -55,7 +55,7 @@ export const getComponentType = dtype => {
   return dtypeToComponentType.get(sansEndian)
 }
 
-const testLittleEndian = dtype => dtype.charAt(0) === '<'
+export const testLittleEndian = dtype => dtype.charAt(0) === '<'
 
 const dtypeToGetter = new Map([
   ['b', 'getInt8'],

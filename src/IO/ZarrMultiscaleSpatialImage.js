@@ -89,9 +89,7 @@ const createScaledImageInfo = ({
   pixelArrayMetadata,
   dataset,
 }) => {
-  const dims =
-    // pixelArrayAttrs?._ARRAY_DIMENSIONS ?? // xarray
-    multiscaleImage.axes?.map(({ name }) => name) ?? TCZYX // NGFF // NGFF v0.1
+  const dims = multiscaleImage.axes?.map(({ name }) => name) ?? TCZYX // defautl to TCZYX for NGFF v0.1
 
   const { shape, chunks } = pixelArrayMetadata
 

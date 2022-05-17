@@ -5,12 +5,13 @@ const testZarrV1 = 'base/test/data/input/64x64-fake-v0.1.zarr/0'
 const testZarrV4 = 'base/test/data/input/64x64-fake-v0.4.zarr/0'
 
 import HttpStore from '../src/IO/HttpStore'
-import ZarrStore from '../src/IO/ZarrStore'
+import ZarrStoreParser from '../src/IO/ZarrStoreParser'
 import toMultiscaleSpatialImage from '../src/IO/toMultiscaleSpatialImage'
 import ZarrMultiscaleSpatialImage, {
   computeTransform,
   isZarr,
 } from '../src/IO/ZarrMultiscaleSpatialImage'
+import { getBaselines, takeSnapshot } from './zarrImageBaselines'
 
 const verifyImage = (t, image, msgPrefix = '') => {
   const imageTypeBaseline = {
@@ -50,12 +51,12 @@ test('Test isZarr', t => {
   t.end()
 })
 
-test('Test ZarrStore', async t => {
+test('Test ZarrStoreParser', async t => {
   const storeURL = new URL(testZarrV4, document.location.origin)
 
   const httpStore = new HttpStore(storeURL)
 
-  const zarrStore = new ZarrStore(httpStore)
+  const zarrStoreParser = new ZarrStoreParser(httpStore)
 
   const topZattrsBaseline = {
     multiscales: [
@@ -89,8 +90,7 @@ test('Test ZarrStore', async t => {
     ],
   }
 
-  const topZattrs = await zarrStore.getItem('.zattrs')
-  console.log(topZattrs)
+  const topZattrs = await zarrStoreParser.getItem('.zattrs')
   t.deepEqual(topZattrs, topZattrsBaseline, 'getItem top .zattrs')
 
   const arrayBaseline = {
@@ -113,20 +113,20 @@ test('Test ZarrStore', async t => {
 
   const firstArrayPath = topZattrs.multiscales[0].datasets[0].path
   const arrayMetadataPath = `${firstArrayPath}/.zarray`
-  const arrayMetadata = await zarrStore.getItem(arrayMetadataPath)
+  const arrayMetadata = await zarrStoreParser.getItem(arrayMetadataPath)
 
   t.deepEqual(arrayMetadata, arrayBaseline, 'getItem .zarray')
 
   const { dimension_separator: separator } = arrayMetadata
   const firstChunkPath = `${firstArrayPath}${separator}0${separator}0`
-  const firstChunk = await zarrStore.getItem(firstChunkPath)
+  const firstChunk = await zarrStoreParser.getItem(firstChunkPath)
 
   t.equal(firstChunk.byteLength, 128, 'getItem of chunk data has bytes')
 
   t.end()
 })
 
-test('Test ZarrMultiscaleSpatialImage', async t => {
+test('Test ZarrMultiscaleSpatialImage metadata fetching', async t => {
   const versionTests = [
     [testZarrV1, 'v0.1'],
     [testZarrV4, 'v0.4'],
@@ -142,6 +142,24 @@ test('Test ZarrMultiscaleSpatialImage', async t => {
   })
 
   await Promise.all(versionTests)
+
+  t.end()
+})
+
+test('Test ZarrMultiscaleSpatialImage chunk assembly', async t => {
+  for (const { path, baseline } of getBaselines()) {
+    const storeURL = new URL(path, document.location.origin)
+    const zarrImage = await ZarrMultiscaleSpatialImage.fromUrl(storeURL)
+    const itkImage = await zarrImage.scaleLargestImage(
+      zarrImage.scaleInfo.length - 1
+    )
+
+    t.deepEqual(
+      takeSnapshot(itkImage),
+      baseline,
+      `${path} image matches baseline`
+    )
+  }
 
   t.end()
 })

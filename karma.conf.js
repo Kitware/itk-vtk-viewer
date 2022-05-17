@@ -1,5 +1,4 @@
 /* eslint-disable global-require */
-/* eslint-disable react/require-extension */
 const path = require('path')
 
 const vtkRules = require('vtk.js/Utilities/config/rules-vtk.js')
@@ -154,6 +153,7 @@ module.exports = function init(config) {
 
     client: {
       useIframe: true,
+      args: config.dockered ? ['--dockered'] : [],
     },
 
     // browserNoActivityTimeout: 600000,
@@ -163,7 +163,13 @@ module.exports = function init(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['Chrome_without_sandbox'],
     singleRun: true,
+    customLaunchers: {
+      Chrome_without_sandbox: {
+        base: 'Chrome',
+        flags: ['--no-sandbox'],
+      },
+    },
   })
 }

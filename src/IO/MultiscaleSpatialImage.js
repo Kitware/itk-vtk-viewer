@@ -133,14 +133,12 @@ class MultiscaleSpatialImage {
 
     const info = this.scaleInfo[scale]
 
-    const size = toDimensionArray(['x', 'y', 'z'], info.arrayShape)
-    const start = [0, 0, 0, 0] // x, y, z, t
-    const end = [
-      start[0] + size[0],
-      start[1] + size[1],
-      start[2] + size[2],
-      start[3] + 1,
-    ] // x, y, z, t
+    const start = new Map(info.dims.map(dim => [dim, 0]))
+    const end = Array.from(start).reduce(
+      (end, [dim, startIndex]) =>
+        end.set(dim, startIndex + info.arrayShape.get(dim)),
+      new Map()
+    )
 
     const numChunks = toDimensionArray(CXYZT, info.chunkCount)
     const l = 0
@@ -165,17 +163,18 @@ class MultiscaleSpatialImage {
     } // for every zChunk
 
     const chunks = await this.getChunks(scale, chunkIndices)
-    let transferables = []
-    if (!haveSharedArrayBuffer || !chunks.buffer instanceof SharedArrayBuffer) {
-      for (let chunkIndex = 0; chunkIndex < chunks.length; chunkIndex++) {
-        transferables.push(chunks[chunkIndex].buffer)
-      }
-    }
+
+    const transferables = chunks.filter(
+      buffer =>
+        // transferables cannot have SharedArrayBuffers
+        !haveSharedArrayBuffer || !(buffer instanceof SharedArrayBuffer)
+    )
 
     const args = {
       scaleInfo: {
         chunkSize: info.chunkSize,
         arrayShape: info.arrayShape,
+        dtype: this.scaleInfo[scale].pixelArrayMetadata.dtype,
       },
       imageType: this.imageType,
       chunkIndices,
@@ -198,7 +197,9 @@ class MultiscaleSpatialImage {
       origin,
       spacing,
       direction: this.direction,
-      size: size.slice(0, this.imageType.dimension),
+      size: ['x', 'y', 'z']
+        .slice(0, this.imageType.dimension)
+        .map(dim => info.arrayShape.get(dim)),
       data: pixelArray,
     }
 

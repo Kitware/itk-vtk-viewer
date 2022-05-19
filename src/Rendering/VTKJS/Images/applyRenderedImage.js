@@ -101,11 +101,19 @@ function applyRenderedImage(context, event) {
     const actorProperty = actor.getProperty()
     actorProperty.setIndependentComponents(actorContext.independentComponents)
     actor.getMapper().setInputData(actorContext.fusedImage)
+    let minRangeUse2D = Infinity
+    let maxRangeUse2D = -Infinity
     actorContext.visualizedComponents.forEach(
       (componentIndex, fusedImageIndex) => {
         if (!context.images.lookupTableProxies.has(componentIndex)) {
           return
         }
+        if (actorContext.colorRanges.has(componentIndex)) {
+          const range = actorContext.colorRanges.get(componentIndex)
+          minRangeUse2D = Math.min(minRangeUse2D, range[0])
+          maxRangeUse2D = Math.max(maxRangeUse2D, range[1])
+        }
+
         const colorTransferFunction = context.images.lookupTableProxies
           .get(componentIndex)
           .getLookupTable()
@@ -126,6 +134,14 @@ function applyRenderedImage(context, event) {
         )
       }
     )
+    if (
+      context.use2D &&
+      minRangeUse2D !== Infinity &&
+      maxRangeUse2D !== -Infinity
+    ) {
+      actorProperty.setColorLevel((maxRangeUse2D - minRangeUse2D) / 2.0)
+      actorProperty.setColorWindow(maxRangeUse2D - minRangeUse2D)
+    }
   })
 
   // Visualized components may have updated -> set color transfer function, piecewise function, component visibility, independent components in volumes

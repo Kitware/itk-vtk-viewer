@@ -1,4 +1,4 @@
-import { PixelTypes } from 'itk-wasm'
+import { IntTypes, PixelTypes } from 'itk-wasm'
 
 import MultiscaleSpatialImage from './MultiscaleSpatialImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
@@ -147,13 +147,33 @@ const extractScaleSpacing = async dataSource => {
 
   const components = info.arrayShape.get('c') ?? 1
 
+  const componentType = getComponentType(info.pixelArrayMetadata.dtype)
+
+  let pixelType = PixelTypes.Scalar
+  if (components !== 1) {
+    if (
+      components === 3 &&
+      !info.arrayShape.has('z') &&
+      componentType === IntTypes.Uint8
+    ) {
+      pixelType = PixelTypes.RGB
+    } else if (
+      components === 4 &&
+      !info.arrayShape.has('z') &&
+      componentType === IntTypes.Uint8
+    ) {
+      pixelType = PixelTypes.RGBA
+    } else {
+      pixelType = PixelTypes.VariableLengthVector
+    }
+  }
+
   const imageType = {
     // How many spatial dimensions?  Count greater than 1, X Y Z elements because "axis" metadata not defined in ngff V0.1
     dimension: ['x', 'y', 'z'].filter(dim => info.arrayShape.get(dim) > 1)
       .length,
-    pixelType:
-      components === 1 ? PixelTypes.Scalar : PixelTypes.VariableLengthVector,
-    componentType: getComponentType(info.pixelArrayMetadata.dtype),
+    pixelType,
+    componentType,
     components,
   }
 

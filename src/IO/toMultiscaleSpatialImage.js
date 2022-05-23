@@ -42,7 +42,7 @@ async function toMultiscaleSpatialImage(image, isLabelImage = false) {
     // Already a multi-scale, chunked image
     multiscaleImage = image
   } else if (image.imageType !== undefined) {
-    // itk.js Image
+    // itk-wasm Image
     multiscaleImage = await itkImageToInMemoryMultiscaleSpatialImage(
       image,
       isLabelImage

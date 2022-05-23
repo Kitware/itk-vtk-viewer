@@ -60,6 +60,9 @@
         icon: 'https://kitware.github.io/itk-vtk-viewer/app/favicon-32x32.png',
         cover: ['https://kitware.github.io/itk-vtk-viewer/docs/howToUse.jpg', 'https://kitware.github.io/itk-vtk-viewer/docs/imjoy.png'],
       })
+      itkVtkViewer.imJoyCodecs.forEach((codec) => {
+        api.registerCodec(codec)
+      })
       api.export(itkVtkViewer.imJoyPluginAPI)
       api.log('itk-vtk-viewer loaded successfully.')
     }

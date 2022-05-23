@@ -6,7 +6,6 @@ import vtkActor from 'vtk.js/Sources/Rendering/Core/Actor'
 import vtkCubeSource from 'vtk.js/Sources/Filters/Sources/CubeSource'
 import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper'
 import vtkCoordinate from 'vtk.js/Sources/Rendering/Core/Coordinate'
-import * as vtkMath from 'vtk.js/Sources/Common/Core/Math'
 import vtkPolyData from 'vtk.js/Sources/Common/DataModel/PolyData'
 import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 import vtkAxesLabelsWidget from './AxesLabelsWidget'
@@ -323,6 +322,13 @@ function ItkVtkViewProxy(publicAPI, model) {
     model.axesPolyData.getVerts().setData(verts)
     model.axesPolyData.getLines().setData(new Uint32Array(axesLines))
 
+    const axesNames = Object.fromEntries(
+      ['x', 'y', 'z'].map(axis => [
+        axis,
+        model.axesNames?.get(axis) ?? axis.toUpperCase(),
+      ])
+    )
+
     const minPointText = minPoint.map(point => numberToText(point, 2))
     const maxPointText = maxPoint.map(point => numberToText(point, 2))
     model.axesOriginHandle.setOrigin(minPoint)
@@ -335,26 +341,31 @@ function ItkVtkViewProxy(publicAPI, model) {
     model.axesXOriginHandle.setOrigin(minPoint)
     model.axesXOriginHandle.setText('')
     model.axesXHandle.setOrigin([maxPoint[0], minPoint[1], minPoint[2]])
-    model.axesXYText = `X, Z: ${maxPointText[0]}, ${minPointText[2]}`
-    model.axesXZText = `X, Y: ${maxPointText[0]}, ${minPointText[1]}`
-    model.axesXVText = `X: ${maxPointText[0]}, ${minPointText[1]}, ${minPointText[2]}`
+    model.axesXYText = `${axesNames.x}: ${maxPointText[0]}, ${axesNames.z}: ${minPointText[2]}`
+    model.axesXZText = `${axesNames.x}: ${maxPointText[0]}, ${axesNames.y}: ${minPointText[1]}`
+    model.axesXVText = `${axesNames.x}: ${maxPointText[0]}, ${minPointText[1]}, ${minPointText[2]}`
     model.axesXHandle.setText(model.axesXVText)
 
     model.axesYOriginHandle.setOrigin(minPoint)
     model.axesYOriginHandle.setText('')
     model.axesYHandle.setOrigin([minPoint[0], maxPoint[1], minPoint[2]])
-    model.axesYXText = `Y, Z: ${maxPointText[1]}, ${minPointText[2]}`
-    model.axesYZText = `X, Y: ${minPointText[0]}, ${maxPointText[1]}`
-    model.axesYVText = `Y: ${minPointText[0]}, ${maxPointText[1]}, ${minPointText[2]}`
+    model.axesYXText = `${axesNames.y}: ${maxPointText[1]}, ${axesNames.z}: ${minPointText[2]}`
+    model.axesYZText = `${axesNames.x}: ${minPointText[0]}, ${axesNames.y}: ${maxPointText[1]}`
+    model.axesYVText = `${axesNames.y}: ${minPointText[0]}, ${maxPointText[1]}, ${minPointText[2]}`
     model.axesYHandle.setText(model.axesYVText)
 
     model.axesZOriginHandle.setOrigin(minPoint)
     model.axesZOriginHandle.setText('')
     model.axesZHandle.setOrigin([minPoint[0], minPoint[1], maxPoint[2]])
-    model.axesZXText = `Y, Z: ${minPointText[1]}, ${maxPointText[2]}`
-    model.axesZYText = `X, Z: ${minPointText[0]}, ${maxPointText[2]}`
-    model.axesZVText = `Z: ${minPointText[0]}, ${minPointText[1]}, ${maxPointText[2]}`
+    model.axesZXText = `${axesNames.y}: ${minPointText[1]}, ${axesNames.z}: ${maxPointText[2]}`
+    model.axesZYText = `${axesNames.x}: ${minPointText[0]}, ${axesNames.z}: ${maxPointText[2]}`
+    model.axesZVText = `${axesNames.z}: ${minPointText[0]}, ${minPointText[1]}, ${maxPointText[2]}`
     model.axesZHandle.setText(model.axesZVText)
+  }
+
+  publicAPI.setAxesNames = axes => {
+    model.axesNames = axes
+    updateAxes()
   }
 
   // Setup --------------------------------------------------------------------
@@ -1007,6 +1018,7 @@ const DEFAULT_VALUES = {
   },
   enableAxes: false,
   xyLowerLeft: false,
+  axesNames: null,
 }
 
 // ----------------------------------------------------------------------------
@@ -1032,6 +1044,7 @@ export function extend(publicAPI, model, initialValues = {}) {
     'labelIndex',
     'clickCallback',
     'xyLowerLeft',
+    'axesNames',
   ])
 
   // Object specific methods

@@ -29,7 +29,7 @@ function applyRenderedImage(context, event) {
   context.images.source.setInputData(actorContext.fusedImage)
 
   // VTK.js currently only supports a single image
-  if (!!!context.images.representationProxy) {
+  if (!context.images.representationProxy) {
     context.proxyManager.createRepresentationInAllViews(context.images.source)
     context.images.representationProxy = context.proxyManager.getRepresentation(
       context.images.source,
@@ -42,6 +42,8 @@ function applyRenderedImage(context, event) {
     } else {
       context.itkVtkView.setViewMode('Volume')
     }
+
+    context.itkVtkView.setAxesNames(image.scaleInfo[0].axesNames)
 
     context.images.representationProxy.getMapper().setMaximumSamplesPerRay(2048)
     context.images.representationProxy.setSampleDistance(

@@ -180,40 +180,26 @@ export function processURLParameters(container, addOnParameters = {}) {
     vtkURLExtract.extractURLParameters(),
     addOnParameters
   )
+
+  if (userParams.gradientOpacity && isNaN(userParams.gradientOpacity))
+    throw new Error('gradientOpacity URL paramter is not a number')
+
   const myContainer = UserInterface.getRootContainer(container)
 
   if (userParams.fullscreen) {
     myContainer.classList.add(style.fullscreenContainer)
   }
 
-  let filesToLoad = []
-  if (userParams.fileToLoad) {
-    filesToLoad = userParams.fileToLoad.split(',')
-  }
-  let rotate = true
-  if (typeof userParams.rotate !== 'undefined') {
-    rotate = userParams.rotate
-  }
-  let config = null
-  if (typeof userParams.config !== 'undefined') {
-    config = userParams.config
-  }
+  const files = userParams.fileToLoad?.split(',') ?? []
 
-  if (userParams.gradientOpacity && isNaN(userParams.gradientOpacity))
-    throw new Error('gradientOpacity URL paramter is not a number')
-
-  if (
-    userParams.filesToLoad?.length ||
-    userParams.image ||
-    userParams.labelImage
-  ) {
+  if (files.length || userParams.image || userParams.labelImage) {
     return createViewerFromUrl(myContainer, {
-      files: filesToLoad,
+      files,
       image: userParams.image,
       labelImage: userParams.labelImage,
-      config,
+      config: userParams.config,
       labelImageNames: userParams.labelImageNames,
-      rotate,
+      rotate: userParams.rotate ?? true,
       use2D: !!userParams.use2D,
       gradientOpacity: userParams.gradientOpacity,
     })

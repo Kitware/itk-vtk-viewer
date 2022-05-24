@@ -3,6 +3,7 @@
 ![Build and Test](https://github.com/Kitware/itk-vtk-viewer/workflows/Build%20and%20Test/badge.svg)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 ![npm-download](https://img.shields.io/npm/dm/itk-vtk-viewer.svg)
+[![](https://data.jsdelivr.com/v1/package/npm/itk-vtk-viewer/badge?style=rounded)](https://www.jsdelivr.com/package/npm/itk-vtk-viewer)
 ![npm-version-requirement](https://img.shields.io/badge/npm->=8.0.0-brightgreen.svg)
 ![node-version-requirement](https://img.shields.io/badge/node->=12.0.0-brightgreen.svg)
 [![launch ImJoy](https://imjoy.io/static/badge/launch-imjoy-badge.svg)](http://imjoy.io/#/app?plugin=https://kitware.github.io/itk-vtk-viewer/app/)

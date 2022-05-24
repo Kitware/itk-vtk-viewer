@@ -1,4 +1,5 @@
 import {
+  extensionToMeshIO,
   readImageFile,
   readImageDICOMFileSeries,
   readMeshFile,
@@ -6,26 +7,6 @@ import {
   getFileExtension,
   meshToPolyData,
 } from 'itk-wasm'
-// Todo: import from itk-wasm
-const extensionToMeshIO = new Map([
-  ['vtk', 'VTKPolyDataMeshIO'],
-  ['VTK', 'VTKPolyDataMeshIO'],
-  ['byu', 'BYUMeshIO'],
-  ['BYU', 'BYUMeshIO'],
-  ['fsa', 'FreeSurferAsciiMeshIO'],
-  ['FSA', 'FreeSurferAsciiMeshIO'],
-  ['fsb', 'FreeSurferBinaryMeshIO'],
-  ['FSB', 'FreeSurferBinaryMeshIO'],
-  ['obj', 'OBJMeshIO'],
-  ['OBJ', 'OBJMeshIO'],
-  ['off', 'OFFMeshIO'],
-  ['OFF', 'OFFMeshIO'],
-  ['stl', 'STLMeshIO'],
-  ['STL', 'STLMeshIO'],
-  ['iwm', 'WASMMeshIO'],
-  ['iwm.cbor', 'WASMMeshIO'],
-  ['iwm.cbor.zstd', 'WASMZstdMeshIO'],
-])
 import vtk from 'vtk.js/Sources/vtk'
 import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader'
 import vtkXMLImageDataReader from 'vtk.js/Sources/IO/XML/XMLImageDataReader'

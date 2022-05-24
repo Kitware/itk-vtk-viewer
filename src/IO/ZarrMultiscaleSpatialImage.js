@@ -84,12 +84,35 @@ const makeCoords = ({ shape, multiscaleImage, dataset }) => {
   }
 }
 
-const createScaledImageInfo = ({
+const findAxesLongNames = async ({ dataset, dataSource, dims }) => {
+  const upOneLevel = dataset.path
+    .split('/')
+    .slice(0, -1)
+    .join('')
+  return new Map(
+    await Promise.all(
+      dims.map(dim => dataSource.getItem(`${upOneLevel}/${dim}/.zattrs`))
+    ).then(dimensionsZattrs =>
+      dimensionsZattrs.map(({ long_name }, i) => [dims[i], long_name])
+    )
+  )
+}
+
+const createScaledImageInfo = async ({
   multiscaleImage,
   pixelArrayMetadata,
   dataset,
+  dataSource,
+  multiscaleSpatialImageVersion,
 }) => {
-  const dims = multiscaleImage.axes?.map(({ name }) => name) ?? TCZYX // defautl to TCZYX for NGFF v0.1
+  const scaleZattrs = multiscaleSpatialImageVersion
+    ? await dataSource.getItem(`${dataset.path}/.zattrs`)
+    : {}
+
+  const dims =
+    scaleZattrs._ARRAY_DIMENSIONS ??
+    multiscaleImage.axes?.map(({ name }) => name) ??
+    TCZYX // defautl to TCZYX for NGFF v0.1
 
   const { shape, chunks } = pixelArrayMetadata
 
@@ -105,14 +128,19 @@ const createScaledImageInfo = ({
     arrayShape.set('c', components)
   }
 
+  const axesNames = multiscaleSpatialImageVersion
+    ? await findAxesLongNames({ dataset, dataSource, dims })
+    : undefined
+
   return {
     dims,
     pixelArrayMetadata,
     name: multiscaleImage.name,
     pixelArrayPath: dataset.path,
     coords: makeCoords({ shape, multiscaleImage, dataset }),
-    ranges: multiscaleImage.ranges,
-    direction: multiscaleImage.direction,
+    ranges: scaleZattrs.ranges ?? multiscaleImage.ranges,
+    direction: scaleZattrs.direction ?? multiscaleImage.direction,
+    axesNames,
     chunkCount: toDimensionMap(
       dims,
       dims.map(dim => Math.ceil(arrayShape.get(dim) / chunkSize.get(dim)))
@@ -125,7 +153,7 @@ const createScaledImageInfo = ({
 const extractScaleSpacing = async dataSource => {
   const zattrs = await dataSource.getItem('.zattrs')
 
-  const { multiscales } = zattrs
+  const { multiscales, multiscaleSpatialImageVersion } = zattrs
   const multiscaleImage = Array.isArray(multiscales)
     ? multiscales[0] // if multiple images (multiscales), just grab first one
     : multiscales
@@ -139,6 +167,8 @@ const extractScaleSpacing = async dataSource => {
         multiscaleImage,
         pixelArrayMetadata,
         dataset,
+        dataSource,
+        multiscaleSpatialImageVersion,
       })
     })
   )

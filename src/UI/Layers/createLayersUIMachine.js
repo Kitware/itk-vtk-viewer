@@ -193,7 +193,7 @@ const assignImageContext = assign({
           height: 1.0,
           width: 0.5,
           xBias: 0.0,
-          yBias: 3.0,
+          yBias: 2.0,
         })
       } else {
         gaussians.push({

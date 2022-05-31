@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract'
-import { getFileExtsion, readImageArrayBuffer } from 'itk-wasm'
+import { readImageArrayBuffer } from 'itk-wasm'
 
 import fetchBinaryContent from './IO/fetchBinaryContent'
 import fetchJsonContent from './IO/fetchJsonContent'

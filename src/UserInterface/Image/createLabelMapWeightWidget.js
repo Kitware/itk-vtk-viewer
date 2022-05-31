@@ -1,6 +1,6 @@
 import { action, reaction } from 'mobx'
 
-import macro from 'vtk.js/Sources/macro'
+import macro from 'vtk.js/Sources/macros'
 
 import updateLabelMapPiecewiseFunction from '../../Rendering/updateLabelMapPiecewiseFunction'
 import style from '../ItkVtkViewer.module.css'

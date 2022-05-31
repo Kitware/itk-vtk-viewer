@@ -1,6 +1,6 @@
 import { autorun, reaction, action } from 'mobx'
 
-import macro from 'vtk.js/Sources/macro'
+import macro from 'vtk.js/Sources/macros'
 import createCategoricalColorIconSelector from '../createCategoricalColorIconSelector'
 import applyCategoricalColorToLookupTableProxy from '../applyCategoricalColorToLookupTableProxy'
 import updateLabelMapComponentWeight from '../../Rendering/updateLabelMapComponentWeight'

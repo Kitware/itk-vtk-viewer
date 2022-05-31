@@ -2,7 +2,6 @@ import { inspect } from '@xstate/inspect'
 import { interpret } from 'xstate'
 
 import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager'
-import macro from 'vtk.js/Sources/macro'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
 import ResizeSensor from 'css-element-queries/src/ResizeSensor'

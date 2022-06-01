@@ -161,17 +161,34 @@ const assignImageContext = assign({
             colorMap = 'BkCy'
             break
         }
-      } else if (components === 3 && actorContext.independentComponents) {
-        switch (component) {
-          case 0:
-            colorMap = 'BkRd'
-            break
-          case 1:
-            colorMap = 'BkGn'
-            break
-          case 2:
-            colorMap = 'BkBu'
-            break
+      } else if (actorContext.independentComponents) {
+        if (components === 3) {
+          switch (component) {
+            case 0:
+              colorMap = 'BkRd'
+              break
+            case 1:
+              colorMap = 'BkGn'
+              break
+            case 2:
+              colorMap = 'BkBu'
+              break
+          }
+        } else if (components === 4) {
+          switch (component) {
+            case 0:
+              colorMap = 'BkRd'
+              break
+            case 1:
+              colorMap = 'BkGn'
+              break
+            case 2:
+              colorMap = 'BkBu'
+              break
+            case 3:
+              colorMap = 'Grayscale'
+              break
+          }
         }
       }
       actorContext.colorMaps.set(component, colorMap)

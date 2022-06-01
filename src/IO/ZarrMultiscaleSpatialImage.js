@@ -10,6 +10,8 @@ import { getComponentType } from './dtypeUtils'
 // ends with zarr and optional nested image name like foo.zarr/image1
 export const isZarr = url => /zarr((\/)[\w-]+\/?)?$/.test(url)
 
+const MAX_COMPONENT_COUNT = 4
+
 const TCZYX = Object.freeze(['t', 'c', 'z', 'y', 'x'])
 
 const composeTransforms = (transforms = [], dimCount) =>
@@ -120,7 +122,7 @@ const createScaledImageInfo = async ({
   const arrayShape = toDimensionMap(dims, shape)
 
   const componentsInData = arrayShape.get('c') ?? 1
-  const components = Math.min(componentsInData, 3)
+  const components = Math.min(componentsInData, MAX_COMPONENT_COUNT)
   if (componentsInData !== components) {
     console.warn(
       `itk-vtk-viewer: ${componentsInData} components are not supported. Falling back to ${components} components.`

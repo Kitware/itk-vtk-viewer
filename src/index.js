@@ -44,7 +44,7 @@ export async function createViewerFromUrl(
   el,
   {
     files = [],
-    image,
+    images = [],
     labelImage,
     config,
     labelImageNames = null,
@@ -56,23 +56,22 @@ export async function createViewerFromUrl(
   UserInterface.emptyContainer(el)
   const progressCallback = UserInterface.createLoadingProgress(el)
 
-  let imageObject = null
-  if (image) {
-    if (isZarr(image)) {
-      imageObject = await toMultiscaleSpatialImage(
-        new URL(image, document.location)
-      )
-    } else {
-      const arrayBuffer = await fetchBinaryContent(image, progressCallback)
+  const imageFiles = await Promise.all(
+    images.map(async imageUrl => {
+      if (isZarr(imageUrl)) {
+        return await toMultiscaleSpatialImage(
+          new URL(imageUrl, document.location)
+        )
+      }
       const result = await readImageArrayBuffer(
         null,
-        arrayBuffer,
-        image.split('/').slice(-1)[0]
+        await fetchBinaryContent(imageUrl, progressCallback),
+        imageUrl.split('/').slice(-1)[0]
       )
       result.webWorker.terminate()
-      imageObject = result.image
-    }
-  }
+      return result.image
+    })
+  )
 
   let labelImageObject = null
   if (labelImage) {
@@ -96,8 +95,8 @@ export async function createViewerFromUrl(
   const fileObjects = []
   for (const url of files) {
     if (isZarr(url)) {
-      imageObject = await toMultiscaleSpatialImage(
-        new URL(url, document.location)
+      imageFiles.push(
+        await toMultiscaleSpatialImage(new URL(url, document.location))
       )
     } else {
       const arrayBuffer = await fetchBinaryContent(url, progressCallback)
@@ -122,7 +121,7 @@ export async function createViewerFromUrl(
 
   return processFiles(el, {
     files: fileObjects,
-    image: imageObject,
+    images: imageFiles,
     labelImage: labelImageObject,
     config: viewerConfig,
     labelImageNames: labelImageNameObject,
@@ -199,7 +198,7 @@ export function processURLParameters(container, addOnParameters = {}) {
   if (files.length || userParams.image || userParams.labelImage) {
     return createViewerFromUrl(myContainer, {
       files,
-      image: userParams.image,
+      images: userParams.image?.split(','),
       labelImage: userParams.labelImage,
       config: userParams.config,
       labelImageNames: userParams.labelImageNames,

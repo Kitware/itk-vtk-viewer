@@ -30,6 +30,7 @@ const createViewer = async (
   rootContainer,
   {
     image,
+    images = [],
     labelImage,
     geometries,
     pointSets,
@@ -39,6 +40,7 @@ const createViewer = async (
     gradientOpacity,
   }
 ) => {
+  images = [image, ...images]
   UserInterface.emptyContainer(rootContainer)
   if (!UserInterface.checkForWebGL(rootContainer)) {
     throw new Error('WebGL could not be loaded.')
@@ -67,7 +69,7 @@ const createViewer = async (
   // Migrate to a module
   const eventEmitter = store.eventEmitter
 
-  function eventEmitterCallback(context, event) {
+  function eventEmitterCallback(context /*, event*/) {
     return (callback, onReceive) => {
       onReceive(event => {
         switch (event.type) {
@@ -202,10 +204,6 @@ const createViewer = async (
   const machine = createViewerMachine(options, context, eventEmitterCallback)
   const service = interpret(machine, { devTools: debug })
   context.service = service
-  //console.log(options)
-  //console.log(context)
-  //console.log(machine)
-  //console.log(service)
   service.start()
 
   let updatingImage = false
@@ -363,6 +361,7 @@ const createViewer = async (
       }
     }
   )
+
   let imageName = null
   if (image) {
     const multiscaleImage = await toMultiscaleSpatialImage(image)

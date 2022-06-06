@@ -19,7 +19,7 @@ import createViewer from '../createViewer'
 
 const MAX_LABELS_IN_LABEL_IMAGE = 64
 
-const getDataFromFiles = async files => {
+const readDataFromFiles = async files => {
   const readers = Array.from(files).map(async file => {
     const extension = getFileExtension(file.name)
     if (extension === 'vti') {
@@ -64,7 +64,7 @@ const getDataFromFiles = async files => {
         return readImageFile(null, file)
           .then(({ image: itkImage, webWorker }) => {
             webWorker.terminate()
-            is3D = itkImage.imageType.dimension === 3 // && !use2D
+            is3D = itkImage.imageType.dimension === 3
             return Promise.resolve({ is3D, data: itkImage })
           })
           .catch(error => {
@@ -75,7 +75,7 @@ const getDataFromFiles = async files => {
     const { image: itkImage, webWorker } = await readImageFile(null, file)
     itkImage.name = file.name
     webWorker.terminate()
-    const is3D = itkImage.imageType.dimension === 3 // && !use2D
+    const is3D = itkImage.imageType.dimension === 3
     return { is3D, data: itkImage }
   })
   return await Promise.all(readers)
@@ -126,7 +126,7 @@ export const readFiles = async ({
       use2D: !is3D,
     }
   } catch (error) {
-    const dataSets = await getDataFromFiles(files)
+    const dataSets = await readDataFromFiles(files)
     let imagesFromFiles = dataSets
       .map(({ data }) => data)
       .filter(data => !!data && data.imageType !== undefined)
@@ -151,9 +151,6 @@ export const readFiles = async ({
     imagesFromFiles = imagesFromFiles.filter(
       image => image !== labelImageResult
     )
-
-    // merge images
-    const imagesMerged = [...imagesFromFiles, ...images]
 
     const labelImageNameData = labelImageNames ? new Map(labelImageNames) : null
 
@@ -187,14 +184,16 @@ export const readFiles = async ({
       })
       .map(({ data }) => data)
 
+    const imagesMerged = [...imagesFromFiles, ...images]
+
     const any3D = [
       ...dataSets.map(({ is3D }) => is3D),
       ...[...imagesMerged, labelImageResult].map(
         image => image?.imageType.dimension === 3
       ),
     ].some(is3D => is3D)
+
     return {
-      image: imagesMerged[0], // for external backwards compatability
       images: imagesMerged,
       labelImage: labelImageResult,
       labelImageNames: labelImageNameData,

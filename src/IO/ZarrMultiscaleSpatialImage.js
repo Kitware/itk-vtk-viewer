@@ -1,6 +1,8 @@
 import { PixelTypes } from 'itk-wasm'
 
-import MultiscaleSpatialImage from './MultiscaleSpatialImage'
+import MultiscaleSpatialImage, {
+  MAX_COMPONENT_COUNT,
+} from './MultiscaleSpatialImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
 import ZarrStoreParser from './ZarrStoreParser'
 import HttpStore from './HttpStore'
@@ -9,8 +11,6 @@ import { getComponentType } from './dtypeUtils'
 
 // ends with zarr and optional nested image name like foo.zarr/image1
 export const isZarr = url => /zarr((\/)[\w-]+\/?)?$/.test(url)
-
-const MAX_COMPONENT_COUNT = 4
 
 const TCZYX = Object.freeze(['t', 'c', 'z', 'y', 'x'])
 

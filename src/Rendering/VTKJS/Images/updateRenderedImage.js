@@ -112,7 +112,7 @@ async function updateRenderedImage(context) {
 
   const copyStructure = visualizedComponents
     .map(component => ({
-      component,
+      component: Math.max(0, component),
       image: component >= 0 ? toFuse.image : toFuse.labelImage,
     }))
     .map(({ component, image }, idx) => ({

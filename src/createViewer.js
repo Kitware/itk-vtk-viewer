@@ -25,12 +25,13 @@ import createViewerMachine from './createViewerMachine'
 import ViewerMachineContext from './Context/ViewerMachineContext'
 
 import { autorun, reaction, toJS } from 'mobx'
+import { ConglomerateMultiscaleSpatialImage } from './IO/ConglomerateMultiscaleSpatialImage'
 
 const createViewer = async (
   rootContainer,
   {
-    image,
-    images = [],
+    image: loneImage,
+    images: imageArray = [],
     labelImage,
     geometries,
     pointSets,
@@ -40,7 +41,8 @@ const createViewer = async (
     gradientOpacity,
   }
 ) => {
-  images = [image, ...images]
+  const images = [...imageArray, loneImage].filter(Boolean) // filter to remove undefined 'image' arg
+
   UserInterface.emptyContainer(rootContainer)
   if (!UserInterface.checkForWebGL(rootContainer)) {
     throw new Error('WebGL could not be loaded.')
@@ -362,10 +364,17 @@ const createViewer = async (
     }
   )
 
-  let imageName = null
+  const multiscaleImages = await Promise.all(
+    images.map(image => toMultiscaleSpatialImage(image))
+  )
+
+  const image =
+    multiscaleImages.length > 1
+      ? new ConglomerateMultiscaleSpatialImage(multiscaleImages)
+      : multiscaleImages[0]
+
   if (image) {
     const multiscaleImage = await toMultiscaleSpatialImage(image)
-    imageName = multiscaleImage.name
     service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
     if (multiscaleImage.scaleInfo[0].ranges) {
       const components = multiscaleImage.imageType.components
@@ -373,11 +382,11 @@ const createViewer = async (
         const range = multiscaleImage.scaleInfo[0].ranges[comp]
         service.send({
           type: 'IMAGE_COLOR_RANGE_CHANGED',
-          data: { name: imageName, component: comp, range },
+          data: { name: image?.name, component: comp, range },
         })
         service.send({
           type: 'IMAGE_COLOR_RANGE_BOUNDS_CHANGED',
-          data: { name: imageName, component: comp, range },
+          data: { name: image?.name, component: comp, range },
         })
       }
     }
@@ -393,7 +402,7 @@ const createViewer = async (
     }
     service.send({
       type: 'ADD_LABEL_IMAGE',
-      data: { imageName, labelImage: multiscaleLabelImage },
+      data: { imageName: image?.name, labelImage: multiscaleLabelImage },
     })
   }
 

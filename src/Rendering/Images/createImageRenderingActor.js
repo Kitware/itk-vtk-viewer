@@ -44,6 +44,7 @@ const assignLowerScale = assign({
 
 const RENDERED_VOXEL_MAX = 512 * 512 * 512
 
+// Return true if highest scale or right scale (to stop loading of higher scale)
 function highestScaleOrScaleJustRight(context, event, condMeta) {
   const actorContext = context.images.actorContext.get(
     context.images.updateRenderedName

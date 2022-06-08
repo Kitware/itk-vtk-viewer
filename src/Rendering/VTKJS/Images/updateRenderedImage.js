@@ -28,6 +28,120 @@ import computeRange from '../computeRange'
 //console.log('imageData', imageData)
 //const chunk = await webworkerPromise.exec('chunk', args)
 
+const sum = (a, b) => a + b
+
+const parseByComponent = scaleImage => {
+  if (!scaleImage) return []
+
+  // lift ITK image into array if not already (like from InMemoryMultiscaleSpatialImage)
+  const scaleImages = Array.isArray(scaleImage) ? scaleImage : [scaleImage]
+  // array of all image components
+  return scaleImages.flatMap(image => {
+    const srcComponentCount = image.imageType.components
+    // pull each component from image
+    return [...Array(srcComponentCount).keys()].map(fromComponent => ({
+      fromComponent,
+      srcComponentCount,
+      image,
+    }))
+  })
+}
+
+const updateContextWithLabelImage = (actorContext, scaleLabelImage) => {
+  const uniqueLabelsSet = new Set(scaleLabelImage.data)
+  const uniqueLabels = Array.from(uniqueLabelsSet)
+  // The volume mapper currently only supports ColorTransferFunction's,
+  // not LookupTable's
+  // lut.setAnnotations(uniqueLabels, uniqueLabels);
+  uniqueLabels.sort(numericalSort)
+  actorContext.uniqueLabels = uniqueLabels
+  actorContext.renderedLabelImage = scaleLabelImage
+}
+
+const fuseImages = ({
+  imageAtScale,
+  labelAtScale,
+  visualizedComponents,
+  existingArray,
+}) => {
+  const [imageByComponent, labelByComponent] = [
+    imageAtScale,
+    labelAtScale,
+  ].map(image => parseByComponent(image))
+  const [, componentInfo] = visualizedComponents
+    .map(
+      comp =>
+        comp >= 0 ? imageByComponent[comp] : labelByComponent[comp * -1 - 1] // label component index starts at -1
+    )
+    // validate sizes of components
+    .reduce(
+      ([lastSize, compInfos], compInfo) => {
+        const baseSize = lastSize ?? compInfo.image.size
+        const areDimensionsEqual = compInfo.image.size.every(
+          (dim, index) => baseSize[index] === dim
+        )
+        if (areDimensionsEqual) {
+          compInfos.push(compInfo)
+        } else {
+          console.error(
+            `Size not equal while fusing images! Last image size: ${baseSize}, "${compInfo.image.name}" image size: ${compInfo.image.size}`
+          )
+        }
+        return [baseSize, compInfos]
+      },
+      [undefined, []]
+    )
+
+  const elementCount = componentInfo
+    .map(compInfo => compInfo.image.data.length)
+    .reduce(sum)
+  // Avoid losing data if TypedArrays are different between images
+  const largestType = componentInfo
+    .map(compInfo => compInfo.image.data)
+    .reduce((lastType, typedArray) =>
+      lastType.BYTES_PER_ELEMENT >= typedArray.BYTES_PER_ELEMENT
+        ? lastType
+        : typedArray
+    )
+
+  // We only need to construct a new typed array if we don't already
+  // have one of the right length.
+  const isExistingArrayMatchingNeed =
+    existingArray &&
+    existingArray.length === elementCount &&
+    typeof oldFusedData === typeof largestType
+  const fusedImageData = isExistingArrayMatchingNeed
+    ? existingArray
+    : new largestType.constructor(elementCount)
+
+  const componentCount = componentInfo.length
+  const tupleCount = elementCount / componentCount
+  for (let cIdx = 0; cIdx < componentCount; cIdx++) {
+    const {
+      image: {
+        data,
+        imageType: { components: srcComponentCount },
+      },
+      fromComponent,
+    } = componentInfo[cIdx]
+    for (let tuple = 0; tuple < tupleCount; tuple++) {
+      fusedImageData[tuple * componentCount + cIdx] =
+        data[tuple * srcComponentCount + fromComponent]
+    }
+  }
+
+  const base = imageByComponent[0]?.image ?? labelByComponent[0]?.image
+  const fusedItkImage = {
+    ...base,
+    data: fusedImageData,
+    imageType: {
+      ...base.imageType,
+      components: componentCount,
+    },
+  }
+  return fusedItkImage
+}
+
 async function updateRenderedImage(context) {
   const name = context.images.updateRenderedName
   const actorContext = context.images.actorContext.get(name)
@@ -40,47 +154,29 @@ async function updateRenderedImage(context) {
     return
   }
 
-  const toFuse = { image: undefined, labelImage: undefined }
-  if (image) {
-    const scaleImage = await image.scaleLargestImage(actorContext.renderedScale)
-    const vtkImage = vtkITKHelper.convertItkToVtkImage(scaleImage)
-    toFuse.image = { vtkImage, scaleImage }
-  }
+  const { renderedScale } = actorContext
 
-  if (labelImage) {
-    const scaleLabelImage = await labelImage.scaleLargestImage(
-      Math.min(actorContext.renderedScale, labelImage.scaleInfo.length - 1)
-    )
+  const [imageAtScale, labelAtScale] = await Promise.all(
+    [image, labelImage]
+      .filter(Boolean)
+      .map(image => image.scaleLargestImage(renderedScale))
+  )
+  if (labelAtScale) updateContextWithLabelImage(actorContext, labelAtScale)
 
-    const { size: labelImageSize } = scaleLabelImage
-    const imageSize = toFuse.image?.scaleImage.size ?? []
-    const dimensionsEqual = imageSize.every(
-      (dim, index) => labelImageSize[index] === dim
-    )
-    if (!dimensionsEqual) {
-      // Todo: throw error, handle error
-      console.error(
-        `Size not equal! Image: ${imageSize} Label map: ${labelImageSize}`
-      )
-    }
+  const itkImage =
+    Array.isArray(imageAtScale) || labelAtScale
+      ? fuseImages({
+          imageAtScale,
+          labelAtScale,
+          visualizedComponents: actorContext.visualizedComponents,
+          existingArray: actorContext.fusedImageData,
+        })
+      : imageAtScale
 
-    const vtkImage = vtkITKHelper.convertItkToVtkImage(scaleLabelImage)
-    toFuse.labelImage = { vtkImage, scaleImage: scaleLabelImage }
+  actorContext.fusedImageData = itkImage.data
+  const { fusedImageData } = actorContext
 
-    const uniqueLabelsSet = new Set(scaleLabelImage.data)
-    const uniqueLabels = Array.from(uniqueLabelsSet)
-    // The volume mapper currently only supports ColorTransferFunction's,
-    // not LookupTable's
-    // lut.setAnnotations(uniqueLabels, uniqueLabels);
-    uniqueLabels.sort(numericalSort)
-    actorContext.uniqueLabels = uniqueLabels
-    actorContext.renderedLabelImage = scaleLabelImage
-  }
-
-  const { visualizedComponents } = actorContext
-  const visualizedComponentCount = visualizedComponents.length
-
-  const { vtkImage } = toFuse.image ?? toFuse.labelImage
+  const vtkImage = vtkITKHelper.convertItkToVtkImage(itkImage)
 
   if (!actorContext.fusedImage) {
     actorContext.fusedImage = vtkImage
@@ -95,69 +191,26 @@ async function updateRenderedImage(context) {
 
   const imageScalars = vtkImage.getPointData().getScalars()
 
-  const imageTuples = vtkImage
-    .getPointData()
-    .getScalars()
-    .getNumberOfTuples()
-  const length = imageTuples * visualizedComponentCount
-  const imageData = imageScalars.getData()
-  // We only need to construct a new typed array if we don't already
-  // have one of the right length.
-  if (
-    !actorContext.fusedImageData ||
-    actorContext.fusedImageData.length !== length
-  ) {
-    actorContext.fusedImageData = new imageData.constructor(length)
-  }
-
-  const copyStructure = visualizedComponents
-    .map(component => ({
-      component: Math.max(0, component),
-      image: component >= 0 ? toFuse.image : toFuse.labelImage,
-    }))
-    .map(({ component, image }, idx) => ({
-      srcImageData: image.scaleImage.data,
-      imageComponents: image.scaleImage.imageType.components,
-      copyFromComponent: component,
-      copyToComponent: idx,
-    }))
-
-  let fusedIndex = 0
-  let imageIndex = 0
-  for (let tuple = 0; tuple < imageTuples; tuple++) {
-    for (let cIdx = 0; cIdx < copyStructure.length; cIdx++) {
-      imageIndex =
-        tuple * copyStructure[cIdx].imageComponents +
-        copyStructure[cIdx].copyFromComponent
-      fusedIndex =
-        tuple * visualizedComponentCount + copyStructure[cIdx].copyToComponent
-      actorContext.fusedImageData[fusedIndex] =
-        copyStructure[cIdx].srcImageData[imageIndex]
-    }
-  }
-
+  const numberOfComponents = itkImage.imageType.components
   const fusedImageScalars = vtkDataArray.newInstance({
     name: imageScalars.getName() || 'Scalars',
-    values: actorContext.fusedImageData,
-    numberOfComponents: visualizedComponentCount,
+    values: fusedImageData,
+    numberOfComponents,
   })
 
   fusedImage.getPointData().setScalars(fusedImageScalars)
   // Trigger VolumeMapper scalarTexture update
   fusedImage.modified()
 
-  const dataArray = actorContext.fusedImage.getPointData().getScalars()
-  const numberOfComponents = dataArray.getNumberOfComponents()
-  actorContext.fusedImageRanges = []
-  for (let comp = 0; comp < numberOfComponents; comp++) {
-    const range = await computeRange(
-      dataArray.getData(),
-      comp,
-      numberOfComponents
+  const fusedImageRanges = await Promise.all(
+    [...Array(numberOfComponents).keys()].map(comp =>
+      computeRange(fusedImageData, comp, numberOfComponents)
     )
-    dataArray.setRange(range, comp)
-    actorContext.fusedImageRanges.push(range)
-  }
+  )
+  fusedImageRanges.forEach((range, comp) =>
+    fusedImageScalars.setRange(range, comp)
+  )
+  actorContext.fusedImageRanges = fusedImageRanges
 
   context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
 }

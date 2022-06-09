@@ -70,7 +70,7 @@ export const fuseImages = async ({
     transferables.push(arrayToFill.buffer)
 
   if (!worker) worker = new WebworkerPromise(new FuseComponentsWorker())
-  const fusedImageData = await worker.postMessage(
+  const [fusedImageData, componentRanges] = await worker.postMessage(
     {
       componentInfo: componentInfoSansImage,
       arrayToFill,
@@ -87,5 +87,5 @@ export const fuseImages = async ({
       components: componentInfo.length,
     },
   }
-  return fusedItkImage
+  return [fusedItkImage, componentRanges]
 }

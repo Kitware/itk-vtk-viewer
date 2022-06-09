@@ -1,3 +1,5 @@
+import computeRange from '../computeRange'
+
 const sum = (a, b) => a + b
 
 export const parseByComponent = scaleImage => {
@@ -47,3 +49,10 @@ export const fuseComponents = ({ componentInfo, arrayToFill }) => {
   }
   return fusedImageData
 }
+
+export const computeRanges = async (imageData, numberOfComponents) =>
+  await Promise.all(
+    [...Array(numberOfComponents).keys()].map(comp =>
+      computeRange(imageData, comp, numberOfComponents)
+    )
+  )

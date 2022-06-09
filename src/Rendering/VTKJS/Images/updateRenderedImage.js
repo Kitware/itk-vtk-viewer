@@ -3,8 +3,8 @@ import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
 
 import updateVisualizedComponents from './updateVisualizedComponents'
 import numericalSort from '../numericalSort'
-import computeRange from '../computeRange'
 import { fuseImages } from './fuseImages'
+import { computeRanges } from './fuseImagesUtils'
 
 const updateContextWithLabelImage = (actorContext, scaleLabelImage) => {
   const uniqueLabelsSet = new Set(scaleLabelImage.data)
@@ -38,16 +38,23 @@ async function updateRenderedImage(context) {
   )
   if (labelAtScale) updateContextWithLabelImage(actorContext, labelAtScale)
 
-  const itkImage =
-    Array.isArray(imageAtScale) || labelAtScale
-      ? await fuseImages({
-          imageAtScale,
-          labelAtScale,
-          visualizedComponents: actorContext.visualizedComponents,
-          existingArray: actorContext.fusedImageData,
-        })
-      : imageAtScale
+  const isFuseNeeded = Array.isArray(imageAtScale) || labelAtScale
+  const [itkImage, componentRanges] = isFuseNeeded
+    ? await fuseImages({
+        imageAtScale,
+        labelAtScale,
+        visualizedComponents: actorContext.visualizedComponents,
+        existingArray: actorContext.fusedImageData,
+      })
+    : [
+        imageAtScale,
+        await computeRanges(
+          imageAtScale.data,
+          imageAtScale.imageType.components
+        ),
+      ]
 
+  actorContext.fusedImageRanges = componentRanges
   actorContext.fusedImageData = itkImage.data
   const { fusedImageData } = actorContext
 
@@ -77,15 +84,9 @@ async function updateRenderedImage(context) {
   // Trigger VolumeMapper scalarTexture update
   fusedImage.modified()
 
-  const fusedImageRanges = await Promise.all(
-    [...Array(numberOfComponents).keys()].map(comp =>
-      computeRange(fusedImageData, comp, numberOfComponents)
-    )
-  )
-  fusedImageRanges.forEach((range, comp) =>
+  componentRanges.forEach((range, comp) =>
     fusedImageScalars.setRange(range, comp)
   )
-  actorContext.fusedImageRanges = fusedImageRanges
 
   context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
 }

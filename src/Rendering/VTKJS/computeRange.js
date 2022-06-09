@@ -1,5 +1,5 @@
 import ComputeRangeWorker from './ComputeRange.worker'
-const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
+const haveSharedArrayBuffer = typeof globalThis.SharedArrayBuffer === 'function'
 import webWorkerPromiseWorkerPool from './webWorkerPromiseWorkerPool'
 
 const numberOfWorkers = navigator.hardwareConcurrency

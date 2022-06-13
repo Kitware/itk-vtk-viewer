@@ -2,12 +2,11 @@ import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction'
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
-import vtkMath from 'vtk.js/Sources/Common/Core/Math'
-import vtkPlane from 'vtk.js/Sources/Common/DataModel/Plane'
 
 import applyGradientOpacity from './applyGradientOpacity'
 import applyLabelImageBlend from './applyLabelImageBlend'
 import applyVolumeSampleDistance from './applyVolumeSampleDistance'
+import { updateSliceCroppingPlanes } from '../Main/applyCroppingPlanes'
 
 const ANNOTATION_DEFAULT =
   '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
@@ -16,7 +15,7 @@ const ANNOTATION_CUSTOM_PREFIX =
 const ANNOTATION_CUSTOM_POSTFIX =
   '<td></td><td></td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
 
-function updateCroppingWidgetParameters(context, fusedImage) {
+function updateCroppingParameters(context, fusedImage) {
   const spacing = fusedImage.getSpacing().slice()
   const croppingVirtualImage = context.main.croppingVirtualImage
   croppingVirtualImage.setSpacing(spacing)
@@ -28,9 +27,9 @@ function updateCroppingWidgetParameters(context, fusedImage) {
   const bbox = context.main.croppingBoundingBox
   croppingVirtualImage.setOrigin([bbox[0], bbox[2], bbox[4]])
   croppingVirtualImage.setDimensions([
-    (bbox[1] - bbox[0]) / spacing[0] + 1,
-    (bbox[3] - bbox[2]) / spacing[1] + 1,
-    (bbox[5] - bbox[4]) / spacing[2] + 1,
+    (bbox[1] - bbox[0]) / spacing[0],
+    (bbox[3] - bbox[2]) / spacing[1],
+    (bbox[5] - bbox[4]) / spacing[2],
   ])
 
   const widgetState = context.main.croppingWidget.getWidgetState()
@@ -41,6 +40,9 @@ function updateCroppingWidgetParameters(context, fusedImage) {
     const dims = croppingVirtualImage.getDimensions()
     const croppingPlanes = widgetState.getCroppingPlanes()
     croppingPlanes.setPlanes([0, dims[0], 0, dims[1], 0, dims[2]])
+  } else {
+    // slice cropping planes' origin dependant on image.worldToIndex
+    updateSliceCroppingPlanes(context, context.main.croppingPlanes)
   }
 }
 
@@ -59,8 +61,6 @@ function applyRenderedImage(context, event) {
 
   context.images.source.setInputData(actorContext.fusedImage)
 
-  updateCroppingWidgetParameters(context, actorContext.fusedImage)
-
   // VTK.js currently only supports a single image
   if (!context.images.representationProxy) {
     context.proxyManager.createRepresentationInAllViews(context.images.source)
@@ -70,7 +70,7 @@ function applyRenderedImage(context, event) {
     )
     const representationProxy = context.images.representationProxy
     const croppingPlanes = context.main.widgetCroppingPlanes
-    const croppingPlanesFlip = context.main.widgetCroppingPlanesFlip
+    // const croppingPlanesFlip = context.main.widgetCroppingPlanesFlip
 
     if (context.use2D) {
       context.itkVtkView.setViewMode('ZPlane')
@@ -95,28 +95,28 @@ function applyRenderedImage(context, event) {
       .querySelector('.js-se')
     annotationContainer.style.fontFamily = 'monospace'
 
+    const sliceCroppingPlanes = context.main.sliceCroppingPlanes
     const sliceActors = representationProxy.getActors()
     sliceActors.forEach((actor, actorIdx) => {
-      console.log('actor', actor, actorIdx)
       const sliceMapper = actor.getMapper()
       switch (actorIdx) {
         case 0:
-          sliceMapper.addClippingPlane(croppingPlanes[2])
-          sliceMapper.addClippingPlane(croppingPlanes[3])
-          sliceMapper.addClippingPlane(croppingPlanes[4])
-          sliceMapper.addClippingPlane(croppingPlanes[5])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[2])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[3])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[4])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[5])
           break
         case 1:
-          sliceMapper.addClippingPlane(croppingPlanes[0])
-          sliceMapper.addClippingPlane(croppingPlanes[1])
-          sliceMapper.addClippingPlane(croppingPlanes[4])
-          sliceMapper.addClippingPlane(croppingPlanes[5])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[0])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[1])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[4])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[5])
           break
         case 2:
-          sliceMapper.addClippingPlane(croppingPlanes[0])
-          sliceMapper.addClippingPlane(croppingPlanes[1])
-          sliceMapper.addClippingPlane(croppingPlanes[2])
-          sliceMapper.addClippingPlane(croppingPlanes[3])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[0])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[1])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[2])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[3])
           break
         default:
           console.error('Unexpected slice actor')
@@ -401,6 +401,9 @@ function applyRenderedImage(context, event) {
     const zSlice = volumeRep.getZSlice()
     context.service.send({ type: 'Z_SLICE_CHANGED', data: zSlice })
   }
+
+  // call after representations are created
+  updateCroppingParameters(context, actorContext.fusedImage)
 }
 
 export default applyRenderedImage

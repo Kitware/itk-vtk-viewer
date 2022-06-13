@@ -12,7 +12,7 @@ function resetCroppingPlanes(context) {
     },
     {
       origin: Array.from(
-        transformVec3([dims[1], dims[1], dims[2]], indexToWorld)
+        transformVec3([dims[0], dims[1], dims[2]], indexToWorld)
       ),
       normal: vtkMath.multiplyScalar(Array.from(direction.slice(0, 3)), -1),
     },

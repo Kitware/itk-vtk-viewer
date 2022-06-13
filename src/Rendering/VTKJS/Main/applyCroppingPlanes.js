@@ -1,18 +1,35 @@
 import vtkMath from 'vtk.js/Sources/Common/Core/Math'
 import { transformVec3 } from 'vtk.js/Sources/Widgets/Widgets3D/ImageCroppingWidget/helpers'
+import { vec3 } from 'gl-matrix'
+
+export function updateSliceCroppingPlanes(context, planes) {
+  const sliceActors = context.images.representationProxy.getActors()
+  const slicedImage = sliceActors[0].getMapper().getInputData()
+  const sworldToIndex = slicedImage.getWorldToIndex()
+  // const worldToIndex = context.main.croppingVirtualImage.getWorldToIndex()
+  planes.forEach((plane, idx) => {
+    context.main.widgetCroppingPlanes[idx].setOriginFrom(plane.origin)
+    context.main.widgetCroppingPlanes[idx].setNormalFrom(plane.normal)
+    // context.main.widgetCroppingPlanesFlip[idx].setOriginFrom(plane.origin)
+    // const flipped = vtkMath.multiplyScalar(Array.from(plane.normal), 1)
+    // context.main.widgetCroppingPlanesFlip[idx].setNormalFrom(flipped)
+
+    // convert to slice clippling space
+    const planeOrigin = context.main.sliceCroppingPlanes[idx].getOrigin()
+    vec3.transformMat4(planeOrigin, plane.origin, sworldToIndex)
+    vec3.transformMat4(planeOrigin, planeOrigin, sworldToIndex)
+    context.main.sliceCroppingPlanes[idx].setOriginFrom(planeOrigin)
+    context.main.sliceCroppingPlanes[idx].setNormalFrom(plane.normal)
+  })
+}
 
 function applyCroppingPlanes(context, event) {
   if (event.data) {
     const planes = event.data
-    console.log('planes', planes)
-    planes.forEach((plane, idx) => {
-      context.main.widgetCroppingPlanes[idx].setOriginFrom(plane.origin)
-      context.main.widgetCroppingPlanes[idx].setNormalFrom(plane.normal)
-      context.main.widgetCroppingPlanesFlip[idx].setOriginFrom(plane.origin)
-      const flipped = vtkMath.multiplyScalar(Array.from(plane.normal), 1)
-      //console.log('flip', plane.normal, flipped)
-      context.main.widgetCroppingPlanesFlip[idx].setNormalFrom(flipped)
-    })
+
+    updateSliceCroppingPlanes(context, planes)
+
+    // widget
     const worldToIndex = context.main.croppingVirtualImage.getWorldToIndex()
     const cropIndexes = context.main.croppingWidget
       .getWidgetState()
@@ -37,19 +54,12 @@ function applyCroppingPlanes(context, event) {
         .getCroppingPlanes()
         .setPlanes(newCropIndexes)
     }
+
+    // volume
     const volumeMapper = context.images.representationProxy.getMapper()
     if (volumeMapper) {
       volumeMapper.modified()
     }
-    const sliceActors = context.images.representationProxy.getActors()
-    sliceActors.forEach(actor => {
-      actor.modified()
-      const clippingPlanes = actor.getMapper().getClippingPlanes()
-      clippingPlanes.forEach(p => {
-        console.log('origin', p.getOrigin())
-        console.log('normal', p.getNormal())
-      })
-    })
     context.service.send('RENDER')
   }
 }

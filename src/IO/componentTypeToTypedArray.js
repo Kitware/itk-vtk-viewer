@@ -1,5 +1,4 @@
-import IntTypes from 'itk/IntTypes'
-import FloatTypes from 'itk/FloatTypes'
+import { IntTypes, FloatTypes } from 'itk-wasm'
 
 const componentTypeToTypedArray = new Map([
   [IntTypes.Int8, Int8Array],

@@ -1,36 +1,44 @@
-import PixelTypes from 'itk/PixelTypes'
+import { PixelTypes, IntTypes, FloatTypes } from 'itk-wasm'
 
 const numpy2itkType = {
   int8: {
-    componentType: 'int8_t',
+    componentType: IntTypes.Int8,
     arrayType: Int8Array,
   },
   uint8: {
-    componentType: 'uint8_t',
+    componentType: IntTypes.UInt8,
     arrayType: Uint8Array,
   },
   int16: {
-    componentType: 'int16_t',
+    componentType: IntTypes.Int16,
     arrayType: Int16Array,
   },
   uint16: {
-    componentType: 'uint16_t',
+    componentType: IntTypes.UInt16,
     arrayType: Uint16Array,
   },
   int32: {
-    componentType: 'int32_t',
+    componentType: IntTypes.Int32,
     arrayType: Int32Array,
   },
   uint32: {
-    componentType: 'uint32_t',
+    componentType: IntTypes.UInt32,
     arrayType: Uint32Array,
   },
+  int64: {
+    componentType: IntTypes.Int64,
+    arrayType: BigInt64Array,
+  },
+  uint64: {
+    componentType: IntTypes.UInt64,
+    arrayType: BigUint64Array,
+  },
   float32: {
-    componentType: 'float',
+    componentType: FloatTypes.Float32,
     arrayType: Float32Array,
   },
   float64: {
-    componentType: 'double',
+    componentType: FloatTypes.Float64,
     arrayType: Float64Array,
   },
 }
@@ -57,9 +65,7 @@ function ndarrayToItkImage(array) {
       name: 'Image',
       origin: [0.0, 0.0],
       spacing: [1.0, 1.0],
-      direction: {
-        data: [1.0, 0.0, 0.0, 1.0],
-      },
+      direction: new Float64Array([1.0, 0.0, 0.0, 1.0]),
       size: [array._rshape[1], array._rshape[0]],
       data: new arrayType(array._rvalue),
     }
@@ -74,9 +80,17 @@ function ndarrayToItkImage(array) {
       name: 'Image',
       origin: [0.0, 0.0, 0.0],
       spacing: [1.0, 1.0, 1.0],
-      direction: {
-        data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0],
-      },
+      direction: new Float64Array([
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+      ]),
       size: [array._rshape[2], array._rshape[1], array._rshape[0]],
       data: new arrayType(array._rvalue),
     }
@@ -91,9 +105,17 @@ function ndarrayToItkImage(array) {
       name: 'Image',
       origin: [0.0, 0.0, 0.0],
       spacing: [1.0, 1.0, 1.0],
-      direction: {
-        data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0],
-      },
+      direction: new Float64Array([
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+      ]),
       size: [array._rshape[2], array._rshape[1], array._rshape[0]],
       data: new arrayType(array._rvalue),
     }

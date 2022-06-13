@@ -1,5 +1,6 @@
-/** Todo: migrate to itk.js */
-import WorkerPool from 'itk/WorkerPool'
+/** Todo: migrate to itk-wasm */
+import { WorkerPool } from 'itk-wasm'
+
 import WebworkerPromise from 'webworker-promise'
 
 function webWorkerPromiseWorkerPool(

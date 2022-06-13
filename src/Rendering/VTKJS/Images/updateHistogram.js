@@ -27,12 +27,11 @@ async function updateHistogram(context, event) {
 
   const dataArray = actorContext.fusedImage.getPointData().getScalars()
   const numberOfComponents = dataArray.getNumberOfComponents()
-  const fusedImageRanges = actorContext.fusedImageRanges
 
   const fusedImageComponent = actorContext.visualizedComponents.indexOf(
     component
   )
-  const [min, max] = actorContext.colorRanges.get(component)
+  const [min, max] = actorContext.colorRanges.get(component) ?? [0, 0] // [0, 0] default for no image, only imageLabel case
 
   let numberOfBins = 256
   if (

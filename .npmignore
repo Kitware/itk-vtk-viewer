@@ -5,3 +5,8 @@
 .travis.yml
 doc
 npm-debug.log
+src/UI/reference-ui/node_modules
+src/Compression/blosc-zarr
+test
+src/Compression/blosc-zarr/web-build
+src/IO/Downsample/web-build

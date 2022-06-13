@@ -1,16 +1,23 @@
-cmake_minimum_required(VERSION 3.12.0)
+cmake_minimum_required(VERSION 3.16.0)
 project(blosc-zarr)
 
 set(BUILD_STATIC ON CACHE BOOL "Build a static version of the blosc library.")
 set(BUILD_SHARED OFF CACHE BOOL "Build a shared library version of the blosc library.")
 set(BUILD_TESTS OFF CACHE BOOL "Build test programs form the blosc compression library")
 set(BUILD_BENCHMARKS OFF CACHE BOOL "Build benchmark programs form the blosc compression library")
-if(EMSCRIPTEN)
+if(EMSCRIPTEN OR WASI)
   set(HAVE_THREADS OFF CACHE BOOL "Whether we use threading")
-  set(CMAKE_C_FLAGS "-s STRICT=1 -flto")
-  set(CMAKE_EXE_LINKER_FLAGS "-s STRICT=1 -flto --llvm-lto 1")
+endif()
+if(EMSCRIPTEN)
+  set(CMAKE_C_FLAGS "-s STRICT=1")
+  set(CMAKE_EXE_LINKER_FLAGS "-s STRICT=1")
 endif()
 add_subdirectory(c-blosc)
 
-add_executable(BloscZarr BloscZarr.c)
-target_link_libraries(BloscZarr blosc_static)
+find_package(ITK REQUIRED
+  COMPONENTS WebAssemblyInterface
+  )
+include(${ITK_USE_FILE})
+
+add_executable(BloscZarr BloscZarr.cxx)
+target_link_libraries(BloscZarr PUBLIC blosc_static ${ITK_LIBRARIES})

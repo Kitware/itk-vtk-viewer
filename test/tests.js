@@ -1,5 +1,6 @@
-import './zarrTest.js'
 import './convertItkImageToVtkImageTest.js'
 import './createViewerTest.js'
 import './imjoyTest.js'
 import './processFilesTest.js'
+import './zarrTest.js'
+import './conglomerateTest.js'

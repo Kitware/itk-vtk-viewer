@@ -80,13 +80,15 @@ function applyRenderedImage(context, event) {
     }
 
     const mapper = representationProxy.getMapper()
-    mapper.setMaximumSamplesPerRay(2048)
+
     croppingPlanes.forEach(plane => {
       mapper.addClippingPlane(plane)
     })
-    context.images.representationProxy.setSampleDistance(
-      actorContext.volumeSampleDistance
-    )
+
+    representationProxy.getMapper().setMaximumSamplesPerRay(2048)
+    representationProxy.setSampleDistance(actorContext.volumeSampleDistance)
+
+    context.itkVtkView.setAxesNames(image?.scaleInfo[0].axesNames) // ? for no image, only imageLabel case
 
     const annotationContainer = context.renderingViewContainers
       .get('volume')
@@ -165,7 +167,7 @@ function applyRenderedImage(context, event) {
 
   // Visualized components may have updated -> set color transfer function, piecewise function, component visibility, independent components in slices
   const sliceActors = context.images.representationProxy.getActors()
-  sliceActors.forEach((actor, actorIdx) => {
+  sliceActors.forEach(actor => {
     const actorProperty = actor.getProperty()
     actorProperty.setIndependentComponents(actorContext.independentComponents)
     actor.getMapper().setInputData(actorContext.fusedImage)
@@ -174,6 +176,7 @@ function applyRenderedImage(context, event) {
         if (!context.images.lookupTableProxies.has(componentIndex)) {
           return
         }
+
         const colorTransferFunction = context.images.lookupTableProxies
           .get(componentIndex)
           .getLookupTable()
@@ -192,13 +195,14 @@ function applyRenderedImage(context, event) {
           fusedImageIndex,
           componentVisibility ? 1.0 : 0.0
         )
+        actorProperty.setUseLookupTableScalarRange(true)
       }
     )
   })
 
   // Visualized components may have updated -> set color transfer function, piecewise function, component visibility, independent components in volumes
   const volumeProps = context.images.representationProxy.getVolumes()
-  volumeProps.forEach((volume, volumeIndex) => {
+  volumeProps.forEach(volume => {
     const volumeProperty = volume.getProperty()
     volume.getMapper().setInputData(actorContext.fusedImage)
 

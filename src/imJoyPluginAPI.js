@@ -9,7 +9,7 @@ const imJoyPluginAPI = {
   async run(ctx) {
     if (ctx.data && ctx.data.image) {
       if (ctx.config) {
-        const multiscaleImage = await itkVtkViewer.utils.toMultiscaleChunkedImage(
+        const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
           ctx.data.image
         )
         const is2D = multiscaleImage.imageType.dimension === 2
@@ -64,7 +64,7 @@ const imJoyPluginAPI = {
   },
 
   async setImage(image) {
-    const multiscaleImage = await itkVtkViewer.utils.toMultiscaleChunkedImage(
+    const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
       image
     )
     const is2D = multiscaleImage.imageType.dimension === 2

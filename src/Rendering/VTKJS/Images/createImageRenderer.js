@@ -4,6 +4,8 @@ import applyXSlice from '../Main/applyXSlice'
 import applyYSlice from '../Main/applyYSlice'
 import applyZSlice from '../Main/applyZSlice'
 
+import '../vtk/ProportionalOpenGLImageMapper' // calls registerOverride('vtkImageMapper', newInstance)
+
 async function createImageRenderer(context) {
   if (!context.images.source) {
     context.images.source = context.proxyManager.createProxy(

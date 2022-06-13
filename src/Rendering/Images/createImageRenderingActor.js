@@ -42,26 +42,29 @@ const assignLowerScale = assign({
   },
 })
 
+const RENDERED_VOXEL_MAX = 512 * 512 * 512
+
+// Return true if highest scale or right scale (to stop loading of higher scale)
 function highestScaleOrScaleJustRight(context, event, condMeta) {
   const actorContext = context.images.actorContext.get(
     context.images.updateRenderedName
   )
 
-  let image = actorContext.image
-  if (!image) {
-    image = actorContext.labelImage
-  }
-  const size = image.scaleInfo[
-    actorContext.renderedScale
-  ].sizeCXYZTElements.slice(1, 4)
-  const renderedVoxels = size[0] * size[1] * size[2]
-  if (renderedVoxels > 25e6) {
+  if (actorContext.renderedScale === 0) {
     return true
   }
 
-  if (actorContext.renderedScale === 0 && context.main.fps > 10.0) {
+  let image = actorContext.image ?? actorContext.labelImage
+
+  // is voxels count of next scale too much
+  const nextScale = actorContext.renderedScale - 1
+  const voxelCount = ['x', 'y', 'z']
+    .map(dim => image.scaleInfo[nextScale].arrayShape.get(dim))
+    .reduce((voxels, dimSize) => voxels * dimSize, 1)
+  if (voxelCount > RENDERED_VOXEL_MAX) {
     return true
   }
+
   if (context.main.fps > 10.0 && context.main.fps < 33.0) {
     return true
   }

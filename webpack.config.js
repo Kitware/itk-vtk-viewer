@@ -1,14 +1,11 @@
 const webpack = require('webpack')
 const path = require('path')
-const autoprefixer = require('autoprefixer')
 
 const CopyPlugin = require('copy-webpack-plugin')
 const { GenerateSW } = require('workbox-webpack-plugin')
 const WebPackBar = require('webpackbar')
 
 const entry = path.join(__dirname, './src/index.js')
-const sourcePath = path.join(__dirname, './source')
-const outputPath = path.join(__dirname, './dist')
 
 const vtkRules = require('vtk.js/Utilities/config/dependency.js').webpack.core
   .rules
@@ -16,14 +13,38 @@ const cssRules = require('vtk.js/Utilities/config/dependency.js').webpack.css
   .rules
 
 const packageJSON = require('./package.json')
-const version = packageJSON.version
-const cdnPath = `https://unpkg.com/itk-vtk-viewer@${version}/dist/itk`
+const cdnPath = 'https://cdn.jsdelivr.net/npm/'
+const itkConfigCDN = path.resolve(__dirname, 'src', 'itkConfigCDN.js')
+const itkConfig = path.resolve(__dirname, 'src', 'itkConfig.js')
 
 const devServer = {
-  noInfo: true,
-  stats: 'minimal',
-  port: 8088,
-  writeToDisk: true,
+  port: 8082,
+  devMiddleware: {
+    writeToDisk: true,
+  },
+  // serve test data, alowing this: data-url="test-data/astronaut.zarr"
+  static: {
+    publicPath: '/test-data',
+    directory: path.join(__dirname, 'test', 'data', 'input'),
+    staticOptions: {
+      dotfiles: 'allow',
+    },
+  },
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+    'Access-Control-Allow-Headers':
+      'X-Requested-With, content-type, Authorization',
+  },
+}
+
+const fallback = {
+  path: false,
+  url: false,
+  module: false,
+  fs: false,
+  stream: require.resolve('stream-browserify'),
+  crypto: false,
 }
 
 const moduleConfigRules = [
@@ -45,7 +66,7 @@ const performance = {
   maxEntrypointSize: 20000000,
 }
 
-module.exports = [
+module.exports = (env, argv) => [
   {
     name: 'itkVtkViewer.js progressive web app',
     module: {
@@ -57,74 +78,80 @@ module.exports = [
         },
       ]),
     },
+    devtool: argv.mode === 'development' ? 'eval-source-map' : 'source-map',
     output: {
       filename: 'itkVtkViewer.js',
     },
     resolve: {
-      fallback: { fs: false, stream: require.resolve('stream-browserify') },
+      alias: {
+        '../itkConfig.js': itkConfig,
+        '../../itkConfig.js': itkConfig,
+      },
+      fallback,
     },
     plugins: [
-      new CopyPlugin([
-        {
-          from: path.join(__dirname, 'node_modules', 'itk', 'WebWorkers'),
-          to: path.join(__dirname, 'dist', 'itk', 'WebWorkers'),
-        },
-        {
-          from: path.join(__dirname, 'node_modules', 'itk', 'ImageIOs'),
-          to: path.join(__dirname, 'dist', 'itk', 'ImageIOs'),
-        },
-        {
-          from: path.join(__dirname, 'node_modules', 'itk', 'MeshIOs'),
-          to: path.join(__dirname, 'dist', 'itk', 'MeshIOs'),
-        },
-        {
-          from: path.join(__dirname, 'node_modules', 'itk', 'PolyDataIOs'),
-          to: path.join(__dirname, 'dist', 'itk', 'PolyDataIOs'),
-        },
-        {
-          from: path.join(__dirname, 'node_modules', 'itk', 'Pipelines'),
-          to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),
-        },
-        {
-          from: path.join(
-            __dirname,
-            'src',
-            'Compression',
-            'blosc-zarr',
-            'web-build'
-          ),
-          to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),
-        },
-        {
-          from: path.join(__dirname, 'src', 'IO', 'Downsample', 'web-build'),
-          to: path.join(__dirname, 'dist', 'itk', 'Pipelines'),
-        },
-      ]),
-      // workbox
-      // plugin should be last plugin
-      new GenerateSW({
-        cacheId: 'itk-vtk-viewer-',
-        cleanupOutdatedCaches: true,
-        maximumFileSizeToCacheInBytes: 10000000,
-        include: [/(\.js|\.html|\.jpg|\.png)$/],
-        exclude: ['serviceWorker.js', /workbox-.*\.js/],
-        swDest: path.join(__dirname, 'dist', 'serviceWorker.js'),
-        runtimeCaching: [
+      new CopyPlugin({
+        patterns: [
           {
-            urlPattern: /(\.js|\.png|\.wasm)$/,
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'itk-vtk-viewer-StaleWhileRevalidate',
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 7 * 24 * 60 * 60 * 2,
-              },
-            },
+            from: path.join(
+              __dirname,
+              'node_modules',
+              'itk-wasm',
+              'dist',
+              'web-workers'
+            ),
+            to: path.join(__dirname, 'dist', 'itk', 'web-workers'),
+          },
+          {
+            from: path.join(__dirname, 'node_modules', 'itk-image-io'),
+            to: path.join(__dirname, 'dist', 'itk', 'image-io'),
+          },
+          {
+            from: path.join(__dirname, 'node_modules', 'itk-mesh-io'),
+            to: path.join(__dirname, 'dist', 'itk', 'mesh-io'),
+          },
+          {
+            from: path.join(
+              __dirname,
+              'src',
+              'Compression',
+              'blosc-zarr',
+              'web-build'
+            ),
+            to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
+          },
+          {
+            from: path.join(__dirname, 'src', 'IO', 'Downsample', 'web-build'),
+            to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
           },
         ],
       }),
+      // workbox plugin should be last plugin.  Don't create in development to avoid warining with devServer --watch
+      argv.mode !== 'development'
+        ? new GenerateSW({
+            cacheId: 'itk-vtk-viewer-',
+            cleanupOutdatedCaches: true,
+            maximumFileSizeToCacheInBytes: 10000000,
+            include: [/(\.js|\.html|\.jpg|\.png)$/],
+            exclude: ['serviceWorker.js', /workbox-.*\.js/],
+            swDest: path.join(__dirname, 'dist', 'serviceWorker.js'),
+            runtimeCaching: [
+              {
+                urlPattern: /(\.js|\.png|\.wasm)$/,
+                handler: 'StaleWhileRevalidate',
+                options: {
+                  cacheName: 'itk-vtk-viewer-StaleWhileRevalidate',
+                  expiration: {
+                    maxEntries: 50,
+                    maxAgeSeconds: 7 * 24 * 60 * 60 * 2,
+                  },
+                },
+              },
+            ],
+          })
+        : undefined,
       new WebPackBar(),
-    ],
+    ].filter(Boolean), // filter removes optional workbox placehoder
     performance,
     devServer,
   },
@@ -151,10 +178,17 @@ module.exports = [
     resolve: {
       modules: [path.resolve(__dirname, 'node_modules')],
       alias: {
-        './itkConfig$': path.resolve(__dirname, 'src', 'itkConfigCDN.js'),
+        '../itkConfig.js': itkConfigCDN,
+        '../../itkConfig.js': itkConfigCDN,
       },
-      fallback: { fs: false, stream: require.resolve('stream-browserify') },
+      fallback,
     },
+    plugins: [
+      new webpack.DefinePlugin({
+        __itk_version__: JSON.stringify(packageJSON.dependencies['itk-wasm']),
+        __itk_vtk_viewer_version__: JSON.stringify(packageJSON.version),
+      }),
+    ],
     performance,
   },
 ]

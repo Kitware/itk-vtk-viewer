@@ -1,4 +1,4 @@
-import macro from 'vtk.js/Sources/macro'
+import macro from 'vtk.js/Sources/macros'
 
 import vtkViewProxy from 'vtk.js/Sources/Proxy/Core/ViewProxy'
 import vtkPointPicker from 'vtk.js/Sources/Rendering/Core/PointPicker'
@@ -6,7 +6,6 @@ import vtkActor from 'vtk.js/Sources/Rendering/Core/Actor'
 import vtkCubeSource from 'vtk.js/Sources/Filters/Sources/CubeSource'
 import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper'
 import vtkCoordinate from 'vtk.js/Sources/Rendering/Core/Coordinate'
-import * as vtkMath from 'vtk.js/Sources/Common/Core/Math'
 import vtkPolyData from 'vtk.js/Sources/Common/DataModel/PolyData'
 import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 import vtkAxesLabelsWidget from './AxesLabelsWidget'
@@ -113,10 +112,10 @@ function ItkVtkViewProxy(publicAPI, model) {
       updateAxesVisibility()
     }
 
-    // volume rendering
     if (axisIndex === -1) {
+      // volume rendering
       model.interactor.setInteractorStyle(model.interactorStyle3D)
-      if (model.rotate && !!!model.rotateAnimationCallback) {
+      if (model.rotate && !model.rotateAnimationCallback) {
         model.rotateAnimationCallback = model.interactor.onAnimation(
           rotateAzimuth
         )
@@ -144,6 +143,7 @@ function ItkVtkViewProxy(publicAPI, model) {
         }
       }
     } else {
+      // slice views
       model.camera.setParallelProjection(true)
       publicAPI.setCornerAnnotation('se', model.seCornerAnnotation)
       model.interactor.setInteractorStyle(model.interactorStyle2D)
@@ -162,6 +162,11 @@ function ItkVtkViewProxy(publicAPI, model) {
           }
         })
       }
+
+      // Disable to avoid Warning: Resetting view-up since view plane normal is parallel
+      const previousState = model.orientationWidget.getEnabled()
+      model.orientationWidget.setEnabled(false)
+
       switch (axisIndex) {
         case 0:
           publicAPI.updateOrientation(0, 1, [0, 0, 1])
@@ -179,6 +184,8 @@ function ItkVtkViewProxy(publicAPI, model) {
         default:
           vtkErrorMacro('Unexpected view mode')
       }
+
+      model.orientationWidget.setEnabled(previousState)
     }
   }
 
@@ -326,6 +333,13 @@ function ItkVtkViewProxy(publicAPI, model) {
     model.axesPolyData.getVerts().setData(verts)
     model.axesPolyData.getLines().setData(new Uint32Array(axesLines))
 
+    const axesNames = Object.fromEntries(
+      ['x', 'y', 'z'].map(axis => [
+        axis,
+        model.axesNames?.get(axis) ?? axis.toUpperCase(),
+      ])
+    )
+
     const minPointText = minPoint.map(point => numberToText(point, 2))
     const maxPointText = maxPoint.map(point => numberToText(point, 2))
     model.axesOriginHandle.setOrigin(minPoint)
@@ -338,26 +352,31 @@ function ItkVtkViewProxy(publicAPI, model) {
     model.axesXOriginHandle.setOrigin(minPoint)
     model.axesXOriginHandle.setText('')
     model.axesXHandle.setOrigin([maxPoint[0], minPoint[1], minPoint[2]])
-    model.axesXYText = `X, Z: ${maxPointText[0]}, ${minPointText[2]}`
-    model.axesXZText = `X, Y: ${maxPointText[0]}, ${minPointText[1]}`
-    model.axesXVText = `X: ${maxPointText[0]}, ${minPointText[1]}, ${minPointText[2]}`
+    model.axesXYText = `${axesNames.x}: ${maxPointText[0]}, ${axesNames.z}: ${minPointText[2]}`
+    model.axesXZText = `${axesNames.x}: ${maxPointText[0]}, ${axesNames.y}: ${minPointText[1]}`
+    model.axesXVText = `${axesNames.x}: ${maxPointText[0]}, ${minPointText[1]}, ${minPointText[2]}`
     model.axesXHandle.setText(model.axesXVText)
 
     model.axesYOriginHandle.setOrigin(minPoint)
     model.axesYOriginHandle.setText('')
     model.axesYHandle.setOrigin([minPoint[0], maxPoint[1], minPoint[2]])
-    model.axesYXText = `Y, Z: ${maxPointText[1]}, ${minPointText[2]}`
-    model.axesYZText = `X, Y: ${minPointText[0]}, ${maxPointText[1]}`
-    model.axesYVText = `Y: ${minPointText[0]}, ${maxPointText[1]}, ${minPointText[2]}`
+    model.axesYXText = `${axesNames.y}: ${maxPointText[1]}, ${axesNames.z}: ${minPointText[2]}`
+    model.axesYZText = `${axesNames.x}: ${minPointText[0]}, ${axesNames.y}: ${maxPointText[1]}`
+    model.axesYVText = `${axesNames.y}: ${minPointText[0]}, ${maxPointText[1]}, ${minPointText[2]}`
     model.axesYHandle.setText(model.axesYVText)
 
     model.axesZOriginHandle.setOrigin(minPoint)
     model.axesZOriginHandle.setText('')
     model.axesZHandle.setOrigin([minPoint[0], minPoint[1], maxPoint[2]])
-    model.axesZXText = `Y, Z: ${minPointText[1]}, ${maxPointText[2]}`
-    model.axesZYText = `X, Z: ${minPointText[0]}, ${maxPointText[2]}`
-    model.axesZVText = `Z: ${minPointText[0]}, ${minPointText[1]}, ${maxPointText[2]}`
+    model.axesZXText = `${axesNames.y}: ${minPointText[1]}, ${axesNames.z}: ${maxPointText[2]}`
+    model.axesZYText = `${axesNames.x}: ${minPointText[0]}, ${axesNames.z}: ${maxPointText[2]}`
+    model.axesZVText = `${axesNames.z}: ${minPointText[0]}, ${minPointText[1]}, ${maxPointText[2]}`
     model.axesZHandle.setText(model.axesZVText)
+  }
+
+  publicAPI.setAxesNames = axes => {
+    model.axesNames = axes
+    updateAxes()
   }
 
   // Setup --------------------------------------------------------------------
@@ -378,7 +397,7 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.annotationPicker = vtkPointPicker.newInstance()
   model.annotationPicker.setPickFromList(1)
   model.annotationPicker.initializePickList()
-  model.interactor.onLeftButtonPress(event => {
+  model.interactor.onLeftButtonPress(() => {
     if (model.clickCallback && model.lastPickedValues) {
       model.clickCallback(model.lastPickedValues)
     }
@@ -386,17 +405,17 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.interactor.onMouseMove(event => {
     updateAnnotations(event)
   })
-  model.interactor.onStartMouseMove(event => {
+  model.interactor.onStartMouseMove(() => {
     if (model.viewMode !== 'Volume' || model.viewPlanes) {
       publicAPI.getInteractor().requestAnimation('annotationMouseMove')
     }
   })
-  model.interactor.onEndMouseMove(event => {
+  model.interactor.onEndMouseMove(() => {
     if (model.viewMode !== 'Volume' || model.viewPlanes) {
       publicAPI.getInteractor().cancelAnimation('annotationMouseMove')
     }
   })
-  model.interactor.onEndMouseWheel(event => {
+  model.interactor.onEndMouseWheel(() => {
     updateDataProbeSize()
   })
 
@@ -972,7 +991,7 @@ function ItkVtkViewProxy(publicAPI, model) {
       model.interactor.requestAnimation('itk-vtk-view-rotate')
     } else {
       model.interactor.cancelAnimation('itk-vtk-view-rotate')
-      if (!!model.rotateAnimationCallback) {
+      if (model.rotateAnimationCallback) {
         model.rotateAnimationCallback.unsubscribe()
         model.rotateAnimationCallback = null
       }
@@ -987,7 +1006,6 @@ function ItkVtkViewProxy(publicAPI, model) {
     }
   }
 
-  const superResize = publicAPI.resize
   publicAPI.resize = () => {
     if (model.container) {
       const dims = model.container.getBoundingClientRect()
@@ -1036,6 +1054,7 @@ const DEFAULT_VALUES = {
   widgetManagerInitializedCallback: null,
   enableAxes: false,
   xyLowerLeft: false,
+  axesNames: null,
 }
 
 // ----------------------------------------------------------------------------
@@ -1062,6 +1081,7 @@ export function extend(publicAPI, model, initialValues = {}) {
     'labelIndex',
     'clickCallback',
     'xyLowerLeft',
+    'axesNames',
   ])
 
   // Object specific methods

@@ -1,27 +1,41 @@
-import * as vtkMath from 'vtk.js/Sources/Common/Core/Math'
+import DistanceWidget from './DistanceWidget/DistanceWidget'
+
+let valueChangedSubscription
 
 function toggleDistanceWidget(context) {
+  const {
+    widgets: { distanceWidget },
+  } = context
+  const widgetManager = context.itkVtkView.getWidgetManager()
   if (context.widgets.distanceEnabled) {
-    context.widgets.distanceWidget.setEnabled(true)
-    context.widgets.distanceWidget.onInteractionEvent(() => {
-      const distanceRep = context.widgets.distanceRepresentation
-      const distancePoint1 = distanceRep.getPoint1WorldPosition()
-      const distancePoint2 = distanceRep.getPoint2WorldPosition()
-      const p1Position = distancePoint1
-      const p2Position = distancePoint2
-      const delta = Math.sqrt(
-        vtkMath.distance2BetweenPoints(p1Position, p2Position)
-      ).toFixed(3)
-      context.service.send({
-        type: 'DISTANCE_WIDGET_VALUE_CHANGED',
-        data: delta,
+    const distanceWidget = DistanceWidget.newInstance()
+    context.widgets.distanceWidget = distanceWidget
+    widgetManager.addWidget(distanceWidget)
+
+    valueChangedSubscription = distanceWidget
+      .getWidgetState()
+      .onModified(() => {
+        context.service.send({
+          type: 'DISTANCE_WIDGET_VALUE_CHANGED',
+          data: distanceWidget.getDistance().toFixed(3),
+        })
       })
-    })
-    if (context.widgets.distanceValue === 0.0) {
-      context.widgets.distanceWidget.setWidgetStateToStart()
-    }
+
+    widgetManager.grabFocus(distanceWidget)
+
+    // Avoid appearing under the x slice
+    const firstSlice = context.images.representationProxy.getActors()[0]
+    const xCoord = firstSlice.getBoundsForSlice()[0]
+    distanceWidget.getManipulator().setHandleOrigin([xCoord, 0, 0])
   } else {
-    context.widgets.distanceWidget.setEnabled(false)
+    valueChangedSubscription.unsubscribe()
+    widgetManager.removeWidget(distanceWidget)
+    distanceWidget.delete()
+
+    context.service.send({
+      type: 'DISTANCE_WIDGET_VALUE_CHANGED',
+      data: 0,
+    })
   }
 
   context.service.send('RENDER')

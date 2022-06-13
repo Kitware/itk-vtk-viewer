@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract'
-import getFileExtension from 'itk/getFileExtension'
+import { readImageArrayBuffer } from 'itk-wasm'
 
 import fetchBinaryContent from './IO/fetchBinaryContent'
 import fetchJsonContent from './IO/fetchJsonContent'
@@ -9,11 +9,11 @@ import { processFiles } from './IO/processFiles'
 import UserInterface from './UserInterface'
 import createFileDragAndDrop from './UserInterface/createFileDragAndDrop'
 import style from './UserInterface/ItkVtkViewer.module.css'
-import toMultiscaleChunkedImage from './IO/toMultiscaleChunkedImage'
-import readImageArrayBuffer from 'itk/readImageArrayBuffer'
-import createViewer from './createViewer'
+import toMultiscaleSpatialImage from './IO/toMultiscaleSpatialImage'
+import { isZarr } from './IO/ZarrMultiscaleSpatialImage'
 
 import imJoyPluginAPI from './imJoyPluginAPI'
+import imJoyCodecs from './imJoyCodecs.js'
 import packageJson from '../package.json'
 const { version } = packageJson
 
@@ -21,6 +21,7 @@ let doNotInitViewers = false
 
 export { version }
 export { imJoyPluginAPI }
+export { imJoyCodecs }
 export { default as createViewer } from './createViewer'
 import * as utils from './utils.js'
 export { utils }
@@ -43,40 +44,40 @@ export async function createViewerFromUrl(
   el,
   {
     files = [],
-    image,
+    images = [],
     labelImage,
     config,
     labelImageNames = null,
     rotate = true,
     use2D = false,
+    ...rest
   }
 ) {
   UserInterface.emptyContainer(el)
   const progressCallback = UserInterface.createLoadingProgress(el)
 
-  let imageObject = null
-  if (!!image) {
-    const extension = getFileExtension(image)
-    if (extension === 'zarr') {
-      imageObject = await toMultiscaleChunkedImage(new URL(image))
-    } else {
-      const arrayBuffer = await fetchBinaryContent(image, progressCallback)
+  const imageFiles = await Promise.all(
+    images.map(async imageUrl => {
+      if (isZarr(imageUrl)) {
+        return await toMultiscaleSpatialImage(
+          new URL(imageUrl, document.location)
+        )
+      }
       const result = await readImageArrayBuffer(
         null,
-        arrayBuffer,
-        image.split('/').slice(-1)[0]
+        await fetchBinaryContent(imageUrl, progressCallback),
+        imageUrl.split('/').slice(-1)[0]
       )
       result.webWorker.terminate()
-      imageObject = result.image
-    }
-  }
+      return result.image
+    })
+  )
 
   let labelImageObject = null
-  if (!!labelImage) {
-    const extension = getFileExtension(labelImage)
-    if (extension === 'zarr') {
-      labelImageObject = await toMultiscaleChunkedImage(
-        new URL(labelImage),
+  if (labelImage) {
+    if (isZarr(labelImage)) {
+      labelImageObject = await toMultiscaleSpatialImage(
+        new URL(labelImage, document.location),
         true
       )
     } else {
@@ -93,9 +94,10 @@ export async function createViewerFromUrl(
 
   const fileObjects = []
   for (const url of files) {
-    const extension = getFileExtension(url)
-    if (extension === 'zarr') {
-      imageObject = await toMultiscaleChunkedImage(new URL(url))
+    if (isZarr(url)) {
+      imageFiles.push(
+        await toMultiscaleSpatialImage(new URL(url, document.location))
+      )
     } else {
       const arrayBuffer = await fetchBinaryContent(url, progressCallback)
       fileObjects.push(
@@ -113,20 +115,24 @@ export async function createViewerFromUrl(
   }
 
   let labelImageNameObject = null
-  if (!!labelImageNames) {
+  if (labelImageNames) {
     labelImageNameObject = await fetchJsonContent(labelImageNames)
   }
 
   return processFiles(el, {
     files: fileObjects,
-    image: imageObject,
+    images: imageFiles,
     labelImage: labelImageObject,
     config: viewerConfig,
     labelImageNames: labelImageNameObject,
     rotate,
     use2D,
+    ...rest,
   })
 }
+
+const parseBoolean = datasetValue =>
+  datasetValue !== undefined ? datasetValue.toLowerCase() === 'true' : undefined
 
 export function initializeEmbeddedViewers() {
   if (doNotInitViewers) {
@@ -146,7 +152,8 @@ export function initializeEmbeddedViewers() {
       const files = el.dataset.url.split(',')
       createViewerFromUrl(el, {
         files,
-        use2D: !!el.dataset.use2D,
+        use2D: parseBoolean(el.dataset.use2d),
+        rotate: parseBoolean(el.dataset.rotate),
       }).then(viewer => {
         // Background color handling
         if (el.dataset.backgroundColor) {
@@ -176,37 +183,28 @@ export function processURLParameters(container, addOnParameters = {}) {
     vtkURLExtract.extractURLParameters(),
     addOnParameters
   )
+
+  if (userParams.gradientOpacity && isNaN(userParams.gradientOpacity))
+    throw new Error('gradientOpacity URL paramter is not a number')
+
   const myContainer = UserInterface.getRootContainer(container)
 
   if (userParams.fullscreen) {
     myContainer.classList.add(style.fullscreenContainer)
   }
 
-  let filesToLoad = []
-  if (userParams.fileToLoad) {
-    filesToLoad = userParams.fileToLoad.split(',')
-  }
-  if (userParams.filesToLoad) {
-    filesToLoad = userParams.filesToLoad.split(',')
-  }
-  let rotate = true
-  if (typeof userParams.rotate !== 'undefined') {
-    rotate = userParams.rotate
-  }
-  let config = null
-  if (typeof userParams.config !== 'undefined') {
-    config = userParams.config
-  }
+  const files = userParams.fileToLoad?.split(',') ?? []
 
-  if (filesToLoad.length || userParams.image || userParams.labelImage) {
+  if (files.length || userParams.image || userParams.labelImage) {
     return createViewerFromUrl(myContainer, {
-      files: filesToLoad,
-      image: userParams.image,
+      files,
+      images: userParams.image?.split(','),
       labelImage: userParams.labelImage,
-      config,
+      config: userParams.config,
       labelImageNames: userParams.labelImageNames,
-      rotate,
+      rotate: userParams.rotate ?? true,
       use2D: !!userParams.use2D,
+      gradientOpacity: userParams.gradientOpacity,
     })
   }
   return null

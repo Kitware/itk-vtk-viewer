@@ -1,7 +1,6 @@
 import { Machine, assign, spawn, send } from 'xstate'
 
-import IntTypes from 'itk/IntTypes'
-import PixelTypes from 'itk/PixelTypes'
+import { PixelTypes } from 'itk-wasm'
 
 import createLayerUIActor from './createLayerUIActor'
 import LayerActorContext from '../../Context/LayerActorContext'
@@ -162,17 +161,34 @@ const assignImageContext = assign({
             colorMap = 'BkCy'
             break
         }
-      } else if (components === 3 && actorContext.independentComponents) {
-        switch (component) {
-          case 0:
-            colorMap = 'BkRd'
-            break
-          case 1:
-            colorMap = 'BkGn'
-            break
-          case 2:
-            colorMap = 'BkBu'
-            break
+      } else if (actorContext.independentComponents) {
+        if (components === 3) {
+          switch (component) {
+            case 0:
+              colorMap = 'BkRd'
+              break
+            case 1:
+              colorMap = 'BkGn'
+              break
+            case 2:
+              colorMap = 'BkBu'
+              break
+          }
+        } else if (components === 4) {
+          switch (component) {
+            case 0:
+              colorMap = 'BkRd'
+              break
+            case 1:
+              colorMap = 'BkGn'
+              break
+            case 2:
+              colorMap = 'BkBu'
+              break
+            case 3:
+              colorMap = 'Grayscale'
+              break
+          }
         }
       }
       actorContext.colorMaps.set(component, colorMap)
@@ -194,7 +210,7 @@ const assignImageContext = assign({
           height: 1.0,
           width: 0.5,
           xBias: 0.0,
-          yBias: 3.0,
+          yBias: 2.0,
         })
       } else {
         gaussians.push({

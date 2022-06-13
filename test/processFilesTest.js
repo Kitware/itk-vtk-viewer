@@ -1,8 +1,7 @@
 import test from 'tape-catch'
 import axios from 'axios'
 
-import FloatTypes from 'itk/FloatTypes'
-import PixelTypes from 'itk/PixelTypes'
+import { FloatTypes, PixelTypes } from 'itk-wasm'
 
 const testVtiPath = 'base/test/data/input/test.vti'
 
@@ -33,5 +32,5 @@ test('Test reading a vti image file', async t => {
   })
   const vtiFile = new File([response.data], 'test.vti')
   const result = await readFiles({ files: [vtiFile] })
-  verifyImage(t, result.image)
+  verifyImage(t, result.images[0])
 })

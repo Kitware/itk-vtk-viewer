@@ -1,0 +1,24 @@
+html, body {
+  height: 90%;
+}
+
+textarea {
+  resize: none;
+  overflow-y: scroll;
+  position: absolute;
+  box-sizing: border-box;
+  width: 600px;
+  height: 400px;
+  bottom: 0px;
+  left: 0px;
+  top: 50px;
+}
+
+#outputViewer {
+  position: relative;
+  box-sizing: border-box;
+  height: 500px;
+  width: 600px;
+  left: 5px;
+  top: 450px;
+}

@@ -1,5 +1,5 @@
 import ComputeRangeWorker from './ComputeRange.worker'
-const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
+const haveSharedArrayBuffer = typeof globalThis.SharedArrayBuffer === 'function'
 import webWorkerPromiseWorkerPool from './webWorkerPromiseWorkerPool'
 
 const numberOfWorkers = navigator.hardwareConcurrency
@@ -35,13 +35,11 @@ async function computeRange(values, component = 0, numberOfComponents = 1) {
     for (let split = 0; split < numberOfSplits; split++) {
       const arrayStart = arrayIndex
       const arrayEnd = Math.min(arrayIndex + arrayStride, values.length - 1)
-      const subArray = new values.constructor(
-        values.slice(arrayStart, arrayEnd + 1)
-      )
+      const subArray = values.slice(arrayStart, arrayEnd + 1)
       taskArgs[split] = [
         {
-          split,
-          numberOfSplits,
+          split: 0, // 0 because array already split
+          numberOfSplits: 1,
           values: subArray,
           component,
           numberOfComponents,

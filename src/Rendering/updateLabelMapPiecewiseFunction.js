@@ -9,7 +9,6 @@ function updateLabelMapPiecewiseFunction(store, selectedIndices = null) {
 
   const piecewiseFunction = store.imageUI.piecewiseFunction
   const uniqueLabels = store.imageUI.labelMapLabels
-  const labelMapWeights = store.imageUI.labelMapWeights
 
   let minLabelWeight = 0.0
   let maxLabelWeight = 1.0
@@ -23,12 +22,10 @@ function updateLabelMapPiecewiseFunction(store, selectedIndices = null) {
 
   if (selectedIndices === null || selectedIndices === 'all') {
     // Update all values from the store
-    const maxOpacity = 1.0
-    const haveBackground = uniqueLabels[0] === 0 ? true : false
-
     piecewiseFunction.removeAllPoints()
 
-    if (haveBackground) {
+    const hasBackground = uniqueLabels[0] === 0
+    if (hasBackground) {
       piecewiseFunction.addPointLong(uniqueLabels[0], 0.0, 0.5, 1.0)
     } else {
       piecewiseFunction.addPointLong(

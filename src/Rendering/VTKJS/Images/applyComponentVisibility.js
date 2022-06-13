@@ -24,19 +24,15 @@ function applyComponentVisibility(context, event) {
   if (context.images.representationProxy) {
     const fusedImageIndex = visualizedComponents.indexOf(index)
     const sliceActors = context.images.representationProxy.getActors()
-    sliceActors.forEach((actor, actorIdx) => {
+    sliceActors.forEach(actor => {
       const actorProp = actor.getProperty()
       actorProp.setComponentWeight(fusedImageIndex, weight)
     })
 
     const volumeProps = context.images.representationProxy.getVolumes()
-    volumeProps.forEach((volume, volIdx) => {
+    volumeProps.forEach(volume => {
       const volumeProperty = volume.getProperty()
       volumeProperty.setComponentWeight(fusedImageIndex, weight)
-      volumeProperty.setOpacityMode(
-        componentVisibilities.length,
-        OpacityMode.PROPORTIONAL
-      )
 
       if (!!context.images.labelImage || !!context.images.editorLabelImage) {
         let componentsVisible = false

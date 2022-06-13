@@ -1,7 +1,7 @@
 import test from 'tape-catch'
 import axios from 'axios'
 
-import itkreadImageArrayBuffer from 'itk/readImageArrayBuffer'
+import { readImageArrayBuffer } from 'itk-wasm'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import testUtils from 'vtk.js/Sources/Testing/testUtils'
 
@@ -54,7 +54,7 @@ test('Test ImJoy Plugin', async t => {
   const response = await axios.get(testImage3DPath, {
     responseType: 'arraybuffer',
   })
-  const { image: itkImage, webWorker } = await itkreadImageArrayBuffer(
+  const { image: itkImage, webWorker } = await readImageArrayBuffer(
     null,
     response.data,
     'data.nrrd'

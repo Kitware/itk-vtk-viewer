@@ -2,7 +2,6 @@ import { inspect } from '@xstate/inspect'
 import { interpret } from 'xstate'
 
 import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager'
-import macro from 'vtk.js/Sources/macro'
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
 import ResizeSensor from 'css-element-queries/src/ResizeSensor'
@@ -12,7 +11,6 @@ import UserInterface from './UserInterface'
 import createLabelMapColorWidget from './UserInterface/Image/createLabelMapColorWidget'
 import createLabelMapWeightWidget from './UserInterface/Image/createLabelMapWeightWidget'
 import createPlaneIndexSliders from './UserInterface/Image/createPlaneIndexSliders'
-import updateTransferFunctionWidget from './UserInterface/Image/updateTransferFunctionWidget'
 import addKeyboardShortcuts from './UI/addKeyboardShortcuts'
 import rgb2hex from './UserInterface/rgb2hex'
 import hex2rgb from './UserInterface/hex2rgb'
@@ -21,25 +19,30 @@ import createLabelMapRendering from './Rendering/createLabelMapRendering'
 import updateLabelMapComponentWeight from './Rendering/updateLabelMapComponentWeight'
 import updateLabelMapPiecewiseFunction from './Rendering/updateLabelMapPiecewiseFunction'
 
-import toMultiscaleChunkedImage from './IO/toMultiscaleChunkedImage'
+import toMultiscaleSpatialImage from './IO/toMultiscaleSpatialImage'
 import viewerMachineOptions from './viewerMachineOptions'
 import createViewerMachine from './createViewerMachine'
 import ViewerMachineContext from './Context/ViewerMachineContext'
 
-import { autorun, observable, reaction, toJS } from 'mobx'
+import { autorun, reaction, toJS } from 'mobx'
+import { ConglomerateMultiscaleSpatialImage } from './IO/ConglomerateMultiscaleSpatialImage'
 
 const createViewer = async (
   rootContainer,
   {
-    image,
+    image: loneImage,
+    images: imageArray = [],
     labelImage,
     geometries,
     pointSets,
     use2D = false,
     rotate = true,
     config,
+    gradientOpacity,
   }
 ) => {
+  const images = [...imageArray, loneImage].filter(Boolean) // filter to remove undefined 'image' arg
+
   UserInterface.emptyContainer(rootContainer)
   if (!UserInterface.checkForWebGL(rootContainer)) {
     throw new Error('WebGL could not be loaded.')
@@ -68,7 +71,7 @@ const createViewer = async (
   // Migrate to a module
   const eventEmitter = store.eventEmitter
 
-  function eventEmitterCallback(context, event) {
+  function eventEmitterCallback(context /*, event*/) {
     return (callback, onReceive) => {
       onReceive(event => {
         switch (event.type) {
@@ -212,10 +215,6 @@ const createViewer = async (
   const machine = createViewerMachine(options, context, eventEmitterCallback)
   const service = interpret(machine, { devTools: debug })
   context.service = service
-  //console.log(options)
-  //console.log(context)
-  //console.log(machine)
-  //console.log(service)
   service.start()
 
   let updatingImage = false
@@ -256,12 +255,12 @@ const createViewer = async (
     },
 
     fusedImage => {
-      if (!!!fusedImage) {
+      if (!fusedImage) {
         return
       }
 
       let initialRender = false
-      if (!!!store.imageUI.representationProxy) {
+      if (!store.imageUI.representationProxy) {
         initialRender = true
         store.imageUI.source.setInputData(fusedImage)
 
@@ -282,12 +281,12 @@ const createViewer = async (
         annotationContainer.style.fontFamily = 'monospace'
       }
 
-      if (!!labelMapNames) {
+      if (labelMapNames) {
         store.itkVtkView.setLabelNames(labelMapNames)
       }
 
       // if (!!store.imageUI.image && !!!store.imageUI.lookupTableProxies.length) {
-      if (!!store.imageUI.image) {
+      if (store.imageUI.image) {
         createImageRendering(store, use2D)
         updateVolumeProperties(store)
       }
@@ -296,20 +295,20 @@ const createViewer = async (
       //   !!store.imageUI.labelMap &&
       //   !!!store.imageUI.labelMapLookupTableProxy
       // ) {
-      if (!!store.imageUI.labelMap) {
+      if (store.imageUI.labelMap) {
         createLabelMapRendering(store)
       }
 
-      if (!!store.imageUI.image && !!!store.imageUI.imageUIGroup) {
+      if (!!store.imageUI.image && !store.imageUI.imageUIGroup) {
         UserInterface.createImageUI(store, use2D, context.uiContainer)
       }
 
-      if (!!store.imageUI.labelMap && !!!store.imageUI.labelMapColorUIGroup) {
+      if (!!store.imageUI.labelMap && !store.imageUI.labelMapColorUIGroup) {
         createLabelMapColorWidget(store, context.uiContainer)
         createLabelMapWeightWidget(store, context.uiContainer)
       }
 
-      if (!use2D && !!!store.imageUI.placeIndexUIGroup) {
+      if (!use2D && !store.imageUI.placeIndexUIGroup) {
         createPlaneIndexSliders(store, context.uiContainer)
       }
 
@@ -373,10 +372,18 @@ const createViewer = async (
       }
     }
   )
-  let imageName = null
+
+  const multiscaleImages = await Promise.all(
+    images.map(image => toMultiscaleSpatialImage(image))
+  )
+
+  const image =
+    multiscaleImages.length > 1
+      ? new ConglomerateMultiscaleSpatialImage(multiscaleImages)
+      : multiscaleImages[0]
+
   if (image) {
-    const multiscaleImage = await toMultiscaleChunkedImage(image)
-    imageName = multiscaleImage.name
+    const multiscaleImage = await toMultiscaleSpatialImage(image)
     service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
     if (multiscaleImage.scaleInfo[0].ranges) {
       const components = multiscaleImage.imageType.components
@@ -384,18 +391,18 @@ const createViewer = async (
         const range = multiscaleImage.scaleInfo[0].ranges[comp]
         service.send({
           type: 'IMAGE_COLOR_RANGE_CHANGED',
-          data: { name: imageName, component: comp, range },
+          data: { name: image?.name, component: comp, range },
         })
         service.send({
           type: 'IMAGE_COLOR_RANGE_BOUNDS_CHANGED',
-          data: { name: imageName, component: comp, range },
+          data: { name: image?.name, component: comp, range },
         })
       }
     }
   }
 
   if (labelImage) {
-    const multiscaleLabelImage = await toMultiscaleChunkedImage(
+    const multiscaleLabelImage = await toMultiscaleSpatialImage(
       labelImage,
       true
     )
@@ -404,7 +411,7 @@ const createViewer = async (
     }
     service.send({
       type: 'ADD_LABEL_IMAGE',
-      data: { imageName, labelImage: multiscaleLabelImage },
+      data: { imageName: image?.name, labelImage: multiscaleLabelImage },
     })
   }
 
@@ -423,16 +430,16 @@ const createViewer = async (
     },
 
     async ({ multiscaleImage, multiscaleLabelMap }) => {
-      if (!!!multiscaleImage && !!!multiscaleLabelMap) {
+      if (!multiscaleImage && !multiscaleLabelMap) {
         return
       }
-      if (!!multiscaleLabelMap) {
+      if (multiscaleLabelMap) {
         const topLevelImage = await multiscaleLabelMap.topLevelLargestImage()
         const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage)
         store.imageUI.labelMap = imageData
         updateVisualizedComponents(store)
       }
-      if (!!multiscaleImage) {
+      if (multiscaleImage) {
         const topLevelImage = await multiscaleImage.topLevelLargestImage()
         const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage)
         store.imageUI.image = imageData
@@ -454,7 +461,7 @@ const createViewer = async (
     () =>
       !!store.geometriesUI.geometries && store.geometriesUI.geometries.slice(),
     geometries => {
-      if (!!!geometries || geometries.length === 0) {
+      if (!geometries || geometries.length === 0) {
         return
       }
 
@@ -517,7 +524,7 @@ const createViewer = async (
   reaction(
     () => !!store.pointSetsUI.pointSets && store.pointSetsUI.pointSets.slice(),
     pointSets => {
-      if (!!!pointSets || pointSets.length === 0) {
+      if (!pointSets || pointSets.length === 0) {
         return
       }
 
@@ -858,7 +865,7 @@ const createViewer = async (
     if (typeof name === 'undefined' && context.images.selectedName) {
       name = context.images.selectedName
     }
-    const multiscaleImage = await toMultiscaleChunkedImage(image)
+    const multiscaleImage = await toMultiscaleSpatialImage(image)
     multiscaleImage.name = name
     if (context.images.actorContext.has(name)) {
       const actorContext = context.images.actorContext.get(name)
@@ -1341,6 +1348,11 @@ const createViewer = async (
 
   if (!use2D) {
     publicAPI.setRotateEnabled(rotate)
+  }
+
+  // check with isNaN as may be 0
+  if (!isNaN(gradientOpacity)) {
+    publicAPI.setImageGradientOpacity(gradientOpacity)
   }
 
   return publicAPI

@@ -3,12 +3,19 @@ import autoprefixer from 'autoprefixer'
 import postcss from 'rollup-plugin-postcss'
 import svgo from 'rollup-plugin-svgo'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
 import { babel } from '@rollup/plugin-babel'
+import ignore from 'rollup-plugin-ignore'
 
 export default {
   input: 'test/testUINoPlaneSliders.js',
   output: { file: 'test/testUINoPlaneSlidersBundle.js', format: 'es' },
   plugins: [
+    // ignore crypto module
+    ignore(['crypto']),
+    commonjs({
+      transformMixedEsModules: true,
+    }),
     babel({
       include: ['src/UI/reference-ui/src/**', 'test/testUINoPlaneSliders.js'],
       extensions: ['.js'],

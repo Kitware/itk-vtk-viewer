@@ -1,0 +1,41 @@
+{
+  "name": "itk-downsample",
+  "version": "1.0.1",
+  "description": "Downsample a 2D or 3D image",
+  "main": "downsample.js",
+  "type": "module",
+  "scripts": {
+    "build": "itk-wasm build",
+    "start": "http-server .",
+    "cypress:open": "npx cypress open",
+    "cypress:run": "npx cypress run --config defaultCommandTimeout=8000",
+    "browser:debug": "start-server-and-test start http://localhost:8080 cypress:open",
+    "test:browser": "start-server-and-test start http://localhost:8080 cypress:run",
+    "test": "npm run test:node && npm run test:nodeLabelImage && npm run test:browser",
+    "test:node": "node downsample.js ./cthead1.png downsample.png",
+    "test:nodeLabelImage": "node downsample.js -l ./cthead1-bin.png downsample-bin.png"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InsightSoftwareConsortium/itk-wasm.git"
+  },
+  "keywords": [
+    "multi-scale"
+  ],
+  "author": "Matt McCormick",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/InsightSoftwareConsortium/itk-wasm/issues"
+  },
+  "homepage": "https://github.com/InsightSoftwareConsortium/itk-wasm#readme",
+  "dependencies": {
+    "commander": "^9.1.0",
+    "itk-image-io": "^1.0.0-b.8",
+    "itk-wasm": "^1.0.0-b.8"
+  },
+  "devDependencies": {
+    "cypress": "^9.5.2",
+    "http-server": "^14.1.0",
+    "start-server-and-test": "^1.14.0"
+  }
+}

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract'
-import { getFileExtsion, readImageArrayBuffer } from 'itk-wasm'
+import { readImageArrayBuffer } from 'itk-wasm'
 
 import fetchBinaryContent from './IO/fetchBinaryContent'
 import fetchJsonContent from './IO/fetchJsonContent'
@@ -132,6 +132,9 @@ export async function createViewerFromUrl(
   })
 }
 
+const parseBoolean = datasetValue =>
+  datasetValue !== undefined ? datasetValue.toLowerCase() === 'true' : undefined
+
 export function initializeEmbeddedViewers() {
   if (doNotInitViewers) {
     return
@@ -150,7 +153,8 @@ export function initializeEmbeddedViewers() {
       const files = el.dataset.url.split(',')
       createViewerFromUrl(el, {
         files,
-        use2D: !!el.dataset.use2D,
+        use2D: parseBoolean(el.dataset.use2d),
+        rotate: parseBoolean(el.dataset.rotate),
       }).then(viewer => {
         // Background color handling
         if (el.dataset.backgroundColor) {

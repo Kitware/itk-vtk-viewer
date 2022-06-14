@@ -1,6 +1,6 @@
 import { reaction, action } from 'mobx'
 
-import macro from 'vtk.js/Sources/macro'
+import macro from 'vtk.js/Sources/macros'
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyle from '../applyContrastSensitiveStyle'
 

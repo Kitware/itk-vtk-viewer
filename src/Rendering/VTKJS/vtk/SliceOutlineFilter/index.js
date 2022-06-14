@@ -1,5 +1,7 @@
-import macro from 'vtk.js/Sources/macro'
+import macro from 'vtk.js/Sources/macros'
 import vtkPolyData from 'vtk.js/Sources/Common/DataModel/PolyData'
+import vtkMath from 'vtk.js/Sources/Common/Core/Math'
+import { SlicingMode } from 'vtk.js/Sources/Rendering/Core/ImageMapper/Constants'
 
 const { vtkErrorMacro } = macro
 
@@ -39,6 +41,37 @@ function vtkSliceOutlineFilter(publicAPI, model) {
   // Set our className
   model.classHierarchy.push('vtkOutlineFilter')
 
+  const spatialBoundsForSlice = (input, thickness = 0) => {
+    const image = input.getInputData()
+    if (!image) {
+      return vtkMath.createUninitializedBounds()
+    }
+    const extent = image.getSpatialExtent()
+    const { ijkMode } = input.getClosestIJKAxis()
+    let nSlice = input.getSlice()
+    if (ijkMode !== model.slicingMode) {
+      // If not IJK slicing, get the IJK slice from the XYZ position/slice
+      nSlice = input.getSliceAtPosition(nSlice)
+    }
+    switch (ijkMode) {
+      case SlicingMode.I:
+        extent[0] = nSlice - thickness
+        extent[1] = nSlice + thickness
+        break
+      case SlicingMode.J:
+        extent[2] = nSlice - thickness
+        extent[3] = nSlice + thickness
+        break
+      case SlicingMode.K:
+        extent[4] = nSlice - thickness
+        extent[5] = nSlice + thickness
+        break
+      default:
+        break
+    }
+    return image.extentToBounds(extent)
+  }
+
   publicAPI.requestData = (inData, outData) => {
     // implement requestData
     const input = inData[0]
@@ -48,7 +81,7 @@ function vtkSliceOutlineFilter(publicAPI, model) {
       return
     }
 
-    const bounds = input.getBoundsForSlice()
+    const bounds = spatialBoundsForSlice(input)
     const output = vtkPolyData.newInstance()
 
     output

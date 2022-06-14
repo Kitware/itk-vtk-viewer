@@ -1,4 +1,4 @@
-import macro from 'vtk.js/Sources/macro'
+import macro from 'vtk.js/Sources/macros'
 
 import vtkViewProxy from 'vtk.js/Sources/Proxy/Core/ViewProxy'
 import vtkPointPicker from 'vtk.js/Sources/Rendering/Core/PointPicker'
@@ -36,7 +36,7 @@ function ItkVtkViewProxy(publicAPI, model) {
   // Private --------------------------------------------------------------------
   //
   function updateAxesVisibility() {
-    if (!!!model.axesOriginWidget) {
+    if (!model.axesOriginWidget) {
       return
     }
     if (!model.enableAxes) {
@@ -112,10 +112,10 @@ function ItkVtkViewProxy(publicAPI, model) {
       updateAxesVisibility()
     }
 
-    // volume rendering
     if (axisIndex === -1) {
+      // volume rendering
       model.interactor.setInteractorStyle(model.interactorStyle3D)
-      if (model.rotate && !!!model.rotateAnimationCallback) {
+      if (model.rotate && !model.rotateAnimationCallback) {
         model.rotateAnimationCallback = model.interactor.onAnimation(
           rotateAzimuth
         )
@@ -143,6 +143,7 @@ function ItkVtkViewProxy(publicAPI, model) {
         }
       }
     } else {
+      // slice views
       model.camera.setParallelProjection(true)
       publicAPI.setCornerAnnotation('se', model.seCornerAnnotation)
       model.interactor.setInteractorStyle(model.interactorStyle2D)
@@ -161,6 +162,11 @@ function ItkVtkViewProxy(publicAPI, model) {
           }
         })
       }
+
+      // Disable to avoid Warning: Resetting view-up since view plane normal is parallel
+      const previousState = model.orientationWidget.getEnabled()
+      model.orientationWidget.setEnabled(false)
+
       switch (axisIndex) {
         case 0:
           publicAPI.updateOrientation(0, 1, [0, 0, 1])
@@ -178,6 +184,8 @@ function ItkVtkViewProxy(publicAPI, model) {
         default:
           vtkErrorMacro('Unexpected view mode')
       }
+
+      model.orientationWidget.setEnabled(previousState)
     }
   }
 
@@ -386,7 +394,7 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.annotationPicker = vtkPointPicker.newInstance()
   model.annotationPicker.setPickFromList(1)
   model.annotationPicker.initializePickList()
-  model.interactor.onLeftButtonPress(event => {
+  model.interactor.onLeftButtonPress(() => {
     if (model.clickCallback && model.lastPickedValues) {
       model.clickCallback(model.lastPickedValues)
     }
@@ -394,17 +402,17 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.interactor.onMouseMove(event => {
     updateAnnotations(event)
   })
-  model.interactor.onStartMouseMove(event => {
+  model.interactor.onStartMouseMove(() => {
     if (model.viewMode !== 'Volume' || model.viewPlanes) {
       publicAPI.getInteractor().requestAnimation('annotationMouseMove')
     }
   })
-  model.interactor.onEndMouseMove(event => {
+  model.interactor.onEndMouseMove(() => {
     if (model.viewMode !== 'Volume' || model.viewPlanes) {
       publicAPI.getInteractor().cancelAnimation('annotationMouseMove')
     }
   })
-  model.interactor.onEndMouseWheel(event => {
+  model.interactor.onEndMouseWheel(() => {
     updateDataProbeSize()
   })
 
@@ -955,7 +963,7 @@ function ItkVtkViewProxy(publicAPI, model) {
       model.interactor.requestAnimation('itk-vtk-view-rotate')
     } else {
       model.interactor.cancelAnimation('itk-vtk-view-rotate')
-      if (!!model.rotateAnimationCallback) {
+      if (model.rotateAnimationCallback) {
         model.rotateAnimationCallback.unsubscribe()
         model.rotateAnimationCallback = null
       }
@@ -970,7 +978,6 @@ function ItkVtkViewProxy(publicAPI, model) {
     }
   }
 
-  const superResize = publicAPI.resize
   publicAPI.resize = () => {
     if (model.container) {
       const dims = model.container.getBoundingClientRect()
@@ -1035,6 +1042,7 @@ export function extend(publicAPI, model, initialValues = {}) {
     'lengthPixelRatio',
     'axesActor',
     'enableAxes',
+    'widgetManager',
   ])
 
   macro.setGet(publicAPI, model, [

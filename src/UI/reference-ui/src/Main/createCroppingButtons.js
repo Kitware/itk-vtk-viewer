@@ -1,5 +1,5 @@
 import macro from '@kitware/vtk.js/macro'
-import vtkImageCroppingRegionsWidget from '@kitware/vtk.js/Interaction/Widgets/ImageCroppingRegionsWidget'
+import vtkImageCroppingWidget from '@kitware/vtk.js/Widgets/Widgets3D/ImageCroppingWidget'
 
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
@@ -10,7 +10,7 @@ function createCroppingButtons(context, mainUIRow) {
   const viewerDOMId = context.id
   const eventEmitter = context.eventEmitter
   function setupCroppingWidget() {
-    context.images.croppingWidget = vtkImageCroppingRegionsWidget.newInstance()
+    context.images.croppingWidget = vtkImageCroppingWidget.newInstance()
     context.images.croppingWidget.setHandleSize(16)
     context.images.croppingWidget.setFaceHandlesEnabled(false)
     context.images.croppingWidget.setEdgeHandlesEnabled(false)

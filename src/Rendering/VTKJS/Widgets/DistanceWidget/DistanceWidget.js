@@ -1,9 +1,9 @@
 import macro from 'vtk.js/Sources/macros'
-import vtkAbstractWidgetFactory from 'vtk.js/Sources/Widgets/Core/AbstractWidgetFactory'
+import vtkSphereHandleRepresentation from 'vtk.js/Sources/Widgets/Representations/SphereHandleRepresentation'
+import vtkDistanceWidget from 'vtk.js/Sources/Widgets/Widgets3D/DistanceWidget'
+import vtkDistanceWidgetBehavoir from 'vtk.js/Sources/Widgets/Widgets3D/DistanceWidget/behavior'
 import vtkPolyLineRepresentation from 'vtk.js/Sources/Widgets/Representations/PolyLineRepresentation'
-import vtkSVGMarkerTextRepresentation from '../SVGMarkerTextRepresentation'
 
-import widgetBehavior from './behavior'
 import stateGenerator from './state'
 
 import { ViewTypes } from 'vtk.js/Sources/Widgets/Core/WidgetManager/Constants'
@@ -12,15 +12,21 @@ import { ViewTypes } from 'vtk.js/Sources/Widgets/Core/WidgetManager/Constants'
 // Factory
 // ----------------------------------------------------------------------------
 
-function vtkAxesLabelsWidget(publicAPI, model) {
-  model.classHierarchy.push('vtkAxesLabelsWidget')
+function DistanceWidget(publicAPI, model) {
+  model.classHierarchy.push('DistanceWidget')
 
   // --- Widget Requirement ---------------------------------------------------
 
-  model.methodsToLink = ['circleProps', 'textProps', 'closePolyLine']
-  model.behavior = widgetBehavior
+  model.methodsToLink = [
+    ...(model.methodsToLink ?? []),
+    'circleProps',
+    'lineProps',
+    'textProps',
+    'text',
+    'textStateIndex',
+  ]
+  model.behavior = vtkDistanceWidgetBehavoir
   model.widgetState = stateGenerator()
-
   publicAPI.getRepresentationsForViewType = viewType => {
     switch (viewType) {
       case ViewTypes.DEFAULT:
@@ -29,51 +35,49 @@ function vtkAxesLabelsWidget(publicAPI, model) {
       case ViewTypes.VOLUME:
       default:
         return [
-          { builder: vtkSVGMarkerTextRepresentation, labels: ['handles'] },
+          {
+            builder: vtkSphereHandleRepresentation,
+            labels: ['handles'],
+            initialValues: {
+              scaleInPixels: true,
+            },
+          },
+          {
+            builder: vtkSphereHandleRepresentation,
+            labels: ['moveHandle'],
+            initialValues: {
+              scaleInPixels: true,
+            },
+          },
           {
             builder: vtkPolyLineRepresentation,
-            labels: ['handles'],
+            labels: ['handles', 'moveHandle'],
           },
         ]
     }
   }
-
-  // --------------------------------------------------------------------------
-  // initialization
-  // --------------------------------------------------------------------------
-
-  model.widgetState.onBoundsChange(bounds => {
-    const center = [
-      (bounds[0] + bounds[1]) * 0.5,
-      (bounds[2] + bounds[3]) * 0.5,
-      (bounds[4] + bounds[5]) * 0.5,
-    ]
-  })
-
-  // Default manipulator
-  //model.manipulator = vtkPlanePointManipulator.newInstance()
 }
 
 // ----------------------------------------------------------------------------
 
-const DEFAULT_VALUES = {
-  manipulator: null,
-}
+const DEFAULT_VALUES = {}
 
 // ----------------------------------------------------------------------------
 
 export function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues)
 
-  vtkAbstractWidgetFactory.extend(publicAPI, model, initialValues)
-  //macro.setGet(publicAPI, model, ['manipulator'])
+  vtkDistanceWidget.extend(publicAPI, model, {
+    ...initialValues,
+    useCameraFocalPoint: true,
+  })
 
-  vtkAxesLabelsWidget(publicAPI, model)
+  DistanceWidget(publicAPI, model)
 }
 
 // ----------------------------------------------------------------------------
 
-export const newInstance = macro.newInstance(extend, 'vtkAxesLabelsWidget')
+export const newInstance = macro.newInstance(extend, 'DistanceWidget')
 
 // ----------------------------------------------------------------------------
 

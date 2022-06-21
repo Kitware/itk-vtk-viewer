@@ -1,8 +1,6 @@
 import { PixelTypes } from 'itk-wasm'
 
-import MultiscaleSpatialImage, {
-  MAX_COMPONENT_COUNT,
-} from './MultiscaleSpatialImage'
+import MultiscaleSpatialImage from './MultiscaleSpatialImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
 import ZarrStoreParser from './ZarrStoreParser'
 import HttpStore from './HttpStore'
@@ -120,15 +118,6 @@ const createScaledImageInfo = async ({
 
   const chunkSize = toDimensionMap(dims, chunks)
   const arrayShape = toDimensionMap(dims, shape)
-
-  const componentsInData = arrayShape.get('c') ?? 1
-  const components = Math.min(componentsInData, MAX_COMPONENT_COUNT)
-  if (componentsInData !== components) {
-    console.warn(
-      `itk-vtk-viewer: ${componentsInData} components are not supported. Falling back to ${components} components.`
-    )
-    arrayShape.set('c', components)
-  }
 
   const axesNames = multiscaleSpatialImageVersion
     ? await findAxesLongNames({ dataset, dataSource, dims })

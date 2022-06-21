@@ -6,8 +6,6 @@ import WebworkerPromise from 'webworker-promise'
 import ImageDataFromChunksWorker from './ImageDataFromChunks.worker'
 import { CXYZT, toDimensionArray } from './dimensionUtils'
 
-export const MAX_COMPONENT_COUNT = 4
-
 const imageDataFromChunksWorker = new ImageDataFromChunksWorker()
 const imageDataFromChunksWorkerPromise = new WebworkerPromise(
   imageDataFromChunksWorker

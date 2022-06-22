@@ -17,9 +17,6 @@ export function createCropping(context) {
   context.main.sliceCroppingPlanes = Array.from({ length: 6 }, () =>
     vtkPlane.newInstance()
   )
-  // context.main.widgetCroppingPlanesFlip = Array.from({ length: 6 }, () =>
-  //   vtkPlane.newInstance()
-  // )
   context.itkVtkView.addWidgetToRegister(croppingWidget)
 
   croppingWidget
@@ -47,7 +44,7 @@ export function createCropping(context) {
   // image, if one exists, otherwise the extent of the croppingBoundingBox /
   // 1000 (is there a better approach for this?).
   //
-  // The Size of the virtualimage is such that it reaches the upper right
+  // The Size of the virtual image is such that it reaches the upper right
   // corner of the croppingBoundingBox.
   //
   // The croppingBoundingBox is an axis-aligned bounding box that encapsulates all
@@ -124,11 +121,11 @@ export function updateSliceCroppingPlanes(context, planes) {
   const slicedImage = sliceActors[0].getMapper().getInputData()
   const worldToIndex = slicedImage.getWorldToIndex()
   planes.forEach((plane, idx) => {
-    // convert to slice clippling space
-    const planeOrigin = context.main.sliceCroppingPlanes[idx].getOrigin()
-    vec3.transformMat4(planeOrigin, plane.origin, worldToIndex)
-    vec3.transformMat4(planeOrigin, planeOrigin, worldToIndex)
-    context.main.sliceCroppingPlanes[idx].setOriginFrom(planeOrigin)
+    // convert to slice clipping space
+    const sliceOrigin = context.main.sliceCroppingPlanes[idx].getOrigin()
+    vec3.transformMat4(sliceOrigin, plane.origin, worldToIndex)
+    vec3.transformMat4(sliceOrigin, sliceOrigin, worldToIndex)
+    context.main.sliceCroppingPlanes[idx].setOriginFrom(sliceOrigin)
     context.main.sliceCroppingPlanes[idx].setNormalFrom(plane.normal)
   })
 }

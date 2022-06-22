@@ -233,8 +233,12 @@ test('Test createViewer', async t => {
   viewer.setCroppingPlanes(planes)
   t.same(viewer.getCroppingPlanes(), planes, 'set cropping planes ')
 
+  // handle non 6 array of planes
+  const plane = [{ normal: [1, 0, 0], origin }]
+  viewer.setCroppingPlanes(plane)
+
   viewer.resetCroppingPlanes()
-  t.notSame(viewer.getCroppingPlanes(), planes, 'reset cropping planes ')
+  t.notSame(viewer.getCroppingPlanes(), plane, 'reset cropping planes ')
 
   const viewProxy = viewer.getViewProxy()
   const renderWindow = viewProxy.getOpenglRenderWindow()

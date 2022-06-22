@@ -561,6 +561,9 @@ const createViewer = async (
           )
           store.itkVtkView.addRepresentation(pointSetRepresentation)
           store.pointSetsUI.representationProxies.push(pointSetRepresentation)
+
+          addCroppingPlanes(context, pointSetRepresentation)
+          updateCroppingParameters(context, pointSetRepresentation)
         } else {
           store.pointSetsUI.sources[index].setInputData(pointSet)
           store.pointSetsUI.representationProxies[index].setVisibility(true)

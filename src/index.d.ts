@@ -7,7 +7,7 @@ declare type ndarray = {
   _rtype: 'ndarray'
 }
 
-declare type LoadableImage = URL | Image | Store | ndarray
+declare type LoadableImage = URL | Store | ndarray | Image
 
 declare type ViewerOptions = {
   image?: LoadableImage
@@ -20,7 +20,7 @@ declare type ViewerOptions = {
 
 type Viewer = {
   setBackgroundColor(color: [number, number, number]): void
-  setImageColorMap(mapName: string, actor: number): void
+  setImageColorMap(mapName: string, actor?: number): void
 }
 
 declare namespace itkVtkViewer {
@@ -51,3 +51,6 @@ declare namespace itkVtkViewer {
 
   type version = string
 }
+
+export as namespace itkVtkViewer
+export = itkVtkViewer

@@ -81,6 +81,7 @@ module.exports = (env, argv) => [
     devtool: argv.mode === 'development' ? 'eval-source-map' : 'source-map',
     output: {
       filename: 'itkVtkViewer.js',
+      publicPath: '',
     },
     resolve: {
       alias: {
@@ -101,6 +102,18 @@ module.exports = (env, argv) => [
               'web-workers'
             ),
             to: path.join(__dirname, 'dist', 'itk', 'web-workers'),
+          },
+          {
+            from: path.join(
+              __dirname,
+              'node_modules',
+              'itk-wasm',
+              'dist',
+              'web-workers',
+              'min-bundles',
+              'pipeline.worker.js'
+            ),
+            to: path.join(__dirname, 'dist', 'pipeline.worker.js'),
           },
           {
             from: path.join(__dirname, 'node_modules', 'itk-image-io'),

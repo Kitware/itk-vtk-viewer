@@ -93,6 +93,24 @@ Set/get whether the named layer is visible.
 
 Select the layer identified by `name` in the user interface.
 
+### setCroppingPlanes(croppingPlanes)
+
+The croppingPlanes parameter is an array of plane defining objects. Example: `[ { normal: [1, 0, 0], origin: [1, 2, 3] }, ...]`. Maximum number of planes is 6.  
+
+### getCroppingPlanes(): [ { normal: [number, number, number], origin: [number, number, number] }, ...]
+
+Returns array of plane objects.
+
+### resetCroppingPlanes()
+
+Sets cropping box to encompass all images and geometries 
+
+### setCroppingPlanesEnabled(enabled)
+
+Control visibility of croppingPlanes
+
+### getCroppingPlanesEnabled(): Boolean
+
 ## Viewer Image API
 
 ### setImage(image)

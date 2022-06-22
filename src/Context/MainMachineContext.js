@@ -51,7 +51,7 @@ class MainMachineContext {
   units = ''
 
   // Cropping planes widget enabled
-  croppingPlanesEnabled = true
+  croppingPlanesEnabled = false
 
   // Cropping planes. These typically define square or a cube of a region of
   // interest in space. The visualization is cropped outside of these planes.

@@ -26,6 +26,10 @@ import ViewerMachineContext from './Context/ViewerMachineContext'
 
 import { autorun, reaction, toJS } from 'mobx'
 import { ConglomerateMultiscaleSpatialImage } from './IO/ConglomerateMultiscaleSpatialImage'
+import {
+  addCroppingPlanes,
+  updateCroppingParameters,
+} from './Rendering/VTKJS/Main/croppingPlanes'
 
 const createViewer = async (
   rootContainer,
@@ -483,6 +487,9 @@ const createViewer = async (
             store.itkVtkView
           )
           store.geometriesUI.representationProxies.push(geometryRepresentation)
+
+          addCroppingPlanes(context, geometryRepresentation)
+          updateCroppingParameters(context, geometryRepresentation)
         } else {
           store.geometriesUI.sources[index].setInputData(geometry)
           store.geometriesUI.representationProxies[index].setVisibility(true)

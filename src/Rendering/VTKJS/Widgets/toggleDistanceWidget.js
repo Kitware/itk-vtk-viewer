@@ -23,10 +23,13 @@ function toggleDistanceWidget(context) {
 
     widgetManager.grabFocus(distanceWidget)
 
-    // Avoid appearing under the x slice
-    const firstSlice = context.images.representationProxy.getActors()[0]
-    const xCoord = firstSlice.getBoundsForSlice()[0]
-    distanceWidget.getManipulator().setHandleOrigin([xCoord, 0, 0])
+    // image loaded, not just geometry?
+    if (context.images.representationProxy) {
+      // Avoid appearing under the x slice
+      const firstSlice = context.images.representationProxy.getActors()[0]
+      const xCoord = firstSlice.getBoundsForSlice()[0]
+      distanceWidget.getManipulator().setHandleOrigin([xCoord, 0, 0])
+    }
   } else {
     valueChangedSubscription.unsubscribe()
     widgetManager.removeWidget(distanceWidget)

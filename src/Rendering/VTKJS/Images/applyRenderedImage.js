@@ -1,12 +1,14 @@
 import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
 import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction'
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
-import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 
 import applyGradientOpacity from './applyGradientOpacity'
 import applyLabelImageBlend from './applyLabelImageBlend'
 import applyVolumeSampleDistance from './applyVolumeSampleDistance'
-import { updateSliceCroppingPlanes } from '../Main/applyCroppingPlanes'
+import {
+  addCroppingPlanes,
+  updateCroppingParametersFromImage,
+} from '../Main/croppingPlanes'
 
 const ANNOTATION_DEFAULT =
   '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
@@ -14,37 +16,6 @@ const ANNOTATION_CUSTOM_PREFIX =
   '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Scale:</td>'
 const ANNOTATION_CUSTOM_POSTFIX =
   '<td></td><td></td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
-
-function updateCroppingParameters(context, fusedImage) {
-  const spacing = fusedImage.getSpacing().slice()
-  const croppingVirtualImage = context.main.croppingVirtualImage
-  croppingVirtualImage.setSpacing(spacing)
-  croppingVirtualImage.setDirection(fusedImage.getDirection().slice())
-
-  const fusedImageBounds = [...fusedImage.getBounds()]
-
-  vtkBoundingBox.addBounds(context.main.croppingBoundingBox, fusedImageBounds)
-  const bbox = context.main.croppingBoundingBox
-  croppingVirtualImage.setOrigin([bbox[0], bbox[2], bbox[4]])
-  croppingVirtualImage.setDimensions([
-    (bbox[1] - bbox[0]) / spacing[0],
-    (bbox[3] - bbox[2]) / spacing[1],
-    (bbox[5] - bbox[4]) / spacing[2],
-  ])
-
-  const widgetState = context.main.croppingWidget.getWidgetState()
-  widgetState.setIndexToWorldT(croppingVirtualImage.getIndexToWorld())
-  widgetState.setWorldToIndexT(croppingVirtualImage.getWorldToIndex())
-
-  if (!context.main.croppingPlanes) {
-    const dims = croppingVirtualImage.getDimensions()
-    const croppingPlanes = widgetState.getCroppingPlanes()
-    croppingPlanes.setPlanes([0, dims[0], 0, dims[1], 0, dims[2]])
-  } else {
-    // slice cropping planes' origin dependant on image.worldToIndex
-    updateSliceCroppingPlanes(context, context.main.croppingPlanes)
-  }
-}
 
 function applyRenderedImage(context, event) {
   const name = event.data
@@ -68,9 +39,7 @@ function applyRenderedImage(context, event) {
       context.images.source,
       context.itkVtkView
     )
-    const representationProxy = context.images.representationProxy
-    const croppingPlanes = context.main.widgetCroppingPlanes
-    // const croppingPlanesFlip = context.main.widgetCroppingPlanesFlip
+    const { representationProxy } = context.images
 
     if (context.use2D) {
       context.itkVtkView.setViewMode('ZPlane')
@@ -78,12 +47,6 @@ function applyRenderedImage(context, event) {
     } else {
       context.itkVtkView.setViewMode('Volume')
     }
-
-    const mapper = representationProxy.getMapper()
-
-    croppingPlanes.forEach(plane => {
-      mapper.addClippingPlane(plane)
-    })
 
     representationProxy.getMapper().setMaximumSamplesPerRay(2048)
     representationProxy.setSampleDistance(actorContext.volumeSampleDistance)
@@ -94,6 +57,8 @@ function applyRenderedImage(context, event) {
       .get('volume')
       .querySelector('.js-se')
     annotationContainer.style.fontFamily = 'monospace'
+
+    addCroppingPlanes(context, representationProxy)
 
     const sliceCroppingPlanes = context.main.sliceCroppingPlanes
     const sliceActors = representationProxy.getActors()
@@ -123,6 +88,9 @@ function applyRenderedImage(context, event) {
       }
     })
   }
+
+  // call after representations are created
+  updateCroppingParametersFromImage(context, actorContext.fusedImage)
 
   // Create color map and piecewise function objects as needed
   if (typeof context.images.lookupTableProxies === 'undefined') {
@@ -401,9 +369,6 @@ function applyRenderedImage(context, event) {
     const zSlice = volumeRep.getZSlice()
     context.service.send({ type: 'Z_SLICE_CHANGED', data: zSlice })
   }
-
-  // call after representations are created
-  updateCroppingParameters(context, actorContext.fusedImage)
 }
 
 export default applyRenderedImage

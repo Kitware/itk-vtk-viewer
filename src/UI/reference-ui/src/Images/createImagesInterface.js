@@ -1,6 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 import applyGroupVisibility from '../applyGroupVisibility'
 
+import createScaleSelector from './createScaleSelector'
 import createComponentSelector from './createComponentSelector'
 import createColorRangeInput from './createColorRangeInput'
 import createTransferFunctionWidget from './createTransferFunctionWidget'
@@ -15,6 +16,7 @@ function createImagesInterface(context) {
   context.images.imagesUIGroup = imagesUIGroup
   context.uiGroups.set('images', imagesUIGroup)
 
+  createScaleSelector(context, imagesUIGroup)
   createComponentSelector(context, imagesUIGroup)
   createColorRangeInput(context, imagesUIGroup)
   createTransferFunctionWidget(context, imagesUIGroup)

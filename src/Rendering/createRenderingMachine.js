@@ -58,6 +58,9 @@ const createRenderingMachine = (options, context) => {
             FPS_UPDATED: {
               actions: [forwardTo('main'), forwardTo('images')],
             },
+            SET_IMAGE_SCALE: {
+              actions: [forwardTo('images')],
+            },
             REQUEST_ANIMATION: {
               actions: 'requestAnimation',
             },

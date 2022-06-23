@@ -3890,6 +3890,18680 @@ function toggleCroppingPlanes(context) {
     context.main.cropButtonInput.checked = context.main.croppingPlanesEnabled
   }
 }
+function degreesFromRadians(rad) {
+  return (rad * 180) / Math.PI
+}
+var floor$1 = Math.floor
+function arrayRange(arr) {
+  var offset =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
+  var stride =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1
+  var minValue = Infinity
+  var maxValue = -Infinity
+
+  for (var i = offset, len = arr.length; i < len; i += stride) {
+    if (arr[i] < minValue) {
+      minValue = arr[i]
+    }
+
+    if (maxValue < arr[i]) {
+      maxValue = arr[i]
+    }
+  }
+
+  return [minValue, maxValue]
+}
+
+function add$1(a, b, out) {
+  out[0] = a[0] + b[0]
+  out[1] = a[1] + b[1]
+  out[2] = a[2] + b[2]
+  return out
+}
+function subtract$1(a, b, out) {
+  out[0] = a[0] - b[0]
+  out[1] = a[1] - b[1]
+  out[2] = a[2] - b[2]
+  return out
+}
+function multiplyScalar(vec, scalar) {
+  vec[0] *= scalar
+  vec[1] *= scalar
+  vec[2] *= scalar
+  return vec
+}
+function multiplyAccumulate(a, b, scalar, out) {
+  out[0] = a[0] + b[0] * scalar
+  out[1] = a[1] + b[1] * scalar
+  out[2] = a[2] + b[2] * scalar
+  return out
+}
+function dot$1(x, y) {
+  return x[0] * y[0] + x[1] * y[1] + x[2] * y[2]
+}
+function cross$1(x, y, out) {
+  var Zx = x[1] * y[2] - x[2] * y[1]
+  var Zy = x[2] * y[0] - x[0] * y[2]
+  var Zz = x[0] * y[1] - x[1] * y[0]
+  out[0] = Zx
+  out[1] = Zy
+  out[2] = Zz
+  return out
+}
+function norm(x) {
+  var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3
+
+  switch (n) {
+    case 1:
+      return Math.abs(x)
+
+    case 2:
+      return Math.sqrt(x[0] * x[0] + x[1] * x[1])
+
+    case 3:
+      return Math.sqrt(x[0] * x[0] + x[1] * x[1] + x[2] * x[2])
+
+    default: {
+      var sum = 0
+
+      for (var i = 0; i < n; i++) {
+        sum += x[i] * x[i]
+      }
+
+      return Math.sqrt(sum)
+    }
+  }
+}
+function normalize$3(x) {
+  var den = norm(x)
+
+  if (den !== 0.0) {
+    x[0] /= den
+    x[1] /= den
+    x[2] /= den
+  }
+
+  return den
+}
+function distance2BetweenPoints(x, y) {
+  return (
+    (x[0] - y[0]) * (x[0] - y[0]) +
+    (x[1] - y[1]) * (x[1] - y[1]) +
+    (x[2] - y[2]) * (x[2] - y[2])
+  )
+}
+function determinant2x2() {
+  for (
+    var _len = arguments.length, args = new Array(_len), _key = 0;
+    _key < _len;
+    _key++
+  ) {
+    args[_key] = arguments[_key]
+  }
+
+  if (args.length === 2) {
+    return args[0][0] * args[1][1] - args[1][0] * args[0][1]
+  }
+
+  if (args.length === 4) {
+    return args[0] * args[3] - args[1] * args[2]
+  }
+
+  return Number.NaN
+}
+/**
+ * Returns true if elements of both arrays are equals.
+ * @param {Array} a an array of numbers (vector, point, matrix...)
+ * @param {Array} b an array of numbers (vector, point, matrix...)
+ * @param {Number} eps tolerance
+ */
+
+function areEquals(a, b) {
+  var eps =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1e-6
+
+  if (a.length !== b.length) {
+    return false
+  }
+
+  function isEqual(element, index) {
+    return Math.abs(element - b[index]) <= eps
+  }
+
+  return a.every(isEqual)
+}
+var areMatricesEqual = areEquals
+function roundNumber(num) {
+  var digits =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
+
+  if (!''.concat(num).includes('e')) {
+    return +''
+      .concat(Math.round(''.concat(num, 'e+').concat(digits)), 'e-')
+      .concat(digits)
+  }
+
+  var arr = ''.concat(num).split('e')
+  var sig = ''
+
+  if (+arr[1] + digits > 0) {
+    sig = '+'
+  }
+
+  return +''
+    .concat(
+      Math.round(
+        ''
+          .concat(+arr[0], 'e')
+          .concat(sig)
+          .concat(+arr[1] + digits)
+      ),
+      'e-'
+    )
+    .concat(digits)
+}
+function roundVector(vector) {
+  var out =
+    arguments.length > 1 && arguments[1] !== undefined
+      ? arguments[1]
+      : [0, 0, 0]
+  var digits =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0
+  out[0] = roundNumber(vector[0], digits)
+  out[1] = roundNumber(vector[1], digits)
+  out[2] = roundNumber(vector[2], digits)
+  return out
+}
+function luFactorLinearSystem(A, index, size) {
+  var i
+  var j
+  var k
+  var largest
+  var maxI = 0
+  var sum
+  var temp1
+  var temp2
+  var scale = createArray(size) //
+  // Loop over rows to get implicit scaling information
+  //
+
+  for (i = 0; i < size; i++) {
+    for (largest = 0.0, j = 0; j < size; j++) {
+      if ((temp2 = Math.abs(A[i][j])) > largest) {
+        largest = temp2
+      }
+    }
+
+    if (largest === 0.0) {
+      vtkWarningMacro$6('Unable to factor linear system')
+      return 0
+    }
+
+    scale[i] = 1.0 / largest
+  } //
+  // Loop over all columns using Crout's method
+  //
+
+  for (j = 0; j < size; j++) {
+    for (i = 0; i < j; i++) {
+      sum = A[i][j]
+
+      for (k = 0; k < i; k++) {
+        sum -= A[i][k] * A[k][j]
+      }
+
+      A[i][j] = sum
+    } //
+    // Begin search for largest pivot element
+    //
+
+    for (largest = 0.0, i = j; i < size; i++) {
+      sum = A[i][j]
+
+      for (k = 0; k < j; k++) {
+        sum -= A[i][k] * A[k][j]
+      }
+
+      A[i][j] = sum
+
+      if ((temp1 = scale[i] * Math.abs(sum)) >= largest) {
+        largest = temp1
+        maxI = i
+      }
+    } //
+    // Check for row interchange
+    //
+
+    if (j !== maxI) {
+      for (k = 0; k < size; k++) {
+        temp1 = A[maxI][k]
+        A[maxI][k] = A[j][k]
+        A[j][k] = temp1
+      }
+
+      scale[maxI] = scale[j]
+    } //
+    // Divide by pivot element and perform elimination
+    //
+
+    index[j] = maxI
+
+    if (Math.abs(A[j][j]) <= VTK_SMALL_NUMBER) {
+      vtkWarningMacro$6('Unable to factor linear system')
+      return 0
+    }
+
+    if (j !== size - 1) {
+      temp1 = 1.0 / A[j][j]
+
+      for (i = j + 1; i < size; i++) {
+        A[i][j] *= temp1
+      }
+    }
+  }
+
+  return 1
+}
+function luSolveLinearSystem(A, index, x, size) {
+  var i
+  var j
+  var ii
+  var idx
+  var sum //
+  // Proceed with forward and backsubstitution for L and U
+  // matrices.  First, forward substitution.
+  //
+
+  for (ii = -1, i = 0; i < size; i++) {
+    idx = index[i]
+    sum = x[idx]
+    x[idx] = x[i]
+
+    if (ii >= 0) {
+      for (j = ii; j <= i - 1; j++) {
+        sum -= A[i][j] * x[j]
+      }
+    } else if (sum !== 0.0) {
+      ii = i
+    }
+
+    x[i] = sum
+  } //
+  // Now, back substitution
+  //
+
+  for (i = size - 1; i >= 0; i--) {
+    sum = x[i]
+
+    for (j = i + 1; j < size; j++) {
+      sum -= A[i][j] * x[j]
+    }
+
+    x[i] = sum / A[i][i]
+  }
+}
+function solveLinearSystem(A, x, size) {
+  // if we solving something simple, just solve it
+  if (size === 2) {
+    var y = createArray(2)
+    var det = determinant2x2(A[0][0], A[0][1], A[1][0], A[1][1])
+
+    if (det === 0.0) {
+      // Unable to solve linear system
+      return 0
+    }
+
+    y[0] = (A[1][1] * x[0] - A[0][1] * x[1]) / det
+    y[1] = (-(A[1][0] * x[0]) + A[0][0] * x[1]) / det
+    x[0] = y[0]
+    x[1] = y[1]
+    return 1
+  }
+
+  if (size === 1) {
+    if (A[0][0] === 0.0) {
+      // Unable to solve linear system
+      return 0
+    }
+
+    x[0] /= A[0][0]
+    return 1
+  } //
+  // System of equations is not trivial, use Crout's method
+  //
+  // Check on allocation of working vectors
+
+  var index = createArray(size) // Factor and solve matrix
+
+  if (luFactorLinearSystem(A, index, size) === 0) {
+    return 0
+  }
+
+  luSolveLinearSystem(A, index, x, size)
+  return 1
+}
+function rgb2hsv(rgb, hsv) {
+  var h
+  var s
+
+  var _rgb = _slicedToArray(rgb, 3),
+    r = _rgb[0],
+    g = _rgb[1],
+    b = _rgb[2]
+
+  var onethird = 1.0 / 3.0
+  var onesixth = 1.0 / 6.0
+  var twothird = 2.0 / 3.0
+  var cmax = r
+  var cmin = r
+
+  if (g > cmax) {
+    cmax = g
+  } else if (g < cmin) {
+    cmin = g
+  }
+
+  if (b > cmax) {
+    cmax = b
+  } else if (b < cmin) {
+    cmin = b
+  }
+
+  var v = cmax
+
+  if (v > 0.0) {
+    s = (cmax - cmin) / cmax
+  } else {
+    s = 0.0
+  }
+
+  if (s > 0) {
+    if (r === cmax) {
+      h = (onesixth * (g - b)) / (cmax - cmin)
+    } else if (g === cmax) {
+      h = onethird + (onesixth * (b - r)) / (cmax - cmin)
+    } else {
+      h = twothird + (onesixth * (r - g)) / (cmax - cmin)
+    }
+
+    if (h < 0.0) {
+      h += 1.0
+    }
+  } else {
+    h = 0.0
+  } // Set the values back to the array
+
+  hsv[0] = h
+  hsv[1] = s
+  hsv[2] = v
+}
+function hsv2rgb(hsv, rgb) {
+  var _hsv = _slicedToArray(hsv, 3),
+    h = _hsv[0],
+    s = _hsv[1],
+    v = _hsv[2]
+
+  var onethird = 1.0 / 3.0
+  var onesixth = 1.0 / 6.0
+  var twothird = 2.0 / 3.0
+  var fivesixth = 5.0 / 6.0
+  var r
+  var g
+  var b // compute RGB from HSV
+
+  if (h > onesixth && h <= onethird) {
+    // green/red
+    g = 1.0
+    r = (onethird - h) / onesixth
+    b = 0.0
+  } else if (h > onethird && h <= 0.5) {
+    // green/blue
+    g = 1.0
+    b = (h - onethird) / onesixth
+    r = 0.0
+  } else if (h > 0.5 && h <= twothird) {
+    // blue/green
+    b = 1.0
+    g = (twothird - h) / onesixth
+    r = 0.0
+  } else if (h > twothird && h <= fivesixth) {
+    // blue/red
+    b = 1.0
+    r = (h - twothird) / onesixth
+    g = 0.0
+  } else if (h > fivesixth && h <= 1.0) {
+    // red/blue
+    r = 1.0
+    b = (1.0 - h) / onesixth
+    g = 0.0
+  } else {
+    // red/green
+    r = 1.0
+    g = h / onesixth
+    b = 0.0
+  } // add Saturation to the equation.
+
+  r = s * r + (1.0 - s)
+  g = s * g + (1.0 - s)
+  b = s * b + (1.0 - s)
+  r *= v
+  g *= v
+  b *= v // Assign back to the array
+
+  rgb[0] = r
+  rgb[1] = g
+  rgb[2] = b
+}
+function lab2xyz(lab, xyz) {
+  // LAB to XYZ
+  var _lab = _slicedToArray(lab, 3),
+    L = _lab[0],
+    a = _lab[1],
+    b = _lab[2]
+
+  var var_Y = (L + 16) / 116
+  var var_X = a / 500 + var_Y
+  var var_Z = var_Y - b / 200
+
+  if (Math.pow(var_Y, 3) > 0.008856) {
+    var_Y = Math.pow(var_Y, 3)
+  } else {
+    var_Y = (var_Y - 16.0 / 116.0) / 7.787
+  }
+
+  if (Math.pow(var_X, 3) > 0.008856) {
+    var_X = Math.pow(var_X, 3)
+  } else {
+    var_X = (var_X - 16.0 / 116.0) / 7.787
+  }
+
+  if (Math.pow(var_Z, 3) > 0.008856) {
+    var_Z = Math.pow(var_Z, 3)
+  } else {
+    var_Z = (var_Z - 16.0 / 116.0) / 7.787
+  }
+
+  var ref_X = 0.9505
+  var ref_Y = 1.0
+  var ref_Z = 1.089
+  xyz[0] = ref_X * var_X // ref_X = 0.9505  Observer= 2 deg Illuminant= D65
+
+  xyz[1] = ref_Y * var_Y // ref_Y = 1.000
+
+  xyz[2] = ref_Z * var_Z // ref_Z = 1.089
+}
+function xyz2lab(xyz, lab) {
+  var _xyz = _slicedToArray(xyz, 3),
+    x = _xyz[0],
+    y = _xyz[1],
+    z = _xyz[2]
+
+  var ref_X = 0.9505
+  var ref_Y = 1.0
+  var ref_Z = 1.089
+  var var_X = x / ref_X // ref_X = 0.9505  Observer= 2 deg, Illuminant= D65
+
+  var var_Y = y / ref_Y // ref_Y = 1.000
+
+  var var_Z = z / ref_Z // ref_Z = 1.089
+
+  if (var_X > 0.008856) var_X = Math.pow(var_X, 1.0 / 3.0)
+  else var_X = 7.787 * var_X + 16.0 / 116.0
+  if (var_Y > 0.008856) var_Y = Math.pow(var_Y, 1.0 / 3.0)
+  else var_Y = 7.787 * var_Y + 16.0 / 116.0
+  if (var_Z > 0.008856) var_Z = Math.pow(var_Z, 1.0 / 3.0)
+  else var_Z = 7.787 * var_Z + 16.0 / 116.0
+  lab[0] = 116 * var_Y - 16
+  lab[1] = 500 * (var_X - var_Y)
+  lab[2] = 200 * (var_Y - var_Z)
+}
+function xyz2rgb(xyz, rgb) {
+  var _xyz2 = _slicedToArray(xyz, 3),
+    x = _xyz2[0],
+    y = _xyz2[1],
+    z = _xyz2[2]
+
+  var r = x * 3.2406 + y * -1.5372 + z * -0.4986
+  var g = x * -0.9689 + y * 1.8758 + z * 0.0415
+  var b = x * 0.0557 + y * -0.204 + z * 1.057 // The following performs a "gamma correction" specified by the sRGB color
+  // space.  sRGB is defined by a canonical definition of a display monitor and
+  // has been standardized by the International Electrotechnical Commission (IEC
+  // 61966-2-1).  The nonlinearity of the correction is designed to make the
+  // colors more perceptually uniform.  This color space has been adopted by
+  // several applications including Adobe Photoshop and Microsoft Windows color
+  // management.  OpenGL is agnostic on its RGB color space, but it is reasonable
+  // to assume it is close to this one.
+
+  if (r > 0.0031308) r = 1.055 * Math.pow(r, 1 / 2.4) - 0.055
+  else r *= 12.92
+  if (g > 0.0031308) g = 1.055 * Math.pow(g, 1 / 2.4) - 0.055
+  else g *= 12.92
+  if (b > 0.0031308) b = 1.055 * Math.pow(b, 1 / 2.4) - 0.055
+  else b *= 12.92 // Clip colors. ideally we would do something that is perceptually closest
+  // (since we can see colors outside of the display gamut), but this seems to
+  // work well enough.
+
+  var maxVal = r
+  if (maxVal < g) maxVal = g
+  if (maxVal < b) maxVal = b
+
+  if (maxVal > 1.0) {
+    r /= maxVal
+    g /= maxVal
+    b /= maxVal
+  }
+
+  if (r < 0) r = 0
+  if (g < 0) g = 0
+  if (b < 0) b = 0 // Push values back to array
+
+  rgb[0] = r
+  rgb[1] = g
+  rgb[2] = b
+}
+function rgb2xyz(rgb, xyz) {
+  var _rgb2 = _slicedToArray(rgb, 3),
+    r = _rgb2[0],
+    g = _rgb2[1],
+    b = _rgb2[2] // The following performs a "gamma correction" specified by the sRGB color
+  // space.  sRGB is defined by a canonical definition of a display monitor and
+  // has been standardized by the International Electrotechnical Commission (IEC
+  // 61966-2-1).  The nonlinearity of the correction is designed to make the
+  // colors more perceptually uniform.  This color space has been adopted by
+  // several applications including Adobe Photoshop and Microsoft Windows color
+  // management.  OpenGL is agnostic on its RGB color space, but it is reasonable
+  // to assume it is close to this one.
+
+  if (r > 0.04045) r = Math.pow((r + 0.055) / 1.055, 2.4)
+  else r /= 12.92
+  if (g > 0.04045) g = Math.pow((g + 0.055) / 1.055, 2.4)
+  else g /= 12.92
+  if (b > 0.04045) b = Math.pow((b + 0.055) / 1.055, 2.4)
+  else b /= 12.92 // Observer. = 2 deg, Illuminant = D65
+
+  xyz[0] = r * 0.4124 + g * 0.3576 + b * 0.1805
+  xyz[1] = r * 0.2126 + g * 0.7152 + b * 0.0722
+  xyz[2] = r * 0.0193 + g * 0.1192 + b * 0.9505
+}
+function rgb2lab(rgb, lab) {
+  var xyz = [0, 0, 0]
+  rgb2xyz(rgb, xyz)
+  xyz2lab(xyz, lab)
+}
+function lab2rgb(lab, rgb) {
+  var xyz = [0, 0, 0]
+  lab2xyz(lab, xyz)
+  xyz2rgb(xyz, rgb)
+}
+function uninitializeBounds(bounds) {
+  bounds[0] = 1.0
+  bounds[1] = -1.0
+  bounds[2] = 1.0
+  bounds[3] = -1.0
+  bounds[4] = 1.0
+  bounds[5] = -1.0
+  return bounds
+}
+function computeBoundsFromPoints(point1, point2, bounds) {
+  bounds[0] = Math.min(point1[0], point2[0])
+  bounds[1] = Math.max(point1[0], point2[0])
+  bounds[2] = Math.min(point1[1], point2[1])
+  bounds[3] = Math.max(point1[1], point2[1])
+  bounds[4] = Math.min(point1[2], point2[2])
+  bounds[5] = Math.max(point1[2], point2[2])
+  return bounds
+}
+function clampValue(value, minValue, maxValue) {
+  if (value < minValue) {
+    return minValue
+  }
+
+  if (value > maxValue) {
+    return maxValue
+  }
+
+  return value
+}
+function clampVector(vector, minVector, maxVector) {
+  var out =
+    arguments.length > 3 && arguments[3] !== undefined
+      ? arguments[3]
+      : [0, 0, 0]
+  out[0] = clampValue(vector[0], minVector[0], maxVector[0])
+  out[1] = clampValue(vector[1], minVector[1], maxVector[1])
+  out[2] = clampValue(vector[2], minVector[2], maxVector[2])
+  return out
+}
+var isInf = function isInf(value) {
+  return !Number.isFinite(value)
+}
+var isNaN$1 = Number.isNaN
+var isNan = isNaN$1 // JavaScript - add-on ----------------------
+
+function createUninitializedBounds() {
+  return [].concat([
+    Number.MAX_VALUE,
+    -Number.MAX_VALUE, // X
+    Number.MAX_VALUE,
+    -Number.MAX_VALUE, // Y
+    Number.MAX_VALUE,
+    -Number.MAX_VALUE, // Z
+  ])
+}
+
+var Device$1 = {
+  Unknown: 0,
+  LeftController: 1,
+  RightController: 2,
+}
+var Input$1 = {
+  Unknown: 0,
+  Trigger: 1,
+  TrackPad: 2,
+  Grip: 3,
+  Thumbstick: 4,
+  A: 5,
+  B: 6,
+  ApplicationMenu: 7, // Not exposed in WebXR API
+}
+var Axis = {
+  Unknown: 0,
+  TouchpadX: 1,
+  TouchpadY: 2,
+  ThumbstickX: 3,
+  ThumbstickY: 4,
+}
+var Constants$a = {
+  Device: Device$1,
+  Input: Input$1,
+  Axis: Axis,
+}
+
+function ownKeys$q(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$q(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$q(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$q(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+var Device = Constants$a.Device,
+  Input = Constants$a.Input
+var vtkWarningMacro$5 = macro.vtkWarningMacro,
+  vtkErrorMacro$b = macro.vtkErrorMacro,
+  normalizeWheel = macro.normalizeWheel,
+  vtkOnceErrorMacro = macro.vtkOnceErrorMacro // ----------------------------------------------------------------------------
+// Global methods
+// ----------------------------------------------------------------------------
+
+var deviceInputMap = {
+  'xr-standard': [
+    Input.Trigger,
+    Input.Grip,
+    Input.TrackPad,
+    Input.Thumbstick,
+    Input.A,
+    Input.B,
+  ],
+}
+var handledEvents = [
+  'StartAnimation',
+  'Animation',
+  'EndAnimation',
+  'MouseEnter',
+  'MouseLeave',
+  'StartMouseMove',
+  'MouseMove',
+  'EndMouseMove',
+  'LeftButtonPress',
+  'LeftButtonRelease',
+  'MiddleButtonPress',
+  'MiddleButtonRelease',
+  'RightButtonPress',
+  'RightButtonRelease',
+  'KeyPress',
+  'KeyDown',
+  'KeyUp',
+  'StartMouseWheel',
+  'MouseWheel',
+  'EndMouseWheel',
+  'StartPinch',
+  'Pinch',
+  'EndPinch',
+  'StartPan',
+  'Pan',
+  'EndPan',
+  'StartRotate',
+  'Rotate',
+  'EndRotate',
+  'Button3D',
+  'Move3D',
+  'StartPointerLock',
+  'EndPointerLock',
+  'StartInteraction',
+  'Interaction',
+  'EndInteraction',
+  'AnimationFrameRateUpdate',
+]
+
+function preventDefault(event) {
+  if (event.cancelable) {
+    event.stopPropagation()
+    event.preventDefault()
+  }
+
+  return false
+} // ----------------------------------------------------------------------------
+// vtkRenderWindowInteractor methods
+// ----------------------------------------------------------------------------
+
+function vtkRenderWindowInteractor(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkRenderWindowInteractor') // Initialize list of requesters
+
+  var animationRequesters = new Set() // track active event listeners to handle simultaneous button tracking
+
+  var activeListenerCount = 0 // Public API methods
+  //----------------------------------------------------------------------
+
+  publicAPI.start = function() {
+    // Let the compositing handle the event loop if it wants to.
+    // if (publicAPI.HasObserver(vtkCommand::StartEvent) && !publicAPI.HandleEventLoop) {
+    //   publicAPI.invokeEvent({ type: 'StartEvent' });
+    //   return;
+    // }
+    // As a convenience, initialize if we aren't initialized yet.
+    if (!model.initialized) {
+      publicAPI.initialize()
+
+      if (!model.initialized) {
+        return
+      }
+    } // Pass execution to the subclass which will run the event loop,
+    // this will not return until TerminateApp is called.
+
+    publicAPI.startEventLoop()
+  } //----------------------------------------------------------------------
+
+  publicAPI.setRenderWindow = function(aren) {
+    vtkErrorMacro$b(
+      'you want to call setView(view) instead of setRenderWindow on a vtk.js interactor'
+    )
+  } //----------------------------------------------------------------------
+
+  publicAPI.setInteractorStyle = function(style) {
+    if (model.interactorStyle !== style) {
+      if (model.interactorStyle != null) {
+        model.interactorStyle.setInteractor(null)
+      }
+
+      model.interactorStyle = style
+
+      if (model.interactorStyle != null) {
+        if (model.interactorStyle.getInteractor() !== publicAPI) {
+          model.interactorStyle.setInteractor(publicAPI)
+        }
+      }
+    }
+  } //---------------------------------------------------------------------
+
+  publicAPI.initialize = function() {
+    model.initialized = true
+    publicAPI.enable()
+    publicAPI.render()
+  }
+
+  publicAPI.enable = function() {
+    return publicAPI.setEnabled(true)
+  }
+
+  publicAPI.disable = function() {
+    return publicAPI.setEnabled(false)
+  }
+
+  publicAPI.startEventLoop = function() {
+    return vtkWarningMacro$5('empty event loop')
+  }
+
+  function updateCurrentRenderer(x, y) {
+    if (!model._forcedRenderer) {
+      model.currentRenderer = publicAPI.findPokedRenderer(x, y)
+    }
+  }
+
+  publicAPI.getCurrentRenderer = function() {
+    if (model.currentRenderer) {
+      return model.currentRenderer
+    }
+
+    updateCurrentRenderer(0, 0)
+    return model.currentRenderer
+  }
+
+  function getScreenEventPositionFor(source) {
+    var canvas = model._view.getCanvas()
+
+    var bounds = canvas.getBoundingClientRect()
+    var scaleX = canvas.width / bounds.width
+    var scaleY = canvas.height / bounds.height
+    var position = {
+      x: scaleX * (source.clientX - bounds.left),
+      y: scaleY * (bounds.height - source.clientY + bounds.top),
+      z: 0,
+    }
+    updateCurrentRenderer(position.x, position.y)
+    return position
+  }
+
+  function getTouchEventPositionsFor(touches) {
+    var positions = {}
+
+    for (var i = 0; i < touches.length; i++) {
+      var touch = touches[i]
+      positions[touch.identifier] = getScreenEventPositionFor(touch)
+    }
+
+    return positions
+  }
+
+  function getModifierKeysFor(event) {
+    return {
+      controlKey: event.ctrlKey,
+      altKey: event.altKey,
+      shiftKey: event.shiftKey,
+    }
+  }
+
+  function getKeysFor(event) {
+    var modifierKeys = getModifierKeysFor(event)
+
+    var keys = _objectSpread$q(
+      {
+        key: event.key,
+        keyCode: event.charCode,
+      },
+      modifierKeys
+    )
+
+    return keys
+  }
+
+  function interactionRegistration(addListeners) {
+    var force =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false
+    var rootElm = document
+    var method = addListeners ? 'addEventListener' : 'removeEventListener'
+    var invMethod = addListeners ? 'removeEventListener' : 'addEventListener'
+
+    if (!force && !addListeners && activeListenerCount > 0) {
+      --activeListenerCount
+    } // only add/remove listeners when there are no registered listeners
+
+    if (!activeListenerCount || force) {
+      activeListenerCount = 0
+
+      if (model.container) {
+        model.container[invMethod]('mousemove', publicAPI.handleMouseMove)
+      }
+
+      rootElm[method]('mouseup', publicAPI.handleMouseUp)
+      rootElm[method]('mousemove', publicAPI.handleMouseMove)
+      rootElm[method]('touchend', publicAPI.handleTouchEnd, false)
+      rootElm[method]('touchcancel', publicAPI.handleTouchEnd, {
+        passive: false,
+        capture: false,
+      })
+      rootElm[method]('touchmove', publicAPI.handleTouchMove, {
+        passive: false,
+        capture: false,
+      })
+    }
+
+    if (!force && addListeners) {
+      ++activeListenerCount
+    }
+  }
+
+  publicAPI.bindEvents = function(container) {
+    model.container = container
+    container.addEventListener('contextmenu', preventDefault) // container.addEventListener('click', preventDefault); // Avoid stopping event propagation
+
+    container.addEventListener('wheel', publicAPI.handleWheel)
+    container.addEventListener('DOMMouseScroll', publicAPI.handleWheel)
+    container.addEventListener('mouseenter', publicAPI.handleMouseEnter)
+    container.addEventListener('mouseleave', publicAPI.handleMouseLeave)
+    container.addEventListener('mousemove', publicAPI.handleMouseMove)
+    container.addEventListener('mousedown', publicAPI.handleMouseDown)
+    document.addEventListener('keypress', publicAPI.handleKeyPress)
+    document.addEventListener('keydown', publicAPI.handleKeyDown)
+    document.addEventListener('keyup', publicAPI.handleKeyUp)
+    document.addEventListener(
+      'pointerlockchange',
+      publicAPI.handlePointerLockChange
+    )
+    container.addEventListener('touchstart', publicAPI.handleTouchStart, {
+      passive: false,
+      capture: false,
+    })
+  }
+
+  publicAPI.unbindEvents = function() {
+    // force unbinding listeners
+    interactionRegistration(false, true)
+    model.container.removeEventListener('contextmenu', preventDefault) // model.container.removeEventListener('click', preventDefault); // Avoid stopping event propagation
+
+    model.container.removeEventListener('wheel', publicAPI.handleWheel)
+    model.container.removeEventListener('DOMMouseScroll', publicAPI.handleWheel)
+    model.container.removeEventListener(
+      'mouseenter',
+      publicAPI.handleMouseEnter
+    )
+    model.container.removeEventListener(
+      'mouseleave',
+      publicAPI.handleMouseLeave
+    )
+    model.container.removeEventListener('mousemove', publicAPI.handleMouseMove)
+    model.container.removeEventListener('mousedown', publicAPI.handleMouseDown)
+    document.removeEventListener('keypress', publicAPI.handleKeyPress)
+    document.removeEventListener('keydown', publicAPI.handleKeyDown)
+    document.removeEventListener('keyup', publicAPI.handleKeyUp)
+    document.removeEventListener(
+      'pointerlockchange',
+      publicAPI.handlePointerLockChange
+    )
+    model.container.removeEventListener(
+      'touchstart',
+      publicAPI.handleTouchStart,
+      {
+        passive: false,
+        capture: false,
+      }
+    )
+    model.container = null
+  }
+
+  publicAPI.handleKeyPress = function(event) {
+    var data = getKeysFor(event)
+    publicAPI.keyPressEvent(data)
+  }
+
+  publicAPI.handleKeyDown = function(event) {
+    var data = getKeysFor(event)
+    publicAPI.keyDownEvent(data)
+  }
+
+  publicAPI.handleKeyUp = function(event) {
+    var data = getKeysFor(event)
+    publicAPI.keyUpEvent(data)
+  }
+
+  publicAPI.handleMouseDown = function(event) {
+    if (event.button > 2) {
+      // ignore events from extra mouse buttons such as `back` and `forward`
+      return
+    }
+
+    interactionRegistration(true)
+    preventDefault(event)
+
+    var callData = _objectSpread$q(
+      _objectSpread$q({}, getModifierKeysFor(event)),
+      {},
+      {
+        position: getScreenEventPositionFor(event),
+      }
+    )
+
+    switch (event.button) {
+      case 0:
+        publicAPI.leftButtonPressEvent(callData)
+        break
+
+      case 1:
+        publicAPI.middleButtonPressEvent(callData)
+        break
+
+      case 2:
+        publicAPI.rightButtonPressEvent(callData)
+        break
+
+      default:
+        vtkErrorMacro$b('Unknown mouse button pressed: '.concat(event.button))
+        break
+    }
+  } //----------------------------------------------------------------------
+
+  publicAPI.requestPointerLock = function() {
+    var canvas = publicAPI.getView().getCanvas()
+    canvas.requestPointerLock()
+  } //----------------------------------------------------------------------
+
+  publicAPI.exitPointerLock = function() {
+    return document.exitPointerLock()
+  } //----------------------------------------------------------------------
+
+  publicAPI.isPointerLocked = function() {
+    return !!document.pointerLockElement
+  } //----------------------------------------------------------------------
+
+  publicAPI.handlePointerLockChange = function() {
+    if (publicAPI.isPointerLocked()) {
+      publicAPI.startPointerLockEvent()
+    } else {
+      publicAPI.endPointerLockEvent()
+    }
+  } //----------------------------------------------------------------------
+
+  function forceRender() {
+    if (model._view && model.enabled && model.enableRender) {
+      model.inRender = true
+
+      model._view.traverseAllPasses()
+
+      model.inRender = false
+    } // outside the above test so that third-party code can redirect
+    // the render to the appropriate class
+
+    publicAPI.invokeRenderEvent()
+  }
+
+  publicAPI.requestAnimation = function(requestor) {
+    if (requestor === undefined) {
+      vtkErrorMacro$b('undefined requester, can not start animating')
+      return
+    }
+
+    if (animationRequesters.has(requestor)) {
+      vtkWarningMacro$5('requester is already registered for animating')
+      return
+    }
+
+    animationRequesters.add(requestor)
+
+    if (
+      !model.animationRequest &&
+      animationRequesters.size === 1 &&
+      !model.xrAnimation
+    ) {
+      model._animationStartTime = Date.now()
+      model._animationFrameCount = 0
+      model.animationRequest = requestAnimationFrame(publicAPI.handleAnimation)
+      publicAPI.startAnimationEvent()
+    }
+  } // continue animating for at least the specified duration of
+  // milliseconds.
+
+  publicAPI.extendAnimation = function(duration) {
+    var newEnd = Date.now() + duration
+    model._animationExtendedEnd = Math.max(model._animationExtendedEnd, newEnd)
+
+    if (
+      !model.animationRequest &&
+      animationRequesters.size === 0 &&
+      !model.xrAnimation
+    ) {
+      model._animationStartTime = Date.now()
+      model._animationFrameCount = 0
+      model.animationRequest = requestAnimationFrame(publicAPI.handleAnimation)
+      publicAPI.startAnimationEvent()
+    }
+  }
+
+  publicAPI.isAnimating = function() {
+    return model.xrAnimation || model.animationRequest !== null
+  }
+
+  publicAPI.cancelAnimation = function(requestor) {
+    var skipWarning =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false
+
+    if (!animationRequesters.has(requestor)) {
+      if (!skipWarning) {
+        var requestStr =
+          requestor && requestor.getClassName
+            ? requestor.getClassName()
+            : requestor
+        vtkWarningMacro$5(
+          ''.concat(requestStr, ' did not request an animation')
+        )
+      }
+
+      return
+    }
+
+    animationRequesters.delete(requestor)
+
+    if (
+      model.animationRequest &&
+      animationRequesters.size === 0 &&
+      Date.now() > model._animationExtendedEnd
+    ) {
+      cancelAnimationFrame(model.animationRequest)
+      model.animationRequest = null
+      publicAPI.endAnimationEvent()
+      publicAPI.render()
+    }
+  }
+
+  publicAPI.switchToXRAnimation = function() {
+    // cancel existing animation if any
+    if (model.animationRequest) {
+      cancelAnimationFrame(model.animationRequest)
+      model.animationRequest = null
+    }
+
+    model.xrAnimation = true
+  }
+
+  publicAPI.returnFromXRAnimation = function() {
+    model.xrAnimation = false
+
+    if (animationRequesters.size !== 0) {
+      model.recentAnimationFrameRate = 10.0
+      model.animationRequest = requestAnimationFrame(publicAPI.handleAnimation)
+    }
+  }
+
+  publicAPI.updateXRGamepads = function(xrSession, xrFrame, xrRefSpace) {
+    // watch for when buttons change state and fire events
+    xrSession.inputSources.forEach(function(inputSource) {
+      var gripPose =
+        inputSource.gripSpace == null
+          ? null
+          : xrFrame.getPose(inputSource.gripSpace, xrRefSpace)
+      var gp = inputSource.gamepad
+      var hand = inputSource.handedness
+
+      if (gp) {
+        if (!(gp.index in model.lastGamepadValues)) {
+          model.lastGamepadValues[gp.index] = {
+            left: {
+              buttons: {},
+            },
+            right: {
+              buttons: {},
+            },
+          }
+        }
+
+        for (var b = 0; b < gp.buttons.length; ++b) {
+          if (!(b in model.lastGamepadValues[gp.index][hand].buttons)) {
+            model.lastGamepadValues[gp.index][hand].buttons[b] = false
+          }
+
+          if (
+            model.lastGamepadValues[gp.index][hand].buttons[b] !==
+              gp.buttons[b].pressed &&
+            gripPose != null
+          ) {
+            publicAPI.button3DEvent({
+              gamepad: gp,
+              position: gripPose.transform.position,
+              orientation: gripPose.transform.orientation,
+              pressed: gp.buttons[b].pressed,
+              device:
+                inputSource.handedness === 'left'
+                  ? Device.LeftController
+                  : Device.RightController,
+              input:
+                deviceInputMap[gp.mapping] && deviceInputMap[gp.mapping][b]
+                  ? deviceInputMap[gp.mapping][b]
+                  : Input.Trigger,
+            })
+            model.lastGamepadValues[gp.index][hand].buttons[b] =
+              gp.buttons[b].pressed
+          }
+
+          if (
+            model.lastGamepadValues[gp.index][hand].buttons[b] &&
+            gripPose != null
+          ) {
+            publicAPI.move3DEvent({
+              gamepad: gp,
+              position: gripPose.transform.position,
+              orientation: gripPose.transform.orientation,
+              device:
+                inputSource.handedness === 'left'
+                  ? Device.LeftController
+                  : Device.RightController,
+            })
+          }
+        }
+      }
+    })
+  }
+
+  publicAPI.handleMouseMove = function(event) {
+    // Do not consume event for move
+    // preventDefault(event);
+    var callData = _objectSpread$q(
+      _objectSpread$q({}, getModifierKeysFor(event)),
+      {},
+      {
+        position: getScreenEventPositionFor(event),
+      }
+    )
+
+    if (model.moveTimeoutID === 0) {
+      publicAPI.startMouseMoveEvent(callData)
+    } else {
+      publicAPI.mouseMoveEvent(callData)
+      clearTimeout(model.moveTimeoutID)
+    } // start a timer to keep us animating while we get mouse move events
+
+    model.moveTimeoutID = setTimeout(function() {
+      publicAPI.endMouseMoveEvent()
+      model.moveTimeoutID = 0
+    }, 200)
+  }
+
+  publicAPI.handleAnimation = function() {
+    var currTime = Date.now()
+    model._animationFrameCount++
+
+    if (
+      currTime - model._animationStartTime > 1000.0 &&
+      model._animationFrameCount > 1
+    ) {
+      model.recentAnimationFrameRate =
+        (1000.0 * (model._animationFrameCount - 1)) /
+        (currTime - model._animationStartTime)
+      model.lastFrameTime = 1.0 / model.recentAnimationFrameRate
+      publicAPI.animationFrameRateUpdateEvent()
+      model._animationStartTime = currTime
+      model._animationFrameCount = 1
+    }
+
+    publicAPI.animationEvent()
+    forceRender()
+
+    if (
+      animationRequesters.size > 0 ||
+      Date.now() < model._animationExtendedEnd
+    ) {
+      model.animationRequest = requestAnimationFrame(publicAPI.handleAnimation)
+    } else {
+      cancelAnimationFrame(model.animationRequest)
+      model.animationRequest = null
+      publicAPI.endAnimationEvent()
+      publicAPI.render()
+    }
+  }
+
+  publicAPI.handleWheel = function(event) {
+    preventDefault(event)
+    /**
+     * wheel event values can vary significantly across browsers, platforms
+     * and devices [1]. `normalizeWheel` uses facebook's solution from their
+     * fixed-data-table repository [2].
+     *
+     * [1] https://developer.mozilla.org/en-US/docs/Web/Events/mousewheel
+     * [2] https://github.com/facebookarchive/fixed-data-table/blob/master/src/vendor_upstream/dom/normalizeWheel.js
+     *
+     * This code will return an object with properties:
+     *
+     *   spinX   -- normalized spin speed (use for zoom) - x plane
+     *   spinY   -- " - y plane
+     *   pixelX  -- normalized distance (to pixels) - x plane
+     *   pixelY  -- " - y plane
+     *
+     */
+
+    var callData = _objectSpread$q(
+      _objectSpread$q(
+        _objectSpread$q({}, normalizeWheel(event)),
+        getModifierKeysFor(event)
+      ),
+      {},
+      {
+        position: getScreenEventPositionFor(event),
+      }
+    )
+
+    if (model.wheelTimeoutID === 0) {
+      publicAPI.startMouseWheelEvent(callData)
+    } else {
+      publicAPI.mouseWheelEvent(callData)
+      clearTimeout(model.wheelTimeoutID)
+    } // start a timer to keep us animating while we get wheel events
+
+    model.wheelTimeoutID = setTimeout(function() {
+      publicAPI.extendAnimation(600)
+      publicAPI.endMouseWheelEvent()
+      model.wheelTimeoutID = 0
+    }, 200)
+  }
+
+  publicAPI.handleMouseEnter = function(event) {
+    var callData = _objectSpread$q(
+      _objectSpread$q({}, getModifierKeysFor(event)),
+      {},
+      {
+        position: getScreenEventPositionFor(event),
+      }
+    )
+
+    publicAPI.mouseEnterEvent(callData)
+  }
+
+  publicAPI.handleMouseLeave = function(event) {
+    var callData = _objectSpread$q(
+      _objectSpread$q({}, getModifierKeysFor(event)),
+      {},
+      {
+        position: getScreenEventPositionFor(event),
+      }
+    )
+
+    publicAPI.mouseLeaveEvent(callData)
+  }
+
+  publicAPI.handleMouseUp = function(event) {
+    interactionRegistration(false)
+    preventDefault(event)
+
+    var callData = _objectSpread$q(
+      _objectSpread$q({}, getModifierKeysFor(event)),
+      {},
+      {
+        position: getScreenEventPositionFor(event),
+      }
+    )
+
+    switch (event.button) {
+      case 0:
+        publicAPI.leftButtonReleaseEvent(callData)
+        break
+
+      case 1:
+        publicAPI.middleButtonReleaseEvent(callData)
+        break
+
+      case 2:
+        publicAPI.rightButtonReleaseEvent(callData)
+        break
+
+      default:
+        vtkErrorMacro$b('Unknown mouse button released: '.concat(event.button))
+        break
+    }
+  }
+
+  publicAPI.handleTouchStart = function(event) {
+    interactionRegistration(true)
+    preventDefault(event) // If multitouch
+
+    if (model.recognizeGestures && event.touches.length > 1) {
+      var positions = getTouchEventPositionsFor(event.touches) // did we just transition to multitouch?
+
+      if (event.touches.length === 2) {
+        var touch = event.touches[0]
+        var callData = {
+          position: getScreenEventPositionFor(touch),
+          shiftKey: false,
+          altKey: false,
+          controlKey: false,
+        }
+        publicAPI.leftButtonReleaseEvent(callData)
+      } // handle the gesture
+
+      publicAPI.recognizeGesture('TouchStart', positions)
+    } else {
+      var _touch = event.touches[0]
+      var _callData = {
+        position: getScreenEventPositionFor(_touch),
+        shiftKey: false,
+        altKey: false,
+        controlKey: false,
+      }
+      publicAPI.leftButtonPressEvent(_callData)
+    }
+  }
+
+  publicAPI.handleTouchMove = function(event) {
+    preventDefault(event)
+
+    if (model.recognizeGestures && event.touches.length > 1) {
+      var positions = getTouchEventPositionsFor(event.touches)
+      publicAPI.recognizeGesture('TouchMove', positions)
+    } else {
+      var touch = event.touches[0]
+      var callData = {
+        position: getScreenEventPositionFor(touch),
+        shiftKey: false,
+        altKey: false,
+        controlKey: false,
+      }
+      publicAPI.mouseMoveEvent(callData)
+    }
+  }
+
+  publicAPI.handleTouchEnd = function(event) {
+    preventDefault(event)
+
+    if (model.recognizeGestures) {
+      // No more fingers down
+      if (event.touches.length === 0) {
+        // If just one finger released, consider as left button
+        if (event.changedTouches.length === 1) {
+          var touch = event.changedTouches[0]
+          var callData = {
+            position: getScreenEventPositionFor(touch),
+            shiftKey: false,
+            altKey: false,
+            controlKey: false,
+          }
+          publicAPI.leftButtonReleaseEvent(callData)
+          interactionRegistration(false)
+        } else {
+          // If more than one finger released, recognize touchend
+          var positions = getTouchEventPositionsFor(event.changedTouches)
+          publicAPI.recognizeGesture('TouchEnd', positions)
+          interactionRegistration(false)
+        }
+      } else if (event.touches.length === 1) {
+        // If one finger left, end touch and start button press
+        var _positions = getTouchEventPositionsFor(event.changedTouches)
+
+        publicAPI.recognizeGesture('TouchEnd', _positions)
+        var _touch2 = event.touches[0]
+        var _callData2 = {
+          position: getScreenEventPositionFor(_touch2),
+          shiftKey: false,
+          altKey: false,
+          controlKey: false,
+        }
+        publicAPI.leftButtonPressEvent(_callData2)
+      } else {
+        // If more than one finger left, keep touch move
+        var _positions2 = getTouchEventPositionsFor(event.touches)
+
+        publicAPI.recognizeGesture('TouchMove', _positions2)
+      }
+    } else {
+      var _touch3 = event.changedTouches[0]
+      var _callData3 = {
+        position: getScreenEventPositionFor(_touch3),
+        shiftKey: false,
+        altKey: false,
+        controlKey: false,
+      }
+      publicAPI.leftButtonReleaseEvent(_callData3)
+      interactionRegistration(false)
+    }
+  }
+
+  publicAPI.setView = function(val) {
+    if (model._view === val) {
+      return
+    }
+
+    model._view = val
+
+    model._view.getRenderable().setInteractor(publicAPI)
+
+    publicAPI.modified()
+  }
+
+  publicAPI.getFirstRenderer = function() {
+    var _model$_view, _model$_view$getRende, _model$_view$getRende2
+
+    return (_model$_view = model._view) === null || _model$_view === void 0
+      ? void 0
+      : (_model$_view$getRende = _model$_view.getRenderable()) === null ||
+        _model$_view$getRende === void 0
+      ? void 0
+      : (_model$_view$getRende2 = _model$_view$getRende.getRenderersByReference()) ===
+          null || _model$_view$getRende2 === void 0
+      ? void 0
+      : _model$_view$getRende2[0]
+  }
+
+  publicAPI.findPokedRenderer = function() {
+    var _model$_view2, _model$_view2$getRend
+
+    var x =
+      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0
+    var y =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
+
+    if (!model._view) {
+      return null
+    } // The original order of renderers needs to remain as
+    // the first one is the one we want to manipulate the camera on.
+
+    var rc =
+      (_model$_view2 = model._view) === null || _model$_view2 === void 0
+        ? void 0
+        : (_model$_view2$getRend = _model$_view2.getRenderable()) === null ||
+          _model$_view2$getRend === void 0
+        ? void 0
+        : _model$_view2$getRend.getRenderers()
+
+    if (!rc) {
+      return null
+    }
+
+    rc.sort(function(a, b) {
+      return a.getLayer() - b.getLayer()
+    })
+    var interactiveren = null
+    var viewportren = null
+    var currentRenderer = null
+    var count = rc.length
+
+    while (count--) {
+      var aren = rc[count]
+
+      if (model._view.isInViewport(x, y, aren) && aren.getInteractive()) {
+        currentRenderer = aren
+        break
+      }
+
+      if (interactiveren === null && aren.getInteractive()) {
+        // Save this renderer in case we can't find one in the viewport that
+        // is interactive.
+        interactiveren = aren
+      }
+
+      if (viewportren === null && model._view.isInViewport(x, y, aren)) {
+        // Save this renderer in case we can't find one in the viewport that
+        // is interactive.
+        viewportren = aren
+      }
+    } // We must have a value.  If we found an interactive renderer before, that's
+    // better than a non-interactive renderer.
+
+    if (currentRenderer === null) {
+      currentRenderer = interactiveren
+    } // We must have a value.  If we found a renderer that is in the viewport,
+    // that is better than any old viewport (but not as good as an interactive
+    // one).
+
+    if (currentRenderer === null) {
+      currentRenderer = viewportren
+    } // We must have a value - take anything.
+
+    if (currentRenderer == null) {
+      currentRenderer = rc[0]
+    }
+
+    return currentRenderer
+  } // only render if we are not animating. If we are animating
+  // then renders will happen naturally anyhow and we definitely
+  // do not want extra renders as the make the apparent interaction
+  // rate slower.
+
+  publicAPI.render = function() {
+    if (!publicAPI.isAnimating() && !model.inRender) {
+      forceRender()
+    }
+  } // create the generic Event methods
+
+  handledEvents.forEach(function(eventName) {
+    var lowerFirst = eventName.charAt(0).toLowerCase() + eventName.slice(1)
+
+    publicAPI[''.concat(lowerFirst, 'Event')] = function(arg) {
+      // Check that interactor enabled
+      if (!model.enabled) {
+        return
+      } // Check that a poked renderer exists
+
+      var renderer = publicAPI.getCurrentRenderer()
+
+      if (!renderer) {
+        vtkOnceErrorMacro(
+          '\n          Can not forward events without a current renderer on the interactor.\n        '
+        )
+        return
+      } // Pass the eventName and the poked renderer
+
+      var callData = _objectSpread$q(
+        {
+          type: eventName,
+          pokedRenderer: model.currentRenderer,
+          firstRenderer: publicAPI.getFirstRenderer(),
+        },
+        arg
+      ) // Call invoke
+
+      publicAPI['invoke'.concat(eventName)](callData)
+    }
+  }) // we know we are in multitouch now, so start recognizing
+
+  publicAPI.recognizeGesture = function(event, positions) {
+    // more than two pointers we ignore
+    if (Object.keys(positions).length > 2) {
+      return
+    }
+
+    if (!model.startingEventPositions) {
+      model.startingEventPositions = {}
+    } // store the initial positions
+
+    if (event === 'TouchStart') {
+      Object.keys(positions).forEach(function(key) {
+        model.startingEventPositions[key] = positions[key]
+      }) // we do not know what the gesture is yet
+
+      model.currentGesture = 'Start'
+      return
+    } // end the gesture if needed
+
+    if (event === 'TouchEnd') {
+      if (model.currentGesture === 'Pinch') {
+        publicAPI.render()
+        publicAPI.endPinchEvent()
+      }
+
+      if (model.currentGesture === 'Rotate') {
+        publicAPI.render()
+        publicAPI.endRotateEvent()
+      }
+
+      if (model.currentGesture === 'Pan') {
+        publicAPI.render()
+        publicAPI.endPanEvent()
+      }
+
+      model.currentGesture = 'Start'
+      model.startingEventPositions = {}
+      return
+    } // what are the two pointers we are working with
+
+    var count = 0
+    var posVals = []
+    var startVals = []
+    Object.keys(positions).forEach(function(key) {
+      posVals[count] = positions[key]
+      startVals[count] = model.startingEventPositions[key]
+      count++
+    }) // The meat of the algorithm
+    // on move events we analyze them to determine what type
+    // of movement it is and then deal with it.
+    // calculate the distances
+
+    var originalDistance = Math.sqrt(
+      (startVals[0].x - startVals[1].x) * (startVals[0].x - startVals[1].x) +
+        (startVals[0].y - startVals[1].y) * (startVals[0].y - startVals[1].y)
+    )
+    var newDistance = Math.sqrt(
+      (posVals[0].x - posVals[1].x) * (posVals[0].x - posVals[1].x) +
+        (posVals[0].y - posVals[1].y) * (posVals[0].y - posVals[1].y)
+    ) // calculate rotations
+
+    var originalAngle = degreesFromRadians(
+      Math.atan2(
+        startVals[1].y - startVals[0].y,
+        startVals[1].x - startVals[0].x
+      )
+    )
+    var newAngle = degreesFromRadians(
+      Math.atan2(posVals[1].y - posVals[0].y, posVals[1].x - posVals[0].x)
+    ) // angles are cyclic so watch for that, 1 and 359 are only 2 apart :)
+
+    var angleDeviation = newAngle - originalAngle
+    newAngle = newAngle + 180.0 >= 360.0 ? newAngle - 180.0 : newAngle + 180.0
+    originalAngle =
+      originalAngle + 180.0 >= 360.0
+        ? originalAngle - 180.0
+        : originalAngle + 180.0
+
+    if (Math.abs(newAngle - originalAngle) < Math.abs(angleDeviation)) {
+      angleDeviation = newAngle - originalAngle
+    } // calculate the translations
+
+    var trans = []
+    trans[0] =
+      (posVals[0].x - startVals[0].x + posVals[1].x - startVals[1].x) / 2.0
+    trans[1] =
+      (posVals[0].y - startVals[0].y + posVals[1].y - startVals[1].y) / 2.0
+
+    if (event === 'TouchMove') {
+      // OK we want to
+      // - immediately respond to the user
+      // - allow the user to zoom without panning (saves focal point)
+      // - allow the user to rotate without panning (saves focal point)
+      // do we know what gesture we are doing yet? If not
+      // see if we can figure it out
+      if (model.currentGesture === 'Start') {
+        // pinch is a move to/from the center point
+        // rotate is a move along the circumference
+        // pan is a move of the center point
+        // compute the distance along each of these axes in pixels
+        // the first to break thresh wins
+        var thresh =
+          0.01 *
+          Math.sqrt(
+            model.container.clientWidth * model.container.clientWidth +
+              model.container.clientHeight * model.container.clientHeight
+          )
+
+        if (thresh < 15.0) {
+          thresh = 15.0
+        }
+
+        var pinchDistance = Math.abs(newDistance - originalDistance)
+        var rotateDistance =
+          (newDistance * 3.1415926 * Math.abs(angleDeviation)) / 360.0
+        var panDistance = Math.sqrt(trans[0] * trans[0] + trans[1] * trans[1])
+
+        if (
+          pinchDistance > thresh &&
+          pinchDistance > rotateDistance &&
+          pinchDistance > panDistance
+        ) {
+          model.currentGesture = 'Pinch'
+          var callData = {
+            scale: 1.0,
+            touches: positions,
+          }
+          publicAPI.startPinchEvent(callData)
+        } else if (rotateDistance > thresh && rotateDistance > panDistance) {
+          model.currentGesture = 'Rotate'
+          var _callData4 = {
+            rotation: 0.0,
+            touches: positions,
+          }
+          publicAPI.startRotateEvent(_callData4)
+        } else if (panDistance > thresh) {
+          model.currentGesture = 'Pan'
+          var _callData5 = {
+            translation: [0, 0],
+            touches: positions,
+          }
+          publicAPI.startPanEvent(_callData5)
+        }
+      } else {
+        // if we have found a specific type of movement then
+        // handle it
+        if (model.currentGesture === 'Rotate') {
+          var _callData6 = {
+            rotation: angleDeviation,
+            touches: positions,
+          }
+          publicAPI.rotateEvent(_callData6)
+        }
+
+        if (model.currentGesture === 'Pinch') {
+          var _callData7 = {
+            scale: newDistance / originalDistance,
+            touches: positions,
+          }
+          publicAPI.pinchEvent(_callData7)
+        }
+
+        if (model.currentGesture === 'Pan') {
+          var _callData8 = {
+            translation: trans,
+            touches: positions,
+          }
+          publicAPI.panEvent(_callData8)
+        }
+      }
+    }
+  }
+
+  publicAPI.handleVisibilityChange = function() {
+    model._animationStartTime = Date.now()
+    model._animationFrameCount = 0
+  }
+
+  publicAPI.setCurrentRenderer = function(r) {
+    model._forcedRenderer = !!r
+    model.currentRenderer = r
+  } // Stop animating if the renderWindowInteractor is deleted.
+
+  var superDelete = publicAPI.delete
+
+  publicAPI.delete = function() {
+    while (animationRequesters.size) {
+      publicAPI.cancelAnimation(animationRequesters.values().next().value)
+    }
+
+    if (typeof document.hidden !== 'undefined') {
+      document.removeEventListener(
+        'visibilitychange',
+        publicAPI.handleVisibilityChange
+      )
+    }
+
+    superDelete()
+  } // Use the Page Visibility API to detect when we switch away from or back to
+  // this tab, and reset the animationFrameStart. When tabs are not active, browsers
+  // will stop calling requestAnimationFrame callbacks.
+
+  if (typeof document.hidden !== 'undefined') {
+    document.addEventListener(
+      'visibilitychange',
+      publicAPI.handleVisibilityChange,
+      false
+    )
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$W = {
+  renderWindow: null,
+  interactorStyle: null,
+  picker: null,
+  pickingManager: null,
+  initialized: false,
+  enabled: false,
+  enableRender: true,
+  currentRenderer: null,
+  lightFollowCamera: true,
+  desiredUpdateRate: 30.0,
+  stillUpdateRate: 2.0,
+  container: null,
+  // _view: null,
+  recognizeGestures: true,
+  currentGesture: 'Start',
+  animationRequest: null,
+  lastFrameTime: 0.1,
+  recentAnimationFrameRate: 10.0,
+  wheelTimeoutID: 0,
+  moveTimeoutID: 0,
+  lastGamepadValues: {},
+} // ----------------------------------------------------------------------------
+
+function extend$_(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$W, initialValues) // Object methods
+
+  macro.obj(publicAPI, model) // run animation at least until this time
+
+  model._animationExtendedEnd = 0
+  macro.event(publicAPI, model, 'RenderEvent')
+  handledEvents.forEach(function(eventName) {
+    return macro.event(publicAPI, model, eventName)
+  }) // Create get-only macros
+
+  macro.get(publicAPI, model, [
+    'initialized',
+    'container',
+    'interactorStyle',
+    'lastFrameTime',
+    'recentAnimationFrameRate',
+    '_view',
+  ]) // Create get-set macros
+
+  macro.setGet(publicAPI, model, [
+    'lightFollowCamera',
+    'enabled',
+    'enableRender',
+    'recognizeGestures',
+    'desiredUpdateRate',
+    'stillUpdateRate',
+    'picker',
+  ])
+  macro.moveToProtected(publicAPI, model, ['view']) // For more macro methods, see "Sources/macros.js"
+  // Object specific methods
+
+  vtkRenderWindowInteractor(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$F = macro.newInstance(extend$_, 'vtkRenderWindowInteractor') // ----------------------------------------------------------------------------
+
+var vtkRenderWindowInteractor$1 = _objectSpread$q(
+  {
+    newInstance: newInstance$F,
+    extend: extend$_,
+    handledEvents: handledEvents,
+  },
+  Constants$a
+)
+
+function ownKeys$p(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$p(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$p(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$p(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+var vtkErrorMacro$a = macro.vtkErrorMacro,
+  VOID = macro.VOID // ----------------------------------------------------------------------------
+// Global methods
+// ----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+// Description:
+// Transform from world to display coordinates.
+
+function computeWorldToDisplay(renderer, x, y, z) {
+  var view = renderer.getRenderWindow().getViews()[0]
+  return view.worldToDisplay(x, y, z, renderer)
+} //----------------------------------------------------------------------------
+// Description:
+// Transform from display to world coordinates.
+
+function computeDisplayToWorld(renderer, x, y, z) {
+  var view = renderer.getRenderWindow().getViews()[0]
+  return view.displayToWorld(x, y, z, renderer)
+} // ----------------------------------------------------------------------------
+// Static API
+// ----------------------------------------------------------------------------
+
+var STATIC$8 = {
+  computeWorldToDisplay: computeWorldToDisplay,
+  computeDisplayToWorld: computeDisplayToWorld,
+} // ----------------------------------------------------------------------------
+// vtkInteractorObserver methods
+// ----------------------------------------------------------------------------
+
+function vtkInteractorObserver(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkInteractorObserver')
+
+  var superClass = _objectSpread$p({}, publicAPI) //----------------------------------------------------------------------------
+
+  function unsubscribeFromEvents() {
+    while (model.subscribedEvents.length) {
+      model.subscribedEvents.pop().unsubscribe()
+    }
+  } //----------------------------------------------------------------------------
+  // Check what events we can handle and register callbacks
+
+  function subscribeToEvents() {
+    vtkRenderWindowInteractor$1.handledEvents.forEach(function(eventName) {
+      if (publicAPI['handle'.concat(eventName)]) {
+        model.subscribedEvents.push(
+          model._interactor['on'.concat(eventName)](function(callData) {
+            if (model.processEvents) {
+              return publicAPI['handle'.concat(eventName)](callData)
+            }
+
+            return VOID
+          }, model.priority)
+        )
+      }
+    })
+  } //----------------------------------------------------------------------------
+  // Public API methods
+  //----------------------------------------------------------------------------
+
+  publicAPI.setInteractor = function(i) {
+    if (i === model._interactor) {
+      return
+    }
+
+    unsubscribeFromEvents()
+    model._interactor = i
+
+    if (i && model.enabled) {
+      subscribeToEvents()
+    }
+
+    publicAPI.modified()
+  } //----------------------------------------------------------------------------
+
+  publicAPI.setEnabled = function(enable) {
+    if (enable === model.enabled) {
+      return
+    }
+
+    unsubscribeFromEvents()
+
+    if (enable) {
+      if (model._interactor) {
+        subscribeToEvents()
+      } else {
+        vtkErrorMacro$a(
+          '\n          The interactor must be set before subscribing to events\n        '
+        )
+      }
+    }
+
+    model.enabled = enable
+    publicAPI.modified()
+  } //----------------------------------------------------------------------------
+  // Description:
+  // Transform from display to world coordinates.
+
+  publicAPI.computeDisplayToWorld = function(renderer, x, y, z) {
+    if (!renderer) {
+      return null
+    }
+
+    return model._interactor.getView().displayToWorld(x, y, z, renderer)
+  } //----------------------------------------------------------------------------
+  // Description:
+  // Transform from world to display coordinates.
+
+  publicAPI.computeWorldToDisplay = function(renderer, x, y, z) {
+    if (!renderer) {
+      return null
+    }
+
+    return model._interactor.getView().worldToDisplay(x, y, z, renderer)
+  } //----------------------------------------------------------------------------
+
+  publicAPI.setPriority = function(priority) {
+    var modified = superClass.setPriority(priority)
+
+    if (modified && model._interactor) {
+      unsubscribeFromEvents()
+      subscribeToEvents()
+    }
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$V = {
+  enabled: true,
+  // _interactor: null,
+  priority: 0.0,
+  processEvents: true,
+  subscribedEvents: [],
+} // ----------------------------------------------------------------------------
+
+function extend$Z(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$V, initialValues) // Object methods
+
+  macro.obj(publicAPI, model)
+  macro.event(publicAPI, model, 'InteractionEvent')
+  macro.event(publicAPI, model, 'StartInteractionEvent')
+  macro.event(publicAPI, model, 'EndInteractionEvent') // Create get-only macros
+
+  macro.get(publicAPI, model, ['_interactor', 'enabled']) // Create get-set macros
+
+  macro.setGet(publicAPI, model, ['priority', 'processEvents'])
+  macro.moveToProtected(publicAPI, model, ['interactor']) // For more macro methods, see "Sources/macros.js"
+  // Object specific methods
+
+  vtkInteractorObserver(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$E = macro.newInstance(extend$Z, 'vtkInteractorObserver') // ----------------------------------------------------------------------------
+
+var vtkInteractorObserver$1 = _objectSpread$p(
+  {
+    newInstance: newInstance$E,
+    extend: extend$Z,
+  },
+  STATIC$8
+)
+
+function notImplemented$2(method) {
+  return function() {
+    return macro.vtkErrorMacro('vtkProp::'.concat(method, ' - NOT IMPLEMENTED'))
+  }
+} // ----------------------------------------------------------------------------
+// vtkProp methods
+// ----------------------------------------------------------------------------
+
+function vtkProp(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkProp')
+
+  publicAPI.getMTime = function() {
+    var m1 = model.mtime
+
+    for (var index = 0; index < model.textures.length; ++index) {
+      var m2 = model.textures[index].getMTime()
+
+      if (m2 > m1) {
+        m1 = m2
+      }
+    }
+
+    return m1
+  }
+
+  publicAPI.processSelectorPixelBuffers = function(selector, pixeloffsets) {}
+
+  publicAPI.getNestedProps = function() {
+    return null
+  }
+
+  publicAPI.getActors = function() {
+    return []
+  }
+
+  publicAPI.getActors2D = function() {
+    return []
+  }
+
+  publicAPI.getVolumes = function() {
+    return []
+  }
+
+  publicAPI.pick = notImplemented$2('pick')
+  publicAPI.hasKey = notImplemented$2('hasKey')
+
+  publicAPI.getNestedVisibility = function() {
+    return (
+      model.visibility &&
+      (!model._parentProp || model._parentProp.getNestedVisibility())
+    )
+  }
+
+  publicAPI.getNestedPickable = function() {
+    return (
+      model.pickable &&
+      (!model._parentProp || model._parentProp.getNestedPickable())
+    )
+  }
+
+  publicAPI.getNestedDragable = function() {
+    return (
+      model.dragable &&
+      (!model._parentProp || model._parentProp.getNestedDragable())
+    )
+  }
+
+  publicAPI.getRedrawMTime = function() {
+    return model.mtime
+  }
+
+  publicAPI.setEstimatedRenderTime = function(t) {
+    model.estimatedRenderTime = t
+    model.savedEstimatedRenderTime = t
+  }
+
+  publicAPI.restoreEstimatedRenderTime = function() {
+    model.estimatedRenderTime = model.savedEstimatedRenderTime
+  }
+
+  publicAPI.addEstimatedRenderTime = function(t) {
+    model.estimatedRenderTime += t
+  }
+
+  publicAPI.setAllocatedRenderTime = function(t) {
+    model.allocatedRenderTime = t
+    model.savedEstimatedRenderTime = model.estimatedRenderTime
+    model.estimatedRenderTime = 0
+  }
+
+  publicAPI.getSupportsSelection = function() {
+    return false
+  }
+
+  publicAPI.getTextures = function() {
+    return model.textures
+  }
+
+  publicAPI.hasTexture = function(texture) {
+    return model.textures.indexOf(texture) !== -1
+  }
+
+  publicAPI.addTexture = function(texture) {
+    if (texture && !publicAPI.hasTexture(texture)) {
+      model.textures = model.textures.concat(texture)
+      publicAPI.modified()
+    }
+  }
+
+  publicAPI.removeTexture = function(texture) {
+    var newTextureList = model.textures.filter(function(item) {
+      return item !== texture
+    })
+
+    if (model.textures.length !== newTextureList.length) {
+      model.textures = newTextureList
+      publicAPI.modified()
+    }
+  }
+
+  publicAPI.removeAllTextures = function() {
+    model.textures = []
+    publicAPI.modified()
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$U = {
+  // _parentProp: null,
+  visibility: true,
+  pickable: true,
+  dragable: true,
+  useBounds: true,
+  allocatedRenderTime: 10,
+  estimatedRenderTime: 0,
+  savedEstimatedRenderTime: 0,
+  renderTimeMultiplier: 1,
+  paths: null,
+  textures: [],
+} // ----------------------------------------------------------------------------
+
+function extend$Y(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$U, initialValues) // Build VTK API
+
+  macro.obj(publicAPI, model)
+  macro.get(publicAPI, model, ['estimatedRenderTime', 'allocatedRenderTime'])
+  macro.setGet(publicAPI, model, [
+    'visibility',
+    'pickable',
+    'dragable',
+    'useBounds',
+    'renderTimeMultiplier',
+    '_parentProp',
+  ])
+  macro.moveToProtected(publicAPI, model, ['parentProp']) // Object methods
+
+  vtkProp(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$D = macro.newInstance(extend$Y, 'vtkProp') // ----------------------------------------------------------------------------
+
+var vtkProp$1 = {
+  newInstance: newInstance$D,
+  extend: extend$Y,
+}
+
+var ViewTypes$1 = {
+  DEFAULT: 0,
+  GEOMETRY: 1,
+  SLICE: 2,
+  VOLUME: 3,
+  YZ_PLANE: 4,
+  // Sagittal
+  XZ_PLANE: 5,
+  // Coronal
+  XY_PLANE: 6, // Axial
+}
+var RenderingTypes$1 = {
+  PICKING_BUFFER: 0,
+  FRONT_BUFFER: 1,
+}
+var CaptureOn$1 = {
+  MOUSE_MOVE: 0,
+  MOUSE_RELEASE: 1,
+}
+var WidgetManagerConst = {
+  ViewTypes: ViewTypes$1,
+  RenderingTypes: RenderingTypes$1,
+  CaptureOn: CaptureOn$1,
+}
+
+var WIDGET_PRIORITY = 0.5
+
+function vtkAbstractWidget(publicAPI, model) {
+  model.classHierarchy.push('vtkAbstractWidget')
+  model.actorToRepresentationMap = new WeakMap() // --------------------------------------------------------------------------
+
+  publicAPI.getBounds = model.widgetState.getBounds
+
+  publicAPI.getNestedProps = function() {
+    return model.representations
+  } // --------------------------------------------------------------------------
+
+  publicAPI.activateHandle = function(_ref) {
+    var selectedState = _ref.selectedState,
+      representation = _ref.representation
+    model.widgetState.activateOnly(selectedState)
+    model.activeState = selectedState
+
+    if (selectedState && selectedState.updateManipulator) {
+      selectedState.updateManipulator()
+    }
+
+    publicAPI.invokeActivateHandle({
+      selectedState: selectedState,
+      representation: representation,
+    })
+
+    if (publicAPI.updateCursor) {
+      publicAPI.updateCursor()
+    }
+  } // --------------------------------------------------------------------------
+
+  publicAPI.deactivateAllHandles = function() {
+    model.widgetState.deactivate()
+  } // --------------------------------------------------------------------------
+
+  publicAPI.hasActor = function(actor) {
+    return model.actorToRepresentationMap.has(actor)
+  } // --------------------------------------------------------------------------
+
+  publicAPI.grabFocus = function() {
+    model.hasFocus = true
+  }
+
+  publicAPI.loseFocus = function() {
+    model.hasFocus = false
+  }
+
+  publicAPI.hasFocus = function() {
+    return model.hasFocus
+  } // --------------------------------------------------------------------------
+
+  publicAPI.placeWidget = function(bounds) {
+    return model.widgetState.placeWidget(bounds)
+  }
+
+  publicAPI.getPlaceFactor = function() {
+    return model.widgetState.getPlaceFactor()
+  }
+
+  publicAPI.setPlaceFactor = function(factor) {
+    return model.widgetState.setPlaceFactor(factor)
+  } // --------------------------------------------------------------------------
+
+  publicAPI.getRepresentationFromActor = function(actor) {
+    return model.actorToRepresentationMap.get(actor)
+  } // --------------------------------------------------------------------------
+
+  publicAPI.updateRepresentationForRender = function() {
+    var renderingType =
+      arguments.length > 0 && arguments[0] !== undefined
+        ? arguments[0]
+        : RenderingTypes$1.FRONT_BUFFER
+
+    for (var i = 0; i < model.representations.length; i++) {
+      var representation = model.representations[i]
+      representation.updateActorVisibility(
+        renderingType,
+        model.contextVisibility,
+        model.handleVisibility
+      )
+    }
+  }
+
+  publicAPI.getViewWidgets = function() {
+    return model._factory.getViewIds().map(function(viewId) {
+      return model._factory.getWidgetForView({
+        viewId: viewId,
+      })
+    })
+  } // --------------------------------------------------------------------------
+  // Initialization calls
+  // --------------------------------------------------------------------------
+
+  publicAPI.setPriority(WIDGET_PRIORITY)
+} // ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$T = {
+  contextVisibility: true,
+  handleVisibility: true,
+  hasFocus: false,
+}
+/**
+ * @param {*} publicAPI public methods to populate
+ * @param {*} model internal values to populate
+ * @param {object} initialValues Contains at least
+ *   {viewType, _renderer, _camera, _openGLRenderWindow, _factory}
+ */
+
+function extend$X(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$T, initialValues)
+  vtkProp$1.extend(publicAPI, model, initialValues)
+  vtkInteractorObserver$1.extend(publicAPI, model, initialValues)
+  macro.setGet(publicAPI, model, [
+    'contextVisibility',
+    'handleVisibility',
+    '_widgetManager',
+  ])
+  macro.get(publicAPI, model, ['representations', 'widgetState'])
+  macro.moveToProtected(publicAPI, model, ['widgetManager'])
+  macro.event(publicAPI, model, 'ActivateHandle')
+  vtkAbstractWidget(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$C = macro.newInstance(extend$X, 'vtkAbstractWidget') // ----------------------------------------------------------------------------
+
+var vtkAbstractWidget$1 = {
+  newInstance: newInstance$C,
+  extend: extend$X,
+}
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg)
+    var value = info.value
+  } catch (error) {
+    reject(error)
+    return
+  }
+
+  if (info.done) {
+    resolve(value)
+  } else {
+    Promise.resolve(value).then(_next, _throw)
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function() {
+    var self = this,
+      args = arguments
+    return new Promise(function(resolve, reject) {
+      var gen = fn.apply(self, args)
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, 'next', value)
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, 'throw', err)
+      }
+
+      _next(undefined)
+    })
+  }
+}
+
+var runtime = { exports: {} }
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+;(function(module) {
+  var runtime = (function(exports) {
+    var Op = Object.prototype
+    var hasOwn = Op.hasOwnProperty
+    var undefined$1 // More compressible than void 0.
+    var $Symbol = typeof Symbol === 'function' ? Symbol : {}
+    var iteratorSymbol = $Symbol.iterator || '@@iterator'
+    var asyncIteratorSymbol = $Symbol.asyncIterator || '@@asyncIterator'
+    var toStringTagSymbol = $Symbol.toStringTag || '@@toStringTag'
+
+    function define(obj, key, value) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      })
+      return obj[key]
+    }
+    try {
+      // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+      define({}, '')
+    } catch (err) {
+      define = function(obj, key, value) {
+        return (obj[key] = value)
+      }
+    }
+
+    function wrap(innerFn, outerFn, self, tryLocsList) {
+      // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+      var protoGenerator =
+        outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator
+      var generator = Object.create(protoGenerator.prototype)
+      var context = new Context(tryLocsList || [])
+
+      // The ._invoke method unifies the implementations of the .next,
+      // .throw, and .return methods.
+      generator._invoke = makeInvokeMethod(innerFn, self, context)
+
+      return generator
+    }
+    exports.wrap = wrap
+
+    // Try/catch helper to minimize deoptimizations. Returns a completion
+    // record like context.tryEntries[i].completion. This interface could
+    // have been (and was previously) designed to take a closure to be
+    // invoked without arguments, but in all the cases we care about we
+    // already have an existing method we want to call, so there's no need
+    // to create a new function object. We can even get away with assuming
+    // the method takes exactly one argument, since that happens to be true
+    // in every case, so we don't have to touch the arguments object. The
+    // only additional allocation required is the completion record, which
+    // has a stable shape and so hopefully should be cheap to allocate.
+    function tryCatch(fn, obj, arg) {
+      try {
+        return { type: 'normal', arg: fn.call(obj, arg) }
+      } catch (err) {
+        return { type: 'throw', arg: err }
+      }
+    }
+
+    var GenStateSuspendedStart = 'suspendedStart'
+    var GenStateSuspendedYield = 'suspendedYield'
+    var GenStateExecuting = 'executing'
+    var GenStateCompleted = 'completed'
+
+    // Returning this object from the innerFn has the same effect as
+    // breaking out of the dispatch switch statement.
+    var ContinueSentinel = {}
+
+    // Dummy constructor functions that we use as the .constructor and
+    // .constructor.prototype properties for functions that return Generator
+    // objects. For full spec compliance, you may wish to configure your
+    // minifier not to mangle the names of these two functions.
+    function Generator() {}
+    function GeneratorFunction() {}
+    function GeneratorFunctionPrototype() {}
+
+    // This is a polyfill for %IteratorPrototype% for environments that
+    // don't natively support it.
+    var IteratorPrototype = {}
+    IteratorPrototype[iteratorSymbol] = function() {
+      return this
+    }
+
+    var getProto = Object.getPrototypeOf
+    var NativeIteratorPrototype = getProto && getProto(getProto(values([])))
+    if (
+      NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)
+    ) {
+      // This environment has a native %IteratorPrototype%; use it instead
+      // of the polyfill.
+      IteratorPrototype = NativeIteratorPrototype
+    }
+
+    var Gp = (GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(
+      IteratorPrototype
+    ))
+    GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype
+    GeneratorFunctionPrototype.constructor = GeneratorFunction
+    GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, 'GeneratorFunction')
+
+    // Helper for defining the .next, .throw, and .return methods of the
+    // Iterator interface in terms of a single ._invoke method.
+    function defineIteratorMethods(prototype) {
+      ;['next', 'throw', 'return'].forEach(function(method) {
+        define(prototype, method, function(arg) {
+          return this._invoke(method, arg)
+        })
+      })
+    }
+
+    exports.isGeneratorFunction = function(genFun) {
+      var ctor = typeof genFun === 'function' && genFun.constructor
+      return ctor
+        ? ctor === GeneratorFunction ||
+            // For the native GeneratorFunction constructor, the best we can
+            // do is to check its .name property.
+            (ctor.displayName || ctor.name) === 'GeneratorFunction'
+        : false
+    }
+
+    exports.mark = function(genFun) {
+      if (Object.setPrototypeOf) {
+        Object.setPrototypeOf(genFun, GeneratorFunctionPrototype)
+      } else {
+        genFun.__proto__ = GeneratorFunctionPrototype
+        define(genFun, toStringTagSymbol, 'GeneratorFunction')
+      }
+      genFun.prototype = Object.create(Gp)
+      return genFun
+    }
+
+    // Within the body of any async function, `await x` is transformed to
+    // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+    // `hasOwn.call(value, "__await")` to determine if the yielded value is
+    // meant to be awaited.
+    exports.awrap = function(arg) {
+      return { __await: arg }
+    }
+
+    function AsyncIterator(generator, PromiseImpl) {
+      function invoke(method, arg, resolve, reject) {
+        var record = tryCatch(generator[method], generator, arg)
+        if (record.type === 'throw') {
+          reject(record.arg)
+        } else {
+          var result = record.arg
+          var value = result.value
+          if (
+            value &&
+            typeof value === 'object' &&
+            hasOwn.call(value, '__await')
+          ) {
+            return PromiseImpl.resolve(value.__await).then(
+              function(value) {
+                invoke('next', value, resolve, reject)
+              },
+              function(err) {
+                invoke('throw', err, resolve, reject)
+              }
+            )
+          }
+
+          return PromiseImpl.resolve(value).then(
+            function(unwrapped) {
+              // When a yielded Promise is resolved, its final value becomes
+              // the .value of the Promise<{value,done}> result for the
+              // current iteration.
+              result.value = unwrapped
+              resolve(result)
+            },
+            function(error) {
+              // If a rejected Promise was yielded, throw the rejection back
+              // into the async generator function so it can be handled there.
+              return invoke('throw', error, resolve, reject)
+            }
+          )
+        }
+      }
+
+      var previousPromise
+
+      function enqueue(method, arg) {
+        function callInvokeWithMethodAndArg() {
+          return new PromiseImpl(function(resolve, reject) {
+            invoke(method, arg, resolve, reject)
+          })
+        }
+
+        return (previousPromise =
+          // If enqueue has been called before, then we want to wait until
+          // all previous Promises have been resolved before calling invoke,
+          // so that results are always delivered in the correct order. If
+          // enqueue has not been called before, then it is important to
+          // call invoke immediately, without waiting on a callback to fire,
+          // so that the async generator function has the opportunity to do
+          // any necessary setup in a predictable way. This predictability
+          // is why the Promise constructor synchronously invokes its
+          // executor callback, and why async functions synchronously
+          // execute code before the first await. Since we implement simple
+          // async functions in terms of async generators, it is especially
+          // important to get this right, even though it requires care.
+          previousPromise
+            ? previousPromise.then(
+                callInvokeWithMethodAndArg,
+                // Avoid propagating failures to Promises returned by later
+                // invocations of the iterator.
+                callInvokeWithMethodAndArg
+              )
+            : callInvokeWithMethodAndArg())
+      }
+
+      // Define the unified helper method that is used to implement .next,
+      // .throw, and .return (see defineIteratorMethods).
+      this._invoke = enqueue
+    }
+
+    defineIteratorMethods(AsyncIterator.prototype)
+    AsyncIterator.prototype[asyncIteratorSymbol] = function() {
+      return this
+    }
+    exports.AsyncIterator = AsyncIterator
+
+    // Note that simple async functions are implemented on top of
+    // AsyncIterator objects; they just return a Promise for the value of
+    // the final result produced by the iterator.
+    exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+      if (PromiseImpl === void 0) PromiseImpl = Promise
+
+      var iter = new AsyncIterator(
+        wrap(innerFn, outerFn, self, tryLocsList),
+        PromiseImpl
+      )
+
+      return exports.isGeneratorFunction(outerFn)
+        ? iter // If outerFn is a generator, return the full iterator.
+        : iter.next().then(function(result) {
+            return result.done ? result.value : iter.next()
+          })
+    }
+
+    function makeInvokeMethod(innerFn, self, context) {
+      var state = GenStateSuspendedStart
+
+      return function invoke(method, arg) {
+        if (state === GenStateExecuting) {
+          throw new Error('Generator is already running')
+        }
+
+        if (state === GenStateCompleted) {
+          if (method === 'throw') {
+            throw arg
+          }
+
+          // Be forgiving, per 25.3.3.3.3 of the spec:
+          // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+          return doneResult()
+        }
+
+        context.method = method
+        context.arg = arg
+
+        while (true) {
+          var delegate = context.delegate
+          if (delegate) {
+            var delegateResult = maybeInvokeDelegate(delegate, context)
+            if (delegateResult) {
+              if (delegateResult === ContinueSentinel) continue
+              return delegateResult
+            }
+          }
+
+          if (context.method === 'next') {
+            // Setting context._sent for legacy support of Babel's
+            // function.sent implementation.
+            context.sent = context._sent = context.arg
+          } else if (context.method === 'throw') {
+            if (state === GenStateSuspendedStart) {
+              state = GenStateCompleted
+              throw context.arg
+            }
+
+            context.dispatchException(context.arg)
+          } else if (context.method === 'return') {
+            context.abrupt('return', context.arg)
+          }
+
+          state = GenStateExecuting
+
+          var record = tryCatch(innerFn, self, context)
+          if (record.type === 'normal') {
+            // If an exception is thrown from innerFn, we leave state ===
+            // GenStateExecuting and loop back for another invocation.
+            state = context.done ? GenStateCompleted : GenStateSuspendedYield
+
+            if (record.arg === ContinueSentinel) {
+              continue
+            }
+
+            return {
+              value: record.arg,
+              done: context.done,
+            }
+          } else if (record.type === 'throw') {
+            state = GenStateCompleted
+            // Dispatch the exception by looping back around to the
+            // context.dispatchException(context.arg) call above.
+            context.method = 'throw'
+            context.arg = record.arg
+          }
+        }
+      }
+    }
+
+    // Call delegate.iterator[context.method](context.arg) and handle the
+    // result, either by returning a { value, done } result from the
+    // delegate iterator, or by modifying context.method and context.arg,
+    // setting context.delegate to null, and returning the ContinueSentinel.
+    function maybeInvokeDelegate(delegate, context) {
+      var method = delegate.iterator[context.method]
+      if (method === undefined$1) {
+        // A .throw or .return when the delegate iterator has no .throw
+        // method always terminates the yield* loop.
+        context.delegate = null
+
+        if (context.method === 'throw') {
+          // Note: ["return"] must be used for ES3 parsing compatibility.
+          if (delegate.iterator['return']) {
+            // If the delegate iterator has a return method, give it a
+            // chance to clean up.
+            context.method = 'return'
+            context.arg = undefined$1
+            maybeInvokeDelegate(delegate, context)
+
+            if (context.method === 'throw') {
+              // If maybeInvokeDelegate(context) changed context.method from
+              // "return" to "throw", let that override the TypeError below.
+              return ContinueSentinel
+            }
+          }
+
+          context.method = 'throw'
+          context.arg = new TypeError(
+            "The iterator does not provide a 'throw' method"
+          )
+        }
+
+        return ContinueSentinel
+      }
+
+      var record = tryCatch(method, delegate.iterator, context.arg)
+
+      if (record.type === 'throw') {
+        context.method = 'throw'
+        context.arg = record.arg
+        context.delegate = null
+        return ContinueSentinel
+      }
+
+      var info = record.arg
+
+      if (!info) {
+        context.method = 'throw'
+        context.arg = new TypeError('iterator result is not an object')
+        context.delegate = null
+        return ContinueSentinel
+      }
+
+      if (info.done) {
+        // Assign the result of the finished delegate to the temporary
+        // variable specified by delegate.resultName (see delegateYield).
+        context[delegate.resultName] = info.value
+
+        // Resume execution at the desired location (see delegateYield).
+        context.next = delegate.nextLoc
+
+        // If context.method was "throw" but the delegate handled the
+        // exception, let the outer generator proceed normally. If
+        // context.method was "next", forget context.arg since it has been
+        // "consumed" by the delegate iterator. If context.method was
+        // "return", allow the original .return call to continue in the
+        // outer generator.
+        if (context.method !== 'return') {
+          context.method = 'next'
+          context.arg = undefined$1
+        }
+      } else {
+        // Re-yield the result returned by the delegate method.
+        return info
+      }
+
+      // The delegate iterator is finished, so forget it and continue with
+      // the outer generator.
+      context.delegate = null
+      return ContinueSentinel
+    }
+
+    // Define Generator.prototype.{next,throw,return} in terms of the
+    // unified ._invoke helper method.
+    defineIteratorMethods(Gp)
+
+    define(Gp, toStringTagSymbol, 'Generator')
+
+    // A Generator should always return itself as the iterator object when the
+    // @@iterator function is called on it. Some browsers' implementations of the
+    // iterator prototype chain incorrectly implement this, causing the Generator
+    // object to not be returned from this call. This ensures that doesn't happen.
+    // See https://github.com/facebook/regenerator/issues/274 for more details.
+    Gp[iteratorSymbol] = function() {
+      return this
+    }
+
+    Gp.toString = function() {
+      return '[object Generator]'
+    }
+
+    function pushTryEntry(locs) {
+      var entry = { tryLoc: locs[0] }
+
+      if (1 in locs) {
+        entry.catchLoc = locs[1]
+      }
+
+      if (2 in locs) {
+        entry.finallyLoc = locs[2]
+        entry.afterLoc = locs[3]
+      }
+
+      this.tryEntries.push(entry)
+    }
+
+    function resetTryEntry(entry) {
+      var record = entry.completion || {}
+      record.type = 'normal'
+      delete record.arg
+      entry.completion = record
+    }
+
+    function Context(tryLocsList) {
+      // The root entry object (effectively a try statement without a catch
+      // or a finally block) gives us a place to store values thrown from
+      // locations where there is no enclosing try statement.
+      this.tryEntries = [{ tryLoc: 'root' }]
+      tryLocsList.forEach(pushTryEntry, this)
+      this.reset(true)
+    }
+
+    exports.keys = function(object) {
+      var keys = []
+      for (var key in object) {
+        keys.push(key)
+      }
+      keys.reverse()
+
+      // Rather than returning an object with a next method, we keep
+      // things simple and return the next function itself.
+      return function next() {
+        while (keys.length) {
+          var key = keys.pop()
+          if (key in object) {
+            next.value = key
+            next.done = false
+            return next
+          }
+        }
+
+        // To avoid creating an additional object, we just hang the .value
+        // and .done properties off the next function object itself. This
+        // also ensures that the minifier will not anonymize the function.
+        next.done = true
+        return next
+      }
+    }
+
+    function values(iterable) {
+      if (iterable) {
+        var iteratorMethod = iterable[iteratorSymbol]
+        if (iteratorMethod) {
+          return iteratorMethod.call(iterable)
+        }
+
+        if (typeof iterable.next === 'function') {
+          return iterable
+        }
+
+        if (!isNaN(iterable.length)) {
+          var i = -1,
+            next = function next() {
+              while (++i < iterable.length) {
+                if (hasOwn.call(iterable, i)) {
+                  next.value = iterable[i]
+                  next.done = false
+                  return next
+                }
+              }
+
+              next.value = undefined$1
+              next.done = true
+
+              return next
+            }
+
+          return (next.next = next)
+        }
+      }
+
+      // Return an iterator with no values.
+      return { next: doneResult }
+    }
+    exports.values = values
+
+    function doneResult() {
+      return { value: undefined$1, done: true }
+    }
+
+    Context.prototype = {
+      constructor: Context,
+
+      reset: function(skipTempReset) {
+        this.prev = 0
+        this.next = 0
+        // Resetting context._sent for legacy support of Babel's
+        // function.sent implementation.
+        this.sent = this._sent = undefined$1
+        this.done = false
+        this.delegate = null
+
+        this.method = 'next'
+        this.arg = undefined$1
+
+        this.tryEntries.forEach(resetTryEntry)
+
+        if (!skipTempReset) {
+          for (var name in this) {
+            // Not sure about the optimal order of these conditions:
+            if (
+              name.charAt(0) === 't' &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))
+            ) {
+              this[name] = undefined$1
+            }
+          }
+        }
+      },
+
+      stop: function() {
+        this.done = true
+
+        var rootEntry = this.tryEntries[0]
+        var rootRecord = rootEntry.completion
+        if (rootRecord.type === 'throw') {
+          throw rootRecord.arg
+        }
+
+        return this.rval
+      },
+
+      dispatchException: function(exception) {
+        if (this.done) {
+          throw exception
+        }
+
+        var context = this
+        function handle(loc, caught) {
+          record.type = 'throw'
+          record.arg = exception
+          context.next = loc
+
+          if (caught) {
+            // If the dispatched exception was caught by a catch block,
+            // then let that catch block handle the exception normally.
+            context.method = 'next'
+            context.arg = undefined$1
+          }
+
+          return !!caught
+        }
+
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i]
+          var record = entry.completion
+
+          if (entry.tryLoc === 'root') {
+            // Exception thrown outside of any try block that could handle
+            // it, so set the completion value of the entire function to
+            // throw the exception.
+            return handle('end')
+          }
+
+          if (entry.tryLoc <= this.prev) {
+            var hasCatch = hasOwn.call(entry, 'catchLoc')
+            var hasFinally = hasOwn.call(entry, 'finallyLoc')
+
+            if (hasCatch && hasFinally) {
+              if (this.prev < entry.catchLoc) {
+                return handle(entry.catchLoc, true)
+              } else if (this.prev < entry.finallyLoc) {
+                return handle(entry.finallyLoc)
+              }
+            } else if (hasCatch) {
+              if (this.prev < entry.catchLoc) {
+                return handle(entry.catchLoc, true)
+              }
+            } else if (hasFinally) {
+              if (this.prev < entry.finallyLoc) {
+                return handle(entry.finallyLoc)
+              }
+            } else {
+              throw new Error('try statement without catch or finally')
+            }
+          }
+        }
+      },
+
+      abrupt: function(type, arg) {
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i]
+          if (
+            entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, 'finallyLoc') &&
+            this.prev < entry.finallyLoc
+          ) {
+            var finallyEntry = entry
+            break
+          }
+        }
+
+        if (
+          finallyEntry &&
+          (type === 'break' || type === 'continue') &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc
+        ) {
+          // Ignore the finally entry if control is not jumping to a
+          // location outside the try/catch block.
+          finallyEntry = null
+        }
+
+        var record = finallyEntry ? finallyEntry.completion : {}
+        record.type = type
+        record.arg = arg
+
+        if (finallyEntry) {
+          this.method = 'next'
+          this.next = finallyEntry.finallyLoc
+          return ContinueSentinel
+        }
+
+        return this.complete(record)
+      },
+
+      complete: function(record, afterLoc) {
+        if (record.type === 'throw') {
+          throw record.arg
+        }
+
+        if (record.type === 'break' || record.type === 'continue') {
+          this.next = record.arg
+        } else if (record.type === 'return') {
+          this.rval = this.arg = record.arg
+          this.method = 'return'
+          this.next = 'end'
+        } else if (record.type === 'normal' && afterLoc) {
+          this.next = afterLoc
+        }
+
+        return ContinueSentinel
+      },
+
+      finish: function(finallyLoc) {
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i]
+          if (entry.finallyLoc === finallyLoc) {
+            this.complete(entry.completion, entry.afterLoc)
+            resetTryEntry(entry)
+            return ContinueSentinel
+          }
+        }
+      },
+
+      catch: function(tryLoc) {
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i]
+          if (entry.tryLoc === tryLoc) {
+            var record = entry.completion
+            if (record.type === 'throw') {
+              var thrown = record.arg
+              resetTryEntry(entry)
+            }
+            return thrown
+          }
+        }
+
+        // The context.catch method must only be called with a location
+        // argument that corresponds to a known catch block.
+        throw new Error('illegal catch attempt')
+      },
+
+      delegateYield: function(iterable, resultName, nextLoc) {
+        this.delegate = {
+          iterator: values(iterable),
+          resultName: resultName,
+          nextLoc: nextLoc,
+        }
+
+        if (this.method === 'next') {
+          // Deliberately forget the last sent value so that we don't
+          // accidentally pass it on to the delegate.
+          this.arg = undefined$1
+        }
+
+        return ContinueSentinel
+      },
+    }
+
+    // Regardless of whether this script is executing as a CommonJS module
+    // or not, return the runtime object so that we can declare the variable
+    // regeneratorRuntime in the outer scope, which allows this module to be
+    // injected easily by `bin/regenerator --include-runtime script.js`.
+    return exports
+  })(
+    // If this script is executing as a CommonJS module, use module.exports
+    // as the regeneratorRuntime namespace. Otherwise create a new empty
+    // object. Either way, the resulting object will be used to initialize
+    // the regeneratorRuntime variable at the top of this file.
+    module.exports
+  )
+
+  try {
+    regeneratorRuntime = runtime
+  } catch (accidentalStrictMode) {
+    // This module should not be running in strict mode, so the above
+    // assignment should always work unless something is misconfigured. Just
+    // in case runtime.js accidentally runs in strict mode, we can escape
+    // strict mode using a global Function call. This could conceivably fail
+    // if a Content Security Policy forbids using Function, but in that case
+    // the proper solution is to fix the accidental strict mode problem. If
+    // you've misconfigured your bundler to force strict mode and applied a
+    // CSP to forbid Function, and you're not willing to fix either of those
+    // problems, please detail your unique predicament in a GitHub issue.
+    Function('r', 'regeneratorRuntime = r')(runtime)
+  }
+})(runtime)
+
+var regenerator = runtime.exports
+
+// Specify how data arrays can be used by data objects
+var FieldDataTypes = {
+  UNIFORM: 0,
+  // data that does not vary over points/cells/etc.
+  DATA_OBJECT_FIELD: 0,
+  // to match VTK
+  COORDINATE: 1,
+  // data that specifies the location of each point
+  POINT_DATA: 1,
+  // to match VTK
+  POINT: 2,
+  // data defined at each point, but that does not specify the point location
+  POINT_FIELD_DATA: 2,
+  // to match VTK
+  CELL: 3,
+  // data defined at each cell, but that does not specify the cell
+  CELL_FIELD_DATA: 3,
+  // to match VTK
+  VERTEX: 4,
+  // data defined at each graph vertex, but that does not specify the graph vertex
+  VERTEX_FIELD_DATA: 4,
+  // to match VTK
+  EDGE: 5,
+  // data defined at each graph edge, but that does not specify the graph edge
+  EDGE_FIELD_DATA: 5,
+  // to match VTK
+  ROW: 6,
+  // data specifying a table row
+  ROW_DATA: 6, // to match VTK
+}
+var FieldAssociations$1 = {
+  FIELD_ASSOCIATION_POINTS: 0,
+  FIELD_ASSOCIATION_CELLS: 1,
+  FIELD_ASSOCIATION_NONE: 2,
+  FIELD_ASSOCIATION_POINTS_THEN_CELLS: 3,
+  FIELD_ASSOCIATION_VERTICES: 4,
+  FIELD_ASSOCIATION_EDGES: 5,
+  FIELD_ASSOCIATION_ROWS: 6,
+  NUMBER_OF_ASSOCIATIONS: 7,
+}
+var Constants$9 = {
+  FieldDataTypes: FieldDataTypes,
+  FieldAssociations: FieldAssociations$1,
+}
+
+/**
+ * The (primary) property that describes the content of a selection
+ * node's data. Other auxiliary description properties follow.
+ * GLOBALIDS means that the selection list contains values from the
+ * vtkDataSetAttribute array of the same name.
+ * PEDIGREEIDS means that the selection list contains values from the
+ * vtkDataSetAttribute array of the same name.
+ * VALUES means the the selection list contains values from an
+ * arbitrary attribute array (ignores any globalids attribute)
+ * INDICES means that the selection list contains indexes into the
+ * cell or point arrays.
+ * FRUSTUM means the set of points and cells inside a frustum
+ * LOCATIONS means the set of points and cells near a set of positions
+ * THRESHOLDS means the points and cells with values within a set of ranges
+ * getContentType() returns -1 if the content type is not set.
+ */
+// Specify how data arrays can be used by data objects
+var SelectionContent = {
+  GLOBALIDS: 0,
+  PEDIGREEIDS: 1,
+  VALUES: 2,
+  INDICES: 3,
+  FRUSTUM: 4,
+  LOCATIONS: 5,
+  THRESHOLDS: 6,
+  BLOCKS: 7,
+  QUERY: 8,
+}
+var SelectionField = {
+  CELL: 0,
+  POINT: 1,
+  FIELD: 2,
+  VERTEX: 3,
+  EDGE: 4,
+  ROW: 5,
+}
+var Constants$8 = {
+  SelectionContent: SelectionContent,
+  SelectionField: SelectionField,
+}
+
+function ownKeys$o(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$o(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$o(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$o(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+// vtkSelectionNode methods
+// ----------------------------------------------------------------------------
+
+function vtkSelectionNode(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkSelectionNode')
+
+  publicAPI.getBounds = function() {
+    return model.points.getBounds()
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$S = {
+  contentType: -1,
+  fieldType: -1,
+  properties: null,
+  selectionList: [],
+} // ----------------------------------------------------------------------------
+
+function extend$W(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$S, initialValues) // Inheritance
+
+  macro.obj(publicAPI, model)
+  model.properties = {}
+  macro.setGet(publicAPI, model, [
+    'contentType',
+    'fieldType',
+    'properties',
+    'selectionList',
+  ]) // Object specific methods
+
+  vtkSelectionNode(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$B = macro.newInstance(extend$W, 'vtkSelectionNode') // ----------------------------------------------------------------------------
+
+var vtkSelectionNode$1 = _objectSpread$o(
+  {
+    newInstance: newInstance$B,
+    extend: extend$W,
+  },
+  Constants$8
+)
+
+var DataTypeByteSize = {
+  Int8Array: 1,
+  Uint8Array: 1,
+  Uint8ClampedArray: 1,
+  Int16Array: 2,
+  Uint16Array: 2,
+  Int32Array: 4,
+  Uint32Array: 4,
+  Float32Array: 4,
+  Float64Array: 8,
+}
+var VtkDataTypes$2 = {
+  VOID: '',
+  // not sure to know what that should be
+  CHAR: 'Int8Array',
+  SIGNED_CHAR: 'Int8Array',
+  UNSIGNED_CHAR: 'Uint8Array',
+  SHORT: 'Int16Array',
+  UNSIGNED_SHORT: 'Uint16Array',
+  INT: 'Int32Array',
+  UNSIGNED_INT: 'Uint32Array',
+  FLOAT: 'Float32Array',
+  DOUBLE: 'Float64Array',
+}
+var DefaultDataType$1 = VtkDataTypes$2.FLOAT
+var Constants$7 = {
+  DefaultDataType: DefaultDataType$1,
+  DataTypeByteSize: DataTypeByteSize,
+  VtkDataTypes: VtkDataTypes$2,
+}
+
+function ownKeys$n(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$n(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$n(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$n(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+var DefaultDataType = Constants$7.DefaultDataType
+var TUPLE_HOLDER = [] // ----------------------------------------------------------------------------
+// Global methods
+// ----------------------------------------------------------------------------
+// Original source from https://www.npmjs.com/package/compute-range
+// Modified to accept type arrays
+
+function fastComputeRange(arr, offset, numberOfComponents) {
+  var len = arr.length
+  var min
+  var max
+  var x
+  var i
+
+  if (len === 0) {
+    return {
+      min: Number.MAX_VALUE,
+      max: -Number.MAX_VALUE,
+    }
+  }
+
+  min = arr[offset]
+  max = min
+
+  for (i = offset; i < len; i += numberOfComponents) {
+    x = arr[i]
+
+    if (x < min) {
+      min = x
+    } else if (x > max) {
+      max = x
+    }
+  }
+
+  return {
+    min: min,
+    max: max,
+  }
+}
+/**
+ * @deprecated please use fastComputeRange instead
+ */
+
+function createRangeHelper() {
+  var min = Number.MAX_VALUE
+  var max = -Number.MAX_VALUE
+  var count = 0
+  var sum = 0
+  return {
+    add: function add(value) {
+      if (min > value) {
+        min = value
+      }
+
+      if (max < value) {
+        max = value
+      }
+
+      count++
+      sum += value
+    },
+    get: function get() {
+      return {
+        min: min,
+        max: max,
+        count: count,
+        sum: sum,
+        mean: sum / count,
+      }
+    },
+    getRange: function getRange() {
+      return {
+        min: min,
+        max: max,
+      }
+    },
+  }
+}
+
+function computeRange(values) {
+  var component =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
+  var numberOfComponents =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1
+
+  if (component < 0 && numberOfComponents > 1) {
+    // Compute magnitude
+    var size = values.length
+    var numberOfValues = size / numberOfComponents
+    var data = new Float64Array(numberOfValues)
+
+    for (var i = 0, j = 0; i < numberOfValues; ++i) {
+      var _i
+
+      for (var nextJ = j + numberOfComponents; j < nextJ; ++j) {
+        data[i] += values[j] * values[j]
+      }
+
+      ;(_i = i), (data[_i] = Math.pow(data[_i], 0.5))
+    }
+
+    return fastComputeRange(data, 0, 1)
+  }
+
+  return fastComputeRange(
+    values,
+    component < 0 ? 0 : component,
+    numberOfComponents
+  )
+}
+
+function ensureRangeSize(rangeArray) {
+  var size =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
+  var ranges = rangeArray || [] // Pad ranges with null value to get the
+
+  while (ranges.length <= size) {
+    ranges.push(null)
+  }
+
+  return ranges
+}
+
+function getDataType(typedArray) {
+  // Expects toString() to return "[object ...Array]"
+  return Object.prototype.toString.call(typedArray).slice(8, -1)
+}
+
+function getMaxNorm(normArray) {
+  var numComps = normArray.getNumberOfComponents()
+  var maxNorm = 0.0
+
+  for (var i = 0; i < normArray.getNumberOfTuples(); ++i) {
+    var norm$1 = norm(normArray.getTuple(i), numComps)
+
+    if (norm$1 > maxNorm) {
+      maxNorm = norm$1
+    }
+  }
+
+  return maxNorm
+} // ----------------------------------------------------------------------------
+// Static API
+// ----------------------------------------------------------------------------
+
+var STATIC$7 = {
+  computeRange: computeRange,
+  createRangeHelper: createRangeHelper,
+  fastComputeRange: fastComputeRange,
+  getDataType: getDataType,
+  getMaxNorm: getMaxNorm,
+} // ----------------------------------------------------------------------------
+// vtkDataArray methods
+// ----------------------------------------------------------------------------
+
+function vtkDataArray(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkDataArray')
+
+  function dataChange() {
+    model.ranges = null
+    publicAPI.modified()
+  }
+
+  publicAPI.getElementComponentSize = function() {
+    return model.values.BYTES_PER_ELEMENT
+  } // Description:
+  // Return the data component at the location specified by tupleIdx and
+  // compIdx.
+
+  publicAPI.getComponent = function(tupleIdx) {
+    var compIdx =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
+    return model.values[tupleIdx * model.numberOfComponents + compIdx]
+  } // Description:
+  // Set the data component at the location specified by tupleIdx and compIdx
+  // to value.
+  // Note that i is less than NumberOfTuples and j is less than
+  //  NumberOfComponents. Make sure enough memory has been allocated
+  // (use SetNumberOfTuples() and SetNumberOfComponents()).
+
+  publicAPI.setComponent = function(tupleIdx, compIdx, value) {
+    if (value !== model.values[tupleIdx * model.numberOfComponents + compIdx]) {
+      model.values[tupleIdx * model.numberOfComponents + compIdx] = value
+      dataChange()
+    }
+  }
+
+  publicAPI.getData = function() {
+    return model.values
+  }
+
+  publicAPI.getRange = function() {
+    var componentIndex =
+      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : -1
+    var rangeIdx =
+      componentIndex < 0 ? model.numberOfComponents : componentIndex
+    var range = null
+
+    if (!model.ranges) {
+      model.ranges = ensureRangeSize(model.ranges, model.numberOfComponents)
+    }
+
+    range = model.ranges[rangeIdx]
+
+    if (range) {
+      model.rangeTuple[0] = range.min
+      model.rangeTuple[1] = range.max
+      return model.rangeTuple
+    } // Need to compute ranges...
+
+    range = computeRange(model.values, componentIndex, model.numberOfComponents)
+    model.ranges[rangeIdx] = range
+    model.rangeTuple[0] = range.min
+    model.rangeTuple[1] = range.max
+    return model.rangeTuple
+  }
+
+  publicAPI.setRange = function(rangeValue, componentIndex) {
+    if (!model.ranges) {
+      model.ranges = ensureRangeSize(model.ranges, model.numberOfComponents)
+    }
+
+    var range = {
+      min: rangeValue.min,
+      max: rangeValue.max,
+    }
+    model.ranges[componentIndex] = range
+    model.rangeTuple[0] = range.min
+    model.rangeTuple[1] = range.max
+    return model.rangeTuple
+  }
+
+  publicAPI.setTuple = function(idx, tuple) {
+    var offset = idx * model.numberOfComponents
+
+    for (var i = 0; i < model.numberOfComponents; i++) {
+      model.values[offset + i] = tuple[i]
+    }
+  }
+
+  publicAPI.getTuple = function(idx) {
+    var tupleToFill =
+      arguments.length > 1 && arguments[1] !== undefined
+        ? arguments[1]
+        : TUPLE_HOLDER
+    var numberOfComponents = model.numberOfComponents || 1
+
+    if (tupleToFill.length !== numberOfComponents) {
+      tupleToFill.length = numberOfComponents
+    }
+
+    var offset = idx * numberOfComponents // Check most common component sizes first
+    // to avoid doing a for loop if possible
+
+    if (numberOfComponents === 1) {
+      tupleToFill[0] = model.values[offset]
+    } else if (numberOfComponents === 2) {
+      tupleToFill[0] = model.values[offset]
+      tupleToFill[1] = model.values[offset + 1]
+    } else if (numberOfComponents === 3) {
+      tupleToFill[0] = model.values[offset]
+      tupleToFill[1] = model.values[offset + 1]
+      tupleToFill[2] = model.values[offset + 2]
+    } else if (numberOfComponents === 4) {
+      tupleToFill[0] = model.values[offset]
+      tupleToFill[1] = model.values[offset + 1]
+      tupleToFill[2] = model.values[offset + 2]
+      tupleToFill[3] = model.values[offset + 3]
+    } else {
+      for (var i = 0; i < numberOfComponents; i++) {
+        tupleToFill[i] = model.values[offset + i]
+      }
+    }
+
+    return tupleToFill
+  }
+
+  publicAPI.getTupleLocation = function() {
+    var idx =
+      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1
+    return idx * model.numberOfComponents
+  }
+
+  publicAPI.getNumberOfComponents = function() {
+    return model.numberOfComponents
+  }
+
+  publicAPI.getNumberOfValues = function() {
+    return model.values.length
+  }
+
+  publicAPI.getNumberOfTuples = function() {
+    return model.values.length / model.numberOfComponents
+  }
+
+  publicAPI.getDataType = function() {
+    return model.dataType
+  }
+  /* eslint-disable no-use-before-define */
+
+  publicAPI.newClone = function() {
+    return newInstance$A({
+      empty: true,
+      name: model.name,
+      dataType: model.dataType,
+      numberOfComponents: model.numberOfComponents,
+    })
+  }
+  /* eslint-enable no-use-before-define */
+
+  publicAPI.getName = function() {
+    if (!model.name) {
+      publicAPI.modified()
+      model.name = 'vtkDataArray'.concat(publicAPI.getMTime())
+    }
+
+    return model.name
+  }
+
+  publicAPI.setData = function(typedArray, numberOfComponents) {
+    model.values = typedArray
+    model.size = typedArray.length
+    model.dataType = getDataType(typedArray)
+
+    if (numberOfComponents) {
+      model.numberOfComponents = numberOfComponents
+    }
+
+    if (model.size % model.numberOfComponents !== 0) {
+      model.numberOfComponents = 1
+    }
+
+    dataChange()
+  } // Override serialization support
+
+  publicAPI.getState = function() {
+    if (model.deleted) {
+      return null
+    }
+
+    var jsonArchive = _objectSpread$n(
+      _objectSpread$n({}, model),
+      {},
+      {
+        vtkClass: publicAPI.getClassName(),
+      }
+    ) // Convert typed array to regular array
+
+    jsonArchive.values = Array.from(jsonArchive.values)
+    delete jsonArchive.buffer // Clean any empty data
+
+    Object.keys(jsonArchive).forEach(function(keyName) {
+      if (!jsonArchive[keyName]) {
+        delete jsonArchive[keyName]
+      }
+    }) // Sort resulting object by key name
+
+    var sortedObj = {}
+    Object.keys(jsonArchive)
+      .sort()
+      .forEach(function(name) {
+        sortedObj[name] = jsonArchive[name]
+      }) // Remove mtime
+
+    if (sortedObj.mtime) {
+      delete sortedObj.mtime
+    }
+
+    return sortedObj
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$R = {
+  name: '',
+  numberOfComponents: 1,
+  size: 0,
+  dataType: DefaultDataType,
+  rangeTuple: [0, 0], // values: null,
+  // ranges: null,
+} // ----------------------------------------------------------------------------
+
+function extend$V(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$R, initialValues)
+
+  if (!model.empty && !model.values && !model.size) {
+    throw new TypeError(
+      'Cannot create vtkDataArray object without: size > 0, values'
+    )
+  }
+
+  if (!model.values) {
+    model.values = newTypedArray(model.dataType, model.size)
+  } else if (Array.isArray(model.values)) {
+    model.values = newTypedArrayFrom(model.dataType, model.values)
+  }
+
+  if (model.values) {
+    model.size = model.values.length
+    model.dataType = getDataType(model.values)
+  } // Object methods
+
+  obj(publicAPI, model)
+  set$1(publicAPI, model, ['name', 'numberOfComponents']) // Object specific methods
+
+  vtkDataArray(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$A = newInstance$G(extend$V, 'vtkDataArray') // ----------------------------------------------------------------------------
+
+var vtkDataArray$1 = _objectSpread$n(
+  _objectSpread$n(
+    {
+      newInstance: newInstance$A,
+      extend: extend$V,
+    },
+    STATIC$7
+  ),
+  Constants$7
+)
+
+function ownKeys$m(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$m(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$m(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$m(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+// Global methods
+// ----------------------------------------------------------------------------
+
+function extractCellSizes(cellArray) {
+  var currentIdx = 0
+  return cellArray.filter(function(value, index) {
+    if (index === currentIdx) {
+      currentIdx += value + 1
+      return true
+    }
+
+    return false
+  })
+}
+
+function getNumberOfCells(cellArray) {
+  var cellId = 0
+
+  for (var cellArrayIndex = 0; cellArrayIndex < cellArray.length; ) {
+    cellArrayIndex += cellArray[cellArrayIndex] + 1
+    cellId++
+  }
+
+  return cellId
+} // ----------------------------------------------------------------------------
+// Static API
+// ----------------------------------------------------------------------------
+
+var STATIC$6 = {
+  extractCellSizes: extractCellSizes,
+  getNumberOfCells: getNumberOfCells,
+} // ----------------------------------------------------------------------------
+// vtkCellArray methods
+// ----------------------------------------------------------------------------
+
+function vtkCellArray(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkCellArray')
+
+  publicAPI.getNumberOfCells = function(recompute) {
+    if (model.numberOfCells !== undefined && !recompute) {
+      return model.numberOfCells
+    }
+
+    if (model.cellSizes) {
+      model.numberOfCells = model.cellSizes.length
+    } else {
+      model.numberOfCells = getNumberOfCells(model.values)
+    }
+
+    return model.numberOfCells
+  }
+
+  publicAPI.getCellSizes = function(recompute) {
+    if (model.cellSizes !== undefined && !recompute) {
+      return model.cellSizes
+    }
+
+    model.cellSizes = extractCellSizes(model.values)
+    return model.cellSizes
+  }
+
+  var superSetData = publicAPI.setData
+
+  publicAPI.setData = function(typedArray) {
+    superSetData(typedArray, 1)
+    model.numberOfCells = undefined
+    model.cellSizes = undefined
+  }
+  /**
+   * Returns the point indexes at the given location as a subarray.
+   */
+
+  publicAPI.getCell = function(loc) {
+    var cellLoc = loc
+    var numberOfPoints = model.values[cellLoc++]
+    return model.values.subarray(cellLoc, cellLoc + numberOfPoints)
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+function defaultValues$2(initialValues) {
+  return _objectSpread$m(
+    {
+      empty: true,
+      numberOfComponents: 1,
+      dataType: VtkDataTypes$2.UNSIGNED_INT,
+    },
+    initialValues
+  )
+} // ----------------------------------------------------------------------------
+
+function extend$U(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  vtkDataArray$1.extend(publicAPI, model, defaultValues$2(initialValues))
+  vtkCellArray(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$z = macro.newInstance(extend$U, 'vtkCellArray') // ----------------------------------------------------------------------------
+
+var vtkCellArray$1 = _objectSpread$m(
+  {
+    newInstance: newInstance$z,
+    extend: extend$U,
+  },
+  STATIC$6
+)
+
+var vtkErrorMacro$9 = macro.vtkErrorMacro
+var INVALID_BOUNDS = [1, -1, 1, -1, 1, -1] // ----------------------------------------------------------------------------
+// vtkPoints methods
+// ----------------------------------------------------------------------------
+
+function vtkPoints(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkPoints') // Forwarding methods
+
+  publicAPI.getNumberOfPoints = publicAPI.getNumberOfTuples
+
+  publicAPI.setNumberOfPoints = function(nbPoints) {
+    var dimension =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3
+
+    if (publicAPI.getNumberOfPoints() !== nbPoints) {
+      model.size = nbPoints * dimension
+      model.values = macro.newTypedArray(model.dataType, model.size)
+      publicAPI.setNumberOfComponents(dimension)
+      publicAPI.modified()
+    }
+  }
+
+  publicAPI.setPoint = function(idx) {
+    var offset = idx * model.numberOfComponents
+
+    for (var i = 0; i < model.numberOfComponents; i++) {
+      model.values[offset + i] =
+        i + 1 < 1 || arguments.length <= i + 1 ? undefined : arguments[i + 1]
+    }
+  }
+
+  publicAPI.getPoint = publicAPI.getTuple
+
+  publicAPI.getBounds = function() {
+    if (publicAPI.getNumberOfComponents() === 3) {
+      var _xRange = publicAPI.getRange(0)
+
+      model.bounds[0] = _xRange[0]
+      model.bounds[1] = _xRange[1]
+
+      var _yRange = publicAPI.getRange(1)
+
+      model.bounds[2] = _yRange[0]
+      model.bounds[3] = _yRange[1]
+      var zRange = publicAPI.getRange(2)
+      model.bounds[4] = zRange[0]
+      model.bounds[5] = zRange[1]
+      return model.bounds
+    }
+
+    if (publicAPI.getNumberOfComponents() !== 2) {
+      vtkErrorMacro$9(
+        'getBounds called on an array with components of\n        '.concat(
+          publicAPI.getNumberOfComponents()
+        )
+      )
+      return INVALID_BOUNDS
+    }
+
+    var xRange = publicAPI.getRange(0)
+    model.bounds[0] = xRange[0]
+    model.bounds[1] = xRange[1]
+    var yRange = publicAPI.getRange(1)
+    model.bounds[2] = yRange[0]
+    model.bounds[3] = yRange[1]
+    model.bounds[4] = 0
+    model.bounds[5] = 0
+    return model.bounds
+  } // Trigger the computation of bounds
+
+  publicAPI.computeBounds = publicAPI.getBounds // Initialize
+
+  publicAPI.setNumberOfComponents(
+    model.numberOfComponents < 2 ? 3 : model.numberOfComponents
+  )
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$Q = {
+  empty: true,
+  numberOfComponents: 3,
+  dataType: VtkDataTypes$2.FLOAT,
+  bounds: [1, -1, 1, -1, 1, -1],
+} // ----------------------------------------------------------------------------
+
+function extend$T(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$Q, initialValues)
+  vtkDataArray$1.extend(publicAPI, model, initialValues)
+  vtkPoints(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$y = macro.newInstance(extend$T, 'vtkPoints') // ----------------------------------------------------------------------------
+
+var vtkPoints$1 = {
+  newInstance: newInstance$y,
+  extend: extend$T,
+}
+
+// vtkCell methods
+// ----------------------------------------------------------------------------
+
+function vtkCell(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkCell')
+
+  publicAPI.initialize = function(points) {
+    var pointIdsList =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null
+
+    if (!pointIdsList) {
+      model.points = points
+      model.pointsIds = new Array(points.getNumberOfPoints())
+
+      for (var i = points.getNumberOfPoints() - 1; i >= 0; --i) {
+        model.pointsIds[i] = i
+      }
+    } else {
+      model.pointsIds = pointIdsList
+      var triangleData = model.points.getData()
+
+      if (triangleData.length !== 3 * model.pointsIds.length) {
+        triangleData = macro.newTypedArray(
+          points.getDataType(),
+          3 * model.pointsIds.length
+        )
+      }
+
+      var pointsData = points.getData()
+      model.pointsIds.forEach(function(pointId, index) {
+        // const start = 3 * pointId;
+        // pointsData.set(p.subarray(start, start + 3), 3 * index);
+        var pointOffset = 3 * pointId
+        var trianglePointOffset = 3 * index
+        triangleData[trianglePointOffset] = pointsData[pointOffset]
+        triangleData[++trianglePointOffset] = pointsData[++pointOffset]
+        triangleData[++trianglePointOffset] = pointsData[++pointOffset]
+      })
+      model.points.setData(triangleData)
+    }
+  }
+
+  publicAPI.getBounds = function() {
+    var nbPoints = model.points.getNumberOfPoints()
+    var x = []
+
+    if (nbPoints) {
+      model.points.getPoint(0, x)
+      model.bounds[0] = x[0]
+      model.bounds[1] = x[0]
+      model.bounds[2] = x[1]
+      model.bounds[3] = x[1]
+      model.bounds[4] = x[2]
+      model.bounds[5] = x[2]
+
+      for (var i = 1; i < nbPoints; i++) {
+        model.points.getPoint(i, x)
+        model.bounds[0] = x[0] < model.bounds[0] ? x[0] : model.bounds[0]
+        model.bounds[1] = x[0] > model.bounds[1] ? x[0] : model.bounds[1]
+        model.bounds[2] = x[1] < model.bounds[2] ? x[1] : model.bounds[2]
+        model.bounds[3] = x[1] > model.bounds[3] ? x[1] : model.bounds[3]
+        model.bounds[4] = x[2] < model.bounds[4] ? x[2] : model.bounds[4]
+        model.bounds[5] = x[2] > model.bounds[5] ? x[2] : model.bounds[5]
+      }
+    } else {
+      uninitializeBounds(model.bounds)
+    }
+
+    return model.bounds
+  }
+
+  publicAPI.getLength2 = function() {
+    publicAPI.getBounds()
+    var length = 0.0
+    var diff = 0
+
+    for (var i = 0; i < 3; i++) {
+      diff = model.bounds[2 * i + 1] - model.bounds[2 * i]
+      length += diff * diff
+    }
+
+    return length
+  }
+
+  publicAPI.getParametricDistance = function(pcoords) {
+    var pDist
+    var pDistMax = 0.0
+
+    for (var i = 0; i < 3; i++) {
+      if (pcoords[i] < 0.0) {
+        pDist = -pcoords[i]
+      } else if (pcoords[i] > 1.0) {
+        pDist = pcoords[i] - 1.0
+      } else {
+        // inside the cell in the parametric direction
+        pDist = 0.0
+      }
+
+      if (pDist > pDistMax) {
+        pDistMax = pDist
+      }
+    }
+
+    return pDistMax
+  }
+
+  publicAPI.getNumberOfPoints = function() {
+    return model.points.getNumberOfPoints()
+  }
+
+  publicAPI.deepCopy = function(cell) {
+    cell.initialize(model.points, model.pointsIds)
+  }
+
+  publicAPI.getCellDimension = function() {} // virtual
+
+  publicAPI.intersectWithLine = function(p1, p2, tol, t, x, pcoords, subId) {} // virtual
+
+  publicAPI.evaluatePosition = function(
+    x,
+    closestPoint,
+    subId,
+    pcoords,
+    dist2,
+    weights
+  ) {
+    macro.vtkErrorMacro('vtkCell.evaluatePosition is not implemented.')
+  } // virtual
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$P = {
+  bounds: [-1, -1, -1, -1, -1, -1],
+  pointsIds: [],
+} // ----------------------------------------------------------------------------
+
+function extend$S(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$P, initialValues)
+  macro.obj(publicAPI, model)
+
+  if (!model.points) {
+    model.points = vtkPoints$1.newInstance()
+  }
+
+  macro.get(publicAPI, model, ['points', 'pointsIds'])
+  vtkCell(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$x = macro.newInstance(extend$S, 'vtkCell') // ----------------------------------------------------------------------------
+
+var vtkCell$1 = {
+  newInstance: newInstance$x,
+  extend: extend$S,
+}
+
+function resize(model, sz) {
+  var newSize = sz
+
+  if (sz >= model.array.length) {
+    newSize += model.array.length
+  }
+
+  while (newSize > model.array.length) {
+    model.array.push({
+      ncells: 0,
+      cells: null,
+    })
+  }
+
+  model.array.length = newSize
+} // ----------------------------------------------------------------------------
+// vtkCellLinks methods
+// ----------------------------------------------------------------------------
+
+function vtkCellLinks(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkCellLinks')
+  /**
+   * Build the link list array. All subclasses of vtkAbstractCellLinks
+   * must support this method.
+   */
+
+  publicAPI.buildLinks = function(data) {
+    var numPts = data.getPoints().getNumberOfPoints()
+    var numCells = data.getNumberOfCells() // fill out lists with number of references to cells
+
+    var linkLoc = new Uint32Array(numPts) // Use fast path if polydata
+
+    if (data.isA('vtkPolyData')) {
+      // traverse data to determine number of uses of each point
+      for (var cellId = 0; cellId < numCells; ++cellId) {
+        var _data$getCellPoints = data.getCellPoints(cellId),
+          cellPointIds = _data$getCellPoints.cellPointIds
+
+        cellPointIds.forEach(function(cellPointId) {
+          publicAPI.incrementLinkCount(cellPointId)
+        })
+      } // now allocate storage for the links
+
+      publicAPI.allocateLinks(numPts)
+      model.maxId = numPts - 1
+
+      var _loop = function _loop(_cellId) {
+        var _data$getCellPoints2 = data.getCellPoints(_cellId),
+          cellPointIds = _data$getCellPoints2.cellPointIds
+
+        cellPointIds.forEach(function(cellPointId) {
+          publicAPI.insertCellReference(
+            cellPointId,
+            linkLoc[cellPointId]++,
+            _cellId
+          )
+        })
+      }
+
+      for (var _cellId = 0; _cellId < numCells; ++_cellId) {
+        _loop(_cellId)
+      }
+    } // any other type of dataset
+    else {
+      // traverse data to determine number of uses of each point
+      for (var _cellId2 = 0; _cellId2 < numCells; _cellId2++) {
+        // TODO: Currently not supported: const cell = data.getCell(cellId);
+        var cell = vtkCell$1.newInstance()
+        cell.getPointsIds().forEach(function(cellPointId) {
+          publicAPI.incrementLinkCount(cellPointId)
+        })
+      } // now allocate storage for the links
+
+      publicAPI.allocateLinks(numPts)
+      model.maxId = numPts - 1
+
+      var _loop2 = function _loop2(_cellId3) {
+        // TODO: Currently not supported: const cell = data.getCell(cellId);
+        var cell = vtkCell$1.newInstance()
+        cell.getPointsIds().forEach(function(cellPointId) {
+          publicAPI.insertCellReference(
+            cellPointId,
+            linkLoc[cellPointId]++,
+            _cellId3
+          )
+        })
+      }
+
+      for (var _cellId3 = 0; _cellId3 < numCells; ++_cellId3) {
+        _loop2(_cellId3)
+      }
+    } // end else
+  }
+  /**
+   * Build the link list array with a provided connectivity array.
+   */
+  // publicAPI.buildLinks = (data, connectivity) => {};
+
+  /**
+   * Allocate the specified number of links (i.e., number of points) that
+   * will be built.
+   */
+
+  publicAPI.allocate = function(numLinks) {
+    var ext =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000
+    model.array = Array(numLinks)
+      .fill()
+      .map(function() {
+        return {
+          ncells: 0,
+          cells: null,
+        }
+      })
+    model.extend = ext
+    model.maxId = -1
+  }
+
+  publicAPI.initialize = function() {
+    model.array = null
+  }
+  /**
+   * Get a link structure given a point id.
+   */
+
+  publicAPI.getLink = function(ptId) {
+    return model.array[ptId]
+  }
+  /**
+   * Get the number of cells using the point specified by ptId.
+   */
+
+  publicAPI.getNcells = function(ptId) {
+    return model.array[ptId].ncells
+  }
+  /**
+   * Return a list of cell ids using the point.
+   */
+
+  publicAPI.getCells = function(ptId) {
+    return model.array[ptId].cells
+  }
+  /**
+   * Insert a new point into the cell-links data structure. The size parameter
+   * is the initial size of the list.
+   */
+
+  publicAPI.insertNextPoint = function(numLinks) {
+    model.array.push({
+      ncells: numLinks,
+      cells: Array(numLinks),
+    })
+    ++model.maxId
+  }
+  /**
+   * Insert a cell id into the list of cells (at the end) using the cell id
+   * provided. (Make sure to extend the link list (if necessary) using the
+   * method resizeCellList().)
+   */
+
+  publicAPI.insertNextCellReference = function(ptId, cellId) {
+    model.array[ptId].cells[model.array[ptId].ncells++] = cellId
+  }
+  /**
+   * Delete point (and storage) by destroying links to using cells.
+   */
+
+  publicAPI.deletePoint = function(ptId) {
+    model.array[ptId].ncells = 0
+    model.array[ptId].cells = null
+  }
+  /**
+   * Delete the reference to the cell (cellId) from the point (ptId). This
+   * removes the reference to the cellId from the cell list, but does not
+   * resize the list (recover memory with resizeCellList(), if necessary).
+   */
+
+  publicAPI.removeCellReference = function(cellId, ptId) {
+    model.array[ptId].cells = model.array[ptId].cells.filter(function(cell) {
+      return cell !== cellId
+    })
+    model.array[ptId].ncells = model.array[ptId].cells.length
+  }
+  /**
+   * Add the reference to the cell (cellId) from the point (ptId). This
+   * adds a reference to the cellId from the cell list, but does not resize
+   * the list (extend memory with resizeCellList(), if necessary).
+   */
+
+  publicAPI.addCellReference = function(cellId, ptId) {
+    model.array[ptId].cells[model.array[ptId].ncells++] = cellId
+  }
+  /**
+   * Change the length of a point's link list (i.e., list of cells using a
+   * point) by the size specified.
+   */
+
+  publicAPI.resizeCellList = function(ptId, size) {
+    model.array[ptId].cells.length = size
+  }
+  /**
+   * Reclaim any unused memory.
+   */
+
+  publicAPI.squeeze = function() {
+    resize(model, model.maxId + 1)
+  }
+  /**
+   * Reset to a state of no entries without freeing the memory.
+   */
+
+  publicAPI.reset = function() {
+    model.maxId = -1
+  }
+  /**
+   * Standard DeepCopy method.  Since this object contains no reference
+   * to other objects, there is no ShallowCopy.
+   */
+
+  publicAPI.deepCopy = function(src) {
+    model.array = _toConsumableArray(src.array)
+    model.extend = src.extend
+    model.maxId = src.maxId
+  }
+  /**
+   * Increment the count of the number of cells using the point.
+   */
+
+  publicAPI.incrementLinkCount = function(ptId) {
+    ++model.array[ptId].ncells
+  }
+
+  publicAPI.allocateLinks = function(n) {
+    for (var i = 0; i < n; ++i) {
+      model.array[i].cells = new Array(model.array[i].ncells)
+    }
+  }
+  /**
+   * Insert a cell id into the list of cells using the point.
+   */
+
+  publicAPI.insertCellReference = function(ptId, pos, cellId) {
+    model.array[ptId].cells[pos] = cellId
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$O = {
+  array: null,
+  // pointer to data
+  maxId: 0,
+  // maximum index inserted thus far
+  extend: 0, // grow array by this point
+} // ----------------------------------------------------------------------------
+
+function extend$R(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$O, initialValues)
+  macro.obj(publicAPI, model)
+  vtkCellLinks(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$w = macro.newInstance(extend$R, 'vtkCellLinks') // ----------------------------------------------------------------------------
+
+var vtkCellLinks$1 = {
+  newInstance: newInstance$w,
+  extend: extend$R,
+}
+
+var CellType = {
+  // Linear cells
+  VTK_EMPTY_CELL: 0,
+  VTK_VERTEX: 1,
+  VTK_POLY_VERTEX: 2,
+  VTK_LINE: 3,
+  VTK_POLY_LINE: 4,
+  VTK_TRIANGLE: 5,
+  VTK_TRIANGLE_STRIP: 6,
+  VTK_POLYGON: 7,
+  VTK_PIXEL: 8,
+  VTK_QUAD: 9,
+  VTK_TETRA: 10,
+  VTK_VOXEL: 11,
+  VTK_HEXAHEDRON: 12,
+  VTK_WEDGE: 13,
+  VTK_PYRAMID: 14,
+  VTK_PENTAGONAL_PRISM: 15,
+  VTK_HEXAGONAL_PRISM: 16,
+  // Quadratic, isoparametric cells
+  VTK_QUADRATIC_EDGE: 21,
+  VTK_QUADRATIC_TRIANGLE: 22,
+  VTK_QUADRATIC_QUAD: 23,
+  VTK_QUADRATIC_POLYGON: 36,
+  VTK_QUADRATIC_TETRA: 24,
+  VTK_QUADRATIC_HEXAHEDRON: 25,
+  VTK_QUADRATIC_WEDGE: 26,
+  VTK_QUADRATIC_PYRAMID: 27,
+  VTK_BIQUADRATIC_QUAD: 28,
+  VTK_TRIQUADRATIC_HEXAHEDRON: 29,
+  VTK_QUADRATIC_LINEAR_QUAD: 30,
+  VTK_QUADRATIC_LINEAR_WEDGE: 31,
+  VTK_BIQUADRATIC_QUADRATIC_WEDGE: 32,
+  VTK_BIQUADRATIC_QUADRATIC_HEXAHEDRON: 33,
+  VTK_BIQUADRATIC_TRIANGLE: 34,
+  // Cubic, isoparametric cell
+  VTK_CUBIC_LINE: 35,
+  // Special class of cells formed by convex group of points
+  VTK_CONVEX_POINT_SET: 41,
+  // Polyhedron cell (consisting of polygonal faces)
+  VTK_POLYHEDRON: 42,
+  // Higher order cells in parametric form
+  VTK_PARAMETRIC_CURVE: 51,
+  VTK_PARAMETRIC_SURFACE: 52,
+  VTK_PARAMETRIC_TRI_SURFACE: 53,
+  VTK_PARAMETRIC_QUAD_SURFACE: 54,
+  VTK_PARAMETRIC_TETRA_REGION: 55,
+  VTK_PARAMETRIC_HEX_REGION: 56,
+  // Higher order cells
+  VTK_HIGHER_ORDER_EDGE: 60,
+  VTK_HIGHER_ORDER_TRIANGLE: 61,
+  VTK_HIGHER_ORDER_QUAD: 62,
+  VTK_HIGHER_ORDER_POLYGON: 63,
+  VTK_HIGHER_ORDER_TETRAHEDRON: 64,
+  VTK_HIGHER_ORDER_WEDGE: 65,
+  VTK_HIGHER_ORDER_PYRAMID: 66,
+  VTK_HIGHER_ORDER_HEXAHEDRON: 67,
+  // Arbitrary order Lagrange elements (formulated separated from generic higher order cells)
+  VTK_LAGRANGE_CURVE: 68,
+  VTK_LAGRANGE_TRIANGLE: 69,
+  VTK_LAGRANGE_QUADRILATERAL: 70,
+  VTK_LAGRANGE_TETRAHEDRON: 71,
+  VTK_LAGRANGE_HEXAHEDRON: 72,
+  VTK_LAGRANGE_WEDGE: 73,
+  VTK_LAGRANGE_PYRAMID: 74,
+  VTK_NUMBER_OF_CELL_TYPES: 75,
+} // This list should contain the cell class names in
+// the same order as in CellType.
+
+var CellTypesStrings = [
+  'vtkEmptyCell',
+  'vtkVertex',
+  'vtkPolyVertex',
+  'vtkLine',
+  'vtkPolyLine',
+  'vtkTriangle',
+  'vtkTriangleStrip',
+  'vtkPolygon',
+  'vtkPixel',
+  'vtkQuad',
+  'vtkTetra',
+  'vtkVoxel',
+  'vtkHexahedron',
+  'vtkWedge',
+  'vtkPyramid',
+  'vtkPentagonalPrism',
+  'vtkHexagonalPrism',
+  'UnknownClass',
+  'UnknownClass',
+  'UnknownClass',
+  'UnknownClass',
+  'vtkQuadraticEdge',
+  'vtkQuadraticTriangle',
+  'vtkQuadraticQuad',
+  'vtkQuadraticTetra',
+  'vtkQuadraticHexahedron',
+  'vtkQuadraticWedge',
+  'vtkQuadraticPyramid',
+  'vtkBiQuadraticQuad',
+  'vtkTriQuadraticHexahedron',
+  'vtkQuadraticLinearQuad',
+  'vtkQuadraticLinearWedge',
+  'vtkBiQuadraticQuadraticWedge',
+  'vtkBiQuadraticQuadraticHexahedron',
+  'vtkBiQuadraticTriangle',
+  'vtkCubicLine',
+  'vtkQuadraticPolygon',
+  'UnknownClass',
+  'UnknownClass',
+  'UnknownClass',
+  'UnknownClass',
+  'vtkConvexPointSet',
+  'UnknownClass',
+  'UnknownClass',
+  'UnknownClass',
+  'UnknownClass',
+  'UnknownClass',
+  'UnknownClass',
+  'UnknownClass',
+  'UnknownClass',
+  'UnknownClass',
+  'vtkParametricCurve',
+  'vtkParametricSurface',
+  'vtkParametricTriSurface',
+  'vtkParametricQuadSurface',
+  'vtkParametricTetraRegion',
+  'vtkParametricHexRegion',
+  'UnknownClass',
+  'UnknownClass',
+  'UnknownClass',
+  'vtkHigherOrderEdge',
+  'vtkHigherOrderTriangle',
+  'vtkHigherOrderQuad',
+  'vtkHigherOrderPolygon',
+  'vtkHigherOrderTetrahedron',
+  'vtkHigherOrderWedge',
+  'vtkHigherOrderPyramid',
+  'vtkHigherOrderHexahedron',
+]
+
+function ownKeys$l(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$l(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$l(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$l(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+// Global methods
+// ----------------------------------------------------------------------------
+
+/**
+ * Given an int (as defined in vtkCellType.h) identifier for a class
+ * return it's classname.
+ */
+
+function getClassNameFromTypeId(typeId) {
+  return typeId < CellTypesStrings.length
+    ? CellTypesStrings[typeId]
+    : 'UnknownClass'
+}
+/**
+ * Given a data object classname, return it's int identified (as
+ * defined in vtkCellType.h)
+ */
+
+function getTypeIdFromClassName(cellTypeString) {
+  return CellTypesStrings.findIndex(cellTypeString)
+}
+/**
+ * This convenience method is a fast check to determine if a cell type
+ * represents a linear or nonlinear cell.  This is generally much more
+ * efficient than getting the appropriate vtkCell and checking its IsLinear
+ * method.
+ */
+
+function isLinear(type) {
+  return (
+    type < CellType.VTK_QUADRATIC_EDGE ||
+    type === CellType.VTK_CONVEX_POINT_SET ||
+    type === CellType.VTK_POLYHEDRON
+  )
+}
+
+function hasSubCells(cellType) {
+  return (
+    cellType === CellType.VTK_TRIANGLE_STRIP ||
+    cellType === CellType.VTK_POLY_LINE ||
+    cellType === CellType.VTK_POLY_VERTEX
+  )
+} // ----------------------------------------------------------------------------
+// Static API
+// ----------------------------------------------------------------------------
+
+var STATIC$5 = {
+  getClassNameFromTypeId: getClassNameFromTypeId,
+  getTypeIdFromClassName: getTypeIdFromClassName,
+  isLinear: isLinear,
+  hasSubCells: hasSubCells,
+} // ----------------------------------------------------------------------------
+// vtkCellTypes methods
+// ----------------------------------------------------------------------------
+
+function vtkCellTypes(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkCellTypes')
+  /**
+   * Allocate memory for this array. Delete old storage only if necessary.
+   */
+
+  publicAPI.allocate = function() {
+    var sz =
+      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 512
+    var ext =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000
+    model.size = sz > 0 ? sz : 1
+    model.extend = ext > 0 ? ext : 1
+    model.maxId = -1
+    model.typeArray = new Uint8Array(sz)
+    model.locationArray = new Uint32Array(sz)
+  }
+  /**
+   * Add a cell at specified id.
+   */
+
+  publicAPI.insertCell = function(cellId, type, loc) {
+    model.typeArray[cellId] = type
+    model.locationArray[cellId] = loc
+
+    if (cellId > model.maxId) {
+      model.maxId = cellId
+    }
+  }
+  /**
+   * Add a cell to the object in the next available slot.
+   */
+
+  publicAPI.insertNextCell = function(type, loc) {
+    publicAPI.insertCell(++model.maxId, type, loc)
+    return model.maxId
+  }
+  /**
+   * Specify a group of cell types. This version is provided to maintain
+   * backwards compatibility and does a copy of the cellLocations
+   */
+
+  publicAPI.setCellTypes = function(ncells, cellTypes, cellLocations) {
+    model.size = ncells
+    model.typeArray = cellTypes
+    model.locationArray = cellLocations
+    model.maxId = ncells - 1
+  }
+  /**
+   * Return the location of the cell in the associated vtkCellArray.
+   */
+
+  publicAPI.getCellLocation = function(cellId) {
+    return model.locationArray[cellId]
+  }
+  /**
+   * Delete cell by setting to nullptr cell type.
+   */
+
+  publicAPI.deleteCell = function(cellId) {
+    model.typeArray[cellId] = CellType.VTK_EMPTY_CELL
+  }
+  /**
+   * Return the number of types in the list.
+   */
+
+  publicAPI.getNumberOfTypes = function() {
+    return model.maxId + 1
+  }
+  /**
+   * Return true if type specified is contained in list; false otherwise.
+   */
+
+  publicAPI.isType = function(type) {
+    var numTypes = publicAPI.getNumberOfTypes()
+
+    for (var i = 0; i < numTypes; ++i) {
+      if (type === publicAPI.getCellType(i)) {
+        return true
+      }
+    }
+
+    return false
+  }
+  /**
+   * Add the type specified to the end of the list. Range checking is performed.
+   */
+
+  publicAPI.insertNextType = function(type) {
+    return publicAPI.insertNextCell(type, -1)
+  }
+  /**
+   * Return the type of cell.
+   */
+
+  publicAPI.getCellType = function(cellId) {
+    return model.typeArray[cellId]
+  }
+  /**
+   * Reclaim any extra memory.
+   */
+  // TODO: publicAPI.squeeze = () =>  {};
+
+  /**
+   * Initialize object without releasing memory.
+   */
+
+  publicAPI.reset = function() {
+    model.maxId = -1
+  }
+  /**
+   * Standard DeepCopy method.  Since this object contains no reference
+   * to other objects, there is no ShallowCopy.
+   */
+
+  publicAPI.deepCopy = function(src) {
+    publicAPI.allocate(src.getSize(), src.getExtend())
+    model.typeArray.set(src.getTypeArray())
+    model.locationArray.set(src.getLocationArray())
+    model.maxId = src.getMaxId()
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$N = {
+  // typeArray: null, // pointer to types array
+  // locationArray: null;   // pointer to array of offsets
+  size: 0,
+  // allocated size of data
+  maxId: -1,
+  // maximum index inserted thus far
+  extend: 1000, // grow array by this point
+} // ----------------------------------------------------------------------------
+
+function extend$Q(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$N, initialValues)
+  macro.obj(publicAPI, model)
+  macro.get(publicAPI, model, ['size', 'maxId', 'extend'])
+  macro.getArray(publicAPI, model, ['typeArray', 'locationArray'])
+  vtkCellTypes(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$v = macro.newInstance(extend$Q, 'vtkCellTypes') // ----------------------------------------------------------------------------
+
+var vtkCellTypes$1 = _objectSpread$l(
+  {
+    newInstance: newInstance$v,
+    extend: extend$Q,
+  },
+  STATIC$5
+)
+
+var IntersectionState$1 = {
+  NO_INTERSECTION: 0,
+  YES_INTERSECTION: 1,
+  ON_LINE: 2,
+}
+var Constants$6 = {
+  IntersectionState: IntersectionState$1,
+}
+
+function ownKeys$k(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$k(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$k(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$k(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+var IntersectionState = Constants$6.IntersectionState // ----------------------------------------------------------------------------
+// Global methods
+// ----------------------------------------------------------------------------
+
+function distanceToLine(x, p1, p2) {
+  var closestPoint =
+    arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null
+  var outObj = {
+    t: Number.MIN_VALUE,
+    distance: 0,
+  }
+  var p21 = []
+  var closest // Determine appropriate vector
+
+  p21[0] = p2[0] - p1[0]
+  p21[1] = p2[1] - p1[1]
+  p21[2] = p2[2] - p1[2] // Get parametric location
+
+  var num =
+    p21[0] * (x[0] - p1[0]) + p21[1] * (x[1] - p1[1]) + p21[2] * (x[2] - p1[2])
+  var denom = dot$1(p21, p21) // trying to avoid an expensive fabs
+
+  var tolerance = 1e-5 * num
+
+  if (denom !== 0.0) {
+    outObj.t = num / denom
+  }
+
+  if (tolerance < 0.0) {
+    tolerance = -tolerance
+  }
+
+  if (-tolerance < denom && denom < tolerance) {
+    closest = p1
+  } else if (denom <= 0.0 || outObj.t < 0.0) {
+    // If parametric coordinate is within 0<=p<=1, then the point is closest to
+    // the line.  Otherwise, it's closest to a point at the end of the line.
+    closest = p1
+  } else if (outObj.t > 1.0) {
+    closest = p2
+  } else {
+    closest = p21
+    p21[0] = p1[0] + outObj.t * p21[0]
+    p21[1] = p1[1] + outObj.t * p21[1]
+    p21[2] = p1[2] + outObj.t * p21[2]
+  }
+
+  if (closestPoint) {
+    closestPoint[0] = closest[0]
+    closestPoint[1] = closest[1]
+    closestPoint[2] = closest[2]
+  }
+
+  outObj.distance = distance2BetweenPoints(closest, x)
+  return outObj
+}
+
+function intersection(a1, a2, b1, b2, u, v) {
+  var a21 = []
+  var b21 = []
+  var b1a1 = []
+  u[0] = 0.0
+  v[0] = 0.0 // Determine line vectors.
+
+  subtract$1(a2, a1, a21)
+  subtract$1(b2, b1, b21)
+  subtract$1(b1, a1, b1a1) // Compute the system (least squares) matrix.
+
+  var A = []
+  A[0] = [dot$1(a21, a21), -dot$1(a21, b21)]
+  A[1] = [A[0][1], dot$1(b21, b21)] // Compute the least squares system constant term.
+
+  var c = []
+  c[0] = dot$1(a21, b1a1)
+  c[1] = -dot$1(b21, b1a1) // Solve the system of equations
+
+  if (solveLinearSystem(A, c, 2) === 0) {
+    // The lines are colinear. Therefore, one of the four endpoints is the
+    // point of closest approach
+    var minDist = Number.MAX_VALUE
+    var p = [a1, a2, b1, b2]
+    var l1 = [b1, b1, a1, a1]
+    var l2 = [b2, b2, a2, a2]
+    var uv1 = [v[0], v[0], u[0], u[0]]
+    var uv2 = [u[0], u[0], v[0], v[0]]
+    var obj
+
+    for (var i = 0; i < 4; i++) {
+      obj = distanceToLine(p[i], l1[i], l2[i])
+
+      if (obj.distance < minDist) {
+        minDist = obj.distance
+        uv1[i] = obj.t
+        uv2[i] = i % 2
+      }
+    }
+
+    return IntersectionState.ON_LINE
+  }
+
+  u[0] = c[0]
+  v[0] = c[1] // Check parametric coordinates for intersection.
+
+  if (u[0] >= 0.0 && u[0] <= 1.0 && v[0] >= 0.0 && v[0] <= 1.0) {
+    return IntersectionState.YES_INTERSECTION
+  }
+
+  return IntersectionState.NO_INTERSECTION
+} // ----------------------------------------------------------------------------
+// Static API
+// ----------------------------------------------------------------------------
+
+var STATIC$4 = {
+  distanceToLine: distanceToLine,
+  intersection: intersection,
+} // ----------------------------------------------------------------------------
+// vtkLine methods
+// ----------------------------------------------------------------------------
+
+function vtkLine(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkLine')
+
+  function isBetweenPoints(t) {
+    return t >= 0.0 && t <= 1.0
+  }
+
+  publicAPI.getCellDimension = function() {
+    return 1
+  }
+
+  publicAPI.intersectWithLine = function(p1, p2, tol, x, pcoords) {
+    var outObj = {
+      intersect: 0,
+      t: Number.MAX_VALUE,
+      subId: 0,
+      betweenPoints: null,
+    }
+    pcoords[1] = 0.0
+    pcoords[2] = 0.0
+    var projXYZ = []
+    var a1 = []
+    var a2 = []
+    model.points.getPoint(0, a1)
+    model.points.getPoint(1, a2)
+    var u = []
+    var v = []
+    var intersect = intersection(p1, p2, a1, a2, u, v)
+    outObj.t = u[0]
+    outObj.betweenPoints = isBetweenPoints(outObj.t)
+    pcoords[0] = v[0]
+
+    if (intersect === IntersectionState.YES_INTERSECTION) {
+      // make sure we are within tolerance
+      for (var i = 0; i < 3; i++) {
+        x[i] = a1[i] + pcoords[0] * (a2[i] - a1[i])
+        projXYZ[i] = p1[i] + outObj.t * (p2[i] - p1[i])
+      }
+
+      if (distance2BetweenPoints(x, projXYZ) <= tol * tol) {
+        outObj.intersect = 1
+        return outObj
+      }
+    } else {
+      var outDistance // check to see if it lies within tolerance
+      // one of the parametric coords must be outside 0-1
+
+      if (outObj.t < 0.0) {
+        outDistance = distanceToLine(p1, a1, a2, x)
+
+        if (outDistance.distance <= tol * tol) {
+          outObj.t = 0.0
+          outObj.intersect = 1
+          outObj.betweenPoints = true // Intersection is near p1
+
+          return outObj
+        }
+
+        return outObj
+      }
+
+      if (outObj.t > 1.0) {
+        outDistance = distanceToLine(p2, a1, a2, x)
+
+        if (outDistance.distance <= tol * tol) {
+          outObj.t = 1.0
+          outObj.intersect = 1
+          outObj.betweenPoints = true // Intersection is near p2
+
+          return outObj
+        }
+
+        return outObj
+      }
+
+      if (pcoords[0] < 0.0) {
+        pcoords[0] = 0.0
+        outDistance = distanceToLine(a1, p1, p2, x)
+        outObj.t = outDistance.t
+
+        if (outDistance.distance <= tol * tol) {
+          outObj.intersect = 1
+          return outObj
+        }
+
+        return outObj
+      }
+
+      if (pcoords[0] > 1.0) {
+        pcoords[0] = 1.0
+        outDistance = distanceToLine(a2, p1, p2, x)
+        outObj.t = outDistance.t
+
+        if (outDistance.distance <= tol * tol) {
+          outObj.intersect = 1
+          return outObj
+        }
+
+        return outObj
+      }
+    }
+
+    return outObj
+  }
+
+  publicAPI.evaluateLocation = function(pcoords, x, weights) {
+    var a1 = []
+    var a2 = []
+    model.points.getPoint(0, a1)
+    model.points.getPoint(1, a2)
+
+    for (var i = 0; i < 3; i++) {
+      x[i] = a1[i] + pcoords[0] * (a2[i] - a1[i])
+    }
+
+    weights[0] = 1.0 - pcoords[0]
+    weights[1] = pcoords[0]
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$M = {} // ----------------------------------------------------------------------------
+
+function extend$P(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$M, initialValues)
+  vtkCell$1.extend(publicAPI, model, initialValues)
+  vtkLine(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$u = macro.newInstance(extend$P, 'vtkLine') // ----------------------------------------------------------------------------
+
+var vtkLine$1 = _objectSpread$k(
+  _objectSpread$k(
+    {
+      newInstance: newInstance$u,
+      extend: extend$P,
+    },
+    STATIC$4
+  ),
+  Constants$6
+)
+
+// vtkFieldData methods
+// ----------------------------------------------------------------------------
+
+function vtkFieldData(publicAPI, model) {
+  model.classHierarchy.push('vtkFieldData')
+  var superGetState = publicAPI.getState // Decode serialized data if any
+
+  if (model.arrays) {
+    model.arrays = model.arrays.map(function(item) {
+      return {
+        data: vtk(item.data),
+      }
+    })
+  }
+
+  publicAPI.initialize = function() {
+    publicAPI.initializeFields()
+    publicAPI.copyAllOn()
+    publicAPI.clearFieldFlags()
+  }
+
+  publicAPI.initializeFields = function() {
+    model.arrays = []
+    model.copyFieldFlags = {}
+    publicAPI.modified()
+  }
+
+  publicAPI.copyStructure = function(other) {
+    publicAPI.initializeFields()
+    model.copyFieldFlags = other.getCopyFieldFlags().map(function(x) {
+      return x
+    }) // Deep-copy
+
+    model.arrays = other.arrays().map(function(x) {
+      return {
+        array: x,
+      }
+    }) // Deep-copy
+    // TODO: Copy array information objects (once we support information objects)
+  }
+
+  publicAPI.getNumberOfArrays = function() {
+    return model.arrays.length
+  }
+
+  publicAPI.getNumberOfActiveArrays = function() {
+    return model.arrays.length
+  }
+
+  publicAPI.addArray = function(arr) {
+    model.arrays = [].concat(model.arrays, {
+      data: arr,
+    })
+    return model.arrays.length - 1
+  }
+
+  publicAPI.removeAllArrays = function() {
+    model.arrays = []
+  }
+
+  publicAPI.removeArray = function(arrayName) {
+    model.arrays = model.arrays.filter(function(entry) {
+      return arrayName !== entry.data.getName()
+    })
+  }
+
+  publicAPI.removeArrayByIndex = function(arrayIdx) {
+    model.arrays = model.arrays.filter(function(entry, idx) {
+      return idx !== arrayIdx
+    })
+  }
+
+  publicAPI.getArrays = function() {
+    return model.arrays.map(function(entry) {
+      return entry.data
+    })
+  }
+
+  publicAPI.getArray = function(arraySpec) {
+    return typeof arraySpec === 'number'
+      ? publicAPI.getArrayByIndex(arraySpec)
+      : publicAPI.getArrayByName(arraySpec)
+  }
+
+  publicAPI.getArrayByName = function(arrayName) {
+    return model.arrays.reduce(function(a, b, i) {
+      return b.data.getName() === arrayName ? b.data : a
+    }, null)
+  }
+
+  publicAPI.getArrayWithIndex = function(arrayName) {
+    return model.arrays.reduce(
+      function(a, b, i) {
+        return b.data && b.data.getName() === arrayName
+          ? {
+              array: b.data,
+              index: i,
+            }
+          : a
+      },
+      {
+        array: null,
+        index: -1,
+      }
+    )
+  }
+
+  publicAPI.getArrayByIndex = function(idx) {
+    return idx >= 0 && idx < model.arrays.length ? model.arrays[idx].data : null
+  }
+
+  publicAPI.hasArray = function(arrayName) {
+    return publicAPI.getArrayWithIndex(arrayName).index >= 0
+  }
+
+  publicAPI.getArrayName = function(idx) {
+    var arr = model.arrays[idx]
+    return arr ? arr.data.getName() : ''
+  }
+
+  publicAPI.getCopyFieldFlags = function() {
+    return model.copyFieldFlags
+  }
+
+  publicAPI.getFlag = function(arrayName) {
+    return model.copyFieldFlags[arrayName]
+  }
+
+  publicAPI.passData = function(other) {
+    var fromId =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1
+    var toId =
+      arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : -1
+    other.getArrays().forEach(function(arr) {
+      var copyFlag = publicAPI.getFlag(arr.getName())
+
+      if (
+        copyFlag !== false &&
+        !(model.doCopyAllOff && copyFlag !== true) &&
+        arr
+      ) {
+        var destArr = publicAPI.getArrayByName(arr.getName())
+
+        if (!destArr) {
+          if (fromId < 0 || fromId > arr.getNumberOfTuples()) {
+            publicAPI.addArray(arr)
+          } else {
+            var ncomps = arr.getNumberOfComponents()
+            var newSize = arr.getNumberOfValues()
+            var tId = toId > -1 ? toId : fromId
+
+            if (newSize < tId * ncomps) {
+              newSize = (tId + 1) * ncomps
+            }
+
+            destArr = vtkDataArray$1.newInstance({
+              name: arr.getName(),
+              dataType: arr.getDataType(),
+              numberOfComponents: arr.getNumberOfComponents(),
+              size: newSize,
+            })
+            destArr.setTuple(tId, arr.getTuple(fromId))
+            publicAPI.addArray(destArr)
+          }
+        } else if (
+          arr.getNumberOfComponents() === destArr.getNumberOfComponents()
+        ) {
+          if (fromId > -1 && fromId < arr.getNumberOfTuples()) {
+            var _tId = toId > -1 ? toId : fromId
+
+            destArr.setTuple(_tId, arr.getTuple(fromId))
+          } else {
+            // if fromId and not provided, just copy all (or as much possible)
+            // of arr to destArr.
+            for (var i = 0; i < arr.getNumberOfTuples(); ++i) {
+              destArr.setTuple(i, arr.getTuple(i))
+            }
+          }
+        }
+      }
+    })
+  }
+
+  publicAPI.copyFieldOn = function(arrayName) {
+    model.copyFieldFlags[arrayName] = true
+  }
+
+  publicAPI.copyFieldOff = function(arrayName) {
+    model.copyFieldFlags[arrayName] = false
+  }
+
+  publicAPI.copyAllOn = function() {
+    if (!model.doCopyAllOn || model.doCopyAllOff) {
+      model.doCopyAllOn = true
+      model.doCopyAllOff = false
+      publicAPI.modified()
+    }
+  }
+
+  publicAPI.copyAllOff = function() {
+    if (model.doCopyAllOn || !model.doCopyAllOff) {
+      model.doCopyAllOn = false
+      model.doCopyAllOff = true
+      publicAPI.modified()
+    }
+  }
+
+  publicAPI.clearFieldFlags = function() {
+    model.copyFieldFlags = {}
+  }
+
+  publicAPI.deepCopy = function(other) {
+    model.arrays = other.getArrays().map(function(arr) {
+      var arrNew = arr.newClone()
+      arrNew.deepCopy(arr)
+      return {
+        data: arrNew,
+      }
+    })
+  }
+
+  publicAPI.copyFlags = function(other) {
+    return other.getCopyFieldFlags().map(function(x) {
+      return x
+    })
+  } // TODO: publicAPI.squeeze = () => model.arrays.forEach(entry => entry.data.squeeze());
+
+  publicAPI.reset = function() {
+    return model.arrays.forEach(function(entry) {
+      return entry.data.reset()
+    })
+  } // TODO: getActualMemorySize
+
+  publicAPI.getMTime = function() {
+    return model.arrays.reduce(function(a, b) {
+      return b.data.getMTime() > a ? b.data.getMTime() : a
+    }, model.mtime)
+  } // TODO: publicAPI.getField = (ids, other) => { copy ids from other into this model's arrays }
+  // TODO: publicAPI.getArrayContainingComponent = (component) => ...
+
+  publicAPI.getNumberOfComponents = function() {
+    return model.arrays.reduce(function(a, b) {
+      return a + b.data.getNumberOfComponents()
+    }, 0)
+  }
+
+  publicAPI.getNumberOfTuples = function() {
+    return model.arrays.length > 0 ? model.arrays[0].getNumberOfTuples() : 0
+  }
+
+  publicAPI.getState = function() {
+    var result = superGetState()
+
+    if (result) {
+      result.arrays = model.arrays.map(function(item) {
+        return {
+          data: item.data.getState(),
+        }
+      })
+    }
+
+    return result
+  }
+}
+
+var DEFAULT_VALUES$L = {
+  arrays: [],
+  copyFieldFlags: [],
+  // fields not to copy
+  doCopyAllOn: true,
+  doCopyAllOff: false,
+}
+function extend$O(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$L, initialValues)
+  macro.obj(publicAPI, model)
+  vtkFieldData(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$t = macro.newInstance(extend$O, 'vtkFieldData') // ----------------------------------------------------------------------------
+
+var vtkFieldData$1 = {
+  newInstance: newInstance$t,
+  extend: extend$O,
+}
+
+var AttributeTypes$1 = {
+  SCALARS: 0,
+  VECTORS: 1,
+  NORMALS: 2,
+  TCOORDS: 3,
+  TENSORS: 4,
+  GLOBALIDS: 5,
+  PEDIGREEIDS: 6,
+  EDGEFLAG: 7,
+  NUM_ATTRIBUTES: 8,
+}
+var AttributeLimitTypes = {
+  MAX: 0,
+  EXACT: 1,
+  NOLIMIT: 2,
+}
+var CellGhostTypes = {
+  DUPLICATECELL: 1,
+  // the cell is present on multiple processors
+  HIGHCONNECTIVITYCELL: 2,
+  // the cell has more neighbors than in a regular mesh
+  LOWCONNECTIVITYCELL: 4,
+  // the cell has less neighbors than in a regular mesh
+  REFINEDCELL: 8,
+  // other cells are present that refines it.
+  EXTERIORCELL: 16,
+  // the cell is on the exterior of the data set
+  HIDDENCELL: 32, // the cell is needed to maintain connectivity, but the data values should be ignored.
+}
+var PointGhostTypes = {
+  DUPLICATEPOINT: 1,
+  // the cell is present on multiple processors
+  HIDDENPOINT: 2, // the point is needed to maintain connectivity, but the data values should be ignored.
+}
+var AttributeCopyOperations$1 = {
+  COPYTUPLE: 0,
+  INTERPOLATE: 1,
+  PASSDATA: 2,
+  ALLCOPY: 3, // all of the above
+}
+var ghostArrayName = 'vtkGhostType'
+var DesiredOutputPrecision = {
+  DEFAULT: 0,
+  // use the point type that does not truncate any data
+  SINGLE: 1,
+  // use Float32Array
+  DOUBLE: 2, // use Float64Array
+}
+var Constants$5 = {
+  AttributeCopyOperations: AttributeCopyOperations$1,
+  AttributeLimitTypes: AttributeLimitTypes,
+  AttributeTypes: AttributeTypes$1,
+  CellGhostTypes: CellGhostTypes,
+  DesiredOutputPrecision: DesiredOutputPrecision,
+  PointGhostTypes: PointGhostTypes,
+  ghostArrayName: ghostArrayName,
+}
+
+function ownKeys$j(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$j(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$j(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$j(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+var AttributeTypes = Constants$5.AttributeTypes,
+  AttributeCopyOperations = Constants$5.AttributeCopyOperations
+var vtkWarningMacro$4 = macro.vtkWarningMacro // ----------------------------------------------------------------------------
+// vtkDataSetAttributes methods
+// ----------------------------------------------------------------------------
+
+function vtkDataSetAttributes(publicAPI, model) {
+  var attrTypes = [
+    'Scalars',
+    'Vectors',
+    'Normals',
+    'TCoords',
+    'Tensors',
+    'GlobalIds',
+    'PedigreeIds',
+  ]
+
+  function cleanAttributeType(attType) {
+    // Given an integer or string, convert the result to one of the
+    // strings in the "attrTypes" array above or null (if
+    // no match is found)
+    var cleanAttType = attrTypes.find(function(ee) {
+      return (
+        AttributeTypes[ee.toUpperCase()] === attType ||
+        (typeof attType !== 'number' &&
+          ee.toLowerCase() === attType.toLowerCase())
+      )
+    })
+
+    if (typeof cleanAttType === 'undefined') {
+      cleanAttType = null
+    }
+
+    return cleanAttType
+  } // Set our className
+
+  model.classHierarchy.push('vtkDataSetAttributes')
+
+  publicAPI.checkNumberOfComponents = function(x) {
+    return true
+  } // TODO
+
+  publicAPI.setAttribute = function(arr, uncleanAttType) {
+    var attType = cleanAttributeType(uncleanAttType)
+
+    if (
+      arr &&
+      attType.toUpperCase() === 'PEDIGREEIDS' &&
+      !arr.isA('vtkDataArray')
+    ) {
+      vtkWarningMacro$4(
+        'Cannot set attribute '.concat(
+          attType,
+          '. The attribute must be a vtkDataArray.'
+        )
+      )
+      return -1
+    }
+
+    if (arr && !publicAPI.checkNumberOfComponents(arr, attType)) {
+      vtkWarningMacro$4(
+        'Cannot set attribute '.concat(
+          attType,
+          '. Incorrect number of components.'
+        )
+      )
+      return -1
+    }
+
+    var currentAttribute = model['active'.concat(attType)]
+
+    if (currentAttribute >= 0 && currentAttribute < model.arrays.length) {
+      if (model.arrays[currentAttribute] === arr) {
+        return currentAttribute
+      }
+
+      publicAPI.removeArrayByIndex(currentAttribute)
+    }
+
+    if (arr) {
+      currentAttribute = publicAPI.addArray(arr)
+      model['active'.concat(attType)] = currentAttribute
+    } else {
+      model['active'.concat(attType)] = -1
+    }
+
+    publicAPI.modified()
+    return model['active'.concat(attType)]
+  }
+
+  publicAPI.setActiveAttributeByName = function(arrayName, attType) {
+    return publicAPI.setActiveAttributeByIndex(
+      publicAPI.getArrayWithIndex(arrayName).index,
+      attType
+    )
+  }
+
+  publicAPI.setActiveAttributeByIndex = function(arrayIdx, uncleanAttType) {
+    var attType = cleanAttributeType(uncleanAttType)
+
+    if (arrayIdx >= 0 && arrayIdx < model.arrays.length) {
+      if (attType.toUpperCase() !== 'PEDIGREEIDS') {
+        var arr = publicAPI.getArrayByIndex(arrayIdx)
+
+        if (!arr.isA('vtkDataArray')) {
+          vtkWarningMacro$4(
+            'Cannot set attribute '.concat(
+              attType,
+              '. Only vtkDataArray subclasses can be set as active attributes.'
+            )
+          )
+          return -1
+        }
+
+        if (!publicAPI.checkNumberOfComponents(arr, attType)) {
+          vtkWarningMacro$4(
+            'Cannot set attribute '.concat(
+              attType,
+              '. Incorrect number of components.'
+            )
+          )
+          return -1
+        }
+      }
+
+      model['active'.concat(attType)] = arrayIdx
+      publicAPI.modified()
+      return arrayIdx
+    }
+
+    if (arrayIdx === -1) {
+      model['active'.concat(attType)] = arrayIdx
+      publicAPI.modified()
+    }
+
+    return -1
+  }
+
+  publicAPI.getActiveAttribute = function(attType) {
+    // Given an integer enum value or a string (with random capitalization),
+    // find the matching string in attrTypes.
+    var cleanAttType = cleanAttributeType(attType)
+    return publicAPI['get'.concat(cleanAttType)]()
+  } // Override to allow proper handling of active attributes
+
+  publicAPI.removeAllArrays = function() {
+    model.arrays = []
+    attrTypes.forEach(function(attType) {
+      model['active'.concat(attType)] = -1
+    })
+  } // Override to allow proper handling of active attributes
+
+  publicAPI.removeArray = function(arrayName) {
+    model.arrays = model.arrays.filter(function(entry, idx) {
+      if (arrayName === entry.data.getName()) {
+        // Found the array to remove, but is it an active attribute?
+        attrTypes.forEach(function(attType) {
+          if (idx === model['active'.concat(attType)]) {
+            model['active'.concat(attType)] = -1
+          }
+        })
+        return false
+      }
+
+      return true
+    })
+  } // Override to allow proper handling of active attributes
+
+  publicAPI.removeArrayByIndex = function(arrayIdx) {
+    model.arrays = model.arrays.filter(function(entry, idx) {
+      return idx !== arrayIdx
+    })
+    attrTypes.forEach(function(attType) {
+      if (arrayIdx === model['active'.concat(attType)]) {
+        model['active'.concat(attType)] = -1
+      }
+    })
+  }
+
+  attrTypes.forEach(function(value) {
+    var activeVal = 'active'.concat(value)
+
+    publicAPI['get'.concat(value)] = function() {
+      return publicAPI.getArrayByIndex(model[activeVal])
+    }
+
+    publicAPI['set'.concat(value)] = function(da) {
+      return publicAPI.setAttribute(da, value)
+    }
+
+    publicAPI['setActive'.concat(value)] = function(arrayName) {
+      return publicAPI.setActiveAttributeByIndex(
+        publicAPI.getArrayWithIndex(arrayName).index,
+        value
+      )
+    }
+
+    publicAPI['copy'.concat(value, 'Off')] = function() {
+      var attType = value.toUpperCase()
+      model.copyAttributeFlags[AttributeCopyOperations.PASSDATA][
+        AttributeTypes[attType]
+      ] = false
+    }
+  })
+
+  publicAPI.initializeAttributeCopyFlags = function() {
+    // Default to copying all attributes in every circumstance:
+    model.copyAttributeFlags = []
+    Object.keys(AttributeCopyOperations)
+      .filter(function(op) {
+        return op !== 'ALLCOPY'
+      })
+      .forEach(function(attCopyOp) {
+        model.copyAttributeFlags[
+          AttributeCopyOperations[attCopyOp]
+        ] = Object.keys(AttributeTypes)
+          .filter(function(ty) {
+            return ty !== 'NUM_ATTRIBUTES'
+          })
+          .reduce(function(a, b) {
+            a[AttributeTypes[b]] = true
+            return a
+          }, [])
+      }) // Override some operations where we don't want to copy:
+
+    model.copyAttributeFlags[AttributeCopyOperations.COPYTUPLE][
+      AttributeTypes.GLOBALIDS
+    ] = false
+    model.copyAttributeFlags[AttributeCopyOperations.INTERPOLATE][
+      AttributeTypes.GLOBALIDS
+    ] = false
+    model.copyAttributeFlags[AttributeCopyOperations.COPYTUPLE][
+      AttributeTypes.PEDIGREEIDS
+    ] = false
+  }
+
+  publicAPI.initialize = macro.chain(
+    publicAPI.initialize,
+    publicAPI.initializeAttributeCopyFlags
+  ) // Process dataArrays if any
+
+  if (model.dataArrays && Object.keys(model.dataArrays).length) {
+    Object.keys(model.dataArrays).forEach(function(name) {
+      if (
+        !model.dataArrays[name].ref &&
+        model.dataArrays[name].type === 'vtkDataArray'
+      ) {
+        publicAPI.addArray(vtkDataArray$1.newInstance(model.dataArrays[name]))
+      }
+    })
+  }
+
+  var superShallowCopy = publicAPI.shallowCopy
+
+  publicAPI.shallowCopy = function(other, debug) {
+    superShallowCopy(other, debug)
+    model.arrays = other.getArrays().map(function(arr) {
+      var arrNew = arr.newClone()
+      arrNew.shallowCopy(arr, debug)
+      return {
+        data: arrNew,
+      }
+    })
+  }
+
+  publicAPI.initializeAttributeCopyFlags()
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$K = {
+  activeScalars: -1,
+  activeVectors: -1,
+  activeTensors: -1,
+  activeNormals: -1,
+  activeTCoords: -1,
+  activeGlobalIds: -1,
+  activePedigreeIds: -1,
+} // ----------------------------------------------------------------------------
+
+function extend$N(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$K, initialValues) // Object methods
+
+  vtkFieldData$1.extend(publicAPI, model, initialValues)
+  macro.setGet(publicAPI, model, [
+    'activeScalars',
+    'activeNormals',
+    'activeTCoords',
+    'activeVectors',
+    'activeTensors',
+    'activeGlobalIds',
+    'activePedigreeIds',
+  ])
+
+  if (!model.arrays) {
+    model.arrays = {}
+  } // Object specific methods
+
+  vtkDataSetAttributes(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$s = macro.newInstance(extend$N, 'vtkDataSetAttributes') // ----------------------------------------------------------------------------
+
+var vtkDataSetAttributes$1 = _objectSpread$j(
+  {
+    newInstance: newInstance$s,
+    extend: extend$N,
+  },
+  Constants$5
+)
+
+function ownKeys$i(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$i(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$i(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$i(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+// import * as vtkMath from '../../Core/Math';
+//
+// function getBounds(dataset) {
+//   if (dataset.bounds) {
+//     return dataset.bounds;
+//   }
+//   if (dataset.type && dataset[dataset.type]) {
+//     const ds = dataset[dataset.type];
+//     if (ds.bounds) {
+//       return ds.bounds;
+//     }
+//     if (ds.Points && ds.Points.bounds) {
+//       return ds.Points.bounds;
+//     }
+//     if (ds.Points && ds.Points.values) {
+//       const array = ds.Points.values;
+//       const bbox = [...vtkBoundingBox.INIT_BOUNDS];
+//       const size = array.length;
+//       const delta = ds.Points.numberOfComponents ? ds.Points.numberOfComponents : 3;
+//       for (let idx = 0; idx < size; idx += delta) {
+//         vtkBoundingBox.addPoint(bbox, array[idx * delta], array[(idx * delta) + 1], array[(idx * delta) + 2]);
+//       }
+//       ds.Points.bounds = bbox;
+//       return ds.Points.bounds;
+//     }
+//   }
+//   return vtkMath.createUninitializedBounds();
+// }
+// ----------------------------------------------------------------------------
+// Global methods
+// ----------------------------------------------------------------------------
+
+var DATASET_FIELDS = ['pointData', 'cellData', 'fieldData'] // ----------------------------------------------------------------------------
+// vtkDataSet methods
+// ----------------------------------------------------------------------------
+
+function vtkDataSet(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkDataSet') // Add dataset attributes
+
+  DATASET_FIELDS.forEach(function(fieldName) {
+    if (!model[fieldName]) {
+      model[fieldName] = vtkDataSetAttributes$1.newInstance()
+    } else {
+      model[fieldName] = vtk(model[fieldName])
+    }
+  })
+  var superShallowCopy = publicAPI.shallowCopy
+
+  publicAPI.shallowCopy = function(other) {
+    var debug =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false
+    superShallowCopy(other, debug)
+    DATASET_FIELDS.forEach(function(fieldName) {
+      model[fieldName] = vtkDataSetAttributes$1.newInstance()
+      model[fieldName].shallowCopy(other.getReferenceByName(fieldName))
+    })
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$J = {
+  // pointData: null,
+  // cellData: null,
+  // fieldData: null,
+} // ----------------------------------------------------------------------------
+
+function extend$M(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$J, initialValues) // Object methods
+
+  macro.obj(publicAPI, model)
+  macro.setGet(publicAPI, model, DATASET_FIELDS) // Object specific methods
+
+  vtkDataSet(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$r = macro.newInstance(extend$M, 'vtkDataSet') // ----------------------------------------------------------------------------
+
+var vtkDataSet$1 = _objectSpread$i(
+  {
+    newInstance: newInstance$r,
+    extend: extend$M,
+  },
+  Constants$9
+)
+
+// Global methods
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// vtkPointSet methods
+// ----------------------------------------------------------------------------
+
+function vtkPointSet(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkPointSet') // Create empty points
+
+  if (!model.points) {
+    model.points = vtkPoints$1.newInstance()
+  } else {
+    model.points = vtk(model.points)
+  }
+
+  publicAPI.getNumberOfPoints = function() {
+    return model.points.getNumberOfPoints()
+  }
+
+  publicAPI.getBounds = function() {
+    return model.points.getBounds()
+  }
+
+  publicAPI.computeBounds = function() {
+    publicAPI.getBounds()
+  }
+
+  var superShallowCopy = publicAPI.shallowCopy
+
+  publicAPI.shallowCopy = function(other) {
+    var debug =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false
+    superShallowCopy(other, debug)
+    model.points = vtkPoints$1.newInstance()
+    model.points.shallowCopy(other.getPoints())
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$I = {
+  // points: null,
+} // ----------------------------------------------------------------------------
+
+function extend$L(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$I, initialValues) // Inheritance
+
+  vtkDataSet$1.extend(publicAPI, model, initialValues)
+  macro.setGet(publicAPI, model, ['points']) // Object specific methods
+
+  vtkPointSet(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$q = macro.newInstance(extend$L, 'vtkPointSet') // ----------------------------------------------------------------------------
+
+var vtkPointSet$1 = {
+  newInstance: newInstance$q,
+  extend: extend$L,
+}
+
+function ownKeys$h(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$h(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$h(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$h(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+var PLANE_TOLERANCE = 1.0e-6
+var COINCIDE = 'coincide'
+var DISJOINT = 'disjoint' // ----------------------------------------------------------------------------
+// Global methods
+// ----------------------------------------------------------------------------
+
+function evaluate(normal, origin, x) {
+  return (
+    normal[0] * (x[0] - origin[0]) +
+    normal[1] * (x[1] - origin[1]) +
+    normal[2] * (x[2] - origin[2])
+  )
+}
+
+function distanceToPlane(x, origin, normal) {
+  var distance =
+    normal[0] * (x[0] - origin[0]) +
+    normal[1] * (x[1] - origin[1]) +
+    normal[2] * (x[2] - origin[2])
+  return Math.abs(distance)
+}
+
+function projectPoint(x, origin, normal, xproj) {
+  var xo = []
+  subtract$1(x, origin, xo)
+  var t = dot$1(normal, xo)
+  xproj[0] = x[0] - t * normal[0]
+  xproj[1] = x[1] - t * normal[1]
+  xproj[2] = x[2] - t * normal[2]
+}
+
+function projectVector(v, normal, vproj) {
+  var t = dot$1(v, normal)
+  var n2 = dot$1(normal, normal)
+
+  if (n2 === 0) {
+    n2 = 1.0
+  }
+
+  vproj[0] = v[0] - (t * normal[0]) / n2
+  vproj[1] = v[1] - (t * normal[1]) / n2
+  vproj[2] = v[2] - (t * normal[2]) / n2
+  return vproj
+}
+
+function generalizedProjectPoint(x, origin, normal, xproj) {
+  var xo = []
+  subtract$1(x, origin, xo)
+  var t = dot$1(normal, xo)
+  var n2 = dot$1(normal, normal)
+
+  if (n2 !== 0) {
+    xproj[0] = x[0] - (t * normal[0]) / n2
+    xproj[1] = x[1] - (t * normal[1]) / n2
+    xproj[2] = x[2] - (t * normal[2]) / n2
+  } else {
+    xproj[0] = x[0]
+    xproj[1] = x[1]
+    xproj[2] = x[2]
+  }
+}
+
+function intersectWithLine(p1, p2, origin, normal) {
+  var outObj = {
+    intersection: false,
+    betweenPoints: false,
+    t: Number.MAX_VALUE,
+    x: [],
+  }
+  var p21 = []
+  var p1Origin = [] // Compute line vector
+
+  subtract$1(p2, p1, p21)
+  subtract$1(origin, p1, p1Origin) // Compute denominator.  If ~0, line and plane are parallel.
+  // const num = vtkMath.dot(normal, origin) - vtkMath.dot(normal, p1);
+
+  var num = dot$1(normal, p1Origin)
+  var den = dot$1(normal, p21) // If denominator with respect to numerator is "zero", then the line and
+  // plane are considered parallel.
+
+  var fabsden
+  var fabstolerance // Trying to avoid an expensive call to fabs()
+
+  if (den < 0.0) {
+    fabsden = -den
+  } else {
+    fabsden = den
+  }
+
+  if (num < 0.0) {
+    fabstolerance = -num * PLANE_TOLERANCE
+  } else {
+    fabstolerance = num * PLANE_TOLERANCE
+  }
+
+  if (fabsden <= fabstolerance) {
+    return outObj
+  } // Where on the line between p1 and p2 is the intersection
+  // If between 0 and 1, it is between the two points. If < 0 it's before p1, if > 1 it's after p2
+
+  outObj.t = num / den
+  outObj.x[0] = p1[0] + outObj.t * p21[0]
+  outObj.x[1] = p1[1] + outObj.t * p21[1]
+  outObj.x[2] = p1[2] + outObj.t * p21[2]
+  outObj.intersection = true
+  outObj.betweenPoints = outObj.t >= 0.0 && outObj.t <= 1.0
+  return outObj
+}
+
+function intersectWithPlane(
+  plane1Origin,
+  plane1Normal,
+  plane2Origin,
+  plane2Normal
+) {
+  var outObj = {
+    intersection: false,
+    l0: [],
+    l1: [],
+    error: null,
+  }
+  var cross$1$1 = []
+  cross$1(plane1Normal, plane2Normal, cross$1$1)
+  var absCross = cross$1$1.map(function(n) {
+    return Math.abs(n)
+  }) // test if the two planes are parallel
+
+  if (absCross[0] + absCross[1] + absCross[2] < PLANE_TOLERANCE) {
+    // test if disjoint or coincide
+    var v = []
+    subtract$1(plane1Origin, plane2Origin, v)
+
+    if (dot$1(plane1Normal, v) === 0) {
+      outObj.error = COINCIDE
+    } else {
+      outObj.error = DISJOINT
+    }
+
+    return outObj
+  } // Plane1 and Plane2 intersect in a line
+  // first determine max abs coordinate of the cross product
+
+  var maxc
+
+  if (absCross[0] > absCross[1] && absCross[0] > absCross[2]) {
+    maxc = 'x'
+  } else if (absCross[1] > absCross[2]) {
+    maxc = 'y'
+  } else {
+    maxc = 'z'
+  } // To get a point on the intersect line, zero the max coord, and solve for the other two
+
+  var iP = [] // intersectionPoint
+  // the constants in the 2 plane equations
+
+  var d1 = -dot$1(plane1Normal, plane1Origin)
+  var d2 = -dot$1(plane2Normal, plane2Origin) // eslint-disable-next-line default-case
+
+  switch (maxc) {
+    case 'x':
+      // intersect with x=0
+      iP[0] = 0
+      iP[1] = (d2 * plane1Normal[2] - d1 * plane2Normal[2]) / cross$1$1[0]
+      iP[2] = (d1 * plane2Normal[1] - d2 * plane1Normal[1]) / cross$1$1[0]
+      break
+
+    case 'y':
+      // intersect with y=0
+      iP[0] = (d1 * plane2Normal[2] - d2 * plane1Normal[2]) / cross$1$1[1]
+      iP[1] = 0
+      iP[2] = (d2 * plane1Normal[0] - d1 * plane2Normal[0]) / cross$1$1[1]
+      break
+
+    case 'z':
+      // intersect with z=0
+      iP[0] = (d2 * plane1Normal[1] - d1 * plane2Normal[1]) / cross$1$1[2]
+      iP[1] = (d1 * plane2Normal[0] - d2 * plane1Normal[0]) / cross$1$1[2]
+      iP[2] = 0
+      break
+  }
+
+  outObj.l0 = iP
+  add$1(iP, cross$1$1, outObj.l1)
+  outObj.intersection = true
+  return outObj
+} // ----------------------------------------------------------------------------
+// Static API
+// ----------------------------------------------------------------------------
+
+var STATIC$3 = {
+  evaluate: evaluate,
+  distanceToPlane: distanceToPlane,
+  projectPoint: projectPoint,
+  projectVector: projectVector,
+  generalizedProjectPoint: generalizedProjectPoint,
+  intersectWithLine: intersectWithLine,
+  intersectWithPlane: intersectWithPlane,
+  DISJOINT: DISJOINT,
+  COINCIDE: COINCIDE,
+} // ----------------------------------------------------------------------------
+// vtkPlane methods
+// ----------------------------------------------------------------------------
+
+function vtkPlane(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkPlane')
+
+  publicAPI.distanceToPlane = function(x) {
+    return distanceToPlane(x, model.origin, model.normal)
+  }
+
+  publicAPI.projectPoint = function(x, xproj) {
+    projectPoint(x, model.origin, model.normal, xproj)
+  }
+
+  publicAPI.projectVector = function(v, vproj) {
+    return projectVector(v, model.normal, vproj)
+  }
+
+  publicAPI.push = function(distance) {
+    if (distance === 0.0) {
+      return
+    }
+
+    for (var i = 0; i < 3; i++) {
+      model.origin[i] += distance * model.normal[i]
+    }
+  }
+
+  publicAPI.generalizedProjectPoint = function(x, xproj) {
+    generalizedProjectPoint(x, model.origin, model.normal, xproj)
+  }
+
+  publicAPI.evaluateFunction = function(x, y, z) {
+    if (!Array.isArray(x)) {
+      return (
+        model.normal[0] * (x - model.origin[0]) +
+        model.normal[1] * (y - model.origin[1]) +
+        model.normal[2] * (z - model.origin[2])
+      )
+    }
+
+    return (
+      model.normal[0] * (x[0] - model.origin[0]) +
+      model.normal[1] * (x[1] - model.origin[1]) +
+      model.normal[2] * (x[2] - model.origin[2])
+    )
+  }
+
+  publicAPI.evaluateGradient = function(xyz) {
+    var retVal = [model.normal[0], model.normal[1], model.normal[2]]
+    return retVal
+  }
+
+  publicAPI.intersectWithLine = function(p1, p2) {
+    return intersectWithLine(p1, p2, model.origin, model.normal)
+  }
+
+  publicAPI.intersectWithPlane = function(planeOrigin, planeNormal) {
+    return intersectWithPlane(
+      planeOrigin,
+      planeNormal,
+      model.origin,
+      model.normal
+    )
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$H = {
+  normal: [0.0, 0.0, 1.0],
+  origin: [0.0, 0.0, 0.0],
+} // ----------------------------------------------------------------------------
+
+function extend$K(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$H, initialValues) // Object methods
+
+  macro.obj(publicAPI, model)
+  macro.setGetArray(publicAPI, model, ['normal', 'origin'], 3)
+  vtkPlane(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$p = macro.newInstance(extend$K, 'vtkPlane') // ----------------------------------------------------------------------------
+
+var vtkPlane$1 = _objectSpread$h(
+  {
+    newInstance: newInstance$p,
+    extend: extend$K,
+  },
+  STATIC$3
+)
+
+function ownKeys$g(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$g(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$g(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$g(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+// Global methods
+// ----------------------------------------------------------------------------
+
+function computeNormalDirection(v1, v2, v3, n) {
+  // order is important!!! maintain consistency with triangle vertex order
+  var ax = v3[0] - v2[0]
+  var ay = v3[1] - v2[1]
+  var az = v3[2] - v2[2]
+  var bx = v1[0] - v2[0]
+  var by = v1[1] - v2[1]
+  var bz = v1[2] - v2[2]
+  n[0] = ay * bz - az * by
+  n[1] = az * bx - ax * bz
+  n[2] = ax * by - ay * bx
+}
+
+function computeNormal(v1, v2, v3, n) {
+  computeNormalDirection(v1, v2, v3, n)
+  var length = Math.sqrt(n[0] * n[0] + n[1] * n[1] + n[2] * n[2])
+
+  if (length !== 0.0) {
+    n[0] /= length
+    n[1] /= length
+    n[2] /= length
+  }
+}
+
+function intersectWithTriangle(p1, q1, r1, p2, q2, r2) {
+  var tolerance =
+    arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 1e-6
+  var coplanar = false
+  var pt1 = []
+  var pt2 = []
+  var surfaceId = []
+  var n1 = []
+  var n2 = [] // Compute supporting plane normals.
+
+  computeNormal(p1, q1, r1, n1)
+  computeNormal(p2, q2, r2, n2)
+  var s1 = -dot$1(n1, p1)
+  var s2 = -dot$1(n2, p2) // Compute signed distances of points p1, q1, r1 from supporting
+  // plane of second triangle.
+
+  var dist1 = [dot$1(n2, p1) + s2, dot$1(n2, q1) + s2, dot$1(n2, r1) + s2] // If signs of all points are the same, all the points lie on the
+  // same side of the supporting plane, and we can exit early.
+
+  if (dist1[0] * dist1[1] > tolerance && dist1[0] * dist1[2] > tolerance) {
+    // vtkDebugMacro(<<"Same side supporting plane 1!");
+    return {
+      intersect: false,
+      coplanar: coplanar,
+      pt1: pt1,
+      pt2: pt2,
+      surfaceId: surfaceId,
+    }
+  } // Do the same for p2, q2, r2 and supporting plane of first
+  // triangle.
+
+  var dist2 = [dot$1(n1, p2) + s1, dot$1(n1, q2) + s1, dot$1(n1, r2) + s1] // If signs of all points are the same, all the points lie on the
+  // same side of the supporting plane, and we can exit early.
+
+  if (dist2[0] * dist2[1] > tolerance && dist2[0] * dist2[2] > tolerance) {
+    // vtkDebugMacro(<<"Same side supporting plane 2!");
+    return {
+      intersect: false,
+      coplanar: coplanar,
+      pt1: pt1,
+      pt2: pt2,
+      surfaceId: surfaceId,
+    }
+  } // Check for coplanarity of the supporting planes.
+
+  if (
+    Math.abs(n1[0] - n2[0]) < 1e-9 &&
+    Math.abs(n1[1] - n2[1]) < 1e-9 &&
+    Math.abs(n1[2] - n2[2]) < 1e-9 &&
+    Math.abs(s1 - s2) < 1e-9
+  ) {
+    coplanar = true // vtkDebugMacro(<<"Coplanar!");
+
+    return {
+      intersect: false,
+      coplanar: coplanar,
+      pt1: pt1,
+      pt2: pt2,
+      surfaceId: surfaceId,
+    }
+  } // There are more efficient ways to find the intersection line (if
+  // it exists), but this is clear enough.
+
+  var pts1 = [p1, q1, r1]
+  var pts2 = [p2, q2, r2] // Find line of intersection (L = p + t*v) between two planes.
+
+  var n1n2 = dot$1(n1, n2)
+  var a = (s1 - s2 * n1n2) / (n1n2 * n1n2 - 1.0)
+  var b = (s2 - s1 * n1n2) / (n1n2 * n1n2 - 1.0)
+  var p = [a * n1[0] + b * n2[0], a * n1[1] + b * n2[1], a * n1[2] + b * n2[2]]
+  var v = cross$1(n1, n2, [])
+  normalize$3(v)
+  var index1 = 0
+  var index2 = 0
+  var t1 = []
+  var t2 = []
+  var ts1 = 50
+  var ts2 = 50
+
+  for (var i = 0; i < 3; i++) {
+    var id1 = i
+    var id2 = (i + 1) % 3 // Find t coordinate on line of intersection between two planes.
+
+    var val1 = vtkPlane$1.intersectWithLine(pts1[id1], pts1[id2], p2, n2)
+
+    if (val1.intersection && val1.t > 0 - tolerance && val1.t < 1 + tolerance) {
+      if (val1.t < 1 + tolerance && val1.t > 1 - tolerance) {
+        ts1 = index1
+      }
+
+      t1[index1++] = dot$1(val1.x, v) - dot$1(p, v)
+    }
+
+    var val2 = vtkPlane$1.intersectWithLine(pts2[id1], pts2[id2], p1, n1)
+
+    if (val2.intersection && val2.t > 0 - tolerance && val2.t < 1 + tolerance) {
+      if (val2.t < 1 + tolerance && val2.t > 1 - tolerance) {
+        ts2 = index2
+      }
+
+      t2[index2++] = dot$1(val2.x, v) - dot$1(p, v)
+    }
+  } // If the value of the index is greater than 2, the intersecting point
+  // actually is intersected by all three edges. In this case, set the two
+  // edges to the two edges where the intersecting point is not the end point
+
+  if (index1 > 2) {
+    index1-- // swap
+
+    var t12 = t1[2]
+    t1[2] = t1[ts1]
+    t1[ts1] = t12
+  }
+
+  if (index2 > 2) {
+    index2--
+    var t22 = t2[2]
+    t2[2] = t2[ts2]
+    t2[ts2] = t22
+  } // Check if only one edge or all edges intersect the supporting
+  // planes intersection.
+
+  if (index1 !== 2 || index2 !== 2) {
+    // vtkDebugMacro(<<"Only one edge intersecting!");
+    return {
+      intersect: false,
+      coplanar: coplanar,
+      pt1: pt1,
+      pt2: pt2,
+      surfaceId: surfaceId,
+    }
+  } // Check for NaNs
+
+  if (
+    Number.isNaN(t1[0]) ||
+    Number.isNaN(t1[1]) ||
+    Number.isNaN(t2[0]) ||
+    Number.isNaN(t2[1])
+  ) {
+    // vtkWarningMacro(<<"NaNs!");
+    return {
+      intersect: false,
+      coplanar: coplanar,
+      pt1: pt1,
+      pt2: pt2,
+      surfaceId: surfaceId,
+    }
+  }
+
+  if (t1[0] > t1[1]) {
+    // swap
+    var t11 = t1[1]
+    t1[1] = t1[0]
+    t1[0] = t11
+  }
+
+  if (t2[0] > t2[1]) {
+    // swap
+    var t21 = t2[1]
+    t2[1] = t2[0]
+    t2[0] = t21
+  } // Handle the different interval configuration cases.
+
+  var tt1
+  var tt2
+
+  if (t1[1] < t2[0] || t2[1] < t1[0]) {
+    // vtkDebugMacro(<<"No Overlap!");
+    return {
+      intersect: false,
+      coplanar: coplanar,
+      pt1: pt1,
+      pt2: pt2,
+      surfaceId: surfaceId,
+    } // No overlap
+  }
+
+  if (t1[0] < t2[0]) {
+    if (t1[1] < t2[1]) {
+      // First point on surface 2, second point on surface 1
+      surfaceId[0] = 2
+      surfaceId[1] = 1
+      tt1 = t2[0]
+      tt2 = t1[1]
+    } else {
+      // Both points belong to lines on surface 2
+      surfaceId[0] = 2
+      surfaceId[1] = 2
+      tt1 = t2[0]
+      tt2 = t2[1]
+    }
+  } // t1[0] >= t2[0]
+  else if (t1[1] < t2[1]) {
+    // Both points belong to lines on surface 1
+    surfaceId[0] = 1
+    surfaceId[1] = 1
+    tt1 = t1[0]
+    tt2 = t1[1]
+  } else {
+    // First point on surface 1, second point on surface 2
+    surfaceId[0] = 1
+    surfaceId[1] = 2
+    tt1 = t1[0]
+    tt2 = t2[1]
+  } // Create actual intersection points.
+
+  multiplyAccumulate(p, v, tt1, pt1)
+  multiplyAccumulate(p, v, tt2, pt2)
+  return {
+    intersect: true,
+    coplanar: coplanar,
+    pt1: pt1,
+    pt2: pt2,
+    surfaceId: surfaceId,
+  }
+} // ----------------------------------------------------------------------------
+// Static API
+// ----------------------------------------------------------------------------
+
+var STATIC$2 = {
+  computeNormalDirection: computeNormalDirection,
+  computeNormal: computeNormal,
+  intersectWithTriangle: intersectWithTriangle,
+} // ----------------------------------------------------------------------------
+// vtkTriangle methods
+// ----------------------------------------------------------------------------
+
+function vtkTriangle(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkTriangle')
+
+  publicAPI.getCellDimension = function() {
+    return 2
+  }
+
+  publicAPI.intersectWithLine = function(p1, p2, tol, x, pcoords) {
+    var outObj = {
+      subId: 0,
+      t: Number.MAX_VALUE,
+      intersect: 0,
+      betweenPoints: false,
+    }
+    pcoords[2] = 0.0
+    var closestPoint = []
+    var tol2 = tol * tol // Get normal for triangle
+
+    var pt1 = []
+    var pt2 = []
+    var pt3 = []
+    model.points.getPoint(0, pt1)
+    model.points.getPoint(1, pt2)
+    model.points.getPoint(2, pt3)
+    var n = []
+    var weights = []
+    computeNormal(pt1, pt2, pt3, n)
+
+    if (n[0] !== 0 || n[1] !== 0 || n[2] !== 0) {
+      // Intersect plane of triangle with line
+      var plane = vtkPlane$1.intersectWithLine(p1, p2, pt1, n)
+      outObj.betweenPoints = plane.betweenPoints
+      outObj.t = plane.t
+      x[0] = plane.x[0]
+      x[1] = plane.x[1]
+      x[2] = plane.x[2]
+
+      if (!plane.intersection) {
+        pcoords[0] = 0.0
+        pcoords[1] = 0.0
+        outObj.intersect = 0
+        return outObj
+      } // Evaluate position
+
+      var inside = publicAPI.evaluatePosition(x, closestPoint, pcoords, weights)
+
+      if (inside.evaluation >= 0) {
+        if (inside.dist2 <= tol2) {
+          outObj.intersect = 1
+          return outObj
+        }
+
+        outObj.intersect = inside.evaluation
+        return outObj
+      }
+    } // Normals are null, so the triangle is degenerated and
+    // we still need to check intersection between line and
+    // the longest edge.
+
+    var dist2Pt1Pt2 = distance2BetweenPoints(pt1, pt2)
+    var dist2Pt2Pt3 = distance2BetweenPoints(pt2, pt3)
+    var dist2Pt3Pt1 = distance2BetweenPoints(pt3, pt1)
+
+    if (!model.line) {
+      model.line = vtkLine$1.newInstance()
+    }
+
+    if (dist2Pt1Pt2 > dist2Pt2Pt3 && dist2Pt1Pt2 > dist2Pt3Pt1) {
+      model.line.getPoints().setPoint(0, pt1)
+      model.line.getPoints().setPoint(1, pt2)
+    } else if (dist2Pt2Pt3 > dist2Pt3Pt1 && dist2Pt2Pt3 > dist2Pt1Pt2) {
+      model.line.getPoints().setPoint(0, pt2)
+      model.line.getPoints().setPoint(1, pt3)
+    } else {
+      model.line.getPoints().setPoint(0, pt3)
+      model.line.getPoints().setPoint(1, pt1)
+    }
+
+    var intersectLine = model.line.intersectWithLine(p1, p2, tol, x, pcoords)
+    outObj.betweenPoints = intersectLine.betweenPoints
+    outObj.t = intersectLine.t
+
+    if (intersectLine.intersect) {
+      var pt3Pt1 = []
+      var pt3Pt2 = []
+      var pt3X = [] // Compute r and s manually, using dot and norm.
+
+      for (var i = 0; i < 3; i++) {
+        pt3Pt1[i] = pt1[i] - pt3[i]
+        pt3Pt2[i] = pt2[i] - pt3[i]
+        pt3X[i] = x[i] - pt3[i]
+      }
+
+      pcoords[0] = dot$1(pt3X, pt3Pt1) / dist2Pt3Pt1
+      pcoords[1] = dot$1(pt3X, pt3Pt2) / dist2Pt2Pt3
+      outObj.intersect = 1
+      return outObj
+    }
+
+    pcoords[0] = 0.0
+    pcoords[1] = 0.0
+    outObj.intersect = 0
+    return outObj
+  }
+
+  publicAPI.evaluatePosition = function(x, closestPoint, pcoords, weights) {
+    // will return obj
+    var outObj = {
+      subId: 0,
+      dist2: 0,
+      evaluation: -1,
+    }
+    var i
+    var j
+    var pt1 = []
+    var pt2 = []
+    var pt3 = []
+    var n = []
+    var fabsn
+    var rhs = []
+    var c1 = []
+    var c2 = []
+    var det = 0
+    var idx = 0
+    var indices = []
+    var dist2Point
+    var dist2Line1
+    var dist2Line2
+    var closest = []
+    var closestPoint1 = []
+    var closestPoint2 = []
+    var cp = []
+    outObj.subId = 0
+    pcoords[2] = 0.0 // Get normal for triangle, only the normal direction is needed, i.e. the
+    // normal need not be normalized (unit length)
+    //
+
+    model.points.getPoint(1, pt1)
+    model.points.getPoint(2, pt2)
+    model.points.getPoint(0, pt3)
+    computeNormalDirection(pt1, pt2, pt3, n) // Project point to plane
+
+    vtkPlane$1.generalizedProjectPoint(x, pt1, n, cp) // Construct matrices.  Since we have over determined system, need to find
+    // which 2 out of 3 equations to use to develop equations. (Any 2 should
+    // work since we've projected point to plane.)
+
+    var maxComponent = 0.0
+
+    for (i = 0; i < 3; i++) {
+      // trying to avoid an expensive call to fabs()
+      if (n[i] < 0) {
+        fabsn = -n[i]
+      } else {
+        fabsn = n[i]
+      }
+
+      if (fabsn > maxComponent) {
+        maxComponent = fabsn
+        idx = i
+      }
+    }
+
+    for (j = 0, i = 0; i < 3; i++) {
+      if (i !== idx) {
+        indices[j++] = i
+      }
+    }
+
+    for (i = 0; i < 2; i++) {
+      rhs[i] = cp[indices[i]] - pt3[indices[i]]
+      c1[i] = pt1[indices[i]] - pt3[indices[i]]
+      c2[i] = pt2[indices[i]] - pt3[indices[i]]
+    }
+
+    det = determinant2x2(c1, c2)
+
+    if (det === 0.0) {
+      pcoords[0] = 0.0
+      pcoords[1] = 0.0
+      outObj.evaluation = -1
+      return outObj
+    }
+
+    pcoords[0] = determinant2x2(rhs, c2) / det
+    pcoords[1] = determinant2x2(c1, rhs) / det // Okay, now find closest point to element
+
+    weights[0] = 1 - (pcoords[0] + pcoords[1])
+    weights[1] = pcoords[0]
+    weights[2] = pcoords[1]
+
+    if (
+      weights[0] >= 0.0 &&
+      weights[0] <= 1.0 &&
+      weights[1] >= 0.0 &&
+      weights[1] <= 1.0 &&
+      weights[2] >= 0.0 &&
+      weights[2] <= 1.0
+    ) {
+      // projection distance
+      if (closestPoint) {
+        outObj.dist2 = distance2BetweenPoints(cp, x)
+        closestPoint[0] = cp[0]
+        closestPoint[1] = cp[1]
+        closestPoint[2] = cp[2]
+      }
+
+      outObj.evaluation = 1
+    } else {
+      var t
+
+      if (closestPoint) {
+        if (weights[1] < 0.0 && weights[2] < 0.0) {
+          dist2Point = distance2BetweenPoints(x, pt3)
+          dist2Line1 = vtkLine$1.distanceToLine(x, pt1, pt3, t, closestPoint1)
+          dist2Line2 = vtkLine$1.distanceToLine(x, pt3, pt2, t, closestPoint2)
+
+          if (dist2Point < dist2Line1) {
+            outObj.dist2 = dist2Point
+            closest = pt3
+          } else {
+            outObj.dist2 = dist2Line1
+            closest = closestPoint1
+          }
+
+          if (dist2Line2 < outObj.dist2) {
+            outObj.dist2 = dist2Line2
+            closest = closestPoint2
+          }
+
+          for (i = 0; i < 3; i++) {
+            closestPoint[i] = closest[i]
+          }
+        } else if (weights[2] < 0.0 && weights[0] < 0.0) {
+          dist2Point = distance2BetweenPoints(x, pt1)
+          dist2Line1 = vtkLine$1.distanceToLine(x, pt1, pt3, t, closestPoint1)
+          dist2Line2 = vtkLine$1.distanceToLine(x, pt1, pt2, t, closestPoint2)
+
+          if (dist2Point < dist2Line1) {
+            outObj.dist2 = dist2Point
+            closest = pt1
+          } else {
+            outObj.dist2 = dist2Line1
+            closest = closestPoint1
+          }
+
+          if (dist2Line2 < outObj.dist2) {
+            outObj.dist2 = dist2Line2
+            closest = closestPoint2
+          }
+
+          for (i = 0; i < 3; i++) {
+            closestPoint[i] = closest[i]
+          }
+        } else if (weights[1] < 0.0 && weights[0] < 0.0) {
+          dist2Point = distance2BetweenPoints(x, pt2)
+          dist2Line1 = vtkLine$1.distanceToLine(x, pt2, pt3, t, closestPoint1)
+          dist2Line2 = vtkLine$1.distanceToLine(x, pt1, pt2, t, closestPoint2)
+
+          if (dist2Point < dist2Line1) {
+            outObj.dist2 = dist2Point
+            closest = pt2
+          } else {
+            outObj.dist2 = dist2Line1
+            closest = closestPoint1
+          }
+
+          if (dist2Line2 < outObj.dist2) {
+            outObj.dist2 = dist2Line2
+            closest = closestPoint2
+          }
+
+          for (i = 0; i < 3; i++) {
+            closestPoint[i] = closest[i]
+          }
+        } else if (weights[0] < 0.0) {
+          var lineDistance = vtkLine$1.distanceToLine(x, pt1, pt2, closestPoint)
+          outObj.dist2 = lineDistance.distance
+        } else if (weights[1] < 0.0) {
+          var _lineDistance = vtkLine$1.distanceToLine(
+            x,
+            pt2,
+            pt3,
+            closestPoint
+          )
+
+          outObj.dist2 = _lineDistance.distance
+        } else if (weights[2] < 0.0) {
+          var _lineDistance2 = vtkLine$1.distanceToLine(
+            x,
+            pt1,
+            pt3,
+            closestPoint
+          )
+
+          outObj.dist2 = _lineDistance2.distance
+        }
+      }
+
+      outObj.evaluation = 0
+    }
+
+    return outObj
+  }
+
+  publicAPI.evaluateLocation = function(pcoords, x, weights) {
+    var p0 = []
+    var p1 = []
+    var p2 = []
+    model.points.getPoint(0, p0)
+    model.points.getPoint(1, p1)
+    model.points.getPoint(2, p2)
+    var u3 = 1.0 - pcoords[0] - pcoords[1]
+
+    for (var i = 0; i < 3; i++) {
+      x[i] = p0[i] * u3 + p1[i] * pcoords[0] + p2[i] * pcoords[1]
+    }
+
+    weights[0] = u3
+    weights[1] = pcoords[0]
+    weights[2] = pcoords[1]
+  }
+
+  publicAPI.getParametricDistance = function(pcoords) {
+    var pDist
+    var pDistMax = 0.0
+    var pc = []
+    pc[0] = pcoords[0]
+    pc[1] = pcoords[1]
+    pc[2] = 1.0 - pcoords[0] - pcoords[1]
+
+    for (var i = 0; i < 3; i++) {
+      if (pc[i] < 0.0) {
+        pDist = -pc[i]
+      } else if (pc[i] > 1.0) {
+        pDist = pc[i] - 1.0
+      } else {
+        // inside the cell in the parametric direction
+        pDist = 0.0
+      }
+
+      if (pDist > pDistMax) {
+        pDistMax = pDist
+      }
+    }
+
+    return pDistMax
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$G = {} // ----------------------------------------------------------------------------
+
+function extend$J(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$G, initialValues)
+  vtkCell$1.extend(publicAPI, model, initialValues)
+  vtkTriangle(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$o = macro.newInstance(extend$J, 'vtkTriangle') // ----------------------------------------------------------------------------
+
+var vtkTriangle$1 = _objectSpread$g(
+  {
+    newInstance: newInstance$o,
+    extend: extend$J,
+  },
+  STATIC$2
+)
+
+var POLYDATA_FIELDS = ['verts', 'lines', 'polys', 'strips']
+
+var _CELL_FACTORY
+var vtkWarningMacro$3 = macro.vtkWarningMacro
+var CELL_FACTORY =
+  ((_CELL_FACTORY = {}),
+  _defineProperty(_CELL_FACTORY, CellType.VTK_LINE, vtkLine$1),
+  _defineProperty(_CELL_FACTORY, CellType.VTK_POLY_LINE, vtkLine$1),
+  _defineProperty(_CELL_FACTORY, CellType.VTK_TRIANGLE, vtkTriangle$1),
+  _CELL_FACTORY) // ----------------------------------------------------------------------------
+// vtkPolyData methods
+// ----------------------------------------------------------------------------
+
+function vtkPolyData(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkPolyData')
+
+  function camelize(str) {
+    return str
+      .replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter) {
+        return letter.toUpperCase()
+      })
+      .replace(/\s+/g, '')
+  } // build empty cell arrays and set methods
+
+  POLYDATA_FIELDS.forEach(function(type) {
+    publicAPI['getNumberOf'.concat(camelize(type))] = function() {
+      return model[type].getNumberOfCells()
+    }
+
+    if (!model[type]) {
+      model[type] = vtkCellArray$1.newInstance()
+    } else {
+      model[type] = vtk(model[type])
+    }
+  })
+
+  publicAPI.getNumberOfCells = function() {
+    return POLYDATA_FIELDS.reduce(function(num, cellType) {
+      return num + model[cellType].getNumberOfCells()
+    }, 0)
+  }
+
+  var superShallowCopy = publicAPI.shallowCopy
+
+  publicAPI.shallowCopy = function(other) {
+    var debug =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false
+    superShallowCopy(other, debug)
+    POLYDATA_FIELDS.forEach(function(type) {
+      model[type] = vtkCellArray$1.newInstance()
+      model[type].shallowCopy(other.getReferenceByName(type))
+    })
+  }
+
+  publicAPI.buildCells = function() {
+    // here are the number of cells we have
+    var nVerts = publicAPI.getNumberOfVerts()
+    var nLines = publicAPI.getNumberOfLines()
+    var nPolys = publicAPI.getNumberOfPolys()
+    var nStrips = publicAPI.getNumberOfStrips() // pre-allocate the space we need
+
+    var nCells = nVerts + nLines + nPolys + nStrips
+    var types = new Uint8Array(nCells)
+    var pTypes = types
+    var locs = new Uint32Array(nCells)
+    var pLocs = locs // record locations and type of each cell.
+    // verts
+
+    if (nVerts) {
+      var nextCellPts = 0
+      model.verts.getCellSizes().forEach(function(numCellPts, index) {
+        pLocs[index] = nextCellPts
+        pTypes[index] =
+          numCellPts > 1 ? CellType.VTK_POLY_VERTEX : CellType.VTK_VERTEX
+        nextCellPts += numCellPts + 1
+      })
+      pLocs = pLocs.subarray(nVerts)
+      pTypes = pTypes.subarray(nVerts)
+    } // lines
+
+    if (nLines) {
+      var _nextCellPts = 0
+      model.lines.getCellSizes().forEach(function(numCellPts, index) {
+        pLocs[index] = _nextCellPts
+        pTypes[index] =
+          numCellPts > 2 ? CellType.VTK_POLY_LINE : CellType.VTK_LINE
+
+        if (numCellPts === 1) {
+          vtkWarningMacro$3(
+            'Building VTK_LINE ',
+            index,
+            ' with only one point, but VTK_LINE needs at least two points. Check the input.'
+          )
+        }
+
+        _nextCellPts += numCellPts + 1
+      })
+      pLocs = pLocs.subarray(nLines)
+      pTypes = pTypes.subarray(nLines)
+    } // polys
+
+    if (nPolys) {
+      var _nextCellPts2 = 0
+      model.polys.getCellSizes().forEach(function(numCellPts, index) {
+        pLocs[index] = _nextCellPts2
+
+        switch (numCellPts) {
+          case 3:
+            pTypes[index] = CellType.VTK_TRIANGLE
+            break
+
+          case 4:
+            pTypes[index] = CellType.VTK_QUAD
+            break
+
+          default:
+            pTypes[index] = CellType.VTK_POLYGON
+            break
+        }
+
+        if (numCellPts < 3) {
+          vtkWarningMacro$3(
+            'Building VTK_TRIANGLE ',
+            index,
+            ' with less than three points, but VTK_TRIANGLE needs at least three points. Check the input.'
+          )
+        }
+
+        _nextCellPts2 += numCellPts + 1
+      })
+      pLocs += pLocs.subarray(nPolys)
+      pTypes += pTypes.subarray(nPolys)
+    } // strips
+
+    if (nStrips) {
+      var _nextCellPts3 = 0
+      pTypes.fill(CellType.VTK_TRIANGLE_STRIP, 0, nStrips)
+      model.strips.getCellSizes().forEach(function(numCellPts, index) {
+        pLocs[index] = _nextCellPts3
+        _nextCellPts3 += numCellPts + 1
+      })
+    } // set up the cell types data structure
+
+    model.cells = vtkCellTypes$1.newInstance()
+    model.cells.setCellTypes(nCells, types, locs)
+  }
+  /**
+   * Create upward links from points to cells that use each point. Enables
+   * topologically complex queries.
+   */
+
+  publicAPI.buildLinks = function() {
+    var initialSize =
+      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0
+
+    if (model.cells === undefined) {
+      publicAPI.buildCells()
+    }
+
+    model.links = vtkCellLinks$1.newInstance()
+
+    if (initialSize > 0) {
+      model.links.allocate(initialSize)
+    } else {
+      model.links.allocate(publicAPI.getPoints().getNumberOfPoints())
+    }
+
+    model.links.buildLinks(publicAPI)
+  }
+
+  publicAPI.getCellType = function(cellId) {
+    return model.cells.getCellType(cellId)
+  }
+
+  publicAPI.getCellPoints = function(cellId) {
+    var cellType = publicAPI.getCellType(cellId)
+    var cells = null
+
+    switch (cellType) {
+      case CellType.VTK_VERTEX:
+      case CellType.VTK_POLY_VERTEX:
+        cells = model.verts
+        break
+
+      case CellType.VTK_LINE:
+      case CellType.VTK_POLY_LINE:
+        cells = model.lines
+        break
+
+      case CellType.VTK_TRIANGLE:
+      case CellType.VTK_QUAD:
+      case CellType.VTK_POLYGON:
+        cells = model.polys
+        break
+
+      case CellType.VTK_TRIANGLE_STRIP:
+        cells = model.strips
+        break
+
+      default:
+        cells = null
+        return {
+          type: 0,
+          cellPointIds: null,
+        }
+    }
+
+    var loc = model.cells.getCellLocation(cellId)
+    var cellPointIds = cells.getCell(loc)
+    return {
+      cellType: cellType,
+      cellPointIds: cellPointIds,
+    }
+  }
+
+  publicAPI.getPointCells = function(ptId) {
+    return model.links.getCells(ptId)
+  }
+
+  publicAPI.getCellEdgeNeighbors = function(cellId, point1, point2) {
+    var link1 = model.links.getLink(point1)
+    var link2 = model.links.getLink(point2)
+    return link1.cells.filter(function(cell) {
+      return cell !== cellId && link2.cells.indexOf(cell) !== -1
+    })
+  }
+  /**
+   * If you know the type of cell, you may provide it to improve performances.
+   */
+
+  publicAPI.getCell = function(cellId) {
+    var cellHint =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null
+    var cellInfo = publicAPI.getCellPoints(cellId)
+    var cell = cellHint || CELL_FACTORY[cellInfo.cellType].newInstance()
+    cell.initialize(publicAPI.getPoints(), cellInfo.cellPointIds)
+    return cell
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$F = {
+  // verts: null,
+  // lines: null,
+  // polys: null,
+  // strips: null,
+  // cells: null,
+  // links: null,
+} // ----------------------------------------------------------------------------
+
+function extend$I(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$F, initialValues) // Inheritance
+
+  vtkPointSet$1.extend(publicAPI, model, initialValues)
+  macro.get(publicAPI, model, ['cells', 'links'])
+  macro.setGet(publicAPI, model, ['verts', 'lines', 'polys', 'strips']) // Object specific methods
+
+  vtkPolyData(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$n = macro.newInstance(extend$I, 'vtkPolyData') // ----------------------------------------------------------------------------
+
+var vtkPolyData$1 = {
+  newInstance: newInstance$n,
+  extend: extend$I,
+}
+
+/**
+ * Common utilities
+ * @module glMatrix
+ */
+// Configuration Constants
+var EPSILON$1 = 0.000001
+var ARRAY_TYPE = typeof Float32Array !== 'undefined' ? Float32Array : Array
+var RANDOM = Math.random
+var degree = Math.PI / 180
+/**
+ * Convert Degree To Radian
+ *
+ * @param {Number} a Angle in Degrees
+ */
+
+function toRadian(a) {
+  return a * degree
+}
+if (!Math.hypot)
+  Math.hypot = function() {
+    var y = 0,
+      i = arguments.length
+
+    while (i--) {
+      y += arguments[i] * arguments[i]
+    }
+
+    return Math.sqrt(y)
+  }
+
+/**
+ * 3x3 Matrix
+ * @module mat3
+ */
+
+/**
+ * Creates a new identity mat3
+ *
+ * @returns {mat3} a new 3x3 matrix
+ */
+
+function create$3() {
+  var out = new ARRAY_TYPE(9)
+
+  if (ARRAY_TYPE != Float32Array) {
+    out[1] = 0
+    out[2] = 0
+    out[3] = 0
+    out[5] = 0
+    out[6] = 0
+    out[7] = 0
+  }
+
+  out[0] = 1
+  out[4] = 1
+  out[8] = 1
+  return out
+}
+/**
+ * Copies the upper-left 3x3 values into the given mat3.
+ *
+ * @param {mat3} out the receiving 3x3 matrix
+ * @param {ReadonlyMat4} a   the source 4x4 matrix
+ * @returns {mat3} out
+ */
+
+function fromMat4(out, a) {
+  out[0] = a[0]
+  out[1] = a[1]
+  out[2] = a[2]
+  out[3] = a[4]
+  out[4] = a[5]
+  out[5] = a[6]
+  out[6] = a[8]
+  out[7] = a[9]
+  out[8] = a[10]
+  return out
+}
+/**
+ * Set a mat3 to the identity matrix
+ *
+ * @param {mat3} out the receiving matrix
+ * @returns {mat3} out
+ */
+
+function identity$1(out) {
+  out[0] = 1
+  out[1] = 0
+  out[2] = 0
+  out[3] = 0
+  out[4] = 1
+  out[5] = 0
+  out[6] = 0
+  out[7] = 0
+  out[8] = 1
+  return out
+}
+/**
+ * Transpose the values of a mat3
+ *
+ * @param {mat3} out the receiving matrix
+ * @param {ReadonlyMat3} a the source matrix
+ * @returns {mat3} out
+ */
+
+function transpose$1(out, a) {
+  // If we are transposing ourselves we can skip a few steps but have to cache some values
+  if (out === a) {
+    var a01 = a[1],
+      a02 = a[2],
+      a12 = a[5]
+    out[1] = a[3]
+    out[2] = a[6]
+    out[3] = a01
+    out[5] = a[7]
+    out[6] = a02
+    out[7] = a12
+  } else {
+    out[0] = a[0]
+    out[1] = a[3]
+    out[2] = a[6]
+    out[3] = a[1]
+    out[4] = a[4]
+    out[5] = a[7]
+    out[6] = a[2]
+    out[7] = a[5]
+    out[8] = a[8]
+  }
+
+  return out
+}
+/**
+ * Inverts a mat3
+ *
+ * @param {mat3} out the receiving matrix
+ * @param {ReadonlyMat3} a the source matrix
+ * @returns {mat3} out
+ */
+
+function invert$1(out, a) {
+  var a00 = a[0],
+    a01 = a[1],
+    a02 = a[2]
+  var a10 = a[3],
+    a11 = a[4],
+    a12 = a[5]
+  var a20 = a[6],
+    a21 = a[7],
+    a22 = a[8]
+  var b01 = a22 * a11 - a12 * a21
+  var b11 = -a22 * a10 + a12 * a20
+  var b21 = a21 * a10 - a11 * a20 // Calculate the determinant
+
+  var det = a00 * b01 + a01 * b11 + a02 * b21
+
+  if (!det) {
+    return null
+  }
+
+  det = 1.0 / det
+  out[0] = b01 * det
+  out[1] = (-a22 * a01 + a02 * a21) * det
+  out[2] = (a12 * a01 - a02 * a11) * det
+  out[3] = b11 * det
+  out[4] = (a22 * a00 - a02 * a20) * det
+  out[5] = (-a12 * a00 + a02 * a10) * det
+  out[6] = b21 * det
+  out[7] = (-a21 * a00 + a01 * a20) * det
+  out[8] = (a11 * a00 - a01 * a10) * det
+  return out
+}
+
+/**
+ * Copy the values from one mat4 to another
+ *
+ * @param {mat4} out the receiving matrix
+ * @param {ReadonlyMat4} a the source matrix
+ * @returns {mat4} out
+ */
+
+function copy$1(out, a) {
+  out[0] = a[0]
+  out[1] = a[1]
+  out[2] = a[2]
+  out[3] = a[3]
+  out[4] = a[4]
+  out[5] = a[5]
+  out[6] = a[6]
+  out[7] = a[7]
+  out[8] = a[8]
+  out[9] = a[9]
+  out[10] = a[10]
+  out[11] = a[11]
+  out[12] = a[12]
+  out[13] = a[13]
+  out[14] = a[14]
+  out[15] = a[15]
+  return out
+}
+/**
+ * Set a mat4 to the identity matrix
+ *
+ * @param {mat4} out the receiving matrix
+ * @returns {mat4} out
+ */
+
+function identity(out) {
+  out[0] = 1
+  out[1] = 0
+  out[2] = 0
+  out[3] = 0
+  out[4] = 0
+  out[5] = 1
+  out[6] = 0
+  out[7] = 0
+  out[8] = 0
+  out[9] = 0
+  out[10] = 1
+  out[11] = 0
+  out[12] = 0
+  out[13] = 0
+  out[14] = 0
+  out[15] = 1
+  return out
+}
+/**
+ * Transpose the values of a mat4
+ *
+ * @param {mat4} out the receiving matrix
+ * @param {ReadonlyMat4} a the source matrix
+ * @returns {mat4} out
+ */
+
+function transpose(out, a) {
+  // If we are transposing ourselves we can skip a few steps but have to cache some values
+  if (out === a) {
+    var a01 = a[1],
+      a02 = a[2],
+      a03 = a[3]
+    var a12 = a[6],
+      a13 = a[7]
+    var a23 = a[11]
+    out[1] = a[4]
+    out[2] = a[8]
+    out[3] = a[12]
+    out[4] = a01
+    out[6] = a[9]
+    out[7] = a[13]
+    out[8] = a02
+    out[9] = a12
+    out[11] = a[14]
+    out[12] = a03
+    out[13] = a13
+    out[14] = a23
+  } else {
+    out[0] = a[0]
+    out[1] = a[4]
+    out[2] = a[8]
+    out[3] = a[12]
+    out[4] = a[1]
+    out[5] = a[5]
+    out[6] = a[9]
+    out[7] = a[13]
+    out[8] = a[2]
+    out[9] = a[6]
+    out[10] = a[10]
+    out[11] = a[14]
+    out[12] = a[3]
+    out[13] = a[7]
+    out[14] = a[11]
+    out[15] = a[15]
+  }
+
+  return out
+}
+/**
+ * Inverts a mat4
+ *
+ * @param {mat4} out the receiving matrix
+ * @param {ReadonlyMat4} a the source matrix
+ * @returns {mat4} out
+ */
+
+function invert(out, a) {
+  var a00 = a[0],
+    a01 = a[1],
+    a02 = a[2],
+    a03 = a[3]
+  var a10 = a[4],
+    a11 = a[5],
+    a12 = a[6],
+    a13 = a[7]
+  var a20 = a[8],
+    a21 = a[9],
+    a22 = a[10],
+    a23 = a[11]
+  var a30 = a[12],
+    a31 = a[13],
+    a32 = a[14],
+    a33 = a[15]
+  var b00 = a00 * a11 - a01 * a10
+  var b01 = a00 * a12 - a02 * a10
+  var b02 = a00 * a13 - a03 * a10
+  var b03 = a01 * a12 - a02 * a11
+  var b04 = a01 * a13 - a03 * a11
+  var b05 = a02 * a13 - a03 * a12
+  var b06 = a20 * a31 - a21 * a30
+  var b07 = a20 * a32 - a22 * a30
+  var b08 = a20 * a33 - a23 * a30
+  var b09 = a21 * a32 - a22 * a31
+  var b10 = a21 * a33 - a23 * a31
+  var b11 = a22 * a33 - a23 * a32 // Calculate the determinant
+
+  var det =
+    b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06
+
+  if (!det) {
+    return null
+  }
+
+  det = 1.0 / det
+  out[0] = (a11 * b11 - a12 * b10 + a13 * b09) * det
+  out[1] = (a02 * b10 - a01 * b11 - a03 * b09) * det
+  out[2] = (a31 * b05 - a32 * b04 + a33 * b03) * det
+  out[3] = (a22 * b04 - a21 * b05 - a23 * b03) * det
+  out[4] = (a12 * b08 - a10 * b11 - a13 * b07) * det
+  out[5] = (a00 * b11 - a02 * b08 + a03 * b07) * det
+  out[6] = (a32 * b02 - a30 * b05 - a33 * b01) * det
+  out[7] = (a20 * b05 - a22 * b02 + a23 * b01) * det
+  out[8] = (a10 * b10 - a11 * b08 + a13 * b06) * det
+  out[9] = (a01 * b08 - a00 * b10 - a03 * b06) * det
+  out[10] = (a30 * b04 - a31 * b02 + a33 * b00) * det
+  out[11] = (a21 * b02 - a20 * b04 - a23 * b00) * det
+  out[12] = (a11 * b07 - a10 * b09 - a12 * b06) * det
+  out[13] = (a00 * b09 - a01 * b07 + a02 * b06) * det
+  out[14] = (a31 * b01 - a30 * b03 - a32 * b00) * det
+  out[15] = (a20 * b03 - a21 * b01 + a22 * b00) * det
+  return out
+}
+/**
+ * Multiplies two mat4s
+ *
+ * @param {mat4} out the receiving matrix
+ * @param {ReadonlyMat4} a the first operand
+ * @param {ReadonlyMat4} b the second operand
+ * @returns {mat4} out
+ */
+
+function multiply$1(out, a, b) {
+  var a00 = a[0],
+    a01 = a[1],
+    a02 = a[2],
+    a03 = a[3]
+  var a10 = a[4],
+    a11 = a[5],
+    a12 = a[6],
+    a13 = a[7]
+  var a20 = a[8],
+    a21 = a[9],
+    a22 = a[10],
+    a23 = a[11]
+  var a30 = a[12],
+    a31 = a[13],
+    a32 = a[14],
+    a33 = a[15] // Cache only the current line of the second matrix
+
+  var b0 = b[0],
+    b1 = b[1],
+    b2 = b[2],
+    b3 = b[3]
+  out[0] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30
+  out[1] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31
+  out[2] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32
+  out[3] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33
+  b0 = b[4]
+  b1 = b[5]
+  b2 = b[6]
+  b3 = b[7]
+  out[4] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30
+  out[5] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31
+  out[6] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32
+  out[7] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33
+  b0 = b[8]
+  b1 = b[9]
+  b2 = b[10]
+  b3 = b[11]
+  out[8] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30
+  out[9] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31
+  out[10] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32
+  out[11] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33
+  b0 = b[12]
+  b1 = b[13]
+  b2 = b[14]
+  b3 = b[15]
+  out[12] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30
+  out[13] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31
+  out[14] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32
+  out[15] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33
+  return out
+}
+/**
+ * Translate a mat4 by the given vector
+ *
+ * @param {mat4} out the receiving matrix
+ * @param {ReadonlyMat4} a the matrix to translate
+ * @param {ReadonlyVec3} v vector to translate by
+ * @returns {mat4} out
+ */
+
+function translate(out, a, v) {
+  var x = v[0],
+    y = v[1],
+    z = v[2]
+  var a00, a01, a02, a03
+  var a10, a11, a12, a13
+  var a20, a21, a22, a23
+
+  if (a === out) {
+    out[12] = a[0] * x + a[4] * y + a[8] * z + a[12]
+    out[13] = a[1] * x + a[5] * y + a[9] * z + a[13]
+    out[14] = a[2] * x + a[6] * y + a[10] * z + a[14]
+    out[15] = a[3] * x + a[7] * y + a[11] * z + a[15]
+  } else {
+    a00 = a[0]
+    a01 = a[1]
+    a02 = a[2]
+    a03 = a[3]
+    a10 = a[4]
+    a11 = a[5]
+    a12 = a[6]
+    a13 = a[7]
+    a20 = a[8]
+    a21 = a[9]
+    a22 = a[10]
+    a23 = a[11]
+    out[0] = a00
+    out[1] = a01
+    out[2] = a02
+    out[3] = a03
+    out[4] = a10
+    out[5] = a11
+    out[6] = a12
+    out[7] = a13
+    out[8] = a20
+    out[9] = a21
+    out[10] = a22
+    out[11] = a23
+    out[12] = a00 * x + a10 * y + a20 * z + a[12]
+    out[13] = a01 * x + a11 * y + a21 * z + a[13]
+    out[14] = a02 * x + a12 * y + a22 * z + a[14]
+    out[15] = a03 * x + a13 * y + a23 * z + a[15]
+  }
+
+  return out
+}
+/**
+ * Scales the mat4 by the dimensions in the given vec3 not using vectorization
+ *
+ * @param {mat4} out the receiving matrix
+ * @param {ReadonlyMat4} a the matrix to scale
+ * @param {ReadonlyVec3} v the vec3 to scale the matrix by
+ * @returns {mat4} out
+ **/
+
+function scale$1(out, a, v) {
+  var x = v[0],
+    y = v[1],
+    z = v[2]
+  out[0] = a[0] * x
+  out[1] = a[1] * x
+  out[2] = a[2] * x
+  out[3] = a[3] * x
+  out[4] = a[4] * y
+  out[5] = a[5] * y
+  out[6] = a[6] * y
+  out[7] = a[7] * y
+  out[8] = a[8] * z
+  out[9] = a[9] * z
+  out[10] = a[10] * z
+  out[11] = a[11] * z
+  out[12] = a[12]
+  out[13] = a[13]
+  out[14] = a[14]
+  out[15] = a[15]
+  return out
+}
+/**
+ * Rotates a mat4 by the given angle around the given axis
+ *
+ * @param {mat4} out the receiving matrix
+ * @param {ReadonlyMat4} a the matrix to rotate
+ * @param {Number} rad the angle to rotate the matrix by
+ * @param {ReadonlyVec3} axis the axis to rotate around
+ * @returns {mat4} out
+ */
+
+function rotate(out, a, rad, axis) {
+  var x = axis[0],
+    y = axis[1],
+    z = axis[2]
+  var len = Math.hypot(x, y, z)
+  var s, c, t
+  var a00, a01, a02, a03
+  var a10, a11, a12, a13
+  var a20, a21, a22, a23
+  var b00, b01, b02
+  var b10, b11, b12
+  var b20, b21, b22
+
+  if (len < EPSILON$1) {
+    return null
+  }
+
+  len = 1 / len
+  x *= len
+  y *= len
+  z *= len
+  s = Math.sin(rad)
+  c = Math.cos(rad)
+  t = 1 - c
+  a00 = a[0]
+  a01 = a[1]
+  a02 = a[2]
+  a03 = a[3]
+  a10 = a[4]
+  a11 = a[5]
+  a12 = a[6]
+  a13 = a[7]
+  a20 = a[8]
+  a21 = a[9]
+  a22 = a[10]
+  a23 = a[11] // Construct the elements of the rotation matrix
+
+  b00 = x * x * t + c
+  b01 = y * x * t + z * s
+  b02 = z * x * t - y * s
+  b10 = x * y * t - z * s
+  b11 = y * y * t + c
+  b12 = z * y * t + x * s
+  b20 = x * z * t + y * s
+  b21 = y * z * t - x * s
+  b22 = z * z * t + c // Perform rotation-specific matrix multiplication
+
+  out[0] = a00 * b00 + a10 * b01 + a20 * b02
+  out[1] = a01 * b00 + a11 * b01 + a21 * b02
+  out[2] = a02 * b00 + a12 * b01 + a22 * b02
+  out[3] = a03 * b00 + a13 * b01 + a23 * b02
+  out[4] = a00 * b10 + a10 * b11 + a20 * b12
+  out[5] = a01 * b10 + a11 * b11 + a21 * b12
+  out[6] = a02 * b10 + a12 * b11 + a22 * b12
+  out[7] = a03 * b10 + a13 * b11 + a23 * b12
+  out[8] = a00 * b20 + a10 * b21 + a20 * b22
+  out[9] = a01 * b20 + a11 * b21 + a21 * b22
+  out[10] = a02 * b20 + a12 * b21 + a22 * b22
+  out[11] = a03 * b20 + a13 * b21 + a23 * b22
+
+  if (a !== out) {
+    // If the source and destination differ, copy the unchanged last row
+    out[12] = a[12]
+    out[13] = a[13]
+    out[14] = a[14]
+    out[15] = a[15]
+  }
+
+  return out
+}
+/**
+ * Rotates a matrix by the given angle around the X axis
+ *
+ * @param {mat4} out the receiving matrix
+ * @param {ReadonlyMat4} a the matrix to rotate
+ * @param {Number} rad the angle to rotate the matrix by
+ * @returns {mat4} out
+ */
+
+function rotateX$1(out, a, rad) {
+  var s = Math.sin(rad)
+  var c = Math.cos(rad)
+  var a10 = a[4]
+  var a11 = a[5]
+  var a12 = a[6]
+  var a13 = a[7]
+  var a20 = a[8]
+  var a21 = a[9]
+  var a22 = a[10]
+  var a23 = a[11]
+
+  if (a !== out) {
+    // If the source and destination differ, copy the unchanged rows
+    out[0] = a[0]
+    out[1] = a[1]
+    out[2] = a[2]
+    out[3] = a[3]
+    out[12] = a[12]
+    out[13] = a[13]
+    out[14] = a[14]
+    out[15] = a[15]
+  } // Perform axis-specific matrix multiplication
+
+  out[4] = a10 * c + a20 * s
+  out[5] = a11 * c + a21 * s
+  out[6] = a12 * c + a22 * s
+  out[7] = a13 * c + a23 * s
+  out[8] = a20 * c - a10 * s
+  out[9] = a21 * c - a11 * s
+  out[10] = a22 * c - a12 * s
+  out[11] = a23 * c - a13 * s
+  return out
+}
+/**
+ * Rotates a matrix by the given angle around the Y axis
+ *
+ * @param {mat4} out the receiving matrix
+ * @param {ReadonlyMat4} a the matrix to rotate
+ * @param {Number} rad the angle to rotate the matrix by
+ * @returns {mat4} out
+ */
+
+function rotateY$1(out, a, rad) {
+  var s = Math.sin(rad)
+  var c = Math.cos(rad)
+  var a00 = a[0]
+  var a01 = a[1]
+  var a02 = a[2]
+  var a03 = a[3]
+  var a20 = a[8]
+  var a21 = a[9]
+  var a22 = a[10]
+  var a23 = a[11]
+
+  if (a !== out) {
+    // If the source and destination differ, copy the unchanged rows
+    out[4] = a[4]
+    out[5] = a[5]
+    out[6] = a[6]
+    out[7] = a[7]
+    out[12] = a[12]
+    out[13] = a[13]
+    out[14] = a[14]
+    out[15] = a[15]
+  } // Perform axis-specific matrix multiplication
+
+  out[0] = a00 * c - a20 * s
+  out[1] = a01 * c - a21 * s
+  out[2] = a02 * c - a22 * s
+  out[3] = a03 * c - a23 * s
+  out[8] = a00 * s + a20 * c
+  out[9] = a01 * s + a21 * c
+  out[10] = a02 * s + a22 * c
+  out[11] = a03 * s + a23 * c
+  return out
+}
+/**
+ * Rotates a matrix by the given angle around the Z axis
+ *
+ * @param {mat4} out the receiving matrix
+ * @param {ReadonlyMat4} a the matrix to rotate
+ * @param {Number} rad the angle to rotate the matrix by
+ * @returns {mat4} out
+ */
+
+function rotateZ$1(out, a, rad) {
+  var s = Math.sin(rad)
+  var c = Math.cos(rad)
+  var a00 = a[0]
+  var a01 = a[1]
+  var a02 = a[2]
+  var a03 = a[3]
+  var a10 = a[4]
+  var a11 = a[5]
+  var a12 = a[6]
+  var a13 = a[7]
+
+  if (a !== out) {
+    // If the source and destination differ, copy the unchanged last row
+    out[8] = a[8]
+    out[9] = a[9]
+    out[10] = a[10]
+    out[11] = a[11]
+    out[12] = a[12]
+    out[13] = a[13]
+    out[14] = a[14]
+    out[15] = a[15]
+  } // Perform axis-specific matrix multiplication
+
+  out[0] = a00 * c + a10 * s
+  out[1] = a01 * c + a11 * s
+  out[2] = a02 * c + a12 * s
+  out[3] = a03 * c + a13 * s
+  out[4] = a10 * c - a00 * s
+  out[5] = a11 * c - a01 * s
+  out[6] = a12 * c - a02 * s
+  out[7] = a13 * c - a03 * s
+  return out
+}
+/**
+ * Creates a matrix from a vector translation
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.translate(dest, dest, vec);
+ *
+ * @param {mat4} out mat4 receiving operation result
+ * @param {ReadonlyVec3} v Translation vector
+ * @returns {mat4} out
+ */
+
+function fromTranslation(out, v) {
+  out[0] = 1
+  out[1] = 0
+  out[2] = 0
+  out[3] = 0
+  out[4] = 0
+  out[5] = 1
+  out[6] = 0
+  out[7] = 0
+  out[8] = 0
+  out[9] = 0
+  out[10] = 1
+  out[11] = 0
+  out[12] = v[0]
+  out[13] = v[1]
+  out[14] = v[2]
+  out[15] = 1
+  return out
+}
+/**
+ * Creates a matrix from a given angle around a given axis
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.rotate(dest, dest, rad, axis);
+ *
+ * @param {mat4} out mat4 receiving operation result
+ * @param {Number} rad the angle to rotate the matrix by
+ * @param {ReadonlyVec3} axis the axis to rotate around
+ * @returns {mat4} out
+ */
+
+function fromRotation(out, rad, axis) {
+  var x = axis[0],
+    y = axis[1],
+    z = axis[2]
+  var len = Math.hypot(x, y, z)
+  var s, c, t
+
+  if (len < EPSILON$1) {
+    return null
+  }
+
+  len = 1 / len
+  x *= len
+  y *= len
+  z *= len
+  s = Math.sin(rad)
+  c = Math.cos(rad)
+  t = 1 - c // Perform rotation-specific matrix multiplication
+
+  out[0] = x * x * t + c
+  out[1] = y * x * t + z * s
+  out[2] = z * x * t - y * s
+  out[3] = 0
+  out[4] = x * y * t - z * s
+  out[5] = y * y * t + c
+  out[6] = z * y * t + x * s
+  out[7] = 0
+  out[8] = x * z * t + y * s
+  out[9] = y * z * t - x * s
+  out[10] = z * z * t + c
+  out[11] = 0
+  out[12] = 0
+  out[13] = 0
+  out[14] = 0
+  out[15] = 1
+  return out
+}
+/**
+ * Returns the scaling factor component of a transformation
+ *  matrix. If a matrix is built with fromRotationTranslationScale
+ *  with a normalized Quaternion paramter, the returned vector will be
+ *  the same as the scaling vector
+ *  originally supplied.
+ * @param  {vec3} out Vector to receive scaling factor component
+ * @param  {ReadonlyMat4} mat Matrix to be decomposed (input)
+ * @return {vec3} out
+ */
+
+function getScaling(out, mat) {
+  var m11 = mat[0]
+  var m12 = mat[1]
+  var m13 = mat[2]
+  var m21 = mat[4]
+  var m22 = mat[5]
+  var m23 = mat[6]
+  var m31 = mat[8]
+  var m32 = mat[9]
+  var m33 = mat[10]
+  out[0] = Math.hypot(m11, m12, m13)
+  out[1] = Math.hypot(m21, m22, m23)
+  out[2] = Math.hypot(m31, m32, m33)
+  return out
+}
+/**
+ * Returns a quaternion representing the rotational component
+ *  of a transformation matrix. If a matrix is built with
+ *  fromRotationTranslation, the returned quaternion will be the
+ *  same as the quaternion originally supplied.
+ * @param {quat} out Quaternion to receive the rotation component
+ * @param {ReadonlyMat4} mat Matrix to be decomposed (input)
+ * @return {quat} out
+ */
+
+function getRotation(out, mat) {
+  var scaling = new ARRAY_TYPE(3)
+  getScaling(scaling, mat)
+  var is1 = 1 / scaling[0]
+  var is2 = 1 / scaling[1]
+  var is3 = 1 / scaling[2]
+  var sm11 = mat[0] * is1
+  var sm12 = mat[1] * is2
+  var sm13 = mat[2] * is3
+  var sm21 = mat[4] * is1
+  var sm22 = mat[5] * is2
+  var sm23 = mat[6] * is3
+  var sm31 = mat[8] * is1
+  var sm32 = mat[9] * is2
+  var sm33 = mat[10] * is3
+  var trace = sm11 + sm22 + sm33
+  var S = 0
+
+  if (trace > 0) {
+    S = Math.sqrt(trace + 1.0) * 2
+    out[3] = 0.25 * S
+    out[0] = (sm23 - sm32) / S
+    out[1] = (sm31 - sm13) / S
+    out[2] = (sm12 - sm21) / S
+  } else if (sm11 > sm22 && sm11 > sm33) {
+    S = Math.sqrt(1.0 + sm11 - sm22 - sm33) * 2
+    out[3] = (sm23 - sm32) / S
+    out[0] = 0.25 * S
+    out[1] = (sm12 + sm21) / S
+    out[2] = (sm31 + sm13) / S
+  } else if (sm22 > sm33) {
+    S = Math.sqrt(1.0 + sm22 - sm11 - sm33) * 2
+    out[3] = (sm31 - sm13) / S
+    out[0] = (sm12 + sm21) / S
+    out[1] = 0.25 * S
+    out[2] = (sm23 + sm32) / S
+  } else {
+    S = Math.sqrt(1.0 + sm33 - sm11 - sm22) * 2
+    out[3] = (sm12 - sm21) / S
+    out[0] = (sm31 + sm13) / S
+    out[1] = (sm23 + sm32) / S
+    out[2] = 0.25 * S
+  }
+
+  return out
+}
+/**
+ * Calculates a 4x4 matrix from the given quaternion
+ *
+ * @param {mat4} out mat4 receiving operation result
+ * @param {ReadonlyQuat} q Quaternion to create matrix from
+ *
+ * @returns {mat4} out
+ */
+
+function fromQuat(out, q) {
+  var x = q[0],
+    y = q[1],
+    z = q[2],
+    w = q[3]
+  var x2 = x + x
+  var y2 = y + y
+  var z2 = z + z
+  var xx = x * x2
+  var yx = y * x2
+  var yy = y * y2
+  var zx = z * x2
+  var zy = z * y2
+  var zz = z * z2
+  var wx = w * x2
+  var wy = w * y2
+  var wz = w * z2
+  out[0] = 1 - yy - zz
+  out[1] = yx + wz
+  out[2] = zx - wy
+  out[3] = 0
+  out[4] = yx - wz
+  out[5] = 1 - xx - zz
+  out[6] = zy + wx
+  out[7] = 0
+  out[8] = zx + wy
+  out[9] = zy - wx
+  out[10] = 1 - xx - yy
+  out[11] = 0
+  out[12] = 0
+  out[13] = 0
+  out[14] = 0
+  out[15] = 1
+  return out
+}
+
+/**
+ * 3 Dimensional Vector
+ * @module vec3
+ */
+
+/**
+ * Creates a new, empty vec3
+ *
+ * @returns {vec3} a new 3D vector
+ */
+
+function create$2() {
+  var out = new ARRAY_TYPE(3)
+
+  if (ARRAY_TYPE != Float32Array) {
+    out[0] = 0
+    out[1] = 0
+    out[2] = 0
+  }
+
+  return out
+}
+/**
+ * Creates a new vec3 initialized with values from an existing vector
+ *
+ * @param {ReadonlyVec3} a vector to clone
+ * @returns {vec3} a new 3D vector
+ */
+
+function clone(a) {
+  var out = new ARRAY_TYPE(3)
+  out[0] = a[0]
+  out[1] = a[1]
+  out[2] = a[2]
+  return out
+}
+/**
+ * Calculates the length of a vec3
+ *
+ * @param {ReadonlyVec3} a vector to calculate length of
+ * @returns {Number} length of a
+ */
+
+function length(a) {
+  var x = a[0]
+  var y = a[1]
+  var z = a[2]
+  return Math.hypot(x, y, z)
+}
+/**
+ * Creates a new vec3 initialized with the given values
+ *
+ * @param {Number} x X component
+ * @param {Number} y Y component
+ * @param {Number} z Z component
+ * @returns {vec3} a new 3D vector
+ */
+
+function fromValues(x, y, z) {
+  var out = new ARRAY_TYPE(3)
+  out[0] = x
+  out[1] = y
+  out[2] = z
+  return out
+}
+/**
+ * Copy the values from one vec3 to another
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the source vector
+ * @returns {vec3} out
+ */
+
+function copy(out, a) {
+  out[0] = a[0]
+  out[1] = a[1]
+  out[2] = a[2]
+  return out
+}
+/**
+ * Set the components of a vec3 to the given values
+ *
+ * @param {vec3} out the receiving vector
+ * @param {Number} x X component
+ * @param {Number} y Y component
+ * @param {Number} z Z component
+ * @returns {vec3} out
+ */
+
+function set(out, x, y, z) {
+  out[0] = x
+  out[1] = y
+  out[2] = z
+  return out
+}
+/**
+ * Adds two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @returns {vec3} out
+ */
+
+function add(out, a, b) {
+  out[0] = a[0] + b[0]
+  out[1] = a[1] + b[1]
+  out[2] = a[2] + b[2]
+  return out
+}
+/**
+ * Subtracts vector b from vector a
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @returns {vec3} out
+ */
+
+function subtract(out, a, b) {
+  out[0] = a[0] - b[0]
+  out[1] = a[1] - b[1]
+  out[2] = a[2] - b[2]
+  return out
+}
+/**
+ * Multiplies two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @returns {vec3} out
+ */
+
+function multiply(out, a, b) {
+  out[0] = a[0] * b[0]
+  out[1] = a[1] * b[1]
+  out[2] = a[2] * b[2]
+  return out
+}
+/**
+ * Divides two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @returns {vec3} out
+ */
+
+function divide(out, a, b) {
+  out[0] = a[0] / b[0]
+  out[1] = a[1] / b[1]
+  out[2] = a[2] / b[2]
+  return out
+}
+/**
+ * Math.ceil the components of a vec3
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a vector to ceil
+ * @returns {vec3} out
+ */
+
+function ceil(out, a) {
+  out[0] = Math.ceil(a[0])
+  out[1] = Math.ceil(a[1])
+  out[2] = Math.ceil(a[2])
+  return out
+}
+/**
+ * Math.floor the components of a vec3
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a vector to floor
+ * @returns {vec3} out
+ */
+
+function floor(out, a) {
+  out[0] = Math.floor(a[0])
+  out[1] = Math.floor(a[1])
+  out[2] = Math.floor(a[2])
+  return out
+}
+/**
+ * Returns the minimum of two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @returns {vec3} out
+ */
+
+function min(out, a, b) {
+  out[0] = Math.min(a[0], b[0])
+  out[1] = Math.min(a[1], b[1])
+  out[2] = Math.min(a[2], b[2])
+  return out
+}
+/**
+ * Returns the maximum of two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @returns {vec3} out
+ */
+
+function max(out, a, b) {
+  out[0] = Math.max(a[0], b[0])
+  out[1] = Math.max(a[1], b[1])
+  out[2] = Math.max(a[2], b[2])
+  return out
+}
+/**
+ * Math.round the components of a vec3
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a vector to round
+ * @returns {vec3} out
+ */
+
+function round(out, a) {
+  out[0] = Math.round(a[0])
+  out[1] = Math.round(a[1])
+  out[2] = Math.round(a[2])
+  return out
+}
+/**
+ * Scales a vec3 by a scalar number
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the vector to scale
+ * @param {Number} b amount to scale the vector by
+ * @returns {vec3} out
+ */
+
+function scale(out, a, b) {
+  out[0] = a[0] * b
+  out[1] = a[1] * b
+  out[2] = a[2] * b
+  return out
+}
+/**
+ * Adds two vec3's after scaling the second operand by a scalar value
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @param {Number} scale the amount to scale b by before adding
+ * @returns {vec3} out
+ */
+
+function scaleAndAdd(out, a, b, scale) {
+  out[0] = a[0] + b[0] * scale
+  out[1] = a[1] + b[1] * scale
+  out[2] = a[2] + b[2] * scale
+  return out
+}
+/**
+ * Calculates the euclidian distance between two vec3's
+ *
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @returns {Number} distance between a and b
+ */
+
+function distance(a, b) {
+  var x = b[0] - a[0]
+  var y = b[1] - a[1]
+  var z = b[2] - a[2]
+  return Math.hypot(x, y, z)
+}
+/**
+ * Calculates the squared euclidian distance between two vec3's
+ *
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @returns {Number} squared distance between a and b
+ */
+
+function squaredDistance(a, b) {
+  var x = b[0] - a[0]
+  var y = b[1] - a[1]
+  var z = b[2] - a[2]
+  return x * x + y * y + z * z
+}
+/**
+ * Calculates the squared length of a vec3
+ *
+ * @param {ReadonlyVec3} a vector to calculate squared length of
+ * @returns {Number} squared length of a
+ */
+
+function squaredLength(a) {
+  var x = a[0]
+  var y = a[1]
+  var z = a[2]
+  return x * x + y * y + z * z
+}
+/**
+ * Negates the components of a vec3
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a vector to negate
+ * @returns {vec3} out
+ */
+
+function negate(out, a) {
+  out[0] = -a[0]
+  out[1] = -a[1]
+  out[2] = -a[2]
+  return out
+}
+/**
+ * Returns the inverse of the components of a vec3
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a vector to invert
+ * @returns {vec3} out
+ */
+
+function inverse(out, a) {
+  out[0] = 1.0 / a[0]
+  out[1] = 1.0 / a[1]
+  out[2] = 1.0 / a[2]
+  return out
+}
+/**
+ * Normalize a vec3
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a vector to normalize
+ * @returns {vec3} out
+ */
+
+function normalize$2(out, a) {
+  var x = a[0]
+  var y = a[1]
+  var z = a[2]
+  var len = x * x + y * y + z * z
+
+  if (len > 0) {
+    //TODO: evaluate use of glm_invsqrt here?
+    len = 1 / Math.sqrt(len)
+  }
+
+  out[0] = a[0] * len
+  out[1] = a[1] * len
+  out[2] = a[2] * len
+  return out
+}
+/**
+ * Calculates the dot product of two vec3's
+ *
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @returns {Number} dot product of a and b
+ */
+
+function dot(a, b) {
+  return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
+}
+/**
+ * Computes the cross product of two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @returns {vec3} out
+ */
+
+function cross(out, a, b) {
+  var ax = a[0],
+    ay = a[1],
+    az = a[2]
+  var bx = b[0],
+    by = b[1],
+    bz = b[2]
+  out[0] = ay * bz - az * by
+  out[1] = az * bx - ax * bz
+  out[2] = ax * by - ay * bx
+  return out
+}
+/**
+ * Performs a linear interpolation between two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @param {Number} t interpolation amount, in the range [0-1], between the two inputs
+ * @returns {vec3} out
+ */
+
+function lerp(out, a, b, t) {
+  var ax = a[0]
+  var ay = a[1]
+  var az = a[2]
+  out[0] = ax + t * (b[0] - ax)
+  out[1] = ay + t * (b[1] - ay)
+  out[2] = az + t * (b[2] - az)
+  return out
+}
+/**
+ * Performs a hermite interpolation with two control points
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @param {ReadonlyVec3} c the third operand
+ * @param {ReadonlyVec3} d the fourth operand
+ * @param {Number} t interpolation amount, in the range [0-1], between the two inputs
+ * @returns {vec3} out
+ */
+
+function hermite(out, a, b, c, d, t) {
+  var factorTimes2 = t * t
+  var factor1 = factorTimes2 * (2 * t - 3) + 1
+  var factor2 = factorTimes2 * (t - 2) + t
+  var factor3 = factorTimes2 * (t - 1)
+  var factor4 = factorTimes2 * (3 - 2 * t)
+  out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4
+  out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4
+  out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4
+  return out
+}
+/**
+ * Performs a bezier interpolation with two control points
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the first operand
+ * @param {ReadonlyVec3} b the second operand
+ * @param {ReadonlyVec3} c the third operand
+ * @param {ReadonlyVec3} d the fourth operand
+ * @param {Number} t interpolation amount, in the range [0-1], between the two inputs
+ * @returns {vec3} out
+ */
+
+function bezier(out, a, b, c, d, t) {
+  var inverseFactor = 1 - t
+  var inverseFactorTimesTwo = inverseFactor * inverseFactor
+  var factorTimes2 = t * t
+  var factor1 = inverseFactorTimesTwo * inverseFactor
+  var factor2 = 3 * t * inverseFactorTimesTwo
+  var factor3 = 3 * factorTimes2 * inverseFactor
+  var factor4 = factorTimes2 * t
+  out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4
+  out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4
+  out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4
+  return out
+}
+/**
+ * Generates a random vector with the given scale
+ *
+ * @param {vec3} out the receiving vector
+ * @param {Number} [scale] Length of the resulting vector. If ommitted, a unit vector will be returned
+ * @returns {vec3} out
+ */
+
+function random(out, scale) {
+  scale = scale || 1.0
+  var r = RANDOM() * 2.0 * Math.PI
+  var z = RANDOM() * 2.0 - 1.0
+  var zScale = Math.sqrt(1.0 - z * z) * scale
+  out[0] = Math.cos(r) * zScale
+  out[1] = Math.sin(r) * zScale
+  out[2] = z * scale
+  return out
+}
+/**
+ * Transforms the vec3 with a mat4.
+ * 4th vector component is implicitly '1'
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the vector to transform
+ * @param {ReadonlyMat4} m matrix to transform with
+ * @returns {vec3} out
+ */
+
+function transformMat4(out, a, m) {
+  var x = a[0],
+    y = a[1],
+    z = a[2]
+  var w = m[3] * x + m[7] * y + m[11] * z + m[15]
+  w = w || 1.0
+  out[0] = (m[0] * x + m[4] * y + m[8] * z + m[12]) / w
+  out[1] = (m[1] * x + m[5] * y + m[9] * z + m[13]) / w
+  out[2] = (m[2] * x + m[6] * y + m[10] * z + m[14]) / w
+  return out
+}
+/**
+ * Transforms the vec3 with a mat3.
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the vector to transform
+ * @param {ReadonlyMat3} m the 3x3 matrix to transform with
+ * @returns {vec3} out
+ */
+
+function transformMat3(out, a, m) {
+  var x = a[0],
+    y = a[1],
+    z = a[2]
+  out[0] = x * m[0] + y * m[3] + z * m[6]
+  out[1] = x * m[1] + y * m[4] + z * m[7]
+  out[2] = x * m[2] + y * m[5] + z * m[8]
+  return out
+}
+/**
+ * Transforms the vec3 with a quat
+ * Can also be used for dual quaternions. (Multiply it with the real part)
+ *
+ * @param {vec3} out the receiving vector
+ * @param {ReadonlyVec3} a the vector to transform
+ * @param {ReadonlyQuat} q quaternion to transform with
+ * @returns {vec3} out
+ */
+
+function transformQuat(out, a, q) {
+  // benchmarks: https://jsperf.com/quaternion-transform-vec3-implementations-fixed
+  var qx = q[0],
+    qy = q[1],
+    qz = q[2],
+    qw = q[3]
+  var x = a[0],
+    y = a[1],
+    z = a[2] // var qvec = [qx, qy, qz];
+  // var uv = vec3.cross([], qvec, a);
+
+  var uvx = qy * z - qz * y,
+    uvy = qz * x - qx * z,
+    uvz = qx * y - qy * x // var uuv = vec3.cross([], qvec, uv);
+
+  var uuvx = qy * uvz - qz * uvy,
+    uuvy = qz * uvx - qx * uvz,
+    uuvz = qx * uvy - qy * uvx // vec3.scale(uv, uv, 2 * w);
+
+  var w2 = qw * 2
+  uvx *= w2
+  uvy *= w2
+  uvz *= w2 // vec3.scale(uuv, uuv, 2);
+
+  uuvx *= 2
+  uuvy *= 2
+  uuvz *= 2 // return vec3.add(out, a, vec3.add(out, uv, uuv));
+
+  out[0] = x + uvx + uuvx
+  out[1] = y + uvy + uuvy
+  out[2] = z + uvz + uuvz
+  return out
+}
+/**
+ * Rotate a 3D vector around the x-axis
+ * @param {vec3} out The receiving vec3
+ * @param {ReadonlyVec3} a The vec3 point to rotate
+ * @param {ReadonlyVec3} b The origin of the rotation
+ * @param {Number} rad The angle of rotation in radians
+ * @returns {vec3} out
+ */
+
+function rotateX(out, a, b, rad) {
+  var p = [],
+    r = [] //Translate point to the origin
+
+  p[0] = a[0] - b[0]
+  p[1] = a[1] - b[1]
+  p[2] = a[2] - b[2] //perform rotation
+
+  r[0] = p[0]
+  r[1] = p[1] * Math.cos(rad) - p[2] * Math.sin(rad)
+  r[2] = p[1] * Math.sin(rad) + p[2] * Math.cos(rad) //translate to correct position
+
+  out[0] = r[0] + b[0]
+  out[1] = r[1] + b[1]
+  out[2] = r[2] + b[2]
+  return out
+}
+/**
+ * Rotate a 3D vector around the y-axis
+ * @param {vec3} out The receiving vec3
+ * @param {ReadonlyVec3} a The vec3 point to rotate
+ * @param {ReadonlyVec3} b The origin of the rotation
+ * @param {Number} rad The angle of rotation in radians
+ * @returns {vec3} out
+ */
+
+function rotateY(out, a, b, rad) {
+  var p = [],
+    r = [] //Translate point to the origin
+
+  p[0] = a[0] - b[0]
+  p[1] = a[1] - b[1]
+  p[2] = a[2] - b[2] //perform rotation
+
+  r[0] = p[2] * Math.sin(rad) + p[0] * Math.cos(rad)
+  r[1] = p[1]
+  r[2] = p[2] * Math.cos(rad) - p[0] * Math.sin(rad) //translate to correct position
+
+  out[0] = r[0] + b[0]
+  out[1] = r[1] + b[1]
+  out[2] = r[2] + b[2]
+  return out
+}
+/**
+ * Rotate a 3D vector around the z-axis
+ * @param {vec3} out The receiving vec3
+ * @param {ReadonlyVec3} a The vec3 point to rotate
+ * @param {ReadonlyVec3} b The origin of the rotation
+ * @param {Number} rad The angle of rotation in radians
+ * @returns {vec3} out
+ */
+
+function rotateZ(out, a, b, rad) {
+  var p = [],
+    r = [] //Translate point to the origin
+
+  p[0] = a[0] - b[0]
+  p[1] = a[1] - b[1]
+  p[2] = a[2] - b[2] //perform rotation
+
+  r[0] = p[0] * Math.cos(rad) - p[1] * Math.sin(rad)
+  r[1] = p[0] * Math.sin(rad) + p[1] * Math.cos(rad)
+  r[2] = p[2] //translate to correct position
+
+  out[0] = r[0] + b[0]
+  out[1] = r[1] + b[1]
+  out[2] = r[2] + b[2]
+  return out
+}
+/**
+ * Get the angle between two 3D vectors
+ * @param {ReadonlyVec3} a The first operand
+ * @param {ReadonlyVec3} b The second operand
+ * @returns {Number} The angle in radians
+ */
+
+function angle(a, b) {
+  var ax = a[0],
+    ay = a[1],
+    az = a[2],
+    bx = b[0],
+    by = b[1],
+    bz = b[2],
+    mag1 = Math.sqrt(ax * ax + ay * ay + az * az),
+    mag2 = Math.sqrt(bx * bx + by * by + bz * bz),
+    mag = mag1 * mag2,
+    cosine = mag && dot(a, b) / mag
+  return Math.acos(Math.min(Math.max(cosine, -1), 1))
+}
+/**
+ * Set the components of a vec3 to zero
+ *
+ * @param {vec3} out the receiving vector
+ * @returns {vec3} out
+ */
+
+function zero(out) {
+  out[0] = 0.0
+  out[1] = 0.0
+  out[2] = 0.0
+  return out
+}
+/**
+ * Returns a string representation of a vector
+ *
+ * @param {ReadonlyVec3} a vector to represent as a string
+ * @returns {String} string representation of the vector
+ */
+
+function str(a) {
+  return 'vec3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ')'
+}
+/**
+ * Returns whether or not the vectors have exactly the same elements in the same position (when compared with ===)
+ *
+ * @param {ReadonlyVec3} a The first vector.
+ * @param {ReadonlyVec3} b The second vector.
+ * @returns {Boolean} True if the vectors are equal, false otherwise.
+ */
+
+function exactEquals(a, b) {
+  return a[0] === b[0] && a[1] === b[1] && a[2] === b[2]
+}
+/**
+ * Returns whether or not the vectors have approximately the same elements in the same position.
+ *
+ * @param {ReadonlyVec3} a The first vector.
+ * @param {ReadonlyVec3} b The second vector.
+ * @returns {Boolean} True if the vectors are equal, false otherwise.
+ */
+
+function equals(a, b) {
+  var a0 = a[0],
+    a1 = a[1],
+    a2 = a[2]
+  var b0 = b[0],
+    b1 = b[1],
+    b2 = b[2]
+  return (
+    Math.abs(a0 - b0) <=
+      EPSILON$1 * Math.max(1.0, Math.abs(a0), Math.abs(b0)) &&
+    Math.abs(a1 - b1) <=
+      EPSILON$1 * Math.max(1.0, Math.abs(a1), Math.abs(b1)) &&
+    Math.abs(a2 - b2) <= EPSILON$1 * Math.max(1.0, Math.abs(a2), Math.abs(b2))
+  )
+}
+/**
+ * Alias for {@link vec3.subtract}
+ * @function
+ */
+
+var sub = subtract
+/**
+ * Alias for {@link vec3.multiply}
+ * @function
+ */
+
+var mul = multiply
+/**
+ * Alias for {@link vec3.divide}
+ * @function
+ */
+
+var div = divide
+/**
+ * Alias for {@link vec3.distance}
+ * @function
+ */
+
+var dist = distance
+/**
+ * Alias for {@link vec3.squaredDistance}
+ * @function
+ */
+
+var sqrDist = squaredDistance
+/**
+ * Alias for {@link vec3.length}
+ * @function
+ */
+
+var len = length
+/**
+ * Alias for {@link vec3.squaredLength}
+ * @function
+ */
+
+var sqrLen = squaredLength
+/**
+ * Perform some operation over an array of vec3s.
+ *
+ * @param {Array} a the array of vectors to iterate over
+ * @param {Number} stride Number of elements between the start of each vec3. If 0 assumes tightly packed
+ * @param {Number} offset Number of elements to skip at the beginning of the array
+ * @param {Number} count Number of vec3s to iterate over. If 0 iterates over entire array
+ * @param {Function} fn Function to call for each vector in the array
+ * @param {Object} [arg] additional argument to pass to fn
+ * @returns {Array} a
+ * @function
+ */
+
+var forEach = (function() {
+  var vec = create$2()
+  return function(a, stride, offset, count, fn, arg) {
+    var i, l
+
+    if (!stride) {
+      stride = 3
+    }
+
+    if (!offset) {
+      offset = 0
+    }
+
+    if (count) {
+      l = Math.min(count * stride + offset, a.length)
+    } else {
+      l = a.length
+    }
+
+    for (i = offset; i < l; i += stride) {
+      vec[0] = a[i]
+      vec[1] = a[i + 1]
+      vec[2] = a[i + 2]
+      fn(vec, vec, arg)
+      a[i] = vec[0]
+      a[i + 1] = vec[1]
+      a[i + 2] = vec[2]
+    }
+
+    return a
+  }
+})()
+
+var vec3 = /*#__PURE__*/ Object.freeze({
+  __proto__: null,
+  create: create$2,
+  clone: clone,
+  length: length,
+  fromValues: fromValues,
+  copy: copy,
+  set: set,
+  add: add,
+  subtract: subtract,
+  multiply: multiply,
+  divide: divide,
+  ceil: ceil,
+  floor: floor,
+  min: min,
+  max: max,
+  round: round,
+  scale: scale,
+  scaleAndAdd: scaleAndAdd,
+  distance: distance,
+  squaredDistance: squaredDistance,
+  squaredLength: squaredLength,
+  negate: negate,
+  inverse: inverse,
+  normalize: normalize$2,
+  dot: dot,
+  cross: cross,
+  lerp: lerp,
+  hermite: hermite,
+  bezier: bezier,
+  random: random,
+  transformMat4: transformMat4,
+  transformMat3: transformMat3,
+  transformQuat: transformQuat,
+  rotateX: rotateX,
+  rotateY: rotateY,
+  rotateZ: rotateZ,
+  angle: angle,
+  zero: zero,
+  str: str,
+  exactEquals: exactEquals,
+  equals: equals,
+  sub: sub,
+  mul: mul,
+  div: div,
+  dist: dist,
+  sqrDist: sqrDist,
+  len: len,
+  sqrLen: sqrLen,
+  forEach: forEach,
+})
+
+/**
+ * 4 Dimensional Vector
+ * @module vec4
+ */
+
+/**
+ * Creates a new, empty vec4
+ *
+ * @returns {vec4} a new 4D vector
+ */
+
+function create$1() {
+  var out = new ARRAY_TYPE(4)
+
+  if (ARRAY_TYPE != Float32Array) {
+    out[0] = 0
+    out[1] = 0
+    out[2] = 0
+    out[3] = 0
+  }
+
+  return out
+}
+/**
+ * Normalize a vec4
+ *
+ * @param {vec4} out the receiving vector
+ * @param {ReadonlyVec4} a vector to normalize
+ * @returns {vec4} out
+ */
+
+function normalize$1(out, a) {
+  var x = a[0]
+  var y = a[1]
+  var z = a[2]
+  var w = a[3]
+  var len = x * x + y * y + z * z + w * w
+
+  if (len > 0) {
+    len = 1 / Math.sqrt(len)
+  }
+
+  out[0] = x * len
+  out[1] = y * len
+  out[2] = z * len
+  out[3] = w * len
+  return out
+}
+/**
+ * Perform some operation over an array of vec4s.
+ *
+ * @param {Array} a the array of vectors to iterate over
+ * @param {Number} stride Number of elements between the start of each vec4. If 0 assumes tightly packed
+ * @param {Number} offset Number of elements to skip at the beginning of the array
+ * @param {Number} count Number of vec4s to iterate over. If 0 iterates over entire array
+ * @param {Function} fn Function to call for each vector in the array
+ * @param {Object} [arg] additional argument to pass to fn
+ * @returns {Array} a
+ * @function
+ */
+
+;(function() {
+  var vec = create$1()
+  return function(a, stride, offset, count, fn, arg) {
+    var i, l
+
+    if (!stride) {
+      stride = 4
+    }
+
+    if (!offset) {
+      offset = 0
+    }
+
+    if (count) {
+      l = Math.min(count * stride + offset, a.length)
+    } else {
+      l = a.length
+    }
+
+    for (i = offset; i < l; i += stride) {
+      vec[0] = a[i]
+      vec[1] = a[i + 1]
+      vec[2] = a[i + 2]
+      vec[3] = a[i + 3]
+      fn(vec, vec, arg)
+      a[i] = vec[0]
+      a[i + 1] = vec[1]
+      a[i + 2] = vec[2]
+      a[i + 3] = vec[3]
+    }
+
+    return a
+  }
+})()
+
+/**
+ * Quaternion
+ * @module quat
+ */
+
+/**
+ * Creates a new identity quat
+ *
+ * @returns {quat} a new quaternion
+ */
+
+function create() {
+  var out = new ARRAY_TYPE(4)
+
+  if (ARRAY_TYPE != Float32Array) {
+    out[0] = 0
+    out[1] = 0
+    out[2] = 0
+  }
+
+  out[3] = 1
+  return out
+}
+/**
+ * Sets a quat from the given angle and rotation axis,
+ * then returns it.
+ *
+ * @param {quat} out the receiving quaternion
+ * @param {ReadonlyVec3} axis the axis around which to rotate
+ * @param {Number} rad the angle in radians
+ * @returns {quat} out
+ **/
+
+function setAxisAngle(out, axis, rad) {
+  rad = rad * 0.5
+  var s = Math.sin(rad)
+  out[0] = s * axis[0]
+  out[1] = s * axis[1]
+  out[2] = s * axis[2]
+  out[3] = Math.cos(rad)
+  return out
+}
+/**
+ * Gets the rotation axis and angle for a given
+ *  quaternion. If a quaternion is created with
+ *  setAxisAngle, this method will return the same
+ *  values as providied in the original parameter list
+ *  OR functionally equivalent values.
+ * Example: The quaternion formed by axis [0, 0, 1] and
+ *  angle -90 is the same as the quaternion formed by
+ *  [0, 0, 1] and 270. This method favors the latter.
+ * @param  {vec3} out_axis  Vector receiving the axis of rotation
+ * @param  {ReadonlyQuat} q     Quaternion to be decomposed
+ * @return {Number}     Angle, in radians, of the rotation
+ */
+
+function getAxisAngle(out_axis, q) {
+  var rad = Math.acos(q[3]) * 2.0
+  var s = Math.sin(rad / 2.0)
+
+  if (s > EPSILON$1) {
+    out_axis[0] = q[0] / s
+    out_axis[1] = q[1] / s
+    out_axis[2] = q[2] / s
+  } else {
+    // If s is zero, return any axis (no rotation - axis does not matter)
+    out_axis[0] = 1
+    out_axis[1] = 0
+    out_axis[2] = 0
+  }
+
+  return rad
+}
+/**
+ * Performs a spherical linear interpolation between two quat
+ *
+ * @param {quat} out the receiving quaternion
+ * @param {ReadonlyQuat} a the first operand
+ * @param {ReadonlyQuat} b the second operand
+ * @param {Number} t interpolation amount, in the range [0-1], between the two inputs
+ * @returns {quat} out
+ */
+
+function slerp(out, a, b, t) {
+  // benchmarks:
+  //    http://jsperf.com/quaternion-slerp-implementations
+  var ax = a[0],
+    ay = a[1],
+    az = a[2],
+    aw = a[3]
+  var bx = b[0],
+    by = b[1],
+    bz = b[2],
+    bw = b[3]
+  var omega, cosom, sinom, scale0, scale1 // calc cosine
+
+  cosom = ax * bx + ay * by + az * bz + aw * bw // adjust signs (if necessary)
+
+  if (cosom < 0.0) {
+    cosom = -cosom
+    bx = -bx
+    by = -by
+    bz = -bz
+    bw = -bw
+  } // calculate coefficients
+
+  if (1.0 - cosom > EPSILON$1) {
+    // standard case (slerp)
+    omega = Math.acos(cosom)
+    sinom = Math.sin(omega)
+    scale0 = Math.sin((1.0 - t) * omega) / sinom
+    scale1 = Math.sin(t * omega) / sinom
+  } else {
+    // "from" and "to" quaternions are very close
+    //  ... so we can do a linear interpolation
+    scale0 = 1.0 - t
+    scale1 = t
+  } // calculate final values
+
+  out[0] = scale0 * ax + scale1 * bx
+  out[1] = scale0 * ay + scale1 * by
+  out[2] = scale0 * az + scale1 * bz
+  out[3] = scale0 * aw + scale1 * bw
+  return out
+}
+/**
+ * Creates a quaternion from the given 3x3 rotation matrix.
+ *
+ * NOTE: The resultant quaternion is not normalized, so you should be sure
+ * to renormalize the quaternion yourself where necessary.
+ *
+ * @param {quat} out the receiving quaternion
+ * @param {ReadonlyMat3} m rotation matrix
+ * @returns {quat} out
+ * @function
+ */
+
+function fromMat3(out, m) {
+  // Algorithm in Ken Shoemake's article in 1987 SIGGRAPH course notes
+  // article "Quaternion Calculus and Fast Animation".
+  var fTrace = m[0] + m[4] + m[8]
+  var fRoot
+
+  if (fTrace > 0.0) {
+    // |w| > 1/2, may as well choose w > 1/2
+    fRoot = Math.sqrt(fTrace + 1.0) // 2w
+
+    out[3] = 0.5 * fRoot
+    fRoot = 0.5 / fRoot // 1/(4w)
+
+    out[0] = (m[5] - m[7]) * fRoot
+    out[1] = (m[6] - m[2]) * fRoot
+    out[2] = (m[1] - m[3]) * fRoot
+  } else {
+    // |w| <= 1/2
+    var i = 0
+    if (m[4] > m[0]) i = 1
+    if (m[8] > m[i * 3 + i]) i = 2
+    var j = (i + 1) % 3
+    var k = (i + 2) % 3
+    fRoot = Math.sqrt(m[i * 3 + i] - m[j * 3 + j] - m[k * 3 + k] + 1.0)
+    out[i] = 0.5 * fRoot
+    fRoot = 0.5 / fRoot
+    out[3] = (m[j * 3 + k] - m[k * 3 + j]) * fRoot
+    out[j] = (m[j * 3 + i] + m[i * 3 + j]) * fRoot
+    out[k] = (m[k * 3 + i] + m[i * 3 + k]) * fRoot
+  }
+
+  return out
+}
+/**
+ * Normalize a quat
+ *
+ * @param {quat} out the receiving quaternion
+ * @param {ReadonlyQuat} a quaternion to normalize
+ * @returns {quat} out
+ * @function
+ */
+
+var normalize = normalize$1
+/**
+ * Sets a quaternion to represent the shortest rotation from one
+ * vector to another.
+ *
+ * Both vectors are assumed to be unit length.
+ *
+ * @param {quat} out the receiving quaternion.
+ * @param {ReadonlyVec3} a the initial vector
+ * @param {ReadonlyVec3} b the destination vector
+ * @returns {quat} out
+ */
+
+;(function() {
+  var tmpvec3 = create$2()
+  var xUnitVec3 = fromValues(1, 0, 0)
+  var yUnitVec3 = fromValues(0, 1, 0)
+  return function(out, a, b) {
+    var dot$1 = dot(a, b)
+
+    if (dot$1 < -0.999999) {
+      cross(tmpvec3, xUnitVec3, a)
+      if (len(tmpvec3) < 0.000001) cross(tmpvec3, yUnitVec3, a)
+      normalize$2(tmpvec3, tmpvec3)
+      setAxisAngle(out, tmpvec3, Math.PI)
+      return out
+    } else if (dot$1 > 0.999999) {
+      out[0] = 0
+      out[1] = 0
+      out[2] = 0
+      out[3] = 1
+      return out
+    } else {
+      cross(tmpvec3, a, b)
+      out[0] = tmpvec3[0]
+      out[1] = tmpvec3[1]
+      out[2] = tmpvec3[2]
+      out[3] = 1 + dot$1
+      return normalize(out, out)
+    }
+  }
+})()
+/**
+ * Performs a spherical linear interpolation with two control points
+ *
+ * @param {quat} out the receiving quaternion
+ * @param {ReadonlyQuat} a the first operand
+ * @param {ReadonlyQuat} b the second operand
+ * @param {ReadonlyQuat} c the third operand
+ * @param {ReadonlyQuat} d the fourth operand
+ * @param {Number} t interpolation amount, in the range [0-1], between the two inputs
+ * @returns {quat} out
+ */
+;(function() {
+  var temp1 = create()
+  var temp2 = create()
+  return function(out, a, b, c, d, t) {
+    slerp(temp1, a, d, t)
+    slerp(temp2, b, c, t)
+    slerp(out, temp1, temp2, 2 * t * (1 - t))
+    return out
+  }
+})()
+/**
+ * Sets the specified quaternion with values corresponding to the given
+ * axes. Each axis is a vec3 and is expected to be unit length and
+ * perpendicular to all other specified axes.
+ *
+ * @param {ReadonlyVec3} view  the vector representing the viewing direction
+ * @param {ReadonlyVec3} right the vector representing the local "right" direction
+ * @param {ReadonlyVec3} up    the vector representing the local "up" direction
+ * @returns {quat} out
+ */
+;(function() {
+  var matr = create$3()
+  return function(out, view, right, up) {
+    matr[0] = right[0]
+    matr[3] = right[1]
+    matr[6] = right[2]
+    matr[1] = up[0]
+    matr[4] = up[1]
+    matr[7] = up[2]
+    matr[2] = -view[0]
+    matr[5] = -view[1]
+    matr[8] = -view[2]
+    return normalize(out, fromMat3(out, matr))
+  }
+})()
+
+function ownKeys$f(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$f(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$f(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$f(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+var INIT_BOUNDS = [
+  Number.MAX_VALUE,
+  -Number.MAX_VALUE, // X
+  Number.MAX_VALUE,
+  -Number.MAX_VALUE, // Y
+  Number.MAX_VALUE,
+  -Number.MAX_VALUE, // Z
+] // ----------------------------------------------------------------------------
+// Global methods
+// ----------------------------------------------------------------------------
+
+function _equals(a, b) {
+  return (
+    a[0] === b[0] &&
+    a[1] === b[1] &&
+    a[2] === b[2] &&
+    a[3] === b[3] &&
+    a[4] === b[4] &&
+    a[5] === b[5]
+  )
+}
+
+function _isValid(bounds) {
+  return (
+    bounds[0] <= bounds[1] && bounds[2] <= bounds[3] && bounds[4] <= bounds[5]
+  )
+}
+
+function _setBounds(bounds, otherBounds) {
+  bounds[0] = otherBounds[0]
+  bounds[1] = otherBounds[1]
+  bounds[2] = otherBounds[2]
+  bounds[3] = otherBounds[3]
+  bounds[4] = otherBounds[4]
+  bounds[5] = otherBounds[5]
+  return bounds
+}
+
+function _reset(bounds) {
+  return _setBounds(bounds, INIT_BOUNDS)
+}
+
+function _addPoint(bounds) {
+  var _bounds = _slicedToArray(bounds, 6),
+    xMin = _bounds[0],
+    xMax = _bounds[1],
+    yMin = _bounds[2],
+    yMax = _bounds[3],
+    zMin = _bounds[4],
+    zMax = _bounds[5]
+
+  bounds[0] =
+    xMin < (arguments.length <= 1 ? undefined : arguments[1])
+      ? xMin
+      : arguments.length <= 1
+      ? undefined
+      : arguments[1]
+  bounds[1] =
+    xMax > (arguments.length <= 1 ? undefined : arguments[1])
+      ? xMax
+      : arguments.length <= 1
+      ? undefined
+      : arguments[1]
+  bounds[2] =
+    yMin < (arguments.length <= 2 ? undefined : arguments[2])
+      ? yMin
+      : arguments.length <= 2
+      ? undefined
+      : arguments[2]
+  bounds[3] =
+    yMax > (arguments.length <= 2 ? undefined : arguments[2])
+      ? yMax
+      : arguments.length <= 2
+      ? undefined
+      : arguments[2]
+  bounds[4] =
+    zMin < (arguments.length <= 3 ? undefined : arguments[3])
+      ? zMin
+      : arguments.length <= 3
+      ? undefined
+      : arguments[3]
+  bounds[5] =
+    zMax > (arguments.length <= 3 ? undefined : arguments[3])
+      ? zMax
+      : arguments.length <= 3
+      ? undefined
+      : arguments[3]
+  return bounds
+}
+
+function _addBounds(bounds, xMin, xMax, yMin, yMax, zMin, zMax) {
+  var _bounds2 = _slicedToArray(bounds, 6),
+    _xMin = _bounds2[0],
+    _xMax = _bounds2[1],
+    _yMin = _bounds2[2],
+    _yMax = _bounds2[3],
+    _zMin = _bounds2[4],
+    _zMax = _bounds2[5]
+
+  if (zMax === undefined) {
+    bounds[0] = Math.min(xMin[0], _xMin)
+    bounds[1] = Math.max(xMin[1], _xMax)
+    bounds[2] = Math.min(xMin[2], _yMin)
+    bounds[3] = Math.max(xMin[3], _yMax)
+    bounds[4] = Math.min(xMin[4], _zMin)
+    bounds[5] = Math.max(xMin[5], _zMax)
+  } else {
+    bounds[0] = Math.min(xMin, _xMin)
+    bounds[1] = Math.max(xMax, _xMax)
+    bounds[2] = Math.min(yMin, _yMin)
+    bounds[3] = Math.max(yMax, _yMax)
+    bounds[4] = Math.min(zMin, _zMin)
+    bounds[5] = Math.max(zMax, _zMax)
+  }
+
+  return bounds
+}
+
+function _setMinPoint(bounds, x, y, z) {
+  var _bounds3 = _slicedToArray(bounds, 6),
+    xMin = _bounds3[0],
+    xMax = _bounds3[1],
+    yMin = _bounds3[2],
+    yMax = _bounds3[3],
+    zMin = _bounds3[4],
+    zMax = _bounds3[5]
+
+  bounds[0] = x
+  bounds[1] = x > xMax ? x : xMax
+  bounds[2] = y
+  bounds[3] = y > yMax ? y : yMax
+  bounds[4] = z
+  bounds[5] = z > zMax ? z : zMax
+  return xMin !== x || yMin !== y || zMin !== z
+}
+
+function _setMaxPoint(bounds, x, y, z) {
+  var _bounds4 = _slicedToArray(bounds, 6),
+    xMin = _bounds4[0],
+    xMax = _bounds4[1],
+    yMin = _bounds4[2],
+    yMax = _bounds4[3],
+    zMin = _bounds4[4],
+    zMax = _bounds4[5]
+
+  bounds[0] = x < xMin ? x : xMin
+  bounds[1] = x
+  bounds[2] = y < yMin ? y : yMin
+  bounds[3] = y
+  bounds[4] = z < zMin ? z : zMin
+  bounds[5] = z
+  return xMax !== x || yMax !== y || zMax !== z
+}
+
+function _inflate(bounds, delta) {
+  bounds[0] -= delta
+  bounds[1] += delta
+  bounds[2] -= delta
+  bounds[3] += delta
+  bounds[4] -= delta
+  bounds[5] += delta
+  return bounds
+}
+
+function _scale(bounds, sx, sy, sz) {
+  if (!_isValid(bounds)) {
+    return false
+  }
+
+  if (sx >= 0.0) {
+    bounds[0] *= sx
+    bounds[1] *= sx
+  } else {
+    bounds[0] = sx * bounds[1]
+    bounds[1] = sx * bounds[0]
+  }
+
+  if (sy >= 0.0) {
+    bounds[2] *= sy
+    bounds[3] *= sy
+  } else {
+    bounds[2] = sy * bounds[3]
+    bounds[3] = sy * bounds[2]
+  }
+
+  if (sz >= 0.0) {
+    bounds[4] *= sz
+    bounds[5] *= sz
+  } else {
+    bounds[4] = sz * bounds[5]
+    bounds[5] = sz * bounds[4]
+  }
+
+  return true
+}
+
+function _getCenter(bounds) {
+  return [
+    0.5 * (bounds[0] + bounds[1]),
+    0.5 * (bounds[2] + bounds[3]),
+    0.5 * (bounds[4] + bounds[5]),
+  ]
+}
+function scaleAboutCenter(bounds, sx, sy, sz) {
+  if (!_isValid(bounds)) {
+    return false
+  }
+
+  var center = _getCenter(bounds)
+
+  bounds[0] -= center[0]
+  bounds[1] -= center[0]
+  bounds[2] -= center[1]
+  bounds[3] -= center[1]
+  bounds[4] -= center[2]
+  bounds[5] -= center[2]
+
+  _scale(bounds, sx, sy, sz)
+
+  bounds[0] += center[0]
+  bounds[1] += center[0]
+  bounds[2] += center[1]
+  bounds[3] += center[1]
+  bounds[4] += center[2]
+  bounds[5] += center[2]
+  return true
+}
+
+function _getLength(bounds, index) {
+  return bounds[index * 2 + 1] - bounds[index * 2]
+}
+
+function _getLengths(bounds) {
+  return [_getLength(bounds, 0), _getLength(bounds, 1), _getLength(bounds, 2)]
+}
+
+function _getXRange(bounds) {
+  return bounds.slice(0, 2)
+}
+
+function _getYRange(bounds) {
+  return bounds.slice(2, 4)
+}
+
+function _getZRange(bounds) {
+  return bounds.slice(4, 6)
+}
+
+function _getMaxLength(bounds) {
+  var l = _getLengths(bounds)
+
+  if (l[0] > l[1]) {
+    if (l[0] > l[2]) {
+      return l[0]
+    }
+
+    return l[2]
+  }
+
+  if (l[1] > l[2]) {
+    return l[1]
+  }
+
+  return l[2]
+}
+
+function _getDiagonalLength(bounds) {
+  if (_isValid(bounds)) {
+    var l = _getLengths(bounds)
+
+    return Math.sqrt(l[0] * l[0] + l[1] * l[1] + l[2] * l[2])
+  }
+
+  return null
+}
+
+function _getMinPoint(bounds) {
+  return [bounds[0], bounds[2], bounds[4]]
+}
+
+function _getMaxPoint(bounds) {
+  return [bounds[1], bounds[3], bounds[5]]
+}
+
+function oppositeSign(a, b) {
+  return (a <= 0 && b >= 0) || (a >= 0 && b <= 0)
+}
+
+function _getCorners(bounds, corners) {
+  var count = 0
+
+  for (var ix = 0; ix < 2; ix++) {
+    for (var iy = 2; iy < 4; iy++) {
+      for (var iz = 4; iz < 6; iz++) {
+        corners[count] = [bounds[ix], bounds[iy], bounds[iz]]
+        count++
+      }
+    }
+  }
+
+  return corners
+} // Computes the two corners with minimal and miximal coordinates
+
+function _computeCornerPoints(bounds, point1, point2) {
+  point1[0] = bounds[0]
+  point1[1] = bounds[2]
+  point1[2] = bounds[4]
+  point2[0] = bounds[1]
+  point2[1] = bounds[3]
+  point2[2] = bounds[5]
+  return point1
+}
+
+function _computeScale(bounds) {
+  var scale3 =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : []
+  scale3[0] = 0.5 * (bounds[1] - bounds[0])
+  scale3[1] = 0.5 * (bounds[3] - bounds[2])
+  scale3[2] = 0.5 * (bounds[5] - bounds[4])
+  return scale3
+}
+
+function _computeLocalBounds(points, u, v, w) {
+  var bounds = [].concat(INIT_BOUNDS)
+  var pointsData = points.getData()
+
+  for (var i = 0; i < pointsData.length; i += 3) {
+    var point = [pointsData[i], pointsData[i + 1], pointsData[i + 2]]
+    var du = dot$1(point, u)
+    bounds[0] = Math.min(du, bounds[0])
+    bounds[1] = Math.max(du, bounds[1])
+    var dv = dot$1(point, v)
+    bounds[2] = Math.min(dv, bounds[2])
+    bounds[3] = Math.max(dv, bounds[3])
+    var dw = dot$1(point, w)
+    bounds[4] = Math.min(dw, bounds[4])
+    bounds[5] = Math.max(dw, bounds[5])
+  }
+
+  return bounds
+} // The method returns a non-zero value if the bounding box is hit.
+
+function _intersectBox(bounds, origin, dir, coord, tolerance) {
+  var inside = true
+  var quadrant = []
+  var whichPlane = 0
+  var maxT = []
+  var candidatePlane = [0.0, 0.0, 0.0]
+  var RIGHT = 0
+  var LEFT = 1
+  var MIDDLE = 2 // First find closest planes
+
+  for (var i = 0; i < 3; i++) {
+    if (origin[i] < bounds[2 * i]) {
+      quadrant[i] = LEFT
+      candidatePlane[i] = bounds[2 * i]
+      inside = false
+    } else if (origin[i] > bounds[2 * i + 1]) {
+      quadrant[i] = RIGHT
+      candidatePlane[i] = bounds[2 * i + 1]
+      inside = false
+    } else {
+      quadrant[i] = MIDDLE
+    }
+  } // Check whether origin of ray is inside bbox
+
+  if (inside) {
+    coord[0] = origin[0]
+    coord[1] = origin[1]
+    coord[2] = origin[2]
+    tolerance[0] = 0
+    return 1
+  } // Calculate parametric distance to plane
+
+  for (var _i = 0; _i < 3; _i++) {
+    if (quadrant[_i] !== MIDDLE && dir[_i] !== 0.0) {
+      maxT[_i] = (candidatePlane[_i] - origin[_i]) / dir[_i]
+    } else {
+      maxT[_i] = -1.0
+    }
+  } // Find the largest parametric value of intersection
+
+  for (var _i2 = 0; _i2 < 3; _i2++) {
+    if (maxT[whichPlane] < maxT[_i2]) {
+      whichPlane = _i2
+    }
+  } // Check for valie intersection along line
+
+  if (maxT[whichPlane] > 1.0 || maxT[whichPlane] < 0.0) {
+    return 0
+  }
+
+  tolerance[0] = maxT[whichPlane] // Intersection point along line is okay. Check bbox.
+
+  for (var _i3 = 0; _i3 < 3; _i3++) {
+    if (whichPlane !== _i3) {
+      coord[_i3] = origin[_i3] + maxT[whichPlane] * dir[_i3]
+
+      if (coord[_i3] < bounds[2 * _i3] || coord[_i3] > bounds[2 * _i3 + 1]) {
+        return 0
+      }
+    } else {
+      coord[_i3] = candidatePlane[_i3]
+    }
+  }
+
+  return 1
+} // Plane intersection with box
+
+function _intersectPlane(bounds, origin, normal) {
+  var p = []
+  var d = 0
+  var sign = 1
+  var firstOne = 1 // Evaluate the eight points. If there is a sign change, there is an intersection
+
+  for (var z = 4; z <= 5; ++z) {
+    p[2] = bounds[z]
+
+    for (var y = 2; y <= 3; ++y) {
+      p[1] = bounds[y]
+
+      for (var x = 0; x <= 1; ++x) {
+        p[0] = bounds[x]
+        d = vtkPlane$1.evaluate(normal, origin, p)
+
+        if (firstOne) {
+          sign = d >= 0 ? 1 : -1
+          firstOne = 0
+        }
+
+        if (d === 0.0 || (sign > 0 && d < 0.0) || (sign < 0 && d > 0.0)) {
+          return 1
+        }
+      }
+    }
+  }
+
+  return 0 // no intersection
+}
+
+function _intersect(bounds, bBounds) {
+  if (!(_isValid(bounds) && _isValid(bBounds))) {
+    return false
+  }
+
+  var newBounds = [0, 0, 0, 0, 0, 0]
+  var intersection
+
+  for (var i = 0; i < 3; i++) {
+    intersection = false
+
+    if (
+      bBounds[i * 2] >= bounds[i * 2] &&
+      bBounds[i * 2] <= bounds[i * 2 + 1]
+    ) {
+      intersection = true
+      newBounds[i * 2] = bBounds[i * 2]
+    } else if (
+      bounds[i * 2] >= bBounds[i * 2] &&
+      bounds[i * 2] <= bBounds[i * 2 + 1]
+    ) {
+      intersection = true
+      newBounds[i * 2] = bounds[i * 2]
+    }
+
+    if (
+      bBounds[i * 2 + 1] >= bounds[i * 2] &&
+      bBounds[i * 2 + 1] <= bounds[i * 2 + 1]
+    ) {
+      intersection = true
+      newBounds[i * 2 + 1] = bBounds[2 * i + 1]
+    } else if (
+      bounds[i * 2 + 1] >= bBounds[i * 2] &&
+      bounds[i * 2 + 1] <= bBounds[i * 2 + 1]
+    ) {
+      intersection = true
+      newBounds[i * 2 + 1] = bounds[i * 2 + 1]
+    }
+
+    if (!intersection) {
+      return false
+    }
+  } // OK they did intersect - set the box to be the result
+
+  bounds[0] = newBounds[0]
+  bounds[1] = newBounds[1]
+  bounds[2] = newBounds[2]
+  bounds[3] = newBounds[3]
+  bounds[4] = newBounds[4]
+  bounds[5] = newBounds[5]
+  return true
+}
+
+function _intersects(bounds, bBounds) {
+  if (!(_isValid(bounds) && _isValid(bBounds))) {
+    return false
+  }
+  /* eslint-disable no-continue */
+
+  for (var i = 0; i < 3; i++) {
+    if (
+      bBounds[i * 2] >= bounds[i * 2] &&
+      bBounds[i * 2] <= bounds[i * 2 + 1]
+    ) {
+      continue
+    } else if (
+      bounds[i * 2] >= bBounds[i * 2] &&
+      bounds[i * 2] <= bBounds[i * 2 + 1]
+    ) {
+      continue
+    }
+
+    if (
+      bBounds[i * 2 + 1] >= bounds[i * 2] &&
+      bBounds[i * 2 + 1] <= bounds[i * 2 + 1]
+    ) {
+      continue
+    } else if (
+      bounds[i * 2 + 1] >= bBounds[i * 2] &&
+      bounds[i * 2 + 1] <= bBounds[i * 2 + 1]
+    ) {
+      continue
+    }
+
+    return false
+  }
+  /* eslint-enable no-continue */
+
+  return true
+}
+
+function _containsPoint(bounds, x, y, z) {
+  if (x < bounds[0] || x > bounds[1]) {
+    return false
+  }
+
+  if (y < bounds[2] || y > bounds[3]) {
+    return false
+  }
+
+  if (z < bounds[4] || z > bounds[5]) {
+    return false
+  }
+
+  return true
+}
+function contains(bounds, otherBounds) {
+  // if either box is not valid or they don't intersect
+  if (!_intersects(bounds, otherBounds)) {
+    return false
+  }
+
+  if (
+    !_containsPoint.apply(
+      void 0,
+      [bounds].concat(_toConsumableArray(_getMinPoint(otherBounds)))
+    )
+  ) {
+    return false
+  }
+
+  if (
+    !_containsPoint.apply(
+      void 0,
+      [bounds].concat(_toConsumableArray(_getMaxPoint(otherBounds)))
+    )
+  ) {
+    return false
+  }
+
+  return true
+}
+/**
+ * Returns true if plane intersects bounding box.
+ * If so, the box is cut by the plane
+ * @param {array} origin
+ * @param {array} normal
+ */
+
+function _cutWithPlane(bounds, origin, normal) {
+  // Index[0..2] represents the order of traversing the corners of a cube
+  // in (x,y,z), (y,x,z) and (z,x,y) ordering, respectively
+  var index = [
+    [0, 1, 2, 3, 4, 5, 6, 7],
+    [0, 1, 4, 5, 2, 3, 6, 7],
+    [0, 2, 4, 6, 1, 3, 5, 7],
+  ] // stores the signed distance to a plane
+
+  var d = [0, 0, 0, 0, 0, 0, 0, 0]
+  var idx = 0
+
+  for (var ix = 0; ix < 2; ix++) {
+    for (var iy = 2; iy < 4; iy++) {
+      for (var iz = 4; iz < 6; iz++) {
+        var x = [bounds[ix], bounds[iy], bounds[iz]]
+        d[idx++] = vtkPlane$1.evaluate(normal, origin, x)
+      }
+    }
+  }
+
+  var dir = 2
+
+  while (dir--) {
+    // in each direction, we test if the vertices of two orthogonal faces
+    // are on either side of the plane
+    if (
+      oppositeSign(d[index[dir][0]], d[index[dir][4]]) &&
+      oppositeSign(d[index[dir][1]], d[index[dir][5]]) &&
+      oppositeSign(d[index[dir][2]], d[index[dir][6]]) &&
+      oppositeSign(d[index[dir][3]], d[index[dir][7]])
+    ) {
+      break
+    }
+  }
+
+  if (dir < 0) {
+    return false
+  }
+
+  var sign = Math.sign(normal[dir])
+  var size = Math.abs((bounds[dir * 2 + 1] - bounds[dir * 2]) * normal[dir])
+  var t = sign > 0 ? 1 : 0
+  /* eslint-disable no-continue */
+
+  for (var i = 0; i < 4; i++) {
+    if (size === 0) {
+      continue // shouldn't happen
+    }
+
+    var ti = Math.abs(d[index[dir][i]]) / size
+
+    if (sign > 0 && ti < t) {
+      t = ti
+    }
+
+    if (sign < 0 && ti > t) {
+      t = ti
+    }
+  }
+  /* eslint-enable no-continue */
+
+  var bound = (1.0 - t) * bounds[dir * 2] + t * bounds[dir * 2 + 1]
+
+  if (sign > 0) {
+    bounds[dir * 2] = bound
+  } else {
+    bounds[dir * 2 + 1] = bound
+  }
+
+  return true
+} // ----------------------------------------------------------------------------
+
+var BoundingBox = /*#__PURE__*/ (function() {
+  function BoundingBox(refBounds) {
+    _classCallCheck(this, BoundingBox)
+
+    this.bounds = refBounds
+
+    if (!this.bounds) {
+      this.bounds = new Float64Array(INIT_BOUNDS)
+    }
+  }
+
+  _createClass(BoundingBox, [
+    {
+      key: 'getBounds',
+      value: function getBounds() {
+        return this.bounds
+      },
+    },
+    {
+      key: 'equals',
+      value: function equals(otherBounds) {
+        return _equals(this.bounds, otherBounds)
+      },
+    },
+    {
+      key: 'isValid',
+      value: function isValid() {
+        return _isValid(this.bounds)
+      },
+    },
+    {
+      key: 'setBounds',
+      value: function setBounds(otherBounds) {
+        return _setBounds(this.bounds, otherBounds)
+      },
+    },
+    {
+      key: 'reset',
+      value: function reset() {
+        return _reset(this.bounds)
+      },
+    },
+    {
+      key: 'addPoint',
+      value: function addPoint() {
+        for (
+          var _len = arguments.length, xyz = new Array(_len), _key = 0;
+          _key < _len;
+          _key++
+        ) {
+          xyz[_key] = arguments[_key]
+        }
+
+        return _addPoint(this.bounds, xyz)
+      },
+    },
+    {
+      key: 'addBounds',
+      value: function addBounds(xMin, xMax, yMin, yMax, zMin, zMax) {
+        return _addBounds(this.bounds, xMin, xMax, yMin, yMax, zMin, zMax)
+      },
+    },
+    {
+      key: 'setMinPoint',
+      value: function setMinPoint(x, y, z) {
+        return _setMinPoint(this.bounds, x, y, z)
+      },
+    },
+    {
+      key: 'setMaxPoint',
+      value: function setMaxPoint(x, y, z) {
+        return _setMaxPoint(this.bounds, x, y, z)
+      },
+    },
+    {
+      key: 'inflate',
+      value: function inflate(delta) {
+        return _inflate(this.bounds, delta)
+      },
+    },
+    {
+      key: 'scale',
+      value: function scale(sx, sy, sz) {
+        return _scale(this.bounds, sx, sy, sz)
+      },
+    },
+    {
+      key: 'getCenter',
+      value: function getCenter() {
+        return _getCenter(this.bounds)
+      },
+    },
+    {
+      key: 'getLength',
+      value: function getLength(index) {
+        return _getLength(this.bounds, index)
+      },
+    },
+    {
+      key: 'getLengths',
+      value: function getLengths() {
+        return _getLengths(this.bounds)
+      },
+    },
+    {
+      key: 'getMaxLength',
+      value: function getMaxLength() {
+        return _getMaxLength(this.bounds)
+      },
+    },
+    {
+      key: 'getDiagonalLength',
+      value: function getDiagonalLength() {
+        return _getDiagonalLength(this.bounds)
+      },
+    },
+    {
+      key: 'getMinPoint',
+      value: function getMinPoint() {
+        return _getMinPoint(this.bounds)
+      },
+    },
+    {
+      key: 'getMaxPoint',
+      value: function getMaxPoint() {
+        return _getMaxPoint(this.bounds)
+      },
+    },
+    {
+      key: 'getXRange',
+      value: function getXRange() {
+        return _getXRange(this.bounds)
+      },
+    },
+    {
+      key: 'getYRange',
+      value: function getYRange() {
+        return _getYRange(this.bounds)
+      },
+    },
+    {
+      key: 'getZRange',
+      value: function getZRange() {
+        return _getZRange(this.bounds)
+      },
+    },
+    {
+      key: 'getCorners',
+      value: function getCorners(corners) {
+        return _getCorners(this.bounds, corners)
+      },
+    },
+    {
+      key: 'computeCornerPoints',
+      value: function computeCornerPoints(point1, point2) {
+        return _computeCornerPoints(this.bounds, point1, point2)
+      },
+    },
+    {
+      key: 'computeLocalBounds',
+      value: function computeLocalBounds(u, v, w) {
+        return _computeLocalBounds(this.bounds, u, v, w)
+      },
+    },
+    {
+      key: 'computeScale3',
+      value: function computeScale3(scale3) {
+        return _computeScale(this.bounds, scale3)
+      },
+    },
+    {
+      key: 'cutWithPlane',
+      value: function cutWithPlane(origin, normal) {
+        return _cutWithPlane(this.bounds, origin, normal)
+      },
+    },
+    {
+      key: 'intersectBox',
+      value: function intersectBox(origin, dir, coord, tolerance) {
+        return _intersectBox(this.bounds, origin, dir, coord, tolerance)
+      },
+    },
+    {
+      key: 'intersectPlane',
+      value: function intersectPlane(origin, normal) {
+        return _intersectPlane(this.bounds, origin, normal)
+      },
+    },
+    {
+      key: 'intersect',
+      value: function intersect(otherBounds) {
+        return _intersect(this.bounds, otherBounds)
+      },
+    },
+    {
+      key: 'intersects',
+      value: function intersects(otherBounds) {
+        return _intersects(this.bounds, otherBounds)
+      },
+    },
+    {
+      key: 'containsPoint',
+      value: function containsPoint(x, y, z) {
+        return _containsPoint(this.bounds, x, y, z)
+      },
+    },
+    {
+      key: 'contains',
+      value: function contains(otherBounds) {
+        return _intersects(this.bounds, otherBounds)
+      },
+    },
+  ])
+
+  return BoundingBox
+})()
+
+function newInstance$m(initialValues) {
+  var bounds = initialValues && initialValues.bounds
+  return new BoundingBox(bounds)
+} // ----------------------------------------------------------------------------
+// Static API
+// ----------------------------------------------------------------------------
+
+var STATIC$1 = {
+  equals: _equals,
+  isValid: _isValid,
+  setBounds: _setBounds,
+  reset: _reset,
+  addPoint: _addPoint,
+  addBounds: _addBounds,
+  setMinPoint: _setMinPoint,
+  setMaxPoint: _setMaxPoint,
+  inflate: _inflate,
+  scale: _scale,
+  scaleAboutCenter: scaleAboutCenter,
+  getCenter: _getCenter,
+  getLength: _getLength,
+  getLengths: _getLengths,
+  getMaxLength: _getMaxLength,
+  getDiagonalLength: _getDiagonalLength,
+  getMinPoint: _getMinPoint,
+  getMaxPoint: _getMaxPoint,
+  getXRange: _getXRange,
+  getYRange: _getYRange,
+  getZRange: _getZRange,
+  getCorners: _getCorners,
+  computeCornerPoints: _computeCornerPoints,
+  computeLocalBounds: _computeLocalBounds,
+  computeScale3: _computeScale,
+  cutWithPlane: _cutWithPlane,
+  intersectBox: _intersectBox,
+  intersectPlane: _intersectPlane,
+  intersect: _intersect,
+  intersects: _intersects,
+  containsPoint: _containsPoint,
+  contains: contains,
+  INIT_BOUNDS: INIT_BOUNDS,
+}
+var vtkBoundingBox = _objectSpread$f(
+  {
+    newInstance: newInstance$m,
+  },
+  STATIC$1
+)
+
+// vtkProp3D methods
+// ----------------------------------------------------------------------------
+
+function vtkProp3D(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkProp3D')
+
+  publicAPI.addPosition = function(deltaXYZ) {
+    model.position = model.position.map(function(value, index) {
+      return value + deltaXYZ[index]
+    })
+    publicAPI.modified()
+  }
+
+  publicAPI.getOrientationWXYZ = function() {
+    var q = create()
+    getRotation(q, model.rotation)
+    var oaxis = new Float64Array(3)
+    var w = getAxisAngle(oaxis, q)
+    return [degreesFromRadians(w), oaxis[0], oaxis[1], oaxis[2]]
+  }
+
+  publicAPI.rotateX = function(val) {
+    if (val === 0.0) {
+      return
+    }
+
+    rotateX$1(model.rotation, model.rotation, radiansFromDegrees(val))
+    publicAPI.modified()
+  }
+
+  publicAPI.rotateY = function(val) {
+    if (val === 0.0) {
+      return
+    }
+
+    rotateY$1(model.rotation, model.rotation, radiansFromDegrees(val))
+    publicAPI.modified()
+  }
+
+  publicAPI.rotateZ = function(val) {
+    if (val === 0.0) {
+      return
+    }
+
+    rotateZ$1(model.rotation, model.rotation, radiansFromDegrees(val))
+    publicAPI.modified()
+  }
+
+  publicAPI.rotateWXYZ = function(degrees, x, y, z) {
+    if (degrees === 0.0 || (x === 0.0 && y === 0.0 && z === 0.0)) {
+      return
+    } // convert to radians
+
+    var angle = radiansFromDegrees(degrees)
+    var q = create()
+    setAxisAngle(q, [x, y, z], angle)
+    var quatMat = new Float64Array(16)
+    fromQuat(quatMat, q)
+    multiply$1(model.rotation, model.rotation, quatMat)
+    publicAPI.modified()
+  }
+
+  publicAPI.setOrientation = function(x, y, z) {
+    if (
+      x === model.orientation[0] &&
+      y === model.orientation[1] &&
+      z === model.orientation[2]
+    ) {
+      return false
+    }
+
+    model.orientation = [x, y, z]
+    identity(model.rotation)
+    publicAPI.rotateZ(z)
+    publicAPI.rotateX(x)
+    publicAPI.rotateY(y)
+    publicAPI.modified()
+    return true
+  }
+
+  publicAPI.setUserMatrix = function(matrix) {
+    copy$1(model.userMatrix, matrix)
+    publicAPI.modified()
+  }
+
+  publicAPI.getMatrix = function() {
+    publicAPI.computeMatrix()
+    return model.matrix
+  }
+
+  publicAPI.computeMatrix = function() {
+    // check whether or not need to rebuild the matrix
+    if (publicAPI.getMTime() > model.matrixMTime.getMTime()) {
+      identity(model.matrix)
+
+      if (model.userMatrix) {
+        multiply$1(model.matrix, model.matrix, model.userMatrix)
+      }
+
+      translate(model.matrix, model.matrix, model.origin)
+      translate(model.matrix, model.matrix, model.position)
+      multiply$1(model.matrix, model.matrix, model.rotation)
+      scale$1(model.matrix, model.matrix, model.scale)
+      translate(model.matrix, model.matrix, [
+        -model.origin[0],
+        -model.origin[1],
+        -model.origin[2],
+      ])
+      transpose(model.matrix, model.matrix) // check for identity
+
+      model.isIdentity = true
+
+      for (var i = 0; i < 4; ++i) {
+        for (var j = 0; j < 4; ++j) {
+          if ((i === j ? 1.0 : 0.0) !== model.matrix[i + j * 4]) {
+            model.isIdentity = false
+          }
+        }
+      }
+
+      model.matrixMTime.modified()
+    }
+  }
+
+  publicAPI.getCenter = function() {
+    return vtkBoundingBox.getCenter(model.bounds)
+  }
+
+  publicAPI.getLength = function() {
+    return vtkBoundingBox.getLength(model.bounds)
+  }
+
+  publicAPI.getXRange = function() {
+    return vtkBoundingBox.getXRange(model.bounds)
+  }
+
+  publicAPI.getYRange = function() {
+    return vtkBoundingBox.getYRange(model.bounds)
+  }
+
+  publicAPI.getZRange = function() {
+    return vtkBoundingBox.getZRange(model.bounds)
+  }
+
+  publicAPI.getUserMatrix = function() {
+    return model.userMatrix
+  }
+
+  function updateIdentityFlag() {
+    publicAPI.computeMatrix()
+  }
+
+  publicAPI.onModified(updateIdentityFlag)
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$E = {
+  origin: [0, 0, 0],
+  position: [0, 0, 0],
+  orientation: [0, 0, 0],
+  rotation: null,
+  scale: [1, 1, 1],
+  bounds: [1, -1, 1, -1, 1, -1],
+  userMatrix: null,
+  userMatrixMTime: null,
+  cachedProp3D: null,
+  isIdentity: true,
+  matrixMTime: null,
+} // ----------------------------------------------------------------------------
+
+function extend$H(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$E, initialValues) // Inheritance
+
+  vtkProp$1.extend(publicAPI, model, initialValues)
+  model.matrixMTime = {}
+  macro.obj(model.matrixMTime) // Build VTK API
+
+  macro.get(publicAPI, model, ['bounds', 'isIdentity'])
+  macro.getArray(publicAPI, model, ['orientation'])
+  macro.setGetArray(publicAPI, model, ['origin', 'position', 'scale'], 3) // Object internal instance
+
+  model.matrix = identity(new Float64Array(16))
+  model.rotation = identity(new Float64Array(16))
+  model.userMatrix = identity(new Float64Array(16))
+  model.transform = null // FIXME
+  // Object methods
+
+  vtkProp3D(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$l = macro.newInstance(extend$H, 'vtkProp3D') // ----------------------------------------------------------------------------
+
+var vtkProp3D$1 = {
+  newInstance: newInstance$l,
+  extend: extend$H,
+}
+
+var Shading = {
+  FLAT: 0,
+  GOURAUD: 1,
+  PHONG: 2,
+}
+var Representation$1 = {
+  POINTS: 0,
+  WIREFRAME: 1,
+  SURFACE: 2,
+}
+var Interpolation$1 = Shading
+var PropertyConst = {
+  Shading: Shading,
+  Representation: Representation$1,
+  Interpolation: Interpolation$1,
+}
+
+function ownKeys$e(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$e(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$e(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$e(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+var Representation = PropertyConst.Representation,
+  Interpolation = PropertyConst.Interpolation
+
+function notImplemented$1(method) {
+  return function() {
+    return macro.vtkErrorMacro(
+      'vtkProperty::'.concat(method, ' - NOT IMPLEMENTED')
+    )
+  }
+} // ----------------------------------------------------------------------------
+// vtkProperty methods
+// ----------------------------------------------------------------------------
+
+function vtkProperty(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkProperty')
+
+  publicAPI.setColor = function(r, g, b) {
+    if (Array.isArray(r)) {
+      if (
+        model.color[0] !== r[0] ||
+        model.color[1] !== r[1] ||
+        model.color[2] !== r[2]
+      ) {
+        model.color[0] = r[0]
+        model.color[1] = r[1]
+        model.color[2] = r[2]
+        publicAPI.modified()
+      }
+    } else if (
+      model.color[0] !== r ||
+      model.color[1] !== g ||
+      model.color[2] !== b
+    ) {
+      model.color[0] = r
+      model.color[1] = g
+      model.color[2] = b
+      publicAPI.modified()
+    }
+
+    publicAPI.setDiffuseColor(model.color)
+    publicAPI.setAmbientColor(model.color)
+    publicAPI.setSpecularColor(model.color)
+  }
+
+  publicAPI.computeCompositeColor = notImplemented$1('ComputeCompositeColor')
+
+  publicAPI.getColor = function() {
+    // Inline computeCompositeColor
+    var norm = 0.0
+
+    if (model.ambient + model.diffuse + model.specular > 0) {
+      norm = 1.0 / (model.ambient + model.diffuse + model.specular)
+    }
+
+    for (var i = 0; i < 3; i++) {
+      model.color[i] =
+        norm *
+        (model.ambient * model.ambientColor[i] +
+          model.diffuse * model.diffuseColor[i] +
+          model.specular * model.specularColor[i])
+    }
+
+    return [].concat(model.color)
+  }
+
+  publicAPI.addShaderVariable = notImplemented$1('AddShaderVariable')
+
+  publicAPI.setInterpolationToFlat = function() {
+    return publicAPI.setInterpolation(Interpolation.FLAT)
+  }
+
+  publicAPI.setInterpolationToGouraud = function() {
+    return publicAPI.setInterpolation(Interpolation.GOURAUD)
+  }
+
+  publicAPI.setInterpolationToPhong = function() {
+    return publicAPI.setInterpolation(Interpolation.PHONG)
+  }
+
+  publicAPI.getInterpolationAsString = function() {
+    return macro.enumToString(Interpolation, model.interpolation)
+  }
+
+  publicAPI.setRepresentationToWireframe = function() {
+    return publicAPI.setRepresentation(Representation.WIREFRAME)
+  }
+
+  publicAPI.setRepresentationToSurface = function() {
+    return publicAPI.setRepresentation(Representation.SURFACE)
+  }
+
+  publicAPI.setRepresentationToPoints = function() {
+    return publicAPI.setRepresentation(Representation.POINTS)
+  }
+
+  publicAPI.getRepresentationAsString = function() {
+    return macro.enumToString(Representation, model.representation)
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$D = {
+  color: [1, 1, 1],
+  ambientColor: [1, 1, 1],
+  diffuseColor: [1, 1, 1],
+  specularColor: [1, 1, 1],
+  edgeColor: [0, 0, 0],
+  ambient: 0,
+  diffuse: 1,
+  specular: 0,
+  specularPower: 1,
+  opacity: 1,
+  interpolation: Interpolation.GOURAUD,
+  representation: Representation.SURFACE,
+  edgeVisibility: false,
+  backfaceCulling: false,
+  frontfaceCulling: false,
+  pointSize: 1,
+  lineWidth: 1,
+  lighting: true,
+  shading: false,
+  materialName: null,
+} // ----------------------------------------------------------------------------
+
+function extend$G(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$D, initialValues) // Build VTK API
+
+  macro.obj(publicAPI, model)
+  macro.setGet(publicAPI, model, [
+    'lighting',
+    'interpolation',
+    'ambient',
+    'diffuse',
+    'specular',
+    'specularPower',
+    'opacity',
+    'edgeVisibility',
+    'lineWidth',
+    'pointSize',
+    'backfaceCulling',
+    'frontfaceCulling',
+    'representation',
+  ])
+  macro.setGetArray(
+    publicAPI,
+    model,
+    ['ambientColor', 'specularColor', 'diffuseColor', 'edgeColor'],
+    3
+  ) // Object methods
+
+  vtkProperty(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$k = macro.newInstance(extend$G, 'vtkProperty') // ----------------------------------------------------------------------------
+
+var vtkProperty$1 = _objectSpread$e(
+  {
+    newInstance: newInstance$k,
+    extend: extend$G,
+  },
+  PropertyConst
+)
+
+function ownKeys$d(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$d(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$d(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$d(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+var vtkDebugMacro$1 = macro.vtkDebugMacro // ----------------------------------------------------------------------------
+// vtkActor methods
+// ----------------------------------------------------------------------------
+
+function vtkActor(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkActor') // Capture 'parentClass' api for internal use
+
+  var superClass = _objectSpread$d({}, publicAPI)
+
+  publicAPI.getActors = function() {
+    return [publicAPI]
+  }
+
+  publicAPI.getIsOpaque = function() {
+    if (model.forceOpaque) {
+      return true
+    }
+
+    if (model.forceTranslucent) {
+      return false
+    } // make sure we have a property
+
+    if (!model.property) {
+      // force creation of a property
+      publicAPI.getProperty()
+    }
+
+    var isOpaque = model.property.getOpacity() >= 1.0 // are we using an opaque texture, if any?
+
+    isOpaque = isOpaque && (!model.texture || !model.texture.isTranslucent()) // are we using an opaque scalar array, if any?
+
+    isOpaque = isOpaque && (!model.mapper || model.mapper.getIsOpaque())
+    return isOpaque
+  }
+
+  publicAPI.hasTranslucentPolygonalGeometry = function() {
+    if (model.mapper === null) {
+      return false
+    } // make sure we have a property
+
+    if (model.property === null) {
+      // force creation of a property
+      publicAPI.setProperty(publicAPI.makeProperty())
+    } // is this actor opaque ?
+
+    return !publicAPI.getIsOpaque()
+  }
+
+  publicAPI.makeProperty = vtkProperty$1.newInstance
+
+  publicAPI.getProperty = function() {
+    if (model.property === null) {
+      model.property = publicAPI.makeProperty()
+    }
+
+    return model.property
+  }
+
+  publicAPI.getBounds = function() {
+    if (model.mapper === null) {
+      return model.bounds
+    } // Check for the special case when the mapper's bounds are unknown
+
+    var bds = model.mapper.getBounds()
+
+    if (!bds || bds.length !== 6) {
+      return bds
+    } // Check for the special case when the actor is empty.
+
+    if (bds[0] > bds[1]) {
+      model.mapperBounds = bds.concat() // copy the mapper's bounds
+
+      model.bounds = [1, -1, 1, -1, 1, -1]
+      model.boundsMTime.modified()
+      return bds
+    } // Check if we have cached values for these bounds - we cache the
+    // values returned by model.mapper.getBounds() and we store the time
+    // of caching. If the values returned this time are different, or
+    // the modified time of this class is newer than the cached time,
+    // then we need to rebuild.
+
+    if (
+      !model.mapperBounds ||
+      bds[0] !== model.mapperBounds[0] ||
+      bds[1] !== model.mapperBounds[1] ||
+      bds[2] !== model.mapperBounds[2] ||
+      bds[3] !== model.mapperBounds[3] ||
+      bds[4] !== model.mapperBounds[4] ||
+      bds[5] !== model.mapperBounds[5] ||
+      publicAPI.getMTime() > model.boundsMTime.getMTime()
+    ) {
+      vtkDebugMacro$1('Recomputing bounds...')
+      model.mapperBounds = bds.concat() // copy the mapper's bounds
+
+      var bbox = []
+      vtkBoundingBox.getCorners(bds, bbox)
+      publicAPI.computeMatrix()
+      var tmp4 = new Float64Array(16)
+      transpose(tmp4, model.matrix)
+      bbox.forEach(function(pt) {
+        return transformMat4(pt, pt, tmp4)
+      })
+      /* eslint-disable no-multi-assign */
+
+      model.bounds[0] = model.bounds[2] = model.bounds[4] = Number.MAX_VALUE
+      model.bounds[1] = model.bounds[3] = model.bounds[5] = -Number.MAX_VALUE
+      /* eslint-enable no-multi-assign */
+
+      model.bounds = model.bounds.map(function(d, i) {
+        return i % 2 === 0
+          ? bbox.reduce(function(a, b) {
+              return a > b[i / 2] ? b[i / 2] : a
+            }, d)
+          : bbox.reduce(function(a, b) {
+              return a < b[(i - 1) / 2] ? b[(i - 1) / 2] : a
+            }, d)
+      })
+      model.boundsMTime.modified()
+    }
+
+    return model.bounds
+  }
+
+  publicAPI.getMTime = function() {
+    var mt = superClass.getMTime()
+
+    if (model.property !== null) {
+      var time = model.property.getMTime()
+      mt = time > mt ? time : mt
+    }
+
+    if (model.backfaceProperty !== null) {
+      var _time = model.backfaceProperty.getMTime()
+
+      mt = _time > mt ? _time : mt
+    }
+
+    return mt
+  }
+
+  publicAPI.getRedrawMTime = function() {
+    var mt = model.mtime
+
+    if (model.mapper !== null) {
+      var time = model.mapper.getMTime()
+      mt = time > mt ? time : mt
+
+      if (model.mapper.getInput() !== null) {
+        // FIXME !!! getInputAlgorithm / getInput
+        model.mapper.getInputAlgorithm().update()
+        time = model.mapper.getInput().getMTime()
+        mt = time > mt ? time : mt
+      }
+    }
+
+    return mt
+  }
+
+  publicAPI.getSupportsSelection = function() {
+    return model.mapper ? model.mapper.getSupportsSelection() : false
+  }
+
+  publicAPI.processSelectorPixelBuffers = function(selector, pixelOffsets) {
+    if (model.mapper && model.mapper.processSelectorPixelBuffers) {
+      model.mapper.processSelectorPixelBuffers(selector, pixelOffsets)
+    }
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$C = {
+  mapper: null,
+  property: null,
+  backfaceProperty: null,
+  forceOpaque: false,
+  forceTranslucent: false,
+  bounds: [1, -1, 1, -1, 1, -1],
+} // ----------------------------------------------------------------------------
+
+function extend$F(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$C, initialValues) // Inheritance
+
+  vtkProp3D$1.extend(publicAPI, model, initialValues) // vtkTimeStamp
+
+  model.boundsMTime = {}
+  macro.obj(model.boundsMTime) // Build VTK API
+
+  macro.set(publicAPI, model, ['property'])
+  macro.setGet(publicAPI, model, [
+    'backfaceProperty',
+    'forceOpaque',
+    'forceTranslucent',
+    'mapper',
+  ]) // Object methods
+
+  vtkActor(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$j = macro.newInstance(extend$F, 'vtkActor') // ----------------------------------------------------------------------------
+
+var vtkActor$1 = {
+  newInstance: newInstance$j,
+  extend: extend$F,
+}
+
+// vtkAbstractMapper methods
+// ----------------------------------------------------------------------------
+
+function vtkAbstractMapper(publicAPI, model) {
+  model.classHierarchy.push('vtkAbstractMapper')
+
+  publicAPI.update = function() {
+    publicAPI.getInputData()
+  }
+
+  publicAPI.addClippingPlane = function(plane) {
+    if (!plane.isA('vtkPlane')) {
+      return false
+    }
+
+    if (!model.clippingPlanes.includes(plane)) {
+      model.clippingPlanes.push(plane)
+      publicAPI.modified()
+      return true
+    }
+
+    return false
+  }
+
+  publicAPI.getNumberOfClippingPlanes = function() {
+    return model.clippingPlanes.length
+  }
+
+  publicAPI.removeAllClippingPlanes = function() {
+    model.clippingPlanes.length = 0
+  }
+
+  publicAPI.removeClippingPlane = function(clippingPlane) {
+    var i = model.clippingPlanes.indexOf(clippingPlane)
+
+    if (i === -1) {
+      return false
+    }
+
+    model.clippingPlanes.splice(i, 1)
+    publicAPI.modified()
+    return true
+  }
+
+  publicAPI.getClippingPlanes = function() {
+    return model.clippingPlanes
+  }
+
+  publicAPI.setClippingPlanes = function(planes) {
+    if (!planes) {
+      return
+    }
+
+    if (!Array.isArray(planes)) {
+      publicAPI.addClippingPlane(planes)
+    } else {
+      var nbPlanes = planes.length
+
+      for (var i = 0; i < nbPlanes && i < 6; i++) {
+        publicAPI.addClippingPlane(planes[i])
+      }
+    }
+  }
+
+  publicAPI.getClippingPlaneInDataCoords = function(propMatrix, i, hnormal) {
+    var clipPlanes = model.clippingPlanes
+    var mat = propMatrix
+
+    if (clipPlanes) {
+      var n = clipPlanes.length
+
+      if (i >= 0 && i < n) {
+        // Get the plane
+        var plane = clipPlanes[i]
+        var normal = plane.getNormal()
+        var origin = plane.getOrigin() // Compute the plane equation
+
+        var v1 = normal[0]
+        var v2 = normal[1]
+        var v3 = normal[2]
+        var v4 = -(v1 * origin[0] + v2 * origin[1] + v3 * origin[2]) // Transform normal from world to data coords
+
+        hnormal[0] = v1 * mat[0] + v2 * mat[4] + v3 * mat[8] + v4 * mat[12]
+        hnormal[1] = v1 * mat[1] + v2 * mat[5] + v3 * mat[9] + v4 * mat[13]
+        hnormal[2] = v1 * mat[2] + v2 * mat[6] + v3 * mat[10] + v4 * mat[14]
+        hnormal[3] = v1 * mat[3] + v2 * mat[7] + v3 * mat[11] + v4 * mat[15]
+        return
+      }
+    }
+
+    macro.vtkErrorMacro('Clipping plane index '.concat(i, ' is out of range.'))
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$B = {
+  clippingPlanes: [],
+} // ----------------------------------------------------------------------------
+
+function extend$E(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$B, initialValues) // Object methods
+
+  macro.obj(publicAPI, model)
+  macro.algo(publicAPI, model, 1, 0)
+
+  if (!model.clippingPlanes) {
+    model.clippingPlanes = []
+  }
+
+  vtkAbstractMapper(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var vtkAbstractMapper$1 = {
+  extend: extend$E,
+}
+
+// vtkAbstractMapper methods
+// ----------------------------------------------------------------------------
+
+function vtkAbstractMapper3D(publicAPI, model) {
+  publicAPI.getBounds = function() {
+    return 0
+  }
+
+  publicAPI.getBounds = function(bounds) {
+    publicAPI.getBounds()
+
+    for (var i = 0; i < 6; i++) {
+      bounds[i] = model.bounds[i]
+    }
+  }
+
+  publicAPI.getCenter = function() {
+    publicAPI.getBounds()
+
+    for (var i = 0; i < 3; i++) {
+      model.center[i] = (model.bounds[2 * i + 1] + model.bounds[2 * i]) / 2.0
+    }
+
+    return model.center.slice()
+  }
+
+  publicAPI.getLength = function() {
+    var diff = 0.0
+    var l = 0.0
+    publicAPI.getBounds()
+
+    for (var i = 0; i < 3; i++) {
+      diff = model.bounds[2 * i + 1] - model.bounds[2 * i]
+      l += diff * diff
+    }
+
+    return Math.sqrt(l)
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$A = {
+  bounds: [1, -1, 1, -1, 1, -1],
+  center: [0, 0, 0],
+} // ----------------------------------------------------------------------------
+
+function extend$D(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$A, initialValues) // Inheritance
+
+  vtkAbstractMapper$1.extend(publicAPI, model, initialValues)
+
+  if (!model.bounds) {
+    uninitializeBounds(model.bounds)
+  }
+
+  if (!model.center) {
+    model.center = [0.0, 0.0, 0.0]
+  }
+
+  vtkAbstractMapper3D(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var vtkAbstractMapper3D$1 = {
+  extend: extend$D,
+}
+
+var StructuredType$1 = {
+  UNCHANGED: 0,
+  SINGLE_POINT: 1,
+  X_LINE: 2,
+  Y_LINE: 3,
+  Z_LINE: 4,
+  XY_PLANE: 5,
+  YZ_PLANE: 6,
+  XZ_PLANE: 7,
+  XYZ_GRID: 8,
+  EMPTY: 9,
+}
+var Constants$4 = {
+  StructuredType: StructuredType$1,
+}
+
+function ownKeys$c(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$c(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$c(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$c(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+var StructuredType = Constants$4.StructuredType
+function getDataDescriptionFromExtent(inExt) {
+  var dataDim = 0
+
+  for (var i = 0; i < 3; ++i) {
+    if (inExt[i * 2] < inExt[i * 2 + 1]) {
+      dataDim++
+    }
+  }
+
+  if (inExt[0] > inExt[1] || inExt[2] > inExt[3] || inExt[4] > inExt[5]) {
+    return StructuredType.EMPTY
+  }
+
+  if (dataDim === 3) {
+    return StructuredType.XYZ_GRID
+  }
+
+  if (dataDim === 2) {
+    if (inExt[0] === inExt[1]) {
+      return StructuredType.YZ_PLANE
+    }
+
+    if (inExt[2] === inExt[3]) {
+      return StructuredType.XZ_PLANE
+    }
+
+    return StructuredType.XY_PLANE
+  }
+
+  if (dataDim === 1) {
+    if (inExt[0] < inExt[1]) {
+      return StructuredType.X_LINE
+    }
+
+    if (inExt[2] < inExt[3]) {
+      return StructuredType.Y_LINE
+    }
+
+    return StructuredType.Z_LINE
+  }
+
+  return StructuredType.SINGLE_POINT
+}
+var vtkStructuredData = _objectSpread$c(
+  {
+    getDataDescriptionFromExtent: getDataDescriptionFromExtent,
+  },
+  Constants$4
+)
+
+var vtkErrorMacro$8 = macro.vtkErrorMacro // ----------------------------------------------------------------------------
+// vtkImageData methods
+// ----------------------------------------------------------------------------
+
+function vtkImageData(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkImageData')
+
+  publicAPI.setExtent = function() {
+    if (model.deleted) {
+      vtkErrorMacro$8('instance deleted - cannot call any method')
+      return false
+    }
+
+    for (
+      var _len = arguments.length, inExtent = new Array(_len), _key = 0;
+      _key < _len;
+      _key++
+    ) {
+      inExtent[_key] = arguments[_key]
+    }
+
+    var extentArray = inExtent.length === 1 ? inExtent[0] : inExtent
+
+    if (extentArray.length !== 6) {
+      return false
+    }
+
+    var changeDetected = false
+    model.extent.forEach(function(item, index) {
+      if (item !== extentArray[index]) {
+        if (changeDetected) {
+          return
+        }
+
+        changeDetected = true
+      }
+    })
+
+    if (changeDetected) {
+      model.extent = extentArray.slice()
+      model.dataDescription = vtkStructuredData.getDataDescriptionFromExtent(
+        model.extent
+      )
+      publicAPI.modified()
+    }
+
+    return changeDetected
+  }
+
+  publicAPI.setDimensions = function() {
+    var i
+    var j
+    var k
+
+    if (model.deleted) {
+      vtkErrorMacro$8('instance deleted - cannot call any method')
+      return
+    }
+
+    if (arguments.length === 1) {
+      var array = arguments.length <= 0 ? undefined : arguments[0]
+      i = array[0]
+      j = array[1]
+      k = array[2]
+    } else if (arguments.length === 3) {
+      i = arguments.length <= 0 ? undefined : arguments[0]
+      j = arguments.length <= 1 ? undefined : arguments[1]
+      k = arguments.length <= 2 ? undefined : arguments[2]
+    } else {
+      vtkErrorMacro$8('Bad dimension specification')
+      return
+    }
+
+    publicAPI.setExtent(0, i - 1, 0, j - 1, 0, k - 1)
+  }
+
+  publicAPI.getDimensions = function() {
+    return [
+      model.extent[1] - model.extent[0] + 1,
+      model.extent[3] - model.extent[2] + 1,
+      model.extent[5] - model.extent[4] + 1,
+    ]
+  }
+
+  publicAPI.getNumberOfCells = function() {
+    var dims = publicAPI.getDimensions()
+    var nCells = 1
+
+    for (var i = 0; i < 3; i++) {
+      if (dims[i] === 0) {
+        return 0
+      }
+
+      if (dims[i] > 1) {
+        nCells *= dims[i] - 1
+      }
+    }
+
+    return nCells
+  }
+
+  publicAPI.getNumberOfPoints = function() {
+    var dims = publicAPI.getDimensions()
+    return dims[0] * dims[1] * dims[2]
+  }
+
+  publicAPI.getPoint = function(index) {
+    var dims = publicAPI.getDimensions()
+
+    if (dims[0] === 0 || dims[1] === 0 || dims[2] === 0) {
+      vtkErrorMacro$8('Requesting a point from an empty image.')
+      return null
+    }
+
+    var ijk = new Float64Array(3)
+
+    switch (model.dataDescription) {
+      case StructuredType$1.EMPTY:
+        return null
+
+      case StructuredType$1.SINGLE_POINT:
+        break
+
+      case StructuredType$1.X_LINE:
+        ijk[0] = index
+        break
+
+      case StructuredType$1.Y_LINE:
+        ijk[1] = index
+        break
+
+      case StructuredType$1.Z_LINE:
+        ijk[2] = index
+        break
+
+      case StructuredType$1.XY_PLANE:
+        ijk[0] = index % dims[0]
+        ijk[1] = index / dims[0]
+        break
+
+      case StructuredType$1.YZ_PLANE:
+        ijk[1] = index % dims[1]
+        ijk[2] = index / dims[1]
+        break
+
+      case StructuredType$1.XZ_PLANE:
+        ijk[0] = index % dims[0]
+        ijk[2] = index / dims[0]
+        break
+
+      case StructuredType$1.XYZ_GRID:
+        ijk[0] = index % dims[0]
+        ijk[1] = (index / dims[0]) % dims[1]
+        ijk[2] = index / (dims[0] * dims[1])
+        break
+
+      default:
+        vtkErrorMacro$8('Invalid dataDescription')
+        break
+    }
+
+    var coords = [0, 0, 0]
+    publicAPI.indexToWorld(ijk, coords)
+    return coords
+  } // vtkCell *GetCell(vtkIdType cellId) VTK_OVERRIDE;
+  // void GetCell(vtkIdType cellId, vtkGenericCell *cell) VTK_OVERRIDE;
+  // void GetCellBounds(vtkIdType cellId, double bounds[6]) VTK_OVERRIDE;
+  // virtual vtkIdType FindPoint(double x, double y, double z)
+  // {
+  //   return this->vtkDataSet::FindPoint(x, y, z);
+  // }
+  // vtkIdType FindPoint(double x[3]) VTK_OVERRIDE;
+  // vtkIdType FindCell(
+  //   double x[3], vtkCell *cell, vtkIdType cellId, double tol2,
+  //   int& subId, double pcoords[3], double *weights) VTK_OVERRIDE;
+  // vtkIdType FindCell(
+  //   double x[3], vtkCell *cell, vtkGenericCell *gencell,
+  //   vtkIdType cellId, double tol2, int& subId,
+  //   double pcoords[3], double *weights) VTK_OVERRIDE;
+  // vtkCell *FindAndGetCell(double x[3], vtkCell *cell, vtkIdType cellId,
+  //                                 double tol2, int& subId, double pcoords[3],
+  //                                 double *weights) VTK_OVERRIDE;
+  // int GetCellType(vtkIdType cellId) VTK_OVERRIDE;
+  // void GetCellPoints(vtkIdType cellId, vtkIdList *ptIds) VTK_OVERRIDE
+  //   {vtkStructuredData::GetCellPoints(cellId,ptIds,this->DataDescription,
+  //                                     this->GetDimensions());}
+  // void GetPointCells(vtkIdType ptId, vtkIdList *cellIds) VTK_OVERRIDE
+  //   {vtkStructuredData::GetPointCells(ptId,cellIds,this->GetDimensions());}
+  // void ComputeBounds() VTK_OVERRIDE;
+  // int GetMaxCellSize() VTK_OVERRIDE {return 8;}; //voxel is the largest
+
+  publicAPI.getBounds = function() {
+    return publicAPI.extentToBounds(publicAPI.getSpatialExtent())
+  }
+
+  publicAPI.extentToBounds = function(ex) {
+    // prettier-ignore
+    var corners = [ex[0], ex[2], ex[4], ex[1], ex[2], ex[4], ex[0], ex[3], ex[4], ex[1], ex[3], ex[4], ex[0], ex[2], ex[5], ex[1], ex[2], ex[5], ex[0], ex[3], ex[5], ex[1], ex[3], ex[5]];
+    var idx = new Float64Array([corners[0], corners[1], corners[2]])
+    var vout = new Float64Array(3)
+    publicAPI.indexToWorld(idx, vout)
+    var bounds = [vout[0], vout[0], vout[1], vout[1], vout[2], vout[2]]
+
+    for (var i = 3; i < 24; i += 3) {
+      set(idx, corners[i], corners[i + 1], corners[i + 2])
+      publicAPI.indexToWorld(idx, vout)
+
+      if (vout[0] < bounds[0]) {
+        bounds[0] = vout[0]
+      }
+
+      if (vout[1] < bounds[2]) {
+        bounds[2] = vout[1]
+      }
+
+      if (vout[2] < bounds[4]) {
+        bounds[4] = vout[2]
+      }
+
+      if (vout[0] > bounds[1]) {
+        bounds[1] = vout[0]
+      }
+
+      if (vout[1] > bounds[3]) {
+        bounds[3] = vout[1]
+      }
+
+      if (vout[2] > bounds[5]) {
+        bounds[5] = vout[2]
+      }
+    }
+
+    return bounds
+  }
+
+  publicAPI.getSpatialExtent = function() {
+    var boundingBox = vtkBoundingBox.newInstance()
+    boundingBox.setBounds(model.extent)
+    boundingBox.inflate(0.5)
+    return boundingBox.getBounds()
+  } // Internal, shouldn't need to call this manually.
+
+  publicAPI.computeTransforms = function() {
+    fromTranslation(model.indexToWorld, model.origin)
+    model.indexToWorld[0] = model.direction[0]
+    model.indexToWorld[1] = model.direction[1]
+    model.indexToWorld[2] = model.direction[2]
+    model.indexToWorld[4] = model.direction[3]
+    model.indexToWorld[5] = model.direction[4]
+    model.indexToWorld[6] = model.direction[5]
+    model.indexToWorld[8] = model.direction[6]
+    model.indexToWorld[9] = model.direction[7]
+    model.indexToWorld[10] = model.direction[8]
+    scale$1(model.indexToWorld, model.indexToWorld, model.spacing)
+    invert(model.worldToIndex, model.indexToWorld)
+  } //
+  // The direction matrix is a 3x3 basis for the I, J, K axes
+  // of the image. The rows of the matrix correspond to the
+  // axes directions in world coordinates. Direction must
+  // form an orthonormal basis, results are undefined if
+  // it is not.
+  //
+
+  publicAPI.setDirection = function() {
+    if (model.deleted) {
+      vtkErrorMacro$8('instance deleted - cannot call any method')
+      return false
+    }
+
+    for (
+      var _len2 = arguments.length, args = new Array(_len2), _key2 = 0;
+      _key2 < _len2;
+      _key2++
+    ) {
+      args[_key2] = arguments[_key2]
+    }
+
+    var array = args // allow an array passed as a single arg.
+
+    if (
+      array.length === 1 &&
+      (Array.isArray(array[0]) ||
+        array[0].constructor === Float32Array ||
+        array[0].constructor === Float64Array)
+    ) {
+      array = array[0]
+    }
+
+    if (array.length !== 9) {
+      throw new RangeError('Invalid number of values for array setter')
+    }
+
+    var changeDetected = false
+    model.direction.forEach(function(item, index) {
+      if (item !== array[index]) {
+        if (changeDetected) {
+          return
+        }
+
+        changeDetected = true
+      }
+    })
+
+    if (changeDetected) {
+      for (var i = 0; i < 9; ++i) {
+        model.direction[i] = array[i]
+      }
+
+      publicAPI.modified()
+    }
+
+    return true
+  }
+
+  publicAPI.indexToWorld = function(ain) {
+    var aout =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : []
+    transformMat4(aout, ain, model.indexToWorld)
+    return aout
+  }
+
+  publicAPI.indexToWorldVec3 = publicAPI.indexToWorld
+
+  publicAPI.worldToIndex = function(ain) {
+    var aout =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : []
+    transformMat4(aout, ain, model.worldToIndex)
+    return aout
+  }
+
+  publicAPI.worldToIndexVec3 = publicAPI.worldToIndex
+
+  publicAPI.indexToWorldBounds = function(bin) {
+    var bout =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : []
+    var in1 = [0, 0, 0]
+    var in2 = [0, 0, 0]
+    vtkBoundingBox.computeCornerPoints(bin, in1, in2)
+    var out1 = [0, 0, 0]
+    var out2 = [0, 0, 0]
+    transformMat4(out1, in1, model.indexToWorld)
+    transformMat4(out2, in2, model.indexToWorld)
+    return computeBoundsFromPoints(out1, out2, bout)
+  }
+
+  publicAPI.worldToIndexBounds = function(bin) {
+    var bout =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : []
+    var in1 = [0, 0, 0]
+    var in2 = [0, 0, 0]
+    vtkBoundingBox.computeCornerPoints(bin, in1, in2)
+    var out1 = [0, 0, 0]
+    var out2 = [0, 0, 0]
+    transformMat4(out1, in1, model.worldToIndex)
+    transformMat4(out2, in2, model.worldToIndex)
+    return computeBoundsFromPoints(out1, out2, bout)
+  } // Make sure the transform is correct
+
+  publicAPI.onModified(publicAPI.computeTransforms)
+  publicAPI.computeTransforms()
+
+  publicAPI.getCenter = function() {
+    var bounds = publicAPI.getBounds()
+    var center = []
+
+    for (var i = 0; i < 3; i++) {
+      center[i] = (bounds[2 * i + 1] + bounds[2 * i]) / 2
+    }
+
+    return center
+  }
+
+  publicAPI.computeHistogram = function(worldBounds) {
+    var voxelFunc =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null
+    var bounds = [0, 0, 0, 0, 0, 0]
+    publicAPI.worldToIndexBounds(worldBounds, bounds)
+    var point1 = [0, 0, 0]
+    var point2 = [0, 0, 0]
+    vtkBoundingBox.computeCornerPoints(bounds, point1, point2)
+    roundVector(point1, point1)
+    roundVector(point2, point2)
+    var dimensions = publicAPI.getDimensions()
+    clampVector(
+      point1,
+      [0, 0, 0],
+      [dimensions[0] - 1, dimensions[1] - 1, dimensions[2] - 1],
+      point1
+    )
+    clampVector(
+      point2,
+      [0, 0, 0],
+      [dimensions[0] - 1, dimensions[1] - 1, dimensions[2] - 1],
+      point2
+    )
+    var yStride = dimensions[0]
+    var zStride = dimensions[0] * dimensions[1]
+    var pixels = publicAPI
+      .getPointData()
+      .getScalars()
+      .getData()
+    var maximum = -Infinity
+    var minimum = Infinity
+    var sumOfSquares = 0
+    var isum = 0
+    var inum = 0
+
+    for (var z = point1[2]; z <= point2[2]; z++) {
+      for (var y = point1[1]; y <= point2[1]; y++) {
+        var index = point1[0] + y * yStride + z * zStride
+
+        for (var x = point1[0]; x <= point2[0]; x++) {
+          if (!voxelFunc || voxelFunc([x, y, z], bounds)) {
+            var pixel = pixels[index]
+            if (pixel > maximum) maximum = pixel
+            if (pixel < minimum) minimum = pixel
+            sumOfSquares += pixel * pixel
+            isum += pixel
+            inum += 1
+          }
+
+          ++index
+        }
+      }
+    }
+
+    var average = inum > 0 ? isum / inum : 0
+    var variance = inum ? Math.abs(sumOfSquares / inum - average * average) : 0
+    var sigma = Math.sqrt(variance)
+    return {
+      minimum: minimum,
+      maximum: maximum,
+      average: average,
+      variance: variance,
+      sigma: sigma,
+      count: inum,
+    }
+  } // TODO: use the unimplemented `vtkDataSetAttributes` for scalar length, that is currently also a TODO (GetNumberOfComponents).
+  // Scalar data could be tuples for color information?
+
+  publicAPI.computeIncrements = function(extent) {
+    var numberOfComponents =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1
+    var increments = []
+    var incr = numberOfComponents // Calculate array increment offsets
+    // similar to c++ vtkImageData::ComputeIncrements
+
+    for (var idx = 0; idx < 3; ++idx) {
+      increments[idx] = incr
+      incr *= extent[idx * 2 + 1] - extent[idx * 2] + 1
+    }
+
+    return increments
+  }
+  /**
+   * @param {Number[]} index the localized `[i,j,k]` pixel array position. Float values will be rounded.
+   * @return {Number} the corresponding flattened index in the scalar array
+   */
+
+  publicAPI.computeOffsetIndex = function(_ref) {
+    var _ref2 = _slicedToArray(_ref, 3),
+      i = _ref2[0],
+      j = _ref2[1],
+      k = _ref2[2]
+
+    var extent = publicAPI.getExtent()
+    var numberOfComponents = publicAPI
+      .getPointData()
+      .getScalars()
+      .getNumberOfComponents()
+    var increments = publicAPI.computeIncrements(extent, numberOfComponents) // Use the array increments to find the pixel index
+    // similar to c++ vtkImageData::GetArrayPointer
+    // Math.floor to catch "practically 0" e^-15 scenarios.
+
+    return Math.floor(
+      (Math.round(i) - extent[0]) * increments[0] +
+        (Math.round(j) - extent[2]) * increments[1] +
+        (Math.round(k) - extent[4]) * increments[2]
+    )
+  }
+  /**
+   * @param {Number[]} xyz the [x,y,z] Array in world coordinates
+   * @return {Number|NaN} the corresponding pixel's index in the scalar array
+   */
+
+  publicAPI.getOffsetIndexFromWorld = function(xyz) {
+    var extent = publicAPI.getExtent()
+    var index = publicAPI.worldToIndex(xyz) // Confirm indexed i,j,k coords are within the bounds of the volume
+
+    for (var idx = 0; idx < 3; ++idx) {
+      if (index[idx] < extent[idx * 2] || index[idx] > extent[idx * 2 + 1]) {
+        vtkErrorMacro$8(
+          'GetScalarPointer: Pixel '
+            .concat(index, ' is not in memory. Current extent = ')
+            .concat(extent)
+        )
+        return NaN
+      }
+    } // Assumed the index here is within 0 <-> scalarData.length, but doesn't hurt to check upstream
+
+    return publicAPI.computeOffsetIndex(index)
+  }
+  /**
+   * @param {Number[]} xyz the [x,y,z] Array in world coordinates
+   * @param {Number?} comp the scalar component index for multi-component scalars
+   * @return {Number|NaN} the corresponding pixel's scalar value
+   */
+
+  publicAPI.getScalarValueFromWorld = function(xyz) {
+    var comp =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
+    var numberOfComponents = publicAPI
+      .getPointData()
+      .getScalars()
+      .getNumberOfComponents()
+
+    if (comp < 0 || comp >= numberOfComponents) {
+      vtkErrorMacro$8(
+        'GetScalarPointer: Scalar Component '
+          .concat(
+            comp,
+            ' is not within bounds. Current Scalar numberOfComponents: '
+          )
+          .concat(numberOfComponents)
+      )
+      return NaN
+    }
+
+    var offsetIndex = publicAPI.getOffsetIndexFromWorld(xyz)
+
+    if (Number.isNaN(offsetIndex)) {
+      // VTK Error Macro will have been tripped already, no need to do it again,
+      return offsetIndex
+    }
+
+    return publicAPI
+      .getPointData()
+      .getScalars()
+      .getComponent(offsetIndex, comp)
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$z = {
+  direction: null,
+  // a mat3
+  indexToWorld: null,
+  // a mat4
+  worldToIndex: null,
+  // a mat4
+  spacing: [1.0, 1.0, 1.0],
+  origin: [0.0, 0.0, 0.0],
+  extent: [0, -1, 0, -1, 0, -1],
+  dataDescription: StructuredType$1.EMPTY,
+} // ----------------------------------------------------------------------------
+
+function extend$C(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$z, initialValues) // Inheritance
+
+  vtkDataSet$1.extend(publicAPI, model, initialValues)
+
+  if (!model.direction) {
+    model.direction = identity$1(new Float64Array(9))
+  } else if (Array.isArray(model.direction)) {
+    model.direction = new Float64Array(model.direction.slice(0, 9))
+  }
+
+  model.indexToWorld = new Float64Array(16)
+  model.worldToIndex = new Float64Array(16) // Set/Get methods
+
+  macro.get(publicAPI, model, ['direction', 'indexToWorld', 'worldToIndex'])
+  macro.setGetArray(publicAPI, model, ['origin', 'spacing'], 3)
+  macro.getArray(publicAPI, model, ['extent'], 6) // Object specific methods
+
+  vtkImageData(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$i = macro.newInstance(extend$C, 'vtkImageData') // ----------------------------------------------------------------------------
+
+var vtkImageData$1 = {
+  newInstance: newInstance$i,
+  extend: extend$C,
+}
+
+var VectorMode$2 = {
+  MAGNITUDE: 0,
+  COMPONENT: 1,
+  RGBCOLORS: 2,
+}
+var ScalarMappingTarget$2 = {
+  LUMINANCE: 1,
+  LUMINANCE_ALPHA: 2,
+  RGB: 3,
+  RGBA: 4,
+}
+var vtkScalarsToColors$2 = {
+  VectorMode: VectorMode$2,
+  ScalarMappingTarget: ScalarMappingTarget$2,
+}
+
+var ColorMode$2 = {
+  DEFAULT: 0,
+  MAP_SCALARS: 1,
+  DIRECT_SCALARS: 2,
+}
+var ScalarMode$1 = {
+  DEFAULT: 0,
+  USE_POINT_DATA: 1,
+  USE_CELL_DATA: 2,
+  USE_POINT_FIELD_DATA: 3,
+  USE_CELL_FIELD_DATA: 4,
+  USE_FIELD_DATA: 5,
+}
+var GetArray$1 = {
+  BY_ID: 0,
+  BY_NAME: 1,
+}
+var Constants$3 = {
+  ColorMode: ColorMode$2,
+  GetArray: GetArray$1,
+  ScalarMode: ScalarMode$1,
+}
+
+function ownKeys$b(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$b(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$b(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$b(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+
+var ScalarMappingTarget$1 = vtkScalarsToColors$2.ScalarMappingTarget,
+  VectorMode$1 = vtkScalarsToColors$2.VectorMode
+var VtkDataTypes$1 = vtkDataArray$1.VtkDataTypes
+var ColorMode$1 = Constants$3.ColorMode
+var vtkErrorMacro$7 = macro.vtkErrorMacro // ----------------------------------------------------------------------------
+// Global methods
+// ----------------------------------------------------------------------------
+// Add module-level functions or api that you want to expose statically via
+// the next section...
+// ----------------------------------------------------------------------------
+// Static API
+// ----------------------------------------------------------------------------
+
+function intColorToUChar(c) {
+  return c
+}
+
+function floatColorToUChar(c) {
+  return Math.floor(c * 255.0 + 0.5)
+} // ----------------------------------------------------------------------------
+// vtkScalarsToColors methods
+// ----------------------------------------------------------------------------
+
+function vtkScalarsToColors(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkScalarsToColors')
+
+  publicAPI.setVectorModeToMagnitude = function() {
+    return publicAPI.setVectorMode(VectorMode$1.MAGNITUDE)
+  }
+
+  publicAPI.setVectorModeToComponent = function() {
+    return publicAPI.setVectorMode(VectorMode$1.COMPONENT)
+  }
+
+  publicAPI.setVectorModeToRGBColors = function() {
+    return publicAPI.setVectorMode(VectorMode$1.RGBCOLORS)
+  }
+
+  publicAPI.build = function() {}
+
+  publicAPI.isOpaque = function() {
+    return true
+  } //----------------------------------------------------------------------------
+
+  publicAPI.setAnnotations = function(values, annotations) {
+    if ((values && !annotations) || (!values && annotations)) {
+      return
+    }
+
+    if (values && annotations && values.length !== annotations.length) {
+      vtkErrorMacro$7(
+        'Values and annotations do not have the same number of tuples so ignoring'
+      )
+      return
+    }
+
+    model.annotationArray = []
+
+    if (annotations && values) {
+      var num = annotations.length
+
+      for (var i = 0; i < num; i++) {
+        model.annotationArray.push({
+          value: values[i],
+          annotation: String(annotations[i]),
+        })
+      }
+    }
+
+    publicAPI.updateAnnotatedValueMap()
+    publicAPI.modified()
+  } //----------------------------------------------------------------------------
+
+  publicAPI.setAnnotation = function(value, annotation) {
+    var i = publicAPI.checkForAnnotatedValue(value)
+    var modified = false
+
+    if (i >= 0) {
+      if (model.annotationArray[i].annotation !== annotation) {
+        model.annotationArray[i].annotation = annotation
+        modified = true
+      }
+    } else {
+      model.annotationArray.push({
+        value: value,
+        annotation: annotation,
+      })
+      i = model.annotationArray.length - 1
+      modified = true
+    }
+
+    if (modified) {
+      publicAPI.updateAnnotatedValueMap()
+      publicAPI.modified()
+    }
+
+    return i
+  } //----------------------------------------------------------------------------
+
+  publicAPI.getNumberOfAnnotatedValues = function() {
+    return model.annotationArray.length
+  } //----------------------------------------------------------------------------
+
+  publicAPI.getAnnotatedValue = function(idx) {
+    if (idx < 0 || idx >= model.annotationArray.length) {
+      return null
+    }
+
+    return model.annotationArray[idx].value
+  } //----------------------------------------------------------------------------
+
+  publicAPI.getAnnotation = function(idx) {
+    if (model.annotationArray[idx] === undefined) {
+      return null
+    }
+
+    return model.annotationArray[idx].annotation
+  } //----------------------------------------------------------------------------
+
+  publicAPI.getAnnotatedValueIndex = function(val) {
+    return model.annotationArray.length
+      ? publicAPI.checkForAnnotatedValue(val)
+      : -1
+  } //----------------------------------------------------------------------------
+
+  publicAPI.removeAnnotation = function(value) {
+    var i = publicAPI.checkForAnnotatedValue(value)
+    var needToRemove = i >= 0
+
+    if (needToRemove) {
+      model.annotationArray.splice(i, 1)
+      publicAPI.updateAnnotatedValueMap()
+      publicAPI.modified()
+    }
+
+    return needToRemove
+  } //----------------------------------------------------------------------------
+
+  publicAPI.resetAnnotations = function() {
+    model.annotationArray = []
+    model.annotatedValueMap = []
+    publicAPI.modified()
+  } //----------------------------------------------------------------------------
+
+  publicAPI.getAnnotationColor = function(val, rgba) {
+    if (model.indexedLookup) {
+      var i = publicAPI.getAnnotatedValueIndex(val)
+      publicAPI.getIndexedColor(i, rgba)
+    } else {
+      publicAPI.getColor(parseFloat(val), rgba)
+      rgba[3] = 1.0
+    }
+  } //----------------------------------------------------------------------------
+
+  publicAPI.checkForAnnotatedValue = function(value) {
+    return publicAPI.getAnnotatedValueIndexInternal(value)
+  } //----------------------------------------------------------------------------
+  // An unsafe version of vtkScalarsToColors::CheckForAnnotatedValue for
+  // internal use (no pointer checks performed)
+
+  publicAPI.getAnnotatedValueIndexInternal = function(value) {
+    if (model.annotatedValueMap[value] !== undefined) {
+      var na = model.annotationArray.length
+      return model.annotatedValueMap[value] % na
+    } // Treat as a NaN
+
+    return -1
+  } //----------------------------------------------------------------------------
+
+  publicAPI.getIndexedColor = function(val, rgba) {
+    rgba[0] = 0.0
+    rgba[1] = 0.0
+    rgba[2] = 0.0
+    rgba[3] = 0.0
+  } //----------------------------------------------------------------------------
+
+  publicAPI.updateAnnotatedValueMap = function() {
+    model.annotatedValueMap = []
+    var na = model.annotationArray.length
+
+    for (var i = 0; i < na; i++) {
+      model.annotatedValueMap[model.annotationArray[i].value] = i
+    }
+  } // Description:
+  // Internal methods that map a data array into a 4-component,
+  // unsigned char RGBA array. The color mode determines the behavior
+  // of mapping. If ColorMode.DEFAULT is set, then unsigned char
+  // data arrays are treated as colors (and converted to RGBA if
+  // necessary); If ColorMode.DIRECT_SCALARS is set, then all arrays
+  // are treated as colors (integer types are clamped in the range 0-255,
+  // floating point arrays are clamped in the range 0.0-1.0. Note 'char' does
+  // not have enough values to represent a color so mapping this type is
+  // considered an error);
+  // otherwise, the data is mapped through this instance
+  // of ScalarsToColors. The component argument is used for data
+  // arrays with more than one component; it indicates which component
+  // to use to do the blending.  When the component argument is -1,
+  // then the this object uses its own selected technique to change a
+  // vector into a scalar to map.
+
+  publicAPI.mapScalars = function(scalars, colorMode, componentIn) {
+    var numberOfComponents = scalars.getNumberOfComponents()
+    var newColors = null // map scalars through lookup table only if needed
+
+    if (
+      (colorMode === ColorMode$1.DEFAULT &&
+        scalars.getDataType() === VtkDataTypes$1.UNSIGNED_CHAR) ||
+      (colorMode === ColorMode$1.DIRECT_SCALARS && scalars)
+    ) {
+      newColors = publicAPI.convertToRGBA(
+        scalars,
+        numberOfComponents,
+        scalars.getNumberOfTuples()
+      )
+    } else {
+      var newscalars = {
+        type: 'vtkDataArray',
+        name: 'temp',
+        numberOfComponents: 4,
+        dataType: VtkDataTypes$1.UNSIGNED_CHAR,
+      }
+      var s = macro.newTypedArray(
+        newscalars.dataType,
+        4 * scalars.getNumberOfTuples()
+      )
+      newscalars.values = s
+      newscalars.size = s.length
+      newColors = vtkDataArray$1.newInstance(newscalars)
+      var component = componentIn // If mapper did not specify a component, use the VectorMode
+
+      if (component < 0 && numberOfComponents > 1) {
+        publicAPI.mapVectorsThroughTable(
+          scalars,
+          newColors,
+          ScalarMappingTarget$1.RGBA,
+          -1,
+          -1
+        )
+      } else {
+        if (component < 0) {
+          component = 0
+        }
+
+        if (component >= numberOfComponents) {
+          component = numberOfComponents - 1
+        } // Map the scalars to colors
+
+        publicAPI.mapScalarsThroughTable(
+          scalars,
+          newColors,
+          ScalarMappingTarget$1.RGBA,
+          component
+        )
+      }
+    }
+
+    return newColors
+  }
+
+  publicAPI.mapVectorsToMagnitude = function(input, output, compsToUse) {
+    var length = input.getNumberOfTuples()
+    var inIncr = input.getNumberOfComponents()
+    var outputV = output.getData()
+    var inputV = input.getData()
+
+    for (var i = 0; i < length; i++) {
+      var sum = 0.0
+
+      for (var j = 0; j < compsToUse; j++) {
+        sum += inputV[i * inIncr + j] * inputV[i * inIncr + j]
+      }
+
+      outputV[i] = Math.sqrt(sum)
+    }
+  } //----------------------------------------------------------------------------
+  // Map a set of vector values through the table
+
+  publicAPI.mapVectorsThroughTable = function(
+    input,
+    output,
+    outputFormat,
+    vectorComponentIn,
+    vectorSizeIn
+  ) {
+    var vectorMode = publicAPI.getVectorMode()
+    var vectorSize = vectorSizeIn
+    var vectorComponent = vectorComponentIn
+    var inComponents = input.getNumberOfComponents()
+
+    if (vectorMode === VectorMode$1.COMPONENT) {
+      // make sure vectorComponent is within allowed range
+      if (vectorComponent === -1) {
+        // if set to -1, use default value provided by table
+        vectorComponent = publicAPI.getVectorComponent()
+      }
+
+      if (vectorComponent < 0) {
+        vectorComponent = 0
+      }
+
+      if (vectorComponent >= inComponents) {
+        vectorComponent = inComponents - 1
+      }
+    } else {
+      // make sure vectorSize is within allowed range
+      if (vectorSize === -1) {
+        // if set to -1, use default value provided by table
+        vectorSize = publicAPI.getVectorSize()
+      }
+
+      if (vectorSize <= 0) {
+        vectorComponent = 0
+        vectorSize = inComponents
+      } else {
+        if (vectorComponent < 0) {
+          vectorComponent = 0
+        }
+
+        if (vectorComponent >= inComponents) {
+          vectorComponent = inComponents - 1
+        }
+
+        if (vectorComponent + vectorSize > inComponents) {
+          vectorSize = inComponents - vectorComponent
+        }
+      }
+
+      if (
+        vectorMode === VectorMode$1.MAGNITUDE &&
+        (inComponents === 1 || vectorSize === 1)
+      ) {
+        vectorMode = VectorMode$1.COMPONENT
+      }
+    } // increment input pointer to the first component to map
+
+    var inputOffset = 0
+
+    if (vectorComponent > 0) {
+      inputOffset = vectorComponent
+    } // map according to the current vector mode
+
+    switch (vectorMode) {
+      case VectorMode$1.COMPONENT: {
+        publicAPI.mapScalarsThroughTable(
+          input,
+          output,
+          outputFormat,
+          inputOffset
+        )
+        break
+      }
+
+      case VectorMode$1.RGBCOLORS: {
+        // publicAPI.mapColorsToColors(
+        //   input, output, inComponents, vectorSize,
+        //   outputFormat);
+        break
+      }
+      // MAGNITUDE is considered default
+
+      case VectorMode$1.MAGNITUDE:
+      default: {
+        var magValues = vtkDataArray$1.newInstance({
+          numberOfComponents: 1,
+          values: new Float32Array(input.getNumberOfTuples()),
+        })
+        publicAPI.mapVectorsToMagnitude(input, magValues, vectorSize)
+        publicAPI.mapScalarsThroughTable(magValues, output, outputFormat, 0)
+        break
+      }
+    }
+  }
+
+  publicAPI.luminanceToRGBA = function(newColors, colors, alpha, convtFun) {
+    var a = convtFun(alpha)
+    var values = colors.getData()
+    var newValues = newColors.getData()
+    var size = values.length
+    var component = 0
+    var tuple = 1
+    var count = 0
+
+    for (var i = component; i < size; i += tuple) {
+      var l = convtFun(values[i])
+      newValues[count * 4] = l
+      newValues[count * 4 + 1] = l
+      newValues[count * 4 + 2] = l
+      newValues[count * 4 + 3] = a
+      count++
+    }
+  }
+
+  publicAPI.luminanceAlphaToRGBA = function(
+    newColors,
+    colors,
+    alpha,
+    convtFun
+  ) {
+    var values = colors.getData()
+    var newValues = newColors.getData()
+    var size = values.length
+    var component = 0
+    var tuple = 2
+    var count = 0
+
+    for (var i = component; i < size; i += tuple) {
+      var l = convtFun(values[i])
+      newValues[count] = l
+      newValues[count + 1] = l
+      newValues[count + 2] = l
+      newValues[count + 3] = convtFun(values[i + 1]) * alpha
+      count += 4
+    }
+  }
+
+  publicAPI.rGBToRGBA = function(newColors, colors, alpha, convtFun) {
+    var a = floatColorToUChar(alpha)
+    var values = colors.getData()
+    var newValues = newColors.getData()
+    var size = values.length
+    var component = 0
+    var tuple = 3
+    var count = 0
+
+    for (var i = component; i < size; i += tuple) {
+      newValues[count * 4] = convtFun(values[i])
+      newValues[count * 4 + 1] = convtFun(values[i + 1])
+      newValues[count * 4 + 2] = convtFun(values[i + 2])
+      newValues[count * 4 + 3] = a
+      count++
+    }
+  }
+
+  publicAPI.rGBAToRGBA = function(newColors, colors, alpha, convtFun) {
+    var values = colors.getData()
+    var newValues = newColors.getData()
+    var size = values.length
+    var component = 0
+    var tuple = 4
+    var count = 0
+
+    for (var i = component; i < size; i += tuple) {
+      newValues[count * 4] = convtFun(values[i])
+      newValues[count * 4 + 1] = convtFun(values[i + 1])
+      newValues[count * 4 + 2] = convtFun(values[i + 2])
+      newValues[count * 4 + 3] = convtFun(values[i + 3]) * alpha
+      count++
+    }
+  } //----------------------------------------------------------------------------
+
+  publicAPI.convertToRGBA = function(colors, numComp, numTuples) {
+    var alpha = model.alpha
+
+    if (
+      numComp === 4 &&
+      alpha >= 1.0 &&
+      colors.getDataType() === VtkDataTypes$1.UNSIGNED_CHAR
+    ) {
+      return colors
+    }
+
+    var newColors = vtkDataArray$1.newInstance({
+      numberOfComponents: 4,
+      empty: true,
+      size: 4 * numTuples,
+      dataType: VtkDataTypes$1.UNSIGNED_CHAR,
+    })
+
+    if (numTuples <= 0) {
+      return newColors
+    }
+
+    alpha = alpha > 0 ? alpha : 0
+    alpha = alpha < 1 ? alpha : 1
+    var convtFun = intColorToUChar
+
+    if (
+      colors.getDataType() === VtkDataTypes$1.FLOAT ||
+      colors.getDataType() === VtkDataTypes$1.DOUBLE
+    ) {
+      convtFun = floatColorToUChar
+    }
+
+    switch (numComp) {
+      case 1:
+        publicAPI.luminanceToRGBA(newColors, colors, alpha, convtFun)
+        break
+
+      case 2:
+        publicAPI.luminanceAlphaToRGBA(newColors, colors, convtFun)
+        break
+
+      case 3:
+        publicAPI.rGBToRGBA(newColors, colors, alpha, convtFun)
+        break
+
+      case 4:
+        publicAPI.rGBAToRGBA(newColors, colors, alpha, convtFun)
+        break
+
+      default:
+        vtkErrorMacro$7('Cannot convert colors')
+        return null
+    }
+
+    return newColors
+  }
+
+  publicAPI.usingLogScale = function() {
+    return false
+  }
+
+  publicAPI.getNumberOfAvailableColors = function() {
+    return 256 * 256 * 256
+  }
+
+  publicAPI.setRange = function(min, max) {
+    return publicAPI.setMappingRange(min, max)
+  }
+
+  publicAPI.getRange = function(min, max) {
+    return publicAPI.getMappingRange()
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$y = {
+  alpha: 1.0,
+  vectorComponent: 0,
+  vectorSize: -1,
+  vectorMode: VectorMode$1.COMPONENT,
+  mappingRange: null,
+  annotationArray: null,
+  annotatedValueMap: null,
+  indexedLookup: false,
+} // ----------------------------------------------------------------------------
+
+function extend$B(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$y, initialValues) // Object methods
+
+  macro.obj(publicAPI, model)
+  model.mappingRange = [0, 255]
+  model.annotationArray = []
+  model.annotatedValueMap = [] // Create get-set macros
+
+  macro.setGet(publicAPI, model, [
+    'vectorSize',
+    'vectorComponent',
+    'vectorMode',
+    'alpha',
+    'indexedLookup',
+  ]) // Create set macros for array (needs to know size)
+
+  macro.setArray(publicAPI, model, ['mappingRange'], 2) // Create get macros for array
+
+  macro.getArray(publicAPI, model, ['mappingRange']) // For more macro methods, see "Sources/macros.js"
+  // Object specific methods
+
+  vtkScalarsToColors(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$h = macro.newInstance(extend$B, 'vtkScalarsToColors') // ----------------------------------------------------------------------------
+
+var vtkScalarsToColors$1 = _objectSpread$b(
+  {
+    newInstance: newInstance$h,
+    extend: extend$B,
+  },
+  vtkScalarsToColors$2
+)
+
+var vtkErrorMacro$6 = macro.vtkErrorMacro // ----------------------------------------------------------------------------
+// Global methods
+// ----------------------------------------------------------------------------
+// Add module-level functions or api that you want to expose statically via
+// the next section...
+// ----------------------------------------------------------------------------
+// Static API
+// ----------------------------------------------------------------------------
+
+var BELOW_RANGE_COLOR_INDEX = 0
+var ABOVE_RANGE_COLOR_INDEX = 1
+var NAN_COLOR_INDEX = 2 // ----------------------------------------------------------------------------
+// vtkMyClass methods
+// ----------------------------------------------------------------------------
+
+function vtkLookupTable(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkLookupTable') //----------------------------------------------------------------------------
+  // Description:
+  // Return true if all of the values defining the mapping have an opacity
+  // equal to 1. Default implementation return true.
+
+  publicAPI.isOpaque = function() {
+    if (model.opaqueFlagBuildTime.getMTime() < publicAPI.getMTime()) {
+      var opaque = true
+
+      if (model.nanColor[3] < 1.0) {
+        opaque = 0
+      }
+
+      if (model.useBelowRangeColor && model.belowRangeColor[3] < 1.0) {
+        opaque = 0
+      }
+
+      if (model.useAboveRangeColor && model.aboveRangeColor[3] < 1.0) {
+        opaque = 0
+      }
+
+      for (var i = 3; i < model.table.length && opaque; i += 4) {
+        if (model.table[i] < 255) {
+          opaque = false
+        }
+      }
+
+      model.opaqueFlag = opaque
+      model.opaqueFlagBuildTime.modified()
+    }
+
+    return model.opaqueFlag
+  }
+
+  publicAPI.usingLogScale = function() {
+    return false
+  } //----------------------------------------------------------------------------
+
+  publicAPI.getNumberOfAvailableColors = function() {
+    return model.table.length
+  } //----------------------------------------------------------------------------
+  // Apply shift/scale to the scalar value v and return the index.
+
+  publicAPI.linearIndexLookup = function(v, p) {
+    var dIndex = 0
+
+    if (v < p.range[0]) {
+      dIndex = p.maxIndex + BELOW_RANGE_COLOR_INDEX + 1.5
+    } else if (v > p.range[1]) {
+      dIndex = p.maxIndex + ABOVE_RANGE_COLOR_INDEX + 1.5
+    } else {
+      dIndex = (v + p.shift) * p.scale // This conditional is needed because when v is very close to
+      // p.Range[1], it may map above p.MaxIndex in the linear mapping
+      // above.
+
+      dIndex = dIndex < p.maxIndex ? dIndex : p.maxIndex
+    }
+
+    return Math.floor(dIndex)
+  }
+
+  publicAPI.linearLookup = function(v, table, p) {
+    var index = 0
+
+    if (isNan(v)) {
+      index = Math.floor(p.maxIndex + 1.5 + NAN_COLOR_INDEX)
+    } else {
+      index = publicAPI.linearIndexLookup(v, p)
+    }
+
+    var offset = 4 * index
+    return [
+      table[offset],
+      table[offset + 1],
+      table[offset + 2],
+      table[offset + 3],
+    ]
+  }
+
+  publicAPI.indexedLookupFunction = function(v, table, p) {
+    var index = publicAPI.getAnnotatedValueIndexInternal(v)
+
+    if (index === -1) {
+      index = model.numberOfColors + NAN_COLOR_INDEX
+    }
+
+    var offset = 4 * index
+    return [
+      table[offset],
+      table[offset + 1],
+      table[offset + 2],
+      table[offset + 3],
+    ]
+  } //----------------------------------------------------------------------------
+
+  publicAPI.lookupShiftAndScale = function(range, p) {
+    p.shift = -range[0]
+    p.scale = Number.MAX_VALUE
+
+    if (range[1] > range[0]) {
+      p.scale = (p.maxIndex + 1) / (range[1] - range[0])
+    }
+  } // Public API methods
+
+  publicAPI.mapScalarsThroughTable = function(
+    input,
+    output,
+    outFormat,
+    inputOffset
+  ) {
+    var lookupFunc = publicAPI.linearLookup
+
+    if (model.indexedLookup) {
+      lookupFunc = publicAPI.indexedLookupFunction
+    }
+
+    var trange = publicAPI.getMappingRange()
+    var p = {
+      maxIndex: publicAPI.getNumberOfColors() - 1,
+      range: trange,
+      shift: 0.0,
+      scale: 0.0,
+    }
+    publicAPI.lookupShiftAndScale(trange, p)
+    var alpha = publicAPI.getAlpha()
+    var length = input.getNumberOfTuples()
+    var inIncr = input.getNumberOfComponents()
+    var outputV = output.getData()
+    var inputV = input.getData()
+
+    if (alpha >= 1.0) {
+      if (outFormat === ScalarMappingTarget$2.RGBA) {
+        for (var i = 0; i < length; i++) {
+          var cptr = lookupFunc(
+            inputV[i * inIncr + inputOffset],
+            model.table,
+            p
+          )
+          outputV[i * 4] = cptr[0]
+          outputV[i * 4 + 1] = cptr[1]
+          outputV[i * 4 + 2] = cptr[2]
+          outputV[i * 4 + 3] = cptr[3]
+        }
+      }
+    } else {
+      /* eslint-disable no-lonely-if */
+      if (outFormat === ScalarMappingTarget$2.RGBA) {
+        for (var _i = 0; _i < length; _i++) {
+          var _cptr = lookupFunc(
+            inputV[_i * inIncr + inputOffset],
+            model.table,
+            p
+          )
+
+          outputV[_i * 4] = _cptr[0]
+          outputV[_i * 4 + 1] = _cptr[1]
+          outputV[_i * 4 + 2] = _cptr[2]
+          outputV[_i * 4 + 3] = Math.floor(_cptr[3] * alpha + 0.5)
+        }
+      }
+    } // alpha blending
+  }
+
+  publicAPI.forceBuild = function() {
+    var hinc = 0.0
+    var sinc = 0.0
+    var vinc = 0.0
+    var ainc = 0.0
+    var maxIndex = model.numberOfColors - 1
+
+    if (maxIndex) {
+      hinc = (model.hueRange[1] - model.hueRange[0]) / maxIndex
+      sinc = (model.saturationRange[1] - model.saturationRange[0]) / maxIndex
+      vinc = (model.valueRange[1] - model.valueRange[0]) / maxIndex
+      ainc = (model.alphaRange[1] - model.alphaRange[0]) / maxIndex
+    }
+
+    var hsv = []
+    var rgba = []
+
+    for (var i = 0; i <= maxIndex; i++) {
+      hsv[0] = model.hueRange[0] + i * hinc
+      hsv[1] = model.saturationRange[0] + i * sinc
+      hsv[2] = model.valueRange[0] + i * vinc
+      hsv2rgb(hsv, rgba)
+      rgba[3] = model.alphaRange[0] + i * ainc //  case VTK_RAMP_LINEAR:
+
+      model.table[i * 4] = rgba[0] * 255.0 + 0.5
+      model.table[i * 4 + 1] = rgba[1] * 255.0 + 0.5
+      model.table[i * 4 + 2] = rgba[2] * 255.0 + 0.5
+      model.table[i * 4 + 3] = rgba[3] * 255.0 + 0.5
+    }
+
+    publicAPI.buildSpecialColors()
+    model.buildTime.modified()
+  }
+
+  publicAPI.setTable = function(table) {
+    if (table.getNumberOfComponents() !== 4) {
+      vtkErrorMacro$6('Expected 4 components for RGBA colors')
+      return
+    }
+
+    if (table.getDataType() !== VtkDataTypes$2.UNSIGNED_CHAR) {
+      vtkErrorMacro$6('Expected unsigned char values for RGBA colors')
+      return
+    }
+
+    model.numberOfColors = table.getNumberOfTuples()
+    var data = table.getData()
+
+    for (var i = 0; i < data.length; i++) {
+      model.table[i] = data[i]
+    }
+
+    publicAPI.buildSpecialColors()
+    model.insertTime.modified()
+    publicAPI.modified()
+  }
+
+  publicAPI.buildSpecialColors = function() {
+    // Add "special" colors (NaN, below range, above range) to table here.
+    var numberOfColors = model.numberOfColors
+    var tptr = model.table
+    var base = (numberOfColors + BELOW_RANGE_COLOR_INDEX) * 4 // Below range color
+
+    if (model.useBelowRangeColor || numberOfColors === 0) {
+      tptr[base] = model.belowRangeColor[0] * 255.0 + 0.5
+      tptr[base + 1] = model.belowRangeColor[1] * 255.0 + 0.5
+      tptr[base + 2] = model.belowRangeColor[2] * 255.0 + 0.5
+      tptr[base + 3] = model.belowRangeColor[3] * 255.0 + 0.5
+    } else {
+      // Duplicate the first color in the table.
+      tptr[base] = tptr[0]
+      tptr[base + 1] = tptr[1]
+      tptr[base + 2] = tptr[2]
+      tptr[base + 3] = tptr[3]
+    } // Above range color
+
+    base = (numberOfColors + ABOVE_RANGE_COLOR_INDEX) * 4
+
+    if (model.useAboveRangeColor || numberOfColors === 0) {
+      tptr[base] = model.aboveRangeColor[0] * 255.0 + 0.5
+      tptr[base + 1] = model.aboveRangeColor[1] * 255.0 + 0.5
+      tptr[base + 2] = model.aboveRangeColor[2] * 255.0 + 0.5
+      tptr[base + 3] = model.aboveRangeColor[3] * 255.0 + 0.5
+    } else {
+      // Duplicate the last color in the table.
+      tptr[base] = tptr[4 * (numberOfColors - 1) + 0]
+      tptr[base + 1] = tptr[4 * (numberOfColors - 1) + 1]
+      tptr[base + 2] = tptr[4 * (numberOfColors - 1) + 2]
+      tptr[base + 3] = tptr[4 * (numberOfColors - 1) + 3]
+    } // Always use NanColor
+
+    base = (numberOfColors + NAN_COLOR_INDEX) * 4
+    tptr[base] = model.nanColor[0] * 255.0 + 0.5
+    tptr[base + 1] = model.nanColor[1] * 255.0 + 0.5
+    tptr[base + 2] = model.nanColor[2] * 255.0 + 0.5
+    tptr[base + 3] = model.nanColor[3] * 255.0 + 0.5
+  }
+
+  publicAPI.build = function() {
+    if (
+      model.table.length < 1 ||
+      (publicAPI.getMTime() > model.buildTime.getMTime() &&
+        model.insertTime.getMTime() <= model.buildTime.getMTime())
+    ) {
+      publicAPI.forceBuild()
+    }
+  }
+
+  if (model.table.length > 0) {
+    // ensure insertTime is more recently modified than buildTime if
+    // a table is provided via the constructor
+    model.insertTime.modified()
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$x = {
+  numberOfColors: 256,
+  // table: null,
+  hueRange: [0.0, 0.66667],
+  saturationRange: [1.0, 1.0],
+  valueRange: [1.0, 1.0],
+  alphaRange: [1.0, 1.0],
+  nanColor: [0.5, 0.0, 0.0, 1.0],
+  belowRangeColor: [0.0, 0.0, 0.0, 1.0],
+  aboveRangeColor: [1.0, 1.0, 1.0, 1.0],
+  useAboveRangeColor: false,
+  useBelowRangeColor: false,
+  alpha: 1.0, // buildTime: null,
+  // opaqueFlagBuildTime: null,
+  // insertTime: null,
+} // ----------------------------------------------------------------------------
+
+function extend$A(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$x, initialValues) // Inheritance
+
+  vtkScalarsToColors$1.extend(publicAPI, model, initialValues) // Internal objects initialization
+
+  if (!model.table) {
+    model.table = []
+  }
+
+  model.buildTime = {}
+  macro.obj(model.buildTime)
+  model.opaqueFlagBuildTime = {}
+  macro.obj(model.opaqueFlagBuildTime, {
+    mtime: 0,
+  })
+  model.insertTime = {}
+  macro.obj(model.insertTime, {
+    mtime: 0,
+  }) // Create get-only macros
+
+  macro.get(publicAPI, model, ['buildTime']) // Create get-set macros
+
+  macro.setGet(publicAPI, model, [
+    'numberOfColors',
+    'useAboveRangeColor',
+    'useBelowRangeColor',
+  ]) // Create set macros for array (needs to know size)
+
+  macro.setArray(
+    publicAPI,
+    model,
+    ['alphaRange', 'hueRange', 'saturationRange', 'valueRange'],
+    2
+  )
+  macro.setArray(
+    publicAPI,
+    model,
+    ['nanColor', 'belowRangeColor', 'aboveRangeColor'],
+    4
+  ) // Create get macros for array
+
+  macro.getArray(publicAPI, model, [
+    'hueRange',
+    'saturationRange',
+    'valueRange',
+    'alphaRange',
+    'nanColor',
+    'belowRangeColor',
+    'aboveRangeColor',
+  ]) // For more macro methods, see "Sources/macros.js"
+  // Object specific methods
+
+  vtkLookupTable(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$g = macro.newInstance(extend$A, 'vtkLookupTable') // ----------------------------------------------------------------------------
+
+var vtkLookupTable$1 = {
+  newInstance: newInstance$g,
+  extend: extend$A,
+}
+
+var resolveCoincidentTopologyPolygonOffsetFaces = 1
+var resolveCoincidentTopology = 0
+var RESOLVE_COINCIDENT_TOPOLOGY_MODE = [
+  'VTK_RESOLVE_OFF',
+  'VTK_RESOLVE_POLYGON_OFFSET',
+]
+function getResolveCoincidentTopologyPolygonOffsetFaces() {
+  return resolveCoincidentTopologyPolygonOffsetFaces
+}
+function setResolveCoincidentTopologyPolygonOffsetFaces(value) {
+  resolveCoincidentTopologyPolygonOffsetFaces = value
+}
+function getResolveCoincidentTopology() {
+  return resolveCoincidentTopology
+}
+function setResolveCoincidentTopology() {
+  var mode =
+    arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0
+  resolveCoincidentTopology = mode
+}
+function setResolveCoincidentTopologyToDefault() {
+  setResolveCoincidentTopology(0) // VTK_RESOLVE_OFF
+}
+function setResolveCoincidentTopologyToOff() {
+  setResolveCoincidentTopology(0) // VTK_RESOLVE_OFF
+}
+function setResolveCoincidentTopologyToPolygonOffset() {
+  setResolveCoincidentTopology(1) // VTK_RESOLVE_POLYGON_OFFSET
+}
+function getResolveCoincidentTopologyAsString() {
+  return RESOLVE_COINCIDENT_TOPOLOGY_MODE[resolveCoincidentTopology]
+}
+var otherStaticMethods$1 = {
+  getResolveCoincidentTopologyAsString: getResolveCoincidentTopologyAsString,
+  getResolveCoincidentTopologyPolygonOffsetFaces: getResolveCoincidentTopologyPolygonOffsetFaces,
+  getResolveCoincidentTopology: getResolveCoincidentTopology,
+  setResolveCoincidentTopology: setResolveCoincidentTopology,
+  setResolveCoincidentTopologyPolygonOffsetFaces: setResolveCoincidentTopologyPolygonOffsetFaces,
+  setResolveCoincidentTopologyToDefault: setResolveCoincidentTopologyToDefault,
+  setResolveCoincidentTopologyToOff: setResolveCoincidentTopologyToOff,
+  setResolveCoincidentTopologyToPolygonOffset: setResolveCoincidentTopologyToPolygonOffset,
+}
+
+/* eslint-disable arrow-body-style */
+
+function addCoincidentTopologyMethods(publicAPI, model, nameList) {
+  nameList.forEach(function(item) {
+    publicAPI['get'.concat(item.method)] = function() {
+      return model[item.key]
+    }
+
+    publicAPI['set'.concat(item.method)] = function(factor, offset) {
+      model[item.key] = {
+        factor: factor,
+        offset: offset,
+      }
+    }
+  })
+}
+
+var CATEGORIES = ['Polygon', 'Line', 'Point'] // CoincidentTopology static methods ------------------------------------------
+
+var staticOffsetModel = {
+  Polygon: {
+    factor: 2,
+    offset: 0,
+  },
+  Line: {
+    factor: 1,
+    offset: -1,
+  },
+  Point: {
+    factor: 0,
+    offset: -2,
+  },
+}
+var staticOffsetAPI$1 = {}
+addCoincidentTopologyMethods(
+  staticOffsetAPI$1,
+  staticOffsetModel,
+  CATEGORIES.map(function(key) {
+    return {
+      key: key,
+      method: 'ResolveCoincidentTopology'.concat(key, 'OffsetParameters'),
+    }
+  })
+)
+
+function implementCoincidentTopologyMethods(publicAPI, model) {
+  if (model.resolveCoincidentTopology === undefined) {
+    model.resolveCoincidentTopology = false
+  }
+
+  macro.setGet(publicAPI, model, ['resolveCoincidentTopology']) // Relative methods
+
+  model.topologyOffset = {
+    Polygon: {
+      factor: 0,
+      offset: 0,
+    },
+    Line: {
+      factor: 0,
+      offset: 0,
+    },
+    Point: {
+      factor: 0,
+      offset: 0,
+    },
+  } // Add Static methods to our instance
+
+  Object.keys(otherStaticMethods$1).forEach(function(methodName) {
+    publicAPI[methodName] = otherStaticMethods$1[methodName]
+  })
+  Object.keys(staticOffsetAPI$1).forEach(function(methodName) {
+    publicAPI[methodName] = staticOffsetAPI$1[methodName]
+  })
+  addCoincidentTopologyMethods(
+    publicAPI,
+    model.topologyOffset,
+    CATEGORIES.map(function(key) {
+      return {
+        key: key,
+        method: 'RelativeCoincidentTopology'.concat(key, 'OffsetParameters'),
+      }
+    })
+  )
+
+  publicAPI.getCoincidentTopologyPolygonOffsetParameters = function() {
+    var globalValue = staticOffsetAPI$1.getResolveCoincidentTopologyPolygonOffsetParameters()
+    var localValue = publicAPI.getRelativeCoincidentTopologyPolygonOffsetParameters()
+    return {
+      factor: globalValue.factor + localValue.factor,
+      offset: globalValue.offset + localValue.offset,
+    }
+  }
+
+  publicAPI.getCoincidentTopologyLineOffsetParameters = function() {
+    var globalValue = staticOffsetAPI$1.getResolveCoincidentTopologyLineOffsetParameters()
+    var localValue = publicAPI.getRelativeCoincidentTopologyLineOffsetParameters()
+    return {
+      factor: globalValue.factor + localValue.factor,
+      offset: globalValue.offset + localValue.offset,
+    }
+  }
+
+  publicAPI.getCoincidentTopologyPointOffsetParameter = function() {
+    var globalValue = staticOffsetAPI$1.getResolveCoincidentTopologyPointOffsetParameters()
+    var localValue = publicAPI.getRelativeCoincidentTopologyPointOffsetParameters()
+    return {
+      factor: globalValue.factor + localValue.factor,
+      offset: globalValue.offset + localValue.offset,
+    }
+  }
+}
+
+var CoincidentTopologyHelper = {
+  implementCoincidentTopologyMethods: implementCoincidentTopologyMethods,
+  staticOffsetAPI: staticOffsetAPI$1,
+  otherStaticMethods: otherStaticMethods$1,
+  CATEGORIES: CATEGORIES,
+}
+
+var PassTypes = {
+  MIN_KNOWN_PASS: 0,
+  ACTOR_PASS: 0,
+  COMPOSITE_INDEX_PASS: 1,
+  ID_LOW24: 2,
+  ID_HIGH24: 3,
+  MAX_KNOWN_PASS: 3,
+}
+
+function ownKeys$a(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$a(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$a(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$a(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+var FieldAssociations = vtkDataSet$1.FieldAssociations
+var staticOffsetAPI = CoincidentTopologyHelper.staticOffsetAPI,
+  otherStaticMethods = CoincidentTopologyHelper.otherStaticMethods
+var ColorMode = Constants$3.ColorMode,
+  ScalarMode = Constants$3.ScalarMode,
+  GetArray = Constants$3.GetArray
+var VectorMode = vtkScalarsToColors$2.VectorMode
+var VtkDataTypes = vtkDataArray$1.VtkDataTypes // ----------------------------------------------------------------------------
+
+function notImplemented(method) {
+  return function() {
+    return macro.vtkErrorMacro(
+      'vtkMapper::'.concat(method, ' - NOT IMPLEMENTED')
+    )
+  }
+} // ----------------------------------------------------------------------------
+// vtkMapper methods
+// ----------------------------------------------------------------------------
+
+function vtkMapper(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkMapper')
+
+  publicAPI.getBounds = function() {
+    var input = publicAPI.getInputData()
+
+    if (!input) {
+      model.bounds = createUninitializedBounds()
+    } else {
+      if (!model.static) {
+        publicAPI.update()
+      }
+
+      model.bounds = input.getBounds()
+    }
+
+    return model.bounds
+  }
+
+  publicAPI.setForceCompileOnly = function(v) {
+    model.forceCompileOnly = v // make sure we do NOT call modified()
+  }
+
+  publicAPI.createDefaultLookupTable = function() {
+    model.lookupTable = vtkLookupTable$1.newInstance()
+  }
+
+  publicAPI.getColorModeAsString = function() {
+    return macro.enumToString(ColorMode, model.colorMode)
+  }
+
+  publicAPI.setColorModeToDefault = function() {
+    return publicAPI.setColorMode(0)
+  }
+
+  publicAPI.setColorModeToMapScalars = function() {
+    return publicAPI.setColorMode(1)
+  }
+
+  publicAPI.setColorModeToDirectScalars = function() {
+    return publicAPI.setColorMode(2)
+  }
+
+  publicAPI.getScalarModeAsString = function() {
+    return macro.enumToString(ScalarMode, model.scalarMode)
+  }
+
+  publicAPI.setScalarModeToDefault = function() {
+    return publicAPI.setScalarMode(0)
+  }
+
+  publicAPI.setScalarModeToUsePointData = function() {
+    return publicAPI.setScalarMode(1)
+  }
+
+  publicAPI.setScalarModeToUseCellData = function() {
+    return publicAPI.setScalarMode(2)
+  }
+
+  publicAPI.setScalarModeToUsePointFieldData = function() {
+    return publicAPI.setScalarMode(3)
+  }
+
+  publicAPI.setScalarModeToUseCellFieldData = function() {
+    return publicAPI.setScalarMode(4)
+  }
+
+  publicAPI.setScalarModeToUseFieldData = function() {
+    return publicAPI.setScalarMode(5)
+  }
+
+  publicAPI.getAbstractScalars = function(
+    input,
+    scalarMode,
+    arrayAccessMode,
+    arrayId,
+    arrayName
+  ) {
+    // make sure we have an input
+    if (!input || !model.scalarVisibility) {
+      return {
+        scalars: null,
+        cellFLag: false,
+      }
+    }
+
+    var scalars = null
+    var cellFlag = false // get and scalar data according to scalar mode
+
+    if (scalarMode === ScalarMode.DEFAULT) {
+      scalars = input.getPointData().getScalars()
+
+      if (!scalars) {
+        scalars = input.getCellData().getScalars()
+        cellFlag = true
+      }
+    } else if (scalarMode === ScalarMode.USE_POINT_DATA) {
+      scalars = input.getPointData().getScalars()
+    } else if (scalarMode === ScalarMode.USE_CELL_DATA) {
+      scalars = input.getCellData().getScalars()
+      cellFlag = true
+    } else if (scalarMode === ScalarMode.USE_POINT_FIELD_DATA) {
+      var pd = input.getPointData()
+
+      if (arrayAccessMode === GetArray.BY_ID) {
+        scalars = pd.getArrayByIndex(arrayId)
+      } else {
+        scalars = pd.getArrayByName(arrayName)
+      }
+    } else if (scalarMode === ScalarMode.USE_CELL_FIELD_DATA) {
+      var cd = input.getCellData()
+      cellFlag = true
+
+      if (arrayAccessMode === GetArray.BY_ID) {
+        scalars = cd.getArrayByIndex(arrayId)
+      } else {
+        scalars = cd.getArrayByName(arrayName)
+      }
+    } else if (scalarMode === ScalarMode.USE_FIELD_DATA) {
+      var fd = input.getFieldData()
+
+      if (arrayAccessMode === GetArray.BY_ID) {
+        scalars = fd.getArrayByIndex(arrayId)
+      } else {
+        scalars = fd.getArrayByName(arrayName)
+      }
+    }
+
+    return {
+      scalars: scalars,
+      cellFlag: cellFlag,
+    }
+  }
+
+  publicAPI.mapScalars = function(input, alpha) {
+    var scalars = publicAPI.getAbstractScalars(
+      input,
+      model.scalarMode,
+      model.arrayAccessMode,
+      model.arrayId,
+      model.colorByArrayName
+    ).scalars
+
+    if (!scalars) {
+      model.colorCoordinates = null
+      model.colorTextureMap = null
+      model.colorMapColors = null
+      return
+    } // we want to only recompute when something has changed
+
+    var toString = ''
+      .concat(publicAPI.getMTime())
+      .concat(scalars.getMTime())
+      .concat(alpha)
+    if (model.colorBuildString === toString) return
+
+    if (!model.useLookupTableScalarRange) {
+      publicAPI
+        .getLookupTable()
+        .setRange(model.scalarRange[0], model.scalarRange[1])
+    } // Decide between texture color or vertex color.
+    // Cell data always uses vertex color.
+    // Only point data can use both texture and vertex coloring.
+
+    if (publicAPI.canUseTextureMapForColoring(input)) {
+      publicAPI.mapScalarsToTexture(scalars, alpha)
+    } else {
+      model.colorCoordinates = null
+      model.colorTextureMap = null
+      var lut = publicAPI.getLookupTable()
+
+      if (lut) {
+        // Ensure that the lookup table is built
+        lut.build()
+        model.colorMapColors = lut.mapScalars(
+          scalars,
+          model.colorMode,
+          model.fieldDataTupleId
+        )
+      }
+    }
+
+    model.colorBuildString = ''
+      .concat(publicAPI.getMTime())
+      .concat(scalars.getMTime())
+      .concat(alpha)
+  } //-----------------------------------------------------------------------------
+
+  publicAPI.scalarToTextureCoordinate = function(
+    scalarValue, // Input scalar
+    rangeMin, // range[0]
+    invRangeWidth
+  ) {
+    // 1/(range[1]-range[0])
+    var texCoordS = 0.5 // Scalar value is arbitrary when NaN
+
+    var texCoordT = 1.0 // 1.0 in t coordinate means NaN
+
+    if (!isNan(scalarValue)) {
+      // 0.0 in t coordinate means not NaN.  So why am I setting it to 0.49?
+      // Because when you are mapping scalars and you have a NaN adjacent to
+      // anything else, the interpolation everywhere should be NaN.  Thus, I
+      // want the NaN color everywhere except right on the non-NaN neighbors.
+      // To simulate this, I set the t coord for the real numbers close to
+      // the threshold so that the interpolation almost immediately looks up
+      // the NaN value.
+      texCoordT = 0.49
+      texCoordS = (scalarValue - rangeMin) * invRangeWidth // Some implementations apparently don't handle relatively large
+      // numbers (compared to the range [0.0, 1.0]) very well. In fact,
+      // values above 1122.0f appear to cause texture wrap-around on
+      // some systems even when edge clamping is enabled. Why 1122.0f? I
+      // don't know. For safety, we'll clamp at +/- 1000. This will
+      // result in incorrect images when the texture value should be
+      // above or below 1000, but I don't have a better solution.
+
+      if (texCoordS > 1000.0) {
+        texCoordS = 1000.0
+      } else if (texCoordS < -1000.0) {
+        texCoordS = -1000.0
+      }
+    }
+
+    return {
+      texCoordS: texCoordS,
+      texCoordT: texCoordT,
+    }
+  } //-----------------------------------------------------------------------------
+
+  publicAPI.createColorTextureCoordinates = function(
+    input,
+    output,
+    numScalars,
+    numComps,
+    component,
+    range,
+    tableRange,
+    tableNumberOfColors,
+    useLogScale
+  ) {
+    // We have to change the range used for computing texture
+    // coordinates slightly to accommodate the special above- and
+    // below-range colors that are the first and last texels,
+    // respectively.
+    var scalarTexelWidth = (range[1] - range[0]) / tableNumberOfColors
+    var paddedRange = []
+    paddedRange[0] = range[0] - scalarTexelWidth
+    paddedRange[1] = range[1] + scalarTexelWidth
+    var invRangeWidth = 1.0 / (paddedRange[1] - paddedRange[0])
+    var outputV = output.getData()
+    var inputV = input.getData()
+    var count = 0
+    var outputCount = 0
+
+    if (component < 0 || component >= numComps) {
+      for (var scalarIdx = 0; scalarIdx < numScalars; ++scalarIdx) {
+        var sum = 0
+
+        for (var compIdx = 0; compIdx < numComps; ++compIdx) {
+          sum += inputV[count] * inputV[count]
+          count++
+        }
+
+        var magnitude = Math.sqrt(sum)
+
+        if (useLogScale) {
+          magnitude = vtkLookupTable$1.applyLogScale(
+            magnitude,
+            tableRange,
+            range
+          )
+        }
+
+        var outputs = publicAPI.scalarToTextureCoordinate(
+          magnitude,
+          paddedRange[0],
+          invRangeWidth
+        )
+        outputV[outputCount] = outputs.texCoordS
+        outputV[outputCount + 1] = outputs.texCoordT
+        outputCount += 2
+      }
+    } else {
+      count += component
+
+      for (var _scalarIdx = 0; _scalarIdx < numScalars; ++_scalarIdx) {
+        var inputValue = inputV[count]
+
+        if (useLogScale) {
+          inputValue = vtkLookupTable$1.applyLogScale(
+            inputValue,
+            tableRange,
+            range
+          )
+        }
+
+        var _outputs = publicAPI.scalarToTextureCoordinate(
+          inputValue,
+          paddedRange[0],
+          invRangeWidth
+        )
+
+        outputV[outputCount] = _outputs.texCoordS
+        outputV[outputCount + 1] = _outputs.texCoordT
+        outputCount += 2
+        count += numComps
+      }
+    }
+  }
+
+  publicAPI.mapScalarsToTexture = function(scalars, alpha) {
+    var range = model.lookupTable.getRange()
+    var useLogScale = model.lookupTable.usingLogScale()
+
+    if (useLogScale) {
+      // convert range to log.
+      vtkLookupTable$1.getLogRange(range, range)
+    }
+
+    var origAlpha = model.lookupTable.getAlpha() // Get rid of vertex color array.  Only texture or vertex coloring
+    // can be active at one time.  The existence of the array is the
+    // signal to use that technique.
+
+    model.colorMapColors = null // If the lookup table has changed, then recreate the color texture map.
+    // Set a new lookup table changes this->MTime.
+
+    if (
+      model.colorTextureMap == null ||
+      publicAPI.getMTime() > model.colorTextureMap.getMTime() ||
+      model.lookupTable.getMTime() > model.colorTextureMap.getMTime() ||
+      model.lookupTable.getAlpha() !== alpha
+    ) {
+      model.lookupTable.setAlpha(alpha)
+      model.colorTextureMap = null // Get the texture map from the lookup table.
+      // Create a dummy ramp of scalars.
+      // In the future, we could extend vtkScalarsToColors.
+
+      model.lookupTable.build()
+      var numberOfColors = model.lookupTable.getNumberOfAvailableColors()
+
+      if (numberOfColors > 4094) {
+        numberOfColors = 4094
+      }
+
+      numberOfColors += 2
+      var k = (range[1] - range[0]) / (numberOfColors - 1 - 2)
+      var newArray = new Float64Array(numberOfColors * 2)
+
+      for (var i = 0; i < numberOfColors; ++i) {
+        newArray[i] = range[0] + i * k - k // minus k to start at below range color
+
+        if (useLogScale) {
+          newArray[i] = Math.pow(10.0, newArray[i])
+        }
+      } // Dimension on NaN.
+
+      for (var _i = 0; _i < numberOfColors; ++_i) {
+        newArray[_i + numberOfColors] = NaN
+      }
+
+      model.colorTextureMap = vtkImageData$1.newInstance()
+      model.colorTextureMap.setExtent(0, numberOfColors - 1, 0, 1, 0, 0)
+      var tmp = vtkDataArray$1.newInstance({
+        numberOfComponents: 1,
+        values: newArray,
+      })
+      model.colorTextureMap
+        .getPointData()
+        .setScalars(model.lookupTable.mapScalars(tmp, model.colorMode, 0))
+      model.lookupTable.setAlpha(origAlpha)
+    } // Create new coordinates if necessary.
+    // Need to compare lookup table in case the range has changed.
+
+    if (
+      !model.colorCoordinates ||
+      publicAPI.getMTime() > model.colorCoordinates.getMTime() ||
+      publicAPI.getInputData(0).getMTime() >
+        model.colorCoordinates.getMTime() ||
+      model.lookupTable.getMTime() > model.colorCoordinates.getMTime()
+    ) {
+      // Get rid of old colors
+      model.colorCoordinates = null // Now create the color texture coordinates.
+
+      var numComps = scalars.getNumberOfComponents()
+      var num = scalars.getNumberOfTuples() // const fArray = new FloatArray(num * 2);
+
+      model.colorCoordinates = vtkDataArray$1.newInstance({
+        numberOfComponents: 2,
+        values: new Float32Array(num * 2),
+      })
+      var scalarComponent = model.lookupTable.getVectorComponent() // Although I like the feature of applying magnitude to single component
+      // scalars, it is not how the old MapScalars for vertex coloring works.
+
+      if (
+        model.lookupTable.getVectorMode() === VectorMode.MAGNITUDE &&
+        scalars.getNumberOfComponents() > 1
+      ) {
+        scalarComponent = -1
+      }
+
+      publicAPI.createColorTextureCoordinates(
+        scalars,
+        model.colorCoordinates,
+        num,
+        numComps,
+        scalarComponent,
+        range,
+        model.lookupTable.getRange(),
+        model.colorTextureMap
+          .getPointData()
+          .getScalars()
+          .getNumberOfTuples() /
+          2 -
+          2,
+        useLogScale
+      )
+    }
+  }
+
+  publicAPI.getIsOpaque = function() {
+    var lut = publicAPI.getLookupTable()
+
+    if (lut) {
+      // Ensure that the lookup table is built
+      lut.build()
+      return lut.isOpaque()
+    }
+
+    return true
+  }
+
+  publicAPI.canUseTextureMapForColoring = function(input) {
+    if (!model.interpolateScalarsBeforeMapping) {
+      return false // user doesn't want us to use texture maps at all.
+    } // index color does not use textures
+
+    if (model.lookupTable && model.lookupTable.getIndexedLookup()) {
+      return false
+    }
+
+    var gasResult = publicAPI.getAbstractScalars(
+      input,
+      model.scalarMode,
+      model.arrayAccessMode,
+      model.arrayId,
+      model.colorByArrayName
+    )
+    var scalars = gasResult.scalars
+
+    if (!scalars) {
+      // no scalars on this dataset, we don't care if texture is used at all.
+      return false
+    }
+
+    if (gasResult.cellFlag) {
+      return false // cell data colors, don't use textures.
+    }
+
+    if (
+      (model.colorMode === ColorMode.DEFAULT &&
+        scalars.getDataType() === VtkDataTypes.UNSIGNED_CHAR) ||
+      model.colorMode === ColorMode.DIRECT_SCALARS
+    ) {
+      // Don't use texture is direct coloring using RGB unsigned chars is
+      // requested.
+      return false
+    }
+
+    return true
+  }
+
+  publicAPI.clearColorArrays = function() {
+    model.colorMapColors = null
+    model.colorCoordinates = null
+    model.colorTextureMap = null
+  }
+
+  publicAPI.getLookupTable = function() {
+    if (!model.lookupTable) {
+      publicAPI.createDefaultLookupTable()
+    }
+
+    return model.lookupTable
+  }
+
+  publicAPI.getMTime = function() {
+    var mt = model.mtime
+
+    if (model.lookupTable !== null) {
+      var time = model.lookupTable.getMTime()
+      mt = time > mt ? time : mt
+    }
+
+    return mt
+  }
+
+  publicAPI.getPrimitiveCount = function() {
+    var input = publicAPI.getInputData()
+    var pcount = {
+      points: input.getPoints().getNumberOfValues() / 3,
+      verts:
+        input.getVerts().getNumberOfValues() -
+        input.getVerts().getNumberOfCells(),
+      lines:
+        input.getLines().getNumberOfValues() -
+        2 * input.getLines().getNumberOfCells(),
+      triangles:
+        input.getPolys().getNumberOfValues() -
+        3 * input.getPolys().getNumberOfCells(),
+    }
+    return pcount
+  }
+
+  publicAPI.acquireInvertibleLookupTable = notImplemented(
+    'AcquireInvertibleLookupTable'
+  )
+  publicAPI.valueToColor = notImplemented('ValueToColor')
+  publicAPI.colorToValue = notImplemented('ColorToValue')
+  publicAPI.useInvertibleColorFor = notImplemented('UseInvertibleColorFor')
+  publicAPI.clearInvertibleColor = notImplemented('ClearInvertibleColor')
+
+  publicAPI.processSelectorPixelBuffers = function(selector, pixelOffsets) {
+    /* eslint-disable no-bitwise */
+    if (
+      !selector ||
+      !model.selectionWebGLIdsToVTKIds ||
+      !model.populateSelectionSettings
+    ) {
+      return
+    }
+
+    var rawLowData = selector.getRawPixelBuffer(PassTypes.ID_LOW24)
+    var rawHighData = selector.getRawPixelBuffer(PassTypes.ID_HIGH24)
+    var currentPass = selector.getCurrentPass()
+    var fieldAssociation = selector.getFieldAssociation()
+    var idMap = null
+
+    if (fieldAssociation === FieldAssociations.FIELD_ASSOCIATION_POINTS) {
+      idMap = model.selectionWebGLIdsToVTKIds.points
+    } else if (fieldAssociation === FieldAssociations.FIELD_ASSOCIATION_CELLS) {
+      idMap = model.selectionWebGLIdsToVTKIds.cells
+    }
+
+    if (!idMap) {
+      return
+    }
+
+    pixelOffsets.forEach(function(pos) {
+      if (currentPass === PassTypes.ID_LOW24) {
+        var inValue = 0
+
+        if (rawHighData) {
+          inValue += rawHighData[pos]
+          inValue *= 256
+        }
+
+        inValue += rawLowData[pos + 2]
+        inValue *= 256
+        inValue += rawLowData[pos + 1]
+        inValue *= 256
+        inValue += rawLowData[pos]
+        var outValue = idMap[inValue]
+        var lowData = selector.getPixelBuffer(PassTypes.ID_LOW24)
+        lowData[pos] = outValue & 0xff
+        lowData[pos + 1] = (outValue & 0xff00) >> 8
+        lowData[pos + 2] = (outValue & 0xff0000) >> 16
+      } else if (currentPass === PassTypes.ID_HIGH24 && rawHighData) {
+        var _inValue = 0
+        _inValue += rawHighData[pos]
+        _inValue *= 256
+        _inValue += rawLowData[pos]
+        _inValue *= 256
+        _inValue += rawLowData[pos + 1]
+        _inValue *= 256
+        _inValue += rawLowData[pos + 2]
+        var _outValue = idMap[_inValue]
+        var highData = selector.getPixelBuffer(PassTypes.ID_HIGH24)
+        highData[pos] = (_outValue & 0xff000000) >> 24
+      }
+    })
+    /* eslint-enable no-bitwise */
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$w = {
+  colorMapColors: null,
+  // Same as this->Colors
+  static: false,
+  lookupTable: null,
+  scalarVisibility: true,
+  scalarRange: [0, 1],
+  useLookupTableScalarRange: false,
+  colorMode: 0,
+  scalarMode: 0,
+  arrayAccessMode: 1,
+  // By_NAME
+  renderTime: 0,
+  colorByArrayName: null,
+  fieldDataTupleId: -1,
+  populateSelectionSettings: true,
+  selectionWebGLIdsToVTKIds: null,
+  interpolateScalarsBeforeMapping: false,
+  colorCoordinates: null,
+  colorTextureMap: null,
+  forceCompileOnly: 0,
+  useInvertibleColors: false,
+  invertibleScalars: null,
+  viewSpecificProperties: null,
+  customShaderAttributes: [],
+} // ----------------------------------------------------------------------------
+
+function extend$z(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$w, initialValues) // Inheritance
+
+  vtkAbstractMapper3D$1.extend(publicAPI, model, initialValues)
+  macro.get(publicAPI, model, [
+    'colorCoordinates',
+    'colorMapColors',
+    'colorTextureMap',
+  ])
+  macro.setGet(publicAPI, model, [
+    'colorByArrayName',
+    'arrayAccessMode',
+    'colorMode',
+    'fieldDataTupleId',
+    'interpolateScalarsBeforeMapping',
+    'lookupTable',
+    'populateSelectionSettings',
+    'renderTime',
+    'scalarMode',
+    'scalarVisibility',
+    'selectionWebGLIdsToVTKIds',
+    'static',
+    'useLookupTableScalarRange',
+    'viewSpecificProperties',
+    'customShaderAttributes', // point data array names that will be transferred to the VBO
+  ])
+  macro.setGetArray(publicAPI, model, ['scalarRange'], 2)
+
+  if (!model.viewSpecificProperties) {
+    model.viewSpecificProperties = {}
+  }
+
+  CoincidentTopologyHelper.implementCoincidentTopologyMethods(publicAPI, model) // Object methods
+
+  vtkMapper(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$f = macro.newInstance(extend$z, 'vtkMapper') // ----------------------------------------------------------------------------
+
+var vtkMapper$1 = _objectSpread$a(
+  _objectSpread$a(
+    _objectSpread$a(
+      {
+        newInstance: newInstance$f,
+        extend: extend$z,
+      },
+      staticOffsetAPI
+    ),
+    otherStaticMethods
+  ),
+  Constants$3
+)
+
+// vtkPixelSpaceCallbackMapper methods
+// ----------------------------------------------------------------------------
+
+function vtkPixelSpaceCallbackMapper(publicAPI, model) {
+  model.classHierarchy.push('vtkPixelSpaceCallbackMapper')
+
+  if (!model.callback) {
+    model.callback = function() {}
+  }
+
+  publicAPI.invokeCallback = function(
+    dataset,
+    camera,
+    aspect,
+    windowSize,
+    depthValues
+  ) {
+    if (!model.callback) {
+      return
+    }
+
+    var matrix = camera.getCompositeProjectionMatrix(aspect, -1, 1)
+    transpose(matrix, matrix)
+    var dataPoints = dataset.getPoints()
+    var result = new Float64Array(3)
+    var width = windowSize.usize
+    var height = windowSize.vsize
+    var hw = width / 2
+    var hh = height / 2
+    var coords = []
+
+    for (var pidx = 0; pidx < dataPoints.getNumberOfPoints(); pidx += 1) {
+      var point = dataPoints.getPoint(pidx)
+      transformMat4(result, point, matrix)
+      var coord = [result[0] * hw + hw, result[1] * hh + hh, result[2], 0]
+
+      if (depthValues) {
+        var linIdx = Math.floor(coord[1]) * width + Math.floor(coord[0])
+        var idx = linIdx * 4
+        var r = depthValues[idx] / 255
+        var g = depthValues[idx + 1] / 255
+        var z = (r * 256 + g) / 257
+        coord[3] = z * 2 - 1
+      }
+
+      coords.push(coord)
+    }
+
+    model.callback(coords, camera, aspect, depthValues, [width, height])
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$v = {
+  callback: null,
+  useZValues: false,
+} // ----------------------------------------------------------------------------
+
+function extend$y(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$v, initialValues) // Inheritance
+
+  vtkMapper$1.extend(publicAPI, model, initialValues)
+  macro.setGet(publicAPI, model, ['callback', 'useZValues']) // Object methods
+
+  vtkPixelSpaceCallbackMapper(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$e = macro.newInstance(extend$y, 'vtkPixelSpaceCallbackMapper') // ----------------------------------------------------------------------------
+
+var vtkPixelSpaceCallbackMapper$1 = {
+  newInstance: newInstance$e,
+  extend: extend$y,
+}
+
+var Behavior = {
+  HANDLE: 0,
+  CONTEXT: 1,
+}
+
+var vtkErrorMacro$5 = macro.vtkErrorMacro,
+  vtkWarningMacro$2 = macro.vtkWarningMacro // ----------------------------------------------------------------------------
+
+var STYLE_CATEGORIES = ['active', 'inactive', 'static']
+function mergeStyles(elementNames) {
+  for (
+    var _len = arguments.length,
+      stylesToMerge = new Array(_len > 1 ? _len - 1 : 0),
+      _key = 1;
+    _key < _len;
+    _key++
+  ) {
+    stylesToMerge[_key - 1] = arguments[_key]
+  }
+
+  var newStyleObject = {
+    active: {},
+    inactive: {},
+    static: {},
+  }
+  STYLE_CATEGORIES.forEach(function(category) {
+    var cat = newStyleObject[category]
+    elementNames.forEach(function(name) {
+      if (!cat[name]) {
+        cat[name] = {}
+      }
+
+      stylesToMerge
+        .filter(function(s) {
+          return s && s[category] && s[category][name]
+        })
+        .forEach(function(s) {
+          return Object.assign(cat[name], s[category][name])
+        })
+    })
+  })
+  return newStyleObject
+} // ----------------------------------------------------------------------------
+
+function applyStyles(pipelines, styles, activeActor) {
+  if (!activeActor) {
+    // static
+    Object.keys(styles.static).forEach(function(name) {
+      if (pipelines[name]) {
+        pipelines[name].actor.getProperty().set(styles.static[name])
+      }
+    }) // inactive
+
+    Object.keys(styles.inactive).forEach(function(name) {
+      if (pipelines[name]) {
+        pipelines[name].actor.getProperty().set(styles.inactive[name])
+      }
+    })
+  } else {
+    Object.keys(pipelines).forEach(function(name) {
+      var style =
+        pipelines[name].actor === activeActor
+          ? styles.active[name]
+          : styles.inactive[name]
+
+      if (style) {
+        pipelines[name].actor.getProperty().set(style)
+      }
+    })
+  }
+} // ----------------------------------------------------------------------------
+
+function connectPipeline(pipeline) {
+  if (pipeline.source.isA('vtkDataSet')) {
+    pipeline.mapper.setInputData(pipeline.source)
+  } else {
+    pipeline.mapper.setInputConnection(pipeline.source.getOutputPort())
+  }
+
+  if (pipeline.glyph) {
+    pipeline.mapper.setInputConnection(pipeline.glyph.getOutputPort(), 1)
+  }
+
+  pipeline.actor.setMapper(pipeline.mapper)
+} // ----------------------------------------------------------------------------
+// vtkWidgetRepresentation
+// ----------------------------------------------------------------------------
+
+function vtkWidgetRepresentation(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkWidgetRepresentation') // Internal cache
+
+  var cache = {
+    mtimes: {},
+    states: [],
+  } // --------------------------------------------------------------------------
+
+  publicAPI.getActors = function() {
+    return model.actors
+  }
+
+  publicAPI.getNestedProps = publicAPI.getActors // --------------------------------------------------------------------------
+
+  publicAPI.setLabels = function() {
+    for (
+      var _len2 = arguments.length, labels = new Array(_len2), _key2 = 0;
+      _key2 < _len2;
+      _key2++
+    ) {
+      labels[_key2] = arguments[_key2]
+    }
+
+    if (labels.length === 1) {
+      model.labels = [].concat(labels[0])
+    } else {
+      model.labels = labels
+    }
+
+    publicAPI.modified()
+  }
+
+  publicAPI.getRepresentationStates = function() {
+    var input =
+      arguments.length > 0 && arguments[0] !== undefined
+        ? arguments[0]
+        : model.inputData[0]
+
+    if (
+      cache.mtimes.representation === publicAPI.getMTime() &&
+      cache.mtimes.input === input.getMTime()
+    ) {
+      return cache.states
+    } // Reinitialize cache
+
+    cache.mtimes.representation = publicAPI.getMTime()
+    cache.mtimes.input = input.getMTime()
+    cache.states = [] // Fill states that are going to be used in the representation
+
+    model.labels.forEach(function(name) {
+      cache.states = cache.states.concat(input.getStatesWithLabel(name) || [])
+    })
+    return cache.states
+  }
+
+  publicAPI.getSelectedState = function(prop, compositeID) {
+    var representationStates = publicAPI.getRepresentationStates()
+
+    if (compositeID < representationStates.length) {
+      return representationStates[compositeID]
+    }
+
+    vtkErrorMacro$5(
+      'Representation '.concat(
+        publicAPI.getClassName(),
+        ' should implement getSelectedState(prop, compositeID) method.'
+      )
+    )
+    return null
+  }
+
+  publicAPI.updateActorVisibility = function() {
+    var renderingType =
+      arguments.length > 0 && arguments[0] !== undefined
+        ? arguments[0]
+        : RenderingTypes$1.FRONT_BUFFER
+    var ctxVisible =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true
+    var handleVisible =
+      arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true
+    var otherFlag = true
+
+    switch (model.behavior) {
+      case Behavior.HANDLE:
+        otherFlag =
+          renderingType === RenderingTypes$1.PICKING_BUFFER || handleVisible
+        break
+
+      case Behavior.CONTEXT:
+        otherFlag = ctxVisible
+        break
+
+      default:
+        otherFlag = true
+        break
+    }
+
+    var visibilityFlag = otherFlag
+
+    for (var i = 0; i < model.actors.length; i++) {
+      if (model.visibilityFlagArray) {
+        model.actors[i].setVisibility(
+          visibilityFlag && model.visibilityFlagArray[i]
+        )
+      } else {
+        model.actors[i].setVisibility(visibilityFlag)
+      }
+    }
+
+    if (model.alwaysVisibleActors) {
+      for (var _i = 0; _i < model.alwaysVisibleActors.length; _i++) {
+        model.alwaysVisibleActors[_i].setVisibility(true)
+      }
+    }
+  }
+
+  function applyCoincidentTopologyParametersToMapper(mapper, parameters) {
+    if (mapper && mapper.setResolveCoincidentTopologyToPolygonOffset) {
+      mapper.setResolveCoincidentTopologyToPolygonOffset()
+      CATEGORIES.forEach(function(category) {
+        if (parameters[category]) {
+          var methodName = 'setRelativeCoincidentTopology'.concat(
+            category,
+            'OffsetParameters'
+          )
+
+          if (mapper[methodName]) {
+            var _parameters$category = parameters[category],
+              factor = _parameters$category.factor,
+              offset = _parameters$category.offset
+            mapper[methodName](factor, offset)
+          }
+        }
+      })
+    }
+  } // Add warning to model.actors.push
+
+  model.actors.push = function() {
+    vtkWarningMacro$2(
+      'You should use publicAPI.addActor() to initialize the actor properly'
+    )
+
+    for (
+      var _len3 = arguments.length, args = new Array(_len3), _key3 = 0;
+      _key3 < _len3;
+      _key3++
+    ) {
+      args[_key3] = arguments[_key3]
+    }
+
+    args.forEach(function(actor) {
+      return publicAPI.addActor(actor)
+    })
+  }
+
+  publicAPI.addActor = function(actor) {
+    applyCoincidentTopologyParametersToMapper(
+      actor.getMapper(),
+      model.coincidentTopologyParameters
+    )
+    Array.prototype.push.apply(model.actors, [actor])
+  }
+
+  publicAPI.setCoincidentTopologyParameters = function(parameters) {
+    model.coincidentTopologyParameters = parameters
+    publicAPI.getActors().forEach(function(actor) {
+      applyCoincidentTopologyParametersToMapper(
+        actor.getMapper(),
+        model.coincidentTopologyParameters
+      )
+    })
+  }
+
+  publicAPI.getPixelWorldHeightAtCoord = function(worldCoord) {
+    var _model$displayScalePa = model.displayScaleParams,
+      dispHeightFactor = _model$displayScalePa.dispHeightFactor,
+      cameraPosition = _model$displayScalePa.cameraPosition,
+      cameraDir = _model$displayScalePa.cameraDir,
+      isParallel = _model$displayScalePa.isParallel,
+      rendererPixelDims = _model$displayScalePa.rendererPixelDims
+    var scale = 1
+
+    if (isParallel) {
+      scale = dispHeightFactor
+    } else {
+      var worldCoordToCamera = _toConsumableArray(worldCoord)
+
+      subtract$1(worldCoordToCamera, cameraPosition, worldCoordToCamera)
+      scale = dot$1(worldCoordToCamera, cameraDir) * dispHeightFactor
+    }
+
+    var rHeight = rendererPixelDims[1]
+    return scale / rHeight
+  } // Make sure setting the labels at build time works with string/array...
+
+  publicAPI.setLabels(model.labels)
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$u = {
+  actors: [],
+  labels: [],
+  behavior: Behavior.CONTEXT,
+  coincidentTopologyParameters: {
+    Point: {
+      factor: -1.0,
+      offset: -1.0,
+    },
+    Line: {
+      factor: -1.0,
+      offset: -1.0,
+    },
+    Polygon: {
+      factor: -1.0,
+      offset: -1.0,
+    },
+  },
+  scaleInPixels: false,
+  displayScaleParams: {
+    dispHeightFactor: 1,
+    cameraPosition: [0, 0, 0],
+    cameraDir: [1, 0, 0],
+    isParallel: false,
+    rendererPixelDims: [1, 1],
+  },
+} // ----------------------------------------------------------------------------
+
+function extend$x(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$u, initialValues) // Object methods
+
+  vtkProp$1.extend(publicAPI, model, initialValues)
+  macro.algo(publicAPI, model, 1, 1)
+  macro.get(publicAPI, model, ['labels', 'coincidentTopologyParameters'])
+  macro.set(publicAPI, model, ['displayScaleParams'])
+  macro.setGet(publicAPI, model, ['scaleInPixels']) // Object specific methods
+
+  vtkWidgetRepresentation(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var vtkWidgetRepresentation$1 = {
+  extend: extend$x,
+  mergeStyles: mergeStyles,
+  applyStyles: applyStyles,
+  connectPipeline: connectPipeline,
+}
+
+var SVG_XMLNS$1 = 'http://www.w3.org/2000/svg' // ----------------------------------------------------------------------------
+
+function createSvgElement$1(tag) {
+  return {
+    name: tag,
+    attrs: {},
+    eventListeners: {},
+    // implies no children if set
+    textContent: null,
+    children: [],
+    setAttribute: function setAttribute(attr, val) {
+      this.attrs[attr] = val
+    },
+    removeAttribute: function removeAttribute(attr) {
+      delete this.attrs[attr]
+    },
+    appendChild: function appendChild(n) {
+      this.children.push(n)
+    },
+    addEventListeners: function addEventListeners(event, callback) {
+      this.eventListeners[event] = callback
+    },
+  }
+} // ----------------------------------------------------------------------------
+
+function createSvgDomElement$1(tag) {
+  return document.createElementNS(SVG_XMLNS$1, tag)
+} // ----------------------------------------------------------------------------
+
+function defer() {
+  var resolve
+  var reject
+  var promise = new Promise(function(res, rej) {
+    resolve = res
+    reject = rej
+  })
+  return {
+    promise: promise,
+    resolve: resolve,
+    reject: reject,
+  }
+} // ----------------------------------------------------------------------------
+// vtkSVGRepresentation
+// ----------------------------------------------------------------------------
+
+function vtkSVGRepresentation(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkSVGRepresentation')
+  var deferred = null
+  model.psActor = vtkActor$1.newInstance({
+    pickable: false,
+    _parentProp: publicAPI,
+  })
+  model.psMapper = vtkPixelSpaceCallbackMapper$1.newInstance()
+  model.points = vtkPolyData$1.newInstance()
+  model.psMapper.setInputData(model.points)
+  model.psActor.setMapper(model.psMapper)
+  model.psMapper.setCallback(function() {
+    if (deferred) {
+      var d = deferred
+      deferred = null
+      d.resolve({
+        coords: arguments.length <= 0 ? undefined : arguments[0],
+        camera: arguments.length <= 1 ? undefined : arguments[1],
+        aspect: arguments.length <= 2 ? undefined : arguments[2],
+        depthValues: arguments.length <= 3 ? undefined : arguments[3],
+        windowSize: arguments.length <= 4 ? undefined : arguments[4],
+      })
+    }
+  })
+  publicAPI.addActor(model.psActor) // --------------------------------------------------------------------------
+
+  publicAPI.worldPointsToPixelSpace = function(points3d) {
+    var pts = new Float32Array(points3d.length * 3)
+
+    for (var i = 0; i < points3d.length; i++) {
+      pts[i * 3 + 0] = points3d[i][0]
+      pts[i * 3 + 1] = points3d[i][1]
+      pts[i * 3 + 2] = points3d[i][2]
+    }
+
+    model.points.getPoints().setData(pts)
+    model.points.modified()
+    deferred = defer()
+    return deferred.promise
+  }
+
+  publicAPI.createListenableSvgElement = function(tag, id) {
+    var element = createSvgElement$1(tag)
+
+    if (model.pickable) {
+      element.addEventListeners('mouseenter', function() {
+        publicAPI.setHover(id)
+      })
+      element.addEventListeners('mouseleave', function() {
+        if (publicAPI.getHover() === id) {
+          publicAPI.setHover(null)
+        }
+      })
+    }
+
+    return element
+  } // --------------------------------------------------------------------------
+
+  publicAPI.updateActorVisibility = function() {
+    var ctxVisible =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true
+    var handleVisible =
+      arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true
+
+    if (model.behavior === Behavior.CONTEXT) {
+      publicAPI.setVisibility(ctxVisible)
+    } else if (model.behavior === Behavior.HANDLE) {
+      publicAPI.setVisibility(handleVisible)
+    }
+  } // --------------------------------------------------------------------------
+  // Subclasses must implement this method
+
+  publicAPI.render = function() {
+    throw new Error('Not implemented')
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+/**
+ * 'hover' is not null when a pickable SVG element is mouse hovered.
+ */
+
+var DEFAULT_VALUES$t = {
+  visibility: true,
+} // ----------------------------------------------------------------------------
+
+function extend$w(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$t, initialValues) // Extend methods
+
+  vtkWidgetRepresentation$1.extend(publicAPI, model, initialValues)
+  macro.setGet(publicAPI, model, ['visibility', 'hover']) // Object specific methods
+
+  vtkSVGRepresentation(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var vtkSVGRepresentation$1 = {
+  extend: extend$w,
+  createSvgElement: createSvgElement$1,
+  createSvgDomElement: createSvgDomElement$1,
+}
+
+var SVG_XMLNS = 'http://www.w3.org/2000/svg'
+
+function attrDelta(oldObj, newObj) {
+  var set = []
+  var remove = []
+  var oldKeysArray = Object.keys(oldObj)
+  var newKeysArray = Object.keys(newObj)
+  var oldKeys = new Set(oldKeysArray)
+  var newKeys = new Set(newKeysArray)
+
+  for (var i = 0; i < oldKeysArray.length; i++) {
+    var key = oldKeysArray[i]
+
+    if (newKeys.has(key)) {
+      if (oldObj[key] !== newObj[key]) {
+        set.push([key, newObj[key]])
+      }
+    } else {
+      remove.push(key)
+    }
+  }
+
+  for (var _i = 0; _i < newKeysArray.length; _i++) {
+    var _key = newKeysArray[_i]
+
+    if (!oldKeys.has(_key)) {
+      set.push([_key, newObj[_key]])
+    }
+  }
+
+  return [set, remove]
+}
+
+function render(vnode) {
+  var node = document.createElementNS(SVG_XMLNS, vnode.name)
+  var keys = Object.keys(vnode.attrs)
+
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i]
+    node.setAttribute(key, vnode.attrs[key])
+  } // TODO: support removing event listener (e.g. use snabbdom)
+
+  Object.keys(vnode.eventListeners).forEach(function(key) {
+    node.addEventListener(key, vnode.eventListeners[key])
+  })
+
+  if (vnode.textContent) {
+    node.textContent = vnode.textContent
+  } else {
+    for (var _i2 = 0; _i2 < vnode.children.length; _i2++) {
+      node.appendChild(render(vnode.children[_i2]))
+    }
+  }
+
+  return node
+}
+/**
+ * Returns a set of patch functions to be applied to a document node.
+ *
+ * Patch functions must return the effective result node.
+ */
+
+function diff(oldVTree, newVTree) {
+  if (newVTree.textContent !== null && newVTree.children.length) {
+    throw new Error('Tree cannot have both children and textContent!')
+  }
+
+  if (!oldVTree) {
+    return [
+      function() {
+        return render(newVTree)
+      },
+    ]
+  }
+
+  if (!newVTree) {
+    return [
+      function(node) {
+        return node.remove()
+      },
+    ]
+  }
+
+  if (oldVTree.name !== newVTree.name) {
+    return [
+      function(node) {
+        var newNode = render(newVTree)
+        node.replaceWith(newNode)
+        return newNode
+      },
+    ]
+  }
+
+  var patchFns = []
+
+  var _attrDelta = attrDelta(oldVTree.attrs, newVTree.attrs),
+    _attrDelta2 = _slicedToArray(_attrDelta, 2),
+    attrsSet = _attrDelta2[0],
+    attrsRemove = _attrDelta2[1]
+
+  if (attrsSet.length || attrsRemove.length) {
+    patchFns.push(function(node) {
+      for (var i = 0; i < attrsSet.length; i++) {
+        var _attrsSet$i = _slicedToArray(attrsSet[i], 2),
+          name = _attrsSet$i[0],
+          value = _attrsSet$i[1]
+
+        node.setAttribute(name, value)
+      }
+
+      for (var _i3 = 0; _i3 < attrsRemove.length; _i3++) {
+        var _name = attrsRemove[_i3]
+        node.removeAttribute(_name)
+      }
+
+      return node
+    })
+  }
+
+  if (
+    oldVTree.textContent !== newVTree.textContent &&
+    newVTree.textContent !== null
+  ) {
+    patchFns.push(function(node) {
+      node.textContent = newVTree.textContent
+      return node
+    })
+  }
+
+  if (newVTree.textContent === null) {
+    var min = Math.min(oldVTree.children.length, newVTree.children.length)
+
+    var _loop = function _loop(i) {
+      var childPatches = diff(oldVTree.children[i], newVTree.children[i])
+      patchFns.push(function(node) {
+        for (var p = 0; p < childPatches.length; p++) {
+          childPatches[p](node.children[i])
+        }
+
+        return node
+      })
+    }
+
+    for (var i = 0; i < min; i++) {
+      _loop(i)
+    }
+
+    if (oldVTree.children.length < newVTree.children.length) {
+      var _loop2 = function _loop2(_i4) {
+        patchFns.push(function(node) {
+          node.appendChild(render(newVTree.children[_i4]))
+          return node
+        })
+      }
+
+      for (var _i4 = min; _i4 < newVTree.children.length; _i4++) {
+        _loop2(_i4)
+      }
+    } else {
+      var _loop3 = function _loop3(_i5) {
+        patchFns.push(function(node) {
+          node.children[_i5].remove()
+
+          return node
+        })
+      }
+
+      // always delete nodes in reverse
+      for (var _i5 = oldVTree.children.length - 1; _i5 >= min; _i5--) {
+        _loop3(_i5)
+      }
+    }
+  }
+
+  return patchFns
+}
+
+var ViewTypes = WidgetManagerConst.ViewTypes,
+  RenderingTypes = WidgetManagerConst.RenderingTypes,
+  CaptureOn = WidgetManagerConst.CaptureOn
+var vtkErrorMacro$4 = macro.vtkErrorMacro,
+  vtkWarningMacro$1 = macro.vtkWarningMacro
+var createSvgElement = vtkSVGRepresentation$1.createSvgElement,
+  createSvgDomElement = vtkSVGRepresentation$1.createSvgDomElement
+var viewIdCount = 1 // ----------------------------------------------------------------------------
+// Helper
+// ----------------------------------------------------------------------------
+
+function extractRenderingComponents(renderer) {
+  var camera = renderer.getActiveCamera()
+  var renderWindow = renderer.getRenderWindow()
+  var interactor = renderWindow.getInteractor()
+  var apiSpecificRenderWindow = interactor.getView()
+  return {
+    renderer: renderer,
+    renderWindow: renderWindow,
+    interactor: interactor,
+    apiSpecificRenderWindow: apiSpecificRenderWindow,
+    camera: camera,
+  }
+} // ----------------------------------------------------------------------------
+
+function createSvgRoot(id) {
+  var svgRoot = createSvgDomElement('svg')
+  svgRoot.setAttribute('version', '1.1')
+  svgRoot.setAttribute('baseProfile', 'full')
+  return svgRoot
+} // ----------------------------------------------------------------------------
+// vtkWidgetManager methods
+// ----------------------------------------------------------------------------
+
+function vtkWidgetManager(publicAPI, model) {
+  if (!model.viewId) {
+    model.viewId = 'view-'.concat(viewIdCount++)
+  }
+
+  model.classHierarchy.push('vtkWidgetManager')
+  var propsWeakMap = new WeakMap()
+  var widgetToSvgMap = new WeakMap()
+  var svgVTrees = new WeakMap()
+  var subscriptions = [] // --------------------------------------------------------------------------
+  // Internal variable
+  // --------------------------------------------------------------------------
+
+  model.svgRoot = createSvgRoot(model.viewId) // --------------------------------------------------------------------------
+  // API internal
+  // --------------------------------------------------------------------------
+
+  function updateWidgetWeakMap(widget) {
+    var representations = widget.getRepresentations()
+
+    for (var i = 0; i < representations.length; i++) {
+      var representation = representations[i]
+      var origin = {
+        widget: widget,
+        representation: representation,
+      }
+      var actors = representation.getActors()
+
+      for (var j = 0; j < actors.length; j++) {
+        var actor = actors[j]
+        propsWeakMap.set(actor, origin)
+      }
+    }
+  }
+
+  function getViewWidget(widget) {
+    return (
+      widget &&
+      (widget.isA('vtkAbstractWidget')
+        ? widget
+        : widget.getWidgetForView({
+            viewId: model.viewId,
+          }))
+    )
+  } // --------------------------------------------------------------------------
+  // internal SVG API
+  // --------------------------------------------------------------------------
+
+  var pendingSvgRenders = new WeakMap()
+
+  function enableSvgLayer() {
+    var container = model._apiSpecificRenderWindow.getReferenceByName('el')
+
+    var canvas = model._apiSpecificRenderWindow.getCanvas()
+
+    container.insertBefore(model.svgRoot, canvas.nextSibling)
+    var containerStyles = window.getComputedStyle(container)
+
+    if (containerStyles.position === 'static') {
+      container.style.position = 'relative'
+    }
+  }
+
+  function disableSvgLayer() {
+    var container = model._apiSpecificRenderWindow.getReferenceByName('el')
+
+    container.removeChild(model.svgRoot)
+  }
+
+  function removeFromSvgLayer(viewWidget) {
+    var group = widgetToSvgMap.get(viewWidget)
+
+    if (group) {
+      widgetToSvgMap.delete(viewWidget)
+      svgVTrees.delete(viewWidget)
+      model.svgRoot.removeChild(group)
+    }
+  }
+
+  function setSvgSize() {
+    var _model$_apiSpecificRe = model._apiSpecificRenderWindow.getViewportSize(
+        model._renderer
+      ),
+      _model$_apiSpecificRe2 = _slicedToArray(_model$_apiSpecificRe, 2),
+      cwidth = _model$_apiSpecificRe2[0],
+      cheight = _model$_apiSpecificRe2[1]
+
+    var ratio = window.devicePixelRatio || 1
+    var bwidth = String(cwidth / ratio)
+    var bheight = String(cheight / ratio)
+    var viewBox = '0 0 '.concat(cwidth, ' ').concat(cheight)
+    var origWidth = model.svgRoot.getAttribute('width')
+    var origHeight = model.svgRoot.getAttribute('height')
+    var origViewBox = model.svgRoot.getAttribute('viewBox')
+
+    if (origWidth !== bwidth) {
+      model.svgRoot.setAttribute('width', bwidth)
+    }
+
+    if (origHeight !== bheight) {
+      model.svgRoot.setAttribute('height', bheight)
+    }
+
+    if (origViewBox !== viewBox) {
+      model.svgRoot.setAttribute('viewBox', viewBox)
+    }
+  }
+
+  function setSvgRootStyle() {
+    var viewport = model._renderer.getViewport().map(function(v) {
+      return v * 100
+    })
+
+    model.svgRoot.setAttribute(
+      'style',
+      'position: absolute; left: '
+        .concat(viewport[0], '%; top: ')
+        .concat(100 - viewport[3], '%; width: ')
+        .concat(viewport[2] - viewport[0], '%; height: ')
+        .concat(viewport[3] - viewport[1], '%;')
+    )
+  }
+
+  function updateSvg() {
+    if (model.useSvgLayer) {
+      var _loop = function _loop(i) {
+        var widget = model.widgets[i]
+        var svgReps = widget.getRepresentations().filter(function(r) {
+          return r.isA('vtkSVGRepresentation')
+        })
+        var pendingContent = []
+
+        if (widget.getVisibility()) {
+          pendingContent = svgReps
+            .filter(function(r) {
+              return r.getVisibility()
+            })
+            .map(function(r) {
+              return r.render()
+            })
+        }
+
+        var promise = Promise.all(pendingContent)
+        var renders = pendingSvgRenders.get(widget) || []
+        renders.push(promise)
+        pendingSvgRenders.set(widget, renders)
+        promise.then(function(vnodes) {
+          var pendingRenders = pendingSvgRenders.get(widget) || []
+          var idx = pendingRenders.indexOf(promise)
+
+          if (model.deleted || widget.isDeleted() || idx === -1) {
+            return
+          } // throw away previous renders
+
+          pendingRenders = pendingRenders.slice(idx + 1)
+          pendingSvgRenders.set(widget, pendingRenders)
+          var oldVTree = svgVTrees.get(widget)
+          var newVTree = createSvgElement('g')
+
+          for (var ni = 0; ni < vnodes.length; ni++) {
+            newVTree.appendChild(vnodes[ni])
+          }
+
+          var widgetGroup = widgetToSvgMap.get(widget)
+          var node = widgetGroup
+          var patchFns = diff(oldVTree, newVTree)
+
+          for (var j = 0; j < patchFns.length; j++) {
+            node = patchFns[j](node)
+          }
+
+          if (!widgetGroup && node) {
+            // add
+            model.svgRoot.appendChild(node)
+            widgetToSvgMap.set(widget, node)
+          } else if (widgetGroup && !node) {
+            // delete
+            widgetGroup.remove()
+            widgetToSvgMap.delete(widget)
+          }
+
+          svgVTrees.set(widget, newVTree)
+        })
+      }
+
+      for (var i = 0; i < model.widgets.length; i++) {
+        _loop(i)
+      }
+    }
+  } // --------------------------------------------------------------------------
+  // Widget scaling
+  // --------------------------------------------------------------------------
+
+  function updateDisplayScaleParams() {
+    var _apiSpecificRenderWindow = model._apiSpecificRenderWindow,
+      _camera = model._camera,
+      _renderer = model._renderer
+
+    if (_renderer && _apiSpecificRenderWindow && _camera) {
+      var _apiSpecificRenderWin = _apiSpecificRenderWindow.getSize(),
+        _apiSpecificRenderWin2 = _slicedToArray(_apiSpecificRenderWin, 2),
+        rwW = _apiSpecificRenderWin2[0],
+        rwH = _apiSpecificRenderWin2[1]
+
+      var _renderer$getViewport = _renderer.getViewport(),
+        _renderer$getViewport2 = _slicedToArray(_renderer$getViewport, 4),
+        vxmin = _renderer$getViewport2[0],
+        vymin = _renderer$getViewport2[1],
+        vxmax = _renderer$getViewport2[2],
+        vymax = _renderer$getViewport2[3]
+
+      var rendererPixelDims = [rwW * (vxmax - vxmin), rwH * (vymax - vymin)]
+
+      var cameraPosition = _camera.getPosition()
+
+      var cameraDir = _camera.getDirectionOfProjection()
+
+      var isParallel = _camera.getParallelProjection()
+
+      var dispHeightFactor = isParallel
+        ? 2 * _camera.getParallelScale()
+        : 2 * Math.tan(radiansFromDegrees(_camera.getViewAngle()) / 2)
+      model.widgets.forEach(function(w) {
+        w.getNestedProps().forEach(function(r) {
+          if (r.getScaleInPixels()) {
+            r.setDisplayScaleParams({
+              dispHeightFactor: dispHeightFactor,
+              cameraPosition: cameraPosition,
+              cameraDir: cameraDir,
+              isParallel: isParallel,
+              rendererPixelDims: rendererPixelDims,
+            })
+          }
+        })
+      })
+    }
+  } // --------------------------------------------------------------------------
+  // API public
+  // --------------------------------------------------------------------------
+
+  function updateSelection(_x) {
+    return _updateSelection.apply(this, arguments)
+  }
+
+  function _updateSelection() {
+    _updateSelection = _asyncToGenerator(
+      /*#__PURE__*/ regenerator.mark(function _callee2(_ref) {
+        var position,
+          _yield$publicAPI$getS,
+          requestCount,
+          selectedState,
+          representation,
+          widget,
+          i,
+          w
+
+        return regenerator.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch ((_context2.prev = _context2.next)) {
+              case 0:
+                position = _ref.position
+                model._selectionInProgress = true
+                _context2.next = 4
+                return publicAPI.getSelectedDataForXY(position.x, position.y)
+
+              case 4:
+                _yield$publicAPI$getS = _context2.sent
+                requestCount = _yield$publicAPI$getS.requestCount
+                selectedState = _yield$publicAPI$getS.selectedState
+                representation = _yield$publicAPI$getS.representation
+                widget = _yield$publicAPI$getS.widget
+                model._selectionInProgress = false
+
+                if (!requestCount) {
+                  _context2.next = 12
+                  break
+                }
+
+                return _context2.abrupt('return')
+
+              case 12:
+                // Default cursor behavior
+                model._apiSpecificRenderWindow.setCursor(
+                  widget ? 'pointer' : 'default'
+                )
+
+                if (model.widgetInFocus === widget && widget.hasFocus()) {
+                  widget.activateHandle({
+                    selectedState: selectedState,
+                    representation: representation,
+                  }) // Ken FIXME
+
+                  model._interactor.render()
+
+                  model._interactor.render()
+                } else {
+                  for (i = 0; i < model.widgets.length; i++) {
+                    w = model.widgets[i]
+
+                    if (w === widget && w.getNestedPickable()) {
+                      w.activateHandle({
+                        selectedState: selectedState,
+                        representation: representation,
+                      })
+                      model.activeWidget = w
+                    } else {
+                      w.deactivateAllHandles()
+                    }
+                  } // Ken FIXME
+
+                  model._interactor.render()
+
+                  model._interactor.render()
+                }
+
+              case 14:
+              case 'end':
+                return _context2.stop()
+            }
+          }
+        }, _callee2)
+      })
+    )
+    return _updateSelection.apply(this, arguments)
+  }
+
+  var handleEvent = function handleEvent(eventName) {
+    var guard = false
+    return function(callData) {
+      if (
+        guard ||
+        model.isAnimating ||
+        !model.pickingEnabled ||
+        model._selectionInProgress
+      ) {
+        return macro.VOID
+      }
+
+      var updatePromise = updateSelection(callData)
+      macro.measurePromiseExecution(updatePromise, function(elapsed) {
+        // 100ms is deemed fast enough. Anything higher can degrade usability.
+        if (elapsed > 100) {
+          macro.vtkWarningMacro(
+            'vtkWidgetManager updateSelection() took '
+              .concat(elapsed, 'ms on ')
+              .concat(eventName)
+          )
+        }
+      })
+      updatePromise.then(function() {
+        if (model._interactor) {
+          // re-trigger the event, ignoring our own handler
+          guard = true
+
+          model._interactor['invoke'.concat(eventName)](callData)
+
+          guard = false
+        }
+      })
+      return macro.EVENT_ABORT
+    }
+  }
+
+  function updateWidgetForRender(w) {
+    w.updateRepresentationForRender(model.renderingType)
+  }
+
+  function renderPickingBuffer() {
+    model.renderingType = RenderingTypes.PICKING_BUFFER
+    model.widgets.forEach(updateWidgetForRender)
+  }
+
+  function renderFrontBuffer() {
+    model.renderingType = RenderingTypes.FRONT_BUFFER
+    model.widgets.forEach(updateWidgetForRender)
+  }
+
+  function captureBuffers(_x2, _x3, _x4, _x5) {
+    return _captureBuffers.apply(this, arguments)
+  }
+
+  function _captureBuffers() {
+    _captureBuffers = _asyncToGenerator(
+      /*#__PURE__*/ regenerator.mark(function _callee3(x1, y1, x2, y2) {
+        return regenerator.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch ((_context3.prev = _context3.next)) {
+              case 0:
+                if (!model._captureInProgress) {
+                  _context3.next = 2
+                  break
+                }
+
+                return _context3.abrupt('return')
+
+              case 2:
+                model._captureInProgress = true
+                renderPickingBuffer()
+                model._capturedBuffers = null
+                _context3.next = 7
+                return model._selector.getSourceDataAsync(
+                  model._renderer,
+                  x1,
+                  y1,
+                  x2,
+                  y2
+                )
+
+              case 7:
+                model._capturedBuffers = _context3.sent
+                model.previousSelectedData = null
+                renderFrontBuffer()
+                model._captureInProgress = false
+
+              case 11:
+              case 'end':
+                return _context3.stop()
+            }
+          }
+        }, _callee3)
+      })
+    )
+    return _captureBuffers.apply(this, arguments)
+  }
+
+  publicAPI.enablePicking = function() {
+    model.pickingEnabled = true
+    publicAPI.renderWidgets()
+  }
+
+  publicAPI.renderWidgets = function() {
+    if (model.pickingEnabled && model.captureOn === CaptureOn.MOUSE_RELEASE) {
+      var _model$_apiSpecificRe3 = model._apiSpecificRenderWindow.getSize(),
+        _model$_apiSpecificRe4 = _slicedToArray(_model$_apiSpecificRe3, 2),
+        w = _model$_apiSpecificRe4[0],
+        h = _model$_apiSpecificRe4[1]
+
+      captureBuffers(0, 0, w, h)
+    }
+
+    renderFrontBuffer()
+    publicAPI.modified()
+  }
+
+  publicAPI.disablePicking = function() {
+    model.pickingEnabled = false
+  }
+
+  publicAPI.setRenderer = function(renderer) {
+    var renderingComponents = extractRenderingComponents(renderer)
+    Object.assign(model, renderingComponents)
+    macro.moveToProtected({}, model, Object.keys(renderingComponents))
+
+    while (subscriptions.length) {
+      subscriptions.pop().unsubscribe()
+    }
+
+    model._selector = model._apiSpecificRenderWindow.createSelector()
+
+    model._selector.setFieldAssociation(
+      FieldAssociations$1.FIELD_ASSOCIATION_POINTS
+    )
+
+    subscriptions.push(model._interactor.onRenderEvent(updateSvg))
+    subscriptions.push(renderer.onModified(setSvgRootStyle))
+    setSvgRootStyle()
+    subscriptions.push(model._apiSpecificRenderWindow.onModified(setSvgSize))
+    setSvgSize()
+    subscriptions.push(
+      model._apiSpecificRenderWindow.onModified(updateDisplayScaleParams)
+    )
+    subscriptions.push(model._camera.onModified(updateDisplayScaleParams))
+    updateDisplayScaleParams()
+    subscriptions.push(
+      model._interactor.onStartAnimation(function() {
+        model.isAnimating = true
+      })
+    )
+    subscriptions.push(
+      model._interactor.onEndAnimation(function() {
+        model.isAnimating = false
+        publicAPI.renderWidgets()
+      })
+    )
+    subscriptions.push(model._interactor.onMouseMove(handleEvent('MouseMove')))
+    subscriptions.push(
+      model._interactor.onLeftButtonPress(
+        handleEvent('LeftButtonPress'), // stay after widgets, but before default of 0
+        WIDGET_PRIORITY / 2
+      )
+    )
+    publicAPI.modified()
+
+    if (model.pickingEnabled) {
+      publicAPI.enablePicking()
+    }
+
+    if (model.useSvgLayer) {
+      enableSvgLayer()
+    }
+  }
+
+  function addWidgetInternal(viewWidget) {
+    viewWidget.setWidgetManager(publicAPI)
+    updateWidgetWeakMap(viewWidget)
+    updateDisplayScaleParams() // Register to renderer
+
+    model._renderer.addActor(viewWidget)
+  }
+
+  publicAPI.addWidget = function(widget, viewType, initialValues) {
+    if (!model._renderer) {
+      vtkErrorMacro$4(
+        'Widget manager MUST BE link to a view before registering widgets'
+      )
+      return null
+    }
+
+    var viewId = model.viewId,
+      _renderer = model._renderer
+    var w = widget.getWidgetForView({
+      viewId: viewId,
+      renderer: _renderer,
+      viewType: viewType || ViewTypes.DEFAULT,
+      initialValues: initialValues,
+    })
+
+    if (w != null && model.widgets.indexOf(w) === -1) {
+      model.widgets.push(w)
+      addWidgetInternal(w)
+      publicAPI.modified()
+    }
+
+    return w
+  }
+
+  function removeWidgetInternal(viewWidget) {
+    model._renderer.removeActor(viewWidget)
+
+    removeFromSvgLayer(viewWidget)
+    viewWidget.delete()
+  }
+
+  function onWidgetRemoved() {
+    model._renderer
+      .getRenderWindow()
+      .getInteractor()
+      .render()
+
+    publicAPI.renderWidgets()
+  }
+
+  publicAPI.removeWidgets = function() {
+    model.widgets.forEach(removeWidgetInternal)
+    model.widgets = []
+    model.widgetInFocus = null
+    onWidgetRemoved()
+  }
+
+  publicAPI.removeWidget = function(widget) {
+    var viewWidget = getViewWidget(widget)
+    var index = model.widgets.indexOf(viewWidget)
+
+    if (index !== -1) {
+      model.widgets.splice(index, 1)
+      var isWidgetInFocus = model.widgetInFocus === viewWidget
+
+      if (isWidgetInFocus) {
+        publicAPI.releaseFocus()
+      }
+
+      removeWidgetInternal(viewWidget)
+      onWidgetRemoved()
+    }
+  }
+
+  publicAPI.getSelectedDataForXY = /*#__PURE__*/ (function() {
+    var _ref2 = _asyncToGenerator(
+      /*#__PURE__*/ regenerator.mark(function _callee(x, y) {
+        var i, widget, hoveredSVGReps, selection, capturedRegion
+        return regenerator.wrap(function _callee$(_context) {
+          while (1) {
+            switch ((_context.prev = _context.next)) {
+              case 0:
+                model.selections = null
+
+                if (!model.pickingEnabled) {
+                  _context.next = 24
+                  break
+                }
+
+                i = 0
+
+              case 3:
+                if (!(i < model.widgets.length)) {
+                  _context.next = 16
+                  break
+                }
+
+                widget = model.widgets[i]
+                hoveredSVGReps = widget
+                  .getRepresentations()
+                  .filter(function(r) {
+                    return r.isA('vtkSVGRepresentation') && r.getHover() != null
+                  })
+
+                if (!hoveredSVGReps.length) {
+                  _context.next = 13
+                  break
+                }
+
+                selection = vtkSelectionNode$1.newInstance()
+                selection.getProperties().compositeID = hoveredSVGReps[0].getHover()
+                selection.getProperties().widget = widget
+                selection.getProperties().representation = hoveredSVGReps[0]
+                model.selections = [selection]
+                return _context.abrupt('return', publicAPI.getSelectedData())
+
+              case 13:
+                ++i
+                _context.next = 3
+                break
+
+              case 16:
+                if (
+                  !(
+                    !model._capturedBuffers ||
+                    model.captureOn === CaptureOn.MOUSE_MOVE
+                  )
+                ) {
+                  _context.next = 19
+                  break
+                }
+
+                _context.next = 19
+                return captureBuffers(x, y, x, y)
+
+              case 19:
+                // or do we need a pixel that is outside the last capture?
+                capturedRegion = model._capturedBuffers.area
+
+                if (
+                  !(
+                    x < capturedRegion[0] ||
+                    x > capturedRegion[2] ||
+                    y < capturedRegion[1] ||
+                    y > capturedRegion[3]
+                  )
+                ) {
+                  _context.next = 23
+                  break
+                }
+
+                _context.next = 23
+                return captureBuffers(x, y, x, y)
+
+              case 23:
+                model.selections = model._capturedBuffers.generateSelection(
+                  x,
+                  y,
+                  x,
+                  y
+                )
+
+              case 24:
+                return _context.abrupt('return', publicAPI.getSelectedData())
+
+              case 25:
+              case 'end':
+                return _context.stop()
+            }
+          }
+        }, _callee)
+      })
+    )
+
+    return function(_x6, _x7) {
+      return _ref2.apply(this, arguments)
+    }
+  })()
+
+  publicAPI.updateSelectionFromXY = function(x, y) {
+    vtkWarningMacro$1(
+      'updateSelectionFromXY is deprecated, please use getSelectedDataForXY'
+    )
+
+    if (model.pickingEnabled) {
+      // First pick SVG representation
+      for (var i = 0; i < model.widgets.length; ++i) {
+        var widget = model.widgets[i]
+        var hoveredSVGReps = widget.getRepresentations().filter(function(r) {
+          return r.isA('vtkSVGRepresentation') && r.getHover() != null
+        })
+
+        if (hoveredSVGReps.length) {
+          var selection = vtkSelectionNode$1.newInstance()
+          selection.getProperties().compositeID = hoveredSVGReps[0].getHover()
+          selection.getProperties().widget = widget
+          selection.getProperties().representation = hoveredSVGReps[0]
+          model.selections = [selection]
+          return
+        }
+      } // Then pick regular representations.
+
+      if (model.captureOn === CaptureOn.MOUSE_MOVE) {
+        captureBuffers(x, y, x, y)
+      }
+    }
+  }
+
+  publicAPI.updateSelectionFromMouseEvent = function(event) {
+    vtkWarningMacro$1(
+      'updateSelectionFromMouseEvent is deprecated, please use getSelectedDataForXY'
+    )
+    var pageX = event.pageX,
+      pageY = event.pageY
+
+    var _model$_apiSpecificRe5 = model._apiSpecificRenderWindow
+        .getCanvas()
+        .getBoundingClientRect(),
+      top = _model$_apiSpecificRe5.top,
+      left = _model$_apiSpecificRe5.left,
+      height = _model$_apiSpecificRe5.height
+
+    var x = pageX - left
+    var y = height - (pageY - top)
+    publicAPI.updateSelectionFromXY(x, y)
+  }
+
+  publicAPI.getSelectedData = function() {
+    if (!model.selections || !model.selections.length) {
+      model.previousSelectedData = null
+      return {}
+    }
+
+    var _model$selections$0$g = model.selections[0].getProperties(),
+      propID = _model$selections$0$g.propID,
+      compositeID = _model$selections$0$g.compositeID,
+      prop = _model$selections$0$g.prop
+
+    var _model$selections$0$g2 = model.selections[0].getProperties(),
+      widget = _model$selections$0$g2.widget,
+      representation = _model$selections$0$g2.representation // prop is undefined for SVG representation, widget is undefined for handle
+    // representation.
+
+    if (
+      model.previousSelectedData &&
+      model.previousSelectedData.prop === prop &&
+      model.previousSelectedData.widget === widget &&
+      model.previousSelectedData.compositeID === compositeID
+    ) {
+      model.previousSelectedData.requestCount++
+      return model.previousSelectedData
+    }
+
+    if (propsWeakMap.has(prop)) {
+      var props = propsWeakMap.get(prop)
+      widget = props.widget
+      representation = props.representation
+    }
+
+    if (widget && representation) {
+      var selectedState = representation.getSelectedState(prop, compositeID)
+      model.previousSelectedData = {
+        requestCount: 0,
+        propID: propID,
+        compositeID: compositeID,
+        prop: prop,
+        widget: widget,
+        representation: representation,
+        selectedState: selectedState,
+      }
+      return model.previousSelectedData
+    }
+
+    model.previousSelectedData = null
+    return {}
+  }
+
+  publicAPI.grabFocus = function(widget) {
+    var viewWidget = getViewWidget(widget)
+
+    if (model.widgetInFocus && model.widgetInFocus !== viewWidget) {
+      model.widgetInFocus.loseFocus()
+    }
+
+    model.widgetInFocus = viewWidget
+
+    if (model.widgetInFocus) {
+      model.widgetInFocus.grabFocus()
+    }
+  }
+
+  publicAPI.releaseFocus = function() {
+    return publicAPI.grabFocus(null)
+  }
+
+  publicAPI.setUseSvgLayer = function(useSvgLayer) {
+    if (useSvgLayer !== model.useSvgLayer) {
+      model.useSvgLayer = useSvgLayer
+
+      if (model._renderer) {
+        if (useSvgLayer) {
+          enableSvgLayer() // force a render so svg widgets can be drawn
+
+          updateSvg()
+        } else {
+          disableSvgLayer()
+        }
+      }
+
+      return true
+    }
+
+    return false
+  }
+
+  var superDelete = publicAPI.delete
+
+  publicAPI.delete = function() {
+    while (subscriptions.length) {
+      subscriptions.pop().unsubscribe()
+    }
+
+    superDelete()
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$s = {
+  // _camera: null,
+  // _selector: null,
+  viewId: null,
+  widgets: [],
+  renderer: null,
+  viewType: ViewTypes.DEFAULT,
+  isAnimating: false,
+  pickingEnabled: true,
+  selections: null,
+  previousSelectedData: null,
+  widgetInFocus: null,
+  useSvgLayer: true,
+  captureOn: CaptureOn.MOUSE_MOVE,
+} // ----------------------------------------------------------------------------
+
+function extend$v(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$s, initialValues)
+  macro.obj(publicAPI, model)
+  macro.setGet(publicAPI, model, [
+    'captureOn',
+    {
+      type: 'enum',
+      name: 'viewType',
+      enum: ViewTypes,
+    },
+  ])
+  macro.get(publicAPI, model, [
+    'selections',
+    'widgets',
+    'viewId',
+    'pickingEnabled',
+    'useSvgLayer',
+  ]) // Object specific methods
+
+  vtkWidgetManager(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+macro.newInstance(extend$v, 'vtkWidgetManager') // ----------------------------------------------------------------------------
+
+function ownKeys$9(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$9(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$9(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$9(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+
+function NoOp$1() {} // ----------------------------------------------------------------------------
+
+function vtkAbstractWidgetFactory(publicAPI, model) {
+  model.classHierarchy.push('vtkAbstractWidgetFactory') // DO NOT share on the model ------------------------------------------------
+
+  var viewToWidget = {} // DO NOT share on the model ------------------------------------------------
+  // Can be called with just ViewId after the widget has been registered
+
+  publicAPI.getWidgetForView = function(_ref) {
+    var viewId = _ref.viewId,
+      renderer = _ref.renderer,
+      viewType = _ref.viewType,
+      initialValues = _ref.initialValues
+
+    if (!viewToWidget[viewId]) {
+      if (!renderer) {
+        return null
+      }
+
+      var _extractRenderingComp = extractRenderingComponents(renderer),
+        interactor = _extractRenderingComp.interactor,
+        apiSpecificRenderWindow = _extractRenderingComp.apiSpecificRenderWindow,
+        camera = _extractRenderingComp.camera
+
+      var widgetModel = {}
+      var widgetPublicAPI = {}
+      macro.obj(widgetPublicAPI, widgetModel)
+      Object.assign(widgetPublicAPI, {
+        onWidgetChange: publicAPI.onWidgetChange,
+      })
+      Object.assign(widgetModel, {
+        widgetState: model.widgetState,
+        manipulator: model.manipulator,
+        viewType: viewType,
+        renderer: renderer,
+        camera: camera,
+        apiSpecificRenderWindow: apiSpecificRenderWindow,
+        factory: publicAPI,
+      })
+      macro.moveToProtected(widgetPublicAPI, widgetModel, [
+        'renderer',
+        'camera',
+        'apiSpecificRenderWindow',
+        'factory',
+      ])
+      macro.safeArrays(widgetModel)
+      vtkAbstractWidget$1.extend(widgetPublicAPI, widgetModel, initialValues) // Create representations for that view
+
+      /* eslint-disable no-shadow */
+
+      var widgetInitialValues = initialValues // Avoid shadowing
+
+      widgetModel.representations = publicAPI
+        .getRepresentationsForViewType(viewType)
+        .map(function(_ref2) {
+          var builder = _ref2.builder,
+            labels = _ref2.labels,
+            initialValues = _ref2.initialValues
+          return builder.newInstance(
+            _objectSpread$9(
+              _objectSpread$9(
+                {
+                  _parentProp: widgetPublicAPI,
+                  labels: labels,
+                },
+                initialValues
+              ),
+              widgetInitialValues
+            )
+          )
+        })
+      /* eslint-enable no-shadow */
+
+      widgetModel.representations.forEach(function(r) {
+        r.setInputData(widgetModel.widgetState)
+        r.getActors().forEach(function(actor) {
+          widgetModel.actorToRepresentationMap.set(actor, r)
+        })
+      })
+      model.behavior(widgetPublicAPI, widgetModel) // Forward representation methods
+      ;['coincidentTopologyParameters']
+        .concat(_toConsumableArray(model.methodsToLink || []))
+        .forEach(function(methodName) {
+          var _methods
+
+          var set = 'set'.concat(macro.capitalize(methodName))
+          var get = 'get'.concat(macro.capitalize(methodName))
+          var methods =
+            ((_methods = {}),
+            _defineProperty(_methods, methodName, []),
+            _defineProperty(_methods, set, []),
+            _defineProperty(_methods, get, []),
+            _methods)
+          widgetModel.representations.forEach(function(representation) {
+            if (representation[methodName]) {
+              methods[methodName].push(representation[methodName])
+            }
+
+            if (representation[set]) {
+              methods[set].push(representation[set])
+            }
+
+            if (representation[get]) {
+              methods[get].push(representation[get])
+            }
+          })
+          Object.keys(methods).forEach(function(name) {
+            var calls = methods[name]
+
+            if (calls.length === 1) {
+              widgetPublicAPI[name] = calls[0]
+            } else if (calls.length > 1) {
+              widgetPublicAPI[name] = macro.chain.apply(
+                macro,
+                _toConsumableArray(calls)
+              )
+            }
+          })
+        }) // Custom delete to detach from parent
+
+      widgetPublicAPI.delete = macro.chain(function() {
+        delete viewToWidget[viewId]
+      }, widgetPublicAPI.delete)
+      widgetPublicAPI.setInteractor(interactor)
+      var viewWidget = Object.freeze(widgetPublicAPI)
+      viewToWidget[viewId] = viewWidget
+      return viewWidget
+    }
+
+    return viewToWidget[viewId]
+  } // List of all the views the widget has been registered to.
+
+  publicAPI.getViewIds = function() {
+    return Object.keys(viewToWidget)
+  } // --------------------------------------------------------------------------
+  // Widget visibility / enable
+  // --------------------------------------------------------------------------
+  // Call methods on all its view widgets
+
+  publicAPI.setVisibility = function(value) {
+    var viewIds = Object.keys(viewToWidget)
+
+    for (var i = 0; i < viewIds.length; i++) {
+      viewToWidget[viewIds[i]].setVisibility(value)
+    }
+  }
+
+  publicAPI.setPickable = function(value) {
+    var viewIds = Object.keys(viewToWidget)
+
+    for (var i = 0; i < viewIds.length; i++) {
+      viewToWidget[viewIds[i]].setPickable(value)
+    }
+  }
+
+  publicAPI.setDragable = function(value) {
+    var viewIds = Object.keys(viewToWidget)
+
+    for (var i = 0; i < viewIds.length; i++) {
+      viewToWidget[viewIds[i]].setDragable(value)
+    }
+  }
+
+  publicAPI.setContextVisibility = function(value) {
+    var viewIds = Object.keys(viewToWidget)
+
+    for (var i = 0; i < viewIds.length; i++) {
+      viewToWidget[viewIds[i]].setContextVisibility(value)
+    }
+  }
+
+  publicAPI.setHandleVisibility = function(value) {
+    var viewIds = Object.keys(viewToWidget)
+
+    for (var i = 0; i < viewIds.length; i++) {
+      viewToWidget[viewIds[i]].setHandleVisibility(value)
+    }
+  } // --------------------------------------------------------------------------
+  // Place Widget API
+  // --------------------------------------------------------------------------
+
+  publicAPI.placeWidget = function(bounds) {
+    return model.widgetState.placeWidget(bounds)
+  }
+
+  publicAPI.getPlaceFactor = function() {
+    return model.widgetState.getPlaceFactor()
+  }
+
+  publicAPI.setPlaceFactor = function(factor) {
+    return model.widgetState.setPlaceFactor(factor)
+  } // --------------------------------------------------------------------------
+  // Event Widget API
+  // --------------------------------------------------------------------------
+
+  var unsubscribe = NoOp$1
+  publicAPI.delete = macro.chain(publicAPI.delete, function() {
+    return unsubscribe()
+  }) // Defer after object instantiation so model.widgetState actually exist
+
+  setTimeout(function() {
+    if (model.widgetState) {
+      unsubscribe = model.widgetState.onModified(function() {
+        return publicAPI.invokeWidgetChange(model.widgetState)
+      }).unsubscribe
+    }
+  }, 0)
+} // ----------------------------------------------------------------------------
+
+function extend$u(publicAPI, model) {
+  macro.obj(publicAPI, model)
+  macro.get(publicAPI, model, ['widgetState'])
+  macro.event(publicAPI, model, 'WidgetChange')
+  vtkAbstractWidgetFactory(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$d = macro.newInstance(extend$u, 'vtkAbstractWidget') // ----------------------------------------------------------------------------
+
+var vtkAbstractWidgetFactory$1 = {
+  newInstance: newInstance$d,
+  extend: extend$u,
+}
+
+// vtkAbstractManipulator methods
+// ----------------------------------------------------------------------------
+
+function vtkAbstractManipulator(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkAbstractManipulator')
+
+  publicAPI.getOrigin = function(callData) {
+    if (model.userOrigin) return model.userOrigin
+    if (model.useCameraFocalPoint)
+      return callData.pokedRenderer.getActiveCamera().getFocalPoint()
+    if (model.handleOrigin) return model.handleOrigin
+    if (model.widgetOrigin) return model.widgetOrigin
+    return [0, 0, 0]
+  }
+
+  publicAPI.getNormal = function(callData) {
+    if (model.userNormal) return model.userNormal
+    if (model.useCameraNormal)
+      return callData.pokedRenderer.getActiveCamera().getDirectionOfProjection()
+    if (model.handleNormal) return model.handleNormal
+    if (model.widgetNormal) return model.widgetNormal
+    return [0, 0, 1]
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$r = {
+  // userOrigin: null,
+  // handleOrigin: null,
+  // widgetOrigin: null,
+  // userNormal: null,
+  // handleNormal: null,
+  // widgetNormal: null
+  useCameraFocalPoint: false,
+  useCameraNormal: false,
+} // ----------------------------------------------------------------------------
+
+function extend$t(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$r, initialValues)
+  macro.obj(publicAPI, model)
+  macro.setGet(publicAPI, model, ['useCameraFocalPoint', 'useCameraNormal'])
+  macro.setGetArray(
+    publicAPI,
+    model,
+    [
+      'userOrigin',
+      'handleOrigin',
+      'widgetOrigin',
+      'userNormal',
+      'handleNormal',
+      'widgetNormal',
+    ],
+    3
+  )
+  vtkAbstractManipulator(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$c = macro.newInstance(extend$t, 'vtkAbstractManipulator') // ----------------------------------------------------------------------------
+
+var vtkAbstractManipulator$1 = {
+  extend: extend$t,
+  newInstance: newInstance$c,
+}
+
+function ownKeys$8(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$8(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$8(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$8(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+function intersectDisplayWithPlane(
+  x,
+  y,
+  planeOrigin,
+  planeNormal,
+  renderer,
+  glRenderWindow
+) {
+  var near = glRenderWindow.displayToWorld(x, y, 0, renderer)
+  var far = glRenderWindow.displayToWorld(x, y, 1, renderer)
+  return vtkPlane$1.intersectWithLine(near, far, planeOrigin, planeNormal).x
+} // ----------------------------------------------------------------------------
+// vtkPlaneManipulator methods
+// ----------------------------------------------------------------------------
+
+function vtkPlaneManipulator(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkPlaneManipulator')
+
+  publicAPI.handleEvent = function(callData, glRenderWindow) {
+    return intersectDisplayWithPlane(
+      callData.position.x,
+      callData.position.y,
+      publicAPI.getOrigin(callData),
+      publicAPI.getNormal(callData),
+      callData.pokedRenderer,
+      glRenderWindow
+    )
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+function defaultValues$1(initialValues) {
+  return _objectSpread$8({}, initialValues)
+} // ----------------------------------------------------------------------------
+
+function extend$s(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  vtkAbstractManipulator$1.extend(
+    publicAPI,
+    model,
+    defaultValues$1(initialValues)
+  )
+  vtkPlaneManipulator(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$b = macro.newInstance(extend$s, 'vtkPlaneManipulator') // ----------------------------------------------------------------------------
+
+var vtkPlanePointManipulator = {
+  intersectDisplayWithPlane: intersectDisplayWithPlane,
+  extend: extend$s,
+  newInstance: newInstance$b,
+}
+
+function ownKeys$7(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$7(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$7(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$7(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+function projectDisplayToLine(
+  x,
+  y,
+  lineOrigin,
+  lineDirection,
+  renderer,
+  glRenderWindow
+) {
+  var near = glRenderWindow.displayToWorld(x, y, 0, renderer)
+  var far = glRenderWindow.displayToWorld(x, y, 1, renderer)
+  var viewDir = [0, 0, 0]
+  subtract$1(far, near, viewDir)
+  var normal = [0, 0, 0]
+  cross$1(lineDirection, viewDir, normal)
+  cross$1(normal, viewDir, normal)
+  var numerator = dot$1(
+    [near[0] - lineOrigin[0], near[1] - lineOrigin[1], near[2] - lineOrigin[2]],
+    normal
+  )
+  var denominator = dot$1(normal, lineDirection)
+  var result = lineDirection.slice()
+  multiplyScalar(result, numerator / denominator)
+  add$1(lineOrigin, result, result)
+  return result
+} // ----------------------------------------------------------------------------
+// vtkLineManipulator methods
+// ----------------------------------------------------------------------------
+
+function vtkLineManipulator(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkLineManipulator')
+
+  publicAPI.handleEvent = function(callData, glRenderWindow) {
+    return projectDisplayToLine(
+      callData.position.x,
+      callData.position.y,
+      publicAPI.getOrigin(callData),
+      publicAPI.getNormal(callData),
+      callData.pokedRenderer,
+      glRenderWindow
+    )
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+function defaultValues(initialValues) {
+  return _objectSpread$7({}, initialValues)
+} // ----------------------------------------------------------------------------
+
+function extend$r(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  vtkAbstractManipulator$1.extend(
+    publicAPI,
+    model,
+    defaultValues(initialValues)
+  )
+  vtkLineManipulator(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$a = macro.newInstance(extend$r, 'vtkLineManipulator') // ----------------------------------------------------------------------------
+
+var vtkLineManipulator$1 = {
+  projectDisplayToLine: projectDisplayToLine,
+  extend: extend$r,
+  newInstance: newInstance$a,
+}
+
+var OrientationModes$1 = {
+  DIRECTION: 0,
+  ROTATION: 1,
+  MATRIX: 2,
+}
+var ScaleModes$1 = {
+  SCALE_BY_CONSTANT: 0,
+  SCALE_BY_MAGNITUDE: 1,
+  SCALE_BY_COMPONENTS: 2,
+}
+var Constants$2 = {
+  OrientationModes: OrientationModes$1,
+  ScaleModes: ScaleModes$1,
+}
+
+function ownKeys$6(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$6(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$6(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$6(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+var OrientationModes = Constants$2.OrientationModes,
+  ScaleModes = Constants$2.ScaleModes
+var vtkErrorMacro$3 = macro.vtkErrorMacro // ----------------------------------------------------------------------------
+// class methods
+// ----------------------------------------------------------------------------
+
+function vtkGlyph3DMapper(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkGlyph3DMapper')
+  /**
+   * An orientation array is a vtkDataArray with 3 components. The first
+   * component is the angle of rotation along the X axis. The second
+   * component is the angle of rotation along the Y axis. The third
+   * component is the angle of rotation along the Z axis. Orientation is
+   * specified in X,Y,Z order but the rotations are performed in Z,X an Y.
+   * This definition is compliant with SetOrientation method on vtkProp3D.
+   * By using vector or normal there is a degree of freedom or rotation
+   * left (underconstrained). With the orientation array, there is no degree of
+   * freedom left.
+   */
+
+  publicAPI.getOrientationModeAsString = function() {
+    return macro.enumToString(OrientationModes, model.orientationMode)
+  }
+
+  publicAPI.setOrientationModeToDirection = function() {
+    return publicAPI.setOrientationMode(OrientationModes.DIRECTION)
+  }
+
+  publicAPI.setOrientationModeToRotation = function() {
+    return publicAPI.setOrientationMode(OrientationModes.ROTATION)
+  }
+
+  publicAPI.setOrientationModeToMatrix = function() {
+    return publicAPI.setOrientationMode(OrientationModes.MATRIX)
+  }
+
+  publicAPI.getOrientationArrayData = function() {
+    var idata = publicAPI.getInputData(0)
+
+    if (!idata || !idata.getPointData()) {
+      return null
+    }
+
+    if (!model.orientationArray) {
+      return idata.getPointData().getVectors()
+    }
+
+    return idata.getPointData().getArray(model.orientationArray)
+  }
+
+  publicAPI.getScaleModeAsString = function() {
+    return macro.enumToString(ScaleModes, model.scaleMode)
+  }
+
+  publicAPI.setScaleModeToScaleByMagnitude = function() {
+    return publicAPI.setScaleMode(ScaleModes.SCALE_BY_MAGNITUDE)
+  }
+
+  publicAPI.setScaleModeToScaleByComponents = function() {
+    return publicAPI.setScaleMode(ScaleModes.SCALE_BY_COMPONENTS)
+  }
+
+  publicAPI.setScaleModeToScaleByConstant = function() {
+    return publicAPI.setScaleMode(ScaleModes.SCALE_BY_CONSTANT)
+  }
+
+  publicAPI.getScaleArrayData = function() {
+    var idata = publicAPI.getInputData(0)
+
+    if (!idata || !idata.getPointData()) {
+      return null
+    }
+
+    if (!model.scaleArray) {
+      return idata.getPointData().getScalars()
+    }
+
+    return idata.getPointData().getArray(model.scaleArray)
+  }
+
+  publicAPI.getBounds = function() {
+    var idata = publicAPI.getInputData(0)
+    var gdata = publicAPI.getInputData(1)
+
+    if (!idata || !gdata) {
+      return createUninitializedBounds()
+    } // first we build the arrays used for the glyphing
+
+    publicAPI.buildArrays()
+    return model.bounds
+  }
+
+  publicAPI.buildArrays = function() {
+    // if the mtgime requires it, rebuild
+    var idata = publicAPI.getInputData(0)
+    var gdata = publicAPI.getInputData(1)
+
+    if (
+      model.buildTime.getMTime() < gdata.getMTime() ||
+      model.buildTime.getMTime() < idata.getMTime() ||
+      model.buildTime.getMTime() < publicAPI.getMTime()
+    ) {
+      var pts = idata.getPoints().getData()
+      var sArray = publicAPI.getScaleArrayData()
+      var sData = null
+      var numSComp = 0
+
+      if (sArray) {
+        sData = sArray.getData()
+        numSComp = sArray.getNumberOfComponents()
+      }
+
+      if (
+        model.scaling &&
+        sArray &&
+        model.scaleMode === ScaleModes.SCALE_BY_COMPONENTS &&
+        sArray.getNumberOfComponents() !== 3
+      ) {
+        vtkErrorMacro$3(
+          'Cannot scale by components since scale array does not have 3 components.'
+        )
+        sArray = null
+      } // get the glyph bounds
+
+      var gbounds = gdata.getBounds() // convert them to 8 points so we can compute the
+      // overall bounds while building the arrays
+
+      var corners = []
+      vtkBoundingBox.getCorners(gbounds, corners)
+      model.bounds[0] = vtkBoundingBox.INIT_BOUNDS[0]
+      model.bounds[1] = vtkBoundingBox.INIT_BOUNDS[1]
+      model.bounds[2] = vtkBoundingBox.INIT_BOUNDS[2]
+      model.bounds[3] = vtkBoundingBox.INIT_BOUNDS[3]
+      model.bounds[4] = vtkBoundingBox.INIT_BOUNDS[4]
+      model.bounds[5] = vtkBoundingBox.INIT_BOUNDS[5]
+      var tcorner = new Float64Array(3)
+      var oArray = publicAPI.getOrientationArrayData()
+      var identity$1 = identity(new Float64Array(16))
+      var trans = []
+      var scale = []
+      var numPts = pts.length / 3
+      model.matrixArray = new Float32Array(16 * numPts)
+      var mbuff = model.matrixArray.buffer
+      model.normalArray = new Float32Array(9 * numPts)
+      var nbuff = model.normalArray.buffer
+      var tuple = []
+
+      for (var i = 0; i < numPts; ++i) {
+        var z = new Float32Array(mbuff, i * 64, 16)
+        trans[0] = pts[i * 3]
+        trans[1] = pts[i * 3 + 1]
+        trans[2] = pts[i * 3 + 2]
+        translate(z, identity$1, trans)
+
+        if (oArray) {
+          var orientation = []
+          oArray.getTuple(i, orientation)
+
+          switch (model.orientationMode) {
+            case OrientationModes.MATRIX: {
+              // prettier-ignore
+              var rotMat4 = [].concat(_toConsumableArray(orientation.slice(0, 3)), [0], _toConsumableArray(orientation.slice(3, 6)), [0], _toConsumableArray(orientation.slice(6, 9)), [0, 0, 0, 0, 1]);
+              multiply$1(z, z, rotMat4)
+              break
+            }
+
+            case OrientationModes.ROTATION:
+              rotateZ$1(z, z, orientation[2])
+              rotateX$1(z, z, orientation[0])
+              rotateY$1(z, z, orientation[1])
+              break
+
+            case OrientationModes.DIRECTION:
+              if (orientation[1] === 0.0 && orientation[2] === 0.0) {
+                if (orientation[0] < 0) {
+                  rotateY$1(z, z, 3.1415926)
+                }
+              } else {
+                var vMag = norm(orientation)
+                var vNew = []
+                vNew[0] = (orientation[0] + vMag) / 2.0
+                vNew[1] = orientation[1] / 2.0
+                vNew[2] = orientation[2] / 2.0
+                rotate(z, z, 3.1415926, vNew)
+              }
+
+              break
+          }
+        } // scale data if appropriate
+
+        if (model.scaling) {
+          scale[0] = model.scaleFactor
+          scale[1] = model.scaleFactor
+          scale[2] = model.scaleFactor // Get the scalar and vector data
+
+          if (sArray) {
+            switch (model.scaleMode) {
+              case ScaleModes.SCALE_BY_MAGNITUDE:
+                for (var t = 0; t < numSComp; ++t) {
+                  tuple[t] = sData[i * numSComp + t]
+                }
+
+                scale[0] *= norm(tuple, numSComp)
+                scale[1] = scale[0]
+                scale[2] = scale[0]
+                break
+
+              case ScaleModes.SCALE_BY_COMPONENTS:
+                for (var _t = 0; _t < numSComp; ++_t) {
+                  tuple[_t] = sData[i * numSComp + _t]
+                }
+
+                scale[0] *= tuple[0]
+                scale[1] *= tuple[1]
+                scale[2] *= tuple[2]
+                break
+
+              case ScaleModes.SCALE_BY_CONSTANT:
+            }
+          }
+
+          if (scale[0] === 0.0) {
+            scale[0] = 1.0e-10
+          }
+
+          if (scale[1] === 0.0) {
+            scale[1] = 1.0e-10
+          }
+
+          if (scale[2] === 0.0) {
+            scale[2] = 1.0e-10
+          }
+
+          scale$1(z, z, scale)
+        } // update bounds
+
+        for (var p = 0; p < 8; ++p) {
+          transformMat4(tcorner, corners[p], z)
+
+          if (tcorner[0] < model.bounds[0]) {
+            model.bounds[0] = tcorner[0]
+          }
+
+          if (tcorner[1] < model.bounds[2]) {
+            model.bounds[2] = tcorner[1]
+          }
+
+          if (tcorner[2] < model.bounds[4]) {
+            model.bounds[4] = tcorner[2]
+          }
+
+          if (tcorner[0] > model.bounds[1]) {
+            model.bounds[1] = tcorner[0]
+          }
+
+          if (tcorner[1] > model.bounds[3]) {
+            model.bounds[3] = tcorner[1]
+          }
+
+          if (tcorner[2] > model.bounds[5]) {
+            model.bounds[5] = tcorner[2]
+          }
+        }
+
+        var n = new Float32Array(nbuff, i * 36, 9)
+        fromMat4(n, z)
+        invert$1(n, n)
+        transpose$1(n, n)
+      } // map scalars as well
+
+      var scalars = publicAPI.getAbstractScalars(
+        idata,
+        model.scalarMode,
+        model.arrayAccessMode,
+        model.arrayId,
+        model.colorByArrayName
+      ).scalars
+
+      if (!model.useLookupTableScalarRange) {
+        publicAPI
+          .getLookupTable()
+          .setRange(model.scalarRange[0], model.scalarRange[1])
+      }
+
+      model.colorArray = null
+      var lut = publicAPI.getLookupTable()
+
+      if (lut && scalars) {
+        // Ensure that the lookup table is built
+        lut.build()
+        model.colorArray = lut.mapScalars(scalars, model.colorMode, 0)
+      }
+
+      model.buildTime.modified()
+    }
+  }
+
+  publicAPI.getPrimitiveCount = function() {
+    var glyph = publicAPI.getInputData(1)
+    var mult =
+      publicAPI
+        .getInputData()
+        .getPoints()
+        .getNumberOfValues() / 3
+    var pcount = {
+      points: (mult * glyph.getPoints().getNumberOfValues()) / 3,
+      verts:
+        mult *
+        (glyph.getVerts().getNumberOfValues() -
+          glyph.getVerts().getNumberOfCells()),
+      lines:
+        mult *
+        (glyph.getLines().getNumberOfValues() -
+          2 * glyph.getLines().getNumberOfCells()),
+      triangles:
+        mult *
+        (glyph.getPolys().getNumberOfValues() -
+          3 * glyph.getLines().getNumberOfCells()),
+    }
+    return pcount
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$q = {
+  orient: true,
+  orientationMode: OrientationModes.DIRECTION,
+  orientationArray: null,
+  scaling: true,
+  scaleFactor: 1.0,
+  scaleMode: ScaleModes.SCALE_BY_MAGNITUDE,
+  scaleArray: null,
+  matrixArray: null,
+  normalArray: null,
+  colorArray: null,
+} // ----------------------------------------------------------------------------
+
+function extend$q(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$q, initialValues) // Inheritance
+
+  vtkMapper$1.extend(publicAPI, model, initialValues)
+  macro.algo(publicAPI, model, 2, 0)
+  model.buildTime = {}
+  macro.obj(model.buildTime, {
+    mtime: 0,
+  })
+  model.boundsTime = {}
+  macro.obj(model.boundsTime, {
+    mtime: 0,
+  })
+  macro.setGet(publicAPI, model, [
+    'orient',
+    'orientationMode',
+    'orientationArray',
+    'scaleArray',
+    'scaleFactor',
+    'scaleMode',
+    'scaling',
+  ])
+  macro.get(publicAPI, model, [
+    'colorArray',
+    'matrixArray',
+    'normalArray',
+    'buildTime',
+  ]) // Object methods
+
+  vtkGlyph3DMapper(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$9 = macro.newInstance(extend$q, 'vtkGlyph3DMapper') // ----------------------------------------------------------------------------
+
+var vtkGlyph3DMapper$1 = _objectSpread$6(
+  {
+    newInstance: newInstance$9,
+    extend: extend$q,
+  },
+  Constants$2
+)
+
+function ownKeys$5(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$5(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$5(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$5(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+// vtkHandleRepresentation methods
+// ----------------------------------------------------------------------------
+
+function vtkHandleRepresentation(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkHandleRepresentation')
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$p = {
+  activeScaleFactor: 1.2,
+  activeColor: 1,
+  useActiveColor: true,
+  behavior: Behavior.HANDLE,
+  pickable: true,
+  dragable: true,
+} // ----------------------------------------------------------------------------
+
+function extend$p(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+
+  var newDefault = _objectSpread$5(
+    _objectSpread$5({}, DEFAULT_VALUES$p),
+    initialValues
+  )
+
+  vtkWidgetRepresentation$1.extend(publicAPI, model, newDefault)
+  macro.setGet(publicAPI, model, [
+    'activeScaleFactor',
+    'activeColor',
+    'useActiveColor',
+  ])
+  vtkHandleRepresentation(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var vtkHandleRepresentation$1 = {
+  extend: extend$p,
+}
+
+// vtkSphereSource methods
+// ----------------------------------------------------------------------------
+
+function vtkSphereSource(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkSphereSource')
+
+  publicAPI.requestData = function(inData, outData) {
+    if (model.deleted) {
+      return
+    }
+
+    var dataset = outData[0]
+    var pointDataType = dataset
+      ? dataset.getPoints().getDataType()
+      : model.pointType
+    dataset = vtkPolyData$1.newInstance() // ----------------------------------------------------------------------
+
+    var numPoles = 0 // Check data, determine increments, and convert to radians
+
+    var thetaResolution = model.thetaResolution
+    var startTheta =
+      model.startTheta < model.endTheta ? model.startTheta : model.endTheta
+    startTheta *= Math.PI / 180.0
+    var endTheta =
+      model.endTheta > model.startTheta ? model.endTheta : model.startTheta
+    endTheta *= Math.PI / 180.0
+    var startPhi = model.startPhi < model.endPhi ? model.startPhi : model.endPhi
+    startPhi *= Math.PI / 180.0
+    var endPhi = model.endPhi > model.startPhi ? model.endPhi : model.startPhi
+    endPhi *= Math.PI / 180.0
+
+    if (Math.abs(startTheta - endTheta) < 2.0 * Math.PI) {
+      ++thetaResolution
+    }
+
+    var deltaTheta = (endTheta - startTheta) / model.thetaResolution
+    var jStart = model.startPhi <= 0.0 ? 1 : 0
+    var jEnd = model.phiResolution + (model.endPhi >= 180.0 ? -1 : 0)
+    var numPts = model.phiResolution * thetaResolution + 2
+    var numPolys = model.phiResolution * 2 * model.thetaResolution // Points
+
+    var pointIdx = 0
+    var points = macro.newTypedArray(pointDataType, numPts * 3) // Normals
+
+    var normals = new Float32Array(numPts * 3) // Cells
+
+    var cellLocation = 0
+    var polys = new Uint32Array(numPolys * 5) // Create north pole if needed
+
+    if (model.startPhi <= 0.0) {
+      points[pointIdx * 3 + 0] = model.center[0]
+      points[pointIdx * 3 + 1] = model.center[1]
+      points[pointIdx * 3 + 2] = model.center[2] + model.radius
+      normals[pointIdx * 3 + 0] = 0
+      normals[pointIdx * 3 + 1] = 0
+      normals[pointIdx * 3 + 2] = 1
+      pointIdx++
+      numPoles++
+    } // Create south pole if needed
+
+    if (model.endPhi >= 180.0) {
+      points[pointIdx * 3 + 0] = model.center[0]
+      points[pointIdx * 3 + 1] = model.center[1]
+      points[pointIdx * 3 + 2] = model.center[2] - model.radius
+      normals[pointIdx * 3 + 0] = 0
+      normals[pointIdx * 3 + 1] = 0
+      normals[pointIdx * 3 + 2] = -1
+      pointIdx++
+      numPoles++
+    }
+
+    var phiResolution = model.phiResolution - numPoles
+    var deltaPhi = (endPhi - startPhi) / (model.phiResolution - 1) // Create intermediate points
+
+    for (var i = 0; i < thetaResolution; i++) {
+      var theta = startTheta + i * deltaTheta
+
+      for (var j = jStart; j < jEnd; j++) {
+        var phi = startPhi + j * deltaPhi
+        var radius = model.radius * Math.sin(phi)
+        normals[pointIdx * 3 + 0] = radius * Math.cos(theta)
+        normals[pointIdx * 3 + 1] = radius * Math.sin(theta)
+        normals[pointIdx * 3 + 2] = model.radius * Math.cos(phi)
+        points[pointIdx * 3 + 0] = normals[pointIdx * 3 + 0] + model.center[0]
+        points[pointIdx * 3 + 1] = normals[pointIdx * 3 + 1] + model.center[1]
+        points[pointIdx * 3 + 2] = normals[pointIdx * 3 + 2] + model.center[2]
+        var norm = Math.sqrt(
+          normals[pointIdx * 3 + 0] * normals[pointIdx * 3 + 0] +
+            normals[pointIdx * 3 + 1] * normals[pointIdx * 3 + 1] +
+            normals[pointIdx * 3 + 2] * normals[pointIdx * 3 + 2]
+        )
+        norm = norm === 0 ? 1 : norm
+        normals[pointIdx * 3 + 0] /= norm
+        normals[pointIdx * 3 + 1] /= norm
+        normals[pointIdx * 3 + 2] /= norm
+        pointIdx++
+      }
+    } // Generate mesh connectivity
+
+    var base = phiResolution * thetaResolution
+
+    if (Math.abs(startTheta - endTheta) < 2.0 * Math.PI) {
+      --thetaResolution
+    } // around north pole
+
+    if (model.startPhi <= 0.0) {
+      for (var _i = 0; _i < thetaResolution; _i++) {
+        polys[cellLocation++] = 3
+        polys[cellLocation++] = phiResolution * _i + numPoles
+        polys[cellLocation++] = ((phiResolution * (_i + 1)) % base) + numPoles
+        polys[cellLocation++] = 0
+      }
+    } // around south pole
+
+    if (model.endPhi >= 180.0) {
+      var numOffset = phiResolution - 1 + numPoles
+
+      for (var _i2 = 0; _i2 < thetaResolution; _i2++) {
+        polys[cellLocation++] = 3
+        polys[cellLocation++] = phiResolution * _i2 + numOffset
+        polys[cellLocation++] = numPoles - 1
+        polys[cellLocation++] = ((phiResolution * (_i2 + 1)) % base) + numOffset
+      }
+    } // bands in-between poles
+
+    for (var _i3 = 0; _i3 < thetaResolution; _i3++) {
+      for (var _j = 0; _j < phiResolution - 1; _j++) {
+        var a = phiResolution * _i3 + _j + numPoles
+        var b = a + 1
+        var c = ((phiResolution * (_i3 + 1) + _j) % base) + numPoles + 1
+
+        if (!model.latLongTessellation) {
+          polys[cellLocation++] = 3
+          polys[cellLocation++] = a
+          polys[cellLocation++] = b
+          polys[cellLocation++] = c
+          polys[cellLocation++] = 3
+          polys[cellLocation++] = a
+          polys[cellLocation++] = c
+          polys[cellLocation++] = c - 1
+        } else {
+          polys[cellLocation++] = 4
+          polys[cellLocation++] = a
+          polys[cellLocation++] = b
+          polys[cellLocation++] = c
+          polys[cellLocation++] = c - 1
+        }
+      }
+    } // Squeeze
+
+    points = points.subarray(0, pointIdx * 3)
+    dataset.getPoints().setData(points, 3)
+    normals = normals.subarray(0, pointIdx * 3)
+    var normalArray = vtkDataArray$1.newInstance({
+      name: 'Normals',
+      values: normals,
+      numberOfComponents: 3,
+    })
+    dataset.getPointData().setNormals(normalArray)
+    polys = polys.subarray(0, cellLocation)
+    dataset.getPolys().setData(polys, 1) // Update output
+
+    outData[0] = dataset
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$o = {
+  radius: 0.5,
+  latLongTessellation: false,
+  thetaResolution: 8,
+  startTheta: 0.0,
+  endTheta: 360.0,
+  phiResolution: 8,
+  startPhi: 0.0,
+  endPhi: 180.0,
+  center: [0, 0, 0],
+  pointType: 'Float64Array',
+} // ----------------------------------------------------------------------------
+
+function extend$o(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$o, initialValues) // Build VTK API
+
+  macro.obj(publicAPI, model)
+  macro.setGet(publicAPI, model, [
+    'radius',
+    'latLongTessellation',
+    'thetaResolution',
+    'startTheta',
+    'endTheta',
+    'phiResolution',
+    'startPhi',
+    'endPhi',
+  ])
+  macro.setGetArray(publicAPI, model, ['center'], 3)
+  macro.algo(publicAPI, model, 0, 1)
+  vtkSphereSource(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$8 = macro.newInstance(extend$o, 'vtkSphereSource') // ----------------------------------------------------------------------------
+
+var vtkSphereSource$1 = {
+  newInstance: newInstance$8,
+  extend: extend$o,
+}
+
+// vtkSphereHandleRepresentation methods
+// ----------------------------------------------------------------------------
+
+function vtkSphereHandleRepresentation(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkSphereHandleRepresentation') // --------------------------------------------------------------------------
+  // Internal polydata dataset
+  // --------------------------------------------------------------------------
+
+  model.internalPolyData = vtkPolyData$1.newInstance({
+    mtime: 0,
+  })
+  model.internalArrays = {
+    points: model.internalPolyData.getPoints(),
+    scale: vtkDataArray$1.newInstance({
+      name: 'scale',
+      numberOfComponents: 1,
+      empty: true,
+    }),
+    color: vtkDataArray$1.newInstance({
+      name: 'color',
+      numberOfComponents: 1,
+      empty: true,
+    }),
+  }
+  model.internalPolyData.getPointData().addArray(model.internalArrays.scale)
+  model.internalPolyData.getPointData().addArray(model.internalArrays.color) // --------------------------------------------------------------------------
+  // Generic rendering pipeline
+  // --------------------------------------------------------------------------
+
+  /*
+   * displayActors and displayMappers are used to render objects in HTML, allowing objects
+   * to be 'rendered' internally in a VTK scene without being visible on the final output
+   */
+
+  model.displayMapper = vtkPixelSpaceCallbackMapper$1.newInstance()
+  model.displayActor = vtkActor$1.newInstance({
+    parentProp: publicAPI,
+  }) // model.displayActor.getProperty().setOpacity(0); // don't show in 3D
+
+  model.displayActor.setMapper(model.displayMapper)
+  model.displayMapper.setInputConnection(publicAPI.getOutputPort())
+  publicAPI.addActor(model.displayActor)
+  model.alwaysVisibleActors = [model.displayActor]
+  model.mapper = vtkGlyph3DMapper$1.newInstance({
+    scaleArray: 'scale',
+    colorByArrayName: 'color',
+    scalarMode: ScalarMode$1.USE_POINT_FIELD_DATA,
+  })
+  model.actor = vtkActor$1.newInstance({
+    parentProp: publicAPI,
+  })
+  model.glyph = vtkSphereSource$1.newInstance({
+    phiResolution: model.glyphResolution,
+    thetaResolution: model.glyphResolution,
+  })
+  model.mapper.setInputConnection(publicAPI.getOutputPort(), 0)
+  model.mapper.setInputConnection(model.glyph.getOutputPort(), 1)
+  model.actor.setMapper(model.mapper)
+  publicAPI.addActor(model.actor) // --------------------------------------------------------------------------
+
+  publicAPI.setGlyphResolution = macro.chain(
+    publicAPI.setGlyphResolution,
+    function(r) {
+      return (
+        model.glyph.setPhiResolution(r) && model.glyph.setThetaResolution(r)
+      )
+    }
+  ) // --------------------------------------------------------------------------
+
+  function callbackProxy(coords) {
+    if (model.displayCallback) {
+      var filteredList = []
+      var states = publicAPI.getRepresentationStates()
+
+      for (var i = 0; i < states.length; i++) {
+        if (states[i].getActive()) {
+          filteredList.push(coords[i])
+        }
+      }
+
+      if (filteredList.length) {
+        model.displayCallback(filteredList)
+        return
+      }
+    }
+
+    model.displayCallback()
+  }
+
+  publicAPI.setDisplayCallback = function(callback) {
+    model.displayCallback = callback
+    model.displayMapper.setCallback(callback ? callbackProxy : null)
+  }
+
+  var superGetRepresentationStates = publicAPI.getRepresentationStates
+
+  publicAPI.getRepresentationStates = function() {
+    var input =
+      arguments.length > 0 && arguments[0] !== undefined
+        ? arguments[0]
+        : model.inputData[0]
+    return superGetRepresentationStates(input).filter(function(state) {
+      var _state$getOrigin, _state$isVisible
+
+      return (
+        ((_state$getOrigin = state.getOrigin) === null ||
+        _state$getOrigin === void 0
+          ? void 0
+          : _state$getOrigin.call(state)) &&
+        ((_state$isVisible = state.isVisible) === null ||
+        _state$isVisible === void 0
+          ? void 0
+          : _state$isVisible.call(state))
+      )
+    })
+  } // --------------------------------------------------------------------------
+
+  publicAPI.requestData = function(inData, outData) {
+    var _model$internalArrays = model.internalArrays,
+      points = _model$internalArrays.points,
+      scale = _model$internalArrays.scale,
+      color = _model$internalArrays.color
+    var list = publicAPI.getRepresentationStates(inData[0])
+    var totalCount = list.length
+
+    if (color.getNumberOfValues() !== totalCount) {
+      // Need to resize dataset
+      points.setData(new Float32Array(3 * totalCount), 3)
+      scale.setData(new Float32Array(totalCount))
+      color.setData(new Float32Array(totalCount))
+    }
+
+    var typedArray = {
+      points: points.getData(),
+      scale: scale.getData(),
+      color: color.getData(),
+    }
+
+    for (var i = 0; i < totalCount; i++) {
+      var state = list[i]
+      var isActive = state.getActive()
+      var scaleFactor = isActive ? model.activeScaleFactor : 1
+      var coord = state.getOrigin()
+      typedArray.points[i * 3 + 0] = coord[0]
+      typedArray.points[i * 3 + 1] = coord[1]
+      typedArray.points[i * 3 + 2] = coord[2]
+      typedArray.scale[i] =
+        scaleFactor * (state.getScale1 ? state.getScale1() : model.defaultScale)
+
+      if (publicAPI.getScaleInPixels()) {
+        typedArray.scale[i] *= publicAPI.getPixelWorldHeightAtCoord(coord)
+      }
+
+      typedArray.color[i] =
+        model.useActiveColor && isActive ? model.activeColor : state.getColor()
+    }
+
+    model.internalPolyData.modified()
+    outData[0] = model.internalPolyData
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$n = {
+  glyphResolution: 8,
+  defaultScale: 1,
+} // ----------------------------------------------------------------------------
+
+function extend$n(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$n, initialValues)
+  vtkHandleRepresentation$1.extend(publicAPI, model, initialValues)
+  macro.get(publicAPI, model, ['glyph', 'mapper', 'actor']) // Object specific methods
+
+  vtkSphereHandleRepresentation(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$7 = macro.newInstance(extend$n, 'vtkSphereHandleRepresentation') // ----------------------------------------------------------------------------
+
+var vtkSphereHandleRepresentation$1 = {
+  newInstance: newInstance$7,
+  extend: extend$n,
+}
+
+function ownKeys$4(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$4(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$4(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$4(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+// vtkWidgetRepresentation
+// ----------------------------------------------------------------------------
+
+function vtkContextRepresentation(publicAPI, model) {
+  model.classHierarchy.push('vtkContextRepresentation')
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$m = {
+  activeScaleFactor: 1.2,
+  activeColor: 1,
+  useActiveColor: true,
+  behavior: Behavior.CONTEXT,
+  pickable: false,
+  dragable: true,
+} // ----------------------------------------------------------------------------
+
+function extend$m(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+
+  var newDefault = _objectSpread$4(
+    _objectSpread$4({}, DEFAULT_VALUES$m),
+    initialValues
+  )
+
+  vtkWidgetRepresentation$1.extend(publicAPI, model, newDefault)
+  vtkContextRepresentation(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var vtkContextRepresentation$1 = {
+  extend: extend$m,
+}
+
+var vtkErrorMacro$2 = macro.vtkErrorMacro; // prettier-ignore
+
+var OUTLINE_ARRAY = [
+  2,
+  0,
+  1,
+  2,
+  0,
+  2,
+  2,
+  0,
+  4,
+  2,
+  1,
+  3,
+  2,
+  1,
+  5,
+  2,
+  2,
+  3,
+  2,
+  2,
+  6,
+  2,
+  3,
+  7,
+  2,
+  4,
+  5,
+  2,
+  4,
+  6,
+  2,
+  5,
+  7,
+  2,
+  6,
+  7,
+] // ----------------------------------------------------------------------------
+// vtkCroppingOutlineRepresentation methods
+// ----------------------------------------------------------------------------
+// Represents a box outline given 8 points as corners.
+// Does not work with an arbitrary set of points. An oriented bounding box
+// algorithm may be implemented in the future.
+
+function vtkCroppingOutlineRepresentation(publicAPI, model) {
+  var _model$actor$getPrope
+
+  // Set our className
+  model.classHierarchy.push('vtkCroppingOutlineRepresentation') // --------------------------------------------------------------------------
+  // Internal polydata dataset
+  // --------------------------------------------------------------------------
+
+  model.internalPolyData = vtkPolyData$1.newInstance({
+    mtime: 0,
+  })
+  model.points = new Float32Array(8 * 3)
+  model.internalPolyData.getPoints().setData(model.points, 3)
+  model.internalPolyData.getLines().setData(Uint16Array.from(OUTLINE_ARRAY)) // --------------------------------------------------------------------------
+  // Generic rendering pipeline
+  // --------------------------------------------------------------------------
+
+  model.mapper = vtkMapper$1.newInstance({
+    scalarVisibility: false,
+  })
+  model.actor = vtkActor$1.newInstance({
+    parentProp: publicAPI,
+  })
+  ;(_model$actor$getPrope = model.actor.getProperty()).setEdgeColor.apply(
+    _model$actor$getPrope,
+    _toConsumableArray(model.edgeColor)
+  )
+
+  model.mapper.setInputConnection(publicAPI.getOutputPort())
+  model.actor.setMapper(model.mapper)
+  publicAPI.addActor(model.actor) // --------------------------------------------------------------------------
+
+  publicAPI.requestData = function(inData, outData) {
+    var list = publicAPI
+      .getRepresentationStates(inData[0])
+      .filter(function(state) {
+        return state.getOrigin && state.getOrigin()
+      })
+
+    if (list.length === 8) {
+      var pi = 0
+
+      for (var i = 0; i < list.length; i++) {
+        var pt = list[i].getOrigin()
+        model.points[pi++] = pt[0]
+        model.points[pi++] = pt[1]
+        model.points[pi++] = pt[2]
+      }
+
+      model.internalPolyData.getPoints().modified()
+      model.internalPolyData.modified()
+      outData[0] = model.internalPolyData
+    } else {
+      vtkErrorMacro$2('CroppingOutlineRepresentation did not get 8 states')
+    }
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$l = {
+  edgeColor: [1, 1, 1],
+} // ----------------------------------------------------------------------------
+
+function extend$l(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$l, initialValues)
+  vtkContextRepresentation$1.extend(publicAPI, model, initialValues)
+  macro.setGetArray(publicAPI, model, ['edgeColor'], 3)
+  macro.get(publicAPI, model, ['mapper', 'actor']) // Object specific methods
+
+  vtkCroppingOutlineRepresentation(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance$6 = macro.newInstance(
+  extend$l,
+  'vtkCroppingOutlineRepresentation'
+) // ----------------------------------------------------------------------------
+
+var vtkCroppingOutlineRepresentation$1 = {
+  newInstance: newInstance$6,
+  extend: extend$l,
+}
+
+var AXES = ['-', '=', '+'] // ----------------------------------------------------------------------------
+
+function transformVec3(ain, transform) {
+  var vout = new Float64Array(3)
+  transformMat4(vout, ain, transform)
+  return vout
+} // ----------------------------------------------------------------------------
+
+function rotateVec3(vec, transform) {
+  // transform is a mat4
+  var out = create$2()
+  var q = create()
+  getRotation(q, transform)
+  transformQuat(out, vec, q)
+  return out
+} // ----------------------------------------------------------------------------
+
+function handleTypeFromName(name) {
+  var _name$split$map = name.split('').map(function(l) {
+      return AXES.indexOf(l) - 1
+    }),
+    _name$split$map2 = _slicedToArray(_name$split$map, 3),
+    i = _name$split$map2[0],
+    j = _name$split$map2[1],
+    k = _name$split$map2[2]
+
+  if (i * j * k !== 0) {
+    return 'corners'
+  }
+
+  if (i * j !== 0 || j * k !== 0 || k * i !== 0) {
+    return 'edges'
+  }
+
+  return 'faces'
+}
+
+function widgetBehavior(publicAPI, model) {
+  var isDragging = null
+
+  publicAPI.setDisplayCallback = function(callback) {
+    return model.representations[0].setDisplayCallback(callback)
+  }
+
+  publicAPI.handleLeftButtonPress = function() {
+    if (
+      !model.activeState ||
+      !model.activeState.getActive() ||
+      !model.pickable
+    ) {
+      return macro.VOID
+    }
+
+    isDragging = true
+
+    model._interactor.requestAnimation(publicAPI)
+
+    return macro.EVENT_ABORT
+  }
+
+  publicAPI.handleMouseMove = function(callData) {
+    if (isDragging && model.pickable && model.dragable) {
+      return publicAPI.handleEvent(callData)
+    }
+
+    return macro.VOID
+  }
+
+  publicAPI.handleLeftButtonRelease = function() {
+    if (isDragging && model.pickable) {
+      isDragging = false
+
+      model._interactor.cancelAnimation(publicAPI)
+
+      model.widgetState.deactivate()
+    }
+  }
+
+  publicAPI.handleEvent = function(callData) {
+    if (model.pickable && model.activeState && model.activeState.getActive()) {
+      var manipulator = model.activeState.getManipulator()
+
+      if (manipulator) {
+        var name = model.activeState.getName()
+        var type = handleTypeFromName(name)
+        var index = name.split('').map(function(l) {
+          return AXES.indexOf(l)
+        })
+        var planes = model.widgetState.getCroppingPlanes().getPlanes()
+        var indexToWorldT = model.widgetState.getIndexToWorldT()
+        var worldCoords = []
+
+        if (type === 'corners') {
+          // manipulator should be a plane manipulator
+          worldCoords = manipulator.handleEvent(
+            callData,
+            model._apiSpecificRenderWindow
+          )
+        }
+
+        if (type === 'faces') {
+          // constraint axis is line defined by the index and center point.
+          // Since our index point is defined inside a box [0, 2, 0, 2, 0, 2],
+          // center point is [1, 1, 1].
+          var constraintAxis = [1 - index[0], 1 - index[1], 1 - index[2]] // get center of current crop box
+
+          var center = [
+            (planes[0] + planes[1]) / 2,
+            (planes[2] + planes[3]) / 2,
+            (planes[4] + planes[5]) / 2,
+          ] // manipulator should be a line manipulator
+
+          manipulator.setHandleOrigin(transformVec3(center, indexToWorldT))
+          manipulator.setHandleNormal(rotateVec3(constraintAxis, indexToWorldT))
+          worldCoords = manipulator.handleEvent(
+            callData,
+            model._apiSpecificRenderWindow
+          )
+        }
+
+        if (type === 'edges') {
+          // constrain to a plane with a normal parallel to the edge
+          var edgeAxis = index.map(function(a) {
+            return a === 1 ? a : 0
+          })
+          manipulator.setHandleNormal(rotateVec3(edgeAxis, indexToWorldT))
+          worldCoords = manipulator.handleEvent(
+            callData,
+            model._apiSpecificRenderWindow
+          )
+        }
+
+        if (worldCoords.length) {
+          var _model$activeState, _model$widgetState$ge
+
+          // transform worldCoords to indexCoords, and then update the croppingPlanes() state with setPlanes().
+          var worldToIndexT = model.widgetState.getWorldToIndexT()
+          var indexCoords = transformVec3(worldCoords, worldToIndexT)
+
+          for (var i = 0; i < 3; i++) {
+            if (index[i] === 0) {
+              planes[i * 2] = indexCoords[i]
+            } else if (index[i] === 2) {
+              planes[i * 2 + 1] = indexCoords[i]
+            }
+          }
+
+          ;(_model$activeState = model.activeState).setOrigin.apply(
+            _model$activeState,
+            _toConsumableArray(worldCoords)
+          )
+          ;(_model$widgetState$ge = model.widgetState.getCroppingPlanes()).setPlanes.apply(
+            _model$widgetState$ge,
+            _toConsumableArray(planes)
+          )
+
+          return macro.EVENT_ABORT
+        }
+      }
+    }
+
+    return macro.VOID
+  } // --------------------------------------------------------------------------
+  // initialization
+  // --------------------------------------------------------------------------
+
+  model._camera = model._renderer.getActiveCamera()
+  model.classHierarchy.push('vtkImageCroppingWidgetProp')
+}
+
+var DEFAULT_LABEL = 'default'
+
+function removeObjectInArray(array, obj) {
+  var idx = array.indexOf(obj)
+
+  if (idx !== -1) {
+    array.splice(idx, 1)
+  }
+} // ----------------------------------------------------------------------------
+
+function vtkWidgetState(publicAPI, model) {
+  model.classHierarchy.push('vtkWidgetState')
+  var subscriptions = []
+  model.labels = {}
+  model.nestedStates = [] // --------------------------------------------------------------------------
+  // labels can be a string or an array of strings.
+  // If nothing (or empty array) provided the default label will be used.
+  // --------------------------------------------------------------------------
+
+  publicAPI.bindState = function(nested) {
+    var labels =
+      arguments.length > 1 && arguments[1] !== undefined
+        ? arguments[1]
+        : [DEFAULT_LABEL]
+    model.nestedStates.push(nested)
+    subscriptions.push(nested.onModified(publicAPI.modified))
+
+    if (Array.isArray(labels) && labels.length) {
+      for (var i = 0; i < labels.length; i++) {
+        var label = labels[i]
+
+        if (!model.labels[label]) {
+          model.labels[label] = []
+        }
+
+        model.labels[label].push(nested)
+      }
+    } else {
+      // Need to bind to a label
+      var labelToUse = Array.isArray(labels)
+        ? DEFAULT_LABEL
+        : labels || DEFAULT_LABEL
+
+      if (!model.labels[labelToUse]) {
+        model.labels[labelToUse] = []
+      }
+
+      model.labels[labelToUse].push(nested)
+    }
+  } // --------------------------------------------------------------------------
+
+  publicAPI.unbindState = function(nested) {
+    while (subscriptions.length) {
+      subscriptions.pop().unsubscribe()
+    }
+
+    removeObjectInArray(model.nestedStates, nested)
+
+    for (var i = 0; i < model.nestedStates.length; i++) {
+      subscriptions.push(model.nestedStates[i].onModified(publicAPI.modified))
+    }
+
+    Object.keys(model.labels).forEach(function(label) {
+      var list = model.labels[label]
+      removeObjectInArray(list, nested)
+    })
+  } // --------------------------------------------------------------------------
+
+  publicAPI.unbindAll = function() {
+    while (subscriptions.length) {
+      subscriptions.pop().unsubscribe()
+    }
+
+    model.nestedStates = []
+  } // --------------------------------------------------------------------------
+  // Active flag API
+  // --------------------------------------------------------------------------
+
+  publicAPI.activate = function() {
+    return publicAPI.setActive(true)
+  }
+
+  publicAPI.deactivate = function(excludingState) {
+    if (excludingState !== publicAPI) {
+      publicAPI.setActive(false)
+    }
+
+    for (var i = 0; i < model.nestedStates.length; i++) {
+      model.nestedStates[i].deactivate(excludingState)
+    }
+  }
+
+  publicAPI.activateOnly = function(subState) {
+    if (subState) {
+      subState.setActive(true)
+    } // deactivate current state, but exclude the sub-state
+
+    publicAPI.deactivate(subState)
+  } // --------------------------------------------------------------------------
+  // Nested state methods
+  // --------------------------------------------------------------------------
+
+  publicAPI.getStatesWithLabel = function(name) {
+    return model.labels[name]
+  }
+
+  publicAPI.getAllNestedStates = function() {
+    return model.nestedStates
+  } // --------------------------------------------------------------------------
+  // Clean on delete
+  // --------------------------------------------------------------------------
+
+  publicAPI.delete = macro.chain(publicAPI.unbindAll, publicAPI.delete)
+} // ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$k = {
+  active: false,
+} // ----------------------------------------------------------------------------
+
+function extend$k(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$k, initialValues)
+  macro.obj(publicAPI, model)
+  macro.setGet(publicAPI, model, ['active'])
+  vtkWidgetState(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var vtkWidgetState$1 = {
+  extend: extend$k,
+}
+
+function vtkBoundsMixin(publicAPI, model) {
+  var sourceBounds = []
+
+  var bbox = _toConsumableArray(vtkBoundingBox.INIT_BOUNDS)
+
+  publicAPI.containsPoint = function(x, y, z) {
+    if (Array.isArray(x)) {
+      return vtkBoundingBox.containsPoint(bbox, x[0], x[1], x[2])
+    }
+
+    return vtkBoundingBox.containsPoint(bbox, x, y, z)
+  }
+
+  publicAPI.placeWidget = function(bounds) {
+    model.bounds = []
+    var center = [
+      (bounds[0] + bounds[1]) / 2.0,
+      (bounds[2] + bounds[3]) / 2.0,
+      (bounds[4] + bounds[5]) / 2.0,
+    ]
+
+    for (var i = 0; i < 6; i++) {
+      var axisCenter = center[Math.floor(i / 2)]
+      sourceBounds[i] = bounds[i]
+      model.bounds[i] =
+        (bounds[i] - axisCenter) * model.placeFactor + axisCenter
+    }
+
+    vtkBoundingBox.setBounds(bbox, model.bounds)
+    publicAPI.invokeBoundsChange(model.bounds)
+    publicAPI.modified()
+  }
+
+  publicAPI.setPlaceFactor = function(factor) {
+    if (model.placeFactor !== factor) {
+      model.placeFactor = factor
+      model.bounds = []
+      var center = [
+        (sourceBounds[0] + sourceBounds[1]) / 2.0,
+        (sourceBounds[2] + sourceBounds[3]) / 2.0,
+        (sourceBounds[4] + sourceBounds[5]) / 2.0,
+      ]
+
+      for (var i = 0; i < 6; i++) {
+        var axisCenter = center[Math.floor(i / 2)]
+        model.bounds[i] =
+          (sourceBounds[i] - axisCenter) * model.placeFactor + axisCenter
+      }
+
+      vtkBoundingBox.setBounds(bbox, model.bounds)
+      publicAPI.invokeBoundsChange(model.bounds)
+      publicAPI.modified()
+    }
+  }
+} // ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$j = {
+  bounds: [-1, 1, -1, 1, -1, 1],
+  placeFactor: 1,
+} // ----------------------------------------------------------------------------
+
+function extend$j(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$j, initialValues)
+  macro.setGetArray(publicAPI, model, ['bounds'], 6)
+  macro.get(publicAPI, model, ['placeFactor'])
+  macro.event(publicAPI, model, 'BoundsChange')
+  model.bounds = model.bounds.slice()
+  vtkBoundsMixin(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var bounds = {
+  extend: extend$j,
+}
+
+var DEFAULT_VALUES$i = {
+  color: 0.5,
+} // ----------------------------------------------------------------------------
+
+function extend$i(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$i, initialValues)
+  macro.setGet(publicAPI, model, ['color'])
+} // ----------------------------------------------------------------------------
+
+var color = {
+  extend: extend$i,
+}
+
+function vtkCornerMixin(publicAPI, model) {
+  publicAPI.translate = function(dx, dy, dz) {
+    var _publicAPI$getCornerB = publicAPI.getCornerByReference(),
+      _publicAPI$getCornerB2 = _slicedToArray(_publicAPI$getCornerB, 3),
+      x = _publicAPI$getCornerB2[0],
+      y = _publicAPI$getCornerB2[1],
+      z = _publicAPI$getCornerB2[2]
+
+    publicAPI.setCorner(x + dx, y + dy, z + dz)
+  }
+} // ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$h = {
+  corner: [0, 0, 0],
+} // ----------------------------------------------------------------------------
+
+function extend$h(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$h, initialValues)
+  macro.setGetArray(publicAPI, model, ['corner'], 3)
+  vtkCornerMixin(publicAPI)
+} // ----------------------------------------------------------------------------
+
+var corner = {
+  extend: extend$h,
+}
+
+var NoOp = function NoOp(v) {
+  return v
+}
+
+var IDENTITY = identity(new Float64Array(16))
+var EPSILON = 1e-6
+
+var Transform = /*#__PURE__*/ (function() {
+  function Transform() {
+    var useDegree =
+      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false
+
+    _classCallCheck(this, Transform)
+
+    this.matrix = identity(new Float64Array(16))
+    this.tmp = new Float64Array(3)
+    this.angleConv = useDegree ? toRadian : NoOp
+  }
+
+  _createClass(Transform, [
+    {
+      key: 'rotateFromDirections',
+      value: function rotateFromDirections(originDirection, targetDirection) {
+        var src = new Float64Array(3)
+        var dst = new Float64Array(3)
+        var transf = new Float64Array(16)
+        set(src, originDirection[0], originDirection[1], originDirection[2])
+        set(dst, targetDirection[0], targetDirection[1], targetDirection[2])
+        normalize$2(src, src)
+        normalize$2(dst, dst)
+        var cosAlpha = dot(src, dst)
+
+        if (cosAlpha >= 1) {
+          return this
+        }
+
+        cross(this.tmp, src, dst)
+
+        if (length(this.tmp) < EPSILON) {
+          // cross product is 0, so pick arbitrary axis perpendicular
+          // to originDirection.
+          cross(this.tmp, [1, 0, 0], originDirection)
+
+          if (length(this.tmp) < EPSILON) {
+            cross(this.tmp, [0, 1, 0], originDirection)
+          }
+        }
+
+        fromRotation(transf, Math.acos(cosAlpha), this.tmp)
+        multiply$1(this.matrix, this.matrix, transf)
+        return this
+      },
+    },
+    {
+      key: 'rotate',
+      value: function rotate$1(angle, axis) {
+        set.apply(vec3, [this.tmp].concat(_toConsumableArray(axis)))
+        normalize$2(this.tmp, this.tmp)
+        rotate(this.matrix, this.matrix, this.angleConv(angle), this.tmp)
+        return this
+      },
+    },
+    {
+      key: 'rotateX',
+      value: function rotateX(angle) {
+        rotateX$1(this.matrix, this.matrix, this.angleConv(angle))
+        return this
+      },
+    },
+    {
+      key: 'rotateY',
+      value: function rotateY(angle) {
+        rotateY$1(this.matrix, this.matrix, this.angleConv(angle))
+        return this
+      },
+    },
+    {
+      key: 'rotateZ',
+      value: function rotateZ(angle) {
+        rotateZ$1(this.matrix, this.matrix, this.angleConv(angle))
+        return this
+      },
+    },
+    {
+      key: 'translate',
+      value: function translate$1(x, y, z) {
+        set(this.tmp, x, y, z)
+        translate(this.matrix, this.matrix, this.tmp)
+        return this
+      },
+    },
+    {
+      key: 'scale',
+      value: function scale(sx, sy, sz) {
+        set(this.tmp, sx, sy, sz)
+        scale$1(this.matrix, this.matrix, this.tmp)
+        return this
+      },
+    },
+    {
+      key: 'multiply',
+      value: function multiply(mat4x4) {
+        multiply$1(this.matrix, this.matrix, mat4x4)
+        return this
+      },
+    },
+    {
+      key: 'identity',
+      value: function identity$1() {
+        identity(this.matrix)
+        return this
+      }, //-----------
+    },
+    {
+      key: 'apply',
+      value: function apply(typedArray) {
+        var offset =
+          arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
+        var nbIterations =
+          arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : -1
+
+        if (areMatricesEqual(IDENTITY, this.matrix)) {
+          // Make sure we can chain apply...
+          return this
+        }
+
+        var size =
+          nbIterations === -1 ? typedArray.length : offset + nbIterations * 3
+
+        for (var i = offset; i < size; i += 3) {
+          set(this.tmp, typedArray[i], typedArray[i + 1], typedArray[i + 2])
+          transformMat4(this.tmp, this.tmp, this.matrix)
+          typedArray[i] = this.tmp[0]
+          typedArray[i + 1] = this.tmp[1]
+          typedArray[i + 2] = this.tmp[2]
+        } // Make sure we can chain apply...
+
+        return this
+      },
+    },
+    {
+      key: 'getMatrix',
+      value: function getMatrix() {
+        return this.matrix
+      },
+    },
+    {
+      key: 'setMatrix',
+      value: function setMatrix(mat4x4) {
+        if (!!mat4x4 && mat4x4.length === 16) {
+          copy$1(this.matrix, mat4x4)
+        }
+
+        return this
+      },
+    },
+  ])
+
+  return Transform
+})()
+
+function buildFromDegree() {
+  return new Transform(true)
+}
+
+function buildFromRadian() {
+  return new Transform(false)
+}
+
+var vtkMatrixBuilder = {
+  buildFromDegree: buildFromDegree,
+  buildFromRadian: buildFromRadian,
+}
+
+function vtkDirectionMixin(publicAPI, model) {
+  var transform =
+    model.angleUnit === 'degree'
+      ? vtkMatrixBuilder.buildFromDegree()
+      : vtkMatrixBuilder.buildFromRadian()
+
+  publicAPI.rotateFromDirections = function(originDirection, targetDirection) {
+    transform
+      .identity()
+      .rotateFromDirections(originDirection, targetDirection)
+      .apply(model.direction)
+    publicAPI.modified()
+  }
+
+  publicAPI.rotate = function(angle, axis) {
+    transform
+      .identity()
+      .rotate(angle, axis)
+      .apply(model.direction)
+  }
+
+  publicAPI.rotateX = function(angle) {
+    transform
+      .identity()
+      .rotateX(angle)
+      .apply(model.direction)
+  }
+
+  publicAPI.rotateY = function(angle) {
+    transform
+      .identity()
+      .rotateY(angle)
+      .apply(model.direction)
+  }
+
+  publicAPI.rotateZ = function(angle) {
+    transform
+      .identity()
+      .rotateZ(angle)
+      .apply(model.direction)
+  }
+} // ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$g = {
+  direction: [1, 0, 0],
+} // ----------------------------------------------------------------------------
+
+function extend$g(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$g, initialValues)
+  macro.setGetArray(publicAPI, model, ['direction'], 3)
+  vtkDirectionMixin(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var direction = {
+  extend: extend$g,
+}
+
+function vtkManipulatorMixin(publicAPI, model) {
+  publicAPI.updateManipulator = function() {
+    if (model.manipulator) {
+      var origin = model.origin,
+        normal = model.normal,
+        direction = model.direction
+      var _model$manipulator = model.manipulator,
+        setHandleOrigin = _model$manipulator.setHandleOrigin,
+        setHandleCenter = _model$manipulator.setHandleCenter,
+        setHandleNormal = _model$manipulator.setHandleNormal,
+        setHandleDirection = _model$manipulator.setHandleDirection
+
+      if (origin && setHandleOrigin) {
+        setHandleOrigin(origin)
+      } else if (origin && setHandleCenter) {
+        setHandleCenter(origin)
+      }
+
+      if (direction && setHandleDirection) {
+        setHandleDirection(direction)
+      } else if (direction && !normal && setHandleNormal) {
+        setHandleNormal(direction)
+      } else if (normal && setHandleDirection) {
+        setHandleDirection(normal)
+      }
+    }
+  }
+} // ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$f = {
+  manipulator: null,
+} // ----------------------------------------------------------------------------
+
+function extend$f(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$f, initialValues)
+  macro.setGet(publicAPI, model, ['manipulator'])
+  vtkManipulatorMixin(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var manipulator = {
+  extend: extend$f,
+}
+
+var DEFAULT_VALUES$e = {
+  name: '',
+} // ----------------------------------------------------------------------------
+
+function extend$e(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$e, initialValues)
+  macro.setGet(publicAPI, model, ['name'])
+} // ----------------------------------------------------------------------------
+
+var name = {
+  extend: extend$e,
+}
+
+function eq(v1, v2) {
+  return (
+    v1.length === 3 &&
+    v2.length === 3 &&
+    v1[0] === v2[0] &&
+    v1[1] === v2[1] &&
+    v1[2] === v2[2]
+  )
+}
+
+function isSame(o, p1, p2, before) {
+  return eq(o, before.o) && eq(p1, before.p1) && eq(p2, before.p2)
+} // function axis(o, p1, p2) {
+//   if (o[0] === p1[0] && p1[0] === p2[0]) {
+//     return 'X';
+//   }
+//   if (o[1] === p1[1] && p1[1] === p2[1]) {
+//     return 'Y';
+//   }
+//   if (o[2] === p1[2] && p1[2] === p2[2]) {
+//     return 'Z';
+//   }
+//   return '?';
+// }
+// ----------------------------------------------------------------------------
+
+function vtkOrientationMixin(publicAPI, model) {
+  var previousPoints = {
+    o: [],
+    p1: [],
+    p2: [],
+  }
+
+  publicAPI.normalize = function() {
+    normalize$3(model.up)
+    normalize$3(model.right)
+    normalize$3(model.direction)
+    publicAPI.modified()
+  }
+
+  publicAPI.updateFromOriginRightUp = function(o, p1, p2) {
+    if (isSame(o, p1, p2, previousPoints)) {
+      return
+    }
+
+    previousPoints.o = o.slice()
+    previousPoints.p1 = p1.slice()
+    previousPoints.p2 = p2.slice()
+    model.up = [p2[0] - o[0], p2[1] - o[1], p2[2] - o[2]]
+    model.right = [p1[0] - o[0], p1[1] - o[1], p1[2] - o[2]]
+    cross$1(model.up, model.right, model.direction)
+    cross$1(model.direction, model.up, model.right)
+    publicAPI.normalize()
+    publicAPI.modified()
+  }
+} // ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$d = {
+  up: [0, 1, 0],
+  right: [1, 0, 0],
+  direction: [0, 0, 1],
+} // ----------------------------------------------------------------------------
+
+function extend$d(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$d, initialValues)
+  macro.setGetArray(publicAPI, model, ['up', 'right', 'direction'], 3)
+  vtkOrientationMixin(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var orientation = {
+  extend: extend$d,
+}
+
+function vtkOriginMixin(publicAPI, model) {
+  publicAPI.translate = function(dx, dy, dz) {
+    var _publicAPI$getOriginB = publicAPI.getOriginByReference(),
+      _publicAPI$getOriginB2 = _slicedToArray(_publicAPI$getOriginB, 3),
+      x = _publicAPI$getOriginB2[0],
+      y = _publicAPI$getOriginB2[1],
+      z = _publicAPI$getOriginB2[2]
+
+    publicAPI.setOrigin(x + dx, y + dy, z + dz)
+  }
+} // ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$c = {
+  origin: null,
+} // ----------------------------------------------------------------------------
+
+function extend$c(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$c, initialValues)
+  macro.setGetArray(publicAPI, model, ['origin'], 3)
+  vtkOriginMixin(publicAPI)
+} // ----------------------------------------------------------------------------
+
+var origin = {
+  extend: extend$c,
+}
+
+var DEFAULT_VALUES$b = {
+  scale1: 0.5,
+} // ----------------------------------------------------------------------------
+
+function extend$b(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$b, initialValues)
+  macro.setGet(publicAPI, model, ['scale1'])
+} // ----------------------------------------------------------------------------
+
+var scale1 = {
+  extend: extend$b,
+}
+
+var DEFAULT_VALUES$a = {
+  scale3: [1, 1, 1],
+} // ----------------------------------------------------------------------------
+
+function extend$a(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$a, initialValues)
+  macro.setGetArray(publicAPI, model, ['scale3'], 3)
+} // ----------------------------------------------------------------------------
+
+var scale3 = {
+  extend: extend$a,
+}
+
+var DEFAULT_VALUES$9 = {
+  text: 'DefaultText',
+} // ----------------------------------------------------------------------------
+
+function extend$9(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$9, initialValues)
+  macro.setGet(publicAPI, model, ['text'])
+} // ----------------------------------------------------------------------------
+
+var text = {
+  extend: extend$9,
+}
+
+var DEFAULT_VALUES$8 = {
+  visible: true,
+} // ----------------------------------------------------------------------------
+
+function extend$8(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$8, initialValues)
+  macro.setGet(publicAPI, model, ['visible'])
+  publicAPI.isVisible = publicAPI.getVisible
+} // ----------------------------------------------------------------------------
+
+var visible = {
+  extend: extend$8,
+}
+
+var DEFAULT_VALUES$7 = {
+  shape: '',
+} // ----------------------------------------------------------------------------
+
+function extend$7(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$7, initialValues)
+  macro.setGet(publicAPI, model, ['shape'])
+} // ----------------------------------------------------------------------------
+
+var shape = {
+  extend: extend$7,
+}
+
+function ownKeys$3(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$3(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$3(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$3(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+var vtkErrorMacro$1 = macro.vtkErrorMacro // ----------------------------------------------------------------------------
+// Global type lookup map
+// ----------------------------------------------------------------------------
+
+var MIXINS = {
+  bounds: bounds,
+  color: color,
+  corner: corner,
+  direction: direction,
+  manipulator: manipulator,
+  name: name,
+  orientation: orientation,
+  origin: origin,
+  scale1: scale1,
+  scale3: scale3,
+  text: text,
+  visible: visible,
+  shape: shape,
+} // ----------------------------------------------------------------------------
+
+function newInstance$5(mixins, initialValues) {
+  var publicAPI =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  var model =
+    arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {}
+  var skipWidgetState =
+    arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false
+
+  if (!skipWidgetState) {
+    vtkWidgetState$1.extend(publicAPI, model, initialValues)
+  }
+
+  for (var i = 0; i < mixins.length; i++) {
+    var mixin = MIXINS[mixins[i]]
+
+    if (mixin) {
+      mixin.extend(publicAPI, model, initialValues)
+    } else {
+      vtkErrorMacro$1('Invalid mixin name:', mixins[i])
+    }
+  }
+
+  macro.safeArrays(model)
+  return Object.freeze(publicAPI)
+} // ----------------------------------------------------------------------------
+
+var Builder = /*#__PURE__*/ (function() {
+  function Builder() {
+    _classCallCheck(this, Builder)
+
+    this.publicAPI = {}
+    this.model = {}
+    vtkWidgetState$1.extend(this.publicAPI, this.model) // The root state should always have the bounds/placeWidget/widgetFactor
+
+    bounds.extend(this.publicAPI, this.model)
+  }
+  /* eslint-disable no-shadow */
+
+  _createClass(Builder, [
+    {
+      key: 'addDynamicMixinState',
+      value: function addDynamicMixinState(_ref) {
+        var _this = this
+
+        var labels = _ref.labels,
+          mixins = _ref.mixins,
+          name = _ref.name,
+          initialValues = _ref.initialValues
+        var listName = ''.concat(name, 'List')
+        this.model[listName] = [] // Create new Instance method
+
+        this.publicAPI['add'.concat(macro.capitalize(name))] = function(
+          values
+        ) {
+          var instance = newInstance$5(
+            mixins,
+            _objectSpread$3(_objectSpread$3({}, initialValues), values)
+          )
+
+          _this.publicAPI.bindState(instance, labels)
+
+          _this.model[listName].push(instance)
+
+          _this.publicAPI.modified()
+
+          return instance
+        }
+
+        this.publicAPI['remove'.concat(macro.capitalize(name))] = function(
+          instanceOrIndex
+        ) {
+          var removeIndex = _this.model[listName].indexOf(instanceOrIndex)
+
+          if (
+            removeIndex === -1 &&
+            instanceOrIndex < _this.model[listName].length
+          ) {
+            removeIndex = instanceOrIndex
+          }
+
+          var instance = _this.model[listName][removeIndex]
+
+          if (instance) {
+            _this.publicAPI.unbindState(instance)
+          }
+
+          _this.model[listName].splice(removeIndex, 1)
+
+          _this.publicAPI.modified()
+        }
+
+        this.publicAPI[
+          'get'.concat(macro.capitalize(name), 'List')
+        ] = function() {
+          return _this.model[listName].slice()
+        }
+
+        this.publicAPI[
+          'clear'.concat(macro.capitalize(name), 'List')
+        ] = function() {
+          while (_this.model[listName].length) {
+            var instance = _this.model[listName].pop()
+
+            if (instance) {
+              _this.publicAPI.unbindState(instance)
+            }
+          }
+
+          _this.publicAPI.modified()
+        }
+
+        return this
+      },
+    },
+    {
+      key: 'addStateFromMixin',
+      value: function addStateFromMixin(_ref2) {
+        var labels = _ref2.labels,
+          mixins = _ref2.mixins,
+          name = _ref2.name,
+          initialValues = _ref2.initialValues
+        var instance = newInstance$5(mixins, initialValues)
+        this.model[name] = instance
+        this.publicAPI.bindState(instance, labels)
+        macro.setGet(this.publicAPI, this.model, [name])
+        return this
+      },
+    },
+    {
+      key: 'addStateFromInstance',
+      value: function addStateFromInstance(_ref3) {
+        var labels = _ref3.labels,
+          name = _ref3.name,
+          instance = _ref3.instance
+        this.model[name] = instance
+        this.publicAPI.bindState(instance, labels)
+        macro.setGet(this.publicAPI, this.model, [name])
+        return this
+      },
+    },
+    {
+      key: 'addField',
+      value: function addField(_ref4) {
+        var name = _ref4.name,
+          initialValue = _ref4.initialValue
+
+        if (Array.isArray(initialValue)) {
+          macro.setGetArray(
+            this.publicAPI,
+            this.model,
+            [name],
+            initialValue.length
+          )
+        } else {
+          macro.setGet(this.publicAPI, this.model, [name])
+        }
+
+        this.model[name] = initialValue
+        return this
+      },
+    },
+    {
+      key: 'build',
+      value: function build() {
+        for (
+          var _len = arguments.length, mixins = new Array(_len), _key = 0;
+          _key < _len;
+          _key++
+        ) {
+          mixins[_key] = arguments[_key]
+        }
+
+        return newInstance$5(mixins, {}, this.publicAPI, this.model, true)
+      },
+    },
+  ])
+
+  return Builder
+})() // ----------------------------------------------------------------------------
+// Public API
+// ----------------------------------------------------------------------------
+
+function createBuilder() {
+  return new Builder()
+}
+var vtkStateBuilder = {
+  createBuilder: createBuilder,
+}
+
+function build() {
+  // create our state builder
+  var builder = vtkStateBuilder.createBuilder() // add image data description fields
+
+  builder
+    .addField({
+      name: 'indexToWorldT',
+      initialValue: Array(16).fill(0),
+    })
+    .addField({
+      name: 'worldToIndexT',
+      initialValue: Array(16).fill(0),
+    }) // make cropping planes a sub-state so we can listen to it
+  // separately from the rest of the widget state.
+
+  var croppingState = vtkStateBuilder
+    .createBuilder()
+    .addField({
+      name: 'planes',
+      // index space
+      initialValue: [0, 1, 0, 1, 0, 1],
+    })
+    .build() // add cropping planes state to our primary state
+
+  builder.addStateFromInstance({
+    labels: ['croppingPlanes'],
+    name: 'croppingPlanes',
+    instance: croppingState,
+  }) // add all handle states
+  // default bounds is [-1, 1] in all dimensions
+
+  for (var i = -1; i < 2; i++) {
+    for (var j = -1; j < 2; j++) {
+      for (var k = -1; k < 2; k++) {
+        // skip center of box
+        if (i !== 0 || j !== 0 || k !== 0) {
+          var name = AXES[i + 1] + AXES[j + 1] + AXES[k + 1]
+          var type = handleTypeFromName(name) // since handle states are rendered via vtkSphereHandleRepresentation,
+          // we can dictate the handle origin, size (scale1), color, and visibility.
+
+          builder.addStateFromMixin({
+            labels: ['handles', name, type],
+            mixins: [
+              'name',
+              'origin',
+              'color',
+              'scale1',
+              'visible',
+              'manipulator',
+            ],
+            name: name,
+            initialValues: {
+              scale1: 10,
+              origin: [i, j, k],
+              visible: true,
+              name: name,
+            },
+          })
+        }
+      }
+    }
+  }
+
+  return builder.build()
+}
+
+function ownKeys$2(object, enumerableOnly) {
+  var keys = Object.keys(object)
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object)
+    enumerableOnly &&
+      (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable
+      })),
+      keys.push.apply(keys, symbols)
+  }
+  return keys
+}
+
+function _objectSpread$2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {}
+    i % 2
+      ? ownKeys$2(Object(source), !0).forEach(function(key) {
+          _defineProperty(target, key, source[key])
+        })
+      : Object.getOwnPropertyDescriptors
+      ? Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        )
+      : ownKeys$2(Object(source)).forEach(function(key) {
+          Object.defineProperty(
+            target,
+            key,
+            Object.getOwnPropertyDescriptor(source, key)
+          )
+        })
+  }
+  return target
+}
+// ----------------------------------------------------------------------------
+// Factory
+// ----------------------------------------------------------------------------
+
+function vtkImageCroppingWidget(publicAPI, model) {
+  model.classHierarchy.push('vtkImageCroppingWidget')
+
+  var superClass = _objectSpread$2({}, publicAPI)
+
+  var stateSub = null // --------------------------------------------------------------------------
+
+  function setHandlesEnabled(label, flag) {
+    model.widgetState.getStatesWithLabel(label).forEach(function(handle) {
+      handle.setVisible(flag)
+    })
+  } // Set the visibility of the three classes of handles: face, edge, corner
+
+  publicAPI.setFaceHandlesEnabled = function(flag) {
+    return setHandlesEnabled('faces', flag)
+  }
+
+  publicAPI.setEdgeHandlesEnabled = function(flag) {
+    return setHandlesEnabled('edges', flag)
+  }
+
+  publicAPI.setCornerHandlesEnabled = function(flag) {
+    return setHandlesEnabled('corners', flag)
+  } // --------------------------------------------------------------------------
+  // Copies the transforms and dimension of a vtkImageData
+
+  publicAPI.copyImageDataDescription = function(im) {
+    var _model$widgetState, _model$widgetState2
+    ;(_model$widgetState = model.widgetState).setIndexToWorldT.apply(
+      _model$widgetState,
+      _toConsumableArray(im.getIndexToWorld())
+    )
+    ;(_model$widgetState2 = model.widgetState).setWorldToIndexT.apply(
+      _model$widgetState2,
+      _toConsumableArray(im.getWorldToIndex())
+    )
+
+    var dims = im.getDimensions()
+    var planeState = model.widgetState.getCroppingPlanes()
+    planeState.setPlanes([0, dims[0], 0, dims[1], 0, dims[2]])
+    publicAPI.modified()
+  } // --------------------------------------------------------------------------
+  // Updates handle positions based on cropping planes
+
+  publicAPI.updateHandles = function() {
+    var planes = model.widgetState.getCroppingPlanes().getPlanes()
+    var midpts = [
+      (planes[0] + planes[1]) / 2,
+      (planes[2] + planes[3]) / 2,
+      (planes[4] + planes[5]) / 2,
+    ]
+    var iAxis = [planes[0], midpts[0], planes[1]]
+    var jAxis = [planes[2], midpts[1], planes[3]]
+    var kAxis = [planes[4], midpts[2], planes[5]]
+    var indexToWorldT = model.widgetState.getIndexToWorldT()
+
+    var getAxis = function getAxis(a) {
+      return AXES[a]
+    }
+
+    for (var i = 0; i < 3; i++) {
+      for (var j = 0; j < 3; j++) {
+        for (var k = 0; k < 3; k++) {
+          // skip center of box
+          if (i !== 1 || j !== 1 || k !== 1) {
+            var name = [i, j, k].map(getAxis).join('')
+            var coord = transformVec3(
+              [iAxis[i], jAxis[j], kAxis[k]],
+              indexToWorldT
+            )
+
+            var _model$widgetState$ge = model.widgetState.getStatesWithLabel(
+                name
+              ),
+              _model$widgetState$ge2 = _slicedToArray(_model$widgetState$ge, 1),
+              handle = _model$widgetState$ge2[0]
+
+            handle.setOrigin.apply(handle, _toConsumableArray(coord))
+          }
+        }
+      }
+    }
+  } // --------------------------------------------------------------------------
+
+  publicAPI.delete = macro.chain(publicAPI.delete, function() {
+    if (stateSub) {
+      stateSub.unsubscribe()
+    }
+  }) // --- Widget Requirement ---------------------------------------------------
+
+  model.behavior = widgetBehavior
+  model.widgetState = build() // Given a view type (geometry, slice, volume), return a description
+  // of what representations to create and what widget state to pass
+  // to the respective representations.
+
+  publicAPI.getRepresentationsForViewType = function(viewType) {
+    switch (viewType) {
+      case ViewTypes$1.DEFAULT:
+      case ViewTypes$1.GEOMETRY:
+      case ViewTypes$1.SLICE:
+      case ViewTypes$1.VOLUME:
+      default:
+        return [
+          // Describes constructing a vtkSphereHandleRepresentation, and every
+          // time the widget state updates, we will give the representation
+          // a list of all handle states (which have the label "handles").
+          {
+            builder: vtkSphereHandleRepresentation$1,
+            labels: ['handles'],
+          },
+          {
+            builder: vtkCroppingOutlineRepresentation$1,
+            // outline is defined by corner points
+            labels: ['corners'],
+          },
+        ]
+    }
+  } // Update handle positions when cropping planes update
+
+  stateSub = model.widgetState
+    .getCroppingPlanes()
+    .onModified(publicAPI.updateHandles)
+
+  publicAPI.setCornerManipulator = function(manipulator) {
+    superClass.setCornerManipulator(manipulator)
+    model.widgetState.getStatesWithLabel('corners').forEach(function(handle) {
+      return handle.setManipulator(manipulator)
+    })
+  }
+
+  publicAPI.setEdgeManipulator = function(manipulator) {
+    superClass.setEdgeManipulator(manipulator)
+    model.widgetState.getStatesWithLabel('edges').forEach(function(handle) {
+      return handle.setManipulator(manipulator)
+    })
+  }
+
+  publicAPI.setFaceManipulator = function(manipulator) {
+    superClass.setFaceManipulator(manipulator)
+    model.widgetState.getStatesWithLabel('faces').forEach(function(handle) {
+      return handle.setManipulator(manipulator)
+    })
+  } // --------------------------------------------------------------------------
+  // initialization
+  // --------------------------------------------------------------------------
+
+  publicAPI.setCornerManipulator(
+    vtkPlanePointManipulator.newInstance({
+      useCameraNormal: true,
+    })
+  )
+  publicAPI.setEdgeManipulator(vtkPlanePointManipulator.newInstance())
+  publicAPI.setFaceManipulator(vtkLineManipulator$1.newInstance())
+} // ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$6 = {
+  // cornerManipulator: null,
+  // edgeManipulator: null,
+  // faceManipulator: null
+} // ----------------------------------------------------------------------------
+
+function extend$6(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$6, initialValues)
+  vtkAbstractWidgetFactory$1.extend(publicAPI, model, initialValues)
+  macro.setGet(publicAPI, model, [
+    'cornerManipulator',
+    'edgeManipulator',
+    'faceManipulator',
+  ])
+  vtkImageCroppingWidget(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+macro.newInstance(extend$6, 'vtkImageCroppingWidget') // ----------------------------------------------------------------------------
 
 function createCroppingButtons(context, mainUIRow) {
   var viewerDOMId = context.id

@@ -295,6 +295,9 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             FPS_UPDATED: {
               actions: forwardTo('rendering'),
             },
+            SET_IMAGE_SCALE: {
+              actions: forwardTo('rendering'),
+            },
             REQUEST_ANIMATION: {
               actions: forwardTo('rendering'),
             },

@@ -4624,6 +4624,7 @@ var vtkWarningMacro$5 = macro.vtkWarningMacro,
 // Global methods
 // ----------------------------------------------------------------------------
 
+var EMPTY_MOUSE_EVENT = new MouseEvent('')
 var deviceInputMap = {
   'xr-standard': [
     Input.Trigger,
@@ -4638,6 +4639,8 @@ var handledEvents = [
   'StartAnimation',
   'Animation',
   'EndAnimation',
+  'PointerEnter',
+  'PointerLeave',
   'MouseEnter',
   'MouseLeave',
   'StartMouseMove',
@@ -4676,11 +4679,18 @@ var handledEvents = [
 
 function preventDefault(event) {
   if (event.cancelable) {
-    event.stopPropagation()
     event.preventDefault()
   }
+}
 
-  return false
+function pointerCacheToPositions(cache) {
+  var positions = Object.create(null)
+  cache.forEach(function(_ref) {
+    var pointerId = _ref.pointerId,
+      position = _ref.position
+    positions[pointerId] = position
+  })
+  return positions
 } // ----------------------------------------------------------------------------
 // vtkRenderWindowInteractor methods
 // ----------------------------------------------------------------------------
@@ -4689,9 +4699,9 @@ function vtkRenderWindowInteractor(publicAPI, model) {
   // Set our className
   model.classHierarchy.push('vtkRenderWindowInteractor') // Initialize list of requesters
 
-  var animationRequesters = new Set() // track active event listeners to handle simultaneous button tracking
+  var animationRequesters = new Set() // map from pointerId to { pointerId: number, position: [x, y] }
 
-  var activeListenerCount = 0 // Public API methods
+  var pointerCache = new Map() // Public API methods
   //----------------------------------------------------------------------
 
   publicAPI.start = function() {
@@ -4778,20 +4788,13 @@ function vtkRenderWindowInteractor(publicAPI, model) {
       x: scaleX * (source.clientX - bounds.left),
       y: scaleY * (bounds.height - source.clientY + bounds.top),
       z: 0,
+    } // if multitouch, do not update the current renderer
+
+    if (pointerCache.size <= 1 || !model.currentRenderer) {
+      updateCurrentRenderer(position.x, position.y)
     }
-    updateCurrentRenderer(position.x, position.y)
+
     return position
-  }
-
-  function getTouchEventPositionsFor(touches) {
-    var positions = {}
-
-    for (var i = 0; i < touches.length; i++) {
-      var touch = touches[i]
-      positions[touch.identifier] = getScreenEventPositionFor(touch)
-    }
-
-    return positions
   }
 
   function getModifierKeysFor(event) {
@@ -4816,82 +4819,58 @@ function vtkRenderWindowInteractor(publicAPI, model) {
     return keys
   }
 
-  function interactionRegistration(addListeners) {
-    var force =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false
-    var rootElm = document
-    var method = addListeners ? 'addEventListener' : 'removeEventListener'
-    var invMethod = addListeners ? 'removeEventListener' : 'addEventListener'
-
-    if (!force && !addListeners && activeListenerCount > 0) {
-      --activeListenerCount
-    } // only add/remove listeners when there are no registered listeners
-
-    if (!activeListenerCount || force) {
-      activeListenerCount = 0
-
-      if (model.container) {
-        model.container[invMethod]('mousemove', publicAPI.handleMouseMove)
-      }
-
-      rootElm[method]('mouseup', publicAPI.handleMouseUp)
-      rootElm[method]('mousemove', publicAPI.handleMouseMove)
-      rootElm[method]('touchend', publicAPI.handleTouchEnd, false)
-      rootElm[method]('touchcancel', publicAPI.handleTouchEnd, {
-        passive: false,
-        capture: false,
-      })
-      rootElm[method]('touchmove', publicAPI.handleTouchMove, {
-        passive: false,
-        capture: false,
-      })
-    }
-
-    if (!force && addListeners) {
-      ++activeListenerCount
-    }
+  function getDeviceTypeFor(event) {
+    return event.pointerType || ''
   }
 
   publicAPI.bindEvents = function(container) {
     model.container = container
-    container.addEventListener('contextmenu', preventDefault) // container.addEventListener('click', preventDefault); // Avoid stopping event propagation
-
+    container.addEventListener('contextmenu', preventDefault)
     container.addEventListener('wheel', publicAPI.handleWheel)
     container.addEventListener('DOMMouseScroll', publicAPI.handleWheel)
-    container.addEventListener('mouseenter', publicAPI.handleMouseEnter)
-    container.addEventListener('mouseleave', publicAPI.handleMouseLeave)
-    container.addEventListener('mousemove', publicAPI.handleMouseMove)
-    container.addEventListener('mousedown', publicAPI.handleMouseDown)
+    container.addEventListener('pointerenter', publicAPI.handlePointerEnter)
+    container.addEventListener('pointerleave', publicAPI.handlePointerLeave)
+    container.addEventListener('pointermove', publicAPI.handlePointerMove, {
+      passive: false,
+    })
+    container.addEventListener('pointerdown', publicAPI.handlePointerDown, {
+      passive: false,
+    })
+    container.addEventListener('pointerup', publicAPI.handlePointerUp)
+    container.addEventListener('pointercancel', publicAPI.handlePointerCancel)
     document.addEventListener('keypress', publicAPI.handleKeyPress)
     document.addEventListener('keydown', publicAPI.handleKeyDown)
     document.addEventListener('keyup', publicAPI.handleKeyUp)
     document.addEventListener(
       'pointerlockchange',
       publicAPI.handlePointerLockChange
-    )
-    container.addEventListener('touchstart', publicAPI.handleTouchStart, {
-      passive: false,
-      capture: false,
-    })
+    ) // using touchAction is more performant than preventDefault
+    // in a touchstart handler.
+
+    container.style.touchAction = 'none'
+    container.style.userSelect = 'none' // disables tap highlight for when cursor is pointer
+
+    container.style.webkitTapHighlightColor = 'rgba(0,0,0,0)'
   }
 
   publicAPI.unbindEvents = function() {
-    // force unbinding listeners
-    interactionRegistration(false, true)
-    model.container.removeEventListener('contextmenu', preventDefault) // model.container.removeEventListener('click', preventDefault); // Avoid stopping event propagation
-
-    model.container.removeEventListener('wheel', publicAPI.handleWheel)
-    model.container.removeEventListener('DOMMouseScroll', publicAPI.handleWheel)
-    model.container.removeEventListener(
-      'mouseenter',
-      publicAPI.handleMouseEnter
+    var container = model.container
+    container.removeEventListener('contextmenu', preventDefault)
+    container.removeEventListener('wheel', publicAPI.handleWheel)
+    container.removeEventListener('DOMMouseScroll', publicAPI.handleWheel)
+    container.removeEventListener('pointerenter', publicAPI.handlePointerEnter)
+    container.removeEventListener('pointerleave', publicAPI.handlePointerLeave)
+    container.removeEventListener('pointermove', publicAPI.handlePointerMove, {
+      passive: false,
+    })
+    container.removeEventListener('pointerdown', publicAPI.handlePointerDown, {
+      passive: false,
+    })
+    container.removeEventListener('pointerup', publicAPI.handlePointerUp)
+    container.removeEventListener(
+      'pointercancel',
+      publicAPI.handlePointerCancel
     )
-    model.container.removeEventListener(
-      'mouseleave',
-      publicAPI.handleMouseLeave
-    )
-    model.container.removeEventListener('mousemove', publicAPI.handleMouseMove)
-    model.container.removeEventListener('mousedown', publicAPI.handleMouseDown)
     document.removeEventListener('keypress', publicAPI.handleKeyPress)
     document.removeEventListener('keydown', publicAPI.handleKeyDown)
     document.removeEventListener('keyup', publicAPI.handleKeyUp)
@@ -4899,15 +4878,8 @@ function vtkRenderWindowInteractor(publicAPI, model) {
       'pointerlockchange',
       publicAPI.handlePointerLockChange
     )
-    model.container.removeEventListener(
-      'touchstart',
-      publicAPI.handleTouchStart,
-      {
-        passive: false,
-        capture: false,
-      }
-    )
     model.container = null
+    pointerCache.clear()
   }
 
   publicAPI.handleKeyPress = function(event) {
@@ -4925,20 +4897,145 @@ function vtkRenderWindowInteractor(publicAPI, model) {
     publicAPI.keyUpEvent(data)
   }
 
-  publicAPI.handleMouseDown = function(event) {
-    if (event.button > 2) {
-      // ignore events from extra mouse buttons such as `back` and `forward`
-      return
-    }
-
-    interactionRegistration(true)
-    preventDefault(event)
-
+  publicAPI.handlePointerEnter = function(event) {
     var callData = _objectSpread$q(
       _objectSpread$q({}, getModifierKeysFor(event)),
       {},
       {
         position: getScreenEventPositionFor(event),
+        deviceType: getDeviceTypeFor(event),
+      }
+    )
+
+    publicAPI.pointerEnterEvent(callData)
+
+    if (callData.deviceType === 'mouse') {
+      publicAPI.mouseEnterEvent(callData)
+    }
+  }
+
+  publicAPI.handlePointerLeave = function(event) {
+    var callData = _objectSpread$q(
+      _objectSpread$q({}, getModifierKeysFor(event)),
+      {},
+      {
+        position: getScreenEventPositionFor(event),
+        deviceType: getDeviceTypeFor(event),
+      }
+    )
+
+    publicAPI.pointerLeaveEvent(callData)
+
+    if (callData.deviceType === 'mouse') {
+      publicAPI.mouseLeaveEvent(callData)
+    }
+  }
+
+  publicAPI.handlePointerDown = function(event) {
+    if (event.button > 2 || publicAPI.isPointerLocked()) {
+      // ignore events from extra mouse buttons such as `back` and `forward`
+      return
+    }
+
+    if (model.preventDefaultOnPointerDown) {
+      preventDefault(event)
+    }
+
+    if (event.target.hasPointerCapture(event.pointerId)) {
+      event.target.releasePointerCapture(event.pointerId)
+    }
+
+    model.container.setPointerCapture(event.pointerId)
+
+    if (pointerCache.has(event.pointerId)) {
+      vtkWarningMacro$5('[RenderWindowInteractor] duplicate pointerId detected')
+    }
+
+    pointerCache.set(event.pointerId, {
+      pointerId: event.pointerId,
+      position: getScreenEventPositionFor(event),
+    })
+
+    switch (event.pointerType) {
+      case 'pen':
+      case 'touch':
+        publicAPI.handleTouchStart(event)
+        break
+
+      case 'mouse':
+      default:
+        publicAPI.handleMouseDown(event)
+        break
+    }
+  }
+
+  publicAPI.handlePointerUp = function(event) {
+    if (pointerCache.has(event.pointerId)) {
+      if (model.preventDefaultOnPointerUp) {
+        preventDefault(event)
+      }
+
+      pointerCache.delete(event.pointerId)
+      model.container.releasePointerCapture(event.pointerId)
+
+      switch (event.pointerType) {
+        case 'pen':
+        case 'touch':
+          publicAPI.handleTouchEnd(event)
+          break
+
+        case 'mouse':
+        default:
+          publicAPI.handleMouseUp(event)
+          break
+      }
+    }
+  }
+
+  publicAPI.handlePointerCancel = function(event) {
+    if (pointerCache.has(event.pointerId)) {
+      pointerCache.delete(event.pointerId)
+
+      switch (event.pointerType) {
+        case 'pen':
+        case 'touch':
+          publicAPI.handleTouchEnd(event)
+          break
+
+        case 'mouse':
+        default:
+          publicAPI.handleMouseUp(event)
+          break
+      }
+    }
+  }
+
+  publicAPI.handlePointerMove = function(event) {
+    if (pointerCache.has(event.pointerId)) {
+      var pointer = pointerCache.get(event.pointerId)
+      pointer.position = getScreenEventPositionFor(event)
+    }
+
+    switch (event.pointerType) {
+      case 'pen':
+      case 'touch':
+        publicAPI.handleTouchMove(event)
+        break
+
+      case 'mouse':
+      default:
+        publicAPI.handleMouseMove(event)
+        break
+    }
+  }
+
+  publicAPI.handleMouseDown = function(event) {
+    var callData = _objectSpread$q(
+      _objectSpread$q({}, getModifierKeysFor(event)),
+      {},
+      {
+        position: getScreenEventPositionFor(event),
+        deviceType: getDeviceTypeFor(event),
       }
     )
 
@@ -4962,8 +5059,9 @@ function vtkRenderWindowInteractor(publicAPI, model) {
   } //----------------------------------------------------------------------
 
   publicAPI.requestPointerLock = function() {
-    var canvas = publicAPI.getView().getCanvas()
-    canvas.requestPointerLock()
+    if (model.container) {
+      model.container.requestPointerLock()
+    }
   } //----------------------------------------------------------------------
 
   publicAPI.exitPointerLock = function() {
@@ -4971,7 +5069,7 @@ function vtkRenderWindowInteractor(publicAPI, model) {
   } //----------------------------------------------------------------------
 
   publicAPI.isPointerLocked = function() {
-    return !!document.pointerLockElement
+    return !!model.container && document.pointerLockElement === model.container
   } //----------------------------------------------------------------------
 
   publicAPI.handlePointerLockChange = function() {
@@ -5162,13 +5260,12 @@ function vtkRenderWindowInteractor(publicAPI, model) {
   }
 
   publicAPI.handleMouseMove = function(event) {
-    // Do not consume event for move
-    // preventDefault(event);
     var callData = _objectSpread$q(
       _objectSpread$q({}, getModifierKeysFor(event)),
       {},
       {
         position: getScreenEventPositionFor(event),
+        deviceType: getDeviceTypeFor(event),
       }
     )
 
@@ -5245,6 +5342,7 @@ function vtkRenderWindowInteractor(publicAPI, model) {
       {},
       {
         position: getScreenEventPositionFor(event),
+        deviceType: getDeviceTypeFor(event),
       }
     )
 
@@ -5262,39 +5360,13 @@ function vtkRenderWindowInteractor(publicAPI, model) {
     }, 200)
   }
 
-  publicAPI.handleMouseEnter = function(event) {
-    var callData = _objectSpread$q(
-      _objectSpread$q({}, getModifierKeysFor(event)),
-      {},
-      {
-        position: getScreenEventPositionFor(event),
-      }
-    )
-
-    publicAPI.mouseEnterEvent(callData)
-  }
-
-  publicAPI.handleMouseLeave = function(event) {
-    var callData = _objectSpread$q(
-      _objectSpread$q({}, getModifierKeysFor(event)),
-      {},
-      {
-        position: getScreenEventPositionFor(event),
-      }
-    )
-
-    publicAPI.mouseLeaveEvent(callData)
-  }
-
   publicAPI.handleMouseUp = function(event) {
-    interactionRegistration(false)
-    preventDefault(event)
-
     var callData = _objectSpread$q(
       _objectSpread$q({}, getModifierKeysFor(event)),
       {},
       {
         position: getScreenEventPositionFor(event),
+        deviceType: getDeviceTypeFor(event),
       }
     )
 
@@ -5318,106 +5390,107 @@ function vtkRenderWindowInteractor(publicAPI, model) {
   }
 
   publicAPI.handleTouchStart = function(event) {
-    interactionRegistration(true)
-    preventDefault(event) // If multitouch
+    var pointers = _toConsumableArray(pointerCache.values()) // If multitouch
 
-    if (model.recognizeGestures && event.touches.length > 1) {
-      var positions = getTouchEventPositionsFor(event.touches) // did we just transition to multitouch?
+    if (model.recognizeGestures && pointers.length > 1) {
+      var positions = pointerCacheToPositions(pointerCache) // did we just transition to multitouch?
 
-      if (event.touches.length === 2) {
-        var touch = event.touches[0]
-        var callData = {
-          position: getScreenEventPositionFor(touch),
-          shiftKey: false,
-          altKey: false,
-          controlKey: false,
-        }
+      if (pointers.length === 2) {
+        var callData = _objectSpread$q(
+          _objectSpread$q({}, getModifierKeysFor(EMPTY_MOUSE_EVENT)),
+          {},
+          {
+            position: pointers[0].position,
+            deviceType: getDeviceTypeFor(event),
+          }
+        )
+
         publicAPI.leftButtonReleaseEvent(callData)
       } // handle the gesture
 
       publicAPI.recognizeGesture('TouchStart', positions)
-    } else {
-      var _touch = event.touches[0]
-      var _callData = {
-        position: getScreenEventPositionFor(_touch),
-        shiftKey: false,
-        altKey: false,
-        controlKey: false,
-      }
+    } else if (pointers.length === 1) {
+      var _callData = _objectSpread$q(
+        _objectSpread$q({}, getModifierKeysFor(EMPTY_MOUSE_EVENT)),
+        {},
+        {
+          position: getScreenEventPositionFor(event),
+          deviceType: getDeviceTypeFor(event),
+        }
+      )
+
       publicAPI.leftButtonPressEvent(_callData)
     }
   }
 
   publicAPI.handleTouchMove = function(event) {
-    preventDefault(event)
+    var pointers = _toConsumableArray(pointerCache.values())
 
-    if (model.recognizeGestures && event.touches.length > 1) {
-      var positions = getTouchEventPositionsFor(event.touches)
+    if (model.recognizeGestures && pointers.length > 1) {
+      var positions = pointerCacheToPositions(pointerCache)
       publicAPI.recognizeGesture('TouchMove', positions)
-    } else {
-      var touch = event.touches[0]
-      var callData = {
-        position: getScreenEventPositionFor(touch),
-        shiftKey: false,
-        altKey: false,
-        controlKey: false,
-      }
+    } else if (pointers.length === 1) {
+      var callData = _objectSpread$q(
+        _objectSpread$q({}, getModifierKeysFor(EMPTY_MOUSE_EVENT)),
+        {},
+        {
+          position: pointers[0].position,
+          deviceType: getDeviceTypeFor(event),
+        }
+      )
+
       publicAPI.mouseMoveEvent(callData)
     }
   }
 
   publicAPI.handleTouchEnd = function(event) {
-    preventDefault(event)
+    var pointers = _toConsumableArray(pointerCache.values())
 
     if (model.recognizeGestures) {
       // No more fingers down
-      if (event.touches.length === 0) {
-        // If just one finger released, consider as left button
-        if (event.changedTouches.length === 1) {
-          var touch = event.changedTouches[0]
-          var callData = {
-            position: getScreenEventPositionFor(touch),
-            shiftKey: false,
-            altKey: false,
-            controlKey: false,
+      if (pointers.length === 0) {
+        var callData = _objectSpread$q(
+          _objectSpread$q({}, getModifierKeysFor(EMPTY_MOUSE_EVENT)),
+          {},
+          {
+            position: pointers[0].position,
+            deviceType: getDeviceTypeFor(event),
           }
-          publicAPI.leftButtonReleaseEvent(callData)
-          interactionRegistration(false)
-        } else {
-          // If more than one finger released, recognize touchend
-          var positions = getTouchEventPositionsFor(event.changedTouches)
-          publicAPI.recognizeGesture('TouchEnd', positions)
-          interactionRegistration(false)
-        }
-      } else if (event.touches.length === 1) {
-        // If one finger left, end touch and start button press
-        var _positions = getTouchEventPositionsFor(event.changedTouches)
+        )
 
-        publicAPI.recognizeGesture('TouchEnd', _positions)
-        var _touch2 = event.touches[0]
-        var _callData2 = {
-          position: getScreenEventPositionFor(_touch2),
-          shiftKey: false,
-          altKey: false,
-          controlKey: false,
-        }
+        publicAPI.leftButtonReleaseEvent(callData)
+      } else if (pointers.length === 1) {
+        // If one finger left, end touch and start button press
+        var positions = pointerCacheToPositions(pointerCache)
+        publicAPI.recognizeGesture('TouchEnd', positions)
+
+        var _callData2 = _objectSpread$q(
+          _objectSpread$q({}, getModifierKeysFor(EMPTY_MOUSE_EVENT)),
+          {},
+          {
+            position: pointers[0].position,
+            deviceType: getDeviceTypeFor(event),
+          }
+        )
+
         publicAPI.leftButtonPressEvent(_callData2)
       } else {
         // If more than one finger left, keep touch move
-        var _positions2 = getTouchEventPositionsFor(event.touches)
+        var _positions = pointerCacheToPositions(pointerCache)
 
-        publicAPI.recognizeGesture('TouchMove', _positions2)
+        publicAPI.recognizeGesture('TouchMove', _positions)
       }
-    } else {
-      var _touch3 = event.changedTouches[0]
-      var _callData3 = {
-        position: getScreenEventPositionFor(_touch3),
-        shiftKey: false,
-        altKey: false,
-        controlKey: false,
-      }
+    } else if (pointers.length === 1) {
+      var _callData3 = _objectSpread$q(
+        _objectSpread$q({}, getModifierKeysFor(EMPTY_MOUSE_EVENT)),
+        {},
+        {
+          position: pointers[0].position,
+          deviceType: getDeviceTypeFor(event),
+        }
+      )
+
       publicAPI.leftButtonReleaseEvent(_callData3)
-      interactionRegistration(false)
     }
   }
 
@@ -5794,6 +5867,8 @@ var DEFAULT_VALUES$W = {
   wheelTimeoutID: 0,
   moveTimeoutID: 0,
   lastGamepadValues: {},
+  preventDefaultOnPointerDown: false,
+  preventDefaultOnPointerUp: false,
 } // ----------------------------------------------------------------------------
 
 function extend$_(publicAPI, model) {
@@ -5826,6 +5901,8 @@ function extend$_(publicAPI, model) {
     'desiredUpdateRate',
     'stillUpdateRate',
     'picker',
+    'preventDefaultOnPointerDown',
+    'preventDefaultOnPointerUp',
   ])
   macro.moveToProtected(publicAPI, model, ['view']) // For more macro methods, see "Sources/macros.js"
   // Object specific methods
@@ -21185,7 +21262,7 @@ function handleTypeFromName(name) {
 }
 
 function widgetBehavior(publicAPI, model) {
-  var isDragging = null
+  model._isDragging = false
 
   publicAPI.setDisplayCallback = function(callback) {
     return model.representations[0].setDisplayCallback(callback)
@@ -21200,15 +21277,19 @@ function widgetBehavior(publicAPI, model) {
       return macro.VOID
     }
 
-    isDragging = true
+    if (model.dragable) {
+      model._isDragging = true
 
-    model._interactor.requestAnimation(publicAPI)
+      model._apiSpecificRenderWindow.setCursor('grabbing')
+
+      model._interactor.requestAnimation(publicAPI)
+    }
 
     return macro.EVENT_ABORT
   }
 
   publicAPI.handleMouseMove = function(callData) {
-    if (isDragging && model.pickable && model.dragable) {
+    if (model._isDragging) {
       return publicAPI.handleEvent(callData)
     }
 
@@ -21216,13 +21297,23 @@ function widgetBehavior(publicAPI, model) {
   }
 
   publicAPI.handleLeftButtonRelease = function() {
-    if (isDragging && model.pickable) {
-      isDragging = false
+    if (
+      !model.activeState ||
+      !model.activeState.getActive() ||
+      !model.pickable
+    ) {
+      return macro.VOID
+    }
+
+    if (model._isDragging) {
+      model._isDragging = false
 
       model._interactor.cancelAnimation(publicAPI)
 
       model.widgetState.deactivate()
     }
+
+    return macro.EVENT_ABORT
   }
 
   publicAPI.handleEvent = function(callData) {
@@ -53619,6 +53710,8 @@ function updateRenderedImageInterface(context, event) {
   }
 }
 
+macro.vtkErrorMacro // see itk.js PixelTypes.js
+
 function selectImageComponent(context, event) {
   context.images.componentSelector.value = event.data
   var name = event.data.name
@@ -53747,6 +53840,83 @@ function applySelectedLabel(context, event) {
   }
 }
 
+function applyScaleCount(input, scaleCount) {
+  input.innerHTML = '' // clear old options
+
+  _toConsumableArray(Array(scaleCount).keys())
+    .reverse()
+    .forEach(function(i) {
+      var option = document.createElement('option')
+      option.value = i
+      option.innerHTML = i
+      input.appendChild(option)
+    })
+}
+
+function applyRenderedScale(input, renderedScale) {
+  input.value = renderedScale
+}
+
+var scaleSelector = function scaleSelector(context, event) {
+  return function(send, onReceive) {
+    var row = context.layers.layersUIGroup
+    var scaleSelectorDiv = document.createElement('div')
+    row.appendChild(scaleSelectorDiv)
+    scaleSelectorDiv.setAttribute('style', 'display: flex;')
+    scaleSelectorDiv.innerHTML = '\n    <div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Resolution Scale"\n      class="'
+      .concat(style.blendModeButton, '">\n      <img src="')
+      .concat(
+        optimizedSVGDataUri$n,
+        '" alt="Resolution Scale" />\n    </div>\n    '
+      )
+    var scaleSelectorIcon = scaleSelectorDiv.children[0]
+    applyContrastSensitiveStyleToElement(
+      context,
+      'invertibleButton',
+      scaleSelectorIcon
+    )
+    var scaleSelector = document.createElement('select')
+    scaleSelectorDiv.appendChild(scaleSelector)
+    scaleSelector.setAttribute('class', style.selector)
+    scaleSelector.addEventListener('change', function(event) {
+      event.preventDefault()
+      event.stopPropagation()
+      context.images.imageRenderingActors
+        .get(context.images.selectedName)
+        .send('SET_IMAGE_SCALE', {
+          renderedScale: parseInt(event.target.value),
+        })
+    })
+
+    function onImageAssigned(name) {
+      var scaleCount = context.images.actorContext.get(name).image.scaleInfo
+        .length
+
+      if (scaleCount > 1) {
+        scaleSelectorDiv.style.display = 'flex'
+        applyScaleCount(scaleSelector, scaleCount)
+      } else {
+        scaleSelectorDiv.style.display = 'none'
+      }
+    }
+
+    onImageAssigned(event.data)
+    onReceive(function(_ref) {
+      var type = _ref.type,
+        data = _ref.data
+
+      if (type === 'IMAGE_ASSIGNED') {
+        onImageAssigned(data)
+      } else if (type === 'RENDERED_IMAGE_ASSIGNED') {
+        applyRenderedScale(
+          scaleSelector,
+          context.images.actorContext.get(data).renderedScale
+        )
+      }
+    })
+  }
+}
+
 var imagesUIMachineOptions = {
   actions: {
     createImagesInterface: createImagesInterface,
@@ -53771,6 +53941,9 @@ var imagesUIMachineOptions = {
     applyLabelImageWeights: applyLabelImageWeights,
     applyLabelNames: applyLabelNames,
     applySelectedLabel: applySelectedLabel,
+  },
+  services: {
+    scaleSelector: scaleSelector,
   },
 }
 

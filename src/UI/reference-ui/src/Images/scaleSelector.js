@@ -16,10 +16,8 @@ function applyRenderedScale(input, renderedScale) {
   input.value = renderedScale
 }
 
-function createScaleSelector(context, imagesUIGroup) {
-  const row = document.createElement('div')
-  row.setAttribute('class', style.uiRow)
-  imagesUIGroup.appendChild(row)
+const scaleSelector = (context, event) => (send, onReceive) => {
+  const row = context.layers.layersUIGroup
 
   const scaleSelectorDiv = document.createElement('div')
   row.appendChild(scaleSelectorDiv)
@@ -33,7 +31,6 @@ function createScaleSelector(context, imagesUIGroup) {
     </div>
     `
   const scaleSelectorIcon = scaleSelectorDiv.children[0]
-  context.images.scaleSelectorIcon = scaleSelectorIcon
   applyContrastSensitiveStyleToElement(
     context,
     'invertibleButton',
@@ -48,28 +45,36 @@ function createScaleSelector(context, imagesUIGroup) {
   scaleSelector.addEventListener('change', event => {
     event.preventDefault()
     event.stopPropagation()
-    context.service.send('SET_IMAGE_SCALE', {
-      renderedScale: parseInt(event.target.value),
-    })
+    context.images.imageRenderingActors
+      .get(context.images.selectedName)
+      .send('SET_IMAGE_SCALE', {
+        renderedScale: parseInt(event.target.value),
+      })
   })
 
-  context.service.onTransition(state => {
-    if (state.event.type === 'IMAGE_ASSIGNED') {
-      const scaleCount = context.images.actorContext.get(state.event.data).image
-        .scaleInfo.length
-      if (scaleCount > 1) {
-        scaleSelectorDiv.style.display = 'flex'
-        applyScaleCount(scaleSelector, scaleCount)
-      } else {
-        scaleSelectorDiv.style.display = 'none'
-      }
-    } else if (state.event.type === 'RENDERED_IMAGE_ASSIGNED') {
+  function onImageAssigned(name) {
+    const scaleCount = context.images.actorContext.get(name).image.scaleInfo
+      .length
+    if (scaleCount > 1) {
+      scaleSelectorDiv.style.display = 'flex'
+      applyScaleCount(scaleSelector, scaleCount)
+    } else {
+      scaleSelectorDiv.style.display = 'none'
+    }
+  }
+
+  onImageAssigned(event.data)
+
+  onReceive(({ type, data }) => {
+    if (type === 'IMAGE_ASSIGNED') {
+      onImageAssigned(data)
+    } else if (type === 'RENDERED_IMAGE_ASSIGNED') {
       applyRenderedScale(
         scaleSelector,
-        context.images.actorContext.get(state.event.data).renderedScale
+        context.images.actorContext.get(data).renderedScale
       )
     }
   })
 }
 
-export default createScaleSelector
+export default scaleSelector

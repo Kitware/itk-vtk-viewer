@@ -1337,6 +1337,13 @@ const createViewer = async (
     store.geometriesUI.opacities[index] = opacity
   }
 
+  publicAPI.setImageScale = renderedScale => {
+    service.send({
+      type: 'SET_IMAGE_SCALE',
+      renderedScale,
+    })
+  }
+
   // The `itkVtkView` is considered an internal implementation detail
   // and its interface and behavior may change without changes to the major version.
   publicAPI.getViewProxy = () => {

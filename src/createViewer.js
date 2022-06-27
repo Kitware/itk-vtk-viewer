@@ -25,7 +25,6 @@ import createViewerMachine from './createViewerMachine'
 import ViewerMachineContext from './Context/ViewerMachineContext'
 
 import { autorun, reaction, toJS } from 'mobx'
-
 const createViewer = async (
   rootContainer,
   {
@@ -67,7 +66,7 @@ const createViewer = async (
   // Migrate to a module
   const eventEmitter = store.eventEmitter
 
-  function eventEmitterCallback(context, event) {
+  function eventEmitterCallback(context /*, event*/) {
     return (callback, onReceive) => {
       onReceive(event => {
         switch (event.type) {
@@ -202,10 +201,6 @@ const createViewer = async (
   const machine = createViewerMachine(options, context, eventEmitterCallback)
   const service = interpret(machine, { devTools: debug })
   context.service = service
-  //console.log(options)
-  //console.log(context)
-  //console.log(machine)
-  //console.log(service)
   service.start()
 
   let updatingImage = false
@@ -363,10 +358,11 @@ const createViewer = async (
       }
     }
   )
+
   let imageName = null
   if (image) {
     const multiscaleImage = await toMultiscaleSpatialImage(image)
-    imageName = multiscaleImage.name
+    imageName = multiscaleImage?.name ?? null
     service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
     if (multiscaleImage.scaleInfo[0].ranges) {
       const components = multiscaleImage.imageType.components

@@ -43,7 +43,7 @@ function applyRenderedImage(context, event) {
       context.itkVtkView.setViewMode('Volume')
     }
 
-    context.itkVtkView.setAxesNames(image.scaleInfo[0].axesNames)
+    context.itkVtkView.setAxesNames(image?.scaleInfo[0].axesNames) // ? for no image, only imageLabel case
 
     context.images.representationProxy.getMapper().setMaximumSamplesPerRay(2048)
     context.images.representationProxy.setSampleDistance(

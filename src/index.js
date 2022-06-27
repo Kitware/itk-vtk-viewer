@@ -10,6 +10,7 @@ import UserInterface from './UserInterface'
 import createFileDragAndDrop from './UserInterface/createFileDragAndDrop'
 import style from './UserInterface/ItkVtkViewer.module.css'
 import toMultiscaleSpatialImage from './IO/toMultiscaleSpatialImage'
+import { ConglomerateMultiscaleSpatialImage } from './IO/ConglomerateMultiscaleSpatialImage'
 import { isZarr } from './IO/ZarrMultiscaleSpatialImage'
 
 import imJoyPluginAPI from './imJoyPluginAPI'
@@ -40,6 +41,36 @@ export async function createViewerFromFiles(el, files, use2D = false) {
   return processFiles(el, { files: files, use2D })
 }
 
+async function makeImage({ image, progressCallback, isLabelImage = false }) {
+  if (!image) return null
+  if (isZarr(image)) {
+    return await toMultiscaleSpatialImage(
+      new URL(image, document.location),
+      isLabelImage
+    )
+  }
+
+  const result = await readImageArrayBuffer(
+    null,
+    await fetchBinaryContent(image, progressCallback),
+    image.split('/').slice(-1)[0]
+  )
+  result.webWorker.terminate()
+  return await toMultiscaleSpatialImage(result.image)
+}
+
+async function parseImageArg(image, progressCallback) {
+  if (!image) return null
+
+  const images = await Promise.all(
+    image.split(',').map(image => makeImage({ image, progressCallback }))
+  )
+
+  return images.length > 1
+    ? new ConglomerateMultiscaleSpatialImage(images)
+    : images[0]
+}
+
 export async function createViewerFromUrl(
   el,
   {
@@ -56,47 +87,11 @@ export async function createViewerFromUrl(
   UserInterface.emptyContainer(el)
   const progressCallback = UserInterface.createLoadingProgress(el)
 
-  let imageObject = null
-  if (image) {
-    if (isZarr(image)) {
-      imageObject = await toMultiscaleSpatialImage(
-        new URL(image, document.location)
-      )
-    } else {
-      const arrayBuffer = await fetchBinaryContent(image, progressCallback)
-      const result = await readImageArrayBuffer(
-        null,
-        arrayBuffer,
-        image.split('/').slice(-1)[0]
-      )
-      result.webWorker.terminate()
-      imageObject = result.image
-    }
-  }
-
-  let labelImageObject = null
-  if (labelImage) {
-    if (isZarr(labelImage)) {
-      labelImageObject = await toMultiscaleSpatialImage(
-        new URL(labelImage, document.location),
-        true
-      )
-    } else {
-      const arrayBuffer = await fetchBinaryContent(labelImage, progressCallback)
-      const result = await readImageArrayBuffer(
-        null,
-        arrayBuffer,
-        labelImage.split('/').slice(-1)[0]
-      )
-      result.webWorker.terminate()
-      labelImageObject = result.image
-    }
-  }
-
+  let fetchedImage
   const fileObjects = []
   for (const url of files) {
     if (isZarr(url)) {
-      imageObject = await toMultiscaleSpatialImage(
+      fetchedImage = await toMultiscaleSpatialImage(
         new URL(url, document.location)
       )
     } else {
@@ -106,6 +101,15 @@ export async function createViewerFromUrl(
       )
     }
   }
+
+  // No image in files? Check image arg.
+  fetchedImage = fetchedImage ?? (await parseImageArg(image, progressCallback))
+
+  const labelImageObject = await makeImage({
+    image: labelImage,
+    progressCallback,
+    isLabelImage: true,
+  })
 
   let viewerConfig = null
   if (config) {
@@ -122,7 +126,7 @@ export async function createViewerFromUrl(
 
   return processFiles(el, {
     files: fileObjects,
-    image: imageObject,
+    image: fetchedImage,
     labelImage: labelImageObject,
     config: viewerConfig,
     labelImageNames: labelImageNameObject,

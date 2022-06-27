@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <div
+      style="position: relative; border: 1px solid red; width: 1000px; height: 1000px;"
+      id="viewport"
+    ></div>
+
+    <script type="text/javascript" src="itkVtkViewer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      async function main() {
+        const imageUrl = new URL(
+          'test-data/HeadMRVolume.nrrd',
+          window.location.origin
+        )
+        const images = await Promise.all(
+          [imageUrl, imageUrl].map(itkVtkViewer.utils.toMultiscaleSpatialImage)
+        )
+        const image = new itkVtkViewer.utils.ConglomerateMultiscaleSpatialImage(
+          images
+        )
+        const container = document.querySelector('#viewport')
+        itkVtkViewer.createViewer(container, {
+          image,
+          rotate: false,
+        })
+      }
+
+      main()
+    </script>
+  </body>
+</html>

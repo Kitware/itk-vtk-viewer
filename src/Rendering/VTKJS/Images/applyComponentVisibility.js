@@ -1,5 +1,8 @@
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 
+// Max number of renerable components
+const VTK_MAX_VRCOMP = 4 // should mirror similar variable in vtk.js VolumeProperty
+
 function applyComponentVisibility(context, event) {
   const name = event.data.name
   const index = event.data.component
@@ -22,22 +25,21 @@ function applyComponentVisibility(context, event) {
   }
 
   if (context.images.representationProxy) {
-    const fusedImageIndex = visualizedComponents.indexOf(index)
     const sliceActors = context.images.representationProxy.getActors()
-    sliceActors.forEach((actor, actorIdx) => {
-      const actorProp = actor.getProperty()
-      actorProp.setComponentWeight(fusedImageIndex, weight)
-    })
+    const volumeActors = context.images.representationProxy.getVolumes()
 
-    const volumeProps = context.images.representationProxy.getVolumes()
-    volumeProps.forEach((volume, volIdx) => {
+    const fusedImageIndex = visualizedComponents.indexOf(index)
+    // find target component in visualizedComponents
+    // and less than actor max components
+    if (fusedImageIndex >= 0 && fusedImageIndex < VTK_MAX_VRCOMP) {
+      ;[...sliceActors, ...volumeActors].forEach(actor => {
+        const properties = actor.getProperty()
+        properties.setComponentWeight(fusedImageIndex, weight)
+      })
+    }
+
+    volumeActors.forEach(volume => {
       const volumeProperty = volume.getProperty()
-      volumeProperty.setComponentWeight(fusedImageIndex, weight)
-      volumeProperty.setOpacityMode(
-        componentVisibilities.length,
-        OpacityMode.PROPORTIONAL
-      )
-
       if (!!context.images.labelImage || !!context.images.editorLabelImage) {
         let componentsVisible = false
         for (let i = 0; i < visualizedComponents.length - 1; i++) {

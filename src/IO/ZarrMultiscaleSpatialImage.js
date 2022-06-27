@@ -53,7 +53,7 @@ export const computeTransform = (imageMetadata, datasetMetadata, dimCount) => {
   )
 }
 
-// lazy creation of voxel/pixel/dimenstion coordinates array
+// lazy creation of voxel/pixel/dimension coordinates array
 const makeCoords = ({ shape, multiscaleImage, dataset }) => {
   const axes = multiscaleImage.axes?.map(({ name }) => name) ?? TCZYX
   const coords = new Map(axes.map(dim => [dim, null]))
@@ -111,22 +111,13 @@ const createScaledImageInfo = async ({
 
   const dims =
     scaleZattrs._ARRAY_DIMENSIONS ??
-    multiscaleImage.axes?.map(({ name }) => name) ??
-    TCZYX // defautl to TCZYX for NGFF v0.1
+    multiscaleImage.axes?.map(axis => axis.name ?? axis) ??
+    TCZYX // default to TCZYX for NGFF v0.1
 
   const { shape, chunks } = pixelArrayMetadata
 
   const chunkSize = toDimensionMap(dims, chunks)
   const arrayShape = toDimensionMap(dims, shape)
-
-  const componentsInData = arrayShape.get('c') ?? 1
-  const components = Math.min(componentsInData, 3)
-  if (componentsInData !== components) {
-    console.warn(
-      `itk-vtk-viewer: ${componentsInData} components are not supported. Falling back to ${components} components.`
-    )
-    arrayShape.set('c', components)
-  }
 
   const axesNames = multiscaleSpatialImageVersion
     ? await findAxesLongNames({ dataset, dataSource, dims })

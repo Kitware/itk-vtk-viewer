@@ -5,6 +5,7 @@ import componentTypeToTypedArray from './componentTypeToTypedArray'
 import WebworkerPromise from 'webworker-promise'
 import ImageDataFromChunksWorker from './ImageDataFromChunks.worker'
 import { CXYZT, toDimensionArray } from './dimensionUtils'
+
 const imageDataFromChunksWorker = new ImageDataFromChunksWorker()
 const imageDataFromChunksWorkerPromise = new WebworkerPromise(
   imageDataFromChunksWorker
@@ -125,12 +126,7 @@ class MultiscaleSpatialImage {
     console.error('Override me in a derived class')
   }
 
-  /* Retrieve the entire image at the given scale. */
-  async scaleLargestImage(scale) {
-    if (this.cachedScaleLargestImage.has(scale)) {
-      return this.cachedScaleLargestImage.get(scale)
-    }
-
+  async buildImage(scale) {
     const info = this.scaleInfo[scale]
 
     const start = new Map(info.dims.map(dim => [dim, 0]))
@@ -191,7 +187,7 @@ class MultiscaleSpatialImage {
     const origin = await this.scaleOrigin(scale)
     const spacing = await this.scaleSpacing(scale)
 
-    const image = {
+    return {
       imageType: this.imageType,
       name: this.scaleInfo[scale].name,
       origin,
@@ -202,7 +198,14 @@ class MultiscaleSpatialImage {
         .map(dim => info.arrayShape.get(dim)),
       data: pixelArray,
     }
+  }
 
+  /* Retrieve the entire image at the given scale. */
+  async scaleLargestImage(scale) {
+    if (this.cachedScaleLargestImage.has(scale)) {
+      return this.cachedScaleLargestImage.get(scale)
+    }
+    const image = await this.buildImage(scale)
     this.cachedScaleLargestImage.set(scale, image)
     return image
   }

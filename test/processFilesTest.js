@@ -32,5 +32,5 @@ test('Test reading a vti image file', async t => {
   })
   const vtiFile = new File([response.data], 'test.vti')
   const result = await readFiles({ files: [vtiFile] })
-  verifyImage(t, result.images[0])
+  verifyImage(t, result.image)
 })

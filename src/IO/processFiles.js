@@ -83,13 +83,13 @@ const readDataFromFiles = async files => {
 
 export const processFiles = async (
   container,
-  { files, images, labelImage, config, labelImageNames, rotate, use2D, ...rest }
+  { files, image, labelImage, config, labelImageNames, rotate, use2D, ...rest }
 ) => {
   UserInterface.emptyContainer(container)
   UserInterface.createLoadingProgress(container)
   const viewerConfig = await readFiles({
     files,
-    images,
+    image,
     labelImage,
     labelImageNames,
     use2D,
@@ -104,13 +104,13 @@ export const processFiles = async (
 
 export const readFiles = async ({
   files,
-  images = [],
+  image,
   labelImage,
   labelImageNames,
   use2D,
 }) => {
   let readDICOMSeries = readImageDICOMFileSeries
-  if (files.length < 2 || images.lenght > 0) {
+  if (files.length < 2 || !image) {
     readDICOMSeries = function() {
       return Promise.reject('Skip DICOM series read attempt')
     }
@@ -184,17 +184,17 @@ export const readFiles = async ({
       })
       .map(({ data }) => data)
 
-    const imagesMerged = [...imagesFromFiles, ...images]
+    const outImage = image ?? imagesFromFiles[0]
 
     const any3D = [
       ...dataSets.map(({ is3D }) => is3D),
-      ...[...imagesMerged, labelImageResult].map(
+      ...[outImage, labelImageResult].map(
         image => image?.imageType.dimension === 3
       ),
     ].some(is3D => is3D)
 
     return {
-      images: imagesMerged,
+      image: outImage,
       labelImage: labelImageResult,
       labelImageNames: labelImageNameData,
       geometries,

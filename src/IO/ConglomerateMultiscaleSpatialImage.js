@@ -1,6 +1,4 @@
-import MultiscaleSpatialImage, {
-  MAX_COMPONENT_COUNT,
-} from './MultiscaleSpatialImage'
+import MultiscaleSpatialImage from './MultiscaleSpatialImage'
 
 export class ConglomerateMultiscaleSpatialImage extends MultiscaleSpatialImage {
   constructor(images) {
@@ -8,10 +6,7 @@ export class ConglomerateMultiscaleSpatialImage extends MultiscaleSpatialImage {
       (fused, { scaleInfo, imageType }) => ({
         imageType: {
           ...imageType,
-          components: Math.min(
-            fused.imageType.components + imageType.components,
-            MAX_COMPONENT_COUNT
-          ),
+          components: fused.imageType.components + imageType.components,
         },
         scaleInfo: fused.scaleInfo.map((scale, scaleIdx) => ({
           ...scale,

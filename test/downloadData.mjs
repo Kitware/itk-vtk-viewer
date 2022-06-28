@@ -7,7 +7,7 @@
 //
 // And update the resulting CID below.
 //
-const IPFS_CID = 'bafybeieyvpvs4itbihjajarwti7f52zqlwp63htn6vs7soyljszioqqkvi'
+const IPFS_CID = 'bafybeifillrkn2sc4o3uy63afmwi37ruyjhqrke26xwwgfwtzxevoebd4m'
 
 import fs from 'fs'
 
@@ -23,9 +23,10 @@ async function downloadData(cid, token, outputDir) {
 const testDataDir = './test/data'
 if (!fs.existsSync(testDataDir)) {
   console.log('Test data not found. Downloading.')
+  // eslint-disable-next-line no-undef
   let token = process.env.WEB3STORAGE_TOKEN
   if (!token) {
-    token = config.get("token")
+    token = config.get('token')
   }
   await downloadData(IPFS_CID, token, testDataDir)
 } else {

@@ -38,7 +38,12 @@ async function updateRenderedImage(context) {
   )
   if (labelAtScale) updateContextWithLabelImage(actorContext, labelAtScale)
 
-  const isFuseNeeded = Array.isArray(imageAtScale) || labelAtScale
+  const isFuseNeeded =
+    Array.isArray(imageAtScale) ||
+    labelAtScale ||
+    imageAtScale.imageType.components !==
+      actorContext.visualizedComponents.length // more components in image than renderable
+
   const [itkImage, componentRanges] = isFuseNeeded
     ? await fuseImages({
         imageAtScale,

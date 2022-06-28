@@ -46056,7 +46056,11 @@ function createImagesInterface(context) {
   imagesUIGroup.setAttribute('class', style.uiGroup)
   context.images.imagesUIGroup = imagesUIGroup
   context.uiGroups.set('images', imagesUIGroup)
-  createComponentSelector(context, imagesUIGroup)
+  var componentAndScale = document.createElement('div')
+  imagesUIGroup.appendChild(componentAndScale)
+  componentAndScale.setAttribute('style', 'display: flex;')
+  context.images.componentAndScale = componentAndScale
+  createComponentSelector(context, componentAndScale)
   createColorRangeInput(context, imagesUIGroup)
   createTransferFunctionWidget(context, imagesUIGroup)
   createVolumeRenderingInputs(context, imagesUIGroup)
@@ -53710,8 +53714,6 @@ function updateRenderedImageInterface(context, event) {
   }
 }
 
-macro.vtkErrorMacro // see itk.js PixelTypes.js
-
 function selectImageComponent(context, event) {
   context.images.componentSelector.value = event.data
   var name = event.data.name
@@ -53859,9 +53861,8 @@ function applyRenderedScale(input, renderedScale) {
 
 var scaleSelector = function scaleSelector(context, event) {
   return function(send, onReceive) {
-    var row = context.layers.layersUIGroup
     var scaleSelectorDiv = document.createElement('div')
-    row.appendChild(scaleSelectorDiv)
+    context.images.componentAndScale.appendChild(scaleSelectorDiv)
     scaleSelectorDiv.setAttribute('style', 'display: flex;')
     scaleSelectorDiv.innerHTML = '\n    <div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Resolution Scale"\n      class="'
       .concat(style.blendModeButton, '">\n      <img src="')
@@ -53877,6 +53878,7 @@ var scaleSelector = function scaleSelector(context, event) {
     )
     var scaleSelector = document.createElement('select')
     scaleSelectorDiv.appendChild(scaleSelector)
+    scaleSelectorDiv.setAttribute('style', 'height: 25px;')
     scaleSelector.setAttribute('class', style.selector)
     scaleSelector.addEventListener('change', function(event) {
       event.preventDefault()

@@ -17,10 +17,8 @@ function applyRenderedScale(input, renderedScale) {
 }
 
 const scaleSelector = (context, event) => (send, onReceive) => {
-  const row = context.layers.layersUIGroup
-
   const scaleSelectorDiv = document.createElement('div')
-  row.appendChild(scaleSelectorDiv)
+  context.images.componentAndScale.appendChild(scaleSelectorDiv)
 
   scaleSelectorDiv.setAttribute('style', 'display: flex;')
 
@@ -39,6 +37,7 @@ const scaleSelector = (context, event) => (send, onReceive) => {
 
   const scaleSelector = document.createElement('select')
   scaleSelectorDiv.appendChild(scaleSelector)
+  scaleSelectorDiv.setAttribute('style', 'height: 25px;')
 
   scaleSelector.setAttribute('class', style.selector)
 

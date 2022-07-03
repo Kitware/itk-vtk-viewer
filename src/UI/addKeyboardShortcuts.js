@@ -5,206 +5,152 @@ const MOUSETRAP = new Mousetrap()
 
 const addKeyboardShortcuts = (container, service) => {
   container.addEventListener('mouseenter', () => {
-    MOUSETRAP.bind('1', function(event, combo) {
+    MOUSETRAP.bind('1', function(event /*, combo*/) {
       preventDefaults(event)
       service.send({ type: 'VIEW_MODE_CHANGED', data: 'XPlane' })
     })
-    MOUSETRAP.bind('alt+1', function(event, combo) {
+    MOUSETRAP.bind('alt+1', function(event /*, combo*/) {
       preventDefaults(event)
       service.send({ type: 'VIEW_MODE_CHANGED', data: 'XPlane' })
     })
-    MOUSETRAP.bind('2', function(event, combo) {
+    MOUSETRAP.bind('2', function(event /*, combo*/) {
       preventDefaults(event)
       service.send({ type: 'VIEW_MODE_CHANGED', data: 'YPlane' })
     })
-    MOUSETRAP.bind('alt+2', function(event, combo) {
+    MOUSETRAP.bind('alt+2', function(event /*, combo*/) {
       preventDefaults(event)
       service.send({ type: 'VIEW_MODE_CHANGED', data: 'YPlane' })
     })
-    MOUSETRAP.bind('3', function(event, combo) {
+    MOUSETRAP.bind('3', function(event /*, combo*/) {
       preventDefaults(event)
       service.send({ type: 'VIEW_MODE_CHANGED', data: 'ZPlane' })
     })
-    MOUSETRAP.bind('alt+3', function(event, combo) {
+    MOUSETRAP.bind('alt+3', function(event /*, combo*/) {
       preventDefaults(event)
       service.send({ type: 'VIEW_MODE_CHANGED', data: 'ZPlane' })
     })
-    MOUSETRAP.bind('4', function(event, combo) {
+    MOUSETRAP.bind('4', function(event /*, combo*/) {
       preventDefaults(event)
       service.send({ type: 'VIEW_MODE_CHANGED', data: 'Volume' })
     })
-    MOUSETRAP.bind('alt+4', function(event, combo) {
+    MOUSETRAP.bind('alt+4', function(event /*, combo*/) {
       preventDefaults(event)
       service.send({ type: 'VIEW_MODE_CHANGED', data: 'Volume' })
     })
-    MOUSETRAP.bind('r', function(event, combo) {
+    MOUSETRAP.bind('r', function(event /*, combo*/) {
       preventDefaults(event)
       service.send('RESET_CAMERA')
     })
-    MOUSETRAP.bind('alt+r', function(event, combo) {
+    MOUSETRAP.bind('alt+r', function(event /*, combo*/) {
       preventDefaults(event)
       service.send('RESET_CAMERA')
     })
-    MOUSETRAP.bind('p', function(event, combo) {
+    MOUSETRAP.bind('p', function(event /*, combo*/) {
       preventDefaults(event)
       service.send('RESET_CAMERA')
     })
-    MOUSETRAP.bind('alt+p', function(event, combo) {
+    MOUSETRAP.bind('alt+p', function(event /*, combo*/) {
       preventDefaults(event)
       service.send('RESET_CAMERA')
     })
-    //MOUSETRAP.bind('e', function(event, combo) {
-    //preventDefaults(event)
-    //const resetCroppingPlanesButton = document.getElementById(
-    //`${viewerDOMId}-resetCroppingPlanesButton`
-    //)
-    //resetCroppingPlanesButton.click()
-    //})
-    //MOUSETRAP.bind('alt+e', function(event, combo) {
-    //preventDefaults(event)
-    //const resetCroppingPlanesButton = document.getElementById(
-    //`${viewerDOMId}-resetCroppingPlanesButton`
-    //)
-    //resetCroppingPlanesButton.click()
-    //})
-    //MOUSETRAP.bind('.', function(event, combo) {
-    //preventDefaults(event)
-    //const resetCroppingPlanesButton = document.getElementById(
-    //`${viewerDOMId}-resetCroppingPlanesButton`
-    //)
-    //resetCroppingPlanesButton.click()
-    //})
-    //MOUSETRAP.bind('alt+.', function(event, combo) {
-    //preventDefaults(event)
-    //const resetCroppingPlanesButton = document.getElementById(
-    //`${viewerDOMId}-resetCroppingPlanesButton`
-    //)
-    //resetCroppingPlanesButton.click()
-    //})
-    //MOUSETRAP.bind('w', function(event, combo) {
-    //preventDefaults(event)
-    //const toggleCroppingPlanesButton = document.getElementById(
-    //`${viewerDOMId}-toggleCroppingPlanesButton`
-    //)
-    //toggleCroppingPlanesButton.click()
-    //})
-    //MOUSETRAP.bind('alt+w', function(event, combo) {
-    //preventDefaults(event)
-    //const toggleCroppingPlanesButton = document.getElementById(
-    //`${viewerDOMId}-toggleCroppingPlanesButton`
-    //)
-    //toggleCroppingPlanesButton.click()
-    //})
-    //MOUSETRAP.bind(',', function(event, combo) {
-    //preventDefaults(event)
-    //const toggleCroppingPlanesButton = document.getElementById(
-    //`${viewerDOMId}-toggleCroppingPlanesButton`
-    //)
-    //toggleCroppingPlanesButton.click()
-    //})
-    //MOUSETRAP.bind('alt+,', function(event, combo) {
-    //preventDefaults(event)
-    //const toggleCroppingPlanesButton = document.getElementById(
-    //`${viewerDOMId}-toggleCroppingPlanesButton`
-    //)
-    //toggleCroppingPlanesButton.click()
-    //})
-    //MOUSETRAP.bind("'", function(event, combo) {
-    //preventDefaults(event)
-    //const toggleUserInterfaceButton = document.getElementById(
-    //`${viewerDOMId}-toggleUserInterfaceButton`
-    //)
-    //toggleUserInterfaceButton.click()
-    //})
-    //MOUSETRAP.bind("alt+'", function(event, combo) {
-    //preventDefaults(event)
-    //const toggleUserInterfaceButton = document.getElementById(
-    //`${viewerDOMId}-toggleUserInterfaceButton`
-    //)
-    //toggleUserInterfaceButton.click()
-    //})
-    MOUSETRAP.bind('q', function(event, combo) {
+    MOUSETRAP.bind('e', function(event) {
+      preventDefaults(event)
+      service.send('RESET_CROPPING_PLANES')
+    })
+    MOUSETRAP.bind('alt+e', function(event) {
+      preventDefaults(event)
+      service.send('RESET_CROPPING_PLANES')
+    })
+    MOUSETRAP.bind('w', function(event) {
+      preventDefaults(event)
+      service.send('TOGGLE_CROPPING_PLANES')
+    })
+    MOUSETRAP.bind('alt+w', function(event) {
+      preventDefaults(event)
+      service.send('TOGGLE_CROPPING_PLANES')
+    })
+    MOUSETRAP.bind('q', function(event /*, combo*/) {
       preventDefaults(event)
       service.send('TOGGLE_UI_COLLAPSED')
     })
-    MOUSETRAP.bind('alt+q', function(event, combo) {
+    MOUSETRAP.bind('alt+q', function(event /*, combo*/) {
       preventDefaults(event)
       service.send('TOGGLE_UI_COLLAPSED')
     })
-    MOUSETRAP.bind('f', function(event, combo) {
+    MOUSETRAP.bind('f', function(event /*, combo*/) {
       preventDefaults(event)
       service.send('TOGGLE_FULLSCREEN')
     })
-    MOUSETRAP.bind('alt+f', function(event, combo) {
+    MOUSETRAP.bind('alt+f', function(event /*, combo*/) {
       preventDefaults(event)
       service.send('TOGGLE_FULLSCREEN')
     })
-    //MOUSETRAP.bind('u', function(event, combo) {
+    //MOUSETRAP.bind('u', function(event /*, combo*/) {
     //preventDefaults(event)
     //const toggleFullscreenButton = document.getElementById(
     //`${viewerDOMId}-toggleFullscreenButton`
     //)
     //toggleFullscreenButton.click()
     //})
-    //MOUSETRAP.bind('alt+u', function(event, combo) {
+    //MOUSETRAP.bind('alt+u', function(event /*, combo*/) {
     //preventDefaults(event)
     //const toggleFullscreenButton = document.getElementById(
     //`${viewerDOMId}-toggleFullscreenButton`
     //)
     //toggleFullscreenButton.click()
     //})
-    //MOUSETRAP.bind('s', function(event, combo) {
+    //MOUSETRAP.bind('s', function(event /*, combo*/) {
     //preventDefaults(event)
     //const toggleSlicingPlanesButton = document.getElementById(
     //`${viewerDOMId}-toggleSlicingPlanesButton`
     //)
     //toggleSlicingPlanesButton.click()
     //})
-    //MOUSETRAP.bind('alt+s', function(event, combo) {
+    //MOUSETRAP.bind('alt+s', function(event /*, combo*/) {
     //preventDefaults(event)
     //const toggleSlicingPlanesButton = document.getElementById(
     //`${viewerDOMId}-toggleSlicingPlanesButton`
     //)
     //toggleSlicingPlanesButton.click()
     //})
-    //MOUSETRAP.bind('o', function(event, combo) {
+    //MOUSETRAP.bind('o', function(event /*, combo*/) {
     //preventDefaults(event)
     //const toggleSlicingPlanesButton = document.getElementById(
     //`${viewerDOMId}-toggleSlicingPlanesButton`
     //)
     //toggleSlicingPlanesButton.click()
     //})
-    //MOUSETRAP.bind('alt+o', function(event, combo) {
+    //MOUSETRAP.bind('alt+o', function(event /*, combo*/) {
     //preventDefaults(event)
     //const toggleSlicingPlanesButton = document.getElementById(
     //`${viewerDOMId}-toggleSlicingPlanesButton`
     //)
     //toggleSlicingPlanesButton.click()
     //})
-    MOUSETRAP.bind('p', function(event, combo) {
+    MOUSETRAP.bind('p', function(event /*, combo*/) {
       preventDefaults(event)
       service.send('TOGGLE_ROTATE')
     })
-    MOUSETRAP.bind('alt+p', function(event, combo) {
+    MOUSETRAP.bind('alt+p', function(event /*, combo*/) {
       preventDefaults(event)
       service.send('TOGGLE_ROTATE')
     })
-    MOUSETRAP.bind('c', function(event, combo) {
-      preventDefaults(event)
-      const config = context.getConfig()
-      const blob = new Blob([JSON.stringify(config)], {
-        type: 'text/plain;charset=utf-8',
-      })
-      saveAs(blob, 'viewerConfig.json')
-    })
-    MOUSETRAP.bind('alt+c', function(event, combo) {
-      preventDefaults(event)
-      const config = context.getConfig()
-      const blob = new Blob([JSON.stringify(config)], {
-        type: 'text/plain;charset=utf-8',
-      })
-      saveAs(blob, 'viewerConfig.json')
-    })
+    // MOUSETRAP.bind('c', function(event /*, combo*/) {
+    //   preventDefaults(event)
+    //   const config = context.getConfig()
+    //   const blob = new Blob([JSON.stringify(config)], {
+    //     type: 'text/plain;charset=utf-8',
+    //   })
+    //   saveAs(blob, 'viewerConfig.json')
+    // })
+    // MOUSETRAP.bind('alt+c', function(event /*, combo*/) {
+    //   preventDefaults(event)
+    //   const config = context.getConfig()
+    //   const blob = new Blob([JSON.stringify(config)], {
+    //     type: 'text/plain;charset=utf-8',
+    //   })
+    //   saveAs(blob, 'viewerConfig.json')
+    // })
   })
 
   container.addEventListener('mouseleave', () => {
@@ -222,6 +168,8 @@ const addKeyboardShortcuts = (container, service) => {
     MOUSETRAP.unbind('alt+p')
     MOUSETRAP.unbind('e')
     MOUSETRAP.unbind('alt+e')
+    MOUSETRAP.unbind('w')
+    MOUSETRAP.unbind('alt+w')
     MOUSETRAP.unbind('.')
     MOUSETRAP.unbind('alt+.')
     MOUSETRAP.unbind('w')

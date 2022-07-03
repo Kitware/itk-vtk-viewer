@@ -65,6 +65,12 @@ function createUIMachine(options, context) {
             TOGGLE_AXES: {
               actions: forwardTo('main'),
             },
+            TOGGLE_CROPPING_PLANES: {
+              actions: forwardTo('main'),
+            },
+            CROPPING_PLANES_CHANGED: {
+              actions: forwardTo('main'),
+            },
             VIEW_MODE_CHANGED: {
               actions: [forwardTo('main'), forwardTo('widgets')],
             },

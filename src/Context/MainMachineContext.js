@@ -50,6 +50,20 @@ class MainMachineContext {
   // Spatial length units displayed in the scale bar
   units = ''
 
+  // Cropping planes widget enabled
+  croppingPlanesEnabled = false
+
+  // Cropping planes. These typically define square or a cube of a region of
+  // interest in space. The visualization is cropped outside of these planes.
+  // Each is characterized with: { origin, normal }.
+  //
+  // origin: x,y,z point at a point in the plane
+  // normal: 3-component vector defining the normal to the plane
+  //
+  // An array of six planes that are ordered, when the planes are axis aligned:
+  // -x, +x, -y, +y, -z, +z
+  croppingPlanes = null
+
   // In the single view layout, the an X plane, Y plane, Z plane, or volume
   // rendering.
   viewMode = 'Volume'

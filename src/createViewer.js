@@ -23,8 +23,13 @@ import toMultiscaleSpatialImage from './IO/toMultiscaleSpatialImage'
 import viewerMachineOptions from './viewerMachineOptions'
 import createViewerMachine from './createViewerMachine'
 import ViewerMachineContext from './Context/ViewerMachineContext'
+import {
+  addCroppingPlanes,
+  updateCroppingParameters,
+} from './Rendering/VTKJS/Main/croppingPlanes'
 
 import { autorun, reaction, toJS } from 'mobx'
+
 const createViewer = async (
   rootContainer,
   {
@@ -102,6 +107,15 @@ const createViewer = async (
             break
           case 'TOGGLE_IMAGE_INTERPOLATION':
             eventEmitter.emit('toggleImageInterpolation', event.data)
+            break
+          case 'TOGGLE_CROPPING_PLANES':
+            eventEmitter.emit('toggleCroppingPlanes', event.data)
+            break
+          case 'RESET_CROPPING_PLANES':
+            eventEmitter.emit('resetCroppingPlanes', event.data)
+            break
+          case 'CROPPING_PLANES_CHANGED':
+            eventEmitter.emit('croppingPlanesChanged', event.data)
             break
           case 'VIEW_MODE_CHANGED':
             eventEmitter.emit('viewModeChanged', event.data)
@@ -462,6 +476,9 @@ const createViewer = async (
             store.itkVtkView
           )
           store.geometriesUI.representationProxies.push(geometryRepresentation)
+
+          addCroppingPlanes(context, geometryRepresentation)
+          updateCroppingParameters(context, geometryRepresentation)
         } else {
           store.geometriesUI.sources[index].setInputData(geometry)
           store.geometriesUI.representationProxies[index].setVisibility(true)
@@ -533,6 +550,9 @@ const createViewer = async (
           )
           store.itkVtkView.addRepresentation(pointSetRepresentation)
           store.pointSetsUI.representationProxies.push(pointSetRepresentation)
+
+          addCroppingPlanes(context, pointSetRepresentation)
+          updateCroppingParameters(context, pointSetRepresentation)
         } else {
           store.pointSetsUI.sources[index].setInputData(pointSet)
           store.pointSetsUI.representationProxies[index].setVisibility(true)
@@ -605,8 +625,10 @@ const createViewer = async (
     'toggleAnnotations',
     'toggleAxes',
     'toggleRotate',
+    'toggleCroppingPlanes',
+    'croppingPlanesChanged',
+    'resetCroppingPlanes',
     'viewModeChanged',
-    'resetCrop',
     'xSliceChanged',
     'ySliceChanged',
     'zSliceChanged',
@@ -627,8 +649,6 @@ const createViewer = async (
     'labelImageBlendChanged',
     'labelImageLabelNamesChanged',
     'labelImageWeightsChanged',
-    'toggleCroppingPlanes',
-    'croppingPlanesChanged',
     'pointSetColorChanged',
     'pointSetOpacityChanged',
     'pointSetSizeChanged',
@@ -911,17 +931,29 @@ const createViewer = async (
     return actorContext.componentVisibilities[component]
   }
 
-  const toggleCroppingPlanesHandlers = []
-  autorun(() => {
-    const enabled = store.mainUI.croppingPlanesEnabled
-    eventEmitter.emit('toggleCroppingPlanes', enabled)
-  })
-
   publicAPI.setCroppingPlanesEnabled = enabled => {
-    const cropping = store.mainUI.croppingPlanesEnabled
-    if ((enabled && !cropping) || (!enabled && cropping)) {
-      store.mainUI.croppingPlanesEnabled = enabled
+    if (enabled !== context.main.croppingPlanesEnabled) {
+      service.send('TOGGLE_CROPPING_PLANES')
     }
+  }
+
+  publicAPI.getCroppingPlanesEnabled = () => {
+    return context.main.croppingPlanesEnabled
+  }
+
+  publicAPI.resetCroppingPlanes = () => {
+    service.send('RESET_CROPPING_PLANES')
+  }
+
+  publicAPI.getCroppingPlanes = () => {
+    return context.main.croppingPlanes
+  }
+
+  publicAPI.setCroppingPlanes = croppingPlanes => {
+    service.send({
+      type: 'CROPPING_PLANES_CHANGED',
+      data: croppingPlanes,
+    })
   }
 
   publicAPI.setImageColorRange = (range, component, name) => {

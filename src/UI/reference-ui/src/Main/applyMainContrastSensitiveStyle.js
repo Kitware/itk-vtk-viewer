@@ -38,6 +38,16 @@ function applyMainContrastSensitiveStyle(context) {
   applyContrastSensitiveStyleToElement(
     context,
     'invertibleButton',
+    context.main.cropButtonLabel
+  )
+  applyContrastSensitiveStyleToElement(
+    context,
+    'invertibleButton',
+    context.main.resetCropButtonLabel
+  )
+  applyContrastSensitiveStyleToElement(
+    context,
+    'invertibleButton',
     context.main.bgColorButtonLabel
   )
   if (!context.use2D) {

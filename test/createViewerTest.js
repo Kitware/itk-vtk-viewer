@@ -2,20 +2,18 @@ import test from 'tape-catch'
 import axios from 'axios'
 
 import { readImageArrayBuffer } from 'itk-wasm'
-import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import testUtils from 'vtk.js/Sources/Testing/testUtils'
 import vtk from 'vtk.js/Sources/vtk'
 
 import createViewer from '../src/createViewer'
 import referenceUIMachineOptions from '../src/UI/reference-ui/src/referenceUIMachineOptions'
-import UserInterface from '../src/UserInterface'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
 const testLabelImage3DPath = 'base/test/data/input/HeadMRVolumeLabels.nrrd'
 const testImage3DPath2 = 'base/test/data/input/mri3D.nrrd'
 
-import createViewerBaseline from './data/baseline/createViewer.png'
-import createViewerSetImageBaseline from './data/baseline/createViewerSetImage.png'
+// import createViewerBaseline from './data/baseline/createViewer.png'
+// import createViewerSetImageBaseline from './data/baseline/createViewerSetImage.png'
 
 const TEST_STYLE_RENDERING_VIEW_CONTAINER = {
   position: 'relative',
@@ -71,7 +69,7 @@ function makePointSet() {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(54)
+  t.plan(57)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -203,6 +201,44 @@ test('Test createViewer', async t => {
   const resultImageComponentVisibility = viewer.getImageComponentVisibility(0)
   t.same(resultImageComponentVisibility, false, 'image component visibility')
   viewer.setImageComponentVisibility(true, 0)
+
+  viewer.setCroppingPlanesEnabled(true)
+  t.same(viewer.getCroppingPlanesEnabled(), true, 'set cropping planes enabled')
+  viewer.setCroppingPlanesEnabled(false)
+
+  const [iMin, iMax, jMin, jMax, kMin, kMax] = [0, 3, 0, 3, 0, 3]
+  const origin = [iMin, jMin, kMin]
+  // opposite corner from origin
+  const corner = [iMax, jMax, kMax]
+  const planes = [
+    // X min/max
+    { normal: [1, 0, 0], origin },
+    {
+      normal: [-1, 0, 0],
+      origin: corner,
+    },
+    // Y min/max
+    { normal: [0, 1, 0], origin },
+    {
+      normal: [0, -1, 0],
+      origin: corner,
+    },
+    // X min/max
+    { normal: [0, 0, 1], origin },
+    {
+      normal: [0, 0, -1],
+      origin: corner,
+    },
+  ]
+  viewer.setCroppingPlanes(planes)
+  t.same(viewer.getCroppingPlanes(), planes, 'set cropping planes ')
+
+  // handle non 6 array of planes
+  const plane = [{ normal: [1, 0, 0], origin }]
+  viewer.setCroppingPlanes(plane)
+
+  viewer.resetCroppingPlanes()
+  t.notSame(viewer.getCroppingPlanes(), plane, 'reset cropping planes ')
 
   const viewProxy = viewer.getViewProxy()
   const renderWindow = viewProxy.getOpenglRenderWindow()
@@ -419,20 +455,23 @@ test('Test createViewer.setImage', async t => {
   // Consistent baseline image size for regression testing
   renderWindow.setSize(600, 600)
   const representation = viewProxy.getRepresentations()[0]
-  const volumeMapper = representation.getMapper()
+  /*const volumeMapper = */ representation.getMapper()
   viewer.renderLater()
   setTimeout(() => {
-    viewer.captureImage().then(screenshot => {
-      gc.releaseResources()
-      //testUtils.compareImages(
-      //screenshot,
-      //[createViewerSetImageBaseline],
-      //'Test createViewer.setImage',
-      //t,
-      //2.0,
-      //gc.releaseResources
-      //)
-    }, 100)
+    viewer.captureImage().then(
+      (/*screenshot*/) => {
+        gc.releaseResources()
+        //testUtils.compareImages(
+        //screenshot,
+        //[createViewerSetImageBaseline],
+        //'Test createViewer.setImage',
+        //t,
+        //2.0,
+        //gc.releaseResources
+        //)
+      },
+      100
+    )
   })
 })
 

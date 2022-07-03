@@ -303,6 +303,22 @@ const imJoyPluginAPI = {
   getLabelImageWeights(name) {
     return this.viewer.getLabelImageWeights(name)
   },
+
+  setCroppingPlanesEnabled(enabled) {
+    this.viewer.setCroppingPlanesEnabled(enabled)
+  },
+
+  getCroppingPlanesEnabled() {
+    return this.viewer.getCroppingPlanesEnabled()
+  },
+
+  setCroppingPlanes(croppingPlanes) {
+    this.viewer.setCroppingPlanes(croppingPlanes)
+  },
+
+  getCroppingPlanes() {
+    return this.viewer.getCroppingPlanes()
+  },
 }
 
 export default imJoyPluginAPI

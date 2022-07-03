@@ -72,6 +72,12 @@ function createMainRenderingMachine(options, context) {
             RESET_CAMERA: {
               actions: 'resetCamera',
             },
+            RESET_CROPPING_PLANES: {
+              actions: 'resetCroppingPlanes',
+            },
+            CROPPING_PLANES_CHANGED: {
+              actions: 'applyCroppingPlanes',
+            },
             SLICING_PLANES_CHANGED: {
               actions: 'applySlicingPlanes',
             },
@@ -162,6 +168,25 @@ function createMainRenderingMachine(options, context) {
                   entry: 'toggleAxes',
                   on: {
                     TOGGLE_AXES: 'enabled',
+                  },
+                },
+              },
+            },
+            croppingPlanes: {
+              initial: context.main.croppingPlanesEnabled
+                ? 'enabled'
+                : 'disabled',
+              states: {
+                enabled: {
+                  entry: 'toggleCroppingPlanes',
+                  on: {
+                    TOGGLE_CROPPING_PLANES: 'disabled',
+                  },
+                },
+                disabled: {
+                  entry: 'toggleCroppingPlanes',
+                  on: {
+                    TOGGLE_CROPPING_PLANES: 'enabled',
                   },
                 },
               },

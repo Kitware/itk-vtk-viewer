@@ -5,6 +5,10 @@ import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Consta
 import applyGradientOpacity from './applyGradientOpacity'
 import applyLabelImageBlend from './applyLabelImageBlend'
 import applyVolumeSampleDistance from './applyVolumeSampleDistance'
+import {
+  addCroppingPlanes,
+  updateCroppingParametersFromImage,
+} from '../Main/croppingPlanes'
 
 const ANNOTATION_DEFAULT =
   '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
@@ -35,6 +39,7 @@ function applyRenderedImage(context, event) {
       context.images.source,
       context.itkVtkView
     )
+    const { representationProxy } = context.images
 
     if (context.use2D) {
       context.itkVtkView.setViewMode('ZPlane')
@@ -43,18 +48,49 @@ function applyRenderedImage(context, event) {
       context.itkVtkView.setViewMode('Volume')
     }
 
-    context.itkVtkView.setAxesNames(image?.scaleInfo[0].axesNames) // ? for no image, only imageLabel case
+    representationProxy.getMapper().setMaximumSamplesPerRay(2048)
+    representationProxy.setSampleDistance(actorContext.volumeSampleDistance)
 
-    context.images.representationProxy.getMapper().setMaximumSamplesPerRay(2048)
-    context.images.representationProxy.setSampleDistance(
-      actorContext.volumeSampleDistance
-    )
+    context.itkVtkView.setAxesNames(image?.scaleInfo[0].axesNames) // ? for no image, only imageLabel case
 
     const annotationContainer = context.renderingViewContainers
       .get('volume')
       .querySelector('.js-se')
     annotationContainer.style.fontFamily = 'monospace'
+
+    addCroppingPlanes(context, representationProxy)
+
+    const sliceCroppingPlanes = context.main.sliceCroppingPlanes
+    const sliceActors = representationProxy.getActors()
+    sliceActors.forEach((actor, actorIdx) => {
+      const sliceMapper = actor.getMapper()
+      switch (actorIdx) {
+        case 0:
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[2])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[3])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[4])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[5])
+          break
+        case 1:
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[0])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[1])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[4])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[5])
+          break
+        case 2:
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[0])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[1])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[2])
+          sliceMapper.addClippingPlane(sliceCroppingPlanes[3])
+          break
+        default:
+          console.error('Unexpected slice actor')
+      }
+    })
   }
+
+  // call after representations are created
+  updateCroppingParametersFromImage(context, actorContext.fusedImage)
 
   // Create color map and piecewise function objects as needed
   if (typeof context.images.lookupTableProxies === 'undefined') {

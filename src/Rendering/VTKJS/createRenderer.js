@@ -1,5 +1,6 @@
 import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager'
 import proxyConfiguration from './proxyManagerConfiguration'
+import createMainRenderer from './Main/createMainRenderer'
 
 // Load the rendering pieces we want to use (for both WebGL and WebGPU)
 import 'vtk.js/Sources/Rendering/Profiles/Geometry'
@@ -16,6 +17,8 @@ function createRenderer(context) {
 
   context.itkVtkView.setContainer(context.renderingViewContainers.get('volume'))
   context.itkVtkView.setXyLowerLeft(context.xyLowerLeft)
+
+  createMainRenderer(context)
 }
 
 export default createRenderer

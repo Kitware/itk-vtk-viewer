@@ -1,0 +1,35 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: 'itk-wasm: high-performance spatial analysis in a web browser, Node.js, and reproducible execution across programming languages and hardware architectures.'
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Matthew
+    family-names: McCormick
+    email: matt@mmmccormick.com
+    affiliation: 'Kitware, Inc'
+    orcid: 'https://orcid.org/0000-0001-9475-3756'
+keywords:
+  - webassembly
+  - wasm
+  - emscripten
+  - wasi
+  - open-science
+  - reproducible-science
+  - javascript
+  - typescript
+  - c++
+  - itk
+  - insight-toolkit
+  - imaging
+  - scientific-computing
+  - visualization
+repository-code: >-
+  https://github.com/InsightSoftwareConsortium/itk-wasm
+url: 'https://wasm.itk.org'
+repository-artifact: 'https://www.npmjs.com/package/itk-wasm'
+license: Apache-2.0

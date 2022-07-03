@@ -1,0 +1,43 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "itkwasm"
+authors = [{name = "Matt McCormick", email = "matt.mccormick@kitware.com"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python",
+    'Development Status :: 3 - Alpha',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Science/Research',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+]
+keywords = [
+    "itk",
+    "imaging",
+    "visualization",
+]
+dynamic = ["version", "description"]
+
+requires-python = ">=3.7"
+dependencies = [
+    "numpy",
+]
+
+[project.urls]
+Home = "https://itkwasm.readthedocs.io/en/latest/"
+Source = "https://github.com/InsightSoftwareConsortium/itk-wasm"
+
+[project.optional-dependencies]
+test = [
+    "itk>=5.3rc4",
+    "pytest >=2.7.3",
+]
+doc = ["sphinx"]

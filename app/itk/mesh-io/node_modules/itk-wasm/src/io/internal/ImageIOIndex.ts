@@ -1,0 +1,3 @@
+const ImageIOIndex = ['PNGImageIO', 'MetaImageIO', 'TIFFImageIO', 'NiftiImageIO', 'JPEGImageIO', 'NrrdImageIO', 'VTKImageIO', 'BMPImageIO', 'HDF5ImageIO', 'MINCImageIO', 'MRCImageIO', 'LSMImageIO', 'MGHImageIO', 'BioRadImageIO', 'GiplImageIO', 'GEAdwImageIO', 'GE4ImageIO', 'GE5ImageIO', 'GDCMImageIO', 'ScancoImageIO', 'FDFImageIO', 'WASMImageIO', 'WASMZstdImageIO', ]
+
+export default ImageIOIndex

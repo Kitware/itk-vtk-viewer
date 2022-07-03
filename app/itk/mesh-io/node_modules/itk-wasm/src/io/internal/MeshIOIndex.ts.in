@@ -1,0 +1,3 @@
+const MeshIOIndex = [@MeshIOIndex_ARRAY@]
+
+export default MeshIOIndex

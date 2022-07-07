@@ -1,6 +1,6 @@
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import style from '../ItkVtkViewer.module.css'
-import { blendModeIconDataUri } from 'itk-viewer-icons'
+import { scaleSelectIconDataUri } from 'itk-viewer-icons'
 
 function applyScaleCount(input, scaleCount) {
   input.innerHTML = '' // clear old options
@@ -20,12 +20,10 @@ const scaleSelector = (context, event) => (send, onReceive) => {
   const scaleSelectorDiv = document.createElement('div')
   context.images.componentAndScale.appendChild(scaleSelectorDiv)
 
-  scaleSelectorDiv.setAttribute('style', 'display: flex;')
-
   scaleSelectorDiv.innerHTML = `
     <div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Resolution Scale"
       class="${style.blendModeButton}">
-      <img src="${blendModeIconDataUri}" alt="Resolution Scale" />
+      <img src="${scaleSelectIconDataUri}" alt="Resolution Scale" />
     </div>
     `
   const scaleSelectorIcon = scaleSelectorDiv.children[0]
@@ -37,7 +35,10 @@ const scaleSelector = (context, event) => (send, onReceive) => {
 
   const scaleSelector = document.createElement('select')
   scaleSelectorDiv.appendChild(scaleSelector)
-  scaleSelectorDiv.setAttribute('style', 'height: 25px;')
+  scaleSelectorDiv.setAttribute(
+    'style',
+    'display: flex; align-self: center; height: 25px;'
+  )
 
   scaleSelector.setAttribute('class', style.selector)
 

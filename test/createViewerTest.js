@@ -69,7 +69,7 @@ function makePointSet() {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(57)
+  t.plan(58)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -394,8 +394,10 @@ test('Test createViewer', async t => {
     t.same(resultLabelImageWeights, labelWeights, 'label image weights')
 
     const config = viewer.getConfig()
-    //console.log('ViewerConfig', JSON.stringify(config))
     t.same(config, baselineConfig, 'get config')
+
+    viewer.setImageScale(0)
+    t.same(true, true, 'setImageScale did not error')
 
     const points = makePointSet()
     await createViewer(viewerContainer, {

@@ -28,141 +28,144 @@ function styleInject(css, ref) {
 }
 
 var css_248z$1 =
-  ".ItkVtkViewer-module_loading__1taC- {\n  border: 16px solid #f3f3f3; /* Light grey */\n  border-top: 16px solid #3498db; /* Blue */\n  border-radius: 50%;\n  width: 120px;\n  height: 120px;\n  position: absolute;\n  left: calc(50% - 60px);\n  top: calc(50% - 60px);\n  -webkit-animation: ItkVtkViewer-module_spin__2C36h 2s linear infinite;\n          animation: ItkVtkViewer-module_spin__2C36h 2s linear infinite;\n  box-sizing: border-box;\n}\n\n@-webkit-keyframes ItkVtkViewer-module_spin__2C36h {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n@keyframes ItkVtkViewer-module_spin__2C36h {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n.ItkVtkViewer-module_viewContainer__1k2CP {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  display: flex;\n  flex-direction: column;\n  background: rgba(128, 128, 128, 0.8);\n}\n\n.ItkVtkViewer-module_uiContainer__3TY8f {\n  display: flex;\n  align-items: stretch;\n  flex-direction: column;\n  justify-content: space-between;\n  position: absolute;\n  top: 5px;\n  left: 5px;\n  padding: 2px;\n  border: 0px;\n  box-sizing: border-box;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_uiGroup__2rlqJ {\n  background: rgba(128, 128, 128, 0.5);\n  border-radius: 4px;\n  margin: 2px;\n}\n\n.ItkVtkViewer-module_uiRow__3JE9f {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  align-items: center;\n  justify-content: space-between;\n  padding: 5px;\n}\n\n.ItkVtkViewer-module_mainUIRow__21i0y {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_planeUIRow__2QXoq {\n  background: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_layersUIRow__1kB1p {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_progress__Q2vMx {\n  color: white;\n  font-size: 200%;\n  height: 100vh;\n  width: 100vw;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 100vh;\n}\n\n.ItkVtkViewer-module_piecewiseWidget__JGOeO {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_logo__3ottE {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  height: 2.0em;\n  width: 2.0em;\n  cursor: pointer;\n  z-index: 100;\n}\n\n.ItkVtkViewer-module_fpsMonitor__2VLMW {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  border-radius: 5px;\n  background: rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n  z-index: 101;\n}\n\n[itk-vtk-tooltip] {\n    position: relative;\n}\n[itk-vtk-tooltip]::before {\n    content: attr(itk-vtk-tooltip-content);\n    visibility: hidden;\n    position: absolute;\n    top: 50%;\n    right: calc(100% + 16px);\n    width: 400%;\n    padding: 4px 6px;\n    text-align: center;\n    text-transform: none;\n    font-size: 0.9em;\n    font-family: monospace;\n    border-radius: 3px;\n    background: rgba(0.9, 0.9, 0.9, 0.95);\n    color: white;\n    opacity: 0;\n    transform: translate(15px, -50%);\n    transition-property: all;\n    transition-duration: 0.3s;\n    transition-timing-function: ease-in-out;\n    transition-delay: 0.8s;\n    z-index: 1;\n}\n\n[itk-vtk-tooltip]:hover::before {\n    opacity: 1;\n    visibility: visible;\n    transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-bottom]::before {\n    top: calc(100% + 16px);\n    left: 50%;\n    right: initial;\n    transform: translate(-50%, -15px);\n}\n[itk-vtk-tooltip-bottom]:hover::before {\n    transform: translate(-50%, 0)\n}\n[itk-vtk-tooltip-right]::before {\n    top: 50%;\n    left: calc(100% + 16px);\n    right: initial;\n    transform: translate(-15px, -50%);\n}\n[itk-vtk-tooltip-right]:hover::before {\n    transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-top-screenshot]::before {\n    top: initial;\n    left: 260%;\n    right: initial;\n    bottom: calc(100% + 8px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-screenshot]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-annotations]::before {\n    top: initial;\n    left: 160%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-annotations]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-axes]::before {\n    top: initial;\n    left: 160%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-axes]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n    top: initial;\n    left: 120%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n    width: 400%;\n}\n[itk-vtk-tooltip-top-fullscreen]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top]::before {\n    top: initial;\n    left: 60%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n    top: initial;\n    left: 120%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n    width: 400%;\n}\n\n.ItkVtkViewer-module_layerEntryCommon__2t0Te {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n  border-style: solid;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_layerEntryBrightBG__2uXvG {\n  border-color: #666;\n}\n\n.ItkVtkViewer-module_layerEntryDarkBG__2iaGm {\n  border-color: #AAA;\n}\n\n.ItkVtkViewer-module_layerLabelCommon__3-eoJ {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_layerLabelBrightBG__Rf16e {\n  color: black;\n}\n\n.ItkVtkViewer-module_layerLabelDarkBG__2Nus1 {\n  color: white;\n}\n\n.ItkVtkViewer-module_visibleButton__1aGbS {\n  flex-basis: 2.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_visibleButton__1aGbS img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_layerIcon__3VsIy img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 8px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_tooltipButtonBrightBG__lqsgh::before {\n}\n\n.ItkVtkViewer-module_tooltipButtonDarkBG__2enGR::before {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_invertibleButtonBrightBG__1nSl7 {\n}\n\n.ItkVtkViewer-module_invertibleButtonDarkBG__3uadz {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_collapseUIButton__KyChz {\n  height: 1.5em;\n  width: 1.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__kyDu2 {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__kyDu2 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_annotationsButton__3ObKg {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_annotationsButton__3ObKg img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_axesButton__2fU4I {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_axesButton__2fU4I img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_fullscreenButton__1Wtn2 {\n  flex: 1;\n  width: 8m;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_fullscreenButton__1Wtn2 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_interpolationButton__2MaJQ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 2px;\n  padding-right: 4px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_interpolationButton__2MaJQ img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_cropButton__3i47o {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_cropButton__3i47o img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_resetCropButton__35ZSB {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCropButton__35ZSB img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceEntry__He1Uj {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: self-start;\n}\n\n.ItkVtkViewer-module_distanceButton__1nNdH {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceButton__1nNdH img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceLabelCommon__3xD8R {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceLabelBrightBG__OmOAV {\n  color: black;\n}\n\n.ItkVtkViewer-module_distanceLabelDarkBG__3SGn5 {\n  color: white;\n}\n\n.ItkVtkViewer-module_distanceInput__16GAm {\n  background: transparent;\n  color: white;\n  font-size: 1.0em;\n  width: 80px;\n}\n\n.ItkVtkViewer-module_resetCameraButton__3r5JE {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCameraButton__3r5JE img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_bgColorButton__R-lL4 {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_bgColorButton__R-lL4 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_viewModeButton__-qR2v {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewModeButton__-qR2v img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_shadowButton__2etit {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_shadowButton__2etit img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n\n.ItkVtkViewer-module_viewPlanesButton__2nRoe {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 0px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__2nRoe img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_toggleInput__3WGQ3 {\n  margin: 0px;\n  width: 0%;\n  opacity: 0;\n  box-sizing: content-box;\n}\n\n.ItkVtkViewer-module_toggleButton__15boR {\n  cursor: pointer;\n  border-radius: 0.2em;\n  opacity: 0.45;\n}\n\ninput:checked.ItkVtkViewer-module_toggleInput__3WGQ3 + label {\n  opacity: 1.0;\n}\n\n.ItkVtkViewer-module_numberInput__1YDa9 {\n  color: white;\n  background: transparent;\n  font-size: 1.0em;\n  padding-left: 2px;\n  width: 70px;\n}\n\n.ItkVtkViewer-module_selector__3aoUj {\n  display: flex;\n  direction: row;\n  font-size: 1.2em;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_componentTab__1xAWl {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n\n.ItkVtkViewer-module_disableInterface__1qPy2 {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n.ItkVtkViewer-module_componentTab__1xAWl + .ItkVtkViewer-module_compTabLabel__tdSGC {\n  background: rgba(40, 40, 40, 0.5);\n  padding: 5px;\n  margin-right: 2px;\n  border-radius: 5px 5px 0px 0px;\n  color: #777;\n}\n\n.ItkVtkViewer-module_componentTab__1xAWl:hover + .ItkVtkViewer-module_compTabLabel__tdSGC {\n  background: rgba(90, 90, 90, 0.5);\n}\n\n.ItkVtkViewer-module_componentTab__1xAWl:checked + .ItkVtkViewer-module_compTabLabel__tdSGC {\n  background: rgba(127, 127, 127, 0.5);\n  color: #FFF;\n}\n\n.ItkVtkViewer-module_componentVisibility__qi_an {\n  position: relative;\n  top: -2px;\n  margin-left: 10px;\n}\n\nselect {\n  -moz-appearance: none;\n}\n\nselect option {\n  color: black;\n}\n\nselect:focus {\n  outline: none;\n  border: none;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__2CqjE {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__2CqjE img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_blendModeButton__1_8Yq {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 8px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__1_8Yq img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__71ACT {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__71ACT img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderEntry__3_rkX {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n\n.ItkVtkViewer-module_slider__152Sh {\n  flex: 1;\n  min-height: 1rem;\n  width: 5px;\n}\n\n.ItkVtkViewer-module_planeLabel__f7DLN {\n  padding-left: 6px;\n  padding: 2px;\n  display: block;\n  font-size: 1.1em;\n  font-family: monospace;\n  color: black;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_xPlaneLabel__3XRid {\n  background-color: #ef5350;\n}\n\n.ItkVtkViewer-module_yPlaneLabel__2WxDs {\n  background-color: #fdd835;\n}\n\n.ItkVtkViewer-module_zPlaneLabel__2P7dC {\n  background-color: #4caf50;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__2wHvA {\n  z-index: 1100;\n  position: relative;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__2wHvA input {\n  position: absolute;\n  bottom: 20px;\n  left: -24px;\n  width: 12px;\n  -ms-writing-mode: bt-lr;\n      writing-mode: bt-lr;\n  -webkit-appearance: slider-vertical;\n}\n\n.ItkVtkViewer-module_bigFileDrop__3hTq9 {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  background-color: white;\n  background-image: url('./dropBG.jpg');\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: contain;\n  border-radius: 10px;\n  width: 50px;\n  padding: calc(50vh - 2em) calc(50vw - 25px - 2em);\n}\n\n.ItkVtkViewer-module_fullscreenContainer__3ODK4 {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  background: black;\n  margin: 0;\n  padding: 0;\n}\n"
+  ".ItkVtkViewer-module_loading__11c63 {\n  border: 16px solid #f3f3f3; /* Light grey */\n  border-top: 16px solid #3498db; /* Blue */\n  border-radius: 50%;\n  width: 120px;\n  height: 120px;\n  position: absolute;\n  left: calc(50% - 60px);\n  top: calc(50% - 60px);\n  -webkit-animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n          animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n  box-sizing: border-box;\n}\n\n@-webkit-keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n@keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n.ItkVtkViewer-module_viewContainer__-5zNz {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  display: flex;\n  flex-direction: column;\n  background: rgba(128, 128, 128, 0.8);\n}\n\n.ItkVtkViewer-module_uiContainer__CiawP {\n  display: flex;\n  align-items: stretch;\n  flex-direction: column;\n  justify-content: space-between;\n  position: absolute;\n  top: 5px;\n  left: 5px;\n  padding: 2px;\n  border: 0px;\n  box-sizing: border-box;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_uiGroup__ad-WI {\n  background: rgba(128, 128, 128, 0.5);\n  border-radius: 4px;\n  margin: 2px;\n}\n\n.ItkVtkViewer-module_uiRow__KTQa8 {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  align-items: center;\n  justify-content: space-between;\n  padding: 5px;\n}\n\n.ItkVtkViewer-module_mainUIRow__vTXih {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_planeUIRow__D5gCh {\n  background: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_layersUIRow__0LDm5 {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_progress__WydXH {\n  color: white;\n  font-size: 200%;\n  height: 100vh;\n  width: 100vw;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 100vh;\n}\n\n.ItkVtkViewer-module_piecewiseWidget__5gKl5 {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_logo__9ErCF {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  height: 2.0em;\n  width: 2.0em;\n  cursor: pointer;\n  z-index: 100;\n}\n\n.ItkVtkViewer-module_fpsMonitor__bnwqr {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  border-radius: 5px;\n  background: rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n  z-index: 101;\n}\n\n[itk-vtk-tooltip] {\n    position: relative;\n}\n[itk-vtk-tooltip]::before {\n    content: attr(itk-vtk-tooltip-content);\n    visibility: hidden;\n    position: absolute;\n    top: 50%;\n    right: calc(100% + 16px);\n    width: 400%;\n    padding: 4px 6px;\n    text-align: center;\n    text-transform: none;\n    font-size: 0.9em;\n    font-family: monospace;\n    border-radius: 3px;\n    background: rgba(0.9, 0.9, 0.9, 0.95);\n    color: white;\n    opacity: 0;\n    transform: translate(15px, -50%);\n    transition-property: all;\n    transition-duration: 0.3s;\n    transition-timing-function: ease-in-out;\n    transition-delay: 0.8s;\n    z-index: 1;\n}\n\n[itk-vtk-tooltip]:hover::before {\n    opacity: 1;\n    visibility: visible;\n    transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-bottom]::before {\n    top: calc(100% + 16px);\n    left: 50%;\n    right: initial;\n    transform: translate(-50%, -15px);\n}\n[itk-vtk-tooltip-bottom]:hover::before {\n    transform: translate(-50%, 0)\n}\n[itk-vtk-tooltip-right]::before {\n    top: 50%;\n    left: calc(100% + 16px);\n    right: initial;\n    transform: translate(-15px, -50%);\n}\n[itk-vtk-tooltip-right]:hover::before {\n    transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-top-screenshot]::before {\n    top: initial;\n    left: 260%;\n    right: initial;\n    bottom: calc(100% + 8px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-screenshot]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-annotations]::before {\n    top: initial;\n    left: 160%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-annotations]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-axes]::before {\n    top: initial;\n    left: 160%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-axes]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n    top: initial;\n    left: 120%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n    width: 400%;\n}\n[itk-vtk-tooltip-top-fullscreen]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top]::before {\n    top: initial;\n    left: 60%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n    top: initial;\n    left: 120%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n    width: 400%;\n}\n\n.ItkVtkViewer-module_layerEntryCommon__oIE1u {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n  border-style: solid;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_layerEntryBrightBG__qXyI2 {\n  border-color: #666;\n}\n\n.ItkVtkViewer-module_layerEntryDarkBG__BmiCj {\n  border-color: #AAA;\n}\n\n.ItkVtkViewer-module_layerLabelCommon__kTiO9 {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_layerLabelBrightBG__vAfex {\n  color: black;\n}\n\n.ItkVtkViewer-module_layerLabelDarkBG__sM6Bg {\n  color: white;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc {\n  flex-basis: 2.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 8px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_tooltipButtonBrightBG__yffVf::before {\n}\n\n.ItkVtkViewer-module_tooltipButtonDarkBG__gEu0i::before {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_invertibleButtonBrightBG__VmIfT {\n}\n\n.ItkVtkViewer-module_invertibleButtonDarkBG__GoKgD {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_collapseUIButton__Ac6-L {\n  height: 1.5em;\n  width: 1.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 {\n  flex: 1;\n  width: 8m;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 2px;\n  padding-right: 4px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceEntry__zXMUS {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: self-start;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceLabelCommon__Ec-uc {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceLabelBrightBG__aYmfG {\n  color: black;\n}\n\n.ItkVtkViewer-module_distanceLabelDarkBG__kYXvI {\n  color: white;\n}\n\n.ItkVtkViewer-module_distanceInput__gyNaU {\n  background: transparent;\n  color: white;\n  font-size: 1.0em;\n  width: 80px;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 0px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_toggleInput__jHLTo {\n  margin: 0px;\n  width: 0%;\n  opacity: 0;\n  box-sizing: content-box;\n}\n\n.ItkVtkViewer-module_toggleButton__qHhHZ {\n  cursor: pointer;\n  border-radius: 0.2em;\n  opacity: 0.45;\n}\n\ninput:checked.ItkVtkViewer-module_toggleInput__jHLTo + label {\n  opacity: 1.0;\n}\n\n.ItkVtkViewer-module_numberInput__pDxYH {\n  color: white;\n  background: transparent;\n  font-size: 1.0em;\n  padding-left: 2px;\n  width: 70px;\n}\n\n.ItkVtkViewer-module_selector__yw8l- {\n  display: flex;\n  direction: row;\n  font-size: 1.2em;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n\n.ItkVtkViewer-module_disableInterface__CGB4S {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(40, 40, 40, 0.5);\n  padding: 5px;\n  margin-right: 2px;\n  border-radius: 5px 5px 0px 0px;\n  color: #777;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:hover + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(90, 90, 90, 0.5);\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:checked + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(127, 127, 127, 0.5);\n  color: #FFF;\n}\n\n.ItkVtkViewer-module_componentVisibility__y1rRS {\n  position: relative;\n  top: -2px;\n  margin-left: 10px;\n}\n\nselect {\n  -moz-appearance: none;\n}\n\nselect option {\n  color: black;\n}\n\nselect:focus {\n  outline: none;\n  border: none;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 8px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderEntry__3r3gO {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n\n.ItkVtkViewer-module_slider__eT9qm {\n  flex: 1;\n  min-height: 1rem;\n  width: 5px;\n}\n\n.ItkVtkViewer-module_planeLabel__E1zOk {\n  padding-left: 6px;\n  padding: 2px;\n  display: block;\n  font-size: 1.1em;\n  font-family: monospace;\n  color: black;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_xPlaneLabel__wK4Cb {\n  background-color: #ef5350;\n}\n\n.ItkVtkViewer-module_yPlaneLabel__rIm0j {\n  background-color: #fdd835;\n}\n\n.ItkVtkViewer-module_zPlaneLabel__94NL7 {\n  background-color: #4caf50;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ {\n  z-index: 1100;\n  position: relative;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ input {\n  position: absolute;\n  bottom: 20px;\n  left: -24px;\n  width: 12px;\n  -ms-writing-mode: bt-lr;\n      writing-mode: bt-lr;\n  -webkit-appearance: slider-vertical;\n}\n\n.ItkVtkViewer-module_bigFileDrop__cZdkP {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  background-color: white;\n  background-image: url('./dropBG.jpg');\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: contain;\n  border-radius: 10px;\n  width: 50px;\n  padding: calc(50vh - 2em) calc(50vw - 25px - 2em);\n}\n\n.ItkVtkViewer-module_fullscreenContainer__-H3c8 {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  background: black;\n  margin: 0;\n  padding: 0;\n}\n"
 var style = {
-  loading: 'ItkVtkViewer-module_loading__1taC-',
-  spin: 'ItkVtkViewer-module_spin__2C36h',
-  viewContainer: 'ItkVtkViewer-module_viewContainer__1k2CP',
-  uiContainer: 'ItkVtkViewer-module_uiContainer__3TY8f',
-  uiGroup: 'ItkVtkViewer-module_uiGroup__2rlqJ',
-  uiRow: 'ItkVtkViewer-module_uiRow__3JE9f',
+  loading: 'ItkVtkViewer-module_loading__11c63',
+  spin: 'ItkVtkViewer-module_spin__mT5S6',
+  viewContainer: 'ItkVtkViewer-module_viewContainer__-5zNz',
+  uiContainer: 'ItkVtkViewer-module_uiContainer__CiawP',
+  uiGroup: 'ItkVtkViewer-module_uiGroup__ad-WI',
+  uiRow: 'ItkVtkViewer-module_uiRow__KTQa8',
   mainUIRow:
-    'ItkVtkViewer-module_mainUIRow__21i0y ItkVtkViewer-module_uiRow__3JE9f',
+    'ItkVtkViewer-module_mainUIRow__vTXih ItkVtkViewer-module_uiRow__KTQa8',
   planeUIRow:
-    'ItkVtkViewer-module_planeUIRow__2QXoq ItkVtkViewer-module_uiRow__3JE9f',
+    'ItkVtkViewer-module_planeUIRow__D5gCh ItkVtkViewer-module_uiRow__KTQa8',
   layersUIRow:
-    'ItkVtkViewer-module_layersUIRow__1kB1p ItkVtkViewer-module_uiRow__3JE9f',
-  progress: 'ItkVtkViewer-module_progress__Q2vMx',
-  piecewiseWidget: 'ItkVtkViewer-module_piecewiseWidget__JGOeO',
-  logo: 'ItkVtkViewer-module_logo__3ottE',
-  fpsMonitor: 'ItkVtkViewer-module_fpsMonitor__2VLMW',
-  layerEntryCommon: 'ItkVtkViewer-module_layerEntryCommon__2t0Te',
-  layerEntryBrightBG: 'ItkVtkViewer-module_layerEntryBrightBG__2uXvG',
-  layerEntryDarkBG: 'ItkVtkViewer-module_layerEntryDarkBG__2iaGm',
-  layerLabelCommon: 'ItkVtkViewer-module_layerLabelCommon__3-eoJ',
-  layerLabelBrightBG: 'ItkVtkViewer-module_layerLabelBrightBG__Rf16e',
-  layerLabelDarkBG: 'ItkVtkViewer-module_layerLabelDarkBG__2Nus1',
-  visibleButton: 'ItkVtkViewer-module_visibleButton__1aGbS',
-  layerIcon: 'ItkVtkViewer-module_layerIcon__3VsIy',
-  tooltipButtonBrightBG: 'ItkVtkViewer-module_tooltipButtonBrightBG__lqsgh',
-  tooltipButtonDarkBG: 'ItkVtkViewer-module_tooltipButtonDarkBG__2enGR',
+    'ItkVtkViewer-module_layersUIRow__0LDm5 ItkVtkViewer-module_uiRow__KTQa8',
+  progress: 'ItkVtkViewer-module_progress__WydXH',
+  piecewiseWidget: 'ItkVtkViewer-module_piecewiseWidget__5gKl5',
+  logo: 'ItkVtkViewer-module_logo__9ErCF',
+  fpsMonitor: 'ItkVtkViewer-module_fpsMonitor__bnwqr',
+  layerEntryCommon: 'ItkVtkViewer-module_layerEntryCommon__oIE1u',
+  layerEntryBrightBG: 'ItkVtkViewer-module_layerEntryBrightBG__qXyI2',
+  layerEntryDarkBG: 'ItkVtkViewer-module_layerEntryDarkBG__BmiCj',
+  layerLabelCommon: 'ItkVtkViewer-module_layerLabelCommon__kTiO9',
+  layerLabelBrightBG: 'ItkVtkViewer-module_layerLabelBrightBG__vAfex',
+  layerLabelDarkBG: 'ItkVtkViewer-module_layerLabelDarkBG__sM6Bg',
+  visibleButton: 'ItkVtkViewer-module_visibleButton__ezrIc',
+  layerIcon: 'ItkVtkViewer-module_layerIcon__v-rxO',
+  tooltipButtonBrightBG: 'ItkVtkViewer-module_tooltipButtonBrightBG__yffVf',
+  tooltipButtonDarkBG: 'ItkVtkViewer-module_tooltipButtonDarkBG__gEu0i',
   invertibleButtonBrightBG:
-    'ItkVtkViewer-module_invertibleButtonBrightBG__1nSl7',
-  invertibleButtonDarkBG: 'ItkVtkViewer-module_invertibleButtonDarkBG__3uadz',
-  collapseUIButton: 'ItkVtkViewer-module_collapseUIButton__KyChz',
-  screenshotButton: 'ItkVtkViewer-module_screenshotButton__kyDu2',
-  annotationsButton: 'ItkVtkViewer-module_annotationsButton__3ObKg',
-  axesButton: 'ItkVtkViewer-module_axesButton__2fU4I',
-  fullscreenButton: 'ItkVtkViewer-module_fullscreenButton__1Wtn2',
-  interpolationButton: 'ItkVtkViewer-module_interpolationButton__2MaJQ',
-  cropButton: 'ItkVtkViewer-module_cropButton__3i47o',
-  resetCropButton: 'ItkVtkViewer-module_resetCropButton__35ZSB',
-  distanceEntry: 'ItkVtkViewer-module_distanceEntry__He1Uj',
-  distanceButton: 'ItkVtkViewer-module_distanceButton__1nNdH',
-  distanceLabelCommon: 'ItkVtkViewer-module_distanceLabelCommon__3xD8R',
-  distanceLabelBrightBG: 'ItkVtkViewer-module_distanceLabelBrightBG__OmOAV',
-  distanceLabelDarkBG: 'ItkVtkViewer-module_distanceLabelDarkBG__3SGn5',
-  distanceInput: 'ItkVtkViewer-module_distanceInput__16GAm',
-  resetCameraButton: 'ItkVtkViewer-module_resetCameraButton__3r5JE',
-  bgColorButton: 'ItkVtkViewer-module_bgColorButton__R-lL4',
-  viewModeButton: 'ItkVtkViewer-module_viewModeButton__-qR2v',
-  shadowButton: 'ItkVtkViewer-module_shadowButton__2etit',
-  viewPlanesButton: 'ItkVtkViewer-module_viewPlanesButton__2nRoe',
-  toggleInput: 'ItkVtkViewer-module_toggleInput__3WGQ3',
-  toggleButton: 'ItkVtkViewer-module_toggleButton__15boR',
-  numberInput: 'ItkVtkViewer-module_numberInput__1YDa9',
-  selector: 'ItkVtkViewer-module_selector__3aoUj',
-  componentTab: 'ItkVtkViewer-module_componentTab__1xAWl',
-  disableInterface: 'ItkVtkViewer-module_disableInterface__1qPy2',
-  compTabLabel: 'ItkVtkViewer-module_compTabLabel__tdSGC',
-  componentVisibility: 'ItkVtkViewer-module_componentVisibility__qi_an',
-  sampleDistanceButton: 'ItkVtkViewer-module_sampleDistanceButton__2CqjE',
-  blendModeButton: 'ItkVtkViewer-module_blendModeButton__1_8Yq',
-  gradientOpacitySlider: 'ItkVtkViewer-module_gradientOpacitySlider__71ACT',
-  sliderEntry: 'ItkVtkViewer-module_sliderEntry__3_rkX',
-  slider: 'ItkVtkViewer-module_slider__152Sh',
-  planeLabel: 'ItkVtkViewer-module_planeLabel__f7DLN',
+    'ItkVtkViewer-module_invertibleButtonBrightBG__VmIfT',
+  invertibleButtonDarkBG: 'ItkVtkViewer-module_invertibleButtonDarkBG__GoKgD',
+  collapseUIButton: 'ItkVtkViewer-module_collapseUIButton__Ac6-L',
+  screenshotButton: 'ItkVtkViewer-module_screenshotButton__OL4Na',
+  annotationsButton: 'ItkVtkViewer-module_annotationsButton__Msb-p',
+  axesButton: 'ItkVtkViewer-module_axesButton__k2H6p',
+  fullscreenButton: 'ItkVtkViewer-module_fullscreenButton__en3Z5',
+  interpolationButton: 'ItkVtkViewer-module_interpolationButton__2P0HJ',
+  cropButton: 'ItkVtkViewer-module_cropButton__ljwuU',
+  resetCropButton: 'ItkVtkViewer-module_resetCropButton__SCGTH',
+  distanceEntry: 'ItkVtkViewer-module_distanceEntry__zXMUS',
+  distanceButton: 'ItkVtkViewer-module_distanceButton__NhxBT',
+  distanceLabelCommon: 'ItkVtkViewer-module_distanceLabelCommon__Ec-uc',
+  distanceLabelBrightBG: 'ItkVtkViewer-module_distanceLabelBrightBG__aYmfG',
+  distanceLabelDarkBG: 'ItkVtkViewer-module_distanceLabelDarkBG__kYXvI',
+  distanceInput: 'ItkVtkViewer-module_distanceInput__gyNaU',
+  resetCameraButton: 'ItkVtkViewer-module_resetCameraButton__l9FGp',
+  bgColorButton: 'ItkVtkViewer-module_bgColorButton__yrjOX',
+  viewModeButton: 'ItkVtkViewer-module_viewModeButton__OtTng',
+  shadowButton: 'ItkVtkViewer-module_shadowButton__09fEk',
+  viewPlanesButton: 'ItkVtkViewer-module_viewPlanesButton__rSnuZ',
+  toggleInput: 'ItkVtkViewer-module_toggleInput__jHLTo',
+  toggleButton: 'ItkVtkViewer-module_toggleButton__qHhHZ',
+  numberInput: 'ItkVtkViewer-module_numberInput__pDxYH',
+  selector: 'ItkVtkViewer-module_selector__yw8l-',
+  componentTab: 'ItkVtkViewer-module_componentTab__6KSJF',
+  disableInterface: 'ItkVtkViewer-module_disableInterface__CGB4S',
+  compTabLabel: 'ItkVtkViewer-module_compTabLabel__8u4iU',
+  componentVisibility: 'ItkVtkViewer-module_componentVisibility__y1rRS',
+  sampleDistanceButton: 'ItkVtkViewer-module_sampleDistanceButton__NjT0o',
+  blendModeButton: 'ItkVtkViewer-module_blendModeButton__cit1w',
+  gradientOpacitySlider: 'ItkVtkViewer-module_gradientOpacitySlider__wkEqP',
+  sliderEntry: 'ItkVtkViewer-module_sliderEntry__3r3gO',
+  slider: 'ItkVtkViewer-module_slider__eT9qm',
+  planeLabel: 'ItkVtkViewer-module_planeLabel__E1zOk',
   xPlaneLabel:
-    'ItkVtkViewer-module_xPlaneLabel__3XRid ItkVtkViewer-module_planeLabel__f7DLN',
+    'ItkVtkViewer-module_xPlaneLabel__wK4Cb ItkVtkViewer-module_planeLabel__E1zOk',
   yPlaneLabel:
-    'ItkVtkViewer-module_yPlaneLabel__2WxDs ItkVtkViewer-module_planeLabel__f7DLN',
+    'ItkVtkViewer-module_yPlaneLabel__rIm0j ItkVtkViewer-module_planeLabel__E1zOk',
   zPlaneLabel:
-    'ItkVtkViewer-module_zPlaneLabel__2P7dC ItkVtkViewer-module_planeLabel__f7DLN',
-  gradientOpacityScale: 'ItkVtkViewer-module_gradientOpacityScale__2wHvA',
-  bigFileDrop: 'ItkVtkViewer-module_bigFileDrop__3hTq9',
-  fullscreenContainer: 'ItkVtkViewer-module_fullscreenContainer__3ODK4',
+    'ItkVtkViewer-module_zPlaneLabel__94NL7 ItkVtkViewer-module_planeLabel__E1zOk',
+  gradientOpacityScale: 'ItkVtkViewer-module_gradientOpacityScale__NrqOZ',
+  bigFileDrop: 'ItkVtkViewer-module_bigFileDrop__cZdkP',
+  fullscreenContainer: 'ItkVtkViewer-module_fullscreenContainer__-H3c8',
 }
 styleInject(css_248z$1)
 
-const optimizedSVGDataUri$r =
+const optimizedSVGDataUri$s =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1664 1536'%3e%3cpath d='M725 431L555 881q33 0 136.5 2t160.5 2q19 0 57-2-87-253-184-452zM0 1536l2-79q23-7 56-12.5t57-10.5 49.5-14.5 44.5-29 31-50.5l237-616L757 0h128q8 14 11 21l205 480q33 78 106 257.5t114 274.5q15 34 58 144.5t72 168.5q20 45 35 57 19 15 88 29.5t84 20.5q6 38 6 57 0 4-.5 13t-.5 13q-63 0-190-8t-191-8q-76 0-215 7t-178 8q0-43 4-78l131-28q1 0 12.5-2.5t15.5-3.5 14.5-4.5 15-6.5 11-8 9-11 2.5-14q0-16-31-96.5t-72-177.5-42-100l-450-2q-26 58-76.5 195.5T382 1361q0 22 14 37.5t43.5 24.5 48.5 13.5 57 8.5 41 4q1 19 1 58 0 9-2 27-58 0-174.5-10T236 1514q-8 0-26.5 4t-21.5 4q-80 14-188 14z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$q =
+const optimizedSVGDataUri$r =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 43 41.91699981689453'%3e%3cpath d='M15 24.089V7.375L9 13V7.5L17 0l8 7.5V13l-6-5.625v15.542h16.625l-5.625-6h5.5l7.5 8-7.5 8H30l5.625-6H17.828l-11 11H15l-4 4H0v-11l4-4v8.172l11-11zm6.253 8.361L18.8 37.262v2.655h-1.707v-2.625l-2.346-4.842h1.921l1.195 2.785.17.61h.022l.165-.588 1.252-2.807h1.781zm8.267-10.533h-2.03l-1.308-2.432-.154-.5h-.021l-.175.522-1.314 2.41H22.48l2.42-3.733-2.207-3.734h2.079l1.083 2.239.227.63h.021l.235-.65 1.194-2.219h1.881l-2.235 3.702 2.342 3.765zm-16.48 1H6.96v-.985l3.875-5.095H7.28V15.45h5.76v.955L9.248 21.53h3.792v1.387z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$p =
-  "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1763.3333740234375 1792'%3e%3cpath d='M707.333 1440q0 12-10 24l-319 319q-10 9-23 9-12 0-23-9l-320-320q-15-16-7-35 8-20 30-20h192V32q0-14 9-23t23-9h192q14 0 23 9t9 23v1376h192q14 0 23 9t9 23zm1056 128v192q0 14-9 23t-23 9h-832q-14 0-23-9t-9-23v-192q0-14 9-23t23-9h832q14 0 23 9t9 23zm-192-512v192q0 14-9 23t-23 9h-640q-14 0-23-9t-9-23v-192q0-14 9-23t23-9h640q14 0 23 9t9 23zm-192-512v192q0 14-9 23t-23 9h-448q-14 0-23-9t-9-23V544q0-14 9-23t23-9h448q14 0 23 9t9 23zm-192-512v192q0 14-9 23t-23 9h-256q-14 0-23-9t-9-23V32q0-14 9-23t23-9h256q14 0 23 9t9 23z'/%3e%3c/svg%3e"
+const optimizedSVGDataUri$q =
+  "data:image/svg+xml,%3c%3fxml version='1.0' encoding='UTF-8' standalone='no'%3f%3e %3csvg viewBox='0 0 1763.3333740234375 1792' version='1.1' id='svg113' sodipodi:docname='blendMode.svg' inkscape:version='1.2 (1:1.2%2b202206011326%2bfc4e4096c5)' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg'%3e %3cdefs id='defs117' /%3e %3csodipodi:namedview id='namedview115' pagecolor='white' bordercolor='black' borderopacity='0.25' inkscape:showpageshadow='2' inkscape:pageopacity='0.0' inkscape:pagecheckerboard='0' inkscape:deskcolor='%23d1d1d1' showgrid='false' inkscape:zoom='0.27047836' inkscape:cx='763.46218' inkscape:cy='1454.8299' inkscape:window-width='1846' inkscape:window-height='1136' inkscape:window-x='74' inkscape:window-y='27' inkscape:window-maximized='1' inkscape:current-layer='svg113' /%3e %3cellipse style='fill:none%3bfill-opacity:1%3bstroke:black%3bstroke-width:149.145%3bstroke-dasharray:none%3bstroke-opacity:1' id='path223' cx='601' cy='899.99982' rx='525.42761' ry='525.42743' /%3e %3ccircle style='fill:black%3bfill-opacity:1%3bstroke:none%3bstroke-width:100%3bstroke-dasharray:none%3bstroke-opacity:1' id='path223-3' cx='1163' cy='900' r='600' /%3e %3c/svg%3e"
 
-const optimizedSVGDataUri$o =
+const optimizedSVGDataUri$p =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 384'%3e%3cpath d='M64 0h32v48H64zm32 288V112H64v208h208v-32zm240 0h48v32h-48z'/%3e%3cpath d='M0 64v32h288v288h32V64z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$n =
+const optimizedSVGDataUri$o =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1536 1536'%3e%3cpath d='M1283 413L928 768l355 355 144-144q29-31 70-14 39 17 39 59v448q0 26-19 45t-45 19h-448q-42 0-59-40-17-39 14-69l144-144-355-355-355 355 144 144q31 30 14 69-17 40-59 40H64q-26 0-45-19t-19-45v-448q0-42 40-59 39-17 69 14l144 144 355-355-355-355-144 144q-19 19-45 19-12 0-24-5-40-17-40-59V64q0-26 19-45T64 0h448q42 0 59 40 17 39-14 69L413 253l355 355 355-355-144-144q-31-30-14-69 17-40 59-40h448q26 0 45 19t19 45v448q0 42-39 59-13 5-25 5-26 0-45-19z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$m =
+const optimizedSVGDataUri$n =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3e%3cpath d='M16 12h4v4h-4zm-4 4h4v4h-4zm8 0h4v4h-4zm4-4h4v4h-4zM8 12h4v4H8zM32 0H4C1.8 0 0 1.8 0 4v28c0 2.2 1.8 4 4 4h28c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM12 30H8v-4h4v4zm8 0h-4v-4h4v4zm8 0h-4v-4h4v4zm4-14h-4v4h4v4h-4v-4h-4v4h-4v-4h-4v4h-4v-4H8v4H4v-4h4v-4H4V4h28v12z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$l =
+const optimizedSVGDataUri$m =
   "data:image/svg+xml,%3c%3fxml version='1.0' encoding='UTF-8' standalone='no'%3f%3e %3c!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e %3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' preserveAspectRatio='xMidYMid meet' viewBox='13.909765010254631 15.20464974120776 126.4822541859144 128.7097615525036' width='122.48' height='124.71'%3e%3cdefs%3e%3cpath d='M76.43 16.2L130.98 47.58L76.43 75.4L21.89 47.58L76.43 16.2Z' id='bhsnPtSOa'%3e%3c/path%3e%3cpath d='M69.91 140.91L14.91 114.08L15 60L70 87.88L69.91 140.91Z' id='agS5SeOOL'%3e%3c/path%3e%3cpath d='M137.39 113.62L136.4 59.17L82.61 87.3L83.59 140.83L137.39 113.62Z' id='c3paZhyh3s'%3e%3c/path%3e%3c/defs%3e%3cg%3e%3cg%3e%3cuse xlink:href='%23bhsnPtSOa' opacity='1' fill='%2359d87d' fill-opacity='1'%3e%3c/use%3e%3c/g%3e%3cg%3e%3cuse xlink:href='%23agS5SeOOL' opacity='1' fill='%233384c5' fill-opacity='1'%3e%3c/use%3e%3c/g%3e%3cg%3e%3cuse xlink:href='%23c3paZhyh3s' opacity='1' fill='%233384c5' fill-opacity='1'%3e%3c/use%3e%3c/g%3e%3c/g%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$k =
+const optimizedSVGDataUri$l =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1536'%3e%3cpath d='M640 448q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1024 384v448H256v-192l320-320 160 160 512-512zm96-704H160q-13 0-22.5 9.5T128 160v1216q0 13 9.5 22.5t22.5 9.5h1600q13 0 22.5-9.5t9.5-22.5V160q0-13-9.5-22.5T1760 128zm160 32v1216q0 66-47 113t-113 47H160q-66 0-113-47T0 1376V160Q0 94 47 47T160 0h1600q66 0 113 47t47 113z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$j =
+const optimizedSVGDataUri$k =
   "data:image/svg+xml,%3c%3fxml version='1.0' encoding='UTF-8' standalone='no'%3f%3e %3c!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e %3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' preserveAspectRatio='xMidYMid meet' viewBox='24.474820143884916 11.75539568345329 107.73381294964032 102.35251798561154' width='102.73' height='97.35'%3e%3cdefs%3e%3cpath d='M26.47 13.76L129.21 13.76L129.21 111.11L26.47 111.11L26.47 13.76Z' id='a3ZYhJlju'%3e%3c/path%3e%3clinearGradient id='gradientbexcZGM80' gradientUnits='userSpaceOnUse' x1='27.65' y1='13.76' x2='129.21' y2='111.57'%3e%3cstop style='stop-color: white%3bstop-opacity: 1' offset='0%25'%3e%3c/stop%3e%3cstop style='stop-color: %23010000%3bstop-opacity: 1' offset='100%25'%3e%3c/stop%3e%3c/linearGradient%3e%3c/defs%3e%3cg%3e%3cg%3e%3cuse xlink:href='%23a3ZYhJlju' opacity='1' fill='url(%23gradientbexcZGM80)'%3e%3c/use%3e%3cg%3e%3cuse xlink:href='%23a3ZYhJlju' opacity='1' fill-opacity='0' stroke='white' stroke-width='4' stroke-opacity='1'%3e%3c/use%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$i =
+const optimizedSVGDataUri$j =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1792 1344'%3e%3cpath d='M555 1047l78-141q-87-63-136-159t-49-203q0-121 61-225-229 117-381 353 167 258 427 375zm389-759q0-20-14-34t-34-14q-125 0-214.5 89.5T592 544q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm363-191q0 7-1 9-105 188-315 566t-316 567l-49 89q-10 16-28 16-12 0-134-70-16-10-16-28 0-12 44-87-143-65-263.5-173T20 741Q0 710 0 672t20-69q153-235 380-371T896 96q89 0 180 17l54-97q10-16 28-16 5 0 18 6t31 15.5 33 18.5 31.5 18.5T1291 70q16 10 16 27zm37 447q0 139-79 253.5T1056 962l280-502q8 45 8 84zm448 128q0 35-20 69-39 64-109 145-150 172-347.5 267T896 1248l74-132q212-18 392.5-137T1664 672q-115-179-282-294l63-112q95 64 182.5 153T1772 603q20 34 20 69z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$h =
+const optimizedSVGDataUri$i =
   "data:image/svg+xml,%3c%3fxml version='1.0' encoding='utf-8'%3f%3e %3csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 100 100' style='enable-background:new 0 0 100 100%3b' xml:space='preserve'%3e %3ccircle cx='59.6' cy='42.7' r='4.9'/%3e %3cpath d='M41.1%2c84.2c-1%2c0-2-0.4-2.7-1.3l-22-26.7c-1.2-1.5-1-3.7%2c0.5-4.9l31.9-26.4c0.6-0.5%2c1.4-0.8%2c2.2-0.8c0%2c0%2c0%2c0%2c0%2c0l27.1%2c0.1 c1%2c0%2c2%2c0.5%2c2.7%2c1.3c0.7%2c0.8%2c0.9%2c1.9%2c0.7%2c2.9L76.5%2c55c-0.2%2c0.8-0.6%2c1.5-1.2%2c2L43.3%2c83.4C42.7%2c83.9%2c41.9%2c84.2%2c41.1%2c84.2z M24%2c54.5 l17.6%2c21.3l28.3-23.3l4-21.2l-21.6-0.1L24%2c54.5z'/%3e %3c/svg%3e"
 
-const optimizedSVGDataUri$g =
+const optimizedSVGDataUri$h =
   "data:image/svg+xml,%3c%3fxml version='1.0' encoding='UTF-8' standalone='no'%3f%3e %3csvg xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:cc='http://creativecommons.org/ns%23' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns%23' xmlns:svg='http://www.w3.org/2000/svg' xmlns='http://www.w3.org/2000/svg' version='1.1' id='svg2' viewBox='0 0 62.221396 60.130392' height='16.970133mm' width='17.560261mm'%3e %3cdefs id='defs4' /%3e %3cmetadata id='metadata7'%3e %3crdf:RDF%3e %3ccc:Work rdf:about=''%3e %3cdc:format%3eimage/svg%2bxml%3c/dc:format%3e %3cdc:type rdf:resource='http://purl.org/dc/dcmitype/StillImage' /%3e %3cdc:title%3e%3c/dc:title%3e %3c/cc:Work%3e %3c/rdf:RDF%3e %3c/metadata%3e %3cg transform='translate(-204.3732%2c-426.67465)' id='layer1'%3e %3crect transform='matrix(0.67893789%2c0.73419571%2c-0.73419571%2c0.67893789%2c0%2c0)' y='107.51627' x='484.44534' height='59.38089' width='21.540062' id='rect4140' style='fill:none%3bfill-opacity:1%3bstroke:black%3bstroke-width:4%3bstroke-linecap:round%3bstroke-linejoin:round%3bstroke-miterlimit:4%3bstroke-dasharray:none%3bstroke-dashoffset:0%3bstroke-opacity:1' /%3e %3cpath id='path4148' d='m 243.29116%2c434.92064 c 3.16419%2c3.42172 6.32839%2c6.84344 9.49258%2c10.26516' style='fill:none%3bfill-rule:evenodd%3bstroke:black%3bstroke-width:4%3bstroke-linecap:round%3bstroke-linejoin:miter%3bstroke-miterlimit:4%3bstroke-dasharray:none%3bstroke-opacity:1' /%3e %3cpath id='path4148-3-5' d='m 236.26734%2c441.53481 c 1.96377%2c2.12361 3.92755%2c4.24722 5.89132%2c6.37082' style='fill:none%3bfill-rule:evenodd%3bstroke:black%3bstroke-width:4%3bstroke-linecap:round%3bstroke-linejoin:miter%3bstroke-miterlimit:4%3bstroke-dasharray:none%3bstroke-opacity:1' /%3e %3cpath id='path4148-3' d='m 228.61436%2c448.49077 c 3.16419%2c3.42172 6.32839%2c6.84345 9.49259%2c10.26516' style='fill:none%3bfill-rule:evenodd%3bstroke:black%3bstroke-width:4%3bstroke-linecap:round%3bstroke-linejoin:miter%3bstroke-miterlimit:4%3bstroke-dasharray:none%3bstroke-opacity:1' /%3e %3cpath id='path4148-3-5-5' d='m 220.76246%2c455.75236 c 1.96378%2c2.12361 3.92756%2c4.24721 5.89133%2c6.37081' style='fill:none%3bfill-rule:evenodd%3bstroke:black%3bstroke-width:4%3bstroke-linecap:round%3bstroke-linejoin:miter%3bstroke-miterlimit:4%3bstroke-dasharray:none%3bstroke-opacity:1' /%3e %3cpath id='path4148-6' d='m 213.55887%2c462.41313 c 3.16419%2c3.42173 6.32839%2c6.84345 9.49258%2c10.26518' style='fill:none%3bfill-rule:evenodd%3bstroke:black%3bstroke-width:4%3bstroke-linecap:round%3bstroke-linejoin:miter%3bstroke-miterlimit:4%3bstroke-dasharray:none%3bstroke-opacity:1' /%3e %3c/g%3e %3c/svg%3e"
 
-const optimizedSVGDataUri$f =
+const optimizedSVGDataUri$g =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1536 1536'%3e%3cpath d='M768 1312V224q-148 0-273 73T297 495t-73 273 73 273 198 198 273 73zm768-544q0 209-103 385.5T1153.5 1433 768 1536t-385.5-103T103 1153.5 0 768t103-385.5T382.5 103 768 0t385.5 103T1433 382.5 1536 768z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$e =
+const optimizedSVGDataUri$f =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1536 1536'%3e%3cpath d='M768 0q209 0 385.5 103T1433 382.5 1536 768t-103 385.5-279.5 279.5T768 1536t-385.5-103T103 1153.5 0 768t103-385.5T382.5 103 768 0zm0 1312q148 0 273-73t198-198 73-273-73-273-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73zm96-224q-14 0-23-9t-9-23V480q0-14 9-23t23-9h192q14 0 23 9t9 23v576q0 14-9 23t-23 9H864zm-384 0q-14 0-23-9t-9-23V480q0-14 9-23t23-9h192q14 0 23 9t9 23v576q0 14-9 23t-23 9H480z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$d =
+const optimizedSVGDataUri$e =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1536 1536'%3e%3cpath d='M1184 768q0 37-32 55l-544 320q-15 9-32 9-16 0-32-8-32-19-32-56V448q0-37 32-56 33-18 64 1l544 320q32 18 32 55zm128 0q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5T1153.5 1433 768 1536t-385.5-103T103 1153.5 0 768t103-385.5T382.5 103 768 0t385.5 103T1433 382.5 1536 768z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$c =
+const optimizedSVGDataUri$d =
   "data:image/svg+xml,%3c%3fxml version='1.0' encoding='UTF-8' standalone='no'%3f%3e %3c!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e %3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' preserveAspectRatio='xMidYMid meet' viewBox='23.526450466849894 25.20464974120776 126.86556872931914 128.62412323660308' width='122.87' height='124.62'%3e%3cdefs%3e%3cpath d='M85.45 26.2L140 57.58L85.45 85.4L30.91 57.58L85.45 26.2Z' id='bljQJJOjU'%3e%3c/path%3e%3cpath d='M79.53 149.62L24.53 122.78L24.62 68.7L79.62 96.58L79.53 149.62Z' id='a2OxwluQL6'%3e%3c/path%3e%3cpath d='M147.39 123.62L146.4 69.17L92.61 97.3L93.59 150.83L147.39 123.62Z' id='a4nIltkDon'%3e%3c/path%3e%3c/defs%3e%3cg%3e%3cg%3e%3cuse xlink:href='%23bljQJJOjU' opacity='1' fill='%233384c5' fill-opacity='1'%3e%3c/use%3e%3c/g%3e%3cg%3e%3cuse xlink:href='%23a2OxwluQL6' opacity='1' fill='%23ff7b7b' fill-opacity='1'%3e%3c/use%3e%3c/g%3e%3cg%3e%3cuse xlink:href='%23a4nIltkDon' opacity='1' fill='%233384c5' fill-opacity='1'%3e%3c/use%3e%3c/g%3e%3c/g%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$b =
+const optimizedSVGDataUri$c =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 448'%3e%3cpath d='M224 144c-44.004 0-80.001 36-80.001 80 0 44.004 35.997 80 80.001 80 44.005 0 79.999-35.996 79.999-80 0-44-35.994-80-79.999-80zm190.938 58.667c-9.605-88.531-81.074-160-169.605-169.599V0h-42.666v33.067c-88.531 9.599-160 81.068-169.604 169.599H0v42.667h33.062c9.604 88.531 81.072 160 169.604 169.604V448h42.666v-33.062c88.531-9.604 160-81.073 169.605-169.604H448v-42.667h-33.062zM224 373.333c-82.137 0-149.334-67.198-149.334-149.333 0-82.136 67.197-149.333 149.334-149.333 82.135 0 149.332 67.198 149.332 149.333S306.135 373.333 224 373.333z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$a =
+const optimizedSVGDataUri$b =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 384'%3e%3cpath d='M332.795 332.8H256V384h128V256h-51.205zm.005-281.595V128H384V0H256v51.205zM51.205 51.2H128V0H0v128h51.205zM51.2 332.795V256H0v128h128v-51.205z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$9 =
+const optimizedSVGDataUri$a =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3e%3cpath d='M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$8 =
+const optimizedSVGDataUri$9 =
   "data:image/svg+xml,%3csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3e%3cg stroke='black' stroke-width='10' fill='none' fill-rule='evenodd' stroke-linecap='square'%3e%3cpath d='M10 90h160M10 133.488V47M170 133.488V47M90 133.488V47'/%3e%3c/g%3e%3c/svg%3e"
+
+const optimizedSVGDataUri$8 =
+  "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1763.3333740234375 1792'%3e%3cpath d='M707.333 1440q0 12-10 24l-319 319q-10 9-23 9-12 0-23-9l-320-320q-15-16-7-35 8-20 30-20h192V32q0-14 9-23t23-9h192q14 0 23 9t9 23v1376h192q14 0 23 9t9 23zm1056 128v192q0 14-9 23t-23 9h-832q-14 0-23-9t-9-23v-192q0-14 9-23t23-9h832q14 0 23 9t9 23zm-192-512v192q0 14-9 23t-23 9h-640q-14 0-23-9t-9-23v-192q0-14 9-23t23-9h640q14 0 23 9t9 23zm-192-512v192q0 14-9 23t-23 9h-448q-14 0-23-9t-9-23V544q0-14 9-23t23-9h448q14 0 23 9t9 23zm-192-512v192q0 14-9 23t-23 9h-256q-14 0-23-9t-9-23V32q0-14 9-23t23-9h256q14 0 23 9t9 23z'/%3e%3c/svg%3e"
 
 const optimizedSVGDataUri$7 =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1664'%3e%3cpath d='M960 672q119 0 203.5 84.5T1248 960t-84.5 203.5T960 1248t-203.5-84.5T672 960t84.5-203.5T960 672zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75H256q-106 0-181-75T0 1408V512q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5T704 0h512q53 0 103.5 35.5T1389 120l51 136h224zM960 1408q185 0 316.5-131.5T1408 960t-131.5-316.5T960 512 643.5 643.5 512 960t131.5 316.5T960 1408z'/%3e%3c/svg%3e"
@@ -324,7 +327,7 @@ function createFullscreenButton(context, mainUIRow) {
       .concat(style.fullscreenButton, ' ')
       .concat(style.toggleButton, '" for="')
       .concat(context.id, '-toggleFullscreenButton"><img src="')
-      .concat(optimizedSVGDataUri$n, '" alt="fullscreen"/></label>')
+      .concat(optimizedSVGDataUri$o, '" alt="fullscreen"/></label>')
     fullscreenButton.children[0]
     fullscreenButton.children[1]
     applyContrastSensitiveStyleToElement(
@@ -369,7 +372,7 @@ function createRotateButton(context, mainUIRow) {
     .concat(style.rotateButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-toggleRotateButton"><img src="')
-    .concat(optimizedSVGDataUri$9, '" alt="rotate"/></label>')
+    .concat(optimizedSVGDataUri$a, '" alt="rotate"/></label>')
   var rotateButtonInput = rotateButton.children[0]
   var rotateButtonLabel = rotateButton.children[1]
   context.main.rotateButtonLabel = rotateButtonLabel
@@ -406,7 +409,7 @@ function createAnnotationsButton(context, mainUIRow) {
     .concat(style.annotationsButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-toggleAnnotationsButton"><img src="')
-    .concat(optimizedSVGDataUri$r, '" alt="annotations"/></label>')
+    .concat(optimizedSVGDataUri$s, '" alt="annotations"/></label>')
   var annotationsButtonInput = annotationsButton.children[0]
   var annotationsButtonLabel = annotationsButton.children[1]
   context.main.annotationsButtonLabel = annotationsButtonLabel
@@ -442,7 +445,7 @@ function createAxesButton(context, mainUIRow) {
     .concat(style.axesButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-toggleAxesButton"><img src="')
-    .concat(optimizedSVGDataUri$q, '" alt="axes"/></label>')
+    .concat(optimizedSVGDataUri$r, '" alt="axes"/></label>')
   var axesButtonInput = axesButton.children[0]
   var axesButtonLabel = axesButton.children[1]
   context.main.axesButtonLabel = axesButtonLabel
@@ -657,10 +660,10 @@ var commonjsGlobal =
     ? self
     : {}
 
-var toStr$2 = Object.prototype.toString
+var toStr$3 = Object.prototype.toString
 
 var isArguments = function isArguments(value) {
-  var str = toStr$2.call(value)
+  var str = toStr$3.call(value)
   var isArgs = str === '[object Arguments]'
   if (!isArgs) {
     isArgs =
@@ -669,7 +672,7 @@ var isArguments = function isArguments(value) {
       typeof value === 'object' &&
       typeof value.length === 'number' &&
       value.length >= 0 &&
-      toStr$2.call(value.callee) === '[object Function]'
+      toStr$3.call(value.callee) === '[object Function]'
   }
   return isArgs
 }
@@ -678,7 +681,7 @@ var keysShim$1
 if (!Object.keys) {
   // modified from https://github.com/es-shims/es5-shim
   var has = Object.prototype.hasOwnProperty
-  var toStr$1 = Object.prototype.toString
+  var toStr$2 = Object.prototype.toString
   var isArgs$1 = isArguments // eslint-disable-line global-require
   var isEnumerable = Object.prototype.propertyIsEnumerable
   var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString')
@@ -760,9 +763,9 @@ if (!Object.keys) {
 
   keysShim$1 = function keys(object) {
     var isObject = object !== null && typeof object === 'object'
-    var isFunction = toStr$1.call(object) === '[object Function]'
+    var isFunction = toStr$2.call(object) === '[object Function]'
     var isArguments = isArgs$1(object)
-    var isString = isObject && toStr$1.call(object) === '[object String]'
+    var isString = isObject && toStr$2.call(object) === '[object String]'
     var theKeys = []
 
     if (!isObject && !isFunction && !isArguments) {
@@ -803,9 +806,9 @@ if (!Object.keys) {
     return theKeys
   }
 }
-var implementation$2 = keysShim$1
+var implementation$4 = keysShim$1
 
-var slice = Array.prototype.slice
+var slice$1 = Array.prototype.slice
 var isArgs = isArguments
 
 var origKeys = Object.keys
@@ -813,7 +816,7 @@ var keysShim = origKeys
   ? function keys(o) {
       return origKeys(o)
     }
-  : implementation$2
+  : implementation$4
 
 var originalKeys = Object.keys
 
@@ -828,7 +831,7 @@ keysShim.shim = function shimObjectKeys() {
       Object.keys = function keys(object) {
         // eslint-disable-line func-name-matching
         if (isArgs(object)) {
-          return originalKeys(slice.call(object))
+          return originalKeys(slice$1.call(object))
         }
         return originalKeys(object)
       }
@@ -840,6 +843,566 @@ keysShim.shim = function shimObjectKeys() {
 }
 
 var objectKeys = keysShim
+
+/* eslint complexity: [2, 18], max-statements: [2, 33] */
+var shams = function hasSymbols() {
+  if (
+    typeof Symbol !== 'function' ||
+    typeof Object.getOwnPropertySymbols !== 'function'
+  ) {
+    return false
+  }
+  if (typeof Symbol.iterator === 'symbol') {
+    return true
+  }
+
+  var obj = {}
+  var sym = Symbol('test')
+  var symObj = Object(sym)
+  if (typeof sym === 'string') {
+    return false
+  }
+
+  if (Object.prototype.toString.call(sym) !== '[object Symbol]') {
+    return false
+  }
+  if (Object.prototype.toString.call(symObj) !== '[object Symbol]') {
+    return false
+  }
+
+  // temp disabled per https://github.com/ljharb/object.assign/issues/17
+  // if (sym instanceof Symbol) { return false; }
+  // temp disabled per https://github.com/WebReflection/get-own-property-symbols/issues/4
+  // if (!(symObj instanceof Symbol)) { return false; }
+
+  // if (typeof Symbol.prototype.toString !== 'function') { return false; }
+  // if (String(sym) !== Symbol.prototype.toString.call(sym)) { return false; }
+
+  var symVal = 42
+  obj[sym] = symVal
+  for (sym in obj) {
+    return false
+  } // eslint-disable-line no-restricted-syntax, no-unreachable-loop
+  if (typeof Object.keys === 'function' && Object.keys(obj).length !== 0) {
+    return false
+  }
+
+  if (
+    typeof Object.getOwnPropertyNames === 'function' &&
+    Object.getOwnPropertyNames(obj).length !== 0
+  ) {
+    return false
+  }
+
+  var syms = Object.getOwnPropertySymbols(obj)
+  if (syms.length !== 1 || syms[0] !== sym) {
+    return false
+  }
+
+  if (!Object.prototype.propertyIsEnumerable.call(obj, sym)) {
+    return false
+  }
+
+  if (typeof Object.getOwnPropertyDescriptor === 'function') {
+    var descriptor = Object.getOwnPropertyDescriptor(obj, sym)
+    if (descriptor.value !== symVal || descriptor.enumerable !== true) {
+      return false
+    }
+  }
+
+  return true
+}
+
+var origSymbol = typeof Symbol !== 'undefined' && Symbol
+var hasSymbolSham = shams
+
+var hasSymbols$2 = function hasNativeSymbols() {
+  if (typeof origSymbol !== 'function') {
+    return false
+  }
+  if (typeof Symbol !== 'function') {
+    return false
+  }
+  if (typeof origSymbol('foo') !== 'symbol') {
+    return false
+  }
+  if (typeof Symbol('bar') !== 'symbol') {
+    return false
+  }
+
+  return hasSymbolSham()
+}
+
+/* eslint no-invalid-this: 1 */
+
+var ERROR_MESSAGE = 'Function.prototype.bind called on incompatible '
+var slice = Array.prototype.slice
+var toStr$1 = Object.prototype.toString
+var funcType = '[object Function]'
+
+var implementation$3 = function bind(that) {
+  var target = this
+  if (typeof target !== 'function' || toStr$1.call(target) !== funcType) {
+    throw new TypeError(ERROR_MESSAGE + target)
+  }
+  var args = slice.call(arguments, 1)
+
+  var bound
+  var binder = function() {
+    if (this instanceof bound) {
+      var result = target.apply(this, args.concat(slice.call(arguments)))
+      if (Object(result) === result) {
+        return result
+      }
+      return this
+    } else {
+      return target.apply(that, args.concat(slice.call(arguments)))
+    }
+  }
+
+  var boundLength = Math.max(0, target.length - args.length)
+  var boundArgs = []
+  for (var i = 0; i < boundLength; i++) {
+    boundArgs.push('$' + i)
+  }
+
+  bound = Function(
+    'binder',
+    'return function (' +
+      boundArgs.join(',') +
+      '){ return binder.apply(this,arguments); }'
+  )(binder)
+
+  if (target.prototype) {
+    var Empty = function Empty() {}
+    Empty.prototype = target.prototype
+    bound.prototype = new Empty()
+    Empty.prototype = null
+  }
+
+  return bound
+}
+
+var implementation$2 = implementation$3
+
+var functionBind = Function.prototype.bind || implementation$2
+
+var bind$1 = functionBind
+
+var src$1 = bind$1.call(Function.call, Object.prototype.hasOwnProperty)
+
+var undefined$1
+
+var $SyntaxError = SyntaxError
+var $Function = Function
+var $TypeError = TypeError
+
+// eslint-disable-next-line consistent-return
+var getEvalledConstructor = function(expressionSyntax) {
+  try {
+    return $Function(
+      '"use strict"; return (' + expressionSyntax + ').constructor;'
+    )()
+  } catch (e) {}
+}
+
+var $gOPD = Object.getOwnPropertyDescriptor
+if ($gOPD) {
+  try {
+    $gOPD({}, '')
+  } catch (e) {
+    $gOPD = null // this is IE 8, which has a broken gOPD
+  }
+}
+
+var throwTypeError = function() {
+  throw new $TypeError()
+}
+var ThrowTypeError = $gOPD
+  ? (function() {
+      try {
+        // eslint-disable-next-line no-unused-expressions, no-caller, no-restricted-properties
+        arguments.callee // IE 8 does not throw here
+        return throwTypeError
+      } catch (calleeThrows) {
+        try {
+          // IE 8 throws on Object.getOwnPropertyDescriptor(arguments, '')
+          return $gOPD(arguments, 'callee').get
+        } catch (gOPDthrows) {
+          return throwTypeError
+        }
+      }
+    })()
+  : throwTypeError
+
+var hasSymbols$1 = hasSymbols$2()
+
+var getProto =
+  Object.getPrototypeOf ||
+  function(x) {
+    return x.__proto__
+  } // eslint-disable-line no-proto
+
+var needsEval = {}
+
+var TypedArray =
+  typeof Uint8Array === 'undefined' ? undefined$1 : getProto(Uint8Array)
+
+var INTRINSICS = {
+  '%AggregateError%':
+    typeof AggregateError === 'undefined' ? undefined$1 : AggregateError,
+  '%Array%': Array,
+  '%ArrayBuffer%':
+    typeof ArrayBuffer === 'undefined' ? undefined$1 : ArrayBuffer,
+  '%ArrayIteratorPrototype%': hasSymbols$1
+    ? getProto([][Symbol.iterator]())
+    : undefined$1,
+  '%AsyncFromSyncIteratorPrototype%': undefined$1,
+  '%AsyncFunction%': needsEval,
+  '%AsyncGenerator%': needsEval,
+  '%AsyncGeneratorFunction%': needsEval,
+  '%AsyncIteratorPrototype%': needsEval,
+  '%Atomics%': typeof Atomics === 'undefined' ? undefined$1 : Atomics,
+  '%BigInt%': typeof BigInt === 'undefined' ? undefined$1 : BigInt,
+  '%Boolean%': Boolean,
+  '%DataView%': typeof DataView === 'undefined' ? undefined$1 : DataView,
+  '%Date%': Date,
+  '%decodeURI%': decodeURI,
+  '%decodeURIComponent%': decodeURIComponent,
+  '%encodeURI%': encodeURI,
+  '%encodeURIComponent%': encodeURIComponent,
+  '%Error%': Error,
+  '%eval%': eval, // eslint-disable-line no-eval
+  '%EvalError%': EvalError,
+  '%Float32Array%':
+    typeof Float32Array === 'undefined' ? undefined$1 : Float32Array,
+  '%Float64Array%':
+    typeof Float64Array === 'undefined' ? undefined$1 : Float64Array,
+  '%FinalizationRegistry%':
+    typeof FinalizationRegistry === 'undefined'
+      ? undefined$1
+      : FinalizationRegistry,
+  '%Function%': $Function,
+  '%GeneratorFunction%': needsEval,
+  '%Int8Array%': typeof Int8Array === 'undefined' ? undefined$1 : Int8Array,
+  '%Int16Array%': typeof Int16Array === 'undefined' ? undefined$1 : Int16Array,
+  '%Int32Array%': typeof Int32Array === 'undefined' ? undefined$1 : Int32Array,
+  '%isFinite%': isFinite,
+  '%isNaN%': isNaN,
+  '%IteratorPrototype%': hasSymbols$1
+    ? getProto(getProto([][Symbol.iterator]()))
+    : undefined$1,
+  '%JSON%': typeof JSON === 'object' ? JSON : undefined$1,
+  '%Map%': typeof Map === 'undefined' ? undefined$1 : Map,
+  '%MapIteratorPrototype%':
+    typeof Map === 'undefined' || !hasSymbols$1
+      ? undefined$1
+      : getProto(new Map()[Symbol.iterator]()),
+  '%Math%': Math,
+  '%Number%': Number,
+  '%Object%': Object,
+  '%parseFloat%': parseFloat,
+  '%parseInt%': parseInt,
+  '%Promise%': typeof Promise === 'undefined' ? undefined$1 : Promise,
+  '%Proxy%': typeof Proxy === 'undefined' ? undefined$1 : Proxy,
+  '%RangeError%': RangeError,
+  '%ReferenceError%': ReferenceError,
+  '%Reflect%': typeof Reflect === 'undefined' ? undefined$1 : Reflect,
+  '%RegExp%': RegExp,
+  '%Set%': typeof Set === 'undefined' ? undefined$1 : Set,
+  '%SetIteratorPrototype%':
+    typeof Set === 'undefined' || !hasSymbols$1
+      ? undefined$1
+      : getProto(new Set()[Symbol.iterator]()),
+  '%SharedArrayBuffer%':
+    typeof SharedArrayBuffer === 'undefined' ? undefined$1 : SharedArrayBuffer,
+  '%String%': String,
+  '%StringIteratorPrototype%': hasSymbols$1
+    ? getProto(''[Symbol.iterator]())
+    : undefined$1,
+  '%Symbol%': hasSymbols$1 ? Symbol : undefined$1,
+  '%SyntaxError%': $SyntaxError,
+  '%ThrowTypeError%': ThrowTypeError,
+  '%TypedArray%': TypedArray,
+  '%TypeError%': $TypeError,
+  '%Uint8Array%': typeof Uint8Array === 'undefined' ? undefined$1 : Uint8Array,
+  '%Uint8ClampedArray%':
+    typeof Uint8ClampedArray === 'undefined' ? undefined$1 : Uint8ClampedArray,
+  '%Uint16Array%':
+    typeof Uint16Array === 'undefined' ? undefined$1 : Uint16Array,
+  '%Uint32Array%':
+    typeof Uint32Array === 'undefined' ? undefined$1 : Uint32Array,
+  '%URIError%': URIError,
+  '%WeakMap%': typeof WeakMap === 'undefined' ? undefined$1 : WeakMap,
+  '%WeakRef%': typeof WeakRef === 'undefined' ? undefined$1 : WeakRef,
+  '%WeakSet%': typeof WeakSet === 'undefined' ? undefined$1 : WeakSet,
+}
+
+var doEval = function doEval(name) {
+  var value
+  if (name === '%AsyncFunction%') {
+    value = getEvalledConstructor('async function () {}')
+  } else if (name === '%GeneratorFunction%') {
+    value = getEvalledConstructor('function* () {}')
+  } else if (name === '%AsyncGeneratorFunction%') {
+    value = getEvalledConstructor('async function* () {}')
+  } else if (name === '%AsyncGenerator%') {
+    var fn = doEval('%AsyncGeneratorFunction%')
+    if (fn) {
+      value = fn.prototype
+    }
+  } else if (name === '%AsyncIteratorPrototype%') {
+    var gen = doEval('%AsyncGenerator%')
+    if (gen) {
+      value = getProto(gen.prototype)
+    }
+  }
+
+  INTRINSICS[name] = value
+
+  return value
+}
+
+var LEGACY_ALIASES = {
+  '%ArrayBufferPrototype%': ['ArrayBuffer', 'prototype'],
+  '%ArrayPrototype%': ['Array', 'prototype'],
+  '%ArrayProto_entries%': ['Array', 'prototype', 'entries'],
+  '%ArrayProto_forEach%': ['Array', 'prototype', 'forEach'],
+  '%ArrayProto_keys%': ['Array', 'prototype', 'keys'],
+  '%ArrayProto_values%': ['Array', 'prototype', 'values'],
+  '%AsyncFunctionPrototype%': ['AsyncFunction', 'prototype'],
+  '%AsyncGenerator%': ['AsyncGeneratorFunction', 'prototype'],
+  '%AsyncGeneratorPrototype%': [
+    'AsyncGeneratorFunction',
+    'prototype',
+    'prototype',
+  ],
+  '%BooleanPrototype%': ['Boolean', 'prototype'],
+  '%DataViewPrototype%': ['DataView', 'prototype'],
+  '%DatePrototype%': ['Date', 'prototype'],
+  '%ErrorPrototype%': ['Error', 'prototype'],
+  '%EvalErrorPrototype%': ['EvalError', 'prototype'],
+  '%Float32ArrayPrototype%': ['Float32Array', 'prototype'],
+  '%Float64ArrayPrototype%': ['Float64Array', 'prototype'],
+  '%FunctionPrototype%': ['Function', 'prototype'],
+  '%Generator%': ['GeneratorFunction', 'prototype'],
+  '%GeneratorPrototype%': ['GeneratorFunction', 'prototype', 'prototype'],
+  '%Int8ArrayPrototype%': ['Int8Array', 'prototype'],
+  '%Int16ArrayPrototype%': ['Int16Array', 'prototype'],
+  '%Int32ArrayPrototype%': ['Int32Array', 'prototype'],
+  '%JSONParse%': ['JSON', 'parse'],
+  '%JSONStringify%': ['JSON', 'stringify'],
+  '%MapPrototype%': ['Map', 'prototype'],
+  '%NumberPrototype%': ['Number', 'prototype'],
+  '%ObjectPrototype%': ['Object', 'prototype'],
+  '%ObjProto_toString%': ['Object', 'prototype', 'toString'],
+  '%ObjProto_valueOf%': ['Object', 'prototype', 'valueOf'],
+  '%PromisePrototype%': ['Promise', 'prototype'],
+  '%PromiseProto_then%': ['Promise', 'prototype', 'then'],
+  '%Promise_all%': ['Promise', 'all'],
+  '%Promise_reject%': ['Promise', 'reject'],
+  '%Promise_resolve%': ['Promise', 'resolve'],
+  '%RangeErrorPrototype%': ['RangeError', 'prototype'],
+  '%ReferenceErrorPrototype%': ['ReferenceError', 'prototype'],
+  '%RegExpPrototype%': ['RegExp', 'prototype'],
+  '%SetPrototype%': ['Set', 'prototype'],
+  '%SharedArrayBufferPrototype%': ['SharedArrayBuffer', 'prototype'],
+  '%StringPrototype%': ['String', 'prototype'],
+  '%SymbolPrototype%': ['Symbol', 'prototype'],
+  '%SyntaxErrorPrototype%': ['SyntaxError', 'prototype'],
+  '%TypedArrayPrototype%': ['TypedArray', 'prototype'],
+  '%TypeErrorPrototype%': ['TypeError', 'prototype'],
+  '%Uint8ArrayPrototype%': ['Uint8Array', 'prototype'],
+  '%Uint8ClampedArrayPrototype%': ['Uint8ClampedArray', 'prototype'],
+  '%Uint16ArrayPrototype%': ['Uint16Array', 'prototype'],
+  '%Uint32ArrayPrototype%': ['Uint32Array', 'prototype'],
+  '%URIErrorPrototype%': ['URIError', 'prototype'],
+  '%WeakMapPrototype%': ['WeakMap', 'prototype'],
+  '%WeakSetPrototype%': ['WeakSet', 'prototype'],
+}
+
+var bind = functionBind
+var hasOwn = src$1
+var $concat = bind.call(Function.call, Array.prototype.concat)
+var $spliceApply = bind.call(Function.apply, Array.prototype.splice)
+var $replace = bind.call(Function.call, String.prototype.replace)
+var $strSlice = bind.call(Function.call, String.prototype.slice)
+var $exec = bind.call(Function.call, RegExp.prototype.exec)
+
+/* adapted from https://github.com/lodash/lodash/blob/4.17.15/dist/lodash.js#L6735-L6744 */
+var rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g
+var reEscapeChar = /\\(\\)?/g /** Used to match backslashes in property paths. */
+var stringToPath = function stringToPath(string) {
+  var first = $strSlice(string, 0, 1)
+  var last = $strSlice(string, -1)
+  if (first === '%' && last !== '%') {
+    throw new $SyntaxError('invalid intrinsic syntax, expected closing `%`')
+  } else if (last === '%' && first !== '%') {
+    throw new $SyntaxError('invalid intrinsic syntax, expected opening `%`')
+  }
+  var result = []
+  $replace(string, rePropName, function(match, number, quote, subString) {
+    result[result.length] = quote
+      ? $replace(subString, reEscapeChar, '$1')
+      : number || match
+  })
+  return result
+}
+/* end adaptation */
+
+var getBaseIntrinsic = function getBaseIntrinsic(name, allowMissing) {
+  var intrinsicName = name
+  var alias
+  if (hasOwn(LEGACY_ALIASES, intrinsicName)) {
+    alias = LEGACY_ALIASES[intrinsicName]
+    intrinsicName = '%' + alias[0] + '%'
+  }
+
+  if (hasOwn(INTRINSICS, intrinsicName)) {
+    var value = INTRINSICS[intrinsicName]
+    if (value === needsEval) {
+      value = doEval(intrinsicName)
+    }
+    if (typeof value === 'undefined' && !allowMissing) {
+      throw new $TypeError(
+        'intrinsic ' +
+          name +
+          ' exists, but is not available. Please file an issue!'
+      )
+    }
+
+    return {
+      alias: alias,
+      name: intrinsicName,
+      value: value,
+    }
+  }
+
+  throw new $SyntaxError('intrinsic ' + name + ' does not exist!')
+}
+
+var getIntrinsic = function GetIntrinsic(name, allowMissing) {
+  if (typeof name !== 'string' || name.length === 0) {
+    throw new $TypeError('intrinsic name must be a non-empty string')
+  }
+  if (arguments.length > 1 && typeof allowMissing !== 'boolean') {
+    throw new $TypeError('"allowMissing" argument must be a boolean')
+  }
+
+  if ($exec(/^%?[^%]*%?$/g, name) === null) {
+    throw new $SyntaxError(
+      '`%` may not be present anywhere but at the beginning and end of the intrinsic name'
+    )
+  }
+  var parts = stringToPath(name)
+  var intrinsicBaseName = parts.length > 0 ? parts[0] : ''
+
+  var intrinsic = getBaseIntrinsic('%' + intrinsicBaseName + '%', allowMissing)
+  var intrinsicRealName = intrinsic.name
+  var value = intrinsic.value
+  var skipFurtherCaching = false
+
+  var alias = intrinsic.alias
+  if (alias) {
+    intrinsicBaseName = alias[0]
+    $spliceApply(parts, $concat([0, 1], alias))
+  }
+
+  for (var i = 1, isOwn = true; i < parts.length; i += 1) {
+    var part = parts[i]
+    var first = $strSlice(part, 0, 1)
+    var last = $strSlice(part, -1)
+    if (
+      (first === '"' ||
+        first === "'" ||
+        first === '`' ||
+        last === '"' || last === "'" || last === '`') &&
+      first !== last
+    ) {
+      throw new $SyntaxError(
+        'property names with quotes must have matching quotes'
+      )
+    }
+    if (part === 'constructor' || !isOwn) {
+      skipFurtherCaching = true
+    }
+
+    intrinsicBaseName += '.' + part
+    intrinsicRealName = '%' + intrinsicBaseName + '%'
+
+    if (hasOwn(INTRINSICS, intrinsicRealName)) {
+      value = INTRINSICS[intrinsicRealName]
+    } else if (value != null) {
+      if (!(part in value)) {
+        if (!allowMissing) {
+          throw new $TypeError(
+            'base intrinsic for ' +
+              name +
+              ' exists, but the property is not available.'
+          )
+        }
+        return void undefined$1
+      }
+      if ($gOPD && i + 1 >= parts.length) {
+        var desc = $gOPD(value, part)
+        isOwn = !!desc
+
+        // By convention, when a data property is converted to an accessor
+        // property to emulate a data property that does not suffer from
+        // the override mistake, that accessor's getter is marked with
+        // an `originalValue` property. Here, when we detect this, we
+        // uphold the illusion by pretending to see that original data
+        // property, i.e., returning the value rather than the getter
+        // itself.
+        if (isOwn && 'get' in desc && !('originalValue' in desc.get)) {
+          value = desc.get
+        } else {
+          value = value[part]
+        }
+      } else {
+        isOwn = hasOwn(value, part)
+        value = value[part]
+      }
+
+      if (isOwn && !skipFurtherCaching) {
+        INTRINSICS[intrinsicRealName] = value
+      }
+    }
+  }
+  return value
+}
+
+var GetIntrinsic = getIntrinsic
+
+var $defineProperty = GetIntrinsic('%Object.defineProperty%', true)
+
+var hasPropertyDescriptors$1 = function hasPropertyDescriptors() {
+  if ($defineProperty) {
+    try {
+      $defineProperty({}, 'a', { value: 1 })
+      return true
+    } catch (e) {
+      // IE 8 has a broken defineProperty
+      return false
+    }
+  }
+  return false
+}
+
+hasPropertyDescriptors$1.hasArrayLengthDefineBug = function hasArrayLengthDefineBug() {
+  // node v0.6 has a bug where array lengths can be Set but not Defined
+  if (!hasPropertyDescriptors$1()) {
+    return null
+  }
+  try {
+    return $defineProperty([], 'length', { value: 1 }).length !== 1
+  } catch (e) {
+    // In Firefox 4-22, defining length on an array throws an exception.
+    return true
+  }
+}
+
+var hasPropertyDescriptors_1 = hasPropertyDescriptors$1
 
 var keys = objectKeys
 var hasSymbols =
@@ -853,23 +1416,9 @@ var isFunction = function(fn) {
   return typeof fn === 'function' && toStr.call(fn) === '[object Function]'
 }
 
-var arePropertyDescriptorsSupported = function() {
-  var obj = {}
-  try {
-    origDefineProperty(obj, 'x', { enumerable: false, value: obj })
-    // eslint-disable-next-line no-unused-vars, no-restricted-syntax
-    for (var _ in obj) {
-      // jscs:ignore disallowUnusedVariables
-      return false
-    }
-    return obj.x === obj
-  } catch (e) {
-    /* this is IE 8. */
-    return false
-  }
-}
-var supportsDescriptors =
-  origDefineProperty && arePropertyDescriptorsSupported()
+var hasPropertyDescriptors = hasPropertyDescriptors_1()
+
+var supportsDescriptors = origDefineProperty && hasPropertyDescriptors
 
 var defineProperty = function(object, name, value, predicate) {
   if (name in object && (!isFunction(predicate) || !predicate())) {
@@ -883,7 +1432,7 @@ var defineProperty = function(object, name, value, predicate) {
       writable: true,
     })
   } else {
-    object[name] = value
+    object[name] = value // eslint-disable-line no-param-reassign
   }
 }
 
@@ -976,7 +1525,7 @@ defineProperties(getGlobal, {
 
 var globalthis = getGlobal
 
-function ownKeys$e(object, enumerableOnly) {
+function ownKeys$5(object, enumerableOnly) {
   var keys = Object.keys(object)
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object)
@@ -989,11 +1538,11 @@ function ownKeys$e(object, enumerableOnly) {
   return keys
 }
 
-function _objectSpread$e(target) {
+function _objectSpread$5(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {}
     i % 2
-      ? ownKeys$e(Object(source), !0).forEach(function(key) {
+      ? ownKeys$5(Object(source), !0).forEach(function(key) {
           _defineProperty(target, key, source[key])
         })
       : Object.getOwnPropertyDescriptors
@@ -1001,7 +1550,7 @@ function _objectSpread$e(target) {
           target,
           Object.getOwnPropertyDescriptors(source)
         )
-      : ownKeys$e(Object(source)).forEach(function(key) {
+      : ownKeys$5(Object(source)).forEach(function(key) {
           Object.defineProperty(
             target,
             key,
@@ -1047,7 +1596,7 @@ function vtk(obj) {
     return null
   } // Shallow copy object
 
-  var model = _objectSpread$e({}, obj) // Convert into vtkObject any nested key
+  var model = _objectSpread$5({}, obj) // Convert into vtkObject any nested key
 
   Object.keys(model).forEach(function(keyName) {
     if (
@@ -1286,7 +1835,7 @@ var ClassHierarchy = /*#__PURE__*/ (function(_Array) {
   return ClassHierarchy
 })(/*#__PURE__*/ _wrapNativeSuper(Array))
 
-function ownKeys$d(object, enumerableOnly) {
+function ownKeys$4(object, enumerableOnly) {
   var keys = Object.keys(object)
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object)
@@ -1299,11 +1848,11 @@ function ownKeys$d(object, enumerableOnly) {
   return keys
 }
 
-function _objectSpread$d(target) {
+function _objectSpread$4(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {}
     i % 2
-      ? ownKeys$d(Object(source), !0).forEach(function(key) {
+      ? ownKeys$4(Object(source), !0).forEach(function(key) {
           _defineProperty(target, key, source[key])
         })
       : Object.getOwnPropertyDescriptors
@@ -1311,7 +1860,7 @@ function _objectSpread$d(target) {
           target,
           Object.getOwnPropertyDescriptors(source)
         )
-      : ownKeys$d(Object(source)).forEach(function(key) {
+      : ownKeys$4(Object(source)).forEach(function(key) {
           Object.defineProperty(
             target,
             key,
@@ -1373,10 +1922,10 @@ function vtkInfoMacro() {
 function vtkDebugMacro$1() {
   loggerFunctions.debug.apply(loggerFunctions, arguments)
 }
-function vtkErrorMacro$4() {
+function vtkErrorMacro$2() {
   loggerFunctions.error.apply(loggerFunctions, arguments)
 }
-function vtkWarningMacro$4() {
+function vtkWarningMacro$1() {
   loggerFunctions.warn.apply(loggerFunctions, arguments)
 }
 var ERROR_ONCE_MAP = {}
@@ -1591,7 +2140,7 @@ function obj() {
 
   publicAPI.modified = function(otherMTime) {
     if (model.deleted) {
-      vtkErrorMacro$4('instance deleted - cannot call any method')
+      vtkErrorMacro$2('instance deleted - cannot call any method')
       return
     }
 
@@ -1607,7 +2156,7 @@ function obj() {
 
   publicAPI.onModified = function(callback) {
     if (model.deleted) {
-      vtkErrorMacro$4('instance deleted - cannot call any method')
+      vtkErrorMacro$2('instance deleted - cannot call any method')
       return null
     }
 
@@ -1657,7 +2206,7 @@ function obj() {
       } else {
         // Set data on model directly
         if (['mtime'].indexOf(name) === -1 && !noWarning) {
-          vtkWarningMacro$4(
+          vtkWarningMacro$1(
             'Warning: Set value to model directly '
               .concat(name, ', ')
               .concat(map[name])
@@ -1711,8 +2260,8 @@ function obj() {
       return null
     }
 
-    var jsonArchive = _objectSpread$d(
-      _objectSpread$d({}, model),
+    var jsonArchive = _objectSpread$4(
+      _objectSpread$4({}, model),
       {},
       {
         vtkClass: publicAPI.getClassName(),
@@ -1823,7 +2372,7 @@ var objectSetterMap = {
           return false
         }
 
-        vtkErrorMacro$4(
+        vtkErrorMacro$2(
           'Set Enum with invalid argument '.concat(field, ', ').concat(value)
         )
         throw new RangeError('Set Enum with invalid string argument')
@@ -1843,7 +2392,7 @@ var objectSetterMap = {
             return true
           }
 
-          vtkErrorMacro$4(
+          vtkErrorMacro$2(
             'Set Enum outside numeric range '.concat(field, ', ').concat(value)
           )
           throw new RangeError('Set Enum outside numeric range')
@@ -1852,7 +2401,7 @@ var objectSetterMap = {
         return false
       }
 
-      vtkErrorMacro$4(
+      vtkErrorMacro$2(
         'Set Enum with invalid argument (String/Number) '
           .concat(field, ', ')
           .concat(value)
@@ -1872,14 +2421,14 @@ function findSetter(field) {
       }
     }
 
-    vtkErrorMacro$4('No setter for field '.concat(field))
+    vtkErrorMacro$2('No setter for field '.concat(field))
     throw new TypeError('No setter for field')
   }
 
   return function getSetter(publicAPI, model) {
     return function setter(value) {
       if (model.deleted) {
-        vtkErrorMacro$4('instance deleted - cannot call any method')
+        vtkErrorMacro$2('instance deleted - cannot call any method')
         return false
       }
 
@@ -1894,7 +2443,7 @@ function findSetter(field) {
   }
 }
 
-function set$1(publicAPI, model, fields) {
+function set(publicAPI, model, fields) {
   fields.forEach(function(field) {
     if (_typeof(field) === 'object') {
       publicAPI['set'.concat(_capitalize(field.name))] = findSetter(field)(
@@ -1914,7 +2463,7 @@ function set$1(publicAPI, model, fields) {
 
 function setGet(publicAPI, model, fieldNames) {
   get(publicAPI, model, fieldNames)
-  set$1(publicAPI, model, fieldNames)
+  set(publicAPI, model, fieldNames)
 } // ----------------------------------------------------------------------------
 // getXXX: add getters for object of type array with copy to be safe
 // getXXXByReference: add getters for object of type array without copy
@@ -1950,7 +2499,7 @@ function setArray(publicAPI, model, fieldNames, size) {
 
     publicAPI['set'.concat(_capitalize(field))] = function() {
       if (model.deleted) {
-        vtkErrorMacro$4('instance deleted - cannot call any method')
+        vtkErrorMacro$2('instance deleted - cannot call any method')
         return false
       }
 
@@ -2076,12 +2625,12 @@ function algo(publicAPI, model, numberOfInputs, numberOfOutputs) {
       arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
 
     if (model.deleted) {
-      vtkErrorMacro$4('instance deleted - cannot call any method')
+      vtkErrorMacro$2('instance deleted - cannot call any method')
       return
     }
 
     if (port >= model.numberOfInputs) {
-      vtkErrorMacro$4(
+      vtkErrorMacro$2(
         'algorithm '
           .concat(publicAPI.getClassName(), ' only has ')
           .concat(
@@ -2118,7 +2667,7 @@ function algo(publicAPI, model, numberOfInputs, numberOfOutputs) {
       arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
 
     if (model.deleted) {
-      vtkErrorMacro$4('instance deleted - cannot call any method')
+      vtkErrorMacro$2('instance deleted - cannot call any method')
       return
     }
 
@@ -2126,7 +2675,7 @@ function algo(publicAPI, model, numberOfInputs, numberOfOutputs) {
       var msg = 'algorithm '.concat(publicAPI.getClassName(), ' only has ')
       msg += ''.concat(model.numberOfInputs)
       msg += ' input ports. To add more input ports, use addInputConnection()'
-      vtkErrorMacro$4(msg)
+      vtkErrorMacro$2(msg)
       return
     }
 
@@ -2160,7 +2709,7 @@ function algo(publicAPI, model, numberOfInputs, numberOfOutputs) {
 
   function addInputConnection(outputPort) {
     if (model.deleted) {
-      vtkErrorMacro$4('instance deleted - cannot call any method')
+      vtkErrorMacro$2('instance deleted - cannot call any method')
       return
     }
 
@@ -2169,7 +2718,7 @@ function algo(publicAPI, model, numberOfInputs, numberOfOutputs) {
 
   function addInputData(dataset) {
     if (model.deleted) {
-      vtkErrorMacro$4('instance deleted - cannot call any method')
+      vtkErrorMacro$2('instance deleted - cannot call any method')
       return
     }
 
@@ -2181,7 +2730,7 @@ function algo(publicAPI, model, numberOfInputs, numberOfOutputs) {
       arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0
 
     if (model.deleted) {
-      vtkErrorMacro$4('instance deleted - cannot call any method')
+      vtkErrorMacro$2('instance deleted - cannot call any method')
       return null
     }
 
@@ -2362,7 +2911,7 @@ function event(publicAPI, model, eventName) {
     var _arguments = arguments
 
     if (model.deleted) {
-      vtkErrorMacro$4('instance deleted - cannot call any method')
+      vtkErrorMacro$2('instance deleted - cannot call any method')
       return
     }
     /* eslint-disable prefer-rest-params */
@@ -2415,7 +2964,7 @@ function event(publicAPI, model, eventName) {
     }
 
     if (model.deleted) {
-      vtkErrorMacro$4('instance deleted - cannot call any method')
+      vtkErrorMacro$2('instance deleted - cannot call any method')
       return null
     }
 
@@ -2440,7 +2989,7 @@ function event(publicAPI, model, eventName) {
 // newInstance
 // ----------------------------------------------------------------------------
 
-function newInstance$k(extend, className) {
+function newInstance$7(extend, className) {
   var constructor = function constructor() {
     var initialValues =
       arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
@@ -2733,7 +3282,7 @@ function proxy(publicAPI, model) {
     if (prop) {
       Object.assign(prop, propUI)
     } else {
-      propertyMap[propertyName] = _objectSpread$d({}, propUI)
+      propertyMap[propertyName] = _objectSpread$4({}, propUI)
     }
   }
 
@@ -3315,7 +3864,7 @@ var macro = {
   keystore: keystore,
   measurePromiseExecution: measurePromiseExecution,
   moveToProtected: moveToProtected,
-  newInstance: newInstance$k,
+  newInstance: newInstance$7,
   newTypedArray: newTypedArray,
   newTypedArrayFrom: newTypedArrayFrom,
   normalizeWheel: normalizeWheel,
@@ -3324,7 +3873,7 @@ var macro = {
   proxyPropertyMapping: proxyPropertyMapping,
   proxyPropertyState: proxyPropertyState,
   safeArrays: safeArrays,
-  set: set$1,
+  set: set,
   setArray: setArray,
   setGet: setGet,
   setGetArray: setGetArray,
@@ -3337,11 +3886,11 @@ var macro = {
   uncapitalize: uncapitalize,
   VOID: VOID,
   vtkDebugMacro: vtkDebugMacro$1,
-  vtkErrorMacro: vtkErrorMacro$4,
+  vtkErrorMacro: vtkErrorMacro$2,
   vtkInfoMacro: vtkInfoMacro,
   vtkLogMacro: vtkLogMacro,
   vtkOnceErrorMacro: vtkOnceErrorMacro,
-  vtkWarningMacro: vtkWarningMacro$4,
+  vtkWarningMacro: vtkWarningMacro$1,
 }
 
 function createPlaneSliders(context) {
@@ -3379,7 +3928,7 @@ function createPlaneSliders(context) {
     .concat(style.visibleButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-xPlaneInvisibleButton"><img src="')
-    .concat(optimizedSVGDataUri$i, '" alt="invisible" /></label>')
+    .concat(optimizedSVGDataUri$j, '" alt="invisible" /></label>')
   xPlaneInvisibleButton.children[0]
   xPlaneInvisibleButton.children[1]
   xPlaneRow.appendChild(xPlaneInvisibleButton)
@@ -3430,7 +3979,7 @@ function createPlaneSliders(context) {
     .concat(style.visibleButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-xPlanePauseButton"><img src="')
-    .concat(optimizedSVGDataUri$e, '" alt="pause" /></label>')
+    .concat(optimizedSVGDataUri$f, '" alt="pause" /></label>')
   xPlanePauseButton.children[0]
   xPlanePauseButton.children[1]
   xPlaneRow.appendChild(xPlanePauseButton)
@@ -3447,7 +3996,7 @@ function createPlaneSliders(context) {
     .concat(style.visibleButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-xPlanePlayButton"><img src="')
-    .concat(optimizedSVGDataUri$d, '" alt="play"/></label>')
+    .concat(optimizedSVGDataUri$e, '" alt="play"/></label>')
   xPlanePlayButton.children[0]
   xPlanePlayButton.children[1]
   xPlaneRow.appendChild(xPlanePlayButton)
@@ -3543,7 +4092,7 @@ function createPlaneSliders(context) {
     .concat(style.visibleButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-yPlaneInvisibleButton"><img src="')
-    .concat(optimizedSVGDataUri$i, '" alt="invisible" /></label>')
+    .concat(optimizedSVGDataUri$j, '" alt="invisible" /></label>')
   yPlaneInvisibleButton.children[0]
   yPlaneInvisibleButton.children[1]
   yPlaneRow.appendChild(yPlaneInvisibleButton)
@@ -3594,7 +4143,7 @@ function createPlaneSliders(context) {
     .concat(style.visibleButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-yPlanePauseButton"><img src="')
-    .concat(optimizedSVGDataUri$e, '" alt="pause" /></label>')
+    .concat(optimizedSVGDataUri$f, '" alt="pause" /></label>')
   yPlanePauseButton.children[0]
   yPlanePauseButton.children[1]
   yPlaneRow.appendChild(yPlanePauseButton)
@@ -3611,7 +4160,7 @@ function createPlaneSliders(context) {
     .concat(style.visibleButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-yPlanePlayButton"><img src="')
-    .concat(optimizedSVGDataUri$d, '" alt="play"/></label>')
+    .concat(optimizedSVGDataUri$e, '" alt="play"/></label>')
   yPlanePlayButton.children[0]
   yPlanePlayButton.children[1]
   yPlaneRow.appendChild(yPlanePlayButton)
@@ -3707,7 +4256,7 @@ function createPlaneSliders(context) {
     .concat(style.visibleButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-zPlaneInvisibleButton"><img src="')
-    .concat(optimizedSVGDataUri$i, '" alt="invisible" /></label>')
+    .concat(optimizedSVGDataUri$j, '" alt="invisible" /></label>')
   zPlaneInvisibleButton.children[0]
   zPlaneInvisibleButton.children[1]
   zPlaneRow.appendChild(zPlaneInvisibleButton)
@@ -3758,7 +4307,7 @@ function createPlaneSliders(context) {
     .concat(style.visibleButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-zPlanePauseButton"><img src="')
-    .concat(optimizedSVGDataUri$e, '" alt="pause" /></label>')
+    .concat(optimizedSVGDataUri$f, '" alt="pause" /></label>')
   zPlanePauseButton.children[0]
   zPlanePauseButton.children[1]
   zPlaneRow.appendChild(zPlanePauseButton)
@@ -3775,7 +4324,7 @@ function createPlaneSliders(context) {
     .concat(style.visibleButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-zPlanePlayButton"><img src="')
-    .concat(optimizedSVGDataUri$d, '" alt="play" /></label>')
+    .concat(optimizedSVGDataUri$e, '" alt="play" /></label>')
   zPlanePlayButton.children[0]
   zPlanePlayButton.children[1]
   zPlaneRow.appendChild(zPlanePlayButton)
@@ -3903,7 +4452,7 @@ function createCroppingButtons(context, mainUIRow) {
     .concat(style.cropButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(viewerDOMId, '-toggleCroppingPlanesButton"><img src="')
-    .concat(optimizedSVGDataUri$o, '" alt="crop"/></label>')
+    .concat(optimizedSVGDataUri$p, '" alt="crop"/></label>')
   var cropButtonInput = cropButton.children[0]
   var cropButtonLabel = cropButton.children[1]
   context.main.cropButtonLabel = cropButtonLabel
@@ -3930,7 +4479,7 @@ function createCroppingButtons(context, mainUIRow) {
     .concat(style.resetCropButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(viewerDOMId, '-resetCroppingPlanesButton"><img src="')
-    .concat(optimizedSVGDataUri$a, '" alt="reset crop"/></label>')
+    .concat(optimizedSVGDataUri$b, '" alt="reset crop"/></label>')
   var resetCropButtonLabel = resetCropButton.children[1]
   context.main.resetCropButtonLabel = resetCropButtonLabel
   applyContrastSensitiveStyleToElement(
@@ -3964,7 +4513,7 @@ function createViewModeButtons(context, mainRow) {
     .concat(style.viewModeButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(viewerDOMId, '-xPlaneButton"><img src="')
-    .concat(optimizedSVGDataUri$c, '" alt="x plane"/></label>')
+    .concat(optimizedSVGDataUri$d, '" alt="x plane"/></label>')
   var xPlaneButtonLabel = xPlaneButton.children[1]
   context.main.xPlaneButtonLabel = xPlaneButtonLabel
   applyContrastSensitiveStyleToElement(
@@ -4020,7 +4569,7 @@ function createViewModeButtons(context, mainRow) {
     .concat(style.viewModeButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(viewerDOMId, '-zPlaneButton"><img src="')
-    .concat(optimizedSVGDataUri$l, '" alt="z plane" /></label>')
+    .concat(optimizedSVGDataUri$m, '" alt="z plane" /></label>')
   var zPlaneButtonLabel = zPlaneButton.children[1]
   context.main.zPlaneButtonLabel = zPlaneButtonLabel
   applyContrastSensitiveStyleToElement(
@@ -4079,7 +4628,7 @@ function createResetCameraButton(context, mainUIRow) {
     .concat(style.resetCameraButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(viewerDOMId, '-resetCameraButton"><img src="')
-    .concat(optimizedSVGDataUri$b, '" alt="reset camera" /></label>')
+    .concat(optimizedSVGDataUri$c, '" alt="reset camera" /></label>')
   var resetCameraButtonLabel = resetCameraButton.children[1]
   context.main.resetCameraButtonLabel = resetCameraButtonLabel
   applyContrastSensitiveStyleToElement(
@@ -4541,7 +5090,7 @@ function createLayerEntry(context, name, layer) {
     .concat(style.visibleButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-invisibleButton"><img src="')
-    .concat(optimizedSVGDataUri$i, ' alt="invisible""/></label>')
+    .concat(optimizedSVGDataUri$j, ' alt="invisible""/></label>')
   invisibleButton.children[0]
   var invisibleLabel = invisibleButton.children[1]
   applyContrastSensitiveStyleToElement(
@@ -4587,7 +5136,7 @@ function createLayerEntry(context, name, layer) {
   switch (layer.type) {
     case 'image': {
       iconElement.innerHTML = '<img src="'.concat(
-        optimizedSVGDataUri$k,
+        optimizedSVGDataUri$l,
         '" alt="image"/>'
       )
       break
@@ -4595,7 +5144,7 @@ function createLayerEntry(context, name, layer) {
 
     case 'labelImage': {
       iconElement.innerHTML = '<img src="'.concat(
-        optimizedSVGDataUri$h,
+        optimizedSVGDataUri$i,
         '" alt="labels"/>'
       )
       break
@@ -19188,6 +19737,7 @@ var xorshift7$1 = { exports: {} }
         while (X.length < 8) X.push(0)
         for (j = 0; j < 8 && X[j] === 0; ++j);
         if (j == 8) X[7] = -1
+        else X[j]
 
         me.x = X
         me.i = 0
@@ -19881,15 +20431,6 @@ sr.xorshift7 = xorshift7
 sr.xor4096 = xor4096
 sr.tychei = tychei
 
-var vtkWarningMacro$3 = macro.vtkWarningMacro // ----------------------------------------------------------------------------
-var VTK_SMALL_NUMBER = 1.0e-12
-
-function createArray() {
-  var size =
-    arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3
-  // faster than Array.from and/or while loop
-  return Array(size).fill(0)
-} // ----------------------------------------------------------------------------
 var floor = Math.floor
 function arrayRange(arr) {
   var offset =
@@ -19910,37 +20451,6 @@ function arrayRange(arr) {
   }
 
   return [minValue, maxValue]
-}
-
-function add(a, b, out) {
-  out[0] = a[0] + b[0]
-  out[1] = a[1] + b[1]
-  out[2] = a[2] + b[2]
-  return out
-}
-function subtract(a, b, out) {
-  out[0] = a[0] - b[0]
-  out[1] = a[1] - b[1]
-  out[2] = a[2] - b[2]
-  return out
-}
-function multiplyAccumulate(a, b, scalar, out) {
-  out[0] = a[0] + b[0] * scalar
-  out[1] = a[1] + b[1] * scalar
-  out[2] = a[2] + b[2] * scalar
-  return out
-}
-function dot(x, y) {
-  return x[0] * y[0] + x[1] * y[1] + x[2] * y[2]
-}
-function cross(x, y, out) {
-  var Zx = x[1] * y[2] - x[2] * y[1]
-  var Zy = x[2] * y[0] - x[0] * y[2]
-  var Zz = x[0] * y[1] - x[1] * y[0]
-  out[0] = Zx
-  out[1] = Zy
-  out[2] = Zz
-  return out
 }
 function norm(x) {
   var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3
@@ -19965,252 +20475,6 @@ function norm(x) {
       return Math.sqrt(sum)
     }
   }
-}
-function normalize(x) {
-  var den = norm(x)
-
-  if (den !== 0.0) {
-    x[0] /= den
-    x[1] /= den
-    x[2] /= den
-  }
-
-  return den
-}
-function distance2BetweenPoints(x, y) {
-  return (
-    (x[0] - y[0]) * (x[0] - y[0]) +
-    (x[1] - y[1]) * (x[1] - y[1]) +
-    (x[2] - y[2]) * (x[2] - y[2])
-  )
-}
-function determinant2x2() {
-  for (
-    var _len = arguments.length, args = new Array(_len), _key = 0;
-    _key < _len;
-    _key++
-  ) {
-    args[_key] = arguments[_key]
-  }
-
-  if (args.length === 2) {
-    return args[0][0] * args[1][1] - args[1][0] * args[0][1]
-  }
-
-  if (args.length === 4) {
-    return args[0] * args[3] - args[1] * args[2]
-  }
-
-  return Number.NaN
-}
-function roundNumber(num) {
-  var digits =
-    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
-
-  if (!''.concat(num).includes('e')) {
-    return +''
-      .concat(Math.round(''.concat(num, 'e+').concat(digits)), 'e-')
-      .concat(digits)
-  }
-
-  var arr = ''.concat(num).split('e')
-  var sig = ''
-
-  if (+arr[1] + digits > 0) {
-    sig = '+'
-  }
-
-  return +''
-    .concat(
-      Math.round(
-        ''
-          .concat(+arr[0], 'e')
-          .concat(sig)
-          .concat(+arr[1] + digits)
-      ),
-      'e-'
-    )
-    .concat(digits)
-}
-function roundVector(vector) {
-  var out =
-    arguments.length > 1 && arguments[1] !== undefined
-      ? arguments[1]
-      : [0, 0, 0]
-  var digits =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0
-  out[0] = roundNumber(vector[0], digits)
-  out[1] = roundNumber(vector[1], digits)
-  out[2] = roundNumber(vector[2], digits)
-  return out
-}
-function luFactorLinearSystem(A, index, size) {
-  var i
-  var j
-  var k
-  var largest
-  var maxI = 0
-  var sum
-  var temp1
-  var temp2
-  var scale = createArray(size) //
-  // Loop over rows to get implicit scaling information
-  //
-
-  for (i = 0; i < size; i++) {
-    for (largest = 0.0, j = 0; j < size; j++) {
-      if ((temp2 = Math.abs(A[i][j])) > largest) {
-        largest = temp2
-      }
-    }
-
-    if (largest === 0.0) {
-      vtkWarningMacro$3('Unable to factor linear system')
-      return 0
-    }
-
-    scale[i] = 1.0 / largest
-  } //
-  // Loop over all columns using Crout's method
-  //
-
-  for (j = 0; j < size; j++) {
-    for (i = 0; i < j; i++) {
-      sum = A[i][j]
-
-      for (k = 0; k < i; k++) {
-        sum -= A[i][k] * A[k][j]
-      }
-
-      A[i][j] = sum
-    } //
-    // Begin search for largest pivot element
-    //
-
-    for (largest = 0.0, i = j; i < size; i++) {
-      sum = A[i][j]
-
-      for (k = 0; k < j; k++) {
-        sum -= A[i][k] * A[k][j]
-      }
-
-      A[i][j] = sum
-
-      if ((temp1 = scale[i] * Math.abs(sum)) >= largest) {
-        largest = temp1
-        maxI = i
-      }
-    } //
-    // Check for row interchange
-    //
-
-    if (j !== maxI) {
-      for (k = 0; k < size; k++) {
-        temp1 = A[maxI][k]
-        A[maxI][k] = A[j][k]
-        A[j][k] = temp1
-      }
-
-      scale[maxI] = scale[j]
-    } //
-    // Divide by pivot element and perform elimination
-    //
-
-    index[j] = maxI
-
-    if (Math.abs(A[j][j]) <= VTK_SMALL_NUMBER) {
-      vtkWarningMacro$3('Unable to factor linear system')
-      return 0
-    }
-
-    if (j !== size - 1) {
-      temp1 = 1.0 / A[j][j]
-
-      for (i = j + 1; i < size; i++) {
-        A[i][j] *= temp1
-      }
-    }
-  }
-
-  return 1
-}
-function luSolveLinearSystem(A, index, x, size) {
-  var i
-  var j
-  var ii
-  var idx
-  var sum //
-  // Proceed with forward and backsubstitution for L and U
-  // matrices.  First, forward substitution.
-  //
-
-  for (ii = -1, i = 0; i < size; i++) {
-    idx = index[i]
-    sum = x[idx]
-    x[idx] = x[i]
-
-    if (ii >= 0) {
-      for (j = ii; j <= i - 1; j++) {
-        sum -= A[i][j] * x[j]
-      }
-    } else if (sum !== 0.0) {
-      ii = i
-    }
-
-    x[i] = sum
-  } //
-  // Now, back substitution
-  //
-
-  for (i = size - 1; i >= 0; i--) {
-    sum = x[i]
-
-    for (j = i + 1; j < size; j++) {
-      sum -= A[i][j] * x[j]
-    }
-
-    x[i] = sum / A[i][i]
-  }
-}
-function solveLinearSystem(A, x, size) {
-  // if we solving something simple, just solve it
-  if (size === 2) {
-    var y = createArray(2)
-    var det = determinant2x2(A[0][0], A[0][1], A[1][0], A[1][1])
-
-    if (det === 0.0) {
-      // Unable to solve linear system
-      return 0
-    }
-
-    y[0] = (A[1][1] * x[0] - A[0][1] * x[1]) / det
-    y[1] = (-(A[1][0] * x[0]) + A[0][0] * x[1]) / det
-    x[0] = y[0]
-    x[1] = y[1]
-    return 1
-  }
-
-  if (size === 1) {
-    if (A[0][0] === 0.0) {
-      // Unable to solve linear system
-      return 0
-    }
-
-    x[0] /= A[0][0]
-    return 1
-  } //
-  // System of equations is not trivial, use Crout's method
-  //
-  // Check on allocation of working vectors
-
-  var index = createArray(size) // Factor and solve matrix
-
-  if (luFactorLinearSystem(A, index, size) === 0) {
-    return 0
-  }
-
-  luSolveLinearSystem(A, index, x, size)
-  return 1
 }
 function rgb2hsv(rgb, hsv) {
   var h
@@ -20465,50 +20729,11 @@ function lab2rgb(lab, rgb) {
   lab2xyz(lab, xyz)
   xyz2rgb(xyz, rgb)
 }
-function uninitializeBounds(bounds) {
-  bounds[0] = 1.0
-  bounds[1] = -1.0
-  bounds[2] = 1.0
-  bounds[3] = -1.0
-  bounds[4] = 1.0
-  bounds[5] = -1.0
-  return bounds
-}
-function computeBoundsFromPoints(point1, point2, bounds) {
-  bounds[0] = Math.min(point1[0], point2[0])
-  bounds[1] = Math.max(point1[0], point2[0])
-  bounds[2] = Math.min(point1[1], point2[1])
-  bounds[3] = Math.max(point1[1], point2[1])
-  bounds[4] = Math.min(point1[2], point2[2])
-  bounds[5] = Math.max(point1[2], point2[2])
-  return bounds
-}
-function clampValue(value, minValue, maxValue) {
-  if (value < minValue) {
-    return minValue
-  }
-
-  if (value > maxValue) {
-    return maxValue
-  }
-
-  return value
-}
-function clampVector(vector, minVector, maxVector) {
-  var out =
-    arguments.length > 3 && arguments[3] !== undefined
-      ? arguments[3]
-      : [0, 0, 0]
-  out[0] = clampValue(vector[0], minVector[0], maxVector[0])
-  out[1] = clampValue(vector[1], minVector[1], maxVector[1])
-  out[2] = clampValue(vector[2], minVector[2], maxVector[2])
-  return out
-}
 var isInf = function isInf(value) {
   return !Number.isFinite(value)
 }
-var isNaN = Number.isNaN
-var isNan = isNaN // JavaScript - add-on ----------------------
+var isNaN$1 = Number.isNaN
+var isNan = isNaN$1 // JavaScript - add-on ----------------------
 
 var DataTypeByteSize = {
   Int8Array: 1,
@@ -20535,13 +20760,13 @@ var VtkDataTypes$1 = {
   DOUBLE: 'Float64Array',
 }
 var DefaultDataType$1 = VtkDataTypes$1.FLOAT
-var Constants$7 = {
+var Constants$3 = {
   DefaultDataType: DefaultDataType$1,
   DataTypeByteSize: DataTypeByteSize,
   VtkDataTypes: VtkDataTypes$1,
 }
 
-function ownKeys$c(object, enumerableOnly) {
+function ownKeys$3(object, enumerableOnly) {
   var keys = Object.keys(object)
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object)
@@ -20554,11 +20779,11 @@ function ownKeys$c(object, enumerableOnly) {
   return keys
 }
 
-function _objectSpread$c(target) {
+function _objectSpread$3(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {}
     i % 2
-      ? ownKeys$c(Object(source), !0).forEach(function(key) {
+      ? ownKeys$3(Object(source), !0).forEach(function(key) {
           _defineProperty(target, key, source[key])
         })
       : Object.getOwnPropertyDescriptors
@@ -20566,7 +20791,7 @@ function _objectSpread$c(target) {
           target,
           Object.getOwnPropertyDescriptors(source)
         )
-      : ownKeys$c(Object(source)).forEach(function(key) {
+      : ownKeys$3(Object(source)).forEach(function(key) {
           Object.defineProperty(
             target,
             key,
@@ -20576,7 +20801,7 @@ function _objectSpread$c(target) {
   }
   return target
 }
-var DefaultDataType = Constants$7.DefaultDataType
+var DefaultDataType = Constants$3.DefaultDataType
 var TUPLE_HOLDER = [] // ----------------------------------------------------------------------------
 // Global methods
 // ----------------------------------------------------------------------------
@@ -20721,7 +20946,7 @@ function getMaxNorm(normArray) {
 // Static API
 // ----------------------------------------------------------------------------
 
-var STATIC$7 = {
+var STATIC$1 = {
   computeRange: computeRange,
   createRangeHelper: createRangeHelper,
   fastComputeRange: fastComputeRange,
@@ -20878,7 +21103,7 @@ function vtkDataArray(publicAPI, model) {
   /* eslint-disable no-use-before-define */
 
   publicAPI.newClone = function() {
-    return newInstance$j({
+    return newInstance$6({
       empty: true,
       name: model.name,
       dataType: model.dataType,
@@ -20917,8 +21142,8 @@ function vtkDataArray(publicAPI, model) {
       return null
     }
 
-    var jsonArchive = _objectSpread$c(
-      _objectSpread$c({}, model),
+    var jsonArchive = _objectSpread$3(
+      _objectSpread$3({}, model),
       {},
       {
         vtkClass: publicAPI.getClassName(),
@@ -20951,7 +21176,7 @@ function vtkDataArray(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$k = {
+var DEFAULT_VALUES$7 = {
   name: '',
   numberOfComponents: 1,
   size: 0,
@@ -20960,10 +21185,10 @@ var DEFAULT_VALUES$k = {
   // ranges: null,
 } // ----------------------------------------------------------------------------
 
-function extend$l(publicAPI, model) {
+function extend$7(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$k, initialValues)
+  Object.assign(model, DEFAULT_VALUES$7, initialValues)
 
   if (!model.empty && !model.values && !model.size) {
     throw new TypeError(
@@ -20983,22 +21208,22 @@ function extend$l(publicAPI, model) {
   } // Object methods
 
   obj(publicAPI, model)
-  set$1(publicAPI, model, ['name', 'numberOfComponents']) // Object specific methods
+  set(publicAPI, model, ['name', 'numberOfComponents']) // Object specific methods
 
   vtkDataArray(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$j = newInstance$k(extend$l, 'vtkDataArray') // ----------------------------------------------------------------------------
+var newInstance$6 = newInstance$7(extend$7, 'vtkDataArray') // ----------------------------------------------------------------------------
 
-var vtkDataArray$1 = _objectSpread$c(
-  _objectSpread$c(
+var vtkDataArray$1 = _objectSpread$3(
+  _objectSpread$3(
     {
-      newInstance: newInstance$j,
-      extend: extend$l,
+      newInstance: newInstance$6,
+      extend: extend$7,
     },
-    STATIC$7
+    STATIC$1
   ),
-  Constants$7
+  Constants$3
 )
 
 var VectorMode$1 = {
@@ -21034,13 +21259,13 @@ var GetArray = {
   BY_ID: 0,
   BY_NAME: 1,
 }
-var Constants$6 = {
+var Constants$2 = {
   ColorMode: ColorMode$1,
   GetArray: GetArray,
   ScalarMode: ScalarMode,
 }
 
-function ownKeys$b(object, enumerableOnly) {
+function ownKeys$2(object, enumerableOnly) {
   var keys = Object.keys(object)
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object)
@@ -21053,11 +21278,11 @@ function ownKeys$b(object, enumerableOnly) {
   return keys
 }
 
-function _objectSpread$b(target) {
+function _objectSpread$2(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {}
     i % 2
-      ? ownKeys$b(Object(source), !0).forEach(function(key) {
+      ? ownKeys$2(Object(source), !0).forEach(function(key) {
           _defineProperty(target, key, source[key])
         })
       : Object.getOwnPropertyDescriptors
@@ -21065,7 +21290,7 @@ function _objectSpread$b(target) {
           target,
           Object.getOwnPropertyDescriptors(source)
         )
-      : ownKeys$b(Object(source)).forEach(function(key) {
+      : ownKeys$2(Object(source)).forEach(function(key) {
           Object.defineProperty(
             target,
             key,
@@ -21079,8 +21304,8 @@ function _objectSpread$b(target) {
 var ScalarMappingTarget$1 = vtkScalarsToColors$2.ScalarMappingTarget,
   VectorMode = vtkScalarsToColors$2.VectorMode
 var VtkDataTypes = vtkDataArray$1.VtkDataTypes
-var ColorMode = Constants$6.ColorMode
-var vtkErrorMacro$3 = macro.vtkErrorMacro // ----------------------------------------------------------------------------
+var ColorMode = Constants$2.ColorMode
+var vtkErrorMacro$1 = macro.vtkErrorMacro // ----------------------------------------------------------------------------
 // Global methods
 // ----------------------------------------------------------------------------
 // Add module-level functions or api that you want to expose statically via
@@ -21127,7 +21352,7 @@ function vtkScalarsToColors(publicAPI, model) {
     }
 
     if (values && annotations && values.length !== annotations.length) {
-      vtkErrorMacro$3(
+      vtkErrorMacro$1(
         'Values and annotations do not have the same number of tuples so ignoring'
       )
       return
@@ -21578,7 +21803,7 @@ function vtkScalarsToColors(publicAPI, model) {
         break
 
       default:
-        vtkErrorMacro$3('Cannot convert colors')
+        vtkErrorMacro$1('Cannot convert colors')
         return null
     }
 
@@ -21604,7 +21829,7 @@ function vtkScalarsToColors(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$j = {
+var DEFAULT_VALUES$6 = {
   alpha: 1.0,
   vectorComponent: 0,
   vectorSize: -1,
@@ -21615,10 +21840,10 @@ var DEFAULT_VALUES$j = {
   indexedLookup: false,
 } // ----------------------------------------------------------------------------
 
-function extend$k(publicAPI, model) {
+function extend$6(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$j, initialValues) // Object methods
+  Object.assign(model, DEFAULT_VALUES$6, initialValues) // Object methods
 
   macro.obj(publicAPI, model)
   model.mappingRange = [0, 255]
@@ -21641,12 +21866,12 @@ function extend$k(publicAPI, model) {
   vtkScalarsToColors(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$i = macro.newInstance(extend$k, 'vtkScalarsToColors') // ----------------------------------------------------------------------------
+var newInstance$5 = macro.newInstance(extend$6, 'vtkScalarsToColors') // ----------------------------------------------------------------------------
 
-var vtkScalarsToColors$1 = _objectSpread$b(
+var vtkScalarsToColors$1 = _objectSpread$2(
   {
-    newInstance: newInstance$i,
-    extend: extend$k,
+    newInstance: newInstance$5,
+    extend: extend$6,
   },
   vtkScalarsToColors$2
 )
@@ -21661,12 +21886,12 @@ var Scale$1 = {
   LINEAR: 0,
   LOG10: 1,
 }
-var Constants$5 = {
+var Constants$1 = {
   ColorSpace: ColorSpace$1,
   Scale: Scale$1,
 }
 
-function ownKeys$a(object, enumerableOnly) {
+function ownKeys$1(object, enumerableOnly) {
   var keys = Object.keys(object)
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object)
@@ -21679,11 +21904,11 @@ function ownKeys$a(object, enumerableOnly) {
   return keys
 }
 
-function _objectSpread$a(target) {
+function _objectSpread$1(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {}
     i % 2
-      ? ownKeys$a(Object(source), !0).forEach(function(key) {
+      ? ownKeys$1(Object(source), !0).forEach(function(key) {
           _defineProperty(target, key, source[key])
         })
       : Object.getOwnPropertyDescriptors
@@ -21691,7 +21916,7 @@ function _objectSpread$a(target) {
           target,
           Object.getOwnPropertyDescriptors(source)
         )
-      : ownKeys$a(Object(source)).forEach(function(key) {
+      : ownKeys$1(Object(source)).forEach(function(key) {
           Object.defineProperty(
             target,
             key,
@@ -21701,12 +21926,12 @@ function _objectSpread$a(target) {
   }
   return target
 }
-var ColorSpace = Constants$5.ColorSpace,
-  Scale = Constants$5.Scale
+var ColorSpace = Constants$1.ColorSpace,
+  Scale = Constants$1.Scale
 var ScalarMappingTarget = vtkScalarsToColors$1.ScalarMappingTarget
 var vtkDebugMacro = macro.vtkDebugMacro,
-  vtkErrorMacro$2 = macro.vtkErrorMacro,
-  vtkWarningMacro$2 = macro.vtkWarningMacro // ----------------------------------------------------------------------------
+  vtkErrorMacro = macro.vtkErrorMacro,
+  vtkWarningMacro = macro.vtkWarningMacro // ----------------------------------------------------------------------------
 // Global methods
 // ----------------------------------------------------------------------------
 
@@ -21850,12 +22075,12 @@ function vtkColorTransferFunction(publicAPI, model) {
 
     // Error check
     if (midpoint < 0.0 || midpoint > 1.0) {
-      vtkErrorMacro$2('Midpoint outside range [0.0, 1.0]')
+      vtkErrorMacro('Midpoint outside range [0.0, 1.0]')
       return -1
     }
 
     if (sharpness < 0.0 || sharpness > 1.0) {
-      vtkErrorMacro$2('Sharpness outside range [0.0, 1.0]')
+      vtkErrorMacro('Sharpness outside range [0.0, 1.0]')
       return -1
     } // remove any node already at this X location
 
@@ -22394,10 +22619,7 @@ function vtkColorTransferFunction(publicAPI, model) {
             table[tidx + 1] = tmpVec[1]
             table[tidx + 2] = tmpVec[2]
           } else {
-            vtkErrorMacro$2(
-              'ColorSpace set to invalid value.',
-              model.colorSpace
-            )
+            vtkErrorMacro('ColorSpace set to invalid value.', model.colorSpace)
           }
 
           continue
@@ -22494,7 +22716,7 @@ function vtkColorTransferFunction(publicAPI, model) {
           table[tidx + 1] = tmpVec[1]
           table[tidx + 2] = tmpVec[2]
         } else {
-          vtkErrorMacro$2('ColorSpace set to invalid value.')
+          vtkErrorMacro('ColorSpace set to invalid value.')
         } // Final error check to make sure we don't go outside [0,1]
 
         for (var _j3 = 0; _j3 < 3; _j3++) {
@@ -22518,7 +22740,7 @@ function vtkColorTransferFunction(publicAPI, model) {
     }
 
     if (model.nodes.length === 0) {
-      vtkErrorMacro$2(
+      vtkErrorMacro(
         'Attempting to lookup a value with no points in the function'
       )
       return model.table
@@ -22581,7 +22803,7 @@ function vtkColorTransferFunction(publicAPI, model) {
 
   publicAPI.getNodeValue = function(index, val) {
     if (index < 0 || index >= model.nodes.length) {
-      vtkErrorMacro$2('Index out of range!')
+      vtkErrorMacro('Index out of range!')
       return -1
     }
 
@@ -22597,7 +22819,7 @@ function vtkColorTransferFunction(publicAPI, model) {
 
   publicAPI.setNodeValue = function(index, val) {
     if (index < 0 || index >= model.nodes.length) {
-      vtkErrorMacro$2('Index out of range!')
+      vtkErrorMacro('Index out of range!')
       return -1
     }
 
@@ -22682,7 +22904,7 @@ function vtkColorTransferFunction(publicAPI, model) {
     }
 
     if (range[1] === range[0]) {
-      vtkErrorMacro$2('attempt to set zero width color range')
+      vtkErrorMacro('attempt to set zero width color range')
       return
     }
 
@@ -22775,7 +22997,7 @@ function vtkColorTransferFunction(publicAPI, model) {
 
   publicAPI.mapData = function(input, output, outFormat, inputOffset) {
     if (publicAPI.getSize() === 0) {
-      vtkWarningMacro$2('Transfer Function Has No Points!')
+      vtkWarningMacro('Transfer Function Has No Points!')
       return
     }
 
@@ -22834,7 +23056,7 @@ function vtkColorTransferFunction(publicAPI, model) {
       model.colorSpace = ColorSpace[colorMap.ColorSpace.toUpperCase()]
 
       if (model.colorSpace === undefined) {
-        vtkErrorMacro$2(
+        vtkErrorMacro(
           'ColorSpace '.concat(
             colorMap.ColorSpace,
             ' not supported, using RGB instead'
@@ -22880,7 +23102,7 @@ function vtkColorTransferFunction(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$i = {
+var DEFAULT_VALUES$5 = {
   clamping: true,
   colorSpace: ColorSpace.RGB,
   hSVWrap: true,
@@ -22899,10 +23121,10 @@ var DEFAULT_VALUES$i = {
   numberOfValues: 256,
 } // ----------------------------------------------------------------------------
 
-function extend$j(publicAPI, model) {
+function extend$5(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$i, initialValues) // Inheritance
+  Object.assign(model, DEFAULT_VALUES$5, initialValues) // Inheritance
 
   vtkScalarsToColors$1.extend(publicAPI, model, initialValues) // Internal objects initialization
 
@@ -22940,14 +23162,14 @@ function extend$j(publicAPI, model) {
   vtkColorTransferFunction(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$h = macro.newInstance(extend$j, 'vtkColorTransferFunction') // ----------------------------------------------------------------------------
+var newInstance$4 = macro.newInstance(extend$5, 'vtkColorTransferFunction') // ----------------------------------------------------------------------------
 
-var vtkColorTransferFunction$1 = _objectSpread$a(
+var vtkColorTransferFunction$1 = _objectSpread$1(
   {
-    newInstance: newInstance$h,
-    extend: extend$j,
+    newInstance: newInstance$4,
+    extend: extend$5,
   },
-  Constants$5
+  Constants$1
 )
 
 var Mode$1 = {
@@ -22985,13 +23207,13 @@ var Defaults$1 = {
     },
   ],
 }
-var Constants$4 = {
+var Constants = {
   Defaults: Defaults$1,
   Mode: Mode$1,
 }
 
-var Mode = Constants$4.Mode,
-  Defaults = Constants$4.Defaults // ----------------------------------------------------------------------------
+var Mode = Constants.Mode,
+  Defaults = Constants.Defaults // ----------------------------------------------------------------------------
 // vtkLookupTableProxy methods
 // ----------------------------------------------------------------------------
 
@@ -23101,7 +23323,7 @@ function vtkLookupTableProxy(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$h = {
+var DEFAULT_VALUES$4 = {
   mode: Mode.Preset,
   presetName: Defaults.Preset,
   rgbPoints: Defaults.RGBPoints,
@@ -23112,10 +23334,10 @@ var DEFAULT_VALUES$h = {
   dataRange: [0, 1],
 } // ----------------------------------------------------------------------------
 
-function extend$i(publicAPI, model) {
+function extend$4(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$h, initialValues)
+  Object.assign(model, DEFAULT_VALUES$4, initialValues)
   macro.obj(publicAPI, model)
   macro.setGet(publicAPI, model, ['arrayName'])
   macro.get(publicAPI, model, [
@@ -23133,11 +23355,11 @@ function extend$i(publicAPI, model) {
   macro.proxy(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$g = macro.newInstance(extend$i, 'vtkLookupTableProxy') // ----------------------------------------------------------------------------
+var newInstance$3 = macro.newInstance(extend$4, 'vtkLookupTableProxy') // ----------------------------------------------------------------------------
 
 var vtkLookupTableProxy$1 = {
-  newInstance: newInstance$g,
-  extend: extend$i,
+  newInstance: newInstance$3,
+  extend: extend$4,
   Mode: Mode,
   Defaults: Defaults,
 }
@@ -23165,7 +23387,7 @@ function createInterpolationButton(context, uiRow) {
     .concat(style.interpolationButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-toggleInterpolationButton"><img src="')
-    .concat(optimizedSVGDataUri$j, '" alt="interpolation" /></label>')
+    .concat(optimizedSVGDataUri$k, '" alt="interpolation" /></label>')
   var interpolationButtonInput = interpolationButton.children[0]
   var interpolationButtonLabel = interpolationButton.children[1]
   context.images.interpolationButtonLabel = interpolationButtonLabel
@@ -23185,7 +23407,7 @@ function createInterpolationButton(context, uiRow) {
 }
 
 var css_248z =
-  '/*\nTo change this license header, choose License Headers in Project Properties.\nTo change this template file, choose Tools | Templates\nand open the template in the editor.\n*/\n/* \n    Created on : Nov 28, 2013, 7:09:35 AM\n    Author     : bugraozden\n*/\n\n.iconselect_icon-select__3bCmL{\n    width:0px;\n    z-index: 2000;\n }\n\n .iconselect_icon-select__3bCmL .iconselect_selected-box__2z3M0 {\n\n     position: relative;\n     margin: 0px;\n     padding: 0px;\n     width: 70px; /* sil */\n     height: 60px; /* sil */\n     border: 1px solid #999999;\n     border-radius: 3px;\n\t background-color: white;\n\t \n\t z-index: 1000;\n\n }\n\n .iconselect_icon-select__3bCmL .iconselect_selected-box__2z3M0:hover {\n\n     position: relative;\n     margin: 0px;\n     padding: 0px;\n     width: 70px; /* sil */\n     height: 60px; /* sil */\n     border: 1px solid #000000;\n     background-color: #FFFFFF;\n     border-radius: 3px;\n\n }\n\n .iconselect_icon-select__3bCmL .iconselect_selected-icon__1dREj {\n\n     position: absolute;\n     margin: 0px;\n     padding: 0px;\n     top:5px;\n     left:5px;\n     width: 48px; /* sil */\n     height: 48px; /* sil */\n     border-radius: 3px;\n\n }\n\n .iconselect_icon-select__3bCmL .iconselect_component-icon__2UelZ{\n     position: absolute;\n     bottom:2px;\n     right:4px;\n }\n\n .iconselect_icon-select__3bCmL .iconselect_box__3OuPO {\n\n     position: absolute;\n     top:0px;\n     left:71px;\n     margin: 0px;\n     padding: 0px;\n     width: 170px; /* sil */\n     height: 170px; /* sil */\n     border: 1px solid #EEEEEE;\n     background-color: #EEEEEE;\n     border-radius: 3px;\n     \n     \n     overflow:auto;\n     /*\n     -webkit-overflow-scrolling: touch;\n     */\n\n }\n\n .iconselect_icon-select__3bCmL .iconselect_icon__1LerH {\n     position: relative;\n     margin: 5px 0px 0px 5px;\n     padding: 0px;\n     width: 48px; /* sil */\n     height: 48px; /* sil */\n     border: 1px solid #CCCCCC;\n     background-color: #FFFFFF;\n     border-radius: 3px;\n\n     overflow:hidden;\n     float: left;\n }\n\n .iconselect_icon-select__3bCmL .iconselect_icon__1LerH:hover {\n     border: 1px solid #000000;\n }\n\n .iconselect_icon-select__3bCmL .iconselect_icon__1LerH.iconselect_selected__lVBIT {\n     position: relative;\n     margin: 5px 0px 0px 5px;\n     padding: 0px;\n     width: 48px; /* sil */\n     height: 48px; /* sil */\n     border: 1px solid #EEEEEE;\n     background-color: #EEEEEE;\n     border-radius: 3px;\n\n     overflow:hidden;\n     float: left;\n }\n'
+  '/*\nTo change this license header, choose License Headers in Project Properties.\nTo change this template file, choose Tools | Templates\nand open the template in the editor.\n*/\n/* \n    Created on : Nov 28, 2013, 7:09:35 AM\n    Author     : bugraozden\n*/\n\n.iconselect_icon-select__Sd-E3{\n    width:0px;\n    z-index: 2000;\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_selected-box__YaAz- {\n\n     position: relative;\n     margin: 0px;\n     padding: 0px;\n     width: 70px; /* sil */\n     height: 60px; /* sil */\n     border: 1px solid #999999;\n     border-radius: 3px;\n\t background-color: white;\n\t \n\t z-index: 1000;\n\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_selected-box__YaAz-:hover {\n\n     position: relative;\n     margin: 0px;\n     padding: 0px;\n     width: 70px; /* sil */\n     height: 60px; /* sil */\n     border: 1px solid #000000;\n     background-color: #FFFFFF;\n     border-radius: 3px;\n\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_selected-icon__iswfk {\n\n     position: absolute;\n     margin: 0px;\n     padding: 0px;\n     top:5px;\n     left:5px;\n     width: 48px; /* sil */\n     height: 48px; /* sil */\n     border-radius: 3px;\n\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_component-icon__AY7IZ{\n     position: absolute;\n     bottom:2px;\n     right:4px;\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_box__ITflu {\n\n     position: absolute;\n     top:0px;\n     left:71px;\n     margin: 0px;\n     padding: 0px;\n     width: 170px; /* sil */\n     height: 170px; /* sil */\n     border: 1px solid #EEEEEE;\n     background-color: #EEEEEE;\n     border-radius: 3px;\n     \n     \n     overflow:auto;\n     /*\n     -webkit-overflow-scrolling: touch;\n     */\n\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_icon__dPhWj {\n     position: relative;\n     margin: 5px 0px 0px 5px;\n     padding: 0px;\n     width: 48px; /* sil */\n     height: 48px; /* sil */\n     border: 1px solid #CCCCCC;\n     background-color: #FFFFFF;\n     border-radius: 3px;\n\n     overflow:hidden;\n     float: left;\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_icon__dPhWj:hover {\n     border: 1px solid #000000;\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_icon__dPhWj.iconselect_selected__zCJ2U {\n     position: relative;\n     margin: 5px 0px 0px 5px;\n     padding: 0px;\n     width: 48px; /* sil */\n     height: 48px; /* sil */\n     border: 1px solid #EEEEEE;\n     background-color: #EEEEEE;\n     border-radius: 3px;\n\n     overflow:hidden;\n     float: left;\n }\n'
 styleInject(css_248z)
 
 IconSelect.DEFAULT = {}
@@ -23318,6 +23540,12 @@ function IconSelect($$elementID, $$element, $$parameters) {
   //### VIEW CLASS ###
 
   function _View() {}
+
+  _View.iconSelectElement
+  _View.boxElement
+  _View.boxScrollElement
+  _View.selectedIconImgElement
+  _View.selectedIconElement
 
   _View.showBox = function($isShown) {
     if ($isShown == null) {
@@ -24022,7 +24250,7 @@ function vtkCompositeMouseManipulator(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$g = {
+var DEFAULT_VALUES$3 = {
   button: 1,
   shift: false,
   control: false,
@@ -24031,10 +24259,10 @@ var DEFAULT_VALUES$g = {
   scrollEnabled: false,
 } // ----------------------------------------------------------------------------
 
-function extend$h(publicAPI, model) {
+function extend$3(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$g, initialValues) // Create get-set macros
+  Object.assign(model, DEFAULT_VALUES$3, initialValues) // Create get-set macros
 
   macro.setGet(publicAPI, model, ['button', 'shift', 'control', 'alt'])
   macro.set(publicAPI, model, ['dragEnabled', 'scrollEnabled']) // Object specific methods
@@ -24043,7 +24271,7 @@ function extend$h(publicAPI, model) {
 } // ----------------------------------------------------------------------------
 
 var vtkCompositeMouseManipulator$1 = {
-  extend: extend$h,
+  extend: extend$3,
 }
 
 // vtkMouseRangeManipulator methods
@@ -24330,16 +24558,16 @@ function vtkMouseRangeManipulator(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$f = {
+var DEFAULT_VALUES$2 = {
   horizontalListener: null,
   verticalListener: null,
   scrollListener: null,
 } // ----------------------------------------------------------------------------
 
-function extend$g(publicAPI, model) {
+function extend$2(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$f, initialValues) // Inheritance
+  Object.assign(model, DEFAULT_VALUES$2, initialValues) // Inheritance
 
   macro.obj(publicAPI, model)
   vtkCompositeMouseManipulator$1.extend(publicAPI, model, initialValues) // Create get-set macros
@@ -24349,11 +24577,11 @@ function extend$g(publicAPI, model) {
   vtkMouseRangeManipulator(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$f = macro.newInstance(extend$g, 'vtkMouseRangeManipulator') // ----------------------------------------------------------------------------
+var newInstance$2 = macro.newInstance(extend$2, 'vtkMouseRangeManipulator') // ----------------------------------------------------------------------------
 
 var vtkMouseRangeManipulator$1 = {
-  newInstance: newInstance$f,
-  extend: extend$g,
+  newInstance: newInstance$2,
+  extend: extend$2,
 }
 
 class TinyEmitter$1 {
@@ -25014,7 +25242,7 @@ var WorkerFactory = createInlineWorkerFactory(
   null
 )
 
-function ownKeys$9(object, enumerableOnly) {
+function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object)
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object)
@@ -25027,11 +25255,11 @@ function ownKeys$9(object, enumerableOnly) {
   return keys
 }
 
-function _objectSpread$9(target) {
+function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {}
     i % 2
-      ? ownKeys$9(Object(source), !0).forEach(function(key) {
+      ? ownKeys(Object(source), !0).forEach(function(key) {
           _defineProperty(target, key, source[key])
         })
       : Object.getOwnPropertyDescriptors
@@ -25039,7 +25267,7 @@ function _objectSpread$9(target) {
           target,
           Object.getOwnPropertyDescriptors(source)
         )
-      : ownKeys$9(Object(source)).forEach(function(key) {
+      : ownKeys(Object(source)).forEach(function(key) {
           Object.defineProperty(
             target,
             key,
@@ -25491,7 +25719,7 @@ function rescaleValue(value, focusArea) {
 // Static API
 // ----------------------------------------------------------------------------
 
-var STATIC$6 = {
+var STATIC = {
   applyGaussianToPiecewiseFunction: applyGaussianToPiecewiseFunction,
   computeOpacities: computeOpacities,
   createListener: createListener,
@@ -25572,7 +25800,7 @@ function vtkPiecewiseGaussianWidget(publicAPI, model) {
   }
 
   publicAPI.updateStyle = function(style) {
-    model.style = _objectSpread$9(_objectSpread$9({}, model.style), style)
+    model.style = _objectSpread(_objectSpread({}, model.style), style)
     publicAPI.modified()
   } // Method used to compute and show data distribution in the background.
   // When an array with many components is used, you can provide additional
@@ -25705,7 +25933,7 @@ function vtkPiecewiseGaussianWidget(publicAPI, model) {
           var gaussianIdx = publicAPI.addGaussian(0, 1, 0.1, 0, 0)
           var gaussian = model.gaussians[gaussianIdx]
 
-          var originalGaussian = _objectSpread$9({}, gaussian)
+          var originalGaussian = _objectSpread({}, gaussian)
 
           var action = ACTIONS.adjustPosition
           model.activeGaussian = gaussianIdx
@@ -25831,7 +26059,7 @@ function vtkPiecewiseGaussianWidget(publicAPI, model) {
       model.canvas.style.cursor = ACTION_TO_CURSOR[actionName]
       var action = ACTIONS[actionName]
 
-      var originalGaussian = _objectSpread$9({}, gaussian)
+      var originalGaussian = _objectSpread({}, gaussian)
 
       model.dragAction = {
         originalXY: [xNormalized, yNormalized],
@@ -25895,7 +26123,7 @@ function vtkPiecewiseGaussianWidget(publicAPI, model) {
         action(
           xNormalized,
           yNormalized,
-          _objectSpread$9(
+          _objectSpread(
             {
               gaussianSide: model.gaussianSide,
               model: model,
@@ -26373,7 +26601,7 @@ function vtkPiecewiseGaussianWidget(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$e = {
+var DEFAULT_VALUES$1 = {
   histogram: [],
   numberOfBins: 256,
   histogramArray: null,
@@ -26409,10 +26637,10 @@ var DEFAULT_VALUES$e = {
   rangeZoom: [0, 1], // normalized value
 } // ----------------------------------------------------------------------------
 
-function extend$f(publicAPI, model) {
+function extend$1(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$e, initialValues) // Object methods
+  Object.assign(model, DEFAULT_VALUES$1, initialValues) // Object methods
 
   macro.obj(publicAPI, model)
   macro.setGet(publicAPI, model, [
@@ -26432,14 +26660,14 @@ function extend$f(publicAPI, model) {
   vtkPiecewiseGaussianWidget(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$e = macro.newInstance(extend$f, 'vtkPiecewiseGaussianWidget') // ----------------------------------------------------------------------------
+var newInstance$1 = macro.newInstance(extend$1, 'vtkPiecewiseGaussianWidget') // ----------------------------------------------------------------------------
 
-var vtkPiecewiseGaussianWidget$1 = _objectSpread$9(
+var vtkPiecewiseGaussianWidget$1 = _objectSpread(
   {
-    newInstance: newInstance$e,
-    extend: extend$f,
+    newInstance: newInstance$1,
+    extend: extend$1,
   },
-  STATIC$6
+  STATIC
 )
 
 /* eslint-disable no-continue */
@@ -26454,12 +26682,12 @@ function vtkItkPiecewiseGaussianWidget(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$d = {} // ----------------------------------------------------------------------------
+var DEFAULT_VALUES = {} // ----------------------------------------------------------------------------
 
-function extend$e(publicAPI, model) {
+function extend(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$d, initialValues) // Inheritance
+  Object.assign(model, DEFAULT_VALUES, initialValues) // Inheritance
 
   vtkPiecewiseGaussianWidget$1.extend(publicAPI, model, initialValues)
   macro.setGet(publicAPI, model, ['histogram'])
@@ -26468,11 +26696,11 @@ function extend$e(publicAPI, model) {
   vtkItkPiecewiseGaussianWidget(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$d = macro.newInstance(extend$e, 'vtkItkPiecewiseGaussianWidget') // ----------------------------------------------------------------------------
+var newInstance = macro.newInstance(extend, 'vtkItkPiecewiseGaussianWidget') // ----------------------------------------------------------------------------
 
 var vtkItkPiecewiseGaussianWidget$1 = {
-  newInstance: newInstance$d,
-  extend: extend$e,
+  newInstance: newInstance,
+  extend: extend,
 }
 
 function createTransferFunctionWidget(context, imagesUIGroup) {
@@ -26748,7 +26976,7 @@ function createGradientOpacitySlider(context, uiContainer) {
   sliderEntry.innerHTML = '\n    <div itk-vtk-tooltip itk-vtk-tooltip-top-fullscreen itk-vtk-tooltip-content="Gradient opacity scale" class="'
     .concat(style.gradientOpacitySlider, '">\n      <img src="')
     .concat(
-      optimizedSVGDataUri$m,
+      optimizedSVGDataUri$n,
       '" alt="gradient opacity"/>\n    </div>\n    <div class="'
     )
     .concat(
@@ -26811,7 +27039,7 @@ function createSampleDistanceSlider(context, uiContainer) {
   sliderEntry.innerHTML = '\n    <div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Volume sample distance" class="'
     .concat(style.sampleDistanceButton, '">\n      <img src="')
     .concat(
-      optimizedSVGDataUri$8,
+      optimizedSVGDataUri$9,
       '" alt="sample distance" />\n    </div>\n    <input type="range" min="0" max="1" value="0.25" step="0.01"\n      class="'
     )
     .concat(style.slider, ' ')
@@ -26841,7 +27069,7 @@ function createBlendModeSelector(context, uiContainer) {
   var blendModeEntry = document.createElement('div')
   blendModeEntry.innerHTML = '\n    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Blend mode"\n      class="'
     .concat(style.blendModeButton, '">\n      <img src="')
-    .concat(optimizedSVGDataUri$p, '" alt="blend mode" />\n    </div>\n    ')
+    .concat(optimizedSVGDataUri$q, '" alt="blend mode" />\n    </div>\n    ')
   var blendModeDiv = blendModeEntry.children[0]
   context.images.blendModeDiv = blendModeDiv
   applyContrastSensitiveStyleToElement(
@@ -27095,7 +27323,7 @@ function createLabelImageColorWidget(context) {
   sliderEntry.innerHTML = '\n  <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Label image blend" class="'
     .concat(style.gradientOpacitySlider, '">\n    <img src="')
     .concat(
-      optimizedSVGDataUri$f,
+      optimizedSVGDataUri$g,
       '" alt="opacity"/>\n  </div>\n  <input type="range" min="0" max="1" value="0.5" step="0.01"\n  id="'
     )
     .concat(context.id, '-labelImageBlendSlider"\n  class="')
@@ -27291,7 +27519,11 @@ function createImagesInterface(context) {
   imagesUIGroup.setAttribute('class', style.uiGroup)
   context.images.imagesUIGroup = imagesUIGroup
   context.uiGroups.set('images', imagesUIGroup)
-  createComponentSelector(context, imagesUIGroup)
+  var componentAndScale = document.createElement('div')
+  imagesUIGroup.appendChild(componentAndScale)
+  componentAndScale.setAttribute('style', 'display: flex;')
+  context.images.componentAndScale = componentAndScale
+  createComponentSelector(context, componentAndScale)
   createColorRangeInput(context, imagesUIGroup)
   createTransferFunctionWidget(context, imagesUIGroup)
   createVolumeRenderingInputs(context, imagesUIGroup)
@@ -27657,5468 +27889,6 @@ function applyBlendMode(context, event) {
       throw new Error('Invalid blend mode: '.concat(blendMode))
   }
 }
-
-function ownKeys$8(object, enumerableOnly) {
-  var keys = Object.keys(object)
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object)
-    enumerableOnly &&
-      (symbols = symbols.filter(function(sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable
-      })),
-      keys.push.apply(keys, symbols)
-  }
-  return keys
-}
-
-function _objectSpread$8(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {}
-    i % 2
-      ? ownKeys$8(Object(source), !0).forEach(function(key) {
-          _defineProperty(target, key, source[key])
-        })
-      : Object.getOwnPropertyDescriptors
-      ? Object.defineProperties(
-          target,
-          Object.getOwnPropertyDescriptors(source)
-        )
-      : ownKeys$8(Object(source)).forEach(function(key) {
-          Object.defineProperty(
-            target,
-            key,
-            Object.getOwnPropertyDescriptor(source, key)
-          )
-        })
-  }
-  return target
-}
-var PLANE_TOLERANCE = 1.0e-6
-var COINCIDE = 'coincide'
-var DISJOINT = 'disjoint' // ----------------------------------------------------------------------------
-// Global methods
-// ----------------------------------------------------------------------------
-
-function evaluate(normal, origin, x) {
-  return (
-    normal[0] * (x[0] - origin[0]) +
-    normal[1] * (x[1] - origin[1]) +
-    normal[2] * (x[2] - origin[2])
-  )
-}
-
-function distanceToPlane(x, origin, normal) {
-  var distance =
-    normal[0] * (x[0] - origin[0]) +
-    normal[1] * (x[1] - origin[1]) +
-    normal[2] * (x[2] - origin[2])
-  return Math.abs(distance)
-}
-
-function projectPoint(x, origin, normal, xproj) {
-  var xo = []
-  subtract(x, origin, xo)
-  var t = dot(normal, xo)
-  xproj[0] = x[0] - t * normal[0]
-  xproj[1] = x[1] - t * normal[1]
-  xproj[2] = x[2] - t * normal[2]
-}
-
-function projectVector(v, normal, vproj) {
-  var t = dot(v, normal)
-  var n2 = dot(normal, normal)
-
-  if (n2 === 0) {
-    n2 = 1.0
-  }
-
-  vproj[0] = v[0] - (t * normal[0]) / n2
-  vproj[1] = v[1] - (t * normal[1]) / n2
-  vproj[2] = v[2] - (t * normal[2]) / n2
-  return vproj
-}
-
-function generalizedProjectPoint(x, origin, normal, xproj) {
-  var xo = []
-  subtract(x, origin, xo)
-  var t = dot(normal, xo)
-  var n2 = dot(normal, normal)
-
-  if (n2 !== 0) {
-    xproj[0] = x[0] - (t * normal[0]) / n2
-    xproj[1] = x[1] - (t * normal[1]) / n2
-    xproj[2] = x[2] - (t * normal[2]) / n2
-  } else {
-    xproj[0] = x[0]
-    xproj[1] = x[1]
-    xproj[2] = x[2]
-  }
-}
-
-function intersectWithLine(p1, p2, origin, normal) {
-  var outObj = {
-    intersection: false,
-    betweenPoints: false,
-    t: Number.MAX_VALUE,
-    x: [],
-  }
-  var p21 = []
-  var p1Origin = [] // Compute line vector
-
-  subtract(p2, p1, p21)
-  subtract(origin, p1, p1Origin) // Compute denominator.  If ~0, line and plane are parallel.
-  // const num = vtkMath.dot(normal, origin) - vtkMath.dot(normal, p1);
-
-  var num = dot(normal, p1Origin)
-  var den = dot(normal, p21) // If denominator with respect to numerator is "zero", then the line and
-  // plane are considered parallel.
-
-  var fabsden
-  var fabstolerance // Trying to avoid an expensive call to fabs()
-
-  if (den < 0.0) {
-    fabsden = -den
-  } else {
-    fabsden = den
-  }
-
-  if (num < 0.0) {
-    fabstolerance = -num * PLANE_TOLERANCE
-  } else {
-    fabstolerance = num * PLANE_TOLERANCE
-  }
-
-  if (fabsden <= fabstolerance) {
-    return outObj
-  } // Where on the line between p1 and p2 is the intersection
-  // If between 0 and 1, it is between the two points. If < 0 it's before p1, if > 1 it's after p2
-
-  outObj.t = num / den
-  outObj.x[0] = p1[0] + outObj.t * p21[0]
-  outObj.x[1] = p1[1] + outObj.t * p21[1]
-  outObj.x[2] = p1[2] + outObj.t * p21[2]
-  outObj.intersection = true
-  outObj.betweenPoints = outObj.t >= 0.0 && outObj.t <= 1.0
-  return outObj
-}
-
-function intersectWithPlane(
-  plane1Origin,
-  plane1Normal,
-  plane2Origin,
-  plane2Normal
-) {
-  var outObj = {
-    intersection: false,
-    l0: [],
-    l1: [],
-    error: null,
-  }
-  var cross$1 = []
-  cross(plane1Normal, plane2Normal, cross$1)
-  var absCross = cross$1.map(function(n) {
-    return Math.abs(n)
-  }) // test if the two planes are parallel
-
-  if (absCross[0] + absCross[1] + absCross[2] < PLANE_TOLERANCE) {
-    // test if disjoint or coincide
-    var v = []
-    subtract(plane1Origin, plane2Origin, v)
-
-    if (dot(plane1Normal, v) === 0) {
-      outObj.error = COINCIDE
-    } else {
-      outObj.error = DISJOINT
-    }
-
-    return outObj
-  } // Plane1 and Plane2 intersect in a line
-  // first determine max abs coordinate of the cross product
-
-  var maxc
-
-  if (absCross[0] > absCross[1] && absCross[0] > absCross[2]) {
-    maxc = 'x'
-  } else if (absCross[1] > absCross[2]) {
-    maxc = 'y'
-  } else {
-    maxc = 'z'
-  } // To get a point on the intersect line, zero the max coord, and solve for the other two
-
-  var iP = [] // intersectionPoint
-  // the constants in the 2 plane equations
-
-  var d1 = -dot(plane1Normal, plane1Origin)
-  var d2 = -dot(plane2Normal, plane2Origin) // eslint-disable-next-line default-case
-
-  switch (maxc) {
-    case 'x':
-      // intersect with x=0
-      iP[0] = 0
-      iP[1] = (d2 * plane1Normal[2] - d1 * plane2Normal[2]) / cross$1[0]
-      iP[2] = (d1 * plane2Normal[1] - d2 * plane1Normal[1]) / cross$1[0]
-      break
-
-    case 'y':
-      // intersect with y=0
-      iP[0] = (d1 * plane2Normal[2] - d2 * plane1Normal[2]) / cross$1[1]
-      iP[1] = 0
-      iP[2] = (d2 * plane1Normal[0] - d1 * plane2Normal[0]) / cross$1[1]
-      break
-
-    case 'z':
-      // intersect with z=0
-      iP[0] = (d2 * plane1Normal[1] - d1 * plane2Normal[1]) / cross$1[2]
-      iP[1] = (d1 * plane2Normal[0] - d2 * plane1Normal[0]) / cross$1[2]
-      iP[2] = 0
-      break
-  }
-
-  outObj.l0 = iP
-  add(iP, cross$1, outObj.l1)
-  outObj.intersection = true
-  return outObj
-} // ----------------------------------------------------------------------------
-// Static API
-// ----------------------------------------------------------------------------
-
-var STATIC$5 = {
-  evaluate: evaluate,
-  distanceToPlane: distanceToPlane,
-  projectPoint: projectPoint,
-  projectVector: projectVector,
-  generalizedProjectPoint: generalizedProjectPoint,
-  intersectWithLine: intersectWithLine,
-  intersectWithPlane: intersectWithPlane,
-  DISJOINT: DISJOINT,
-  COINCIDE: COINCIDE,
-} // ----------------------------------------------------------------------------
-// vtkPlane methods
-// ----------------------------------------------------------------------------
-
-function vtkPlane(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkPlane')
-
-  publicAPI.distanceToPlane = function(x) {
-    return distanceToPlane(x, model.origin, model.normal)
-  }
-
-  publicAPI.projectPoint = function(x, xproj) {
-    projectPoint(x, model.origin, model.normal, xproj)
-  }
-
-  publicAPI.projectVector = function(v, vproj) {
-    return projectVector(v, model.normal, vproj)
-  }
-
-  publicAPI.push = function(distance) {
-    if (distance === 0.0) {
-      return
-    }
-
-    for (var i = 0; i < 3; i++) {
-      model.origin[i] += distance * model.normal[i]
-    }
-  }
-
-  publicAPI.generalizedProjectPoint = function(x, xproj) {
-    generalizedProjectPoint(x, model.origin, model.normal, xproj)
-  }
-
-  publicAPI.evaluateFunction = function(x, y, z) {
-    if (!Array.isArray(x)) {
-      return (
-        model.normal[0] * (x - model.origin[0]) +
-        model.normal[1] * (y - model.origin[1]) +
-        model.normal[2] * (z - model.origin[2])
-      )
-    }
-
-    return (
-      model.normal[0] * (x[0] - model.origin[0]) +
-      model.normal[1] * (x[1] - model.origin[1]) +
-      model.normal[2] * (x[2] - model.origin[2])
-    )
-  }
-
-  publicAPI.evaluateGradient = function(xyz) {
-    var retVal = [model.normal[0], model.normal[1], model.normal[2]]
-    return retVal
-  }
-
-  publicAPI.intersectWithLine = function(p1, p2) {
-    return intersectWithLine(p1, p2, model.origin, model.normal)
-  }
-
-  publicAPI.intersectWithPlane = function(planeOrigin, planeNormal) {
-    return intersectWithPlane(
-      planeOrigin,
-      planeNormal,
-      model.origin,
-      model.normal
-    )
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$c = {
-  normal: [0.0, 0.0, 1.0],
-  origin: [0.0, 0.0, 0.0],
-} // ----------------------------------------------------------------------------
-
-function extend$d(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$c, initialValues) // Object methods
-
-  macro.obj(publicAPI, model)
-  macro.setGetArray(publicAPI, model, ['normal', 'origin'], 3)
-  vtkPlane(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance$c = macro.newInstance(extend$d, 'vtkPlane') // ----------------------------------------------------------------------------
-
-var vtkPlane$1 = _objectSpread$8(
-  {
-    newInstance: newInstance$c,
-    extend: extend$d,
-  },
-  STATIC$5
-)
-
-function ownKeys$7(object, enumerableOnly) {
-  var keys = Object.keys(object)
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object)
-    enumerableOnly &&
-      (symbols = symbols.filter(function(sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable
-      })),
-      keys.push.apply(keys, symbols)
-  }
-  return keys
-}
-
-function _objectSpread$7(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {}
-    i % 2
-      ? ownKeys$7(Object(source), !0).forEach(function(key) {
-          _defineProperty(target, key, source[key])
-        })
-      : Object.getOwnPropertyDescriptors
-      ? Object.defineProperties(
-          target,
-          Object.getOwnPropertyDescriptors(source)
-        )
-      : ownKeys$7(Object(source)).forEach(function(key) {
-          Object.defineProperty(
-            target,
-            key,
-            Object.getOwnPropertyDescriptor(source, key)
-          )
-        })
-  }
-  return target
-}
-var INIT_BOUNDS = [
-  Number.MAX_VALUE,
-  -Number.MAX_VALUE, // X
-  Number.MAX_VALUE,
-  -Number.MAX_VALUE, // Y
-  Number.MAX_VALUE,
-  -Number.MAX_VALUE, // Z
-] // ----------------------------------------------------------------------------
-// Global methods
-// ----------------------------------------------------------------------------
-
-function _equals(a, b) {
-  return (
-    a[0] === b[0] &&
-    a[1] === b[1] &&
-    a[2] === b[2] &&
-    a[3] === b[3] &&
-    a[4] === b[4] &&
-    a[5] === b[5]
-  )
-}
-
-function _isValid(bounds) {
-  return (
-    bounds[0] <= bounds[1] && bounds[2] <= bounds[3] && bounds[4] <= bounds[5]
-  )
-}
-
-function _setBounds(bounds, otherBounds) {
-  bounds[0] = otherBounds[0]
-  bounds[1] = otherBounds[1]
-  bounds[2] = otherBounds[2]
-  bounds[3] = otherBounds[3]
-  bounds[4] = otherBounds[4]
-  bounds[5] = otherBounds[5]
-  return bounds
-}
-
-function _reset(bounds) {
-  return _setBounds(bounds, INIT_BOUNDS)
-}
-
-function _addPoint(bounds) {
-  var _bounds = _slicedToArray(bounds, 6),
-    xMin = _bounds[0],
-    xMax = _bounds[1],
-    yMin = _bounds[2],
-    yMax = _bounds[3],
-    zMin = _bounds[4],
-    zMax = _bounds[5]
-
-  bounds[0] =
-    xMin < (arguments.length <= 1 ? undefined : arguments[1])
-      ? xMin
-      : arguments.length <= 1
-      ? undefined
-      : arguments[1]
-  bounds[1] =
-    xMax > (arguments.length <= 1 ? undefined : arguments[1])
-      ? xMax
-      : arguments.length <= 1
-      ? undefined
-      : arguments[1]
-  bounds[2] =
-    yMin < (arguments.length <= 2 ? undefined : arguments[2])
-      ? yMin
-      : arguments.length <= 2
-      ? undefined
-      : arguments[2]
-  bounds[3] =
-    yMax > (arguments.length <= 2 ? undefined : arguments[2])
-      ? yMax
-      : arguments.length <= 2
-      ? undefined
-      : arguments[2]
-  bounds[4] =
-    zMin < (arguments.length <= 3 ? undefined : arguments[3])
-      ? zMin
-      : arguments.length <= 3
-      ? undefined
-      : arguments[3]
-  bounds[5] =
-    zMax > (arguments.length <= 3 ? undefined : arguments[3])
-      ? zMax
-      : arguments.length <= 3
-      ? undefined
-      : arguments[3]
-  return bounds
-}
-
-function _addBounds(bounds, xMin, xMax, yMin, yMax, zMin, zMax) {
-  var _bounds2 = _slicedToArray(bounds, 6),
-    _xMin = _bounds2[0],
-    _xMax = _bounds2[1],
-    _yMin = _bounds2[2],
-    _yMax = _bounds2[3],
-    _zMin = _bounds2[4],
-    _zMax = _bounds2[5]
-
-  if (zMax === undefined) {
-    bounds[0] = Math.min(xMin[0], _xMin)
-    bounds[1] = Math.max(xMin[1], _xMax)
-    bounds[2] = Math.min(xMin[2], _yMin)
-    bounds[3] = Math.max(xMin[3], _yMax)
-    bounds[4] = Math.min(xMin[4], _zMin)
-    bounds[5] = Math.max(xMin[5], _zMax)
-  } else {
-    bounds[0] = Math.min(xMin, _xMin)
-    bounds[1] = Math.max(xMax, _xMax)
-    bounds[2] = Math.min(yMin, _yMin)
-    bounds[3] = Math.max(yMax, _yMax)
-    bounds[4] = Math.min(zMin, _zMin)
-    bounds[5] = Math.max(zMax, _zMax)
-  }
-
-  return bounds
-}
-
-function _setMinPoint(bounds, x, y, z) {
-  var _bounds3 = _slicedToArray(bounds, 6),
-    xMin = _bounds3[0],
-    xMax = _bounds3[1],
-    yMin = _bounds3[2],
-    yMax = _bounds3[3],
-    zMin = _bounds3[4],
-    zMax = _bounds3[5]
-
-  bounds[0] = x
-  bounds[1] = x > xMax ? x : xMax
-  bounds[2] = y
-  bounds[3] = y > yMax ? y : yMax
-  bounds[4] = z
-  bounds[5] = z > zMax ? z : zMax
-  return xMin !== x || yMin !== y || zMin !== z
-}
-
-function _setMaxPoint(bounds, x, y, z) {
-  var _bounds4 = _slicedToArray(bounds, 6),
-    xMin = _bounds4[0],
-    xMax = _bounds4[1],
-    yMin = _bounds4[2],
-    yMax = _bounds4[3],
-    zMin = _bounds4[4],
-    zMax = _bounds4[5]
-
-  bounds[0] = x < xMin ? x : xMin
-  bounds[1] = x
-  bounds[2] = y < yMin ? y : yMin
-  bounds[3] = y
-  bounds[4] = z < zMin ? z : zMin
-  bounds[5] = z
-  return xMax !== x || yMax !== y || zMax !== z
-}
-
-function _inflate(bounds, delta) {
-  bounds[0] -= delta
-  bounds[1] += delta
-  bounds[2] -= delta
-  bounds[3] += delta
-  bounds[4] -= delta
-  bounds[5] += delta
-  return bounds
-}
-
-function _scale(bounds, sx, sy, sz) {
-  if (!_isValid(bounds)) {
-    return false
-  }
-
-  if (sx >= 0.0) {
-    bounds[0] *= sx
-    bounds[1] *= sx
-  } else {
-    bounds[0] = sx * bounds[1]
-    bounds[1] = sx * bounds[0]
-  }
-
-  if (sy >= 0.0) {
-    bounds[2] *= sy
-    bounds[3] *= sy
-  } else {
-    bounds[2] = sy * bounds[3]
-    bounds[3] = sy * bounds[2]
-  }
-
-  if (sz >= 0.0) {
-    bounds[4] *= sz
-    bounds[5] *= sz
-  } else {
-    bounds[4] = sz * bounds[5]
-    bounds[5] = sz * bounds[4]
-  }
-
-  return true
-}
-
-function _getCenter(bounds) {
-  return [
-    0.5 * (bounds[0] + bounds[1]),
-    0.5 * (bounds[2] + bounds[3]),
-    0.5 * (bounds[4] + bounds[5]),
-  ]
-}
-function scaleAboutCenter(bounds, sx, sy, sz) {
-  if (!_isValid(bounds)) {
-    return false
-  }
-
-  var center = _getCenter(bounds)
-
-  bounds[0] -= center[0]
-  bounds[1] -= center[0]
-  bounds[2] -= center[1]
-  bounds[3] -= center[1]
-  bounds[4] -= center[2]
-  bounds[5] -= center[2]
-
-  _scale(bounds, sx, sy, sz)
-
-  bounds[0] += center[0]
-  bounds[1] += center[0]
-  bounds[2] += center[1]
-  bounds[3] += center[1]
-  bounds[4] += center[2]
-  bounds[5] += center[2]
-  return true
-}
-
-function _getLength(bounds, index) {
-  return bounds[index * 2 + 1] - bounds[index * 2]
-}
-
-function _getLengths(bounds) {
-  return [_getLength(bounds, 0), _getLength(bounds, 1), _getLength(bounds, 2)]
-}
-
-function _getXRange(bounds) {
-  return bounds.slice(0, 2)
-}
-
-function _getYRange(bounds) {
-  return bounds.slice(2, 4)
-}
-
-function _getZRange(bounds) {
-  return bounds.slice(4, 6)
-}
-
-function _getMaxLength(bounds) {
-  var l = _getLengths(bounds)
-
-  if (l[0] > l[1]) {
-    if (l[0] > l[2]) {
-      return l[0]
-    }
-
-    return l[2]
-  }
-
-  if (l[1] > l[2]) {
-    return l[1]
-  }
-
-  return l[2]
-}
-
-function _getDiagonalLength(bounds) {
-  if (_isValid(bounds)) {
-    var l = _getLengths(bounds)
-
-    return Math.sqrt(l[0] * l[0] + l[1] * l[1] + l[2] * l[2])
-  }
-
-  return null
-}
-
-function _getMinPoint(bounds) {
-  return [bounds[0], bounds[2], bounds[4]]
-}
-
-function _getMaxPoint(bounds) {
-  return [bounds[1], bounds[3], bounds[5]]
-}
-
-function oppositeSign(a, b) {
-  return (a <= 0 && b >= 0) || (a >= 0 && b <= 0)
-}
-
-function _getCorners(bounds, corners) {
-  var count = 0
-
-  for (var ix = 0; ix < 2; ix++) {
-    for (var iy = 2; iy < 4; iy++) {
-      for (var iz = 4; iz < 6; iz++) {
-        corners[count] = [bounds[ix], bounds[iy], bounds[iz]]
-        count++
-      }
-    }
-  }
-
-  return corners
-} // Computes the two corners with minimal and miximal coordinates
-
-function _computeCornerPoints(bounds, point1, point2) {
-  point1[0] = bounds[0]
-  point1[1] = bounds[2]
-  point1[2] = bounds[4]
-  point2[0] = bounds[1]
-  point2[1] = bounds[3]
-  point2[2] = bounds[5]
-  return point1
-}
-
-function _computeScale(bounds) {
-  var scale3 =
-    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : []
-  scale3[0] = 0.5 * (bounds[1] - bounds[0])
-  scale3[1] = 0.5 * (bounds[3] - bounds[2])
-  scale3[2] = 0.5 * (bounds[5] - bounds[4])
-  return scale3
-}
-
-function _computeLocalBounds(points, u, v, w) {
-  var bounds = [].concat(INIT_BOUNDS)
-  var pointsData = points.getData()
-
-  for (var i = 0; i < pointsData.length; i += 3) {
-    var point = [pointsData[i], pointsData[i + 1], pointsData[i + 2]]
-    var du = dot(point, u)
-    bounds[0] = Math.min(du, bounds[0])
-    bounds[1] = Math.max(du, bounds[1])
-    var dv = dot(point, v)
-    bounds[2] = Math.min(dv, bounds[2])
-    bounds[3] = Math.max(dv, bounds[3])
-    var dw = dot(point, w)
-    bounds[4] = Math.min(dw, bounds[4])
-    bounds[5] = Math.max(dw, bounds[5])
-  }
-
-  return bounds
-} // The method returns a non-zero value if the bounding box is hit.
-
-function _intersectBox(bounds, origin, dir, coord, tolerance) {
-  var inside = true
-  var quadrant = []
-  var whichPlane = 0
-  var maxT = []
-  var candidatePlane = [0.0, 0.0, 0.0]
-  var RIGHT = 0
-  var LEFT = 1
-  var MIDDLE = 2 // First find closest planes
-
-  for (var i = 0; i < 3; i++) {
-    if (origin[i] < bounds[2 * i]) {
-      quadrant[i] = LEFT
-      candidatePlane[i] = bounds[2 * i]
-      inside = false
-    } else if (origin[i] > bounds[2 * i + 1]) {
-      quadrant[i] = RIGHT
-      candidatePlane[i] = bounds[2 * i + 1]
-      inside = false
-    } else {
-      quadrant[i] = MIDDLE
-    }
-  } // Check whether origin of ray is inside bbox
-
-  if (inside) {
-    coord[0] = origin[0]
-    coord[1] = origin[1]
-    coord[2] = origin[2]
-    tolerance[0] = 0
-    return 1
-  } // Calculate parametric distance to plane
-
-  for (var _i = 0; _i < 3; _i++) {
-    if (quadrant[_i] !== MIDDLE && dir[_i] !== 0.0) {
-      maxT[_i] = (candidatePlane[_i] - origin[_i]) / dir[_i]
-    } else {
-      maxT[_i] = -1.0
-    }
-  } // Find the largest parametric value of intersection
-
-  for (var _i2 = 0; _i2 < 3; _i2++) {
-    if (maxT[whichPlane] < maxT[_i2]) {
-      whichPlane = _i2
-    }
-  } // Check for valie intersection along line
-
-  if (maxT[whichPlane] > 1.0 || maxT[whichPlane] < 0.0) {
-    return 0
-  }
-
-  tolerance[0] = maxT[whichPlane] // Intersection point along line is okay. Check bbox.
-
-  for (var _i3 = 0; _i3 < 3; _i3++) {
-    if (whichPlane !== _i3) {
-      coord[_i3] = origin[_i3] + maxT[whichPlane] * dir[_i3]
-
-      if (coord[_i3] < bounds[2 * _i3] || coord[_i3] > bounds[2 * _i3 + 1]) {
-        return 0
-      }
-    } else {
-      coord[_i3] = candidatePlane[_i3]
-    }
-  }
-
-  return 1
-} // Plane intersection with box
-
-function _intersectPlane(bounds, origin, normal) {
-  var p = []
-  var d = 0
-  var sign = 1
-  var firstOne = 1 // Evaluate the eight points. If there is a sign change, there is an intersection
-
-  for (var z = 4; z <= 5; ++z) {
-    p[2] = bounds[z]
-
-    for (var y = 2; y <= 3; ++y) {
-      p[1] = bounds[y]
-
-      for (var x = 0; x <= 1; ++x) {
-        p[0] = bounds[x]
-        d = vtkPlane$1.evaluate(normal, origin, p)
-
-        if (firstOne) {
-          sign = d >= 0 ? 1 : -1
-          firstOne = 0
-        }
-
-        if (d === 0.0 || (sign > 0 && d < 0.0) || (sign < 0 && d > 0.0)) {
-          return 1
-        }
-      }
-    }
-  }
-
-  return 0 // no intersection
-}
-
-function _intersect(bounds, bBounds) {
-  if (!(_isValid(bounds) && _isValid(bBounds))) {
-    return false
-  }
-
-  var newBounds = [0, 0, 0, 0, 0, 0]
-  var intersection
-
-  for (var i = 0; i < 3; i++) {
-    intersection = false
-
-    if (
-      bBounds[i * 2] >= bounds[i * 2] &&
-      bBounds[i * 2] <= bounds[i * 2 + 1]
-    ) {
-      intersection = true
-      newBounds[i * 2] = bBounds[i * 2]
-    } else if (
-      bounds[i * 2] >= bBounds[i * 2] &&
-      bounds[i * 2] <= bBounds[i * 2 + 1]
-    ) {
-      intersection = true
-      newBounds[i * 2] = bounds[i * 2]
-    }
-
-    if (
-      bBounds[i * 2 + 1] >= bounds[i * 2] &&
-      bBounds[i * 2 + 1] <= bounds[i * 2 + 1]
-    ) {
-      intersection = true
-      newBounds[i * 2 + 1] = bBounds[2 * i + 1]
-    } else if (
-      bounds[i * 2 + 1] >= bBounds[i * 2] &&
-      bounds[i * 2 + 1] <= bBounds[i * 2 + 1]
-    ) {
-      intersection = true
-      newBounds[i * 2 + 1] = bounds[i * 2 + 1]
-    }
-
-    if (!intersection) {
-      return false
-    }
-  } // OK they did intersect - set the box to be the result
-
-  bounds[0] = newBounds[0]
-  bounds[1] = newBounds[1]
-  bounds[2] = newBounds[2]
-  bounds[3] = newBounds[3]
-  bounds[4] = newBounds[4]
-  bounds[5] = newBounds[5]
-  return true
-}
-
-function _intersects(bounds, bBounds) {
-  if (!(_isValid(bounds) && _isValid(bBounds))) {
-    return false
-  }
-  /* eslint-disable no-continue */
-
-  for (var i = 0; i < 3; i++) {
-    if (
-      bBounds[i * 2] >= bounds[i * 2] &&
-      bBounds[i * 2] <= bounds[i * 2 + 1]
-    ) {
-      continue
-    } else if (
-      bounds[i * 2] >= bBounds[i * 2] &&
-      bounds[i * 2] <= bBounds[i * 2 + 1]
-    ) {
-      continue
-    }
-
-    if (
-      bBounds[i * 2 + 1] >= bounds[i * 2] &&
-      bBounds[i * 2 + 1] <= bounds[i * 2 + 1]
-    ) {
-      continue
-    } else if (
-      bounds[i * 2 + 1] >= bBounds[i * 2] &&
-      bounds[i * 2 + 1] <= bBounds[i * 2 + 1]
-    ) {
-      continue
-    }
-
-    return false
-  }
-  /* eslint-enable no-continue */
-
-  return true
-}
-
-function _containsPoint(bounds, x, y, z) {
-  if (x < bounds[0] || x > bounds[1]) {
-    return false
-  }
-
-  if (y < bounds[2] || y > bounds[3]) {
-    return false
-  }
-
-  if (z < bounds[4] || z > bounds[5]) {
-    return false
-  }
-
-  return true
-}
-function contains(bounds, otherBounds) {
-  // if either box is not valid or they don't intersect
-  if (!_intersects(bounds, otherBounds)) {
-    return false
-  }
-
-  if (
-    !_containsPoint.apply(
-      void 0,
-      [bounds].concat(_toConsumableArray(_getMinPoint(otherBounds)))
-    )
-  ) {
-    return false
-  }
-
-  if (
-    !_containsPoint.apply(
-      void 0,
-      [bounds].concat(_toConsumableArray(_getMaxPoint(otherBounds)))
-    )
-  ) {
-    return false
-  }
-
-  return true
-}
-/**
- * Returns true if plane intersects bounding box.
- * If so, the box is cut by the plane
- * @param {array} origin
- * @param {array} normal
- */
-
-function _cutWithPlane(bounds, origin, normal) {
-  // Index[0..2] represents the order of traversing the corners of a cube
-  // in (x,y,z), (y,x,z) and (z,x,y) ordering, respectively
-  var index = [
-    [0, 1, 2, 3, 4, 5, 6, 7],
-    [0, 1, 4, 5, 2, 3, 6, 7],
-    [0, 2, 4, 6, 1, 3, 5, 7],
-  ] // stores the signed distance to a plane
-
-  var d = [0, 0, 0, 0, 0, 0, 0, 0]
-  var idx = 0
-
-  for (var ix = 0; ix < 2; ix++) {
-    for (var iy = 2; iy < 4; iy++) {
-      for (var iz = 4; iz < 6; iz++) {
-        var x = [bounds[ix], bounds[iy], bounds[iz]]
-        d[idx++] = vtkPlane$1.evaluate(normal, origin, x)
-      }
-    }
-  }
-
-  var dir = 2
-
-  while (dir--) {
-    // in each direction, we test if the vertices of two orthogonal faces
-    // are on either side of the plane
-    if (
-      oppositeSign(d[index[dir][0]], d[index[dir][4]]) &&
-      oppositeSign(d[index[dir][1]], d[index[dir][5]]) &&
-      oppositeSign(d[index[dir][2]], d[index[dir][6]]) &&
-      oppositeSign(d[index[dir][3]], d[index[dir][7]])
-    ) {
-      break
-    }
-  }
-
-  if (dir < 0) {
-    return false
-  }
-
-  var sign = Math.sign(normal[dir])
-  var size = Math.abs((bounds[dir * 2 + 1] - bounds[dir * 2]) * normal[dir])
-  var t = sign > 0 ? 1 : 0
-  /* eslint-disable no-continue */
-
-  for (var i = 0; i < 4; i++) {
-    if (size === 0) {
-      continue // shouldn't happen
-    }
-
-    var ti = Math.abs(d[index[dir][i]]) / size
-
-    if (sign > 0 && ti < t) {
-      t = ti
-    }
-
-    if (sign < 0 && ti > t) {
-      t = ti
-    }
-  }
-  /* eslint-enable no-continue */
-
-  var bound = (1.0 - t) * bounds[dir * 2] + t * bounds[dir * 2 + 1]
-
-  if (sign > 0) {
-    bounds[dir * 2] = bound
-  } else {
-    bounds[dir * 2 + 1] = bound
-  }
-
-  return true
-} // ----------------------------------------------------------------------------
-
-var BoundingBox = /*#__PURE__*/ (function() {
-  function BoundingBox(refBounds) {
-    _classCallCheck(this, BoundingBox)
-
-    this.bounds = refBounds
-
-    if (!this.bounds) {
-      this.bounds = new Float64Array(INIT_BOUNDS)
-    }
-  }
-
-  _createClass(BoundingBox, [
-    {
-      key: 'getBounds',
-      value: function getBounds() {
-        return this.bounds
-      },
-    },
-    {
-      key: 'equals',
-      value: function equals(otherBounds) {
-        return _equals(this.bounds, otherBounds)
-      },
-    },
-    {
-      key: 'isValid',
-      value: function isValid() {
-        return _isValid(this.bounds)
-      },
-    },
-    {
-      key: 'setBounds',
-      value: function setBounds(otherBounds) {
-        return _setBounds(this.bounds, otherBounds)
-      },
-    },
-    {
-      key: 'reset',
-      value: function reset() {
-        return _reset(this.bounds)
-      },
-    },
-    {
-      key: 'addPoint',
-      value: function addPoint() {
-        for (
-          var _len = arguments.length, xyz = new Array(_len), _key = 0;
-          _key < _len;
-          _key++
-        ) {
-          xyz[_key] = arguments[_key]
-        }
-
-        return _addPoint(this.bounds, xyz)
-      },
-    },
-    {
-      key: 'addBounds',
-      value: function addBounds(xMin, xMax, yMin, yMax, zMin, zMax) {
-        return _addBounds(this.bounds, xMin, xMax, yMin, yMax, zMin, zMax)
-      },
-    },
-    {
-      key: 'setMinPoint',
-      value: function setMinPoint(x, y, z) {
-        return _setMinPoint(this.bounds, x, y, z)
-      },
-    },
-    {
-      key: 'setMaxPoint',
-      value: function setMaxPoint(x, y, z) {
-        return _setMaxPoint(this.bounds, x, y, z)
-      },
-    },
-    {
-      key: 'inflate',
-      value: function inflate(delta) {
-        return _inflate(this.bounds, delta)
-      },
-    },
-    {
-      key: 'scale',
-      value: function scale(sx, sy, sz) {
-        return _scale(this.bounds, sx, sy, sz)
-      },
-    },
-    {
-      key: 'getCenter',
-      value: function getCenter() {
-        return _getCenter(this.bounds)
-      },
-    },
-    {
-      key: 'getLength',
-      value: function getLength(index) {
-        return _getLength(this.bounds, index)
-      },
-    },
-    {
-      key: 'getLengths',
-      value: function getLengths() {
-        return _getLengths(this.bounds)
-      },
-    },
-    {
-      key: 'getMaxLength',
-      value: function getMaxLength() {
-        return _getMaxLength(this.bounds)
-      },
-    },
-    {
-      key: 'getDiagonalLength',
-      value: function getDiagonalLength() {
-        return _getDiagonalLength(this.bounds)
-      },
-    },
-    {
-      key: 'getMinPoint',
-      value: function getMinPoint() {
-        return _getMinPoint(this.bounds)
-      },
-    },
-    {
-      key: 'getMaxPoint',
-      value: function getMaxPoint() {
-        return _getMaxPoint(this.bounds)
-      },
-    },
-    {
-      key: 'getXRange',
-      value: function getXRange() {
-        return _getXRange(this.bounds)
-      },
-    },
-    {
-      key: 'getYRange',
-      value: function getYRange() {
-        return _getYRange(this.bounds)
-      },
-    },
-    {
-      key: 'getZRange',
-      value: function getZRange() {
-        return _getZRange(this.bounds)
-      },
-    },
-    {
-      key: 'getCorners',
-      value: function getCorners(corners) {
-        return _getCorners(this.bounds, corners)
-      },
-    },
-    {
-      key: 'computeCornerPoints',
-      value: function computeCornerPoints(point1, point2) {
-        return _computeCornerPoints(this.bounds, point1, point2)
-      },
-    },
-    {
-      key: 'computeLocalBounds',
-      value: function computeLocalBounds(u, v, w) {
-        return _computeLocalBounds(this.bounds, u, v, w)
-      },
-    },
-    {
-      key: 'computeScale3',
-      value: function computeScale3(scale3) {
-        return _computeScale(this.bounds, scale3)
-      },
-    },
-    {
-      key: 'cutWithPlane',
-      value: function cutWithPlane(origin, normal) {
-        return _cutWithPlane(this.bounds, origin, normal)
-      },
-    },
-    {
-      key: 'intersectBox',
-      value: function intersectBox(origin, dir, coord, tolerance) {
-        return _intersectBox(this.bounds, origin, dir, coord, tolerance)
-      },
-    },
-    {
-      key: 'intersectPlane',
-      value: function intersectPlane(origin, normal) {
-        return _intersectPlane(this.bounds, origin, normal)
-      },
-    },
-    {
-      key: 'intersect',
-      value: function intersect(otherBounds) {
-        return _intersect(this.bounds, otherBounds)
-      },
-    },
-    {
-      key: 'intersects',
-      value: function intersects(otherBounds) {
-        return _intersects(this.bounds, otherBounds)
-      },
-    },
-    {
-      key: 'containsPoint',
-      value: function containsPoint(x, y, z) {
-        return _containsPoint(this.bounds, x, y, z)
-      },
-    },
-    {
-      key: 'contains',
-      value: function contains(otherBounds) {
-        return _intersects(this.bounds, otherBounds)
-      },
-    },
-  ])
-
-  return BoundingBox
-})()
-
-function newInstance$b(initialValues) {
-  var bounds = initialValues && initialValues.bounds
-  return new BoundingBox(bounds)
-} // ----------------------------------------------------------------------------
-// Static API
-// ----------------------------------------------------------------------------
-
-var STATIC$4 = {
-  equals: _equals,
-  isValid: _isValid,
-  setBounds: _setBounds,
-  reset: _reset,
-  addPoint: _addPoint,
-  addBounds: _addBounds,
-  setMinPoint: _setMinPoint,
-  setMaxPoint: _setMaxPoint,
-  inflate: _inflate,
-  scale: _scale,
-  scaleAboutCenter: scaleAboutCenter,
-  getCenter: _getCenter,
-  getLength: _getLength,
-  getLengths: _getLengths,
-  getMaxLength: _getMaxLength,
-  getDiagonalLength: _getDiagonalLength,
-  getMinPoint: _getMinPoint,
-  getMaxPoint: _getMaxPoint,
-  getXRange: _getXRange,
-  getYRange: _getYRange,
-  getZRange: _getZRange,
-  getCorners: _getCorners,
-  computeCornerPoints: _computeCornerPoints,
-  computeLocalBounds: _computeLocalBounds,
-  computeScale3: _computeScale,
-  cutWithPlane: _cutWithPlane,
-  intersectBox: _intersectBox,
-  intersectPlane: _intersectPlane,
-  intersect: _intersect,
-  intersects: _intersects,
-  containsPoint: _containsPoint,
-  contains: contains,
-  INIT_BOUNDS: INIT_BOUNDS,
-}
-var vtkBoundingBox = _objectSpread$7(
-  {
-    newInstance: newInstance$b,
-  },
-  STATIC$4
-)
-
-// vtkFieldData methods
-// ----------------------------------------------------------------------------
-
-function vtkFieldData(publicAPI, model) {
-  model.classHierarchy.push('vtkFieldData')
-  var superGetState = publicAPI.getState // Decode serialized data if any
-
-  if (model.arrays) {
-    model.arrays = model.arrays.map(function(item) {
-      return {
-        data: vtk(item.data),
-      }
-    })
-  }
-
-  publicAPI.initialize = function() {
-    publicAPI.initializeFields()
-    publicAPI.copyAllOn()
-    publicAPI.clearFieldFlags()
-  }
-
-  publicAPI.initializeFields = function() {
-    model.arrays = []
-    model.copyFieldFlags = {}
-    publicAPI.modified()
-  }
-
-  publicAPI.copyStructure = function(other) {
-    publicAPI.initializeFields()
-    model.copyFieldFlags = other.getCopyFieldFlags().map(function(x) {
-      return x
-    }) // Deep-copy
-
-    model.arrays = other.arrays().map(function(x) {
-      return {
-        array: x,
-      }
-    }) // Deep-copy
-    // TODO: Copy array information objects (once we support information objects)
-  }
-
-  publicAPI.getNumberOfArrays = function() {
-    return model.arrays.length
-  }
-
-  publicAPI.getNumberOfActiveArrays = function() {
-    return model.arrays.length
-  }
-
-  publicAPI.addArray = function(arr) {
-    model.arrays = [].concat(model.arrays, {
-      data: arr,
-    })
-    return model.arrays.length - 1
-  }
-
-  publicAPI.removeAllArrays = function() {
-    model.arrays = []
-  }
-
-  publicAPI.removeArray = function(arrayName) {
-    model.arrays = model.arrays.filter(function(entry) {
-      return arrayName !== entry.data.getName()
-    })
-  }
-
-  publicAPI.removeArrayByIndex = function(arrayIdx) {
-    model.arrays = model.arrays.filter(function(entry, idx) {
-      return idx !== arrayIdx
-    })
-  }
-
-  publicAPI.getArrays = function() {
-    return model.arrays.map(function(entry) {
-      return entry.data
-    })
-  }
-
-  publicAPI.getArray = function(arraySpec) {
-    return typeof arraySpec === 'number'
-      ? publicAPI.getArrayByIndex(arraySpec)
-      : publicAPI.getArrayByName(arraySpec)
-  }
-
-  publicAPI.getArrayByName = function(arrayName) {
-    return model.arrays.reduce(function(a, b, i) {
-      return b.data.getName() === arrayName ? b.data : a
-    }, null)
-  }
-
-  publicAPI.getArrayWithIndex = function(arrayName) {
-    return model.arrays.reduce(
-      function(a, b, i) {
-        return b.data && b.data.getName() === arrayName
-          ? {
-              array: b.data,
-              index: i,
-            }
-          : a
-      },
-      {
-        array: null,
-        index: -1,
-      }
-    )
-  }
-
-  publicAPI.getArrayByIndex = function(idx) {
-    return idx >= 0 && idx < model.arrays.length ? model.arrays[idx].data : null
-  }
-
-  publicAPI.hasArray = function(arrayName) {
-    return publicAPI.getArrayWithIndex(arrayName).index >= 0
-  }
-
-  publicAPI.getArrayName = function(idx) {
-    var arr = model.arrays[idx]
-    return arr ? arr.data.getName() : ''
-  }
-
-  publicAPI.getCopyFieldFlags = function() {
-    return model.copyFieldFlags
-  }
-
-  publicAPI.getFlag = function(arrayName) {
-    return model.copyFieldFlags[arrayName]
-  }
-
-  publicAPI.passData = function(other) {
-    var fromId =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1
-    var toId =
-      arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : -1
-    other.getArrays().forEach(function(arr) {
-      var copyFlag = publicAPI.getFlag(arr.getName())
-
-      if (
-        copyFlag !== false &&
-        !(model.doCopyAllOff && copyFlag !== true) &&
-        arr
-      ) {
-        var destArr = publicAPI.getArrayByName(arr.getName())
-
-        if (!destArr) {
-          if (fromId < 0 || fromId > arr.getNumberOfTuples()) {
-            publicAPI.addArray(arr)
-          } else {
-            var ncomps = arr.getNumberOfComponents()
-            var newSize = arr.getNumberOfValues()
-            var tId = toId > -1 ? toId : fromId
-
-            if (newSize < tId * ncomps) {
-              newSize = (tId + 1) * ncomps
-            }
-
-            destArr = vtkDataArray$1.newInstance({
-              name: arr.getName(),
-              dataType: arr.getDataType(),
-              numberOfComponents: arr.getNumberOfComponents(),
-              size: newSize,
-            })
-            destArr.setTuple(tId, arr.getTuple(fromId))
-            publicAPI.addArray(destArr)
-          }
-        } else if (
-          arr.getNumberOfComponents() === destArr.getNumberOfComponents()
-        ) {
-          if (fromId > -1 && fromId < arr.getNumberOfTuples()) {
-            var _tId = toId > -1 ? toId : fromId
-
-            destArr.setTuple(_tId, arr.getTuple(fromId))
-          } else {
-            // if fromId and not provided, just copy all (or as much possible)
-            // of arr to destArr.
-            for (var i = 0; i < arr.getNumberOfTuples(); ++i) {
-              destArr.setTuple(i, arr.getTuple(i))
-            }
-          }
-        }
-      }
-    })
-  }
-
-  publicAPI.copyFieldOn = function(arrayName) {
-    model.copyFieldFlags[arrayName] = true
-  }
-
-  publicAPI.copyFieldOff = function(arrayName) {
-    model.copyFieldFlags[arrayName] = false
-  }
-
-  publicAPI.copyAllOn = function() {
-    if (!model.doCopyAllOn || model.doCopyAllOff) {
-      model.doCopyAllOn = true
-      model.doCopyAllOff = false
-      publicAPI.modified()
-    }
-  }
-
-  publicAPI.copyAllOff = function() {
-    if (model.doCopyAllOn || !model.doCopyAllOff) {
-      model.doCopyAllOn = false
-      model.doCopyAllOff = true
-      publicAPI.modified()
-    }
-  }
-
-  publicAPI.clearFieldFlags = function() {
-    model.copyFieldFlags = {}
-  }
-
-  publicAPI.deepCopy = function(other) {
-    model.arrays = other.getArrays().map(function(arr) {
-      var arrNew = arr.newClone()
-      arrNew.deepCopy(arr)
-      return {
-        data: arrNew,
-      }
-    })
-  }
-
-  publicAPI.copyFlags = function(other) {
-    return other.getCopyFieldFlags().map(function(x) {
-      return x
-    })
-  } // TODO: publicAPI.squeeze = () => model.arrays.forEach(entry => entry.data.squeeze());
-
-  publicAPI.reset = function() {
-    return model.arrays.forEach(function(entry) {
-      return entry.data.reset()
-    })
-  } // TODO: getActualMemorySize
-
-  publicAPI.getMTime = function() {
-    return model.arrays.reduce(function(a, b) {
-      return b.data.getMTime() > a ? b.data.getMTime() : a
-    }, model.mtime)
-  } // TODO: publicAPI.getField = (ids, other) => { copy ids from other into this model's arrays }
-  // TODO: publicAPI.getArrayContainingComponent = (component) => ...
-
-  publicAPI.getNumberOfComponents = function() {
-    return model.arrays.reduce(function(a, b) {
-      return a + b.data.getNumberOfComponents()
-    }, 0)
-  }
-
-  publicAPI.getNumberOfTuples = function() {
-    return model.arrays.length > 0 ? model.arrays[0].getNumberOfTuples() : 0
-  }
-
-  publicAPI.getState = function() {
-    var result = superGetState()
-
-    if (result) {
-      result.arrays = model.arrays.map(function(item) {
-        return {
-          data: item.data.getState(),
-        }
-      })
-    }
-
-    return result
-  }
-}
-
-var DEFAULT_VALUES$b = {
-  arrays: [],
-  copyFieldFlags: [],
-  // fields not to copy
-  doCopyAllOn: true,
-  doCopyAllOff: false,
-}
-function extend$c(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$b, initialValues)
-  macro.obj(publicAPI, model)
-  vtkFieldData(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance$a = macro.newInstance(extend$c, 'vtkFieldData') // ----------------------------------------------------------------------------
-
-var vtkFieldData$1 = {
-  newInstance: newInstance$a,
-  extend: extend$c,
-}
-
-var AttributeTypes$1 = {
-  SCALARS: 0,
-  VECTORS: 1,
-  NORMALS: 2,
-  TCOORDS: 3,
-  TENSORS: 4,
-  GLOBALIDS: 5,
-  PEDIGREEIDS: 6,
-  EDGEFLAG: 7,
-  NUM_ATTRIBUTES: 8,
-}
-var AttributeLimitTypes = {
-  MAX: 0,
-  EXACT: 1,
-  NOLIMIT: 2,
-}
-var CellGhostTypes = {
-  DUPLICATECELL: 1,
-  // the cell is present on multiple processors
-  HIGHCONNECTIVITYCELL: 2,
-  // the cell has more neighbors than in a regular mesh
-  LOWCONNECTIVITYCELL: 4,
-  // the cell has less neighbors than in a regular mesh
-  REFINEDCELL: 8,
-  // other cells are present that refines it.
-  EXTERIORCELL: 16,
-  // the cell is on the exterior of the data set
-  HIDDENCELL: 32, // the cell is needed to maintain connectivity, but the data values should be ignored.
-}
-var PointGhostTypes = {
-  DUPLICATEPOINT: 1,
-  // the cell is present on multiple processors
-  HIDDENPOINT: 2, // the point is needed to maintain connectivity, but the data values should be ignored.
-}
-var AttributeCopyOperations$1 = {
-  COPYTUPLE: 0,
-  INTERPOLATE: 1,
-  PASSDATA: 2,
-  ALLCOPY: 3, // all of the above
-}
-var ghostArrayName = 'vtkGhostType'
-var DesiredOutputPrecision = {
-  DEFAULT: 0,
-  // use the point type that does not truncate any data
-  SINGLE: 1,
-  // use Float32Array
-  DOUBLE: 2, // use Float64Array
-}
-var Constants$3 = {
-  AttributeCopyOperations: AttributeCopyOperations$1,
-  AttributeLimitTypes: AttributeLimitTypes,
-  AttributeTypes: AttributeTypes$1,
-  CellGhostTypes: CellGhostTypes,
-  DesiredOutputPrecision: DesiredOutputPrecision,
-  PointGhostTypes: PointGhostTypes,
-  ghostArrayName: ghostArrayName,
-}
-
-function ownKeys$6(object, enumerableOnly) {
-  var keys = Object.keys(object)
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object)
-    enumerableOnly &&
-      (symbols = symbols.filter(function(sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable
-      })),
-      keys.push.apply(keys, symbols)
-  }
-  return keys
-}
-
-function _objectSpread$6(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {}
-    i % 2
-      ? ownKeys$6(Object(source), !0).forEach(function(key) {
-          _defineProperty(target, key, source[key])
-        })
-      : Object.getOwnPropertyDescriptors
-      ? Object.defineProperties(
-          target,
-          Object.getOwnPropertyDescriptors(source)
-        )
-      : ownKeys$6(Object(source)).forEach(function(key) {
-          Object.defineProperty(
-            target,
-            key,
-            Object.getOwnPropertyDescriptor(source, key)
-          )
-        })
-  }
-  return target
-}
-var AttributeTypes = Constants$3.AttributeTypes,
-  AttributeCopyOperations = Constants$3.AttributeCopyOperations
-var vtkWarningMacro$1 = macro.vtkWarningMacro // ----------------------------------------------------------------------------
-// vtkDataSetAttributes methods
-// ----------------------------------------------------------------------------
-
-function vtkDataSetAttributes(publicAPI, model) {
-  var attrTypes = [
-    'Scalars',
-    'Vectors',
-    'Normals',
-    'TCoords',
-    'Tensors',
-    'GlobalIds',
-    'PedigreeIds',
-  ]
-
-  function cleanAttributeType(attType) {
-    // Given an integer or string, convert the result to one of the
-    // strings in the "attrTypes" array above or null (if
-    // no match is found)
-    var cleanAttType = attrTypes.find(function(ee) {
-      return (
-        AttributeTypes[ee.toUpperCase()] === attType ||
-        (typeof attType !== 'number' &&
-          ee.toLowerCase() === attType.toLowerCase())
-      )
-    })
-
-    if (typeof cleanAttType === 'undefined') {
-      cleanAttType = null
-    }
-
-    return cleanAttType
-  } // Set our className
-
-  model.classHierarchy.push('vtkDataSetAttributes')
-
-  publicAPI.checkNumberOfComponents = function(x) {
-    return true
-  } // TODO
-
-  publicAPI.setAttribute = function(arr, uncleanAttType) {
-    var attType = cleanAttributeType(uncleanAttType)
-
-    if (
-      arr &&
-      attType.toUpperCase() === 'PEDIGREEIDS' &&
-      !arr.isA('vtkDataArray')
-    ) {
-      vtkWarningMacro$1(
-        'Cannot set attribute '.concat(
-          attType,
-          '. The attribute must be a vtkDataArray.'
-        )
-      )
-      return -1
-    }
-
-    if (arr && !publicAPI.checkNumberOfComponents(arr, attType)) {
-      vtkWarningMacro$1(
-        'Cannot set attribute '.concat(
-          attType,
-          '. Incorrect number of components.'
-        )
-      )
-      return -1
-    }
-
-    var currentAttribute = model['active'.concat(attType)]
-
-    if (currentAttribute >= 0 && currentAttribute < model.arrays.length) {
-      if (model.arrays[currentAttribute] === arr) {
-        return currentAttribute
-      }
-
-      publicAPI.removeArrayByIndex(currentAttribute)
-    }
-
-    if (arr) {
-      currentAttribute = publicAPI.addArray(arr)
-      model['active'.concat(attType)] = currentAttribute
-    } else {
-      model['active'.concat(attType)] = -1
-    }
-
-    publicAPI.modified()
-    return model['active'.concat(attType)]
-  }
-
-  publicAPI.setActiveAttributeByName = function(arrayName, attType) {
-    return publicAPI.setActiveAttributeByIndex(
-      publicAPI.getArrayWithIndex(arrayName).index,
-      attType
-    )
-  }
-
-  publicAPI.setActiveAttributeByIndex = function(arrayIdx, uncleanAttType) {
-    var attType = cleanAttributeType(uncleanAttType)
-
-    if (arrayIdx >= 0 && arrayIdx < model.arrays.length) {
-      if (attType.toUpperCase() !== 'PEDIGREEIDS') {
-        var arr = publicAPI.getArrayByIndex(arrayIdx)
-
-        if (!arr.isA('vtkDataArray')) {
-          vtkWarningMacro$1(
-            'Cannot set attribute '.concat(
-              attType,
-              '. Only vtkDataArray subclasses can be set as active attributes.'
-            )
-          )
-          return -1
-        }
-
-        if (!publicAPI.checkNumberOfComponents(arr, attType)) {
-          vtkWarningMacro$1(
-            'Cannot set attribute '.concat(
-              attType,
-              '. Incorrect number of components.'
-            )
-          )
-          return -1
-        }
-      }
-
-      model['active'.concat(attType)] = arrayIdx
-      publicAPI.modified()
-      return arrayIdx
-    }
-
-    if (arrayIdx === -1) {
-      model['active'.concat(attType)] = arrayIdx
-      publicAPI.modified()
-    }
-
-    return -1
-  }
-
-  publicAPI.getActiveAttribute = function(attType) {
-    // Given an integer enum value or a string (with random capitalization),
-    // find the matching string in attrTypes.
-    var cleanAttType = cleanAttributeType(attType)
-    return publicAPI['get'.concat(cleanAttType)]()
-  } // Override to allow proper handling of active attributes
-
-  publicAPI.removeAllArrays = function() {
-    model.arrays = []
-    attrTypes.forEach(function(attType) {
-      model['active'.concat(attType)] = -1
-    })
-  } // Override to allow proper handling of active attributes
-
-  publicAPI.removeArray = function(arrayName) {
-    model.arrays = model.arrays.filter(function(entry, idx) {
-      if (arrayName === entry.data.getName()) {
-        // Found the array to remove, but is it an active attribute?
-        attrTypes.forEach(function(attType) {
-          if (idx === model['active'.concat(attType)]) {
-            model['active'.concat(attType)] = -1
-          }
-        })
-        return false
-      }
-
-      return true
-    })
-  } // Override to allow proper handling of active attributes
-
-  publicAPI.removeArrayByIndex = function(arrayIdx) {
-    model.arrays = model.arrays.filter(function(entry, idx) {
-      return idx !== arrayIdx
-    })
-    attrTypes.forEach(function(attType) {
-      if (arrayIdx === model['active'.concat(attType)]) {
-        model['active'.concat(attType)] = -1
-      }
-    })
-  }
-
-  attrTypes.forEach(function(value) {
-    var activeVal = 'active'.concat(value)
-
-    publicAPI['get'.concat(value)] = function() {
-      return publicAPI.getArrayByIndex(model[activeVal])
-    }
-
-    publicAPI['set'.concat(value)] = function(da) {
-      return publicAPI.setAttribute(da, value)
-    }
-
-    publicAPI['setActive'.concat(value)] = function(arrayName) {
-      return publicAPI.setActiveAttributeByIndex(
-        publicAPI.getArrayWithIndex(arrayName).index,
-        value
-      )
-    }
-
-    publicAPI['copy'.concat(value, 'Off')] = function() {
-      var attType = value.toUpperCase()
-      model.copyAttributeFlags[AttributeCopyOperations.PASSDATA][
-        AttributeTypes[attType]
-      ] = false
-    }
-  })
-
-  publicAPI.initializeAttributeCopyFlags = function() {
-    // Default to copying all attributes in every circumstance:
-    model.copyAttributeFlags = []
-    Object.keys(AttributeCopyOperations)
-      .filter(function(op) {
-        return op !== 'ALLCOPY'
-      })
-      .forEach(function(attCopyOp) {
-        model.copyAttributeFlags[
-          AttributeCopyOperations[attCopyOp]
-        ] = Object.keys(AttributeTypes)
-          .filter(function(ty) {
-            return ty !== 'NUM_ATTRIBUTES'
-          })
-          .reduce(function(a, b) {
-            a[AttributeTypes[b]] = true
-            return a
-          }, [])
-      }) // Override some operations where we don't want to copy:
-
-    model.copyAttributeFlags[AttributeCopyOperations.COPYTUPLE][
-      AttributeTypes.GLOBALIDS
-    ] = false
-    model.copyAttributeFlags[AttributeCopyOperations.INTERPOLATE][
-      AttributeTypes.GLOBALIDS
-    ] = false
-    model.copyAttributeFlags[AttributeCopyOperations.COPYTUPLE][
-      AttributeTypes.PEDIGREEIDS
-    ] = false
-  }
-
-  publicAPI.initialize = macro.chain(
-    publicAPI.initialize,
-    publicAPI.initializeAttributeCopyFlags
-  ) // Process dataArrays if any
-
-  if (model.dataArrays && Object.keys(model.dataArrays).length) {
-    Object.keys(model.dataArrays).forEach(function(name) {
-      if (
-        !model.dataArrays[name].ref &&
-        model.dataArrays[name].type === 'vtkDataArray'
-      ) {
-        publicAPI.addArray(vtkDataArray$1.newInstance(model.dataArrays[name]))
-      }
-    })
-  }
-
-  var superShallowCopy = publicAPI.shallowCopy
-
-  publicAPI.shallowCopy = function(other, debug) {
-    superShallowCopy(other, debug)
-    model.arrays = other.getArrays().map(function(arr) {
-      var arrNew = arr.newClone()
-      arrNew.shallowCopy(arr, debug)
-      return {
-        data: arrNew,
-      }
-    })
-  }
-
-  publicAPI.initializeAttributeCopyFlags()
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$a = {
-  activeScalars: -1,
-  activeVectors: -1,
-  activeTensors: -1,
-  activeNormals: -1,
-  activeTCoords: -1,
-  activeGlobalIds: -1,
-  activePedigreeIds: -1,
-} // ----------------------------------------------------------------------------
-
-function extend$b(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$a, initialValues) // Object methods
-
-  vtkFieldData$1.extend(publicAPI, model, initialValues)
-  macro.setGet(publicAPI, model, [
-    'activeScalars',
-    'activeNormals',
-    'activeTCoords',
-    'activeVectors',
-    'activeTensors',
-    'activeGlobalIds',
-    'activePedigreeIds',
-  ])
-
-  if (!model.arrays) {
-    model.arrays = {}
-  } // Object specific methods
-
-  vtkDataSetAttributes(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance$9 = macro.newInstance(extend$b, 'vtkDataSetAttributes') // ----------------------------------------------------------------------------
-
-var vtkDataSetAttributes$1 = _objectSpread$6(
-  {
-    newInstance: newInstance$9,
-    extend: extend$b,
-  },
-  Constants$3
-)
-
-// Specify how data arrays can be used by data objects
-var FieldDataTypes = {
-  UNIFORM: 0,
-  // data that does not vary over points/cells/etc.
-  DATA_OBJECT_FIELD: 0,
-  // to match VTK
-  COORDINATE: 1,
-  // data that specifies the location of each point
-  POINT_DATA: 1,
-  // to match VTK
-  POINT: 2,
-  // data defined at each point, but that does not specify the point location
-  POINT_FIELD_DATA: 2,
-  // to match VTK
-  CELL: 3,
-  // data defined at each cell, but that does not specify the cell
-  CELL_FIELD_DATA: 3,
-  // to match VTK
-  VERTEX: 4,
-  // data defined at each graph vertex, but that does not specify the graph vertex
-  VERTEX_FIELD_DATA: 4,
-  // to match VTK
-  EDGE: 5,
-  // data defined at each graph edge, but that does not specify the graph edge
-  EDGE_FIELD_DATA: 5,
-  // to match VTK
-  ROW: 6,
-  // data specifying a table row
-  ROW_DATA: 6, // to match VTK
-}
-var FieldAssociations = {
-  FIELD_ASSOCIATION_POINTS: 0,
-  FIELD_ASSOCIATION_CELLS: 1,
-  FIELD_ASSOCIATION_NONE: 2,
-  FIELD_ASSOCIATION_POINTS_THEN_CELLS: 3,
-  FIELD_ASSOCIATION_VERTICES: 4,
-  FIELD_ASSOCIATION_EDGES: 5,
-  FIELD_ASSOCIATION_ROWS: 6,
-  NUMBER_OF_ASSOCIATIONS: 7,
-}
-var Constants$2 = {
-  FieldDataTypes: FieldDataTypes,
-  FieldAssociations: FieldAssociations,
-}
-
-function ownKeys$5(object, enumerableOnly) {
-  var keys = Object.keys(object)
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object)
-    enumerableOnly &&
-      (symbols = symbols.filter(function(sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable
-      })),
-      keys.push.apply(keys, symbols)
-  }
-  return keys
-}
-
-function _objectSpread$5(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {}
-    i % 2
-      ? ownKeys$5(Object(source), !0).forEach(function(key) {
-          _defineProperty(target, key, source[key])
-        })
-      : Object.getOwnPropertyDescriptors
-      ? Object.defineProperties(
-          target,
-          Object.getOwnPropertyDescriptors(source)
-        )
-      : ownKeys$5(Object(source)).forEach(function(key) {
-          Object.defineProperty(
-            target,
-            key,
-            Object.getOwnPropertyDescriptor(source, key)
-          )
-        })
-  }
-  return target
-}
-// import * as vtkMath from '../../Core/Math';
-//
-// function getBounds(dataset) {
-//   if (dataset.bounds) {
-//     return dataset.bounds;
-//   }
-//   if (dataset.type && dataset[dataset.type]) {
-//     const ds = dataset[dataset.type];
-//     if (ds.bounds) {
-//       return ds.bounds;
-//     }
-//     if (ds.Points && ds.Points.bounds) {
-//       return ds.Points.bounds;
-//     }
-//     if (ds.Points && ds.Points.values) {
-//       const array = ds.Points.values;
-//       const bbox = [...vtkBoundingBox.INIT_BOUNDS];
-//       const size = array.length;
-//       const delta = ds.Points.numberOfComponents ? ds.Points.numberOfComponents : 3;
-//       for (let idx = 0; idx < size; idx += delta) {
-//         vtkBoundingBox.addPoint(bbox, array[idx * delta], array[(idx * delta) + 1], array[(idx * delta) + 2]);
-//       }
-//       ds.Points.bounds = bbox;
-//       return ds.Points.bounds;
-//     }
-//   }
-//   return vtkMath.createUninitializedBounds();
-// }
-// ----------------------------------------------------------------------------
-// Global methods
-// ----------------------------------------------------------------------------
-
-var DATASET_FIELDS = ['pointData', 'cellData', 'fieldData'] // ----------------------------------------------------------------------------
-// vtkDataSet methods
-// ----------------------------------------------------------------------------
-
-function vtkDataSet(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkDataSet') // Add dataset attributes
-
-  DATASET_FIELDS.forEach(function(fieldName) {
-    if (!model[fieldName]) {
-      model[fieldName] = vtkDataSetAttributes$1.newInstance()
-    } else {
-      model[fieldName] = vtk(model[fieldName])
-    }
-  })
-  var superShallowCopy = publicAPI.shallowCopy
-
-  publicAPI.shallowCopy = function(other) {
-    var debug =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false
-    superShallowCopy(other, debug)
-    DATASET_FIELDS.forEach(function(fieldName) {
-      model[fieldName] = vtkDataSetAttributes$1.newInstance()
-      model[fieldName].shallowCopy(other.getReferenceByName(fieldName))
-    })
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$9 = {
-  // pointData: null,
-  // cellData: null,
-  // fieldData: null,
-} // ----------------------------------------------------------------------------
-
-function extend$a(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$9, initialValues) // Object methods
-
-  macro.obj(publicAPI, model)
-  macro.setGet(publicAPI, model, DATASET_FIELDS) // Object specific methods
-
-  vtkDataSet(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance$8 = macro.newInstance(extend$a, 'vtkDataSet') // ----------------------------------------------------------------------------
-
-var vtkDataSet$1 = _objectSpread$5(
-  {
-    newInstance: newInstance$8,
-    extend: extend$a,
-  },
-  Constants$2
-)
-
-var StructuredType$1 = {
-  UNCHANGED: 0,
-  SINGLE_POINT: 1,
-  X_LINE: 2,
-  Y_LINE: 3,
-  Z_LINE: 4,
-  XY_PLANE: 5,
-  YZ_PLANE: 6,
-  XZ_PLANE: 7,
-  XYZ_GRID: 8,
-  EMPTY: 9,
-}
-var Constants$1 = {
-  StructuredType: StructuredType$1,
-}
-
-function ownKeys$4(object, enumerableOnly) {
-  var keys = Object.keys(object)
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object)
-    enumerableOnly &&
-      (symbols = symbols.filter(function(sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable
-      })),
-      keys.push.apply(keys, symbols)
-  }
-  return keys
-}
-
-function _objectSpread$4(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {}
-    i % 2
-      ? ownKeys$4(Object(source), !0).forEach(function(key) {
-          _defineProperty(target, key, source[key])
-        })
-      : Object.getOwnPropertyDescriptors
-      ? Object.defineProperties(
-          target,
-          Object.getOwnPropertyDescriptors(source)
-        )
-      : ownKeys$4(Object(source)).forEach(function(key) {
-          Object.defineProperty(
-            target,
-            key,
-            Object.getOwnPropertyDescriptor(source, key)
-          )
-        })
-  }
-  return target
-}
-var StructuredType = Constants$1.StructuredType
-function getDataDescriptionFromExtent(inExt) {
-  var dataDim = 0
-
-  for (var i = 0; i < 3; ++i) {
-    if (inExt[i * 2] < inExt[i * 2 + 1]) {
-      dataDim++
-    }
-  }
-
-  if (inExt[0] > inExt[1] || inExt[2] > inExt[3] || inExt[4] > inExt[5]) {
-    return StructuredType.EMPTY
-  }
-
-  if (dataDim === 3) {
-    return StructuredType.XYZ_GRID
-  }
-
-  if (dataDim === 2) {
-    if (inExt[0] === inExt[1]) {
-      return StructuredType.YZ_PLANE
-    }
-
-    if (inExt[2] === inExt[3]) {
-      return StructuredType.XZ_PLANE
-    }
-
-    return StructuredType.XY_PLANE
-  }
-
-  if (dataDim === 1) {
-    if (inExt[0] < inExt[1]) {
-      return StructuredType.X_LINE
-    }
-
-    if (inExt[2] < inExt[3]) {
-      return StructuredType.Y_LINE
-    }
-
-    return StructuredType.Z_LINE
-  }
-
-  return StructuredType.SINGLE_POINT
-}
-var vtkStructuredData = _objectSpread$4(
-  {
-    getDataDescriptionFromExtent: getDataDescriptionFromExtent,
-  },
-  Constants$1
-)
-
-/**
- * Common utilities
- * @module glMatrix
- */
-var ARRAY_TYPE = typeof Float32Array !== 'undefined' ? Float32Array : Array
-if (!Math.hypot)
-  Math.hypot = function() {
-    var y = 0,
-      i = arguments.length
-
-    while (i--) {
-      y += arguments[i] * arguments[i]
-    }
-
-    return Math.sqrt(y)
-  }
-
-/**
- * Set a mat3 to the identity matrix
- *
- * @param {mat3} out the receiving matrix
- * @returns {mat3} out
- */
-
-function identity(out) {
-  out[0] = 1
-  out[1] = 0
-  out[2] = 0
-  out[3] = 0
-  out[4] = 1
-  out[5] = 0
-  out[6] = 0
-  out[7] = 0
-  out[8] = 1
-  return out
-}
-
-/**
- * Inverts a mat4
- *
- * @param {mat4} out the receiving matrix
- * @param {ReadonlyMat4} a the source matrix
- * @returns {mat4} out
- */
-
-function invert(out, a) {
-  var a00 = a[0],
-    a01 = a[1],
-    a02 = a[2],
-    a03 = a[3]
-  var a10 = a[4],
-    a11 = a[5],
-    a12 = a[6],
-    a13 = a[7]
-  var a20 = a[8],
-    a21 = a[9],
-    a22 = a[10],
-    a23 = a[11]
-  var a30 = a[12],
-    a31 = a[13],
-    a32 = a[14],
-    a33 = a[15]
-  var b00 = a00 * a11 - a01 * a10
-  var b01 = a00 * a12 - a02 * a10
-  var b02 = a00 * a13 - a03 * a10
-  var b03 = a01 * a12 - a02 * a11
-  var b04 = a01 * a13 - a03 * a11
-  var b05 = a02 * a13 - a03 * a12
-  var b06 = a20 * a31 - a21 * a30
-  var b07 = a20 * a32 - a22 * a30
-  var b08 = a20 * a33 - a23 * a30
-  var b09 = a21 * a32 - a22 * a31
-  var b10 = a21 * a33 - a23 * a31
-  var b11 = a22 * a33 - a23 * a32 // Calculate the determinant
-
-  var det =
-    b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06
-
-  if (!det) {
-    return null
-  }
-
-  det = 1.0 / det
-  out[0] = (a11 * b11 - a12 * b10 + a13 * b09) * det
-  out[1] = (a02 * b10 - a01 * b11 - a03 * b09) * det
-  out[2] = (a31 * b05 - a32 * b04 + a33 * b03) * det
-  out[3] = (a22 * b04 - a21 * b05 - a23 * b03) * det
-  out[4] = (a12 * b08 - a10 * b11 - a13 * b07) * det
-  out[5] = (a00 * b11 - a02 * b08 + a03 * b07) * det
-  out[6] = (a32 * b02 - a30 * b05 - a33 * b01) * det
-  out[7] = (a20 * b05 - a22 * b02 + a23 * b01) * det
-  out[8] = (a10 * b10 - a11 * b08 + a13 * b06) * det
-  out[9] = (a01 * b08 - a00 * b10 - a03 * b06) * det
-  out[10] = (a30 * b04 - a31 * b02 + a33 * b00) * det
-  out[11] = (a21 * b02 - a20 * b04 - a23 * b00) * det
-  out[12] = (a11 * b07 - a10 * b09 - a12 * b06) * det
-  out[13] = (a00 * b09 - a01 * b07 + a02 * b06) * det
-  out[14] = (a31 * b01 - a30 * b03 - a32 * b00) * det
-  out[15] = (a20 * b03 - a21 * b01 + a22 * b00) * det
-  return out
-}
-/**
- * Scales the mat4 by the dimensions in the given vec3 not using vectorization
- *
- * @param {mat4} out the receiving matrix
- * @param {ReadonlyMat4} a the matrix to scale
- * @param {ReadonlyVec3} v the vec3 to scale the matrix by
- * @returns {mat4} out
- **/
-
-function scale(out, a, v) {
-  var x = v[0],
-    y = v[1],
-    z = v[2]
-  out[0] = a[0] * x
-  out[1] = a[1] * x
-  out[2] = a[2] * x
-  out[3] = a[3] * x
-  out[4] = a[4] * y
-  out[5] = a[5] * y
-  out[6] = a[6] * y
-  out[7] = a[7] * y
-  out[8] = a[8] * z
-  out[9] = a[9] * z
-  out[10] = a[10] * z
-  out[11] = a[11] * z
-  out[12] = a[12]
-  out[13] = a[13]
-  out[14] = a[14]
-  out[15] = a[15]
-  return out
-}
-/**
- * Creates a matrix from a vector translation
- * This is equivalent to (but much faster than):
- *
- *     mat4.identity(dest);
- *     mat4.translate(dest, dest, vec);
- *
- * @param {mat4} out mat4 receiving operation result
- * @param {ReadonlyVec3} v Translation vector
- * @returns {mat4} out
- */
-
-function fromTranslation(out, v) {
-  out[0] = 1
-  out[1] = 0
-  out[2] = 0
-  out[3] = 0
-  out[4] = 0
-  out[5] = 1
-  out[6] = 0
-  out[7] = 0
-  out[8] = 0
-  out[9] = 0
-  out[10] = 1
-  out[11] = 0
-  out[12] = v[0]
-  out[13] = v[1]
-  out[14] = v[2]
-  out[15] = 1
-  return out
-}
-
-/**
- * 3 Dimensional Vector
- * @module vec3
- */
-
-/**
- * Creates a new, empty vec3
- *
- * @returns {vec3} a new 3D vector
- */
-
-function create() {
-  var out = new ARRAY_TYPE(3)
-
-  if (ARRAY_TYPE != Float32Array) {
-    out[0] = 0
-    out[1] = 0
-    out[2] = 0
-  }
-
-  return out
-}
-/**
- * Set the components of a vec3 to the given values
- *
- * @param {vec3} out the receiving vector
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @returns {vec3} out
- */
-
-function set(out, x, y, z) {
-  out[0] = x
-  out[1] = y
-  out[2] = z
-  return out
-}
-/**
- * Transforms the vec3 with a mat4.
- * 4th vector component is implicitly '1'
- *
- * @param {vec3} out the receiving vector
- * @param {ReadonlyVec3} a the vector to transform
- * @param {ReadonlyMat4} m matrix to transform with
- * @returns {vec3} out
- */
-
-function transformMat4(out, a, m) {
-  var x = a[0],
-    y = a[1],
-    z = a[2]
-  var w = m[3] * x + m[7] * y + m[11] * z + m[15]
-  w = w || 1.0
-  out[0] = (m[0] * x + m[4] * y + m[8] * z + m[12]) / w
-  out[1] = (m[1] * x + m[5] * y + m[9] * z + m[13]) / w
-  out[2] = (m[2] * x + m[6] * y + m[10] * z + m[14]) / w
-  return out
-}
-/**
- * Perform some operation over an array of vec3s.
- *
- * @param {Array} a the array of vectors to iterate over
- * @param {Number} stride Number of elements between the start of each vec3. If 0 assumes tightly packed
- * @param {Number} offset Number of elements to skip at the beginning of the array
- * @param {Number} count Number of vec3s to iterate over. If 0 iterates over entire array
- * @param {Function} fn Function to call for each vector in the array
- * @param {Object} [arg] additional argument to pass to fn
- * @returns {Array} a
- * @function
- */
-
-;(function() {
-  var vec = create()
-  return function(a, stride, offset, count, fn, arg) {
-    var i, l
-
-    if (!stride) {
-      stride = 3
-    }
-
-    if (!offset) {
-      offset = 0
-    }
-
-    if (count) {
-      l = Math.min(count * stride + offset, a.length)
-    } else {
-      l = a.length
-    }
-
-    for (i = offset; i < l; i += stride) {
-      vec[0] = a[i]
-      vec[1] = a[i + 1]
-      vec[2] = a[i + 2]
-      fn(vec, vec, arg)
-      a[i] = vec[0]
-      a[i + 1] = vec[1]
-      a[i + 2] = vec[2]
-    }
-
-    return a
-  }
-})()
-
-var vtkErrorMacro$1 = macro.vtkErrorMacro // ----------------------------------------------------------------------------
-// vtkImageData methods
-// ----------------------------------------------------------------------------
-
-function vtkImageData(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkImageData')
-
-  publicAPI.setExtent = function() {
-    if (model.deleted) {
-      vtkErrorMacro$1('instance deleted - cannot call any method')
-      return false
-    }
-
-    for (
-      var _len = arguments.length, inExtent = new Array(_len), _key = 0;
-      _key < _len;
-      _key++
-    ) {
-      inExtent[_key] = arguments[_key]
-    }
-
-    var extentArray = inExtent.length === 1 ? inExtent[0] : inExtent
-
-    if (extentArray.length !== 6) {
-      return false
-    }
-
-    var changeDetected = false
-    model.extent.forEach(function(item, index) {
-      if (item !== extentArray[index]) {
-        if (changeDetected) {
-          return
-        }
-
-        changeDetected = true
-      }
-    })
-
-    if (changeDetected) {
-      model.extent = extentArray.slice()
-      model.dataDescription = vtkStructuredData.getDataDescriptionFromExtent(
-        model.extent
-      )
-      publicAPI.modified()
-    }
-
-    return changeDetected
-  }
-
-  publicAPI.setDimensions = function() {
-    var i
-    var j
-    var k
-
-    if (model.deleted) {
-      vtkErrorMacro$1('instance deleted - cannot call any method')
-      return
-    }
-
-    if (arguments.length === 1) {
-      var array = arguments.length <= 0 ? undefined : arguments[0]
-      i = array[0]
-      j = array[1]
-      k = array[2]
-    } else if (arguments.length === 3) {
-      i = arguments.length <= 0 ? undefined : arguments[0]
-      j = arguments.length <= 1 ? undefined : arguments[1]
-      k = arguments.length <= 2 ? undefined : arguments[2]
-    } else {
-      vtkErrorMacro$1('Bad dimension specification')
-      return
-    }
-
-    publicAPI.setExtent(0, i - 1, 0, j - 1, 0, k - 1)
-  }
-
-  publicAPI.getDimensions = function() {
-    return [
-      model.extent[1] - model.extent[0] + 1,
-      model.extent[3] - model.extent[2] + 1,
-      model.extent[5] - model.extent[4] + 1,
-    ]
-  }
-
-  publicAPI.getNumberOfCells = function() {
-    var dims = publicAPI.getDimensions()
-    var nCells = 1
-
-    for (var i = 0; i < 3; i++) {
-      if (dims[i] === 0) {
-        return 0
-      }
-
-      if (dims[i] > 1) {
-        nCells *= dims[i] - 1
-      }
-    }
-
-    return nCells
-  }
-
-  publicAPI.getNumberOfPoints = function() {
-    var dims = publicAPI.getDimensions()
-    return dims[0] * dims[1] * dims[2]
-  }
-
-  publicAPI.getPoint = function(index) {
-    var dims = publicAPI.getDimensions()
-
-    if (dims[0] === 0 || dims[1] === 0 || dims[2] === 0) {
-      vtkErrorMacro$1('Requesting a point from an empty image.')
-      return null
-    }
-
-    var ijk = new Float64Array(3)
-
-    switch (model.dataDescription) {
-      case StructuredType$1.EMPTY:
-        return null
-
-      case StructuredType$1.SINGLE_POINT:
-        break
-
-      case StructuredType$1.X_LINE:
-        ijk[0] = index
-        break
-
-      case StructuredType$1.Y_LINE:
-        ijk[1] = index
-        break
-
-      case StructuredType$1.Z_LINE:
-        ijk[2] = index
-        break
-
-      case StructuredType$1.XY_PLANE:
-        ijk[0] = index % dims[0]
-        ijk[1] = index / dims[0]
-        break
-
-      case StructuredType$1.YZ_PLANE:
-        ijk[1] = index % dims[1]
-        ijk[2] = index / dims[1]
-        break
-
-      case StructuredType$1.XZ_PLANE:
-        ijk[0] = index % dims[0]
-        ijk[2] = index / dims[0]
-        break
-
-      case StructuredType$1.XYZ_GRID:
-        ijk[0] = index % dims[0]
-        ijk[1] = (index / dims[0]) % dims[1]
-        ijk[2] = index / (dims[0] * dims[1])
-        break
-
-      default:
-        vtkErrorMacro$1('Invalid dataDescription')
-        break
-    }
-
-    var coords = [0, 0, 0]
-    publicAPI.indexToWorld(ijk, coords)
-    return coords
-  } // vtkCell *GetCell(vtkIdType cellId) VTK_OVERRIDE;
-  // void GetCell(vtkIdType cellId, vtkGenericCell *cell) VTK_OVERRIDE;
-  // void GetCellBounds(vtkIdType cellId, double bounds[6]) VTK_OVERRIDE;
-  // virtual vtkIdType FindPoint(double x, double y, double z)
-  // {
-  //   return this->vtkDataSet::FindPoint(x, y, z);
-  // }
-  // vtkIdType FindPoint(double x[3]) VTK_OVERRIDE;
-  // vtkIdType FindCell(
-  //   double x[3], vtkCell *cell, vtkIdType cellId, double tol2,
-  //   int& subId, double pcoords[3], double *weights) VTK_OVERRIDE;
-  // vtkIdType FindCell(
-  //   double x[3], vtkCell *cell, vtkGenericCell *gencell,
-  //   vtkIdType cellId, double tol2, int& subId,
-  //   double pcoords[3], double *weights) VTK_OVERRIDE;
-  // vtkCell *FindAndGetCell(double x[3], vtkCell *cell, vtkIdType cellId,
-  //                                 double tol2, int& subId, double pcoords[3],
-  //                                 double *weights) VTK_OVERRIDE;
-  // int GetCellType(vtkIdType cellId) VTK_OVERRIDE;
-  // void GetCellPoints(vtkIdType cellId, vtkIdList *ptIds) VTK_OVERRIDE
-  //   {vtkStructuredData::GetCellPoints(cellId,ptIds,this->DataDescription,
-  //                                     this->GetDimensions());}
-  // void GetPointCells(vtkIdType ptId, vtkIdList *cellIds) VTK_OVERRIDE
-  //   {vtkStructuredData::GetPointCells(ptId,cellIds,this->GetDimensions());}
-  // void ComputeBounds() VTK_OVERRIDE;
-  // int GetMaxCellSize() VTK_OVERRIDE {return 8;}; //voxel is the largest
-
-  publicAPI.getBounds = function() {
-    return publicAPI.extentToBounds(publicAPI.getSpatialExtent())
-  }
-
-  publicAPI.extentToBounds = function(ex) {
-    // prettier-ignore
-    var corners = [ex[0], ex[2], ex[4], ex[1], ex[2], ex[4], ex[0], ex[3], ex[4], ex[1], ex[3], ex[4], ex[0], ex[2], ex[5], ex[1], ex[2], ex[5], ex[0], ex[3], ex[5], ex[1], ex[3], ex[5]];
-    var idx = new Float64Array([corners[0], corners[1], corners[2]])
-    var vout = new Float64Array(3)
-    publicAPI.indexToWorld(idx, vout)
-    var bounds = [vout[0], vout[0], vout[1], vout[1], vout[2], vout[2]]
-
-    for (var i = 3; i < 24; i += 3) {
-      set(idx, corners[i], corners[i + 1], corners[i + 2])
-      publicAPI.indexToWorld(idx, vout)
-
-      if (vout[0] < bounds[0]) {
-        bounds[0] = vout[0]
-      }
-
-      if (vout[1] < bounds[2]) {
-        bounds[2] = vout[1]
-      }
-
-      if (vout[2] < bounds[4]) {
-        bounds[4] = vout[2]
-      }
-
-      if (vout[0] > bounds[1]) {
-        bounds[1] = vout[0]
-      }
-
-      if (vout[1] > bounds[3]) {
-        bounds[3] = vout[1]
-      }
-
-      if (vout[2] > bounds[5]) {
-        bounds[5] = vout[2]
-      }
-    }
-
-    return bounds
-  }
-
-  publicAPI.getSpatialExtent = function() {
-    var boundingBox = vtkBoundingBox.newInstance()
-    boundingBox.setBounds(model.extent)
-    boundingBox.inflate(0.5)
-    return boundingBox.getBounds()
-  } // Internal, shouldn't need to call this manually.
-
-  publicAPI.computeTransforms = function() {
-    fromTranslation(model.indexToWorld, model.origin)
-    model.indexToWorld[0] = model.direction[0]
-    model.indexToWorld[1] = model.direction[1]
-    model.indexToWorld[2] = model.direction[2]
-    model.indexToWorld[4] = model.direction[3]
-    model.indexToWorld[5] = model.direction[4]
-    model.indexToWorld[6] = model.direction[5]
-    model.indexToWorld[8] = model.direction[6]
-    model.indexToWorld[9] = model.direction[7]
-    model.indexToWorld[10] = model.direction[8]
-    scale(model.indexToWorld, model.indexToWorld, model.spacing)
-    invert(model.worldToIndex, model.indexToWorld)
-  } //
-  // The direction matrix is a 3x3 basis for the I, J, K axes
-  // of the image. The rows of the matrix correspond to the
-  // axes directions in world coordinates. Direction must
-  // form an orthonormal basis, results are undefined if
-  // it is not.
-  //
-
-  publicAPI.setDirection = function() {
-    if (model.deleted) {
-      vtkErrorMacro$1('instance deleted - cannot call any method')
-      return false
-    }
-
-    for (
-      var _len2 = arguments.length, args = new Array(_len2), _key2 = 0;
-      _key2 < _len2;
-      _key2++
-    ) {
-      args[_key2] = arguments[_key2]
-    }
-
-    var array = args // allow an array passed as a single arg.
-
-    if (
-      array.length === 1 &&
-      (Array.isArray(array[0]) ||
-        array[0].constructor === Float32Array ||
-        array[0].constructor === Float64Array)
-    ) {
-      array = array[0]
-    }
-
-    if (array.length !== 9) {
-      throw new RangeError('Invalid number of values for array setter')
-    }
-
-    var changeDetected = false
-    model.direction.forEach(function(item, index) {
-      if (item !== array[index]) {
-        if (changeDetected) {
-          return
-        }
-
-        changeDetected = true
-      }
-    })
-
-    if (changeDetected) {
-      for (var i = 0; i < 9; ++i) {
-        model.direction[i] = array[i]
-      }
-
-      publicAPI.modified()
-    }
-
-    return true
-  }
-
-  publicAPI.indexToWorld = function(ain) {
-    var aout =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : []
-    transformMat4(aout, ain, model.indexToWorld)
-    return aout
-  }
-
-  publicAPI.indexToWorldVec3 = publicAPI.indexToWorld
-
-  publicAPI.worldToIndex = function(ain) {
-    var aout =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : []
-    transformMat4(aout, ain, model.worldToIndex)
-    return aout
-  }
-
-  publicAPI.worldToIndexVec3 = publicAPI.worldToIndex
-
-  publicAPI.indexToWorldBounds = function(bin) {
-    var bout =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : []
-    var in1 = [0, 0, 0]
-    var in2 = [0, 0, 0]
-    vtkBoundingBox.computeCornerPoints(bin, in1, in2)
-    var out1 = [0, 0, 0]
-    var out2 = [0, 0, 0]
-    transformMat4(out1, in1, model.indexToWorld)
-    transformMat4(out2, in2, model.indexToWorld)
-    return computeBoundsFromPoints(out1, out2, bout)
-  }
-
-  publicAPI.worldToIndexBounds = function(bin) {
-    var bout =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : []
-    var in1 = [0, 0, 0]
-    var in2 = [0, 0, 0]
-    vtkBoundingBox.computeCornerPoints(bin, in1, in2)
-    var out1 = [0, 0, 0]
-    var out2 = [0, 0, 0]
-    transformMat4(out1, in1, model.worldToIndex)
-    transformMat4(out2, in2, model.worldToIndex)
-    return computeBoundsFromPoints(out1, out2, bout)
-  } // Make sure the transform is correct
-
-  publicAPI.onModified(publicAPI.computeTransforms)
-  publicAPI.computeTransforms()
-
-  publicAPI.getCenter = function() {
-    var bounds = publicAPI.getBounds()
-    var center = []
-
-    for (var i = 0; i < 3; i++) {
-      center[i] = (bounds[2 * i + 1] + bounds[2 * i]) / 2
-    }
-
-    return center
-  }
-
-  publicAPI.computeHistogram = function(worldBounds) {
-    var voxelFunc =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null
-    var bounds = [0, 0, 0, 0, 0, 0]
-    publicAPI.worldToIndexBounds(worldBounds, bounds)
-    var point1 = [0, 0, 0]
-    var point2 = [0, 0, 0]
-    vtkBoundingBox.computeCornerPoints(bounds, point1, point2)
-    roundVector(point1, point1)
-    roundVector(point2, point2)
-    var dimensions = publicAPI.getDimensions()
-    clampVector(
-      point1,
-      [0, 0, 0],
-      [dimensions[0] - 1, dimensions[1] - 1, dimensions[2] - 1],
-      point1
-    )
-    clampVector(
-      point2,
-      [0, 0, 0],
-      [dimensions[0] - 1, dimensions[1] - 1, dimensions[2] - 1],
-      point2
-    )
-    var yStride = dimensions[0]
-    var zStride = dimensions[0] * dimensions[1]
-    var pixels = publicAPI
-      .getPointData()
-      .getScalars()
-      .getData()
-    var maximum = -Infinity
-    var minimum = Infinity
-    var sumOfSquares = 0
-    var isum = 0
-    var inum = 0
-
-    for (var z = point1[2]; z <= point2[2]; z++) {
-      for (var y = point1[1]; y <= point2[1]; y++) {
-        var index = point1[0] + y * yStride + z * zStride
-
-        for (var x = point1[0]; x <= point2[0]; x++) {
-          if (!voxelFunc || voxelFunc([x, y, z], bounds)) {
-            var pixel = pixels[index]
-            if (pixel > maximum) maximum = pixel
-            if (pixel < minimum) minimum = pixel
-            sumOfSquares += pixel * pixel
-            isum += pixel
-            inum += 1
-          }
-
-          ++index
-        }
-      }
-    }
-
-    var average = inum > 0 ? isum / inum : 0
-    var variance = inum ? Math.abs(sumOfSquares / inum - average * average) : 0
-    var sigma = Math.sqrt(variance)
-    return {
-      minimum: minimum,
-      maximum: maximum,
-      average: average,
-      variance: variance,
-      sigma: sigma,
-      count: inum,
-    }
-  } // TODO: use the unimplemented `vtkDataSetAttributes` for scalar length, that is currently also a TODO (GetNumberOfComponents).
-  // Scalar data could be tuples for color information?
-
-  publicAPI.computeIncrements = function(extent) {
-    var numberOfComponents =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1
-    var increments = []
-    var incr = numberOfComponents // Calculate array increment offsets
-    // similar to c++ vtkImageData::ComputeIncrements
-
-    for (var idx = 0; idx < 3; ++idx) {
-      increments[idx] = incr
-      incr *= extent[idx * 2 + 1] - extent[idx * 2] + 1
-    }
-
-    return increments
-  }
-  /**
-   * @param {Number[]} index the localized `[i,j,k]` pixel array position. Float values will be rounded.
-   * @return {Number} the corresponding flattened index in the scalar array
-   */
-
-  publicAPI.computeOffsetIndex = function(_ref) {
-    var _ref2 = _slicedToArray(_ref, 3),
-      i = _ref2[0],
-      j = _ref2[1],
-      k = _ref2[2]
-
-    var extent = publicAPI.getExtent()
-    var numberOfComponents = publicAPI
-      .getPointData()
-      .getScalars()
-      .getNumberOfComponents()
-    var increments = publicAPI.computeIncrements(extent, numberOfComponents) // Use the array increments to find the pixel index
-    // similar to c++ vtkImageData::GetArrayPointer
-    // Math.floor to catch "practically 0" e^-15 scenarios.
-
-    return Math.floor(
-      (Math.round(i) - extent[0]) * increments[0] +
-        (Math.round(j) - extent[2]) * increments[1] +
-        (Math.round(k) - extent[4]) * increments[2]
-    )
-  }
-  /**
-   * @param {Number[]} xyz the [x,y,z] Array in world coordinates
-   * @return {Number|NaN} the corresponding pixel's index in the scalar array
-   */
-
-  publicAPI.getOffsetIndexFromWorld = function(xyz) {
-    var extent = publicAPI.getExtent()
-    var index = publicAPI.worldToIndex(xyz) // Confirm indexed i,j,k coords are within the bounds of the volume
-
-    for (var idx = 0; idx < 3; ++idx) {
-      if (index[idx] < extent[idx * 2] || index[idx] > extent[idx * 2 + 1]) {
-        vtkErrorMacro$1(
-          'GetScalarPointer: Pixel '
-            .concat(index, ' is not in memory. Current extent = ')
-            .concat(extent)
-        )
-        return NaN
-      }
-    } // Assumed the index here is within 0 <-> scalarData.length, but doesn't hurt to check upstream
-
-    return publicAPI.computeOffsetIndex(index)
-  }
-  /**
-   * @param {Number[]} xyz the [x,y,z] Array in world coordinates
-   * @param {Number?} comp the scalar component index for multi-component scalars
-   * @return {Number|NaN} the corresponding pixel's scalar value
-   */
-
-  publicAPI.getScalarValueFromWorld = function(xyz) {
-    var comp =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
-    var numberOfComponents = publicAPI
-      .getPointData()
-      .getScalars()
-      .getNumberOfComponents()
-
-    if (comp < 0 || comp >= numberOfComponents) {
-      vtkErrorMacro$1(
-        'GetScalarPointer: Scalar Component '
-          .concat(
-            comp,
-            ' is not within bounds. Current Scalar numberOfComponents: '
-          )
-          .concat(numberOfComponents)
-      )
-      return NaN
-    }
-
-    var offsetIndex = publicAPI.getOffsetIndexFromWorld(xyz)
-
-    if (Number.isNaN(offsetIndex)) {
-      // VTK Error Macro will have been tripped already, no need to do it again,
-      return offsetIndex
-    }
-
-    return publicAPI
-      .getPointData()
-      .getScalars()
-      .getComponent(offsetIndex, comp)
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$8 = {
-  direction: null,
-  // a mat3
-  indexToWorld: null,
-  // a mat4
-  worldToIndex: null,
-  // a mat4
-  spacing: [1.0, 1.0, 1.0],
-  origin: [0.0, 0.0, 0.0],
-  extent: [0, -1, 0, -1, 0, -1],
-  dataDescription: StructuredType$1.EMPTY,
-} // ----------------------------------------------------------------------------
-
-function extend$9(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$8, initialValues) // Inheritance
-
-  vtkDataSet$1.extend(publicAPI, model, initialValues)
-
-  if (!model.direction) {
-    model.direction = identity(new Float64Array(9))
-  } else if (Array.isArray(model.direction)) {
-    model.direction = new Float64Array(model.direction.slice(0, 9))
-  }
-
-  model.indexToWorld = new Float64Array(16)
-  model.worldToIndex = new Float64Array(16) // Set/Get methods
-
-  macro.get(publicAPI, model, ['direction', 'indexToWorld', 'worldToIndex'])
-  macro.setGetArray(publicAPI, model, ['origin', 'spacing'], 3)
-  macro.getArray(publicAPI, model, ['extent'], 6) // Object specific methods
-
-  vtkImageData(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-macro.newInstance(extend$9, 'vtkImageData') // ----------------------------------------------------------------------------
-
-function ownKeys$3(object, enumerableOnly) {
-  var keys = Object.keys(object)
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object)
-    enumerableOnly &&
-      (symbols = symbols.filter(function(sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable
-      })),
-      keys.push.apply(keys, symbols)
-  }
-  return keys
-}
-
-function _objectSpread$3(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {}
-    i % 2
-      ? ownKeys$3(Object(source), !0).forEach(function(key) {
-          _defineProperty(target, key, source[key])
-        })
-      : Object.getOwnPropertyDescriptors
-      ? Object.defineProperties(
-          target,
-          Object.getOwnPropertyDescriptors(source)
-        )
-      : ownKeys$3(Object(source)).forEach(function(key) {
-          Object.defineProperty(
-            target,
-            key,
-            Object.getOwnPropertyDescriptor(source, key)
-          )
-        })
-  }
-  return target
-}
-// Global methods
-// ----------------------------------------------------------------------------
-
-function extractCellSizes(cellArray) {
-  var currentIdx = 0
-  return cellArray.filter(function(value, index) {
-    if (index === currentIdx) {
-      currentIdx += value + 1
-      return true
-    }
-
-    return false
-  })
-}
-
-function getNumberOfCells(cellArray) {
-  var cellId = 0
-
-  for (var cellArrayIndex = 0; cellArrayIndex < cellArray.length; ) {
-    cellArrayIndex += cellArray[cellArrayIndex] + 1
-    cellId++
-  }
-
-  return cellId
-} // ----------------------------------------------------------------------------
-// Static API
-// ----------------------------------------------------------------------------
-
-var STATIC$3 = {
-  extractCellSizes: extractCellSizes,
-  getNumberOfCells: getNumberOfCells,
-} // ----------------------------------------------------------------------------
-// vtkCellArray methods
-// ----------------------------------------------------------------------------
-
-function vtkCellArray(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkCellArray')
-
-  publicAPI.getNumberOfCells = function(recompute) {
-    if (model.numberOfCells !== undefined && !recompute) {
-      return model.numberOfCells
-    }
-
-    if (model.cellSizes) {
-      model.numberOfCells = model.cellSizes.length
-    } else {
-      model.numberOfCells = getNumberOfCells(model.values)
-    }
-
-    return model.numberOfCells
-  }
-
-  publicAPI.getCellSizes = function(recompute) {
-    if (model.cellSizes !== undefined && !recompute) {
-      return model.cellSizes
-    }
-
-    model.cellSizes = extractCellSizes(model.values)
-    return model.cellSizes
-  }
-
-  var superSetData = publicAPI.setData
-
-  publicAPI.setData = function(typedArray) {
-    superSetData(typedArray, 1)
-    model.numberOfCells = undefined
-    model.cellSizes = undefined
-  }
-  /**
-   * Returns the point indexes at the given location as a subarray.
-   */
-
-  publicAPI.getCell = function(loc) {
-    var cellLoc = loc
-    var numberOfPoints = model.values[cellLoc++]
-    return model.values.subarray(cellLoc, cellLoc + numberOfPoints)
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-function defaultValues(initialValues) {
-  return _objectSpread$3(
-    {
-      empty: true,
-      numberOfComponents: 1,
-      dataType: VtkDataTypes$1.UNSIGNED_INT,
-    },
-    initialValues
-  )
-} // ----------------------------------------------------------------------------
-
-function extend$8(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  vtkDataArray$1.extend(publicAPI, model, defaultValues(initialValues))
-  vtkCellArray(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance$7 = macro.newInstance(extend$8, 'vtkCellArray') // ----------------------------------------------------------------------------
-
-var vtkCellArray$1 = _objectSpread$3(
-  {
-    newInstance: newInstance$7,
-    extend: extend$8,
-  },
-  STATIC$3
-)
-
-var vtkErrorMacro = macro.vtkErrorMacro
-var INVALID_BOUNDS = [1, -1, 1, -1, 1, -1] // ----------------------------------------------------------------------------
-// vtkPoints methods
-// ----------------------------------------------------------------------------
-
-function vtkPoints(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkPoints') // Forwarding methods
-
-  publicAPI.getNumberOfPoints = publicAPI.getNumberOfTuples
-
-  publicAPI.setNumberOfPoints = function(nbPoints) {
-    var dimension =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3
-
-    if (publicAPI.getNumberOfPoints() !== nbPoints) {
-      model.size = nbPoints * dimension
-      model.values = macro.newTypedArray(model.dataType, model.size)
-      publicAPI.setNumberOfComponents(dimension)
-      publicAPI.modified()
-    }
-  }
-
-  publicAPI.setPoint = function(idx) {
-    var offset = idx * model.numberOfComponents
-
-    for (var i = 0; i < model.numberOfComponents; i++) {
-      model.values[offset + i] =
-        i + 1 < 1 || arguments.length <= i + 1 ? undefined : arguments[i + 1]
-    }
-  }
-
-  publicAPI.getPoint = publicAPI.getTuple
-
-  publicAPI.getBounds = function() {
-    if (publicAPI.getNumberOfComponents() === 3) {
-      var _xRange = publicAPI.getRange(0)
-
-      model.bounds[0] = _xRange[0]
-      model.bounds[1] = _xRange[1]
-
-      var _yRange = publicAPI.getRange(1)
-
-      model.bounds[2] = _yRange[0]
-      model.bounds[3] = _yRange[1]
-      var zRange = publicAPI.getRange(2)
-      model.bounds[4] = zRange[0]
-      model.bounds[5] = zRange[1]
-      return model.bounds
-    }
-
-    if (publicAPI.getNumberOfComponents() !== 2) {
-      vtkErrorMacro(
-        'getBounds called on an array with components of\n        '.concat(
-          publicAPI.getNumberOfComponents()
-        )
-      )
-      return INVALID_BOUNDS
-    }
-
-    var xRange = publicAPI.getRange(0)
-    model.bounds[0] = xRange[0]
-    model.bounds[1] = xRange[1]
-    var yRange = publicAPI.getRange(1)
-    model.bounds[2] = yRange[0]
-    model.bounds[3] = yRange[1]
-    model.bounds[4] = 0
-    model.bounds[5] = 0
-    return model.bounds
-  } // Trigger the computation of bounds
-
-  publicAPI.computeBounds = publicAPI.getBounds // Initialize
-
-  publicAPI.setNumberOfComponents(
-    model.numberOfComponents < 2 ? 3 : model.numberOfComponents
-  )
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$7 = {
-  empty: true,
-  numberOfComponents: 3,
-  dataType: VtkDataTypes$1.FLOAT,
-  bounds: [1, -1, 1, -1, 1, -1],
-} // ----------------------------------------------------------------------------
-
-function extend$7(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$7, initialValues)
-  vtkDataArray$1.extend(publicAPI, model, initialValues)
-  vtkPoints(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance$6 = macro.newInstance(extend$7, 'vtkPoints') // ----------------------------------------------------------------------------
-
-var vtkPoints$1 = {
-  newInstance: newInstance$6,
-  extend: extend$7,
-}
-
-// vtkCell methods
-// ----------------------------------------------------------------------------
-
-function vtkCell(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkCell')
-
-  publicAPI.initialize = function(points) {
-    var pointIdsList =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null
-
-    if (!pointIdsList) {
-      model.points = points
-      model.pointsIds = new Array(points.getNumberOfPoints())
-
-      for (var i = points.getNumberOfPoints() - 1; i >= 0; --i) {
-        model.pointsIds[i] = i
-      }
-    } else {
-      model.pointsIds = pointIdsList
-      var triangleData = model.points.getData()
-
-      if (triangleData.length !== 3 * model.pointsIds.length) {
-        triangleData = macro.newTypedArray(
-          points.getDataType(),
-          3 * model.pointsIds.length
-        )
-      }
-
-      var pointsData = points.getData()
-      model.pointsIds.forEach(function(pointId, index) {
-        // const start = 3 * pointId;
-        // pointsData.set(p.subarray(start, start + 3), 3 * index);
-        var pointOffset = 3 * pointId
-        var trianglePointOffset = 3 * index
-        triangleData[trianglePointOffset] = pointsData[pointOffset]
-        triangleData[++trianglePointOffset] = pointsData[++pointOffset]
-        triangleData[++trianglePointOffset] = pointsData[++pointOffset]
-      })
-      model.points.setData(triangleData)
-    }
-  }
-
-  publicAPI.getBounds = function() {
-    var nbPoints = model.points.getNumberOfPoints()
-    var x = []
-
-    if (nbPoints) {
-      model.points.getPoint(0, x)
-      model.bounds[0] = x[0]
-      model.bounds[1] = x[0]
-      model.bounds[2] = x[1]
-      model.bounds[3] = x[1]
-      model.bounds[4] = x[2]
-      model.bounds[5] = x[2]
-
-      for (var i = 1; i < nbPoints; i++) {
-        model.points.getPoint(i, x)
-        model.bounds[0] = x[0] < model.bounds[0] ? x[0] : model.bounds[0]
-        model.bounds[1] = x[0] > model.bounds[1] ? x[0] : model.bounds[1]
-        model.bounds[2] = x[1] < model.bounds[2] ? x[1] : model.bounds[2]
-        model.bounds[3] = x[1] > model.bounds[3] ? x[1] : model.bounds[3]
-        model.bounds[4] = x[2] < model.bounds[4] ? x[2] : model.bounds[4]
-        model.bounds[5] = x[2] > model.bounds[5] ? x[2] : model.bounds[5]
-      }
-    } else {
-      uninitializeBounds(model.bounds)
-    }
-
-    return model.bounds
-  }
-
-  publicAPI.getLength2 = function() {
-    publicAPI.getBounds()
-    var length = 0.0
-    var diff = 0
-
-    for (var i = 0; i < 3; i++) {
-      diff = model.bounds[2 * i + 1] - model.bounds[2 * i]
-      length += diff * diff
-    }
-
-    return length
-  }
-
-  publicAPI.getParametricDistance = function(pcoords) {
-    var pDist
-    var pDistMax = 0.0
-
-    for (var i = 0; i < 3; i++) {
-      if (pcoords[i] < 0.0) {
-        pDist = -pcoords[i]
-      } else if (pcoords[i] > 1.0) {
-        pDist = pcoords[i] - 1.0
-      } else {
-        // inside the cell in the parametric direction
-        pDist = 0.0
-      }
-
-      if (pDist > pDistMax) {
-        pDistMax = pDist
-      }
-    }
-
-    return pDistMax
-  }
-
-  publicAPI.getNumberOfPoints = function() {
-    return model.points.getNumberOfPoints()
-  }
-
-  publicAPI.deepCopy = function(cell) {
-    cell.initialize(model.points, model.pointsIds)
-  }
-
-  publicAPI.getCellDimension = function() {} // virtual
-
-  publicAPI.intersectWithLine = function(p1, p2, tol, t, x, pcoords, subId) {} // virtual
-
-  publicAPI.evaluatePosition = function(
-    x,
-    closestPoint,
-    subId,
-    pcoords,
-    dist2,
-    weights
-  ) {
-    macro.vtkErrorMacro('vtkCell.evaluatePosition is not implemented.')
-  } // virtual
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$6 = {
-  bounds: [-1, -1, -1, -1, -1, -1],
-  pointsIds: [],
-} // ----------------------------------------------------------------------------
-
-function extend$6(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$6, initialValues)
-  macro.obj(publicAPI, model)
-
-  if (!model.points) {
-    model.points = vtkPoints$1.newInstance()
-  }
-
-  macro.get(publicAPI, model, ['points', 'pointsIds'])
-  vtkCell(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance$5 = macro.newInstance(extend$6, 'vtkCell') // ----------------------------------------------------------------------------
-
-var vtkCell$1 = {
-  newInstance: newInstance$5,
-  extend: extend$6,
-}
-
-function resize(model, sz) {
-  var newSize = sz
-
-  if (sz >= model.array.length) {
-    newSize += model.array.length
-  }
-
-  while (newSize > model.array.length) {
-    model.array.push({
-      ncells: 0,
-      cells: null,
-    })
-  }
-
-  model.array.length = newSize
-} // ----------------------------------------------------------------------------
-// vtkCellLinks methods
-// ----------------------------------------------------------------------------
-
-function vtkCellLinks(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkCellLinks')
-  /**
-   * Build the link list array. All subclasses of vtkAbstractCellLinks
-   * must support this method.
-   */
-
-  publicAPI.buildLinks = function(data) {
-    var numPts = data.getPoints().getNumberOfPoints()
-    var numCells = data.getNumberOfCells() // fill out lists with number of references to cells
-
-    var linkLoc = new Uint32Array(numPts) // Use fast path if polydata
-
-    if (data.isA('vtkPolyData')) {
-      // traverse data to determine number of uses of each point
-      for (var cellId = 0; cellId < numCells; ++cellId) {
-        var _data$getCellPoints = data.getCellPoints(cellId),
-          cellPointIds = _data$getCellPoints.cellPointIds
-
-        cellPointIds.forEach(function(cellPointId) {
-          publicAPI.incrementLinkCount(cellPointId)
-        })
-      } // now allocate storage for the links
-
-      publicAPI.allocateLinks(numPts)
-      model.maxId = numPts - 1
-
-      var _loop = function _loop(_cellId) {
-        var _data$getCellPoints2 = data.getCellPoints(_cellId),
-          cellPointIds = _data$getCellPoints2.cellPointIds
-
-        cellPointIds.forEach(function(cellPointId) {
-          publicAPI.insertCellReference(
-            cellPointId,
-            linkLoc[cellPointId]++,
-            _cellId
-          )
-        })
-      }
-
-      for (var _cellId = 0; _cellId < numCells; ++_cellId) {
-        _loop(_cellId)
-      }
-    } // any other type of dataset
-    else {
-      // traverse data to determine number of uses of each point
-      for (var _cellId2 = 0; _cellId2 < numCells; _cellId2++) {
-        // TODO: Currently not supported: const cell = data.getCell(cellId);
-        var cell = vtkCell$1.newInstance()
-        cell.getPointsIds().forEach(function(cellPointId) {
-          publicAPI.incrementLinkCount(cellPointId)
-        })
-      } // now allocate storage for the links
-
-      publicAPI.allocateLinks(numPts)
-      model.maxId = numPts - 1
-
-      var _loop2 = function _loop2(_cellId3) {
-        // TODO: Currently not supported: const cell = data.getCell(cellId);
-        var cell = vtkCell$1.newInstance()
-        cell.getPointsIds().forEach(function(cellPointId) {
-          publicAPI.insertCellReference(
-            cellPointId,
-            linkLoc[cellPointId]++,
-            _cellId3
-          )
-        })
-      }
-
-      for (var _cellId3 = 0; _cellId3 < numCells; ++_cellId3) {
-        _loop2(_cellId3)
-      }
-    } // end else
-  }
-  /**
-   * Build the link list array with a provided connectivity array.
-   */
-  // publicAPI.buildLinks = (data, connectivity) => {};
-
-  /**
-   * Allocate the specified number of links (i.e., number of points) that
-   * will be built.
-   */
-
-  publicAPI.allocate = function(numLinks) {
-    var ext =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000
-    model.array = Array(numLinks)
-      .fill()
-      .map(function() {
-        return {
-          ncells: 0,
-          cells: null,
-        }
-      })
-    model.extend = ext
-    model.maxId = -1
-  }
-
-  publicAPI.initialize = function() {
-    model.array = null
-  }
-  /**
-   * Get a link structure given a point id.
-   */
-
-  publicAPI.getLink = function(ptId) {
-    return model.array[ptId]
-  }
-  /**
-   * Get the number of cells using the point specified by ptId.
-   */
-
-  publicAPI.getNcells = function(ptId) {
-    return model.array[ptId].ncells
-  }
-  /**
-   * Return a list of cell ids using the point.
-   */
-
-  publicAPI.getCells = function(ptId) {
-    return model.array[ptId].cells
-  }
-  /**
-   * Insert a new point into the cell-links data structure. The size parameter
-   * is the initial size of the list.
-   */
-
-  publicAPI.insertNextPoint = function(numLinks) {
-    model.array.push({
-      ncells: numLinks,
-      cells: Array(numLinks),
-    })
-    ++model.maxId
-  }
-  /**
-   * Insert a cell id into the list of cells (at the end) using the cell id
-   * provided. (Make sure to extend the link list (if necessary) using the
-   * method resizeCellList().)
-   */
-
-  publicAPI.insertNextCellReference = function(ptId, cellId) {
-    model.array[ptId].cells[model.array[ptId].ncells++] = cellId
-  }
-  /**
-   * Delete point (and storage) by destroying links to using cells.
-   */
-
-  publicAPI.deletePoint = function(ptId) {
-    model.array[ptId].ncells = 0
-    model.array[ptId].cells = null
-  }
-  /**
-   * Delete the reference to the cell (cellId) from the point (ptId). This
-   * removes the reference to the cellId from the cell list, but does not
-   * resize the list (recover memory with resizeCellList(), if necessary).
-   */
-
-  publicAPI.removeCellReference = function(cellId, ptId) {
-    model.array[ptId].cells = model.array[ptId].cells.filter(function(cell) {
-      return cell !== cellId
-    })
-    model.array[ptId].ncells = model.array[ptId].cells.length
-  }
-  /**
-   * Add the reference to the cell (cellId) from the point (ptId). This
-   * adds a reference to the cellId from the cell list, but does not resize
-   * the list (extend memory with resizeCellList(), if necessary).
-   */
-
-  publicAPI.addCellReference = function(cellId, ptId) {
-    model.array[ptId].cells[model.array[ptId].ncells++] = cellId
-  }
-  /**
-   * Change the length of a point's link list (i.e., list of cells using a
-   * point) by the size specified.
-   */
-
-  publicAPI.resizeCellList = function(ptId, size) {
-    model.array[ptId].cells.length = size
-  }
-  /**
-   * Reclaim any unused memory.
-   */
-
-  publicAPI.squeeze = function() {
-    resize(model, model.maxId + 1)
-  }
-  /**
-   * Reset to a state of no entries without freeing the memory.
-   */
-
-  publicAPI.reset = function() {
-    model.maxId = -1
-  }
-  /**
-   * Standard DeepCopy method.  Since this object contains no reference
-   * to other objects, there is no ShallowCopy.
-   */
-
-  publicAPI.deepCopy = function(src) {
-    model.array = _toConsumableArray(src.array)
-    model.extend = src.extend
-    model.maxId = src.maxId
-  }
-  /**
-   * Increment the count of the number of cells using the point.
-   */
-
-  publicAPI.incrementLinkCount = function(ptId) {
-    ++model.array[ptId].ncells
-  }
-
-  publicAPI.allocateLinks = function(n) {
-    for (var i = 0; i < n; ++i) {
-      model.array[i].cells = new Array(model.array[i].ncells)
-    }
-  }
-  /**
-   * Insert a cell id into the list of cells using the point.
-   */
-
-  publicAPI.insertCellReference = function(ptId, pos, cellId) {
-    model.array[ptId].cells[pos] = cellId
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$5 = {
-  array: null,
-  // pointer to data
-  maxId: 0,
-  // maximum index inserted thus far
-  extend: 0, // grow array by this point
-} // ----------------------------------------------------------------------------
-
-function extend$5(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$5, initialValues)
-  macro.obj(publicAPI, model)
-  vtkCellLinks(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance$4 = macro.newInstance(extend$5, 'vtkCellLinks') // ----------------------------------------------------------------------------
-
-var vtkCellLinks$1 = {
-  newInstance: newInstance$4,
-  extend: extend$5,
-}
-
-var CellType = {
-  // Linear cells
-  VTK_EMPTY_CELL: 0,
-  VTK_VERTEX: 1,
-  VTK_POLY_VERTEX: 2,
-  VTK_LINE: 3,
-  VTK_POLY_LINE: 4,
-  VTK_TRIANGLE: 5,
-  VTK_TRIANGLE_STRIP: 6,
-  VTK_POLYGON: 7,
-  VTK_PIXEL: 8,
-  VTK_QUAD: 9,
-  VTK_TETRA: 10,
-  VTK_VOXEL: 11,
-  VTK_HEXAHEDRON: 12,
-  VTK_WEDGE: 13,
-  VTK_PYRAMID: 14,
-  VTK_PENTAGONAL_PRISM: 15,
-  VTK_HEXAGONAL_PRISM: 16,
-  // Quadratic, isoparametric cells
-  VTK_QUADRATIC_EDGE: 21,
-  VTK_QUADRATIC_TRIANGLE: 22,
-  VTK_QUADRATIC_QUAD: 23,
-  VTK_QUADRATIC_POLYGON: 36,
-  VTK_QUADRATIC_TETRA: 24,
-  VTK_QUADRATIC_HEXAHEDRON: 25,
-  VTK_QUADRATIC_WEDGE: 26,
-  VTK_QUADRATIC_PYRAMID: 27,
-  VTK_BIQUADRATIC_QUAD: 28,
-  VTK_TRIQUADRATIC_HEXAHEDRON: 29,
-  VTK_QUADRATIC_LINEAR_QUAD: 30,
-  VTK_QUADRATIC_LINEAR_WEDGE: 31,
-  VTK_BIQUADRATIC_QUADRATIC_WEDGE: 32,
-  VTK_BIQUADRATIC_QUADRATIC_HEXAHEDRON: 33,
-  VTK_BIQUADRATIC_TRIANGLE: 34,
-  // Cubic, isoparametric cell
-  VTK_CUBIC_LINE: 35,
-  // Special class of cells formed by convex group of points
-  VTK_CONVEX_POINT_SET: 41,
-  // Polyhedron cell (consisting of polygonal faces)
-  VTK_POLYHEDRON: 42,
-  // Higher order cells in parametric form
-  VTK_PARAMETRIC_CURVE: 51,
-  VTK_PARAMETRIC_SURFACE: 52,
-  VTK_PARAMETRIC_TRI_SURFACE: 53,
-  VTK_PARAMETRIC_QUAD_SURFACE: 54,
-  VTK_PARAMETRIC_TETRA_REGION: 55,
-  VTK_PARAMETRIC_HEX_REGION: 56,
-  // Higher order cells
-  VTK_HIGHER_ORDER_EDGE: 60,
-  VTK_HIGHER_ORDER_TRIANGLE: 61,
-  VTK_HIGHER_ORDER_QUAD: 62,
-  VTK_HIGHER_ORDER_POLYGON: 63,
-  VTK_HIGHER_ORDER_TETRAHEDRON: 64,
-  VTK_HIGHER_ORDER_WEDGE: 65,
-  VTK_HIGHER_ORDER_PYRAMID: 66,
-  VTK_HIGHER_ORDER_HEXAHEDRON: 67,
-  // Arbitrary order Lagrange elements (formulated separated from generic higher order cells)
-  VTK_LAGRANGE_CURVE: 68,
-  VTK_LAGRANGE_TRIANGLE: 69,
-  VTK_LAGRANGE_QUADRILATERAL: 70,
-  VTK_LAGRANGE_TETRAHEDRON: 71,
-  VTK_LAGRANGE_HEXAHEDRON: 72,
-  VTK_LAGRANGE_WEDGE: 73,
-  VTK_LAGRANGE_PYRAMID: 74,
-  VTK_NUMBER_OF_CELL_TYPES: 75,
-} // This list should contain the cell class names in
-// the same order as in CellType.
-
-var CellTypesStrings = [
-  'vtkEmptyCell',
-  'vtkVertex',
-  'vtkPolyVertex',
-  'vtkLine',
-  'vtkPolyLine',
-  'vtkTriangle',
-  'vtkTriangleStrip',
-  'vtkPolygon',
-  'vtkPixel',
-  'vtkQuad',
-  'vtkTetra',
-  'vtkVoxel',
-  'vtkHexahedron',
-  'vtkWedge',
-  'vtkPyramid',
-  'vtkPentagonalPrism',
-  'vtkHexagonalPrism',
-  'UnknownClass',
-  'UnknownClass',
-  'UnknownClass',
-  'UnknownClass',
-  'vtkQuadraticEdge',
-  'vtkQuadraticTriangle',
-  'vtkQuadraticQuad',
-  'vtkQuadraticTetra',
-  'vtkQuadraticHexahedron',
-  'vtkQuadraticWedge',
-  'vtkQuadraticPyramid',
-  'vtkBiQuadraticQuad',
-  'vtkTriQuadraticHexahedron',
-  'vtkQuadraticLinearQuad',
-  'vtkQuadraticLinearWedge',
-  'vtkBiQuadraticQuadraticWedge',
-  'vtkBiQuadraticQuadraticHexahedron',
-  'vtkBiQuadraticTriangle',
-  'vtkCubicLine',
-  'vtkQuadraticPolygon',
-  'UnknownClass',
-  'UnknownClass',
-  'UnknownClass',
-  'UnknownClass',
-  'vtkConvexPointSet',
-  'UnknownClass',
-  'UnknownClass',
-  'UnknownClass',
-  'UnknownClass',
-  'UnknownClass',
-  'UnknownClass',
-  'UnknownClass',
-  'UnknownClass',
-  'UnknownClass',
-  'vtkParametricCurve',
-  'vtkParametricSurface',
-  'vtkParametricTriSurface',
-  'vtkParametricQuadSurface',
-  'vtkParametricTetraRegion',
-  'vtkParametricHexRegion',
-  'UnknownClass',
-  'UnknownClass',
-  'UnknownClass',
-  'vtkHigherOrderEdge',
-  'vtkHigherOrderTriangle',
-  'vtkHigherOrderQuad',
-  'vtkHigherOrderPolygon',
-  'vtkHigherOrderTetrahedron',
-  'vtkHigherOrderWedge',
-  'vtkHigherOrderPyramid',
-  'vtkHigherOrderHexahedron',
-]
-
-function ownKeys$2(object, enumerableOnly) {
-  var keys = Object.keys(object)
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object)
-    enumerableOnly &&
-      (symbols = symbols.filter(function(sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable
-      })),
-      keys.push.apply(keys, symbols)
-  }
-  return keys
-}
-
-function _objectSpread$2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {}
-    i % 2
-      ? ownKeys$2(Object(source), !0).forEach(function(key) {
-          _defineProperty(target, key, source[key])
-        })
-      : Object.getOwnPropertyDescriptors
-      ? Object.defineProperties(
-          target,
-          Object.getOwnPropertyDescriptors(source)
-        )
-      : ownKeys$2(Object(source)).forEach(function(key) {
-          Object.defineProperty(
-            target,
-            key,
-            Object.getOwnPropertyDescriptor(source, key)
-          )
-        })
-  }
-  return target
-}
-// Global methods
-// ----------------------------------------------------------------------------
-
-/**
- * Given an int (as defined in vtkCellType.h) identifier for a class
- * return it's classname.
- */
-
-function getClassNameFromTypeId(typeId) {
-  return typeId < CellTypesStrings.length
-    ? CellTypesStrings[typeId]
-    : 'UnknownClass'
-}
-/**
- * Given a data object classname, return it's int identified (as
- * defined in vtkCellType.h)
- */
-
-function getTypeIdFromClassName(cellTypeString) {
-  return CellTypesStrings.findIndex(cellTypeString)
-}
-/**
- * This convenience method is a fast check to determine if a cell type
- * represents a linear or nonlinear cell.  This is generally much more
- * efficient than getting the appropriate vtkCell and checking its IsLinear
- * method.
- */
-
-function isLinear(type) {
-  return (
-    type < CellType.VTK_QUADRATIC_EDGE ||
-    type === CellType.VTK_CONVEX_POINT_SET ||
-    type === CellType.VTK_POLYHEDRON
-  )
-}
-
-function hasSubCells(cellType) {
-  return (
-    cellType === CellType.VTK_TRIANGLE_STRIP ||
-    cellType === CellType.VTK_POLY_LINE ||
-    cellType === CellType.VTK_POLY_VERTEX
-  )
-} // ----------------------------------------------------------------------------
-// Static API
-// ----------------------------------------------------------------------------
-
-var STATIC$2 = {
-  getClassNameFromTypeId: getClassNameFromTypeId,
-  getTypeIdFromClassName: getTypeIdFromClassName,
-  isLinear: isLinear,
-  hasSubCells: hasSubCells,
-} // ----------------------------------------------------------------------------
-// vtkCellTypes methods
-// ----------------------------------------------------------------------------
-
-function vtkCellTypes(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkCellTypes')
-  /**
-   * Allocate memory for this array. Delete old storage only if necessary.
-   */
-
-  publicAPI.allocate = function() {
-    var sz =
-      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 512
-    var ext =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000
-    model.size = sz > 0 ? sz : 1
-    model.extend = ext > 0 ? ext : 1
-    model.maxId = -1
-    model.typeArray = new Uint8Array(sz)
-    model.locationArray = new Uint32Array(sz)
-  }
-  /**
-   * Add a cell at specified id.
-   */
-
-  publicAPI.insertCell = function(cellId, type, loc) {
-    model.typeArray[cellId] = type
-    model.locationArray[cellId] = loc
-
-    if (cellId > model.maxId) {
-      model.maxId = cellId
-    }
-  }
-  /**
-   * Add a cell to the object in the next available slot.
-   */
-
-  publicAPI.insertNextCell = function(type, loc) {
-    publicAPI.insertCell(++model.maxId, type, loc)
-    return model.maxId
-  }
-  /**
-   * Specify a group of cell types. This version is provided to maintain
-   * backwards compatibility and does a copy of the cellLocations
-   */
-
-  publicAPI.setCellTypes = function(ncells, cellTypes, cellLocations) {
-    model.size = ncells
-    model.typeArray = cellTypes
-    model.locationArray = cellLocations
-    model.maxId = ncells - 1
-  }
-  /**
-   * Return the location of the cell in the associated vtkCellArray.
-   */
-
-  publicAPI.getCellLocation = function(cellId) {
-    return model.locationArray[cellId]
-  }
-  /**
-   * Delete cell by setting to nullptr cell type.
-   */
-
-  publicAPI.deleteCell = function(cellId) {
-    model.typeArray[cellId] = CellType.VTK_EMPTY_CELL
-  }
-  /**
-   * Return the number of types in the list.
-   */
-
-  publicAPI.getNumberOfTypes = function() {
-    return model.maxId + 1
-  }
-  /**
-   * Return true if type specified is contained in list; false otherwise.
-   */
-
-  publicAPI.isType = function(type) {
-    var numTypes = publicAPI.getNumberOfTypes()
-
-    for (var i = 0; i < numTypes; ++i) {
-      if (type === publicAPI.getCellType(i)) {
-        return true
-      }
-    }
-
-    return false
-  }
-  /**
-   * Add the type specified to the end of the list. Range checking is performed.
-   */
-
-  publicAPI.insertNextType = function(type) {
-    return publicAPI.insertNextCell(type, -1)
-  }
-  /**
-   * Return the type of cell.
-   */
-
-  publicAPI.getCellType = function(cellId) {
-    return model.typeArray[cellId]
-  }
-  /**
-   * Reclaim any extra memory.
-   */
-  // TODO: publicAPI.squeeze = () =>  {};
-
-  /**
-   * Initialize object without releasing memory.
-   */
-
-  publicAPI.reset = function() {
-    model.maxId = -1
-  }
-  /**
-   * Standard DeepCopy method.  Since this object contains no reference
-   * to other objects, there is no ShallowCopy.
-   */
-
-  publicAPI.deepCopy = function(src) {
-    publicAPI.allocate(src.getSize(), src.getExtend())
-    model.typeArray.set(src.getTypeArray())
-    model.locationArray.set(src.getLocationArray())
-    model.maxId = src.getMaxId()
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$4 = {
-  // typeArray: null, // pointer to types array
-  // locationArray: null;   // pointer to array of offsets
-  size: 0,
-  // allocated size of data
-  maxId: -1,
-  // maximum index inserted thus far
-  extend: 1000, // grow array by this point
-} // ----------------------------------------------------------------------------
-
-function extend$4(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$4, initialValues)
-  macro.obj(publicAPI, model)
-  macro.get(publicAPI, model, ['size', 'maxId', 'extend'])
-  macro.getArray(publicAPI, model, ['typeArray', 'locationArray'])
-  vtkCellTypes(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance$3 = macro.newInstance(extend$4, 'vtkCellTypes') // ----------------------------------------------------------------------------
-
-var vtkCellTypes$1 = _objectSpread$2(
-  {
-    newInstance: newInstance$3,
-    extend: extend$4,
-  },
-  STATIC$2
-)
-
-var IntersectionState$1 = {
-  NO_INTERSECTION: 0,
-  YES_INTERSECTION: 1,
-  ON_LINE: 2,
-}
-var Constants = {
-  IntersectionState: IntersectionState$1,
-}
-
-function ownKeys$1(object, enumerableOnly) {
-  var keys = Object.keys(object)
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object)
-    enumerableOnly &&
-      (symbols = symbols.filter(function(sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable
-      })),
-      keys.push.apply(keys, symbols)
-  }
-  return keys
-}
-
-function _objectSpread$1(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {}
-    i % 2
-      ? ownKeys$1(Object(source), !0).forEach(function(key) {
-          _defineProperty(target, key, source[key])
-        })
-      : Object.getOwnPropertyDescriptors
-      ? Object.defineProperties(
-          target,
-          Object.getOwnPropertyDescriptors(source)
-        )
-      : ownKeys$1(Object(source)).forEach(function(key) {
-          Object.defineProperty(
-            target,
-            key,
-            Object.getOwnPropertyDescriptor(source, key)
-          )
-        })
-  }
-  return target
-}
-var IntersectionState = Constants.IntersectionState // ----------------------------------------------------------------------------
-// Global methods
-// ----------------------------------------------------------------------------
-
-function distanceToLine(x, p1, p2) {
-  var closestPoint =
-    arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null
-  var outObj = {
-    t: Number.MIN_VALUE,
-    distance: 0,
-  }
-  var p21 = []
-  var closest // Determine appropriate vector
-
-  p21[0] = p2[0] - p1[0]
-  p21[1] = p2[1] - p1[1]
-  p21[2] = p2[2] - p1[2] // Get parametric location
-
-  var num =
-    p21[0] * (x[0] - p1[0]) + p21[1] * (x[1] - p1[1]) + p21[2] * (x[2] - p1[2])
-  var denom = dot(p21, p21) // trying to avoid an expensive fabs
-
-  var tolerance = 1e-5 * num
-
-  if (denom !== 0.0) {
-    outObj.t = num / denom
-  }
-
-  if (tolerance < 0.0) {
-    tolerance = -tolerance
-  }
-
-  if (-tolerance < denom && denom < tolerance) {
-    closest = p1
-  } else if (denom <= 0.0 || outObj.t < 0.0) {
-    // If parametric coordinate is within 0<=p<=1, then the point is closest to
-    // the line.  Otherwise, it's closest to a point at the end of the line.
-    closest = p1
-  } else if (outObj.t > 1.0) {
-    closest = p2
-  } else {
-    closest = p21
-    p21[0] = p1[0] + outObj.t * p21[0]
-    p21[1] = p1[1] + outObj.t * p21[1]
-    p21[2] = p1[2] + outObj.t * p21[2]
-  }
-
-  if (closestPoint) {
-    closestPoint[0] = closest[0]
-    closestPoint[1] = closest[1]
-    closestPoint[2] = closest[2]
-  }
-
-  outObj.distance = distance2BetweenPoints(closest, x)
-  return outObj
-}
-
-function intersection(a1, a2, b1, b2, u, v) {
-  var a21 = []
-  var b21 = []
-  var b1a1 = []
-  u[0] = 0.0
-  v[0] = 0.0 // Determine line vectors.
-
-  subtract(a2, a1, a21)
-  subtract(b2, b1, b21)
-  subtract(b1, a1, b1a1) // Compute the system (least squares) matrix.
-
-  var A = []
-  A[0] = [dot(a21, a21), -dot(a21, b21)]
-  A[1] = [A[0][1], dot(b21, b21)] // Compute the least squares system constant term.
-
-  var c = []
-  c[0] = dot(a21, b1a1)
-  c[1] = -dot(b21, b1a1) // Solve the system of equations
-
-  if (solveLinearSystem(A, c, 2) === 0) {
-    // The lines are colinear. Therefore, one of the four endpoints is the
-    // point of closest approach
-    var minDist = Number.MAX_VALUE
-    var p = [a1, a2, b1, b2]
-    var l1 = [b1, b1, a1, a1]
-    var l2 = [b2, b2, a2, a2]
-    var uv1 = [v[0], v[0], u[0], u[0]]
-    var uv2 = [u[0], u[0], v[0], v[0]]
-    var obj
-
-    for (var i = 0; i < 4; i++) {
-      obj = distanceToLine(p[i], l1[i], l2[i])
-
-      if (obj.distance < minDist) {
-        minDist = obj.distance
-        uv1[i] = obj.t
-        uv2[i] = i % 2
-      }
-    }
-
-    return IntersectionState.ON_LINE
-  }
-
-  u[0] = c[0]
-  v[0] = c[1] // Check parametric coordinates for intersection.
-
-  if (u[0] >= 0.0 && u[0] <= 1.0 && v[0] >= 0.0 && v[0] <= 1.0) {
-    return IntersectionState.YES_INTERSECTION
-  }
-
-  return IntersectionState.NO_INTERSECTION
-} // ----------------------------------------------------------------------------
-// Static API
-// ----------------------------------------------------------------------------
-
-var STATIC$1 = {
-  distanceToLine: distanceToLine,
-  intersection: intersection,
-} // ----------------------------------------------------------------------------
-// vtkLine methods
-// ----------------------------------------------------------------------------
-
-function vtkLine(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkLine')
-
-  function isBetweenPoints(t) {
-    return t >= 0.0 && t <= 1.0
-  }
-
-  publicAPI.getCellDimension = function() {
-    return 1
-  }
-
-  publicAPI.intersectWithLine = function(p1, p2, tol, x, pcoords) {
-    var outObj = {
-      intersect: 0,
-      t: Number.MAX_VALUE,
-      subId: 0,
-      betweenPoints: null,
-    }
-    pcoords[1] = 0.0
-    pcoords[2] = 0.0
-    var projXYZ = []
-    var a1 = []
-    var a2 = []
-    model.points.getPoint(0, a1)
-    model.points.getPoint(1, a2)
-    var u = []
-    var v = []
-    var intersect = intersection(p1, p2, a1, a2, u, v)
-    outObj.t = u[0]
-    outObj.betweenPoints = isBetweenPoints(outObj.t)
-    pcoords[0] = v[0]
-
-    if (intersect === IntersectionState.YES_INTERSECTION) {
-      // make sure we are within tolerance
-      for (var i = 0; i < 3; i++) {
-        x[i] = a1[i] + pcoords[0] * (a2[i] - a1[i])
-        projXYZ[i] = p1[i] + outObj.t * (p2[i] - p1[i])
-      }
-
-      if (distance2BetweenPoints(x, projXYZ) <= tol * tol) {
-        outObj.intersect = 1
-        return outObj
-      }
-    } else {
-      var outDistance // check to see if it lies within tolerance
-      // one of the parametric coords must be outside 0-1
-
-      if (outObj.t < 0.0) {
-        outDistance = distanceToLine(p1, a1, a2, x)
-
-        if (outDistance.distance <= tol * tol) {
-          outObj.t = 0.0
-          outObj.intersect = 1
-          outObj.betweenPoints = true // Intersection is near p1
-
-          return outObj
-        }
-
-        return outObj
-      }
-
-      if (outObj.t > 1.0) {
-        outDistance = distanceToLine(p2, a1, a2, x)
-
-        if (outDistance.distance <= tol * tol) {
-          outObj.t = 1.0
-          outObj.intersect = 1
-          outObj.betweenPoints = true // Intersection is near p2
-
-          return outObj
-        }
-
-        return outObj
-      }
-
-      if (pcoords[0] < 0.0) {
-        pcoords[0] = 0.0
-        outDistance = distanceToLine(a1, p1, p2, x)
-        outObj.t = outDistance.t
-
-        if (outDistance.distance <= tol * tol) {
-          outObj.intersect = 1
-          return outObj
-        }
-
-        return outObj
-      }
-
-      if (pcoords[0] > 1.0) {
-        pcoords[0] = 1.0
-        outDistance = distanceToLine(a2, p1, p2, x)
-        outObj.t = outDistance.t
-
-        if (outDistance.distance <= tol * tol) {
-          outObj.intersect = 1
-          return outObj
-        }
-
-        return outObj
-      }
-    }
-
-    return outObj
-  }
-
-  publicAPI.evaluateLocation = function(pcoords, x, weights) {
-    var a1 = []
-    var a2 = []
-    model.points.getPoint(0, a1)
-    model.points.getPoint(1, a2)
-
-    for (var i = 0; i < 3; i++) {
-      x[i] = a1[i] + pcoords[0] * (a2[i] - a1[i])
-    }
-
-    weights[0] = 1.0 - pcoords[0]
-    weights[1] = pcoords[0]
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$3 = {} // ----------------------------------------------------------------------------
-
-function extend$3(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$3, initialValues)
-  vtkCell$1.extend(publicAPI, model, initialValues)
-  vtkLine(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance$2 = macro.newInstance(extend$3, 'vtkLine') // ----------------------------------------------------------------------------
-
-var vtkLine$1 = _objectSpread$1(
-  _objectSpread$1(
-    {
-      newInstance: newInstance$2,
-      extend: extend$3,
-    },
-    STATIC$1
-  ),
-  Constants
-)
-
-// Global methods
-// ----------------------------------------------------------------------------
-// ----------------------------------------------------------------------------
-// vtkPointSet methods
-// ----------------------------------------------------------------------------
-
-function vtkPointSet(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkPointSet') // Create empty points
-
-  if (!model.points) {
-    model.points = vtkPoints$1.newInstance()
-  } else {
-    model.points = vtk(model.points)
-  }
-
-  publicAPI.getNumberOfPoints = function() {
-    return model.points.getNumberOfPoints()
-  }
-
-  publicAPI.getBounds = function() {
-    return model.points.getBounds()
-  }
-
-  publicAPI.computeBounds = function() {
-    publicAPI.getBounds()
-  }
-
-  var superShallowCopy = publicAPI.shallowCopy
-
-  publicAPI.shallowCopy = function(other) {
-    var debug =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false
-    superShallowCopy(other, debug)
-    model.points = vtkPoints$1.newInstance()
-    model.points.shallowCopy(other.getPoints())
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$2 = {
-  // points: null,
-} // ----------------------------------------------------------------------------
-
-function extend$2(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$2, initialValues) // Inheritance
-
-  vtkDataSet$1.extend(publicAPI, model, initialValues)
-  macro.setGet(publicAPI, model, ['points']) // Object specific methods
-
-  vtkPointSet(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance$1 = macro.newInstance(extend$2, 'vtkPointSet') // ----------------------------------------------------------------------------
-
-var vtkPointSet$1 = {
-  newInstance: newInstance$1,
-  extend: extend$2,
-}
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object)
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object)
-    enumerableOnly &&
-      (symbols = symbols.filter(function(sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable
-      })),
-      keys.push.apply(keys, symbols)
-  }
-  return keys
-}
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {}
-    i % 2
-      ? ownKeys(Object(source), !0).forEach(function(key) {
-          _defineProperty(target, key, source[key])
-        })
-      : Object.getOwnPropertyDescriptors
-      ? Object.defineProperties(
-          target,
-          Object.getOwnPropertyDescriptors(source)
-        )
-      : ownKeys(Object(source)).forEach(function(key) {
-          Object.defineProperty(
-            target,
-            key,
-            Object.getOwnPropertyDescriptor(source, key)
-          )
-        })
-  }
-  return target
-}
-// Global methods
-// ----------------------------------------------------------------------------
-
-function computeNormalDirection(v1, v2, v3, n) {
-  // order is important!!! maintain consistency with triangle vertex order
-  var ax = v3[0] - v2[0]
-  var ay = v3[1] - v2[1]
-  var az = v3[2] - v2[2]
-  var bx = v1[0] - v2[0]
-  var by = v1[1] - v2[1]
-  var bz = v1[2] - v2[2]
-  n[0] = ay * bz - az * by
-  n[1] = az * bx - ax * bz
-  n[2] = ax * by - ay * bx
-}
-
-function computeNormal(v1, v2, v3, n) {
-  computeNormalDirection(v1, v2, v3, n)
-  var length = Math.sqrt(n[0] * n[0] + n[1] * n[1] + n[2] * n[2])
-
-  if (length !== 0.0) {
-    n[0] /= length
-    n[1] /= length
-    n[2] /= length
-  }
-}
-
-function intersectWithTriangle(p1, q1, r1, p2, q2, r2) {
-  var tolerance =
-    arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 1e-6
-  var coplanar = false
-  var pt1 = []
-  var pt2 = []
-  var surfaceId = []
-  var n1 = []
-  var n2 = [] // Compute supporting plane normals.
-
-  computeNormal(p1, q1, r1, n1)
-  computeNormal(p2, q2, r2, n2)
-  var s1 = -dot(n1, p1)
-  var s2 = -dot(n2, p2) // Compute signed distances of points p1, q1, r1 from supporting
-  // plane of second triangle.
-
-  var dist1 = [dot(n2, p1) + s2, dot(n2, q1) + s2, dot(n2, r1) + s2] // If signs of all points are the same, all the points lie on the
-  // same side of the supporting plane, and we can exit early.
-
-  if (dist1[0] * dist1[1] > tolerance && dist1[0] * dist1[2] > tolerance) {
-    // vtkDebugMacro(<<"Same side supporting plane 1!");
-    return {
-      intersect: false,
-      coplanar: coplanar,
-      pt1: pt1,
-      pt2: pt2,
-      surfaceId: surfaceId,
-    }
-  } // Do the same for p2, q2, r2 and supporting plane of first
-  // triangle.
-
-  var dist2 = [dot(n1, p2) + s1, dot(n1, q2) + s1, dot(n1, r2) + s1] // If signs of all points are the same, all the points lie on the
-  // same side of the supporting plane, and we can exit early.
-
-  if (dist2[0] * dist2[1] > tolerance && dist2[0] * dist2[2] > tolerance) {
-    // vtkDebugMacro(<<"Same side supporting plane 2!");
-    return {
-      intersect: false,
-      coplanar: coplanar,
-      pt1: pt1,
-      pt2: pt2,
-      surfaceId: surfaceId,
-    }
-  } // Check for coplanarity of the supporting planes.
-
-  if (
-    Math.abs(n1[0] - n2[0]) < 1e-9 &&
-    Math.abs(n1[1] - n2[1]) < 1e-9 &&
-    Math.abs(n1[2] - n2[2]) < 1e-9 &&
-    Math.abs(s1 - s2) < 1e-9
-  ) {
-    coplanar = true // vtkDebugMacro(<<"Coplanar!");
-
-    return {
-      intersect: false,
-      coplanar: coplanar,
-      pt1: pt1,
-      pt2: pt2,
-      surfaceId: surfaceId,
-    }
-  } // There are more efficient ways to find the intersection line (if
-  // it exists), but this is clear enough.
-
-  var pts1 = [p1, q1, r1]
-  var pts2 = [p2, q2, r2] // Find line of intersection (L = p + t*v) between two planes.
-
-  var n1n2 = dot(n1, n2)
-  var a = (s1 - s2 * n1n2) / (n1n2 * n1n2 - 1.0)
-  var b = (s2 - s1 * n1n2) / (n1n2 * n1n2 - 1.0)
-  var p = [a * n1[0] + b * n2[0], a * n1[1] + b * n2[1], a * n1[2] + b * n2[2]]
-  var v = cross(n1, n2, [])
-  normalize(v)
-  var index1 = 0
-  var index2 = 0
-  var t1 = []
-  var t2 = []
-  var ts1 = 50
-  var ts2 = 50
-
-  for (var i = 0; i < 3; i++) {
-    var id1 = i
-    var id2 = (i + 1) % 3 // Find t coordinate on line of intersection between two planes.
-
-    var val1 = vtkPlane$1.intersectWithLine(pts1[id1], pts1[id2], p2, n2)
-
-    if (val1.intersection && val1.t > 0 - tolerance && val1.t < 1 + tolerance) {
-      if (val1.t < 1 + tolerance && val1.t > 1 - tolerance) {
-        ts1 = index1
-      }
-
-      t1[index1++] = dot(val1.x, v) - dot(p, v)
-    }
-
-    var val2 = vtkPlane$1.intersectWithLine(pts2[id1], pts2[id2], p1, n1)
-
-    if (val2.intersection && val2.t > 0 - tolerance && val2.t < 1 + tolerance) {
-      if (val2.t < 1 + tolerance && val2.t > 1 - tolerance) {
-        ts2 = index2
-      }
-
-      t2[index2++] = dot(val2.x, v) - dot(p, v)
-    }
-  } // If the value of the index is greater than 2, the intersecting point
-  // actually is intersected by all three edges. In this case, set the two
-  // edges to the two edges where the intersecting point is not the end point
-
-  if (index1 > 2) {
-    index1-- // swap
-
-    var t12 = t1[2]
-    t1[2] = t1[ts1]
-    t1[ts1] = t12
-  }
-
-  if (index2 > 2) {
-    index2--
-    var t22 = t2[2]
-    t2[2] = t2[ts2]
-    t2[ts2] = t22
-  } // Check if only one edge or all edges intersect the supporting
-  // planes intersection.
-
-  if (index1 !== 2 || index2 !== 2) {
-    // vtkDebugMacro(<<"Only one edge intersecting!");
-    return {
-      intersect: false,
-      coplanar: coplanar,
-      pt1: pt1,
-      pt2: pt2,
-      surfaceId: surfaceId,
-    }
-  } // Check for NaNs
-
-  if (
-    Number.isNaN(t1[0]) ||
-    Number.isNaN(t1[1]) ||
-    Number.isNaN(t2[0]) ||
-    Number.isNaN(t2[1])
-  ) {
-    // vtkWarningMacro(<<"NaNs!");
-    return {
-      intersect: false,
-      coplanar: coplanar,
-      pt1: pt1,
-      pt2: pt2,
-      surfaceId: surfaceId,
-    }
-  }
-
-  if (t1[0] > t1[1]) {
-    // swap
-    var t11 = t1[1]
-    t1[1] = t1[0]
-    t1[0] = t11
-  }
-
-  if (t2[0] > t2[1]) {
-    // swap
-    var t21 = t2[1]
-    t2[1] = t2[0]
-    t2[0] = t21
-  } // Handle the different interval configuration cases.
-
-  var tt1
-  var tt2
-
-  if (t1[1] < t2[0] || t2[1] < t1[0]) {
-    // vtkDebugMacro(<<"No Overlap!");
-    return {
-      intersect: false,
-      coplanar: coplanar,
-      pt1: pt1,
-      pt2: pt2,
-      surfaceId: surfaceId,
-    } // No overlap
-  }
-
-  if (t1[0] < t2[0]) {
-    if (t1[1] < t2[1]) {
-      // First point on surface 2, second point on surface 1
-      surfaceId[0] = 2
-      surfaceId[1] = 1
-      tt1 = t2[0]
-      tt2 = t1[1]
-    } else {
-      // Both points belong to lines on surface 2
-      surfaceId[0] = 2
-      surfaceId[1] = 2
-      tt1 = t2[0]
-      tt2 = t2[1]
-    }
-  } // t1[0] >= t2[0]
-  else if (t1[1] < t2[1]) {
-    // Both points belong to lines on surface 1
-    surfaceId[0] = 1
-    surfaceId[1] = 1
-    tt1 = t1[0]
-    tt2 = t1[1]
-  } else {
-    // First point on surface 1, second point on surface 2
-    surfaceId[0] = 1
-    surfaceId[1] = 2
-    tt1 = t1[0]
-    tt2 = t2[1]
-  } // Create actual intersection points.
-
-  multiplyAccumulate(p, v, tt1, pt1)
-  multiplyAccumulate(p, v, tt2, pt2)
-  return {
-    intersect: true,
-    coplanar: coplanar,
-    pt1: pt1,
-    pt2: pt2,
-    surfaceId: surfaceId,
-  }
-} // ----------------------------------------------------------------------------
-// Static API
-// ----------------------------------------------------------------------------
-
-var STATIC = {
-  computeNormalDirection: computeNormalDirection,
-  computeNormal: computeNormal,
-  intersectWithTriangle: intersectWithTriangle,
-} // ----------------------------------------------------------------------------
-// vtkTriangle methods
-// ----------------------------------------------------------------------------
-
-function vtkTriangle(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkTriangle')
-
-  publicAPI.getCellDimension = function() {
-    return 2
-  }
-
-  publicAPI.intersectWithLine = function(p1, p2, tol, x, pcoords) {
-    var outObj = {
-      subId: 0,
-      t: Number.MAX_VALUE,
-      intersect: 0,
-      betweenPoints: false,
-    }
-    pcoords[2] = 0.0
-    var closestPoint = []
-    var tol2 = tol * tol // Get normal for triangle
-
-    var pt1 = []
-    var pt2 = []
-    var pt3 = []
-    model.points.getPoint(0, pt1)
-    model.points.getPoint(1, pt2)
-    model.points.getPoint(2, pt3)
-    var n = []
-    var weights = []
-    computeNormal(pt1, pt2, pt3, n)
-
-    if (n[0] !== 0 || n[1] !== 0 || n[2] !== 0) {
-      // Intersect plane of triangle with line
-      var plane = vtkPlane$1.intersectWithLine(p1, p2, pt1, n)
-      outObj.betweenPoints = plane.betweenPoints
-      outObj.t = plane.t
-      x[0] = plane.x[0]
-      x[1] = plane.x[1]
-      x[2] = plane.x[2]
-
-      if (!plane.intersection) {
-        pcoords[0] = 0.0
-        pcoords[1] = 0.0
-        outObj.intersect = 0
-        return outObj
-      } // Evaluate position
-
-      var inside = publicAPI.evaluatePosition(x, closestPoint, pcoords, weights)
-
-      if (inside.evaluation >= 0) {
-        if (inside.dist2 <= tol2) {
-          outObj.intersect = 1
-          return outObj
-        }
-
-        outObj.intersect = inside.evaluation
-        return outObj
-      }
-    } // Normals are null, so the triangle is degenerated and
-    // we still need to check intersection between line and
-    // the longest edge.
-
-    var dist2Pt1Pt2 = distance2BetweenPoints(pt1, pt2)
-    var dist2Pt2Pt3 = distance2BetweenPoints(pt2, pt3)
-    var dist2Pt3Pt1 = distance2BetweenPoints(pt3, pt1)
-
-    if (!model.line) {
-      model.line = vtkLine$1.newInstance()
-    }
-
-    if (dist2Pt1Pt2 > dist2Pt2Pt3 && dist2Pt1Pt2 > dist2Pt3Pt1) {
-      model.line.getPoints().setPoint(0, pt1)
-      model.line.getPoints().setPoint(1, pt2)
-    } else if (dist2Pt2Pt3 > dist2Pt3Pt1 && dist2Pt2Pt3 > dist2Pt1Pt2) {
-      model.line.getPoints().setPoint(0, pt2)
-      model.line.getPoints().setPoint(1, pt3)
-    } else {
-      model.line.getPoints().setPoint(0, pt3)
-      model.line.getPoints().setPoint(1, pt1)
-    }
-
-    var intersectLine = model.line.intersectWithLine(p1, p2, tol, x, pcoords)
-    outObj.betweenPoints = intersectLine.betweenPoints
-    outObj.t = intersectLine.t
-
-    if (intersectLine.intersect) {
-      var pt3Pt1 = []
-      var pt3Pt2 = []
-      var pt3X = [] // Compute r and s manually, using dot and norm.
-
-      for (var i = 0; i < 3; i++) {
-        pt3Pt1[i] = pt1[i] - pt3[i]
-        pt3Pt2[i] = pt2[i] - pt3[i]
-        pt3X[i] = x[i] - pt3[i]
-      }
-
-      pcoords[0] = dot(pt3X, pt3Pt1) / dist2Pt3Pt1
-      pcoords[1] = dot(pt3X, pt3Pt2) / dist2Pt2Pt3
-      outObj.intersect = 1
-      return outObj
-    }
-
-    pcoords[0] = 0.0
-    pcoords[1] = 0.0
-    outObj.intersect = 0
-    return outObj
-  }
-
-  publicAPI.evaluatePosition = function(x, closestPoint, pcoords, weights) {
-    // will return obj
-    var outObj = {
-      subId: 0,
-      dist2: 0,
-      evaluation: -1,
-    }
-    var i
-    var j
-    var pt1 = []
-    var pt2 = []
-    var pt3 = []
-    var n = []
-    var fabsn
-    var rhs = []
-    var c1 = []
-    var c2 = []
-    var det = 0
-    var idx = 0
-    var indices = []
-    var dist2Point
-    var dist2Line1
-    var dist2Line2
-    var closest = []
-    var closestPoint1 = []
-    var closestPoint2 = []
-    var cp = []
-    outObj.subId = 0
-    pcoords[2] = 0.0 // Get normal for triangle, only the normal direction is needed, i.e. the
-    // normal need not be normalized (unit length)
-    //
-
-    model.points.getPoint(1, pt1)
-    model.points.getPoint(2, pt2)
-    model.points.getPoint(0, pt3)
-    computeNormalDirection(pt1, pt2, pt3, n) // Project point to plane
-
-    vtkPlane$1.generalizedProjectPoint(x, pt1, n, cp) // Construct matrices.  Since we have over determined system, need to find
-    // which 2 out of 3 equations to use to develop equations. (Any 2 should
-    // work since we've projected point to plane.)
-
-    var maxComponent = 0.0
-
-    for (i = 0; i < 3; i++) {
-      // trying to avoid an expensive call to fabs()
-      if (n[i] < 0) {
-        fabsn = -n[i]
-      } else {
-        fabsn = n[i]
-      }
-
-      if (fabsn > maxComponent) {
-        maxComponent = fabsn
-        idx = i
-      }
-    }
-
-    for (j = 0, i = 0; i < 3; i++) {
-      if (i !== idx) {
-        indices[j++] = i
-      }
-    }
-
-    for (i = 0; i < 2; i++) {
-      rhs[i] = cp[indices[i]] - pt3[indices[i]]
-      c1[i] = pt1[indices[i]] - pt3[indices[i]]
-      c2[i] = pt2[indices[i]] - pt3[indices[i]]
-    }
-
-    det = determinant2x2(c1, c2)
-
-    if (det === 0.0) {
-      pcoords[0] = 0.0
-      pcoords[1] = 0.0
-      outObj.evaluation = -1
-      return outObj
-    }
-
-    pcoords[0] = determinant2x2(rhs, c2) / det
-    pcoords[1] = determinant2x2(c1, rhs) / det // Okay, now find closest point to element
-
-    weights[0] = 1 - (pcoords[0] + pcoords[1])
-    weights[1] = pcoords[0]
-    weights[2] = pcoords[1]
-
-    if (
-      weights[0] >= 0.0 &&
-      weights[0] <= 1.0 &&
-      weights[1] >= 0.0 &&
-      weights[1] <= 1.0 &&
-      weights[2] >= 0.0 &&
-      weights[2] <= 1.0
-    ) {
-      // projection distance
-      if (closestPoint) {
-        outObj.dist2 = distance2BetweenPoints(cp, x)
-        closestPoint[0] = cp[0]
-        closestPoint[1] = cp[1]
-        closestPoint[2] = cp[2]
-      }
-
-      outObj.evaluation = 1
-    } else {
-      var t
-
-      if (closestPoint) {
-        if (weights[1] < 0.0 && weights[2] < 0.0) {
-          dist2Point = distance2BetweenPoints(x, pt3)
-          dist2Line1 = vtkLine$1.distanceToLine(x, pt1, pt3, t, closestPoint1)
-          dist2Line2 = vtkLine$1.distanceToLine(x, pt3, pt2, t, closestPoint2)
-
-          if (dist2Point < dist2Line1) {
-            outObj.dist2 = dist2Point
-            closest = pt3
-          } else {
-            outObj.dist2 = dist2Line1
-            closest = closestPoint1
-          }
-
-          if (dist2Line2 < outObj.dist2) {
-            outObj.dist2 = dist2Line2
-            closest = closestPoint2
-          }
-
-          for (i = 0; i < 3; i++) {
-            closestPoint[i] = closest[i]
-          }
-        } else if (weights[2] < 0.0 && weights[0] < 0.0) {
-          dist2Point = distance2BetweenPoints(x, pt1)
-          dist2Line1 = vtkLine$1.distanceToLine(x, pt1, pt3, t, closestPoint1)
-          dist2Line2 = vtkLine$1.distanceToLine(x, pt1, pt2, t, closestPoint2)
-
-          if (dist2Point < dist2Line1) {
-            outObj.dist2 = dist2Point
-            closest = pt1
-          } else {
-            outObj.dist2 = dist2Line1
-            closest = closestPoint1
-          }
-
-          if (dist2Line2 < outObj.dist2) {
-            outObj.dist2 = dist2Line2
-            closest = closestPoint2
-          }
-
-          for (i = 0; i < 3; i++) {
-            closestPoint[i] = closest[i]
-          }
-        } else if (weights[1] < 0.0 && weights[0] < 0.0) {
-          dist2Point = distance2BetweenPoints(x, pt2)
-          dist2Line1 = vtkLine$1.distanceToLine(x, pt2, pt3, t, closestPoint1)
-          dist2Line2 = vtkLine$1.distanceToLine(x, pt1, pt2, t, closestPoint2)
-
-          if (dist2Point < dist2Line1) {
-            outObj.dist2 = dist2Point
-            closest = pt2
-          } else {
-            outObj.dist2 = dist2Line1
-            closest = closestPoint1
-          }
-
-          if (dist2Line2 < outObj.dist2) {
-            outObj.dist2 = dist2Line2
-            closest = closestPoint2
-          }
-
-          for (i = 0; i < 3; i++) {
-            closestPoint[i] = closest[i]
-          }
-        } else if (weights[0] < 0.0) {
-          var lineDistance = vtkLine$1.distanceToLine(x, pt1, pt2, closestPoint)
-          outObj.dist2 = lineDistance.distance
-        } else if (weights[1] < 0.0) {
-          var _lineDistance = vtkLine$1.distanceToLine(
-            x,
-            pt2,
-            pt3,
-            closestPoint
-          )
-
-          outObj.dist2 = _lineDistance.distance
-        } else if (weights[2] < 0.0) {
-          var _lineDistance2 = vtkLine$1.distanceToLine(
-            x,
-            pt1,
-            pt3,
-            closestPoint
-          )
-
-          outObj.dist2 = _lineDistance2.distance
-        }
-      }
-
-      outObj.evaluation = 0
-    }
-
-    return outObj
-  }
-
-  publicAPI.evaluateLocation = function(pcoords, x, weights) {
-    var p0 = []
-    var p1 = []
-    var p2 = []
-    model.points.getPoint(0, p0)
-    model.points.getPoint(1, p1)
-    model.points.getPoint(2, p2)
-    var u3 = 1.0 - pcoords[0] - pcoords[1]
-
-    for (var i = 0; i < 3; i++) {
-      x[i] = p0[i] * u3 + p1[i] * pcoords[0] + p2[i] * pcoords[1]
-    }
-
-    weights[0] = u3
-    weights[1] = pcoords[0]
-    weights[2] = pcoords[1]
-  }
-
-  publicAPI.getParametricDistance = function(pcoords) {
-    var pDist
-    var pDistMax = 0.0
-    var pc = []
-    pc[0] = pcoords[0]
-    pc[1] = pcoords[1]
-    pc[2] = 1.0 - pcoords[0] - pcoords[1]
-
-    for (var i = 0; i < 3; i++) {
-      if (pc[i] < 0.0) {
-        pDist = -pc[i]
-      } else if (pc[i] > 1.0) {
-        pDist = pc[i] - 1.0
-      } else {
-        // inside the cell in the parametric direction
-        pDist = 0.0
-      }
-
-      if (pDist > pDistMax) {
-        pDistMax = pDist
-      }
-    }
-
-    return pDistMax
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$1 = {} // ----------------------------------------------------------------------------
-
-function extend$1(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$1, initialValues)
-  vtkCell$1.extend(publicAPI, model, initialValues)
-  vtkTriangle(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance = macro.newInstance(extend$1, 'vtkTriangle') // ----------------------------------------------------------------------------
-
-var vtkTriangle$1 = _objectSpread(
-  {
-    newInstance: newInstance,
-    extend: extend$1,
-  },
-  STATIC
-)
-
-var POLYDATA_FIELDS = ['verts', 'lines', 'polys', 'strips']
-
-var _CELL_FACTORY
-var vtkWarningMacro = macro.vtkWarningMacro
-var CELL_FACTORY =
-  ((_CELL_FACTORY = {}),
-  _defineProperty(_CELL_FACTORY, CellType.VTK_LINE, vtkLine$1),
-  _defineProperty(_CELL_FACTORY, CellType.VTK_POLY_LINE, vtkLine$1),
-  _defineProperty(_CELL_FACTORY, CellType.VTK_TRIANGLE, vtkTriangle$1),
-  _CELL_FACTORY) // ----------------------------------------------------------------------------
-// vtkPolyData methods
-// ----------------------------------------------------------------------------
-
-function vtkPolyData(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkPolyData')
-
-  function camelize(str) {
-    return str
-      .replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter) {
-        return letter.toUpperCase()
-      })
-      .replace(/\s+/g, '')
-  } // build empty cell arrays and set methods
-
-  POLYDATA_FIELDS.forEach(function(type) {
-    publicAPI['getNumberOf'.concat(camelize(type))] = function() {
-      return model[type].getNumberOfCells()
-    }
-
-    if (!model[type]) {
-      model[type] = vtkCellArray$1.newInstance()
-    } else {
-      model[type] = vtk(model[type])
-    }
-  })
-
-  publicAPI.getNumberOfCells = function() {
-    return POLYDATA_FIELDS.reduce(function(num, cellType) {
-      return num + model[cellType].getNumberOfCells()
-    }, 0)
-  }
-
-  var superShallowCopy = publicAPI.shallowCopy
-
-  publicAPI.shallowCopy = function(other) {
-    var debug =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false
-    superShallowCopy(other, debug)
-    POLYDATA_FIELDS.forEach(function(type) {
-      model[type] = vtkCellArray$1.newInstance()
-      model[type].shallowCopy(other.getReferenceByName(type))
-    })
-  }
-
-  publicAPI.buildCells = function() {
-    // here are the number of cells we have
-    var nVerts = publicAPI.getNumberOfVerts()
-    var nLines = publicAPI.getNumberOfLines()
-    var nPolys = publicAPI.getNumberOfPolys()
-    var nStrips = publicAPI.getNumberOfStrips() // pre-allocate the space we need
-
-    var nCells = nVerts + nLines + nPolys + nStrips
-    var types = new Uint8Array(nCells)
-    var pTypes = types
-    var locs = new Uint32Array(nCells)
-    var pLocs = locs // record locations and type of each cell.
-    // verts
-
-    if (nVerts) {
-      var nextCellPts = 0
-      model.verts.getCellSizes().forEach(function(numCellPts, index) {
-        pLocs[index] = nextCellPts
-        pTypes[index] =
-          numCellPts > 1 ? CellType.VTK_POLY_VERTEX : CellType.VTK_VERTEX
-        nextCellPts += numCellPts + 1
-      })
-      pLocs = pLocs.subarray(nVerts)
-      pTypes = pTypes.subarray(nVerts)
-    } // lines
-
-    if (nLines) {
-      var _nextCellPts = 0
-      model.lines.getCellSizes().forEach(function(numCellPts, index) {
-        pLocs[index] = _nextCellPts
-        pTypes[index] =
-          numCellPts > 2 ? CellType.VTK_POLY_LINE : CellType.VTK_LINE
-
-        if (numCellPts === 1) {
-          vtkWarningMacro(
-            'Building VTK_LINE ',
-            index,
-            ' with only one point, but VTK_LINE needs at least two points. Check the input.'
-          )
-        }
-
-        _nextCellPts += numCellPts + 1
-      })
-      pLocs = pLocs.subarray(nLines)
-      pTypes = pTypes.subarray(nLines)
-    } // polys
-
-    if (nPolys) {
-      var _nextCellPts2 = 0
-      model.polys.getCellSizes().forEach(function(numCellPts, index) {
-        pLocs[index] = _nextCellPts2
-
-        switch (numCellPts) {
-          case 3:
-            pTypes[index] = CellType.VTK_TRIANGLE
-            break
-
-          case 4:
-            pTypes[index] = CellType.VTK_QUAD
-            break
-
-          default:
-            pTypes[index] = CellType.VTK_POLYGON
-            break
-        }
-
-        if (numCellPts < 3) {
-          vtkWarningMacro(
-            'Building VTK_TRIANGLE ',
-            index,
-            ' with less than three points, but VTK_TRIANGLE needs at least three points. Check the input.'
-          )
-        }
-
-        _nextCellPts2 += numCellPts + 1
-      })
-      pLocs += pLocs.subarray(nPolys)
-      pTypes += pTypes.subarray(nPolys)
-    } // strips
-
-    if (nStrips) {
-      var _nextCellPts3 = 0
-      pTypes.fill(CellType.VTK_TRIANGLE_STRIP, 0, nStrips)
-      model.strips.getCellSizes().forEach(function(numCellPts, index) {
-        pLocs[index] = _nextCellPts3
-        _nextCellPts3 += numCellPts + 1
-      })
-    } // set up the cell types data structure
-
-    model.cells = vtkCellTypes$1.newInstance()
-    model.cells.setCellTypes(nCells, types, locs)
-  }
-  /**
-   * Create upward links from points to cells that use each point. Enables
-   * topologically complex queries.
-   */
-
-  publicAPI.buildLinks = function() {
-    var initialSize =
-      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0
-
-    if (model.cells === undefined) {
-      publicAPI.buildCells()
-    }
-
-    model.links = vtkCellLinks$1.newInstance()
-
-    if (initialSize > 0) {
-      model.links.allocate(initialSize)
-    } else {
-      model.links.allocate(publicAPI.getPoints().getNumberOfPoints())
-    }
-
-    model.links.buildLinks(publicAPI)
-  }
-
-  publicAPI.getCellType = function(cellId) {
-    return model.cells.getCellType(cellId)
-  }
-
-  publicAPI.getCellPoints = function(cellId) {
-    var cellType = publicAPI.getCellType(cellId)
-    var cells = null
-
-    switch (cellType) {
-      case CellType.VTK_VERTEX:
-      case CellType.VTK_POLY_VERTEX:
-        cells = model.verts
-        break
-
-      case CellType.VTK_LINE:
-      case CellType.VTK_POLY_LINE:
-        cells = model.lines
-        break
-
-      case CellType.VTK_TRIANGLE:
-      case CellType.VTK_QUAD:
-      case CellType.VTK_POLYGON:
-        cells = model.polys
-        break
-
-      case CellType.VTK_TRIANGLE_STRIP:
-        cells = model.strips
-        break
-
-      default:
-        cells = null
-        return {
-          type: 0,
-          cellPointIds: null,
-        }
-    }
-
-    var loc = model.cells.getCellLocation(cellId)
-    var cellPointIds = cells.getCell(loc)
-    return {
-      cellType: cellType,
-      cellPointIds: cellPointIds,
-    }
-  }
-
-  publicAPI.getPointCells = function(ptId) {
-    return model.links.getCells(ptId)
-  }
-
-  publicAPI.getCellEdgeNeighbors = function(cellId, point1, point2) {
-    var link1 = model.links.getLink(point1)
-    var link2 = model.links.getLink(point2)
-    return link1.cells.filter(function(cell) {
-      return cell !== cellId && link2.cells.indexOf(cell) !== -1
-    })
-  }
-  /**
-   * If you know the type of cell, you may provide it to improve performances.
-   */
-
-  publicAPI.getCell = function(cellId) {
-    var cellHint =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null
-    var cellInfo = publicAPI.getCellPoints(cellId)
-    var cell = cellHint || CELL_FACTORY[cellInfo.cellType].newInstance()
-    cell.initialize(publicAPI.getPoints(), cellInfo.cellPointIds)
-    return cell
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES = {
-  // verts: null,
-  // lines: null,
-  // polys: null,
-  // strips: null,
-  // cells: null,
-  // links: null,
-} // ----------------------------------------------------------------------------
-
-function extend(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES, initialValues) // Inheritance
-
-  vtkPointSet$1.extend(publicAPI, model, initialValues)
-  macro.get(publicAPI, model, ['cells', 'links'])
-  macro.setGet(publicAPI, model, ['verts', 'lines', 'polys', 'strips']) // Object specific methods
-
-  vtkPolyData(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-macro.newInstance(extend, 'vtkPolyData') // ----------------------------------------------------------------------------
 
 function updateImageInterface(context) {
   updateAvailableComponents(context)
@@ -35073,6 +29843,85 @@ function applySelectedLabel(context, event) {
   }
 }
 
+function applyScaleCount(input, scaleCount) {
+  input.innerHTML = '' // clear old options
+
+  _toConsumableArray(Array(scaleCount).keys())
+    .reverse()
+    .forEach(function(i) {
+      var option = document.createElement('option')
+      option.value = i
+      option.innerHTML = i
+      input.appendChild(option)
+    })
+}
+
+function applyRenderedScale(input, renderedScale) {
+  input.value = renderedScale
+}
+
+var scaleSelector = function scaleSelector(context, event) {
+  return function(send, onReceive) {
+    var scaleSelectorDiv = document.createElement('div')
+    context.images.componentAndScale.appendChild(scaleSelectorDiv)
+    scaleSelectorDiv.innerHTML = '\n    <div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Resolution Scale"\n      class="'
+      .concat(style.blendModeButton, '">\n      <img src="')
+      .concat(
+        optimizedSVGDataUri$8,
+        '" alt="Resolution Scale" />\n    </div>\n    '
+      )
+    var scaleSelectorIcon = scaleSelectorDiv.children[0]
+    applyContrastSensitiveStyleToElement(
+      context,
+      'invertibleButton',
+      scaleSelectorIcon
+    )
+    var scaleSelector = document.createElement('select')
+    scaleSelectorDiv.appendChild(scaleSelector)
+    scaleSelectorDiv.setAttribute(
+      'style',
+      'display: flex; align-self: center; height: 25px;'
+    )
+    scaleSelector.setAttribute('class', style.selector)
+    scaleSelector.addEventListener('change', function(event) {
+      event.preventDefault()
+      event.stopPropagation()
+      context.images.imageRenderingActors
+        .get(context.images.selectedName)
+        .send('SET_IMAGE_SCALE', {
+          renderedScale: parseInt(event.target.value),
+        })
+    })
+
+    function onImageAssigned(name) {
+      var scaleCount = context.images.actorContext.get(name).image.scaleInfo
+        .length
+
+      if (scaleCount > 1) {
+        scaleSelectorDiv.style.display = 'flex'
+        applyScaleCount(scaleSelector, scaleCount)
+      } else {
+        scaleSelectorDiv.style.display = 'none'
+      }
+    }
+
+    onImageAssigned(event.data)
+    onReceive(function(_ref) {
+      var type = _ref.type,
+        data = _ref.data
+
+      if (type === 'IMAGE_ASSIGNED') {
+        onImageAssigned(data)
+      } else if (type === 'RENDERED_IMAGE_ASSIGNED') {
+        applyRenderedScale(
+          scaleSelector,
+          context.images.actorContext.get(data).renderedScale
+        )
+      }
+    })
+  }
+}
+
 var imagesUIMachineOptions = {
   actions: {
     createImagesInterface: createImagesInterface,
@@ -35097,6 +29946,9 @@ var imagesUIMachineOptions = {
     applyLabelImageWeights: applyLabelImageWeights,
     applyLabelNames: applyLabelNames,
     applySelectedLabel: applySelectedLabel,
+  },
+  services: {
+    scaleSelector: scaleSelector,
   },
 }
 
@@ -35125,7 +29977,7 @@ function createDistanceWidget(context, widgetsUIGroup) {
     .concat(style.distanceButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(viewerDOMId, '-toggleDistanceButton"><img src="')
-    .concat(optimizedSVGDataUri$g, '" alt="distance"/></label>')
+    .concat(optimizedSVGDataUri$h, '" alt="distance"/></label>')
   context.widgets.distanceButtonInput = distanceButton.children[0]
   context.widgets.distanceButtonInput.checked = context.widgets.distanceEnabled
   var distanceButtonLabel = distanceButton.children[1]

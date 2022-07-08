@@ -1,4 +1,4 @@
-import { Machine, assign } from 'xstate'
+import { Machine, assign, forwardTo } from 'xstate'
 
 const assignSelectedComponentIndex = assign({
   images: (context, event) => {
@@ -265,12 +265,22 @@ function createImagesUIMachine(options, context) {
           },
         },
         active: {
+          invoke: {
+            src: 'scaleSelector',
+          },
           on: {
             IMAGE_ASSIGNED: {
-              actions: ['updateImageInterface', 'updateLabelImageInterface'],
+              actions: [
+                'updateImageInterface',
+                'updateLabelImageInterface',
+                forwardTo('scaleSelector'),
+              ],
             },
             RENDERED_IMAGE_ASSIGNED: {
-              actions: 'updateRenderedImageInterface',
+              actions: [
+                'updateRenderedImageInterface',
+                forwardTo('scaleSelector'),
+              ],
             },
             TOGGLE_IMAGE_INTERPOLATION: {
               actions: [assignInterpolationEnabled, 'toggleInterpolation'],

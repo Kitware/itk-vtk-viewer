@@ -42,6 +42,14 @@ const assignLowerScale = assign({
   },
 })
 
+const assignRenderedScale = assign({
+  images: ({ images }, { renderedScale }) => {
+    const actorContext = images.actorContext.get(images.updateRenderedName)
+    actorContext.renderedScale = renderedScale
+    return images
+  },
+})
+
 const RENDERED_VOXEL_MAX = 512 * 512 * 512
 
 // Return true if highest scale or right scale (to stop loading of higher scale)
@@ -151,6 +159,9 @@ const eventResponses = {
   LABEL_IMAGE_SELECTED_LABEL_CHANGED: {
     actions: 'applySelectedLabel',
   },
+  SET_IMAGE_SCALE: {
+    target: 'setImageScale',
+  },
 }
 
 const createImageRenderingActor = (options, context, event) => {
@@ -224,6 +235,19 @@ const createImageRenderingActor = (options, context, event) => {
                 },
               },
             },
+          },
+        },
+        setImageScale: {
+          entry: assignRenderedScale,
+          invoke: {
+            id: 'updateRenderedImageSetImageScale',
+            src: 'updateRenderedImage',
+            onDone: {
+              target: 'updateHistogram',
+            },
+          },
+          on: {
+            ...eventResponses,
           },
         },
         updateHistogram: {

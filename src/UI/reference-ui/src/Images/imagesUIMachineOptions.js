@@ -20,6 +20,7 @@ import applyLabelImageBlend from './applyLabelImageBlend'
 import applyLabelImageWeights from './applyLabelImageWeights'
 import applyLabelNames from './applyLabelNames'
 import applySelectedLabel from './applySelectedLabel'
+import scaleSelector from './scaleSelector'
 
 const imagesUIMachineOptions = {
   actions: {
@@ -50,6 +51,9 @@ const imagesUIMachineOptions = {
     applyLabelImageWeights,
     applyLabelNames,
     applySelectedLabel,
+  },
+  services: {
+    scaleSelector,
   },
 }
 

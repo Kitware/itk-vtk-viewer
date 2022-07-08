@@ -219,3 +219,7 @@ string values.
 Set/get the rendering weights assigned to labels. A Map of label integer to
 float, 0.0 to 1.0, weight.
 string values.
+
+### setImageScale(resolutionScale)
+
+resolutionScale is a integer with 0 being the most detailed scale.

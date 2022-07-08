@@ -37,6 +37,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.6",
-    "itk-viewer-icons": "^11.11.2"
+    "itk-viewer-icons": "^11.12.0"
   }
 }

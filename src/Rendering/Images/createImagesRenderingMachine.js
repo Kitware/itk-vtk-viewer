@@ -67,6 +67,11 @@ function createImagesRenderingMachine(options, context) {
                   `imageRenderingActor-${c.images.updateRenderedName}`,
               }),
             },
+            SET_IMAGE_SCALE: {
+              actions: send((_, e) => e, {
+                to: c => `imageRenderingActor-${c.images.updateRenderedName}`,
+              }),
+            },
             RENDERED_IMAGE_ASSIGNED: {
               actions: send((_, e) => e, {
                 to: (c, e) => `imageRenderingActor-${e.data}`,

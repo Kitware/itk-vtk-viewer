@@ -355,7 +355,8 @@ function createImagesUIMachine(options, context) {
         },
       },
     },
-    options
+    // need scaleSelector service stub to avoid errors if overridden options does not define
+    { services: { scaleSelector: () => () => undefined }, ...options }
   )
 }
 

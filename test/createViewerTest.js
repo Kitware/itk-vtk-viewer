@@ -498,12 +498,12 @@ test('Test createViewer custom UI options', async t => {
     '/base/src/UI/reference-ui/dist/referenceUIMachineOptions.js',
     document.location.origin
   )
-  const referenceUIMachineOptions = { href: referenceUIUrl.href }
+  const referenceUIMachineOptionsHref = { href: referenceUIUrl.href }
 
   await createViewer(container, {
     image: itkImage,
     rotate: false,
-    config: { uiMachineOptions: referenceUIMachineOptions },
+    config: { uiMachineOptions: referenceUIMachineOptionsHref },
   })
   t.pass('Viewer with UI module URL')
 
@@ -515,6 +515,36 @@ test('Test createViewer custom UI options', async t => {
     },
   })
   t.pass('Viewer with UI module URL, explicit export')
+
+  // If missing image.service.scaleSelector in options, test there is no warning
+  // Avoids this later occurring Error: Unable to send event to child 'scaleSelector' from service 'images'
+  const uiMachineOptionsNoImageServices = {
+    ...referenceUIMachineOptions,
+    images: { ...referenceUIMachineOptions.images },
+  }
+  delete uiMachineOptionsNoImageServices.images.services
+
+  let isWarningLogged = false
+  const consoleWarn = console.warn
+  console.warn = message => {
+    if (message.includes("Warning: No service found for invocation '")) {
+      isWarningLogged = true
+    }
+  }
+  await createViewer(container, {
+    image: itkImage,
+    rotate: false,
+    config: {
+      uiMachineOptions: uiMachineOptionsNoImageServices,
+    },
+  })
+  console.warn = consoleWarn
+
+  t.same(
+    isWarningLogged,
+    false,
+    'custom options with no images.services has no warning'
+  )
 
   gc.releaseResources()
 })

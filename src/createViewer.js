@@ -180,6 +180,9 @@ const createViewer = async (
           case 'Z_SLICE_CHANGED':
             eventEmitter.emit('zSliceChanged', event.data)
             break
+          case 'SCREENSHOT_TAKEN':
+            eventEmitter.emit('screenshotTaken', event.data)
+            break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
         }
@@ -656,6 +659,7 @@ const createViewer = async (
     'pointSetOpacityChanged',
     'pointSetSizeChanged',
     'pointSetRepresentationChanged',
+    'screenshotTaken',
   ]
 
   publicAPI.getEventNames = () => eventNames

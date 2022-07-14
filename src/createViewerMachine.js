@@ -68,7 +68,7 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
               actions: forwardTo('ui'),
             },
             TAKE_SCREENSHOT: {
-              actions: forwardTo('rendering'),
+              actions: [forwardTo('rendering'), forwardTo('eventEmitter')],
             },
             TOGGLE_ROTATE: {
               actions: [
@@ -313,6 +313,9 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             },
             DISTANCE_WIDGET_VALUE_CHANGED: {
               actions: [forwardTo('ui')],
+            },
+            SCREENSHOT_TAKEN: {
+              actions: [forwardTo('eventEmitter')],
             },
           },
         },

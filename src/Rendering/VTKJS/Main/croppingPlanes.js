@@ -1,4 +1,3 @@
-import { vec3 } from 'gl-matrix'
 import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData'
 import { transformVec3 } from 'vtk.js/Sources/Widgets/Widgets3D/ImageCroppingWidget/helpers'
 import vtkMath from 'vtk.js/Sources/Common/Core/Math'
@@ -12,9 +11,6 @@ export function createCropping(context) {
   const croppingWidget = HandlesInPixelsImageCroppingWidget.newInstance()
   context.main.croppingWidget = croppingWidget
   context.main.widgetCroppingPlanes = Array.from({ length: 6 }, () =>
-    vtkPlane.newInstance()
-  )
-  context.main.sliceCroppingPlanes = Array.from({ length: 6 }, () =>
     vtkPlane.newInstance()
   )
   context.itkVtkView.addWidgetToRegister(croppingWidget)
@@ -114,22 +110,6 @@ export function createCropping(context) {
   })
 }
 
-export function updateSliceCroppingPlanes(context, planes) {
-  if (!context.images.representationProxy) return
-
-  const sliceActors = context.images.representationProxy.getActors()
-  const slicedImage = sliceActors[0].getMapper().getInputData()
-  const worldToIndex = slicedImage.getWorldToIndex()
-  planes.forEach((plane, idx) => {
-    // convert to slice clipping space
-    const sliceOrigin = context.main.sliceCroppingPlanes[idx].getOrigin()
-    vec3.transformMat4(sliceOrigin, plane.origin, worldToIndex)
-    vec3.transformMat4(sliceOrigin, sliceOrigin, worldToIndex)
-    context.main.sliceCroppingPlanes[idx].setOriginFrom(sliceOrigin)
-    context.main.sliceCroppingPlanes[idx].setNormalFrom(plane.normal)
-  })
-}
-
 export function updateCroppingParameters(context, actor) {
   const {
     croppingBoundingBox: bbox,
@@ -154,9 +134,6 @@ export function updateCroppingParameters(context, actor) {
     const dims = croppingVirtualImage.getDimensions()
     const croppingPlanes = widgetState.getCroppingPlanes()
     croppingPlanes.setPlanes([0, dims[0], 0, dims[1], 0, dims[2]])
-  } else {
-    // slice cropping planes' origin dependant on image.worldToIndex
-    updateSliceCroppingPlanes(context, context.main.croppingPlanes)
   }
 
   context.service.send('RESET_CROPPING_PLANES')

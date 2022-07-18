@@ -105,6 +105,10 @@ const imJoyPluginAPI = {
     return this.viewer.getLabelImage()
   },
 
+  registerEventListener(event, callback) {
+    this.viewer.on(event, callback)
+  },
+
   getConfig() {
     return this.viewer.getConfig()
   },

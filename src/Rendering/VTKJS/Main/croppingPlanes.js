@@ -1,8 +1,11 @@
+import { mat3, vec3 } from 'gl-matrix'
 import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData'
 import { transformVec3 } from 'vtk.js/Sources/Widgets/Widgets3D/ImageCroppingWidget/helpers'
 import vtkMath from 'vtk.js/Sources/Common/Core/Math'
 import vtkPlane from 'vtk.js/Sources/Common/DataModel/Plane'
-import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
+import vtkBoundingBox, {
+  getCorners,
+} from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 
 import toggleCroppingPlanes from './toggleCroppingPlanes'
 import HandlesInPixelsImageCroppingWidget from '../Widgets/HandlesInPixelsImageCroppingWidget'
@@ -112,38 +115,46 @@ export function createCropping(context) {
 
 export function updateCroppingParameters(context, actor) {
   const {
-    croppingBoundingBox: bbox,
+    croppingBoundingBox,
     croppingVirtualImage,
     croppingWidget,
   } = context.main
-  const actorBounds = [...actor.getBounds()]
-  vtkBoundingBox.addBounds(bbox, actorBounds)
-  croppingVirtualImage.setOrigin([bbox[0], bbox[2], bbox[4]])
+  vtkBoundingBox.addBounds(croppingBoundingBox, actor.getBounds())
+
+  // Put global bounds in image oriented space
+  const imageDirection = croppingVirtualImage.getDirection()
+  const worldToImageDirection = mat3.invert([], imageDirection)
+
+  const cornersInImageOrientation = getCorners(croppingBoundingBox, []).map(c =>
+    vec3.transformMat3(c, c, worldToImageDirection)
+  )
+  const orientedBox = [...vtkBoundingBox.INIT_BOUNDS]
+  cornersInImageOrientation.forEach(c => {
+    vtkBoundingBox.addPoint(orientedBox, ...c)
+  })
+
+  const originWorldSpace = vec3.transformMat3(
+    croppingVirtualImage.getOrigin(),
+    [orientedBox[0], orientedBox[2], orientedBox[4]],
+    imageDirection
+  )
+  croppingVirtualImage.setOrigin(originWorldSpace)
+
   const spacing = croppingVirtualImage.getSpacing()
   croppingVirtualImage.setDimensions([
-    (bbox[1] - bbox[0]) / spacing[0],
-    (bbox[3] - bbox[2]) / spacing[1],
-    (bbox[5] - bbox[4]) / spacing[2],
+    (orientedBox[1] - orientedBox[0]) / spacing[0],
+    (orientedBox[3] - orientedBox[2]) / spacing[1],
+    (orientedBox[5] - orientedBox[4]) / spacing[2],
   ])
 
-  const widgetState = croppingWidget.getWidgetState()
-  widgetState.setIndexToWorldT(croppingVirtualImage.getIndexToWorld())
-  widgetState.setWorldToIndexT(croppingVirtualImage.getWorldToIndex())
-
-  if (!context.main.croppingPlanes) {
-    const dims = croppingVirtualImage.getDimensions()
-    const croppingPlanes = widgetState.getCroppingPlanes()
-    croppingPlanes.setPlanes([0, dims[0], 0, dims[1], 0, dims[2]])
-  }
-
+  croppingWidget.copyImageDataDescription(croppingVirtualImage)
   context.service.send('RESET_CROPPING_PLANES')
 }
 
 export function updateCroppingParametersFromImage(context, image) {
-  const spacing = image.getSpacing().slice()
   const { croppingVirtualImage } = context.main
-  croppingVirtualImage.setSpacing(spacing)
-  croppingVirtualImage.setDirection(image.getDirection().slice())
+  croppingVirtualImage.setSpacing(image.getSpacing())
+  croppingVirtualImage.setDirection(image.getDirection())
 
   updateCroppingParameters(context, image)
 }

@@ -39,6 +39,11 @@ function applyImagesContrastSensitiveStyle(context) {
       'invertibleButton',
       context.images.labelImageBlendDiv
     )
+    applyContrastSensitiveStyleToElement(
+      context,
+      'invertibleButton',
+      context.images.scaleSelectorIconDiv
+    )
   }
 }
 

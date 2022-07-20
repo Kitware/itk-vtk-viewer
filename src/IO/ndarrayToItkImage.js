@@ -41,6 +41,10 @@ const numpy2itkType = {
     componentType: FloatTypes.Float64,
     arrayType: Float64Array,
   },
+  bool: {
+    componentType: IntTypes.UInt8,
+    arrayType: Uint8Array,
+  },
 }
 
 function ndarrayToItkImage(array) {

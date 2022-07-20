@@ -85,6 +85,24 @@ const imJoyPluginAPI = {
     return this.viewer.getImage(name)
   },
 
+  async setLabelImage(labelImage) {
+    if (this.viewer === null) {
+      this.viewer = await itkVtkViewer.createViewer(container, {
+        image: null,
+        labelImage: labelImage,
+        pointSets: null,
+        geometries: null,
+        rotate: false,
+      })
+    } else {
+      await this.viewer.setLabelImage(labelImage)
+    }
+  },
+
+  getLabelImage() {
+    return this.viewer.getLabelImage()
+  },
+
   getConfig() {
     return this.viewer.getConfig()
   },

@@ -53,6 +53,14 @@ const imJoyPluginAPI = {
         pointSets,
         geometries: null,
         rotate: false,
+        //Needs to be sorted ! - we either need to wait for the context here or update config later
+        // for the time-being, forcing bootstrap UI here:
+        config: {
+          uiMachineOptions: {
+            href: 'http://localhost:3000/src/materialUIMachineOptions.js',
+            export: 'default',
+          },
+        },
       })
     } else {
       await this.viewer.setPointSets(pointSets)
@@ -75,6 +83,14 @@ const imJoyPluginAPI = {
         geometries: null,
         use2D: is2D,
         rotate: false,
+        //Needs to be sorted ! - we either need to wait for the context here or update config later
+        // for the time-being, forcing bootstrap UI here:
+        config: {
+          uiMachineOptions: {
+            href: 'http://localhost:3000/src/materialUIMachineOptions.js',
+            export: 'default',
+          },
+        },
       })
     } else {
       await this.viewer.setImage(multiscaleImage)

@@ -42,16 +42,7 @@ const imJoyPluginAPI = {
     }
   },
 
-  async setPointSets(pointSets, ui) {
-    let config = {}
-    if (ui === 'pydata-sphinx') {
-      config = {
-        uiMachineOptions: {
-          href: 'http://localhost:3000/src/materialUIMachineOptions.js',
-          export: 'default',
-        },
-      }
-    }
+  async setPointSets(pointSets, config) {
     if (!Array.isArray(pointSets)) pointSets = [pointSets]
     pointSets = pointSets.map(points =>
       itkVtkViewer.utils.ndarrayToPointSet(points)
@@ -73,17 +64,8 @@ const imJoyPluginAPI = {
     return await this.viewer.captureImage()
   },
 
-  async setImage(image, ui, name) {
-    console.log('setImage, ui=', ui)
-    let config = {}
-    if (ui === 'pydata-sphinx') {
-      config = {
-        uiMachineOptions: {
-          href: 'http://localhost:3000/src/materialUIMachineOptions.js',
-          export: 'default',
-        },
-      }
-    }
+  async setImage(image, config, name) {
+    console.log('config=', config)
     const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
       image
     )

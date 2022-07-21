@@ -1052,6 +1052,26 @@ const createViewer = async (
     return actorContext.colorMaps.get(componentIndex)
   }
 
+  publicAPI.setLabelImage = async labelImage => {
+    const imageName = context.images.selectedName
+    const multiscaleLabelImage = await toMultiscaleSpatialImage(
+      labelImage,
+      true
+    )
+    if (multiscaleLabelImage.name === 'Image') {
+      multiscaleLabelImage.name = 'LabelImage'
+    }
+    service.send({
+      type: 'ADD_LABEL_IMAGE',
+      data: { imageName, labelImage: multiscaleLabelImage },
+    })
+  }
+
+  publicAPI.getLabelImage = () => {
+    const name = context.images.selectedName
+    return context.images.actorContext.get(name).labelImage
+  }
+
   publicAPI.setLabelImageLookupTable = (lookupTable, name) => {
     if (typeof name === 'undefined') {
       name = context.images.selectedName

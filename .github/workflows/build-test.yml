@@ -26,7 +26,7 @@ jobs:
       - name: Setup ipfs
         uses: ibnesayeed/setup-ipfs@master
         with:
-          ipfs_version: ^0.12
+          ipfs_version: ^0.14
       - name: Connect to ipfs peers with our data
         shell: bash
         run: |

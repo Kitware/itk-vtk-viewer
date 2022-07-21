@@ -42,7 +42,16 @@ const imJoyPluginAPI = {
     }
   },
 
-  async setPointSets(pointSets) {
+  async setPointSets(pointSets, ui) {
+    let config = {}
+    if (ui === 'pydata-sphinx') {
+      config = {
+        uiMachineOptions: {
+          href: 'http://localhost:3000/src/materialUIMachineOptions.js',
+          export: 'default',
+        },
+      }
+    }
     if (!Array.isArray(pointSets)) pointSets = [pointSets]
     pointSets = pointSets.map(points =>
       itkVtkViewer.utils.ndarrayToPointSet(points)
@@ -53,14 +62,7 @@ const imJoyPluginAPI = {
         pointSets,
         geometries: null,
         rotate: false,
-        //Needs to be sorted ! - we either need to wait for the context here or update config later
-        // for the time-being, forcing bootstrap UI here:
-        config: {
-          uiMachineOptions: {
-            href: 'http://localhost:3000/src/materialUIMachineOptions.js',
-            export: 'default',
-          },
-        },
+        config: config,
       })
     } else {
       await this.viewer.setPointSets(pointSets)
@@ -71,7 +73,17 @@ const imJoyPluginAPI = {
     return await this.viewer.captureImage()
   },
 
-  async setImage(image) {
+  async setImage(image, ui, name) {
+    console.log('setImage, ui=', ui)
+    let config = {}
+    if (ui === 'pydata-sphinx') {
+      config = {
+        uiMachineOptions: {
+          href: 'http://localhost:3000/src/materialUIMachineOptions.js',
+          export: 'default',
+        },
+      }
+    }
     const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
       image
     )
@@ -83,14 +95,7 @@ const imJoyPluginAPI = {
         geometries: null,
         use2D: is2D,
         rotate: false,
-        //Needs to be sorted ! - we either need to wait for the context here or update config later
-        // for the time-being, forcing bootstrap UI here:
-        config: {
-          uiMachineOptions: {
-            href: 'http://localhost:3000/src/materialUIMachineOptions.js',
-            export: 'default',
-          },
-        },
+        config: config,
       })
     } else {
       await this.viewer.setImage(multiscaleImage)

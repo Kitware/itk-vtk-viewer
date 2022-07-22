@@ -49,7 +49,6 @@ async function updateRenderedImage(context) {
         imageAtScale,
         labelAtScale,
         visualizedComponents: actorContext.visualizedComponents,
-        existingArray: actorContext.fusedImageData,
       })
     : [
         imageAtScale,

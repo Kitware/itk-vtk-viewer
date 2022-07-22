@@ -16,15 +16,15 @@ export function createCropping(context) {
   context.main.widgetCroppingPlanes = Array.from({ length: 6 }, () =>
     vtkPlane.newInstance()
   )
-  context.itkVtkView.addWidgetToRegister(croppingWidget)
+  context.itkVtkView.addCroppingWidget(croppingWidget)
 
   croppingWidget
     .getWidgetState()
     .getStatesWithLabel('handles')
-    .forEach(h => h.setScale1(18))
-  croppingWidget.setFaceHandlesEnabled(false)
+    .forEach(h => h.setScale1(22))
+  croppingWidget.setFaceHandlesEnabled(true)
+  croppingWidget.setCornerHandlesEnabled(false)
   croppingWidget.setEdgeHandlesEnabled(false)
-  croppingWidget.setCornerHandlesEnabled(true)
 
   // These are helper objects to bridge datasets in the scene, images,
   // geometry, and points sets, the croppingPlanes, and the

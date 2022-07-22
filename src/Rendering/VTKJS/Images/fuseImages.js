@@ -51,7 +51,7 @@ export const fuseImages = async ({
   const isExistingArrayMatchingNeed =
     existingArray &&
     existingArray.length === elementCount &&
-    typeof oldFusedData === typeof largestType // Avoid losing data if TypedArrays are different between images
+    typeof existingArray === typeof largestType // Avoid losing data if TypedArrays are different between images
   const arrayToFill = isExistingArrayMatchingNeed ? existingArray : undefined
 
   // Prep for worker.postMessage arguments \\
@@ -64,8 +64,8 @@ export const fuseImages = async ({
   const transferables = []
   if (
     arrayToFill &&
-    !haveSharedArrayBuffer &&
-    !(arrayToFill.buffer instanceof SharedArrayBuffer)
+    (!haveSharedArrayBuffer ||
+      !(arrayToFill.buffer instanceof SharedArrayBuffer))
   )
     transferables.push(arrayToFill.buffer)
 

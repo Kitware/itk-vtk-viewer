@@ -4,6 +4,10 @@ import { scaleSelectIconDataUri } from 'itk-viewer-icons'
 
 function applyScaleCount(input, scaleCount) {
   input.innerHTML = '' // clear old options
+  const autoPickOption = document.createElement('option')
+  autoPickOption.value = 'Framerate-pick'
+  autoPickOption.innerHTML = 'Framerate-pick'
+  input.appendChild(autoPickOption)
   ;[...Array(scaleCount).keys()].reverse().forEach(i => {
     const option = document.createElement('option')
     option.value = i
@@ -18,6 +22,10 @@ function applyRenderedScale(input, renderedScale) {
 
 const scaleSelector = (context, event) => (send, onReceive) => {
   const scaleSelectorDiv = document.createElement('div')
+  scaleSelectorDiv.setAttribute(
+    'style',
+    'display: flex; align-self: center; height: 25px; margin-right: 5px'
+  )
   context.images.componentAndScale.appendChild(scaleSelectorDiv)
 
   scaleSelectorDiv.innerHTML = `
@@ -35,21 +43,23 @@ const scaleSelector = (context, event) => (send, onReceive) => {
 
   const scaleSelector = document.createElement('select')
   scaleSelectorDiv.appendChild(scaleSelector)
-  scaleSelectorDiv.setAttribute(
-    'style',
-    'display: flex; align-self: center; height: 25px;'
-  )
-
+  scaleSelector.setAttribute('style', 'max-width: 3.2ch')
   scaleSelector.setAttribute('class', style.selector)
 
   scaleSelector.addEventListener('change', event => {
     event.preventDefault()
     event.stopPropagation()
-    context.images.imageRenderingActors
-      .get(context.images.selectedName)
-      .send('SET_IMAGE_SCALE', {
+
+    const imageActor = context.images.imageRenderingActors.get(
+      context.images.selectedName
+    )
+    if (event.target.value === 'Framerate-pick') {
+      imageActor.send('ADJUST_SCALE_FOR_FRAMERATE')
+    } else {
+      imageActor.send('SET_IMAGE_SCALE', {
         renderedScale: parseInt(event.target.value),
       })
+    }
   })
 
   function onImageAssigned(name) {
@@ -72,6 +82,12 @@ const scaleSelector = (context, event) => (send, onReceive) => {
       applyRenderedScale(
         scaleSelector,
         context.images.actorContext.get(data).renderedScale
+      )
+    } else if (type === 'IMAGE_HISTOGRAM_UPDATED') {
+      // set scale number after ADJUST_SCALE_FOR_FRAMERATE even if no scale change
+      applyRenderedScale(
+        scaleSelector,
+        context.images.actorContext.get(data.name).renderedScale
       )
     }
   })

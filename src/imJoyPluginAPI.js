@@ -65,7 +65,6 @@ const imJoyPluginAPI = {
   },
 
   async setImage(image, config, name) {
-    console.log('config=', config)
     const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
       image
     )

@@ -7,6 +7,7 @@ const imJoyPluginAPI = {
   },
 
   async run(ctx) {
+    console.log('ctx.data=', ctx.data)
     if (ctx.data && ctx.data.image) {
       if (ctx.config) {
         const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
@@ -42,7 +43,7 @@ const imJoyPluginAPI = {
     }
   },
 
-  async setPointSets(pointSets, config) {
+  async setPointSets(pointSets) {
     if (!Array.isArray(pointSets)) pointSets = [pointSets]
     pointSets = pointSets.map(points =>
       itkVtkViewer.utils.ndarrayToPointSet(points)
@@ -53,7 +54,6 @@ const imJoyPluginAPI = {
         pointSets,
         geometries: null,
         rotate: false,
-        config: config,
       })
     } else {
       await this.viewer.setPointSets(pointSets)
@@ -64,7 +64,7 @@ const imJoyPluginAPI = {
     return await this.viewer.captureImage()
   },
 
-  async setImage(image, config, name) {
+  async setImage(image, name) {
     const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
       image
     )
@@ -76,7 +76,6 @@ const imJoyPluginAPI = {
         geometries: null,
         use2D: is2D,
         rotate: false,
-        config: config,
       })
     } else {
       await this.viewer.setImage(multiscaleImage)
@@ -115,8 +114,13 @@ const imJoyPluginAPI = {
   setUICollapsed(collapsed) {
     this.viewer.setUICollapsed(collapsed)
   },
+
   getUICollapsed() {
     return this.viewer.getUICollapsed()
+  },
+
+  setUI(type) {
+    this.viewer.setUICollapsed(type)
   },
 
   setRotateEnabled(enabled) {

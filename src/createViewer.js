@@ -186,6 +186,16 @@ const createViewer = async (
 
   const context = new ViewerMachineContext(config)
   const options = { ...viewerMachineOptions }
+  console.log(
+    'createViewer, image=',
+    image,
+    'pointset=',
+    pointSets,
+    'config=',
+    config,
+    'context=',
+    context
+  )
   if (context.uiMachineOptions !== 'reference') {
     const uiMachineOptions = context.uiMachineOptions
     if (uiMachineOptions.href) {

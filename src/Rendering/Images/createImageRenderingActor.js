@@ -162,6 +162,9 @@ const eventResponses = {
   SET_IMAGE_SCALE: {
     target: 'setImageScale',
   },
+  ADJUST_SCALE_FOR_FRAMERATE: {
+    target: 'adjustScaleForFramerate',
+  },
 }
 
 const createImageRenderingActor = (options, context, event) => {

@@ -44,11 +44,13 @@ function createCroppingButtons(context, mainUIRow) {
     event.preventDefault()
     event.stopPropagation()
     context.service.send('RESET_CROPPING_PLANES')
+    context.service.send('CROPPING_PLANES_CHANGED_BY_USER')
   })
   resetCropButton.addEventListener('click', event => {
     event.preventDefault()
     event.stopPropagation()
     context.service.send('RESET_CROPPING_PLANES')
+    context.service.send('CROPPING_PLANES_CHANGED_BY_USER')
   })
   mainUIRow.appendChild(resetCropButton)
 }

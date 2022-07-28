@@ -9,7 +9,7 @@ const assignUpdateRenderedName = assign({
 })
 
 const assignUpdateRenderedNameToSelectedName = assign({
-  images: (context, event) => {
+  images: context => {
     const images = context.images
     images.updateRenderedName = images.selectedName
     return images
@@ -17,7 +17,7 @@ const assignUpdateRenderedNameToSelectedName = assign({
 })
 
 const assignHigherScale = assign({
-  images: (context, event) => {
+  images: context => {
     const images = context.images
     const actorContext = images.actorContext.get(images.updateRenderedName)
     actorContext.renderedScale--
@@ -26,7 +26,7 @@ const assignHigherScale = assign({
 })
 
 const assignLowerScale = assign({
-  images: (context, event) => {
+  images: context => {
     const images = context.images
     const actorContext = images.actorContext.get(images.updateRenderedName)
     let lowestScale = 0
@@ -82,10 +82,7 @@ function highestScaleOrScaleJustRight(context, event, condMeta) {
   return false
 }
 
-function scaleTooHigh(context, event, condMeta) {
-  const actorContext = context.images.actorContext.get(
-    context.images.updateRenderedName
-  )
+function scaleTooHigh(context) {
   return context.main.fps <= 10.0
 }
 
@@ -161,13 +158,21 @@ const eventResponses = {
   },
   SET_IMAGE_SCALE: {
     target: 'setImageScale',
+    actions: 'updateIsFramerateScalePickingOn',
   },
   ADJUST_SCALE_FOR_FRAMERATE: {
     target: 'adjustScaleForFramerate',
   },
+  // Use this event to possibly update image bounds to avoid cicular loop with CROPPING_PLANES_CHANGED.
+  // CROPPING_PLANES_CHANGED may be updated automatically with by adjustScaleForFramerate.
+  // ajustSCaleForFramerate->updateRenderedImage->RENDERED_IMAGE_ASSIGNED->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
+  // because image size may change across scales.
+  CROPPING_PLANES_CHANGED_BY_USER: {
+    target: 'imageBoundsDeboucing',
+  },
 }
 
-const createImageRenderingActor = (options, context, event) => {
+const createImageRenderingActor = (options, context /*, event*/) => {
   return Machine(
     {
       id: 'imageRendering',
@@ -184,20 +189,42 @@ const createImageRenderingActor = (options, context, event) => {
             },
           },
         },
+        imageBoundsDeboucing: {
+          on: {
+            ...eventResponses,
+          },
+          after: {
+            500: [
+              {
+                target: 'updateRenderedImage',
+                cond: 'areBoundsBiggerThanLoaded',
+              },
+              {
+                target: 'adjustScaleForFramerate',
+                cond: 'isFramerateScalePickingOn',
+              },
+              { target: 'updateHistogram' },
+            ],
+          },
+        },
         updateRenderedImage: {
           invoke: {
             id: 'updateRenderedImage',
             src: 'updateRenderedImage',
-            onDone: {
-              target: 'adjustScaleForFramerate',
-            },
+            onDone: [
+              {
+                target: 'adjustScaleForFramerate',
+                cond: 'isFramerateScalePickingOn',
+              },
+              { target: 'updateHistogram' },
+            ],
           },
           on: {
             ...eventResponses,
           },
         },
         adjustScaleForFramerate: {
-          entry: [(c, _) => c.service.send('UPDATE_FPS')],
+          entry: [c => c.service.send('UPDATE_FPS')],
           on: {
             ...eventResponses,
             FPS_UPDATED: [
@@ -224,7 +251,7 @@ const createImageRenderingActor = (options, context, event) => {
                 id: 'updateRenderedImageScaleTooLow',
                 src: 'updateRenderedImage',
                 onDone: {
-                  actions: [(c, _) => c.service.send('UPDATE_FPS')],
+                  actions: [c => c.service.send('UPDATE_FPS')],
                 },
               },
             },
@@ -234,7 +261,7 @@ const createImageRenderingActor = (options, context, event) => {
                 id: 'updateRenderedImageScaleJustRight',
                 src: 'updateRenderedImage',
                 onDone: {
-                  actions: [(c, _) => c.service.send('UPDATE_FPS')],
+                  actions: [c => c.service.send('UPDATE_FPS')],
                 },
               },
             },
@@ -249,9 +276,7 @@ const createImageRenderingActor = (options, context, event) => {
               target: 'updateHistogram',
             },
           },
-          on: {
-            ...eventResponses,
-          },
+          on: eventResponses,
         },
         updateHistogram: {
           invoke: {
@@ -267,7 +292,9 @@ const createImageRenderingActor = (options, context, event) => {
         },
         active: {
           type: 'parallel',
-          on: eventResponses,
+          on: {
+            ...eventResponses,
+          },
           states: {
             independentComponents: {
               enabled: {},

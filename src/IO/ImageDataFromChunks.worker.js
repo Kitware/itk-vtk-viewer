@@ -110,37 +110,47 @@ registerWebworker().operation(
         x: Math.min(chunkEnd.x, roiEnd.x),
       }
 
+      // write pixels at the start of the output image, not where they start in source image
+      const roiStartPixelOffset = Object.keys(pixelStrides).reduce(
+        (offset, dim) => offset + pixelStrides[dim] * roiStart[dim],
+        0
+      )
+
       // Does input data group component(s) with each pixel?
-      const areComponentsInterleaved = Array.from(info.arrayShape.keys())
-        .join('')
-        .endsWith(arrayShape.c === 1 ? 'x' : 'xc') // if one component, can end with just 'x'
+      const dims = Array.from(info.arrayShape.keys()).join('')
+      const areComponentsInterleaved =
+        dims.endsWith('xc') || (arrayShape.c === 1 && dims.endsWith('x')) // if one component, can end with just 'x'
       // Input data endiennes matches system or just 1 byte?
       const dataEndiennesOK =
         getSize(info.dtype) === 1 ||
         IS_SYSTEM_LITTLE_ENDIAN === testLittleEndian(info.dtype)
+
       if (areComponentsInterleaved && dataEndiennesOK) {
-        // copy whole row TURBO MODE
+        // copy by row TURBO MODE
         const TypedArray = getTypedArray(info.dtype)
         const typedChunk = new TypedArray(chunks[index])
+        const offsetInChunkRow = (itStart.x - x * chunkSize.x) * chunkStrides.x
         for (let zz = itStart.z; zz < itEnd.z; zz++) {
           const zChunkOffset = (zz - z * chunkSize.z) * chunkStrides.z
-          const zPixelOffset = zz * pixelStrides.z
+          const zPixelOffset = zz * pixelStrides.z - roiStartPixelOffset
           for (let yy = itStart.y; yy < itEnd.y; yy++) {
             const yChunkOffset =
-              (yy - y * chunkSize.y) * chunkStrides.y + zChunkOffset
+              offsetInChunkRow +
+              (yy - y * chunkSize.y) * chunkStrides.y +
+              zChunkOffset
             const subarray = typedChunk.subarray(
               yChunkOffset,
               yChunkOffset + itEnd.c * (itEnd.x - itStart.x)
             )
             const pixelOffset =
-              (itStart.x - roiStart.x) * pixelStrides.x + // chunk's x index mapped to image's x index
+              itStart.x * pixelStrides.x + // chunk's x index mapped to image's x index
               yy * pixelStrides.y +
               zPixelOffset
             pixelArray.set(subarray, pixelOffset)
           } // row
         } // slice
       } else {
-        // copy element by element tortoise mode
+        // copy by element tortoise mode
         const getChunkElement = ElementGetter(info.dtype, chunks[index])
         for (let cc = itStart.c; cc < itEnd.c; cc++) {
           // subtract c * chunkSize.c from cc to start at beginning of chunk despite itStart.c
@@ -148,7 +158,7 @@ registerWebworker().operation(
           for (let zz = itStart.z; zz < itEnd.z; zz++) {
             const zChunkOffset =
               (zz - z * chunkSize.z) * chunkStrides.z + cChunkOffset
-            const zPixelOffset = zz * pixelStrides.z + cc
+            const zPixelOffset = zz * pixelStrides.z + cc - roiStartPixelOffset
             for (let yy = itStart.y; yy < itEnd.y; yy++) {
               const yChunkOffset =
                 (yy - y * chunkSize.y) * chunkStrides.y + zChunkOffset

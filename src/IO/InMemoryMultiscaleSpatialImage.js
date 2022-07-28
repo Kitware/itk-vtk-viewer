@@ -1,8 +1,8 @@
-import MultiscaleSpatialImage from './MultiscaleSpatialImage'
+import MultiscaleSpatialImage, { storeImage } from './MultiscaleSpatialImage'
 import componentTypeToTypedArray from './componentTypeToTypedArray'
-import WebworkerPromise from 'webworker-promise'
+// import WebworkerPromise from 'webworker-promise'
 
-import ChuckerWorker from './Chunker.worker'
+// import ChuckerWorker from './Chunker.worker'
 
 import {
   WorkerPool,
@@ -12,24 +12,24 @@ import {
   stackImages,
 } from 'itk-wasm'
 import computeRange from '../Rendering/VTKJS/computeRange'
-import { CXYZT, toDimensionMap } from './dimensionUtils'
+import { chunkArray, CXYZT, orderBy, toDimensionMap } from './dimensionUtils'
 
-const createChunkerWorker = existingWorker => {
-  if (existingWorker) {
-    const webworkerPromise = new WebworkerPromise(existingWorker)
-    return { webworkerPromise, worker: existingWorker }
-  }
+// const createChunkerWorker = existingWorker => {
+//   if (existingWorker) {
+//     const webworkerPromise = new WebworkerPromise(existingWorker)
+//     return { webworkerPromise, worker: existingWorker }
+//   }
 
-  const newWorker = new ChuckerWorker()
-  const newWebworkerPromise = new WebworkerPromise(newWorker)
-  return { webworkerPromise: newWebworkerPromise, worker: newWorker }
-}
+//   const newWorker = new ChuckerWorker()
+//   const newWebworkerPromise = new WebworkerPromise(newWorker)
+//   return { webworkerPromise: newWebworkerPromise, worker: newWorker }
+// }
 
-const createChunk = async (webWorker, args) => {
-  const { webworkerPromise, worker } = createChunkerWorker(webWorker)
-  const chunk = await webworkerPromise.exec('chunk', args)
-  return { chunk, webWorker: worker }
-}
+// const createChunk = async (webWorker, args) => {
+//   const { webworkerPromise, worker } = createChunkerWorker(webWorker)
+//   const chunk = await webworkerPromise.exec('chunk', args)
+//   return { chunk, webWorker: worker }
+// }
 const numberOfWorkers = navigator.hardwareConcurrency
   ? navigator.hardwareConcurrency
   : 6
@@ -75,21 +75,32 @@ async function chunkImage(image, chunkSize) {
   const imageType = image.imageType
   const componentType = imageType.componentType
 
-  const dims = []
-  const sizeCXYZTChunks = [1, chunkSize[0], chunkSize[1], 1, 1]
-  sizeCXYZTChunks[0] = imageType.components
-  const sizeCXYZTElements = [imageType.components, 1, 1, 1, 1]
+  const dims = ['y', 'x']
+  const sizeCXYZTElements = [
+    imageType.components,
+    image.size[0],
+    image.size[1],
+    1,
+    1,
+  ]
+  const sizeCXYZTChunks = [
+    imageType.components,
+    chunkSize[0],
+    chunkSize[1],
+    1,
+    1,
+  ]
+
   if (imageType.components > 1) {
     dims.push('c')
   }
-  dims.push('x', 'y')
-  sizeCXYZTElements[1] = image.size[0]
-  sizeCXYZTElements[2] = image.size[1]
+
   if (imageType.dimension == 3) {
-    dims.push('z')
+    dims.unshift('z')
     sizeCXYZTElements[3] = image.size[2]
     sizeCXYZTChunks[3] = chunkSize[2]
   }
+
   const numberOfCXYZTChunks = [1, 1, 1, 1, 1]
   for (let i = 0; i < numberOfCXYZTChunks.length; i++) {
     numberOfCXYZTChunks[i] = Math.ceil(
@@ -128,7 +139,7 @@ async function chunkImage(image, chunkSize) {
     sizeCXYZTChunks[2] *
     sizeCXYZTChunks[3] *
     sizeCXYZTChunks[4]
-  let data = image.data
+  const data = image.data
   //const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
   //if (haveSharedArrayBuffer && !data.buffer instanceof SharedArrayBuffer) {
   //const sharedBuffer = new SharedArrayBuffer(data.buffer.byteLength) // eslint-disable-line
@@ -205,14 +216,15 @@ async function chunkImage(image, chunkSize) {
     ranges.push([range.min, range.max])
   }
 
-  const coords = new Coords(image, dims)
+  const orderByDims = orderBy(dims)
   const scaleInfo = {
     dims,
-    coords,
-    chunkCount: toDimensionMap(CXYZT, numberOfCXYZTChunks),
-    chunkSize: toDimensionMap(CXYZT, sizeCXYZTChunks),
-    arrayShape: toDimensionMap(CXYZT, sizeCXYZTElements),
+    coords: new Coords(image, [...dims].reverse()), // Coords assumes xyz
+    chunkCount: orderByDims(toDimensionMap(CXYZT, numberOfCXYZTChunks)),
+    chunkSize: orderByDims(toDimensionMap(CXYZT, sizeCXYZTChunks)),
+    arrayShape: orderByDims(toDimensionMap(CXYZT, sizeCXYZTElements)),
     ranges,
+    direction: image.direction && chunkArray(3, [...image.direction].reverse()), // reverse to cast xyz to zyx
   }
 
   return { scaleInfo, chunksStride, chunks }
@@ -300,6 +312,16 @@ class InMemoryMultiscaleSpatialImage extends MultiscaleSpatialImage {
   constructor(pyramid, scaleInfo, imageType, name = 'Image') {
     super(scaleInfo, imageType, name)
     this.pyramid = pyramid
+
+    // cache whole images for getImage to retrieve
+    pyramid.forEach((data, scale) => {
+      storeImage({
+        cache: this.cachedImages,
+        scale,
+        bounds: this.getIndexBounds(scale),
+        image: data.largestImage,
+      })
+    })
   }
 
   async getChunksImpl(scale, cxyztArray) {
@@ -317,11 +339,7 @@ class InMemoryMultiscaleSpatialImage extends MultiscaleSpatialImage {
             cxyzt[4] * strides[4]
         ]
     }
-    return result
-  }
-
-  async scaleLargestImage(scale) {
-    return this.pyramid[scale].largestImage
+    return result.map(a => a.buffer)
   }
 }
 

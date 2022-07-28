@@ -498,6 +498,10 @@ function ItkVtkViewProxy(publicAPI, model) {
     return [model.xSliceActor, model.ySliceActor, model.zSliceActor]
   }
 
+  publicAPI.getSliceOutlineFilters = () => {
+    return [model.zSliceOutliner, model.zSliceOutliner, model.zSliceOutliner]
+  }
+
   // Must be called before the initial render.
   publicAPI.addWidgetToRegister = widget => {
     model.widgetsToRegister.push(widget)

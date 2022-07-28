@@ -1,14 +1,21 @@
-import { mat3, vec3 } from 'gl-matrix'
+import { mat4, vec3, quat } from 'gl-matrix'
 import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData'
 import { transformVec3 } from 'vtk.js/Sources/Widgets/Widgets3D/ImageCroppingWidget/helpers'
 import vtkMath from 'vtk.js/Sources/Common/Core/Math'
 import vtkPlane from 'vtk.js/Sources/Common/DataModel/Plane'
-import vtkBoundingBox, {
-  getCorners,
-} from 'vtk.js/Sources/Common/DataModel/BoundingBox'
+import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 
 import toggleCroppingPlanes from './toggleCroppingPlanes'
 import HandlesInPixelsImageCroppingWidget from '../Widgets/HandlesInPixelsImageCroppingWidget'
+import { transformBounds } from '../../../internalUtils'
+
+export function getBoundsOfFullImage({ images }) {
+  const imageActorContext = images.actorContext.get(images.updateRenderedName)
+  if (!imageActorContext) return [...vtkBoundingBox.INIT_BOUNDS]
+
+  const multiScale = imageActorContext.image ?? imageActorContext.labelImage
+  return multiScale.getWorldBounds(imageActorContext.renderedScale)
+}
 
 export function createCropping(context) {
   const croppingWidget = HandlesInPixelsImageCroppingWidget.newInstance()
@@ -16,6 +23,7 @@ export function createCropping(context) {
   context.main.widgetCroppingPlanes = Array.from({ length: 6 }, () =>
     vtkPlane.newInstance()
   )
+  context.main.areCroppingPlanesTouched = false
   context.itkVtkView.addCroppingWidget(croppingWidget)
 
   croppingWidget
@@ -42,24 +50,21 @@ export function createCropping(context) {
   // The Spacing of the virtual image is set to the spacing of the selected
   // image, if one exists, otherwise the extent of the croppingBoundingBox /
   // 1000 (is there a better approach for this?).
-  //
-  // The Size of the virtual image is such that it reaches the upper right
-  // corner of the croppingBoundingBox.
-  //
-  // The croppingBoundingBox is an axis-aligned bounding box that encapsulates all
-  // objects in the scene.
-  //
-  context.main.croppingVirtualImage = vtkImageData.newInstance()
-  context.main.croppingBoundingBox = [...vtkBoundingBox.INIT_BOUNDS]
 
-  // Todo: Initialize croppingVirtualImage, croppingBoundingBox, based on the
-  // main.croppingPlanes context, if present.
-  //
+  context.main.croppingVirtualImage = vtkImageData.newInstance()
 
   const cropState = croppingWidget.getWidgetState().getCroppingPlanes()
   cropState.onModified(() => {
     const prop = context.itkVtkView.getWidgetProp(context.main.croppingWidget)
-    if (prop && prop.getEnabled()) {
+    if (
+      prop &&
+      prop.getEnabled() &&
+      context.main.croppingWidget
+        .getWidgetState()
+        .getStatesWithLabel('handles')
+        .map(h => h.getActive())
+        .some(isActive => isActive)
+    ) {
       const indexes = cropState.getPlanes()
 
       const indexToWorld = context.main.croppingVirtualImage.getIndexToWorld()
@@ -102,9 +107,17 @@ export function createCropping(context) {
           normal: vtkMath.multiplyScalar(Array.from(direction.slice(6, 9)), -1),
         },
       ]
+
+      // Dont reset planes after user input
+      context.main.areCroppingPlanesTouched = true
+
       context.service.send({
         type: 'CROPPING_PLANES_CHANGED',
         data: croppingPlanes,
+      })
+
+      context.service.send({
+        type: 'CROPPING_PLANES_CHANGED_BY_USER',
       })
     }
   })
@@ -113,30 +126,37 @@ export function createCropping(context) {
   })
 }
 
-export function updateCroppingParameters(context, actor) {
-  const {
-    croppingBoundingBox,
-    croppingVirtualImage,
-    croppingWidget,
-  } = context.main
-  vtkBoundingBox.addBounds(croppingBoundingBox, actor.getBounds())
+export async function updateCroppingParameters(context) {
+  const { croppingVirtualImage, croppingWidget } = context.main
+
+  // croppingBoundingBox is an axis-aligned bounding box that encapsulates all
+  // objects in the scene.
+  const croppingBoundingBox = [...vtkBoundingBox.INIT_BOUNDS]
+  context.itkVtkView
+    .getRepresentations()
+    .filter(r => r.getClassName() !== 'vtkVolumeRepresentationProxy') // filter out possibly outdated images which may change in size across scales
+    .map(r => r.getBounds())
+    .concat([getBoundsOfFullImage(context)]) // include latest image
+    .forEach(bounds => {
+      vtkBoundingBox.addBounds(croppingBoundingBox, ...bounds)
+    })
 
   // Put global bounds in image oriented space
-  const imageDirection = croppingVirtualImage.getDirection()
-  const worldToImageDirection = mat3.invert([], imageDirection)
-
-  const cornersInImageOrientation = getCorners(croppingBoundingBox, []).map(c =>
-    vec3.transformMat3(c, c, worldToImageDirection)
+  const orientation = quat.fromMat3([], croppingVirtualImage.getDirection())
+  const worldToImageDirection = mat4.fromQuat(
+    [],
+    quat.invert(orientation, orientation)
   )
-  const orientedBox = [...vtkBoundingBox.INIT_BOUNDS]
-  cornersInImageOrientation.forEach(c => {
-    vtkBoundingBox.addPoint(orientedBox, ...c)
-  })
 
-  const originWorldSpace = vec3.transformMat3(
+  const orientedBox = transformBounds(
+    worldToImageDirection,
+    croppingBoundingBox
+  )
+
+  const originWorldSpace = vec3.transformMat4(
     croppingVirtualImage.getOrigin(),
     [orientedBox[0], orientedBox[2], orientedBox[4]],
-    imageDirection
+    worldToImageDirection
   )
   croppingVirtualImage.setOrigin(originWorldSpace)
 
@@ -147,8 +167,20 @@ export function updateCroppingParameters(context, actor) {
     (orientedBox[5] - orientedBox[4]) / spacing[2],
   ])
 
-  croppingWidget.copyImageDataDescription(croppingVirtualImage)
-  context.service.send('RESET_CROPPING_PLANES')
+  const widgetState = croppingWidget.getWidgetState()
+  widgetState.setIndexToWorldT(...croppingVirtualImage.getIndexToWorld())
+  widgetState.setWorldToIndexT(...croppingVirtualImage.getWorldToIndex())
+
+  if (!context.main.areCroppingPlanesTouched) {
+    // fit new actor if planes not changed by user
+    context.service.send('RESET_CROPPING_PLANES')
+  } else {
+    // update widget transforms
+    context.service.send({
+      type: 'CROPPING_PLANES_CHANGED',
+      data: context.main.croppingPlanes,
+    })
+  }
 }
 
 export function updateCroppingParametersFromImage(context, image) {

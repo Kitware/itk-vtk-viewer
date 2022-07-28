@@ -63,7 +63,7 @@ const imJoyPluginAPI = {
     return await this.viewer.captureImage()
   },
 
-  async setImage(image, name) {
+  async setImage(image) {
     const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
       image
     )
@@ -113,7 +113,6 @@ const imJoyPluginAPI = {
   setUICollapsed(collapsed) {
     this.viewer.setUICollapsed(collapsed)
   },
-
   getUICollapsed() {
     return this.viewer.getUICollapsed()
   },

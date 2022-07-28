@@ -13,10 +13,10 @@ function updateVisualizedComponents(context, name) {
     }
 
     actorContext.maxIntensityComponents = 4
-    if (!!labelImage) {
+    if (labelImage) {
       actorContext.maxIntensityComponents -= 1
     }
-    if (!!editorLabelImage) {
+    if (editorLabelImage) {
       actorContext.maxIntensityComponents -= 1
     }
 
@@ -24,17 +24,21 @@ function updateVisualizedComponents(context, name) {
       imageComponents,
       actorContext.maxIntensityComponents
     )
-    if (!actorContext.visualizedComponents.length <= numVizComps) {
+    if (actorContext.visualizedComponents.length > numVizComps) {
+      // turn off unrenderable components
       actorContext.visualizedComponents = actorContext.visualizedComponents.slice(
         0,
         numVizComps
       )
-      for (let i = numVizComps; i < imageComponents; i++) {
+      const offComps = [...Array(imageComponents).keys()].filter(
+        comp => !actorContext.visualizedComponents.includes(comp)
+      )
+      offComps.forEach(comp =>
         context.service.send({
           type: 'IMAGE_COMPONENT_VISIBILITY_CHANGED',
-          data: { name, component: i, visibility: false },
+          data: { name, component: comp, visibility: false },
         })
-      }
+      )
     }
   }
   if (labelImage) {

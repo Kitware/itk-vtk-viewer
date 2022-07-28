@@ -1,19 +1,13 @@
 import WebworkerPromise from 'webworker-promise'
 import FuseComponentsWorker from './FuseComponents.worker'
-import {
-  countElements,
-  getLargestTypeByBytes,
-  parseByComponent,
-} from './fuseImagesUtils'
+import { parseByComponent } from './fuseImagesUtils'
 
-const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
 let worker
 
 export const fuseImages = async ({
   imageAtScale,
   labelAtScale,
   visualizedComponents,
-  existingArray,
 }) => {
   const [imageByComponent, labelByComponent] = [
     imageAtScale,
@@ -43,40 +37,15 @@ export const fuseImages = async ({
       [undefined, []]
     )
 
-  const elementCount = countElements(componentInfo)
-  const largestType = getLargestTypeByBytes(componentInfo)
-
-  // We only need to construct a new typed array if we don't already
-  // have one of the right length.
-  const isExistingArrayMatchingNeed =
-    existingArray &&
-    existingArray.length === elementCount &&
-    typeof oldFusedData === typeof largestType // Avoid losing data if TypedArrays are different between images
-  const arrayToFill = isExistingArrayMatchingNeed ? existingArray : undefined
-
-  // Prep for worker.postMessage arguments \\
-
   // eslint-disable-next-line no-unused-vars
   const componentInfoSansImage = componentInfo.map(({ image, ...rest }) => ({
     ...rest,
   }))
 
-  const transferables = []
-  if (
-    arrayToFill &&
-    !haveSharedArrayBuffer &&
-    !(arrayToFill.buffer instanceof SharedArrayBuffer)
-  )
-    transferables.push(arrayToFill.buffer)
-
   if (!worker) worker = new WebworkerPromise(new FuseComponentsWorker())
-  const [fusedImageData, componentRanges] = await worker.postMessage(
-    {
-      componentInfo: componentInfoSansImage,
-      arrayToFill,
-    },
-    transferables
-  )
+  const [fusedImageData, componentRanges] = await worker.postMessage({
+    componentInfo: componentInfoSansImage,
+  })
 
   const base = imageByComponent[0]?.image ?? labelByComponent[0]?.image
   const fusedItkImage = {

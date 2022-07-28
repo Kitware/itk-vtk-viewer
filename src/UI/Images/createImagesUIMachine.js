@@ -23,10 +23,10 @@ const assignComponentVisibility = assign({
       // A component was made visible, and it was not already in the list
       // of visualized components
       const currentNumVisualized = componentVisibilities.reduce(
-        (a, c) => (c + a) | 0,
+        (a, c) => c + a,
         0
       )
-      if (currentNumVisualized.length >= actorContext.maxIntensityComponents) {
+      if (currentNumVisualized + 1 > actorContext.maxIntensityComponents) {
         // Find the index in the visulized components list of the last touched
         // component.  We need to replace it with this component the user just
         // turned on.
@@ -35,9 +35,9 @@ const assignComponentVisibility = assign({
         ] = false
       }
     }
+    if (visibility) actorContext.lastComponentVisibilityChanged = index
 
     componentVisibilities[index] = visibility
-    actorContext.lastComponentVisibilityChanged = index
 
     return images
   },

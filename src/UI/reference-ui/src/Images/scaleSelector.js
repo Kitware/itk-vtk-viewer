@@ -27,6 +27,7 @@ const scaleSelector = (context, event) => (send, onReceive) => {
     </div>
     `
   const scaleSelectorIcon = scaleSelectorDiv.children[0]
+  context.images.scaleSelectorIconDiv = scaleSelectorIcon // stash for applyImagesContrastSensitiveStyle
   applyContrastSensitiveStyleToElement(
     context,
     'invertibleButton',

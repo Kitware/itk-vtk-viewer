@@ -7,7 +7,7 @@
 //
 // And update the resulting CID below.
 //
-const IPFS_CID = 'bafybeifillrkn2sc4o3uy63afmwi37ruyjhqrke26xwwgfwtzxevoebd4m'
+const IPFS_CID = 'bafybeifcyrkjwu6jxqwrmwujodpl6np3woqrsu3mk6b4pit4bqxjjb3vfm'
 
 import fs from 'fs'
 

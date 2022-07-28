@@ -1316,7 +1316,9 @@ var getIntrinsic = function GetIntrinsic(name, allowMissing) {
       (first === '"' ||
         first === "'" ||
         first === '`' ||
-        last === '"' || last === "'" || last === '`') &&
+        last === '"' ||
+        last === "'" ||
+        last === '`') &&
       first !== last
     ) {
       throw new $SyntaxError(
@@ -29871,6 +29873,8 @@ var scaleSelector = function scaleSelector(context, event) {
         '" alt="Resolution Scale" />\n    </div>\n    '
       )
     var scaleSelectorIcon = scaleSelectorDiv.children[0]
+    context.images.scaleSelectorIconDiv = scaleSelectorIcon // stash for applyImagesContrastSensitiveStyle
+
     applyContrastSensitiveStyleToElement(
       context,
       'invertibleButton',
@@ -30224,6 +30228,11 @@ function applyImagesContrastSensitiveStyle(context) {
       context,
       'invertibleButton',
       context.images.labelImageBlendDiv
+    )
+    applyContrastSensitiveStyleToElement(
+      context,
+      'invertibleButton',
+      context.images.scaleSelectorIconDiv
     )
   }
 }

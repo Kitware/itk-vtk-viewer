@@ -1,6 +1,5 @@
 import vtkMath from 'vtk.js/Sources/Common/Core/Math'
 import { transformVec3 } from 'vtk.js/Sources/Widgets/Widgets3D/ImageCroppingWidget/helpers'
-import { updateSliceCroppingPlanes } from './croppingPlanes'
 
 function applyCroppingPlanes(context, event) {
   if (event.data) {
@@ -10,7 +9,6 @@ function applyCroppingPlanes(context, event) {
       context.main.widgetCroppingPlanes[idx].setOriginFrom(plane.origin)
       context.main.widgetCroppingPlanes[idx].setNormalFrom(plane.normal)
     })
-    updateSliceCroppingPlanes(context, planes)
 
     // update widget
     if (planes.length === 6) {

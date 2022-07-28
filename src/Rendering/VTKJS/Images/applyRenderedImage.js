@@ -60,28 +60,28 @@ function applyRenderedImage(context, event) {
 
     addCroppingPlanes(context, representationProxy)
 
-    const sliceCroppingPlanes = context.main.sliceCroppingPlanes
+    const { widgetCroppingPlanes } = context.main
     const sliceActors = representationProxy.getActors()
     sliceActors.forEach((actor, actorIdx) => {
       const sliceMapper = actor.getMapper()
       switch (actorIdx) {
         case 0:
-          sliceMapper.addClippingPlane(sliceCroppingPlanes[2])
-          sliceMapper.addClippingPlane(sliceCroppingPlanes[3])
-          sliceMapper.addClippingPlane(sliceCroppingPlanes[4])
-          sliceMapper.addClippingPlane(sliceCroppingPlanes[5])
+          sliceMapper.addClippingPlane(widgetCroppingPlanes[2])
+          sliceMapper.addClippingPlane(widgetCroppingPlanes[3])
+          sliceMapper.addClippingPlane(widgetCroppingPlanes[4])
+          sliceMapper.addClippingPlane(widgetCroppingPlanes[5])
           break
         case 1:
-          sliceMapper.addClippingPlane(sliceCroppingPlanes[0])
-          sliceMapper.addClippingPlane(sliceCroppingPlanes[1])
-          sliceMapper.addClippingPlane(sliceCroppingPlanes[4])
-          sliceMapper.addClippingPlane(sliceCroppingPlanes[5])
+          sliceMapper.addClippingPlane(widgetCroppingPlanes[0])
+          sliceMapper.addClippingPlane(widgetCroppingPlanes[1])
+          sliceMapper.addClippingPlane(widgetCroppingPlanes[4])
+          sliceMapper.addClippingPlane(widgetCroppingPlanes[5])
           break
         case 2:
-          sliceMapper.addClippingPlane(sliceCroppingPlanes[0])
-          sliceMapper.addClippingPlane(sliceCroppingPlanes[1])
-          sliceMapper.addClippingPlane(sliceCroppingPlanes[2])
-          sliceMapper.addClippingPlane(sliceCroppingPlanes[3])
+          sliceMapper.addClippingPlane(widgetCroppingPlanes[0])
+          sliceMapper.addClippingPlane(widgetCroppingPlanes[1])
+          sliceMapper.addClippingPlane(widgetCroppingPlanes[2])
+          sliceMapper.addClippingPlane(widgetCroppingPlanes[3])
           break
         default:
           console.error('Unexpected slice actor')

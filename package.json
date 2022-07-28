@@ -30,7 +30,7 @@
   "main": "./dist/itkVtkViewer.js",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "@kitware/vtk.js": "^24.14.2",
+    "@kitware/vtk.js": "^25.2.4",
     "@thewtex/iconselect.js": "^2.1.2",
     "@xstate/inspect": "^0.4.1",
     "axios": "^0.21.1",
@@ -49,7 +49,7 @@
     "promise-file-reader": "^1.0.3",
     "promise.any": "^2.0.2",
     "regenerator-runtime": "^0.13.7",
-    "vtk.js": "^24.14.2",
+    "vtk.js": "^25.2.4",
     "webworker-promise": "^0.4.2",
     "xstate": "^4.16.2"
   },

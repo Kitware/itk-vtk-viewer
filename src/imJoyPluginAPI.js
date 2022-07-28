@@ -7,7 +7,6 @@ const imJoyPluginAPI = {
   },
 
   async run(ctx) {
-    console.log('ctx.data=', ctx.data)
     if (ctx.data && ctx.data.image) {
       if (ctx.config) {
         const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
@@ -117,10 +116,6 @@ const imJoyPluginAPI = {
 
   getUICollapsed() {
     return this.viewer.getUICollapsed()
-  },
-
-  setUI(type) {
-    this.viewer.setUICollapsed(type)
   },
 
   setRotateEnabled(enabled) {

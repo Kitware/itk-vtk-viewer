@@ -142,6 +142,9 @@ function ItkVtkViewProxy(publicAPI, model) {
           model.volumeRepresentation.setVolumeVisibility(true)
         }
       }
+
+      model.croppingWidget.setFaceHandlesEnabled(true)
+      model.croppingWidget.setCornerHandlesEnabled(false)
     } else {
       // slice views
       model.camera.setParallelProjection(true)
@@ -186,6 +189,9 @@ function ItkVtkViewProxy(publicAPI, model) {
       }
 
       model.orientationWidget.setEnabled(previousState)
+
+      model.croppingWidget.setFaceHandlesEnabled(false)
+      model.croppingWidget.setCornerHandlesEnabled(true)
     }
   }
 
@@ -442,6 +448,8 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.renderer.addActor(model.dataProbeFrameActor)
   model.dataProbeActor.setVisibility(false)
   model.dataProbeFrameActor.setVisibility(false)
+  model.dataProbeActor.setPickable(false)
+  model.dataProbeFrameActor.setPickable(false)
 
   function updateDataProbeSize() {
     if (model.volumeRepresentation) {
@@ -493,6 +501,11 @@ function ItkVtkViewProxy(publicAPI, model) {
   // Must be called before the initial render.
   publicAPI.addWidgetToRegister = widget => {
     model.widgetsToRegister.push(widget)
+  }
+
+  publicAPI.addCroppingWidget = widget => {
+    model.croppingWidget = widget
+    publicAPI.addWidgetToRegister(widget)
   }
 
   publicAPI.getWidgetProp = widget => {

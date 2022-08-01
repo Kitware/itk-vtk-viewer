@@ -15,6 +15,7 @@ const imJoyPluginAPI = {
         const is2D = multiscaleImage.imageType.dimension === 2
         this.viewer = await itkVtkViewer.createViewer(container, {
           image: multiscaleImage,
+          labelImage: ctx.data?.labelImage,
           pointSets: null,
           geometries: null,
           use2D: is2D,
@@ -31,6 +32,7 @@ const imJoyPluginAPI = {
         )
         this.viewer = await itkVtkViewer.createViewer(container, {
           image: null,
+          labelImage: ctx.data?.labelImage,
           pointSets: pointSets,
           geometries: null,
           rotate: false,

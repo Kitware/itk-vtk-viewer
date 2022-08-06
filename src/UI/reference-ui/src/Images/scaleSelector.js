@@ -64,8 +64,13 @@ const scaleSelector = (context, event) => (send, onReceive) => {
   })
 
   function onImageAssigned(name) {
-    const scaleCount = context.images.actorContext.get(name).image.scaleInfo
-      .length
+    let scaleCount = 1
+    const actorContext = context.images.actorContext.get(name)
+    if (actorContext.image) {
+      scaleCount = actorContext.image.scaleInfo.length
+    } else if (actorContext.labelImage) {
+      scaleCount = actorContext.labelImage.scaleInfo.length
+    }
     if (scaleCount > 1) {
       scaleSelectorDiv.style.display = 'flex'
       applyScaleCount(scaleSelector, scaleCount)

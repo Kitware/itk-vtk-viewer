@@ -162,7 +162,11 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
               actions: [forwardTo('rendering')],
             },
             RENDERED_IMAGE_ASSIGNED: {
-              actions: [forwardTo('ui'), forwardTo('rendering')],
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
             },
             ADD_LABEL_IMAGE: {
               actions: forwardTo('ui'),

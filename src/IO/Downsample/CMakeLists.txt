@@ -17,6 +17,7 @@ find_package(ITK REQUIRED
     WebAssemblyInterface
     ITKImageGrid
     ITKImageFunction
+    GenericLabelInterpolator
   )
 include(${ITK_USE_FILE})
 

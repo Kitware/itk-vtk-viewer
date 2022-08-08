@@ -123,6 +123,9 @@ const createViewer = async (
           case 'TOGGLE_LAYER_VISIBILITY':
             eventEmitter.emit('toggleLayerVisibility', event.data)
             break
+          case 'RENDERED_IMAGE_ASSIGNED':
+            eventEmitter.emit('renderedImageAssigned', event.data)
+            break
           case 'IMAGE_COMPONENT_VISIBILITY_CHANGED':
             eventEmitter.emit('imageVisualizedComponentChanged', event.data)
             break

@@ -1316,9 +1316,7 @@ var getIntrinsic = function GetIntrinsic(name, allowMissing) {
       (first === '"' ||
         first === "'" ||
         first === '`' ||
-        last === '"' ||
-        last === "'" ||
-        last === '`') &&
+        last === '"' || last === "'" || last === '`') &&
       first !== last
     ) {
       throw new $SyntaxError(
@@ -29910,8 +29908,15 @@ var scaleSelector = function scaleSelector(context, event) {
     })
 
     function onImageAssigned(name) {
-      var scaleCount = context.images.actorContext.get(name).image.scaleInfo
-        .length
+      var _imageActorContext$im
+
+      var imageActorContext = context.images.actorContext.get(name)
+      var image =
+        (_imageActorContext$im = imageActorContext.image) !== null &&
+        _imageActorContext$im !== void 0
+          ? _imageActorContext$im
+          : imageActorContext.labelImage
+      var scaleCount = image.scaleInfo.length
 
       if (scaleCount > 1) {
         scaleSelectorDiv.style.display = 'flex'

@@ -18,7 +18,8 @@
 #include "itkBinShrinkImageFilter.h"
 #include "itkVectorImage.h"
 #include "itkResampleImageFilter.h"
-#include "itkLabelImageGaussianInterpolateImageFunction.h"
+#include "itkLabelImageGenericInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include "itkImageRegionSplitterSlowDimension.h"
 #include "itkExtractImageFilter.h"
 #include "itkRGBPixel.h"
@@ -115,18 +116,8 @@ DownsampleLabelImage(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImag
   resampleFilter->SetOutputSpacing( spacing );
   resampleFilter->SetOutputDirection( shrunk->GetDirection() );
   using CoordRepType = double;
-  using InterpolatorType = itk::LabelImageGaussianInterpolateImageFunction< ImageType, CoordRepType >;
+  using InterpolatorType = itk::LabelImageGenericInterpolateImageFunction<ImageType, itk::LinearInterpolateImageFunction>;
   auto interpolator = InterpolatorType::New();
-  double sigma[ImageType::ImageDimension];
-  double sigmaMax = 0.0;
-  for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim ) {
-    sigma[dim] = spacing[dim] * 0.7355;
-    if (sigma[dim] > sigmaMax) {
-      sigmaMax = sigma[dim];
-    }
-  }
-  interpolator->SetSigma( sigma );
-  interpolator->SetAlpha( sigmaMax * 2.5 );
   resampleFilter->SetInterpolator( interpolator );
 
   try

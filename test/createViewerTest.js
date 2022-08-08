@@ -477,6 +477,35 @@ test('Test createViewer.setImage', async t => {
   })
 })
 
+test('Test createViewer with just labelImage', async t => {
+  const gc = testUtils.createGarbageCollector(t)
+
+  const container = document.querySelector('body')
+  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+  container.appendChild(viewerContainer)
+
+  const response = await axios.get(testLabelImage3DPath, {
+    responseType: 'arraybuffer',
+  })
+  const { image: labelImage, webWorker } = await readImageArrayBuffer(
+    null,
+    response.data,
+    'data.nrrd'
+  )
+  webWorker.terminate()
+
+  const viewer = await createViewer(container, {
+    labelImage,
+    rotate: false,
+  })
+
+  t.plan(1)
+  viewer.once('renderedImageAssigned', () => {
+    t.pass('createViewer did not crash with just labelImage')
+    gc.releaseResources()
+  })
+})
+
 test('Test createViewer custom UI options', async t => {
   const gc = testUtils.createGarbageCollector(t)
 

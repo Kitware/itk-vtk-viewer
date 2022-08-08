@@ -32,9 +32,7 @@ async function updateRenderedImage(context) {
   const { renderedScale } = actorContext
 
   const [imageAtScale, labelAtScale] = await Promise.all(
-    [image, labelImage]
-      .filter(Boolean)
-      .map(image => image.scaleLargestImage(renderedScale))
+    [image, labelImage].map(image => image?.scaleLargestImage(renderedScale))
   )
   if (labelAtScale) updateContextWithLabelImage(actorContext, labelAtScale)
 

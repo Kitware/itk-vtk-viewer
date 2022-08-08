@@ -62,8 +62,7 @@ export function createCropping(context) {
       context.main.croppingWidget
         .getWidgetState()
         .getStatesWithLabel('handles')
-        .map(h => h.getActive())
-        .some(isActive => isActive)
+        .some(h => h.getActive())
     ) {
       const indexes = cropState.getPlanes()
 

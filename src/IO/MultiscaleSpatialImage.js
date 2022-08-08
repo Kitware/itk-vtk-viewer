@@ -15,8 +15,6 @@ const imageDataFromChunksWorkerPromise = new WebworkerPromise(
   imageDataFromChunksWorker
 )
 
-// const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
-
 /* Every element corresponds to a pyramid scale
      Lower scales, corresponds to a higher index, correspond to a lower
      resolution. 
@@ -36,6 +34,7 @@ const imageDataFromChunksWorkerPromise = new WebworkerPromise(
   ]
 */
 
+// code modfied from vtk.js/ImageData
 const extentToBounds = (ex, indexToWorld) => {
   // prettier-ignore
   const corners = [
@@ -50,12 +49,10 @@ const extentToBounds = (ex, indexToWorld) => {
 
   const idx = new Float64Array([corners[0], corners[1], corners[2]])
   const vout = new Float64Array(3)
-  // publicAPI.indexToWorld(idx, vout)
   vec3.transformMat4(vout, idx, indexToWorld)
   const bounds = [vout[0], vout[0], vout[1], vout[1], vout[2], vout[2]]
   for (let i = 3; i < 24; i += 3) {
     vec3.set(idx, corners[i], corners[i + 1], corners[i + 2])
-    // publicAPI.indexToWorld(idx, vout)
     vec3.transformMat4(vout, idx, indexToWorld)
     if (vout[0] < bounds[0]) {
       bounds[0] = vout[0]

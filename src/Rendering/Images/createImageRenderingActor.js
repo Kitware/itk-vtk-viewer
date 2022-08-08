@@ -164,7 +164,7 @@ const eventResponses = {
     target: 'adjustScaleForFramerate',
   },
   // Use this event to possibly update image bounds to avoid cicular loop with CROPPING_PLANES_CHANGED.
-  // CROPPING_PLANES_CHANGED may be updated automatically with by adjustScaleForFramerate.
+  // CROPPING_PLANES_CHANGED may be updated automatically by
   // ajustSCaleForFramerate->updateRenderedImage->RENDERED_IMAGE_ASSIGNED->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
   // because image size may change across scales.
   CROPPING_PLANES_CHANGED_BY_USER: {

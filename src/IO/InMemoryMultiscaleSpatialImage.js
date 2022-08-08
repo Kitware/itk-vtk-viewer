@@ -1,8 +1,5 @@
 import MultiscaleSpatialImage, { storeImage } from './MultiscaleSpatialImage'
 import componentTypeToTypedArray from './componentTypeToTypedArray'
-// import WebworkerPromise from 'webworker-promise'
-
-// import ChuckerWorker from './Chunker.worker'
 
 import {
   WorkerPool,
@@ -14,26 +11,9 @@ import {
 import computeRange from '../Rendering/VTKJS/computeRange'
 import { chunkArray, CXYZT, orderBy, toDimensionMap } from './dimensionUtils'
 
-// const createChunkerWorker = existingWorker => {
-//   if (existingWorker) {
-//     const webworkerPromise = new WebworkerPromise(existingWorker)
-//     return { webworkerPromise, worker: existingWorker }
-//   }
-
-//   const newWorker = new ChuckerWorker()
-//   const newWebworkerPromise = new WebworkerPromise(newWorker)
-//   return { webworkerPromise: newWebworkerPromise, worker: newWorker }
-// }
-
-// const createChunk = async (webWorker, args) => {
-//   const { webworkerPromise, worker } = createChunkerWorker(webWorker)
-//   const chunk = await webworkerPromise.exec('chunk', args)
-//   return { chunk, webWorker: worker }
-// }
 const numberOfWorkers = navigator.hardwareConcurrency
   ? navigator.hardwareConcurrency
   : 6
-//const chunkerWorkerPool = new WorkerPool(numberOfWorkers, createChunk)
 const downsampleWorkerPool = new WorkerPool(numberOfWorkers, runPipeline)
 
 class Coords {

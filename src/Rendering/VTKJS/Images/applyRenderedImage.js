@@ -89,6 +89,11 @@ function applyRenderedImage(context, event) {
     })
   }
 
+  // triggers update of ImageSliceOutlines if fusedImage size changed
+  context.images.representationProxy
+    .getActors()
+    .forEach(actor => actor.getMapper().modified())
+
   // call after representations are created
   updateCroppingParametersFromImage(context, actorContext.fusedImage)
 

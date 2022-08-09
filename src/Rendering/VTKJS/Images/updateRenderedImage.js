@@ -29,7 +29,7 @@ export function computeRenderedBounds(context) {
   return renderedBounds
 }
 
-async function updateRenderedImage(context, event) {
+async function updateRenderedImage(context) {
   const name = context.images.updateRenderedName
   const actorContext = context.images.actorContext.get(name)
 
@@ -111,15 +111,7 @@ async function updateRenderedImage(context, event) {
     fusedImageScalars.setRange(range, comp)
   )
 
-  // if event from changing rendered bounds, don't trigger updateCroppingParametersFromImage, which then sends CROPPING_PLANES_CHANGED
-  if (!event.type.includes('imageBoundsDeboucing')) {
-    context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
-  }
-
-  // force update if image size changed
-  context.itkVtkView.getSliceOutlineFilters().forEach(filter => {
-    filter.modified()
-  })
+  context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
 }
 
 export default updateRenderedImage

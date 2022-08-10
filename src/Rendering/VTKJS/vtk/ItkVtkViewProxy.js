@@ -1041,6 +1041,14 @@ function ItkVtkViewProxy(publicAPI, model) {
       publicAPI.renderLater()
     }
   }
+
+  publicAPI.resetCamera = bounds => {
+    model.renderer.resetCamera(bounds)
+    model.renderer.resetCameraClippingRange()
+    model.interactorStyle2D.setCenterOfRotation(model.camera.getFocalPoint())
+    model.interactorStyle3D.setCenterOfRotation(model.camera.getFocalPoint())
+    publicAPI.renderLater()
+  }
 }
 
 // ----------------------------------------------------------------------------

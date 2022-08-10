@@ -9,6 +9,18 @@ import toggleCroppingPlanes from './toggleCroppingPlanes'
 import HandlesInPixelsImageCroppingWidget from '../Widgets/HandlesInPixelsImageCroppingWidget'
 import { transformBounds } from '../../../internalUtils'
 
+export function getCropWidgetBounds(context, bounds = []) {
+  const { croppingWidget } = context.main
+
+  vtkBoundingBox.reset(bounds)
+  croppingWidget
+    .getWidgetState()
+    .getStatesWithLabel('faces')
+    .map(h => h.getOrigin())
+    .forEach(point => vtkBoundingBox.addPoint(bounds, ...point))
+  return bounds
+}
+
 export function getBoundsOfFullImage({ images }) {
   const imageActorContext = images.actorContext.get(images.updateRenderedName)
   if (!imageActorContext) return [...vtkBoundingBox.INIT_BOUNDS]
@@ -55,11 +67,20 @@ export function createCropping(context) {
 
   const cropState = croppingWidget.getWidgetState().getCroppingPlanes()
   cropState.onModified(() => {
-    const prop = context.itkVtkView.getWidgetProp(context.main.croppingWidget)
+    const { croppingWidget } = context.main
+
+    // updates bounds for camera clipping planes
+    const widgetBounds = getCropWidgetBounds(
+      context,
+      croppingWidget.getWidgetState().getBounds()
+    )
+    croppingWidget.placeWidget(widgetBounds)
+
+    const prop = context.itkVtkView.getWidgetProp(croppingWidget)
     if (
       prop &&
       prop.getEnabled() &&
-      context.main.croppingWidget
+      croppingWidget
         .getWidgetState()
         .getStatesWithLabel('handles')
         .some(h => h.getActive())

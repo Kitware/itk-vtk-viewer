@@ -1,6 +1,5 @@
 import { mat4, vec3 } from 'gl-matrix'
 import { setMatrixElement } from 'itk-wasm'
-import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 
 import componentTypeToTypedArray from './componentTypeToTypedArray'
 
@@ -33,6 +32,16 @@ const imageDataFromChunksWorkerPromise = new WebworkerPromise(
   { scale N information }
   ]
 */
+
+function inflate(bounds, delta) {
+  bounds[0] -= delta
+  bounds[1] += delta
+  bounds[2] -= delta
+  bounds[3] += delta
+  bounds[4] -= delta
+  bounds[5] += delta
+  return bounds
+}
 
 // code modfied from vtk.js/ImageData
 const extentToBounds = (ex, indexToWorld) => {
@@ -406,7 +415,6 @@ class MultiscaleSpatialImage {
 
   // indexToWorld will be undefined if getImage() not completed on scale first
   getWorldBounds(scale) {
-    const boundingBox = vtkBoundingBox.newInstance()
     const { indexToWorld } = this.scaleInfo[scale]
     const imageBounds = ensuredDims(
       [0, 1],
@@ -414,9 +422,8 @@ class MultiscaleSpatialImage {
       this.getIndexBounds(scale)
     )
     const bounds = ['x', 'y', 'z'].flatMap(dim => imageBounds.get(dim))
-    boundingBox.setBounds(bounds)
-    boundingBox.inflate(0.5)
-    return extentToBounds(boundingBox.getBounds(), indexToWorld)
+    inflate(bounds, 0.5)
+    return extentToBounds(bounds, indexToWorld)
   }
 }
 

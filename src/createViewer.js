@@ -204,6 +204,18 @@ const createViewer = async (
       } else {
         options.ui = loadedUIMachineOptions.default
       }
+    } else if (context.uiMachineOptions === 'pydata-sphinx') {
+      options.ui = {
+        href:
+          'https://cdn.jsdelivr.net/npm/itk-viewer-bootstrap-ui@0/dist/bootstrapUIMachineOptions.js.es.js',
+        export: 'default',
+      }
+    } else if (context.uiMachineOptions === 'mui') {
+      options.ui = {
+        href:
+          'https://cdn.jsdelivr.net/npm/itk-viewer-material-ui@0/dist/materialUIMachineOptions.js.es.js',
+        export: 'default',
+      }
     } else {
       options.ui = uiMachineOptions
     }

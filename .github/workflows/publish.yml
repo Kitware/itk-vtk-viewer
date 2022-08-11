@@ -28,6 +28,7 @@ jobs:
         run: |
           curl -OL https://github.com/Kitware/itk-vtk-viewer/releases/download/v14.5.0/itk-vtk-viewer-testing-data.tar.gz
           tar xvzf ./itk-vtk-viewer-testing-data.tar.gz -C test/
+          rm ./itk-vtk-viewer-testing-data.tar.gz
 
       - name: Build
         run: npm run build

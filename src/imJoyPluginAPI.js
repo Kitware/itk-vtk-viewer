@@ -27,7 +27,9 @@ const imJoyPluginAPI = {
       }
     } else if (ctx.data && ctx.data.pointSets) {
       if (ctx.config) {
-        const pointSets = ctx.data.pointSets.map(points =>
+        let pointSets = ctx.data.pointSets
+        if (!Array.isArray(pointSets)) pointSets = [pointSets]
+        pointSets = pointSets.map(points =>
           itkVtkViewer.utils.ndarrayToPointSet(points)
         )
         this.viewer = await itkVtkViewer.createViewer(container, {

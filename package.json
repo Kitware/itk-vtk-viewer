@@ -39,6 +39,7 @@
     "curry": "^1.2.0",
     "eventemitter3": "^4.0.7",
     "express": "^4.17.1",
+    "gl-matrix": "^3.4.3",
     "itk-image-io": "^1.0.0-b.15",
     "itk-mesh-io": "^1.0.0-b.15",
     "itk-viewer-icons": "^11.12.0",

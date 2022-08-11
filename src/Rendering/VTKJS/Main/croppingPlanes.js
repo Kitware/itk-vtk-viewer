@@ -7,7 +7,7 @@ import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 
 import toggleCroppingPlanes from './toggleCroppingPlanes'
 import HandlesInPixelsImageCroppingWidget from '../Widgets/HandlesInPixelsImageCroppingWidget'
-import { transformBounds } from '../../../internalUtils'
+import { transformBounds } from '../../../transformBounds'
 
 export function getCropWidgetBounds(context, bounds = []) {
   const { croppingWidget } = context.main

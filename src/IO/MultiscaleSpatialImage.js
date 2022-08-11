@@ -8,7 +8,7 @@ import WebworkerPromise from 'webworker-promise'
 import ImageDataFromChunksWorker from './ImageDataFromChunks.worker'
 import { chunkArray, CXYZT, ensuredDims, orderBy } from './dimensionUtils'
 import { getDtype } from './dtypeUtils'
-import { transformBounds } from '../internalUtils'
+import { transformBounds } from '../transformBounds'
 
 const imageDataFromChunksWorker = new ImageDataFromChunksWorker()
 const imageDataFromChunksWorkerPromise = new WebworkerPromise(
@@ -99,7 +99,7 @@ const makeMat4 = ({ direction, origin, spacing }) => {
   mat[9] = direction[7]
   mat[10] = direction[8]
 
-  return mat4.scale(mat, mat, spacing) // index to world here
+  return mat4.scale(mat, mat, spacing)
 }
 
 const makeIndexToWorld = ({ direction: inDirection, origin, spacing }) => {
@@ -118,7 +118,6 @@ const makeIndexToWorld = ({ direction: inDirection, origin, spacing }) => {
   const spacing3d = [...spacing]
   if (spacing3d[2] === undefined) spacing3d[2] = 1
 
-  // origin3d[2] += spacing[2] / 2
   return makeMat4({ direction, origin: origin3d, spacing: spacing3d })
 }
 

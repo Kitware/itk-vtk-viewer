@@ -9,7 +9,8 @@ export const ensuredDims = (defaultValue, ensuredDims, dimMap) =>
 export const toDimensionMap = (dims, array) =>
   new Map(dims.map((dim, i) => [dim, array[i]]))
 
-// drops dimensions that are not in dims
+// example: orderBy(['y', 'x'])(new Map([['x', 1], ['y', 2], ['z', 3]])) -> Map([['y', 2], ['x', 1]])
+// drops dimensions that are not in dims!
 export const orderBy = dims => map =>
   new Map(dims.map(dim => [dim, map.get(dim)]))
 

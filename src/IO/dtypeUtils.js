@@ -33,7 +33,7 @@ const dtypeUtils = Array.from(
   new Map()
 )
 
-const getType = dtype => dtype.replace(/^(<|>|=|\|)/, '') // remove starting < > = | endiness
+const getType = dtype => dtype.replace(/^(<|>|=|\|)/, '') // remove starting < > = | endianness
 
 export const getSize = dtype => {
   const type = getType(dtype)
@@ -54,4 +54,11 @@ export const ElementGetter = (dtype, buffer) => {
   const { dataViewGetter } = dtypeUtils.get(getType(dtype))
 
   return index => view[dataViewGetter](index * size, isLittleEndian)
+}
+
+export const getDtype = (typedArrayConstructor, endianness = '<') => {
+  const typedArrayToDtype = new Map(
+    Array.from(dtypeUtils).map(([key, { TypedArray }]) => [TypedArray, key])
+  )
+  return `${endianness}${typedArrayToDtype.get(typedArrayConstructor)}`
 }

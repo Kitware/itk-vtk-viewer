@@ -136,7 +136,7 @@ test('Test ZarrMultiscaleSpatialImage metadata fetching', async t => {
 
     t.equal(zarrImage.scaleInfo.length, 1, `${version} number of scales`)
 
-    const viewerImage = await zarrImage.scaleLargestImage(0)
+    const viewerImage = await zarrImage.getImage(0)
 
     verifyImage(t, viewerImage, version)
   })
@@ -150,9 +150,7 @@ test('Test ZarrMultiscaleSpatialImage chunk assembly', async t => {
   for (const { path, baseline } of getBaselines()) {
     const storeURL = new URL(path, document.location.origin)
     const zarrImage = await ZarrMultiscaleSpatialImage.fromUrl(storeURL)
-    const itkImage = await zarrImage.scaleLargestImage(
-      zarrImage.scaleInfo.length - 1
-    )
+    const itkImage = await zarrImage.getImage(zarrImage.scaleInfo.length - 1)
 
     t.deepEqual(
       takeSnapshot(itkImage),
@@ -167,7 +165,7 @@ test('Test ZarrMultiscaleSpatialImage chunk assembly', async t => {
 test('Test toMultiscaleSpatialImage from store', async t => {
   const storeURL = new URL(testZarrV4, document.location.origin)
   const zarrImage = await toMultiscaleSpatialImage(new HttpStore(storeURL))
-  const viewerImage = await zarrImage.scaleLargestImage(0)
+  const viewerImage = await zarrImage.getImage(0)
 
   verifyImage(t, viewerImage)
 

@@ -32,6 +32,13 @@ function applyRenderedImage(context, event) {
 
   context.images.source.setInputData(actorContext.fusedImage)
 
+  const volumeProxy = context.images.representationProxy
+  const savedSlicePositions = context.images.representationProxy && [
+    volumeProxy.getXSlice(),
+    volumeProxy.getYSlice(),
+    volumeProxy.getZSlice(),
+  ]
+
   // VTK.js currently only supports a single image
   if (!context.images.representationProxy) {
     context.proxyManager.createRepresentationInAllViews(context.images.source)
@@ -87,7 +94,14 @@ function applyRenderedImage(context, event) {
           console.error('Unexpected slice actor')
       }
     })
+  } else {
+    context.images.representationProxy.setInput(context.images.source)
   }
+
+  // triggers update of ImageSliceOutlines if fusedImage size changed
+  context.images.representationProxy
+    .getActors()
+    .forEach(actor => actor.getMapper().modified())
 
   // call after representations are created
   updateCroppingParametersFromImage(context, actorContext.fusedImage)
@@ -296,7 +310,7 @@ function applyRenderedImage(context, event) {
     }
   )
 
-  if (!!labelImage) {
+  if (labelImage) {
     const uniqueLabels = actorContext.uniqueLabels
 
     const labelNames = actorContext.labelNames
@@ -357,18 +371,27 @@ function applyRenderedImage(context, event) {
   Object.assign(slicingPlanes.y, ySliceDomain)
   Object.assign(slicingPlanes.z, zSliceDomain)
   context.service.send({ type: 'SLICING_PLANES_CHANGED', data: slicingPlanes })
-  if (context.main.xSlice === null) {
-    const xSlice = volumeRep.getXSlice()
-    context.service.send({ type: 'X_SLICE_CHANGED', data: xSlice })
-  }
-  if (context.main.ySlice === null) {
-    const ySlice = volumeRep.getYSlice()
-    context.service.send({ type: 'Y_SLICE_CHANGED', data: ySlice })
-  }
-  if (context.main.zSlice === null) {
-    const zSlice = volumeRep.getZSlice()
-    context.service.send({ type: 'Z_SLICE_CHANGED', data: zSlice })
-  }
+
+  const clampSlice = (old, fallback, { min, max }) =>
+    Math.max(min, Math.min(max, old ?? fallback))
+  const xSlice = clampSlice(
+    savedSlicePositions?.[0],
+    volumeRep.getXSlice(),
+    xSliceDomain
+  )
+  context.service.send({ type: 'X_SLICE_CHANGED', data: xSlice })
+  const ySlice = clampSlice(
+    savedSlicePositions?.[1],
+    volumeRep.getYSlice(),
+    ySliceDomain
+  )
+  context.service.send({ type: 'Y_SLICE_CHANGED', data: ySlice })
+  const zSlice = clampSlice(
+    savedSlicePositions?.[2],
+    volumeRep.getZSlice(),
+    zSliceDomain
+  )
+  context.service.send({ type: 'Z_SLICE_CHANGED', data: zSlice })
 }
 
 export default applyRenderedImage

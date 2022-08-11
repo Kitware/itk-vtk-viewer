@@ -9,7 +9,7 @@ function applyPiecewiseFunction(context, event) {
   const actorContext = context.images.actorContext.get(name)
   const image = actorContext.image
 
-  const pwf = context.images.piecewiseFunctions.get(component)
+  const pwf = context.images.piecewiseFunctions?.get(component)
   if (pwf && image) {
     const slicePiecewiseFunction = pwf.slice
     const volumePiecewiseFunction = pwf.volume

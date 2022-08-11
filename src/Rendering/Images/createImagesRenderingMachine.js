@@ -1,4 +1,4 @@
-import { Machine, assign, spawn, send } from 'xstate'
+import { Machine, assign, spawn, send, actions } from 'xstate'
 
 import createImageRenderingActor from './createImageRenderingActor'
 
@@ -161,6 +161,16 @@ function createImagesRenderingMachine(options, context) {
               actions: send((_, e) => e, {
                 to: (c, e) => `imageRenderingActor-${e.data.name}`,
               }),
+            },
+            CROPPING_PLANES_CHANGED_BY_USER: {
+              // send to all image actors
+              actions: actions.pure(({ images: { imageRenderingActors } }) =>
+                Array.from(imageRenderingActors.values()).map(actor =>
+                  send('CROPPING_PLANES_CHANGED_BY_USER', {
+                    to: actor,
+                  })
+                )
+              ),
             },
           },
         },

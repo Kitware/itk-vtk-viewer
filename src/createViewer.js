@@ -484,12 +484,12 @@ const createViewer = async (
           store.geometriesUI.representationProxies.push(geometryRepresentation)
 
           addCroppingPlanes(context, geometryRepresentation)
-          updateCroppingParameters(context, geometryRepresentation)
         } else {
           store.geometriesUI.sources[index].setInputData(geometry)
           store.geometriesUI.representationProxies[index].setVisibility(true)
         }
       })
+      updateCroppingParameters(context)
 
       if (geometries.length < store.geometriesUI.representationProxies.length) {
         const proxiesToDisable = store.geometriesUI.representationProxies.slice(
@@ -558,12 +558,12 @@ const createViewer = async (
           store.pointSetsUI.representationProxies.push(pointSetRepresentation)
 
           addCroppingPlanes(context, pointSetRepresentation)
-          updateCroppingParameters(context, pointSetRepresentation)
         } else {
           store.pointSetsUI.sources[index].setInputData(pointSet)
           store.pointSetsUI.representationProxies[index].setVisibility(true)
         }
       })
+      updateCroppingParameters(context)
 
       if (pointSets.length < store.pointSetsUI.representationProxies.length) {
         const proxiesToDisable = store.pointSetsUI.representationProxies.slice(
@@ -732,7 +732,6 @@ const createViewer = async (
     if (typeof component === 'undefined') {
       component = 0
     }
-    const actorContext = context.images.actorContext.get(name)
     service.send({
       type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
       data: { name, component, gaussians },
@@ -1192,7 +1191,6 @@ const createViewer = async (
     if (typeof name === 'undefined') {
       name = context.images.selectedName
     }
-    const actorContext = context.images.actorContext.get(name)
     service.send({
       type: 'IMAGE_GRADIENT_OPACITY_CHANGED',
       data: { name, gradientOpacity: opacity },
@@ -1211,7 +1209,6 @@ const createViewer = async (
     if (typeof name === 'undefined') {
       name = context.images.selectedName
     }
-    const actorContext = context.images.actorContext.get(name)
     service.send({
       type: 'IMAGE_GRADIENT_OPACITY_SCALE_CHANGED',
       data: { name, gradientOpacityScale: min },
@@ -1230,7 +1227,6 @@ const createViewer = async (
     if (typeof name === 'undefined') {
       name = context.images.selectedName
     }
-    const actorContext = context.images.actorContext.get(name)
     service.send({
       type: 'IMAGE_VOLUME_SAMPLE_DISTANCE_CHANGED',
       data: { name, volumeSampleDistance: distance },
@@ -1249,7 +1245,6 @@ const createViewer = async (
     if (typeof name === 'undefined') {
       name = context.images.selectedName
     }
-    const actorContext = context.images.actorContext.get(name)
     service.send({
       type: 'IMAGE_BLEND_MODE_CHANGED',
       data: { name, blendMode: mode },

@@ -498,6 +498,10 @@ function ItkVtkViewProxy(publicAPI, model) {
     return [model.xSliceActor, model.ySliceActor, model.zSliceActor]
   }
 
+  publicAPI.getSliceOutlineFilters = () => {
+    return [model.zSliceOutliner, model.zSliceOutliner, model.zSliceOutliner]
+  }
+
   // Must be called before the initial render.
   publicAPI.addWidgetToRegister = widget => {
     model.widgetsToRegister.push(widget)
@@ -1036,6 +1040,14 @@ function ItkVtkViewProxy(publicAPI, model) {
       publicAPI.invokeResize({ width, height })
       publicAPI.renderLater()
     }
+  }
+
+  publicAPI.resetCamera = bounds => {
+    model.renderer.resetCamera(bounds)
+    model.renderer.resetCameraClippingRange()
+    model.interactorStyle2D.setCenterOfRotation(model.camera.getFocalPoint())
+    model.interactorStyle3D.setCenterOfRotation(model.camera.getFocalPoint())
+    publicAPI.renderLater()
   }
 }
 

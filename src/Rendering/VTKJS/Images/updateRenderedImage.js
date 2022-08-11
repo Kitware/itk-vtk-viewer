@@ -1,5 +1,6 @@
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
+import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 
 import updateVisualizedComponents from './updateVisualizedComponents'
 import numericalSort from '../numericalSort'
@@ -17,6 +18,17 @@ const updateContextWithLabelImage = (actorContext, scaleLabelImage) => {
   actorContext.renderedLabelImage = scaleLabelImage
 }
 
+export function computeRenderedBounds(context) {
+  if (!context.main.croppingPlanes || context.main.croppingPlanes.length !== 6)
+    return
+
+  const renderedBounds = [...vtkBoundingBox.INIT_BOUNDS]
+  context.main.croppingPlanes.forEach(({ origin }) =>
+    vtkBoundingBox.addPoint(renderedBounds, ...origin)
+  )
+  return renderedBounds
+}
+
 async function updateRenderedImage(context) {
   const name = context.images.updateRenderedName
   const actorContext = context.images.actorContext.get(name)
@@ -31,13 +43,19 @@ async function updateRenderedImage(context) {
 
   const { renderedScale } = actorContext
 
+  const boundsToLoad = context.main.areCroppingPlanesTouched
+    ? computeRenderedBounds(context)
+    : undefined // if not touched, keep growing bounds to fit whole image
+
   const [imageAtScale, labelAtScale] = await Promise.all(
-    [image, labelImage].map(image => image?.scaleLargestImage(renderedScale))
+    [image, labelImage].map(image =>
+      image?.getImage(renderedScale, boundsToLoad)
+    )
   )
   if (labelAtScale) updateContextWithLabelImage(actorContext, labelAtScale)
 
   const isFuseNeeded =
-    Array.isArray(imageAtScale) ||
+    Array.isArray(imageAtScale) || // is conglomerate
     labelAtScale ||
     imageAtScale.imageType.components !==
       actorContext.visualizedComponents.length // more components in image than renderable
@@ -81,6 +99,9 @@ async function updateRenderedImage(context) {
     values: fusedImageData,
     numberOfComponents,
   })
+
+  // for areBoundsBigger guard
+  actorContext.loadedBounds = actorContext.fusedImage.getBounds()
 
   fusedImage.getPointData().setScalars(fusedImageScalars)
   // Trigger VolumeMapper scalarTexture update

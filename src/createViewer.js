@@ -201,13 +201,13 @@ const createViewer = async (
     } else if (context.uiMachineOptions === 'pydata-sphinx') {
       options.ui = {
         href:
-          'https://cdn.jsdelivr.net/npm/itk-viewer-bootstrap-ui@0/dist/itk-viewer-bootstrap-ui.es.js',
+          'https://cdn.jsdelivr.net/npm/itk-viewer-bootstrap-ui@0/dist/bootstrapUIMachineOptions.js.es.js',
         export: 'default',
       }
     } else if (context.uiMachineOptions === 'mui') {
       options.ui = {
         href:
-          'https://www.jsdelivr.com/package/npm/itk-viewer-material-ui@0/dist/materialUIMachineOptions.js.es.js',
+          'https://cdn.jsdelivr.net/npm/itk-viewer-material-ui@0/dist/materialUIMachineOptions.js.es.js',
         export: 'default',
       }
     } else {

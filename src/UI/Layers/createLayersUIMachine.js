@@ -196,16 +196,15 @@ const assignImageContext = assign({
 
     // Assign default piecewiseFunction
     for (let component = 0; component < components; component++) {
-      if (actorContext.piecewiseFunctionPoints.has(component)) {
-        continue
+      if (!actorContext.piecewiseFunctionPoints.has(component)) {
+        const points = context.use2D
+          ? [[0.5, 1]]
+          : [
+              [0, 0],
+              [1, 1],
+            ]
+        actorContext.piecewiseFunctionPoints.set(component, points)
       }
-      const points = context.use2D
-        ? []
-        : [
-            [0, 0],
-            [1, 1],
-          ]
-      actorContext.piecewiseFunctionPoints.set(component, points)
     }
 
     images.actorContext.set(name, actorContext)

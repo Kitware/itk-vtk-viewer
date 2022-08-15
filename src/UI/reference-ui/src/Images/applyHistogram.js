@@ -12,7 +12,6 @@ function applyHistogram(context, event) {
 
   const histogram = event.data.histogram
   context.images.transferFunctionWidget.setHistogram(histogram)
-  context.images.transferFunctionWidget.render()
 }
 
 export default applyHistogram

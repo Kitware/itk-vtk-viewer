@@ -97,6 +97,9 @@ class ImageActorContext {
   // Label index selected for changes in the UI, or special 'all' value that
   // identifies all non-backgound (index 0) labels
   selectedLabel = 'all'
+
+  // Cached histogram by component for use by UI when switching selected component
+  histograms = new Map()
 }
 
 export default ImageActorContext

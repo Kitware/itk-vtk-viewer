@@ -101,6 +101,8 @@ async function updateHistogram(context, event) {
     histogram[ii] /= maxHistogram
   }
 
+  actorContext.histograms.set(component, histogram)
+
   context.service.send({
     type: 'IMAGE_HISTOGRAM_UPDATED',
     data: { name, component, histogram },

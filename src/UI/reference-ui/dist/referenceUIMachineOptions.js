@@ -24503,6 +24503,29 @@ class Points {
     return [...this._points]
   }
   addPoint(x, y) {
+    const pointToAdd = this.createPoint(x, y)
+    this.dispatchUpdatedEvent()
+    return pointToAdd
+  }
+  addPoints(points) {
+    const pointsMade = points.map(([x, y]) => this.createPoint(x, y))
+    this.dispatchUpdatedEvent()
+    return pointsMade
+  }
+  setPoints(points) {
+    ;[...this._points].forEach(point => this.deletePoint(point))
+    return this.addPoints(points)
+  }
+  removePoint(point) {
+    this.deletePoint(point)
+    this.dispatchUpdatedEvent()
+  }
+  dispatchUpdatedEvent() {
+    this.eventTarget.dispatchEvent(
+      new CustomEvent('updated', { detail: this._points })
+    )
+  }
+  createPoint(x, y) {
     const pointToAdd = new Point(x, y)
     pointToAdd.eventTarget.addEventListener('updated', () => {
       this._points.sort((a, b) => a.x - b.x)
@@ -24510,17 +24533,10 @@ class Points {
     })
     this._points.push(pointToAdd)
     this._points.sort((a, b) => a.x - b.x)
-    this.dispatchUpdatedEvent()
     return pointToAdd
   }
-  removePoint(point) {
+  deletePoint(point) {
     this._points = this._points.filter(p => p !== point)
-    this.dispatchUpdatedEvent()
-  }
-  dispatchUpdatedEvent() {
-    this.eventTarget.dispatchEvent(
-      new CustomEvent('updated', { detail: this._points })
-    )
   }
 }
 const createLine = () => {
@@ -24653,7 +24669,7 @@ const windowPointsForSort = points => {
   windowedPoints[windowedPoints.length - 1][0] += 1e-8
   return windowedPoints
 }
-const HISTOGRAM_COLOR = 'rgba(50, 50, 50, 0.8)'
+const HISTOGRAM_COLOR = 'rgba(50, 50, 50, 0.3)'
 const Background = (container, points) => {
   const canvas = document.createElement('canvas')
   container.root.appendChild(canvas)
@@ -24741,7 +24757,7 @@ class TransferFunctionEditor {
       [0, 0],
       [1, 1],
     ]
-    startPoints.forEach(([x, y]) => this.points.addPoint(x, y))
+    this.points.setPoints(startPoints)
     this.background = Background(this.container, this.points)
     this.line = new Line(this.container, this.points)
     this.pointController = new PointsController(this.container, this.points)
@@ -24754,10 +24770,7 @@ class TransferFunctionEditor {
     return this.points.points.map(({ x, y }) => [x, y])
   }
   setPoints(points) {
-    ;[...this.points.points].forEach(point => {
-      this.points.removePoint(point)
-    })
-    points.forEach(([x, y]) => this.points.addPoint(x, y))
+    this.points.setPoints(points)
   }
   get eventTarget() {
     return this.points.eventTarget
@@ -24796,8 +24809,18 @@ const updateContextPiecewiseFunction = (context, dataRange, points) => {
   const name = context.images.selectedName
   const actorContext = context.images.actorContext.get(name)
   const component = actorContext.selectedComponent
+  context.service.send({
+    type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED',
+    data: {
+      name,
+      component,
+      points,
+    },
+  })
+
   const nodes = getNodes(dataRange, points)
   const range = getRange(dataRange, nodes)
+
   context.service.send({
     type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
     data: {
@@ -24805,16 +24828,6 @@ const updateContextPiecewiseFunction = (context, dataRange, points) => {
       component,
       range,
       nodes,
-    },
-  })
-
-  console.log('send')
-  context.service.send({
-    type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED',
-    data: {
-      name,
-      component,
-      points,
     },
   })
 }
@@ -24860,7 +24873,6 @@ const vtkPiecewiseGaussianWidgetFacade = (tfEditor, context) => {
     },
 
     setGaussians(gaussians) {
-      console.trace()
       const newG = gaussians[0]
       const oldG = cachedGaussian ?? this.getGaussians()[0]
       const heightDelta = newG.height - oldG.height
@@ -25714,6 +25726,8 @@ function applyColorRangeBounds(context, event) {
     minimumInput.step = step
     maximumInput.step = step
   }
+
+  context.images.transferFunctionWidget.setDataRange(range)
 }
 
 function applyColorRange(context, event) {
@@ -25767,36 +25781,44 @@ function applyColorRange(context, event) {
   colorRangeNormalized[0] = (colorRange[0] - fullRange[0]) / diff
   colorRangeNormalized[1] = (colorRange[1] - fullRange[0]) / diff
   var transferFunctionWidget = context.images.transferFunctionWidget
-  console.log('setRangeZoom')
   transferFunctionWidget.setRangeZoom(colorRangeNormalized)
-  transferFunctionWidget.setDataRange(colorRange)
-  var normDelta = colorRangeNormalized[1] - colorRangeNormalized[0]
-  var oldPoints = actorContext.piecewiseFunctionPoints.get(component)
-  var xValues = oldPoints.map(function(_ref) {
-    var _ref2 = _slicedToArray(_ref, 1),
-      x = _ref2[0]
 
-    return x
-  })
-  var maxOldPoints = Math.max.apply(Math, _toConsumableArray(xValues))
-  var minOldPoints = Math.min.apply(Math, _toConsumableArray(xValues))
-  var rangeOldPoints = maxOldPoints - minOldPoints
-  var points = oldPoints // find normalized position of old points
-    .map(function(_ref3) {
-      var _ref4 = _slicedToArray(_ref3, 2),
-        x = _ref4[0],
-        y = _ref4[1]
+  if (!event.data.dontUpdatePoints) {
+    var normDelta = colorRangeNormalized[1] - colorRangeNormalized[0]
+    var oldPoints = actorContext.piecewiseFunctionPoints.get(component)
+    var xValues = oldPoints.map(function(_ref) {
+      var _ref2 = _slicedToArray(_ref, 1),
+        x = _ref2[0]
 
-      return [(x - minOldPoints) / rangeOldPoints, y]
-    }) // rescale to new range
-    .map(function(_ref5) {
-      var _ref6 = _slicedToArray(_ref5, 2),
-        x = _ref6[0],
-        y = _ref6[1]
-
-      return [x * normDelta + colorRangeNormalized[0], y]
+      return x
     })
-  transferFunctionWidget.setPoints(points)
+    var maxOldPoints =
+      oldPoints.lenght > 1
+        ? Math.max.apply(Math, _toConsumableArray(xValues))
+        : 1 // if 1 point, assume whole range
+
+    var minOldPoints =
+      oldPoints.lenght > 1
+        ? Math.min.apply(Math, _toConsumableArray(xValues))
+        : 0
+    var rangeOldPoints = maxOldPoints - minOldPoints
+    var points = oldPoints // find normalized position of old points
+      .map(function(_ref3) {
+        var _ref4 = _slicedToArray(_ref3, 2),
+          x = _ref4[0],
+          y = _ref4[1]
+
+        return [(x - minOldPoints) / rangeOldPoints, y]
+      }) // rescale to new range
+      .map(function(_ref5) {
+        var _ref6 = _slicedToArray(_ref5, 2),
+          x = _ref6[0],
+          y = _ref6[1]
+
+        return [x * normDelta + colorRangeNormalized[0], y]
+      })
+    transferFunctionWidget.setPoints(points)
+  }
 }
 
 function applyColorMap(context, event) {
@@ -25871,16 +25893,6 @@ function applyColorMap(context, event) {
   //}
   //}
   //context.images.iconSelector.setSelectedValue(colorMap)
-}
-
-function applyPiecewiseFunctionGaussians(context, event) {
-  context.images
-  var name = event.data.name
-  context.images.actorContext.get(name)
-  event.data.component
-  var gaussians = event.data.gaussians
-  var transferFunctionWidget = context.images.transferFunctionWidget
-  transferFunctionWidget.setGaussians(gaussians)
 }
 
 function toggleShadow(context, event) {
@@ -27755,6 +27767,22 @@ function updateRenderedImageInterface(context, event) {
     })
 }
 
+function applyHistogram(context, event) {
+  var name = event.data.name
+  var component = event.data.component
+  var actorContext = context.images.actorContext.get(name)
+
+  if (
+    name !== context.images.selectedName ||
+    component !== actorContext.selectedComponent
+  ) {
+    return
+  }
+
+  var histogram = event.data.histogram
+  context.images.transferFunctionWidget.setHistogram(histogram)
+}
+
 function selectImageComponent(context, event) {
   context.images.componentSelector.value = event.data
   var name = event.data.name
@@ -27769,9 +27797,9 @@ function selectImageComponent(context, event) {
         name: name,
         component: component,
         range: range,
+        dontUpdatePoints: true,
       },
     })
-    transferFunctionWidget.setDataRange(range)
   }
 
   var piecewiseFuncitonPoints = actorContext.piecewiseFunctionPoints.get(
@@ -27783,6 +27811,7 @@ function selectImageComponent(context, event) {
   }
 
   if (actorContext.colorRangeBounds.has(component)) {
+    // calls transferFunctionWidget.setDataRange(range)
     applyColorRangeBounds(context, {
       data: {
         name: name,
@@ -27805,13 +27834,25 @@ function selectImageComponent(context, event) {
     )
   }
 
-  context.service.send({
-    type: 'UPDATE_IMAGE_HISTOGRAM',
-    data: {
-      name: name,
-      component: component,
-    },
-  })
+  var histogram = actorContext.histograms.get(component)
+
+  if (histogram) {
+    applyHistogram(context, {
+      data: {
+        name: name,
+        component: component,
+        histogram: histogram,
+      },
+    })
+  } else {
+    context.service.send({
+      type: 'UPDATE_IMAGE_HISTOGRAM',
+      data: {
+        name: name,
+        component: component,
+      },
+    })
+  }
 }
 
 function applyComponentVisibility(context, event) {
@@ -27831,21 +27872,14 @@ function applyComponentVisibility(context, event) {
   })
 }
 
-function applyHistogram(context, event) {
+function applyPiecewiseFunctionGaussians(context, event) {
+  context.images
   var name = event.data.name
-  var component = event.data.component
-  var actorContext = context.images.actorContext.get(name)
-
-  if (
-    name !== context.images.selectedName ||
-    component !== actorContext.selectedComponent
-  ) {
-    return
-  }
-
-  var histogram = event.data.histogram
-  context.images.transferFunctionWidget.setHistogram(histogram)
-  context.images.transferFunctionWidget.render()
+  context.images.actorContext.get(name)
+  event.data.component
+  var gaussians = event.data.gaussians
+  var transferFunctionWidget = context.images.transferFunctionWidget
+  transferFunctionWidget.setGaussians(gaussians)
 }
 
 function applyLabelImageWeights(context, event) {}

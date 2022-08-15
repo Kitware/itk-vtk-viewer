@@ -309,7 +309,7 @@ function createImagesUIMachine(options, context) {
               ],
             },
             IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED: {
-              actions: [assignPiecewiseFunctionPoints],
+              actions: assignPiecewiseFunctionPoints,
             },
             IMAGE_COLOR_RANGE_CHANGED: {
               actions: [assignColorRange, 'applyColorRange'],

@@ -54,26 +54,26 @@ function applyColorRange(context, event) {
   colorRangeNormalized[1] = (colorRange[1] - fullRange[0]) / diff
 
   const { transferFunctionWidget } = context.images
-  console.log('setRangeZoom')
   transferFunctionWidget.setRangeZoom(colorRangeNormalized)
-  transferFunctionWidget.setDataRange(colorRange)
 
-  const normDelta = colorRangeNormalized[1] - colorRangeNormalized[0]
+  if (!event.data.dontUpdatePoints) {
+    const normDelta = colorRangeNormalized[1] - colorRangeNormalized[0]
 
-  const oldPoints = actorContext.piecewiseFunctionPoints.get(component)
-  const xValues = oldPoints.map(([x]) => x)
-  const maxOldPoints = Math.max(...xValues)
-  const minOldPoints = Math.min(...xValues)
-  const rangeOldPoints = maxOldPoints - minOldPoints
-  const points = oldPoints
-    // find normalized position of old points
-    .map(([x, y]) => [(x - minOldPoints) / rangeOldPoints, y])
-    // rescale to new range
-    .map(([x, y]) => {
-      return [x * normDelta + colorRangeNormalized[0], y]
-    })
+    const oldPoints = actorContext.piecewiseFunctionPoints.get(component)
+    const xValues = oldPoints.map(([x]) => x)
+    const maxOldPoints = oldPoints.lenght > 1 ? Math.max(...xValues) : 1 // if 1 point, assume whole range
+    const minOldPoints = oldPoints.lenght > 1 ? Math.min(...xValues) : 0
+    const rangeOldPoints = maxOldPoints - minOldPoints
+    const points = oldPoints
+      // find normalized position of old points
+      .map(([x, y]) => [(x - minOldPoints) / rangeOldPoints, y])
+      // rescale to new range
+      .map(([x, y]) => {
+        return [x * normDelta + colorRangeNormalized[0], y]
+      })
 
-  transferFunctionWidget.setPoints(points)
+    transferFunctionWidget.setPoints(points)
+  }
 }
 
 export default applyColorRange

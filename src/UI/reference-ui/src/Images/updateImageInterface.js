@@ -58,7 +58,6 @@ function updateImageInterface(context) {
       })
     }
 
-    //debugger
     if (actorContext.colorRangeBounds.has(component)) {
       applyColorRangeBounds(context, {
         data: {
@@ -79,17 +78,6 @@ function updateImageInterface(context) {
         },
       })
       context.images.iconSelector.setSelectedValue(colorMap)
-    }
-
-    if (actorContext.piecewiseFunctionGaussians.has(component)) {
-      const gaussians = actorContext.piecewiseFunctionGaussians.get(component)
-      applyPiecewiseFunctionGaussians(context, {
-        data: {
-          name,
-          component,
-          gaussians,
-        },
-      })
     }
 
     toggleShadow(context, { data: name })

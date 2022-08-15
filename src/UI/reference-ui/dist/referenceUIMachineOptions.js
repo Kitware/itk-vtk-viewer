@@ -1,3 +1,6 @@
+import vtkMouseRangeManipulator from '@kitware/vtk.js/Interaction/Manipulators/MouseRangeManipulator'
+import { throttle as throttle$1 } from '@kitware/vtk.js/macros'
+
 function styleInject(css, ref) {
   if (ref === void 0) ref = {}
   var insertAt = ref.insertAt
@@ -989,7 +992,7 @@ var functionBind = Function.prototype.bind || implementation$2
 
 var bind$1 = functionBind
 
-var src$1 = bind$1.call(Function.call, Object.prototype.hasOwnProperty)
+var src = bind$1.call(Function.call, Object.prototype.hasOwnProperty)
 
 var undefined$1
 
@@ -1222,7 +1225,7 @@ var LEGACY_ALIASES = {
 }
 
 var bind = functionBind
-var hasOwn = src$1
+var hasOwn = src
 var $concat = bind.call(Function.call, Array.prototype.concat)
 var $spliceApply = bind.call(Function.apply, Array.prototype.splice)
 var $replace = bind.call(Function.call, String.prototype.replace)
@@ -1525,7 +1528,7 @@ defineProperties(getGlobal, {
 
 var globalthis = getGlobal
 
-function ownKeys$5(object, enumerableOnly) {
+function ownKeys$4(object, enumerableOnly) {
   var keys = Object.keys(object)
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object)
@@ -1538,11 +1541,11 @@ function ownKeys$5(object, enumerableOnly) {
   return keys
 }
 
-function _objectSpread$5(target) {
+function _objectSpread$4(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {}
     i % 2
-      ? ownKeys$5(Object(source), !0).forEach(function(key) {
+      ? ownKeys$4(Object(source), !0).forEach(function(key) {
           _defineProperty(target, key, source[key])
         })
       : Object.getOwnPropertyDescriptors
@@ -1550,7 +1553,7 @@ function _objectSpread$5(target) {
           target,
           Object.getOwnPropertyDescriptors(source)
         )
-      : ownKeys$5(Object(source)).forEach(function(key) {
+      : ownKeys$4(Object(source)).forEach(function(key) {
           Object.defineProperty(
             target,
             key,
@@ -1596,7 +1599,7 @@ function vtk(obj) {
     return null
   } // Shallow copy object
 
-  var model = _objectSpread$5({}, obj) // Convert into vtkObject any nested key
+  var model = _objectSpread$4({}, obj) // Convert into vtkObject any nested key
 
   Object.keys(model).forEach(function(keyName) {
     if (
@@ -1835,7 +1838,7 @@ var ClassHierarchy = /*#__PURE__*/ (function(_Array) {
   return ClassHierarchy
 })(/*#__PURE__*/ _wrapNativeSuper(Array))
 
-function ownKeys$4(object, enumerableOnly) {
+function ownKeys$3(object, enumerableOnly) {
   var keys = Object.keys(object)
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object)
@@ -1848,11 +1851,11 @@ function ownKeys$4(object, enumerableOnly) {
   return keys
 }
 
-function _objectSpread$4(target) {
+function _objectSpread$3(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {}
     i % 2
-      ? ownKeys$4(Object(source), !0).forEach(function(key) {
+      ? ownKeys$3(Object(source), !0).forEach(function(key) {
           _defineProperty(target, key, source[key])
         })
       : Object.getOwnPropertyDescriptors
@@ -1860,7 +1863,7 @@ function _objectSpread$4(target) {
           target,
           Object.getOwnPropertyDescriptors(source)
         )
-      : ownKeys$4(Object(source)).forEach(function(key) {
+      : ownKeys$3(Object(source)).forEach(function(key) {
           Object.defineProperty(
             target,
             key,
@@ -2260,8 +2263,8 @@ function obj() {
       return null
     }
 
-    var jsonArchive = _objectSpread$4(
-      _objectSpread$4({}, model),
+    var jsonArchive = _objectSpread$3(
+      _objectSpread$3({}, model),
       {},
       {
         vtkClass: publicAPI.getClassName(),
@@ -2989,7 +2992,7 @@ function event(publicAPI, model, eventName) {
 // newInstance
 // ----------------------------------------------------------------------------
 
-function newInstance$7(extend, className) {
+function newInstance$4(extend, className) {
   var constructor = function constructor() {
     var initialValues =
       arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
@@ -3282,7 +3285,7 @@ function proxy(publicAPI, model) {
     if (prop) {
       Object.assign(prop, propUI)
     } else {
-      propertyMap[propertyName] = _objectSpread$4({}, propUI)
+      propertyMap[propertyName] = _objectSpread$3({}, propUI)
     }
   }
 
@@ -3864,7 +3867,7 @@ var macro = {
   keystore: keystore,
   measurePromiseExecution: measurePromiseExecution,
   moveToProtected: moveToProtected,
-  newInstance: newInstance$7,
+  newInstance: newInstance$4,
   newTypedArray: newTypedArray,
   newTypedArrayFrom: newTypedArrayFrom,
   normalizeWheel: normalizeWheel,
@@ -20434,26 +20437,6 @@ sr.xor4096 = xor4096
 sr.tychei = tychei
 
 var floor = Math.floor
-function arrayRange(arr) {
-  var offset =
-    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
-  var stride =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1
-  var minValue = Infinity
-  var maxValue = -Infinity
-
-  for (var i = offset, len = arr.length; i < len; i += stride) {
-    if (arr[i] < minValue) {
-      minValue = arr[i]
-    }
-
-    if (maxValue < arr[i]) {
-      maxValue = arr[i]
-    }
-  }
-
-  return [minValue, maxValue]
-}
 function norm(x) {
   var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3
 
@@ -20768,7 +20751,7 @@ var Constants$3 = {
   VtkDataTypes: VtkDataTypes$1,
 }
 
-function ownKeys$3(object, enumerableOnly) {
+function ownKeys$2(object, enumerableOnly) {
   var keys = Object.keys(object)
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object)
@@ -20781,11 +20764,11 @@ function ownKeys$3(object, enumerableOnly) {
   return keys
 }
 
-function _objectSpread$3(target) {
+function _objectSpread$2(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {}
     i % 2
-      ? ownKeys$3(Object(source), !0).forEach(function(key) {
+      ? ownKeys$2(Object(source), !0).forEach(function(key) {
           _defineProperty(target, key, source[key])
         })
       : Object.getOwnPropertyDescriptors
@@ -20793,7 +20776,7 @@ function _objectSpread$3(target) {
           target,
           Object.getOwnPropertyDescriptors(source)
         )
-      : ownKeys$3(Object(source)).forEach(function(key) {
+      : ownKeys$2(Object(source)).forEach(function(key) {
           Object.defineProperty(
             target,
             key,
@@ -20948,7 +20931,7 @@ function getMaxNorm(normArray) {
 // Static API
 // ----------------------------------------------------------------------------
 
-var STATIC$1 = {
+var STATIC = {
   computeRange: computeRange,
   createRangeHelper: createRangeHelper,
   fastComputeRange: fastComputeRange,
@@ -21105,7 +21088,7 @@ function vtkDataArray(publicAPI, model) {
   /* eslint-disable no-use-before-define */
 
   publicAPI.newClone = function() {
-    return newInstance$6({
+    return newInstance$3({
       empty: true,
       name: model.name,
       dataType: model.dataType,
@@ -21144,8 +21127,8 @@ function vtkDataArray(publicAPI, model) {
       return null
     }
 
-    var jsonArchive = _objectSpread$3(
-      _objectSpread$3({}, model),
+    var jsonArchive = _objectSpread$2(
+      _objectSpread$2({}, model),
       {},
       {
         vtkClass: publicAPI.getClassName(),
@@ -21178,7 +21161,7 @@ function vtkDataArray(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$7 = {
+var DEFAULT_VALUES$3 = {
   name: '',
   numberOfComponents: 1,
   size: 0,
@@ -21187,10 +21170,10 @@ var DEFAULT_VALUES$7 = {
   // ranges: null,
 } // ----------------------------------------------------------------------------
 
-function extend$7(publicAPI, model) {
+function extend$3(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$7, initialValues)
+  Object.assign(model, DEFAULT_VALUES$3, initialValues)
 
   if (!model.empty && !model.values && !model.size) {
     throw new TypeError(
@@ -21215,15 +21198,15 @@ function extend$7(publicAPI, model) {
   vtkDataArray(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$6 = newInstance$7(extend$7, 'vtkDataArray') // ----------------------------------------------------------------------------
+var newInstance$3 = newInstance$4(extend$3, 'vtkDataArray') // ----------------------------------------------------------------------------
 
-var vtkDataArray$1 = _objectSpread$3(
-  _objectSpread$3(
+var vtkDataArray$1 = _objectSpread$2(
+  _objectSpread$2(
     {
-      newInstance: newInstance$6,
-      extend: extend$7,
+      newInstance: newInstance$3,
+      extend: extend$3,
     },
-    STATIC$1
+    STATIC
   ),
   Constants$3
 )
@@ -21267,7 +21250,7 @@ var Constants$2 = {
   ScalarMode: ScalarMode,
 }
 
-function ownKeys$2(object, enumerableOnly) {
+function ownKeys$1(object, enumerableOnly) {
   var keys = Object.keys(object)
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object)
@@ -21280,11 +21263,11 @@ function ownKeys$2(object, enumerableOnly) {
   return keys
 }
 
-function _objectSpread$2(target) {
+function _objectSpread$1(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {}
     i % 2
-      ? ownKeys$2(Object(source), !0).forEach(function(key) {
+      ? ownKeys$1(Object(source), !0).forEach(function(key) {
           _defineProperty(target, key, source[key])
         })
       : Object.getOwnPropertyDescriptors
@@ -21292,7 +21275,7 @@ function _objectSpread$2(target) {
           target,
           Object.getOwnPropertyDescriptors(source)
         )
-      : ownKeys$2(Object(source)).forEach(function(key) {
+      : ownKeys$1(Object(source)).forEach(function(key) {
           Object.defineProperty(
             target,
             key,
@@ -21831,7 +21814,7 @@ function vtkScalarsToColors(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$6 = {
+var DEFAULT_VALUES$2 = {
   alpha: 1.0,
   vectorComponent: 0,
   vectorSize: -1,
@@ -21842,10 +21825,10 @@ var DEFAULT_VALUES$6 = {
   indexedLookup: false,
 } // ----------------------------------------------------------------------------
 
-function extend$6(publicAPI, model) {
+function extend$2(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$6, initialValues) // Object methods
+  Object.assign(model, DEFAULT_VALUES$2, initialValues) // Object methods
 
   macro.obj(publicAPI, model)
   model.mappingRange = [0, 255]
@@ -21868,12 +21851,12 @@ function extend$6(publicAPI, model) {
   vtkScalarsToColors(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$5 = macro.newInstance(extend$6, 'vtkScalarsToColors') // ----------------------------------------------------------------------------
+var newInstance$2 = macro.newInstance(extend$2, 'vtkScalarsToColors') // ----------------------------------------------------------------------------
 
-var vtkScalarsToColors$1 = _objectSpread$2(
+var vtkScalarsToColors$1 = _objectSpread$1(
   {
-    newInstance: newInstance$5,
-    extend: extend$6,
+    newInstance: newInstance$2,
+    extend: extend$2,
   },
   vtkScalarsToColors$2
 )
@@ -21893,7 +21876,7 @@ var Constants$1 = {
   Scale: Scale$1,
 }
 
-function ownKeys$1(object, enumerableOnly) {
+function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object)
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object)
@@ -21906,11 +21889,11 @@ function ownKeys$1(object, enumerableOnly) {
   return keys
 }
 
-function _objectSpread$1(target) {
+function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {}
     i % 2
-      ? ownKeys$1(Object(source), !0).forEach(function(key) {
+      ? ownKeys(Object(source), !0).forEach(function(key) {
           _defineProperty(target, key, source[key])
         })
       : Object.getOwnPropertyDescriptors
@@ -21918,7 +21901,7 @@ function _objectSpread$1(target) {
           target,
           Object.getOwnPropertyDescriptors(source)
         )
-      : ownKeys$1(Object(source)).forEach(function(key) {
+      : ownKeys(Object(source)).forEach(function(key) {
           Object.defineProperty(
             target,
             key,
@@ -23104,7 +23087,7 @@ function vtkColorTransferFunction(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$5 = {
+var DEFAULT_VALUES$1 = {
   clamping: true,
   colorSpace: ColorSpace.RGB,
   hSVWrap: true,
@@ -23123,10 +23106,10 @@ var DEFAULT_VALUES$5 = {
   numberOfValues: 256,
 } // ----------------------------------------------------------------------------
 
-function extend$5(publicAPI, model) {
+function extend$1(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$5, initialValues) // Inheritance
+  Object.assign(model, DEFAULT_VALUES$1, initialValues) // Inheritance
 
   vtkScalarsToColors$1.extend(publicAPI, model, initialValues) // Internal objects initialization
 
@@ -23164,12 +23147,12 @@ function extend$5(publicAPI, model) {
   vtkColorTransferFunction(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$4 = macro.newInstance(extend$5, 'vtkColorTransferFunction') // ----------------------------------------------------------------------------
+var newInstance$1 = macro.newInstance(extend$1, 'vtkColorTransferFunction') // ----------------------------------------------------------------------------
 
-var vtkColorTransferFunction$1 = _objectSpread$1(
+var vtkColorTransferFunction$1 = _objectSpread(
   {
-    newInstance: newInstance$4,
-    extend: extend$5,
+    newInstance: newInstance$1,
+    extend: extend$1,
   },
   Constants$1
 )
@@ -23325,7 +23308,7 @@ function vtkLookupTableProxy(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$4 = {
+var DEFAULT_VALUES = {
   mode: Mode.Preset,
   presetName: Defaults.Preset,
   rgbPoints: Defaults.RGBPoints,
@@ -23336,10 +23319,10 @@ var DEFAULT_VALUES$4 = {
   dataRange: [0, 1],
 } // ----------------------------------------------------------------------------
 
-function extend$4(publicAPI, model) {
+function extend(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$4, initialValues)
+  Object.assign(model, DEFAULT_VALUES, initialValues)
   macro.obj(publicAPI, model)
   macro.setGet(publicAPI, model, ['arrayName'])
   macro.get(publicAPI, model, [
@@ -23357,11 +23340,11 @@ function extend$4(publicAPI, model) {
   macro.proxy(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$3 = macro.newInstance(extend$4, 'vtkLookupTableProxy') // ----------------------------------------------------------------------------
+var newInstance = macro.newInstance(extend, 'vtkLookupTableProxy') // ----------------------------------------------------------------------------
 
 var vtkLookupTableProxy$1 = {
-  newInstance: newInstance$3,
-  extend: extend$4,
+  newInstance: newInstance,
+  extend: extend,
   Mode: Mode,
   Defaults: Defaults,
 }
@@ -24218,2598 +24201,742 @@ function createColorRangeInput(context, imageUIGroup) {
   imageUIGroup.appendChild(colorRangeInputRow)
 }
 
-// vtkCompositeMouseManipulator methods
-// ----------------------------------------------------------------------------
-
-function vtkCompositeMouseManipulator(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkCompositeMouseManipulator')
-
-  publicAPI.startInteraction = function() {}
-
-  publicAPI.endInteraction = function() {}
-
-  publicAPI.onButtonDown = function(interactor, renderer, position) {}
-
-  publicAPI.onButtonUp = function(interactor) {}
-
-  publicAPI.onMouseMove = function(interactor, renderer, position) {}
-
-  publicAPI.onStartScroll = function(interactor, renderer, delta) {}
-
-  publicAPI.onScroll = function(interactor, renderer, delta) {}
-
-  publicAPI.onEndScroll = function(interactor) {}
-
-  publicAPI.isDragEnabled = function() {
-    return model.dragEnabled
-  }
-
-  publicAPI.isScrollEnabled = function() {
-    return model.scrollEnabled
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$3 = {
-  button: 1,
-  shift: false,
-  control: false,
-  alt: false,
-  dragEnabled: true,
-  scrollEnabled: false,
-} // ----------------------------------------------------------------------------
-
-function extend$3(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$3, initialValues) // Create get-set macros
-
-  macro.setGet(publicAPI, model, ['button', 'shift', 'control', 'alt'])
-  macro.set(publicAPI, model, ['dragEnabled', 'scrollEnabled']) // Object specific methods
-
-  vtkCompositeMouseManipulator(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var vtkCompositeMouseManipulator$1 = {
-  extend: extend$3,
+var __defProp = Object.defineProperty
+var __defNormalProp = (obj, key, value) =>
+  key in obj
+    ? __defProp(obj, key, {
+        enumerable: true,
+        configurable: true,
+        writable: true,
+        value,
+      })
+    : (obj[key] = value)
+var __publicField = (obj, key, value) => {
+  __defNormalProp(obj, typeof key !== 'symbol' ? key + '' : key, value)
+  return value
 }
-
-// vtkMouseRangeManipulator methods
-// ----------------------------------------------------------------------------
-
-function vtkMouseRangeManipulator(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkMouseRangeManipulator') // Keep track of delta that is below the value
-  // of one step to progressively increment it
-
-  var incrementalDelta = new Map() // Internal methods
-  //-------------------------------------------------------------------------
-
-  function scaleDeltaToRange(listener, normalizedDelta) {
-    return (
-      normalizedDelta * ((listener.max - listener.min) / (listener.step + 1))
-    )
-  } //-------------------------------------------------------------------------
-
-  function processDelta(listener, delta) {
-    var oldValue = listener.getValue() // if exponential scroll is enabled, we raise our scale to the
-    //  exponent of the net delta of the interaction. The further away
-    // the user's cursor is from the start of the interaction, the more
-    // their movements will effect the value.
-
-    var scalingFactor = listener.exponentialScroll
-      ? Math.pow(
-          listener.scale,
-          Math.log2(Math.abs(model.interactionNetDelta) + 2)
-        )
-      : listener.scale
-    var newDelta = delta * scalingFactor + incrementalDelta.get(listener)
-    var value = oldValue + newDelta // Compute new value based on step
-
-    var difference = value - listener.min
-    var stepsToDifference = Math.round(difference / listener.step)
-    value = listener.min + listener.step * stepsToDifference
-    value = Math.max(value, listener.min)
-    value = Math.min(value, listener.max)
-
-    if (value !== oldValue) {
-      // Update value
-      listener.setValue(value)
-      incrementalDelta.set(listener, 0)
-    } else if (
-      (value === listener.min && newDelta < 0) ||
-      (value === listener.max && newDelta > 0)
-    ) {
-      // Do not allow incremental delta to go past range
-      incrementalDelta.set(listener, 0)
-    } else {
-      // Store delta for the next iteration
-      incrementalDelta.set(listener, newDelta)
+const PADDING = 10
+const makeSvg = () => {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+  svg.setAttribute(
+    'style',
+    'position: absolute; top: 0; left: 0; z-index: 2; box-sizing: border-box; width: 100%; height: 100%;'
+  )
+  return svg
+}
+const Container = parent => {
+  const root = document.createElement('div')
+  root.setAttribute('style', 'position: relative; width: 100%; height: 100%')
+  parent.appendChild(root)
+  const svg = makeSvg()
+  root.appendChild(svg)
+  const sizeEmitter = new EventTarget()
+  const addSizeObserver = cb => {
+    sizeEmitter.addEventListener('sizeupdated', cb)
+  }
+  const resizeObserver = new ResizeObserver(() => {
+    sizeEmitter.dispatchEvent(new Event('sizeupdated'))
+  })
+  resizeObserver.observe(root)
+  const paddedBorder = document.createElementNS(
+    'http://www.w3.org/2000/svg',
+    'rect'
+  )
+  svg.appendChild(paddedBorder)
+  paddedBorder.setAttribute('fill', 'none')
+  paddedBorder.setAttribute('stroke', 'black')
+  const appendChild = shape => {
+    svg.appendChild(shape)
+  }
+  const removeChild = shape => {
+    svg.removeChild(shape)
+  }
+  let viewBox = [0, 1, 0, 1]
+  const getViewBox = () => viewBox
+  const setViewBox = (valueStart, valueEnd, opacityMin = 0, opacityMax = 1) => {
+    viewBox = [valueStart, valueEnd, opacityMin, opacityMax]
+    sizeEmitter.dispatchEvent(new Event('sizeupdated'))
+  }
+  const getSize = () => {
+    const { top, left, width, height } = root.getBoundingClientRect()
+    return {
+      width: width - 2 * PADDING,
+      height: height - 2 * PADDING,
+      top: top + PADDING,
+      left: left + PADDING,
     }
-  } // Public API methods
-  // min:number = minimum allowable value
-  // max:number = maximum allowable value
-  // step:number = value per step -- smaller = more steps over a given distance, larger = fewer steps over a given distance
-  // getValue:fn = function that returns current value
-  // setValue:fn = function to set value
-  // scale:number = scale value is applied to mouse event to allow users accelerate or decelerate delta without emitting more events
-  //-------------------------------------------------------------------------
-
-  publicAPI.setHorizontalListener = function(
-    min,
-    max,
-    step,
-    getValue,
-    setValue
+  }
+  const domToNormalized = (x, y) => {
+    const { top, left, width, height } = getSize()
+    const valueRange = viewBox[1] - viewBox[0]
+    const opacityRange = viewBox[3] - viewBox[2]
+    return [
+      ((x - left) / width) * valueRange + viewBox[0],
+      (1 - (y - top) / height) * opacityRange + viewBox[2],
+    ]
+  }
+  const normalizedToSvg = (x, y) => {
+    const { width, height } = getSize()
+    const valueRange = viewBox[1] - viewBox[0]
+    const xSvg = ((x - viewBox[0]) / valueRange) * width + PADDING
+    const opacityRange = viewBox[3] - viewBox[2]
+    const ySvg = (1 - (y - viewBox[2]) / opacityRange) * height + PADDING
+    return [xSvg, ySvg]
+  }
+  const borderSize = () => {
+    const [left, bottom] = normalizedToSvg(0, 0)
+    const [right, top] = normalizedToSvg(1, 1)
+    return { left, bottom, right, top }
+  }
+  const updateBorder = () => {
+    const { left, bottom, right, top } = borderSize()
+    paddedBorder.setAttribute('x', `${left}`)
+    paddedBorder.setAttribute('y', `${top}`)
+    paddedBorder.setAttribute('width', `${Math.max(0, right - left)}`)
+    paddedBorder.setAttribute('height', `${Math.max(0, bottom - top)}`)
+  }
+  addSizeObserver(updateBorder)
+  const remove = () => parent.removeChild(root)
+  return {
+    appendChild,
+    removeChild,
+    addSizeObserver,
+    getViewBox,
+    setViewBox,
+    domToNormalized,
+    normalizedToSvg,
+    borderSize,
+    remove,
+    root,
+  }
+}
+const CONTROL_POINT_CLASS = 'controlPoint'
+const makeCircle = () => {
+  const circle = document.createElementNS(
+    'http://www.w3.org/2000/svg',
+    'circle'
+  )
+  circle.setAttribute('r', '9')
+  circle.setAttribute('fill', 'white')
+  circle.setAttribute('stroke', 'black')
+  circle.setAttribute('stroke-width', '2')
+  circle.setAttribute('class', CONTROL_POINT_CLASS)
+  return circle
+}
+class ControlPoint {
+  constructor(
+    container,
+    point,
+    deleteEventCallback,
+    isNewPointFromPointer = false
   ) {
-    var scale =
-      arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 1
-    var exponentialScroll =
-      arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false
-    var getFn = Number.isFinite(getValue)
-      ? function() {
-          return getValue
-        }
-      : getValue
-    model.horizontalListener = {
-      min: min,
-      max: max,
-      step: step,
-      getValue: getFn,
-      setValue: setValue,
-      scale: scale,
-      exponentialScroll: exponentialScroll,
+    __publicField(this, 'element')
+    __publicField(this, 'container')
+    __publicField(this, 'point')
+    __publicField(this, 'DELETE_EVENT', 'deleteme')
+    __publicField(this, 'eventTarget', new EventTarget())
+    this.element = makeCircle()
+    this.point = point
+    this.container = container
+    container.addSizeObserver(() => {
+      this.positionElement()
+    })
+    if (deleteEventCallback) {
+      this.eventTarget.addEventListener(this.DELETE_EVENT, e => {
+        deleteEventCallback(e)
+      })
     }
-    incrementalDelta.set(model.horizontalListener, 0)
-    publicAPI.modified()
-  } //-------------------------------------------------------------------------
-
-  publicAPI.setVerticalListener = function(min, max, step, getValue, setValue) {
-    var scale =
-      arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 1
-    var exponentialScroll =
-      arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false
-    var getFn = Number.isFinite(getValue)
-      ? function() {
-          return getValue
-        }
-      : getValue
-    model.verticalListener = {
-      min: min,
-      max: max,
-      step: step,
-      getValue: getFn,
-      setValue: setValue,
-      scale: scale,
-      exponentialScroll: exponentialScroll,
+    container.appendChild(this.element)
+    this.positionElement()
+    this.setupInteraction()
+    if (isNewPointFromPointer) this.startInteraction(true)
+  }
+  remove() {
+    this.container.removeChild(this.element)
+  }
+  positionElement() {
+    const { x, y } = this.point
+    const [xSvg, ySvg] = this.container.normalizedToSvg(x, y)
+    this.element.setAttribute('cx', String(xSvg))
+    this.element.setAttribute('cy', String(ySvg))
+  }
+  movePoint(e) {
+    const [x, y] = this.container.domToNormalized(e.clientX, e.clientY)
+    this.point.setPosition(x, y)
+    this.positionElement()
+  }
+  startInteraction(forceDragging = false) {
+    let isDragging = forceDragging
+    const onPointerMove = e => {
+      isDragging = true
+      this.movePoint(e)
     }
-    incrementalDelta.set(model.verticalListener, 0)
-    publicAPI.modified()
-  } //-------------------------------------------------------------------------
-
-  publicAPI.setScrollListener = function(min, max, step, getValue, setValue) {
-    var scale =
-      arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 1
-    var exponentialScroll =
-      arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false
-    var getFn = Number.isFinite(getValue)
-      ? function() {
-          return getValue
-        }
-      : getValue
-    model.scrollListener = {
-      min: min,
-      max: max,
-      step: step,
-      getValue: getFn,
-      setValue: setValue,
-      scale: scale,
-      exponentialScroll: exponentialScroll,
+    document.addEventListener('pointermove', onPointerMove)
+    const onPointerUp = () => {
+      document.removeEventListener('pointermove', onPointerMove)
+      document.removeEventListener('pointerup', onPointerUp)
+      if (!isDragging) {
+        const delEvent = new CustomEvent(this.DELETE_EVENT, { detail: this })
+        this.eventTarget.dispatchEvent(delEvent)
+      }
     }
-    incrementalDelta.set(model.scrollListener, 0)
-    publicAPI.modified()
-  } //-------------------------------------------------------------------------
-
-  publicAPI.removeHorizontalListener = function() {
-    if (model.verticalListener) {
-      incrementalDelta.delete(model.verticalListener)
-      delete model.verticalListener
-      publicAPI.modified()
-    }
-  } //-------------------------------------------------------------------------
-
-  publicAPI.removeVerticalListener = function() {
-    if (model.horizontalListener) {
-      incrementalDelta.delete(model.horizontalListener)
-      delete model.horizontalListener
-      publicAPI.modified()
-    }
-  } //-------------------------------------------------------------------------
-
-  publicAPI.removeScrollListener = function() {
-    if (model.scrollListener) {
-      incrementalDelta.delete(model.scrollListener)
-      delete model.scrollListener
-      publicAPI.modified()
-    }
-  } //-------------------------------------------------------------------------
-
-  publicAPI.removeAllListeners = function() {
-    publicAPI.removeHorizontalListener()
-    publicAPI.removeVerticalListener()
-    publicAPI.removeScrollListener()
-  } //-------------------------------------------------------------------------
-
-  publicAPI.onButtonDown = function(interactor, renderer, position) {
-    model.previousPosition = position
-    model.interactionNetDelta = 0
-    var glRenderWindow = interactor.getView() // Ratio is the dom size vs renderwindow size
-
-    var ratio =
-      glRenderWindow.getContainerSize()[0] / glRenderWindow.getSize()[0] // Get proper pixel range used by viewport in rw size space
-
-    var size = glRenderWindow.getViewportSize(renderer) // rescale size to match mouse event position
-
-    model.containerSize = size.map(function(v) {
-      return v * ratio
+    document.addEventListener('pointerup', onPointerUp)
+  }
+  setupInteraction() {
+    this.element.addEventListener('pointerdown', event => {
+      event.stopPropagation()
+      event.preventDefault()
+      this.startInteraction()
     })
   }
-
-  publicAPI.onButtonUp = function(interactor) {
-    interactor.exitPointerLock()
-  } //--------------------------------------------------------------------------
-  // TODO: at some point, this should perhaps be done in
-  // RenderWindowInteractor instead of here.
-  // We need to hook into mousemove directly for two reasons:
-  // 1. We need to keep receiving mouse move events after the mouse button
-  //    is released. This is currently not possible with
-  //    vtkInteractorStyleManipulator.
-  // 2. Since the mouse is stationary in pointer lock mode, we need the
-  //    event.movementX and event.movementY info, which are not currently
-  //    passed via interactor.onMouseMove.
-
-  publicAPI.startPointerLockEvent = function(interactor, renderer) {
-    var handlePointerLockMove = function handlePointerLockMove(event) {
-      publicAPI.onPointerLockMove(interactor, renderer, event)
-    }
-
-    document.addEventListener('mousemove', handlePointerLockMove)
-    var subscription = null
-
-    var endInteraction = function endInteraction() {
-      var _subscription
-
-      document.removeEventListener('mousemove', handlePointerLockMove)
-      ;(_subscription = subscription) === null || _subscription === void 0
-        ? void 0
-        : _subscription.unsubscribe()
-    }
-
-    subscription =
-      interactor === null || interactor === void 0
-        ? void 0
-        : interactor.onEndPointerLock(endInteraction)
-  }
-
-  publicAPI.onPointerLockMove = function(interactor, renderer, event) {
-    // There is a slight delay between the `onEndPointerLock` call
-    // and the last `onMouseMove` event, we must make sure the pointer
-    // is still locked before we run this logic otherwise we may
-    // get a `onMouseMove` call after the pointer has been unlocked.
-    if (!interactor.isPointerLocked()) return // previousPosition could be undefined if for some reason the
-    // `startPointerLockEvent` method is called before the `onButtonDown` one.
-
-    if (model.previousPosition == null) return
-    model.previousPosition.x += event.movementX
-    model.previousPosition.y += event.movementY
-    publicAPI.onMouseMove(interactor, renderer, model.previousPosition)
-  } //-------------------------------------------------------------------------
-
-  publicAPI.onMouseMove = function(interactor, renderer, position) {
-    if (!model.verticalListener && !model.horizontalListener) {
-      return
-    } // We only want to initialize the pointer lock listener
-    // after the user starts moving their mouse, this way
-    // we don't interfere with other events such as doubleClick,
-    // for this reason we don't call this from `onButtonDown`
-
-    if (model.usePointerLock && !interactor.isPointerLocked()) {
-      interactor.requestPointerLock()
-      publicAPI.startPointerLockEvent(interactor, renderer)
-    }
-
-    if (!position) {
-      return
-    }
-
-    if (model.horizontalListener) {
-      var dxNorm =
-        (position.x - model.previousPosition.x) / model.containerSize[0]
-      var dx = scaleDeltaToRange(model.horizontalListener, dxNorm)
-      model.interactionNetDelta += dx
-      processDelta(model.horizontalListener, dx)
-    }
-
-    if (model.verticalListener) {
-      var dyNorm =
-        (position.y - model.previousPosition.y) / model.containerSize[1]
-      var dy = scaleDeltaToRange(model.verticalListener, dyNorm)
-      model.interactionNetDelta += dy
-      processDelta(model.verticalListener, dy)
-    }
-
-    model.previousPosition = position
-  } //-------------------------------------------------------------------------
-
-  publicAPI.onScroll = function(interactor, renderer, delta) {
-    if (!model.scrollListener || !delta) {
-      return
-    }
-
-    model.interactionNetDelta += delta * model.scrollListener.step
-    processDelta(model.scrollListener, delta * model.scrollListener.step)
-  }
-
-  publicAPI.onStartScroll = function(payload) {
-    model.interactionNetDelta = 0
-    publicAPI.onScroll(payload)
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$2 = {
-  horizontalListener: null,
-  verticalListener: null,
-  scrollListener: null,
-} // ----------------------------------------------------------------------------
-
-function extend$2(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$2, initialValues) // Inheritance
-
-  macro.obj(publicAPI, model)
-  vtkCompositeMouseManipulator$1.extend(publicAPI, model, initialValues) // Create get-set macros
-
-  macro.setGet(publicAPI, model, ['usePointerLock']) // Object specific methods
-
-  vtkMouseRangeManipulator(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance$2 = macro.newInstance(extend$2, 'vtkMouseRangeManipulator') // ----------------------------------------------------------------------------
-
-var vtkMouseRangeManipulator$1 = {
-  newInstance: newInstance$2,
-  extend: extend$2,
 }
-
-class TinyEmitter$1 {
-  constructor() {
-    Object.defineProperty(this, '__listeners', {
-      value: {},
-      enumerable: false,
-      writable: false,
-    })
+class PointsController {
+  constructor(container, points) {
+    __publicField(this, 'container')
+    __publicField(this, 'points')
+    __publicField(this, 'onPointsUpdated')
+    __publicField(this, 'controlPoints', [])
+    __publicField(this, 'isNewPointFromPointer', false)
+    this.container = container
+    this.points = points
+    const { root } = container
+    root.addEventListener('pointerdown', e => this.onPointerDown(e))
+    this.onPointsUpdated = () => this.updatePoints()
+    this.points.eventTarget.addEventListener('updated', this.onPointsUpdated)
+    this.updatePoints()
   }
-
-  emit(eventName, ...args) {
-    if (!this.__listeners[eventName]) return this
-
-    for (const handler of this.__listeners[eventName]) {
-      handler(...args)
-    }
-
-    return this
+  remove() {
+    this.points.eventTarget.removeEventListener('updated', this.onPointsUpdated)
   }
-
-  once(eventName, handler) {
-    const once = (...args) => {
-      this.off(eventName, once)
-      handler(...args)
-    }
-
-    return this.on(eventName, once)
+  onPointerDown(event) {
+    event.preventDefault()
+    const [x, y] = this.container.domToNormalized(event.clientX, event.clientY)
+    this.isNewPointFromPointer = true
+    this.points.addPoint(x, y)
+    this.isNewPointFromPointer = false
   }
-
-  on(eventName, handler) {
-    if (!this.__listeners[eventName]) this.__listeners[eventName] = []
-
-    this.__listeners[eventName].push(handler)
-
-    return this
+  onControlPointDelete(event) {
+    this.points.removePoint(event.detail.point)
   }
-
-  off(eventName, handler) {
-    if (handler)
-      this.__listeners[eventName] = this.__listeners[eventName].filter(
-        h => h !== handler
-      )
-    else this.__listeners[eventName] = []
-
-    return this
-  }
-}
-
-var tinyEmitter = TinyEmitter$1
-
-const TinyEmitter = tinyEmitter
-
-const MESSAGE_RESULT = 0
-const MESSAGE_EVENT = 1
-const RESULT_SUCCESS = 1
-
-class Worker$1 extends TinyEmitter {
-  /**
-   *
-   * @param worker {Worker}
-   */
-  constructor(worker) {
-    super()
-
-    this._messageId = 1
-    this._messages = new Map()
-
-    this._worker = worker
-    this._worker.onmessage = this._onMessage.bind(this)
-    this._id = Math.ceil(Math.random() * 10000000)
-  }
-
-  terminate() {
-    this._worker.terminate()
-  }
-
-  /**
-   * return true if there is no unresolved jobs
-   * @returns {boolean}
-   */
-  isFree() {
-    return this._messages.size === 0
-  }
-
-  jobsLength() {
-    return this._messages.size
-  }
-
-  /**
-   * @param operationName string
-   * @param data any
-   * @param transferable array
-   * @param onEvent function
-   * @returns {Promise}
-   */
-  exec(operationName, data = null, transferable = [], onEvent) {
-    return new Promise((res, rej) => {
-      const messageId = this._messageId++
-      this._messages.set(messageId, [res, rej, onEvent])
-      this._worker.postMessage(
-        [messageId, data, operationName],
-        transferable || []
-      )
-    })
-  }
-
-  /**
-   *
-   * @param data any
-   * @param transferable array
-   * @param onEvent function
-   * @returns {Promise}
-   */
-  postMessage(data = null, transferable = [], onEvent) {
-    return new Promise((res, rej) => {
-      const messageId = this._messageId++
-      this._messages.set(messageId, [res, rej, onEvent])
-      this._worker.postMessage([messageId, data], transferable || [])
-    })
-  }
-
-  emit(eventName, ...args) {
-    this._worker.postMessage({ eventName, args })
-  }
-
-  _onMessage(e) {
-    //if we got usual event, just emit it locally
-    if (!Array.isArray(e.data) && e.data.eventName) {
-      return super.emit(e.data.eventName, ...e.data.args)
-    }
-
-    const [type, ...args] = e.data
-
-    if (type === MESSAGE_EVENT) this._onEvent(...args)
-    else if (type === MESSAGE_RESULT) this._onResult(...args)
-    else throw new Error(`Wrong message type '${type}'`)
-  }
-
-  _onResult(messageId, success, payload) {
-    const [res, rej] = this._messages.get(messageId)
-    this._messages.delete(messageId)
-
-    return success === RESULT_SUCCESS ? res(payload) : rej(payload)
-  }
-
-  _onEvent(messageId, eventName, data) {
-    const [, , onEvent] = this._messages.get(messageId)
-
-    if (onEvent) {
-      onEvent(eventName, data)
-    }
-  }
-}
-
-var src = Worker$1
-
-function funcToSource(fn, sourcemapArg) {
-  var sourcemap = sourcemapArg === undefined ? null : sourcemapArg
-  var regex = /(['"])__worker_loader_strict__(['"])/g
-  var lines = []
-
-  // instead of extracting the function source code, just return the function as if it's being evaluated
-  // by the caller.
-  var source = fn.toString()
-  source = source.replace(regex, '$1use strict$2')
-  lines.push('(' + source + ')()')
-
-  if (sourcemap) {
-    lines.push('//# sourceMappingURL=' + sourcemap + '\n')
-  }
-  return lines
-}
-
-function createURL(fn, sourcemapArg) {
-  var lines = funcToSource(fn, sourcemapArg)
-  var blob = new Blob(lines, { type: 'application/javascript' })
-  return URL.createObjectURL(blob)
-}
-
-function createInlineWorkerFactory(fn, sourcemapArg) {
-  var url
-  return function WorkerFactory(options) {
-    url = url || createURL(fn, sourcemapArg)
-    return new Worker(url, options)
-  }
-}
-
-var WorkerFactory = createInlineWorkerFactory(
-  /* rollup-plugin-web-worker-loader */ function() {
-    ;(function() {
-      '__worker_loader_strict__'
-
-      var register = { exports: {} }
-
-      var _createClass$1 = (function() {
-        function defineProperties(target, props) {
-          for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i]
-            descriptor.enumerable = descriptor.enumerable || false
-            descriptor.configurable = true
-            if ('value' in descriptor) descriptor.writable = true
-            Object.defineProperty(target, descriptor.key, descriptor)
-          }
-        }
-        return function(Constructor, protoProps, staticProps) {
-          if (protoProps) defineProperties(Constructor.prototype, protoProps)
-          if (staticProps) defineProperties(Constructor, staticProps)
-          return Constructor
-        }
-      })()
-
-      function _classCallCheck$1(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-          throw new TypeError('Cannot call a class as a function')
-        }
-      }
-
-      var TinyEmitter$1 = (function() {
-        function TinyEmitter() {
-          _classCallCheck$1(this, TinyEmitter)
-
-          Object.defineProperty(this, '__listeners', {
-            value: {},
-            enumerable: false,
-            writable: false,
-          })
-        }
-
-        _createClass$1(TinyEmitter, [
-          {
-            key: 'emit',
-            value: function emit(eventName) {
-              if (!this.__listeners[eventName]) return this
-
-              for (
-                var _len = arguments.length,
-                  args = Array(_len > 1 ? _len - 1 : 0),
-                  _key = 1;
-                _key < _len;
-                _key++
-              ) {
-                args[_key - 1] = arguments[_key]
-              }
-
-              var _iteratorNormalCompletion = true
-              var _didIteratorError = false
-              var _iteratorError = undefined
-
-              try {
-                for (
-                  var _iterator = this.__listeners[eventName][
-                      Symbol.iterator
-                    ](),
-                    _step;
-                  !(_iteratorNormalCompletion = (_step = _iterator.next())
-                    .done);
-                  _iteratorNormalCompletion = true
-                ) {
-                  var handler = _step.value
-
-                  handler.apply(undefined, args)
-                }
-              } catch (err) {
-                _didIteratorError = true
-                _iteratorError = err
-              } finally {
-                try {
-                  if (!_iteratorNormalCompletion && _iterator.return) {
-                    _iterator.return()
-                  }
-                } finally {
-                  if (_didIteratorError) {
-                    throw _iteratorError
-                  }
-                }
-              }
-
-              return this
-            },
-          },
-          {
-            key: 'once',
-            value: function once(eventName, handler) {
-              var _this = this
-
-              var once = function once() {
-                _this.off(eventName, once)
-                handler.apply(undefined, arguments)
-              }
-
-              return this.on(eventName, once)
-            },
-          },
-          {
-            key: 'on',
-            value: function on(eventName, handler) {
-              if (!this.__listeners[eventName]) this.__listeners[eventName] = []
-
-              this.__listeners[eventName].push(handler)
-
-              return this
-            },
-          },
-          {
-            key: 'off',
-            value: function off(eventName, handler) {
-              if (handler)
-                this.__listeners[eventName] = this.__listeners[
-                  eventName
-                ].filter(function(h) {
-                  return h !== handler
-                })
-              else this.__listeners[eventName] = []
-
-              return this
-            },
-          },
-        ])
-
-        return TinyEmitter
-      })()
-
-      var tinyEmitter = TinyEmitter$1
-
-      var _createClass = (function() {
-        function defineProperties(target, props) {
-          for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i]
-            descriptor.enumerable = descriptor.enumerable || false
-            descriptor.configurable = true
-            if ('value' in descriptor) descriptor.writable = true
-            Object.defineProperty(target, descriptor.key, descriptor)
-          }
-        }
-        return function(Constructor, protoProps, staticProps) {
-          if (protoProps) defineProperties(Constructor.prototype, protoProps)
-          if (staticProps) defineProperties(Constructor, staticProps)
-          return Constructor
-        }
-      })()
-
-      var _get = function get(object, property, receiver) {
-        if (object === null) object = Function.prototype
-        var desc = Object.getOwnPropertyDescriptor(object, property)
-        if (desc === undefined) {
-          var parent = Object.getPrototypeOf(object)
-          if (parent === null) {
-            return undefined
-          } else {
-            return get(parent, property, receiver)
-          }
-        } else if ('value' in desc) {
-          return desc.value
-        } else {
-          var getter = desc.get
-          if (getter === undefined) {
-            return undefined
-          }
-          return getter.call(receiver)
-        }
-      }
-
-      var _typeof =
-        typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol'
-          ? function(obj) {
-              return typeof obj
-            }
-          : function(obj) {
-              return obj &&
-                typeof Symbol === 'function' &&
-                obj.constructor === Symbol &&
-                obj !== Symbol.prototype
-                ? 'symbol'
-                : typeof obj
-            }
-
-      function _toConsumableArray(arr) {
-        if (Array.isArray(arr)) {
-          for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-            arr2[i] = arr[i]
-          }
-          return arr2
-        } else {
-          return Array.from(arr)
-        }
-      }
-
-      function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-          throw new TypeError('Cannot call a class as a function')
-        }
-      }
-
-      function _possibleConstructorReturn(self, call) {
-        if (!self) {
-          throw new ReferenceError(
-            "this hasn't been initialised - super() hasn't been called"
-          )
-        }
-        return call && (typeof call === 'object' || typeof call === 'function')
-          ? call
-          : self
-      }
-
-      function _inherits(subClass, superClass) {
-        if (typeof superClass !== 'function' && superClass !== null) {
-          throw new TypeError(
-            'Super expression must either be null or a function, not ' +
-              typeof superClass
-          )
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-          constructor: {
-            value: subClass,
-            enumerable: false,
-            writable: true,
-            configurable: true,
-          },
-        })
-        if (superClass)
-          Object.setPrototypeOf
-            ? Object.setPrototypeOf(subClass, superClass)
-            : (subClass.__proto__ = superClass)
-      }
-
-      function _defineProperty(obj, key, value) {
-        if (key in obj) {
-          Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true,
-          })
-        } else {
-          obj[key] = value
-        }
-        return obj
-      }
-
-      var TinyEmitter = tinyEmitter
-
-      var MESSAGE_RESULT = 0
-      var MESSAGE_EVENT = 1
-
-      var RESULT_ERROR = 0
-      var RESULT_SUCCESS = 1
-
-      var DEFAULT_HANDLER = 'main'
-
-      var isPromise = function isPromise(o) {
-        return (
-          (typeof o === 'undefined' ? 'undefined' : _typeof(o)) === 'object' &&
-          o !== null &&
-          typeof o.then === 'function' &&
-          typeof o.catch === 'function'
-        )
-      }
-
-      function RegisterPromise(fn) {
-        var handlers = _defineProperty({}, DEFAULT_HANDLER, fn)
-        var sendPostMessage = self.postMessage.bind(self)
-
-        var server = new ((function(_TinyEmitter) {
-          _inherits(WorkerRegister, _TinyEmitter)
-
-          function WorkerRegister() {
-            _classCallCheck(this, WorkerRegister)
-
-            return _possibleConstructorReturn(
-              this,
-              (
-                WorkerRegister.__proto__ ||
-                Object.getPrototypeOf(WorkerRegister)
-              ).apply(this, arguments)
-            )
-          }
-
-          _createClass(WorkerRegister, [
-            {
-              key: 'emit',
-              value: function emit(eventName) {
-                for (
-                  var _len = arguments.length,
-                    args = Array(_len > 1 ? _len - 1 : 0),
-                    _key = 1;
-                  _key < _len;
-                  _key++
-                ) {
-                  args[_key - 1] = arguments[_key]
-                }
-
-                if (
-                  args.length == 1 &&
-                  args[0] instanceof TransferableResponse
-                ) {
-                  sendPostMessage(
-                    { eventName: eventName, args: args },
-                    args[0].transferable
-                  )
-                } else {
-                  sendPostMessage({ eventName: eventName, args: args })
-                }
-                return this
-              },
-            },
-            {
-              key: 'emitLocally',
-              value: function emitLocally(eventName) {
-                var _get2
-
-                for (
-                  var _len2 = arguments.length,
-                    args = Array(_len2 > 1 ? _len2 - 1 : 0),
-                    _key2 = 1;
-                  _key2 < _len2;
-                  _key2++
-                ) {
-                  args[_key2 - 1] = arguments[_key2]
-                }
-
-                ;(_get2 = _get(
-                  WorkerRegister.prototype.__proto__ ||
-                    Object.getPrototypeOf(WorkerRegister.prototype),
-                  'emit',
-                  this
-                )).call.apply(_get2, [this, eventName].concat(args))
-              },
-            },
-            {
-              key: 'operation',
-              value: function operation(name, handler) {
-                handlers[name] = handler
-                return this
-              },
-            },
-          ])
-
-          return WorkerRegister
-        })(TinyEmitter))()
-
-        var run = function run(messageId, payload, handlerName) {
-          var onSuccess = function onSuccess(result) {
-            if (result && result instanceof TransferableResponse) {
-              sendResult(
-                messageId,
-                RESULT_SUCCESS,
-                result.payload,
-                result.transferable
-              )
-            } else {
-              sendResult(messageId, RESULT_SUCCESS, result)
-            }
-          }
-
-          var onError = function onError(e) {
-            sendResult(messageId, RESULT_ERROR, {
-              message: e.message,
-              stack: e.stack,
-            })
-          }
-
-          try {
-            var result = runFn(messageId, payload, handlerName)
-            if (isPromise(result)) {
-              result.then(onSuccess).catch(onError)
-            } else {
-              onSuccess(result)
-            }
-          } catch (e) {
-            onError(e)
-          }
-        }
-
-        var runFn = function runFn(messageId, payload, handlerName) {
-          var handler = handlers[handlerName || DEFAULT_HANDLER]
-          if (!handler) throw new Error('Not found handler for this request')
-
-          return handler(payload, sendEvent.bind(null, messageId))
-        }
-
-        var sendResult = function sendResult(messageId, success, payload) {
-          var transferable =
-            arguments.length > 3 && arguments[3] !== undefined
-              ? arguments[3]
-              : []
-
-          sendPostMessage(
-            [MESSAGE_RESULT, messageId, success, payload],
-            transferable
-          )
-        }
-
-        var sendEvent = function sendEvent(messageId, eventName, payload) {
-          if (!eventName) throw new Error('eventName is required')
-
-          if (typeof eventName !== 'string')
-            throw new Error('eventName should be string')
-
-          sendPostMessage([MESSAGE_EVENT, messageId, eventName, payload])
-        }
-
-        self.addEventListener('message', function(_ref) {
-          var data = _ref.data
-
-          if (Array.isArray(data)) {
-            run.apply(undefined, _toConsumableArray(data))
-          } else if (data && data.eventName) {
-            server.emitLocally.apply(
-              server,
-              [data.eventName].concat(_toConsumableArray(data.args))
-            )
-          }
-        })
-
-        return server
-      }
-
-      var TransferableResponse = function TransferableResponse(
-        payload,
-        transferable
-      ) {
-        _classCallCheck(this, TransferableResponse)
-
-        this.payload = payload
-        this.transferable = transferable
-      }
-
-      register.exports = RegisterPromise
-      register.exports.TransferableResponse = TransferableResponse
-
-      var registerWebworker = register.exports
-
-      /* eslint-disable */
-      // prettier-ignore
-
-      registerWebworker(function (message, emit) {
-    var array = message.array;
-    var min = message.min;
-    var max = message.max;
-    var offset = message.component || 0;
-    var step = message.numberOfComponents || 1;
-    var numberOfBins = message.numberOfBins;
-    var delta = max - min;
-    var histogram = new Float32Array(numberOfBins);
-    histogram.fill(0);
-    var len = array.length;
-
-    for (var i = offset; i < len; i += step) {
-      var idx = Math.floor((numberOfBins - 1) * (Number(array[i]) - min) / delta);
-      histogram[idx] += 1;
-    }
-
-    return Promise.resolve(new registerWebworker.TransferableResponse(histogram, [histogram.buffer]));
-  });
-    })()
-  },
-  null
-)
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object)
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object)
-    enumerableOnly &&
-      (symbols = symbols.filter(function(sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable
-      })),
-      keys.push.apply(keys, symbols)
-  }
-  return keys
-}
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {}
-    i % 2
-      ? ownKeys(Object(source), !0).forEach(function(key) {
-          _defineProperty(target, key, source[key])
-        })
-      : Object.getOwnPropertyDescriptors
-      ? Object.defineProperties(
-          target,
-          Object.getOwnPropertyDescriptors(source)
-        )
-      : ownKeys(Object(source)).forEach(function(key) {
-          Object.defineProperty(
-            target,
-            key,
-            Object.getOwnPropertyDescriptor(source, key)
-          )
-        })
-  }
-  return target
-}
-/* eslint-disable no-continue */
-// ----------------------------------------------------------------------------
-// Global structures
-// ----------------------------------------------------------------------------
-
-var MIN_GAUSSIAN_WIDTH = 0.001
-var ACTION_TO_CURSOR = {
-  adjustPosition: '-webkit-grab',
-  adjustHeight: 'row-resize',
-  adjustBias: 'crosshair',
-  adjustWidth: 'col-resize',
-  adjustZoom: 'col-resize',
-}
-var TOUCH_CLICK = [] // ----------------------------------------------------------------------------
-// Global methods
-// ----------------------------------------------------------------------------
-
-var ACTIONS = {
-  adjustPosition: function adjustPosition(x, y, _ref) {
-    var originalXY = _ref.originalXY,
-      gaussian = _ref.gaussian,
-      originalGaussian = _ref.originalGaussian
-    var xOffset = originalGaussian.position - originalXY[0]
-    gaussian.position = x + xOffset
-    return true
-  },
-  adjustHeight: function adjustHeight(x, y, _ref2) {
-    var model = _ref2.model,
-      gaussian = _ref2.gaussian
-    gaussian.height = 1 - y
-    gaussian.height = Math.min(
-      1,
-      Math.max(model.gaussianMinimumHeight, gaussian.height)
+  updatePoints() {
+    const orphans = this.controlPoints.filter(
+      cp => !this.points.points.find(point => point === cp.point)
     )
-    return true
-  },
-  adjustBias: function adjustBias(x, y, _ref3) {
-    var originalXY = _ref3.originalXY,
-      gaussian = _ref3.gaussian,
-      originalGaussian = _ref3.originalGaussian
-    gaussian.xBias =
-      originalGaussian.xBias - (originalXY[0] - x) / gaussian.height
-    gaussian.yBias =
-      originalGaussian.yBias + (4 * (originalXY[1] - y)) / gaussian.height // Clamps
-
-    gaussian.xBias = Math.max(-1, Math.min(1, gaussian.xBias))
-    gaussian.yBias = Math.max(0, Math.min(2, gaussian.yBias))
-    return true
-  },
-  adjustWidth: function adjustWidth(x, y, _ref4) {
-    var originalXY = _ref4.originalXY,
-      gaussian = _ref4.gaussian,
-      originalGaussian = _ref4.originalGaussian,
-      gaussianSide = _ref4.gaussianSide
-    gaussian.width =
-      gaussianSide < 0
-        ? originalGaussian.width - (originalXY[0] - x)
-        : originalGaussian.width + (originalXY[0] - x)
-
-    if (gaussian.width < MIN_GAUSSIAN_WIDTH) {
-      gaussian.width = MIN_GAUSSIAN_WIDTH
-    }
-
-    return true
-  },
-  adjustZoom: function adjustZoom(x, y, _ref5) {
-    var rangeZoom = _ref5.rangeZoom,
-      publicAPI = _ref5.publicAPI
-    var delta = rangeZoom[1] - rangeZoom[0]
-    var absNormX = (x - rangeZoom[0]) / delta
-    var minDelta = Math.abs(absNormX - rangeZoom[0])
-    var maxDelta = Math.abs(absNormX - rangeZoom[1])
-    var meanDelta = Math.abs(absNormX - 0.5 * (rangeZoom[0] + rangeZoom[1]))
-
-    if (meanDelta < Math.min(minDelta, maxDelta)) {
-      var halfDelta = delta * 0.5
-      rangeZoom[0] = Math.min(
-        Math.max(absNormX - halfDelta, 0),
-        rangeZoom[1] - 0.1
+    orphans.forEach(cp => cp.remove())
+    this.controlPoints = this.controlPoints.filter(cp => !orphans.includes(cp))
+    const isPointInControlPoints = point =>
+      this.controlPoints.find(cp => cp.point === point)
+    const addNewControlPoint = point =>
+      this.controlPoints.push(
+        new ControlPoint(
+          this.container,
+          point,
+          e => this.onControlPointDelete(e),
+          this.isNewPointFromPointer
+        )
       )
-      rangeZoom[1] = Math.max(
-        Math.min(absNormX + halfDelta, 1),
-        rangeZoom[0] + 0.1
-      )
-    } else if (minDelta < maxDelta) {
-      rangeZoom[0] = Math.min(Math.max(absNormX, 0), rangeZoom[1] - 0.1)
-    } else {
-      rangeZoom[1] = Math.max(Math.min(absNormX, 1), rangeZoom[0] + 0.1)
-    }
-
-    publicAPI.invokeZoomChange(rangeZoom) // The opacity did not changed
-
-    return false
-  },
-} // ----------------------------------------------------------------------------
-
-function computeOpacities(gaussians) {
-  var sampling =
-    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 256
-  var opacities = []
-
-  while (opacities.length < sampling) {
-    opacities.push(0)
+    this.points.points
+      .filter(pointModel => !isPointInControlPoints(pointModel))
+      .forEach(addNewControlPoint)
   }
-
-  var count = gaussians.length
-
-  while (count--) {
-    var _gaussians$count = gaussians[count],
-      position = _gaussians$count.position,
-      height = _gaussians$count.height,
-      width = _gaussians$count.width,
-      xBias = _gaussians$count.xBias,
-      yBias = _gaussians$count.yBias
-
-    for (var i = 0; i < sampling; i++) {
-      var x = i / (sampling - 1) // clamp non-zero values to pos +/- width
-
-      if (x > position + width || x < position - width) {
-        if (opacities[i] < 0.0) {
-          opacities[i] = 0.0
-        }
-
-        continue
-      } // non-zero width
-
-      var correctedWidth =
-        width < MIN_GAUSSIAN_WIDTH ? MIN_GAUSSIAN_WIDTH : width // translate the original x to a new x based on the xbias
-
-      var x0 = 0
-
-      if (xBias === 0 || x === position + xBias) {
-        x0 = x
-      } else if (x > position + xBias) {
-        if (correctedWidth === xBias) {
-          x0 = position
-        } else {
-          x0 =
-            position +
-            (x - position - xBias) * (correctedWidth / (correctedWidth - xBias))
-        }
-      } else if (-correctedWidth === xBias) {
-        // (x < pos+xBias)
-        x0 = position
-      } else {
-        x0 =
-          position -
-          (x - position - xBias) * (correctedWidth / (correctedWidth + xBias))
-      } // center around 0 and normalize to -1,1
-
-      var x1 = (x0 - position) / correctedWidth // do a linear interpolation between:
-      //    a gaussian and a parabola        if 0 < yBias <1
-      //    a parabola and a step function   if 1 < yBias <2
-
-      var h0a = Math.exp(-(4 * x1 * x1))
-      var h0b = 1.0 - x1 * x1
-      var h0c = 1.0
-      var h1 = void 0
-
-      if (yBias < 1) {
-        h1 = yBias * h0b + (1 - yBias) * h0a
-      } else {
-        h1 = (2 - yBias) * h0b + (yBias - 1) * h0c
-      }
-
-      var h2 = height * h1 // perform the MAX over different gaussians, not the sum
-
-      if (h2 > opacities[i]) {
-        opacities[i] = h2
-      }
-    }
+}
+const clamp0to1 = x => Math.max(0, Math.min(1, x))
+class Point {
+  constructor(x, y) {
+    __publicField(this, '_x')
+    __publicField(this, '_y')
+    __publicField(this, 'eventTarget', new EventTarget())
+    this.x = x
+    this.y = y
   }
-
-  return opacities
-} // ----------------------------------------------------------------------------
-
-function applyGaussianToPiecewiseFunction(
-  gaussians,
-  sampling,
-  rangeToUse,
-  piecewiseFunction
-) {
-  var opacities = computeOpacities(gaussians, sampling)
-  var nodes = []
-  var delta = (rangeToUse[1] - rangeToUse[0]) / (opacities.length - 1)
-  var midpoint = 0.5
-  var sharpness = 0
-
-  for (var index = 0; index < opacities.length; index++) {
-    var x = rangeToUse[0] + delta * index
-    var y = opacities[index]
-    nodes.push({
-      x: x,
-      y: y,
-      midpoint: midpoint,
-      sharpness: sharpness,
+  get x() {
+    return this._x
+  }
+  set x(newX) {
+    this._x = clamp0to1(newX)
+    this.dispatchUpdatedEvent()
+  }
+  get y() {
+    return this._y
+  }
+  set y(newY) {
+    this._y = clamp0to1(newY)
+    this.dispatchUpdatedEvent()
+  }
+  setPosition(x, y) {
+    this.x = x
+    this.y = y
+    this.dispatchUpdatedEvent()
+  }
+  dispatchUpdatedEvent() {
+    this.eventTarget.dispatchEvent(
+      new CustomEvent('updated', { detail: [this.x, this.y] })
+    )
+  }
+}
+const windowPoints = points => {
+  if (points.length === 0) {
+    return [
+      [0, 1],
+      [1, 1],
+    ]
+  }
+  if (points.length === 1) {
+    const [, y] = points[0]
+    return [
+      [0, y],
+      [1, y],
+    ]
+  }
+  const head = points[0]
+  const tail = points[points.length - 1]
+  return [[head[0], 0], ...points, [tail[0], 0]]
+}
+const pointsToWindowedPoints = points =>
+  windowPoints(points.map(({ x, y }) => [x, y]))
+class Points {
+  constructor() {
+    __publicField(this, '_points', [])
+    __publicField(this, 'eventTarget', new EventTarget())
+  }
+  get points() {
+    return [...this._points]
+  }
+  addPoint(x, y) {
+    const pointToAdd = new Point(x, y)
+    pointToAdd.eventTarget.addEventListener('updated', () => {
+      this._points.sort((a, b) => a.x - b.x)
+      this.dispatchUpdatedEvent()
     })
+    this._points.push(pointToAdd)
+    this._points.sort((a, b) => a.x - b.x)
+    this.dispatchUpdatedEvent()
+    return pointToAdd
   }
-
-  piecewiseFunction.setNodes(nodes)
-} // ----------------------------------------------------------------------------
-
-function drawChart(ctx, area, values) {
-  var style =
-    arguments.length > 3 && arguments[3] !== undefined
-      ? arguments[3]
-      : {
-          lineWidth: 1,
-          strokeStyle: '#000',
-        }
-  var verticalScale = area[3]
-  var horizontalScale = area[2] / (values.length - 1)
-  var fill = !!style.fillStyle
-  var offset = verticalScale + area[1]
+  removePoint(point) {
+    this._points = this._points.filter(p => p !== point)
+    this.dispatchUpdatedEvent()
+  }
+  dispatchUpdatedEvent() {
+    this.eventTarget.dispatchEvent(
+      new CustomEvent('updated', { detail: this._points })
+    )
+  }
+}
+const createLine = () => {
+  const line = document.createElementNS(
+    'http://www.w3.org/2000/svg',
+    'polyline'
+  )
+  line.setAttribute('fill', 'none')
+  line.setAttribute('stroke', 'black')
+  line.setAttribute('stroke-width', '2')
+  return line
+}
+class Line {
+  constructor(container, points) {
+    __publicField(this, 'points')
+    __publicField(this, 'container')
+    __publicField(this, 'onPointsUpdated')
+    __publicField(this, 'element')
+    this.container = container
+    this.points = points
+    this.element = createLine()
+    this.container.appendChild(this.element)
+    this.onPointsUpdated = () => this.update()
+    this.points.eventTarget.addEventListener('updated', this.onPointsUpdated)
+    this.container.addSizeObserver(() => {
+      this.update()
+    })
+    this.update()
+  }
+  remove() {
+    this.points.eventTarget.removeEventListener('updated', this.onPointsUpdated)
+  }
+  update() {
+    if (this.points.points.length === 0) {
+      this.element.setAttribute('points', '')
+      return
+    }
+    const stringPoints = pointsToWindowedPoints(this.points.points)
+      .map(([x, y]) => this.container.normalizedToSvg(x, y))
+      .map(([x, y]) => `${x},${y}`)
+      .join(' ')
+    this.element.setAttribute('points', stringPoints)
+  }
+}
+const SCALE_SENSITIVITY = 1.1
+const WheelZoom = container => {
+  container.root.addEventListener('wheel', e => {
+    e.preventDefault()
+    e.stopPropagation()
+    const scaleFactor = e.deltaY > 0 ? SCALE_SENSITIVITY : 1 / SCALE_SENSITIVITY
+    const [targetX, targetY] = container.domToNormalized(e.clientX, e.clientY)
+    const [left, right, bottom, top] = container.getViewBox()
+    const newLeft = Math.max(
+      0,
+      left - Math.max(0, targetX - left) * (scaleFactor - 1)
+    )
+    const newRight = Math.min(1, (right - left) * scaleFactor + newLeft)
+    const newBottom = Math.max(
+      0,
+      bottom - Math.max(0, targetY - bottom) * (scaleFactor - 1)
+    )
+    const newTop = Math.min(1, (top - bottom) * scaleFactor + newBottom)
+    container.setViewBox(newLeft, newRight, newBottom, newTop)
+  })
+}
+const drawChart = (
+  ctx,
+  area,
+  values,
+  style = {
+    lineWidth: 1,
+    strokeStyle: '#000',
+    fillStyle: void 0,
+    clip: false,
+  }
+) => {
+  const verticalScale = area[3]
+  const horizontalScale = area[2] / (values.length - 1)
+  const offset = verticalScale + area[1]
   ctx.lineWidth = style.lineWidth
   ctx.strokeStyle = style.strokeStyle
   ctx.beginPath()
   ctx.moveTo(area[0], area[1] + area[3])
-
-  for (var index = 0; index < values.length; index++) {
+  for (let index = 0; index < values.length; index++) {
     ctx.lineTo(
       area[0] + index * horizontalScale,
       Math.max(area[1], offset - values[index] * verticalScale)
     )
   }
-
-  if (fill) {
+  if (style.fillStyle) {
     ctx.fillStyle = style.fillStyle
     ctx.lineTo(area[0] + area[2], area[1] + area[3])
-
     if (style.clip) {
       ctx.clip()
       return
     }
-
     ctx.fill()
   }
-
   ctx.stroke()
-} // ----------------------------------------------------------------------------
-
-function updateColorCanvas(colorTransferFunction, width, rangeToUse, canvas) {
-  var workCanvas = canvas || document.createElement('canvas')
-  workCanvas.setAttribute('width', width)
-  workCanvas.setAttribute('height', 256)
-  var ctx = workCanvas.getContext('2d')
-  var rgba = colorTransferFunction.getUint8Table(
-    rangeToUse[0],
-    rangeToUse[1],
+}
+const CANVAS_HEIGHT = 1
+const updateColorCanvas = (colorTransferFunction, width, canvas) => {
+  const workCanvas = canvas || document.createElement('canvas')
+  workCanvas.setAttribute('width', String(width))
+  workCanvas.setAttribute('height', String(CANVAS_HEIGHT))
+  const [startValue, endValue] = colorTransferFunction.getMappingRange()
+  const rgba = colorTransferFunction.getUint8Table(
+    startValue,
+    endValue,
     width,
-    4
+    true
   )
-  var pixelsArea = ctx.getImageData(0, 0, width, 256)
-
-  for (var lineIdx = 0; lineIdx < 256; lineIdx++) {
-    pixelsArea.data.set(rgba, lineIdx * 4 * width)
+  const ctx = workCanvas.getContext('2d')
+  if (ctx) {
+    const pixelsArea = ctx.getImageData(0, 0, width, CANVAS_HEIGHT)
+    for (let lineIdx = 0; lineIdx < CANVAS_HEIGHT; lineIdx++) {
+      pixelsArea.data.set(rgba, lineIdx * 4 * width)
+    }
+    const nbValues = CANVAS_HEIGHT * width * 4
+    for (let i = 3; i < nbValues; i += 4) {
+      pixelsArea.data[i] = 255
+    }
+    ctx.putImageData(pixelsArea, 0, 0)
   }
-
-  var nbValues = 256 * width * 4
-  var lineSize = width * 4
-
-  for (var i = 3; i < nbValues; i += 4) {
-    pixelsArea.data[i] = 255 - Math.floor(i / lineSize)
-  }
-
-  ctx.putImageData(pixelsArea, 0, 0)
   return workCanvas
-} // ----------------------------------------------------------------------------
-
-function updateColorCanvasFromImage(img, width, canvas) {
-  var workCanvas = canvas || document.createElement('canvas')
-  workCanvas.setAttribute('width', width)
-  workCanvas.setAttribute('height', 256)
-  var ctx = workCanvas.getContext('2d')
-  ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, width, 256)
-  return workCanvas
-} // ----------------------------------------------------------------------------
-
-function normalizeCoordinates(x, y, subRectangeArea) {
-  var zoomRange =
-    arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [0, 1]
-  return [
-    zoomRange[0] +
-      ((x - subRectangeArea[0]) / subRectangeArea[2]) *
-        (zoomRange[1] - zoomRange[0]),
-    (y - subRectangeArea[1]) / subRectangeArea[3],
-  ]
-} // ----------------------------------------------------------------------------
-
-function findGaussian(x, gaussians) {
-  var distances = gaussians.map(function(g) {
-    return Math.abs(g.position - x)
-  })
-  var min = Math.min.apply(Math, _toConsumableArray(distances))
-  return distances.indexOf(min)
-} // ----------------------------------------------------------------------------
-
-function createListener(callback) {
-  var preventDefault =
-    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true
-  return function(e) {
-    var offsetX = e.offsetX,
-      offsetY = e.offsetY
-
-    if (preventDefault) {
-      e.preventDefault()
-    }
-
-    callback(offsetX, offsetY)
-  }
-} // ----------------------------------------------------------------------------
-
-function createTouchClickListener() {
-  var id = TOUCH_CLICK.length
-
-  for (
-    var _len = arguments.length, callbacks = new Array(_len), _key = 0;
-    _key < _len;
-    _key++
-  ) {
-    callbacks[_key] = arguments[_key]
-  }
-
-  TOUCH_CLICK.push({
-    callbacks: callbacks,
-    timeout: 0,
-    deltaT: 200,
-    count: 0,
-    ready: false,
-  })
-  return id
-} // ----------------------------------------------------------------------------
-
-function processTouchClicks() {
-  TOUCH_CLICK.filter(function(t) {
-    return t.ready
-  }).forEach(function(touchHandle) {
-    touchHandle.callbacks.forEach(function(callback) {
-      if (
-        callback.touches === touchHandle.touches &&
-        callback.clicks === touchHandle.count
-      ) {
-        callback.action.apply(
-          callback,
-          _toConsumableArray(touchHandle.singleTouche)
-        )
-      }
-    }) // Clear state
-
-    touchHandle.ts = 0
-    touchHandle.count = 0
-    touchHandle.touches = 0
-    touchHandle.ready = false
-  })
-} // ----------------------------------------------------------------------------
-
-function createTouchListener(id, callback) {
-  var nbTouches =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1
-  var preventDefault =
-    arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true
-  return function(e) {
-    var targetBounds = e.target.getBoundingClientRect()
-    var relativeTouches = Array.prototype.map.call(e.touches, function(t) {
-      return [t.pageX - targetBounds.left, t.pageY - targetBounds.top]
-    })
-    var singleTouche = relativeTouches
-      .reduce(
-        function(a, b) {
-          return [a[0] + b[0], a[1] + b[1]]
-        },
-        [0, 0]
+}
+const windowPointsForSort = points => {
+  const windowedPoints = windowPoints(points)
+  windowedPoints[0][0] -= 1e-8
+  windowedPoints[windowedPoints.length - 1][0] += 1e-8
+  return windowedPoints
+}
+const HISTOGRAM_COLOR = 'rgba(50, 50, 50, 0.8)'
+const Background = (container, points) => {
+  const canvas = document.createElement('canvas')
+  container.root.appendChild(canvas)
+  canvas.setAttribute('style', 'width: 100%; height: 100%; ')
+  const ctx = canvas.getContext('2d')
+  let colorTransferFunction
+  let histogram
+  const colorCanvas = document.createElement('canvas')
+  const render = () => {
+    if (!ctx) return
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    if (colorTransferFunction) {
+      const { width, height } = container.root.getBoundingClientRect()
+      canvas.setAttribute('width', String(width))
+      canvas.setAttribute('height', String(height))
+      const { left, right, bottom, top } = container.borderSize()
+      const borderWidth = Math.ceil(right - left)
+      if (borderWidth < 0) return
+      const windowed = pointsToWindowedPoints(points.points)
+      const linePoints = [[0, 0], ...windowed, [1, 0]].map(([x, y]) =>
+        container.normalizedToSvg(x, y)
       )
-      .map(function(v) {
-        return v / e.touches.length
+      ctx.save()
+      ctx.beginPath()
+      linePoints.forEach(([x, y]) => {
+        ctx.lineTo(x, y)
       })
-
-    if (e.type === 'touchstart') {
-      clearTimeout(TOUCH_CLICK[id].timeout)
-      TOUCH_CLICK[id].ts = e.timeStamp
-      TOUCH_CLICK[id].singleTouche = singleTouche
-      TOUCH_CLICK[id].touches = e.touches.length
-    } else if (e.type === 'touchmove') {
-      TOUCH_CLICK[id].ts = 0
-      TOUCH_CLICK[id].count = 0
-      TOUCH_CLICK[id].ready = false
-    } else if (e.type === 'touchend') {
-      if (e.timeStamp - TOUCH_CLICK[id].ts < TOUCH_CLICK[id].deltaT) {
-        TOUCH_CLICK[id].count += 1
-        TOUCH_CLICK[id].ready = true
-
-        if (preventDefault) {
-          e.preventDefault()
-        }
-
-        TOUCH_CLICK[id].timeout = setTimeout(
-          processTouchClicks,
-          TOUCH_CLICK[id].deltaT
-        )
-      } else {
-        TOUCH_CLICK[id].ready = false
-      }
-    }
-
-    if (e.touches.length === nbTouches) {
-      callback.apply(void 0, _toConsumableArray(singleTouche))
-
-      if (preventDefault) {
-        e.preventDefault()
-      }
-    }
-  }
-} // ----------------------------------------------------------------------------
-
-function listenerSelector(condition, ok, ko) {
-  return function(e) {
-    return condition() ? ok(e) : ko(e)
-  }
-} // ----------------------------------------------------------------------------
-
-function rescaleArray(array, focusArea) {
-  if (!focusArea) {
-    return array
-  }
-
-  var maxIdx = array.length - 1
-  var idxRange = focusArea.map(function(v) {
-    return Math.round(v * maxIdx)
-  })
-  return array.slice(idxRange[0], idxRange[1] + 1)
-} // ----------------------------------------------------------------------------
-
-function rescaleValue(value, focusArea) {
-  if (!focusArea) {
-    return value
-  }
-
-  return (value - focusArea[0]) / (focusArea[1] - focusArea[0])
-} // ----------------------------------------------------------------------------
-// Static API
-// ----------------------------------------------------------------------------
-
-var STATIC = {
-  applyGaussianToPiecewiseFunction: applyGaussianToPiecewiseFunction,
-  computeOpacities: computeOpacities,
-  createListener: createListener,
-  drawChart: drawChart,
-  findGaussian: findGaussian,
-  listenerSelector: listenerSelector,
-  normalizeCoordinates: normalizeCoordinates,
-} // ----------------------------------------------------------------------------
-// vtkPiecewiseGaussianWidget methods
-// ----------------------------------------------------------------------------
-
-function vtkPiecewiseGaussianWidget(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkPiecewiseGaussianWidget')
-
-  if (!model.canvas) {
-    model.canvas = document.createElement('canvas')
-  }
-
-  publicAPI.setContainer = function(el) {
-    if (model.container && model.container !== el) {
-      model.container.removeChild(model.canvas)
-    }
-
-    if (model.container !== el) {
-      model.container = el
-
-      if (model.container) {
-        model.container.appendChild(model.canvas)
-      }
-
-      publicAPI.modified()
-    }
-  }
-
-  publicAPI.setGaussians = function(gaussians) {
-    if (model.gaussians === gaussians) {
-      return
-    }
-
-    model.gaussians = gaussians
-    model.opacities = computeOpacities(model.gaussians, model.piecewiseSize)
-    publicAPI.invokeOpacityChange(publicAPI)
-    publicAPI.modified()
-  }
-
-  publicAPI.addGaussian = function(position, height, width, xBias, yBias) {
-    var nextIndex = model.gaussians.length
-    model.gaussians.push({
-      position: position,
-      height: height,
-      width: width,
-      xBias: xBias,
-      yBias: yBias,
-    })
-    model.opacities = computeOpacities(model.gaussians, model.piecewiseSize)
-    publicAPI.invokeOpacityChange(publicAPI)
-    publicAPI.modified()
-    return nextIndex
-  }
-
-  publicAPI.removeGaussian = function(index) {
-    model.gaussians.splice(index, 1)
-    model.opacities = computeOpacities(model.gaussians, model.piecewiseSize)
-    publicAPI.invokeOpacityChange(publicAPI)
-    publicAPI.modified()
-  }
-
-  publicAPI.setSize = function(width, height) {
-    model.canvas.setAttribute('width', width)
-    model.canvas.setAttribute('height', height)
-
-    if (model.size[0] !== width || model.size[1] !== height) {
-      model.size = [width, height]
-      model.colorCanvasMTime = 0
-      publicAPI.modified()
-    }
-  }
-
-  publicAPI.updateStyle = function(style) {
-    model.style = _objectSpread(_objectSpread({}, model.style), style)
-    publicAPI.modified()
-  } // Method used to compute and show data distribution in the background.
-  // When an array with many components is used, you can provide additional
-  // information to choose which component you want to extract the histogram
-  // from.
-
-  publicAPI.setDataArray = function(array) {
-    var _ref6 =
-        arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-      _ref6$numberOfBinToCo = _ref6.numberOfBinToConsiders,
-      numberOfBinToConsiders =
-        _ref6$numberOfBinToCo === void 0 ? 1 : _ref6$numberOfBinToCo,
-      _ref6$numberOfBinsToS = _ref6.numberOfBinsToSkip,
-      numberOfBinsToSkip =
-        _ref6$numberOfBinsToS === void 0 ? 1 : _ref6$numberOfBinsToS,
-      _ref6$numberOfCompone = _ref6.numberOfComponents,
-      numberOfComponents =
-        _ref6$numberOfCompone === void 0 ? 1 : _ref6$numberOfCompone,
-      _ref6$component = _ref6.component,
-      component = _ref6$component === void 0 ? 0 : _ref6$component
-
-    model.histogram = null
-    model.histogramArray = array
-    model.dataRange = arrayRange(array, component, numberOfComponents)
-
-    var _model$dataRange = _slicedToArray(model.dataRange, 2),
-      min = _model$dataRange[0],
-      max = _model$dataRange[1]
-
-    var maxNumberOfWorkers = 4
-    var arrayStride = Math.floor(array.length / maxNumberOfWorkers) || 1
-    arrayStride += arrayStride % numberOfComponents
-    var arrayIndex = 0
-    var workerChunks = []
-    var workers = []
-
-    while (arrayIndex < array.length) {
-      var worker = new WorkerFactory()
-      workers.push(worker)
-      var workerPromise = new src(worker)
-      var arrayStart = arrayIndex
-      var arrayEnd = Math.min(arrayIndex + arrayStride, array.length - 1)
-      var subArray = new array.constructor(
-        array.slice(arrayStart, arrayEnd + 1)
+      ctx.clip()
+      const [tailX] = linePoints[linePoints.length - 2]
+      const [headX] = linePoints[1]
+      const pointsRange = Math.floor(tailX - headX) || borderWidth
+      updateColorCanvas(colorTransferFunction, pointsRange, colorCanvas)
+      ctx.drawImage(
+        colorCanvas,
+        0,
+        0,
+        colorCanvas.width,
+        colorCanvas.height,
+        Math.floor(headX),
+        Math.floor(top),
+        pointsRange,
+        Math.ceil(bottom - top)
       )
-      workerChunks.push(
-        workerPromise.postMessage(
-          {
-            array: subArray,
-            component: component,
-            numberOfComponents: numberOfComponents,
-            min: min,
-            max: max,
-            numberOfBins: model.numberOfBins,
-          },
-          [subArray.buffer]
-        )
-      )
-      arrayIndex += arrayStride
+      ctx.restore()
     }
-
-    Promise.all(workerChunks).then(function(subHistograms) {
-      workers.forEach(function(worker) {
-        return worker.terminate()
-      })
-      model.histogram = new Float32Array(model.numberOfBins)
-      model.histogram.fill(0)
-      subHistograms.forEach(function(subHistogram) {
-        for (var i = 0, len = subHistogram.length; i < len; ++i) {
-          model.histogram[i] += subHistogram[i]
-        }
-      }) // Smart Rescale Histogram
-
-      var sampleSize = Math.min(
-        numberOfBinToConsiders,
-        model.histogram.length - numberOfBinsToSkip
-      )
-      var sortedArray = Array.from(model.histogram)
-      sortedArray.sort(function(a, b) {
-        return Number(a) - Number(b)
-      })
-
-      for (var i = 0; i < numberOfBinsToSkip; i++) {
-        sortedArray.pop()
-      }
-
-      while (sortedArray.length > sampleSize) {
-        sortedArray.shift()
-      }
-
-      var mean =
-        sortedArray.reduce(function(a, b) {
-          return a + b
-        }, 0) / sampleSize
-
-      for (var _i = 0, len = model.histogram.length; _i < len; ++_i) {
-        model.histogram[_i] /= mean
-      }
-
-      publicAPI.modified()
-      setTimeout(publicAPI.render, 0)
-    })
-    publicAPI.modified()
-  }
-
-  publicAPI.onClick = function(x, y) {
-    var _normalizeCoordinates = normalizeCoordinates(
-        x,
-        y,
-        model.graphArea,
-        model.enableRangeZoom ? model.rangeZoom : null
-      ),
-      _normalizeCoordinates2 = _slicedToArray(_normalizeCoordinates, 2),
-      xNormalized = _normalizeCoordinates2[0],
-      yNormalized = _normalizeCoordinates2[1]
-
-    if (xNormalized < 0 && model.style.iconSize > 1) {
-      // Control buttons
-      var delta = model.style.iconSize + model.style.padding
-      var offset = delta
-      var buttonIdx = 0
-
-      while (y > offset) {
-        buttonIdx += 1
-        offset += delta
-      }
-
-      switch (buttonIdx) {
-        case 0: {
-          var gaussianIdx = publicAPI.addGaussian(0, 1, 0.1, 0, 0)
-          var gaussian = model.gaussians[gaussianIdx]
-
-          var originalGaussian = _objectSpread({}, gaussian)
-
-          var action = ACTIONS.adjustPosition
-          model.activeGaussian = gaussianIdx
-          model.selectedGaussian = gaussianIdx // Fake active action
-
-          macro.setImmediate(function() {
-            publicAPI.onDown(x, y)
-            model.dragAction = {
-              originalXY: [0, 0],
-              action: action,
-              gaussian: gaussian,
-              originalGaussian: originalGaussian,
-            }
-          })
-          break
-        }
-
-        case 1: {
-          if (model.selectedGaussian !== -1) {
-            publicAPI.removeGaussian(model.selectedGaussian)
-          }
-
-          break
-        }
-
-        default: {
-          model.selectedGaussian = -1
-          model.dragAction = null
-        }
-      }
-    } else if (
-      xNormalized < 0 ||
-      xNormalized > 1 ||
-      yNormalized < 0 ||
-      yNormalized > 1
-    ) {
-      model.selectedGaussian = -1
-      model.dragAction = null
-    } else {
-      var newSelected = findGaussian(xNormalized, model.gaussians)
-
-      if (newSelected !== model.selectedGaussian) {
-        model.selectedGaussian = newSelected
-        publicAPI.modified()
-      }
-    }
-
-    return true
-  }
-
-  publicAPI.onHover = function(x, y) {
-    // Determines the interaction region size for adjusting the Gaussian's
-    // height.
-    var tolerance = 20 / model.canvas.height
-
-    var _normalizeCoordinates3 = normalizeCoordinates(
-        x,
-        y,
-        model.graphArea,
-        model.enableRangeZoom ? model.rangeZoom : null
-      ),
-      _normalizeCoordinates4 = _slicedToArray(_normalizeCoordinates3, 2),
-      xNormalized = _normalizeCoordinates4[0],
-      yNormalized = _normalizeCoordinates4[1]
-
-    var _normalizeCoordinates5 = normalizeCoordinates(x, y, model.graphArea),
-      _normalizeCoordinates6 = _slicedToArray(_normalizeCoordinates5, 1),
-      xNormalizedAbs = _normalizeCoordinates6[0]
-
-    var newActive =
-      xNormalized < 0
-        ? model.selectedGaussian
-        : findGaussian(xNormalized, model.gaussians)
-    model.canvas.style.cursor = 'default'
-    var gaussian = model.gaussians[newActive]
-
-    if (
-      model.enableRangeZoom &&
-      xNormalizedAbs >= 0 &&
-      y < model.graphArea[1] - 6 // circle radius
-    ) {
-      var thirdDelta = (model.rangeZoom[1] - model.rangeZoom[0]) / 3
-
-      if (
-        xNormalizedAbs < model.rangeZoom[0] + thirdDelta ||
-        xNormalizedAbs > model.rangeZoom[1] - thirdDelta
-      ) {
-        model.canvas.style.cursor = ACTION_TO_CURSOR.adjustZoom
-      } else {
-        model.canvas.style.cursor = ACTION_TO_CURSOR.adjustPosition
-      }
-
-      model.dragAction = {
-        rangeZoom: model.rangeZoom,
-        action: ACTIONS.adjustZoom,
-      }
-    } else if (gaussian && xNormalizedAbs >= 0) {
-      var invY = 1 - yNormalized
-      var actionName = null
-
-      if (invY > gaussian.height + tolerance) {
-        actionName = 'adjustPosition'
-      } else if (invY > gaussian.height - tolerance) {
-        if (Math.abs(xNormalized - gaussian.position) < tolerance) {
-          actionName = 'adjustHeight'
-        } else {
-          actionName = 'adjustPosition'
-        }
-      } else if (invY > gaussian.height * 0.5 + tolerance) {
-        actionName = 'adjustPosition'
-      } else if (invY > gaussian.height * 0.5 - tolerance) {
-        if (Math.abs(xNormalized - gaussian.position) < tolerance) {
-          actionName = 'adjustBias'
-        } else {
-          actionName = 'adjustPosition'
-        }
-      } else if (invY > tolerance) {
-        actionName = 'adjustPosition'
-      } else {
-        actionName = 'adjustWidth'
-      }
-
-      model.canvas.style.cursor = ACTION_TO_CURSOR[actionName]
-      var action = ACTIONS[actionName]
-
-      var originalGaussian = _objectSpread({}, gaussian)
-
-      model.dragAction = {
-        originalXY: [xNormalized, yNormalized],
-        action: action,
-        gaussian: gaussian,
-        originalGaussian: originalGaussian,
-      }
-    }
-
-    if (newActive !== model.activeGaussian) {
-      model.activeGaussian = newActive
-      publicAPI.modified()
-    }
-
-    return true
-  }
-
-  publicAPI.onDown = function(x, y) {
-    if (!model.mouseIsDown) {
-      publicAPI.invokeAnimation(true)
-    }
-
-    model.mouseIsDown = true
-    var xNormalized = normalizeCoordinates(
-      x,
-      y,
-      model.graphArea,
-      model.enableRangeZoom ? model.rangeZoom : null
-    )[0]
-    var newSelected = findGaussian(xNormalized, model.gaussians)
-    model.gaussianSide = 0
-    var gaussian = model.gaussians[newSelected]
-
-    if (gaussian) {
-      model.gaussianSide = gaussian.position - xNormalized
-    }
-
-    if (newSelected !== model.selectedGaussian && xNormalized > 0) {
-      model.selectedGaussian = newSelected
-      publicAPI.modified()
-    }
-
-    return true
-  }
-
-  publicAPI.onDrag = function(x, y) {
-    if (model.dragAction) {
-      var _normalizeCoordinates7 = normalizeCoordinates(
-          x,
-          y,
-          model.graphArea,
-          model.enableRangeZoom ? model.rangeZoom : null
-        ),
-        _normalizeCoordinates8 = _slicedToArray(_normalizeCoordinates7, 2),
-        xNormalized = _normalizeCoordinates8[0],
-        yNormalized = _normalizeCoordinates8[1]
-
-      var action = model.dragAction.action
-
-      if (
-        action(
-          xNormalized,
-          yNormalized,
-          _objectSpread(
-            {
-              gaussianSide: model.gaussianSide,
-              model: model,
-              publicAPI: publicAPI,
-            },
-            model.dragAction
-          )
-        )
-      ) {
-        model.opacities = computeOpacities(model.gaussians, model.piecewiseSize)
-        publicAPI.invokeOpacityChange(publicAPI, true)
-      }
-
-      publicAPI.modified()
-    }
-
-    return true
-  }
-
-  publicAPI.onUp = function(x, y) {
-    if (model.mouseIsDown) {
-      publicAPI.invokeAnimation(false)
-    }
-
-    model.mouseIsDown = false
-    return true
-  }
-
-  publicAPI.onLeave = function(x, y) {
-    publicAPI.onUp(x, y)
-    model.canvas.style.cursor = 'default'
-    model.activeGaussian = -1
-    publicAPI.modified()
-    return true
-  }
-
-  publicAPI.onAddGaussian = function(x, y) {
-    var _normalizeCoordinates9 = normalizeCoordinates(
-        x,
-        y,
-        model.graphArea,
-        model.enableRangeZoom ? model.rangeZoom : null
-      ),
-      _normalizeCoordinates10 = _slicedToArray(_normalizeCoordinates9, 2),
-      xNormalized = _normalizeCoordinates10[0],
-      yNormalized = _normalizeCoordinates10[1]
-
-    if (xNormalized >= 0) {
-      publicAPI.addGaussian(xNormalized, 1 - yNormalized, 0.1, 0, 0)
-    }
-
-    return true
-  }
-
-  publicAPI.onRemoveGaussian = function(x, y) {
-    var xNormalized = normalizeCoordinates(
-      x,
-      y,
-      model.graphArea,
-      model.enableRangeZoom ? model.rangeZoom : null
-    )[0]
-    var newSelected = findGaussian(xNormalized, model.gaussians)
-
-    if (xNormalized >= 0 && newSelected !== -1) {
-      publicAPI.removeGaussian(newSelected)
-    }
-
-    return true
-  }
-
-  publicAPI.bindMouseListeners = function() {
-    if (!model.listeners) {
-      var isDown = function isDown() {
-        return !!model.mouseIsDown
-      }
-
-      var touchId = createTouchClickListener(
-        {
-          clicks: 1,
-          touches: 1,
-          action: publicAPI.onClick,
-        },
-        {
-          clicks: 2,
-          touches: 1,
-          action: publicAPI.onAddGaussian,
-        },
-        {
-          clicks: 2,
-          touches: 2,
-          action: publicAPI.onRemoveGaussian,
-        }
-      )
-      model.listeners = {
-        mousemove: listenerSelector(
-          isDown,
-          createListener(publicAPI.onDrag),
-          createListener(publicAPI.onHover)
-        ),
-        dblclick: createListener(publicAPI.onAddGaussian),
-        contextmenu: createListener(publicAPI.onRemoveGaussian),
-        click: createListener(publicAPI.onClick),
-        mouseup: createListener(publicAPI.onUp),
-        mousedown: createListener(publicAPI.onDown),
-        mouseout: createListener(publicAPI.onLeave),
-        touchstart: createTouchListener(
-          touchId,
-          macro.chain(publicAPI.onHover, publicAPI.onDown)
-        ),
-        touchmove: listenerSelector(
-          isDown,
-          createTouchListener(touchId, publicAPI.onDrag),
-          createTouchListener(touchId, publicAPI.onHover)
-        ),
-        touchend: createTouchListener(touchId, publicAPI.onUp, 0), // touchend have 0 touch event...
-      }
-      Object.keys(model.listeners).forEach(function(eventType) {
-        model.canvas.addEventListener(
-          eventType,
-          model.listeners[eventType],
-          false
-        )
+    if (histogram) {
+      const { left, right, bottom, top } = container.borderSize()
+      const graphArea = [left, top, right - left, bottom - top]
+      drawChart(ctx, graphArea, histogram, {
+        lineWidth: 1,
+        strokeStyle: HISTOGRAM_COLOR,
+        fillStyle: HISTOGRAM_COLOR,
       })
     }
   }
-
-  publicAPI.unbindMouseListeners = function() {
-    if (model.listeners) {
-      Object.keys(model.listeners).forEach(function(eventType) {
-        model.canvas.removeEventListener(eventType, model.listeners[eventType])
-      })
-      delete model.listeners
-    }
+  container.addSizeObserver(render)
+  points.eventTarget.addEventListener('updated', render)
+  const setColorTransferFunction = ctf => {
+    colorTransferFunction = ctf
+    render()
   }
-
-  publicAPI.render = function() {
-    var ctx = model.canvas.getContext('2d')
-    ctx.imageSmoothingEnabled = true
-
-    var _model$size = _slicedToArray(model.size, 2),
-      width = _model$size[0],
-      height = _model$size[1]
-
-    var offset = model.style.padding
-    var graphArea = [
-      Math.floor(model.style.iconSize + offset),
-      Math.floor(offset),
-      Math.ceil(width - 2 * offset - model.style.iconSize),
-      Math.ceil(height - 2 * offset),
+  const setHistogram = newHistogram => {
+    histogram = newHistogram
+    render()
+  }
+  return {
+    container,
+    canvas,
+    setColorTransferFunction,
+    setHistogram,
+    remove: () => container.root.removeChild(canvas),
+  }
+}
+class TransferFunctionEditor {
+  constructor(root) {
+    __publicField(this, 'points')
+    __publicField(this, 'line')
+    __publicField(this, 'pointController')
+    __publicField(this, 'container')
+    __publicField(this, 'background')
+    this.container = Container(root)
+    WheelZoom(this.container)
+    this.points = new Points()
+    const startPoints = [
+      [0, 0],
+      [1, 1],
     ]
-    var zoomControlHeight = model.style.zoomControlHeight
-
-    if (model.enableRangeZoom) {
-      graphArea[1] += Math.floor(zoomControlHeight)
-      graphArea[3] -= Math.floor(zoomControlHeight)
-    }
-
-    model.graphArea = graphArea // Clear canvas
-
-    ctx.clearRect(0, 0, width, height)
-    ctx.lineJoin = 'round'
-    ctx.fillStyle = model.style.backgroundColor
-    ctx.fillRect.apply(ctx, graphArea)
-
-    if (model.style.iconSize > 1) {
-      // Draw icons
-      // +
-      var halfSize = Math.round(
-        model.style.iconSize / 2 - model.style.strokeWidth
-      )
-      var center = Math.round(halfSize + offset + model.style.strokeWidth)
-      ctx.beginPath()
-      ctx.lineWidth = model.style.buttonStrokeWidth
-      ctx.strokeStyle = model.style.buttonStrokeColor
-      ctx.arc(center - offset / 2, center, halfSize, 0, 2 * Math.PI, false)
-      ctx.fillStyle = model.style.buttonFillColor
-      ctx.fill()
-      ctx.stroke()
-      ctx.moveTo(
-        center - halfSize + model.style.strokeWidth + 2 - offset / 2,
-        center
-      )
-      ctx.lineTo(
-        center + halfSize - model.style.strokeWidth - 2 - offset / 2,
-        center
-      )
-      ctx.stroke()
-      ctx.moveTo(
-        center - offset / 2,
-        center - halfSize + model.style.strokeWidth + 2
-      )
-      ctx.lineTo(
-        center - offset / 2,
-        center + halfSize - model.style.strokeWidth - 2
-      )
-      ctx.stroke() // -
-
-      if (model.selectedGaussian === -1) {
-        ctx.fillStyle = model.style.buttonDisableFillColor
-        ctx.lineWidth = model.style.buttonDisableStrokeWidth
-        ctx.strokeStyle = model.style.buttonDisableStrokeColor
-      } else {
-        ctx.fillStyle = model.style.buttonFillColor
-        ctx.lineWidth = model.style.buttonStrokeWidth
-        ctx.strokeStyle = model.style.buttonStrokeColor
-      }
-
-      ctx.beginPath()
-      ctx.arc(
-        center - offset / 2,
-        center + offset / 2 + model.style.iconSize,
-        halfSize,
-        0,
-        2 * Math.PI,
-        false
-      )
-      ctx.fill()
-      ctx.stroke()
-      ctx.moveTo(
-        center - halfSize + model.style.strokeWidth + 2 - offset / 2,
-        center + offset / 2 + model.style.iconSize
-      )
-      ctx.lineTo(
-        center + halfSize - model.style.strokeWidth - 2 - offset / 2,
-        center + offset / 2 + model.style.iconSize
-      )
-      ctx.stroke()
-    } // Draw histogram
-
-    if (model.histogram) {
-      drawChart(
-        ctx,
-        graphArea,
-        rescaleArray(model.histogram, model.rangeZoom),
-        {
-          lineWidth: 1,
-          strokeStyle: model.style.histogramColor,
-          fillStyle: model.style.histogramColor,
-        }
-      )
-    } // Draw gaussians
-
-    drawChart(
-      ctx,
-      graphArea,
-      rescaleArray(model.opacities, model.enableRangeZoom && model.rangeZoom),
-      {
-        lineWidth: model.style.strokeWidth,
-        strokeStyle: model.style.strokeColor,
-      }
-    ) // Draw color function if any
-
-    if (model.colorTransferFunction && model.colorTransferFunction.getSize()) {
-      var rangeToUse =
-        model.dataRange || model.colorTransferFunction.getMappingRange()
-
-      if (
-        !model.colorCanvas ||
-        model.colorCanvasMTime !== model.colorTransferFunction.getMTime()
-      ) {
-        model.colorCanvasMTime = model.colorTransferFunction.getMTime()
-        model.colorCanvas = updateColorCanvas(
-          model.colorTransferFunction,
-          graphArea[2],
-          rangeToUse,
-          model.colorCanvas
-        )
-      }
-
-      ctx.save()
-      drawChart(
-        ctx,
-        graphArea,
-        rescaleArray(model.opacities, model.enableRangeZoom && model.rangeZoom),
-        {
-          lineWidth: 1,
-          strokeStyle: 'rgba(0,0,0,0)',
-          fillStyle: 'rgba(0,0,0,1)',
-          clip: true,
-        }
-      ) // Draw the correct portion of the color BG image
-
-      if (model.enableRangeZoom) {
-        ctx.drawImage(
-          model.colorCanvas,
-          model.rangeZoom[0] * graphArea[2],
-          0,
-          graphArea[2],
-          graphArea[3],
-          graphArea[0],
-          graphArea[1],
-          graphArea[2] / (model.rangeZoom[1] - model.rangeZoom[0]),
-          graphArea[3]
-        )
-      } else {
-        ctx.drawImage(model.colorCanvas, graphArea[0], graphArea[1])
-      }
-
-      ctx.restore()
-    } else if (model.backgroundImage) {
-      model.colorCanvas = updateColorCanvasFromImage(
-        model.backgroundImage,
-        graphArea[2],
-        model.colorCanvas
-      )
-      ctx.save()
-      drawChart(
-        ctx,
-        graphArea,
-        rescaleArray(model.opacities, model.enableRangeZoom && model.rangeZoom),
-        {
-          lineWidth: 1,
-          strokeStyle: 'rgba(0,0,0,0)',
-          fillStyle: 'rgba(0,0,0,1)',
-          clip: true,
-        }
-      )
-      ctx.drawImage(model.colorCanvas, graphArea[0], graphArea[1])
-      ctx.restore()
-    } // Draw zoomed area
-
-    if (model.enableRangeZoom) {
-      ctx.fillStyle = model.style.zoomControlColor
-      ctx.beginPath()
-      ctx.rect(
-        graphArea[0] + model.rangeZoom[0] * graphArea[2],
-        0,
-        (model.rangeZoom[1] - model.rangeZoom[0]) * graphArea[2],
-        zoomControlHeight
-      )
-      ctx.fill()
-    } // Draw active gaussian
-
-    var activeGaussian =
-      model.gaussians[model.activeGaussian] ||
-      model.gaussians[model.selectedGaussian]
-
-    if (activeGaussian) {
-      var activeOpacities = computeOpacities([activeGaussian], graphArea[2])
-      drawChart(
-        ctx,
-        graphArea,
-        rescaleArray(activeOpacities, model.enableRangeZoom && model.rangeZoom),
-        {
-          lineWidth: model.style.activeStrokeWidth,
-          strokeStyle: model.style.activeColor,
-        }
-      ) // Draw controls
-
-      var xCenter =
-        graphArea[0] +
-        rescaleValue(
-          activeGaussian.position,
-          model.enableRangeZoom && model.rangeZoom
-        ) *
-          graphArea[2]
-      var yTop = graphArea[1] + (1 - activeGaussian.height) * graphArea[3]
-      var yMiddle =
-        graphArea[1] + (1 - 0.5 * activeGaussian.height) * graphArea[3]
-      var yBottom = graphArea[1] + graphArea[3]
-      var widthInPixel = activeGaussian.width * graphArea[2]
-
-      if (model.enableRangeZoom) {
-        widthInPixel /= model.rangeZoom[1] - model.rangeZoom[0]
-      }
-
-      ctx.lineWidth = model.style.handleWidth
-      ctx.strokeStyle = model.style.handleColor
-      ctx.fillStyle = model.style.backgroundColor
-      ctx.beginPath()
-      ctx.moveTo(
-        xCenter,
-        graphArea[1] + (1 - activeGaussian.height) * graphArea[3]
-      )
-      ctx.lineTo(xCenter, graphArea[1] + graphArea[3])
-      ctx.stroke() // Height
-
-      ctx.beginPath()
-      ctx.arc(xCenter, yTop, 6, 0, 2 * Math.PI)
-      ctx.fill()
-      ctx.stroke() // Bias
-
-      var radius = Math.min(
-        widthInPixel * 0.1,
-        activeGaussian.height * graphArea[3] * 0.2
-      )
-      ctx.beginPath()
-      ctx.rect(xCenter - radius, yMiddle - radius, radius * 2, radius * 2)
-      ctx.fill()
-      ctx.stroke()
-      ctx.beginPath() // Width
-
-      var sliderWidth = widthInPixel * 0.8
-      ctx.rect(xCenter - sliderWidth, yBottom - 5, 2 * sliderWidth, 10)
-      ctx.fill()
-      ctx.stroke()
-    }
+    startPoints.forEach(([x, y]) => this.points.addPoint(x, y))
+    this.background = Background(this.container, this.points)
+    this.line = new Line(this.container, this.points)
+    this.pointController = new PointsController(this.container, this.points)
   }
-
-  publicAPI.getOpacityNodes = function(dataRange) {
-    var rangeToUse = dataRange || model.dataRange
-    var delta = (rangeToUse[1] - rangeToUse[0]) / (model.opacities.length - 1)
-    var nodes = []
-    var midpoint = 0.5
-    var sharpness = 0
-
-    for (var index = 0; index < model.opacities.length; index++) {
-      var x = rangeToUse[0] + delta * index
-      var y = model.opacities[index]
-      nodes.push({
-        x: x,
-        y: y,
-        midpoint: midpoint,
-        sharpness: sharpness,
-      })
-    }
-
-    return nodes
+  remove() {
+    this.background.remove()
+    this.container.remove()
   }
-
-  publicAPI.applyOpacity = function(piecewiseFunction, dataRange) {
-    var nodes = publicAPI.getOpacityNodes(dataRange)
-    piecewiseFunction.setNodes(nodes)
+  getPoints() {
+    return this.points.points.map(({ x, y }) => [x, y])
   }
-
-  publicAPI.getOpacityRange = function(dataRange) {
-    var rangeToUse = dataRange || model.dataRange
-    var delta = (rangeToUse[1] - rangeToUse[0]) / (model.opacities.length - 1)
-    var minIndex = model.opacities.length - 1
-    var maxIndex = 0
-
-    for (var index = 0; index < model.opacities.length; index++) {
-      if (model.opacities[index] > 0) {
-        minIndex = Math.min(minIndex, index)
-      }
-
-      if (model.opacities[index] > 0) {
-        maxIndex = Math.max(maxIndex, index)
-      }
-    }
-
-    return [rangeToUse[0] + minIndex * delta, rangeToUse[0] + maxIndex * delta]
+  setPoints(points) {
+    ;[...this.points.points].forEach(point => {
+      this.points.removePoint(point)
+    })
+    points.forEach(([x, y]) => this.points.addPoint(x, y))
   }
-
-  var enableZoom = publicAPI.setEnableRangeZoom
-
-  publicAPI.setEnableRangeZoom = function(v) {
-    var change = enableZoom(v)
-
-    if (change) {
-      model.colorCanvasMTime = 0
-      model.rangeZoom = [0, 1]
-    }
-
-    return change
+  get eventTarget() {
+    return this.points.eventTarget
   }
-
-  var rangeZoom = publicAPI.setRangeZoom
-
-  publicAPI.setRangeZoom = function() {
-    var change = rangeZoom.apply(void 0, arguments)
-
-    if (change) {
-      model.colorCanvasMTime = 0
-    }
-
-    return change
-  } // Trigger rendering for any modified event
-
-  publicAPI.onModified(function() {
-    return publicAPI.render()
-  })
-  publicAPI.setSize.apply(publicAPI, _toConsumableArray(model.size))
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$1 = {
-  histogram: [],
-  numberOfBins: 256,
-  histogramArray: null,
-  dataRange: [0, 1],
-  gaussians: [],
-  opacities: [],
-  size: [600, 300],
-  piecewiseSize: 256,
-  colorCanvasMTime: 0,
-  gaussianMinimumHeight: 0.05,
-  style: {
-    backgroundColor: 'rgba(255, 255, 255, 1)',
-    histogramColor: 'rgba(200, 200, 200, 0.5)',
-    strokeColor: 'rgb(0, 0, 0)',
-    activeColor: 'rgb(0, 0, 150)',
-    buttonDisableFillColor: 'rgba(255, 255, 255, 0.5)',
-    buttonDisableStrokeColor: 'rgba(0, 0, 0, 0.5)',
-    buttonStrokeColor: 'rgba(0, 0, 0, 1)',
-    buttonFillColor: 'rgba(255, 255, 255, 1)',
-    handleColor: 'rgb(0, 150, 0)',
-    strokeWidth: 2,
-    activeStrokeWidth: 3,
-    buttonStrokeWidth: 1.5,
-    handleWidth: 3,
-    iconSize: 20,
-    padding: 10,
-    zoomControlHeight: 10,
-    zoomControlColor: '#999',
-  },
-  activeGaussian: -1,
-  selectedGaussian: -1,
-  enableRangeZoom: true,
-  rangeZoom: [0, 1], // normalized value
-} // ----------------------------------------------------------------------------
-
-function extend$1(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$1, initialValues) // Object methods
-
-  macro.obj(publicAPI, model)
-  macro.setGet(publicAPI, model, [
-    'piecewiseSize',
-    'numberOfBins',
-    'colorTransferFunction',
-    'backgroundImage',
-    'enableRangeZoom',
-    'gaussianMinimumHeight',
-  ])
-  macro.setGetArray(publicAPI, model, ['rangeZoom'], 2)
-  macro.get(publicAPI, model, ['size', 'canvas', 'gaussians'])
-  macro.event(publicAPI, model, 'opacityChange')
-  macro.event(publicAPI, model, 'animation')
-  macro.event(publicAPI, model, 'zoomChange') // Object specific methods
-
-  vtkPiecewiseGaussianWidget(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance$1 = macro.newInstance(extend$1, 'vtkPiecewiseGaussianWidget') // ----------------------------------------------------------------------------
-
-var vtkPiecewiseGaussianWidget$1 = _objectSpread(
-  {
-    newInstance: newInstance$1,
-    extend: extend$1,
-  },
-  STATIC
-)
-
-/* eslint-disable no-continue */
-// ----------------------------------------------------------------------------
-// vtkPiecewiseGaussianWidget methods
-// ----------------------------------------------------------------------------
-
-function vtkItkPiecewiseGaussianWidget(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkItkPiecewiseGaussianWidget')
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES = {} // ----------------------------------------------------------------------------
-
-function extend(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES, initialValues) // Inheritance
-
-  vtkPiecewiseGaussianWidget$1.extend(publicAPI, model, initialValues)
-  macro.setGet(publicAPI, model, ['histogram'])
-  macro.setGetArray(publicAPI, model, ['dataRange'], 2) // Object specific methods
-
-  vtkItkPiecewiseGaussianWidget(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance = macro.newInstance(extend, 'vtkItkPiecewiseGaussianWidget') // ----------------------------------------------------------------------------
-
-var vtkItkPiecewiseGaussianWidget$1 = {
-  newInstance: newInstance,
-  extend: extend,
+  setViewBox(valueStart, valueEnd, opacityMin = 0, opacityMax = 1) {
+    this.container.setViewBox(valueStart, valueEnd, opacityMin, opacityMax)
+  }
+  setColorTransferFunction(ctf) {
+    this.background.setColorTransferFunction(ctf)
+  }
+  setHistogram(histogram) {
+    this.background.setHistogram(histogram)
+  }
 }
 
-function createTransferFunctionWidget(context, imagesUIGroup) {
-  var transferFunctionWidget = vtkItkPiecewiseGaussianWidget$1.newInstance({
-    numberOfBins: 256,
-    size: [400, 150],
-  })
-  context.images.transferFunctionWidget = transferFunctionWidget
-  transferFunctionWidget.setEnableRangeZoom(true)
-  var iconSize = 20
+const PIECEWISE_UPDATE_DELAY = 100
 
-  if (context.use2D) {
-    iconSize = 0
+const getNodes = (range, points) => {
+  const delta = range[1] - range[0]
+  const windowedPoints = windowPointsForSort(points)
+  return windowedPoints.map(([x, y]) => ({
+    x: range[0] + delta * x,
+    y,
+    midpoint: 0.5,
+    sharpness: 0,
+  }))
+}
+
+// grab head and tail or fallback to data range if 1 or less points
+const getRange = (dataRange, nodes) =>
+  nodes.length > 1 ? [nodes[0].x, nodes[nodes.length - 1].x] : dataRange
+
+const updateContextPiecewiseFunction = (context, dataRange, points) => {
+  if (!context.images.piecewiseFunctions) return // not ready yet
+
+  const name = context.images.selectedName
+  const actorContext = context.images.actorContext.get(name)
+  const component = actorContext.selectedComponent
+  const nodes = getNodes(dataRange, points)
+  const range = getRange(dataRange, nodes)
+  context.service.send({
+    type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
+    data: {
+      name,
+      component,
+      range,
+      nodes,
+    },
+  })
+
+  console.log('send')
+  context.service.send({
+    type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED',
+    data: {
+      name,
+      component,
+      points,
+    },
+  })
+}
+
+const vtkPiecewiseGaussianWidgetFacade = (tfEditor, context) => {
+  let dataRange = [0, 255]
+
+  const update = () =>
+    updateContextPiecewiseFunction(context, dataRange, tfEditor.getPoints())
+
+  const throttledUpdate = throttle$1(update, PIECEWISE_UPDATE_DELAY)
+  tfEditor.eventTarget.addEventListener('updated', throttledUpdate)
+
+  const getOpacityNodes = tempDataRange =>
+    getNodes(tempDataRange ?? dataRange, tfEditor.getPoints())
+
+  const getOpacityRange = tempDataRange =>
+    getRange(
+      tempDataRange ?? dataRange,
+      getOpacityNodes(tempDataRange ?? dataRange)
+    )
+
+  // to compare changes across setting the data view range
+  let cachedGaussian
+
+  return {
+    setColorTransferFunction: tf => {
+      tfEditor.setColorTransferFunction(tf)
+    },
+
+    setPoints(points) {
+      tfEditor.setPoints(points)
+    },
+
+    getGaussians() {
+      const xPositions = tfEditor.getPoints().map(([x]) => x)
+      const min = Math.min(...xPositions)
+      const width = (Math.max(...xPositions) - min) / 2 || 0.5 // if one point, fill width
+      const position = min + width
+      const height = Math.max(...tfEditor.getPoints().map(([, y]) => y))
+
+      return [{ width, position, height }]
+    },
+
+    setGaussians(gaussians) {
+      console.trace()
+      const newG = gaussians[0]
+      const oldG = cachedGaussian ?? this.getGaussians()[0]
+      const heightDelta = newG.height - oldG.height
+
+      const newMin = newG.position - newG.width
+      const newRange = 2 * newG.width
+
+      const pointsGaussian = this.getGaussians()[0]
+      const pointsMin = pointsGaussian.position - pointsGaussian.width
+      const points = tfEditor
+        .getPoints()
+        // compute x in "gaussian" space
+        .map(([x, y]) => [(x - pointsMin) / (pointsGaussian.width * 2), y])
+        // rescale points into new gaussian range
+        .map(([x, y]) => {
+          return [x * newRange + newMin, y + y * heightDelta]
+        })
+
+      tfEditor.setPoints(points)
+
+      cachedGaussian = { ...newG }
+
+      update()
+    },
+
+    setRangeZoom: newRange => {
+      tfEditor.setViewBox(...newRange)
+    },
+
+    setDataRange: newRange => {
+      dataRange = [...newRange]
+    },
+
+    getOpacityNodes,
+    getOpacityRange,
+    setHistogram: h => tfEditor.setHistogram(h),
+    render: () => undefined,
   }
+}
 
-  transferFunctionWidget.updateStyle({
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    histogramColor: 'rgba(30, 30, 30, 0.6)',
-    strokeColor: 'rgb(0, 0, 0)',
-    activeColor: 'rgb(255, 255, 255)',
-    handleColor: 'rgb(70, 70, 150)',
-    buttonDisableFillColor: 'rgba(255, 255, 255, 0.5)',
-    buttonDisableStrokeColor: 'rgba(0, 0, 0, 0.5)',
-    buttonStrokeColor: 'rgba(0, 0, 0, 1)',
-    buttonFillColor: 'rgba(255, 255, 255, 1)',
-    strokeWidth: 2,
-    activeStrokeWidth: 3,
-    buttonStrokeWidth: 1.5,
-    handleWidth: 2,
-    zoomControlHeight: 20,
-    zoomControlColor: 'rgba(50, 50, 100, 1)',
-    iconSize: iconSize,
-    // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
-    padding: 10,
-  })
-  var piecewiseWidgetContainer = document.createElement('div')
+const createTransferFunctionEditor = (context, mount) => {
+  const editor = new TransferFunctionEditor(mount)
+
+  return vtkPiecewiseGaussianWidgetFacade(editor, context)
+}
+
+const createTransferFunctionWidget = (context, imagesUIGroup, style) => {
+  const piecewiseWidgetContainer = document.createElement('div')
+  piecewiseWidgetContainer.setAttribute('style', 'height: 150px; width: 400px')
   piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget)
-  transferFunctionWidget.setContainer(piecewiseWidgetContainer)
-  transferFunctionWidget.bindMouseListeners() // Create color map and piecewise function objects as needed
 
-  if (typeof context.images.lookupTableProxies === 'undefined') {
-    context.images.lookupTableProxies = new Map()
-  } // Manage update when opacity changes
-
-  transferFunctionWidget.onAnimation(function(start) {
-    if (start) {
-      context.service.send({
-        type: 'REQUEST_ANIMATION',
-        data: 'transferFunctionWidget',
-      })
-    } else {
-      context.service.send({
-        type: 'CANCEL_ANIMATION',
-        data: 'transferFunctionWidget',
-      })
-    }
-  })
-  transferFunctionWidget.onOpacityChange(function() {
-    var name = context.images.selectedName
-    var actorContext = context.images.actorContext.get(name)
-    var component = actorContext.selectedComponent
-    var dataRange = actorContext.colorRanges.get(component)
-    var range = transferFunctionWidget.getOpacityRange(dataRange)
-    var nodes = transferFunctionWidget.getOpacityNodes(dataRange)
-    context.service.send({
-      type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
-      data: {
-        name: name,
-        component: component,
-        range: range,
-        nodes: nodes,
-      },
-    })
-  })
-
-  var onZoomChange = function onZoomChange(zoom) {
-    var name = context.images.selectedName
-    var actorContext = context.images.actorContext.get(name)
-    var component = actorContext.selectedComponent
-    var fullRange = actorContext.colorRanges.get(component)
-    var diff = fullRange[1] - fullRange[0]
-    var colorRange = new Array(2)
-    colorRange[0] = fullRange[0] + zoom[0] * diff
-    colorRange[1] = fullRange[0] + zoom[1] * diff
-    context.service.send({
-      type: 'IMAGE_COLOR_RANGE_CHANGED',
-      data: {
-        name: name,
-        component: component,
-        range: colorRange,
-      },
-    })
-  }
-
-  transferFunctionWidget.onZoomChange(macro.throttle(onZoomChange, 150))
-  var transferFunctionWidgetRow = document.createElement('div')
-  transferFunctionWidgetRow.setAttribute('class', style.uiRow) // This row needs background different from normal uiRows, to aid
+  const transferFunctionWidgetRow = document.createElement('div')
+  transferFunctionWidgetRow.setAttribute('class', style.uiRow)
+  // This row needs background different from normal uiRows, to aid
   // in the illusion that it's the content portion of a tabbed pane
-
   transferFunctionWidgetRow.setAttribute(
     'style',
     'background: rgba(127, 127, 127, 0.5);'
   )
+  imagesUIGroup.appendChild(transferFunctionWidgetRow)
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer)
-  imagesUIGroup.appendChild(transferFunctionWidgetRow) // Create range manipulator
 
-  var rangeManipulator = vtkMouseRangeManipulator$1.newInstance({
+  const transferFunctionWidget = createTransferFunctionEditor(
+    context,
+    piecewiseWidgetContainer
+  )
+
+  context.images.transferFunctionWidget = transferFunctionWidget
+
+  // lookupTableProxies used elsewhere in itk-vtk-viewer
+  if (typeof context.images.lookupTableProxies === 'undefined') {
+    context.images.lookupTableProxies = new Map()
+  }
+
+  // Create range manipulator
+  const rangeManipulator = vtkMouseRangeManipulator.newInstance({
     button: 1,
     alt: true,
   })
@@ -26822,108 +24949,86 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
     levelGet: null,
     levelSet: null,
   }
-  context.images.transferFunctionManipulator.rangeManipulator = rangeManipulator // Window
+  context.images.transferFunctionManipulator.rangeManipulator = rangeManipulator
 
-  var windowGet = function windowGet() {
-    var gaussian = transferFunctionWidget.getGaussians()[0]
+  // Window
+  const windowGet = () => {
+    const gaussian = transferFunctionWidget.getGaussians()[0]
     return (
       gaussian.width *
       context.images.transferFunctionManipulator.windowMotionScale
     )
   }
-
   context.images.transferFunctionManipulator.windowGet = windowGet
-
-  var windowSet = function windowSet(value) {
-    var gaussians = transferFunctionWidget.getGaussians()
-    var newGaussians = gaussians.slice()
+  const windowSet = value => {
+    const gaussians = transferFunctionWidget.getGaussians()
+    const newGaussians = gaussians.slice()
     newGaussians[0].width =
       value / context.images.transferFunctionManipulator.windowMotionScale
-    var name = context.images.selectedName
-    context.images.actorContext.get(name)
-    var component = context.images.selectedComponent
+    const name = context.images.selectedName
+    const component = context.images.selectedComponent
     context.service.send({
       type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
-      data: {
-        name: name,
-        component: component,
-        gaussians: newGaussians,
-      },
+      data: { name, component, gaussians: newGaussians },
     })
   }
+  context.images.transferFunctionManipulator.windowSet = windowSet
 
-  context.images.transferFunctionManipulator.windowSet = windowSet // Level
-
-  var levelGet = function levelGet() {
-    var gaussian = transferFunctionWidget.getGaussians()[0]
+  // Level
+  const levelGet = () => {
+    const gaussian = transferFunctionWidget.getGaussians()[0]
     return (
       gaussian.position *
       context.images.transferFunctionManipulator.levelMotionScale
     )
   }
-
   context.images.transferFunctionManipulator.levelGet = levelGet
-
-  var levelSet = function levelSet(value) {
-    var gaussians = transferFunctionWidget.getGaussians()
-    var newGaussians = gaussians.slice()
-    var name = context.images.selectedName
-    context.images.actorContext.get(name)
-    var component = context.images.selectedComponent
+  const levelSet = value => {
+    const gaussians = transferFunctionWidget.getGaussians()
+    const newGaussians = gaussians.slice()
+    const name = context.images.selectedName
+    const component = context.images.selectedComponent
     context.service.send({
       type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
-      data: {
-        name: name,
-        component: component,
-        gaussians: newGaussians,
-      },
+      data: { name, component, gaussians: newGaussians },
     })
   }
+  context.images.transferFunctionManipulator.levelSet = levelSet
 
-  context.images.transferFunctionManipulator.levelSet = levelSet // Add range manipulator
-
+  // Add range manipulator
   context.itkVtkView
     .getInteractorStyle2D()
     .addMouseManipulator(rangeManipulator)
   context.itkVtkView
     .getInteractorStyle3D()
     .addMouseManipulator(rangeManipulator)
-  var pwfRangeManipulator = vtkMouseRangeManipulator$1.newInstance({
-    button: 3,
-    // Right mouse
-    alt: true,
-  })
-  var pwfRangeManipulatorShift = vtkMouseRangeManipulator$1.newInstance({
-    button: 1,
-    // Left mouse
-    shift: true,
-    // For the macOS folks
-    alt: true,
-  })
-  var pwfMotionScale = 200.0
 
-  var pwfGet = function pwfGet() {
-    var gaussian = transferFunctionWidget.getGaussians()[0]
+  const pwfRangeManipulator = vtkMouseRangeManipulator.newInstance({
+    button: 3, // Right mouse
+    alt: true,
+  })
+  const pwfRangeManipulatorShift = vtkMouseRangeManipulator.newInstance({
+    button: 1, // Left mouse
+    shift: true, // For the macOS folks
+    alt: true,
+  })
+
+  const pwfMotionScale = 200.0
+  const pwfGet = () => {
+    const gaussian = transferFunctionWidget.getGaussians()[0]
     return gaussian.height * pwfMotionScale
   }
-
-  var pwfSet = function pwfSet(value) {
-    var gaussians = transferFunctionWidget.getGaussians()
-    var newGaussians = gaussians.slice()
+  const pwfSet = value => {
+    const gaussians = transferFunctionWidget.getGaussians()
+    const newGaussians = gaussians.slice()
     newGaussians[0].height = value / pwfMotionScale
-    var name = context.images.selectedName
-    context.images.actorContext.get(name)
-    var component = context.images.selectedComponent
+    const name = context.images.selectedName
+    const component = context.images.selectedComponent
     context.service.send({
       type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
-      data: {
-        name: name,
-        component: component,
-        gaussians: newGaussians,
-      },
+      data: { name, component, gaussians: newGaussians },
     })
   }
-
   pwfRangeManipulator.setVerticalListener(0, pwfMotionScale, 1, pwfGet, pwfSet)
   pwfRangeManipulatorShift.setVerticalListener(
     0,
@@ -27527,7 +25632,7 @@ function createImagesInterface(context) {
   context.images.componentAndScale = componentAndScale
   createComponentSelector(context, componentAndScale)
   createColorRangeInput(context, imagesUIGroup)
-  createTransferFunctionWidget(context, imagesUIGroup)
+  createTransferFunctionWidget(context, imagesUIGroup, style)
   createVolumeRenderingInputs(context, imagesUIGroup)
   context.uiContainer.appendChild(imagesUIGroup)
   createLabelImageColorWidget(context)
@@ -27628,8 +25733,6 @@ function applyColorRange(context, event) {
   var maximumInput = context.images.colorRangeInputRow.children[3]
   minimumInput.value = colorRange[0]
   maximumInput.value = colorRange[1]
-  var gaussians = actorContext.piecewiseFunctionGaussians.get(component)
-  var newGaussians = gaussians.slice()
   var fullRange = colorRange
 
   if (actorContext.colorRangeBounds.has(component)) {
@@ -27641,9 +25744,8 @@ function applyColorRange(context, event) {
   context.images.transferFunctionManipulator.levelMotionScale = diff
   var _context$images$trans = context.images.transferFunctionManipulator,
     rangeManipulator = _context$images$trans.rangeManipulator,
-    windowMotionScale = _context$images$trans.windowMotionScale
-  _context$images$trans.levelMotionScale
-  var windowGet = _context$images$trans.windowGet,
+    windowMotionScale = _context$images$trans.windowMotionScale,
+    windowGet = _context$images$trans.windowGet,
     windowSet = _context$images$trans.windowSet,
     levelGet = _context$images$trans.levelGet,
     levelSet = _context$images$trans.levelSet
@@ -27665,87 +25767,36 @@ function applyColorRange(context, event) {
   colorRangeNormalized[0] = (colorRange[0] - fullRange[0]) / diff
   colorRangeNormalized[1] = (colorRange[1] - fullRange[0]) / diff
   var transferFunctionWidget = context.images.transferFunctionWidget
+  console.log('setRangeZoom')
   transferFunctionWidget.setRangeZoom(colorRangeNormalized)
-  var minValue = Infinity
-  var maxValue = -Infinity
-  var count = gaussians.length
+  transferFunctionWidget.setDataRange(colorRange)
+  var normDelta = colorRangeNormalized[1] - colorRangeNormalized[0]
+  var oldPoints = actorContext.piecewiseFunctionPoints.get(component)
+  var xValues = oldPoints.map(function(_ref) {
+    var _ref2 = _slicedToArray(_ref, 1),
+      x = _ref2[0]
 
-  while (count--) {
-    var _newGaussians$count = newGaussians[count],
-      position = _newGaussians$count.position,
-      width = _newGaussians$count.width,
-      xBias = _newGaussians$count.xBias,
-      yBias = _newGaussians$count.yBias
-
-    if (position - width < colorRangeNormalized[0]) {
-      position = colorRangeNormalized[0] + width
-      newGaussians[count].position = position
-
-      if (position + width > colorRangeNormalized[1]) {
-        var newWidth = (colorRangeNormalized[1] - colorRangeNormalized[0]) / 2
-        position = colorRangeNormalized[0] + newWidth
-        newGaussians[count].position = position
-        newGaussians[count].width = newWidth
-
-        if (!context.use2D) {
-          newGaussians[count].xBias = (newWidth / width) * xBias
-          newGaussians[count].yBias = (newWidth / width) * yBias
-        }
-      }
-    }
-
-    if (position + width > colorRangeNormalized[1]) {
-      position = colorRangeNormalized[1] - width
-      newGaussians[count].position = position
-
-      if (position - width < colorRangeNormalized[0]) {
-        var _newWidth = (colorRangeNormalized[1] - colorRangeNormalized[0]) / 2
-
-        position = colorRangeNormalized[0] + _newWidth
-        newGaussians[count].position = position
-        newGaussians[count].width = _newWidth
-
-        if (!context.use2D) {
-          newGaussians[count].xBias = (_newWidth / width) * xBias
-          newGaussians[count].yBias = (_newWidth / width) * yBias
-        }
-      }
-    }
-
-    minValue = Math.min(minValue, position - width)
-    maxValue = Math.max(maxValue, position + width)
-  }
-
-  if (
-    colorRangeNormalized[0] < minValue ||
-    colorRangeNormalized[1] > maxValue
-  ) {
-    var _newWidth2 = (colorRangeNormalized[1] - colorRangeNormalized[0]) / 2
-
-    var _position = colorRangeNormalized[0] + _newWidth2
-
-    newGaussians[0].position = _position
-
-    if (!context.use2D) {
-      newGaussians[0].xBias =
-        (_newWidth2 / newGaussians[0].width) * newGaussians[0].xBias
-      newGaussians[0].yBias =
-        (_newWidth2 / newGaussians[0].width) * newGaussians[0].yBias
-    }
-
-    newGaussians[0].width = _newWidth2
-  }
-
-  context.images.transferFunctionWidget.setDataRange(colorRange)
-  context.images.transferFunctionWidget.render()
-  context.service.send({
-    type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
-    data: {
-      name: name,
-      component: component,
-      gaussians: newGaussians,
-    },
+    return x
   })
+  var maxOldPoints = Math.max.apply(Math, _toConsumableArray(xValues))
+  var minOldPoints = Math.min.apply(Math, _toConsumableArray(xValues))
+  var rangeOldPoints = maxOldPoints - minOldPoints
+  var points = oldPoints // find normalized position of old points
+    .map(function(_ref3) {
+      var _ref4 = _slicedToArray(_ref3, 2),
+        x = _ref4[0],
+        y = _ref4[1]
+
+      return [(x - minOldPoints) / rangeOldPoints, y]
+    }) // rescale to new range
+    .map(function(_ref5) {
+      var _ref6 = _slicedToArray(_ref5, 2),
+        x = _ref6[0],
+        y = _ref6[1]
+
+      return [x * normDelta + colorRangeNormalized[0], y]
+    })
+  transferFunctionWidget.setPoints(points)
 }
 
 function applyColorMap(context, event) {
@@ -27940,7 +25991,7 @@ function updateImageInterface(context) {
           range: actorContext.colorRanges.get(component),
         },
       })
-    } //debugger
+    }
 
     if (actorContext.colorRangeBounds.has(component)) {
       applyColorRangeBounds(context, {
@@ -27962,17 +26013,6 @@ function updateImageInterface(context) {
         },
       })
       context.images.iconSelector.setSelectedValue(colorMap)
-    }
-
-    if (actorContext.piecewiseFunctionGaussians.has(component)) {
-      var gaussians = actorContext.piecewiseFunctionGaussians.get(component)
-      applyPiecewiseFunctionGaussians(context, {
-        data: {
-          name: name,
-          component: component,
-          gaussians: gaussians,
-        },
-      })
     }
 
     toggleShadow(context, {
@@ -29679,42 +27719,40 @@ function updateRenderedImageInterface(context, event) {
   var name = event.data
   var actorContext = context.images.actorContext.get(name)
   var visualizedComponents = actorContext.visualizedComponents
-  var transferFunctionWidget = context.images.transferFunctionWidget // Apply piecewise functions
+  var transferFunctionWidget = context.images.transferFunctionWidget
 
-  for (var i = 0; i < visualizedComponents.length; i++) {
-    var component = visualizedComponents[i]
-
-    if (component < 0) {
-      continue
-    }
-
-    context.images.selectedComponent = component
-
-    var _gaussians = actorContext.piecewiseFunctionGaussians.get(component)
-
-    if (transferFunctionWidget && _gaussians) {
-      transferFunctionWidget.setGaussians(_gaussians)
-      var dataRange = actorContext.colorRanges.get(component)
-      var range = transferFunctionWidget.getOpacityRange(dataRange)
-      var nodes = transferFunctionWidget.getOpacityNodes(dataRange)
-      context.service.send({
-        type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
-        data: {
-          name: name,
-          component: component,
-          range: range,
-          nodes: nodes,
-        },
-      })
-    }
-  }
+  if (!transferFunctionWidget) {
+    console.warn('No transfer function widget')
+    return
+  } //Apply piecewise functions
 
   var selectedComponent = context.images.selectedComponent
-  var gaussians = actorContext.piecewiseFunctionGaussians.get(selectedComponent)
+  visualizedComponents
+    .filter(function(c) {
+      return c >= 0 && c !== selectedComponent
+    })
+    .concat([selectedComponent])
+    .forEach(function(component) {
+      var points = actorContext.piecewiseFunctionPoints.get(component)
 
-  if (transferFunctionWidget && gaussians) {
-    transferFunctionWidget.setGaussians(gaussians)
-  }
+      if (points) {
+        transferFunctionWidget.setPoints(points)
+        var dataRange = actorContext.colorRanges.get(component)
+        var range = transferFunctionWidget.getOpacityRange(dataRange)
+        var nodes = transferFunctionWidget.getOpacityNodes(dataRange)
+        context.service.send({
+          type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
+          data: {
+            name: name,
+            component: component,
+            range: range,
+            nodes: nodes,
+          },
+        })
+      } else {
+        console.warn('No transfer function points for component')
+      }
+    })
 }
 
 function selectImageComponent(context, event) {
@@ -29722,12 +27760,7 @@ function selectImageComponent(context, event) {
   var name = event.data.name
   var actorContext = context.images.actorContext.get(name)
   var component = event.data.component
-  var gaussians = actorContext.piecewiseFunctionGaussians.get(component)
   var transferFunctionWidget = context.images.transferFunctionWidget
-
-  if (transferFunctionWidget && gaussians) {
-    transferFunctionWidget.setGaussians(gaussians)
-  }
 
   if (actorContext.colorRanges.has(component)) {
     var range = actorContext.colorRanges.get(component)
@@ -29739,7 +27772,14 @@ function selectImageComponent(context, event) {
       },
     })
     transferFunctionWidget.setDataRange(range)
-    transferFunctionWidget.render()
+  }
+
+  var piecewiseFuncitonPoints = actorContext.piecewiseFunctionPoints.get(
+    component
+  )
+
+  if (transferFunctionWidget && piecewiseFuncitonPoints) {
+    transferFunctionWidget.setPoints(piecewiseFuncitonPoints)
   }
 
   if (actorContext.colorRangeBounds.has(component)) {

@@ -59,6 +59,9 @@ class ImageActorContext {
   // piecewise functions
   piecewiseFunctionGaussians = new Map()
 
+  // Map of x,y point in 0 to 1 range.  Scaled by colorRanges.
+  piecewiseFunctionPoints = new Map()
+
   // Use gradient-based shadows in the volume rendering
   shadowEnabled = true
 

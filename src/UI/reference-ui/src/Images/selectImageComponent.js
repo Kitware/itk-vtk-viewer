@@ -9,11 +9,7 @@ function selectImageComponent(context, event) {
   const actorContext = context.images.actorContext.get(name)
   const component = event.data.component
 
-  const gaussians = actorContext.piecewiseFunctionGaussians.get(component)
   const transferFunctionWidget = context.images.transferFunctionWidget
-  if (transferFunctionWidget && gaussians) {
-    transferFunctionWidget.setGaussians(gaussians)
-  }
 
   if (actorContext.colorRanges.has(component)) {
     const range = actorContext.colorRanges.get(component)
@@ -25,7 +21,13 @@ function selectImageComponent(context, event) {
       },
     })
     transferFunctionWidget.setDataRange(range)
-    transferFunctionWidget.render()
+  }
+
+  const piecewiseFuncitonPoints = actorContext.piecewiseFunctionPoints.get(
+    component
+  )
+  if (transferFunctionWidget && piecewiseFuncitonPoints) {
+    transferFunctionWidget.setPoints(piecewiseFuncitonPoints)
   }
 
   if (actorContext.colorRangeBounds.has(component)) {

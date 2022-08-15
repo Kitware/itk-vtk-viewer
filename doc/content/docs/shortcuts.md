@@ -26,4 +26,4 @@ the mouse must be over the viewer.
 **Mouse wheel** or **control + left click + drag** or **pinch** | Zoom
 **Alt + left click + drag left-right** | Change color transfer function window
 **Shift + left click + drag top-bottom** | Change color transfer function level
-**Shift + alt + left click + drag top-bottom** | Change primary Gaussian volume opacity transfer function magnitude
+**Shift + alt + left click + drag top-bottom** | Change primary volume opacity transfer function magnitude

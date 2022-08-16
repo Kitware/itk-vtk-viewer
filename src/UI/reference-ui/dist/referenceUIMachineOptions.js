@@ -1,6 +1,3 @@
-import vtkMouseRangeManipulator from '@kitware/vtk.js/Interaction/Manipulators/MouseRangeManipulator'
-import { throttle as throttle$1 } from '@kitware/vtk.js/macros'
-
 function styleInject(css, ref) {
   if (ref === void 0) ref = {}
   var insertAt = ref.insertAt
@@ -2992,7 +2989,7 @@ function event(publicAPI, model, eventName) {
 // newInstance
 // ----------------------------------------------------------------------------
 
-function newInstance$4(extend, className) {
+function newInstance$5(extend, className) {
   var constructor = function constructor() {
     var initialValues =
       arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
@@ -3867,7 +3864,7 @@ var macro = {
   keystore: keystore,
   measurePromiseExecution: measurePromiseExecution,
   moveToProtected: moveToProtected,
-  newInstance: newInstance$4,
+  newInstance: newInstance$5,
   newTypedArray: newTypedArray,
   newTypedArrayFrom: newTypedArrayFrom,
   normalizeWheel: normalizeWheel,
@@ -21088,7 +21085,7 @@ function vtkDataArray(publicAPI, model) {
   /* eslint-disable no-use-before-define */
 
   publicAPI.newClone = function() {
-    return newInstance$3({
+    return newInstance$4({
       empty: true,
       name: model.name,
       dataType: model.dataType,
@@ -21161,7 +21158,7 @@ function vtkDataArray(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$3 = {
+var DEFAULT_VALUES$5 = {
   name: '',
   numberOfComponents: 1,
   size: 0,
@@ -21170,10 +21167,10 @@ var DEFAULT_VALUES$3 = {
   // ranges: null,
 } // ----------------------------------------------------------------------------
 
-function extend$3(publicAPI, model) {
+function extend$5(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$3, initialValues)
+  Object.assign(model, DEFAULT_VALUES$5, initialValues)
 
   if (!model.empty && !model.values && !model.size) {
     throw new TypeError(
@@ -21198,13 +21195,13 @@ function extend$3(publicAPI, model) {
   vtkDataArray(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$3 = newInstance$4(extend$3, 'vtkDataArray') // ----------------------------------------------------------------------------
+var newInstance$4 = newInstance$5(extend$5, 'vtkDataArray') // ----------------------------------------------------------------------------
 
 var vtkDataArray$1 = _objectSpread$2(
   _objectSpread$2(
     {
-      newInstance: newInstance$3,
-      extend: extend$3,
+      newInstance: newInstance$4,
+      extend: extend$5,
     },
     STATIC
   ),
@@ -21814,7 +21811,7 @@ function vtkScalarsToColors(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$2 = {
+var DEFAULT_VALUES$4 = {
   alpha: 1.0,
   vectorComponent: 0,
   vectorSize: -1,
@@ -21825,10 +21822,10 @@ var DEFAULT_VALUES$2 = {
   indexedLookup: false,
 } // ----------------------------------------------------------------------------
 
-function extend$2(publicAPI, model) {
+function extend$4(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$2, initialValues) // Object methods
+  Object.assign(model, DEFAULT_VALUES$4, initialValues) // Object methods
 
   macro.obj(publicAPI, model)
   model.mappingRange = [0, 255]
@@ -21851,12 +21848,12 @@ function extend$2(publicAPI, model) {
   vtkScalarsToColors(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$2 = macro.newInstance(extend$2, 'vtkScalarsToColors') // ----------------------------------------------------------------------------
+var newInstance$3 = macro.newInstance(extend$4, 'vtkScalarsToColors') // ----------------------------------------------------------------------------
 
 var vtkScalarsToColors$1 = _objectSpread$1(
   {
-    newInstance: newInstance$2,
-    extend: extend$2,
+    newInstance: newInstance$3,
+    extend: extend$4,
   },
   vtkScalarsToColors$2
 )
@@ -23087,7 +23084,7 @@ function vtkColorTransferFunction(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES$1 = {
+var DEFAULT_VALUES$3 = {
   clamping: true,
   colorSpace: ColorSpace.RGB,
   hSVWrap: true,
@@ -23106,10 +23103,10 @@ var DEFAULT_VALUES$1 = {
   numberOfValues: 256,
 } // ----------------------------------------------------------------------------
 
-function extend$1(publicAPI, model) {
+function extend$3(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$1, initialValues) // Inheritance
+  Object.assign(model, DEFAULT_VALUES$3, initialValues) // Inheritance
 
   vtkScalarsToColors$1.extend(publicAPI, model, initialValues) // Internal objects initialization
 
@@ -23147,12 +23144,12 @@ function extend$1(publicAPI, model) {
   vtkColorTransferFunction(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$1 = macro.newInstance(extend$1, 'vtkColorTransferFunction') // ----------------------------------------------------------------------------
+var newInstance$2 = macro.newInstance(extend$3, 'vtkColorTransferFunction') // ----------------------------------------------------------------------------
 
 var vtkColorTransferFunction$1 = _objectSpread(
   {
-    newInstance: newInstance$1,
-    extend: extend$1,
+    newInstance: newInstance$2,
+    extend: extend$3,
   },
   Constants$1
 )
@@ -23308,7 +23305,7 @@ function vtkLookupTableProxy(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 
-var DEFAULT_VALUES = {
+var DEFAULT_VALUES$2 = {
   mode: Mode.Preset,
   presetName: Defaults.Preset,
   rgbPoints: Defaults.RGBPoints,
@@ -23319,10 +23316,10 @@ var DEFAULT_VALUES = {
   dataRange: [0, 1],
 } // ----------------------------------------------------------------------------
 
-function extend(publicAPI, model) {
+function extend$2(publicAPI, model) {
   var initialValues =
     arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES, initialValues)
+  Object.assign(model, DEFAULT_VALUES$2, initialValues)
   macro.obj(publicAPI, model)
   macro.setGet(publicAPI, model, ['arrayName'])
   macro.get(publicAPI, model, [
@@ -23340,11 +23337,11 @@ function extend(publicAPI, model) {
   macro.proxy(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance = macro.newInstance(extend, 'vtkLookupTableProxy') // ----------------------------------------------------------------------------
+var newInstance$1 = macro.newInstance(extend$2, 'vtkLookupTableProxy') // ----------------------------------------------------------------------------
 
 var vtkLookupTableProxy$1 = {
-  newInstance: newInstance,
-  extend: extend,
+  newInstance: newInstance$1,
+  extend: extend$2,
   Mode: Mode,
   Defaults: Defaults,
 }
@@ -24201,6 +24198,374 @@ function createColorRangeInput(context, imageUIGroup) {
   imageUIGroup.appendChild(colorRangeInputRow)
 }
 
+// vtkCompositeMouseManipulator methods
+// ----------------------------------------------------------------------------
+
+function vtkCompositeMouseManipulator(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkCompositeMouseManipulator')
+
+  publicAPI.startInteraction = function() {}
+
+  publicAPI.endInteraction = function() {}
+
+  publicAPI.onButtonDown = function(interactor, renderer, position) {}
+
+  publicAPI.onButtonUp = function(interactor) {}
+
+  publicAPI.onMouseMove = function(interactor, renderer, position) {}
+
+  publicAPI.onStartScroll = function(interactor, renderer, delta) {}
+
+  publicAPI.onScroll = function(interactor, renderer, delta) {}
+
+  publicAPI.onEndScroll = function(interactor) {}
+
+  publicAPI.isDragEnabled = function() {
+    return model.dragEnabled
+  }
+
+  publicAPI.isScrollEnabled = function() {
+    return model.scrollEnabled
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES$1 = {
+  button: 1,
+  shift: false,
+  control: false,
+  alt: false,
+  dragEnabled: true,
+  scrollEnabled: false,
+} // ----------------------------------------------------------------------------
+
+function extend$1(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES$1, initialValues) // Create get-set macros
+
+  macro.setGet(publicAPI, model, ['button', 'shift', 'control', 'alt'])
+  macro.set(publicAPI, model, ['dragEnabled', 'scrollEnabled']) // Object specific methods
+
+  vtkCompositeMouseManipulator(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var vtkCompositeMouseManipulator$1 = {
+  extend: extend$1,
+}
+
+// vtkMouseRangeManipulator methods
+// ----------------------------------------------------------------------------
+
+function vtkMouseRangeManipulator(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkMouseRangeManipulator') // Keep track of delta that is below the value
+  // of one step to progressively increment it
+
+  var incrementalDelta = new Map() // Internal methods
+  //-------------------------------------------------------------------------
+
+  function scaleDeltaToRange(listener, normalizedDelta) {
+    return (
+      normalizedDelta * ((listener.max - listener.min) / (listener.step + 1))
+    )
+  } //-------------------------------------------------------------------------
+
+  function processDelta(listener, delta) {
+    var oldValue = listener.getValue() // if exponential scroll is enabled, we raise our scale to the
+    //  exponent of the net delta of the interaction. The further away
+    // the user's cursor is from the start of the interaction, the more
+    // their movements will effect the value.
+
+    var scalingFactor = listener.exponentialScroll
+      ? Math.pow(
+          listener.scale,
+          Math.log2(Math.abs(model.interactionNetDelta) + 2)
+        )
+      : listener.scale
+    var newDelta = delta * scalingFactor + incrementalDelta.get(listener)
+    var value = oldValue + newDelta // Compute new value based on step
+
+    var difference = value - listener.min
+    var stepsToDifference = Math.round(difference / listener.step)
+    value = listener.min + listener.step * stepsToDifference
+    value = Math.max(value, listener.min)
+    value = Math.min(value, listener.max)
+
+    if (value !== oldValue) {
+      // Update value
+      listener.setValue(value)
+      incrementalDelta.set(listener, 0)
+    } else if (
+      (value === listener.min && newDelta < 0) ||
+      (value === listener.max && newDelta > 0)
+    ) {
+      // Do not allow incremental delta to go past range
+      incrementalDelta.set(listener, 0)
+    } else {
+      // Store delta for the next iteration
+      incrementalDelta.set(listener, newDelta)
+    }
+  } // Public API methods
+  // min:number = minimum allowable value
+  // max:number = maximum allowable value
+  // step:number = value per step -- smaller = more steps over a given distance, larger = fewer steps over a given distance
+  // getValue:fn = function that returns current value
+  // setValue:fn = function to set value
+  // scale:number = scale value is applied to mouse event to allow users accelerate or decelerate delta without emitting more events
+  //-------------------------------------------------------------------------
+
+  publicAPI.setHorizontalListener = function(
+    min,
+    max,
+    step,
+    getValue,
+    setValue
+  ) {
+    var scale =
+      arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 1
+    var exponentialScroll =
+      arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false
+    var getFn = Number.isFinite(getValue)
+      ? function() {
+          return getValue
+        }
+      : getValue
+    model.horizontalListener = {
+      min: min,
+      max: max,
+      step: step,
+      getValue: getFn,
+      setValue: setValue,
+      scale: scale,
+      exponentialScroll: exponentialScroll,
+    }
+    incrementalDelta.set(model.horizontalListener, 0)
+    publicAPI.modified()
+  } //-------------------------------------------------------------------------
+
+  publicAPI.setVerticalListener = function(min, max, step, getValue, setValue) {
+    var scale =
+      arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 1
+    var exponentialScroll =
+      arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false
+    var getFn = Number.isFinite(getValue)
+      ? function() {
+          return getValue
+        }
+      : getValue
+    model.verticalListener = {
+      min: min,
+      max: max,
+      step: step,
+      getValue: getFn,
+      setValue: setValue,
+      scale: scale,
+      exponentialScroll: exponentialScroll,
+    }
+    incrementalDelta.set(model.verticalListener, 0)
+    publicAPI.modified()
+  } //-------------------------------------------------------------------------
+
+  publicAPI.setScrollListener = function(min, max, step, getValue, setValue) {
+    var scale =
+      arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 1
+    var exponentialScroll =
+      arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false
+    var getFn = Number.isFinite(getValue)
+      ? function() {
+          return getValue
+        }
+      : getValue
+    model.scrollListener = {
+      min: min,
+      max: max,
+      step: step,
+      getValue: getFn,
+      setValue: setValue,
+      scale: scale,
+      exponentialScroll: exponentialScroll,
+    }
+    incrementalDelta.set(model.scrollListener, 0)
+    publicAPI.modified()
+  } //-------------------------------------------------------------------------
+
+  publicAPI.removeHorizontalListener = function() {
+    if (model.verticalListener) {
+      incrementalDelta.delete(model.verticalListener)
+      delete model.verticalListener
+      publicAPI.modified()
+    }
+  } //-------------------------------------------------------------------------
+
+  publicAPI.removeVerticalListener = function() {
+    if (model.horizontalListener) {
+      incrementalDelta.delete(model.horizontalListener)
+      delete model.horizontalListener
+      publicAPI.modified()
+    }
+  } //-------------------------------------------------------------------------
+
+  publicAPI.removeScrollListener = function() {
+    if (model.scrollListener) {
+      incrementalDelta.delete(model.scrollListener)
+      delete model.scrollListener
+      publicAPI.modified()
+    }
+  } //-------------------------------------------------------------------------
+
+  publicAPI.removeAllListeners = function() {
+    publicAPI.removeHorizontalListener()
+    publicAPI.removeVerticalListener()
+    publicAPI.removeScrollListener()
+  } //-------------------------------------------------------------------------
+
+  publicAPI.onButtonDown = function(interactor, renderer, position) {
+    model.previousPosition = position
+    model.interactionNetDelta = 0
+    var glRenderWindow = interactor.getView() // Ratio is the dom size vs renderwindow size
+
+    var ratio =
+      glRenderWindow.getContainerSize()[0] / glRenderWindow.getSize()[0] // Get proper pixel range used by viewport in rw size space
+
+    var size = glRenderWindow.getViewportSize(renderer) // rescale size to match mouse event position
+
+    model.containerSize = size.map(function(v) {
+      return v * ratio
+    })
+  }
+
+  publicAPI.onButtonUp = function(interactor) {
+    interactor.exitPointerLock()
+  } //--------------------------------------------------------------------------
+  // TODO: at some point, this should perhaps be done in
+  // RenderWindowInteractor instead of here.
+  // We need to hook into mousemove directly for two reasons:
+  // 1. We need to keep receiving mouse move events after the mouse button
+  //    is released. This is currently not possible with
+  //    vtkInteractorStyleManipulator.
+  // 2. Since the mouse is stationary in pointer lock mode, we need the
+  //    event.movementX and event.movementY info, which are not currently
+  //    passed via interactor.onMouseMove.
+
+  publicAPI.startPointerLockEvent = function(interactor, renderer) {
+    var handlePointerLockMove = function handlePointerLockMove(event) {
+      publicAPI.onPointerLockMove(interactor, renderer, event)
+    }
+
+    document.addEventListener('mousemove', handlePointerLockMove)
+    var subscription = null
+
+    var endInteraction = function endInteraction() {
+      var _subscription
+
+      document.removeEventListener('mousemove', handlePointerLockMove)
+      ;(_subscription = subscription) === null || _subscription === void 0
+        ? void 0
+        : _subscription.unsubscribe()
+    }
+
+    subscription =
+      interactor === null || interactor === void 0
+        ? void 0
+        : interactor.onEndPointerLock(endInteraction)
+  }
+
+  publicAPI.onPointerLockMove = function(interactor, renderer, event) {
+    // There is a slight delay between the `onEndPointerLock` call
+    // and the last `onMouseMove` event, we must make sure the pointer
+    // is still locked before we run this logic otherwise we may
+    // get a `onMouseMove` call after the pointer has been unlocked.
+    if (!interactor.isPointerLocked()) return // previousPosition could be undefined if for some reason the
+    // `startPointerLockEvent` method is called before the `onButtonDown` one.
+
+    if (model.previousPosition == null) return
+    model.previousPosition.x += event.movementX
+    model.previousPosition.y += event.movementY
+    publicAPI.onMouseMove(interactor, renderer, model.previousPosition)
+  } //-------------------------------------------------------------------------
+
+  publicAPI.onMouseMove = function(interactor, renderer, position) {
+    if (!model.verticalListener && !model.horizontalListener) {
+      return
+    } // We only want to initialize the pointer lock listener
+    // after the user starts moving their mouse, this way
+    // we don't interfere with other events such as doubleClick,
+    // for this reason we don't call this from `onButtonDown`
+
+    if (model.usePointerLock && !interactor.isPointerLocked()) {
+      interactor.requestPointerLock()
+      publicAPI.startPointerLockEvent(interactor, renderer)
+    }
+
+    if (!position) {
+      return
+    }
+
+    if (model.horizontalListener) {
+      var dxNorm =
+        (position.x - model.previousPosition.x) / model.containerSize[0]
+      var dx = scaleDeltaToRange(model.horizontalListener, dxNorm)
+      model.interactionNetDelta += dx
+      processDelta(model.horizontalListener, dx)
+    }
+
+    if (model.verticalListener) {
+      var dyNorm =
+        (position.y - model.previousPosition.y) / model.containerSize[1]
+      var dy = scaleDeltaToRange(model.verticalListener, dyNorm)
+      model.interactionNetDelta += dy
+      processDelta(model.verticalListener, dy)
+    }
+
+    model.previousPosition = position
+  } //-------------------------------------------------------------------------
+
+  publicAPI.onScroll = function(interactor, renderer, delta) {
+    if (!model.scrollListener || !delta) {
+      return
+    }
+
+    model.interactionNetDelta += delta * model.scrollListener.step
+    processDelta(model.scrollListener, delta * model.scrollListener.step)
+  }
+
+  publicAPI.onStartScroll = function(payload) {
+    model.interactionNetDelta = 0
+    publicAPI.onScroll(payload)
+  }
+} // ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+
+var DEFAULT_VALUES = {
+  horizontalListener: null,
+  verticalListener: null,
+  scrollListener: null,
+} // ----------------------------------------------------------------------------
+
+function extend(publicAPI, model) {
+  var initialValues =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
+  Object.assign(model, DEFAULT_VALUES, initialValues) // Inheritance
+
+  macro.obj(publicAPI, model)
+  vtkCompositeMouseManipulator$1.extend(publicAPI, model, initialValues) // Create get-set macros
+
+  macro.setGet(publicAPI, model, ['usePointerLock']) // Object specific methods
+
+  vtkMouseRangeManipulator(publicAPI, model)
+} // ----------------------------------------------------------------------------
+
+var newInstance = macro.newInstance(extend, 'vtkMouseRangeManipulator') // ----------------------------------------------------------------------------
+
+var vtkMouseRangeManipulator$1 = {
+  newInstance: newInstance,
+  extend: extend,
+}
+
 var __defProp = Object.defineProperty
 var __defNormalProp = (obj, key, value) =>
   key in obj
@@ -24854,7 +25219,7 @@ var vtkPiecewiseGaussianWidgetFacade = function vtkPiecewiseGaussianWidgetFacade
     )
   }
 
-  var throttledUpdate = throttle$1(update, PIECEWISE_UPDATE_DELAY)
+  var throttledUpdate = throttle(update, PIECEWISE_UPDATE_DELAY)
   tfEditor.eventTarget.addEventListener('updated', throttledUpdate)
 
   var getOpacityNodes = function getOpacityNodes() {
@@ -24896,6 +25261,13 @@ var vtkPiecewiseGaussianWidgetFacade = function vtkPiecewiseGaussianWidgetFacade
     },
     render: function render() {
       return undefined
+    },
+    getGaussians: function getGaussians() {
+      console.warn('getGaussians not implemented, use getPoints')
+      return []
+    },
+    setGaussians: function setGaussians() {
+      console.warn('setGaussians not implemented, use setPoints')
     },
   }
 }
@@ -25001,7 +25373,7 @@ var createTransferFunctionWidget = function createTransferFunctionWidget(
     transferFunctionWidget.setPoints(newPoints)
   } // Create range manipulator
 
-  var rangeManipulator = vtkMouseRangeManipulator.newInstance({
+  var rangeManipulator = vtkMouseRangeManipulator$1.newInstance({
     button: 1,
     alt: true,
   })
@@ -25012,12 +25384,12 @@ var createTransferFunctionWidget = function createTransferFunctionWidget(
     levelGet: levelGet,
     levelSet: levelSet,
   }
-  var pwfRangeManipulator = vtkMouseRangeManipulator.newInstance({
+  var pwfRangeManipulator = vtkMouseRangeManipulator$1.newInstance({
     button: 3,
     // Right mouse
     alt: true,
   })
-  var pwfRangeManipulatorShift = vtkMouseRangeManipulator.newInstance({
+  var pwfRangeManipulatorShift = vtkMouseRangeManipulator$1.newInstance({
     button: 1,
     // Left mouse
     shift: true,
@@ -25734,6 +26106,8 @@ function applyColorRangeBounds(context, event) {
 var MIN_WINDOW = 1e-8
 
 function applyColorRange(context, event) {
+  var _actorContext$piecewi
+
   var name = event.data.name
   var component = event.data.component
   var actorContext = context.images.actorContext.get(name)
@@ -25786,9 +26160,13 @@ function applyColorRange(context, event) {
   )
   var transferFunctionWidget = context.images.transferFunctionWidget
   transferFunctionWidget.setRangeZoom(colorRangeNormalized)
+  var oldPoints =
+    (_actorContext$piecewi = actorContext.piecewiseFunctionPoints) === null ||
+    _actorContext$piecewi === void 0
+      ? void 0
+      : _actorContext$piecewi.get(component)
 
-  if (!event.data.dontUpdatePoints) {
-    var oldPoints = actorContext.piecewiseFunctionPoints.get(component)
+  if (!event.data.dontUpdatePoints && oldPoints) {
     var xValues = oldPoints.map(function(_ref) {
       var _ref2 = _slicedToArray(_ref, 1),
         x = _ref2[0]

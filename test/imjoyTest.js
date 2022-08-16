@@ -2,11 +2,9 @@ import test from 'tape-catch'
 import axios from 'axios'
 
 import { readImageArrayBuffer } from 'itk-wasm'
-import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import testUtils from 'vtk.js/Sources/Testing/testUtils'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
-const testImage3DPath2 = 'base/test/data/input/mri3D.nrrd'
 
 import * as imjoyCore from 'imjoy-core'
 import ndarray from 'ndarray'
@@ -63,7 +61,7 @@ test('Test ImJoy Plugin', async t => {
   const array = ndarray(itkImage.data, itkImage.size.slice().reverse())
 
   const imjoy_api = {
-    showMessage(plugin, info, duration) {
+    showMessage(plugin, info /*,duration*/) {
       console.log(info)
     },
   }

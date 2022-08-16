@@ -40,8 +40,4 @@ export default {
       browser: true,
     }),
   ],
-  external: [
-    '@kitware/vtk.js/Interaction/Manipulators/MouseRangeManipulator',
-    '@kitware/vtk.js/macros',
-  ],
 }

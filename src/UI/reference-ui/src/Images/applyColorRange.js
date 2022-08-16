@@ -61,8 +61,8 @@ function applyColorRange(context, event) {
   const { transferFunctionWidget } = context.images
   transferFunctionWidget.setRangeZoom(colorRangeNormalized)
 
-  if (!event.data.dontUpdatePoints) {
-    const oldPoints = actorContext.piecewiseFunctionPoints.get(component)
+  const oldPoints = actorContext.piecewiseFunctionPoints?.get(component)
+  if (!event.data.dontUpdatePoints && oldPoints) {
     const xValues = oldPoints.map(([x]) => x)
     // if 1 point, assume whole range
     const maxOldPoints = xValues.length > 1 ? Math.max(...xValues) : 1

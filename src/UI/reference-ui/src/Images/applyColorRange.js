@@ -1,3 +1,5 @@
+const MIN_WINDOW = 1e-8
+
 function applyColorRange(context, event) {
   const name = event.data.name
   const component = event.data.component
@@ -24,45 +26,47 @@ function applyColorRange(context, event) {
   }
   const diff = fullRange[1] - fullRange[0]
 
-  context.images.transferFunctionManipulator.windowMotionScale = diff
-  context.images.transferFunctionManipulator.levelMotionScale = diff
+  const colorRangeNormalized = [
+    (colorRange[0] - fullRange[0]) / diff,
+    (colorRange[1] - fullRange[0]) / diff,
+  ]
+  const normDelta = colorRangeNormalized[1] - colorRangeNormalized[0]
+
   const {
     rangeManipulator,
-    windowMotionScale,
     windowGet,
     windowSet,
     levelGet,
     levelSet,
   } = context.images.transferFunctionManipulator
-  rangeManipulator.setVerticalListener(
-    0,
-    windowMotionScale,
-    diff / 100.0,
-    windowGet,
-    windowSet
-  )
+
+  // level
   rangeManipulator.setHorizontalListener(
-    fullRange[0],
-    fullRange[1],
-    diff / 100.0,
+    colorRangeNormalized[0],
+    colorRangeNormalized[1],
+    normDelta / 100.0,
     levelGet,
     levelSet
   )
 
-  const colorRangeNormalized = new Array(2)
-  colorRangeNormalized[0] = (colorRange[0] - fullRange[0]) / diff
-  colorRangeNormalized[1] = (colorRange[1] - fullRange[0]) / diff
+  // window
+  rangeManipulator.setVerticalListener(
+    MIN_WINDOW,
+    normDelta,
+    normDelta / 100.0,
+    windowGet,
+    windowSet
+  )
 
   const { transferFunctionWidget } = context.images
   transferFunctionWidget.setRangeZoom(colorRangeNormalized)
 
   if (!event.data.dontUpdatePoints) {
-    const normDelta = colorRangeNormalized[1] - colorRangeNormalized[0]
-
     const oldPoints = actorContext.piecewiseFunctionPoints.get(component)
     const xValues = oldPoints.map(([x]) => x)
-    const maxOldPoints = oldPoints.lenght > 1 ? Math.max(...xValues) : 1 // if 1 point, assume whole range
-    const minOldPoints = oldPoints.lenght > 1 ? Math.min(...xValues) : 0
+    // if 1 point, assume whole range
+    const maxOldPoints = xValues.length > 1 ? Math.max(...xValues) : 1
+    const minOldPoints = xValues.length > 1 ? Math.min(...xValues) : 0
     const rangeOldPoints = maxOldPoints - minOldPoints
     const points = oldPoints
       // find normalized position of old points

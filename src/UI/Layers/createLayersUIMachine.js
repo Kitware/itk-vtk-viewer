@@ -99,7 +99,7 @@ const assignImageContext = assign({
       : new ImageActorContext()
     if (labelImage) {
       actorContext.labelImage = labelImage
-      if (!!!actorContext.renderedScale) {
+      if (!actorContext.renderedScale) {
         actorContext.renderedScale = labelImage.lowestScale
       }
     } else {
@@ -119,7 +119,7 @@ const assignImageContext = assign({
       return images
     }
 
-    if (!!!actorContext.renderedScale) {
+    if (!actorContext.renderedScale) {
       actorContext.renderedScale = image.lowestScale
     }
 
@@ -130,7 +130,6 @@ const assignImageContext = assign({
     )
 
     const components = image.imageType.components
-    const componentType = image.imageType.componentType
 
     // Assign default independentComponents
     if (actorContext.independentComponents === null) {

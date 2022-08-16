@@ -3,7 +3,7 @@ import applyGroupVisibility from '../applyGroupVisibility'
 
 import createComponentSelector from './createComponentSelector'
 import createColorRangeInput from './createColorRangeInput'
-import createTransferFunctionWidget from 'itk-viewer-transfer-function-editor/itk-vtk-viewer/createTransferFunctionWidget'
+import createTransferFunctionWidget from './createTransferFunctionWidget'
 import createVolumeRenderingInputs from './createVolumeRenderingInputs'
 
 import createLabelImageColorWidget from './createLabelImageColorWidget'
@@ -22,7 +22,7 @@ function createImagesInterface(context) {
 
   createComponentSelector(context, componentAndScale)
   createColorRangeInput(context, imagesUIGroup)
-  createTransferFunctionWidget(context, imagesUIGroup, style)
+  createTransferFunctionWidget(context, imagesUIGroup)
   createVolumeRenderingInputs(context, imagesUIGroup)
 
   context.uiContainer.appendChild(imagesUIGroup)

@@ -155,12 +155,14 @@ for user inputs.
 
 Set/get the color map for the given component/channel.
 
+<!---
 ### setImagePiecewiseFunctionGaussians(gaussians, component, name)
 
 ### getImagePiecewiseFunctionGaussians(component, name)
 
 Set/get the gaussian parameters that define the piecewise function used to define
 the volume rendering opacity transfer function and multi-component slice blending.
+-->
 
 ### setImageShadowEnabled(enabled, name)
 

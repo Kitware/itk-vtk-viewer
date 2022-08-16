@@ -1,99 +1,13 @@
 import vtkMouseRangeManipulator from '@kitware/vtk.js/Interaction/Manipulators/MouseRangeManipulator'
-import vtkItkPiecewiseGaussianWidget from '../vtk/ItkPiecewiseGaussianWidget'
-import macro from '@kitware/vtk.js/macro'
-
+import { createTransferFunctionEditor } from './createTransferFunctionEditor'
 import style from '../ItkVtkViewer.module.css'
 
-function createTransferFunctionWidget(context, imagesUIGroup) {
-  const transferFunctionWidget = vtkItkPiecewiseGaussianWidget.newInstance({
-    numberOfBins: 256,
-    size: [400, 150],
-  })
-  context.images.transferFunctionWidget = transferFunctionWidget
-  transferFunctionWidget.setEnableRangeZoom(true)
-  let iconSize = 20
-  if (context.use2D) {
-    iconSize = 0
-  }
-  transferFunctionWidget.updateStyle({
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    histogramColor: 'rgba(30, 30, 30, 0.6)',
-    strokeColor: 'rgb(0, 0, 0)',
-    activeColor: 'rgb(255, 255, 255)',
-    handleColor: 'rgb(70, 70, 150)',
-    buttonDisableFillColor: 'rgba(255, 255, 255, 0.5)',
-    buttonDisableStrokeColor: 'rgba(0, 0, 0, 0.5)',
-    buttonStrokeColor: 'rgba(0, 0, 0, 1)',
-    buttonFillColor: 'rgba(255, 255, 255, 1)',
-    strokeWidth: 2,
-    activeStrokeWidth: 3,
-    buttonStrokeWidth: 1.5,
-    handleWidth: 2,
-    zoomControlHeight: 20,
-    zoomControlColor: 'rgba(50, 50, 100, 1)',
-    iconSize, // Can be 0 if you want to remove buttons (dblClick for (+) / rightClick for (-))
-    padding: 10,
-  })
+const MIN_WIDTH = 1e-8
 
+const createTransferFunctionWidget = (context, imagesUIGroup) => {
   const piecewiseWidgetContainer = document.createElement('div')
+  piecewiseWidgetContainer.setAttribute('style', 'height: 150px; width: 400px')
   piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget)
-
-  transferFunctionWidget.setContainer(piecewiseWidgetContainer)
-  transferFunctionWidget.bindMouseListeners()
-
-  // Create color map and piecewise function objects as needed
-  if (typeof context.images.lookupTableProxies === 'undefined') {
-    context.images.lookupTableProxies = new Map()
-  }
-
-  // Manage update when opacity changes
-  transferFunctionWidget.onAnimation(start => {
-    if (start) {
-      context.service.send({
-        type: 'REQUEST_ANIMATION',
-        data: 'transferFunctionWidget',
-      })
-    } else {
-      context.service.send({
-        type: 'CANCEL_ANIMATION',
-        data: 'transferFunctionWidget',
-      })
-    }
-  })
-
-  transferFunctionWidget.onOpacityChange(() => {
-    const name = context.images.selectedName
-    const actorContext = context.images.actorContext.get(name)
-    const component = actorContext.selectedComponent
-    const dataRange = actorContext.colorRanges.get(component)
-    const range = transferFunctionWidget.getOpacityRange(dataRange)
-    const nodes = transferFunctionWidget.getOpacityNodes(dataRange)
-    context.service.send({
-      type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
-      data: {
-        name,
-        component,
-        range,
-        nodes,
-      },
-    })
-  })
-
-  const onZoomChange = zoom => {
-    const name = context.images.selectedName
-    const actorContext = context.images.actorContext.get(name)
-    const component = actorContext.selectedComponent
-    const fullRange = actorContext.colorRanges.get(component)
-    const diff = fullRange[1] - fullRange[0]
-    const colorRange = new Array(2)
-    colorRange[0] = fullRange[0] + zoom[0] * diff
-    colorRange[1] = fullRange[0] + zoom[1] * diff
-    context.service.send({
-      type: 'IMAGE_COLOR_RANGE_CHANGED',
-      data: { name, component, range: colorRange },
-    })
-  }
-  transferFunctionWidget.onZoomChange(macro.throttle(onZoomChange, 150))
 
   const transferFunctionWidgetRow = document.createElement('div')
   transferFunctionWidgetRow.setAttribute('class', style.uiRow)
@@ -103,78 +17,72 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
     'style',
     'background: rgba(127, 127, 127, 0.5);'
   )
-  transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer)
   imagesUIGroup.appendChild(transferFunctionWidgetRow)
+  transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer)
+
+  const transferFunctionWidget = createTransferFunctionEditor(
+    context,
+    piecewiseWidgetContainer
+  )
+
+  context.images.transferFunctionWidget = transferFunctionWidget
+
+  // lookupTableProxies used elsewhere
+  if (typeof context.images.lookupTableProxies === 'undefined') {
+    context.images.lookupTableProxies = new Map()
+  }
+
+  const getXMinMax = () => {
+    const xPositions = transferFunctionWidget.getPoints().map(([x]) => x)
+    return { min: Math.min(...xPositions), max: Math.max(...xPositions) }
+  }
+
+  const windowGet = () => {
+    const { min, max } = getXMinMax()
+    const width = max - min
+    return width
+  }
+
+  const windowSet = newWidth => {
+    const { min, max } = getXMinMax()
+    const width = max - min || MIN_WIDTH
+    const newMin = (min + max) / 2 - newWidth / 2
+
+    const newPoints = transferFunctionWidget
+      .getPoints()
+      // normalize in old range, then scale to new range
+      .map(([x, y]) => [((x - min) / width) * newWidth + newMin, y])
+    transferFunctionWidget.setPoints(newPoints)
+  }
+
+  const levelGet = () => {
+    const { min, max } = getXMinMax()
+    return (min + max) / 2
+  }
+
+  const levelSet = newLevel => {
+    const oldLevel = levelGet()
+    const delta = newLevel - oldLevel
+    const newPoints = transferFunctionWidget
+      .getPoints()
+      // normalize in old range, then scale to new range
+      .map(([x, y]) => [x + delta, y])
+    transferFunctionWidget.setPoints(newPoints)
+  }
 
   // Create range manipulator
   const rangeManipulator = vtkMouseRangeManipulator.newInstance({
     button: 1,
     alt: true,
   })
+
   context.images.transferFunctionManipulator = {
-    rangeManipulator: null,
-    windowMotionScale: 150.0,
-    levelMotionScale: 150.0,
-    windowGet: null,
-    windowSet: null,
-    levelGet: null,
-    levelSet: null,
+    rangeManipulator,
+    windowGet,
+    windowSet,
+    levelGet,
+    levelSet,
   }
-  context.images.transferFunctionManipulator.rangeManipulator = rangeManipulator
-
-  // Window
-  const windowGet = () => {
-    const gaussian = transferFunctionWidget.getGaussians()[0]
-    return (
-      gaussian.width *
-      context.images.transferFunctionManipulator.windowMotionScale
-    )
-  }
-  context.images.transferFunctionManipulator.windowGet = windowGet
-  const windowSet = value => {
-    const gaussians = transferFunctionWidget.getGaussians()
-    const newGaussians = gaussians.slice()
-    newGaussians[0].width =
-      value / context.images.transferFunctionManipulator.windowMotionScale
-    const name = context.images.selectedName
-    const actorContext = context.images.actorContext.get(name)
-    const component = context.images.selectedComponent
-    context.service.send({
-      type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
-      data: { name, component, gaussians: newGaussians },
-    })
-  }
-  context.images.transferFunctionManipulator.windowSet = windowSet
-
-  // Level
-  const levelGet = () => {
-    const gaussian = transferFunctionWidget.getGaussians()[0]
-    return (
-      gaussian.position *
-      context.images.transferFunctionManipulator.levelMotionScale
-    )
-  }
-  context.images.transferFunctionManipulator.levelGet = levelGet
-  const levelSet = value => {
-    const gaussians = transferFunctionWidget.getGaussians()
-    const newGaussians = gaussians.slice()
-    const name = context.images.selectedName
-    const actorContext = context.images.actorContext.get(name)
-    const component = context.images.selectedComponent
-    context.service.send({
-      type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
-      data: { name, component, gaussians: newGaussians },
-    })
-  }
-  context.images.transferFunctionManipulator.levelSet = levelSet
-
-  // Add range manipulator
-  context.itkVtkView
-    .getInteractorStyle2D()
-    .addMouseManipulator(rangeManipulator)
-  context.itkVtkView
-    .getInteractorStyle3D()
-    .addMouseManipulator(rangeManipulator)
 
   const pwfRangeManipulator = vtkMouseRangeManipulator.newInstance({
     button: 3, // Right mouse
@@ -186,37 +94,27 @@ function createTransferFunctionWidget(context, imagesUIGroup) {
     alt: true,
   })
 
-  const pwfMotionScale = 200.0
   const pwfGet = () => {
-    const gaussian = transferFunctionWidget.getGaussians()[0]
-    return gaussian.height * pwfMotionScale
+    const opacities = transferFunctionWidget.getPoints().map(([, y]) => y)
+    return Math.max(...opacities)
   }
-  const pwfSet = value => {
-    const gaussians = transferFunctionWidget.getGaussians()
-    const newGaussians = gaussians.slice()
-    newGaussians[0].height = value / pwfMotionScale
-    const name = context.images.selectedName
-    const actorContext = context.images.actorContext.get(name)
-    const component = context.images.selectedComponent
-    context.service.send({
-      type: 'IMAGE_PIECEWISE_FUNCTION_GAUSSIANS_CHANGED',
-      data: { name, component, gaussians: newGaussians },
-    })
+  const pwfSet = newMaxOpacity => {
+    const oldMax = pwfGet()
+    const delta = newMaxOpacity - oldMax
+    const newPoints = transferFunctionWidget
+      .getPoints()
+      .map(([x, y]) => [x, y + delta])
+    transferFunctionWidget.setPoints(newPoints)
   }
-  pwfRangeManipulator.setVerticalListener(0, pwfMotionScale, 1, pwfGet, pwfSet)
-  pwfRangeManipulatorShift.setVerticalListener(
-    0,
-    pwfMotionScale,
-    1,
-    pwfGet,
-    pwfSet
+  // max as 1.01 not 1.0 to allow for squishing of low function points if a point is already at 1
+  pwfRangeManipulator.setVerticalListener(0, 1.01, 0.01, pwfGet, pwfSet)
+  pwfRangeManipulatorShift.setVerticalListener(0, 1.01, 0.01, pwfGet, pwfSet)
+  ;[rangeManipulator, pwfRangeManipulator, pwfRangeManipulatorShift].forEach(
+    m => {
+      context.itkVtkView.getInteractorStyle2D().addMouseManipulator(m)
+      context.itkVtkView.getInteractorStyle3D().addMouseManipulator(m)
+    }
   )
-  context.itkVtkView
-    .getInteractorStyle3D()
-    .addMouseManipulator(pwfRangeManipulator)
-  context.itkVtkView
-    .getInteractorStyle3D()
-    .addMouseManipulator(pwfRangeManipulatorShift)
 }
 
 export default createTransferFunctionWidget

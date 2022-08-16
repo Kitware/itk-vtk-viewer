@@ -24786,252 +24786,272 @@ class TransferFunctionEditor {
   }
 }
 
-const PIECEWISE_UPDATE_DELAY = 100
+var PIECEWISE_UPDATE_DELAY = 100
 
-const getNodes = (range, points) => {
-  const delta = range[1] - range[0]
-  const windowedPoints = windowPointsForSort(points)
-  return windowedPoints.map(([x, y]) => ({
-    x: range[0] + delta * x,
-    y,
-    midpoint: 0.5,
-    sharpness: 0,
-  }))
+var getNodes = function getNodes(range, points) {
+  var delta = range[1] - range[0]
+  var windowedPoints = windowPointsForSort(points)
+  return windowedPoints.map(function(_ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+      x = _ref2[0],
+      y = _ref2[1]
+
+    return {
+      x: range[0] + delta * x,
+      y: y,
+      midpoint: 0.5,
+      sharpness: 0,
+    }
+  })
+} // grab head and tail or fallback to data range if 1 or less points
+
+var getRange = function getRange(dataRange, nodes) {
+  return nodes.length > 1 ? [nodes[0].x, nodes[nodes.length - 1].x] : dataRange
 }
 
-// grab head and tail or fallback to data range if 1 or less points
-const getRange = (dataRange, nodes) =>
-  nodes.length > 1 ? [nodes[0].x, nodes[nodes.length - 1].x] : dataRange
-
-const updateContextPiecewiseFunction = (context, dataRange, points) => {
+var updateContextPiecewiseFunction = function updateContextPiecewiseFunction(
+  context,
+  dataRange,
+  points
+) {
   if (!context.images.piecewiseFunctions) return // not ready yet
 
-  const name = context.images.selectedName
-  const actorContext = context.images.actorContext.get(name)
-  const component = actorContext.selectedComponent
+  var name = context.images.selectedName
+  var actorContext = context.images.actorContext.get(name)
+  var component = actorContext.selectedComponent
   context.service.send({
     type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED',
     data: {
-      name,
-      component,
-      points,
+      name: name,
+      component: component,
+      points: points,
     },
   })
-
-  const nodes = getNodes(dataRange, points)
-  const range = getRange(dataRange, nodes)
-
+  var nodes = getNodes(dataRange, points)
+  var range = getRange(dataRange, nodes)
   context.service.send({
     type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
     data: {
-      name,
-      component,
-      range,
-      nodes,
+      name: name,
+      component: component,
+      range: range,
+      nodes: nodes,
     },
   })
 }
 
-const vtkPiecewiseGaussianWidgetFacade = (tfEditor, context) => {
-  let dataRange = [0, 255]
+var vtkPiecewiseGaussianWidgetFacade = function vtkPiecewiseGaussianWidgetFacade(
+  tfEditor,
+  context
+) {
+  var dataRange = [0, 255]
 
-  const update = () =>
-    updateContextPiecewiseFunction(context, dataRange, tfEditor.getPoints())
+  var update = function update() {
+    return updateContextPiecewiseFunction(
+      context,
+      dataRange,
+      tfEditor.getPoints()
+    )
+  }
 
-  const throttledUpdate = throttle$1(update, PIECEWISE_UPDATE_DELAY)
+  var throttledUpdate = throttle$1(update, PIECEWISE_UPDATE_DELAY)
   tfEditor.eventTarget.addEventListener('updated', throttledUpdate)
 
-  const getOpacityNodes = tempDataRange =>
-    getNodes(tempDataRange ?? dataRange, tfEditor.getPoints())
+  var getOpacityNodes = function getOpacityNodes() {
+    var range =
+      arguments.length > 0 && arguments[0] !== undefined
+        ? arguments[0]
+        : dataRange
+    return getNodes(range, tfEditor.getPoints())
+  }
 
-  const getOpacityRange = tempDataRange =>
-    getRange(
-      tempDataRange ?? dataRange,
-      getOpacityNodes(tempDataRange ?? dataRange)
-    )
-
-  // to compare changes across setting the data view range
-  let cachedGaussian
+  var getOpacityRange = function getOpacityRange() {
+    var range =
+      arguments.length > 0 && arguments[0] !== undefined
+        ? arguments[0]
+        : dataRange
+    return getRange(range, getOpacityNodes(range))
+  }
 
   return {
-    setColorTransferFunction: tf => {
+    setColorTransferFunction: function setColorTransferFunction(tf) {
       tfEditor.setColorTransferFunction(tf)
     },
-
-    setPoints(points) {
+    setPoints: function setPoints(points) {
       tfEditor.setPoints(points)
     },
-
-    getGaussians() {
-      const xPositions = tfEditor.getPoints().map(([x]) => x)
-      const min = Math.min(...xPositions)
-      const width = (Math.max(...xPositions) - min) / 2 || 0.5 // if one point, fill width
-      const position = min + width
-      const height = Math.max(...tfEditor.getPoints().map(([, y]) => y))
-
-      return [{ width, position, height }]
-    },
-
-    setGaussians(gaussians) {
-      const newG = gaussians[0]
-      const oldG = cachedGaussian ?? this.getGaussians()[0]
-      const heightDelta = newG.height - oldG.height
-
-      const newMin = newG.position - newG.width
-      const newRange = 2 * newG.width
-
-      const pointsGaussian = this.getGaussians()[0]
-      const pointsMin = pointsGaussian.position - pointsGaussian.width
-      const points = tfEditor
-        .getPoints()
-        // compute x in "gaussian" space
-        .map(([x, y]) => [(x - pointsMin) / (pointsGaussian.width * 2), y])
-        // rescale points into new gaussian range
-        .map(([x, y]) => {
-          return [x * newRange + newMin, y + y * heightDelta]
-        })
-
-      tfEditor.setPoints(points)
-
-      cachedGaussian = { ...newG }
-
-      update()
-    },
-
-    getPoints() {
+    getPoints: function getPoints() {
       return tfEditor.getPoints()
     },
-
-    setRangeZoom: newRange => {
-      tfEditor.setViewBox(...newRange)
+    setRangeZoom: function setRangeZoom(newRange) {
+      tfEditor.setViewBox.apply(tfEditor, _toConsumableArray(newRange))
     },
-
-    setDataRange: newRange => {
-      dataRange = [...newRange]
+    setDataRange: function setDataRange(newRange) {
+      dataRange = _toConsumableArray(newRange)
     },
-
-    getOpacityNodes,
-    getOpacityRange,
-    setHistogram: h => tfEditor.setHistogram(h),
-    render: () => undefined,
+    getOpacityNodes: getOpacityNodes,
+    getOpacityRange: getOpacityRange,
+    setHistogram: function setHistogram(h) {
+      return tfEditor.setHistogram(h)
+    },
+    render: function render() {
+      return undefined
+    },
   }
 }
 
-const createTransferFunctionEditor = (context, mount) => {
-  const editor = new TransferFunctionEditor(mount)
-
+var createTransferFunctionEditor = function createTransferFunctionEditor(
+  context,
+  mount
+) {
+  var editor = new TransferFunctionEditor(mount)
   return vtkPiecewiseGaussianWidgetFacade(editor, context)
 }
 
-const MIN_WIDTH = 1e-8
+var MIN_WIDTH = 1e-8
 
-const createTransferFunctionWidget = (context, imagesUIGroup, style) => {
-  const piecewiseWidgetContainer = document.createElement('div')
+var createTransferFunctionWidget = function createTransferFunctionWidget(
+  context,
+  imagesUIGroup
+) {
+  var piecewiseWidgetContainer = document.createElement('div')
   piecewiseWidgetContainer.setAttribute('style', 'height: 150px; width: 400px')
   piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget)
-
-  const transferFunctionWidgetRow = document.createElement('div')
-  transferFunctionWidgetRow.setAttribute('class', style.uiRow)
-  // This row needs background different from normal uiRows, to aid
+  var transferFunctionWidgetRow = document.createElement('div')
+  transferFunctionWidgetRow.setAttribute('class', style.uiRow) // This row needs background different from normal uiRows, to aid
   // in the illusion that it's the content portion of a tabbed pane
+
   transferFunctionWidgetRow.setAttribute(
     'style',
     'background: rgba(127, 127, 127, 0.5);'
   )
   imagesUIGroup.appendChild(transferFunctionWidgetRow)
   transferFunctionWidgetRow.appendChild(piecewiseWidgetContainer)
-
-  const transferFunctionWidget = createTransferFunctionEditor(
+  var transferFunctionWidget = createTransferFunctionEditor(
     context,
     piecewiseWidgetContainer
   )
+  context.images.transferFunctionWidget = transferFunctionWidget // lookupTableProxies used elsewhere
 
-  context.images.transferFunctionWidget = transferFunctionWidget
-
-  // lookupTableProxies used elsewhere
   if (typeof context.images.lookupTableProxies === 'undefined') {
     context.images.lookupTableProxies = new Map()
   }
 
-  const getXMinMax = () => {
-    const xPositions = transferFunctionWidget.getPoints().map(([x]) => x)
-    return { min: Math.min(...xPositions), max: Math.max(...xPositions) }
+  var getXMinMax = function getXMinMax() {
+    var xPositions = transferFunctionWidget.getPoints().map(function(_ref) {
+      var _ref2 = _slicedToArray(_ref, 1),
+        x = _ref2[0]
+
+      return x
+    })
+    return {
+      min: Math.min.apply(Math, _toConsumableArray(xPositions)),
+      max: Math.max.apply(Math, _toConsumableArray(xPositions)),
+    }
   }
 
-  const windowGet = () => {
-    const { min, max } = getXMinMax()
-    const width = max - min
+  var windowGet = function windowGet() {
+    var _getXMinMax = getXMinMax(),
+      min = _getXMinMax.min,
+      max = _getXMinMax.max
+
+    var width = max - min
     return width
   }
 
-  const windowSet = newWidth => {
-    const { min, max } = getXMinMax()
-    const width = max - min || MIN_WIDTH
-    const newMin = (min + max) / 2 - newWidth / 2
+  var windowSet = function windowSet(newWidth) {
+    var _getXMinMax2 = getXMinMax(),
+      min = _getXMinMax2.min,
+      max = _getXMinMax2.max
 
-    const newPoints = transferFunctionWidget
-      .getPoints()
-      // normalize in old range, then scale to new range
-      .map(([x, y]) => [((x - min) / width) * newWidth + newMin, y])
+    var width = max - min || MIN_WIDTH
+    var newMin = (min + max) / 2 - newWidth / 2
+    var newPoints = transferFunctionWidget
+      .getPoints() // normalize in old range, then scale to new range
+      .map(function(_ref3) {
+        var _ref4 = _slicedToArray(_ref3, 2),
+          x = _ref4[0],
+          y = _ref4[1]
+
+        return [((x - min) / width) * newWidth + newMin, y]
+      })
     transferFunctionWidget.setPoints(newPoints)
   }
 
-  const levelGet = () => {
-    const { min, max } = getXMinMax()
+  var levelGet = function levelGet() {
+    var _getXMinMax3 = getXMinMax(),
+      min = _getXMinMax3.min,
+      max = _getXMinMax3.max
+
     return (min + max) / 2
   }
 
-  const levelSet = newLevel => {
-    const oldLevel = levelGet()
-    const delta = newLevel - oldLevel
-    const newPoints = transferFunctionWidget
-      .getPoints()
-      // normalize in old range, then scale to new range
-      .map(([x, y]) => [x + delta, y])
-    transferFunctionWidget.setPoints(newPoints)
-  }
+  var levelSet = function levelSet(newLevel) {
+    var oldLevel = levelGet()
+    var delta = newLevel - oldLevel
+    var newPoints = transferFunctionWidget
+      .getPoints() // normalize in old range, then scale to new range
+      .map(function(_ref5) {
+        var _ref6 = _slicedToArray(_ref5, 2),
+          x = _ref6[0],
+          y = _ref6[1]
 
-  // Create range manipulator
-  const rangeManipulator = vtkMouseRangeManipulator.newInstance({
+        return [x + delta, y]
+      })
+    transferFunctionWidget.setPoints(newPoints)
+  } // Create range manipulator
+
+  var rangeManipulator = vtkMouseRangeManipulator.newInstance({
     button: 1,
     alt: true,
   })
-
   context.images.transferFunctionManipulator = {
-    rangeManipulator,
-    windowGet,
-    windowSet,
-    levelGet,
-    levelSet,
+    rangeManipulator: rangeManipulator,
+    windowGet: windowGet,
+    windowSet: windowSet,
+    levelGet: levelGet,
+    levelSet: levelSet,
   }
-
-  const pwfRangeManipulator = vtkMouseRangeManipulator.newInstance({
-    button: 3, // Right mouse
+  var pwfRangeManipulator = vtkMouseRangeManipulator.newInstance({
+    button: 3,
+    // Right mouse
     alt: true,
   })
-  const pwfRangeManipulatorShift = vtkMouseRangeManipulator.newInstance({
-    button: 1, // Left mouse
-    shift: true, // For the macOS folks
+  var pwfRangeManipulatorShift = vtkMouseRangeManipulator.newInstance({
+    button: 1,
+    // Left mouse
+    shift: true,
+    // For the macOS folks
     alt: true,
   })
 
-  const pwfGet = () => {
-    const opacities = transferFunctionWidget.getPoints().map(([, y]) => y)
-    return Math.max(...opacities)
+  var pwfGet = function pwfGet() {
+    var opacities = transferFunctionWidget.getPoints().map(function(_ref7) {
+      var _ref8 = _slicedToArray(_ref7, 2),
+        y = _ref8[1]
+
+      return y
+    })
+    return Math.max.apply(Math, _toConsumableArray(opacities))
   }
-  const pwfSet = newMaxOpacity => {
-    const oldMax = pwfGet()
-    const delta = newMaxOpacity - oldMax
-    const newPoints = transferFunctionWidget
-      .getPoints()
-      .map(([x, y]) => [x, y + delta])
+
+  var pwfSet = function pwfSet(newMaxOpacity) {
+    var oldMax = pwfGet()
+    var delta = newMaxOpacity - oldMax
+    var newPoints = transferFunctionWidget.getPoints().map(function(_ref9) {
+      var _ref10 = _slicedToArray(_ref9, 2),
+        x = _ref10[0],
+        y = _ref10[1]
+
+      return [x, y + delta]
+    })
     transferFunctionWidget.setPoints(newPoints)
-  }
-  // max as 1.01 not 1.0 to allow for squishing of low function points if a point is already at 1
+  } // max as 1.01 not 1.0 to allow for squishing of low function points if a point is already at 1
+
   pwfRangeManipulator.setVerticalListener(0, 1.01, 0.01, pwfGet, pwfSet)
   pwfRangeManipulatorShift.setVerticalListener(0, 1.01, 0.01, pwfGet, pwfSet)
   ;[rangeManipulator, pwfRangeManipulator, pwfRangeManipulatorShift].forEach(
-    m => {
+    function(m) {
       context.itkVtkView.getInteractorStyle2D().addMouseManipulator(m)
       context.itkVtkView.getInteractorStyle3D().addMouseManipulator(m)
     }
@@ -25625,7 +25645,7 @@ function createImagesInterface(context) {
   context.images.componentAndScale = componentAndScale
   createComponentSelector(context, componentAndScale)
   createColorRangeInput(context, imagesUIGroup)
-  createTransferFunctionWidget(context, imagesUIGroup, style)
+  createTransferFunctionWidget(context, imagesUIGroup)
   createVolumeRenderingInputs(context, imagesUIGroup)
   context.uiContainer.appendChild(imagesUIGroup)
   createLabelImageColorWidget(context)

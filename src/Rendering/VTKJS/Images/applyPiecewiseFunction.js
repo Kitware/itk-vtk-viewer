@@ -1,5 +1,3 @@
-import filterAndProcessOpacityNodes from './filterAndProcessOpacityNodes'
-
 function applyPiecewiseFunction(context, event) {
   const name = event.data.name
   const component = event.data.component
@@ -16,15 +14,8 @@ function applyPiecewiseFunction(context, event) {
 
     volumePiecewiseFunction.setNodes(nodes)
 
-    const numberOfComponents = actorContext.componentVisibilities.reduce(
-      (a, c) => +a + c,
-      0
-    )
-    const filteredNodes = filterAndProcessOpacityNodes(
-      numberOfComponents,
-      nodes
-    )
-    slicePiecewiseFunction.setNodes(filteredNodes)
+    const sliceNodes = nodes.length > 2 ? nodes.slice(1, -1) : nodes // if more than 2, remove "window" nodes with y = 0
+    slicePiecewiseFunction.setNodes(sliceNodes)
 
     const lookupTableProxy = context.images.lookupTableProxies.get(component)
     const lookupTable = lookupTableProxy.getLookupTable()

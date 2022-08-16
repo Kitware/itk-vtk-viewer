@@ -197,7 +197,10 @@ const assignImageContext = assign({
     for (let component = 0; component < components; component++) {
       if (!actorContext.piecewiseFunctionPoints.has(component)) {
         const points = context.use2D
-          ? [[0.5, 1]]
+          ? [
+              [0, 1],
+              [1, 1],
+            ]
           : [
               [0, 0],
               [1, 1],

@@ -149,9 +149,9 @@ image component identified by name.
 Set/get the [min, max] range of intensity values for color maps that provide a bounds
 for user inputs.
 
-### setImageColorMap(colorMap, componentIndex, name)
+### setImageColorMap(colorMap, component, name)
 
-### getImageColorMap(componentIndex, name)
+### getImageColorMap(component, name)
 
 Set/get the color map for the given component/channel.
 
@@ -164,12 +164,20 @@ Set/get the gaussian parameters that define the piecewise function used to defin
 the volume rendering opacity transfer function and multi-component slice blending.
 -->
 
-### setImagePiecewiseFunctionPoints(points, component, name)
+### setImagePiecewiseFunctionPoints(points, component, name = current)
 
-### getImagePiecewiseFunctionPoints(points, name)
+### getImagePiecewiseFunctionPoints(component, name)
 
 Set/get the points defining the piecewise volume opacity transfer and multi-component 
-slice blending function.
+slice blending function.  Parameter points is of type `[intensity: number, opacity:number][]` with
+intensity and opacity values going from 0 to 1.  The 0 to 1 intensity values are scaled between
+the component's range of intensity values.
+Example: If the intensity values for component 0 go from 100 to 200,
+`viewer.setImagePiecewiseFunctionPoints([[0, 0], [.5, 1]], 0)` puts a point at intensity 100 and another at intensity 150.
+For volume rendering, intensities above or below the range of points have 0 opacity.
+For 2D or slice rendering, intensities above or below the range of points take the last color of the color map.
+With 2 or more components in 2D or slice rendering, the `y` value of points controls the contribution of matching intensities.
+Intensities before the start point take the `y`/mix-factor of the start point, intensities after the end point take the end point `y` value.
 
 ### setImageShadowEnabled(enabled, name)
 

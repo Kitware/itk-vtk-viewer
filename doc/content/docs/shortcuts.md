@@ -24,6 +24,6 @@ the mouse must be over the viewer.
 **Left click + drag** | Rotate
 **Right click + drag** or **shift + left click + drag** | Pan
 **Mouse wheel** or **control + left click + drag** or **pinch** | Zoom
-**Alt + left click + drag left-right** | Change color transfer function window
-**Shift + left click + drag top-bottom** | Change color transfer function level
-**Shift + alt + left click + drag top-bottom** | Change primary volume opacity transfer function magnitude
+**Alt + left click + drag left-right** | Change color transfer function level
+**Alt + left click + drag top-bottom** | Change color transfer function window
+**Alt + right click + drag top-bottom** | Change primary volume opacity transfer function magnitude

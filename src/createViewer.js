@@ -737,7 +737,7 @@ const createViewer = async (
     return context.main.units
   }
 
-  // Gaussians not supported, yet
+  // Gaussians not supported
   publicAPI.setImagePiecewiseFunctionGaussians = (
     gaussians,
     component,
@@ -755,7 +755,7 @@ const createViewer = async (
     })
   }
 
-  // Gaussians not supported, yet
+  // Gaussians not supported
   publicAPI.getImagePiecewiseFunctionGaussians = (component, name) => {
     if (typeof name === 'undefined') {
       name = context.images.selectedName

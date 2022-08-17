@@ -164,6 +164,13 @@ Set/get the gaussian parameters that define the piecewise function used to defin
 the volume rendering opacity transfer function and multi-component slice blending.
 -->
 
+### setImagePiecewiseFunctionPoints(points, component, name)
+
+### getImagePiecewiseFunctionPoints(points, name)
+
+Set/get the points defining the piecewise volume opacity transfer and multi-component 
+slice blending function.
+
 ### setImageShadowEnabled(enabled, name)
 
 ### getImageShadowEnabled(name)

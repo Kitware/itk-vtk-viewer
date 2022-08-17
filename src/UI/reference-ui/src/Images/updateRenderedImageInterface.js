@@ -10,7 +10,7 @@ function updateRenderedImageInterface(context, event) {
   }
 
   //Apply piecewise functions
-  const selectedComponent = context.images.selectedComponent
+  const selectedComponent = actorContext.selectedComponent
   visualizedComponents
     .filter(c => c >= 0 && c !== selectedComponent)
     .concat([selectedComponent])

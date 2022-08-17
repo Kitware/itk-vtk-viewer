@@ -125,6 +125,9 @@ function createUIMachine(options, context) {
             IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED: {
               actions: forwardTo('images'),
             },
+            IMAGE_PIECEWISE_FUNCTION_POINTS_SET: {
+              actions: forwardTo('images'),
+            },
             IMAGE_COLOR_RANGE_CHANGED: {
               actions: forwardTo('images'),
             },

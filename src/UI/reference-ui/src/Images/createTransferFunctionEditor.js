@@ -6,7 +6,7 @@ import {
 
 const PIECEWISE_UPDATE_DELAY = 100
 
-const getNodes = (range, points) => {
+export const getNodes = (range, points) => {
   const delta = range[1] - range[0]
   const windowedPoints = windowPointsForSort(points)
   return windowedPoints.map(([x, y]) => ({
@@ -71,6 +71,7 @@ const vtkPiecewiseGaussianWidgetFacade = (tfEditor, context) => {
 
     setPoints(points) {
       tfEditor.setPoints(points)
+      updateContextPiecewiseFunction(context, dataRange, points)
     },
 
     getPoints() {

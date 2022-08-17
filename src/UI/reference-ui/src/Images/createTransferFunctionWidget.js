@@ -118,3 +118,12 @@ const createTransferFunctionWidget = (context, imagesUIGroup) => {
 }
 
 export default createTransferFunctionWidget
+
+export const applyPiecewiseFunctionPointsToEditor = (context, event) => {
+  const { transferFunctionWidget, actorContext } = context.images
+  const { points, component, name } = event.data
+  const imageActorContext = actorContext.get(name)
+  if (component === imageActorContext.selectedComponent) {
+    transferFunctionWidget.setPoints(points)
+  }
+}

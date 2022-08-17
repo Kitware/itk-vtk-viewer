@@ -1316,7 +1316,9 @@ var getIntrinsic = function GetIntrinsic(name, allowMissing) {
       (first === '"' ||
         first === "'" ||
         first === '`' ||
-        last === '"' || last === "'" || last === '`') &&
+        last === '"' ||
+        last === "'" ||
+        last === '`') &&
       first !== last
     ) {
       throw new $SyntaxError(
@@ -25152,7 +25154,6 @@ class TransferFunctionEditor {
 }
 
 var PIECEWISE_UPDATE_DELAY = 100
-
 var getNodes = function getNodes(range, points) {
   var delta = range[1] - range[0]
   var windowedPoints = windowPointsForSort(points)
@@ -25244,6 +25245,7 @@ var vtkPiecewiseGaussianWidgetFacade = function vtkPiecewiseGaussianWidgetFacade
     },
     setPoints: function setPoints(points) {
       tfEditor.setPoints(points)
+      updateContextPiecewiseFunction(context, dataRange, points)
     },
     getPoints: function getPoints() {
       return tfEditor.getPoints()
@@ -25428,6 +25430,23 @@ var createTransferFunctionWidget = function createTransferFunctionWidget(
       context.itkVtkView.getInteractorStyle3D().addMouseManipulator(m)
     }
   )
+}
+var applyPiecewiseFunctionPointsToEditor = function applyPiecewiseFunctionPointsToEditor(
+  context,
+  event
+) {
+  var _context$images = context.images,
+    transferFunctionWidget = _context$images.transferFunctionWidget,
+    actorContext = _context$images.actorContext
+  var _event$data = event.data,
+    points = _event$data.points,
+    component = _event$data.component,
+    name = _event$data.name
+  var imageActorContext = actorContext.get(name)
+
+  if (component === imageActorContext.selectedComponent) {
+    transferFunctionWidget.setPoints(points)
+  }
 }
 
 function createShadowToggle(context, uiContainer) {
@@ -28115,7 +28134,7 @@ function updateRenderedImageInterface(context, event) {
     return
   } //Apply piecewise functions
 
-  var selectedComponent = context.images.selectedComponent
+  var selectedComponent = actorContext.selectedComponent
   visualizedComponents
     .filter(function(c) {
       return c >= 0 && c !== selectedComponent
@@ -28415,6 +28434,7 @@ var imagesUIMachineOptions = {
     applyColorRangeBounds: applyColorRangeBounds,
     applyColorMap: applyColorMap,
     applyPiecewiseFunctionGaussians: applyPiecewiseFunctionGaussians,
+    applyPiecewiseFunctionPointsToEditor: applyPiecewiseFunctionPointsToEditor,
     toggleShadow: toggleShadow,
     applyGradientOpacity: applyGradientOpacity,
     applyGradientOpacityScale: applyGradientOpacityScale,

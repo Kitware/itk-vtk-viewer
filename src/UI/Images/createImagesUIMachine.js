@@ -311,6 +311,12 @@ function createImagesUIMachine(options, context) {
             IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED: {
               actions: assignPiecewiseFunctionPoints,
             },
+            IMAGE_PIECEWISE_FUNCTION_POINTS_SET: {
+              actions: [
+                assignPiecewiseFunctionPoints,
+                'applyPiecewiseFunctionPointsToEditor',
+              ],
+            },
             IMAGE_COLOR_RANGE_CHANGED: {
               actions: [assignColorRange, 'applyColorRange'],
             },

@@ -72,6 +72,14 @@ const assignPiecewiseFunctionGaussians = assign({
   },
 })
 
+const assignPiecewiseFunctionPoints = assign({
+  images: ({ images }, { data: { component, points, name } }) => {
+    const actorContext = images.actorContext.get(name)
+    actorContext.piecewiseFunctionPoints.set(component, points)
+    return images
+  },
+})
+
 const assignColorRange = assign({
   images: (context, event) => {
     const images = context.images
@@ -298,6 +306,15 @@ function createImagesUIMachine(options, context) {
               actions: [
                 assignPiecewiseFunctionGaussians,
                 'applyPiecewiseFunctionGaussians',
+              ],
+            },
+            IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED: {
+              actions: assignPiecewiseFunctionPoints,
+            },
+            IMAGE_PIECEWISE_FUNCTION_POINTS_SET: {
+              actions: [
+                assignPiecewiseFunctionPoints,
+                'applyPiecewiseFunctionPointsToEditor',
               ],
             },
             IMAGE_COLOR_RANGE_CHANGED: {

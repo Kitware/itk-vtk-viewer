@@ -21,6 +21,7 @@ import applyLabelImageWeights from './applyLabelImageWeights'
 import applyLabelNames from './applyLabelNames'
 import applySelectedLabel from './applySelectedLabel'
 import scaleSelector from './scaleSelector'
+import { applyPiecewiseFunctionPointsToEditor } from './createTransferFunctionWidget'
 
 const imagesUIMachineOptions = {
   actions: {
@@ -38,6 +39,7 @@ const imagesUIMachineOptions = {
     applyColorRangeBounds,
     applyColorMap,
     applyPiecewiseFunctionGaussians,
+    applyPiecewiseFunctionPointsToEditor,
 
     toggleShadow,
     applyGradientOpacity,

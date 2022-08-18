@@ -1,41 +1,39 @@
 function updateRenderedImageInterface(context, event) {
   const name = event.data
   const actorContext = context.images.actorContext.get(name)
-  const visualizedComponents = actorContext.visualizedComponents
-  const transferFunctionWidget = context.images.transferFunctionWidget
+  const { visualizedComponents } = actorContext
+  const { transferFunctionWidget } = context.images
 
-  // Apply piecewise functions
-  for (let i = 0; i < visualizedComponents.length; i++) {
-    const component = visualizedComponents[i]
-    if (component < 0) {
-      continue
-    }
-    context.images.selectedComponent = component
-    const gaussians = actorContext.piecewiseFunctionGaussians.get(component)
-    if (transferFunctionWidget && gaussians) {
-      transferFunctionWidget.setGaussians(gaussians)
-      const dataRange = actorContext.colorRanges.get(component)
-      const range = transferFunctionWidget.getOpacityRange(dataRange)
-      const nodes = transferFunctionWidget.getOpacityNodes(dataRange)
-      context.service.send({
-        type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
-        data: {
-          name,
-          component,
-          range,
-          nodes,
-        },
-      })
-    }
+  if (!transferFunctionWidget) {
+    console.warn('No transfer function widget')
+    return
   }
 
-  const selectedComponent = context.images.selectedComponent
-  const gaussians = actorContext.piecewiseFunctionGaussians.get(
-    selectedComponent
-  )
-  if (transferFunctionWidget && gaussians) {
-    transferFunctionWidget.setGaussians(gaussians)
-  }
+  //Apply piecewise functions
+  const selectedComponent = actorContext.selectedComponent
+  visualizedComponents
+    .filter(c => c >= 0 && c !== selectedComponent)
+    .concat([selectedComponent])
+    .forEach(component => {
+      const points = actorContext.piecewiseFunctionPoints.get(component)
+      if (points) {
+        transferFunctionWidget.setPoints(points)
+        const dataRange = actorContext.colorRanges.get(component)
+        const range = transferFunctionWidget.getOpacityRange(dataRange)
+        const nodes = transferFunctionWidget.getOpacityNodes(dataRange)
+        context.service.send({
+          type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
+          data: {
+            name,
+            component,
+            range,
+            nodes,
+          },
+        })
+      } else {
+        console.warn('No transfer function points for component')
+      }
+    })
 }
 
 export default updateRenderedImageInterface

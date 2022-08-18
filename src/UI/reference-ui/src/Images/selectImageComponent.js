@@ -1,6 +1,7 @@
 import applyColorRangeBounds from './applyColorRangeBounds'
 import applyColorRange from './applyColorRange'
 import applyColorMap from './applyColorMap'
+import applyHistogram from './applyHistogram'
 
 function selectImageComponent(context, event) {
   context.images.componentSelector.value = event.data
@@ -9,11 +10,7 @@ function selectImageComponent(context, event) {
   const actorContext = context.images.actorContext.get(name)
   const component = event.data.component
 
-  const gaussians = actorContext.piecewiseFunctionGaussians.get(component)
   const transferFunctionWidget = context.images.transferFunctionWidget
-  if (transferFunctionWidget && gaussians) {
-    transferFunctionWidget.setGaussians(gaussians)
-  }
 
   if (actorContext.colorRanges.has(component)) {
     const range = actorContext.colorRanges.get(component)
@@ -22,13 +19,20 @@ function selectImageComponent(context, event) {
         name,
         component,
         range,
+        dontUpdatePoints: true,
       },
     })
-    transferFunctionWidget.setDataRange(range)
-    transferFunctionWidget.render()
+  }
+
+  const piecewiseFunctionPoints = actorContext.piecewiseFunctionPoints.get(
+    component
+  )
+  if (transferFunctionWidget && piecewiseFunctionPoints) {
+    transferFunctionWidget.setPoints(piecewiseFunctionPoints)
   }
 
   if (actorContext.colorRangeBounds.has(component)) {
+    // calls transferFunctionWidget.setDataRange(range)
     applyColorRangeBounds(context, {
       data: {
         name,
@@ -51,10 +55,21 @@ function selectImageComponent(context, event) {
     )
   }
 
-  context.service.send({
-    type: 'UPDATE_IMAGE_HISTOGRAM',
-    data: { name, component },
-  })
+  const histogram = actorContext.histograms.get(component)
+  if (histogram) {
+    applyHistogram(context, {
+      data: {
+        name,
+        component,
+        histogram,
+      },
+    })
+  } else {
+    context.service.send({
+      type: 'UPDATE_IMAGE_HISTOGRAM',
+      data: { name, component },
+    })
+  }
 }
 
 export default selectImageComponent

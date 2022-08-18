@@ -69,7 +69,7 @@ function makePointSet() {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(58)
+  t.plan(60)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -284,6 +284,18 @@ test('Test createViewer', async t => {
     const resultGaussians = viewer.getImagePiecewiseFunctionGaussians(0)
     t.same(resultGaussians, newGaussians, 'image piecewise function gaussians')
     viewer.setImagePiecewiseFunctionGaussians(oldGaussians, 0)
+
+    viewer.once('imagePiecewiseFunctionPointsChanged', () => {
+      t.pass('imagePiecewiseFunctionPointsChanged event')
+    })
+    const newPoints = [
+      [0, 0],
+      [0.5, 0.5],
+      [1, 1],
+    ]
+    viewer.setImagePiecewiseFunctionPoints(newPoints, 0)
+    const resultPoints = viewer.getImagePiecewiseFunctionPoints(0)
+    t.same(resultPoints, newPoints, 'image piecewise function points')
 
     viewer.once('toggleImageShadow', () => {
       t.pass('toggleImageShadow event')

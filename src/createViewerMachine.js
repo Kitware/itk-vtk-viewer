@@ -200,6 +200,12 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             IMAGE_PIECEWISE_FUNCTION_CHANGED: {
               actions: [forwardTo('ui'), forwardTo('rendering')],
             },
+            IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED: {
+              actions: [forwardTo('ui'), forwardTo('eventEmitter')],
+            },
+            IMAGE_PIECEWISE_FUNCTION_POINTS_SET: {
+              actions: forwardTo('ui'),
+            },
             IMAGE_COLOR_RANGE_CHANGED: {
               actions: [
                 forwardTo('ui'),

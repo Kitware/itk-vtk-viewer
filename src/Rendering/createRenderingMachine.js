@@ -174,9 +174,6 @@ const createRenderingMachine = (options, context) => {
             IMAGE_BLEND_MODE_CHANGED: {
               actions: forwardTo('images'),
             },
-            IMAGE_HISTOGRAM_UPDATED: {
-              actions: forwardTo('images'),
-            },
             LABEL_IMAGE_ASSIGNED: {
               actions: forwardTo('images'),
             },
@@ -196,6 +193,9 @@ const createRenderingMachine = (options, context) => {
               actions: forwardTo('images'),
             },
             LABEL_IMAGE_SELECTED_LABEL_CHANGED: {
+              actions: forwardTo('images'),
+            },
+            UPDATE_IMAGE_HISTOGRAM: {
               actions: forwardTo('images'),
             },
           },

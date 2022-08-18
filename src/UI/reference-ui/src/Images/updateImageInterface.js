@@ -3,7 +3,6 @@ import toggleInterpolation from './toggleInterpolation'
 import applyColorRangeBounds from './applyColorRangeBounds'
 import applyColorRange from './applyColorRange'
 import applyColorMap from './applyColorMap'
-import applyPiecewiseFunctionGaussians from './applyPiecewiseFunctionGaussians'
 import toggleShadow from './toggleShadow'
 import applyGradientOpacity from './applyGradientOpacity'
 import applyGradientOpacityScale from './applyGradientOpacityScale'
@@ -58,7 +57,6 @@ function updateImageInterface(context) {
       })
     }
 
-    //debugger
     if (actorContext.colorRangeBounds.has(component)) {
       applyColorRangeBounds(context, {
         data: {
@@ -79,17 +77,6 @@ function updateImageInterface(context) {
         },
       })
       context.images.iconSelector.setSelectedValue(colorMap)
-    }
-
-    if (actorContext.piecewiseFunctionGaussians.has(component)) {
-      const gaussians = actorContext.piecewiseFunctionGaussians.get(component)
-      applyPiecewiseFunctionGaussians(context, {
-        data: {
-          name,
-          component,
-          gaussians,
-        },
-      })
     }
 
     toggleShadow(context, { data: name })

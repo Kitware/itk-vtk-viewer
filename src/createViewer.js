@@ -135,6 +135,9 @@ const createViewer = async (
               event.data
             )
             break
+          case 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED':
+            eventEmitter.emit('imagePiecewiseFunctionPointsChanged', event.data)
+            break
           case 'IMAGE_COLOR_RANGE_CHANGED':
             eventEmitter.emit('imageColorRangeChanged', event.data)
             break
@@ -653,6 +656,7 @@ const createViewer = async (
     'toggleLayerVisibility',
     'imagePicked',
     'imagePiecewiseFunctionGaussiansChanged',
+    'imagePiecewiseFunctionPointsChanged',
     'imageVisualizedComponentChanged',
     'toggleImageInterpolation',
     'imageColorRangeChanged',
@@ -733,6 +737,7 @@ const createViewer = async (
     return context.main.units
   }
 
+  // Gaussians not supported
   publicAPI.setImagePiecewiseFunctionGaussians = (
     gaussians,
     component,
@@ -750,6 +755,7 @@ const createViewer = async (
     })
   }
 
+  // Gaussians not supported
   publicAPI.getImagePiecewiseFunctionGaussians = (component, name) => {
     if (typeof name === 'undefined') {
       name = context.images.selectedName
@@ -759,6 +765,30 @@ const createViewer = async (
     }
     const actorContext = context.images.actorContext.get(name)
     return actorContext.piecewiseFunctionGaussians.get(component)
+  }
+
+  publicAPI.setImagePiecewiseFunctionPoints = (points, component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (typeof component === 'undefined') {
+      component = 0
+    }
+    service.send({
+      type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_SET',
+      data: { name, component, points },
+    })
+  }
+
+  publicAPI.getImagePiecewiseFunctionPoints = (component, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    if (typeof component === 'undefined') {
+      component = 0
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.piecewiseFunctionPoints.get(component)
   }
 
   // Start collapsed on mobile devices or small pages

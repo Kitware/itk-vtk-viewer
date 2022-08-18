@@ -134,7 +134,7 @@ function createImagesRenderingMachine(options, context) {
             },
             UPDATE_IMAGE_HISTOGRAM: {
               actions: send((_, e) => e, {
-                to: (c, e) => `imageRenderingActor-${e.data}`,
+                to: (c, e) => `imageRenderingActor-${e.data.name}`,
               }),
             },
             LABEL_IMAGE_LOOKUP_TABLE_CHANGED: {

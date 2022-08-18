@@ -49,9 +49,6 @@ function vtkAxesLabelsWidget(publicAPI, model) {
       (bounds[4] + bounds[5]) * 0.5,
     ]
   })
-
-  // Default manipulator
-  //model.manipulator = vtkPlanePointManipulator.newInstance()
 }
 
 // ----------------------------------------------------------------------------
@@ -66,7 +63,6 @@ export function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues)
 
   vtkAbstractWidgetFactory.extend(publicAPI, model, initialValues)
-  //macro.setGet(publicAPI, model, ['manipulator'])
 
   vtkAxesLabelsWidget(publicAPI, model)
 }

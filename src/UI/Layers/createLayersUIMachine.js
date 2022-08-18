@@ -99,7 +99,7 @@ const assignImageContext = assign({
       : new ImageActorContext()
     if (labelImage) {
       actorContext.labelImage = labelImage
-      if (!!!actorContext.renderedScale) {
+      if (!actorContext.renderedScale) {
         actorContext.renderedScale = labelImage.lowestScale
       }
     } else {
@@ -119,7 +119,7 @@ const assignImageContext = assign({
       return images
     }
 
-    if (!!!actorContext.renderedScale) {
+    if (!actorContext.renderedScale) {
       actorContext.renderedScale = image.lowestScale
     }
 
@@ -130,7 +130,6 @@ const assignImageContext = assign({
     )
 
     const components = image.imageType.components
-    const componentType = image.imageType.componentType
 
     // Assign default independentComponents
     if (actorContext.independentComponents === null) {
@@ -194,34 +193,20 @@ const assignImageContext = assign({
       actorContext.colorMaps.set(component, colorMap)
     }
 
-    // Assign default piecewiseFunctionGaussians
+    // Assign default piecewiseFunction
     for (let component = 0; component < components; component++) {
-      if (actorContext.piecewiseFunctionGaussians.has(component)) {
-        continue
+      if (!actorContext.piecewiseFunctionPoints.has(component)) {
+        const points = context.use2D
+          ? [
+              [0, 1],
+              [1, 1],
+            ]
+          : [
+              [0, 0],
+              [1, 1],
+            ]
+        actorContext.piecewiseFunctionPoints.set(component, points)
       }
-
-      const gaussians = []
-      if (context.use2D) {
-        // Necessary side effect: addGaussian calls invokeOpacityChange, which
-        // calls onOpacityChange, which updates the lut (does not have a low
-        // opacity in 2D)
-        gaussians.push({
-          position: 0.5,
-          height: 1.0,
-          width: 0.5,
-          xBias: 0.0,
-          yBias: 2.0,
-        })
-      } else {
-        gaussians.push({
-          position: 0.5,
-          height: 1.0,
-          width: 0.5,
-          xBias: 0.51,
-          yBias: 0.4,
-        })
-      }
-      actorContext.piecewiseFunctionGaussians.set(component, gaussians)
     }
 
     images.actorContext.set(name, actorContext)

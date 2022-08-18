@@ -25,10 +25,18 @@
           images
         )
         const container = document.querySelector('#viewport')
-        itkVtkViewer.createViewer(container, {
+        const viewer = await itkVtkViewer.createViewer(container, {
           image,
           rotate: false,
         })
+
+        const newPoints = [
+          [0, 0],
+          [0.5, 0.5],
+          [1, 1],
+        ]
+        viewer.setImagePiecewiseFunctionPoints(newPoints, 0)
+        window.viewer = viewer
       }
 
       main()

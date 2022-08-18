@@ -24,11 +24,11 @@ function selectImageComponent(context, event) {
     })
   }
 
-  const piecewiseFuncitonPoints = actorContext.piecewiseFunctionPoints.get(
+  const piecewiseFunctionPoints = actorContext.piecewiseFunctionPoints.get(
     component
   )
-  if (transferFunctionWidget && piecewiseFuncitonPoints) {
-    transferFunctionWidget.setPoints(piecewiseFuncitonPoints)
+  if (transferFunctionWidget && piecewiseFunctionPoints) {
+    transferFunctionWidget.setPoints(piecewiseFunctionPoints)
   }
 
   if (actorContext.colorRangeBounds.has(component)) {

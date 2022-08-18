@@ -1316,9 +1316,7 @@ var getIntrinsic = function GetIntrinsic(name, allowMissing) {
       (first === '"' ||
         first === "'" ||
         first === '`' ||
-        last === '"' ||
-        last === "'" ||
-        last === '`') &&
+        last === '"' || last === "'" || last === '`') &&
       first !== last
     ) {
       throw new $SyntaxError(
@@ -24688,6 +24686,7 @@ const makeCircle = () => {
   circle.setAttribute('stroke', 'black')
   circle.setAttribute('stroke-width', '2')
   circle.setAttribute('class', CONTROL_POINT_CLASS)
+  circle.setAttribute('style', 'cursor: move;')
   return circle
 }
 class ControlPoint {
@@ -24699,6 +24698,8 @@ class ControlPoint {
   ) {
     __publicField(this, 'element')
     __publicField(this, 'container')
+    __publicField(this, 'isDragging', false)
+    __publicField(this, 'isHovered', false)
     __publicField(this, 'point')
     __publicField(this, 'DELETE_EVENT', 'deleteme')
     __publicField(this, 'eventTarget', new EventTarget())
@@ -24733,19 +24734,25 @@ class ControlPoint {
     this.positionElement()
   }
   startInteraction(forceDragging = false) {
-    let isDragging = forceDragging
+    this.isDragging = forceDragging
+    if (!this.isDragging) {
+      this.element.setAttribute('stroke', 'red')
+    }
     const onPointerMove = e => {
-      isDragging = true
+      this.isDragging = true
+      this.element.setAttribute('stroke', 'black')
       this.movePoint(e)
     }
     document.addEventListener('pointermove', onPointerMove)
     const onPointerUp = () => {
       document.removeEventListener('pointermove', onPointerMove)
       document.removeEventListener('pointerup', onPointerUp)
-      if (!isDragging) {
+      if (!this.isDragging) {
         const delEvent = new CustomEvent(this.DELETE_EVENT, { detail: this })
         this.eventTarget.dispatchEvent(delEvent)
       }
+      if (!this.isHovered) this.element.setAttribute('stroke-width', '2')
+      this.isDragging = false
     }
     document.addEventListener('pointerup', onPointerUp)
   }
@@ -24754,6 +24761,16 @@ class ControlPoint {
       event.stopPropagation()
       event.preventDefault()
       this.startInteraction()
+    })
+    this.element.addEventListener('pointerenter', () => {
+      this.isHovered = true
+      this.element.setAttribute('stroke-width', '4')
+    })
+    this.element.addEventListener('pointerleave', () => {
+      this.isHovered = false
+      if (!this.isDragging) {
+        this.element.setAttribute('stroke-width', '2')
+      }
     })
   }
 }
@@ -24876,7 +24893,6 @@ class Points {
   }
   addPoints(points) {
     const pointsMade = points.map(([x, y]) => this.createPoint(x, y))
-    this.dispatchUpdatedEvent()
     return pointsMade
   }
   setPoints(points) {
@@ -25107,6 +25123,7 @@ const Background = (container, points) => {
     canvas,
     setColorTransferFunction,
     setHistogram,
+    render,
     remove: () => container.root.removeChild(canvas),
   }
 }
@@ -25138,6 +25155,9 @@ class TransferFunctionEditor {
   }
   setPoints(points) {
     this.points.setPoints(points)
+    this.pointController.updatePoints()
+    this.line.update()
+    this.background.render()
   }
   get eventTarget() {
     return this.points.eventTarget
@@ -25417,7 +25437,7 @@ var createTransferFunctionWidget = function createTransferFunctionWidget(
         x = _ref10[0],
         y = _ref10[1]
 
-      return [x, y + delta]
+      return [x, Math.min(y + delta, 1)]
     })
     transferFunctionWidget.setPoints(newPoints)
   } // max as 1.01 not 1.0 to allow for squishing of low function points if a point is already at 1
@@ -26257,38 +26277,7 @@ function applyColorMap(context, event) {
   transferFunctionWidget.setColorTransferFunction(
     lookupTableProxy.getLookupTable()
   )
-  transferFunctionWidget.render() // Todo:
-  //const transferFunctionWidget = store.imageUI.transferFunctionWidget
-  //if (colorMap.startsWith('Custom')) {
-  //lookupTableProxy.setMode(vtkLookupTableProxy.Mode.RGBPoints)
-  //const colorDataRange = transferFunctionWidget.getOpacityRange(dataRange)
-  //if (!!colorDataRange) {
-  //colorTransferFunction.setMappingRange(...colorDataRange)
-  //}
-  //colorTransferFunction.updateRange()
-  //const isIcons = iconSelector.getIcons()
-  //if (!!!customIcon) {
-  //const colorMapIcon = customColorMapIcon(
-  //colorTransferFunction,
-  //colorDataRange
-  //)
-  //customIcon = { iconFilePath: colorMapIcon, iconValue: colorMap }
-  //icons.push(customIcon)
-  //iconSelector.refresh(icons)
-  //} else if (isIcons[isIcons.length - 1].iconValue !== colorMap) {
-  //const colorMapIcon = customColorMapIcon(
-  //colorTransferFunction,
-  //colorDataRange
-  //)
-  //isIcons[isIcons.length - 1].element.src = colorMapIcon
-  //isIcons[isIcons.length - 1].iconFilePath = colorMapIcon
-  //isIcons[isIcons.length - 1].iconValue = colorMap
-  //isIcons[isIcons.length - 1].element.setAttribute('icon-value', colorMap)
-  //isIcons[isIcons.length - 1].element.setAttribute('alt', colorMap)
-  //isIcons[isIcons.length - 1].element.setAttribute('title', colorMap)
-  //}
-  //}
-  //context.images.iconSelector.setSelectedValue(colorMap)
+  transferFunctionWidget.render()
 }
 
 function toggleShadow(context, event) {
@@ -28198,12 +28187,12 @@ function selectImageComponent(context, event) {
     })
   }
 
-  var piecewiseFuncitonPoints = actorContext.piecewiseFunctionPoints.get(
+  var piecewiseFunctionPoints = actorContext.piecewiseFunctionPoints.get(
     component
   )
 
-  if (transferFunctionWidget && piecewiseFuncitonPoints) {
-    transferFunctionWidget.setPoints(piecewiseFuncitonPoints)
+  if (transferFunctionWidget && piecewiseFunctionPoints) {
+    transferFunctionWidget.setPoints(piecewiseFunctionPoints)
   }
 
   if (actorContext.colorRangeBounds.has(component)) {

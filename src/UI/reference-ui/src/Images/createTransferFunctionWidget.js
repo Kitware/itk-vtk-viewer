@@ -103,7 +103,7 @@ const createTransferFunctionWidget = (context, imagesUIGroup) => {
     const delta = newMaxOpacity - oldMax
     const newPoints = transferFunctionWidget
       .getPoints()
-      .map(([x, y]) => [x, y + delta])
+      .map(([x, y]) => [x, Math.min(y + delta, 1)])
     transferFunctionWidget.setPoints(newPoints)
   }
   // max as 1.01 not 1.0 to allow for squishing of low function points if a point is already at 1

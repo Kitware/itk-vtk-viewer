@@ -218,3 +218,8 @@ export function addCroppingPlanes(context, actor) {
     mapper.addClippingPlane(plane)
   })
 }
+
+export function makeCroppable(representationProxy) {
+  // allows for grabbing crop handles on the other side of volume
+  representationProxy.getVolumes().forEach(v => v.setPickable(false))
+}

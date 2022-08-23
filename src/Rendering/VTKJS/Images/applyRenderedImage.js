@@ -7,6 +7,7 @@ import applyLabelImageBlend from './applyLabelImageBlend'
 import applyVolumeSampleDistance from './applyVolumeSampleDistance'
 import {
   addCroppingPlanes,
+  makeCroppable,
   updateCroppingParametersFromImage,
 } from '../Main/croppingPlanes'
 
@@ -47,6 +48,8 @@ function applyRenderedImage(context, event) {
       context.itkVtkView
     )
     const { representationProxy } = context.images
+
+    makeCroppable(representationProxy)
 
     if (context.use2D) {
       context.itkVtkView.setViewMode('ZPlane')

@@ -52,6 +52,7 @@ async function updateRenderedImage(context) {
       image?.getImage(renderedScale, boundsToLoad)
     )
   )
+
   if (labelAtScale) updateContextWithLabelImage(actorContext, labelAtScale)
 
   const isFuseNeeded =
@@ -111,7 +112,11 @@ async function updateRenderedImage(context) {
     fusedImageScalars.setRange(range, comp)
   )
 
-  context.service.send({ type: 'RENDERED_IMAGE_ASSIGNED', data: name })
+  context.service.send({
+    type: 'RENDERED_IMAGE_ASSIGNED',
+    data: name,
+    loadedScale: renderedScale,
+  })
 }
 
 export default updateRenderedImage

@@ -50,6 +50,14 @@ const assignRenderedScale = assign({
   },
 })
 
+const assignLoadedScale = assign({
+  images: ({ images }, { data: name, loadedScale }) => {
+    const actorContext = images.actorContext.get(name)
+    actorContext.loadedScale = loadedScale
+    return images
+  },
+})
+
 const RENDERED_VOXEL_MAX = 512 * 512 * 512
 
 // Return true if highest scale or right scale (to stop loading of higher scale)
@@ -88,19 +96,19 @@ function scaleTooHigh(context) {
 
 const eventResponses = {
   IMAGE_ASSIGNED: {
-    target: 'updateRenderedImage',
+    target: 'updatingRenderedImage',
     actions: assignUpdateRenderedNameToSelectedName,
   },
   LABEL_IMAGE_ASSIGNED: {
-    target: 'updateRenderedImage',
+    target: 'updatingRenderedImage',
     actions: assignUpdateRenderedNameToSelectedName,
   },
   UPDATE_RENDERED_IMAGE: {
-    target: 'updateRenderedImage',
+    target: 'updatingRenderedImage',
     actions: assignUpdateRenderedName,
   },
   RENDERED_IMAGE_ASSIGNED: {
-    actions: 'applyRenderedImage',
+    actions: [assignLoadedScale, 'applyRenderedImage'],
   },
   TOGGLE_LAYER_VISIBILITY: {
     actions: 'toggleLayerVisibility',
@@ -184,7 +192,7 @@ const createImageRenderingActor = (options, context /*, event*/) => {
             id: 'createImageRenderer',
             src: 'createImageRenderer',
             onDone: {
-              target: 'updateRenderedImage',
+              target: 'updatingRenderedImage',
               actions: assignUpdateRenderedNameToSelectedName,
             },
           },
@@ -196,7 +204,7 @@ const createImageRenderingActor = (options, context /*, event*/) => {
           after: {
             500: [
               {
-                target: 'updateRenderedImage',
+                target: 'updatingRenderedImage',
                 cond: 'areBoundsBiggerThanLoaded',
               },
               {
@@ -207,7 +215,7 @@ const createImageRenderingActor = (options, context /*, event*/) => {
             ],
           },
         },
-        updateRenderedImage: {
+        updatingRenderedImage: {
           invoke: {
             id: 'updateRenderedImage',
             src: 'updateRenderedImage',
@@ -275,6 +283,12 @@ const createImageRenderingActor = (options, context /*, event*/) => {
             onDone: {
               target: 'updateHistogram',
             },
+            onError: {
+              target: 'active',
+              actions: (context, event) => {
+                console.error(event.data)
+              },
+            },
           },
           on: eventResponses,
         },
@@ -291,6 +305,11 @@ const createImageRenderingActor = (options, context /*, event*/) => {
           },
         },
         active: {
+          entry: context =>
+            context.service.send({
+              type: 'IMAGE_RENDERING_ACTIVE',
+              data: { name: context.images.updateRenderedName },
+            }),
           type: 'parallel',
           on: {
             ...eventResponses,
@@ -304,9 +323,6 @@ const createImageRenderingActor = (options, context /*, event*/) => {
         },
         finished: {
           type: 'final',
-        },
-        onDone: {
-          //actions: 'cleanup'
         },
       },
     },

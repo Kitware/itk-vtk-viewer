@@ -16,10 +16,6 @@ function applyScaleCount(input, scaleCount) {
   })
 }
 
-function applyRenderedScale(input, renderedScale) {
-  input.value = renderedScale
-}
-
 const scaleSelector = (context, event) => (send, onReceive) => {
   const scaleSelectorDiv = document.createElement('div')
   scaleSelectorDiv.setAttribute(
@@ -77,20 +73,20 @@ const scaleSelector = (context, event) => (send, onReceive) => {
 
   onImageAssigned(event.data)
 
-  onReceive(({ type, data }) => {
+  onReceive(event => {
+    const { type } = event
     if (type === 'IMAGE_ASSIGNED') {
-      onImageAssigned(data)
+      onImageAssigned(event.data)
     } else if (type === 'RENDERED_IMAGE_ASSIGNED') {
-      applyRenderedScale(
-        scaleSelector,
-        context.images.actorContext.get(data).renderedScale
-      )
-    } else if (type === 'IMAGE_HISTOGRAM_UPDATED') {
+      scaleSelector.value = event.loadedScale
+    } else if (
+      type === 'IMAGE_HISTOGRAM_UPDATED' ||
+      type === 'IMAGE_RENDERING_ACTIVE'
+    ) {
       // set scale number after ADJUST_SCALE_FOR_FRAMERATE even if no scale change
-      applyRenderedScale(
-        scaleSelector,
-        context.images.actorContext.get(data.name).renderedScale
-      )
+      scaleSelector.value = context.images.actorContext.get(
+        event.data.name
+      ).loadedScale
     }
   })
 }

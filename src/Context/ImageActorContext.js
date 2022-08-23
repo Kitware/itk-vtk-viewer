@@ -2,8 +2,11 @@ class ImageActorContext {
   // MultiscaleSpatialImage to be visualized
   image = null
 
-  // The rendered image / label image scale
+  // The target image scale
   renderedScale = null
+
+  // The successfully loaded scale
+  loadedScale = null
 
   // Automatically adjust the rendered scale
   isFramerateScalePickingOn = true

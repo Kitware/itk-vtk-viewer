@@ -290,6 +290,9 @@ function createImagesUIMachine(options, context) {
                 forwardTo('scaleSelector'),
               ],
             },
+            IMAGE_RENDERING_ACTIVE: {
+              actions: forwardTo('scaleSelector'),
+            },
             TOGGLE_IMAGE_INTERPOLATION: {
               actions: [assignInterpolationEnabled, 'toggleInterpolation'],
             },

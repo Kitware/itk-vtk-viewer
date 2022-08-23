@@ -94,6 +94,14 @@ function scaleTooHigh(context) {
   return context.main.fps <= 10.0
 }
 
+const assignIsFramerateScalePickingOn = assign({
+  images: ({ images }, { type }) => {
+    const actorContext = images.actorContext.get(images.updateRenderedName)
+    actorContext.isFramerateScalePickingOn = type !== 'SET_IMAGE_SCALE'
+    return images
+  },
+})
+
 const eventResponses = {
   IMAGE_ASSIGNED: {
     target: 'updatingRenderedImage',
@@ -166,17 +174,18 @@ const eventResponses = {
   },
   SET_IMAGE_SCALE: {
     target: 'setImageScale',
-    actions: 'updateIsFramerateScalePickingOn',
+    actions: assignIsFramerateScalePickingOn,
   },
   ADJUST_SCALE_FOR_FRAMERATE: {
     target: 'adjustScaleForFramerate',
+    actions: assignIsFramerateScalePickingOn,
   },
-  // Use this event to possibly update image bounds to avoid cicular loop with CROPPING_PLANES_CHANGED.
+  // Use this event to possibly update image bounds to avoid circular loop with CROPPING_PLANES_CHANGED.
   // CROPPING_PLANES_CHANGED may be updated automatically by
-  // ajustSCaleForFramerate->updateRenderedImage->RENDERED_IMAGE_ASSIGNED->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
+  // adjustScaleForFramerate->updateRenderedImage->RENDERED_IMAGE_ASSIGNED->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
   // because image size may change across scales.
   CROPPING_PLANES_CHANGED_BY_USER: {
-    target: 'imageBoundsDeboucing',
+    target: 'imageBoundsDebouncing',
   },
 }
 
@@ -197,7 +206,7 @@ const createImageRenderingActor = (options, context /*, event*/) => {
             },
           },
         },
-        imageBoundsDeboucing: {
+        imageBoundsDebouncing: {
           on: {
             ...eventResponses,
           },
@@ -211,7 +220,7 @@ const createImageRenderingActor = (options, context /*, event*/) => {
                 target: 'adjustScaleForFramerate',
                 cond: 'isFramerateScalePickingOn',
               },
-              { target: 'updateHistogram' },
+              { target: 'active' },
             ],
           },
         },

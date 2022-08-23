@@ -60,11 +60,6 @@ const imagesRenderingMachineOptions = {
       applyLabelNames,
       applyLabelImageWeights,
       applySelectedLabel,
-      updateIsFramerateScalePickingOn: ({ images }, event) => {
-        images.actorContext.get(
-          images.updateRenderedName
-        ).isFramerateScalePickingOn = event.type !== 'SET_IMAGE_SCALE'
-      },
     },
 
     guards: {

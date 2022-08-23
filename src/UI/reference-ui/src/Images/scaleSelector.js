@@ -79,10 +79,7 @@ const scaleSelector = (context, event) => (send, onReceive) => {
       onImageAssigned(event.data)
     } else if (type === 'RENDERED_IMAGE_ASSIGNED') {
       scaleSelector.value = event.loadedScale
-    } else if (
-      type === 'IMAGE_HISTOGRAM_UPDATED' ||
-      type === 'IMAGE_RENDERING_ACTIVE'
-    ) {
+    } else if (type === 'IMAGE_RENDERING_ACTIVE') {
       // set scale number after ADJUST_SCALE_FOR_FRAMERATE even if no scale change
       scaleSelector.value = context.images.actorContext.get(
         event.data.name

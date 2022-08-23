@@ -351,7 +351,7 @@ function createImagesUIMachine(options, context) {
               actions: [assignBlendMode, 'applyBlendMode'],
             },
             IMAGE_HISTOGRAM_UPDATED: {
-              actions: ['applyHistogram', forwardTo('scaleSelector')],
+              actions: ['applyHistogram'],
             },
             LABEL_IMAGE_ASSIGNED: {
               actions: ['updateLabelImageInterface'],

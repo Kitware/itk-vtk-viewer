@@ -1,11 +1,15 @@
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
-import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 
 import updateVisualizedComponents from './updateVisualizedComponents'
 import numericalSort from '../numericalSort'
 import { fuseImages } from './fuseImages'
 import { computeRanges } from './fuseImagesUtils'
+import { computeRenderedBounds } from '../Main/croppingPlanes'
+import { worldBoundsToIndexBounds } from '../../../IO/MultiscaleSpatialImage'
+import { mat4 } from 'gl-matrix'
+
+export const RENDERED_VOXEL_MAX = 512 * 512 * 512
 
 const updateContextWithLabelImage = (actorContext, scaleLabelImage) => {
   const uniqueLabelsSet = new Set(scaleLabelImage.data)
@@ -18,15 +22,29 @@ const updateContextWithLabelImage = (actorContext, scaleLabelImage) => {
   actorContext.renderedLabelImage = scaleLabelImage
 }
 
-export function computeRenderedBounds(context) {
-  if (!context.main.croppingPlanes || context.main.croppingPlanes.length !== 6)
-    return
+const getVoxelCount = async (image, bounds, scale) => {
+  const scaleInfo = image.scaleInfo[scale]
 
-  const renderedBounds = [...vtkBoundingBox.INIT_BOUNDS]
-  context.main.croppingPlanes.forEach(({ origin }) =>
-    vtkBoundingBox.addPoint(renderedBounds, ...origin)
-  )
-  return renderedBounds
+  if (!bounds) {
+    return ['x', 'y', 'z']
+      .map(dim => scaleInfo.arrayShape.get(dim))
+      .reduce((voxels, dimSize) => voxels * dimSize, 1)
+  }
+
+  const indexToWorld = await image.scaleIndexToWorld(scale)
+
+  const fullIndexBounds = image.getIndexBounds(scale)
+  const indexBounds = worldBoundsToIndexBounds({
+    bounds,
+    fullIndexBounds,
+    worldToIndex: mat4.invert([], indexToWorld),
+  })
+  return ['x', 'y', 'z']
+    .map(dim => {
+      const [start, end] = indexBounds.get(dim)
+      return end - start + 1 // plus 1 as bounds are inclusive
+    })
+    .reduce((voxels, dimSize) => voxels * dimSize, 1)
 }
 
 async function updateRenderedImage(context) {
@@ -46,6 +64,16 @@ async function updateRenderedImage(context) {
   const boundsToLoad = context.main.areCroppingPlanesTouched
     ? computeRenderedBounds(context)
     : undefined // if not touched, keep growing bounds to fit whole image
+
+  const voxelCount = await getVoxelCount(
+    image || labelImage,
+    boundsToLoad,
+    targetScale
+  )
+  if (voxelCount > RENDERED_VOXEL_MAX)
+    throw new Error(
+      `Voxel count over max.  Requested: ${voxelCount} Max: ${RENDERED_VOXEL_MAX}`
+    )
 
   const [imageAtScale, labelAtScale] = await Promise.all(
     [image, labelImage].map(image => image?.getImage(targetScale, boundsToLoad))

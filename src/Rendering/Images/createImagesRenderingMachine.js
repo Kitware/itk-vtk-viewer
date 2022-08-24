@@ -63,8 +63,7 @@ function createImagesRenderingMachine(options, context) {
             },
             FPS_UPDATED: {
               actions: send((_, e) => e, {
-                to: (c, e) =>
-                  `imageRenderingActor-${c.images.updateRenderedName}`,
+                to: c => `imageRenderingActor-${c.images.updateRenderedName}`,
               }),
             },
             SET_IMAGE_SCALE: {
@@ -79,7 +78,7 @@ function createImagesRenderingMachine(options, context) {
             },
             TOGGLE_LAYER_VISIBILITY: {
               actions: send((_, e) => e, {
-                to: (c, e) => `imageRenderingActor-${c.images.selectedName}`,
+                to: c => `imageRenderingActor-${c.images.selectedName}`,
               }),
             },
             TOGGLE_IMAGE_INTERPOLATION: {

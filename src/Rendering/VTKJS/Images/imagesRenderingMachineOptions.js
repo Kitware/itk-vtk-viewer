@@ -1,9 +1,7 @@
 import createImageRenderer from './createImageRenderer'
 import toggleLayerVisibility from './toggleLayerVisibility'
 import applyComponentVisibility from './applyComponentVisibility'
-import updateRenderedImage, {
-  computeRenderedBounds,
-} from './updateRenderedImage'
+import updateRenderedImage from './updateRenderedImage'
 import updateHistogram from './updateHistogram'
 import selectImageLayer from './selectImageLayer'
 import toggleInterpolation from './toggleInterpolation'
@@ -20,7 +18,10 @@ import applyLabelImageBlend from './applyLabelImageBlend'
 import applyLabelNames from './applyLabelNames'
 import applyLabelImageWeights from './applyLabelImageWeights'
 import applySelectedLabel from './applySelectedLabel'
-import { getBoundsOfFullImage } from '../Main/croppingPlanes'
+import {
+  computeRenderedBounds,
+  getBoundsOfFullImage,
+} from '../Main/croppingPlanes'
 
 const EPSILON = 0.000001
 

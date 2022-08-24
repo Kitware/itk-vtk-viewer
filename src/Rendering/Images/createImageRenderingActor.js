@@ -20,7 +20,7 @@ const assignHigherScale = assign({
   images: context => {
     const images = context.images
     const actorContext = images.actorContext.get(images.updateRenderedName)
-    actorContext.targetScale--
+    actorContext.targetScale = actorContext.loadedScale - 1
     return images
   },
 })
@@ -29,14 +29,10 @@ const assignLowerScale = assign({
   images: context => {
     const images = context.images
     const actorContext = images.actorContext.get(images.updateRenderedName)
-    let lowestScale = 0
-    if (actorContext.image) {
-      lowestScale = actorContext.image.lowestScale
-    } else if (actorContext.labelImage) {
-      lowestScale = actorContext.labelImage.lowestScale
-    }
+    const image = actorContext.image ?? actorContext.labelImage
+    const lowestScale = image.lowestScale
     if (actorContext.targetScale < lowestScale) {
-      actorContext.targetScale++
+      actorContext.targetScale = actorContext.loadedScale + 1
     }
     return images
   },
@@ -58,33 +54,16 @@ const assignLoadedScale = assign({
   },
 })
 
-const RENDERED_VOXEL_MAX = 512 * 512 * 512
-
 // Return true if highest scale or right scale (to stop loading of higher scale)
-function highestScaleOrScaleJustRight(context, event, condMeta) {
-  const actorContext = context.images.actorContext.get(
+function highestScaleOrScaleJustRight(context /* event , condMeta*/) {
+  const { loadedScale } = context.images.actorContext.get(
     context.images.updateRenderedName
   )
-
-  if (actorContext.targetScale === 0) {
-    return true
-  }
-
-  let image = actorContext.image ?? actorContext.labelImage
-
-  // is voxels count of next scale too much
-  const nextScale = actorContext.targetScale - 1
-  const voxelCount = ['x', 'y', 'z']
-    .map(dim => image.scaleInfo[nextScale].arrayShape.get(dim))
-    .reduce((voxels, dimSize) => voxels * dimSize, 1)
-  if (voxelCount > RENDERED_VOXEL_MAX) {
+  if (loadedScale === 0) {
     return true
   }
 
   if (context.main.fps > 10.0 && context.main.fps < 33.0) {
-    return true
-  }
-  if (condMeta.state.value.adjustScaleForFramerate === 'scaleJustRight') {
     return true
   }
   return false
@@ -173,8 +152,8 @@ const eventResponses = {
     actions: 'applySelectedLabel',
   },
   SET_IMAGE_SCALE: {
-    target: 'setImageScale',
-    actions: assignIsFramerateScalePickingOn,
+    target: 'updatingRenderedImage',
+    actions: [assignTargetScale, assignIsFramerateScalePickingOn],
   },
   ADJUST_SCALE_FOR_FRAMERATE: {
     target: 'adjustScaleForFramerate',
@@ -235,6 +214,12 @@ const createImageRenderingActor = (options, context /*, event*/) => {
               },
               { target: 'updateHistogram' },
             ],
+            onError: {
+              target: 'updateHistogram',
+              actions: (context, event) => {
+                console.error('Could not update image: ' + event.data)
+              },
+            },
           },
           on: {
             ...eventResponses,
@@ -246,60 +231,21 @@ const createImageRenderingActor = (options, context /*, event*/) => {
             ...eventResponses,
             FPS_UPDATED: [
               {
+                cond: highestScaleOrScaleJustRight, // found good scale, finish
                 target: 'updateHistogram',
-                cond: highestScaleOrScaleJustRight,
               },
               {
-                target: '.scaleJustRight',
-                cond: scaleTooHigh,
+                cond: scaleTooHigh, // too slow, back off
+                actions: assignLowerScale,
+                target: 'updatingRenderedImage',
               },
               {
-                target: '.scaleTooLow',
+                actions: assignHigherScale, // try harder
+                target: 'updatingRenderedImage',
                 internal: false,
               },
             ],
           },
-          initial: 'checkStarted',
-          states: {
-            checkStarted: {},
-            scaleTooLow: {
-              entry: assignHigherScale,
-              invoke: {
-                id: 'updateRenderedImageScaleTooLow',
-                src: 'updateRenderedImage',
-                onDone: {
-                  actions: [c => c.service.send('UPDATE_FPS')],
-                },
-              },
-            },
-            scaleJustRight: {
-              entry: assignLowerScale,
-              invoke: {
-                id: 'updateRenderedImageScaleJustRight',
-                src: 'updateRenderedImage',
-                onDone: {
-                  actions: [c => c.service.send('UPDATE_FPS')],
-                },
-              },
-            },
-          },
-        },
-        setImageScale: {
-          entry: assignTargetScale,
-          invoke: {
-            id: 'updateRenderedImageSetImageScale',
-            src: 'updateRenderedImage',
-            onDone: {
-              target: 'updateHistogram',
-            },
-            onError: {
-              target: 'active',
-              actions: (context, event) => {
-                console.error(event.data)
-              },
-            },
-          },
-          on: eventResponses,
         },
         updateHistogram: {
           invoke: {
@@ -319,19 +265,9 @@ const createImageRenderingActor = (options, context /*, event*/) => {
               type: 'IMAGE_RENDERING_ACTIVE',
               data: { name: context.images.updateRenderedName },
             }),
-          type: 'parallel',
           on: {
             ...eventResponses,
           },
-          states: {
-            independentComponents: {
-              enabled: {},
-              disabled: {},
-            },
-          },
-        },
-        finished: {
-          type: 'final',
         },
       },
     },

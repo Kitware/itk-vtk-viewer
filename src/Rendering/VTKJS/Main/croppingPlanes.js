@@ -26,7 +26,18 @@ export function getBoundsOfFullImage({ images }) {
   if (!imageActorContext) return [...vtkBoundingBox.INIT_BOUNDS]
 
   const multiScale = imageActorContext.image ?? imageActorContext.labelImage
-  return multiScale.getWorldBounds(imageActorContext.targetScale)
+  return multiScale.getWorldBounds(imageActorContext.loadedScale)
+}
+
+export function computeRenderedBounds(context) {
+  if (!context.main.croppingPlanes || context.main.croppingPlanes.length !== 6)
+    return
+
+  const renderedBounds = [...vtkBoundingBox.INIT_BOUNDS]
+  context.main.croppingPlanes.forEach(({ origin }) =>
+    vtkBoundingBox.addPoint(renderedBounds, ...origin)
+  )
+  return renderedBounds
 }
 
 export function createCropping(context) {

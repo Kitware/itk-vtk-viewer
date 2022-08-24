@@ -175,12 +175,7 @@ function findImageInBounds({ cache, scale, bounds }) {
 }
 
 export function storeImage({ cache, scale, bounds, image }) {
-  const imagesAtScale = cache.get(scale) ?? []
-  const boundedRemoved = imagesAtScale.filter(({ bounds: cachedBounds }) => {
-    return !isContained(bounds, cachedBounds)
-  })
-  boundedRemoved.push({ bounds, image })
-  cache.set(scale, boundedRemoved)
+  cache.set(scale, [{ bounds, image }])
 }
 
 class MultiscaleSpatialImage {

@@ -26,7 +26,7 @@ export function getBoundsOfFullImage({ images }) {
   if (!imageActorContext) return [...vtkBoundingBox.INIT_BOUNDS]
 
   const multiScale = imageActorContext.image ?? imageActorContext.labelImage
-  return multiScale.getWorldBounds(imageActorContext.renderedScale)
+  return multiScale.getWorldBounds(imageActorContext.targetScale)
 }
 
 export function createCropping(context) {

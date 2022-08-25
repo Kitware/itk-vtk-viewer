@@ -20,7 +20,7 @@ const assignHigherScale = assign({
   images: context => {
     const images = context.images
     const actorContext = images.actorContext.get(images.updateRenderedName)
-    actorContext.renderedScale--
+    actorContext.targetScale--
     return images
   },
 })
@@ -35,17 +35,17 @@ const assignLowerScale = assign({
     } else if (actorContext.labelImage) {
       lowestScale = actorContext.labelImage.lowestScale
     }
-    if (actorContext.renderedScale < lowestScale) {
-      actorContext.renderedScale++
+    if (actorContext.targetScale < lowestScale) {
+      actorContext.targetScale++
     }
     return images
   },
 })
 
-const assignRenderedScale = assign({
-  images: ({ images }, { renderedScale }) => {
+const assignTargetScale = assign({
+  images: ({ images }, { targetScale }) => {
     const actorContext = images.actorContext.get(images.updateRenderedName)
-    actorContext.renderedScale = renderedScale
+    actorContext.targetScale = targetScale
     return images
   },
 })
@@ -66,14 +66,14 @@ function highestScaleOrScaleJustRight(context, event, condMeta) {
     context.images.updateRenderedName
   )
 
-  if (actorContext.renderedScale === 0) {
+  if (actorContext.targetScale === 0) {
     return true
   }
 
   let image = actorContext.image ?? actorContext.labelImage
 
   // is voxels count of next scale too much
-  const nextScale = actorContext.renderedScale - 1
+  const nextScale = actorContext.targetScale - 1
   const voxelCount = ['x', 'y', 'z']
     .map(dim => image.scaleInfo[nextScale].arrayShape.get(dim))
     .reduce((voxels, dimSize) => voxels * dimSize, 1)
@@ -285,7 +285,7 @@ const createImageRenderingActor = (options, context /*, event*/) => {
           },
         },
         setImageScale: {
-          entry: assignRenderedScale,
+          entry: assignTargetScale,
           invoke: {
             id: 'updateRenderedImageSetImageScale',
             src: 'updateRenderedImage',

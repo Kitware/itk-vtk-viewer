@@ -28380,7 +28380,7 @@ var scaleSelector = function scaleSelector(context, event) {
         imageActor.send('ADJUST_SCALE_FOR_FRAMERATE')
       } else {
         imageActor.send('SET_IMAGE_SCALE', {
-          renderedScale: parseInt(event.target.value),
+          targetScale: parseInt(event.target.value),
         })
       }
     })

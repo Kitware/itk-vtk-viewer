@@ -54,7 +54,7 @@ const scaleSelector = (context, event) => (send, onReceive) => {
       imageActor.send('ADJUST_SCALE_FOR_FRAMERATE')
     } else {
       imageActor.send('SET_IMAGE_SCALE', {
-        renderedScale: parseInt(event.target.value),
+        targetScale: parseInt(event.target.value),
       })
     }
   })

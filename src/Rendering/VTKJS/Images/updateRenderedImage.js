@@ -41,16 +41,14 @@ async function updateRenderedImage(context) {
     return
   }
 
-  const { renderedScale } = actorContext
+  const { targetScale } = actorContext
 
   const boundsToLoad = context.main.areCroppingPlanesTouched
     ? computeRenderedBounds(context)
     : undefined // if not touched, keep growing bounds to fit whole image
 
   const [imageAtScale, labelAtScale] = await Promise.all(
-    [image, labelImage].map(image =>
-      image?.getImage(renderedScale, boundsToLoad)
-    )
+    [image, labelImage].map(image => image?.getImage(targetScale, boundsToLoad))
   )
 
   if (labelAtScale) updateContextWithLabelImage(actorContext, labelAtScale)
@@ -115,7 +113,7 @@ async function updateRenderedImage(context) {
   context.service.send({
     type: 'RENDERED_IMAGE_ASSIGNED',
     data: name,
-    loadedScale: renderedScale,
+    loadedScale: targetScale,
   })
 }
 

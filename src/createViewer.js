@@ -1401,10 +1401,10 @@ const createViewer = async (
     store.geometriesUI.opacities[index] = opacity
   }
 
-  publicAPI.setImageScale = renderedScale => {
+  publicAPI.setImageScale = targetScale => {
     service.send({
       type: 'SET_IMAGE_SCALE',
-      renderedScale,
+      targetScale,
     })
   }
 

@@ -3,7 +3,7 @@ class ImageActorContext {
   image = null
 
   // The target image scale
-  renderedScale = null
+  targetScale = null
 
   // The successfully loaded scale
   loadedScale = null

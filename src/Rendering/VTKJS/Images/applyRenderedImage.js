@@ -10,6 +10,7 @@ import {
   makeCroppable,
   updateCroppingParametersFromImage,
 } from '../Main/croppingPlanes'
+import applyLookupTable from './applyLookupTable'
 
 const ANNOTATION_DEFAULT =
   '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
@@ -347,6 +348,10 @@ function applyRenderedImage(context, event) {
       })
       context.service.send({
         type: 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
+        data: { name, lookupTable: actorContext.lookupTable },
+      })
+      // apply synchronously to avoid error on render in use2D=true case
+      applyLookupTable(context, {
         data: { name, lookupTable: actorContext.lookupTable },
       })
     }

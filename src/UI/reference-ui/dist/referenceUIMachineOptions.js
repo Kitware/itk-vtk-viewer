@@ -25021,14 +25021,18 @@ const drawChart = (
   ctx.stroke()
 }
 const CANVAS_HEIGHT = 1
-const updateColorCanvas = (colorTransferFunction, width, canvas) => {
+const updateColorCanvas = (
+  colorTransferFunction,
+  width,
+  renderedDataRange,
+  canvas
+) => {
   const workCanvas = canvas || document.createElement('canvas')
   workCanvas.setAttribute('width', String(width))
   workCanvas.setAttribute('height', String(CANVAS_HEIGHT))
-  const [startValue, endValue] = colorTransferFunction.getMappingRange()
   const rgba = colorTransferFunction.getUint8Table(
-    startValue,
-    endValue,
+    renderedDataRange[0],
+    renderedDataRange[1],
     width,
     true
   )
@@ -25081,19 +25085,36 @@ const Background = (container, points) => {
         ctx.lineTo(x, y)
       })
       ctx.clip()
-      const [tailX] = linePoints[linePoints.length - 2]
       const [headX] = linePoints[1]
-      const pointsRange = Math.floor(tailX - headX) || borderWidth
-      updateColorCanvas(colorTransferFunction, pointsRange, colorCanvas)
+      const [tailX] = linePoints[linePoints.length - 2]
+      const headXClamped = Math.max(0, headX)
+      const tailXClamped = Math.min(width, tailX)
+      const colorCanvasWidth =
+        Math.floor(tailXClamped - headXClamped) || borderWidth
+      const pointPixelWidth = tailX - headX
+      const headClampAmount = (headXClamped - headX) / pointPixelWidth
+      const tailClampAmount = (tailXClamped - tailX) / pointPixelWidth
+      const dataRange = colorTransferFunction.getMappingRange()
+      const dataWidth = dataRange[1] - dataRange[0]
+      const visibleDataRange = [
+        dataRange[0] + dataWidth * headClampAmount,
+        dataRange[1] + dataWidth * tailClampAmount,
+      ]
+      updateColorCanvas(
+        colorTransferFunction,
+        colorCanvasWidth,
+        visibleDataRange,
+        colorCanvas
+      )
       ctx.drawImage(
         colorCanvas,
         0,
         0,
         colorCanvas.width,
         colorCanvas.height,
-        Math.floor(headX),
+        Math.floor(headXClamped),
         Math.floor(top),
-        pointsRange,
+        colorCanvasWidth,
         Math.ceil(bottom - top)
       )
       ctx.restore()

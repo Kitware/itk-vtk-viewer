@@ -43,7 +43,7 @@
     "itk-image-io": "^1.0.0-b.15",
     "itk-mesh-io": "^1.0.0-b.15",
     "itk-viewer-icons": "^11.12.0",
-    "itk-viewer-transfer-function-editor": "^1.1.2",
+    "itk-viewer-transfer-function-editor": "^1.1.3",
     "itk-wasm": "^1.0.0-b.17",
     "mobx": "^5.15.7",
     "mousetrap": "^1.6.5",

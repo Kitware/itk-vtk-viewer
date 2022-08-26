@@ -1,4 +1,4 @@
-import { Machine, assign } from 'xstate'
+import { assign, createMachine, forwardTo } from 'xstate'
 
 const assignUpdateRenderedName = assign({
   images: (context, event) => {
@@ -17,32 +17,20 @@ const assignUpdateRenderedNameToSelectedName = assign({
 })
 
 const assignHigherScale = assign({
-  images: context => {
-    const images = context.images
-    const actorContext = images.actorContext.get(images.updateRenderedName)
-    actorContext.targetScale = actorContext.loadedScale - 1
-    return images
+  targetScale: ({ targetScale }) => {
+    return Math.max(0, targetScale - 1)
   },
 })
 
 const assignLowerScale = assign({
-  images: context => {
-    const images = context.images
+  targetScale: ({ images, targetScale }) => {
     const actorContext = images.actorContext.get(images.updateRenderedName)
     const image = actorContext.image ?? actorContext.labelImage
     const lowestScale = image.lowestScale
-    if (actorContext.targetScale < lowestScale) {
-      actorContext.targetScale = actorContext.loadedScale + 1
+    if (targetScale < lowestScale) {
+      return targetScale + 1
     }
-    return images
-  },
-})
-
-const assignTargetScale = assign({
-  images: ({ images }, { targetScale }) => {
-    const actorContext = images.actorContext.get(images.updateRenderedName)
-    actorContext.targetScale = targetScale
-    return images
+    return targetScale
   },
 })
 
@@ -55,18 +43,15 @@ const assignLoadedScale = assign({
 })
 
 // Return true if highest scale or right scale (to stop loading of higher scale)
-function highestScaleOrScaleJustRight(context /* event , condMeta*/) {
+function highestScaleOrScaleJustRight(context) {
   const { loadedScale } = context.images.actorContext.get(
     context.images.updateRenderedName
   )
-  if (loadedScale === 0) {
-    return true
-  }
-
-  if (context.main.fps > 10.0 && context.main.fps < 33.0) {
-    return true
-  }
-  return false
+  return (
+    loadedScale === 0 ||
+    context.hasErrored ||
+    (context.main.fps > 10.0 && context.main.fps < 33.0)
+  )
 }
 
 function scaleTooHigh(context) {
@@ -83,15 +68,15 @@ const assignIsFramerateScalePickingOn = assign({
 
 const eventResponses = {
   IMAGE_ASSIGNED: {
-    target: 'updatingRenderedImage',
-    actions: assignUpdateRenderedNameToSelectedName,
+    target: 'updatingImage',
+    actions: [assignUpdateRenderedNameToSelectedName, assignLoadedScale],
   },
   LABEL_IMAGE_ASSIGNED: {
-    target: 'updatingRenderedImage',
+    target: 'updatingImage',
     actions: assignUpdateRenderedNameToSelectedName,
   },
   UPDATE_RENDERED_IMAGE: {
-    target: 'updatingRenderedImage',
+    target: 'updatingImage',
     actions: assignUpdateRenderedName,
   },
   RENDERED_IMAGE_ASSIGNED: {
@@ -152,24 +137,100 @@ const eventResponses = {
     actions: 'applySelectedLabel',
   },
   SET_IMAGE_SCALE: {
-    target: 'updatingRenderedImage',
-    actions: [assignTargetScale, assignIsFramerateScalePickingOn],
+    target: 'updatingImage',
+    actions: assignIsFramerateScalePickingOn,
   },
   ADJUST_SCALE_FOR_FRAMERATE: {
-    target: 'adjustScaleForFramerate',
+    target: 'updatingImage',
     actions: assignIsFramerateScalePickingOn,
   },
   // Use this event to possibly update image bounds to avoid circular loop with CROPPING_PLANES_CHANGED.
-  // CROPPING_PLANES_CHANGED may be updated automatically by
-  // adjustScaleForFramerate->updateRenderedImage->RENDERED_IMAGE_ASSIGNED->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
+  // CROPPING_PLANES_CHANGED could be updated by
+  // updateRenderedImage->RENDERED_IMAGE_ASSIGNED->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
   // because image size may change across scales.
   CROPPING_PLANES_CHANGED_BY_USER: {
     target: 'imageBoundsDebouncing',
   },
 }
 
+const createUpdatingImageMachine = options => {
+  return createMachine(
+    {
+      id: 'updatingImageMachine',
+      context: { hasErrored: false }, // if error, stop  but got out loadingImage back-off loop
+      initial: 'checkingUpdateNeeded',
+      states: {
+        checkingUpdateNeeded: {
+          always: [
+            { cond: 'isImageUpdateNeeded', target: 'loadingImage' },
+            { target: '#updatingImageMachine.afterUpdatingImage' },
+          ],
+        },
+
+        loadingImage: {
+          invoke: {
+            id: 'updateRenderedImage',
+            src: 'updateRenderedImage',
+            onDone: {
+              target: '#updatingImageMachine.afterUpdatingImage',
+            },
+            onError: {
+              actions: [
+                assignLowerScale,
+                assign({ hasErrored: true }),
+                (context, event) => {
+                  console.error(`Could not update image : ${event.data}`)
+                },
+              ],
+              target: 'checkingUpdateNeeded',
+            },
+          },
+        },
+
+        afterUpdatingImage: {
+          always: [
+            {
+              cond: 'isFramerateScalePickingOn',
+              target: 'checkingFramerate',
+            },
+            {
+              target: 'finished',
+            },
+          ],
+        },
+
+        checkingFramerate: {
+          entry: [c => c.service.send('UPDATE_FPS')],
+          on: {
+            FPS_UPDATED: [
+              {
+                cond: scaleTooHigh, // FPS too slow
+                actions: assignLowerScale, // back off
+                target: 'checkingUpdateNeeded',
+              },
+              {
+                cond: highestScaleOrScaleJustRight, // found good scale
+                target: 'finished',
+              },
+              {
+                actions: assignHigherScale, // try harder
+                target: 'checkingUpdateNeeded',
+              },
+            ],
+          },
+        },
+
+        finished: {
+          type: 'final',
+        },
+      },
+    },
+    options
+  )
+}
+
 const createImageRenderingActor = (options, context /*, event*/) => {
-  return Machine(
+  return createMachine(
     {
       id: 'imageRendering',
       initial: 'idle',
@@ -180,73 +241,49 @@ const createImageRenderingActor = (options, context /*, event*/) => {
             id: 'createImageRenderer',
             src: 'createImageRenderer',
             onDone: {
-              target: 'updatingRenderedImage',
+              target: 'updatingImage',
               actions: assignUpdateRenderedNameToSelectedName,
             },
           },
         },
+
         imageBoundsDebouncing: {
           on: {
             ...eventResponses,
           },
           after: {
-            500: [
-              {
-                target: 'updatingRenderedImage',
-                cond: 'areBoundsBiggerThanLoaded',
-              },
-              {
-                target: 'adjustScaleForFramerate',
-                cond: 'isFramerateScalePickingOn',
-              },
-              { target: 'active' },
-            ],
+            500: { target: 'updatingImage' },
           },
         },
-        updatingRenderedImage: {
-          invoke: {
-            id: 'updateRenderedImage',
-            src: 'updateRenderedImage',
-            onDone: [
-              {
-                target: 'adjustScaleForFramerate',
-                cond: 'isFramerateScalePickingOn',
-              },
-              { target: 'updateHistogram' },
-            ],
-            onError: {
-              target: 'updateHistogram',
-              actions: (context, event) => {
-                console.error('Could not update image: ' + event.data)
-              },
+
+        updatingImage: {
+          on: {
+            ...eventResponses,
+            FPS_UPDATED: {
+              actions: forwardTo('updatingImageMachine'),
             },
           },
-          on: {
-            ...eventResponses,
+          invoke: {
+            id: 'updatingImageMachine',
+            src: createUpdatingImageMachine(options, context),
+            data: {
+              ...context,
+              targetScale: ({ images }, event) => {
+                if (event.type === 'SET_IMAGE_SCALE') return event.targetScale
+                const actorContext = images.actorContext.get(
+                  images.updateRenderedName
+                )
+                if (actorContext.loadedScale || actorContext.loadedScale === 0)
+                  return actorContext.loadedScale
+                // nothing loaded, start at coarsest
+                const image = actorContext.image ?? actorContext.labelImage
+                return image.lowestScale
+              },
+            },
+            onDone: { target: 'updateHistogram' },
           },
         },
-        adjustScaleForFramerate: {
-          entry: [c => c.service.send('UPDATE_FPS')],
-          on: {
-            ...eventResponses,
-            FPS_UPDATED: [
-              {
-                cond: highestScaleOrScaleJustRight, // found good scale, finish
-                target: 'updateHistogram',
-              },
-              {
-                cond: scaleTooHigh, // too slow, back off
-                actions: assignLowerScale,
-                target: 'updatingRenderedImage',
-              },
-              {
-                actions: assignHigherScale, // try harder
-                target: 'updatingRenderedImage',
-                internal: false,
-              },
-            ],
-          },
-        },
+
         updateHistogram: {
           invoke: {
             id: 'updateHistogram',
@@ -259,6 +296,7 @@ const createImageRenderingActor = (options, context /*, event*/) => {
             ...eventResponses,
           },
         },
+
         active: {
           entry: context =>
             context.service.send({

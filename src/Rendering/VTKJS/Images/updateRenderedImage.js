@@ -59,7 +59,7 @@ async function updateRenderedImage(context) {
     return
   }
 
-  const { targetScale } = actorContext
+  const { targetScale } = context
 
   const boundsToLoad = context.main.areCroppingPlanesTouched
     ? computeRenderedBounds(context)
@@ -72,7 +72,7 @@ async function updateRenderedImage(context) {
   )
   if (voxelCount > RENDERED_VOXEL_MAX)
     throw new Error(
-      `Voxel count over max.  Requested: ${voxelCount} Max: ${RENDERED_VOXEL_MAX}`
+      `Voxel count over max at scale ${targetScale}. Requested: ${voxelCount} Max: ${RENDERED_VOXEL_MAX}`
     )
 
   const [imageAtScale, labelAtScale] = await Promise.all(

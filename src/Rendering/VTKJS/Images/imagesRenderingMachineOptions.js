@@ -101,7 +101,9 @@ const imagesRenderingMachineOptions = {
 
       // Check if different scale than loaded or if bounds are larger than loaded
       isImageUpdateNeeded: context =>
-        !isTargetScaleLoaded(context) || areBoundsBiggerThanLoaded(context),
+        context.isUpdateForced ||
+        !isTargetScaleLoaded(context) ||
+        areBoundsBiggerThanLoaded(context),
     },
   },
 

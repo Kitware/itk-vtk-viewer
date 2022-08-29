@@ -157,7 +157,6 @@ const createUpdatingImageMachine = options => {
   return createMachine(
     {
       id: 'updatingImageMachine',
-      context: { hasErrored: false }, // if error, stop  but got out loadingImage back-off loop
       initial: 'checkingUpdateNeeded',
       states: {
         checkingUpdateNeeded: {
@@ -165,6 +164,7 @@ const createUpdatingImageMachine = options => {
             { cond: 'isImageUpdateNeeded', target: 'loadingImage' },
             { target: '#updatingImageMachine.afterUpdatingImage' },
           ],
+          exit: assign({ isUpdateForced: true }),
         },
 
         loadingImage: {
@@ -176,11 +176,11 @@ const createUpdatingImageMachine = options => {
             },
             onError: {
               actions: [
-                assignLowerScale,
-                assign({ hasErrored: true }),
                 (context, event) => {
                   console.error(`Could not update image : ${event.data}`)
                 },
+                assignLowerScale,
+                assign({ hasErrored: true }),
               ],
               target: 'checkingUpdateNeeded',
             },
@@ -268,6 +268,7 @@ const createImageRenderingActor = (options, context /*, event*/) => {
             src: createUpdatingImageMachine(options, context),
             data: {
               ...context,
+              hasErrored: false,
               targetScale: ({ images }, event) => {
                 if (event.type === 'SET_IMAGE_SCALE') return event.targetScale
                 const actorContext = images.actorContext.get(
@@ -279,6 +280,8 @@ const createImageRenderingActor = (options, context /*, event*/) => {
                 const image = actorContext.image ?? actorContext.labelImage
                 return image.lowestScale
               },
+              isUpdateForced: (c, event) =>
+                event.type === 'UPDATE_RENDERED_IMAGE',
             },
             onDone: { target: 'updateHistogram' },
           },

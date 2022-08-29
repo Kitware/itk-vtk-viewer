@@ -157,7 +157,7 @@ export function createCropping(context) {
   })
 }
 
-export async function updateCroppingParameters(context) {
+export function updateCroppingParameters(context) {
   const { croppingVirtualImage, croppingWidget } = context.main
 
   // croppingBoundingBox is an axis-aligned bounding box that encapsulates all

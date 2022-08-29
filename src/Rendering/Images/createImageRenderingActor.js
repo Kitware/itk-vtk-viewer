@@ -26,12 +26,12 @@ const assignLowerScale = assign({
   targetScale: ({ images, targetScale }) => {
     const actorContext = images.actorContext.get(images.updateRenderedName)
     const image = actorContext.image ?? actorContext.labelImage
-    const lowestScale = image.lowestScale
-    if (targetScale < lowestScale) {
+    if (targetScale < image.lowestScale) {
       return targetScale + 1
     }
     return targetScale
   },
+  hasScaledCoarser: true,
 })
 
 const assignLoadedScale = assign({
@@ -42,6 +42,9 @@ const assignLoadedScale = assign({
   },
 })
 
+const LOW_FPS = 10.0
+const JUST_ACCEPTABLE_FPS = 30.0
+
 // Return true if highest scale or right scale (to stop loading of higher scale)
 function highestScaleOrScaleJustRight(context) {
   const { loadedScale } = context.images.actorContext.get(
@@ -49,13 +52,23 @@ function highestScaleOrScaleJustRight(context) {
   )
   return (
     loadedScale === 0 ||
-    context.hasErrored ||
-    (context.main.fps > 10.0 && context.main.fps < 33.0)
+    context.hasScaledCoarser ||
+    (LOW_FPS < context.main.fps && context.main.fps < JUST_ACCEPTABLE_FPS)
   )
 }
 
 function scaleTooHigh(context) {
-  return context.main.fps <= 10.0
+  return context.main.fps <= LOW_FPS
+}
+
+function scaleTooHighAndMostCoarse(context) {
+  const actorContext = context.images.actorContext.get(
+    context.images.updateRenderedName
+  )
+  const image = actorContext.image ?? actorContext.labelImage
+  const lowestScale = image.lowestScale
+  const { loadedScale } = actorContext
+  return scaleTooHigh(context) && loadedScale === lowestScale
 }
 
 const assignIsFramerateScalePickingOn = assign({
@@ -119,7 +132,7 @@ const eventResponses = {
     actions: 'applyBlendMode',
   },
   UPDATE_IMAGE_HISTOGRAM: {
-    target: 'updateHistogram',
+    target: 'updatingHistogram',
   },
   LABEL_IMAGE_LOOKUP_TABLE_CHANGED: {
     actions: 'applyLookupTable',
@@ -164,7 +177,7 @@ const createUpdatingImageMachine = options => {
             { cond: 'isImageUpdateNeeded', target: 'loadingImage' },
             { target: '#updatingImageMachine.afterUpdatingImage' },
           ],
-          exit: assign({ isUpdateForced: true }),
+          exit: assign({ isUpdateForced: false }),
         },
 
         loadingImage: {
@@ -176,11 +189,10 @@ const createUpdatingImageMachine = options => {
             },
             onError: {
               actions: [
-                (context, event) => {
+                (c, event) => {
                   console.error(`Could not update image : ${event.data}`)
                 },
                 assignLowerScale,
-                assign({ hasErrored: true }),
               ],
               target: 'checkingUpdateNeeded',
             },
@@ -203,6 +215,10 @@ const createUpdatingImageMachine = options => {
           entry: [c => c.service.send('UPDATE_FPS')],
           on: {
             FPS_UPDATED: [
+              {
+                cond: scaleTooHighAndMostCoarse, // FPS too slow but nothing to do about it
+                target: 'finished',
+              },
               {
                 cond: scaleTooHigh, // FPS too slow
                 actions: assignLowerScale, // back off
@@ -268,7 +284,7 @@ const createImageRenderingActor = (options, context /*, event*/) => {
             src: createUpdatingImageMachine(options, context),
             data: {
               ...context,
-              hasErrored: false,
+              hasScaledCoarser: false,
               targetScale: ({ images }, event) => {
                 if (event.type === 'SET_IMAGE_SCALE') return event.targetScale
                 const actorContext = images.actorContext.get(
@@ -283,11 +299,11 @@ const createImageRenderingActor = (options, context /*, event*/) => {
               isUpdateForced: (c, event) =>
                 event.type === 'UPDATE_RENDERED_IMAGE',
             },
-            onDone: { target: 'updateHistogram' },
+            onDone: { target: 'updatingHistogram' },
           },
         },
 
-        updateHistogram: {
+        updatingHistogram: {
           invoke: {
             id: 'updateHistogram',
             src: 'updateHistogram',

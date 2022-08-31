@@ -25087,36 +25087,37 @@ const Background = (container, points) => {
       ctx.clip()
       const [headX] = linePoints[1]
       const [tailX] = linePoints[linePoints.length - 2]
-      const headXClamped = Math.max(0, headX)
-      const tailXClamped = Math.min(width, tailX)
-      const colorCanvasWidth =
-        Math.floor(tailXClamped - headXClamped) || borderWidth
-      const pointPixelWidth = tailX - headX
-      const headClampAmount = (headXClamped - headX) / pointPixelWidth
-      const tailClampAmount = (tailXClamped - tailX) / pointPixelWidth
-      const dataRange = colorTransferFunction.getMappingRange()
-      const dataWidth = dataRange[1] - dataRange[0]
-      const visibleDataRange = [
-        dataRange[0] + dataWidth * headClampAmount,
-        dataRange[1] + dataWidth * tailClampAmount,
-      ]
-      updateColorCanvas(
-        colorTransferFunction,
-        colorCanvasWidth,
-        visibleDataRange,
-        colorCanvas
-      )
-      ctx.drawImage(
-        colorCanvas,
-        0,
-        0,
-        colorCanvas.width,
-        colorCanvas.height,
-        Math.floor(headXClamped),
-        Math.floor(top),
-        colorCanvasWidth,
-        Math.ceil(bottom - top)
-      )
+      const headXClamped = Math.min(width, Math.max(0, headX))
+      const tailXClamped = Math.min(width, Math.max(0, tailX))
+      const colorCanvasWidth = Math.ceil(tailXClamped - headXClamped)
+      if (colorCanvasWidth) {
+        const pointPixelWidth = tailX - headX
+        const headClampAmount = (headXClamped - headX) / pointPixelWidth
+        const tailClampAmount = (tailXClamped - tailX) / pointPixelWidth
+        const dataRange = colorTransferFunction.getMappingRange()
+        const dataWidth = dataRange[1] - dataRange[0]
+        const visibleDataRange = [
+          dataRange[0] + dataWidth * headClampAmount,
+          dataRange[1] + dataWidth * tailClampAmount,
+        ]
+        updateColorCanvas(
+          colorTransferFunction,
+          colorCanvasWidth,
+          visibleDataRange,
+          colorCanvas
+        )
+        ctx.drawImage(
+          colorCanvas,
+          0,
+          0,
+          colorCanvas.width,
+          colorCanvas.height,
+          Math.floor(headXClamped),
+          Math.floor(top),
+          colorCanvasWidth,
+          Math.ceil(bottom - top)
+        )
+      }
       ctx.restore()
     }
     if (histogram) {

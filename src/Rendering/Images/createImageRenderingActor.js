@@ -1,5 +1,8 @@
 import { assign, createMachine, forwardTo } from 'xstate'
 
+const getLoadedImage = actorContext =>
+  actorContext.image ?? actorContext.labelImage
+
 const assignUpdateRenderedName = assign({
   images: (context, event) => {
     const images = context.images
@@ -16,17 +19,16 @@ const assignUpdateRenderedNameToSelectedName = assign({
   },
 })
 
-const assignHigherScale = assign({
+const assignFinerScale = assign({
   targetScale: ({ targetScale }) => {
     return Math.max(0, targetScale - 1)
   },
 })
 
-const assignLowerScale = assign({
+const assignCoarserScale = assign({
   targetScale: ({ images, targetScale }) => {
     const actorContext = images.actorContext.get(images.updateRenderedName)
-    const image = actorContext.image ?? actorContext.labelImage
-    if (targetScale < image.lowestScale) {
+    if (targetScale < getLoadedImage(actorContext).coarsestScale) {
       return targetScale + 1
     }
     return targetScale
@@ -45,8 +47,8 @@ const assignLoadedScale = assign({
 const LOW_FPS = 10.0
 const JUST_ACCEPTABLE_FPS = 30.0
 
-// Return true if highest scale or right scale (to stop loading of higher scale)
-function highestScaleOrScaleJustRight(context) {
+// Return true if finest scale or right scale (to stop loading of finer scale)
+function finestScaleOrScaleJustRight(context) {
   const { loadedScale } = context.images.actorContext.get(
     context.images.updateRenderedName
   )
@@ -65,10 +67,9 @@ function scaleTooHighAndMostCoarse(context) {
   const actorContext = context.images.actorContext.get(
     context.images.updateRenderedName
   )
-  const image = actorContext.image ?? actorContext.labelImage
-  const lowestScale = image.lowestScale
+  const { coarsestScale } = getLoadedImage(actorContext)
   const { loadedScale } = actorContext
-  return scaleTooHigh(context) && loadedScale === lowestScale
+  return scaleTooHigh(context) && loadedScale === coarsestScale
 }
 
 const assignIsFramerateScalePickingOn = assign({
@@ -192,7 +193,7 @@ const createUpdatingImageMachine = options => {
                 (c, event) => {
                   console.error(`Could not update image : ${event.data}`)
                 },
-                assignLowerScale,
+                assignCoarserScale,
               ],
               target: 'checkingUpdateNeeded',
             },
@@ -221,15 +222,15 @@ const createUpdatingImageMachine = options => {
               },
               {
                 cond: scaleTooHigh, // FPS too slow
-                actions: assignLowerScale, // back off
+                actions: assignCoarserScale, // back off
                 target: 'checkingUpdateNeeded',
               },
               {
-                cond: highestScaleOrScaleJustRight, // found good scale
+                cond: finestScaleOrScaleJustRight, // found good scale
                 target: 'finished',
               },
               {
-                actions: assignHigherScale, // try harder
+                actions: assignFinerScale, // try harder
                 target: 'checkingUpdateNeeded',
               },
             ],
@@ -281,7 +282,7 @@ const createImageRenderingActor = (options, context /*, event*/) => {
           },
           invoke: {
             id: 'updatingImageMachine',
-            src: createUpdatingImageMachine(options, context),
+            src: createUpdatingImageMachine(options),
             data: {
               ...context,
               hasScaledCoarser: false,
@@ -293,11 +294,14 @@ const createImageRenderingActor = (options, context /*, event*/) => {
                 if (actorContext.loadedScale || actorContext.loadedScale === 0)
                   return actorContext.loadedScale
                 // nothing loaded, start at coarsest
-                const image = actorContext.image ?? actorContext.labelImage
-                return image.lowestScale
+                return getLoadedImage(actorContext).coarsestScale
               },
               isUpdateForced: (c, event) =>
-                event.type === 'UPDATE_RENDERED_IMAGE',
+                [
+                  'UPDATE_RENDERED_IMAGE',
+                  'IMAGE_ASSIGNED',
+                  'LABEL_IMAGE_ASSIGNED',
+                ].some(forcedEvent => event.type === forcedEvent),
             },
             onDone: { target: 'updatingHistogram' },
           },

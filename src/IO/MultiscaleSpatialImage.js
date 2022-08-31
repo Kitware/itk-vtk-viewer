@@ -192,7 +192,7 @@ class MultiscaleSpatialImage {
     this.cachedImages = new Map()
   }
 
-  get lowestScale() {
+  get coarsestScale() {
     return this.scaleInfo.length - 1
   }
 

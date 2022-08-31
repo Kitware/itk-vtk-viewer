@@ -2,22 +2,15 @@ import { inspect } from '@xstate/inspect'
 import { interpret } from 'xstate'
 
 import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager'
-import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 
 import ResizeSensor from 'css-element-queries/src/ResizeSensor'
 
 import proxyConfiguration from './Rendering/VTKJS/proxyManagerConfiguration'
 import UserInterface from './UserInterface'
-import createLabelMapColorWidget from './UserInterface/Image/createLabelMapColorWidget'
-import createLabelMapWeightWidget from './UserInterface/Image/createLabelMapWeightWidget'
-import createPlaneIndexSliders from './UserInterface/Image/createPlaneIndexSliders'
 import addKeyboardShortcuts from './UI/addKeyboardShortcuts'
 import rgb2hex from './UserInterface/rgb2hex'
 import hex2rgb from './UserInterface/hex2rgb'
 import ViewerStore from './ViewerStore'
-import createLabelMapRendering from './Rendering/createLabelMapRendering'
-import updateLabelMapComponentWeight from './Rendering/updateLabelMapComponentWeight'
-import updateLabelMapPiecewiseFunction from './Rendering/updateLabelMapPiecewiseFunction'
 
 import toMultiscaleSpatialImage from './IO/toMultiscaleSpatialImage'
 import viewerMachineOptions from './viewerMachineOptions'
@@ -28,7 +21,7 @@ import {
   updateCroppingParameters,
 } from './Rendering/VTKJS/Main/croppingPlanes'
 
-import { autorun, reaction, toJS } from 'mobx'
+import { reaction, toJS } from 'mobx'
 
 const createViewer = async (
   rootContainer,
@@ -67,8 +60,6 @@ const createViewer = async (
     })
   }
 
-  // Todo: const eventEmitter = new EventEmitter()
-  // Migrate to a module
   const eventEmitter = store.eventEmitter
 
   function eventEmitterCallback(context /*, event*/) {
@@ -238,162 +229,6 @@ const createViewer = async (
   context.service = service
   service.start()
 
-  let updatingImage = false
-
-  function imagePickedListener(lastPickedValues) {
-    if (lastPickedValues.value !== null) {
-      store.imageUI.selectedLabel = lastPickedValues.label
-      if (store.imageUI.selectedLabel !== 'all') {
-        const currentWeight =
-          store.imageUI.labelMapWeights[store.imageUI.selectedLabel]
-        if (currentWeight === 1.0) {
-          store.imageUI.labelMapWeights[store.imageUI.selectedLabel] =
-            store.imageUI.labelMapToggleWeight
-        } else {
-          store.imageUI.labelMapWeights[store.imageUI.selectedLabel] = 1.0
-        }
-      }
-    }
-  }
-
-  function viewModeChangedListener(viewMode) {
-    updateLabelMapPiecewiseFunction(store)
-    store.renderWindow.render()
-  }
-
-  function registerEventListener(eventName, listener) {
-    if (store.eventEmitter.listeners(eventName).indexOf(listener) < 0) {
-      store.eventEmitter.on(eventName, listener)
-    }
-  }
-
-  reaction(
-    () => {
-      const image = store.imageUI.image
-      const components = store.imageUI.visualizedComponents.slice()
-      const labelMap = store.imageUI.labelMap
-      return store.imageUI.fusedImageLabelMap
-    },
-
-    fusedImage => {
-      if (!fusedImage) {
-        return
-      }
-
-      let initialRender = false
-      if (!store.imageUI.representationProxy) {
-        initialRender = true
-        store.imageUI.source.setInputData(fusedImage)
-
-        proxyManager.createRepresentationInAllViews(store.imageUI.source)
-        store.imageUI.representationProxy = proxyManager.getRepresentation(
-          store.imageUI.source,
-          store.itkVtkView
-        )
-
-        if (use2D) {
-          store.itkVtkView.setViewMode('ZPlane')
-          store.itkVtkView.setOrientationAxesVisibility(false)
-        } else {
-          store.itkVtkView.setViewMode('Volume')
-        }
-
-        const annotationContainer = store.container.querySelector('.js-se')
-        annotationContainer.style.fontFamily = 'monospace'
-      }
-
-      if (labelMapNames) {
-        store.itkVtkView.setLabelNames(labelMapNames)
-      }
-
-      // if (!!store.imageUI.image && !!!store.imageUI.lookupTableProxies.length) {
-      if (store.imageUI.image) {
-        createImageRendering(store, use2D)
-        updateVolumeProperties(store)
-      }
-
-      // if (
-      //   !!store.imageUI.labelMap &&
-      //   !!!store.imageUI.labelMapLookupTableProxy
-      // ) {
-      if (store.imageUI.labelMap) {
-        createLabelMapRendering(store)
-      }
-
-      if (!!store.imageUI.image && !store.imageUI.imageUIGroup) {
-        UserInterface.createImageUI(store, use2D, context.uiContainer)
-      }
-
-      if (!!store.imageUI.labelMap && !store.imageUI.labelMapColorUIGroup) {
-        createLabelMapColorWidget(store, context.uiContainer)
-        createLabelMapWeightWidget(store, context.uiContainer)
-      }
-
-      if (!use2D && !store.imageUI.placeIndexUIGroup) {
-        createPlaneIndexSliders(store, context.uiContainer)
-      }
-
-      if (!initialRender) {
-        if (updatingImage) {
-          return
-        }
-        updatingImage = true
-
-        store.imageUI.source.setInputData(fusedImage)
-
-        updateVolumeProperties(store)
-
-        const transferFunctionWidget = store.imageUI.transferFunctionWidget
-
-        if (transferFunctionWidget) {
-          transferFunctionWidget.setDataArray(
-            store.imageUI.image
-              .getPointData()
-              .getScalars()
-              .getData(),
-            {
-              numberOfComponents: store.imageUI.totalIntensityComponents,
-              component: store.imageUI.selectedComponent,
-            }
-          )
-          transferFunctionWidget.invokeOpacityChange(transferFunctionWidget)
-          transferFunctionWidget.modified()
-        }
-
-        store.imageUI.croppingWidget.setVolumeMapper(
-          store.imageUI.representationProxy.getMapper()
-        )
-        const cropFilter = store.imageUI.representationProxy.getCropFilter()
-        cropFilter.reset()
-        store.imageUI.croppingWidget.resetWidgetState()
-
-        setTimeout(() => {
-          !!transferFunctionWidget && transferFunctionWidget.render()
-          const numberOfComponents = store.imageUI.numberOfComponents
-          // May need to update intensity preset in case labelMap was
-          // not yet loaded at time createImageRendering was called
-          if (numberOfComponents === 1 && !!store.imageUI.labelMap) {
-            const preset = 'Grayscale'
-            store.imageUI.colorMaps[0] = preset
-            store.imageUI.lookupTableProxies[0].setPresetName(preset)
-          }
-          updateLabelMapComponentWeight(store)
-          store.renderWindow.render()
-          updatingImage = false
-        }, 0)
-      }
-
-      if (!!store.imageUI.image || !!store.imageUI.labelMap) {
-        store.itkVtkView.setClickCallback(lastPickedValues => {
-          store.imageUI.lastPickedValues = lastPickedValues
-        })
-
-        registerEventListener('imagePicked', imagePickedListener)
-        registerEventListener('viewModeChanged', viewModeChangedListener)
-      }
-    }
-  )
-
   let imageName = null
   if (image) {
     const multiscaleImage = await toMultiscaleSpatialImage(image)
@@ -427,48 +262,6 @@ const createViewer = async (
       type: 'ADD_LABEL_IMAGE',
       data: { imageName, labelImage: multiscaleLabelImage },
     })
-  }
-
-  autorun(() => {
-    if (store.imageUI.haveOnlyLabelMap) {
-      // If we only have a labelmap component, give it full weight
-      store.imageUI.labelImageBlend = 1.0
-    }
-  })
-
-  reaction(
-    () => {
-      const multiscaleLabelMap = store.imageUI.multiscaleLabelMap
-      const multiscaleImage = store.imageUI.multiscaleImage
-      return { multiscaleImage, multiscaleLabelMap }
-    },
-
-    async ({ multiscaleImage, multiscaleLabelMap }) => {
-      if (!multiscaleImage && !multiscaleLabelMap) {
-        return
-      }
-      if (multiscaleLabelMap) {
-        const topLevelImage = await multiscaleLabelMap.topLevelLargestImage()
-        const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage)
-        store.imageUI.labelMap = imageData
-        updateVisualizedComponents(store)
-      }
-      if (multiscaleImage) {
-        const topLevelImage = await multiscaleImage.topLevelLargestImage()
-        const imageData = vtkITKHelper.convertItkToVtkImage(topLevelImage)
-        store.imageUI.image = imageData
-        updateVisualizedComponents(store)
-      }
-    }
-  )
-  //store.imageUI.multiscaleImage = multiscaleImage
-  //store.imageUI.multiscaleLabelMap = multiscaleLabelMap
-
-  // After all the other "store.imageUI.image" reactions have run, we
-  // need to trigger all of the transfer function widget
-  // "store.imageUI.selectedComponent" reactions.
-  for (let i = store.imageUI.numberOfComponents - 1; i >= 0; i--) {
-    store.imageUI.selectedComponent = i
   }
 
   reaction(

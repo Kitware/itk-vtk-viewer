@@ -1,10 +1,7 @@
-import vtkLookupTableProxy from '@kitware/vtk.js/Proxy/Core/LookupTableProxy'
-
 import style from '../ItkVtkViewer.module.css'
 
 import createInterpolationButton from './createInterpolationButton'
 import createColorMapIconSelector from '../createColorMapIconSelector'
-//import customColorMapIcon from '../customColorMapIcon'
 
 function createColorRangeInput(context, imageUIGroup) {
   const viewerDOMId = context.id

@@ -150,7 +150,7 @@ const createRenderingMachine = (options, context) => {
             IMAGE_COLOR_RANGE_CHANGED: {
               actions: forwardTo('images'),
             },
-            IMAGE_COLOR_MAP_CHANGED: {
+            IMAGE_COLOR_MAP_SELECTED: {
               actions: forwardTo('images'),
             },
             IMAGE_COMPONENT_VISIBILITY_CHANGED: {

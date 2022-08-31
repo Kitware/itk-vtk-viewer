@@ -114,7 +114,7 @@ const eventResponses = {
   IMAGE_COLOR_RANGE_CHANGED: {
     actions: 'applyColorRange',
   },
-  IMAGE_COLOR_MAP_CHANGED: {
+  IMAGE_COLOR_MAP_SELECTED: {
     actions: 'applyColorMap',
   },
   TOGGLE_IMAGE_SHADOW: {

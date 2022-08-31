@@ -2989,7 +2989,7 @@ function event(publicAPI, model, eventName) {
 // newInstance
 // ----------------------------------------------------------------------------
 
-function newInstance$5(extend, className) {
+function newInstance$4(extend, className) {
   var constructor = function constructor() {
     var initialValues =
       arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
@@ -3864,7 +3864,7 @@ var macro = {
   keystore: keystore,
   measurePromiseExecution: measurePromiseExecution,
   moveToProtected: moveToProtected,
-  newInstance: newInstance$5,
+  newInstance: newInstance$4,
   newTypedArray: newTypedArray,
   newTypedArrayFrom: newTypedArrayFrom,
   normalizeWheel: normalizeWheel,
@@ -21085,7 +21085,7 @@ function vtkDataArray(publicAPI, model) {
   /* eslint-disable no-use-before-define */
 
   publicAPI.newClone = function() {
-    return newInstance$4({
+    return newInstance$3({
       empty: true,
       name: model.name,
       dataType: model.dataType,
@@ -21195,12 +21195,12 @@ function extend$5(publicAPI, model) {
   vtkDataArray(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$4 = newInstance$5(extend$5, 'vtkDataArray') // ----------------------------------------------------------------------------
+var newInstance$3 = newInstance$4(extend$5, 'vtkDataArray') // ----------------------------------------------------------------------------
 
 var vtkDataArray$1 = _objectSpread$2(
   _objectSpread$2(
     {
-      newInstance: newInstance$4,
+      newInstance: newInstance$3,
       extend: extend$5,
     },
     STATIC
@@ -21848,11 +21848,11 @@ function extend$4(publicAPI, model) {
   vtkScalarsToColors(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$3 = macro.newInstance(extend$4, 'vtkScalarsToColors') // ----------------------------------------------------------------------------
+var newInstance$2 = macro.newInstance(extend$4, 'vtkScalarsToColors') // ----------------------------------------------------------------------------
 
 var vtkScalarsToColors$1 = _objectSpread$1(
   {
-    newInstance: newInstance$3,
+    newInstance: newInstance$2,
     extend: extend$4,
   },
   vtkScalarsToColors$2
@@ -23144,11 +23144,11 @@ function extend$3(publicAPI, model) {
   vtkColorTransferFunction(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$2 = macro.newInstance(extend$3, 'vtkColorTransferFunction') // ----------------------------------------------------------------------------
+var newInstance$1 = macro.newInstance(extend$3, 'vtkColorTransferFunction') // ----------------------------------------------------------------------------
 
 var vtkColorTransferFunction$1 = _objectSpread(
   {
-    newInstance: newInstance$2,
+    newInstance: newInstance$1,
     extend: extend$3,
   },
   Constants$1
@@ -23337,14 +23337,7 @@ function extend$2(publicAPI, model) {
   macro.proxy(publicAPI, model)
 } // ----------------------------------------------------------------------------
 
-var newInstance$1 = macro.newInstance(extend$2, 'vtkLookupTableProxy') // ----------------------------------------------------------------------------
-
-var vtkLookupTableProxy$1 = {
-  newInstance: newInstance$1,
-  extend: extend$2,
-  Mode: Mode,
-  Defaults: Defaults,
-}
+macro.newInstance(extend$2, 'vtkLookupTableProxy') // ----------------------------------------------------------------------------
 
 function toggleInterpolation(context, event) {
   var name = event.data
@@ -24186,7 +24179,7 @@ function createColorRangeInput(context, imageUIGroup) {
     var componentIndex = actorContext.selectedComponent
     var colorMap = iconSelector.getSelectedValue()
     context.service.send({
-      type: 'IMAGE_COLOR_MAP_CHANGED',
+      type: 'IMAGE_COLOR_MAP_SELECTED',
       data: {
         name: name,
         component: componentIndex,
@@ -26260,46 +26253,19 @@ function applyColorRange(context, event) {
 }
 
 function applyColorMap(context, event) {
-  var name = event.data.name
   var component = event.data.component
-  var actorContext = context.images.actorContext.get(name)
-  var colorMap = event.data.colorMap
+  var actorContext = context.images.actorContext.get(event.data.name)
+  var lookupTableProxy = context.images.lookupTableProxies.get(component)
 
-  if (
-    name !== context.images.selectedName ||
-    component !== actorContext.selectedComponent
-  ) {
-    return
-  }
+  if (component === actorContext.selectedComponent) {
+    context.images.iconSelector.setSelectedValue(event.data.colorMap)
 
-  var lookupTableProxy = null
-
-  if (context.images.lookupTableProxies.has(component)) {
-    lookupTableProxy = context.images.lookupTableProxies.get(component)
-  } else {
-    lookupTableProxy = vtkLookupTableProxy$1.newInstance()
-    context.images.lookupTableProxies.set(component, lookupTableProxy)
-  }
-
-  var currentColorMap = lookupTableProxy.getPresetName()
-
-  if (currentColorMap !== colorMap) {
-    lookupTableProxy.setPresetName(colorMap)
-    lookupTableProxy.setMode(vtkLookupTableProxy$1.Mode.Preset)
-    var colorTransferFunction = lookupTableProxy.getLookupTable()
-
-    if (actorContext.colorRanges.has(component)) {
-      var range = actorContext.colorRanges.get(component)
-      colorTransferFunction.setMappingRange(range[0], range[1])
-      colorTransferFunction.updateRange()
+    if (lookupTableProxy) {
+      context.images.transferFunctionWidget.setColorTransferFunction(
+        lookupTableProxy.getLookupTable()
+      )
     }
   }
-
-  var transferFunctionWidget = context.images.transferFunctionWidget
-  transferFunctionWidget.setColorTransferFunction(
-    lookupTableProxy.getLookupTable()
-  )
-  transferFunctionWidget.render()
 }
 
 function toggleShadow(context, event) {

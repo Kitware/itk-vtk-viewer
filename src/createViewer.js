@@ -1083,7 +1083,7 @@ const createViewer = async (
       currentColorMap[1] !== colorMap[1]
     ) {
       service.send({
-        type: 'IMAGE_COLOR_MAP_CHANGED',
+        type: 'IMAGE_COLOR_MAP_SELECTED',
         data: { name, component: componentIndex, colorMap },
       })
     }

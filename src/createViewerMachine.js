@@ -224,11 +224,10 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
               ],
             },
             IMAGE_COLOR_MAP_CHANGED: {
-              actions: [
-                forwardTo('ui'),
-                forwardTo('rendering'),
-                forwardTo('eventEmitter'),
-              ],
+              actions: [forwardTo('ui'), forwardTo('eventEmitter')],
+            },
+            IMAGE_COLOR_MAP_SELECTED: {
+              actions: [forwardTo('ui'), forwardTo('rendering')],
             },
             TOGGLE_IMAGE_SHADOW: {
               actions: [

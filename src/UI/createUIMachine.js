@@ -140,6 +140,9 @@ function createUIMachine(options, context) {
             IMAGE_COLOR_MAP_CHANGED: {
               actions: forwardTo('images'),
             },
+            IMAGE_COLOR_MAP_SELECTED: {
+              actions: forwardTo('images'),
+            },
             TOGGLE_IMAGE_SHADOW: {
               actions: forwardTo('images'),
             },

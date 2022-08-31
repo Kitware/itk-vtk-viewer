@@ -27,11 +27,6 @@ const createTransferFunctionWidget = (context, imagesUIGroup) => {
 
   context.images.transferFunctionWidget = transferFunctionWidget
 
-  // lookupTableProxies used elsewhere
-  if (typeof context.images.lookupTableProxies === 'undefined') {
-    context.images.lookupTableProxies = new Map()
-  }
-
   const getXMinMax = () => {
     const xPositions = transferFunctionWidget.getPoints().map(([x]) => x)
     return { min: Math.min(...xPositions), max: Math.max(...xPositions) }

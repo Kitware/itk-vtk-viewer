@@ -101,6 +101,9 @@ function createUIMachine(options, context) {
             RENDERED_IMAGE_ASSIGNED: {
               actions: forwardTo('images'),
             },
+            IMAGE_RENDERING_ACTIVE: {
+              actions: forwardTo('images'),
+            },
             ADD_LABEL_IMAGE: {
               actions: forwardTo('layers'),
             },

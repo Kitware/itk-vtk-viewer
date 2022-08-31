@@ -25087,36 +25087,37 @@ const Background = (container, points) => {
       ctx.clip()
       const [headX] = linePoints[1]
       const [tailX] = linePoints[linePoints.length - 2]
-      const headXClamped = Math.max(0, headX)
-      const tailXClamped = Math.min(width, tailX)
-      const colorCanvasWidth =
-        Math.floor(tailXClamped - headXClamped) || borderWidth
-      const pointPixelWidth = tailX - headX
-      const headClampAmount = (headXClamped - headX) / pointPixelWidth
-      const tailClampAmount = (tailXClamped - tailX) / pointPixelWidth
-      const dataRange = colorTransferFunction.getMappingRange()
-      const dataWidth = dataRange[1] - dataRange[0]
-      const visibleDataRange = [
-        dataRange[0] + dataWidth * headClampAmount,
-        dataRange[1] + dataWidth * tailClampAmount,
-      ]
-      updateColorCanvas(
-        colorTransferFunction,
-        colorCanvasWidth,
-        visibleDataRange,
-        colorCanvas
-      )
-      ctx.drawImage(
-        colorCanvas,
-        0,
-        0,
-        colorCanvas.width,
-        colorCanvas.height,
-        Math.floor(headXClamped),
-        Math.floor(top),
-        colorCanvasWidth,
-        Math.ceil(bottom - top)
-      )
+      const headXClamped = Math.min(width, Math.max(0, headX))
+      const tailXClamped = Math.min(width, Math.max(0, tailX))
+      const colorCanvasWidth = Math.ceil(tailXClamped - headXClamped)
+      if (colorCanvasWidth) {
+        const pointPixelWidth = tailX - headX
+        const headClampAmount = (headXClamped - headX) / pointPixelWidth
+        const tailClampAmount = (tailXClamped - tailX) / pointPixelWidth
+        const dataRange = colorTransferFunction.getMappingRange()
+        const dataWidth = dataRange[1] - dataRange[0]
+        const visibleDataRange = [
+          dataRange[0] + dataWidth * headClampAmount,
+          dataRange[1] + dataWidth * tailClampAmount,
+        ]
+        updateColorCanvas(
+          colorTransferFunction,
+          colorCanvasWidth,
+          visibleDataRange,
+          colorCanvas
+        )
+        ctx.drawImage(
+          colorCanvas,
+          0,
+          0,
+          colorCanvas.width,
+          colorCanvas.height,
+          Math.floor(headXClamped),
+          Math.floor(top),
+          colorCanvasWidth,
+          Math.ceil(bottom - top)
+        )
+      }
       ctx.restore()
     }
     if (histogram) {
@@ -28343,10 +28344,6 @@ function applyScaleCount(input, scaleCount) {
     })
 }
 
-function applyRenderedScale(input, renderedScale) {
-  input.value = renderedScale
-}
-
 var scaleSelector = function scaleSelector(context, event) {
   return function(send, onReceive) {
     var scaleSelectorDiv = document.createElement('div')
@@ -28384,7 +28381,7 @@ var scaleSelector = function scaleSelector(context, event) {
         imageActor.send('ADJUST_SCALE_FOR_FRAMERATE')
       } else {
         imageActor.send('SET_IMAGE_SCALE', {
-          renderedScale: parseInt(event.target.value),
+          targetScale: parseInt(event.target.value),
         })
       }
     })
@@ -28409,23 +28406,18 @@ var scaleSelector = function scaleSelector(context, event) {
     }
 
     onImageAssigned(event.data)
-    onReceive(function(_ref) {
-      var type = _ref.type,
-        data = _ref.data
+    onReceive(function(event) {
+      var type = event.type
 
       if (type === 'IMAGE_ASSIGNED') {
-        onImageAssigned(data)
+        onImageAssigned(event.data)
       } else if (type === 'RENDERED_IMAGE_ASSIGNED') {
-        applyRenderedScale(
-          scaleSelector,
-          context.images.actorContext.get(data).renderedScale
-        )
-      } else if (type === 'IMAGE_HISTOGRAM_UPDATED') {
+        scaleSelector.value = event.loadedScale
+      } else if (type === 'IMAGE_RENDERING_ACTIVE') {
         // set scale number after ADJUST_SCALE_FOR_FRAMERATE even if no scale change
-        applyRenderedScale(
-          scaleSelector,
-          context.images.actorContext.get(data.name).renderedScale
-        )
+        scaleSelector.value = context.images.actorContext.get(
+          event.data.name
+        ).loadedScale
       }
     })
   }

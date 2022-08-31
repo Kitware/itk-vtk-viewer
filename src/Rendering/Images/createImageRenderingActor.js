@@ -20,7 +20,7 @@ const assignHigherScale = assign({
   images: context => {
     const images = context.images
     const actorContext = images.actorContext.get(images.updateRenderedName)
-    actorContext.renderedScale--
+    actorContext.targetScale--
     return images
   },
 })
@@ -35,17 +35,25 @@ const assignLowerScale = assign({
     } else if (actorContext.labelImage) {
       lowestScale = actorContext.labelImage.lowestScale
     }
-    if (actorContext.renderedScale < lowestScale) {
-      actorContext.renderedScale++
+    if (actorContext.targetScale < lowestScale) {
+      actorContext.targetScale++
     }
     return images
   },
 })
 
-const assignRenderedScale = assign({
-  images: ({ images }, { renderedScale }) => {
+const assignTargetScale = assign({
+  images: ({ images }, { targetScale }) => {
     const actorContext = images.actorContext.get(images.updateRenderedName)
-    actorContext.renderedScale = renderedScale
+    actorContext.targetScale = targetScale
+    return images
+  },
+})
+
+const assignLoadedScale = assign({
+  images: ({ images }, { data: name, loadedScale }) => {
+    const actorContext = images.actorContext.get(name)
+    actorContext.loadedScale = loadedScale
     return images
   },
 })
@@ -58,14 +66,14 @@ function highestScaleOrScaleJustRight(context, event, condMeta) {
     context.images.updateRenderedName
   )
 
-  if (actorContext.renderedScale === 0) {
+  if (actorContext.targetScale === 0) {
     return true
   }
 
   let image = actorContext.image ?? actorContext.labelImage
 
   // is voxels count of next scale too much
-  const nextScale = actorContext.renderedScale - 1
+  const nextScale = actorContext.targetScale - 1
   const voxelCount = ['x', 'y', 'z']
     .map(dim => image.scaleInfo[nextScale].arrayShape.get(dim))
     .reduce((voxels, dimSize) => voxels * dimSize, 1)
@@ -86,21 +94,29 @@ function scaleTooHigh(context) {
   return context.main.fps <= 10.0
 }
 
+const assignIsFramerateScalePickingOn = assign({
+  images: ({ images }, { type }) => {
+    const actorContext = images.actorContext.get(images.updateRenderedName)
+    actorContext.isFramerateScalePickingOn = type !== 'SET_IMAGE_SCALE'
+    return images
+  },
+})
+
 const eventResponses = {
   IMAGE_ASSIGNED: {
-    target: 'updateRenderedImage',
+    target: 'updatingRenderedImage',
     actions: assignUpdateRenderedNameToSelectedName,
   },
   LABEL_IMAGE_ASSIGNED: {
-    target: 'updateRenderedImage',
+    target: 'updatingRenderedImage',
     actions: assignUpdateRenderedNameToSelectedName,
   },
   UPDATE_RENDERED_IMAGE: {
-    target: 'updateRenderedImage',
+    target: 'updatingRenderedImage',
     actions: assignUpdateRenderedName,
   },
   RENDERED_IMAGE_ASSIGNED: {
-    actions: 'applyRenderedImage',
+    actions: [assignLoadedScale, 'applyRenderedImage'],
   },
   TOGGLE_LAYER_VISIBILITY: {
     actions: 'toggleLayerVisibility',
@@ -158,17 +174,18 @@ const eventResponses = {
   },
   SET_IMAGE_SCALE: {
     target: 'setImageScale',
-    actions: 'updateIsFramerateScalePickingOn',
+    actions: assignIsFramerateScalePickingOn,
   },
   ADJUST_SCALE_FOR_FRAMERATE: {
     target: 'adjustScaleForFramerate',
+    actions: assignIsFramerateScalePickingOn,
   },
-  // Use this event to possibly update image bounds to avoid cicular loop with CROPPING_PLANES_CHANGED.
+  // Use this event to possibly update image bounds to avoid circular loop with CROPPING_PLANES_CHANGED.
   // CROPPING_PLANES_CHANGED may be updated automatically by
-  // ajustSCaleForFramerate->updateRenderedImage->RENDERED_IMAGE_ASSIGNED->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
+  // adjustScaleForFramerate->updateRenderedImage->RENDERED_IMAGE_ASSIGNED->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
   // because image size may change across scales.
   CROPPING_PLANES_CHANGED_BY_USER: {
-    target: 'imageBoundsDeboucing',
+    target: 'imageBoundsDebouncing',
   },
 }
 
@@ -184,30 +201,30 @@ const createImageRenderingActor = (options, context /*, event*/) => {
             id: 'createImageRenderer',
             src: 'createImageRenderer',
             onDone: {
-              target: 'updateRenderedImage',
+              target: 'updatingRenderedImage',
               actions: assignUpdateRenderedNameToSelectedName,
             },
           },
         },
-        imageBoundsDeboucing: {
+        imageBoundsDebouncing: {
           on: {
             ...eventResponses,
           },
           after: {
             500: [
               {
-                target: 'updateRenderedImage',
+                target: 'updatingRenderedImage',
                 cond: 'areBoundsBiggerThanLoaded',
               },
               {
                 target: 'adjustScaleForFramerate',
                 cond: 'isFramerateScalePickingOn',
               },
-              { target: 'updateHistogram' },
+              { target: 'active' },
             ],
           },
         },
-        updateRenderedImage: {
+        updatingRenderedImage: {
           invoke: {
             id: 'updateRenderedImage',
             src: 'updateRenderedImage',
@@ -268,12 +285,18 @@ const createImageRenderingActor = (options, context /*, event*/) => {
           },
         },
         setImageScale: {
-          entry: assignRenderedScale,
+          entry: assignTargetScale,
           invoke: {
             id: 'updateRenderedImageSetImageScale',
             src: 'updateRenderedImage',
             onDone: {
               target: 'updateHistogram',
+            },
+            onError: {
+              target: 'active',
+              actions: (context, event) => {
+                console.error(event.data)
+              },
             },
           },
           on: eventResponses,
@@ -291,6 +314,11 @@ const createImageRenderingActor = (options, context /*, event*/) => {
           },
         },
         active: {
+          entry: context =>
+            context.service.send({
+              type: 'IMAGE_RENDERING_ACTIVE',
+              data: { name: context.images.updateRenderedName },
+            }),
           type: 'parallel',
           on: {
             ...eventResponses,
@@ -304,9 +332,6 @@ const createImageRenderingActor = (options, context /*, event*/) => {
         },
         finished: {
           type: 'final',
-        },
-        onDone: {
-          //actions: 'cleanup'
         },
       },
     },

@@ -290,6 +290,9 @@ function createImagesUIMachine(options, context) {
                 forwardTo('scaleSelector'),
               ],
             },
+            IMAGE_RENDERING_ACTIVE: {
+              actions: forwardTo('scaleSelector'),
+            },
             TOGGLE_IMAGE_INTERPOLATION: {
               actions: [assignInterpolationEnabled, 'toggleInterpolation'],
             },
@@ -348,7 +351,7 @@ function createImagesUIMachine(options, context) {
               actions: [assignBlendMode, 'applyBlendMode'],
             },
             IMAGE_HISTOGRAM_UPDATED: {
-              actions: ['applyHistogram', forwardTo('scaleSelector')],
+              actions: ['applyHistogram'],
             },
             LABEL_IMAGE_ASSIGNED: {
               actions: ['updateLabelImageInterface'],

@@ -111,6 +111,9 @@ const eventResponses = {
   IMAGE_PIECEWISE_FUNCTION_CHANGED: {
     actions: 'applyPiecewiseFunction',
   },
+  IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED: {
+    actions: 'mapToPiecewiseFunctionNodes',
+  },
   IMAGE_COLOR_RANGE_CHANGED: {
     actions: 'applyColorRange',
   },

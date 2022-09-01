@@ -315,6 +315,13 @@ function applyRenderedImage(context, event) {
             data: { name, component: componentIndex, range },
           })
         }
+      } else {
+        // Always send IMAGE_COLOR_RANGE_CHANGED to trigger IMAGE_PIECEWISE_FUNCTION_CHANGED
+        const range = actorContext.colorRanges.get(componentIndex)
+        context.service.send({
+          type: 'IMAGE_COLOR_RANGE_CHANGED',
+          data: { name, component: componentIndex, range },
+        })
       }
     }
   )

@@ -1,5 +1,3 @@
-const MIN_WINDOW = 1e-8
-
 function applyColorRange(context, event) {
   const name = event.data.name
   const component = event.data.component
@@ -30,54 +28,7 @@ function applyColorRange(context, event) {
     (colorRange[0] - fullRange[0]) / diff,
     (colorRange[1] - fullRange[0]) / diff,
   ]
-  const normDelta = colorRangeNormalized[1] - colorRangeNormalized[0]
-
-  const {
-    rangeManipulator,
-    windowGet,
-    windowSet,
-    levelGet,
-    levelSet,
-  } = context.images.transferFunctionManipulator
-
-  // level
-  rangeManipulator.setHorizontalListener(
-    colorRangeNormalized[0],
-    colorRangeNormalized[1],
-    normDelta / 100.0,
-    levelGet,
-    levelSet
-  )
-
-  // window
-  rangeManipulator.setVerticalListener(
-    MIN_WINDOW,
-    normDelta,
-    normDelta / 100.0,
-    windowGet,
-    windowSet
-  )
-
-  const { transferFunctionWidget } = context.images
-  transferFunctionWidget.setRangeZoom(colorRangeNormalized)
-
-  const oldPoints = actorContext.piecewiseFunctionPoints?.get(component)
-  if (!event.data.dontUpdatePoints && oldPoints) {
-    const xValues = oldPoints.map(([x]) => x)
-    // if 1 point, assume whole range
-    const maxOldPoints = xValues.length > 1 ? Math.max(...xValues) : 1
-    const minOldPoints = xValues.length > 1 ? Math.min(...xValues) : 0
-    const rangeOldPoints = maxOldPoints - minOldPoints
-    const points = oldPoints
-      // find normalized position of old points
-      .map(([x, y]) => [(x - minOldPoints) / rangeOldPoints, y])
-      // rescale to new range
-      .map(([x, y]) => {
-        return [x * normDelta + colorRangeNormalized[0], y]
-      })
-
-    transferFunctionWidget.setPoints(points)
-  }
+  context.images.transferFunctionWidget.setRangeZoom(colorRangeNormalized)
 }
 
 export default applyColorRange

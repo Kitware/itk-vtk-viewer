@@ -18,6 +18,7 @@ import applyLabelImageBlend from './applyLabelImageBlend'
 import applyLabelNames from './applyLabelNames'
 import applyLabelImageWeights from './applyLabelImageWeights'
 import applySelectedLabel from './applySelectedLabel'
+import mapToPiecewiseFunctionNodes from './mapToPiecewiseFunctionNodes'
 import {
   computeRenderedBounds,
   getBoundsOfFullImage,
@@ -69,22 +70,17 @@ const imagesRenderingMachineOptions = {
 
       toggleLayerVisibility,
 
-      toggleInterpolation,
-
       applyComponentVisibility,
 
       applyPiecewiseFunction,
-
       applyColorRange,
-
       applyColorMap,
+      mapToPiecewiseFunctionNodes,
 
+      toggleInterpolation,
       applyShadow,
-
       applyGradientOpacity,
-
       applyVolumeSampleDistance,
-
       applyBlendMode,
 
       applyLookupTable,

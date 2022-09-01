@@ -568,7 +568,7 @@ const createViewer = async (
       component = 0
     }
     service.send({
-      type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_SET',
+      type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED',
       data: { name, component, points },
     })
   }

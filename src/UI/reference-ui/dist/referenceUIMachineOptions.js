@@ -235,7 +235,7 @@ function createScreenshotButton(context, mainUIRow) {
   mainUIRow.appendChild(screenshotButton)
 }
 
-function _arrayLikeToArray$3(arr, len) {
+function _arrayLikeToArray$4(arr, len) {
   if (len == null || len > arr.length) len = arr.length
 
   for (var i = 0, arr2 = new Array(len); i < len; i++) {
@@ -245,11 +245,11 @@ function _arrayLikeToArray$3(arr, len) {
   return arr2
 }
 
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray$3(arr)
+function _arrayWithoutHoles$1(arr) {
+  if (Array.isArray(arr)) return _arrayLikeToArray$4(arr)
 }
 
-function _iterableToArray(iter) {
+function _iterableToArray$1(iter) {
   if (
     (typeof Symbol !== 'undefined' && iter[Symbol.iterator] != null) ||
     iter['@@iterator'] != null
@@ -257,28 +257,28 @@ function _iterableToArray(iter) {
     return Array.from(iter)
 }
 
-function _unsupportedIterableToArray$3(o, minLen) {
+function _unsupportedIterableToArray$4(o, minLen) {
   if (!o) return
-  if (typeof o === 'string') return _arrayLikeToArray$3(o, minLen)
+  if (typeof o === 'string') return _arrayLikeToArray$4(o, minLen)
   var n = Object.prototype.toString.call(o).slice(8, -1)
   if (n === 'Object' && o.constructor) n = o.constructor.name
   if (n === 'Map' || n === 'Set') return Array.from(o)
   if (n === 'Arguments' || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-    return _arrayLikeToArray$3(o, minLen)
+    return _arrayLikeToArray$4(o, minLen)
 }
 
-function _nonIterableSpread() {
+function _nonIterableSpread$1() {
   throw new TypeError(
     'Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
   )
 }
 
-function _toConsumableArray(arr) {
+function _toConsumableArray$1(arr) {
   return (
-    _arrayWithoutHoles(arr) ||
-    _iterableToArray(arr) ||
-    _unsupportedIterableToArray$3(arr) ||
-    _nonIterableSpread()
+    _arrayWithoutHoles$1(arr) ||
+    _iterableToArray$1(arr) ||
+    _unsupportedIterableToArray$4(arr) ||
+    _nonIterableSpread$1()
   )
 }
 
@@ -309,7 +309,7 @@ window.addEventListener('load', function() {
     if (body[methods[0]] && fullscreenMethods.length === 0) {
       fullscreenMethods.splice.apply(
         fullscreenMethods,
-        [methods, methods.length].concat(_toConsumableArray(methods))
+        [methods, methods.length].concat(_toConsumableArray$1(methods))
       )
     }
   })
@@ -517,136 +517,51 @@ function createViewPlanesToggle(context, volumeRow) {
   volumeRow.appendChild(viewPlanesButton)
 }
 
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr
-}
+function _arrayLikeToArray$3(arr, len) {
+  if (len == null || len > arr.length) len = arr.length
 
-function _iterableToArrayLimit(arr, i) {
-  var _i =
-    arr == null
-      ? null
-      : (typeof Symbol !== 'undefined' && arr[Symbol.iterator]) ||
-        arr['@@iterator']
-
-  if (_i == null) return
-  var _arr = []
-  var _n = true
-  var _d = false
-
-  var _s, _e
-
-  try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value)
-
-      if (i && _arr.length === i) break
-    }
-  } catch (err) {
-    _d = true
-    _e = err
-  } finally {
-    try {
-      if (!_n && _i['return'] != null) _i['return']()
-    } finally {
-      if (_d) throw _e
-    }
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i]
   }
 
-  return _arr
+  return arr2
 }
 
-function _nonIterableRest() {
+function _unsupportedIterableToArray$3(o, minLen) {
+  if (!o) return
+  if (typeof o === 'string') return _arrayLikeToArray$3(o, minLen)
+  var n = Object.prototype.toString.call(o).slice(8, -1)
+  if (n === 'Object' && o.constructor) n = o.constructor.name
+  if (n === 'Map' || n === 'Set') return Array.from(o)
+  if (n === 'Arguments' || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
+    return _arrayLikeToArray$3(o, minLen)
+}
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return _arrayLikeToArray$3(arr)
+}
+
+function _iterableToArray(iter) {
+  if (
+    (typeof Symbol !== 'undefined' && iter[Symbol.iterator] != null) ||
+    iter['@@iterator'] != null
+  )
+    return Array.from(iter)
+}
+
+function _nonIterableSpread() {
   throw new TypeError(
-    'Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
+    'Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
   )
 }
 
-function _slicedToArray(arr, i) {
+function _toConsumableArray(arr) {
   return (
-    _arrayWithHoles(arr) ||
-    _iterableToArrayLimit(arr, i) ||
-    _unsupportedIterableToArray$3(arr, i) ||
-    _nonIterableRest()
+    _arrayWithoutHoles(arr) ||
+    _iterableToArray(arr) ||
+    _unsupportedIterableToArray$3(arr) ||
+    _nonIterableSpread()
   )
-}
-
-function _typeof(obj) {
-  '@babel/helpers - typeof'
-
-  return (
-    (_typeof =
-      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
-        ? function(obj) {
-            return typeof obj
-          }
-        : function(obj) {
-            return obj &&
-              'function' == typeof Symbol &&
-              obj.constructor === Symbol &&
-              obj !== Symbol.prototype
-              ? 'symbol'
-              : typeof obj
-          }),
-    _typeof(obj)
-  )
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true,
-    })
-  } else {
-    obj[key] = value
-  }
-
-  return obj
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf =
-    Object.setPrototypeOf ||
-    function _setPrototypeOf(o, p) {
-      o.__proto__ = p
-      return o
-    }
-
-  return _setPrototypeOf(o, p)
-}
-
-function _isNativeReflectConstruct$1() {
-  if (typeof Reflect === 'undefined' || !Reflect.construct) return false
-  if (Reflect.construct.sham) return false
-  if (typeof Proxy === 'function') return true
-
-  try {
-    Boolean.prototype.valueOf.call(
-      Reflect.construct(Boolean, [], function() {})
-    )
-    return true
-  } catch (e) {
-    return false
-  }
-}
-
-function _construct(Parent, args, Class) {
-  if (_isNativeReflectConstruct$1()) {
-    _construct = Reflect.construct
-  } else {
-    _construct = function _construct(Parent, args, Class) {
-      var a = [null]
-      a.push.apply(a, args)
-      var Constructor = Function.bind.apply(Parent, a)
-      var instance = new Constructor()
-      if (Class) _setPrototypeOf(instance, Class.prototype)
-      return instance
-    }
-  }
-
-  return _construct.apply(null, arguments)
 }
 
 var commonjsGlobal =
@@ -660,10 +575,10 @@ var commonjsGlobal =
     ? self
     : {}
 
-var toStr$3 = Object.prototype.toString
+var toStr$2 = Object.prototype.toString
 
 var isArguments = function isArguments(value) {
-  var str = toStr$3.call(value)
+  var str = toStr$2.call(value)
   var isArgs = str === '[object Arguments]'
   if (!isArgs) {
     isArgs =
@@ -672,7 +587,7 @@ var isArguments = function isArguments(value) {
       typeof value === 'object' &&
       typeof value.length === 'number' &&
       value.length >= 0 &&
-      toStr$3.call(value.callee) === '[object Function]'
+      toStr$2.call(value.callee) === '[object Function]'
   }
   return isArgs
 }
@@ -681,7 +596,7 @@ var keysShim$1
 if (!Object.keys) {
   // modified from https://github.com/es-shims/es5-shim
   var has = Object.prototype.hasOwnProperty
-  var toStr$2 = Object.prototype.toString
+  var toStr$1 = Object.prototype.toString
   var isArgs$1 = isArguments // eslint-disable-line global-require
   var isEnumerable = Object.prototype.propertyIsEnumerable
   var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString')
@@ -763,9 +678,9 @@ if (!Object.keys) {
 
   keysShim$1 = function keys(object) {
     var isObject = object !== null && typeof object === 'object'
-    var isFunction = toStr$2.call(object) === '[object Function]'
+    var isFunction = toStr$1.call(object) === '[object Function]'
     var isArguments = isArgs$1(object)
-    var isString = isObject && toStr$2.call(object) === '[object String]'
+    var isString = isObject && toStr$1.call(object) === '[object String]'
     var theKeys = []
 
     if (!isObject && !isFunction && !isArguments) {
@@ -806,9 +721,9 @@ if (!Object.keys) {
     return theKeys
   }
 }
-var implementation$4 = keysShim$1
+var implementation$2 = keysShim$1
 
-var slice$1 = Array.prototype.slice
+var slice = Array.prototype.slice
 var isArgs = isArguments
 
 var origKeys = Object.keys
@@ -816,7 +731,7 @@ var keysShim = origKeys
   ? function keys(o) {
       return origKeys(o)
     }
-  : implementation$4
+  : implementation$2
 
 var originalKeys = Object.keys
 
@@ -831,7 +746,7 @@ keysShim.shim = function shimObjectKeys() {
       Object.keys = function keys(object) {
         // eslint-disable-line func-name-matching
         if (isArgs(object)) {
-          return originalKeys(slice$1.call(object))
+          return originalKeys(slice.call(object))
         }
         return originalKeys(object)
       }
@@ -843,568 +758,6 @@ keysShim.shim = function shimObjectKeys() {
 }
 
 var objectKeys = keysShim
-
-/* eslint complexity: [2, 18], max-statements: [2, 33] */
-var shams = function hasSymbols() {
-  if (
-    typeof Symbol !== 'function' ||
-    typeof Object.getOwnPropertySymbols !== 'function'
-  ) {
-    return false
-  }
-  if (typeof Symbol.iterator === 'symbol') {
-    return true
-  }
-
-  var obj = {}
-  var sym = Symbol('test')
-  var symObj = Object(sym)
-  if (typeof sym === 'string') {
-    return false
-  }
-
-  if (Object.prototype.toString.call(sym) !== '[object Symbol]') {
-    return false
-  }
-  if (Object.prototype.toString.call(symObj) !== '[object Symbol]') {
-    return false
-  }
-
-  // temp disabled per https://github.com/ljharb/object.assign/issues/17
-  // if (sym instanceof Symbol) { return false; }
-  // temp disabled per https://github.com/WebReflection/get-own-property-symbols/issues/4
-  // if (!(symObj instanceof Symbol)) { return false; }
-
-  // if (typeof Symbol.prototype.toString !== 'function') { return false; }
-  // if (String(sym) !== Symbol.prototype.toString.call(sym)) { return false; }
-
-  var symVal = 42
-  obj[sym] = symVal
-  for (sym in obj) {
-    return false
-  } // eslint-disable-line no-restricted-syntax, no-unreachable-loop
-  if (typeof Object.keys === 'function' && Object.keys(obj).length !== 0) {
-    return false
-  }
-
-  if (
-    typeof Object.getOwnPropertyNames === 'function' &&
-    Object.getOwnPropertyNames(obj).length !== 0
-  ) {
-    return false
-  }
-
-  var syms = Object.getOwnPropertySymbols(obj)
-  if (syms.length !== 1 || syms[0] !== sym) {
-    return false
-  }
-
-  if (!Object.prototype.propertyIsEnumerable.call(obj, sym)) {
-    return false
-  }
-
-  if (typeof Object.getOwnPropertyDescriptor === 'function') {
-    var descriptor = Object.getOwnPropertyDescriptor(obj, sym)
-    if (descriptor.value !== symVal || descriptor.enumerable !== true) {
-      return false
-    }
-  }
-
-  return true
-}
-
-var origSymbol = typeof Symbol !== 'undefined' && Symbol
-var hasSymbolSham = shams
-
-var hasSymbols$2 = function hasNativeSymbols() {
-  if (typeof origSymbol !== 'function') {
-    return false
-  }
-  if (typeof Symbol !== 'function') {
-    return false
-  }
-  if (typeof origSymbol('foo') !== 'symbol') {
-    return false
-  }
-  if (typeof Symbol('bar') !== 'symbol') {
-    return false
-  }
-
-  return hasSymbolSham()
-}
-
-/* eslint no-invalid-this: 1 */
-
-var ERROR_MESSAGE = 'Function.prototype.bind called on incompatible '
-var slice = Array.prototype.slice
-var toStr$1 = Object.prototype.toString
-var funcType = '[object Function]'
-
-var implementation$3 = function bind(that) {
-  var target = this
-  if (typeof target !== 'function' || toStr$1.call(target) !== funcType) {
-    throw new TypeError(ERROR_MESSAGE + target)
-  }
-  var args = slice.call(arguments, 1)
-
-  var bound
-  var binder = function() {
-    if (this instanceof bound) {
-      var result = target.apply(this, args.concat(slice.call(arguments)))
-      if (Object(result) === result) {
-        return result
-      }
-      return this
-    } else {
-      return target.apply(that, args.concat(slice.call(arguments)))
-    }
-  }
-
-  var boundLength = Math.max(0, target.length - args.length)
-  var boundArgs = []
-  for (var i = 0; i < boundLength; i++) {
-    boundArgs.push('$' + i)
-  }
-
-  bound = Function(
-    'binder',
-    'return function (' +
-      boundArgs.join(',') +
-      '){ return binder.apply(this,arguments); }'
-  )(binder)
-
-  if (target.prototype) {
-    var Empty = function Empty() {}
-    Empty.prototype = target.prototype
-    bound.prototype = new Empty()
-    Empty.prototype = null
-  }
-
-  return bound
-}
-
-var implementation$2 = implementation$3
-
-var functionBind = Function.prototype.bind || implementation$2
-
-var bind$1 = functionBind
-
-var src = bind$1.call(Function.call, Object.prototype.hasOwnProperty)
-
-var undefined$1
-
-var $SyntaxError = SyntaxError
-var $Function = Function
-var $TypeError = TypeError
-
-// eslint-disable-next-line consistent-return
-var getEvalledConstructor = function(expressionSyntax) {
-  try {
-    return $Function(
-      '"use strict"; return (' + expressionSyntax + ').constructor;'
-    )()
-  } catch (e) {}
-}
-
-var $gOPD = Object.getOwnPropertyDescriptor
-if ($gOPD) {
-  try {
-    $gOPD({}, '')
-  } catch (e) {
-    $gOPD = null // this is IE 8, which has a broken gOPD
-  }
-}
-
-var throwTypeError = function() {
-  throw new $TypeError()
-}
-var ThrowTypeError = $gOPD
-  ? (function() {
-      try {
-        // eslint-disable-next-line no-unused-expressions, no-caller, no-restricted-properties
-        arguments.callee // IE 8 does not throw here
-        return throwTypeError
-      } catch (calleeThrows) {
-        try {
-          // IE 8 throws on Object.getOwnPropertyDescriptor(arguments, '')
-          return $gOPD(arguments, 'callee').get
-        } catch (gOPDthrows) {
-          return throwTypeError
-        }
-      }
-    })()
-  : throwTypeError
-
-var hasSymbols$1 = hasSymbols$2()
-
-var getProto =
-  Object.getPrototypeOf ||
-  function(x) {
-    return x.__proto__
-  } // eslint-disable-line no-proto
-
-var needsEval = {}
-
-var TypedArray =
-  typeof Uint8Array === 'undefined' ? undefined$1 : getProto(Uint8Array)
-
-var INTRINSICS = {
-  '%AggregateError%':
-    typeof AggregateError === 'undefined' ? undefined$1 : AggregateError,
-  '%Array%': Array,
-  '%ArrayBuffer%':
-    typeof ArrayBuffer === 'undefined' ? undefined$1 : ArrayBuffer,
-  '%ArrayIteratorPrototype%': hasSymbols$1
-    ? getProto([][Symbol.iterator]())
-    : undefined$1,
-  '%AsyncFromSyncIteratorPrototype%': undefined$1,
-  '%AsyncFunction%': needsEval,
-  '%AsyncGenerator%': needsEval,
-  '%AsyncGeneratorFunction%': needsEval,
-  '%AsyncIteratorPrototype%': needsEval,
-  '%Atomics%': typeof Atomics === 'undefined' ? undefined$1 : Atomics,
-  '%BigInt%': typeof BigInt === 'undefined' ? undefined$1 : BigInt,
-  '%Boolean%': Boolean,
-  '%DataView%': typeof DataView === 'undefined' ? undefined$1 : DataView,
-  '%Date%': Date,
-  '%decodeURI%': decodeURI,
-  '%decodeURIComponent%': decodeURIComponent,
-  '%encodeURI%': encodeURI,
-  '%encodeURIComponent%': encodeURIComponent,
-  '%Error%': Error,
-  '%eval%': eval, // eslint-disable-line no-eval
-  '%EvalError%': EvalError,
-  '%Float32Array%':
-    typeof Float32Array === 'undefined' ? undefined$1 : Float32Array,
-  '%Float64Array%':
-    typeof Float64Array === 'undefined' ? undefined$1 : Float64Array,
-  '%FinalizationRegistry%':
-    typeof FinalizationRegistry === 'undefined'
-      ? undefined$1
-      : FinalizationRegistry,
-  '%Function%': $Function,
-  '%GeneratorFunction%': needsEval,
-  '%Int8Array%': typeof Int8Array === 'undefined' ? undefined$1 : Int8Array,
-  '%Int16Array%': typeof Int16Array === 'undefined' ? undefined$1 : Int16Array,
-  '%Int32Array%': typeof Int32Array === 'undefined' ? undefined$1 : Int32Array,
-  '%isFinite%': isFinite,
-  '%isNaN%': isNaN,
-  '%IteratorPrototype%': hasSymbols$1
-    ? getProto(getProto([][Symbol.iterator]()))
-    : undefined$1,
-  '%JSON%': typeof JSON === 'object' ? JSON : undefined$1,
-  '%Map%': typeof Map === 'undefined' ? undefined$1 : Map,
-  '%MapIteratorPrototype%':
-    typeof Map === 'undefined' || !hasSymbols$1
-      ? undefined$1
-      : getProto(new Map()[Symbol.iterator]()),
-  '%Math%': Math,
-  '%Number%': Number,
-  '%Object%': Object,
-  '%parseFloat%': parseFloat,
-  '%parseInt%': parseInt,
-  '%Promise%': typeof Promise === 'undefined' ? undefined$1 : Promise,
-  '%Proxy%': typeof Proxy === 'undefined' ? undefined$1 : Proxy,
-  '%RangeError%': RangeError,
-  '%ReferenceError%': ReferenceError,
-  '%Reflect%': typeof Reflect === 'undefined' ? undefined$1 : Reflect,
-  '%RegExp%': RegExp,
-  '%Set%': typeof Set === 'undefined' ? undefined$1 : Set,
-  '%SetIteratorPrototype%':
-    typeof Set === 'undefined' || !hasSymbols$1
-      ? undefined$1
-      : getProto(new Set()[Symbol.iterator]()),
-  '%SharedArrayBuffer%':
-    typeof SharedArrayBuffer === 'undefined' ? undefined$1 : SharedArrayBuffer,
-  '%String%': String,
-  '%StringIteratorPrototype%': hasSymbols$1
-    ? getProto(''[Symbol.iterator]())
-    : undefined$1,
-  '%Symbol%': hasSymbols$1 ? Symbol : undefined$1,
-  '%SyntaxError%': $SyntaxError,
-  '%ThrowTypeError%': ThrowTypeError,
-  '%TypedArray%': TypedArray,
-  '%TypeError%': $TypeError,
-  '%Uint8Array%': typeof Uint8Array === 'undefined' ? undefined$1 : Uint8Array,
-  '%Uint8ClampedArray%':
-    typeof Uint8ClampedArray === 'undefined' ? undefined$1 : Uint8ClampedArray,
-  '%Uint16Array%':
-    typeof Uint16Array === 'undefined' ? undefined$1 : Uint16Array,
-  '%Uint32Array%':
-    typeof Uint32Array === 'undefined' ? undefined$1 : Uint32Array,
-  '%URIError%': URIError,
-  '%WeakMap%': typeof WeakMap === 'undefined' ? undefined$1 : WeakMap,
-  '%WeakRef%': typeof WeakRef === 'undefined' ? undefined$1 : WeakRef,
-  '%WeakSet%': typeof WeakSet === 'undefined' ? undefined$1 : WeakSet,
-}
-
-var doEval = function doEval(name) {
-  var value
-  if (name === '%AsyncFunction%') {
-    value = getEvalledConstructor('async function () {}')
-  } else if (name === '%GeneratorFunction%') {
-    value = getEvalledConstructor('function* () {}')
-  } else if (name === '%AsyncGeneratorFunction%') {
-    value = getEvalledConstructor('async function* () {}')
-  } else if (name === '%AsyncGenerator%') {
-    var fn = doEval('%AsyncGeneratorFunction%')
-    if (fn) {
-      value = fn.prototype
-    }
-  } else if (name === '%AsyncIteratorPrototype%') {
-    var gen = doEval('%AsyncGenerator%')
-    if (gen) {
-      value = getProto(gen.prototype)
-    }
-  }
-
-  INTRINSICS[name] = value
-
-  return value
-}
-
-var LEGACY_ALIASES = {
-  '%ArrayBufferPrototype%': ['ArrayBuffer', 'prototype'],
-  '%ArrayPrototype%': ['Array', 'prototype'],
-  '%ArrayProto_entries%': ['Array', 'prototype', 'entries'],
-  '%ArrayProto_forEach%': ['Array', 'prototype', 'forEach'],
-  '%ArrayProto_keys%': ['Array', 'prototype', 'keys'],
-  '%ArrayProto_values%': ['Array', 'prototype', 'values'],
-  '%AsyncFunctionPrototype%': ['AsyncFunction', 'prototype'],
-  '%AsyncGenerator%': ['AsyncGeneratorFunction', 'prototype'],
-  '%AsyncGeneratorPrototype%': [
-    'AsyncGeneratorFunction',
-    'prototype',
-    'prototype',
-  ],
-  '%BooleanPrototype%': ['Boolean', 'prototype'],
-  '%DataViewPrototype%': ['DataView', 'prototype'],
-  '%DatePrototype%': ['Date', 'prototype'],
-  '%ErrorPrototype%': ['Error', 'prototype'],
-  '%EvalErrorPrototype%': ['EvalError', 'prototype'],
-  '%Float32ArrayPrototype%': ['Float32Array', 'prototype'],
-  '%Float64ArrayPrototype%': ['Float64Array', 'prototype'],
-  '%FunctionPrototype%': ['Function', 'prototype'],
-  '%Generator%': ['GeneratorFunction', 'prototype'],
-  '%GeneratorPrototype%': ['GeneratorFunction', 'prototype', 'prototype'],
-  '%Int8ArrayPrototype%': ['Int8Array', 'prototype'],
-  '%Int16ArrayPrototype%': ['Int16Array', 'prototype'],
-  '%Int32ArrayPrototype%': ['Int32Array', 'prototype'],
-  '%JSONParse%': ['JSON', 'parse'],
-  '%JSONStringify%': ['JSON', 'stringify'],
-  '%MapPrototype%': ['Map', 'prototype'],
-  '%NumberPrototype%': ['Number', 'prototype'],
-  '%ObjectPrototype%': ['Object', 'prototype'],
-  '%ObjProto_toString%': ['Object', 'prototype', 'toString'],
-  '%ObjProto_valueOf%': ['Object', 'prototype', 'valueOf'],
-  '%PromisePrototype%': ['Promise', 'prototype'],
-  '%PromiseProto_then%': ['Promise', 'prototype', 'then'],
-  '%Promise_all%': ['Promise', 'all'],
-  '%Promise_reject%': ['Promise', 'reject'],
-  '%Promise_resolve%': ['Promise', 'resolve'],
-  '%RangeErrorPrototype%': ['RangeError', 'prototype'],
-  '%ReferenceErrorPrototype%': ['ReferenceError', 'prototype'],
-  '%RegExpPrototype%': ['RegExp', 'prototype'],
-  '%SetPrototype%': ['Set', 'prototype'],
-  '%SharedArrayBufferPrototype%': ['SharedArrayBuffer', 'prototype'],
-  '%StringPrototype%': ['String', 'prototype'],
-  '%SymbolPrototype%': ['Symbol', 'prototype'],
-  '%SyntaxErrorPrototype%': ['SyntaxError', 'prototype'],
-  '%TypedArrayPrototype%': ['TypedArray', 'prototype'],
-  '%TypeErrorPrototype%': ['TypeError', 'prototype'],
-  '%Uint8ArrayPrototype%': ['Uint8Array', 'prototype'],
-  '%Uint8ClampedArrayPrototype%': ['Uint8ClampedArray', 'prototype'],
-  '%Uint16ArrayPrototype%': ['Uint16Array', 'prototype'],
-  '%Uint32ArrayPrototype%': ['Uint32Array', 'prototype'],
-  '%URIErrorPrototype%': ['URIError', 'prototype'],
-  '%WeakMapPrototype%': ['WeakMap', 'prototype'],
-  '%WeakSetPrototype%': ['WeakSet', 'prototype'],
-}
-
-var bind = functionBind
-var hasOwn = src
-var $concat = bind.call(Function.call, Array.prototype.concat)
-var $spliceApply = bind.call(Function.apply, Array.prototype.splice)
-var $replace = bind.call(Function.call, String.prototype.replace)
-var $strSlice = bind.call(Function.call, String.prototype.slice)
-var $exec = bind.call(Function.call, RegExp.prototype.exec)
-
-/* adapted from https://github.com/lodash/lodash/blob/4.17.15/dist/lodash.js#L6735-L6744 */
-var rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g
-var reEscapeChar = /\\(\\)?/g /** Used to match backslashes in property paths. */
-var stringToPath = function stringToPath(string) {
-  var first = $strSlice(string, 0, 1)
-  var last = $strSlice(string, -1)
-  if (first === '%' && last !== '%') {
-    throw new $SyntaxError('invalid intrinsic syntax, expected closing `%`')
-  } else if (last === '%' && first !== '%') {
-    throw new $SyntaxError('invalid intrinsic syntax, expected opening `%`')
-  }
-  var result = []
-  $replace(string, rePropName, function(match, number, quote, subString) {
-    result[result.length] = quote
-      ? $replace(subString, reEscapeChar, '$1')
-      : number || match
-  })
-  return result
-}
-/* end adaptation */
-
-var getBaseIntrinsic = function getBaseIntrinsic(name, allowMissing) {
-  var intrinsicName = name
-  var alias
-  if (hasOwn(LEGACY_ALIASES, intrinsicName)) {
-    alias = LEGACY_ALIASES[intrinsicName]
-    intrinsicName = '%' + alias[0] + '%'
-  }
-
-  if (hasOwn(INTRINSICS, intrinsicName)) {
-    var value = INTRINSICS[intrinsicName]
-    if (value === needsEval) {
-      value = doEval(intrinsicName)
-    }
-    if (typeof value === 'undefined' && !allowMissing) {
-      throw new $TypeError(
-        'intrinsic ' +
-          name +
-          ' exists, but is not available. Please file an issue!'
-      )
-    }
-
-    return {
-      alias: alias,
-      name: intrinsicName,
-      value: value,
-    }
-  }
-
-  throw new $SyntaxError('intrinsic ' + name + ' does not exist!')
-}
-
-var getIntrinsic = function GetIntrinsic(name, allowMissing) {
-  if (typeof name !== 'string' || name.length === 0) {
-    throw new $TypeError('intrinsic name must be a non-empty string')
-  }
-  if (arguments.length > 1 && typeof allowMissing !== 'boolean') {
-    throw new $TypeError('"allowMissing" argument must be a boolean')
-  }
-
-  if ($exec(/^%?[^%]*%?$/g, name) === null) {
-    throw new $SyntaxError(
-      '`%` may not be present anywhere but at the beginning and end of the intrinsic name'
-    )
-  }
-  var parts = stringToPath(name)
-  var intrinsicBaseName = parts.length > 0 ? parts[0] : ''
-
-  var intrinsic = getBaseIntrinsic('%' + intrinsicBaseName + '%', allowMissing)
-  var intrinsicRealName = intrinsic.name
-  var value = intrinsic.value
-  var skipFurtherCaching = false
-
-  var alias = intrinsic.alias
-  if (alias) {
-    intrinsicBaseName = alias[0]
-    $spliceApply(parts, $concat([0, 1], alias))
-  }
-
-  for (var i = 1, isOwn = true; i < parts.length; i += 1) {
-    var part = parts[i]
-    var first = $strSlice(part, 0, 1)
-    var last = $strSlice(part, -1)
-    if (
-      (first === '"' ||
-        first === "'" ||
-        first === '`' ||
-        last === '"' ||
-        last === "'" ||
-        last === '`') &&
-      first !== last
-    ) {
-      throw new $SyntaxError(
-        'property names with quotes must have matching quotes'
-      )
-    }
-    if (part === 'constructor' || !isOwn) {
-      skipFurtherCaching = true
-    }
-
-    intrinsicBaseName += '.' + part
-    intrinsicRealName = '%' + intrinsicBaseName + '%'
-
-    if (hasOwn(INTRINSICS, intrinsicRealName)) {
-      value = INTRINSICS[intrinsicRealName]
-    } else if (value != null) {
-      if (!(part in value)) {
-        if (!allowMissing) {
-          throw new $TypeError(
-            'base intrinsic for ' +
-              name +
-              ' exists, but the property is not available.'
-          )
-        }
-        return void undefined$1
-      }
-      if ($gOPD && i + 1 >= parts.length) {
-        var desc = $gOPD(value, part)
-        isOwn = !!desc
-
-        // By convention, when a data property is converted to an accessor
-        // property to emulate a data property that does not suffer from
-        // the override mistake, that accessor's getter is marked with
-        // an `originalValue` property. Here, when we detect this, we
-        // uphold the illusion by pretending to see that original data
-        // property, i.e., returning the value rather than the getter
-        // itself.
-        if (isOwn && 'get' in desc && !('originalValue' in desc.get)) {
-          value = desc.get
-        } else {
-          value = value[part]
-        }
-      } else {
-        isOwn = hasOwn(value, part)
-        value = value[part]
-      }
-
-      if (isOwn && !skipFurtherCaching) {
-        INTRINSICS[intrinsicRealName] = value
-      }
-    }
-  }
-  return value
-}
-
-var GetIntrinsic = getIntrinsic
-
-var $defineProperty = GetIntrinsic('%Object.defineProperty%', true)
-
-var hasPropertyDescriptors$1 = function hasPropertyDescriptors() {
-  if ($defineProperty) {
-    try {
-      $defineProperty({}, 'a', { value: 1 })
-      return true
-    } catch (e) {
-      // IE 8 has a broken defineProperty
-      return false
-    }
-  }
-  return false
-}
-
-hasPropertyDescriptors$1.hasArrayLengthDefineBug = function hasArrayLengthDefineBug() {
-  // node v0.6 has a bug where array lengths can be Set but not Defined
-  if (!hasPropertyDescriptors$1()) {
-    return null
-  }
-  try {
-    return $defineProperty([], 'length', { value: 1 }).length !== 1
-  } catch (e) {
-    // In Firefox 4-22, defining length on an array throws an exception.
-    return true
-  }
-}
-
-var hasPropertyDescriptors_1 = hasPropertyDescriptors$1
 
 var keys = objectKeys
 var hasSymbols =
@@ -1418,9 +771,23 @@ var isFunction = function(fn) {
   return typeof fn === 'function' && toStr.call(fn) === '[object Function]'
 }
 
-var hasPropertyDescriptors = hasPropertyDescriptors_1()
-
-var supportsDescriptors = origDefineProperty && hasPropertyDescriptors
+var arePropertyDescriptorsSupported = function() {
+  var obj = {}
+  try {
+    origDefineProperty(obj, 'x', { enumerable: false, value: obj })
+    // eslint-disable-next-line no-unused-vars, no-restricted-syntax
+    for (var _ in obj) {
+      // jscs:ignore disallowUnusedVariables
+      return false
+    }
+    return obj.x === obj
+  } catch (e) {
+    /* this is IE 8. */
+    return false
+  }
+}
+var supportsDescriptors =
+  origDefineProperty && arePropertyDescriptorsSupported()
 
 var defineProperty = function(object, name, value, predicate) {
   if (name in object && (!isFunction(predicate) || !predicate())) {
@@ -1434,7 +801,7 @@ var defineProperty = function(object, name, value, predicate) {
       writable: true,
     })
   } else {
-    object[name] = value // eslint-disable-line no-param-reassign
+    object[name] = value
   }
 }
 
@@ -1527,357 +894,8 @@ defineProperties(getGlobal, {
 
 var globalthis = getGlobal
 
-function ownKeys$1(object, enumerableOnly) {
-  var keys = Object.keys(object)
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object)
-    enumerableOnly &&
-      (symbols = symbols.filter(function(sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable
-      })),
-      keys.push.apply(keys, symbols)
-  }
-  return keys
-}
-
-function _objectSpread$1(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {}
-    i % 2
-      ? ownKeys$1(Object(source), !0).forEach(function(key) {
-          _defineProperty(target, key, source[key])
-        })
-      : Object.getOwnPropertyDescriptors
-      ? Object.defineProperties(
-          target,
-          Object.getOwnPropertyDescriptors(source)
-        )
-      : ownKeys$1(Object(source)).forEach(function(key) {
-          Object.defineProperty(
-            target,
-            key,
-            Object.getOwnPropertyDescriptor(source, key)
-          )
-        })
-  }
-  return target
-}
 var vtkGlobal = globalthis() // returns native globalThis if compliant
 
-var factoryMapping = {
-  vtkObject: function vtkObject() {
-    return null
-  },
-}
-function vtk(obj) {
-  if (obj === null || obj === undefined) {
-    return obj
-  }
-
-  if (obj.isA) {
-    return obj
-  }
-
-  if (!obj.vtkClass) {
-    if (vtkGlobal.console && vtkGlobal.console.error) {
-      vtkGlobal.console.error('Invalid VTK object')
-    }
-
-    return null
-  }
-
-  var constructor = factoryMapping[obj.vtkClass]
-
-  if (!constructor) {
-    if (vtkGlobal.console && vtkGlobal.console.error) {
-      vtkGlobal.console.error(
-        'No vtk class found for Object of type '.concat(obj.vtkClass)
-      )
-    }
-
-    return null
-  } // Shallow copy object
-
-  var model = _objectSpread$1({}, obj) // Convert into vtkObject any nested key
-
-  Object.keys(model).forEach(function(keyName) {
-    if (
-      model[keyName] &&
-      _typeof(model[keyName]) === 'object' &&
-      model[keyName].vtkClass
-    ) {
-      model[keyName] = vtk(model[keyName])
-    }
-  }) // Return the root
-
-  var newInst = constructor(model)
-
-  if (newInst && newInst.modified) {
-    newInst.modified()
-  }
-
-  return newInst
-}
-
-function register(vtkClassName, constructor) {
-  factoryMapping[vtkClassName] = constructor
-} // Nest register method under the vtk function
-
-vtk.register = register
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError('Cannot call a class as a function')
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i]
-    descriptor.enumerable = descriptor.enumerable || false
-    descriptor.configurable = true
-    if ('value' in descriptor) descriptor.writable = true
-    Object.defineProperty(target, descriptor.key, descriptor)
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps)
-  if (staticProps) _defineProperties(Constructor, staticProps)
-  Object.defineProperty(Constructor, 'prototype', {
-    writable: false,
-  })
-  return Constructor
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf
-    ? Object.getPrototypeOf
-    : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o)
-      }
-  return _getPrototypeOf(o)
-}
-
-function _superPropBase(object, property) {
-  while (!Object.prototype.hasOwnProperty.call(object, property)) {
-    object = _getPrototypeOf(object)
-    if (object === null) break
-  }
-
-  return object
-}
-
-function _get() {
-  if (typeof Reflect !== 'undefined' && Reflect.get) {
-    _get = Reflect.get
-  } else {
-    _get = function _get(target, property, receiver) {
-      var base = _superPropBase(target, property)
-      if (!base) return
-      var desc = Object.getOwnPropertyDescriptor(base, property)
-
-      if (desc.get) {
-        return desc.get.call(arguments.length < 3 ? target : receiver)
-      }
-
-      return desc.value
-    }
-  }
-
-  return _get.apply(this, arguments)
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== 'function' && superClass !== null) {
-    throw new TypeError('Super expression must either be null or a function')
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true,
-    },
-  })
-  Object.defineProperty(subClass, 'prototype', {
-    writable: false,
-  })
-  if (superClass) _setPrototypeOf(subClass, superClass)
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError(
-      "this hasn't been initialised - super() hasn't been called"
-    )
-  }
-
-  return self
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === 'object' || typeof call === 'function')) {
-    return call
-  } else if (call !== void 0) {
-    throw new TypeError(
-      'Derived constructors may only return object or undefined'
-    )
-  }
-
-  return _assertThisInitialized(self)
-}
-
-function _isNativeFunction(fn) {
-  return Function.toString.call(fn).indexOf('[native code]') !== -1
-}
-
-function _wrapNativeSuper(Class) {
-  var _cache = typeof Map === 'function' ? new Map() : undefined
-
-  _wrapNativeSuper = function _wrapNativeSuper(Class) {
-    if (Class === null || !_isNativeFunction(Class)) return Class
-
-    if (typeof Class !== 'function') {
-      throw new TypeError('Super expression must either be null or a function')
-    }
-
-    if (typeof _cache !== 'undefined') {
-      if (_cache.has(Class)) return _cache.get(Class)
-
-      _cache.set(Class, Wrapper)
-    }
-
-    function Wrapper() {
-      return _construct(Class, arguments, _getPrototypeOf(this).constructor)
-    }
-
-    Wrapper.prototype = Object.create(Class.prototype, {
-      constructor: {
-        value: Wrapper,
-        enumerable: false,
-        writable: true,
-        configurable: true,
-      },
-    })
-    return _setPrototypeOf(Wrapper, Class)
-  }
-
-  return _wrapNativeSuper(Class)
-}
-
-function _createSuper(Derived) {
-  var hasNativeReflectConstruct = _isNativeReflectConstruct()
-  return function _createSuperInternal() {
-    var Super = _getPrototypeOf(Derived),
-      result
-    if (hasNativeReflectConstruct) {
-      var NewTarget = _getPrototypeOf(this).constructor
-      result = Reflect.construct(Super, arguments, NewTarget)
-    } else {
-      result = Super.apply(this, arguments)
-    }
-    return _possibleConstructorReturn(this, result)
-  }
-}
-
-function _isNativeReflectConstruct() {
-  if (typeof Reflect === 'undefined' || !Reflect.construct) return false
-  if (Reflect.construct.sham) return false
-  if (typeof Proxy === 'function') return true
-  try {
-    Boolean.prototype.valueOf.call(
-      Reflect.construct(Boolean, [], function() {})
-    )
-    return true
-  } catch (e) {
-    return false
-  }
-}
-
-var ClassHierarchy = /*#__PURE__*/ (function(_Array) {
-  _inherits(ClassHierarchy, _Array)
-
-  var _super = _createSuper(ClassHierarchy)
-
-  function ClassHierarchy() {
-    _classCallCheck(this, ClassHierarchy)
-
-    return _super.apply(this, arguments)
-  }
-
-  _createClass(ClassHierarchy, [
-    {
-      key: 'push',
-      value: function push() {
-        var _this = this,
-          _get2
-
-        for (
-          var _len = arguments.length, args = new Array(_len), _key = 0;
-          _key < _len;
-          _key++
-        ) {
-          args[_key] = arguments[_key]
-        }
-
-        // no perf issue since args.length should be small
-        var newArgs = args.filter(function(arg) {
-          return !_this.includes(arg)
-        })
-        return (_get2 = _get(
-          _getPrototypeOf(ClassHierarchy.prototype),
-          'push',
-          this
-        )).call.apply(_get2, [this].concat(_toConsumableArray(newArgs)))
-      },
-    },
-  ])
-
-  return ClassHierarchy
-})(/*#__PURE__*/ _wrapNativeSuper(Array))
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object)
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object)
-    enumerableOnly &&
-      (symbols = symbols.filter(function(sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable
-      })),
-      keys.push.apply(keys, symbols)
-  }
-  return keys
-}
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {}
-    i % 2
-      ? ownKeys(Object(source), !0).forEach(function(key) {
-          _defineProperty(target, key, source[key])
-        })
-      : Object.getOwnPropertyDescriptors
-      ? Object.defineProperties(
-          target,
-          Object.getOwnPropertyDescriptors(source)
-        )
-      : ownKeys(Object(source)).forEach(function(key) {
-          Object.defineProperty(
-            target,
-            key,
-            Object.getOwnPropertyDescriptor(source, key)
-          )
-        })
-  }
-  return target
-}
-var globalMTime = 0
-var VOID = Symbol('void')
-
-function getCurrentGlobalMTime() {
-  return globalMTime
-} // ----------------------------------------------------------------------------
 // Logging function calls
 // ----------------------------------------------------------------------------
 
@@ -1902,41 +920,14 @@ consoleMethods.forEach(function(methodName) {
   fakeConsole[methodName] = noOp
 })
 vtkGlobal.console = console.hasOwnProperty('log') ? console : fakeConsole
-var loggerFunctions = {
+;({
   debug: noOp,
   // Don't print debug by default
   error: vtkGlobal.console.error || noOp,
   info: vtkGlobal.console.info || noOp,
   log: vtkGlobal.console.log || noOp,
   warn: vtkGlobal.console.warn || noOp,
-}
-function setLoggerFunction(name, fn) {
-  if (loggerFunctions[name]) {
-    loggerFunctions[name] = fn || noOp
-  }
-}
-function vtkLogMacro() {
-  loggerFunctions.log.apply(loggerFunctions, arguments)
-}
-function vtkInfoMacro() {
-  loggerFunctions.info.apply(loggerFunctions, arguments)
-}
-function vtkDebugMacro() {
-  loggerFunctions.debug.apply(loggerFunctions, arguments)
-}
-function vtkErrorMacro() {
-  loggerFunctions.error.apply(loggerFunctions, arguments)
-}
-function vtkWarningMacro() {
-  loggerFunctions.warn.apply(loggerFunctions, arguments)
-}
-var ERROR_ONCE_MAP = {}
-function vtkOnceErrorMacro(str) {
-  if (!ERROR_ONCE_MAP[str]) {
-    loggerFunctions.error(str)
-    ERROR_ONCE_MAP[str] = true
-  }
-} // ----------------------------------------------------------------------------
+})
 // TypedArray
 // ----------------------------------------------------------------------------
 
@@ -1950,1188 +941,6 @@ TYPED_ARRAYS.Int16Array = Int16Array
 TYPED_ARRAYS.Uint32Array = Uint32Array
 TYPED_ARRAYS.Int32Array = Int32Array
 TYPED_ARRAYS.Uint8ClampedArray = Uint8ClampedArray // TYPED_ARRAYS.BigInt64Array = BigInt64Array;
-// TYPED_ARRAYS.BigUint64Array = BigUint64Array;
-
-function newTypedArray(type) {
-  for (
-    var _len = arguments.length,
-      args = new Array(_len > 1 ? _len - 1 : 0),
-      _key = 1;
-    _key < _len;
-    _key++
-  ) {
-    args[_key - 1] = arguments[_key]
-  }
-
-  return _construct(TYPED_ARRAYS[type] || Float64Array, args)
-}
-function newTypedArrayFrom(type) {
-  var _ref
-
-  for (
-    var _len2 = arguments.length,
-      args = new Array(_len2 > 1 ? _len2 - 1 : 0),
-      _key2 = 1;
-    _key2 < _len2;
-    _key2++
-  ) {
-    args[_key2 - 1] = arguments[_key2]
-  }
-
-  return (_ref = TYPED_ARRAYS[type] || Float64Array).from.apply(_ref, args)
-} // ----------------------------------------------------------------------------
-// capitilize provided string
-// ----------------------------------------------------------------------------
-
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1)
-}
-function _capitalize(str) {
-  return capitalize(str[0] === '_' ? str.slice(1) : str)
-}
-function uncapitalize(str) {
-  return str.charAt(0).toLowerCase() + str.slice(1)
-} // ----------------------------------------------------------------------------
-// Convert byte size into a well formatted string
-// ----------------------------------------------------------------------------
-
-function formatBytesToProperUnit(size) {
-  var precision =
-    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2
-  var chunkSize =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1000
-  var units = ['TB', 'GB', 'MB', 'KB']
-  var value = Number(size)
-  var currentUnit = 'B'
-
-  while (value > chunkSize) {
-    value /= chunkSize
-    currentUnit = units.pop()
-  }
-
-  return ''.concat(value.toFixed(precision), ' ').concat(currentUnit)
-} // ----------------------------------------------------------------------------
-// Convert thousand number with proper separator
-// ----------------------------------------------------------------------------
-
-function formatNumbersWithThousandSeparator(n) {
-  var separator =
-    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ' '
-  var sections = []
-  var size = n
-
-  while (size > 1000) {
-    sections.push('000'.concat(size % 1000).slice(-3))
-    size = Math.floor(size / 1000)
-  }
-
-  if (size > 0) {
-    sections.push(size)
-  }
-
-  sections.reverse()
-  return sections.join(separator)
-} // ----------------------------------------------------------------------------
-// Array helper
-// ----------------------------------------------------------------------------
-
-function safeArrays(model) {
-  Object.keys(model).forEach(function(key) {
-    if (Array.isArray(model[key])) {
-      model[key] = [].concat(model[key])
-    }
-  })
-} // ----------------------------------------------------------------------------
-// shallow equals
-// ----------------------------------------------------------------------------
-
-function shallowEquals(a, b) {
-  if (a === b) {
-    return true
-  }
-
-  if (Array.isArray(a) && Array.isArray(b)) {
-    if (a.length !== b.length) {
-      return false
-    }
-
-    for (var i = 0; i < a.length; i++) {
-      if (a[i] !== b[i]) {
-        return false
-      }
-    }
-
-    return true
-  }
-
-  return false
-} // ----------------------------------------------------------------------------
-
-function enumToString(e, value) {
-  return Object.keys(e).find(function(key) {
-    return e[key] === value
-  })
-}
-
-function getStateArrayMapFunc(item) {
-  if (item && item.isA) {
-    return item.getState()
-  }
-
-  return item
-} // ----------------------------------------------------------------------------
-// setImmediate
-// ----------------------------------------------------------------------------
-
-function setImmediateVTK(fn) {
-  setTimeout(fn, 0)
-} // ----------------------------------------------------------------------------
-// measurePromiseExecution
-//
-// Measures the time it takes for a promise to finish from
-//   the time this function is invoked.
-// The callback receives the time it took for the promise to resolve or reject.
-// ----------------------------------------------------------------------------
-
-function measurePromiseExecution(promise, callback) {
-  var start = performance.now()
-  promise.finally(function() {
-    var delta = performance.now() - start
-    callback(delta)
-  })
-} // ----------------------------------------------------------------------------
-// vtkObject: modified(), onModified(callback), delete()
-// ----------------------------------------------------------------------------
-
-function obj() {
-  var publicAPI =
-    arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
-  var model =
-    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {}
-  // Ensure each instance as a unique ref of array
-  safeArrays(model)
-  var callbacks = []
-
-  if (!Number.isInteger(model.mtime)) {
-    model.mtime = ++globalMTime
-  }
-
-  if (!('classHierarchy' in model)) {
-    model.classHierarchy = new ClassHierarchy('vtkObject')
-  } else if (!(model.classHierarchy instanceof ClassHierarchy)) {
-    model.classHierarchy = ClassHierarchy.from(model.classHierarchy)
-  }
-
-  function off(index) {
-    callbacks[index] = null
-  }
-
-  function on(index) {
-    function unsubscribe() {
-      off(index)
-    }
-
-    return Object.freeze({
-      unsubscribe: unsubscribe,
-    })
-  }
-
-  publicAPI.isDeleted = function() {
-    return !!model.deleted
-  }
-
-  publicAPI.modified = function(otherMTime) {
-    if (model.deleted) {
-      vtkErrorMacro('instance deleted - cannot call any method')
-      return
-    }
-
-    if (otherMTime && otherMTime < publicAPI.getMTime()) {
-      return
-    }
-
-    model.mtime = ++globalMTime
-    callbacks.forEach(function(callback) {
-      return callback && callback(publicAPI)
-    })
-  }
-
-  publicAPI.onModified = function(callback) {
-    if (model.deleted) {
-      vtkErrorMacro('instance deleted - cannot call any method')
-      return null
-    }
-
-    var index = callbacks.length
-    callbacks.push(callback)
-    return on(index)
-  }
-
-  publicAPI.getMTime = function() {
-    return model.mtime
-  }
-
-  publicAPI.isA = function(className) {
-    var count = model.classHierarchy.length // we go backwards as that is more likely for
-    // early termination
-
-    while (count--) {
-      if (model.classHierarchy[count] === className) {
-        return true
-      }
-    }
-
-    return false
-  }
-
-  publicAPI.getClassName = function() {
-    var depth =
-      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0
-    return model.classHierarchy[model.classHierarchy.length - 1 - depth]
-  }
-
-  publicAPI.set = function() {
-    var map =
-      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
-    var noWarning =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false
-    var noFunction =
-      arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false
-    var ret = false
-    Object.keys(map).forEach(function(name) {
-      var fn = noFunction ? null : publicAPI['set'.concat(capitalize(name))]
-
-      if (fn && Array.isArray(map[name]) && fn.length > 1) {
-        ret = fn.apply(void 0, _toConsumableArray(map[name])) || ret
-      } else if (fn) {
-        ret = fn(map[name]) || ret
-      } else {
-        // Set data on model directly
-        if (['mtime'].indexOf(name) === -1 && !noWarning) {
-          vtkWarningMacro(
-            'Warning: Set value to model directly '
-              .concat(name, ', ')
-              .concat(map[name])
-          )
-        }
-
-        ret = model[name] !== map[name] || ret
-        model[name] = map[name]
-      }
-    })
-    return ret
-  }
-
-  publicAPI.get = function() {
-    for (
-      var _len3 = arguments.length, list = new Array(_len3), _key3 = 0;
-      _key3 < _len3;
-      _key3++
-    ) {
-      list[_key3] = arguments[_key3]
-    }
-
-    if (!list.length) {
-      return model
-    }
-
-    var subset = {}
-    list.forEach(function(name) {
-      subset[name] = model[name]
-    })
-    return subset
-  }
-
-  publicAPI.getReferenceByName = function(val) {
-    return model[val]
-  }
-
-  publicAPI.delete = function() {
-    Object.keys(model).forEach(function(field) {
-      return delete model[field]
-    })
-    callbacks.forEach(function(el, index) {
-      return off(index)
-    }) // Flag the instance being deleted
-
-    model.deleted = true
-  } // Add serialization support
-
-  publicAPI.getState = function() {
-    if (model.deleted) {
-      return null
-    }
-
-    var jsonArchive = _objectSpread(
-      _objectSpread({}, model),
-      {},
-      {
-        vtkClass: publicAPI.getClassName(),
-      }
-    ) // Convert every vtkObject to its serializable form
-
-    Object.keys(jsonArchive).forEach(function(keyName) {
-      if (
-        jsonArchive[keyName] === null ||
-        jsonArchive[keyName] === undefined ||
-        keyName[0] === '_' // protected members start with _
-      ) {
-        delete jsonArchive[keyName]
-      } else if (jsonArchive[keyName].isA) {
-        jsonArchive[keyName] = jsonArchive[keyName].getState()
-      } else if (Array.isArray(jsonArchive[keyName])) {
-        jsonArchive[keyName] = jsonArchive[keyName].map(getStateArrayMapFunc)
-      }
-    }) // Sort resulting object by key name
-
-    var sortedObj = {}
-    Object.keys(jsonArchive)
-      .sort()
-      .forEach(function(name) {
-        sortedObj[name] = jsonArchive[name]
-      }) // Remove mtime
-
-    if (sortedObj.mtime) {
-      delete sortedObj.mtime
-    }
-
-    return sortedObj
-  } // Add shallowCopy(otherInstance) support
-
-  publicAPI.shallowCopy = function(other) {
-    var debug =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false
-
-    if (other.getClassName() !== publicAPI.getClassName()) {
-      throw new Error(
-        'Cannot ShallowCopy '
-          .concat(other.getClassName(), ' into ')
-          .concat(publicAPI.getClassName())
-      )
-    }
-
-    var otherModel = other.get()
-    var keyList = Object.keys(model).sort()
-    var otherKeyList = Object.keys(otherModel).sort()
-    otherKeyList.forEach(function(key) {
-      var keyIdx = keyList.indexOf(key)
-
-      if (keyIdx === -1) {
-        if (debug) {
-          vtkDebugMacro('add '.concat(key, ' in shallowCopy'))
-        }
-      } else {
-        keyList.splice(keyIdx, 1)
-      }
-
-      model[key] = otherModel[key]
-    })
-
-    if (keyList.length && debug) {
-      vtkDebugMacro('Untouched keys: '.concat(keyList.join(', ')))
-    }
-
-    publicAPI.modified()
-  } // This function will get called when one invoke JSON.stringify(vtkObject)
-  // JSON.stringify will only stringify the return value of this function
-
-  publicAPI.toJSON = function vtkObjToJSON() {
-    return publicAPI.getState()
-  } // Allow usage as decorator
-
-  return publicAPI
-} // ----------------------------------------------------------------------------
-// getXXX: add getters
-// ----------------------------------------------------------------------------
-
-function get(publicAPI, model, fieldNames) {
-  fieldNames.forEach(function(field) {
-    if (_typeof(field) === 'object') {
-      publicAPI['get'.concat(_capitalize(field.name))] = function() {
-        return model[field.name]
-      }
-    } else {
-      publicAPI['get'.concat(_capitalize(field))] = function() {
-        return model[field]
-      }
-    }
-  })
-} // ----------------------------------------------------------------------------
-// setXXX: add setters
-// ----------------------------------------------------------------------------
-
-var objectSetterMap = {
-  enum: function _enum(publicAPI, model, field) {
-    return function(value) {
-      if (typeof value === 'string') {
-        if (field.enum[value] !== undefined) {
-          if (model[field.name] !== field.enum[value]) {
-            model[field.name] = field.enum[value]
-            publicAPI.modified()
-            return true
-          }
-
-          return false
-        }
-
-        vtkErrorMacro(
-          'Set Enum with invalid argument '.concat(field, ', ').concat(value)
-        )
-        throw new RangeError('Set Enum with invalid string argument')
-      }
-
-      if (typeof value === 'number') {
-        if (model[field.name] !== value) {
-          if (
-            Object.keys(field.enum)
-              .map(function(key) {
-                return field.enum[key]
-              })
-              .indexOf(value) !== -1
-          ) {
-            model[field.name] = value
-            publicAPI.modified()
-            return true
-          }
-
-          vtkErrorMacro(
-            'Set Enum outside numeric range '.concat(field, ', ').concat(value)
-          )
-          throw new RangeError('Set Enum outside numeric range')
-        }
-
-        return false
-      }
-
-      vtkErrorMacro(
-        'Set Enum with invalid argument (String/Number) '
-          .concat(field, ', ')
-          .concat(value)
-      )
-      throw new TypeError('Set Enum with invalid argument (String/Number)')
-    }
-  },
-}
-
-function findSetter(field) {
-  if (_typeof(field) === 'object') {
-    var fn = objectSetterMap[field.type]
-
-    if (fn) {
-      return function(publicAPI, model) {
-        return fn(publicAPI, model, field)
-      }
-    }
-
-    vtkErrorMacro('No setter for field '.concat(field))
-    throw new TypeError('No setter for field')
-  }
-
-  return function getSetter(publicAPI, model) {
-    return function setter(value) {
-      if (model.deleted) {
-        vtkErrorMacro('instance deleted - cannot call any method')
-        return false
-      }
-
-      if (model[field] !== value) {
-        model[field] = value
-        publicAPI.modified()
-        return true
-      }
-
-      return false
-    }
-  }
-}
-
-function set(publicAPI, model, fields) {
-  fields.forEach(function(field) {
-    if (_typeof(field) === 'object') {
-      publicAPI['set'.concat(_capitalize(field.name))] = findSetter(field)(
-        publicAPI,
-        model
-      )
-    } else {
-      publicAPI['set'.concat(_capitalize(field))] = findSetter(field)(
-        publicAPI,
-        model
-      )
-    }
-  })
-} // ----------------------------------------------------------------------------
-// set/get XXX: add both setters and getters
-// ----------------------------------------------------------------------------
-
-function setGet(publicAPI, model, fieldNames) {
-  get(publicAPI, model, fieldNames)
-  set(publicAPI, model, fieldNames)
-} // ----------------------------------------------------------------------------
-// getXXX: add getters for object of type array with copy to be safe
-// getXXXByReference: add getters for object of type array without copy
-// ----------------------------------------------------------------------------
-
-function getArray(publicAPI, model, fieldNames) {
-  fieldNames.forEach(function(field) {
-    publicAPI['get'.concat(_capitalize(field))] = function() {
-      return model[field] ? [].concat(model[field]) : model[field]
-    }
-
-    publicAPI['get'.concat(_capitalize(field), 'ByReference')] = function() {
-      return model[field]
-    }
-  })
-} // ----------------------------------------------------------------------------
-// setXXX: add setter for object of type array
-// if 'defaultVal' is supplied, shorter arrays will be padded to 'size' with 'defaultVal'
-// set...From: fast path to copy the content of an array to the current one without call to modified.
-// ----------------------------------------------------------------------------
-
-function setArray(publicAPI, model, fieldNames, size) {
-  var defaultVal =
-    arguments.length > 4 && arguments[4] !== undefined
-      ? arguments[4]
-      : undefined
-  fieldNames.forEach(function(field) {
-    if (model[field] && size && model[field].length !== size) {
-      throw new RangeError(
-        'Invalid initial number of values for array ('.concat(field, ')')
-      )
-    }
-
-    publicAPI['set'.concat(_capitalize(field))] = function() {
-      if (model.deleted) {
-        vtkErrorMacro('instance deleted - cannot call any method')
-        return false
-      }
-
-      for (
-        var _len4 = arguments.length, args = new Array(_len4), _key4 = 0;
-        _key4 < _len4;
-        _key4++
-      ) {
-        args[_key4] = arguments[_key4]
-      }
-
-      var array = args
-      var changeDetected
-      var needCopy = false // allow null or an array to be passed as a single arg.
-
-      if (array.length === 1 && (array[0] == null || array[0].length >= 0)) {
-        /* eslint-disable prefer-destructuring */
-        array = array[0]
-        /* eslint-enable prefer-destructuring */
-
-        needCopy = true
-      }
-
-      if (array == null) {
-        changeDetected = model[field] !== array
-      } else {
-        if (size && array.length !== size) {
-          if (array.length < size && defaultVal !== undefined) {
-            array = Array.from(array)
-            needCopy = false
-
-            while (array.length < size) {
-              array.push(defaultVal)
-            }
-          } else {
-            throw new RangeError(
-              'Invalid number of values for array setter ('.concat(field, ')')
-            )
-          }
-        }
-
-        changeDetected =
-          model[field] == null ||
-          model[field].some(function(item, index) {
-            return item !== array[index]
-          }) ||
-          model[field].length !== array.length
-
-        if (changeDetected && needCopy) {
-          array = Array.from(array)
-        }
-      }
-
-      if (changeDetected) {
-        model[field] = array
-        publicAPI.modified()
-      }
-
-      return changeDetected
-    }
-
-    publicAPI['set'.concat(_capitalize(field), 'From')] = function(otherArray) {
-      var target = model[field]
-      otherArray.forEach(function(v, i) {
-        target[i] = v
-      })
-    }
-  })
-} // ----------------------------------------------------------------------------
-// set/get XXX: add setter and getter for object of type array
-// ----------------------------------------------------------------------------
-
-function setGetArray(publicAPI, model, fieldNames, size) {
-  var defaultVal =
-    arguments.length > 4 && arguments[4] !== undefined
-      ? arguments[4]
-      : undefined
-  getArray(publicAPI, model, fieldNames)
-  setArray(publicAPI, model, fieldNames, size, defaultVal)
-}
-function moveToProtected(publicAPI, model, fieldNames) {
-  for (var i = 0; i < fieldNames.length; i++) {
-    var fieldName = fieldNames[i]
-
-    if (model[fieldName] !== undefined) {
-      model['_'.concat(fieldName)] = model[fieldName]
-      delete model[fieldName]
-    }
-  }
-} // ----------------------------------------------------------------------------
-// vtkAlgorithm: setInputData(), setInputConnection(), getOutputData(), getOutputPort()
-// ----------------------------------------------------------------------------
-
-function algo(publicAPI, model, numberOfInputs, numberOfOutputs) {
-  if (model.inputData) {
-    model.inputData = model.inputData.map(vtk)
-  } else {
-    model.inputData = []
-  }
-
-  if (model.inputConnection) {
-    model.inputConnection = model.inputConnection.map(vtk)
-  } else {
-    model.inputConnection = []
-  }
-
-  if (model.output) {
-    model.output = model.output.map(vtk)
-  } else {
-    model.output = []
-  }
-
-  if (model.inputArrayToProcess) {
-    model.inputArrayToProcess = model.inputArrayToProcess.map(vtk)
-  } else {
-    model.inputArrayToProcess = []
-  } // Cache the argument for later manipulation
-
-  model.numberOfInputs = numberOfInputs // Methods
-
-  function setInputData(dataset) {
-    var port =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
-
-    if (model.deleted) {
-      vtkErrorMacro('instance deleted - cannot call any method')
-      return
-    }
-
-    if (port >= model.numberOfInputs) {
-      vtkErrorMacro(
-        'algorithm '
-          .concat(publicAPI.getClassName(), ' only has ')
-          .concat(
-            model.numberOfInputs,
-            ' input ports. To add more input ports, use addInputData()'
-          )
-      )
-      return
-    }
-
-    if (model.inputData[port] !== dataset || model.inputConnection[port]) {
-      model.inputData[port] = dataset
-      model.inputConnection[port] = null
-
-      if (publicAPI.modified) {
-        publicAPI.modified()
-      }
-    }
-  }
-
-  function getInputData() {
-    var port =
-      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0
-
-    if (model.inputConnection[port]) {
-      model.inputData[port] = model.inputConnection[port]()
-    }
-
-    return model.inputData[port]
-  }
-
-  function setInputConnection(outputPort) {
-    var port =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
-
-    if (model.deleted) {
-      vtkErrorMacro('instance deleted - cannot call any method')
-      return
-    }
-
-    if (port >= model.numberOfInputs) {
-      var msg = 'algorithm '.concat(publicAPI.getClassName(), ' only has ')
-      msg += ''.concat(model.numberOfInputs)
-      msg += ' input ports. To add more input ports, use addInputConnection()'
-      vtkErrorMacro(msg)
-      return
-    }
-
-    model.inputData[port] = null
-    model.inputConnection[port] = outputPort
-  }
-
-  function getInputConnection() {
-    var port =
-      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0
-    return model.inputConnection[port]
-  }
-
-  function getPortToFill() {
-    var portToFill = model.numberOfInputs
-
-    while (
-      portToFill &&
-      !model.inputData[portToFill - 1] &&
-      !model.inputConnection[portToFill - 1]
-    ) {
-      portToFill--
-    }
-
-    if (portToFill === model.numberOfInputs) {
-      model.numberOfInputs++
-    }
-
-    return portToFill
-  }
-
-  function addInputConnection(outputPort) {
-    if (model.deleted) {
-      vtkErrorMacro('instance deleted - cannot call any method')
-      return
-    }
-
-    setInputConnection(outputPort, getPortToFill())
-  }
-
-  function addInputData(dataset) {
-    if (model.deleted) {
-      vtkErrorMacro('instance deleted - cannot call any method')
-      return
-    }
-
-    setInputData(dataset, getPortToFill())
-  }
-
-  function getOutputData() {
-    var port =
-      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0
-
-    if (model.deleted) {
-      vtkErrorMacro('instance deleted - cannot call any method')
-      return null
-    }
-
-    if (publicAPI.shouldUpdate()) {
-      publicAPI.update()
-    }
-
-    return model.output[port]
-  }
-
-  publicAPI.shouldUpdate = function() {
-    var localMTime = publicAPI.getMTime()
-    var minOutputMTime = Infinity
-    var count = numberOfOutputs
-
-    while (count--) {
-      if (!model.output[count] || model.output[count].isDeleted()) {
-        return true
-      }
-
-      var mt = model.output[count].getMTime()
-
-      if (mt < localMTime) {
-        return true
-      }
-
-      if (mt < minOutputMTime) {
-        minOutputMTime = mt
-      }
-    }
-
-    count = model.numberOfInputs
-
-    while (count--) {
-      var _model$inputConnectio, _publicAPI$getInputDa
-
-      if (
-        ((_model$inputConnectio = model.inputConnection[count]) !== null &&
-          _model$inputConnectio !== void 0 &&
-          _model$inputConnectio.filter.shouldUpdate()) ||
-        ((_publicAPI$getInputDa = publicAPI.getInputData(count)) === null ||
-        _publicAPI$getInputDa === void 0
-          ? void 0
-          : _publicAPI$getInputDa.getMTime()) > minOutputMTime
-      ) {
-        return true
-      }
-    }
-
-    return false
-  }
-
-  function getOutputPort() {
-    var port =
-      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0
-
-    var outputPortAccess = function outputPortAccess() {
-      return getOutputData(port)
-    } // Add reference to filter
-
-    outputPortAccess.filter = publicAPI
-    return outputPortAccess
-  } // Handle input if needed
-
-  if (model.numberOfInputs) {
-    // Reserve inputs
-    var count = model.numberOfInputs
-
-    while (count--) {
-      model.inputData.push(null)
-      model.inputConnection.push(null)
-    } // Expose public methods
-
-    publicAPI.setInputData = setInputData
-    publicAPI.setInputConnection = setInputConnection
-    publicAPI.addInputData = addInputData
-    publicAPI.addInputConnection = addInputConnection
-    publicAPI.getInputData = getInputData
-    publicAPI.getInputConnection = getInputConnection
-  }
-
-  if (numberOfOutputs) {
-    publicAPI.getOutputData = getOutputData
-    publicAPI.getOutputPort = getOutputPort
-  }
-
-  publicAPI.update = function() {
-    var ins = []
-
-    if (model.numberOfInputs) {
-      var _count = 0
-
-      while (_count < model.numberOfInputs) {
-        ins[_count] = publicAPI.getInputData(_count)
-        _count++
-      }
-    }
-
-    if (publicAPI.shouldUpdate() && publicAPI.requestData) {
-      publicAPI.requestData(ins, model.output)
-    }
-  }
-
-  publicAPI.getNumberOfInputPorts = function() {
-    return model.numberOfInputs
-  }
-
-  publicAPI.getNumberOfOutputPorts = function() {
-    return numberOfOutputs || model.output.length
-  }
-
-  publicAPI.getInputArrayToProcess = function(inputPort) {
-    var arrayDesc = model.inputArrayToProcess[inputPort]
-    var ds = model.inputData[inputPort]
-
-    if (arrayDesc && ds) {
-      return ds['get'.concat(arrayDesc.fieldAssociation)]().getArray(
-        arrayDesc.arrayName
-      )
-    }
-
-    return null
-  }
-
-  publicAPI.setInputArrayToProcess = function(
-    inputPort,
-    arrayName,
-    fieldAssociation
-  ) {
-    var attributeType =
-      arguments.length > 3 && arguments[3] !== undefined
-        ? arguments[3]
-        : 'Scalars'
-
-    while (model.inputArrayToProcess.length < inputPort) {
-      model.inputArrayToProcess.push(null)
-    }
-
-    model.inputArrayToProcess[inputPort] = {
-      arrayName: arrayName,
-      fieldAssociation: fieldAssociation,
-      attributeType: attributeType,
-    }
-  }
-} // ----------------------------------------------------------------------------
-// Event handling: onXXX(callback), invokeXXX(args...)
-// ----------------------------------------------------------------------------
-
-var EVENT_ABORT = Symbol('Event abort')
-function event(publicAPI, model, eventName) {
-  var callbacks = []
-  var previousDelete = publicAPI.delete
-  var curCallbackID = 1
-
-  function off(callbackID) {
-    for (var i = 0; i < callbacks.length; ++i) {
-      var _callbacks$i = _slicedToArray(callbacks[i], 1),
-        cbID = _callbacks$i[0]
-
-      if (cbID === callbackID) {
-        callbacks.splice(i, 1)
-        return
-      }
-    }
-  }
-
-  function on(callbackID) {
-    function unsubscribe() {
-      off(callbackID)
-    }
-
-    return Object.freeze({
-      unsubscribe: unsubscribe,
-    })
-  }
-
-  function invoke() {
-    var _arguments = arguments
-
-    if (model.deleted) {
-      vtkErrorMacro('instance deleted - cannot call any method')
-      return
-    }
-    /* eslint-disable prefer-rest-params */
-    // Go through a copy of the callbacks array in case new callbacks
-    // get prepended within previous callbacks
-
-    var currentCallbacks = callbacks.slice()
-
-    var _loop = function _loop(index) {
-      var _currentCallbacks$ind = _slicedToArray(currentCallbacks[index], 3),
-        cb = _currentCallbacks$ind[1],
-        priority = _currentCallbacks$ind[2]
-
-      if (!cb) {
-        return 'continue' // eslint-disable-line
-      }
-
-      if (priority < 0) {
-        setTimeout(function() {
-          return cb.apply(publicAPI, _arguments)
-        }, 1 - priority)
-      } else {
-        // Abort only if the callback explicitly returns false
-        var continueNext = cb.apply(publicAPI, _arguments)
-
-        if (continueNext === EVENT_ABORT) {
-          return 'break'
-        }
-      }
-    }
-
-    for (var index = 0; index < currentCallbacks.length; ++index) {
-      var _ret = _loop(index)
-
-      if (_ret === 'continue') continue
-      if (_ret === 'break') break
-    }
-    /* eslint-enable prefer-rest-params */
-  }
-
-  publicAPI['invoke'.concat(_capitalize(eventName))] = invoke
-
-  publicAPI['on'.concat(_capitalize(eventName))] = function(callback) {
-    var priority =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.0
-
-    if (!callback.apply) {
-      console.error('Invalid callback for event '.concat(eventName))
-      return null
-    }
-
-    if (model.deleted) {
-      vtkErrorMacro('instance deleted - cannot call any method')
-      return null
-    }
-
-    var callbackID = curCallbackID++
-    callbacks.push([callbackID, callback, priority])
-    callbacks.sort(function(cb1, cb2) {
-      return cb2[2] - cb1[2]
-    })
-    return on(callbackID)
-  }
-
-  publicAPI.delete = function() {
-    previousDelete()
-    callbacks.forEach(function(_ref2) {
-      var _ref3 = _slicedToArray(_ref2, 1),
-        cbID = _ref3[0]
-
-      return off(cbID)
-    })
-  }
-} // ----------------------------------------------------------------------------
-// newInstance
-// ----------------------------------------------------------------------------
-
-function newInstance$1(extend, className) {
-  var constructor = function constructor() {
-    var initialValues =
-      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
-    var model = {}
-    var publicAPI = {}
-    extend(publicAPI, model, initialValues)
-    return Object.freeze(publicAPI)
-  } // Register constructor to factory
-
-  if (className) {
-    vtk.register(className, constructor)
-  }
-
-  return constructor
-} // ----------------------------------------------------------------------------
-// Chain function calls
-// ----------------------------------------------------------------------------
-
-function chain() {
-  for (
-    var _len5 = arguments.length, fn = new Array(_len5), _key5 = 0;
-    _key5 < _len5;
-    _key5++
-  ) {
-    fn[_key5] = arguments[_key5]
-  }
-
-  return function() {
-    for (
-      var _len6 = arguments.length, args = new Array(_len6), _key6 = 0;
-      _key6 < _len6;
-      _key6++
-    ) {
-      args[_key6] = arguments[_key6]
-    }
-
-    return fn
-      .filter(function(i) {
-        return !!i
-      })
-      .map(function(i) {
-        return i.apply(void 0, args)
-      })
-  }
-} // ----------------------------------------------------------------------------
-// Some utility methods for vtk objects
-// ----------------------------------------------------------------------------
-
-function isVtkObject(instance) {
-  return instance && instance.isA && instance.isA('vtkObject')
-}
-function traverseInstanceTree(instance, extractFunction) {
-  var accumulator =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : []
-  var visitedInstances =
-    arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : []
-
-  if (isVtkObject(instance)) {
-    if (visitedInstances.indexOf(instance) >= 0) {
-      // avoid cycles
-      return accumulator
-    }
-
-    visitedInstances.push(instance)
-    var result = extractFunction(instance)
-
-    if (result !== undefined) {
-      accumulator.push(result)
-    } // Now go through this instance's model
-
-    var model = instance.get()
-    Object.keys(model).forEach(function(key) {
-      var modelObj = model[key]
-
-      if (Array.isArray(modelObj)) {
-        modelObj.forEach(function(subObj) {
-          traverseInstanceTree(
-            subObj,
-            extractFunction,
-            accumulator,
-            visitedInstances
-          )
-        })
-      } else {
-        traverseInstanceTree(
-          modelObj,
-          extractFunction,
-          accumulator,
-          visitedInstances
-        )
-      }
-    })
-  }
-
-  return accumulator
-} // ----------------------------------------------------------------------------
-// Returns a function, that, as long as it continues to be invoked, will not
-// be triggered. The function will be called after it stops being called for
-// N milliseconds. If `immediate` is passed, trigger the function on the
-// leading edge, instead of the trailing.
-
-function debounce(func, wait, immediate) {
-  var _this = this
-
-  var timeout
-
-  var debounced = function debounced() {
-    for (
-      var _len7 = arguments.length, args = new Array(_len7), _key7 = 0;
-      _key7 < _len7;
-      _key7++
-    ) {
-      args[_key7] = arguments[_key7]
-    }
-
-    var context = _this
-
-    var later = function later() {
-      timeout = null
-
-      if (!immediate) {
-        func.apply(context, args)
-      }
-    }
-
-    var callNow = immediate && !timeout
-    clearTimeout(timeout)
-    timeout = setTimeout(later, wait)
-
-    if (callNow) {
-      func.apply(context, args)
-    }
-  }
-
-  debounced.cancel = function() {
-    return clearTimeout(timeout)
-  }
-
-  return debounced
-} // ----------------------------------------------------------------------------
 // Creates a throttled function that only invokes `func` at most once per
 // every `wait` milliseconds.
 
@@ -3170,730 +979,6 @@ function throttle(callback, delay) {
 
   return wrapper
 } // ----------------------------------------------------------------------------
-// keystore(publicAPI, model, initialKeystore)
-//
-//    - initialKeystore: Initial keystore. This can be either a Map or an
-//      object.
-//
-// Generated API
-//  setKey(key, value) : mixed (returns value)
-//  getKey(key) : mixed
-//  getAllKeys() : [mixed]
-//  deleteKey(key) : Boolean
-// ----------------------------------------------------------------------------
-
-function keystore(publicAPI, model) {
-  var initialKeystore =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  model.keystore = Object.assign(model.keystore || {}, initialKeystore)
-
-  publicAPI.setKey = function(key, value) {
-    model.keystore[key] = value
-  }
-
-  publicAPI.getKey = function(key) {
-    return model.keystore[key]
-  }
-
-  publicAPI.getAllKeys = function() {
-    return Object.keys(model.keystore)
-  }
-
-  publicAPI.deleteKey = function(key) {
-    return delete model.keystore[key]
-  }
-
-  publicAPI.clearKeystore = function() {
-    return publicAPI.getAllKeys().forEach(function(key) {
-      return delete model.keystore[key]
-    })
-  }
-} // ----------------------------------------------------------------------------
-// proxy(publicAPI, model, sectionName, propertyUI)
-//
-//    - sectionName: Name of the section for UI
-//    - propertyUI: List of props with their UI description
-//
-// Generated API
-//  getProxyId() : String
-//  listProxyProperties() : [string]
-//  updateProxyProperty(name, prop)
-//  getProxySection() => List of properties for UI generation
-// ----------------------------------------------------------------------------
-
-var nextProxyId = 1
-var ROOT_GROUP_NAME = '__root__'
-function proxy(publicAPI, model) {
-  // Proxies are keystores
-  keystore(publicAPI, model)
-  var parentDelete = publicAPI.delete // getProxyId
-
-  model.proxyId = ''.concat(nextProxyId++) // ui handling
-
-  model.ui = JSON.parse(JSON.stringify(model.ui || [])) // deep copy
-
-  get(publicAPI, model, ['proxyId', 'proxyGroup', 'proxyName'])
-  setGet(publicAPI, model, ['proxyManager']) // group properties
-
-  var propertyMap = {}
-  var groupChildrenNames = {}
-
-  function registerProperties(descriptionList, currentGroupName) {
-    if (!groupChildrenNames[currentGroupName]) {
-      groupChildrenNames[currentGroupName] = []
-    }
-
-    var childrenNames = groupChildrenNames[currentGroupName]
-
-    for (var i = 0; i < descriptionList.length; i++) {
-      childrenNames.push(descriptionList[i].name)
-      propertyMap[descriptionList[i].name] = descriptionList[i]
-
-      if (descriptionList[i].children && descriptionList[i].children.length) {
-        registerProperties(descriptionList[i].children, descriptionList[i].name)
-      }
-    }
-  }
-
-  registerProperties(model.ui, ROOT_GROUP_NAME)
-
-  publicAPI.updateUI = function(ui) {
-    model.ui = JSON.parse(JSON.stringify(ui || [])) // deep copy
-
-    Object.keys(propertyMap).forEach(function(k) {
-      return delete propertyMap[k]
-    })
-    Object.keys(groupChildrenNames).forEach(function(k) {
-      return delete groupChildrenNames[k]
-    })
-    registerProperties(model.ui, ROOT_GROUP_NAME)
-    publicAPI.modified()
-  }
-
-  function listProxyProperties() {
-    var gName =
-      arguments.length > 0 && arguments[0] !== undefined
-        ? arguments[0]
-        : ROOT_GROUP_NAME
-    return groupChildrenNames[gName]
-  }
-
-  publicAPI.updateProxyProperty = function(propertyName, propUI) {
-    var prop = propertyMap[propertyName]
-
-    if (prop) {
-      Object.assign(prop, propUI)
-    } else {
-      propertyMap[propertyName] = _objectSpread({}, propUI)
-    }
-  }
-
-  publicAPI.activate = function() {
-    if (model.proxyManager) {
-      var setActiveMethod = 'setActive'.concat(
-        _capitalize(publicAPI.getProxyGroup().slice(0, -1))
-      )
-
-      if (model.proxyManager[setActiveMethod]) {
-        model.proxyManager[setActiveMethod](publicAPI)
-      }
-    }
-  } // property link
-
-  model.propertyLinkSubscribers = {}
-
-  publicAPI.registerPropertyLinkForGC = function(otherLink, type) {
-    if (!(type in model.propertyLinkSubscribers)) {
-      model.propertyLinkSubscribers[type] = []
-    }
-
-    model.propertyLinkSubscribers[type].push(otherLink)
-  }
-
-  publicAPI.gcPropertyLinks = function(type) {
-    var subscribers = model.propertyLinkSubscribers[type] || []
-
-    while (subscribers.length) {
-      subscribers.pop().unbind(publicAPI)
-    }
-  }
-
-  model.propertyLinkMap = {}
-
-  publicAPI.getPropertyLink = function(id) {
-    var persistent =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false
-
-    if (model.propertyLinkMap[id]) {
-      return model.propertyLinkMap[id]
-    }
-
-    var value = null
-    var links = []
-    var count = 0
-    var updateInProgress = false
-
-    function update(source) {
-      var force =
-        arguments.length > 1 && arguments[1] !== undefined
-          ? arguments[1]
-          : false
-
-      if (updateInProgress) {
-        return null
-      }
-
-      var needUpdate = []
-      var sourceLink = null
-      count = links.length
-
-      while (count--) {
-        var link = links[count]
-
-        if (link.instance === source) {
-          sourceLink = link
-        } else {
-          needUpdate.push(link)
-        }
-      }
-
-      if (!sourceLink) {
-        return null
-      }
-
-      var newValue = sourceLink.instance[
-        'get'.concat(_capitalize(sourceLink.propertyName))
-      ]()
-
-      if (!shallowEquals(newValue, value) || force) {
-        value = newValue
-        updateInProgress = true
-
-        while (needUpdate.length) {
-          var linkToUpdate = needUpdate.pop()
-          linkToUpdate.instance.set(
-            _defineProperty({}, linkToUpdate.propertyName, value)
-          )
-        }
-
-        updateInProgress = false
-      }
-
-      if (model.propertyLinkMap[id].persistent) {
-        model.propertyLinkMap[id].value = newValue
-      }
-
-      return newValue
-    }
-
-    function unbind(instance, propertyName) {
-      var indexToDelete = []
-      count = links.length
-
-      while (count--) {
-        var link = links[count]
-
-        if (
-          link.instance === instance &&
-          (link.propertyName === propertyName || propertyName === undefined)
-        ) {
-          link.subscription.unsubscribe()
-          indexToDelete.push(count)
-        }
-      }
-
-      while (indexToDelete.length) {
-        links.splice(indexToDelete.pop(), 1)
-      }
-    }
-
-    function bind(instance, propertyName) {
-      var updateMe =
-        arguments.length > 2 && arguments[2] !== undefined
-          ? arguments[2]
-          : false
-      var subscription = instance.onModified(update)
-      var other = links[0]
-      links.push({
-        instance: instance,
-        propertyName: propertyName,
-        subscription: subscription,
-      })
-
-      if (updateMe) {
-        if (
-          model.propertyLinkMap[id].persistent &&
-          model.propertyLinkMap[id].value !== undefined
-        ) {
-          instance.set(
-            _defineProperty({}, propertyName, model.propertyLinkMap[id].value)
-          )
-        } else if (other) {
-          update(other.instance, true)
-        }
-      }
-
-      return {
-        unsubscribe: function unsubscribe() {
-          return unbind(instance, propertyName)
-        },
-      }
-    }
-
-    function unsubscribe() {
-      while (links.length) {
-        links.pop().subscription.unsubscribe()
-      }
-    }
-
-    var linkHandler = {
-      bind: bind,
-      unbind: unbind,
-      unsubscribe: unsubscribe,
-      persistent: persistent,
-    }
-    model.propertyLinkMap[id] = linkHandler
-    return linkHandler
-  } // extract values
-
-  function getProperties() {
-    var groupName =
-      arguments.length > 0 && arguments[0] !== undefined
-        ? arguments[0]
-        : ROOT_GROUP_NAME
-    var values = []
-    var id = model.proxyId
-    var propertyNames = listProxyProperties(groupName) || []
-
-    for (var i = 0; i < propertyNames.length; i++) {
-      var name = propertyNames[i]
-      var method = publicAPI['get'.concat(_capitalize(name))]
-      var value = method ? method() : undefined
-      var prop = {
-        id: id,
-        name: name,
-        value: value,
-      }
-      var children = getProperties(name)
-
-      if (children.length) {
-        prop.children = children
-      }
-
-      values.push(prop)
-    }
-
-    return values
-  }
-
-  publicAPI.listPropertyNames = function() {
-    return getProperties().map(function(p) {
-      return p.name
-    })
-  }
-
-  publicAPI.getPropertyByName = function(name) {
-    return getProperties().find(function(p) {
-      return p.name === name
-    })
-  }
-
-  publicAPI.getPropertyDomainByName = function(name) {
-    return (propertyMap[name] || {}).domain
-  } // ui section
-
-  publicAPI.getProxySection = function() {
-    return {
-      id: model.proxyId,
-      name: model.proxyGroup,
-      ui: model.ui,
-      properties: getProperties(),
-    }
-  } // free resources
-
-  publicAPI.delete = function() {
-    var list = Object.keys(model.propertyLinkMap)
-    var count = list.length
-
-    while (count--) {
-      model.propertyLinkMap[list[count]].unsubscribe()
-    }
-
-    Object.keys(model.propertyLinkSubscribers).forEach(
-      publicAPI.gcPropertyLinks
-    )
-    parentDelete()
-  } // @todo fix infinite recursion due to active source
-
-  publicAPI.getState = function() {
-    return null
-  }
-
-  function registerLinks() {
-    // Allow dynamic registration of links at the application level
-    if (model.links) {
-      for (var i = 0; i < model.links.length; i++) {
-        var _model$links$i = model.links[i],
-          link = _model$links$i.link,
-          property = _model$links$i.property,
-          persistent = _model$links$i.persistent,
-          updateOnBind = _model$links$i.updateOnBind,
-          type = _model$links$i.type
-
-        if (type === 'application') {
-          var sLink = model.proxyManager.getPropertyLink(link, persistent)
-          publicAPI.registerPropertyLinkForGC(sLink, 'application')
-          sLink.bind(publicAPI, property, updateOnBind)
-        }
-      }
-    }
-  }
-
-  setImmediateVTK(registerLinks)
-} // ----------------------------------------------------------------------------
-// proxyPropertyMapping(publicAPI, model, map)
-//
-//   map = {
-//      opacity: { modelKey: 'property', property: 'opacity' },
-//   }
-//
-// Generated API:
-//  Elevate set/get methods from internal object stored in the model to current one
-// ----------------------------------------------------------------------------
-
-function proxyPropertyMapping(publicAPI, model, map) {
-  var parentDelete = publicAPI.delete
-  var subscriptions = []
-  var propertyNames = Object.keys(map)
-  var count = propertyNames.length
-
-  while (count--) {
-    var propertyName = propertyNames[count]
-    var _map$propertyName = map[propertyName],
-      modelKey = _map$propertyName.modelKey,
-      property = _map$propertyName.property,
-      _map$propertyName$mod = _map$propertyName.modified,
-      modified = _map$propertyName$mod === void 0 ? true : _map$propertyName$mod
-
-    var methodSrc = _capitalize(property)
-
-    var methodDst = _capitalize(propertyName)
-
-    publicAPI['get'.concat(methodDst)] =
-      model[modelKey]['get'.concat(methodSrc)]
-    publicAPI['set'.concat(methodDst)] =
-      model[modelKey]['set'.concat(methodSrc)]
-
-    if (modified) {
-      subscriptions.push(model[modelKey].onModified(publicAPI.modified))
-    }
-  }
-
-  publicAPI.delete = function() {
-    while (subscriptions.length) {
-      subscriptions.pop().unsubscribe()
-    }
-
-    parentDelete()
-  }
-} // ----------------------------------------------------------------------------
-// proxyPropertyState(publicAPI, model, state, defaults)
-//
-//   state = {
-//     representation: {
-//       'Surface with edges': { property: { edgeVisibility: true, representation: 2 } },
-//       Surface: { property: { edgeVisibility: false, representation: 2 } },
-//       Wireframe: { property: { edgeVisibility: false, representation: 1 } },
-//       Points: { property: { edgeVisibility: false, representation: 0 } },
-//     },
-//   }
-//
-//   defaults = {
-//      representation: 'Surface',
-//   }
-//
-// Generated API
-//   get / set Representation ( string ) => push state to various internal objects
-// ----------------------------------------------------------------------------
-
-function proxyPropertyState(publicAPI, model) {
-  var state =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  var defaults =
-    arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {}
-  model.this = publicAPI
-
-  function applyState(map) {
-    var modelKeys = Object.keys(map)
-    var count = modelKeys.length
-
-    while (count--) {
-      var modelKey = modelKeys[count]
-      model[modelKey].set(map[modelKey])
-    }
-  }
-
-  var modelKeys = Object.keys(defaults)
-  var count = modelKeys.length
-
-  var _loop2 = function _loop2() {
-    // Add default
-    var key = modelKeys[count]
-    model[key] = defaults[key] // Add set method
-
-    var mapping = state[key]
-
-    publicAPI['set'.concat(_capitalize(key))] = function(value) {
-      if (value !== model[key]) {
-        model[key] = value
-        var propValues = mapping[value]
-        applyState(propValues)
-        publicAPI.modified()
-      }
-    }
-  }
-
-  while (count--) {
-    _loop2()
-  } // Add getter
-
-  if (modelKeys.length) {
-    get(publicAPI, model, modelKeys)
-  }
-} // ----------------------------------------------------------------------------
-// From : https://github.com/facebookarchive/fixed-data-table/blob/master/src/vendor_upstream/dom/normalizeWheel.js
-//
-//
-// Copyright (c) 2015, Facebook, Inc.
-// All rights reserved.
-//
-// This source code is licensed under the BSD-style license found in the
-// LICENSE file in the root directory of this source tree. An additional grant
-// of patent rights can be found in the PATENTS file in the same directory.
-//
-//
-// Mouse wheel (and 2-finger trackpad) support on the web sucks.  It is
-// complicated, thus this doc is long and (hopefully) detailed enough to answer
-// your questions.
-//
-// If you need to react to the mouse wheel in a predictable way, this code is
-// like your bestest friend.// hugs//
-//
-// As of today, there are 4 DOM event types you can listen to:
-//
-//   'wheel'                -- Chrome(31+), FF(17+), IE(9+)
-//   'mousewheel'           -- Chrome, IE(6+), Opera, Safari
-//   'MozMousePixelScroll'  -- FF(3.5 only!) (2010-2013) -- don't bother!
-//   'DOMMouseScroll'       -- FF(0.9.7+) since 2003
-//
-// So what to do?  The is the best:
-//
-//   normalizeWheel.getEventType();
-//
-// In your event callback, use this code to get sane interpretation of the
-// deltas.  This code will return an object with properties:
-//
-//   spinX   -- normalized spin speed (use for zoom) - x plane
-//   spinY   -- " - y plane
-//   pixelX  -- normalized distance (to pixels) - x plane
-//   pixelY  -- " - y plane
-//
-// Wheel values are provided by the browser assuming you are using the wheel to
-// scroll a web page by a number of lines or pixels (or pages).  Values can vary
-// significantly on different platforms and browsers, forgetting that you can
-// scroll at different speeds.  Some devices (like trackpads) emit more events
-// at smaller increments with fine granularity, and some emit massive jumps with
-// linear speed or acceleration.
-//
-// This code does its best to normalize the deltas for you:
-//
-//   - spin is trying to normalize how far the wheel was spun (or trackpad
-//     dragged).  This is super useful for zoom support where you want to
-//     throw away the chunky scroll steps on the PC and make those equal to
-//     the slow and smooth tiny steps on the Mac. Key data: This code tries to
-//     resolve a single slow step on a wheel to 1.
-//
-//   - pixel is normalizing the desired scroll delta in pixel units.  You'll
-//     get the crazy differences between browsers, but at least it'll be in
-//     pixels!
-//
-//   - positive value indicates scrolling DOWN/RIGHT, negative UP/LEFT.  This
-//     should translate to positive value zooming IN, negative zooming OUT.
-//     This matches the newer 'wheel' event.
-//
-// Why are there spinX, spinY (or pixels)?
-//
-//   - spinX is a 2-finger side drag on the trackpad, and a shift + wheel turn
-//     with a mouse.  It results in side-scrolling in the browser by default.
-//
-//   - spinY is what you expect -- it's the classic axis of a mouse wheel.
-//
-//   - I dropped spinZ/pixelZ.  It is supported by the DOM 3 'wheel' event and
-//     probably is by browsers in conjunction with fancy 3D controllers .. but
-//     you know.
-//
-// Implementation info:
-//
-// Examples of 'wheel' event if you scroll slowly (down) by one step with an
-// average mouse:
-//
-//   OS X + Chrome  (mouse)     -    4   pixel delta  (wheelDelta -120)
-//   OS X + Safari  (mouse)     -  N/A   pixel delta  (wheelDelta  -12)
-//   OS X + Firefox (mouse)     -    0.1 line  delta  (wheelDelta  N/A)
-//   Win8 + Chrome  (mouse)     -  100   pixel delta  (wheelDelta -120)
-//   Win8 + Firefox (mouse)     -    3   line  delta  (wheelDelta -120)
-//
-// On the trackpad:
-//
-//   OS X + Chrome  (trackpad)  -    2   pixel delta  (wheelDelta   -6)
-//   OS X + Firefox (trackpad)  -    1   pixel delta  (wheelDelta  N/A)
-//
-// On other/older browsers.. it's more complicated as there can be multiple and
-// also missing delta values.
-//
-// The 'wheel' event is more standard:
-//
-// http://www.w3.org/TR/DOM-Level-3-Events/#events-wheelevents
-//
-// The basics is that it includes a unit, deltaMode (pixels, lines, pages), and
-// deltaX, deltaY and deltaZ.  Some browsers provide other values to maintain
-// backward compatibility with older events.  Those other values help us
-// better normalize spin speed.  Example of what the browsers provide:
-//
-//                          | event.wheelDelta | event.detail
-//        ------------------+------------------+--------------
-//          Safari v5/OS X  |       -120       |       0
-//          Safari v5/Win7  |       -120       |       0
-//         Chrome v17/OS X  |       -120       |       0
-//         Chrome v17/Win7  |       -120       |       0
-//                IE9/Win7  |       -120       |   undefined
-//         Firefox v4/OS X  |     undefined    |       1
-//         Firefox v4/Win7  |     undefined    |       3
-//
-// ----------------------------------------------------------------------------
-// Reasonable defaults
-
-var PIXEL_STEP = 10
-var LINE_HEIGHT = 40
-var PAGE_HEIGHT = 800
-function normalizeWheel(wheelEvent) {
-  var sX = 0 // spinX
-
-  var sY = 0 // spinY
-
-  var pX = 0 // pixelX
-
-  var pY = 0 // pixelY
-  // Legacy
-
-  if ('detail' in wheelEvent) {
-    sY = wheelEvent.detail
-  }
-
-  if ('wheelDelta' in wheelEvent) {
-    sY = -wheelEvent.wheelDelta / 120
-  }
-
-  if ('wheelDeltaY' in wheelEvent) {
-    sY = -wheelEvent.wheelDeltaY / 120
-  }
-
-  if ('wheelDeltaX' in wheelEvent) {
-    sX = -wheelEvent.wheelDeltaX / 120
-  } // side scrolling on FF with DOMMouseScroll
-
-  if ('axis' in wheelEvent && wheelEvent.axis === wheelEvent.HORIZONTAL_AXIS) {
-    sX = sY
-    sY = 0
-  }
-
-  pX = sX * PIXEL_STEP
-  pY = sY * PIXEL_STEP
-
-  if ('deltaY' in wheelEvent) {
-    pY = wheelEvent.deltaY
-  }
-
-  if ('deltaX' in wheelEvent) {
-    pX = wheelEvent.deltaX
-  }
-
-  if ((pX || pY) && wheelEvent.deltaMode) {
-    if (wheelEvent.deltaMode === 1) {
-      // delta in LINE units
-      pX *= LINE_HEIGHT
-      pY *= LINE_HEIGHT
-    } else {
-      // delta in PAGE units
-      pX *= PAGE_HEIGHT
-      pY *= PAGE_HEIGHT
-    }
-  } // Fall-back if spin cannot be determined
-
-  if (pX && !sX) {
-    sX = pX < 1 ? -1 : 1
-  }
-
-  if (pY && !sY) {
-    sY = pY < 1 ? -1 : 1
-  }
-
-  return {
-    spinX: sX,
-    spinY: sY,
-    pixelX: pX,
-    pixelY: pY,
-  }
-} // ----------------------------------------------------------------------------
-// Default export
-// ----------------------------------------------------------------------------
-
-var macro = {
-  algo: algo,
-  capitalize: capitalize,
-  chain: chain,
-  debounce: debounce,
-  enumToString: enumToString,
-  event: event,
-  EVENT_ABORT: EVENT_ABORT,
-  formatBytesToProperUnit: formatBytesToProperUnit,
-  formatNumbersWithThousandSeparator: formatNumbersWithThousandSeparator,
-  get: get,
-  getArray: getArray,
-  getCurrentGlobalMTime: getCurrentGlobalMTime,
-  getStateArrayMapFunc: getStateArrayMapFunc,
-  isVtkObject: isVtkObject,
-  keystore: keystore,
-  measurePromiseExecution: measurePromiseExecution,
-  moveToProtected: moveToProtected,
-  newInstance: newInstance$1,
-  newTypedArray: newTypedArray,
-  newTypedArrayFrom: newTypedArrayFrom,
-  normalizeWheel: normalizeWheel,
-  obj: obj,
-  proxy: proxy,
-  proxyPropertyMapping: proxyPropertyMapping,
-  proxyPropertyState: proxyPropertyState,
-  safeArrays: safeArrays,
-  set: set,
-  setArray: setArray,
-  setGet: setGet,
-  setGetArray: setGetArray,
-  setImmediate: setImmediateVTK,
-  setLoggerFunction: setLoggerFunction,
-  throttle: throttle,
-  traverseInstanceTree: traverseInstanceTree,
-  TYPED_ARRAYS: TYPED_ARRAYS,
-  // deprecated todo remove on breaking API revision
-  uncapitalize: uncapitalize,
-  VOID: VOID,
-  vtkDebugMacro: vtkDebugMacro,
-  vtkErrorMacro: vtkErrorMacro,
-  vtkInfoMacro: vtkInfoMacro,
-  vtkLogMacro: vtkLogMacro,
-  vtkOnceErrorMacro: vtkOnceErrorMacro,
-  vtkWarningMacro: vtkWarningMacro,
-}
 
 function createPlaneSliders(context) {
   var planeUIGroup = document.createElement('div')
@@ -5403,6 +2488,59 @@ function createInterpolationButton(context, uiRow) {
   uiRow.appendChild(interpolationButton)
 }
 
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr
+}
+
+function _iterableToArrayLimit(arr, i) {
+  var _i =
+    arr == null
+      ? null
+      : (typeof Symbol !== 'undefined' && arr[Symbol.iterator]) ||
+        arr['@@iterator']
+
+  if (_i == null) return
+  var _arr = []
+  var _n = true
+  var _d = false
+
+  var _s, _e
+
+  try {
+    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value)
+
+      if (i && _arr.length === i) break
+    }
+  } catch (err) {
+    _d = true
+    _e = err
+  } finally {
+    try {
+      if (!_n && _i['return'] != null) _i['return']()
+    } finally {
+      if (_d) throw _e
+    }
+  }
+
+  return _arr
+}
+
+function _nonIterableRest() {
+  throw new TypeError(
+    'Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
+  )
+}
+
+function _slicedToArray(arr, i) {
+  return (
+    _arrayWithHoles(arr) ||
+    _iterableToArrayLimit(arr, i) ||
+    _unsupportedIterableToArray$4(arr, i) ||
+    _nonIterableRest()
+  )
+}
+
 var css_248z =
   '/*\nTo change this license header, choose License Headers in Project Properties.\nTo change this template file, choose Tools | Templates\nand open the template in the editor.\n*/\n/* \n    Created on : Nov 28, 2013, 7:09:35 AM\n    Author     : bugraozden\n*/\n\n.iconselect_icon-select__Sd-E3{\n    width:0px;\n    z-index: 2000;\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_selected-box__YaAz- {\n\n     position: relative;\n     margin: 0px;\n     padding: 0px;\n     width: 70px; /* sil */\n     height: 60px; /* sil */\n     border: 1px solid #999999;\n     border-radius: 3px;\n\t background-color: white;\n\t \n\t z-index: 1000;\n\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_selected-box__YaAz-:hover {\n\n     position: relative;\n     margin: 0px;\n     padding: 0px;\n     width: 70px; /* sil */\n     height: 60px; /* sil */\n     border: 1px solid #000000;\n     background-color: #FFFFFF;\n     border-radius: 3px;\n\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_selected-icon__iswfk {\n\n     position: absolute;\n     margin: 0px;\n     padding: 0px;\n     top:5px;\n     left:5px;\n     width: 48px; /* sil */\n     height: 48px; /* sil */\n     border-radius: 3px;\n\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_component-icon__AY7IZ{\n     position: absolute;\n     bottom:2px;\n     right:4px;\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_box__ITflu {\n\n     position: absolute;\n     top:0px;\n     left:71px;\n     margin: 0px;\n     padding: 0px;\n     width: 170px; /* sil */\n     height: 170px; /* sil */\n     border: 1px solid #EEEEEE;\n     background-color: #EEEEEE;\n     border-radius: 3px;\n     \n     \n     overflow:auto;\n     /*\n     -webkit-overflow-scrolling: touch;\n     */\n\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_icon__dPhWj {\n     position: relative;\n     margin: 5px 0px 0px 5px;\n     padding: 0px;\n     width: 48px; /* sil */\n     height: 48px; /* sil */\n     border: 1px solid #CCCCCC;\n     background-color: #FFFFFF;\n     border-radius: 3px;\n\n     overflow:hidden;\n     float: left;\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_icon__dPhWj:hover {\n     border: 1px solid #000000;\n }\n\n .iconselect_icon-select__Sd-E3 .iconselect_icon__dPhWj.iconselect_selected__zCJ2U {\n     position: relative;\n     margin: 5px 0px 0px 5px;\n     padding: 0px;\n     width: 48px; /* sil */\n     height: 48px; /* sil */\n     border: 1px solid #EEEEEE;\n     background-color: #EEEEEE;\n     border-radius: 3px;\n\n     overflow:hidden;\n     float: left;\n }\n'
 styleInject(css_248z)
@@ -6213,374 +3351,6 @@ function createColorRangeInput(context, imageUIGroup) {
   imageUIGroup.appendChild(colorRangeInputRow)
 }
 
-// vtkCompositeMouseManipulator methods
-// ----------------------------------------------------------------------------
-
-function vtkCompositeMouseManipulator(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkCompositeMouseManipulator')
-
-  publicAPI.startInteraction = function() {}
-
-  publicAPI.endInteraction = function() {}
-
-  publicAPI.onButtonDown = function(interactor, renderer, position) {}
-
-  publicAPI.onButtonUp = function(interactor) {}
-
-  publicAPI.onMouseMove = function(interactor, renderer, position) {}
-
-  publicAPI.onStartScroll = function(interactor, renderer, delta) {}
-
-  publicAPI.onScroll = function(interactor, renderer, delta) {}
-
-  publicAPI.onEndScroll = function(interactor) {}
-
-  publicAPI.isDragEnabled = function() {
-    return model.dragEnabled
-  }
-
-  publicAPI.isScrollEnabled = function() {
-    return model.scrollEnabled
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES$1 = {
-  button: 1,
-  shift: false,
-  control: false,
-  alt: false,
-  dragEnabled: true,
-  scrollEnabled: false,
-} // ----------------------------------------------------------------------------
-
-function extend$1(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES$1, initialValues) // Create get-set macros
-
-  macro.setGet(publicAPI, model, ['button', 'shift', 'control', 'alt'])
-  macro.set(publicAPI, model, ['dragEnabled', 'scrollEnabled']) // Object specific methods
-
-  vtkCompositeMouseManipulator(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var vtkCompositeMouseManipulator$1 = {
-  extend: extend$1,
-}
-
-// vtkMouseRangeManipulator methods
-// ----------------------------------------------------------------------------
-
-function vtkMouseRangeManipulator(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkMouseRangeManipulator') // Keep track of delta that is below the value
-  // of one step to progressively increment it
-
-  var incrementalDelta = new Map() // Internal methods
-  //-------------------------------------------------------------------------
-
-  function scaleDeltaToRange(listener, normalizedDelta) {
-    return (
-      normalizedDelta * ((listener.max - listener.min) / (listener.step + 1))
-    )
-  } //-------------------------------------------------------------------------
-
-  function processDelta(listener, delta) {
-    var oldValue = listener.getValue() // if exponential scroll is enabled, we raise our scale to the
-    //  exponent of the net delta of the interaction. The further away
-    // the user's cursor is from the start of the interaction, the more
-    // their movements will effect the value.
-
-    var scalingFactor = listener.exponentialScroll
-      ? Math.pow(
-          listener.scale,
-          Math.log2(Math.abs(model.interactionNetDelta) + 2)
-        )
-      : listener.scale
-    var newDelta = delta * scalingFactor + incrementalDelta.get(listener)
-    var value = oldValue + newDelta // Compute new value based on step
-
-    var difference = value - listener.min
-    var stepsToDifference = Math.round(difference / listener.step)
-    value = listener.min + listener.step * stepsToDifference
-    value = Math.max(value, listener.min)
-    value = Math.min(value, listener.max)
-
-    if (value !== oldValue) {
-      // Update value
-      listener.setValue(value)
-      incrementalDelta.set(listener, 0)
-    } else if (
-      (value === listener.min && newDelta < 0) ||
-      (value === listener.max && newDelta > 0)
-    ) {
-      // Do not allow incremental delta to go past range
-      incrementalDelta.set(listener, 0)
-    } else {
-      // Store delta for the next iteration
-      incrementalDelta.set(listener, newDelta)
-    }
-  } // Public API methods
-  // min:number = minimum allowable value
-  // max:number = maximum allowable value
-  // step:number = value per step -- smaller = more steps over a given distance, larger = fewer steps over a given distance
-  // getValue:fn = function that returns current value
-  // setValue:fn = function to set value
-  // scale:number = scale value is applied to mouse event to allow users accelerate or decelerate delta without emitting more events
-  //-------------------------------------------------------------------------
-
-  publicAPI.setHorizontalListener = function(
-    min,
-    max,
-    step,
-    getValue,
-    setValue
-  ) {
-    var scale =
-      arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 1
-    var exponentialScroll =
-      arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false
-    var getFn = Number.isFinite(getValue)
-      ? function() {
-          return getValue
-        }
-      : getValue
-    model.horizontalListener = {
-      min: min,
-      max: max,
-      step: step,
-      getValue: getFn,
-      setValue: setValue,
-      scale: scale,
-      exponentialScroll: exponentialScroll,
-    }
-    incrementalDelta.set(model.horizontalListener, 0)
-    publicAPI.modified()
-  } //-------------------------------------------------------------------------
-
-  publicAPI.setVerticalListener = function(min, max, step, getValue, setValue) {
-    var scale =
-      arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 1
-    var exponentialScroll =
-      arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false
-    var getFn = Number.isFinite(getValue)
-      ? function() {
-          return getValue
-        }
-      : getValue
-    model.verticalListener = {
-      min: min,
-      max: max,
-      step: step,
-      getValue: getFn,
-      setValue: setValue,
-      scale: scale,
-      exponentialScroll: exponentialScroll,
-    }
-    incrementalDelta.set(model.verticalListener, 0)
-    publicAPI.modified()
-  } //-------------------------------------------------------------------------
-
-  publicAPI.setScrollListener = function(min, max, step, getValue, setValue) {
-    var scale =
-      arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 1
-    var exponentialScroll =
-      arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false
-    var getFn = Number.isFinite(getValue)
-      ? function() {
-          return getValue
-        }
-      : getValue
-    model.scrollListener = {
-      min: min,
-      max: max,
-      step: step,
-      getValue: getFn,
-      setValue: setValue,
-      scale: scale,
-      exponentialScroll: exponentialScroll,
-    }
-    incrementalDelta.set(model.scrollListener, 0)
-    publicAPI.modified()
-  } //-------------------------------------------------------------------------
-
-  publicAPI.removeHorizontalListener = function() {
-    if (model.verticalListener) {
-      incrementalDelta.delete(model.verticalListener)
-      delete model.verticalListener
-      publicAPI.modified()
-    }
-  } //-------------------------------------------------------------------------
-
-  publicAPI.removeVerticalListener = function() {
-    if (model.horizontalListener) {
-      incrementalDelta.delete(model.horizontalListener)
-      delete model.horizontalListener
-      publicAPI.modified()
-    }
-  } //-------------------------------------------------------------------------
-
-  publicAPI.removeScrollListener = function() {
-    if (model.scrollListener) {
-      incrementalDelta.delete(model.scrollListener)
-      delete model.scrollListener
-      publicAPI.modified()
-    }
-  } //-------------------------------------------------------------------------
-
-  publicAPI.removeAllListeners = function() {
-    publicAPI.removeHorizontalListener()
-    publicAPI.removeVerticalListener()
-    publicAPI.removeScrollListener()
-  } //-------------------------------------------------------------------------
-
-  publicAPI.onButtonDown = function(interactor, renderer, position) {
-    model.previousPosition = position
-    model.interactionNetDelta = 0
-    var glRenderWindow = interactor.getView() // Ratio is the dom size vs renderwindow size
-
-    var ratio =
-      glRenderWindow.getContainerSize()[0] / glRenderWindow.getSize()[0] // Get proper pixel range used by viewport in rw size space
-
-    var size = glRenderWindow.getViewportSize(renderer) // rescale size to match mouse event position
-
-    model.containerSize = size.map(function(v) {
-      return v * ratio
-    })
-  }
-
-  publicAPI.onButtonUp = function(interactor) {
-    interactor.exitPointerLock()
-  } //--------------------------------------------------------------------------
-  // TODO: at some point, this should perhaps be done in
-  // RenderWindowInteractor instead of here.
-  // We need to hook into mousemove directly for two reasons:
-  // 1. We need to keep receiving mouse move events after the mouse button
-  //    is released. This is currently not possible with
-  //    vtkInteractorStyleManipulator.
-  // 2. Since the mouse is stationary in pointer lock mode, we need the
-  //    event.movementX and event.movementY info, which are not currently
-  //    passed via interactor.onMouseMove.
-
-  publicAPI.startPointerLockEvent = function(interactor, renderer) {
-    var handlePointerLockMove = function handlePointerLockMove(event) {
-      publicAPI.onPointerLockMove(interactor, renderer, event)
-    }
-
-    document.addEventListener('mousemove', handlePointerLockMove)
-    var subscription = null
-
-    var endInteraction = function endInteraction() {
-      var _subscription
-
-      document.removeEventListener('mousemove', handlePointerLockMove)
-      ;(_subscription = subscription) === null || _subscription === void 0
-        ? void 0
-        : _subscription.unsubscribe()
-    }
-
-    subscription =
-      interactor === null || interactor === void 0
-        ? void 0
-        : interactor.onEndPointerLock(endInteraction)
-  }
-
-  publicAPI.onPointerLockMove = function(interactor, renderer, event) {
-    // There is a slight delay between the `onEndPointerLock` call
-    // and the last `onMouseMove` event, we must make sure the pointer
-    // is still locked before we run this logic otherwise we may
-    // get a `onMouseMove` call after the pointer has been unlocked.
-    if (!interactor.isPointerLocked()) return // previousPosition could be undefined if for some reason the
-    // `startPointerLockEvent` method is called before the `onButtonDown` one.
-
-    if (model.previousPosition == null) return
-    model.previousPosition.x += event.movementX
-    model.previousPosition.y += event.movementY
-    publicAPI.onMouseMove(interactor, renderer, model.previousPosition)
-  } //-------------------------------------------------------------------------
-
-  publicAPI.onMouseMove = function(interactor, renderer, position) {
-    if (!model.verticalListener && !model.horizontalListener) {
-      return
-    } // We only want to initialize the pointer lock listener
-    // after the user starts moving their mouse, this way
-    // we don't interfere with other events such as doubleClick,
-    // for this reason we don't call this from `onButtonDown`
-
-    if (model.usePointerLock && !interactor.isPointerLocked()) {
-      interactor.requestPointerLock()
-      publicAPI.startPointerLockEvent(interactor, renderer)
-    }
-
-    if (!position) {
-      return
-    }
-
-    if (model.horizontalListener) {
-      var dxNorm =
-        (position.x - model.previousPosition.x) / model.containerSize[0]
-      var dx = scaleDeltaToRange(model.horizontalListener, dxNorm)
-      model.interactionNetDelta += dx
-      processDelta(model.horizontalListener, dx)
-    }
-
-    if (model.verticalListener) {
-      var dyNorm =
-        (position.y - model.previousPosition.y) / model.containerSize[1]
-      var dy = scaleDeltaToRange(model.verticalListener, dyNorm)
-      model.interactionNetDelta += dy
-      processDelta(model.verticalListener, dy)
-    }
-
-    model.previousPosition = position
-  } //-------------------------------------------------------------------------
-
-  publicAPI.onScroll = function(interactor, renderer, delta) {
-    if (!model.scrollListener || !delta) {
-      return
-    }
-
-    model.interactionNetDelta += delta * model.scrollListener.step
-    processDelta(model.scrollListener, delta * model.scrollListener.step)
-  }
-
-  publicAPI.onStartScroll = function(payload) {
-    model.interactionNetDelta = 0
-    publicAPI.onScroll(payload)
-  }
-} // ----------------------------------------------------------------------------
-// Object factory
-// ----------------------------------------------------------------------------
-
-var DEFAULT_VALUES = {
-  horizontalListener: null,
-  verticalListener: null,
-  scrollListener: null,
-} // ----------------------------------------------------------------------------
-
-function extend(publicAPI, model) {
-  var initialValues =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {}
-  Object.assign(model, DEFAULT_VALUES, initialValues) // Inheritance
-
-  macro.obj(publicAPI, model)
-  vtkCompositeMouseManipulator$1.extend(publicAPI, model, initialValues) // Create get-set macros
-
-  macro.setGet(publicAPI, model, ['usePointerLock']) // Object specific methods
-
-  vtkMouseRangeManipulator(publicAPI, model)
-} // ----------------------------------------------------------------------------
-
-var newInstance = macro.newInstance(extend, 'vtkMouseRangeManipulator') // ----------------------------------------------------------------------------
-
-var vtkMouseRangeManipulator$1 = {
-  newInstance: newInstance,
-  extend: extend,
-}
-
 var __defProp = Object.defineProperty
 var __defNormalProp = (obj, key, value) =>
   key in obj
@@ -7065,12 +3835,6 @@ const updateColorCanvas = (
   }
   return workCanvas
 }
-const windowPointsForSort = points => {
-  const windowedPoints = windowPoints(points)
-  windowedPoints[0][0] -= 1e-8
-  windowedPoints[windowedPoints.length - 1][0] += 1e-8
-  return windowedPoints
-}
 const HISTOGRAM_COLOR = 'rgba(50, 50, 50, 0.3)'
 const Background = (container, points) => {
   const canvas = document.createElement('canvas')
@@ -7211,30 +3975,9 @@ class TransferFunctionEditor {
 }
 
 var PIECEWISE_UPDATE_DELAY = 100
-var getNodes = function getNodes(range, points) {
-  var delta = range[1] - range[0]
-  var windowedPoints = windowPointsForSort(points)
-  return windowedPoints.map(function(_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-      x = _ref2[0],
-      y = _ref2[1]
-
-    return {
-      x: range[0] + delta * x,
-      y: y,
-      midpoint: 0.5,
-      sharpness: 0,
-    }
-  })
-} // grab head and tail or fallback to data range if 1 or less points
-
-var getRange = function getRange(dataRange, nodes) {
-  return nodes.length > 1 ? [nodes[0].x, nodes[nodes.length - 1].x] : dataRange
-}
 
 var updateContextPiecewiseFunction = function updateContextPiecewiseFunction(
   context,
-  dataRange,
   points
 ) {
   if (!context.images.piecewiseFunctions) return // not ready yet
@@ -7250,71 +3993,47 @@ var updateContextPiecewiseFunction = function updateContextPiecewiseFunction(
       points: points,
     },
   })
-  var nodes = getNodes(dataRange, points)
-  var range = getRange(dataRange, nodes)
-  context.service.send({
-    type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
-    data: {
-      name: name,
-      component: component,
-      range: range,
-      nodes: nodes,
-    },
-  })
 }
 
 var vtkPiecewiseGaussianWidgetFacade = function vtkPiecewiseGaussianWidgetFacade(
   tfEditor,
   context
 ) {
-  var dataRange = [0, 255]
-
   var update = function update() {
-    return updateContextPiecewiseFunction(
-      context,
-      dataRange,
-      tfEditor.getPoints()
-    )
+    return updateContextPiecewiseFunction(context, tfEditor.getPoints())
   }
 
   var throttledUpdate = throttle(update, PIECEWISE_UPDATE_DELAY)
   tfEditor.eventTarget.addEventListener('updated', throttledUpdate)
-
-  var getOpacityNodes = function getOpacityNodes() {
-    var range =
-      arguments.length > 0 && arguments[0] !== undefined
-        ? arguments[0]
-        : dataRange
-    return getNodes(range, tfEditor.getPoints())
-  }
-
-  var getOpacityRange = function getOpacityRange() {
-    var range =
-      arguments.length > 0 && arguments[0] !== undefined
-        ? arguments[0]
-        : dataRange
-    return getRange(range, getOpacityNodes(range))
-  }
-
   return {
     setColorTransferFunction: function setColorTransferFunction(tf) {
       tfEditor.setColorTransferFunction(tf)
     },
     setPoints: function setPoints(points) {
-      tfEditor.setPoints(points)
-      updateContextPiecewiseFunction(context, dataRange, points)
+      // tfEditor.setPoints recreates them and they loose their "grabbed" state
+      // so ignore events coming down triggered by user dragging points
+      var currentPoints = tfEditor.getPoints()
+      var arePointsModified =
+        points.length !== currentPoints.length ||
+        points.some(function(_ref, idx) {
+          var _ref2 = _slicedToArray(_ref, 2),
+            newX = _ref2[0],
+            newY = _ref2[1]
+
+          var _currentPoints$idx = _slicedToArray(currentPoints[idx], 2),
+            oldX = _currentPoints$idx[0],
+            oldY = _currentPoints$idx[1]
+
+          return newX !== oldX || newY !== oldY
+        })
+      if (arePointsModified) tfEditor.setPoints(points)
     },
     getPoints: function getPoints() {
       return tfEditor.getPoints()
     },
     setRangeZoom: function setRangeZoom(newRange) {
-      tfEditor.setViewBox.apply(tfEditor, _toConsumableArray(newRange))
+      tfEditor.setViewBox.apply(tfEditor, _toConsumableArray$1(newRange))
     },
-    setDataRange: function setDataRange(newRange) {
-      dataRange = _toConsumableArray(newRange)
-    },
-    getOpacityNodes: getOpacityNodes,
-    getOpacityRange: getOpacityRange,
     setHistogram: function setHistogram(h) {
       return tfEditor.setHistogram(h)
     },
@@ -7339,8 +4058,6 @@ var createTransferFunctionEditor = function createTransferFunctionEditor(
   return vtkPiecewiseGaussianWidgetFacade(editor, context)
 }
 
-var MIN_WIDTH = 1e-8
-
 var createTransferFunctionWidget = function createTransferFunctionWidget(
   context,
   imagesUIGroup
@@ -7362,130 +4079,7 @@ var createTransferFunctionWidget = function createTransferFunctionWidget(
     context,
     piecewiseWidgetContainer
   )
-  context.images.transferFunctionWidget = transferFunctionWidget // lookupTableProxies used elsewhere
-  // if (typeof context.images.lookupTableProxies === 'undefined') {
-  //   context.images.lookupTableProxies = new Map()
-  // }
-
-  var getXMinMax = function getXMinMax() {
-    var xPositions = transferFunctionWidget.getPoints().map(function(_ref) {
-      var _ref2 = _slicedToArray(_ref, 1),
-        x = _ref2[0]
-
-      return x
-    })
-    return {
-      min: Math.min.apply(Math, _toConsumableArray(xPositions)),
-      max: Math.max.apply(Math, _toConsumableArray(xPositions)),
-    }
-  }
-
-  var windowGet = function windowGet() {
-    var _getXMinMax = getXMinMax(),
-      min = _getXMinMax.min,
-      max = _getXMinMax.max
-
-    var width = max - min
-    return width
-  }
-
-  var windowSet = function windowSet(newWidth) {
-    var _getXMinMax2 = getXMinMax(),
-      min = _getXMinMax2.min,
-      max = _getXMinMax2.max
-
-    var width = max - min || MIN_WIDTH
-    var newMin = (min + max) / 2 - newWidth / 2
-    var newPoints = transferFunctionWidget
-      .getPoints() // normalize in old range, then scale to new range
-      .map(function(_ref3) {
-        var _ref4 = _slicedToArray(_ref3, 2),
-          x = _ref4[0],
-          y = _ref4[1]
-
-        return [((x - min) / width) * newWidth + newMin, y]
-      })
-    transferFunctionWidget.setPoints(newPoints)
-  }
-
-  var levelGet = function levelGet() {
-    var _getXMinMax3 = getXMinMax(),
-      min = _getXMinMax3.min,
-      max = _getXMinMax3.max
-
-    return (min + max) / 2
-  }
-
-  var levelSet = function levelSet(newLevel) {
-    var oldLevel = levelGet()
-    var delta = newLevel - oldLevel
-    var newPoints = transferFunctionWidget
-      .getPoints() // normalize in old range, then scale to new range
-      .map(function(_ref5) {
-        var _ref6 = _slicedToArray(_ref5, 2),
-          x = _ref6[0],
-          y = _ref6[1]
-
-        return [x + delta, y]
-      })
-    transferFunctionWidget.setPoints(newPoints)
-  } // Create range manipulator
-
-  var rangeManipulator = vtkMouseRangeManipulator$1.newInstance({
-    button: 1,
-    alt: true,
-  })
-  context.images.transferFunctionManipulator = {
-    rangeManipulator: rangeManipulator,
-    windowGet: windowGet,
-    windowSet: windowSet,
-    levelGet: levelGet,
-    levelSet: levelSet,
-  }
-  var pwfRangeManipulator = vtkMouseRangeManipulator$1.newInstance({
-    button: 3,
-    // Right mouse
-    alt: true,
-  })
-  var pwfRangeManipulatorShift = vtkMouseRangeManipulator$1.newInstance({
-    button: 1,
-    // Left mouse
-    shift: true,
-    // For the macOS folks
-    alt: true,
-  })
-
-  var pwfGet = function pwfGet() {
-    var opacities = transferFunctionWidget.getPoints().map(function(_ref7) {
-      var _ref8 = _slicedToArray(_ref7, 2),
-        y = _ref8[1]
-
-      return y
-    })
-    return Math.max.apply(Math, _toConsumableArray(opacities))
-  }
-
-  var pwfSet = function pwfSet(newMaxOpacity) {
-    var oldMax = pwfGet()
-    var delta = newMaxOpacity - oldMax
-    var newPoints = transferFunctionWidget.getPoints().map(function(_ref9) {
-      var _ref10 = _slicedToArray(_ref9, 2),
-        x = _ref10[0],
-        y = _ref10[1]
-
-      return [x, Math.min(y + delta, 1)]
-    })
-    transferFunctionWidget.setPoints(newPoints)
-  } // max as 1.01 not 1.0 to allow for squishing of low function points if a point is already at 1
-
-  pwfRangeManipulator.setVerticalListener(0, 1.01, 0.01, pwfGet, pwfSet)
-  pwfRangeManipulatorShift.setVerticalListener(0, 1.01, 0.01, pwfGet, pwfSet)
-  ;[rangeManipulator, pwfRangeManipulator, pwfRangeManipulatorShift].forEach(
-    function(m) {
-      context.itkVtkView.getInteractorStyle2D().addMouseManipulator(m)
-      context.itkVtkView.getInteractorStyle3D().addMouseManipulator(m)
-    }
-  )
+  context.images.transferFunctionWidget = transferFunctionWidget
 }
 var applyPiecewiseFunctionPointsToEditor = function applyPiecewiseFunctionPointsToEditor(
   context,
@@ -8173,15 +4767,9 @@ function applyColorRangeBounds(context, event) {
     minimumInput.step = step
     maximumInput.step = step
   }
-
-  context.images.transferFunctionWidget.setDataRange(range)
 }
 
-var MIN_WINDOW = 1e-8
-
 function applyColorRange(context, event) {
-  var _actorContext$piecewi
-
   var name = event.data.name
   var component = event.data.component
   var actorContext = context.images.actorContext.get(name)
@@ -8209,67 +4797,7 @@ function applyColorRange(context, event) {
     (colorRange[0] - fullRange[0]) / diff,
     (colorRange[1] - fullRange[0]) / diff,
   ]
-  var normDelta = colorRangeNormalized[1] - colorRangeNormalized[0]
-  var _context$images$trans = context.images.transferFunctionManipulator,
-    rangeManipulator = _context$images$trans.rangeManipulator,
-    windowGet = _context$images$trans.windowGet,
-    windowSet = _context$images$trans.windowSet,
-    levelGet = _context$images$trans.levelGet,
-    levelSet = _context$images$trans.levelSet // level
-
-  rangeManipulator.setHorizontalListener(
-    colorRangeNormalized[0],
-    colorRangeNormalized[1],
-    normDelta / 100.0,
-    levelGet,
-    levelSet
-  ) // window
-
-  rangeManipulator.setVerticalListener(
-    MIN_WINDOW,
-    normDelta,
-    normDelta / 100.0,
-    windowGet,
-    windowSet
-  )
-  var transferFunctionWidget = context.images.transferFunctionWidget
-  transferFunctionWidget.setRangeZoom(colorRangeNormalized)
-  var oldPoints =
-    (_actorContext$piecewi = actorContext.piecewiseFunctionPoints) === null ||
-    _actorContext$piecewi === void 0
-      ? void 0
-      : _actorContext$piecewi.get(component)
-
-  if (!event.data.dontUpdatePoints && oldPoints) {
-    var xValues = oldPoints.map(function(_ref) {
-      var _ref2 = _slicedToArray(_ref, 1),
-        x = _ref2[0]
-
-      return x
-    }) // if 1 point, assume whole range
-
-    var maxOldPoints =
-      xValues.length > 1 ? Math.max.apply(Math, _toConsumableArray(xValues)) : 1
-    var minOldPoints =
-      xValues.length > 1 ? Math.min.apply(Math, _toConsumableArray(xValues)) : 0
-    var rangeOldPoints = maxOldPoints - minOldPoints
-    var points = oldPoints // find normalized position of old points
-      .map(function(_ref3) {
-        var _ref4 = _slicedToArray(_ref3, 2),
-          x = _ref4[0],
-          y = _ref4[1]
-
-        return [(x - minOldPoints) / rangeOldPoints, y]
-      }) // rescale to new range
-      .map(function(_ref5) {
-        var _ref6 = _slicedToArray(_ref5, 2),
-          x = _ref6[0],
-          y = _ref6[1]
-
-        return [x * normDelta + colorRangeNormalized[0], y]
-      })
-    transferFunctionWidget.setPoints(points)
-  }
+  context.images.transferFunctionWidget.setRangeZoom(colorRangeNormalized)
 }
 
 function applyColorMap(context, _ref) {
@@ -8511,41 +5039,22 @@ function updateLabelImageInterface(context) {
 function updateRenderedImageInterface(context, event) {
   var name = event.data
   var actorContext = context.images.actorContext.get(name)
-  var visualizedComponents = actorContext.visualizedComponents
   var transferFunctionWidget = context.images.transferFunctionWidget
 
   if (!transferFunctionWidget) {
     console.warn('No transfer function widget')
     return
-  } //Apply piecewise functions
+  }
 
-  var selectedComponent = actorContext.selectedComponent
-  visualizedComponents
-    .filter(function(c) {
-      return c >= 0 && c !== selectedComponent
-    })
-    .concat([selectedComponent])
-    .forEach(function(component) {
-      var points = actorContext.piecewiseFunctionPoints.get(component)
+  var points = actorContext.piecewiseFunctionPoints.get(
+    actorContext.selectedComponent
+  )
 
-      if (points) {
-        transferFunctionWidget.setPoints(points)
-        var dataRange = actorContext.colorRanges.get(component)
-        var range = transferFunctionWidget.getOpacityRange(dataRange)
-        var nodes = transferFunctionWidget.getOpacityNodes(dataRange)
-        context.service.send({
-          type: 'IMAGE_PIECEWISE_FUNCTION_CHANGED',
-          data: {
-            name: name,
-            component: component,
-            range: range,
-            nodes: nodes,
-          },
-        })
-      } else {
-        console.warn('No transfer function points for component')
-      }
-    })
+  if (points) {
+    transferFunctionWidget.setPoints(points)
+  } else {
+    console.warn('No transfer function points for component')
+  }
 }
 
 function applyHistogram(context, event) {
@@ -8578,7 +5087,6 @@ function selectImageComponent(context, event) {
         name: name,
         component: component,
         range: range,
-        dontUpdatePoints: true,
       },
     })
   }
@@ -8708,7 +5216,7 @@ function applyScaleCount(input, scaleCount) {
   autoPickOption.innerHTML = 'Framerate-pick'
   input.appendChild(autoPickOption)
 
-  _toConsumableArray(Array(scaleCount).keys())
+  _toConsumableArray$1(Array(scaleCount).keys())
     .reverse()
     .forEach(function(i) {
       var option = document.createElement('option')

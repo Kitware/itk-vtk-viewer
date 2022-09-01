@@ -191,7 +191,7 @@ const createUpdatingImageMachine = options => {
             onError: {
               actions: [
                 (c, event) => {
-                  console.error(`Could not update image : ${event.data}`)
+                  console.warn(`Could not update image : ${event.data.stack}`)
                 },
                 assignCoarserScale,
               ],

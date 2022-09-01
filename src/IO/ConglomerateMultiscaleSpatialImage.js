@@ -21,9 +21,12 @@ export class ConglomerateMultiscaleSpatialImage extends MultiscaleSpatialImage {
     this.images = images
   }
 
-  buildImage(scale, bounds) {
-    return Promise.all(
-      this.images.map(image => image.buildImage(scale, bounds))
-    )
+  async buildImage(scale, bounds) {
+    // Run sequentially rather than Promise.all to avoid hang
+    const builtImages = []
+    for (const image of this.images) {
+      builtImages.push(await image.buildImage(scale, bounds))
+    }
+    return builtImages
   }
 }

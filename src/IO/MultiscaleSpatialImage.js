@@ -130,7 +130,7 @@ const makeIndexToWorld = ({ direction: inDirection, origin, spacing }) => {
   return makeMat4({ direction, origin: origin3d, spacing: spacing3d })
 }
 
-const worldBoundsToIndexBounds = ({
+export const worldBoundsToIndexBounds = ({
   bounds,
   fullIndexBounds,
   worldToIndex,
@@ -192,7 +192,7 @@ class MultiscaleSpatialImage {
     this.cachedImages = new Map()
   }
 
-  get lowestScale() {
+  get coarsestScale() {
     return this.scaleInfo.length - 1
   }
 
@@ -384,8 +384,6 @@ class MultiscaleSpatialImage {
         bounds: worldBounds,
         fullIndexBounds,
         worldToIndex: mat4.invert([], indexToWorld),
-        scale,
-        image: this,
       })
     )
 

@@ -27,9 +27,9 @@ function computeFnToString(property, fn, numberOfComponents) {
   return '0'
 }
 
-function ProportionalOpenGLImageMapper(publicAPI, model) {
+function OpenGLImageMapperFractional(publicAPI, model) {
   // Set our className
-  model.classHierarchy.push('ProportionalOpenGLImageMapper')
+  model.classHierarchy.push('OpenGLImageMapperFractional')
 
   publicAPI.replaceShaderValues = (shaders, ren, actor) => {
     let VSSource = shaders.Vertex
@@ -240,8 +240,6 @@ function ProportionalOpenGLImageMapper(publicAPI, model) {
     publicAPI.replaceShaderClip(shaders, ren, actor)
     publicAPI.replaceShaderCoincidentOffset(shaders, ren, actor)
   }
-
-  // const superBuildBufferObjects = publicAPI.buildBufferObjects
 
   publicAPI.buildBufferObjects = (ren, actor) => {
     const image = model.currentInput
@@ -600,14 +598,14 @@ export function extend(publicAPI, model, initialValues = {}) {
 
   vtkOpenGlImageMapper.extend(publicAPI, model, initialValues)
 
-  ProportionalOpenGLImageMapper(publicAPI, model)
+  OpenGLImageMapperFractional(publicAPI, model)
 }
 
 // ----------------------------------------------------------------------------
 
 export const newInstance = macro.newInstance(
   extend,
-  'ProportionalOpenGLImageMapper'
+  'OpenGLImageMapperFractional'
 )
 
 // ----------------------------------------------------------------------------

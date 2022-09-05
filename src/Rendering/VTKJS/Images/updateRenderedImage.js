@@ -1,8 +1,6 @@
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
-import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray'
 
 import updateVisualizedComponents from './updateVisualizedComponents'
-import numericalSort from '../numericalSort'
 import { fuseImages } from './fuseImages'
 import { computeRanges } from './fuseImagesUtils'
 import { computeRenderedBounds } from '../Main/croppingPlanes'
@@ -10,17 +8,6 @@ import { worldBoundsToIndexBounds } from '../../../IO/MultiscaleSpatialImage'
 import { mat4 } from 'gl-matrix'
 
 export const RENDERED_VOXEL_MAX = 512 * 512 * 512
-
-const updateContextWithLabelImage = (actorContext, scaleLabelImage) => {
-  const uniqueLabelsSet = new Set(scaleLabelImage.data)
-  const uniqueLabels = Array.from(uniqueLabelsSet)
-  // The volume mapper currently only supports ColorTransferFunction's,
-  // not LookupTable's
-  // lut.setAnnotations(uniqueLabels, uniqueLabels);
-  uniqueLabels.sort(numericalSort)
-  actorContext.uniqueLabels = uniqueLabels
-  actorContext.renderedLabelImage = scaleLabelImage
-}
 
 const getVoxelCount = async (image, bounds, scale) => {
   const scaleInfo = image.scaleInfo[scale]
@@ -79,8 +66,6 @@ async function updateRenderedImage(context) {
     [image, labelImage].map(image => image?.getImage(targetScale, boundsToLoad))
   )
 
-  if (labelAtScale) updateContextWithLabelImage(actorContext, labelAtScale)
-
   const isFuseNeeded =
     Array.isArray(imageAtScale) || // is conglomerate
     labelAtScale ||
@@ -101,48 +86,15 @@ async function updateRenderedImage(context) {
         ),
       ]
 
-  actorContext.fusedImageRanges = componentRanges
-  actorContext.fusedImageData = itkImage.data
-  const { fusedImageData } = actorContext
-
   const vtkImage = vtkITKHelper.convertItkToVtkImage(itkImage)
-
-  if (!actorContext.fusedImage) {
-    actorContext.fusedImage = vtkImage
-  } else {
-    // re-use fusedImage
-    actorContext.fusedImage.setOrigin(vtkImage.getOrigin())
-    actorContext.fusedImage.setSpacing(vtkImage.getSpacing())
-    actorContext.fusedImage.setDirection(vtkImage.getDirection())
-    actorContext.fusedImage.setDimensions(vtkImage.getDimensions())
-  }
-  const { fusedImage } = actorContext
-
-  const imageScalars = vtkImage.getPointData().getScalars()
-
-  const numberOfComponents = itkImage.imageType.components
-  const fusedImageScalars = vtkDataArray.newInstance({
-    name: imageScalars.getName() || 'Scalars',
-    values: fusedImageData,
-    numberOfComponents,
-  })
-
-  // for areBoundsBigger guard
-  actorContext.loadedBounds = actorContext.fusedImage.getBounds()
-
-  fusedImage.getPointData().setScalars(fusedImageScalars)
-  // Trigger VolumeMapper scalarTexture update
-  fusedImage.modified()
-
-  componentRanges.forEach((range, comp) =>
-    fusedImageScalars.setRange(range, comp)
-  )
-
-  context.service.send({
-    type: 'RENDERED_IMAGE_ASSIGNED',
-    data: name,
+  return {
+    itkImage,
+    vtkImage,
+    labelAtScale,
+    componentRanges,
     loadedScale: targetScale,
-  })
+    name,
+  }
 }
 
 export default updateRenderedImage

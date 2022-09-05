@@ -141,9 +141,6 @@ const createRenderingMachine = (options, context) => {
             UPDATE_RENDERED_IMAGE: {
               actions: forwardTo('images'),
             },
-            RENDERED_IMAGE_ASSIGNED: {
-              actions: forwardTo('images'),
-            },
             TOGGLE_IMAGE_INTERPOLATION: {
               actions: forwardTo('images'),
             },

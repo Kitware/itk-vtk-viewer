@@ -8,6 +8,7 @@ import toggleInterpolation from './toggleInterpolation'
 import applyColorRange from './applyColorRange'
 import applyColorMap from './applyColorMap'
 import applyRenderedImage from './applyRenderedImage'
+import assignRenderedImage from './assignRenderedImage'
 import applyPiecewiseFunction from './applyPiecewiseFunction'
 import applyShadow from './applyShadow'
 import applyGradientOpacity from './applyGradientOpacity'
@@ -66,6 +67,7 @@ const imagesRenderingMachineOptions = {
 
     actions: {
       applyRenderedImage,
+      assignRenderedImage,
 
       toggleLayerVisibility,
 

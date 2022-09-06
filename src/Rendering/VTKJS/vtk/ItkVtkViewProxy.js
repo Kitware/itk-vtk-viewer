@@ -9,7 +9,8 @@ import vtkCoordinate from 'vtk.js/Sources/Rendering/Core/Coordinate'
 import vtkPolyData from 'vtk.js/Sources/Common/DataModel/PolyData'
 import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 import vtkAxesLabelsWidget from './AxesLabelsWidget'
-import vtkWidgetManager from 'vtk.js/Sources/Widgets/Core/WidgetManager'
+import WidgetManagerPickWhileAnimating from './WidgetManagerPickWhileAnimating'
+
 import vtkSliceOutlineFilter from './SliceOutlineFilter'
 
 const CursorCornerAnnotation =
@@ -668,7 +669,7 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.interactor.onEndPinch(updateScaleBar)
 
   model.widgetManagerInitialized = false
-  model.widgetManager = vtkWidgetManager.newInstance()
+  model.widgetManager = WidgetManagerPickWhileAnimating.newInstance()
   model.widgetsToRegister = []
   model.widgetProps = new Map()
 

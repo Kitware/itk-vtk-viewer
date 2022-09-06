@@ -37,9 +37,10 @@ const assignCoarserScale = assign({
 })
 
 const assignLoadedScale = assign({
-  images: ({ images }, { data: name, loadedScale }) => {
+  images: ({ images }, { data }) => {
+    const name = data.name ?? data
     const actorContext = images.actorContext.get(name)
-    actorContext.loadedScale = loadedScale
+    actorContext.loadedScale = data.loadedScale
     return images
   },
 })
@@ -80,6 +81,17 @@ const assignIsFramerateScalePickingOn = assign({
   },
 })
 
+const sendRenderedImageAssigned = (
+  context,
+  { data: { name, loadedScale } }
+) => {
+  context.service.send({
+    type: 'RENDERED_IMAGE_ASSIGNED',
+    data: name,
+    loadedScale,
+  })
+}
+
 const eventResponses = {
   IMAGE_ASSIGNED: {
     target: 'updatingImage',
@@ -92,9 +104,6 @@ const eventResponses = {
   UPDATE_RENDERED_IMAGE: {
     target: 'updatingImage',
     actions: assignUpdateRenderedName,
-  },
-  RENDERED_IMAGE_ASSIGNED: {
-    actions: [assignLoadedScale, 'applyRenderedImage'],
   },
   TOGGLE_LAYER_VISIBILITY: {
     actions: 'toggleLayerVisibility',
@@ -160,7 +169,7 @@ const eventResponses = {
   },
   // Use this event to possibly update image bounds to avoid circular loop with CROPPING_PLANES_CHANGED.
   // CROPPING_PLANES_CHANGED could be updated by
-  // updateRenderedImage->RENDERED_IMAGE_ASSIGNED->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
+  // updateRenderedImage->applyRenderedImage->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
   // because image size may change across scales.
   CROPPING_PLANES_CHANGED_BY_USER: {
     target: 'imageBoundsDebouncing',
@@ -187,6 +196,12 @@ const createUpdatingImageMachine = options => {
             src: 'updateRenderedImage',
             onDone: {
               target: '#updatingImageMachine.afterUpdatingImage',
+              actions: [
+                'assignRenderedImage',
+                assignLoadedScale,
+                'applyRenderedImage',
+                sendRenderedImageAssigned,
+              ],
             },
             onError: {
               actions: [

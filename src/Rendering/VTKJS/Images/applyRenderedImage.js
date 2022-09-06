@@ -19,8 +19,7 @@ const ANNOTATION_CUSTOM_PREFIX =
 const ANNOTATION_CUSTOM_POSTFIX =
   '<td></td><td></td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
 
-function applyRenderedImage(context, event) {
-  const name = event.data
+function applyRenderedImage(context, { data: { name } }) {
   const actorContext = context.images.actorContext.get(name)
 
   if (!actorContext.fusedImage) {

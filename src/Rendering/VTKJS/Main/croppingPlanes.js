@@ -29,24 +29,12 @@ export function getBoundsOfFullImage({ images }) {
   return multiScale.getWorldBounds(imageActorContext.loadedScale)
 }
 
-export function computeRenderedBounds(context) {
-  if (!context.main.croppingPlanes || context.main.croppingPlanes.length !== 6)
-    return
-
-  const renderedBounds = [...vtkBoundingBox.INIT_BOUNDS]
-  context.main.croppingPlanes.forEach(({ origin }) =>
-    vtkBoundingBox.addPoint(renderedBounds, ...origin)
-  )
-  return renderedBounds
-}
-
 export function createCropping(context) {
   const croppingWidget = HandlesInPixelsImageCroppingWidget.newInstance()
   context.main.croppingWidget = croppingWidget
   context.main.widgetCroppingPlanes = Array.from({ length: 6 }, () =>
     vtkPlane.newInstance()
   )
-  context.main.areCroppingPlanesTouched = false
   context.itkVtkView.addCroppingWidget(croppingWidget)
 
   croppingWidget
@@ -139,7 +127,7 @@ export function createCropping(context) {
         },
       ]
 
-      // Dont reset planes after user input
+      // Don't reset planes after user input
       context.main.areCroppingPlanesTouched = true
 
       context.service.send({

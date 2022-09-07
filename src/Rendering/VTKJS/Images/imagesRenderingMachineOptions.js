@@ -20,10 +20,8 @@ import applyLabelNames from './applyLabelNames'
 import applyLabelImageWeights from './applyLabelImageWeights'
 import applySelectedLabel from './applySelectedLabel'
 import mapToPiecewiseFunctionNodes from './mapToPiecewiseFunctionNodes'
-import {
-  computeRenderedBounds,
-  getBoundsOfFullImage,
-} from '../Main/croppingPlanes'
+import { getBoundsOfFullImage } from '../Main/croppingPlanes'
+import { computeRenderedBounds } from '../Main/computeRenderedBounds'
 
 const EPSILON = 0.000001
 

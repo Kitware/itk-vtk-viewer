@@ -3,7 +3,7 @@ import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import updateVisualizedComponents from './updateVisualizedComponents'
 import { fuseImages } from './fuseImages'
 import { computeRanges } from './fuseImagesUtils'
-import { computeRenderedBounds } from '../Main/croppingPlanes'
+import { computeRenderedBounds } from '../Main/computeRenderedBounds'
 import { worldBoundsToIndexBounds } from '../../../IO/MultiscaleSpatialImage'
 import { mat4 } from 'gl-matrix'
 
@@ -48,9 +48,10 @@ async function updateRenderedImage(context) {
 
   const { targetScale } = context
 
-  const boundsToLoad = context.main.areCroppingPlanesTouched
-    ? computeRenderedBounds(context)
-    : undefined // if not touched, keep growing bounds to fit whole image
+  // const boundsToLoad = context.main.areCroppingPlanesTouched
+  //   ? computeRenderedBounds(context)
+  //   : undefined // if not touched, keep growing bounds to fit whole image
+  const boundsToLoad = computeRenderedBounds(context)
 
   const voxelCount = await getVoxelCount(
     image || labelImage,

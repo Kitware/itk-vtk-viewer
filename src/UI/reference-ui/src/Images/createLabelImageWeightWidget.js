@@ -1,10 +1,6 @@
-import macro from '@kitware/vtk.js/macro'
-
 import style from '../ItkVtkViewer.module.css'
 
 function createLabelMapWeightWidget(context) {
-  const viewerDOMId = context.id
-
   const labelImageWeightUIGroup = document.createElement('div')
   context.images.labelImageWeightUIGroup = labelImageWeightUIGroup
   labelImageWeightUIGroup.setAttribute('class', style.uiGroup)

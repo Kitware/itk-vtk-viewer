@@ -91,12 +91,17 @@ function createImagesRenderingMachine(options, context) {
                 to: (c, e) => `imageRenderingActor-${e.data.name}`,
               }),
             },
+            IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED: {
+              actions: send((_, e) => e, {
+                to: (c, e) => `imageRenderingActor-${e.data.name}`,
+              }),
+            },
             IMAGE_COLOR_RANGE_CHANGED: {
               actions: send((_, e) => e, {
                 to: (c, e) => `imageRenderingActor-${e.data.name}`,
               }),
             },
-            IMAGE_COLOR_MAP_CHANGED: {
+            IMAGE_COLOR_MAP_SELECTED: {
               actions: send((_, e) => e, {
                 to: (c, e) => `imageRenderingActor-${e.data.name}`,
               }),

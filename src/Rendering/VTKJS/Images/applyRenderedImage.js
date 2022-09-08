@@ -124,11 +124,6 @@ function applyRenderedImage(context, { data: { name } }) {
     }
     const lookupTableProxy = vtkLookupTableProxy.newInstance()
 
-    if (actorContext.colorMaps.has(component)) {
-      const preset = actorContext.colorMaps.get(component)
-      lookupTableProxy.setPresetName(preset)
-      lookupTableProxy.setMode(vtkLookupTableProxy.Mode.Preset)
-    }
     const lut = lookupTableProxy.getLookupTable()
     if (actorContext.colorRanges.has(component)) {
       const range = actorContext.colorRanges.get(component)
@@ -137,6 +132,16 @@ function applyRenderedImage(context, { data: { name } }) {
     }
 
     context.images.lookupTableProxies.set(component, lookupTableProxy)
+
+    if (actorContext.colorMaps.has(component)) {
+      const preset = actorContext.colorMaps.get(component)
+      lookupTableProxy.setPresetName(preset)
+      lookupTableProxy.setMode(vtkLookupTableProxy.Mode.Preset)
+      context.service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component, colorMap: preset },
+      })
+    }
   }
   for (let component = 0; component < numberOfComponents; component++) {
     if (context.images.piecewiseFunctions.has(component)) {
@@ -309,6 +314,13 @@ function applyRenderedImage(context, { data: { name } }) {
             data: { name, component: componentIndex, range },
           })
         }
+      } else {
+        // Always send IMAGE_COLOR_RANGE_CHANGED to trigger IMAGE_PIECEWISE_FUNCTION_CHANGED
+        const range = actorContext.colorRanges.get(componentIndex)
+        context.service.send({
+          type: 'IMAGE_COLOR_RANGE_CHANGED',
+          data: { name, component: componentIndex, range },
+        })
       }
     }
   )

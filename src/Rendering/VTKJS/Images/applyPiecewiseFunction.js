@@ -17,8 +17,9 @@ function applyPiecewiseFunction(context, event) {
     const sliceNodes = nodes.length > 2 ? nodes.slice(1, -1) : nodes // if more than 2, remove "window" nodes with y = 0
     slicePiecewiseFunction.setNodes(sliceNodes)
 
-    const lookupTableProxy = context.images.lookupTableProxies.get(component)
-    const lookupTable = lookupTableProxy.getLookupTable()
+    const lookupTable = context.images.lookupTableProxies
+      .get(component)
+      .getLookupTable()
     lookupTable.setMappingRange(...range)
     lookupTable.updateRange()
 

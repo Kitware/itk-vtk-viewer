@@ -29,8 +29,6 @@ function applyColorRangeBounds(context, event) {
     minimumInput.step = step
     maximumInput.step = step
   }
-
-  context.images.transferFunctionWidget.setDataRange(range)
 }
 
 export default applyColorRangeBounds

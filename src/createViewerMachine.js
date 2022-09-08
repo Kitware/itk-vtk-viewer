@@ -200,10 +200,11 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
               actions: [forwardTo('ui'), forwardTo('rendering')],
             },
             IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED: {
-              actions: [forwardTo('ui'), forwardTo('eventEmitter')],
-            },
-            IMAGE_PIECEWISE_FUNCTION_POINTS_SET: {
-              actions: forwardTo('ui'),
+              actions: [
+                forwardTo('ui'),
+                forwardTo('rendering'),
+                forwardTo('eventEmitter'),
+              ],
             },
             IMAGE_COLOR_RANGE_CHANGED: {
               actions: [
@@ -220,11 +221,10 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
               ],
             },
             IMAGE_COLOR_MAP_CHANGED: {
-              actions: [
-                forwardTo('ui'),
-                forwardTo('rendering'),
-                forwardTo('eventEmitter'),
-              ],
+              actions: [forwardTo('ui'), forwardTo('eventEmitter')],
+            },
+            IMAGE_COLOR_MAP_SELECTED: {
+              actions: [forwardTo('ui'), forwardTo('rendering')],
             },
             TOGGLE_IMAGE_SHADOW: {
               actions: [

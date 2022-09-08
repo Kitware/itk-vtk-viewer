@@ -1,4 +1,5 @@
 import { Machine, assign, forwardTo } from 'xstate'
+import { createTransferFunctionManipulators } from './transferFunctionManipulators'
 
 const assignSelectedComponentIndex = assign({
   images: (context, event) => {
@@ -273,9 +274,15 @@ function createImagesUIMachine(options, context) {
           },
         },
         active: {
-          invoke: {
-            src: 'scaleSelector',
-          },
+          invoke: [
+            {
+              src: 'scaleSelector',
+            },
+            {
+              id: 'transferFunctionManipulators',
+              src: createTransferFunctionManipulators,
+            },
+          ],
           on: {
             IMAGE_ASSIGNED: {
               actions: [
@@ -297,7 +304,11 @@ function createImagesUIMachine(options, context) {
               actions: [assignInterpolationEnabled, 'toggleInterpolation'],
             },
             SELECT_IMAGE_COMPONENT: {
-              actions: [assignSelectedComponentIndex, 'selectImageComponent'],
+              actions: [
+                assignSelectedComponentIndex,
+                'selectImageComponent',
+                forwardTo('transferFunctionManipulators'),
+              ],
             },
             IMAGE_COMPONENT_VISIBILITY_CHANGED: {
               actions: [assignComponentVisibility, 'applyComponentVisibility'],
@@ -312,22 +323,26 @@ function createImagesUIMachine(options, context) {
               ],
             },
             IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED: {
-              actions: assignPiecewiseFunctionPoints,
-            },
-            IMAGE_PIECEWISE_FUNCTION_POINTS_SET: {
               actions: [
                 assignPiecewiseFunctionPoints,
                 'applyPiecewiseFunctionPointsToEditor',
               ],
             },
             IMAGE_COLOR_RANGE_CHANGED: {
-              actions: [assignColorRange, 'applyColorRange'],
+              actions: [
+                assignColorRange,
+                'applyColorRange',
+                forwardTo('transferFunctionManipulators'),
+              ],
             },
             IMAGE_COLOR_RANGE_BOUNDS_CHANGED: {
               actions: [assignColorRangeBounds, 'applyColorRangeBounds'],
             },
+            IMAGE_COLOR_MAP_SELECTED: {
+              actions: assignColorMap,
+            },
             IMAGE_COLOR_MAP_CHANGED: {
-              actions: [assignColorMap, 'applyColorMap'],
+              actions: 'applyColorMap',
             },
             TOGGLE_IMAGE_SHADOW: {
               actions: [assignShadowEnabled, 'toggleShadow'],

@@ -62,6 +62,15 @@ const assignLoadedScale = assign({
   },
 })
 
+const assignClearHistograms = assign({
+  images: ({ images }, { data }) => {
+    const name = data.name ?? data
+    const actorContext = images.actorContext.get(name)
+    actorContext.histograms = new Map()
+    return images
+  },
+})
+
 const LOW_FPS = 10.0
 const JUST_ACCEPTABLE_FPS = 30.0
 
@@ -230,6 +239,7 @@ const createUpdatingImageMachine = options => {
               actions: [
                 'assignRenderedImage',
                 assignLoadedScale,
+                assignClearHistograms,
                 'applyRenderedImage',
                 sendRenderedImageAssigned,
               ],

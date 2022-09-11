@@ -7,7 +7,7 @@ import { computeRenderedBounds } from '../Main/computeRenderedBounds'
 import { worldBoundsToIndexBounds } from '../../../IO/MultiscaleSpatialImage'
 import { mat4 } from 'gl-matrix'
 
-export const RENDERED_VOXEL_MAX = 512 * 512 * 512
+export const RENDERED_VOXEL_MAX = 512 * 512 * 512 * 2
 
 const getVoxelCount = async (image, bounds, scale) => {
   const scaleInfo = image.scaleInfo[scale]

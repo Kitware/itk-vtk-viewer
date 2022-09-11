@@ -281,7 +281,7 @@ function applyRenderedImage(context, { data: { name } }) {
     data: { name, volumeSampleDistance: actorContext.volumeSampleDistance },
   })
 
-  representationProxy.getMapper().setMaximumSamplesPerRay(2048)
+  representationProxy.getMapper().setMaximumSamplesPerRay(2814)
 
   // update color ranges
   actorContext.visualizedComponents

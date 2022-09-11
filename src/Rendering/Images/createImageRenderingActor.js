@@ -107,10 +107,17 @@ const assignIsFramerateScalePickingOn = assign({
   },
 })
 
+const KNOWN_ERRORS = [
+  'Voxel count over max at scale',
+  "DataCloneError: Failed to execute 'postMessage' on 'Worker': Data cannot be cloned, out of memory.",
+]
+
 const checkIsKnownErrorOrThrow = (c, { data: error }) => {
-  if (error.message.startsWith('Voxel count over max at scale'))
+  if (
+    KNOWN_ERRORS.some(knownMessage => error.message.startsWith(knownMessage))
+  ) {
     console.warn(`Could not update image : ${error.message}`)
-  else {
+  } else {
     throw error
   }
 }
@@ -212,7 +219,10 @@ const eventResponses = {
   // updateRenderedImage->applyRenderedImage->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
   // because image size may change across scales.
   CROPPING_PLANES_CHANGED_BY_USER: {
-    target: 'imageBoundsDebouncing',
+    target: 'debouncingUpdatingImage',
+  },
+  CAMERA_MODIFIED: {
+    target: 'debouncingUpdatingImage',
   },
 }
 
@@ -315,7 +325,7 @@ const createImageRenderingActor = (options, context /*, event*/) => {
           },
         },
 
-        imageBoundsDebouncing: {
+        debouncingUpdatingImage: {
           on: {
             ...eventResponses,
           },

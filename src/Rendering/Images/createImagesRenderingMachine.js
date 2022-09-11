@@ -24,6 +24,15 @@ function spawnImageRenderingActor(options) {
   })
 }
 
+const sendEventToAllActors = eventType =>
+  actions.pure(({ images: { imageRenderingActors } }) =>
+    Array.from(imageRenderingActors.values()).map(actor =>
+      send(eventType, {
+        to: actor,
+      })
+    )
+  )
+
 function createImagesRenderingMachine(options, context) {
   const { imageRenderingActor } = options
 
@@ -46,6 +55,14 @@ function createImagesRenderingMachine(options, context) {
           },
         },
         active: {
+          invoke: {
+            id: 'cameraModifiedWatcher',
+            src: context => send =>
+              context.itkVtkView
+                .getRenderer()
+                .getActiveCamera()
+                .onModified(() => send('CAMERA_MODIFIED')).unsubscribe, // return cleanup func
+          },
           on: {
             IMAGE_ASSIGNED: {
               actions: spawnImageRenderingActor(imageRenderingActor),
@@ -167,14 +184,10 @@ function createImagesRenderingMachine(options, context) {
               }),
             },
             CROPPING_PLANES_CHANGED_BY_USER: {
-              // send to all image actors
-              actions: actions.pure(({ images: { imageRenderingActors } }) =>
-                Array.from(imageRenderingActors.values()).map(actor =>
-                  send('CROPPING_PLANES_CHANGED_BY_USER', {
-                    to: actor,
-                  })
-                )
-              ),
+              actions: sendEventToAllActors('CROPPING_PLANES_CHANGED_BY_USER'),
+            },
+            CAMERA_MODIFIED: {
+              actions: sendEventToAllActors('CAMERA_MODIFIED'),
             },
           },
         },

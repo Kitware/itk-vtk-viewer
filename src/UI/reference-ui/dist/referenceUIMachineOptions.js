@@ -235,7 +235,7 @@ function createScreenshotButton(context, mainUIRow) {
   mainUIRow.appendChild(screenshotButton)
 }
 
-function _arrayLikeToArray$4(arr, len) {
+function _arrayLikeToArray$3(arr, len) {
   if (len == null || len > arr.length) len = arr.length
 
   for (var i = 0, arr2 = new Array(len); i < len; i++) {
@@ -245,11 +245,11 @@ function _arrayLikeToArray$4(arr, len) {
   return arr2
 }
 
-function _arrayWithoutHoles$1(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray$4(arr)
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return _arrayLikeToArray$3(arr)
 }
 
-function _iterableToArray$1(iter) {
+function _iterableToArray(iter) {
   if (
     (typeof Symbol !== 'undefined' && iter[Symbol.iterator] != null) ||
     iter['@@iterator'] != null
@@ -257,28 +257,28 @@ function _iterableToArray$1(iter) {
     return Array.from(iter)
 }
 
-function _unsupportedIterableToArray$4(o, minLen) {
+function _unsupportedIterableToArray$3(o, minLen) {
   if (!o) return
-  if (typeof o === 'string') return _arrayLikeToArray$4(o, minLen)
+  if (typeof o === 'string') return _arrayLikeToArray$3(o, minLen)
   var n = Object.prototype.toString.call(o).slice(8, -1)
   if (n === 'Object' && o.constructor) n = o.constructor.name
   if (n === 'Map' || n === 'Set') return Array.from(o)
   if (n === 'Arguments' || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-    return _arrayLikeToArray$4(o, minLen)
+    return _arrayLikeToArray$3(o, minLen)
 }
 
-function _nonIterableSpread$1() {
+function _nonIterableSpread() {
   throw new TypeError(
     'Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
   )
 }
 
-function _toConsumableArray$1(arr) {
+function _toConsumableArray(arr) {
   return (
-    _arrayWithoutHoles$1(arr) ||
-    _iterableToArray$1(arr) ||
-    _unsupportedIterableToArray$4(arr) ||
-    _nonIterableSpread$1()
+    _arrayWithoutHoles(arr) ||
+    _iterableToArray(arr) ||
+    _unsupportedIterableToArray$3(arr) ||
+    _nonIterableSpread()
   )
 }
 
@@ -309,7 +309,7 @@ window.addEventListener('load', function() {
     if (body[methods[0]] && fullscreenMethods.length === 0) {
       fullscreenMethods.splice.apply(
         fullscreenMethods,
-        [methods, methods.length].concat(_toConsumableArray$1(methods))
+        [methods, methods.length].concat(_toConsumableArray(methods))
       )
     }
   })
@@ -515,53 +515,6 @@ function createViewPlanesToggle(context, volumeRow) {
     }
   })
   volumeRow.appendChild(viewPlanesButton)
-}
-
-function _arrayLikeToArray$3(arr, len) {
-  if (len == null || len > arr.length) len = arr.length
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i]
-  }
-
-  return arr2
-}
-
-function _unsupportedIterableToArray$3(o, minLen) {
-  if (!o) return
-  if (typeof o === 'string') return _arrayLikeToArray$3(o, minLen)
-  var n = Object.prototype.toString.call(o).slice(8, -1)
-  if (n === 'Object' && o.constructor) n = o.constructor.name
-  if (n === 'Map' || n === 'Set') return Array.from(o)
-  if (n === 'Arguments' || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-    return _arrayLikeToArray$3(o, minLen)
-}
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray$3(arr)
-}
-
-function _iterableToArray(iter) {
-  if (
-    (typeof Symbol !== 'undefined' && iter[Symbol.iterator] != null) ||
-    iter['@@iterator'] != null
-  )
-    return Array.from(iter)
-}
-
-function _nonIterableSpread() {
-  throw new TypeError(
-    'Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
-  )
-}
-
-function _toConsumableArray(arr) {
-  return (
-    _arrayWithoutHoles(arr) ||
-    _iterableToArray(arr) ||
-    _unsupportedIterableToArray$3(arr) ||
-    _nonIterableSpread()
-  )
 }
 
 var commonjsGlobal =
@@ -941,44 +894,6 @@ TYPED_ARRAYS.Int16Array = Int16Array
 TYPED_ARRAYS.Uint32Array = Uint32Array
 TYPED_ARRAYS.Int32Array = Int32Array
 TYPED_ARRAYS.Uint8ClampedArray = Uint8ClampedArray // TYPED_ARRAYS.BigInt64Array = BigInt64Array;
-// Creates a throttled function that only invokes `func` at most once per
-// every `wait` milliseconds.
-
-function throttle(callback, delay) {
-  var isThrottled = false
-  var argsToUse = null
-
-  function next() {
-    isThrottled = false
-
-    if (argsToUse !== null) {
-      wrapper.apply(void 0, _toConsumableArray(argsToUse)) // eslint-disable-line
-
-      argsToUse = null
-    }
-  }
-
-  function wrapper() {
-    for (
-      var _len8 = arguments.length, args = new Array(_len8), _key8 = 0;
-      _key8 < _len8;
-      _key8++
-    ) {
-      args[_key8] = arguments[_key8]
-    }
-
-    if (isThrottled) {
-      argsToUse = args
-      return
-    }
-
-    isThrottled = true
-    callback.apply(void 0, args)
-    setTimeout(next, delay)
-  }
-
-  return wrapper
-} // ----------------------------------------------------------------------------
 
 function createPlaneSliders(context) {
   var planeUIGroup = document.createElement('div')
@@ -2536,7 +2451,7 @@ function _slicedToArray(arr, i) {
   return (
     _arrayWithHoles(arr) ||
     _iterableToArrayLimit(arr, i) ||
-    _unsupportedIterableToArray$4(arr, i) ||
+    _unsupportedIterableToArray$3(arr, i) ||
     _nonIterableRest()
   )
 }
@@ -3351,6 +3266,50 @@ function createColorRangeInput(context, imageUIGroup) {
   imageUIGroup.appendChild(colorRangeInputRow)
 }
 
+// from https://stackoverflow.com/a/27078401
+// Trailing call functionality is desired.
+// Returns a function, that, when invoked, will only be triggered at most once
+// during a given window of time. Normally, the throttled function will run
+// as much as it can, without ever going more than once per `wait` duration;
+// but if you'd like to disable the execution on the leading edge, pass
+// `{leading: false}`. To disable execution on the trailing edge, ditto.
+function throttle(func, wait, options) {
+  var context, args, result
+  var timeout = null
+  var previous = 0
+  if (!options) options = {}
+
+  var later = function later() {
+    previous = options.leading === false ? 0 : Date.now()
+    timeout = null
+    result = func.apply(context, args)
+    if (!timeout) context = args = null
+  }
+
+  return function() {
+    var now = Date.now()
+    if (!previous && options.leading === false) previous = now
+    var remaining = wait - (now - previous)
+    context = this
+    args = arguments
+
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout)
+        timeout = null
+      }
+
+      previous = now
+      result = func.apply(context, args)
+      if (!timeout) context = args = null
+    } else if (!timeout && options.trailing !== false) {
+      timeout = setTimeout(later, remaining)
+    }
+
+    return result
+  }
+}
+
 var __defProp = Object.defineProperty
 var __defNormalProp = (obj, key, value) =>
   key in obj
@@ -4032,7 +3991,7 @@ var vtkPiecewiseGaussianWidgetFacade = function vtkPiecewiseGaussianWidgetFacade
       return tfEditor.getPoints()
     },
     setRangeZoom: function setRangeZoom(newRange) {
-      tfEditor.setViewBox.apply(tfEditor, _toConsumableArray$1(newRange))
+      tfEditor.setViewBox.apply(tfEditor, _toConsumableArray(newRange))
     },
     setHistogram: function setHistogram(h) {
       return tfEditor.setHistogram(h)
@@ -4738,37 +4697,6 @@ function updateAvailableComponents(context) {
   }
 }
 
-function applyColorRangeBounds(context, event) {
-  var name = event.data.name
-  var componentIndex = event.data.component
-  var actorContext = context.images.actorContext.get(name)
-
-  if (
-    name !== context.images.selectedName ||
-    componentIndex !== actorContext.selectedComponent
-  ) {
-    return
-  }
-
-  var range = event.data.range
-  var minimumInput = context.images.colorRangeInputRow.children[0]
-  var maximumInput = context.images.colorRangeInputRow.children[2]
-  minimumInput.min = range[0]
-  minimumInput.max = range[1]
-  maximumInput.min = range[0]
-  maximumInput.max = range[1]
-  var image = actorContext.image
-
-  if (
-    (image && image.imageType.componentType === 'float') ||
-    image.imageType.componentType === 'double'
-  ) {
-    var step = (range[1] - range[0]) / 1000.0
-    minimumInput.step = step
-    maximumInput.step = step
-  }
-}
-
 function applyColorRange(context, event) {
   var name = event.data.name
   var component = event.data.component
@@ -4792,12 +4720,60 @@ function applyColorRange(context, event) {
     fullRange = actorContext.colorRangeBounds.get(component)
   }
 
+  if (event.data.fullRange) {
+    // use more up to date colorRangeBounds
+    fullRange = event.data.fullRange
+  }
+
   var diff = fullRange[1] - fullRange[0]
   var colorRangeNormalized = [
     (colorRange[0] - fullRange[0]) / diff,
     (colorRange[1] - fullRange[0]) / diff,
   ]
   context.images.transferFunctionWidget.setRangeZoom(colorRangeNormalized)
+}
+
+function applyColorRangeBounds(context, event) {
+  var _event$data = event.data,
+    name = _event$data.name,
+    component = _event$data.component
+  var actorContext = context.images.actorContext.get(name)
+
+  if (
+    name !== context.images.selectedName ||
+    component !== actorContext.selectedComponent
+  ) {
+    return
+  }
+
+  var range = event.data.range
+  var minimumInput = context.images.colorRangeInputRow.children[0]
+  var maximumInput = context.images.colorRangeInputRow.children[2]
+  minimumInput.min = range[0]
+  minimumInput.max = range[1]
+  maximumInput.min = range[0]
+  maximumInput.max = range[1]
+  var image = actorContext.image
+
+  if (
+    (image && image.imageType.componentType === 'float') ||
+    image.imageType.componentType === 'double'
+  ) {
+    var step = (range[1] - range[0]) / 1000.0
+    minimumInput.step = step
+    maximumInput.step = step
+  }
+
+  if (actorContext.colorRanges.has(component)) {
+    applyColorRange(context, {
+      data: {
+        name: name,
+        component: component,
+        range: actorContext.colorRanges.get(component),
+        fullRange: range,
+      },
+    })
+  }
 }
 
 function applyColorMap(context, _ref) {
@@ -5100,7 +5076,6 @@ function selectImageComponent(context, event) {
   }
 
   if (actorContext.colorRangeBounds.has(component)) {
-    // calls transferFunctionWidget.setDataRange(range)
     applyColorRangeBounds(context, {
       data: {
         name: name,
@@ -5216,7 +5191,7 @@ function applyScaleCount(input, scaleCount) {
   autoPickOption.innerHTML = 'Framerate-pick'
   input.appendChild(autoPickOption)
 
-  _toConsumableArray$1(Array(scaleCount).keys())
+  _toConsumableArray(Array(scaleCount).keys())
     .reverse()
     .forEach(function(i) {
       var option = document.createElement('option')

@@ -3,6 +3,23 @@ import { assign, createMachine, forwardTo } from 'xstate'
 const getLoadedImage = actorContext =>
   actorContext.image ?? actorContext.labelImage
 
+const assignColorRange = assign({
+  images: (
+    { images },
+    { data: { name, component, range, fromAutomation = false } }
+  ) => {
+    const { colorRanges, colorRangesTouched } = images.actorContext.get(name)
+
+    colorRanges.set(component, range)
+
+    if (!fromAutomation) {
+      colorRangesTouched.set(component, true)
+    }
+
+    return images
+  },
+})
+
 const assignUpdateRenderedName = assign({
   images: (context, event) => {
     const images = context.images
@@ -81,6 +98,14 @@ const assignIsFramerateScalePickingOn = assign({
   },
 })
 
+const checkIsKnownErrorOrThrow = (c, { data: error }) => {
+  if (error.message.startsWith('Voxel count over max at scale'))
+    console.warn(`Could not update image : ${error.message}`)
+  else {
+    throw error
+  }
+}
+
 const sendRenderedImageAssigned = (
   context,
   { data: { name, loadedScale } }
@@ -124,7 +149,10 @@ const eventResponses = {
     actions: 'mapToPiecewiseFunctionNodes',
   },
   IMAGE_COLOR_RANGE_CHANGED: {
-    actions: 'applyColorRange',
+    actions: [assignColorRange, 'applyColorRange'],
+  },
+  IMAGE_COLOR_RANGE_BOUNDS_CHANGED: {
+    actions: ['applyColorRangeBounds'],
   },
   IMAGE_COLOR_MAP_SELECTED: {
     actions: 'applyColorMap',
@@ -207,12 +235,7 @@ const createUpdatingImageMachine = options => {
               ],
             },
             onError: {
-              actions: [
-                (c, event) => {
-                  console.warn(`Could not update image : ${event.data.stack}`)
-                },
-                assignCoarserScale,
-              ],
+              actions: [checkIsKnownErrorOrThrow, assignCoarserScale],
               target: 'checkingUpdateNeeded',
             },
           },

@@ -6,6 +6,7 @@ import updateHistogram from './updateHistogram'
 import selectImageLayer from './selectImageLayer'
 import toggleInterpolation from './toggleInterpolation'
 import applyColorRange from './applyColorRange'
+import { applyColorRangeBounds } from './applyColorRangeBounds'
 import applyColorMap from './applyColorMap'
 import applyRenderedImage from './applyRenderedImage'
 import assignRenderedImage from './assignRenderedImage'
@@ -74,6 +75,7 @@ const imagesRenderingMachineOptions = {
 
       applyPiecewiseFunction,
       applyColorRange,
+      applyColorRangeBounds,
       applyColorMap,
       mapToPiecewiseFunctionNodes,
 

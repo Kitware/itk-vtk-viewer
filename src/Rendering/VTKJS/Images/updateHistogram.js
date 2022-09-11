@@ -31,7 +31,7 @@ async function updateHistogram(context, event) {
   const fusedImageComponent = actorContext.visualizedComponents.indexOf(
     component
   )
-  const [min, max] = actorContext.colorRanges.get(component) ?? [0, 0] // [0, 0] default for no image, only imageLabel case
+  const [min, max] = actorContext.colorRangeBounds.get(component) ?? [0, 0] // [0, 0] default for no image, only imageLabel case
 
   let numberOfBins = 256
   if (

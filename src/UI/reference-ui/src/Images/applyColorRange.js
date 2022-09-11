@@ -22,6 +22,10 @@ function applyColorRange(context, event) {
   if (actorContext.colorRangeBounds.has(component)) {
     fullRange = actorContext.colorRangeBounds.get(component)
   }
+  if (event.data.fullRange) {
+    // use more up to date colorRangeBounds
+    fullRange = event.data.fullRange
+  }
   const diff = fullRange[1] - fullRange[0]
 
   const colorRangeNormalized = [

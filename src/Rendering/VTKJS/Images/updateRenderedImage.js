@@ -48,10 +48,11 @@ async function updateRenderedImage(context) {
 
   const { targetScale } = context
 
-  // const boundsToLoad = context.main.areCroppingPlanesTouched
-  //   ? computeRenderedBounds(context)
-  //   : undefined // if not touched, keep growing bounds to fit whole image
-  const boundsToLoad = computeRenderedBounds(context)
+  // always load full image if least detailed scale
+  const isCoarsestScale = (image || labelImage).coarsestScale === targetScale
+  const boundsToLoad = isCoarsestScale
+    ? undefined
+    : computeRenderedBounds(context)
 
   const voxelCount = await getVoxelCount(
     image || labelImage,

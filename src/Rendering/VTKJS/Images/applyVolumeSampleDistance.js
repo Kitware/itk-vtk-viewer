@@ -1,8 +1,6 @@
 function applyVolumeSampleDistance(context, event) {
-  const name = event.data.name
-  const volumeSampleDistance = event.data.volumeSampleDistance
-
-  if (!!context.images.representationProxy) {
+  if (context.images.representationProxy) {
+    const { volumeSampleDistance } = event.data
     context.images.representationProxy.setSampleDistance(volumeSampleDistance)
     const sourceDS = context.images.representationProxy.getInputDataSet()
     const sampleDistance =

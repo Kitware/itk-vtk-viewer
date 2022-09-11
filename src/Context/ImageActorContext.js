@@ -45,10 +45,14 @@ class ImageActorContext {
   // Map of image intensity component to array of [minValue, maxValue] for
   // mapping colors
   colorRanges = new Map()
+  // If not touched, keep growing ranges as new parts of the image are loaded
+  colorRangesTouched = new Map()
 
   // Map of image intensity component to array of [minBound, maxBound] for
   // limiting the color range in the UI
   colorRangeBounds = new Map()
+  // If not touched, keep growing bounds as new parts of the image are loaded
+  colorRangeBoundsTouched = new Map()
 
   // Map of the image intensity component to an object representing the
   // piecewise function. This object has two properties: range and nodes.

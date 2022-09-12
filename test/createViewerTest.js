@@ -110,7 +110,7 @@ test('Test createViewer', async t => {
     image: itkImage,
     labelImage: itkLabelImage,
     rotate: false,
-    gradientOpacity: 0.1,
+    gradientOpacity: GRADIENT_OPACITY,
     config: { uiMachineOptions },
   })
   viewer.setRenderingViewContainerStyle(TEST_VIEWER_STYLE.containerStyle)

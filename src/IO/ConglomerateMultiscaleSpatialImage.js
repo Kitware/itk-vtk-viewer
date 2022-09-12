@@ -22,7 +22,7 @@ export class ConglomerateMultiscaleSpatialImage extends MultiscaleSpatialImage {
   }
 
   async getImage(scale, worldBounds = []) {
-    this.worldBoundsStashedForOurBuildImage = worldBounds
+    this.worldBoundsForBuildImage = worldBounds
     return super.getImage(scale, worldBounds)
   }
 
@@ -31,7 +31,7 @@ export class ConglomerateMultiscaleSpatialImage extends MultiscaleSpatialImage {
     const builtImages = []
     for (const image of this.images) {
       builtImages.push(
-        await image.getImage(scale, this.worldBoundsStashedForOurBuildImage)
+        await image.getImage(scale, this.worldBoundsForBuildImage)
       )
     }
     return builtImages

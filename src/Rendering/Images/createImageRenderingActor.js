@@ -6,15 +6,16 @@ const getLoadedImage = actorContext =>
 const assignColorRange = assign({
   images: (
     { images },
-    { data: { name, component, range, fromAutomation = false } }
+    { data: { name, component, range, keepAutoAdjusting = false } }
   ) => {
-    const { colorRanges, colorRangesTouched } = images.actorContext.get(name)
+    const { colorRanges, colorRangesAutoAdjust } = images.actorContext.get(name)
 
     colorRanges.set(component, range)
 
-    if (!fromAutomation) {
-      colorRangesTouched.set(component, true)
-    }
+    colorRangesAutoAdjust.set(
+      component,
+      colorRangesAutoAdjust.get(component) && keepAutoAdjusting
+    )
 
     return images
   },

@@ -1,16 +1,18 @@
 const assignColorRangeBounds = (
   { images },
-  { data: { name, component, range, fromAutomation = false } }
+  { data: { name, component, range, keepAutoAdjusting = false } }
 ) => {
-  const { colorRangeBounds, colorRangeBoundsTouched } = images.actorContext.get(
-    name
-  )
+  const {
+    colorRangeBounds,
+    colorRangeBoundsAutoAdjust,
+  } = images.actorContext.get(name)
 
   colorRangeBounds.set(component, range)
 
-  if (!fromAutomation) {
-    colorRangeBoundsTouched.set(component, true)
-  }
+  colorRangeBoundsAutoAdjust.set(
+    component,
+    colorRangeBoundsAutoAdjust.get(component) && keepAutoAdjusting
+  )
 
   return images
 }

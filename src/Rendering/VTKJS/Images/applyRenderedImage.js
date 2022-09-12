@@ -289,10 +289,10 @@ function applyRenderedImage(context, { data: { name } }) {
     .filter(([componentIndex]) => componentIndex >= 0) // skip label map
     .forEach(([componentIndex, fusedImageIndex]) => {
       const {
-        colorRangeBoundsTouched,
+        colorRangeBoundsAutoAdjust,
         colorRangeBounds,
         colorRanges,
-        colorRangesTouched,
+        colorRangesAutoAdjust,
       } = actorContext
 
       const dataArray = actorContext.fusedImage.getPointData().getScalars()
@@ -303,7 +303,7 @@ function applyRenderedImage(context, { data: { name } }) {
           ? getDefaultRangeByDataType(dataArray.getDataType())
           : [dataMin, dataMax]
 
-      if (!colorRangeBoundsTouched.get(componentIndex)) {
+      if (colorRangeBoundsAutoAdjust.get(componentIndex)) {
         const oldRange = colorRangeBounds.get(componentIndex) ?? [
           Number.POSITIVE_INFINITY,
           Number.NEGATIVE_INFINITY,
@@ -321,7 +321,7 @@ function applyRenderedImage(context, { data: { name } }) {
               name,
               component: componentIndex,
               range: newRange,
-              fromAutomation: true,
+              keepAutoAdjusting: true,
             },
           })
         }
@@ -332,7 +332,7 @@ function applyRenderedImage(context, { data: { name } }) {
         Number.POSITIVE_INFINITY,
         Number.NEGATIVE_INFINITY,
       ]
-      if (!colorRangesTouched.get(componentIndex) || !storedColorRange) {
+      if (colorRangesAutoAdjust.get(componentIndex) || !storedColorRange) {
         // only grow range
         const newRange = [
           Math.min(newMin, oldRange[0]),
@@ -347,7 +347,7 @@ function applyRenderedImage(context, { data: { name } }) {
               name,
               component: componentIndex,
               range: newRange,
-              fromAutomation: true,
+              keepAutoAdjusting: true,
             },
           })
         }

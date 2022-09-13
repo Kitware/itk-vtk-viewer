@@ -43,6 +43,15 @@ const imJoyPluginAPI = {
       } else {
         await this.setPointSets(ctx.data.pointSets)
       }
+    } else if (ctx.data && ctx.config) {
+      this.viewer = await itkVtkViewer.createViewer(container, {
+        image: null,
+        labelImage: null,
+        pointSets: null,
+        geometries: null,
+        rotate: false,
+        config: ctx.config,
+      })
     }
   },
 

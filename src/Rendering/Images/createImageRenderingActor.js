@@ -220,10 +220,10 @@ const eventResponses = {
   // updateRenderedImage->applyRenderedImage->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
   // because image size may change across scales.
   CROPPING_PLANES_CHANGED_BY_USER: {
-    target: 'debouncingUpdatingImage',
+    target: 'debouncedImageUpdate',
   },
   CAMERA_MODIFIED: {
-    target: 'debouncingUpdatingImage',
+    target: 'debouncedImageUpdate',
   },
 }
 
@@ -326,7 +326,7 @@ const createImageRenderingActor = (options, context /*, event*/) => {
           },
         },
 
-        debouncingUpdatingImage: {
+        debouncedImageUpdate: {
           on: {
             ...eventResponses,
           },

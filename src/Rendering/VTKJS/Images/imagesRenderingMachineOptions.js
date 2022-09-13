@@ -97,7 +97,6 @@ const imagesRenderingMachineOptions = {
         images.actorContext.get(images.updateRenderedName)
           .isFramerateScalePickingOn,
 
-      // Check if different scale than loaded or if bounds are larger than loaded
       isImageUpdateNeeded: context =>
         context.isUpdateForced ||
         !isTargetScaleLoaded(context) ||

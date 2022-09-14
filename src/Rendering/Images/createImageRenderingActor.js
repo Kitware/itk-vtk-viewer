@@ -73,9 +73,9 @@ const assignClearHistograms = assign({
 })
 
 const LOW_FPS = 10.0
-const JUST_ACCEPTABLE_FPS = 30.0
+const HIGH_FPS = 30.0
 
-// Return true if finest scale or right scale (to stop loading of finer scale)
+// Return true if finest scale or already backed off coarser or FPS is in Goldilocks zone
 function finestScaleOrScaleJustRight(context) {
   const { loadedScale } = context.images.actorContext.get(
     context.images.updateRenderedName
@@ -83,21 +83,19 @@ function finestScaleOrScaleJustRight(context) {
   return (
     loadedScale === 0 ||
     context.hasScaledCoarser ||
-    (LOW_FPS < context.main.fps && context.main.fps < JUST_ACCEPTABLE_FPS)
+    (LOW_FPS < context.main.fps && context.main.fps < HIGH_FPS)
   )
 }
 
-function scaleTooHigh(context) {
+function isFpsLow(context) {
   return context.main.fps <= LOW_FPS
 }
 
-function scaleTooHighAndMostCoarse(context) {
+function isLoadedScaleMostCoarse(context) {
   const actorContext = context.images.actorContext.get(
     context.images.updateRenderedName
   )
-  const { coarsestScale } = getLoadedImage(actorContext)
-  const { loadedScale } = actorContext
-  return scaleTooHigh(context) && loadedScale === coarsestScale
+  return getLoadedImage(actorContext).coarsestScale === actorContext.loadedScale
 }
 
 const assignIsFramerateScalePickingOn = assign({
@@ -236,7 +234,7 @@ const createUpdatingImageMachine = options => {
         checkingUpdateNeeded: {
           always: [
             { cond: 'isImageUpdateNeeded', target: 'loadingImage' },
-            { target: '#updatingImageMachine.afterUpdatingImage' },
+            { target: '#updatingImageMachine.loadedImage' },
           ],
           exit: assign({ isUpdateForced: false }),
         },
@@ -246,7 +244,7 @@ const createUpdatingImageMachine = options => {
             id: 'updateRenderedImage',
             src: 'updateRenderedImage',
             onDone: {
-              target: '#updatingImageMachine.afterUpdatingImage',
+              target: '#updatingImageMachine.loadedImage',
               actions: [
                 'assignRenderedImage',
                 assignLoadedScale,
@@ -262,7 +260,7 @@ const createUpdatingImageMachine = options => {
           },
         },
 
-        afterUpdatingImage: {
+        loadedImage: {
           always: [
             {
               cond: 'isFramerateScalePickingOn',
@@ -279,17 +277,18 @@ const createUpdatingImageMachine = options => {
           on: {
             FPS_UPDATED: [
               {
-                cond: scaleTooHighAndMostCoarse, // FPS too slow but nothing to do about it
-                target: 'finished',
+                cond: c =>
+                  [isFpsLow, isLoadedScaleMostCoarse].every(cond => cond(c)),
+                target: 'finished', // FPS too slow but nothing to do about it
               },
               {
-                cond: scaleTooHigh, // FPS too slow
+                cond: isFpsLow,
                 actions: assignCoarserScale, // back off
                 target: 'checkingUpdateNeeded',
               },
               {
-                cond: finestScaleOrScaleJustRight, // found good scale
-                target: 'finished',
+                cond: finestScaleOrScaleJustRight,
+                target: 'finished', // found good scale
               },
               {
                 actions: assignFinerScale, // try harder

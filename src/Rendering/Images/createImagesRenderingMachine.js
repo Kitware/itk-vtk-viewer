@@ -24,10 +24,10 @@ function spawnImageRenderingActor(options) {
   })
 }
 
-const sendEventToAllActors = eventType =>
-  actions.pure(({ images: { imageRenderingActors } }) =>
+const sendEventToAllActors = () =>
+  actions.pure(({ images: { imageRenderingActors } }, event) =>
     Array.from(imageRenderingActors.values()).map(actor =>
-      send(eventType, {
+      send(event, {
         to: actor,
       })
     )
@@ -184,10 +184,10 @@ function createImagesRenderingMachine(options, context) {
               }),
             },
             CROPPING_PLANES_CHANGED_BY_USER: {
-              actions: sendEventToAllActors('CROPPING_PLANES_CHANGED_BY_USER'),
+              actions: sendEventToAllActors(),
             },
             CAMERA_MODIFIED: {
-              actions: sendEventToAllActors('CAMERA_MODIFIED'),
+              actions: sendEventToAllActors(),
             },
           },
         },

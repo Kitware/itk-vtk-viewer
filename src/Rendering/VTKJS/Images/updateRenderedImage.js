@@ -74,7 +74,7 @@ async function updateRenderedImage(context) {
     imageAtScale.imageType.components !==
       actorContext.visualizedComponents.length // more components in image than renderable
 
-  const [itkImage, componentRanges] = isFuseNeeded
+  const [itkImage, computedComponentRanges] = isFuseNeeded
     ? await fuseImages({
         imageAtScale,
         labelAtScale,
@@ -88,6 +88,11 @@ async function updateRenderedImage(context) {
         ),
       ]
 
+  const componentRanges =
+    image?.scaleInfo[targetScale].ranges?.map(([min, max]) => ({
+      min,
+      max,
+    })) ?? computedComponentRanges
   const vtkImage = vtkITKHelper.convertItkToVtkImage(itkImage)
   return {
     itkImage,

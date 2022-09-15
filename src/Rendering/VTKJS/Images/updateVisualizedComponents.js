@@ -5,12 +5,10 @@ function updateVisualizedComponents(context, name) {
   const editorLabelImage = actorContext.editorLabelImage
   if (image) {
     const imageComponents = image.imageType.components
-    if (typeof actorContext.visualizedComponents === 'undefined') {
-      actorContext.visualizedComponents = Array(image.imageType.components)
-        .fill(0)
-        .map((_, idx) => idx)
-        .filter(i => actorContext.componentVisibilities[i])
-    }
+    actorContext.visualizedComponents = Array(image.imageType.components)
+      .fill(0)
+      .map((_, idx) => idx)
+      .filter(i => actorContext.componentVisibilities[i])
 
     actorContext.maxIntensityComponents = 4
     if (labelImage) {
@@ -42,15 +40,8 @@ function updateVisualizedComponents(context, name) {
     }
   }
   if (labelImage) {
-    if (typeof actorContext.visualizedComponents === 'undefined') {
-      actorContext.visualizedComponents = [-1]
-    } else if (
-      actorContext.visualizedComponents[
-        actorContext.visualizedComponents.length - 1
-      ] !== -1
-    ) {
-      actorContext.visualizedComponents.push(-1)
-    }
+    actorContext.visualizedComponents = actorContext.visualizedComponents ?? []
+    actorContext.visualizedComponents.push(-1)
   }
 }
 

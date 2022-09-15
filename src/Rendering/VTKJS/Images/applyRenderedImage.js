@@ -156,10 +156,9 @@ function applyRenderedImage(context, { data: { name } }) {
 
   // Create color map and piecewise function objects as needed
   for (let component = 0; component < numberOfComponents; component++) {
-    if (context.images.lookupTableProxies.has(component)) {
-      continue
-    }
-    const lookupTableProxy = vtkLookupTableProxy.newInstance()
+    const lookupTableProxy =
+      context.images.lookupTableProxies.get(component) ??
+      vtkLookupTableProxy.newInstance()
 
     const lut = lookupTableProxy.getLookupTable()
     if (actorContext.colorRanges.has(component)) {
@@ -268,8 +267,10 @@ function applyRenderedImage(context, { data: { name } }) {
       if (!componentsVisible) {
         mode = OpacityMode.FRACTIONAL
       }
-      const numberOfComponents = actorContext.componentVisibilities.length
-      volumeProperty.setOpacityMode(numberOfComponents, mode)
+      const labelMapComponentIndex = actorContext.visualizedComponents.indexOf(
+        -1
+      )
+      volumeProperty.setOpacityMode(labelMapComponentIndex, mode)
     }
   })
 

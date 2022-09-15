@@ -25,18 +25,20 @@
         )
         const container = document.querySelector('#viewport')
         const viewer = await itkVtkViewer.createViewer(container, {
-          image,
+          // image,
           rotate: false,
         })
 
-        viewer.setLabelImage(
+        viewer.setImage(image)
+        // need the await for the setImagePiecewiseFunctionPoints to take
+        await viewer.setLabelImage(
           new URL('test-data/HeadMRVolumeLabels.nrrd', window.location.origin)
         )
 
         const newPoints = [
           [0, 0],
-          [0.5, 0.5],
-          [1, 1],
+          [0.75, 0.9],
+          [0.9, 1],
         ]
         viewer.setImagePiecewiseFunctionPoints(newPoints, 0)
         window.viewer = viewer

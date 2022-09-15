@@ -135,16 +135,17 @@ export const worldBoundsToIndexBounds = ({
   fullIndexBounds,
   worldToIndex,
 }) => {
+  const fullIndexBoundsWithZCT = ensuredDims([0, 1], CXYZT, fullIndexBounds)
   if (!bounds || bounds.length === 0) {
     // no bounds, return full image
-    return fullIndexBounds
+    return fullIndexBoundsWithZCT
   }
 
   const imageBounds = transformBounds(worldToIndex, bounds)
   // clamp to existing integer indexes
   const imageBoundsByDim = chunkArray(2, imageBounds)
   const spaceBounds = ['x', 'y', 'z'].map((dim, idx) => {
-    const [min, max] = fullIndexBounds.get(dim)
+    const [min, max] = fullIndexBoundsWithZCT.get(dim)
     const [bmin, bmax] = imageBoundsByDim[idx]
     return [
       dim,
@@ -154,7 +155,7 @@ export const worldBoundsToIndexBounds = ({
       ],
     ]
   })
-  const ctBounds = ['c', 't'].map(dim => [dim, fullIndexBounds.get(dim)])
+  const ctBounds = ['c', 't'].map(dim => [dim, fullIndexBoundsWithZCT.get(dim)])
   return new Map([...spaceBounds, ...ctBounds])
 }
 
@@ -374,15 +375,10 @@ class MultiscaleSpatialImage {
     const indexToWorld = await this.scaleIndexToWorld(scale)
 
     const { dims } = this.scaleInfo[scale]
-    const fullIndexBounds = ensuredDims(
-      [0, 1],
-      CXYZT,
-      this.getIndexBounds(scale)
-    )
     const indexBounds = orderBy(dims)(
       worldBoundsToIndexBounds({
         bounds: worldBounds,
-        fullIndexBounds,
+        fullIndexBounds: this.getIndexBounds(scale),
         worldToIndex: mat4.invert([], indexToWorld),
       })
     )

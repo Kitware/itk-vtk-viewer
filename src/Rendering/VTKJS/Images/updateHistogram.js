@@ -12,17 +12,7 @@ const updateHistogramWorkerPool = webWorkerPromiseWorkerPool(
   'updateHistogram'
 )
 
-async function updateHistogram(context, event) {
-  let name = context.images.selectedName
-  if (event.type === 'UPDATE_IMAGE_HISTOGRAM') {
-    name = event.data.name
-  }
-  const actorContext = context.images.actorContext.get(name)
-  let component = actorContext.selectedComponent
-  if (event.type === 'UPDATE_IMAGE_HISTOGRAM') {
-    component = event.data.component
-  }
-
+const computeHistogram = async (actorContext, component) => {
   const numberOfSplits = numberOfWorkers
 
   const dataArray = actorContext.fusedImage.getPointData().getScalars()
@@ -31,7 +21,7 @@ async function updateHistogram(context, event) {
   const fusedImageComponent = actorContext.visualizedComponents.indexOf(
     component
   )
-  const [min, max] = actorContext.colorRanges.get(component) ?? [0, 0] // [0, 0] default for no image, only imageLabel case
+  const [min, max] = actorContext.colorRangeBounds.get(component) ?? [0, 0] // [0, 0] default for no image, only imageLabel case
 
   let numberOfBins = 256
   if (
@@ -100,6 +90,24 @@ async function updateHistogram(context, event) {
   for (let ii = 0; ii < numberOfBins; ii++) {
     histogram[ii] /= maxHistogram
   }
+  return histogram
+}
+
+async function updateHistogram(
+  context,
+  {
+    data: { name, component } = {
+      name: context.images.selectedName,
+      component: context.images.actorContext.get(context.images.selectedName)
+        .selectedComponent,
+    },
+  }
+) {
+  const actorContext = context.images.actorContext.get(name)
+
+  const histogram =
+    actorContext.histograms.get(component) ?? // histogram may have been cleared after loading new data
+    (await computeHistogram(actorContext, component))
 
   actorContext.histograms.set(component, histogram)
 

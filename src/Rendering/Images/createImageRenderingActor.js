@@ -3,6 +3,24 @@ import { assign, createMachine, forwardTo } from 'xstate'
 const getLoadedImage = actorContext =>
   actorContext.image ?? actorContext.labelImage
 
+const assignColorRange = assign({
+  images: (
+    { images },
+    { data: { name, component, range, keepAutoAdjusting = false } }
+  ) => {
+    const { colorRanges, colorRangesAutoAdjust } = images.actorContext.get(name)
+
+    colorRanges.set(component, range)
+
+    colorRangesAutoAdjust.set(
+      component,
+      colorRangesAutoAdjust.get(component) && keepAutoAdjusting
+    )
+
+    return images
+  },
+})
+
 const assignUpdateRenderedName = assign({
   images: (context, event) => {
     const images = context.images
@@ -45,10 +63,19 @@ const assignLoadedScale = assign({
   },
 })
 
-const LOW_FPS = 10.0
-const JUST_ACCEPTABLE_FPS = 30.0
+const assignClearHistograms = assign({
+  images: ({ images }, { data }) => {
+    const name = data.name ?? data
+    const actorContext = images.actorContext.get(name)
+    actorContext.histograms = new Map()
+    return images
+  },
+})
 
-// Return true if finest scale or right scale (to stop loading of finer scale)
+const LOW_FPS = 10.0
+const HIGH_FPS = 30.0
+
+// Return true if finest scale or already backed off coarser or FPS is in Goldilocks zone
 function finestScaleOrScaleJustRight(context) {
   const { loadedScale } = context.images.actorContext.get(
     context.images.updateRenderedName
@@ -56,21 +83,19 @@ function finestScaleOrScaleJustRight(context) {
   return (
     loadedScale === 0 ||
     context.hasScaledCoarser ||
-    (LOW_FPS < context.main.fps && context.main.fps < JUST_ACCEPTABLE_FPS)
+    (LOW_FPS < context.main.fps && context.main.fps < HIGH_FPS)
   )
 }
 
-function scaleTooHigh(context) {
+function isFpsLow(context) {
   return context.main.fps <= LOW_FPS
 }
 
-function scaleTooHighAndMostCoarse(context) {
+function isLoadedScaleMostCoarse(context) {
   const actorContext = context.images.actorContext.get(
     context.images.updateRenderedName
   )
-  const { coarsestScale } = getLoadedImage(actorContext)
-  const { loadedScale } = actorContext
-  return scaleTooHigh(context) && loadedScale === coarsestScale
+  return getLoadedImage(actorContext).coarsestScale === actorContext.loadedScale
 }
 
 const assignIsFramerateScalePickingOn = assign({
@@ -80,6 +105,21 @@ const assignIsFramerateScalePickingOn = assign({
     return images
   },
 })
+
+const KNOWN_ERRORS = [
+  'Voxel count over max at scale',
+  "DataCloneError: Failed to execute 'postMessage' on 'Worker': Data cannot be cloned, out of memory.",
+]
+
+const checkIsKnownErrorOrThrow = (c, { data: error }) => {
+  if (
+    KNOWN_ERRORS.some(knownMessage => error.message.startsWith(knownMessage))
+  ) {
+    console.warn(`Could not update image : ${error.message}`)
+  } else {
+    throw error
+  }
+}
 
 const sendRenderedImageAssigned = (
   context,
@@ -124,7 +164,10 @@ const eventResponses = {
     actions: 'mapToPiecewiseFunctionNodes',
   },
   IMAGE_COLOR_RANGE_CHANGED: {
-    actions: 'applyColorRange',
+    actions: [assignColorRange, 'applyColorRange'],
+  },
+  IMAGE_COLOR_RANGE_BOUNDS_CHANGED: {
+    actions: ['applyColorRangeBounds'],
   },
   IMAGE_COLOR_MAP_SELECTED: {
     actions: 'applyColorMap',
@@ -175,7 +218,10 @@ const eventResponses = {
   // updateRenderedImage->applyRenderedImage->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
   // because image size may change across scales.
   CROPPING_PLANES_CHANGED_BY_USER: {
-    target: 'imageBoundsDebouncing',
+    target: 'debouncedImageUpdate',
+  },
+  CAMERA_MODIFIED: {
+    target: 'debouncedImageUpdate',
   },
 }
 
@@ -188,7 +234,7 @@ const createUpdatingImageMachine = options => {
         checkingUpdateNeeded: {
           always: [
             { cond: 'isImageUpdateNeeded', target: 'loadingImage' },
-            { target: '#updatingImageMachine.afterUpdatingImage' },
+            { target: '#updatingImageMachine.loadedImage' },
           ],
           exit: assign({ isUpdateForced: false }),
         },
@@ -198,27 +244,23 @@ const createUpdatingImageMachine = options => {
             id: 'updateRenderedImage',
             src: 'updateRenderedImage',
             onDone: {
-              target: '#updatingImageMachine.afterUpdatingImage',
+              target: '#updatingImageMachine.loadedImage',
               actions: [
                 'assignRenderedImage',
                 assignLoadedScale,
+                assignClearHistograms,
                 'applyRenderedImage',
                 sendRenderedImageAssigned,
               ],
             },
             onError: {
-              actions: [
-                (c, event) => {
-                  console.warn(`Could not update image : ${event.data.stack}`)
-                },
-                assignCoarserScale,
-              ],
+              actions: [checkIsKnownErrorOrThrow, assignCoarserScale],
               target: 'checkingUpdateNeeded',
             },
           },
         },
 
-        afterUpdatingImage: {
+        loadedImage: {
           always: [
             {
               cond: 'isFramerateScalePickingOn',
@@ -235,17 +277,18 @@ const createUpdatingImageMachine = options => {
           on: {
             FPS_UPDATED: [
               {
-                cond: scaleTooHighAndMostCoarse, // FPS too slow but nothing to do about it
-                target: 'finished',
+                cond: c =>
+                  [isFpsLow, isLoadedScaleMostCoarse].every(cond => cond(c)),
+                target: 'finished', // FPS too slow but nothing to do about it
               },
               {
-                cond: scaleTooHigh, // FPS too slow
+                cond: isFpsLow,
                 actions: assignCoarserScale, // back off
                 target: 'checkingUpdateNeeded',
               },
               {
-                cond: finestScaleOrScaleJustRight, // found good scale
-                target: 'finished',
+                cond: finestScaleOrScaleJustRight,
+                target: 'finished', // found good scale
               },
               {
                 actions: assignFinerScale, // try harder
@@ -282,7 +325,7 @@ const createImageRenderingActor = (options, context /*, event*/) => {
           },
         },
 
-        imageBoundsDebouncing: {
+        debouncedImageUpdate: {
           on: {
             ...eventResponses,
           },

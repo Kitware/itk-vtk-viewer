@@ -22,6 +22,8 @@ function mapToPiecewiseFunctionNodes(
   const actorContext = context.images.actorContext.get(name)
   const dataRange = actorContext.colorRangeBounds.get(component)
 
+  if (!dataRange) return // viewer.setImagePiecewiseFunctionPoints called at start
+
   const nodes = getNodes(dataRange, points)
   const range = getRange(nodes) ?? dataRange
 

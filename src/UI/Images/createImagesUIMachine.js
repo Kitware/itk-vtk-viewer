@@ -28,7 +28,7 @@ const assignComponentVisibility = assign({
         0
       )
       if (currentNumVisualized + 1 > actorContext.maxIntensityComponents) {
-        // Find the index in the visulized components list of the last touched
+        // Find the index in the visualized components list of the last touched
         // component.  We need to replace it with this component the user just
         // turned on.
         componentVisibilities[
@@ -77,34 +77,6 @@ const assignPiecewiseFunctionPoints = assign({
   images: ({ images }, { data: { component, points, name } }) => {
     const actorContext = images.actorContext.get(name)
     actorContext.piecewiseFunctionPoints.set(component, points)
-    return images
-  },
-})
-
-const assignColorRange = assign({
-  images: (context, event) => {
-    const images = context.images
-    const name = event.data.name
-    const component = event.data.component
-    const range = event.data.range
-
-    const actorContext = context.images.actorContext.get(name)
-    actorContext.colorRanges.set(component, range)
-
-    return images
-  },
-})
-
-const assignColorRangeBounds = assign({
-  images: (context, event) => {
-    const images = context.images
-    const name = event.data.name
-    const component = event.data.component
-    const range = event.data.range
-
-    const actorContext = context.images.actorContext.get(name)
-    actorContext.colorRangeBounds.set(component, range)
-
     return images
   },
 })
@@ -330,13 +302,12 @@ function createImagesUIMachine(options, context) {
             },
             IMAGE_COLOR_RANGE_CHANGED: {
               actions: [
-                assignColorRange,
                 'applyColorRange',
                 forwardTo('transferFunctionManipulators'),
               ],
             },
             IMAGE_COLOR_RANGE_BOUNDS_CHANGED: {
-              actions: [assignColorRangeBounds, 'applyColorRangeBounds'],
+              actions: ['applyColorRangeBounds'],
             },
             IMAGE_COLOR_MAP_SELECTED: {
               actions: assignColorMap,

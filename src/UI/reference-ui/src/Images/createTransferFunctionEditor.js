@@ -1,4 +1,4 @@
-import { throttle } from '@kitware/vtk.js/macros'
+import { throttle } from './throttle'
 import { TransferFunctionEditor } from 'itk-viewer-transfer-function-editor'
 
 const PIECEWISE_UPDATE_DELAY = 100

@@ -29,7 +29,7 @@ export const fuseImages = async ({
           compInfos.push(compInfo)
         } else {
           console.error(
-            `Size not equal while fusing images! Last image size: ${baseSize}, "${compInfo.image.name}" image size: ${compInfo.image.size}`
+            `Size not equal while fusing images! First image size: ${baseSize}, this image size: ${compInfo.image.size}`
           )
         }
         return [baseSize, compInfos]

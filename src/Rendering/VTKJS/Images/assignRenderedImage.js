@@ -22,40 +22,38 @@ const assignRenderedImage = assign({
 
     if (labelAtScale) updateContextWithLabelImage(actorContext, labelAtScale)
 
-    actorContext.fusedImageRanges = componentRanges
-    actorContext.fusedImageData = itkImage.data
-    const { fusedImageData } = actorContext
-
-    if (!actorContext.fusedImage) {
-      actorContext.fusedImage = vtkImage
-    } else {
+    if (actorContext.fusedImage) {
       // re-use fusedImage
       actorContext.fusedImage.setOrigin(vtkImage.getOrigin())
       actorContext.fusedImage.setSpacing(vtkImage.getSpacing())
       actorContext.fusedImage.setDirection(vtkImage.getDirection())
       actorContext.fusedImage.setDimensions(vtkImage.getDimensions())
+    } else {
+      actorContext.fusedImage = vtkImage
     }
     const { fusedImage } = actorContext
 
+    // for areBoundsBigger guard
+    actorContext.loadedBounds = fusedImage.getBounds()
+
+    actorContext.fusedImageRanges = componentRanges
+    actorContext.fusedImageData = itkImage.data
     const imageScalars = vtkImage.getPointData().getScalars()
 
     const numberOfComponents = itkImage.imageType.components
     const fusedImageScalars = vtkDataArray.newInstance({
       name: imageScalars.getName() || 'Scalars',
-      values: fusedImageData,
+      values: actorContext.fusedImageData,
       numberOfComponents,
     })
 
-    // for areBoundsBigger guard
-    actorContext.loadedBounds = actorContext.fusedImage.getBounds()
-
     fusedImage.getPointData().setScalars(fusedImageScalars)
-    // Trigger VolumeMapper scalarTexture update
-    fusedImage.modified()
 
     componentRanges.forEach((range, comp) =>
       fusedImageScalars.setRange(range, comp)
     )
+    // Trigger VolumeMapper scalarTexture update
+    fusedImage.modified()
 
     return images
   },

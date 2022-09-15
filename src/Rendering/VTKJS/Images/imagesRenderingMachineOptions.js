@@ -6,6 +6,7 @@ import updateHistogram from './updateHistogram'
 import selectImageLayer from './selectImageLayer'
 import toggleInterpolation from './toggleInterpolation'
 import applyColorRange from './applyColorRange'
+import { applyColorRangeBounds } from './applyColorRangeBounds'
 import applyColorMap from './applyColorMap'
 import applyRenderedImage from './applyRenderedImage'
 import assignRenderedImage from './assignRenderedImage'
@@ -20,10 +21,8 @@ import applyLabelNames from './applyLabelNames'
 import applyLabelImageWeights from './applyLabelImageWeights'
 import applySelectedLabel from './applySelectedLabel'
 import mapToPiecewiseFunctionNodes from './mapToPiecewiseFunctionNodes'
-import {
-  computeRenderedBounds,
-  getBoundsOfFullImage,
-} from '../Main/croppingPlanes'
+import { getBoundsOfFullImage } from '../Main/croppingPlanes'
+import { computeRenderedBounds } from '../Main/computeRenderedBounds'
 
 const EPSILON = 0.000001
 
@@ -76,6 +75,7 @@ const imagesRenderingMachineOptions = {
 
       applyPiecewiseFunction,
       applyColorRange,
+      applyColorRangeBounds,
       applyColorMap,
       mapToPiecewiseFunctionNodes,
 
@@ -97,7 +97,6 @@ const imagesRenderingMachineOptions = {
         images.actorContext.get(images.updateRenderedName)
           .isFramerateScalePickingOn,
 
-      // Check if different scale than loaded or if bounds are larger than loaded
       isImageUpdateNeeded: context =>
         context.isUpdateForced ||
         !isTargetScaleLoaded(context) ||

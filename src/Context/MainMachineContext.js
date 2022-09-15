@@ -52,15 +52,16 @@ class MainMachineContext {
 
   // Cropping planes widget enabled
   croppingPlanesEnabled = false
+  areCroppingPlanesTouched = false
 
-  // Cropping planes. These typically define square or a cube of a region of
+  // Cropping planes. These typically define a box containing a region of
   // interest in space. The visualization is cropped outside of these planes.
   // Each is characterized with: { origin, normal }.
   //
   // origin: x,y,z point at a point in the plane
   // normal: 3-component vector defining the normal to the plane
   //
-  // An array of six planes that are ordered, when the planes are axis aligned:
+  // An example: An array of six planes. When the planes are axis aligned:
   // -x, +x, -y, +y, -z, +z
   croppingPlanes = null
 

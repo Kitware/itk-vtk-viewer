@@ -144,6 +144,9 @@ const createRenderingMachine = (options, context) => {
             TOGGLE_IMAGE_INTERPOLATION: {
               actions: forwardTo('images'),
             },
+            IMAGE_COLOR_RANGE_BOUNDS_CHANGED: {
+              actions: forwardTo('images'),
+            },
             IMAGE_COLOR_RANGE_CHANGED: {
               actions: forwardTo('images'),
             },

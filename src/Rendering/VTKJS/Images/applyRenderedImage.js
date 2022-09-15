@@ -6,7 +6,6 @@ import applyGradientOpacity from './applyGradientOpacity'
 import applyLabelImageBlend from './applyLabelImageBlend'
 import applyVolumeSampleDistance from './applyVolumeSampleDistance'
 import {
-  addCroppingPlanes,
   makeCroppable,
   updateCroppingParametersFromImage,
 } from '../Main/croppingPlanes'
@@ -18,6 +17,47 @@ const ANNOTATION_CUSTOM_PREFIX =
   '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Scale:</td>'
 const ANNOTATION_CUSTOM_POSTFIX =
   '<td></td><td></td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
+
+const getDefaultRangeByDataType = dataType => {
+  const range = []
+  switch (dataType) {
+    case 'Uint8Array':
+      range[0] = 0
+      range[1] = 255
+      break
+    case 'Int8Array':
+      range[0] = -128
+      range[1] = 127
+      break
+    case 'Uint16Array':
+      range[0] = 0
+      range[1] = 65535
+      break
+    case 'Int16Array':
+      range[0] = -32768
+      range[1] = 32767
+      break
+    case 'Uint32Array':
+      range[0] = 0
+      range[1] = 4294967295
+      break
+    case 'Int32Array':
+      range[0] = -2147483648
+      range[1] = 2147483647
+      break
+    case 'BigInt64Array':
+      range[0] = BigInt(-9223372036854775808)
+      range[1] = BigInt(9223372036854775808)
+      break
+    case 'Float32Array':
+      range[0] = 0.0
+      range[1] = 1.0
+      break
+    default:
+      console.error('Unsupported data type')
+  }
+  return range
+}
 
 function applyRenderedImage(context, { data: { name } }) {
   const actorContext = context.images.actorContext.get(name)
@@ -33,13 +73,11 @@ function applyRenderedImage(context, { data: { name } }) {
 
   context.images.source.setInputData(actorContext.fusedImage)
 
-  const volumeProxy = context.images.representationProxy
   const savedSlicePositions = context.images.representationProxy && [
-    volumeProxy.getXSlice(),
-    volumeProxy.getYSlice(),
-    volumeProxy.getZSlice(),
+    context.images.representationProxy.getXSlice(),
+    context.images.representationProxy.getYSlice(),
+    context.images.representationProxy.getZSlice(),
   ]
-
   // VTK.js currently only supports a single image
   if (!context.images.representationProxy) {
     context.proxyManager.createRepresentationInAllViews(context.images.source)
@@ -49,7 +87,7 @@ function applyRenderedImage(context, { data: { name } }) {
     )
     const { representationProxy } = context.images
 
-    makeCroppable(representationProxy)
+    makeCroppable(context, representationProxy)
 
     if (context.use2D) {
       context.itkVtkView.setViewMode('ZPlane')
@@ -58,17 +96,12 @@ function applyRenderedImage(context, { data: { name } }) {
       context.itkVtkView.setViewMode('Volume')
     }
 
-    representationProxy.getMapper().setMaximumSamplesPerRay(2048)
-    representationProxy.setSampleDistance(actorContext.volumeSampleDistance)
-
     context.itkVtkView.setAxesNames(image?.scaleInfo[0].axesNames) // ? for no image, only imageLabel case
 
     const annotationContainer = context.renderingViewContainers
       .get('volume')
       .querySelector('.js-se')
     annotationContainer.style.fontFamily = 'monospace'
-
-    addCroppingPlanes(context, representationProxy)
 
     const { widgetCroppingPlanes } = context.main
     const sliceActors = representationProxy.getActors()
@@ -100,14 +133,18 @@ function applyRenderedImage(context, { data: { name } }) {
   } else {
     context.images.representationProxy.setInput(context.images.source)
   }
+  const { representationProxy } = context.images
+
+  // undo representationProxy.setInput calling volume.setVisibility(false) if it finds dimensions === 2 (may have just been cropped)
+  representationProxy.setVolumeVisibility(!context.use2D)
 
   // triggers update of ImageSliceOutlines if fusedImage size changed
-  context.images.representationProxy
-    .getActors()
-    .forEach(actor => actor.getMapper().modified())
+  representationProxy.getActors().forEach(actor => actor.getMapper().modified())
 
   // call after representations are created
   updateCroppingParametersFromImage(context, actorContext.fusedImage)
+
+  context.itkVtkView.getRenderer().resetCameraClippingRange()
 
   // Create color map and piecewise function objects as needed
   if (typeof context.images.lookupTableProxies === 'undefined') {
@@ -244,86 +281,78 @@ function applyRenderedImage(context, { data: { name } }) {
     data: { name, volumeSampleDistance: actorContext.volumeSampleDistance },
   })
 
-  // Set default color ranges
-  actorContext.visualizedComponents.forEach(
-    (componentIndex, fusedImageIndex) => {
-      if (
-        !actorContext.colorRanges.has(componentIndex) ||
-        !actorContext.colorRangeBounds.has(componentIndex)
-      ) {
-        if (componentIndex < 0) {
-          return
-        }
-        const dataArray = actorContext.fusedImage.getPointData().getScalars()
-        const range = dataArray.getRange(fusedImageIndex).slice()
-        if (!actorContext.independentComponents || range[1] === range[0]) {
-          switch (dataArray.getDataType()) {
-            case 'Uint8Array':
-              range[0] = 0
-              range[1] = 255
-              break
-            case 'Int8Array':
-              range[0] = -128
-              range[1] = 127
-              break
-            case 'Uint16Array':
-              range[0] = 0
-              range[1] = 65535
-              break
-            case 'Int16Array':
-              range[0] = -32768
-              range[1] = 32767
-              break
-            case 'Uint32Array':
-              range[0] = 0
-              range[1] = 4294967295
-              break
-            case 'Int32Array':
-              range[0] = -2147483648
-              range[1] = 2147483647
-              break
-            case 'BigUint64Array':
-              range[0] = 0
-              range[1] = BigInt(18446744073709551615)
-              break
-            case 'BigInt64Array':
-              range[0] = BigInt(-9223372036854775808)
-              range[1] = BigInt(9223372036854775808)
-              break
-            case 'Float32Array':
-              range[0] = 0.0
-              range[1] = 1.0
-              break
-            case 'Float64Array':
-              range[0] = 0.0
-              range[1] = 1.0
-              break
-            default:
-              console.error('Unsupported data type')
-          }
-        }
-        if (!actorContext.colorRangeBounds.has(componentIndex)) {
+  representationProxy.getMapper().setMaximumSamplesPerRay(2814)
+
+  // update color ranges
+  actorContext.visualizedComponents
+    .map((componentIndex, fusedImageIndex) => [componentIndex, fusedImageIndex])
+    .filter(([componentIndex]) => componentIndex >= 0) // skip label map
+    .forEach(([componentIndex, fusedImageIndex]) => {
+      const {
+        colorRangeBoundsAutoAdjust,
+        colorRangeBounds,
+        colorRanges,
+        colorRangesAutoAdjust,
+      } = actorContext
+
+      const dataArray = actorContext.fusedImage.getPointData().getScalars()
+      const [dataMin, dataMax] = dataArray.getRange(fusedImageIndex)
+
+      const [newMin, newMax] =
+        !actorContext.independentComponents || dataMin - dataMax === 0
+          ? getDefaultRangeByDataType(dataArray.getDataType())
+          : [dataMin, dataMax]
+
+      if (colorRangeBoundsAutoAdjust.get(componentIndex)) {
+        const oldRange = colorRangeBounds.get(componentIndex) ?? [
+          Number.POSITIVE_INFINITY,
+          Number.NEGATIVE_INFINITY,
+        ]
+        // only grow range
+        const newRange = [
+          Math.min(newMin, oldRange[0]),
+          Math.max(newMax, oldRange[1]),
+        ]
+        const hasChanged = newRange.some((value, i) => value !== oldRange[i])
+        if (hasChanged) {
           context.service.send({
             type: 'IMAGE_COLOR_RANGE_BOUNDS_CHANGED',
-            data: { name, component: componentIndex, range },
+            data: {
+              name,
+              component: componentIndex,
+              range: newRange,
+              keepAutoAdjusting: true,
+            },
           })
         }
-        if (!actorContext.colorRanges.has(componentIndex)) {
+      }
+
+      const storedColorRange = colorRanges.get(componentIndex)
+      const oldRange = storedColorRange ?? [
+        Number.POSITIVE_INFINITY,
+        Number.NEGATIVE_INFINITY,
+      ]
+      if (colorRangesAutoAdjust.get(componentIndex) || !storedColorRange) {
+        // only grow range
+        const newRange = [
+          Math.min(newMin, oldRange[0]),
+          Math.max(newMax, oldRange[1]),
+        ]
+        const hasChanged = newRange.some((value, i) => value !== oldRange[i])
+
+        if (hasChanged) {
           context.service.send({
             type: 'IMAGE_COLOR_RANGE_CHANGED',
-            data: { name, component: componentIndex, range },
+            data: {
+              name,
+              component: componentIndex,
+              range: newRange,
+              keepAutoAdjusting: true,
+            },
           })
         }
-      } else {
-        // Always send IMAGE_COLOR_RANGE_CHANGED to trigger IMAGE_PIECEWISE_FUNCTION_CHANGED
-        const range = actorContext.colorRanges.get(componentIndex)
-        context.service.send({
-          type: 'IMAGE_COLOR_RANGE_CHANGED',
-          data: { name, component: componentIndex, range },
-        })
       }
-    }
-  )
+    })
 
   if (labelImage) {
     const uniqueLabels = actorContext.uniqueLabels

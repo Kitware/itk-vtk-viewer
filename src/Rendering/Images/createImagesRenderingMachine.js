@@ -24,6 +24,15 @@ function spawnImageRenderingActor(options) {
   })
 }
 
+const sendEventToAllActors = () =>
+  actions.pure(({ images: { imageRenderingActors } }, event) =>
+    Array.from(imageRenderingActors.values()).map(actor =>
+      send(event, {
+        to: actor,
+      })
+    )
+  )
+
 function createImagesRenderingMachine(options, context) {
   const { imageRenderingActor } = options
 
@@ -46,6 +55,14 @@ function createImagesRenderingMachine(options, context) {
           },
         },
         active: {
+          invoke: {
+            id: 'cameraModifiedWatcher',
+            src: context => send =>
+              context.itkVtkView
+                .getRenderer()
+                .getActiveCamera()
+                .onModified(() => send('CAMERA_MODIFIED')).unsubscribe, // return cleanup func
+          },
           on: {
             IMAGE_ASSIGNED: {
               actions: spawnImageRenderingActor(imageRenderingActor),
@@ -92,6 +109,11 @@ function createImagesRenderingMachine(options, context) {
               }),
             },
             IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED: {
+              actions: send((_, e) => e, {
+                to: (c, e) => `imageRenderingActor-${e.data.name}`,
+              }),
+            },
+            IMAGE_COLOR_RANGE_BOUNDS_CHANGED: {
               actions: send((_, e) => e, {
                 to: (c, e) => `imageRenderingActor-${e.data.name}`,
               }),
@@ -162,14 +184,10 @@ function createImagesRenderingMachine(options, context) {
               }),
             },
             CROPPING_PLANES_CHANGED_BY_USER: {
-              // send to all image actors
-              actions: actions.pure(({ images: { imageRenderingActors } }) =>
-                Array.from(imageRenderingActors.values()).map(actor =>
-                  send('CROPPING_PLANES_CHANGED_BY_USER', {
-                    to: actor,
-                  })
-                )
-              ),
+              actions: sendEventToAllActors(),
+            },
+            CAMERA_MODIFIED: {
+              actions: sendEventToAllActors(),
             },
           },
         },

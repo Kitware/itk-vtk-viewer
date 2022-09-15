@@ -1,4 +1,4 @@
-import vtkProxySource from 'vtk.js/Sources/Proxy/Core/SourceProxy'
+import vtkSourceProxy from 'vtk.js/Sources/Proxy/Core/SourceProxy'
 import vtkGeometryRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/GeometryRepresentationProxy'
 import vtkVolumeRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/VolumeRepresentationProxy'
 import vtkSliceRepresentationProxy from 'vtk.js/Sources/Proxy/Representations/SliceRepresentationProxy'
@@ -35,7 +35,7 @@ const proxyManagerConfiguration = {
     },
     Sources: {
       TrivialProducer: {
-        class: vtkProxySource,
+        class: vtkSourceProxy,
         options: {},
       },
     },

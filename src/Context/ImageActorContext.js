@@ -2,9 +2,6 @@ class ImageActorContext {
   // MultiscaleSpatialImage to be visualized
   image = null
 
-  // The target image scale
-  targetScale = null
-
   // The successfully loaded scale
   loadedScale = null
 
@@ -45,10 +42,16 @@ class ImageActorContext {
   // Map of image intensity component to array of [minValue, maxValue] for
   // mapping colors
   colorRanges = new Map()
+  // Keep growing component ranges as new parts of the image are loaded
+  // Map of image intensity component to Boolean
+  colorRangesAutoAdjust = null
 
   // Map of image intensity component to array of [minBound, maxBound] for
   // limiting the color range in the UI
   colorRangeBounds = new Map()
+  // Keep growing component bounds as new parts of the image are loaded
+  // Map of image intensity component to Boolean
+  colorRangeBoundsAutoAdjust = null
 
   // Map of the image intensity component to an object representing the
   // piecewise function. This object has two properties: range and nodes.

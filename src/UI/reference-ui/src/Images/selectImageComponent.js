@@ -31,7 +31,6 @@ function selectImageComponent(context, event) {
   }
 
   if (actorContext.colorRangeBounds.has(component)) {
-    // calls transferFunctionWidget.setDataRange(range)
     applyColorRangeBounds(context, {
       data: {
         name,

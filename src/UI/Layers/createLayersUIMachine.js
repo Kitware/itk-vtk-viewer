@@ -209,13 +209,6 @@ const assignImageContext = assign({
       [...Array(components).keys()].map(c => [c, true])
     )
 
-    const ranges = image.scaleInfo[image.coarsestScale].ranges ?? []
-    const { colorRanges, colorRangeBounds } = actorContext
-    ranges.forEach((range, component) => {
-      colorRanges.set(component, range)
-      colorRangeBounds.set(component, range)
-    })
-
     images.actorContext.set(name, actorContext)
     return images
   },

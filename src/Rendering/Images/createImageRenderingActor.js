@@ -340,6 +340,8 @@ const createImageRenderingActor = (options, context /*, event*/) => {
             FPS_UPDATED: {
               actions: forwardTo('updatingImageMachine'),
             },
+            CROPPING_PLANES_CHANGED_BY_USER: {},
+            CAMERA_MODIFIED: {},
           },
           invoke: {
             id: 'updatingImageMachine',

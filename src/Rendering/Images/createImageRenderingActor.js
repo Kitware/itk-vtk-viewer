@@ -1,4 +1,4 @@
-import { assign, createMachine, forwardTo } from 'xstate'
+import { assign, createMachine, forwardTo, send } from 'xstate'
 
 const getLoadedImage = actorContext =>
   actorContext.image ?? actorContext.labelImage
@@ -213,17 +213,24 @@ const eventResponses = {
     target: 'updatingImage',
     actions: assignIsFramerateScalePickingOn,
   },
-  // Use this event to possibly update image bounds to avoid circular loop with CROPPING_PLANES_CHANGED.
-  // CROPPING_PLANES_CHANGED could be updated by
-  // updateRenderedImage->applyRenderedImage->updateCroppingParametersFromImage->CROPPING_PLANES_CHANGED
-  // because image size may change across scales.
-  CROPPING_PLANES_CHANGED_BY_USER: {
-    target: 'debouncedImageUpdate',
-  },
-  CAMERA_MODIFIED: {
-    target: 'debouncedImageUpdate',
+  RENDERED_BOUNDS_CHANGED: {
+    target: 'updatingImage',
   },
 }
+
+const CHANGE_BOUNDS_EVENTS = [
+  'CROPPING_PLANES_CHANGED_BY_USER',
+  'CAMERA_MODIFIED',
+]
+
+const makeTransitions = (events, transition) =>
+  events.reduce(
+    (onEvents, e) => ({
+      ...onEvents,
+      [e]: transition,
+    }),
+    {}
+  )
 
 const createUpdatingImageMachine = options => {
   return createMachine(
@@ -307,91 +314,112 @@ const createUpdatingImageMachine = options => {
   )
 }
 
-const createImageRenderingActor = (options, context /*, event*/) => {
+const createImageRenderingActor = (options, context) => {
   return createMachine(
     {
       id: 'imageRendering',
-      initial: 'idle',
       context,
+      type: 'parallel',
       states: {
-        idle: {
-          invoke: {
-            id: 'createImageRenderer',
-            src: 'createImageRenderer',
-            onDone: {
-              target: 'updatingImage',
-              actions: assignUpdateRenderedNameToSelectedName,
+        imageLoader: {
+          initial: 'idle',
+          states: {
+            idle: {
+              invoke: {
+                id: 'createImageRenderer',
+                src: 'createImageRenderer',
+                onDone: {
+                  target: 'updatingImage',
+                  actions: assignUpdateRenderedNameToSelectedName,
+                },
+              },
+            },
+
+            updatingImage: {
+              on: {
+                ...eventResponses,
+                FPS_UPDATED: {
+                  actions: forwardTo('updatingImageMachine'),
+                },
+                UPDATE_IMAGE_HISTOGRAM: {},
+                RENDERED_BOUNDS_CHANGED: {},
+              },
+              invoke: {
+                id: 'updatingImageMachine',
+                src: createUpdatingImageMachine(options),
+                data: {
+                  ...context,
+                  hasScaledCoarser: false,
+                  targetScale: ({ images }, event) => {
+                    if (event.type === 'SET_IMAGE_SCALE')
+                      return event.targetScale
+                    const actorContext = images.actorContext.get(
+                      images.updateRenderedName
+                    )
+                    if (
+                      actorContext.loadedScale ||
+                      actorContext.loadedScale === 0
+                    )
+                      return actorContext.loadedScale
+                    // nothing loaded, start at coarsest
+                    return getLoadedImage(actorContext).coarsestScale
+                  },
+                  isUpdateForced: (c, event) =>
+                    [
+                      'UPDATE_RENDERED_IMAGE',
+                      'IMAGE_ASSIGNED',
+                      'LABEL_IMAGE_ASSIGNED',
+                    ].some(forcedEvent => event.type === forcedEvent),
+                },
+                onDone: [
+                  {
+                    in:
+                      '#imageRendering.imageLoader.updatingImage.noUpdateNeeded',
+                    target: 'updatingHistogram',
+                  },
+                  { target: 'updatingImage' },
+                ],
+              },
+              initial: 'noUpdateNeeded',
+              states: {
+                noUpdateNeeded: { on: { RENDERED_BOUNDS_CHANGED: 'loopback' } },
+                loopback: {},
+              },
+            },
+
+            updatingHistogram: {
+              invoke: {
+                id: 'updateHistogram',
+                src: 'updateHistogram',
+                onDone: {
+                  target: 'active',
+                },
+              },
+              on: {
+                ...eventResponses,
+              },
+            },
+
+            active: {
+              entry: context =>
+                context.service.send({
+                  type: 'IMAGE_RENDERING_ACTIVE',
+                  data: { name: context.images.updateRenderedName },
+                }),
+              on: {
+                ...eventResponses,
+              },
             },
           },
         },
 
         debouncedImageUpdate: {
-          on: {
-            ...eventResponses,
-          },
           after: {
-            500: { target: 'updatingImage' },
-          },
-        },
-
-        updatingImage: {
-          on: {
-            ...eventResponses,
-            FPS_UPDATED: {
-              actions: forwardTo('updatingImageMachine'),
-            },
-            CROPPING_PLANES_CHANGED_BY_USER: {},
-            CAMERA_MODIFIED: {},
-          },
-          invoke: {
-            id: 'updatingImageMachine',
-            src: createUpdatingImageMachine(options),
-            data: {
-              ...context,
-              hasScaledCoarser: false,
-              targetScale: ({ images }, event) => {
-                if (event.type === 'SET_IMAGE_SCALE') return event.targetScale
-                const actorContext = images.actorContext.get(
-                  images.updateRenderedName
-                )
-                if (actorContext.loadedScale || actorContext.loadedScale === 0)
-                  return actorContext.loadedScale
-                // nothing loaded, start at coarsest
-                return getLoadedImage(actorContext).coarsestScale
-              },
-              isUpdateForced: (c, event) =>
-                [
-                  'UPDATE_RENDERED_IMAGE',
-                  'IMAGE_ASSIGNED',
-                  'LABEL_IMAGE_ASSIGNED',
-                ].some(forcedEvent => event.type === forcedEvent),
-            },
-            onDone: { target: 'updatingHistogram' },
-          },
-        },
-
-        updatingHistogram: {
-          invoke: {
-            id: 'updateHistogram',
-            src: 'updateHistogram',
-            onDone: {
-              target: 'active',
+            500: {
+              actions: send('RENDERED_BOUNDS_CHANGED'),
             },
           },
-          on: {
-            ...eventResponses,
-          },
-        },
-
-        active: {
-          entry: context =>
-            context.service.send({
-              type: 'IMAGE_RENDERING_ACTIVE',
-              data: { name: context.images.updateRenderedName },
-            }),
-          on: {
-            ...eventResponses,
-          },
+          on: makeTransitions(CHANGE_BOUNDS_EVENTS, 'debouncedImageUpdate'),
         },
       },
     },

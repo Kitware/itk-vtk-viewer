@@ -410,38 +410,6 @@ function applyRenderedImage(context, { data: { name } }) {
       `${ANNOTATION_CUSTOM_PREFIX}<td style="margin-left: 0; margin-right: auto;">${actorContext.loadedScale}</td>${ANNOTATION_CUSTOM_POSTFIX}`
     )
   }
-
-  // Update the slice parameters
-  const volumeRep = context.images.representationProxy
-  const xSliceDomain = volumeRep.getPropertyDomainByName('xSlice')
-  const ySliceDomain = volumeRep.getPropertyDomainByName('ySlice')
-  const zSliceDomain = volumeRep.getPropertyDomainByName('zSlice')
-  const slicingPlanes = context.main.slicingPlanes
-  Object.assign(slicingPlanes.x, xSliceDomain)
-  Object.assign(slicingPlanes.y, ySliceDomain)
-  Object.assign(slicingPlanes.z, zSliceDomain)
-  context.service.send({ type: 'SLICING_PLANES_CHANGED', data: slicingPlanes })
-
-  const clampSlice = (old, fallback, { min, max }) =>
-    Math.max(min, Math.min(max, old ?? fallback))
-  const xSlice = clampSlice(
-    savedSlicePositions?.[0],
-    volumeRep.getXSlice(),
-    xSliceDomain
-  )
-  context.service.send({ type: 'X_SLICE_CHANGED', data: xSlice })
-  const ySlice = clampSlice(
-    savedSlicePositions?.[1],
-    volumeRep.getYSlice(),
-    ySliceDomain
-  )
-  context.service.send({ type: 'Y_SLICE_CHANGED', data: ySlice })
-  const zSlice = clampSlice(
-    savedSlicePositions?.[2],
-    volumeRep.getZSlice(),
-    zSliceDomain
-  )
-  context.service.send({ type: 'Z_SLICE_CHANGED', data: zSlice })
 }
 
 export default applyRenderedImage

@@ -21,7 +21,7 @@ const computeFrustumBoundingBox = renderer => {
   return frustumBounds
 }
 
-const computeCroppingPlanesBoundingBox = croppingPlanes => {
+export const computeCroppingPlanesBoundingBox = croppingPlanes => {
   const planeBounds = [...vtkBoundingBox.INIT_BOUNDS]
   croppingPlanes.forEach(({ origin }) =>
     vtkBoundingBox.addPoint(planeBounds, ...origin)

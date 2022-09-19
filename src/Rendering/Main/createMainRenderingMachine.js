@@ -11,6 +11,19 @@ const assignFps = assign({
   },
 })
 
+const eventToAxis = {
+  X_SLICE_CHANGED: 'x',
+  Y_SLICE_CHANGED: 'y',
+  Z_SLICE_CHANGED: 'z',
+}
+
+const assignSlicePosition = assign({
+  main: ({ main }, { type, data: position }) => {
+    main.slicingPlanes[eventToAxis[type]].position = position
+    return main
+  },
+})
+
 function createMainRenderingMachine(options, context) {
   let initialViewMode = 'volume'
   switch (context.main.viewMode) {
@@ -76,19 +89,19 @@ function createMainRenderingMachine(options, context) {
               actions: 'resetCroppingPlanes',
             },
             CROPPING_PLANES_CHANGED: {
-              actions: 'applyCroppingPlanes',
+              actions: ['applyCroppingPlanes', 'updateSlicingPlanes'],
             },
             SLICING_PLANES_CHANGED: {
               actions: 'applySlicingPlanes',
             },
             X_SLICE_CHANGED: {
-              actions: 'applyXSlice',
+              actions: [assignSlicePosition, 'applyXSlice'],
             },
             Y_SLICE_CHANGED: {
-              actions: 'applyYSlice',
+              actions: [assignSlicePosition, 'applyYSlice'],
             },
             Z_SLICE_CHANGED: {
-              actions: 'applyZSlice',
+              actions: [assignSlicePosition, 'applyZSlice'],
             },
           },
           states: {

@@ -1,4 +1,5 @@
 import { Machine, assign, spawn, send, actions } from 'xstate'
+import { makeTransitions } from './makeTransitions'
 
 import createImageRenderingActor from './createImageRenderingActor'
 
@@ -11,7 +12,7 @@ function spawnImageRenderingActor(options) {
         images.imageRenderingActors.set(
           name,
           spawn(
-            createImageRenderingActor(options, context),
+            createImageRenderingActor(options, context, name),
             `imageRenderingActor-${name}`
           )
         )
@@ -183,12 +184,10 @@ function createImagesRenderingMachine(options, context) {
                 to: (c, e) => `imageRenderingActor-${e.data.name}`,
               }),
             },
-            CROPPING_PLANES_CHANGED_BY_USER: {
-              actions: sendEventToAllActors(),
-            },
-            CAMERA_MODIFIED: {
-              actions: sendEventToAllActors(),
-            },
+            ...makeTransitions(
+              ['CROPPING_PLANES_CHANGED_BY_USER', 'CAMERA_MODIFIED'],
+              { actions: sendEventToAllActors() }
+            ),
           },
         },
       },

@@ -2273,10 +2273,11 @@ function selectLayer(context, event) {
   }
 
   if (!context.uiCollapsed) {
+    var imageActorContext = actorContext.imageActorContext
+
     switch (type) {
       case 'image':
         applyGroupVisibility(context, ['images'], true)
-        var imageActorContext = context.images.actorContext.get(name)
 
         if (imageActorContext.labelImageName) {
           applyGroupVisibility(

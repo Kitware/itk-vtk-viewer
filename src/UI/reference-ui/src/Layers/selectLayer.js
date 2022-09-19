@@ -26,10 +26,10 @@ function selectLayer(context, event) {
   }
 
   if (!context.uiCollapsed) {
+    const { imageActorContext } = actorContext
     switch (type) {
       case 'image':
         applyGroupVisibility(context, ['images'], true)
-        const imageActorContext = context.images.actorContext.get(name)
         if (imageActorContext.labelImageName) {
           applyGroupVisibility(
             context,

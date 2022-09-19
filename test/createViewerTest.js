@@ -518,6 +518,50 @@ test('Test createViewer with just labelImage', async t => {
   })
 })
 
+test('Test setImage and setLabelImage after createViewer', async t => {
+  const gc = testUtils.createGarbageCollector(t)
+
+  const container = document.querySelector('body')
+  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+  container.appendChild(viewerContainer)
+
+  const labelImageResponse = await axios.get(testLabelImage3DPath, {
+    responseType: 'arraybuffer',
+  })
+  const { image: labelImage, webWorker } = await readImageArrayBuffer(
+    null,
+    labelImageResponse.data,
+    'data.nrrd'
+  )
+  webWorker.terminate()
+
+  const imageResponse = await axios.get(testImage3DPath, {
+    responseType: 'arraybuffer',
+  })
+
+  const { image, webWorker: webWorkerForImage } = await readImageArrayBuffer(
+    null,
+    imageResponse.data,
+    'data.nrrd'
+  )
+  webWorkerForImage.terminate()
+
+  const viewer = await createViewer(container, {
+    rotate: false,
+  })
+
+  viewer.setImage(image)
+  viewer.setLabelImage(labelImage)
+
+  t.plan(1)
+  viewer.once('renderedImageAssigned', () => {
+    t.pass(
+      'createViewer did not crash with with late setImage and setLabelImage'
+    )
+    gc.releaseResources()
+  })
+})
+
 test('Test createViewer custom UI options', async t => {
   const gc = testUtils.createGarbageCollector(t)
 

@@ -687,8 +687,8 @@ const createViewer = async (
     context.service.send({ type: 'SELECT_LAYER', data: name })
   }
 
-  publicAPI.setImage = async (image, name) => {
-    name = name ?? context.images?.selectedName ?? 'Image'
+  publicAPI.setImage = async (image, imageName) => {
+    const name = imageName ?? context.images?.selectedName ?? 'Image'
     const multiscaleImage = await toMultiscaleSpatialImage(image)
     multiscaleImage.name = name
     if (context.images.actorContext.has(name)) {

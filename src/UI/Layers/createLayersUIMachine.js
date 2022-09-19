@@ -20,16 +20,14 @@ function spawnLayerRenderingActor(options) {
       switch (event.type) {
         case 'ADD_IMAGE': {
           let name = event.data.name
-
           // Ensure unique name
           let nameNumber = 0
           while (layers.layerUIActors.has(name)) {
             name = `${event.data.name}-${nameNumber + 1}`
             nameNumber++
           }
-          const actorContext = layers.actorContext.has(name)
-            ? layers.actorContext.get(name)
-            : new LayerActorContext()
+          const actorContext =
+            layers.actorContext.get(name) ?? new LayerActorContext()
           actorContext.type = 'image'
           layers.actorContext.set(name, actorContext)
           layers.lastAddedData = { name, data: event.data }
@@ -47,10 +45,8 @@ function spawnLayerRenderingActor(options) {
             name = `${event.data.labelImage.name}-${nameNumber + 1}`
             nameNumber++
           }
-
-          const actorContext = layers.actorContext.has(name)
-            ? layers.actorContext.get(name)
-            : new LayerActorContext()
+          const actorContext =
+            layers.actorContext.get(name) ?? new LayerActorContext()
           actorContext.type = 'labelImage'
           layers.actorContext.set(name, actorContext)
           layers.lastAddedData = { name, data: event.data }
@@ -71,48 +67,49 @@ function spawnLayerRenderingActor(options) {
 const assignImageContext = assign({
   images: context => {
     const images = context.images
-    let name = null
+    let actorName = null
     let image = null
     let labelImage = null
     let imageName = null
     let labelImageName = null
-    // The ImageActorContext is identified with the image layer name, unless
-    // there is only a labelImage, in which case it is the labelImage name.
-    // If there is an image and labelImage the actorContext.labelImageName
-    // will be set to the labelImage layer name. The labelImage layer context
-    // will have .imageName set to the image name.
+
     if ('labelImage' in context.layers.lastAddedData.data) {
       labelImage = context.layers.lastAddedData.data.labelImage
-      if (context.layers.lastAddedData.data.imageName) {
-        name = context.layers.lastAddedData.data.imageName
-        imageName = name
-      } else {
-        name = context.layers.lastAddedData.data.labelImage.name
-      }
+      imageName =
+        context.layers.lastAddedData.data.imageName ??
+        context.images.selectedName
+      actorName = imageName ?? context.layers.lastAddedData.data.labelImage.name
       labelImageName = context.layers.lastAddedData.name
     } else {
-      name = context.layers.lastAddedData.name
+      imageName = context.layers.lastAddedData.name
+      // find Map key with ImageActorContext with matching image name.  Needed if image loaded after labelImage
+      const [keyName] =
+        Array.from(images.actorContext.entries()).find(
+          ([, { imageName: actorImageName }]) => actorImageName === imageName
+        ) ?? []
+      actorName = keyName ?? imageName
     }
-    images.selectedName = name
-    const actorContext = images.actorContext.has(name)
-      ? images.actorContext.get(name)
-      : new ImageActorContext()
+
+    images.selectedName = actorName
+    const actorContext =
+      images.actorContext.get(actorName) ?? new ImageActorContext()
+
+    let layerContext
     if (labelImage) {
       actorContext.labelImage = labelImage
+      actorContext.labelImageName = labelImageName
+      layerContext = context.layers.actorContext.get(labelImageName)
+      actorContext.imageName = imageName ?? 'Image'
     } else {
       image = context.layers.lastAddedData.data
       actorContext.image = image
+      layerContext = context.layers.actorContext.get(imageName)
     }
-    if (labelImageName) {
-      actorContext.labelImageName = labelImageName
-      if (imageName) {
-        const layerContext = context.layers.actorContext.get(labelImageName)
-        layerContext.imageName = imageName
-      }
-    }
+    layerContext.imageActorContext = actorContext
+
+    images.actorContext.set(actorName, actorContext)
 
     if (image === null) {
-      images.actorContext.set(name, actorContext)
       return images
     }
 
@@ -209,7 +206,6 @@ const assignImageContext = assign({
       [...Array(components).keys()].map(c => [c, true])
     )
 
-    images.actorContext.set(name, actorContext)
     return images
   },
 })
@@ -261,12 +257,12 @@ function createLayersUIMachine(options, context) {
                 c =>
                   c.service.send({
                     type: 'IMAGE_ASSIGNED',
-                    data: c.layers.lastAddedData.name,
+                    data: c.images.selectedName,
                   }),
                 c =>
                   c.service.send({
                     type: 'SELECT_LAYER',
-                    data: c.layers.lastAddedData.name,
+                    data: c.images.selectedName,
                   }),
               ],
             },

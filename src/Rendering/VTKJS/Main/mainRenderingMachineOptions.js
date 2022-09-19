@@ -7,6 +7,7 @@ import toggleAxes from './toggleAxes'
 import toggleCroppingPlanes from './toggleCroppingPlanes'
 import resetCroppingPlanes from './resetCroppingPlanes'
 import applyCroppingPlanes from './applyCroppingPlanes'
+import updateSlicingPlanes from './updateSlicingPlanes'
 import viewModeXPlane from './viewModeXPlane'
 import viewModeYPlane from './viewModeYPlane'
 import viewModeZPlane from './viewModeZPlane'
@@ -35,6 +36,7 @@ const mainRenderingMachineOptions = {
     resetCroppingPlanes,
     toggleCroppingPlanes,
     applyCroppingPlanes,
+    updateSlicingPlanes,
 
     viewModeXPlane,
     viewModeYPlane,

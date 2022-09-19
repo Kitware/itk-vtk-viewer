@@ -1,4 +1,5 @@
 import { assign, createMachine, forwardTo, send } from 'xstate'
+import { makeTransitions } from './makeTransitions'
 
 const getLoadedImage = actorContext =>
   actorContext.image ?? actorContext.labelImage
@@ -223,15 +224,6 @@ const CHANGE_BOUNDS_EVENTS = [
   'CAMERA_MODIFIED',
 ]
 
-const makeTransitions = (events, transition) =>
-  events.reduce(
-    (onEvents, e) => ({
-      ...onEvents,
-      [e]: transition,
-    }),
-    {}
-  )
-
 const createUpdatingImageMachine = options => {
   return createMachine(
     {
@@ -314,11 +306,11 @@ const createUpdatingImageMachine = options => {
   )
 }
 
-const createImageRenderingActor = (options, context) => {
+const createImageRenderingActor = (options, context, name) => {
   return createMachine(
     {
       id: 'imageRendering',
-      context,
+      context: { ...context, actorName: name },
       type: 'parallel',
       states: {
         imageLoader: {

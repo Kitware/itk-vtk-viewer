@@ -17,10 +17,14 @@ https://kitware.github.io/itk-vtk-viewer/app/
 
 Note that the link can also be used directly.
 
-To install a specific version, e.g. version `10.8.0`, use the URI:
+To install a specific version associated with a specific commit, click the *Details* link associated with the *fleek/build* check found in checkmark link popup in the [GitHub commit interface](https://github.com/Kitware/itk-vtk-viewer/commits/master).
+
+![CID link](./fleek-build-link.png)
+
+This results in a URL that contains a root [Content Identifier (CID)](https://proto.school/anatomy-of-a-cid/01). For example,
 
 ```
-https://unpkg.com/itk-vtk-viewer@10.8.0/dist/index.html
+https://bafybeihh34vpeoczdl3bu5wff3cvx35g2u3h3cbs6cmc3werg7drobr3ty.on.fleek.co/
 ```
 
 ## Inputs

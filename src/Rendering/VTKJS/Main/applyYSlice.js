@@ -4,7 +4,7 @@ function applyYSlice(context, event) {
   const volumeRep = context.images.representationProxy
   if (volumeRep) {
     volumeRep.setYSlice(Number(position))
-    context.service.send('RENDER')
+    context.service.send('RENDER_LATER')
   }
 }
 

@@ -50,9 +50,10 @@ export const fuseComponents = ({ componentInfo, arrayToFill }) => {
   return fusedImageData
 }
 
-export const computeRanges = async (imageData, numberOfComponents) =>
-  await Promise.all(
-    [...Array(numberOfComponents).keys()].map(comp =>
-      computeRange(imageData, comp, numberOfComponents)
-    )
-  )
+export const computeRanges = async (imageData, numberOfComponents) => {
+  const ranges = []
+  for (let compIdx = 0; compIdx < numberOfComponents; compIdx++) {
+    ranges.push(await computeRange(imageData, compIdx, numberOfComponents))
+  }
+  return ranges
+}

@@ -109,7 +109,9 @@ const assignIsFramerateScalePickingOn = assign({
 
 const KNOWN_ERRORS = [
   'Voxel count over max at scale',
-  "DataCloneError: Failed to execute 'postMessage' on 'Worker': Data cannot be cloned, out of memory.",
+  "Failed to execute 'postMessage' on 'Worker': Data cannot be cloned, out of memory.",
+  "Failed to execute 'postMessage' on 'DedicatedWorkerGlobalScope': Data cannot be cloned, out of memory.",
+  'Array buffer allocation failed',
 ]
 
 const checkIsKnownErrorOrThrow = (c, { data: error }) => {

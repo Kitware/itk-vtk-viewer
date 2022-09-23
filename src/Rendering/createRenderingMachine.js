@@ -52,6 +52,9 @@ const createRenderingMachine = (options, context) => {
             RENDER: {
               actions: 'render',
             },
+            RENDER_LATER: {
+              actions: 'renderLater',
+            },
             UPDATE_FPS: {
               actions: forwardTo('main'),
             },

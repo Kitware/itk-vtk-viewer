@@ -73,11 +73,6 @@ function applyRenderedImage(context, { data: { name } }) {
 
   context.images.source.setInputData(actorContext.fusedImage)
 
-  const savedSlicePositions = context.images.representationProxy && [
-    context.images.representationProxy.getXSlice(),
-    context.images.representationProxy.getYSlice(),
-    context.images.representationProxy.getZSlice(),
-  ]
   // VTK.js currently only supports a single image
   if (!context.images.representationProxy) {
     context.proxyManager.createRepresentationInAllViews(context.images.source)
@@ -136,7 +131,9 @@ function applyRenderedImage(context, { data: { name } }) {
   const { representationProxy } = context.images
 
   // undo representationProxy.setInput calling volume.setVisibility(false) if it finds dimensions === 2 (may have just been cropped)
-  representationProxy.setVolumeVisibility(!context.use2D)
+  representationProxy.setVolumeVisibility(
+    !context.use2D && context.main.viewMode === 'Volume'
+  )
 
   // triggers update of ImageSliceOutlines if fusedImage size changed
   representationProxy.getActors().forEach(actor => actor.getMapper().modified())

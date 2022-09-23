@@ -301,6 +301,9 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             RENDER: {
               actions: forwardTo('rendering'),
             },
+            RENDER_LATER: {
+              actions: forwardTo('rendering'),
+            },
             UPDATE_FPS: {
               actions: forwardTo('rendering'),
             },

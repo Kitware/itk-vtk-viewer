@@ -83,6 +83,14 @@ class ImageActorContext {
   // Volume rendering blend mode
   blendMode = 'Composite'
 
+  cinematicParameters = {
+    isCinematicOn: false,
+    laoKernelSize: 5, // number of rays cast for Local Ambient Occlusion
+    laoKernelRadius: 10, // distance rays travel for Local Ambient Occlusion
+    diffuse: 1.2,
+    ambient: 0.6,
+  }
+
   // Name of the labelImage layer
   labelImageName = null
 

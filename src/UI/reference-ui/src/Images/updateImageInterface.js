@@ -28,16 +28,14 @@ function updateImageInterface(context) {
 
   if (image) {
     if (image.imageType.dimension === 3) {
-      context.images.volumeRow1.style.display = 'flex'
-      context.images.volumeRow2.style.display = 'flex'
+      context.images.volumeUiElements.forEach(e => (e.style.display = 'flex'))
       if (context.main.xPlaneRow) {
         context.main.xPlaneRow.style.display = 'flex'
         context.main.yPlaneRow.style.display = 'flex'
         context.main.zPlaneRow.style.display = 'flex'
       }
     } else {
-      context.images.volumeRow1.style.display = 'none'
-      context.images.volumeRow2.style.display = 'none'
+      context.images.volumeUiElements.forEach(e => (e.style.display = 'none'))
       if (context.main.xPlaneRow) {
         context.main.xPlaneRow.style.display = 'none'
         context.main.yPlaneRow.style.display = 'none'

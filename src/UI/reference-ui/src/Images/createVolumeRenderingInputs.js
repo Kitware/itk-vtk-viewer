@@ -4,10 +4,9 @@ import createShadowToggle from './createShadowToggle'
 import createGradientOpacitySlider from './createGradientOpacitySlider'
 import createSampleDistanceSlider from './createSampleDistanceSlider'
 import createBlendModeSelector from './createBlendModeSelector'
+import { createCinematicParameters } from './cinematic'
 
 function createVolumeRenderingInputs(context, imagesUIGroup) {
-  const viewerDOMId = context.id
-
   const volumeRow1 = document.createElement('div')
   volumeRow1.setAttribute('class', style.uiRow)
   createShadowToggle(context, volumeRow1)
@@ -21,8 +20,9 @@ function createVolumeRenderingInputs(context, imagesUIGroup) {
   createBlendModeSelector(context, volumeRow2)
   imagesUIGroup.appendChild(volumeRow2)
 
-  context.images.volumeRow1 = volumeRow1
-  context.images.volumeRow2 = volumeRow2
+  context.images.volumeUiElements = [volumeRow1, volumeRow2]
+
+  createCinematicParameters(context, volumeRow2, imagesUIGroup)
 }
 
 export default createVolumeRenderingInputs

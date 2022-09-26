@@ -1,5 +1,3 @@
-import macro from '@kitware/vtk.js/macro'
-
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 

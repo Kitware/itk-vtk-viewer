@@ -89,6 +89,16 @@ function createImagesRenderingMachine(options, context) {
                 to: c => `imageRenderingActor-${c.images.updateRenderedName}`,
               }),
             },
+            SET_CINEMATIC_PARAMETERS: {
+              actions: send((_, e) => e, {
+                to: c => `imageRenderingActor-${c.images.selectedName}`,
+              }),
+            },
+            CINEMATIC_CHANGED: {
+              actions: send((_, e) => e, {
+                to: c => `imageRenderingActor-${c.images.selectedName}`,
+              }),
+            },
             TOGGLE_LAYER_VISIBILITY: {
               actions: send((_, e) => e, {
                 to: c => `imageRenderingActor-${c.images.selectedName}`,

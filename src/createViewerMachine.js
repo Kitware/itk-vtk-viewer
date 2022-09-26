@@ -313,6 +313,12 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             SET_IMAGE_SCALE: {
               actions: forwardTo('rendering'),
             },
+            SET_CINEMATIC_PARAMETERS: {
+              actions: forwardTo('rendering'),
+            },
+            CINEMATIC_CHANGED: {
+              actions: [forwardTo('ui'), forwardTo('rendering')],
+            },
             REQUEST_ANIMATION: {
               actions: forwardTo('rendering'),
             },

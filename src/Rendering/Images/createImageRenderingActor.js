@@ -107,6 +107,27 @@ const assignIsFramerateScalePickingOn = assign({
   },
 })
 
+const assignToggleCinematic = assign({
+  images: ({ images }, { data: { params, name } }) => {
+    const actorContext = images.actorContext.get(name)
+    actorContext.cinematicParameters = {
+      ...actorContext.cinematicParameters,
+      ...params,
+    }
+    return images
+  },
+})
+
+const sendCinematicChanged = context => {
+  const actorContext = context.images.actorContext.get(
+    context.images.selectedName
+  )
+  context.service.send({
+    type: 'CINEMATIC_CHANGED',
+    actorContext,
+  })
+}
+
 const KNOWN_ERRORS = [
   'Voxel count over max at scale',
   "Failed to execute 'postMessage' on 'Worker': Data cannot be cloned, out of memory.",
@@ -218,6 +239,12 @@ const eventResponses = {
   },
   RENDERED_BOUNDS_CHANGED: {
     target: 'updatingImage',
+  },
+  SET_CINEMATIC_PARAMETERS: {
+    actions: [assignToggleCinematic, sendCinematicChanged],
+  },
+  CINEMATIC_CHANGED: {
+    actions: 'applyCinematicChanged',
   },
 }
 

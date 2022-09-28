@@ -52,6 +52,11 @@ const assignRenderedImage = assign({
     componentRanges.forEach((range, comp) =>
       fusedImageScalars.setRange(range, comp)
     )
+
+    // Keeps ProxyRepresentation's call of fusedImageScalars.getRange() from slow computation of "magnitude" combination of components
+    // We don't use.
+    fusedImageScalars.setRange({ min: 0, max: 1 }, numberOfComponents)
+
     // Trigger VolumeMapper scalarTexture update
     fusedImage.modified()
 

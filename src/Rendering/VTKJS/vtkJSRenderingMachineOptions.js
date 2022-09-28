@@ -9,6 +9,9 @@ import layersRenderingMachineOptions from './Layers/layersRenderingMachineOption
 import imagesRenderingMachineOptions from './Images/imagesRenderingMachineOptions'
 import widgetsRenderingMachineOptions from './Widgets/widgetsRenderingMachineOptions'
 
+const isNotAnimating = context =>
+  !context.renderWindow.getInteractor().isAnimating()
+
 const vtkJSRenderingMachineOptions = {
   main: mainRenderingMachineOptions,
 
@@ -25,6 +28,10 @@ const vtkJSRenderingMachineOptions = {
     renderLater,
     requestAnimation,
     cancelAnimation,
+  },
+
+  guards: {
+    isNotAnimating,
   },
 }
 

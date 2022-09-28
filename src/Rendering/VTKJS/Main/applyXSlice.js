@@ -4,7 +4,7 @@ function applyXSlice(context, event) {
   const volumeRep = context.images.representationProxy
   if (volumeRep) {
     volumeRep.setXSlice(Number(position))
-    context.service.send('RENDER_LATER')
+    context.service.send('RENDER')
   }
 }
 

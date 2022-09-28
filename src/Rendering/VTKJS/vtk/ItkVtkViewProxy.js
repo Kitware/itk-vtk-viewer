@@ -13,6 +13,9 @@ import WidgetManagerPickWhileAnimating from './WidgetManagerPickWhileAnimating'
 
 import vtkSliceOutlineFilter from './SliceOutlineFilter'
 
+export const VOLUME_DIFFUSE_DEFAULT = 1.0
+export const VOLUME_AMBIENT_DEFAULT = 0.4
+
 const CursorCornerAnnotation =
   '<table class="corner-annotation" style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
 
@@ -954,8 +957,8 @@ function ItkVtkViewProxy(publicAPI, model) {
       model.volumeRepresentation = volumeRepresentations[0]
       const volume = model.volumeRepresentation.getVolumes()[0]
       const property = volume.getProperty()
-      property.setAmbient(0.4)
-      property.setDiffuse(1.0)
+      property.setAmbient(VOLUME_AMBIENT_DEFAULT)
+      property.setDiffuse(VOLUME_DIFFUSE_DEFAULT)
       property.setSpecular(0.4)
       property.setSpecularPower(25)
       const actors = model.volumeRepresentation.getActors()

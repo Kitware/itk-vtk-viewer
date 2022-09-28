@@ -22,6 +22,7 @@ import applyLabelNames from './applyLabelNames'
 import applySelectedLabel from './applySelectedLabel'
 import scaleSelector from './scaleSelector'
 import { applyPiecewiseFunctionPointsToEditor } from './createTransferFunctionWidget'
+import { applyCinematicChanged } from './cinematic'
 
 const imagesUIMachineOptions = {
   actions: {
@@ -46,6 +47,8 @@ const imagesUIMachineOptions = {
     applyGradientOpacityScale,
     applyVolumeSampleDistance,
     applyBlendMode,
+    applyCinematicChanged,
+
     applyHistogram,
 
     applyLookupTable,

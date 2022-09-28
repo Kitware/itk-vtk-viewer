@@ -23,6 +23,7 @@ import applySelectedLabel from './applySelectedLabel'
 import mapToPiecewiseFunctionNodes from './mapToPiecewiseFunctionNodes'
 import { getBoundsOfFullImage } from '../Main/croppingPlanes'
 import { computeRenderedBounds } from '../Main/computeRenderedBounds'
+import { applyCinematicChanged } from './applyCinematicChanged'
 
 const EPSILON = 0.000001
 
@@ -90,6 +91,7 @@ const imagesRenderingMachineOptions = {
       applyLabelNames,
       applyLabelImageWeights,
       applySelectedLabel,
+      applyCinematicChanged,
     },
 
     guards: {

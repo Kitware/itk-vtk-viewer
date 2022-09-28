@@ -28,7 +28,7 @@ function styleInject(css, ref) {
 }
 
 var css_248z$1 =
-  ".ItkVtkViewer-module_loading__11c63 {\n  border: 16px solid #f3f3f3; /* Light grey */\n  border-top: 16px solid #3498db; /* Blue */\n  border-radius: 50%;\n  width: 120px;\n  height: 120px;\n  position: absolute;\n  left: calc(50% - 60px);\n  top: calc(50% - 60px);\n  -webkit-animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n          animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n  box-sizing: border-box;\n}\n\n@-webkit-keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n@keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n.ItkVtkViewer-module_viewContainer__-5zNz {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  display: flex;\n  flex-direction: column;\n  background: rgba(128, 128, 128, 0.8);\n}\n\n.ItkVtkViewer-module_uiContainer__CiawP {\n  display: flex;\n  align-items: stretch;\n  flex-direction: column;\n  justify-content: space-between;\n  position: absolute;\n  top: 5px;\n  left: 5px;\n  padding: 2px;\n  border: 0px;\n  box-sizing: border-box;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_uiGroup__ad-WI {\n  background: rgba(128, 128, 128, 0.5);\n  border-radius: 4px;\n  margin: 2px;\n}\n\n.ItkVtkViewer-module_uiRow__KTQa8 {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  align-items: center;\n  justify-content: space-between;\n  padding: 5px;\n}\n\n.ItkVtkViewer-module_mainUIRow__vTXih {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_planeUIRow__D5gCh {\n  background: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_layersUIRow__0LDm5 {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_progress__WydXH {\n  color: white;\n  font-size: 200%;\n  height: 100vh;\n  width: 100vw;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 100vh;\n}\n\n.ItkVtkViewer-module_piecewiseWidget__5gKl5 {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_logo__9ErCF {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  height: 2.0em;\n  width: 2.0em;\n  cursor: pointer;\n  z-index: 100;\n}\n\n.ItkVtkViewer-module_fpsMonitor__bnwqr {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  border-radius: 5px;\n  background: rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n  z-index: 101;\n}\n\n[itk-vtk-tooltip] {\n    position: relative;\n}\n[itk-vtk-tooltip]::before {\n    content: attr(itk-vtk-tooltip-content);\n    visibility: hidden;\n    position: absolute;\n    top: 50%;\n    right: calc(100% + 16px);\n    width: 400%;\n    padding: 4px 6px;\n    text-align: center;\n    text-transform: none;\n    font-size: 0.9em;\n    font-family: monospace;\n    border-radius: 3px;\n    background: rgba(0.9, 0.9, 0.9, 0.95);\n    color: white;\n    opacity: 0;\n    transform: translate(15px, -50%);\n    transition-property: all;\n    transition-duration: 0.3s;\n    transition-timing-function: ease-in-out;\n    transition-delay: 0.8s;\n    z-index: 1;\n}\n\n[itk-vtk-tooltip]:hover::before {\n    opacity: 1;\n    visibility: visible;\n    transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-bottom]::before {\n    top: calc(100% + 16px);\n    left: 50%;\n    right: initial;\n    transform: translate(-50%, -15px);\n}\n[itk-vtk-tooltip-bottom]:hover::before {\n    transform: translate(-50%, 0)\n}\n[itk-vtk-tooltip-right]::before {\n    top: 50%;\n    left: calc(100% + 16px);\n    right: initial;\n    transform: translate(-15px, -50%);\n}\n[itk-vtk-tooltip-right]:hover::before {\n    transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-top-screenshot]::before {\n    top: initial;\n    left: 260%;\n    right: initial;\n    bottom: calc(100% + 8px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-screenshot]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-annotations]::before {\n    top: initial;\n    left: 160%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-annotations]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-axes]::before {\n    top: initial;\n    left: 160%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-axes]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n    top: initial;\n    left: 120%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n    width: 400%;\n}\n[itk-vtk-tooltip-top-fullscreen]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top]::before {\n    top: initial;\n    left: 60%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n    top: initial;\n    left: 120%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n    width: 400%;\n}\n\n.ItkVtkViewer-module_layerEntryCommon__oIE1u {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n  border-style: solid;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_layerEntryBrightBG__qXyI2 {\n  border-color: #666;\n}\n\n.ItkVtkViewer-module_layerEntryDarkBG__BmiCj {\n  border-color: #AAA;\n}\n\n.ItkVtkViewer-module_layerLabelCommon__kTiO9 {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_layerLabelBrightBG__vAfex {\n  color: black;\n}\n\n.ItkVtkViewer-module_layerLabelDarkBG__sM6Bg {\n  color: white;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc {\n  flex-basis: 2.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 8px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_tooltipButtonBrightBG__yffVf::before {\n}\n\n.ItkVtkViewer-module_tooltipButtonDarkBG__gEu0i::before {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_invertibleButtonBrightBG__VmIfT {\n}\n\n.ItkVtkViewer-module_invertibleButtonDarkBG__GoKgD {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_collapseUIButton__Ac6-L {\n  height: 1.5em;\n  width: 1.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 {\n  flex: 1;\n  width: 8m;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 2px;\n  padding-right: 4px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceEntry__zXMUS {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: self-start;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceLabelCommon__Ec-uc {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceLabelBrightBG__aYmfG {\n  color: black;\n}\n\n.ItkVtkViewer-module_distanceLabelDarkBG__kYXvI {\n  color: white;\n}\n\n.ItkVtkViewer-module_distanceInput__gyNaU {\n  background: transparent;\n  color: white;\n  font-size: 1.0em;\n  width: 80px;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 0px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_toggleInput__jHLTo {\n  margin: 0px;\n  width: 0%;\n  opacity: 0;\n  box-sizing: content-box;\n}\n\n.ItkVtkViewer-module_toggleButton__qHhHZ {\n  cursor: pointer;\n  border-radius: 0.2em;\n  opacity: 0.45;\n}\n\ninput:checked.ItkVtkViewer-module_toggleInput__jHLTo + label {\n  opacity: 1.0;\n}\n\n.ItkVtkViewer-module_numberInput__pDxYH {\n  color: white;\n  background: transparent;\n  font-size: 1.0em;\n  padding-left: 2px;\n  width: 70px;\n}\n\n.ItkVtkViewer-module_selector__yw8l- {\n  display: flex;\n  direction: row;\n  font-size: 1.2em;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n\n.ItkVtkViewer-module_disableInterface__CGB4S {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(40, 40, 40, 0.5);\n  padding: 5px;\n  margin-right: 2px;\n  border-radius: 5px 5px 0px 0px;\n  color: #777;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:hover + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(90, 90, 90, 0.5);\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:checked + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(127, 127, 127, 0.5);\n  color: #FFF;\n}\n\n.ItkVtkViewer-module_componentVisibility__y1rRS {\n  position: relative;\n  top: -2px;\n  margin-left: 10px;\n}\n\nselect {\n  -moz-appearance: none;\n}\n\nselect option {\n  color: black;\n}\n\nselect:focus {\n  outline: none;\n  border: none;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 8px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderEntry__3r3gO {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n\n.ItkVtkViewer-module_slider__eT9qm {\n  flex: 1;\n  min-height: 1rem;\n  width: 5px;\n}\n\n.ItkVtkViewer-module_planeLabel__E1zOk {\n  padding-left: 6px;\n  padding: 2px;\n  display: block;\n  font-size: 1.1em;\n  font-family: monospace;\n  color: black;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_xPlaneLabel__wK4Cb {\n  background-color: #ef5350;\n}\n\n.ItkVtkViewer-module_yPlaneLabel__rIm0j {\n  background-color: #fdd835;\n}\n\n.ItkVtkViewer-module_zPlaneLabel__94NL7 {\n  background-color: #4caf50;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ {\n  z-index: 1100;\n  position: relative;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ input {\n  position: absolute;\n  bottom: 20px;\n  left: -24px;\n  width: 12px;\n  -ms-writing-mode: bt-lr;\n      writing-mode: bt-lr;\n  -webkit-appearance: slider-vertical;\n}\n\n.ItkVtkViewer-module_bigFileDrop__cZdkP {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  background-color: white;\n  background-image: url('./dropBG.jpg');\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: contain;\n  border-radius: 10px;\n  width: 50px;\n  padding: calc(50vh - 2em) calc(50vw - 25px - 2em);\n}\n\n.ItkVtkViewer-module_fullscreenContainer__-H3c8 {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  background: black;\n  margin: 0;\n  padding: 0;\n}\n"
+  ".ItkVtkViewer-module_loading__11c63 {\n  border: 16px solid #f3f3f3; /* Light grey */\n  border-top: 16px solid #3498db; /* Blue */\n  border-radius: 50%;\n  width: 120px;\n  height: 120px;\n  position: absolute;\n  left: calc(50% - 60px);\n  top: calc(50% - 60px);\n  -webkit-animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n          animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n  box-sizing: border-box;\n}\n\n@-webkit-keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n@keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n.ItkVtkViewer-module_viewContainer__-5zNz {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  display: flex;\n  flex-direction: column;\n  background: rgba(128, 128, 128, 0.8);\n}\n\n.ItkVtkViewer-module_uiContainer__CiawP {\n  display: flex;\n  align-items: stretch;\n  flex-direction: column;\n  justify-content: space-between;\n  position: absolute;\n  top: 5px;\n  left: 5px;\n  padding: 2px;\n  border: 0px;\n  box-sizing: border-box;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_uiGroup__ad-WI {\n  background: rgba(128, 128, 128, 0.5);\n  border-radius: 4px;\n  margin: 2px;\n}\n\n.ItkVtkViewer-module_uiRow__KTQa8 {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  align-items: center;\n  justify-content: space-between;\n  padding: 5px;\n}\n\n.ItkVtkViewer-module_sliderColumn__ZwISb {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  padding: 5px;\n}\n\n.ItkVtkViewer-module_mainUIRow__vTXih {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_planeUIRow__D5gCh {\n  background: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_layersUIRow__0LDm5 {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_progress__WydXH {\n  color: white;\n  font-size: 200%;\n  height: 100vh;\n  width: 100vw;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 100vh;\n}\n\n.ItkVtkViewer-module_piecewiseWidget__5gKl5 {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_logo__9ErCF {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  height: 2.0em;\n  width: 2.0em;\n  cursor: pointer;\n  z-index: 100;\n}\n\n.ItkVtkViewer-module_fpsMonitor__bnwqr {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  border-radius: 5px;\n  background: rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n  z-index: 101;\n}\n\n[itk-vtk-tooltip] {\n    position: relative;\n}\n[itk-vtk-tooltip]::before {\n    content: attr(itk-vtk-tooltip-content);\n    visibility: hidden;\n    position: absolute;\n    top: 50%;\n    right: calc(100% + 16px);\n    width: 400%;\n    padding: 4px 6px;\n    text-align: center;\n    text-transform: none;\n    font-size: 0.9em;\n    font-family: monospace;\n    border-radius: 3px;\n    background: rgba(0.9, 0.9, 0.9, 0.95);\n    color: white;\n    opacity: 0;\n    transform: translate(15px, -50%);\n    transition-property: all;\n    transition-duration: 0.3s;\n    transition-timing-function: ease-in-out;\n    transition-delay: 0.8s;\n    z-index: 1;\n}\n\n[itk-vtk-tooltip]:hover::before {\n    opacity: 1;\n    visibility: visible;\n    transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-bottom]::before {\n    top: calc(100% + 16px);\n    left: 50%;\n    right: initial;\n    transform: translate(-50%, -15px);\n}\n[itk-vtk-tooltip-bottom]:hover::before {\n    transform: translate(-50%, 0)\n}\n[itk-vtk-tooltip-right]::before {\n    top: 50%;\n    left: calc(100% + 16px);\n    right: initial;\n    transform: translate(-15px, -50%);\n}\n[itk-vtk-tooltip-right]:hover::before {\n    transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-top-screenshot]::before {\n    top: initial;\n    left: 260%;\n    right: initial;\n    bottom: calc(100% + 8px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-screenshot]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-annotations]::before {\n    top: initial;\n    left: 160%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-annotations]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-axes]::before {\n    top: initial;\n    left: 160%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-axes]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n    top: initial;\n    left: 120%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n    width: 400%;\n}\n[itk-vtk-tooltip-top-fullscreen]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top]::before {\n    top: initial;\n    left: 60%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top]:hover::before {\n    transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n    top: initial;\n    left: 120%;\n    right: initial;\n    bottom: calc(100% + 10px);\n    transform: translate(-50%, 15px);\n    width: 400%;\n}\n\n.ItkVtkViewer-module_layerEntryCommon__oIE1u {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n  border-style: solid;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_layerEntryBrightBG__qXyI2 {\n  border-color: #666;\n}\n\n.ItkVtkViewer-module_layerEntryDarkBG__BmiCj {\n  border-color: #AAA;\n}\n\n.ItkVtkViewer-module_layerLabelCommon__kTiO9 {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_layerLabelBrightBG__vAfex {\n  color: black;\n}\n\n.ItkVtkViewer-module_layerLabelDarkBG__sM6Bg {\n  color: white;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc {\n  flex-basis: 2.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 8px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_tooltipButtonBrightBG__yffVf::before {\n}\n\n.ItkVtkViewer-module_tooltipButtonDarkBG__gEu0i::before {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_invertibleButtonBrightBG__VmIfT {\n}\n\n.ItkVtkViewer-module_invertibleButtonDarkBG__GoKgD {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_collapseUIButton__Ac6-L {\n  height: 1.5em;\n  width: 1.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 {\n  flex: 1;\n  width: 8m;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 2px;\n  padding-right: 4px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ img {\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceEntry__zXMUS {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: self-start;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceLabelCommon__Ec-uc {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceLabelBrightBG__aYmfG {\n  color: black;\n}\n\n.ItkVtkViewer-module_distanceLabelDarkBG__kYXvI {\n  color: white;\n}\n\n.ItkVtkViewer-module_distanceInput__gyNaU {\n  background: transparent;\n  color: white;\n  font-size: 1.0em;\n  width: 80px;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 0px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_toggleInput__jHLTo {\n  margin: 0px;\n  width: 0;\n  opacity: 0;\n  box-sizing: content-box;\n}\n\n.ItkVtkViewer-module_toggleButton__qHhHZ {\n  cursor: pointer;\n  border-radius: 0.2em;\n  opacity: 0.45;\n}\n\ninput:checked.ItkVtkViewer-module_toggleInput__jHLTo + label {\n  opacity: 1.0;\n}\n\n.ItkVtkViewer-module_cinematicButton__JzsCj {\n  margin-left: 6px;\n}\n\n.ItkVtkViewer-module_numberInput__pDxYH {\n  color: white;\n  background: transparent;\n  font-size: 1.0em;\n  padding-left: 2px;\n  width: 70px;\n}\n\n.ItkVtkViewer-module_selector__yw8l- {\n  display: flex;\n  direction: row;\n  font-size: 1.2em;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n\n.ItkVtkViewer-module_disableInterface__CGB4S {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(40, 40, 40, 0.5);\n  padding: 5px;\n  margin-right: 2px;\n  border-radius: 5px 5px 0px 0px;\n  color: #777;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:hover + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(90, 90, 90, 0.5);\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:checked + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(127, 127, 127, 0.5);\n  color: #FFF;\n}\n\n.ItkVtkViewer-module_componentVisibility__y1rRS {\n  position: relative;\n  top: -2px;\n  margin-left: 10px;\n}\n\nselect {\n  -moz-appearance: none;\n}\n\nselect option {\n  color: black;\n}\n\nselect:focus {\n  outline: none;\n  border: none;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 8px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderEntry__3r3gO {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n\n.ItkVtkViewer-module_slider__eT9qm {\n  flex: 1;\n  min-height: 1rem;\n}\n\n.ItkVtkViewer-module_planeLabel__E1zOk {\n  padding-left: 6px;\n  padding: 2px;\n  display: block;\n  font-size: 1.1em;\n  font-family: monospace;\n  color: black;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_xPlaneLabel__wK4Cb {\n  background-color: #ef5350;\n}\n\n.ItkVtkViewer-module_yPlaneLabel__rIm0j {\n  background-color: #fdd835;\n}\n\n.ItkVtkViewer-module_zPlaneLabel__94NL7 {\n  background-color: #4caf50;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ {\n  z-index: 1100;\n  position: relative;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ input {\n  position: absolute;\n  bottom: 20px;\n  left: -24px;\n  width: 12px;\n  -ms-writing-mode: bt-lr;\n      writing-mode: bt-lr;\n  -webkit-appearance: slider-vertical;\n}\n\n.ItkVtkViewer-module_bigFileDrop__cZdkP {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  background-color: white;\n  background-image: url('./dropBG.jpg');\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: contain;\n  border-radius: 10px;\n  width: 50px;\n  padding: calc(50vh - 2em) calc(50vw - 25px - 2em);\n}\n\n.ItkVtkViewer-module_fullscreenContainer__-H3c8 {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  background: black;\n  margin: 0;\n  padding: 0;\n}\n"
 var style = {
   loading: 'ItkVtkViewer-module_loading__11c63',
   spin: 'ItkVtkViewer-module_spin__mT5S6',
@@ -36,6 +36,7 @@ var style = {
   uiContainer: 'ItkVtkViewer-module_uiContainer__CiawP',
   uiGroup: 'ItkVtkViewer-module_uiGroup__ad-WI',
   uiRow: 'ItkVtkViewer-module_uiRow__KTQa8',
+  sliderColumn: 'ItkVtkViewer-module_sliderColumn__ZwISb',
   mainUIRow:
     'ItkVtkViewer-module_mainUIRow__vTXih ItkVtkViewer-module_uiRow__KTQa8',
   planeUIRow:
@@ -80,6 +81,7 @@ var style = {
   viewPlanesButton: 'ItkVtkViewer-module_viewPlanesButton__rSnuZ',
   toggleInput: 'ItkVtkViewer-module_toggleInput__jHLTo',
   toggleButton: 'ItkVtkViewer-module_toggleButton__qHhHZ',
+  cinematicButton: 'ItkVtkViewer-module_cinematicButton__JzsCj',
   numberInput: 'ItkVtkViewer-module_numberInput__pDxYH',
   selector: 'ItkVtkViewer-module_selector__yw8l-',
   componentTab: 'ItkVtkViewer-module_componentTab__6KSJF',
@@ -4240,8 +4242,146 @@ function createBlendModeSelector(context, uiContainer) {
   uiContainer.appendChild(blendModeSelector)
 }
 
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true,
+    })
+  } else {
+    obj[key] = value
+  }
+
+  return obj
+}
+
+var toggleCinematicInput, toggleContainer
+var sliderMap = new Map()
+
+function makeSlider(context, label, parameterName, _ref) {
+  var min = _ref.min,
+    max = _ref.max,
+    step = _ref.step,
+    start = _ref.start
+  var container = document.createElement('div')
+  container.setAttribute('class', style.sliderEntry)
+  container.innerHTML = '\n    <label itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content=" '
+    .concat(label, '">\n      ')
+    .concat(label, '\n    </label>\n    <input type="range" min="')
+    .concat(min, '" max="')
+    .concat(max, '" step="')
+    .concat(step, '" value="')
+    .concat(start, '" \n      class="')
+    .concat(style.slider, '" />')
+  var slider = container.children[1]
+  slider.addEventListener('input', function(event) {
+    event.preventDefault()
+    event.stopPropagation()
+    context.service.send({
+      type: 'SET_CINEMATIC_PARAMETERS',
+      data: {
+        name: context.images.selectedName,
+        params: _defineProperty({}, parameterName, Number(slider.value)),
+      },
+    })
+  })
+  sliderMap.set(parameterName, slider)
+  return container
+}
+
+function createCinematicParameters(context, toggleParent, rowParent) {
+  var toggleButton = document.createElement('div')
+  toggleButton.innerHTML = '<input id="'
+    .concat(context.id, '-toggleCinematicButton" type="checkbox" class="')
+    .concat(
+      style.toggleInput,
+      '"><label itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Toggle Cinematic" class="'
+    )
+    .concat(style.interpolationButton, ' ')
+    .concat(style.toggleButton, ' ')
+    .concat(style.cinematicButton, '" for="')
+    .concat(context.id, '-cinemanticButton"><img src="')
+    .concat(optimizedSVGDataUri$k, '" alt="cinemantic" /></label>')
+  toggleCinematicInput = toggleButton.children[0]
+  toggleButton.addEventListener('click', function(event) {
+    event.preventDefault()
+    event.stopPropagation()
+
+    var _context$images$actor = context.images.actorContext.get(
+        context.images.selectedName
+      ),
+      isCinematicOn = _context$images$actor.cinematicParameters.isCinematicOn
+
+    context.service.send({
+      type: 'SET_CINEMATIC_PARAMETERS',
+      data: {
+        name: context.images.selectedName,
+        params: {
+          isCinematicOn: !isCinematicOn,
+        },
+      },
+    })
+  })
+  toggleParent.appendChild(toggleButton) // hidable sliders
+
+  var row = document.createElement('div')
+  toggleContainer = document.createElement('div')
+  toggleContainer.setAttribute('class', style.sliderColumn)
+  row.appendChild(toggleContainer)
+  rowParent.appendChild(row)
+  context.images.volumeUiElements.push(row)
+  toggleContainer.style.flexDirection = 'column'
+  toggleContainer.style.display = 'none'
+  toggleContainer.appendChild(
+    makeSlider(context, 'Local Ambient Occlusion Kernel', 'laoKernelSize', {
+      min: 5,
+      max: 32,
+      step: 1,
+      start: 5,
+    })
+  )
+  toggleContainer.appendChild(
+    makeSlider(context, 'Local Ambient Occlusion Radius', 'laoKernelRadius', {
+      min: 1,
+      max: 32,
+      step: 1,
+      start: 1,
+    })
+  )
+  toggleContainer.appendChild(
+    makeSlider(context, 'Diffuse', 'diffuse', {
+      min: 0,
+      max: 2,
+      step: 2 / 100,
+      start: 1,
+    })
+  )
+  toggleContainer.appendChild(
+    makeSlider(context, 'Ambient', 'ambient', {
+      min: 0,
+      max: 1,
+      step: 1 / 100,
+      start: 0.4,
+    })
+  )
+}
+function applyCinematicChanged(context, _ref2) {
+  var actorContext = _ref2.actorContext
+  var cinematicParameters = actorContext.cinematicParameters
+  toggleCinematicInput.checked = cinematicParameters.isCinematicOn
+  toggleContainer.style.display = cinematicParameters.isCinematicOn
+    ? 'flex'
+    : 'none'
+  ;['laoKernelSize', 'laoKernelRadius', 'diffuse', 'ambient'].forEach(function(
+    param
+  ) {
+    sliderMap.get(param).value = cinematicParameters[param]
+  })
+}
+
 function createVolumeRenderingInputs(context, imagesUIGroup) {
-  context.id
   var volumeRow1 = document.createElement('div')
   volumeRow1.setAttribute('class', style.uiRow)
   createShadowToggle(context, volumeRow1)
@@ -4253,8 +4393,8 @@ function createVolumeRenderingInputs(context, imagesUIGroup) {
   createSampleDistanceSlider(context, volumeRow2)
   createBlendModeSelector(context, volumeRow2)
   imagesUIGroup.appendChild(volumeRow2)
-  context.images.volumeRow1 = volumeRow1
-  context.images.volumeRow2 = volumeRow2
+  context.images.volumeUiElements = [volumeRow1, volumeRow2]
+  createCinematicParameters(context, volumeRow2, imagesUIGroup)
 }
 
 var CategoricalPresetIcons = new Map()
@@ -4879,8 +5019,9 @@ function updateImageInterface(context) {
 
   if (image) {
     if (image.imageType.dimension === 3) {
-      context.images.volumeRow1.style.display = 'flex'
-      context.images.volumeRow2.style.display = 'flex'
+      context.images.volumeUiElements.forEach(function(e) {
+        return (e.style.display = 'flex')
+      })
 
       if (context.main.xPlaneRow) {
         context.main.xPlaneRow.style.display = 'flex'
@@ -4888,8 +5029,9 @@ function updateImageInterface(context) {
         context.main.zPlaneRow.style.display = 'flex'
       }
     } else {
-      context.images.volumeRow1.style.display = 'none'
-      context.images.volumeRow2.style.display = 'none'
+      context.images.volumeUiElements.forEach(function(e) {
+        return (e.style.display = 'none')
+      })
 
       if (context.main.xPlaneRow) {
         context.main.xPlaneRow.style.display = 'none'
@@ -5300,6 +5442,7 @@ var imagesUIMachineOptions = {
     applyGradientOpacityScale: applyGradientOpacityScale,
     applyVolumeSampleDistance: applyVolumeSampleDistance,
     applyBlendMode: applyBlendMode,
+    applyCinematicChanged: applyCinematicChanged,
     applyHistogram: applyHistogram,
     applyLookupTable: applyLookupTable,
     applyLabelImageBlend: applyLabelImageBlend,

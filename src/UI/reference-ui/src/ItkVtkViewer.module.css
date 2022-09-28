@@ -56,6 +56,13 @@
   padding: 5px;
 }
 
+.sliderColumn {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 5px;
+}
+
 .mainUIRow {
   composes: uiRow;
   justify-content: space-around;
@@ -380,7 +387,6 @@
 }
 
 .interpolationButton img {
-  height: 1.2em;
   width: 1.2em;
 }
 
@@ -542,7 +548,7 @@
 
 .toggleInput {
   margin: 0px;
-  width: 0%;
+  width: 0;
   opacity: 0;
   box-sizing: content-box;
 }
@@ -555,6 +561,10 @@
 
 input:checked.toggleInput + label {
   opacity: 1.0;
+}
+
+.cinematicButton {
+  margin-left: 6px;
 }
 
 .numberInput {
@@ -667,7 +677,6 @@ select:focus {
 .slider {
   flex: 1;
   min-height: 1rem;
-  width: 5px;
 }
 
 .planeLabel {

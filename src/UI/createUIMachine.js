@@ -179,6 +179,9 @@ function createUIMachine(options, context) {
             DISTANCE_WIDGET_VALUE_CHANGED: {
               actions: forwardTo('widgets'),
             },
+            CINEMATIC_CHANGED: {
+              actions: forwardTo('images'),
+            },
           },
           states: {
             // Optional feature of the user interface

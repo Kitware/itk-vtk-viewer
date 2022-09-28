@@ -357,6 +357,7 @@ function createImagesUIMachine(options, context) {
             LABEL_IMAGE_SELECTED_LABEL_CHANGED: {
               actions: [assignSelectedLabel, 'applySelectedLabel'],
             },
+            CINEMATIC_CHANGED: { actions: 'applyCinematicChanged' },
           },
         },
       },

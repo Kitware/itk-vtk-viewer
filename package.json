@@ -48,6 +48,7 @@
     "mobx": "^5.15.7",
     "mousetrap": "^1.6.5",
     "open": "^6.4.0",
+    "p-queue": "^7.3.0",
     "promise-file-reader": "^1.0.3",
     "promise.any": "^2.0.2",
     "regenerator-runtime": "^0.13.7",

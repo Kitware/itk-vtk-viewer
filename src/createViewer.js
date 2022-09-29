@@ -394,11 +394,9 @@ const createViewer = async (
 
   UserInterface.addLogo(store)
 
-  publicAPI.renderLater = () => {
-    store.itkVtkView.renderLater()
+  publicAPI.render = () => {
+    service.send('RENDER')
   }
-
-  const viewerDOMId = store.id
 
   // The `store` is considered an internal implementation detail
   // and its interface and behavior may change without changes to the major version.

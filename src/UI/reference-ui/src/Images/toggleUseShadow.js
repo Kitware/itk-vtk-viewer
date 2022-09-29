@@ -8,7 +8,7 @@ function toggleUseShadow(context, event) {
   context.images.useShadowButtonInput.checked = useShadow
 
   context.imageUI.representationProxy.setUseShadow(useShadow)
-  context.renderWindow.render()
+  context.service.send('RENDER')
 }
 
 export default toggleUseShadow

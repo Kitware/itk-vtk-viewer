@@ -42,18 +42,56 @@ const createRenderingMachine = (options, context) => {
               src: widgetsMachine,
             },
           ],
+          initial: 'idle',
+          states: {
+            idle: {
+              on: {
+                RENDER: {
+                  cond: 'isNotAnimating',
+                  target: 'render',
+                },
+              },
+            },
+            render: {
+              entry: 'render',
+              initial: 'waitingForRequest',
+              states: {
+                waitingForRequest: {
+                  on: { RENDER: 'renderRequested' },
+                },
+                renderRequested: {},
+              },
+              on: {
+                RENDERED: [
+                  {
+                    in: '#rendering.active.render.renderRequested', // got render request while rendering?
+                    cond: 'isNotAnimating',
+                    target: 'render', // loopback
+                  },
+                  { target: 'idle' },
+                ],
+              },
+              invoke: {
+                id: 'waitForAnimationFrame',
+                src: () => send => {
+                  let timeoutId
+                  const animationId = requestAnimationFrame(() => {
+                    timeoutId = setTimeout(() => send('RENDERED'), 0) // send after paint
+                  })
+                  return () => {
+                    cancelAnimationFrame(animationId)
+                    clearTimeout(timeoutId)
+                  }
+                },
+              },
+            },
+          },
           on: {
             BACKGROUND_TURNED_LIGHT: {
               actions: sendParent('TOGGLE_DARK_MODE'),
             },
             BACKGROUND_TURNED_DARK: {
               actions: sendParent('TOGGLE_DARK_MODE'),
-            },
-            RENDER: {
-              actions: 'render',
-            },
-            RENDER_LATER: {
-              actions: 'renderLater',
             },
             UPDATE_FPS: {
               actions: forwardTo('main'),

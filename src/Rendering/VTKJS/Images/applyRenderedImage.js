@@ -141,8 +141,6 @@ function applyRenderedImage(context, { data: { name } }) {
   // call after representations are created
   updateCroppingParametersFromImage(context, actorContext.fusedImage)
 
-  context.itkVtkView.getRenderer().resetCameraClippingRange()
-
   // Create color map and piecewise function objects as needed
   if (typeof context.images.lookupTableProxies === 'undefined') {
     context.images.lookupTableProxies = new Map()

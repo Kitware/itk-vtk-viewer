@@ -4,7 +4,7 @@ function applyZSlice(context, event) {
   const volumeRep = context.images.representationProxy
   if (volumeRep) {
     volumeRep.setZSlice(Number(position))
-    context.service.send('RENDER_LATER')
+    context.service.send('RENDER')
   }
 }
 

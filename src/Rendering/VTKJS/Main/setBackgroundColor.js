@@ -4,7 +4,7 @@ function setBackgroundColor(context, event) {
   }
   const backgroundColor = context.main.backgroundColor
   context.itkVtkView.setBackground(backgroundColor)
-  context.renderWindow.render()
+  context.service.send('RENDER')
 }
 
 export default setBackgroundColor

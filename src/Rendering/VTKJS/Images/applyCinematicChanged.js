@@ -48,5 +48,5 @@ export function applyCinematicChanged(context, { actorContext }) {
     }
   })
 
-  context.service.send('RENDER_LATER')
+  context.service.send('RENDER')
 }

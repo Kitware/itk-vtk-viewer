@@ -244,7 +244,7 @@ test('Test createViewer', async t => {
   const renderWindow = viewProxy.getOpenglRenderWindow()
   // Consistent baseline image size for regression testing
   renderWindow.setSize(600, 600)
-  viewer.renderLater()
+  viewer.render()
   setTimeout(async () => {
     viewer.once('imageColorRangeChanged', () => {
       t.pass('imageColorRangeChanged event')
@@ -470,7 +470,7 @@ test('Test createViewer.setImage', async t => {
   renderWindow.setSize(600, 600)
   const representation = viewProxy.getRepresentations()[0]
   /*const volumeMapper = */ representation.getMapper()
-  viewer.renderLater()
+  viewer.render()
   setTimeout(() => {
     viewer.captureImage().then(
       (/*screenshot*/) => {

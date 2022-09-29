@@ -172,10 +172,7 @@ export function initializeEmbeddedViewers() {
         }
 
         viewer.setUICollapsed(true)
-        // Render
-        if (viewer.renderWindow && viewer.renderWindow.render) {
-          viewer.renderWindow.render()
-        }
+        viewer.render()
         el.dataset.viewer = viewer
       })
     }

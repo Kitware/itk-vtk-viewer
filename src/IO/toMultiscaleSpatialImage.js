@@ -65,7 +65,7 @@ async function toMultiscaleSpatialImage(image, isLabelImage = false) {
       const { image: itkImage, webWorker } = await readImageArrayBuffer(
         null,
         dataBuffer,
-        image.pathname.split('/').at(-1)
+        image.pathname.split('/').pop()
       )
       webWorker.terminate()
       multiscaleImage = await itkImageToInMemoryMultiscaleSpatialImage(

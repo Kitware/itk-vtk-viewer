@@ -53,7 +53,7 @@ async function makeImage({ image, progressCallback, isLabelImage = false }) {
   const result = await readImageArrayBuffer(
     null,
     await fetchBinaryContent(imageUrlObj, progressCallback),
-    imageUrlObj.pathname.split('/').at(-1)
+    imageUrlObj.pathname.split('/').pop()
   )
   result.webWorker.terminate()
   return await toMultiscaleSpatialImage(result.image)
@@ -94,9 +94,9 @@ export async function createViewerFromUrl(
     if (isZarr(url)) {
       fetchedImage = await toMultiscaleSpatialImage(urlObj)
     } else {
-      const arrayBuffer = await fetchBinaryContent(url, progressCallback)
+      const arrayBuffer = await fetchBinaryContent(urlObj, progressCallback)
       fileObjects.push(
-        new File([new Blob([arrayBuffer])], urlObj.pathname.split('/').at(-1))
+        new File([new Blob([arrayBuffer])], urlObj.pathname.split('/').pop())
       )
     }
   }

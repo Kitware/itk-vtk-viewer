@@ -7,6 +7,8 @@ import HttpStore from './HttpStore'
 import { CXYZT, toDimensionMap } from './dimensionUtils'
 import { getComponentType } from './dtypeUtils'
 
+import PQueue from 'p-queue'
+
 // ends with zarr and optional nested image name like foo.zarr/image1
 export const isZarr = url => /zarr((\/)[\w-]+\/?)?$/.test(url)
 
@@ -204,6 +206,7 @@ class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
     const chunkPathBase = info.pixelArrayPath
     const chunkPaths = []
     const chunkPromises = []
+    const chunksQueue = new PQueue({ concurrency: 16 })
 
     const { dimension_separator: dimSeparator = '.' } = info.pixelArrayMetadata
 
@@ -217,9 +220,9 @@ class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
       }
       chunkPath = chunkPath.slice(0, -1)
       chunkPaths.push(chunkPath)
-      chunkPromises.push(this.dataSource.getItem(chunkPath))
+      chunkPromises.push(() => this.dataSource.getItem(chunkPath))
     }
-    const compressedChunks = await Promise.all(chunkPromises)
+    const compressedChunks = await chunksQueue.addAll(chunkPromises)
 
     const toDecompress = []
     for (let index = 0; index < compressedChunks.length; index++) {

@@ -43,17 +43,17 @@ export async function createViewerFromFiles(el, files, use2D = false) {
 
 async function makeImage({ image, progressCallback, isLabelImage = false }) {
   if (!image) return null
+
+  const imageUrlObj = new URL(image, document.location)
+
   if (isZarr(image)) {
-    return await toMultiscaleSpatialImage(
-      new URL(image, document.location),
-      isLabelImage
-    )
+    return await toMultiscaleSpatialImage(imageUrlObj, isLabelImage)
   }
 
   const result = await readImageArrayBuffer(
     null,
-    await fetchBinaryContent(image, progressCallback),
-    image.split('/').slice(-1)[0]
+    await fetchBinaryContent(imageUrlObj, progressCallback),
+    imageUrlObj.pathname.split('/').pop()
   )
   result.webWorker.terminate()
   return await toMultiscaleSpatialImage(result.image)
@@ -90,14 +90,13 @@ export async function createViewerFromUrl(
   let fetchedImage
   const fileObjects = []
   for (const url of files) {
+    const urlObj = new URL(url, document.location)
     if (isZarr(url)) {
-      fetchedImage = await toMultiscaleSpatialImage(
-        new URL(url, document.location)
-      )
+      fetchedImage = await toMultiscaleSpatialImage(urlObj)
     } else {
-      const arrayBuffer = await fetchBinaryContent(url, progressCallback)
+      const arrayBuffer = await fetchBinaryContent(urlObj, progressCallback)
       fileObjects.push(
-        new File([new Blob([arrayBuffer])], url.split('/').slice(-1)[0])
+        new File([new Blob([arrayBuffer])], urlObj.pathname.split('/').pop())
       )
     }
   }

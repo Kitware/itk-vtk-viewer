@@ -58,15 +58,14 @@ async function toMultiscaleSpatialImage(image, isLabelImage = false) {
       isLabelImage
     )
   } else if (image.href !== undefined) {
-    const imageHref = image.href
     if (isZarr(image.href)) {
       multiscaleImage = ZarrMultiscaleSpatialImage.fromUrl(image)
     } else {
-      const dataBuffer = await fetchBinaryContent(imageHref)
+      const dataBuffer = await fetchBinaryContent(image)
       const { image: itkImage, webWorker } = await readImageArrayBuffer(
         null,
         dataBuffer,
-        imageHref.split('/').slice(-1)[0]
+        image.pathname.split('/').pop()
       )
       webWorker.terminate()
       multiscaleImage = await itkImageToInMemoryMultiscaleSpatialImage(

@@ -1,8 +1,7 @@
 import axios from 'axios'
 import any from 'promise.any'
 
-async function fetchBinaryContent(url, progressCallback) {
-  const urlObj = new URL(url, document.location)
+async function fetchBinaryContent(urlObj, progressCallback) {
   if (urlObj.protocol === 'ipfs:') {
     const splitPathname = urlObj.href.split('/')
     const cid = splitPathname[2]

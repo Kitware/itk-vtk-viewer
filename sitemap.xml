@@ -47,6 +47,15 @@
   </url>
   
   <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/customizeUI.html</loc>
+    
+    <lastmod>2022-09-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/docs/embeddedViewer.html</loc>
     
     <lastmod>2022-09-30</lastmod>
@@ -66,15 +75,6 @@
   
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/docs/cli.html</loc>
-    
-    <lastmod>2022-09-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/customizeUI.html</loc>
     
     <lastmod>2022-09-30</lastmod>
     

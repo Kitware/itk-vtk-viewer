@@ -10,6 +10,9 @@ export function applyCinematicChanged(context, { actorContext }) {
   const {
     cinematicParameters: {
       isCinematicOn,
+      isScatteringOn,
+      scatteringBlend,
+      isLaoOn,
       laoKernelSize,
       laoKernelRadius,
       diffuse,
@@ -32,7 +35,11 @@ export function applyCinematicChanged(context, { actorContext }) {
   }
   renderer.setTwoSidedLighting(!isCinematicOn)
 
-  mapper.setLocalAmbientOcclusion(isCinematicOn)
+  mapper.setVolumetricScatteringBlending(
+    isCinematicOn && isScatteringOn ? scatteringBlend : 0
+  )
+
+  mapper.setLocalAmbientOcclusion(isCinematicOn && !isScatteringOn && isLaoOn)
   mapper.setLAOKernelSize(laoKernelSize)
   mapper.setLAOKernelRadius(laoKernelRadius)
 

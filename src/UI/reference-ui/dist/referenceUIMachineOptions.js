@@ -4257,7 +4257,7 @@ function _defineProperty(obj, key, value) {
   return obj
 }
 
-var toggleCinematicInput, toggleContainer
+var cinematicInputToggle, rootContainer, scatteringToggle, laoToggle
 var sliderMap = new Map()
 
 function makeSlider(context, label, parameterName, _ref) {
@@ -4267,7 +4267,7 @@ function makeSlider(context, label, parameterName, _ref) {
     start = _ref.start
   var container = document.createElement('div')
   container.setAttribute('class', style.sliderEntry)
-  container.innerHTML = '\n    <label itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content=" '
+  container.innerHTML = '\n    <label itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="'
     .concat(label, '">\n      ')
     .concat(label, '\n    </label>\n    <input type="range" min="')
     .concat(min, '" max="')
@@ -4291,6 +4291,27 @@ function makeSlider(context, label, parameterName, _ref) {
   return container
 }
 
+function makeCheckbox(context, label, parameter) {
+  var container = document.createElement('div')
+  container.innerHTML = '\n    <label itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="'
+    .concat(label, '">\n      ')
+    .concat(label, '\n    </label>\n    <input type="checkbox" />')
+  var input = container.children[1]
+  rootContainer.appendChild(container)
+  input.addEventListener('input', function(event) {
+    event.preventDefault()
+    event.stopPropagation()
+    context.service.send({
+      type: 'SET_CINEMATIC_PARAMETERS',
+      data: {
+        name: context.images.selectedName,
+        params: _defineProperty({}, parameter, input.checked),
+      },
+    })
+  })
+  return input
+}
+
 function createCinematicParameters(context, toggleParent, rowParent) {
   var toggleButton = document.createElement('div')
   toggleButton.innerHTML = '<input id="'
@@ -4304,7 +4325,7 @@ function createCinematicParameters(context, toggleParent, rowParent) {
     .concat(style.cinematicButton, '" for="')
     .concat(context.id, '-cinemanticButton"><img src="')
     .concat(optimizedSVGDataUri$k, '" alt="cinemantic" /></label>')
-  toggleCinematicInput = toggleButton.children[0]
+  cinematicInputToggle = toggleButton.children[0]
   toggleButton.addEventListener('click', function(event) {
     event.preventDefault()
     event.stopPropagation()
@@ -4327,30 +4348,14 @@ function createCinematicParameters(context, toggleParent, rowParent) {
   toggleParent.appendChild(toggleButton) // hidable sliders
 
   var row = document.createElement('div')
-  toggleContainer = document.createElement('div')
-  toggleContainer.setAttribute('class', style.sliderColumn)
-  row.appendChild(toggleContainer)
+  rootContainer = document.createElement('div')
+  rootContainer.setAttribute('class', style.sliderColumn)
+  row.appendChild(rootContainer)
   rowParent.appendChild(row)
   context.images.volumeUiElements.push(row)
-  toggleContainer.style.flexDirection = 'column'
-  toggleContainer.style.display = 'none'
-  toggleContainer.appendChild(
-    makeSlider(context, 'Local Ambient Occlusion Kernel', 'laoKernelSize', {
-      min: 5,
-      max: 32,
-      step: 1,
-      start: 5,
-    })
-  )
-  toggleContainer.appendChild(
-    makeSlider(context, 'Local Ambient Occlusion Radius', 'laoKernelRadius', {
-      min: 1,
-      max: 32,
-      step: 1,
-      start: 1,
-    })
-  )
-  toggleContainer.appendChild(
+  rootContainer.style.flexDirection = 'column'
+  rootContainer.style.display = 'none'
+  rootContainer.appendChild(
     makeSlider(context, 'Diffuse', 'diffuse', {
       min: 0,
       max: 2,
@@ -4358,7 +4363,7 @@ function createCinematicParameters(context, toggleParent, rowParent) {
       start: 1,
     })
   )
-  toggleContainer.appendChild(
+  rootContainer.appendChild(
     makeSlider(context, 'Ambient', 'ambient', {
       min: 0,
       max: 1,
@@ -4366,17 +4371,65 @@ function createCinematicParameters(context, toggleParent, rowParent) {
       start: 0.4,
     })
   )
+  scatteringToggle = makeCheckbox(
+    context,
+    'Volumetric Scattering',
+    'isScatteringOn'
+  )
+  rootContainer.appendChild(
+    makeSlider(context, 'Volumetric Scattering Blend', 'scatteringBlend', {
+      min: 0,
+      max: 1,
+      step: 1 / 100,
+      start: 0.3,
+    })
+  )
+  laoToggle = makeCheckbox(context, 'Local Ambient Occlusion', 'isLaoOn')
+  rootContainer.appendChild(
+    makeSlider(context, 'Local Ambient Occlusion Kernel', 'laoKernelSize', {
+      min: 5,
+      max: 32,
+      step: 1,
+      start: 5,
+    })
+  )
+  rootContainer.appendChild(
+    makeSlider(context, 'Local Ambient Occlusion Radius', 'laoKernelRadius', {
+      min: 1,
+      max: 32,
+      step: 1,
+      start: 1,
+    })
+  )
 }
 function applyCinematicChanged(context, _ref2) {
   var actorContext = _ref2.actorContext
   var cinematicParameters = actorContext.cinematicParameters
-  toggleCinematicInput.checked = cinematicParameters.isCinematicOn
-  toggleContainer.style.display = cinematicParameters.isCinematicOn
+  cinematicInputToggle.checked = cinematicParameters.isCinematicOn
+  rootContainer.style.display = cinematicParameters.isCinematicOn
     ? 'flex'
     : 'none'
-  ;['laoKernelSize', 'laoKernelRadius', 'diffuse', 'ambient'].forEach(function(
-    param
-  ) {
+  scatteringToggle.checked = cinematicParameters.isScatteringOn
+  scatteringToggle.disabled = cinematicParameters.isLaoOn
+  sliderMap.get(
+    'scatteringBlend'
+  ).disabled = !cinematicParameters.isScatteringOn
+  laoToggle.checked = cinematicParameters.isLaoOn
+  laoToggle.disabled = cinematicParameters.isScatteringOn
+  ;['laoKernelSize', 'laoKernelRadius']
+    .map(function(param) {
+      return sliderMap.get(param)
+    })
+    .forEach(function(slider) {
+      return (slider.disabled = !cinematicParameters.isLaoOn)
+    })
+  ;[
+    'scatteringBlend',
+    'laoKernelSize',
+    'laoKernelRadius',
+    'diffuse',
+    'ambient',
+  ].forEach(function(param) {
     sliderMap.get(param).value = cinematicParameters[param]
   })
 }

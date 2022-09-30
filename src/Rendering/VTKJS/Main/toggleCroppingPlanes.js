@@ -6,6 +6,13 @@ function toggleCroppingPlanes(context) {
     prop.setEnabled(enabled)
     if (enabled) {
       context.itkVtkView.getWidgetManager().enablePicking()
+
+      // Keep handles visible at all angles with fixed directional light in cinematic mode
+      prop.getRepresentations().forEach(rep => {
+        rep.getActors().forEach(actor => {
+          actor.getProperty().setAmbient(1)
+        })
+      })
     }
   }
   context.main.croppingWidget.setVisibility(enabled)

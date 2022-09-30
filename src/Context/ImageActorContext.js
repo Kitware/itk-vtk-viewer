@@ -85,6 +85,11 @@ class ImageActorContext {
 
   cinematicParameters = {
     isCinematicOn: false,
+
+    isScatteringOn: true,
+    scatteringBlend: 0.3,
+
+    isLaoOn: false,
     laoKernelSize: 5, // number of rays cast for Local Ambient Occlusion
     laoKernelRadius: 10, // distance rays travel for Local Ambient Occlusion
     diffuse: 1.2,

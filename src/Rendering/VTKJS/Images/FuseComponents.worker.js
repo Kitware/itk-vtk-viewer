@@ -1,5 +1,6 @@
 import registerWebworker from 'webworker-promise/lib/register'
-import { computeRanges, fuseComponents } from './fuseImagesUtils'
+import { computeRanges } from '../../../IO/Analyze/computeRanges'
+import { fuseComponents } from './fuseImagesUtils'
 
 registerWebworker(async ({ componentInfo, arrayToFill, isRangeNeeded }) => {
   const imageArray = fuseComponents({

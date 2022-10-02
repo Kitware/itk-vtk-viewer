@@ -1,11 +1,11 @@
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
+import { mat4 } from 'gl-matrix'
 
 import updateVisualizedComponents from './updateVisualizedComponents'
 import { fuseImages } from './fuseImages'
-import { computeRanges } from './fuseImagesUtils'
 import { computeRenderedBounds } from '../Main/computeRenderedBounds'
 import { worldBoundsToIndexBounds } from '../../../IO/MultiscaleSpatialImage'
-import { mat4 } from 'gl-matrix'
+import { computeRanges } from '../../../IO/Analyze/computeRanges'
 
 export const RENDERED_VOXEL_MAX = 512 * 512 * 512 * 2
 

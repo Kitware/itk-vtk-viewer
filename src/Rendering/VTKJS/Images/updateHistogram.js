@@ -57,9 +57,7 @@ const computeHistogram = async (actorContext, component) => {
     for (let split = 0; split < numberOfSplits; split++) {
       const arrayStart = arrayIndex
       const arrayEnd = Math.min(arrayIndex + arrayStride, values.length - 1)
-      const subArray = new values.constructor(
-        values.slice(arrayStart, arrayEnd + 1)
-      )
+      const subArray = values.slice(arrayStart, arrayEnd + 1)
       taskArgs[split] = [
         {
           values: subArray,

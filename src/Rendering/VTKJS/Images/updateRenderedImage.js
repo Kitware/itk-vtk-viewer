@@ -90,8 +90,8 @@ async function updateRenderedImage(context) {
     pickByVisualized(preComputedRanges, visualizedComponents)
 
   const isFuseNeeded =
-    Array.isArray(imageAtScale) || // is conglomerate
     labelAtScale ||
+    Array.isArray(imageAtScale) || // is conglomerate
     imageAtScale.imageType.components !== visualizedComponents.length // more components in image than renderable
 
   const fusedInfo = isFuseNeeded

@@ -269,7 +269,7 @@ class InMemoryMultiscaleSpatialImage extends MultiscaleSpatialImage {
       }
       const results = await downsampleWorkerPool.runTasks(downsampleTaskArgs)
         .promise
-      const validResults = results.filter((r, i) => r.returnValue === 0)
+      const validResults = results.filter(r => r.returnValue === 0)
       const imageSplits = validResults.map(({ outputs }) => outputs[0].data)
       currentImage = stackImages(imageSplits)
 

@@ -322,6 +322,8 @@ class MultiscaleSpatialImage {
 
     const chunks = await this.getChunks(scale, chunkIndices)
 
+    const preComputedRanges = this.scaleInfo[scale].ranges
+
     const args = {
       scaleInfo: {
         chunkSize: chunkSizeWith1,
@@ -333,8 +335,9 @@ class MultiscaleSpatialImage {
       chunks,
       indexStart: start,
       indexEnd: end,
+      areRangesNeeded: !preComputedRanges,
     }
-    const pixelArray = await imageDataFromChunksWorkerPromise.exec(
+    const { pixelArray, ranges } = await imageDataFromChunksWorkerPromise.exec(
       'imageDataFromChunks',
       args
     )
@@ -349,6 +352,7 @@ class MultiscaleSpatialImage {
         .slice(0, this.imageType.dimension)
         .map(dim => arrayShape.get(dim)),
       data: pixelArray,
+      ranges: preComputedRanges ?? ranges,
     }
   }
 

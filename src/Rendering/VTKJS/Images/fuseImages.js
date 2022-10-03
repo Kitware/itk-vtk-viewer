@@ -4,11 +4,20 @@ import { parseByComponent } from './fuseImagesUtils'
 
 let worker
 
+const flattenRanges = compInfos =>
+  compInfos
+    .flatMap(({ image: { ranges } }) => ranges)
+    // if missing any range, return undefined
+    .reduce((ranges, range) => {
+      if (!ranges || !range) return undefined
+      return [...ranges, range]
+    }, [])
+    ?.map(([min, max]) => ({ min, max }))
+
 export const fuseImages = async ({
   imageAtScale,
   labelAtScale,
   visualizedComponents,
-  isRangeNeeded,
 }) => {
   const [imageByComponent, labelByComponent] = [
     imageAtScale,
@@ -43,10 +52,12 @@ export const fuseImages = async ({
     ...rest,
   }))
 
+  const preComputedRanges = flattenRanges(componentInfo)
+
   if (!worker) worker = new WebworkerPromise(new FuseComponentsWorker())
   const [fusedImageData, componentRanges] = await worker.postMessage({
     componentInfo: componentInfoSansImage,
-    isRangeNeeded,
+    isRangeNeeded: !preComputedRanges,
   })
 
   const base = imageByComponent[0]?.image ?? labelByComponent[0]?.image
@@ -58,5 +69,8 @@ export const fuseImages = async ({
       components: componentInfo.length,
     },
   }
-  return { itkImage: fusedItkImage, componentRanges }
+  return {
+    itkImage: fusedItkImage,
+    componentRanges: componentRanges ?? preComputedRanges,
+  }
 }

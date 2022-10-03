@@ -192,7 +192,7 @@ async function chunkImage(image, chunkSize) {
 
   const ranges = (
     await computeRanges(image.data, sizeCXYZTElements[0])
-  ).map(range => [range.min, range.max])
+  ).map(({ min, max }) => [min, max])
 
   const orderByDims = orderBy(dims)
   const scaleInfo = {

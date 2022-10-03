@@ -12,16 +12,13 @@ const updateHistogramWorkerPool = webWorkerPromiseWorkerPool(
   'updateHistogram'
 )
 
-export const computeHistogram = async (actorContext, component) => {
+export const computeHistogram = async (
+  values,
+  component,
+  numberOfComponents,
+  [min, max]
+) => {
   const numberOfSplits = numberOfWorkers
-
-  const dataArray = actorContext.fusedImage.getPointData().getScalars()
-  const numberOfComponents = dataArray.getNumberOfComponents()
-
-  const fusedImageComponent = actorContext.visualizedComponents.indexOf(
-    component
-  )
-  const [min, max] = actorContext.colorRangeBounds.get(component) ?? [0, 0] // [0, 0] default for no image, only imageLabel case
 
   let numberOfBins = 256
   if (
@@ -34,8 +31,6 @@ export const computeHistogram = async (actorContext, component) => {
     }
   }
 
-  const values = dataArray.getData()
-
   const taskArgs = new Array(numberOfSplits)
   if (haveSharedArrayBuffer && values.buffer instanceof SharedArrayBuffer) {
     for (let split = 0; split < numberOfSplits; split++) {
@@ -45,7 +40,7 @@ export const computeHistogram = async (actorContext, component) => {
           min,
           max,
           numberOfBins,
-          component: fusedImageComponent,
+          component,
           numberOfComponents,
         },
       ]
@@ -64,7 +59,7 @@ export const computeHistogram = async (actorContext, component) => {
           min,
           max,
           numberOfBins,
-          component: fusedImageComponent,
+          component,
           numberOfComponents,
         },
         [subArray.buffer],

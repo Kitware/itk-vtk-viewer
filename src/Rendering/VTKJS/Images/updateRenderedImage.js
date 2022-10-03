@@ -61,15 +61,16 @@ async function updateRenderedImage(context) {
   }
 
   const { targetScale } = context
+  const imageOrLabelImage = image ?? labelImage
 
   // always load full image if least detailed scale
-  const isCoarsestScale = (image || labelImage).coarsestScale === targetScale
+  const isCoarsestScale = imageOrLabelImage.coarsestScale === targetScale
   const boundsToLoad = isCoarsestScale
     ? undefined
     : computeRenderedBounds(context)
 
   const voxelCount = await getVoxelCount(
-    image || labelImage,
+    imageOrLabelImage,
     boundsToLoad,
     targetScale
   )
@@ -81,32 +82,30 @@ async function updateRenderedImage(context) {
   const [imageAtScale, labelAtScale] = await Promise.all(
     [image, labelImage].map(image => image?.getImage(targetScale, boundsToLoad))
   )
+  const imageOrLabelAtScale = imageAtScale ?? labelAtScale
 
   const preComputedRanges =
-    image?.scaleInfo[targetScale].ranges ?? imageAtScale?.ranges
-
-  const componentRangesOfVtkImage =
-    preComputedRanges && pickVisualized(preComputedRanges, visualizedComponents)
+    imageOrLabelImage?.scaleInfo[targetScale].ranges ??
+    imageOrLabelAtScale?.ranges
 
   const isFuseNeeded =
-    (labelAtScale && imageAtScale) ||
+    (labelAtScale && imageAtScale) || // fuse with label image
     Array.isArray(imageAtScale) || // is conglomerate
-    imageAtScale?.imageType.components !== visualizedComponents.length // more components in image than renderable
+    imageOrLabelAtScale?.imageType.components !== visualizedComponents.length // more components in image than renderable
 
-  const fusedInfo = isFuseNeeded
+  const { itkImage, componentRanges } = isFuseNeeded
     ? await fuseImages({
         imageAtScale,
         labelAtScale,
         visualizedComponents,
       })
     : {
-        itkImage: imageAtScale ?? labelAtScale,
+        itkImage: imageOrLabelAtScale,
+        componentRanges: pickVisualized(
+          preComputedRanges,
+          visualizedComponents
+        ),
       }
-
-  const { itkImage, componentRanges } = {
-    ...fusedInfo,
-    componentRanges: fusedInfo.componentRanges ?? componentRangesOfVtkImage,
-  }
 
   const vtkImage = vtkITKHelper.convertItkToVtkImage(itkImage)
   return {

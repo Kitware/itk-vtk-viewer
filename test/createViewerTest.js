@@ -69,7 +69,7 @@ function makePointSet() {
 
 test('Test createViewer', async t => {
   const gc = testUtils.createGarbageCollector(t)
-  t.plan(60)
+  t.plan(61)
 
   const container = document.querySelector('body')
   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
@@ -115,6 +115,14 @@ test('Test createViewer', async t => {
   })
   viewer.setRenderingViewContainerStyle(TEST_VIEWER_STYLE.containerStyle)
   viewer.setBackgroundColor(TEST_VIEWER_STYLE.backgroundColor)
+
+  const VALUE = 0.3
+  viewer.setVolumetricScatteringBlend(VALUE)
+  t.equal(
+    viewer.getVolumetricScatteringBlend(),
+    VALUE,
+    'getVolumetricScatteringBlend matches setVolumetricScatteringBlend'
+  )
 
   viewer.setUICollapsed(false)
   let collapsed = viewer.getUICollapsed()

@@ -22,7 +22,7 @@ function createVolumeRenderingInputs(context, imagesUIGroup) {
 
   context.images.volumeUiElements = [volumeRow1, volumeRow2]
 
-  createCinematicParameters(context, volumeRow2, imagesUIGroup)
+  createCinematicParameters(context, imagesUIGroup)
 }
 
 export default createVolumeRenderingInputs

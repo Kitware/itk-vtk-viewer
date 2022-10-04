@@ -1175,6 +1175,28 @@ const createViewer = async (
     return store.itkVtkView
   }
 
+  publicAPI.setVolumetricScatteringBlend = (scatteringBlend, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+
+    service.send({
+      type: 'SET_CINEMATIC_PARAMETERS',
+      data: {
+        name: context.images.selectedName,
+        params: { scatteringBlend },
+      },
+    })
+  }
+
+  publicAPI.getVolumetricScatteringBlend = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.cinematicParameters.scatteringBlend
+  }
+
   addKeyboardShortcuts(context.uiContainer, service)
 
   if (!use2D) {

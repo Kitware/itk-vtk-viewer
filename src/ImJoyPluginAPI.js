@@ -353,6 +353,14 @@ class ImJoyPluginAPI {
   getCroppingPlanes() {
     return this.viewer.getCroppingPlanes()
   }
+
+  setVolumetricScatteringBlend(scatteringBlend, name) {
+    this.viewer.setVolumetricScatteringBlend(scatteringBlend, name)
+  }
+
+  getVolumetricScatteringBlend(name) {
+    return this.viewer.getVolumetricScatteringBlend(name)
+  }
 }
 
 export default ImJoyPluginAPI

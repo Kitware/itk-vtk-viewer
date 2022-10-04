@@ -8,8 +8,8 @@ import {
   imageSharedBufferOrCopy,
   stackImages,
 } from 'itk-wasm'
-import computeRange from '../Rendering/VTKJS/computeRange'
 import { chunkArray, CXYZT, orderBy, toDimensionMap } from './dimensionUtils'
+import { computeRanges } from './Analyze/computeRanges'
 
 const numberOfWorkers = navigator.hardwareConcurrency
   ? navigator.hardwareConcurrency
@@ -190,11 +190,9 @@ async function chunkImage(image, chunkSize) {
     //}
   }
 
-  const ranges = []
-  for (let comp = 0; comp < sizeCXYZTElements[0]; comp++) {
-    const range = await computeRange(image.data, comp, sizeCXYZTElements[0])
-    ranges.push([range.min, range.max])
-  }
+  const ranges = (
+    await computeRanges(image.data, sizeCXYZTElements[0])
+  ).map(({ min, max }) => [min, max])
 
   const orderByDims = orderBy(dims)
   const scaleInfo = {
@@ -271,7 +269,7 @@ class InMemoryMultiscaleSpatialImage extends MultiscaleSpatialImage {
       }
       const results = await downsampleWorkerPool.runTasks(downsampleTaskArgs)
         .promise
-      const validResults = results.filter((r, i) => r.returnValue === 0)
+      const validResults = results.filter(r => r.returnValue === 0)
       const imageSplits = validResults.map(({ outputs }) => outputs[0].data)
       currentImage = stackImages(imageSplits)
 

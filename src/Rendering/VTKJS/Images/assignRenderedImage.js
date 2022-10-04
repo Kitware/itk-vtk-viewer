@@ -36,7 +36,6 @@ const assignRenderedImage = assign({
     // for areBoundsBigger guard
     actorContext.loadedBounds = fusedImage.getBounds()
 
-    actorContext.fusedImageRanges = componentRanges
     actorContext.fusedImageData = itkImage.data
     const imageScalars = vtkImage.getPointData().getScalars()
 

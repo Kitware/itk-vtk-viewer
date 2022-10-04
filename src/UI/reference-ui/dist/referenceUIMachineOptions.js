@@ -3717,19 +3717,14 @@ const WheelZoom = container => {
     e.preventDefault()
     e.stopPropagation()
     const scaleFactor = e.deltaY > 0 ? SCALE_SENSITIVITY : 1 / SCALE_SENSITIVITY
-    const [targetX, targetY] = container.domToNormalized(e.clientX, e.clientY)
-    const [left, right, bottom, top] = container.getViewBox()
+    const [targetX] = container.domToNormalized(e.clientX, e.clientY)
+    const [left, right] = container.getViewBox()
     const newLeft = Math.max(
       0,
       left - Math.max(0, targetX - left) * (scaleFactor - 1)
     )
     const newRight = Math.min(1, (right - left) * scaleFactor + newLeft)
-    const newBottom = Math.max(
-      0,
-      bottom - Math.max(0, targetY - bottom) * (scaleFactor - 1)
-    )
-    const newTop = Math.min(1, (top - bottom) * scaleFactor + newBottom)
-    container.setViewBox(newLeft, newRight, newBottom, newTop)
+    container.setViewBox(newLeft, newRight)
   })
 }
 const drawChart = (
@@ -3796,6 +3791,15 @@ const updateColorCanvas = (
     ctx.putImageData(pixelsArea, 0, 0)
   }
   return workCanvas
+}
+const logTransform = histogram => {
+  const loged = histogram.map(v => (v === 0 ? 0 : Math.log(v)))
+  const noZeros = loged.filter(Boolean)
+  const min = Math.min(...noZeros)
+  const max = Math.max(...noZeros)
+  const delta = max - min
+  const normalized = loged.map(v => (v === 0 ? 0 : (v - min) / delta))
+  return normalized
 }
 const HISTOGRAM_COLOR = 'rgba(50, 50, 50, 0.3)'
 const Background = (container, points) => {
@@ -3932,7 +3936,7 @@ class TransferFunctionEditor {
     this.background.setColorTransferFunction(ctf)
   }
   setHistogram(histogram) {
-    this.background.setHistogram(histogram)
+    this.background.setHistogram(logTransform(histogram))
   }
 }
 
@@ -5230,6 +5234,8 @@ function updateRenderedImageInterface(context, event) {
 }
 
 function applyHistogram(context, event) {
+  var _event$data$histogram
+
   var name = event.data.name
   var component = event.data.component
   var actorContext = context.images.actorContext.get(name)
@@ -5241,7 +5247,11 @@ function applyHistogram(context, event) {
     return
   }
 
-  var histogram = event.data.histogram
+  var histogram =
+    (_event$data$histogram = event.data.histogram) !== null &&
+    _event$data$histogram !== void 0
+      ? _event$data$histogram
+      : []
   context.images.transferFunctionWidget.setHistogram(histogram)
 }
 

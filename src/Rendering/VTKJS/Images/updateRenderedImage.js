@@ -1,11 +1,10 @@
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
+import { mat4 } from 'gl-matrix'
 
 import updateVisualizedComponents from './updateVisualizedComponents'
 import { fuseImages } from './fuseImages'
-import { computeRanges } from './fuseImagesUtils'
 import { computeRenderedBounds } from '../Main/computeRenderedBounds'
 import { worldBoundsToIndexBounds } from '../../../IO/MultiscaleSpatialImage'
-import { mat4 } from 'gl-matrix'
 
 export const RENDERED_VOXEL_MAX = 512 * 512 * 512 * 2
 
@@ -34,28 +33,44 @@ const getVoxelCount = async (image, bounds, scale) => {
     .reduce((voxels, dimSize) => voxels * dimSize, 1)
 }
 
+const pickVisualized = (preComputedRanges, visualizedComponents) =>
+  visualizedComponents
+    .map(
+      sourceIdx => preComputedRanges[sourceIdx] ?? [0, 1] // fallback for label component
+    )
+    .map(([min, max]) => ({
+      min,
+      max,
+    }))
+
 async function updateRenderedImage(context) {
   const name = context.images.updateRenderedName
   const actorContext = context.images.actorContext.get(name)
 
   updateVisualizedComponents(context, name)
 
-  const { image, labelImage, editorLabelImage } = actorContext
+  const {
+    image,
+    labelImage,
+    editorLabelImage,
+    visualizedComponents,
+  } = actorContext
 
   if (!image && !labelImage && !editorLabelImage) {
     return
   }
 
   const { targetScale } = context
+  const imageOrLabelImage = image ?? labelImage
 
   // always load full image if least detailed scale
-  const isCoarsestScale = (image || labelImage).coarsestScale === targetScale
+  const isCoarsestScale = imageOrLabelImage.coarsestScale === targetScale
   const boundsToLoad = isCoarsestScale
     ? undefined
     : computeRenderedBounds(context)
 
   const voxelCount = await getVoxelCount(
-    image || labelImage,
+    imageOrLabelImage,
     boundsToLoad,
     targetScale
   )
@@ -67,32 +82,31 @@ async function updateRenderedImage(context) {
   const [imageAtScale, labelAtScale] = await Promise.all(
     [image, labelImage].map(image => image?.getImage(targetScale, boundsToLoad))
   )
+  const imageOrLabelAtScale = imageAtScale ?? labelAtScale
+
+  const preComputedRanges =
+    imageOrLabelImage?.scaleInfo[targetScale].ranges ??
+    imageOrLabelAtScale?.ranges
 
   const isFuseNeeded =
+    (labelAtScale && imageAtScale) || // fuse with label image
     Array.isArray(imageAtScale) || // is conglomerate
-    labelAtScale ||
-    imageAtScale.imageType.components !==
-      actorContext.visualizedComponents.length // more components in image than renderable
+    imageOrLabelAtScale?.imageType.components !== visualizedComponents.length // more components in image than renderable
 
-  const [itkImage, computedComponentRanges] = isFuseNeeded
+  const { itkImage, componentRanges } = isFuseNeeded
     ? await fuseImages({
         imageAtScale,
         labelAtScale,
-        visualizedComponents: actorContext.visualizedComponents,
+        visualizedComponents,
       })
-    : [
-        imageAtScale,
-        await computeRanges(
-          imageAtScale.data,
-          imageAtScale.imageType.components
+    : {
+        itkImage: imageOrLabelAtScale,
+        componentRanges: pickVisualized(
+          preComputedRanges,
+          visualizedComponents
         ),
-      ]
+      }
 
-  const componentRanges =
-    image?.scaleInfo[targetScale].ranges?.map(([min, max]) => ({
-      min,
-      max,
-    })) ?? computedComponentRanges
   const vtkImage = vtkITKHelper.convertItkToVtkImage(itkImage)
   return {
     itkImage,

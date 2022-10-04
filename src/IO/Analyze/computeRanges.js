@@ -1,6 +1,7 @@
-import ComputeRangeWorker from './ComputeRange.worker'
-const haveSharedArrayBuffer = typeof globalThis.SharedArrayBuffer === 'function'
 import webWorkerPromiseWorkerPool from './webWorkerPromiseWorkerPool'
+import ComputeRangesWorker from './ComputeRanges.worker'
+import { createRangeHelper } from './createRangeHelper'
+const haveSharedArrayBuffer = typeof globalThis.SharedArrayBuffer === 'function'
 
 const numberOfWorkers = navigator.hardwareConcurrency
   ? Math.min(navigator.hardwareConcurrency, 8)
@@ -8,11 +9,11 @@ const numberOfWorkers = navigator.hardwareConcurrency
 
 const computeRangeWorkerPool = webWorkerPromiseWorkerPool(
   numberOfWorkers,
-  ComputeRangeWorker,
-  'computeRange'
+  ComputeRangesWorker,
+  'computeRanges'
 )
 
-async function computeRange(values, component = 0, numberOfComponents = 1) {
+export async function computeRanges(values, numberOfComponents = 1) {
   const numberOfSplits = numberOfWorkers
 
   const taskArgs = new Array(numberOfSplits)
@@ -23,7 +24,6 @@ async function computeRange(values, component = 0, numberOfComponents = 1) {
           split,
           numberOfSplits,
           values,
-          component,
           numberOfComponents,
         },
       ]
@@ -41,7 +41,6 @@ async function computeRange(values, component = 0, numberOfComponents = 1) {
           split: 0, // 0 because array already split
           numberOfSplits: 1,
           values: subArray,
-          component,
           numberOfComponents,
         },
         [subArray.buffer],
@@ -50,17 +49,15 @@ async function computeRange(values, component = 0, numberOfComponents = 1) {
     }
   }
 
-  const ranges = await computeRangeWorkerPool.runTasks(taskArgs).promise
-  const min = ranges.reduce(
-    (m, r) => Math.min(m, r.result.min),
-    Number.MAX_VALUE
-  )
-  const max = ranges.reduce(
-    (m, r) => Math.max(m, r.result.max),
-    -Number.MAX_VALUE
-  )
-  const range = { min, max }
-  return range
-}
+  const rangesBySplit = await computeRangeWorkerPool.runTasks(taskArgs).promise
 
-export default computeRange
+  const helpers = [...Array(numberOfComponents)].map(createRangeHelper)
+  rangesBySplit.forEach(({ result: ranges }) => {
+    ranges.forEach(({ min, max }, compIdx) => {
+      helpers[compIdx].add(min)
+      helpers[compIdx].add(max)
+    })
+  })
+
+  return helpers.map(h => h.getRange())
+}

@@ -1,5 +1,3 @@
-import computeRange from '../computeRange'
-
 const sum = (a, b) => a + b
 
 export const parseByComponent = scaleImage => {
@@ -48,12 +46,4 @@ export const fuseComponents = ({ componentInfo, arrayToFill }) => {
     }
   }
   return fusedImageData
-}
-
-export const computeRanges = async (imageData, numberOfComponents) => {
-  const ranges = []
-  for (let compIdx = 0; compIdx < numberOfComponents; compIdx++) {
-    ranges.push(await computeRange(imageData, compIdx, numberOfComponents))
-  }
-  return ranges
 }

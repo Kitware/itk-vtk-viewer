@@ -10,7 +10,7 @@ function applyHistogram(context, event) {
     return
   }
 
-  const histogram = event.data.histogram
+  const histogram = event.data.histogram ?? []
   context.images.transferFunctionWidget.setHistogram(histogram)
 }
 

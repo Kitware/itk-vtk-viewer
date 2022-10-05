@@ -1175,7 +1175,7 @@ const createViewer = async (
     return store.itkVtkView
   }
 
-  publicAPI.setVolumetricScatteringBlend = (scatteringBlend, name) => {
+  publicAPI.setImageVolumeScatteringBlend = (scatteringBlend, name) => {
     if (typeof name === 'undefined') {
       name = context.images.selectedName
     }
@@ -1189,7 +1189,7 @@ const createViewer = async (
     })
   }
 
-  publicAPI.getVolumetricScatteringBlend = name => {
+  publicAPI.getImageVolumeScatteringBlend = name => {
     if (typeof name === 'undefined') {
       name = context.images.selectedName
     }

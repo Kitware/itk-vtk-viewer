@@ -354,12 +354,12 @@ class ImJoyPluginAPI {
     return this.viewer.getCroppingPlanes()
   }
 
-  setVolumetricScatteringBlend(scatteringBlend, name) {
-    this.viewer.setVolumetricScatteringBlend(scatteringBlend, name)
+  setImageVolumeScatteringBlend(scatteringBlend, name) {
+    this.viewer.setImageVolumeScatteringBlend(scatteringBlend, name)
   }
 
-  getVolumetricScatteringBlend(name) {
-    return this.viewer.getVolumetricScatteringBlend(name)
+  getImageVolumeScatteringBlend(name) {
+    return this.viewer.getImageVolumeScatteringBlend(name)
   }
 }
 

@@ -117,11 +117,11 @@ test('Test createViewer', async t => {
   viewer.setBackgroundColor(TEST_VIEWER_STYLE.backgroundColor)
 
   const VALUE = 0.3
-  viewer.setVolumetricScatteringBlend(VALUE)
+  viewer.setImageVolumeScatteringBlend(VALUE)
   t.equal(
-    viewer.getVolumetricScatteringBlend(),
+    viewer.getImageVolumeScatteringBlend(),
     VALUE,
-    'getVolumetricScatteringBlend matches setVolumetricScatteringBlend'
+    'getImageVolumeScatteringBlend matches setImageVolumeScatteringBlend'
   )
 
   viewer.setUICollapsed(false)

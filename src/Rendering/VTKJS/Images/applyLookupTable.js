@@ -17,6 +17,9 @@ function applyLookupTable(context, event) {
     context.images.lookupTableProxies.set('labelImage', lookupTableProxy)
   }
 
+  // wait for assignRenderedImage which computes uniqueLabels, then applyRenderedImage calls applyLookupTable
+  if (!actorContext.uniqueLabels) return
+
   const uniqueLabels = Array.from(actorContext.uniqueLabels)
 
   const colorTransferFunction = lookupTableProxy.getLookupTable()

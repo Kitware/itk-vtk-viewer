@@ -9,12 +9,8 @@ export function applyCinematicChanged(context, { actorContext }) {
 
   const {
     cinematicParameters: {
-      isCinematicOn,
-      isScatteringOn,
+      isCinematicPossible,
       scatteringBlend,
-      isLaoOn,
-      laoKernelSize,
-      laoKernelRadius,
       diffuse,
       ambient,
     },
@@ -23,6 +19,9 @@ export function applyCinematicChanged(context, { actorContext }) {
   const mapper = context.images.representationProxy.getMapper()
 
   renderer.removeAllLights()
+
+  const isCinematicOn = isCinematicPossible && scatteringBlend > 0
+
   if (isCinematicOn) {
     const light = vtkLight.newInstance()
     light.setLightTypeToSceneLight()
@@ -31,17 +30,11 @@ export function applyCinematicChanged(context, { actorContext }) {
     light.setDirection([1, 1, 1])
     renderer.addLight(light)
   } else {
-    renderer.createLight()
+    renderer.createLight() // headlight
   }
   renderer.setTwoSidedLighting(!isCinematicOn)
 
-  mapper.setVolumetricScatteringBlending(
-    isCinematicOn && isScatteringOn ? scatteringBlend : 0
-  )
-
-  mapper.setLocalAmbientOcclusion(isCinematicOn && !isScatteringOn && isLaoOn)
-  mapper.setLAOKernelSize(laoKernelSize)
-  mapper.setLAOKernelRadius(laoKernelRadius)
+  mapper.setVolumetricScatteringBlending(scatteringBlend)
 
   const volumeProps = context.images.representationProxy.getVolumes()
   volumeProps.forEach(volume => {

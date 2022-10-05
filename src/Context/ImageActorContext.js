@@ -84,14 +84,8 @@ class ImageActorContext {
   blendMode = 'Composite'
 
   cinematicParameters = {
-    isCinematicOn: false,
-
-    isScatteringOn: true,
-    scatteringBlend: 0.3,
-
-    isLaoOn: false,
-    laoKernelSize: 5, // number of rays cast for Local Ambient Occlusion
-    laoKernelRadius: 10, // distance rays travel for Local Ambient Occlusion
+    isCinematicPossible: true, // computed to false if number of components is more than 1
+    scatteringBlend: 0.0,
     diffuse: 1.2,
     ambient: 0.6,
   }

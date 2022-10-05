@@ -107,7 +107,7 @@ const assignIsFramerateScalePickingOn = assign({
   },
 })
 
-const assignToggleCinematic = assign({
+const assignCinematic = assign({
   images: ({ images }, { data: { params, name } }) => {
     const actorContext = images.actorContext.get(name)
     actorContext.cinematicParameters = {
@@ -125,6 +125,18 @@ const sendCinematicChanged = context => {
   context.service.send({
     type: 'CINEMATIC_CHANGED',
     actorContext,
+  })
+}
+
+const computeIsCinematicPossible = (context, { data: { itkImage, name } }) => {
+  const isCinematicPossible = itkImage.imageType.components === 1
+
+  context.service.send({
+    type: 'SET_CINEMATIC_PARAMETERS',
+    data: {
+      name,
+      params: { isCinematicPossible },
+    },
   })
 }
 
@@ -241,7 +253,7 @@ const eventResponses = {
     target: 'updatingImage',
   },
   SET_CINEMATIC_PARAMETERS: {
-    actions: [assignToggleCinematic, sendCinematicChanged],
+    actions: [assignCinematic, sendCinematicChanged],
   },
   CINEMATIC_CHANGED: {
     actions: 'applyCinematicChanged',
@@ -279,6 +291,7 @@ const createUpdatingImageMachine = options => {
                 assignClearHistograms,
                 'applyRenderedImage',
                 sendRenderedImageAssigned,
+                computeIsCinematicPossible,
               ],
             },
             onError: {

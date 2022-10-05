@@ -13,7 +13,7 @@ import toMultiscaleSpatialImage from './IO/toMultiscaleSpatialImage'
 import { ConglomerateMultiscaleSpatialImage } from './IO/ConglomerateMultiscaleSpatialImage'
 import { isZarr } from './IO/ZarrMultiscaleSpatialImage'
 
-import imJoyPluginAPI from './imJoyPluginAPI'
+import ImJoyPluginAPI from './ImJoyPluginAPI.js'
 import imJoyCodecs from './imJoyCodecs.js'
 import packageJson from '../package.json'
 const { version } = packageJson
@@ -21,7 +21,7 @@ const { version } = packageJson
 let doNotInitViewers = false
 
 export { version }
-export { imJoyPluginAPI }
+export { ImJoyPluginAPI }
 export { imJoyCodecs }
 export { default as createViewer } from './createViewer'
 import * as utils from './utils.js'

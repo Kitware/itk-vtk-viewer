@@ -62,7 +62,7 @@ function createGeometryRepresentationSelector(
   )
 
   const geometrySurfaceWithEdgesButton = document.createElement('div')
-  geometrySurfaceWithEdgesButton.innerHTML = `<input id="${viewerDOMId}-geometrySurfaceWithEdgesButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Surface with edges" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-geometrySurfaceWithEdgesButton">${surfaceWithEdgesIcon}</label>`
+  geometrySurfaceWithEdgesButton.innerHTML = `<input id="${viewerDOMId}-geometrySurfaceWithEdgesButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-left itk-vtk-tooltip-content="Surface with edges" class="${style.viewModeButton} ${style.toggleButton}" for="${viewerDOMId}-geometrySurfaceWithEdgesButton">${surfaceWithEdgesIcon}</label>`
   geometrySurfaceWithEdgesButton.addEventListener('click', event => {
     event.preventDefault()
     event.stopPropagation()

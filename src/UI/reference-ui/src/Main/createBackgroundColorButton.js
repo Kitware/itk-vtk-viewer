@@ -6,7 +6,7 @@ import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyle
 function createBackgroundColorButton(context, mainUIRow) {
   const viewerDOMId = context.id
   const bgColorButton = document.createElement('div')
-  bgColorButton.innerHTML = `<input id="${viewerDOMId}-bgColorButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Toggle Background Color" class="${style.bgColorButton} ${style.toggleButton}" for="${viewerDOMId}-bgColorButton"><img src="${selectColorIconDataUri}" alt="select color" /></label>`
+  bgColorButton.innerHTML = `<input id="${viewerDOMId}-bgColorButton" type="checkbox" class="${style.toggleInput}" checked><label itk-vtk-tooltip itk-vtk-tooltip-left itk-vtk-tooltip-content="Toggle Background Color" class="${style.bgColorButton} ${style.toggleButton}" for="${viewerDOMId}-bgColorButton"><img src="${selectColorIconDataUri}" alt="select color" /></label>`
   const bgColorButtonInput = bgColorButton.children[0]
   const bgColorButtonLabel = bgColorButton.children[1]
   context.main.bgColorButtonLabel = bgColorButtonLabel

@@ -1,4 +1,5 @@
 import style from '../ItkVtkViewer.module.css'
+import { volumeScatteringIconDataUri } from 'itk-viewer-icons'
 
 const sliderMap = new Map()
 
@@ -6,9 +7,9 @@ function makeSlider(context, label, parameterName, { min, max, step, start }) {
   const container = document.createElement('div')
   container.setAttribute('class', style.sliderEntry)
   container.innerHTML = `
-    <label itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="${label}">
-      ${label}
-    </label>
+    <div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="${label}" class="${style.sliderIcon}">
+      <img src="${volumeScatteringIconDataUri}" alt="${label}" />
+    </div>
     <input type="range" min="${min}" max="${max}" step="${step}" value="${start}" 
       class="${style.slider}" />`
   const slider = container.children[1]
@@ -43,7 +44,7 @@ export function createCinematicParameters(context, rowParent) {
   rootContainer.style.flexDirection = 'column'
 
   rootContainer.appendChild(
-    makeSlider(context, 'Volumetric Scattering', 'scatteringBlend', {
+    makeSlider(context, 'Volume Scattering', 'scatteringBlend', {
       min: 0,
       max: 1,
       step: 1 / 100,

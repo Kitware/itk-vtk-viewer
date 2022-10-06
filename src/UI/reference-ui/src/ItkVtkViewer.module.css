@@ -56,13 +56,6 @@
   padding: 5px;
 }
 
-.sliderColumn {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 5px;
-}
-
 .mainUIRow {
   composes: uiRow;
   justify-content: space-around;
@@ -640,6 +633,21 @@ select:focus {
   width: 1.2em;
   height: 1.2em;
 }
+
+
+.sliderColumn {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0 5px;
+}
+
+.sliderIcon {
+  width: 1.8em;
+  margin-right: 10px;
+  z-index: 1000;
+}
+
 
 .blendModeButton {
   width: 8mm;

@@ -29,13 +29,15 @@
 
 .uiContainer {
   display: flex;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden; /* Tooltips take width? */
   align-items: stretch;
   flex-direction: column;
-  justify-content: space-between;
   position: absolute;
-  top: 5px;
-  left: 5px;
-  padding: 2px;
+  top: 0;
+  left: 0;
+  padding: 6px 0 0 6px;
   border: 0px;
   box-sizing: border-box;
   z-index: 1000;
@@ -554,10 +556,6 @@
 
 input:checked.toggleInput + label {
   opacity: 1.0;
-}
-
-.cinematicButton {
-  margin-left: 6px;
 }
 
 .numberInput {

@@ -29,6 +29,11 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
   }
   iconSelect.refresh(icons)
 
+  // keeps popout from getting clipped outside of sidebar width
+  const box = colorMapSelectorDiv.querySelector('.icon-select .box')
+  box.style.left = 0
+  box.style.top = '100%'
+
   return iconSelect
 }
 

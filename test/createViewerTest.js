@@ -46,7 +46,6 @@ function makePointSet() {
       name: '_points',
       numberOfComponents: 3,
       dataType: 'Float32Array',
-      size: 2,
       values: new Float32Array([
         -0.44442534,
         -1.1349318,

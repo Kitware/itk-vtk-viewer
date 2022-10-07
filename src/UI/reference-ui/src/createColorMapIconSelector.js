@@ -19,7 +19,7 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
     colorMapSelectorDiv,
     iconSelectParameters
   )
-  colorMapSelectorDiv.style.width = '174px'
+  colorMapSelectorDiv.style.width = '186px'
   const icons = new Array(rows * cols)
   let count = 0
   for (let [key, value] of ColorMapPresetIcons.entries()) {

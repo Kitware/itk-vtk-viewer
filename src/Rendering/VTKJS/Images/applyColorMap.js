@@ -1,24 +1,18 @@
-import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
+import { ColorMaps } from 'itk-viewer-color-maps'
 
 function applyColorMap(context, { data: { name, colorMap, component } }) {
   const actorContext = context.images.actorContext.get(name)
 
-  const lookupTableProxy = context.images.lookupTableProxies?.get(component)
+  const colorTransferFunction = context.images.colorTransferFunctions?.get(
+    component
+  )
 
-  const currentColorMap = lookupTableProxy?.getPresetName()
-  if (currentColorMap && currentColorMap !== colorMap) {
-    lookupTableProxy.setPresetName(colorMap)
-    lookupTableProxy.setMode(vtkLookupTableProxy.Mode.Preset)
-    if (actorContext.colorRanges.has(component)) {
-      const range = actorContext.colorRanges.get(component)
-      const colorTransferFunction = lookupTableProxy.getLookupTable()
-      colorTransferFunction.setMappingRange(range[0], range[1])
-      colorTransferFunction.updateRange()
-    }
-    context.service.send({
-      type: 'IMAGE_COLOR_MAP_CHANGED',
-      data: { name, component, colorMap },
-    })
+  const cmap = ColorMaps.get(colorMap)
+  colorTransferFunction.applyColorMap(cmap)
+  if (actorContext.colorRanges.has(component)) {
+    const range = actorContext.colorRanges.get(component)
+    colorTransferFunction.setMappingRange(range[0], range[1])
+    colorTransferFunction.updateRange()
   }
 
   context.service.send('RENDER')

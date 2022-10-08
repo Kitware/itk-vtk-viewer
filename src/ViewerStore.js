@@ -63,14 +63,12 @@ class ImageUIStore {
   totalIntensityComponents = 0
   maxIntensityComponents = 3
 
-  lookupTableProxies = []
   piecewiseFunctionProxies = []
   @observable componentVisibilities = []
   lastVisualizedComponents = []
   fusedImageData = null
   @observable visualizedComponents = []
   lastComponentVisibilityChanged = 0
-  transferFunctionWidget = null
   transferFunctionManipulator = {
     rangeManipulator: null,
     windowMotionScale: 150.0,
@@ -248,7 +246,6 @@ class ImageUIStore {
   }
 
   labelMapColorUIGroup = null
-  labelMapLookupTableProxy = null
   // Sorted array of label values
   labelMapLabels = null
   piecewiseFunction = null

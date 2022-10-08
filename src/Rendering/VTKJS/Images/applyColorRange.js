@@ -1,9 +1,9 @@
 function applyColorRange(context, { data: { name, component, range } }) {
   const actorContext = context.images.actorContext.get(name)
 
-  const colorTransferFunction = context.images.lookupTableProxies
-    .get(component)
-    .getLookupTable()
+  const colorTransferFunction = context.images.colorTransferFunctions.get(
+    component
+  )
   colorTransferFunction.setMappingRange(range[0], range[1])
   colorTransferFunction.updateRange()
 

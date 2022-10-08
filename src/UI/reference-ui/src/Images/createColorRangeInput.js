@@ -78,10 +78,13 @@ function createColorRangeInput(context, imageUIGroup) {
     const actorContext = context.images.actorContext.get(name)
     const componentIndex = actorContext.selectedComponent
     const colorMap = iconSelector.getSelectedValue()
-    context.service.send({
-      type: 'IMAGE_COLOR_MAP_SELECTED',
-      data: { name, component: componentIndex, colorMap },
-    })
+    const currentColorMap = actorContext.colorMaps.get(componentIndex)
+    if (currentColorMap !== colorMap) {
+      context.service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component: componentIndex, colorMap },
+      })
+    }
   })
   context.images.colorMapSelector = colorMapSelector
 

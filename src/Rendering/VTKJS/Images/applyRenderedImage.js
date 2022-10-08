@@ -1,6 +1,7 @@
-import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
+import vtkColorTransferFunction from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction'
 import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction'
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
+import { ColorMaps } from 'itk-viewer-color-maps'
 
 import applyGradientOpacity from './applyGradientOpacity'
 import applyLabelImageBlend from './applyLabelImageBlend'
@@ -142,8 +143,8 @@ function applyRenderedImage(context, { data: { name } }) {
   updateCroppingParametersFromImage(context, actorContext.fusedImage)
 
   // Create color map and piecewise function objects as needed
-  if (typeof context.images.lookupTableProxies === 'undefined') {
-    context.images.lookupTableProxies = new Map()
+  if (typeof context.images.colorTransferFunctions === 'undefined') {
+    context.images.colorTransferFunctions = new Map()
   }
   if (typeof context.images.piecewiseFunctions === 'undefined') {
     context.images.piecewiseFunctions = new Map()
@@ -151,26 +152,28 @@ function applyRenderedImage(context, { data: { name } }) {
 
   // Create color map and piecewise function objects as needed
   for (let component = 0; component < numberOfComponents; component++) {
-    const lookupTableProxy =
-      context.images.lookupTableProxies.get(component) ??
-      vtkLookupTableProxy.newInstance()
+    const colorTransferFunction =
+      context.images.colorTransferFunctions.get(component) ??
+      vtkColorTransferFunction.newInstance()
 
-    const lut = lookupTableProxy.getLookupTable()
     if (actorContext.colorRanges.has(component)) {
       const range = actorContext.colorRanges.get(component)
-      lut.setMappingRange(range[0], range[1])
-      lut.updateRange()
+      colorTransferFunction.setMappingRange(range[0], range[1])
+      colorTransferFunction.updateRange()
     }
 
-    context.images.lookupTableProxies.set(component, lookupTableProxy)
+    context.images.colorTransferFunctions.set(component, colorTransferFunction)
 
     if (actorContext.colorMaps.has(component)) {
-      const preset = actorContext.colorMaps.get(component)
-      lookupTableProxy.setPresetName(preset)
-      lookupTableProxy.setMode(vtkLookupTableProxy.Mode.Preset)
+      const colorMapName = actorContext.colorMaps.get(component)
+      if (!ColorMaps.has(colorMapName)) {
+        console.error(`Color map ${colorMapName} requested by not available`)
+      }
+      const cmap = ColorMaps.get(colorMapName)
+      colorTransferFunction.applyColorMap(cmap)
       context.service.send({
         type: 'IMAGE_COLOR_MAP_CHANGED',
-        data: { name, component, colorMap: preset },
+        data: { name, component, colorMap: colorMapName },
       })
     }
   }
@@ -194,13 +197,13 @@ function applyRenderedImage(context, { data: { name } }) {
     actor.getMapper().setInputData(actorContext.fusedImage)
     actorContext.visualizedComponents.forEach(
       (componentIndex, fusedImageIndex) => {
-        if (!context.images.lookupTableProxies.has(componentIndex)) {
+        if (!context.images.colorTransferFunctions.has(componentIndex)) {
           return
         }
 
-        const colorTransferFunction = context.images.lookupTableProxies
-          .get(componentIndex)
-          .getLookupTable()
+        const colorTransferFunction = context.images.colorTransferFunctions.get(
+          componentIndex
+        )
         actorProperty.setRGBTransferFunction(
           fusedImageIndex,
           colorTransferFunction
@@ -232,12 +235,12 @@ function applyRenderedImage(context, { data: { name } }) {
     let componentsVisible = false
     actorContext.visualizedComponents.forEach(
       (componentIndex, fusedImageIndex) => {
-        if (!context.images.lookupTableProxies.has(componentIndex)) {
+        if (!context.images.colorTransferFunctions.has(componentIndex)) {
           return
         }
-        const colorTransferFunction = context.images.lookupTableProxies
-          .get(componentIndex)
-          .getLookupTable()
+        const colorTransferFunction = context.images.colorTransferFunctions.get(
+          componentIndex
+        )
         const piecewiseFunction = context.images.piecewiseFunctions.get(
           componentIndex
         ).volume

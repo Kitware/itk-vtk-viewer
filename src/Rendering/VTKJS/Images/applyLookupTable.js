@@ -1,7 +1,7 @@
-import vtkLookupTableProxy from 'vtk.js/Sources/Proxy/Core/LookupTableProxy'
+import vtkColorTransferFunction from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction'
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
 
-import applyCategoricalColorToLookupTableProxy from '../../../UI/reference-ui/src/applyCategoricalColorToLookupTableProxy'
+import applyCategoricalColorToColorTransferFunction from '../../../UI/reference-ui/src/applyCategoricalColorToColorTransferFunction'
 
 function applyLookupTable(context, event) {
   const name = event.data.name
@@ -9,12 +9,17 @@ function applyLookupTable(context, event) {
 
   const lookupTable = event.data.lookupTable
 
-  let lookupTableProxy = null
-  if (context.images.lookupTableProxies.has('labelImage')) {
-    lookupTableProxy = context.images.lookupTableProxies.get('labelImage')
+  let colorTransferFunction = null
+  if (context.images.colorTransferFunctions.has('labelImage')) {
+    colorTransferFunction = context.images.colorTransferFunctions.get(
+      'labelImage'
+    )
   } else {
-    lookupTableProxy = vtkLookupTableProxy.newInstance()
-    context.images.lookupTableProxies.set('labelImage', lookupTableProxy)
+    colorTransferFunction = vtkColorTransferFunction.newInstance()
+    context.images.colorTransferFunctions.set(
+      'labelImage',
+      colorTransferFunction
+    )
   }
 
   // wait for assignRenderedImage which computes uniqueLabels, then applyRenderedImage calls applyLookupTable
@@ -22,21 +27,16 @@ function applyLookupTable(context, event) {
 
   const uniqueLabels = Array.from(actorContext.uniqueLabels)
 
-  const colorTransferFunction = lookupTableProxy.getLookupTable()
   colorTransferFunction.setMappingRange(
     uniqueLabels[0],
     uniqueLabels[uniqueLabels.length - 1]
   )
 
-  const currentLut = lookupTableProxy.getPresetName()
-  if (currentLut !== lookupTable) {
-    // If we are not using the vtk.js / Reference
-    applyCategoricalColorToLookupTableProxy(
-      lookupTableProxy,
-      uniqueLabels,
-      lookupTable
-    )
-  }
+  applyCategoricalColorToColorTransferFunction(
+    colorTransferFunction,
+    uniqueLabels,
+    lookupTable
+  )
 
   const volume = context.images.representationProxy.getVolumes()[0]
   const volumeProperty = volume.getProperty()

@@ -205,7 +205,7 @@ const eventResponses = {
   IMAGE_COLOR_RANGE_BOUNDS_CHANGED: {
     actions: ['applyColorRangeBounds'],
   },
-  IMAGE_COLOR_MAP_SELECTED: {
+  IMAGE_COLOR_MAP_CHANGED: {
     actions: 'applyColorMap',
   },
   TOGGLE_IMAGE_SHADOW: {

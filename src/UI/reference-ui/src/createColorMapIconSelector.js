@@ -20,6 +20,9 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
     iconSelectParameters
   )
   colorMapSelectorDiv.style.width = '186px'
+  // put above lower down label map color selector
+  colorMapSelectorDiv.style.zIndex = '2001'
+
   const icons = new Array(rows * cols)
   let count = 0
   for (let [key, value] of ColorMapPresetIcons.entries()) {

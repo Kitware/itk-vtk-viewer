@@ -11,20 +11,25 @@ function createInterface(context) {
 
   const viewport = document.createElement('div')
   viewContainer.appendChild(viewport)
-  viewport.style =
-    'position: relative; width: 100%; margin: 0px; padding: 0px; top: 0px; left: 0px; flex: 1 1 0px; overflow-y: auto;'
+  viewport.setAttribute('class', style.viewport)
 
   const container3d = context.renderingViewContainers.get('volume')
   viewport.appendChild(container3d)
   container3d.style.height = '100%'
 
   if (!context.uiContainer) {
+    const uiContainerWrapper = document.createElement('div')
+    uiContainerWrapper.setAttribute('class', style.uiContainerWrapper)
+    viewport.appendChild(uiContainerWrapper)
+
     const uiContainer = document.createElement('div')
     uiContainer.setAttribute('class', style.uiContainer)
     context.uiContainer = uiContainer
+    uiContainerWrapper.appendChild(uiContainer)
+  } else {
+    // if somehow already set (by non reference configured UI?)
+    viewport.appendChild(context.uiContainer)
   }
-
-  viewport.appendChild(context.uiContainer)
 
   if (!context.uiGroups) {
     // String to UI group element map

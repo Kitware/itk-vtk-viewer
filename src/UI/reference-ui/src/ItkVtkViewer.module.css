@@ -12,8 +12,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .viewContainer {
@@ -27,23 +31,35 @@
   background: rgba(128, 128, 128, 0.8);
 }
 
-.uiContainer {
-  display: flex;
-  height: 100%;
+.viewport {
+  position: relative;
+  flex: 1;
   overflow-y: auto;
-  align-items: stretch;
-  flex-direction: column;
+}
+
+.uiContainerWrapper {
   position: absolute;
   top: 0;
   left: 0;
+  height: 100%;
+  
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  pointer-events: none; /* click through whitespace */ 
+}
+
+.uiContainer {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
   padding: 6px 0 0 6px;
   border: 0px;
   box-sizing: border-box;
-}
 
-/* Let clicks through whitespace but not children */
-.uiContainer > *{
   z-index: 1000;
+  pointer-events: all;
 }
 
 .uiGroup {
@@ -99,8 +115,8 @@
   position: absolute;
   top: 5px;
   right: 5px;
-  height: 2.0em;
-  width: 2.0em;
+  height: 2em;
+  width: 2em;
   cursor: pointer;
   z-index: 100;
 }
@@ -116,115 +132,115 @@
 }
 
 [itk-vtk-tooltip] {
-    position: relative;
+  position: relative;
 }
 [itk-vtk-tooltip]::before {
-    content: attr(itk-vtk-tooltip-content);
-    visibility: hidden;
-    position: absolute;
-    top: 50%;
-    right: calc(100% + 16px);
-    width: 400%;
-    padding: 4px 6px;
-    text-align: center;
-    text-transform: none;
-    font-size: 0.9em;
-    font-family: monospace;
-    border-radius: 3px;
-    background: rgba(0.9, 0.9, 0.9, 0.95);
-    color: white;
-    opacity: 0;
-    transform: translate(15px, -50%);
-    transition-property: all;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-in-out;
-    transition-delay: 0.8s;
-    z-index: 1;
+  content: attr(itk-vtk-tooltip-content);
+  visibility: hidden;
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 16px);
+  width: 400%;
+  padding: 4px 6px;
+  text-align: center;
+  text-transform: none;
+  font-size: 0.9em;
+  font-family: monospace;
+  border-radius: 3px;
+  background: rgba(0.9, 0.9, 0.9, 0.95);
+  color: white;
+  opacity: 0;
+  transform: translate(15px, -50%);
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0.8s;
+  z-index: 1;
 }
 
 [itk-vtk-tooltip]:hover::before {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(0, -50%);
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -50%);
 }
 
 [itk-vtk-tooltip-bottom]::before {
-    top: calc(100% + 16px);
-    left: 50%;
-    right: initial;
-    transform: translate(-50%, -15px);
+  top: calc(100% + 16px);
+  left: 50%;
+  right: initial;
+  transform: translate(-50%, -15px);
 }
 [itk-vtk-tooltip-bottom]:hover::before {
-    transform: translate(-50%, 0)
+  transform: translate(-50%, 0);
 }
 [itk-vtk-tooltip-right]::before {
-    top: 50%;
-    left: calc(100% + 16px);
-    right: initial;
-    transform: translate(-15px, -50%);
+  top: 50%;
+  left: calc(100% + 16px);
+  right: initial;
+  transform: translate(-15px, -50%);
 }
 [itk-vtk-tooltip-right]:hover::before {
-    transform: translate(0, -50%);
+  transform: translate(0, -50%);
 }
 
 [itk-vtk-tooltip-top-screenshot]::before {
-    top: initial;
-    left: 260%;
-    right: initial;
-    bottom: calc(100% + 8px);
-    transform: translate(-50%, 15px);
+  top: initial;
+  left: 260%;
+  right: initial;
+  bottom: calc(100% + 8px);
+  transform: translate(-50%, 15px);
 }
 [itk-vtk-tooltip-top-screenshot]:hover::before {
-    transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
 }
 [itk-vtk-tooltip-top-annotations]::before {
-    top: initial;
-    left: 160%;
-    right: initial;
-    bottom: calc(100% + 10px);
-    transform: translate(-50%, 15px);
+  top: initial;
+  left: 160%;
+  right: initial;
+  bottom: calc(100% + 10px);
+  transform: translate(-50%, 15px);
 }
 [itk-vtk-tooltip-top-annotations]:hover::before {
-    transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
 }
 [itk-vtk-tooltip-top-axes]::before {
-    top: initial;
-    left: 160%;
-    right: initial;
-    bottom: calc(100% + 10px);
-    transform: translate(-50%, 15px);
+  top: initial;
+  left: 160%;
+  right: initial;
+  bottom: calc(100% + 10px);
+  transform: translate(-50%, 15px);
 }
 [itk-vtk-tooltip-top-axes]:hover::before {
-    transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
 }
 [itk-vtk-tooltip-top-fullscreen]::before {
-    top: initial;
-    left: 120%;
-    right: initial;
-    bottom: calc(100% + 10px);
-    transform: translate(-50%, 15px);
-    width: 400%;
+  top: initial;
+  left: 120%;
+  right: initial;
+  bottom: calc(100% + 10px);
+  transform: translate(-50%, 15px);
+  width: 400%;
 }
 [itk-vtk-tooltip-top-fullscreen]:hover::before {
-    transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
 }
 [itk-vtk-tooltip-top]::before {
-    top: initial;
-    left: 60%;
-    right: initial;
-    bottom: calc(100% + 10px);
-    transform: translate(-50%, 15px);
+  top: initial;
+  left: 60%;
+  right: initial;
+  bottom: calc(100% + 10px);
+  transform: translate(-50%, 15px);
 }
 [itk-vtk-tooltip-top]:hover::before {
-    transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
 }
 [itk-vtk-tooltip-top-fullscreen]::before {
-    top: initial;
-    left: 120%;
-    right: initial;
-    bottom: calc(100% + 10px);
-    transform: translate(-50%, 15px);
-    width: 400%;
+  top: initial;
+  left: 120%;
+  right: initial;
+  bottom: calc(100% + 10px);
+  transform: translate(-50%, 15px);
+  width: 400%;
 }
 
 .layerEntryCommon {
@@ -243,7 +259,7 @@
 }
 
 .layerEntryDarkBG {
-  border-color: #AAA;
+  border-color: #aaa;
 }
 
 .layerLabelCommon {
@@ -461,7 +477,7 @@
 .distanceInput {
   background: transparent;
   color: white;
-  font-size: 1.0em;
+  font-size: 1em;
   width: 80px;
 }
 
@@ -526,7 +542,6 @@
   height: 1.3em;
 }
 
-
 .viewPlanesButton {
   flex: 1;
   width: 8mm;
@@ -557,13 +572,13 @@
 }
 
 input:checked.toggleInput + label {
-  opacity: 1.0;
+  opacity: 1;
 }
 
 .numberInput {
   color: white;
   background: transparent;
-  font-size: 1.0em;
+  font-size: 1em;
   padding-left: 2px;
   width: 70px;
 }
@@ -600,7 +615,7 @@ input:checked.toggleInput + label {
 
 .componentTab:checked + .compTabLabel {
   background: rgba(127, 127, 127, 0.5);
-  color: #FFF;
+  color: #fff;
 }
 
 .componentVisibility {
@@ -634,7 +649,6 @@ select:focus {
   height: 1.2em;
 }
 
-
 .sliderColumn {
   display: flex;
   flex-direction: column;
@@ -647,7 +661,6 @@ select:focus {
   margin-right: 10px;
   z-index: 1000;
 }
-
 
 .blendModeButton {
   width: 8mm;

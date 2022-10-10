@@ -404,10 +404,6 @@ const createViewer = async (
     return store
   }
 
-  publicAPI.getLookupTableProxies = () => {
-    return store.imageUI.lookupTableProxies
-  }
-
   publicAPI.setPointSets = pointSets => {
     store.pointSetsUI.pointSets = pointSets
   }
@@ -837,14 +833,14 @@ const createViewer = async (
       componentIndex = 0
     }
     const actorContext = context.images.actorContext.get(name)
-    const currentColorMap = actorContext.colorRanges.get(componentIndex)
+    const currentColorMap = actorContext.colorMaps.get(componentIndex)
     if (
       typeof currentColorMap !== 'undefined' ||
       currentColorMap[0] !== colorMap[0] ||
       currentColorMap[1] !== colorMap[1]
     ) {
       service.send({
-        type: 'IMAGE_COLOR_MAP_SELECTED',
+        type: 'IMAGE_COLOR_MAP_CHANGED',
         data: { name, component: componentIndex, colorMap },
       })
     }

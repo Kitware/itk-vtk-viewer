@@ -36,7 +36,7 @@ class ImageActorContext {
   // Whether a given image intensity component is visible
   componentVisibilities = [true]
 
-  // Map of image intensity component to color maps
+  // Map of image intensity component to color map names
   colorMaps = new Map()
 
   // Map of image intensity component to array of [minValue, maxValue] for
@@ -96,7 +96,7 @@ class ImageActorContext {
   // Blend, 0.0 to 1.0 of the label image into the image
   labelImageBlend = 0.5
 
-  // Color lookup table for the label image
+  // Color lookup table name for the label image
   lookupTable = 'glasbey'
 
   // Rendering weights assigned to to labels, Map of label value to weight

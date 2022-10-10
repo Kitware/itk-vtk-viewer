@@ -17,11 +17,11 @@ function applyPiecewiseFunction(context, event) {
     const sliceNodes = nodes.length > 2 ? nodes.slice(1, -1) : nodes // if more than 2, remove "window" nodes with y = 0
     slicePiecewiseFunction.setNodes(sliceNodes)
 
-    const lookupTable = context.images.lookupTableProxies
-      .get(component)
-      .getLookupTable()
-    lookupTable.setMappingRange(...range)
-    lookupTable.updateRange()
+    const colorTransferFunction = context.images.colorTransferFunctions.get(
+      component
+    )
+    colorTransferFunction.setMappingRange(...range)
+    colorTransferFunction.updateRange()
 
     context.service.send('RENDER')
   }

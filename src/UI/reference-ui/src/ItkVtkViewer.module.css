@@ -34,32 +34,23 @@
 .viewport {
   position: relative;
   flex: 1;
-  overflow-y: auto;
+  min-height: 0;
 }
 
-.uiContainerWrapper {
+.uiContainer {  
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
-  
-  overflow-y: auto;
+  z-index: 1000;
   overflow-x: hidden;
+  max-height: 100%;
 
-  pointer-events: none; /* click through whitespace */ 
-}
-
-.uiContainer {
-  position: relative;
   display: flex;
   align-items: stretch;
   flex-direction: column;
   padding: 6px 0 0 6px;
   border: 0px;
   box-sizing: border-box;
-
-  z-index: 1000;
-  pointer-events: all;
 }
 
 .uiGroup {
@@ -319,7 +310,6 @@
 }
 
 .collapseUIButton {
-  height: 1.5em;
   width: 1.5em;
   cursor: pointer;
 }

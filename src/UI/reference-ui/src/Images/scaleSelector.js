@@ -28,6 +28,7 @@ const scaleSelector = (context, event) => (send, onReceive) => {
     <div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Resolution Scale"
       class="${style.blendModeButton}">
       <img src="${scaleSelectIconDataUri}" alt="Resolution Scale" />
+      <div class="${style.ldsRing}"><div></div><div></div><div></div><div></div></div>
     </div>
     `
   const scaleSelectorIcon = scaleSelectorDiv.children[0]
@@ -37,6 +38,8 @@ const scaleSelector = (context, event) => (send, onReceive) => {
     'invertibleButton',
     scaleSelectorIcon
   )
+
+  const [iconImage, spinner] = scaleSelectorIcon.children
 
   const scaleSelector = document.createElement('select')
   scaleSelectorDiv.appendChild(scaleSelector)
@@ -84,6 +87,24 @@ const scaleSelector = (context, event) => (send, onReceive) => {
       scaleSelector.value = context.images.actorContext.get(
         event.data.name
       ).loadedScale
+    }
+  })
+
+  context.service.onTransition(() => {
+    const imageActor = context.images.imageRenderingActors.get(
+      context.images.selectedName
+    )
+
+    const isLoadingImage = imageActor?.state.children[
+      'updatingImageMachine'
+    ]?.state.matches('loadingImage')
+
+    if (isLoadingImage) {
+      iconImage.style.display = 'none'
+      spinner.style.display = 'block'
+    } else {
+      iconImage.style.display = 'block'
+      spinner.style.display = 'none'
     }
   })
 }

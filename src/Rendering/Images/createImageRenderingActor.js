@@ -168,6 +168,12 @@ const sendRenderedImageAssigned = (
   })
 }
 
+const sendUpdatingImage = context => {
+  context.service.send({
+    type: 'UPDATING_IMAGE',
+  })
+}
+
 const eventResponses = {
   IMAGE_ASSIGNED: {
     target: 'updatingImage',
@@ -280,6 +286,7 @@ const createUpdatingImageMachine = options => {
         },
 
         loadingImage: {
+          entry: sendUpdatingImage, // send event to trigger onTransition for scaleSelector
           invoke: {
             id: 'updateRenderedImage',
             src: 'updateRenderedImage',

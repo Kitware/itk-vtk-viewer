@@ -34,8 +34,9 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
 
   // keeps popout from getting clipped outside of sidebar width
   const box = colorMapSelectorDiv.querySelector('.icon-select .box')
-  box.style.left = 0
+  box.style.left = '-87px'
   box.style.top = '100%'
+  box.style.width = '333px' // avoids asymmetric whitespace on right side of popout
 
   return iconSelect
 }

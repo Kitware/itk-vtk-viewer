@@ -18,14 +18,10 @@ function createInterface(context) {
   container3d.style.height = '100%'
 
   if (!context.uiContainer) {
-    const uiContainerWrapper = document.createElement('div')
-    uiContainerWrapper.setAttribute('class', style.uiContainerWrapper)
-    viewport.appendChild(uiContainerWrapper)
-
     const uiContainer = document.createElement('div')
     uiContainer.setAttribute('class', style.uiContainer)
     context.uiContainer = uiContainer
-    uiContainerWrapper.appendChild(uiContainer)
+    viewport.appendChild(uiContainer)
   } else {
     // if somehow already set (by non reference configured UI?)
     viewport.appendChild(context.uiContainer)

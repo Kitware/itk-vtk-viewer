@@ -139,7 +139,7 @@ const assignImageContext = assign({
       if (actorContext.colorMaps.has(component)) {
         continue
       }
-      let colorMap = 'Grayscale'
+      let colorMap = 'CT-Chest-Vessels'
       // If a 2D RGB or RGBA
       if (components === 2) {
         switch (component) {

@@ -199,6 +199,7 @@ class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
   constructor(zarrStoreParser, scaleInfo, imageType) {
     super(scaleInfo, imageType)
     this.dataSource = zarrStoreParser
+    this.rpcQueue = new PQueue({ concurrency: 10 })
   }
 
   async getChunksImpl(scale, cxyztArray) {
@@ -206,7 +207,6 @@ class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
     const chunkPathBase = info.pixelArrayPath
     const chunkPaths = []
     const chunkPromises = []
-    const chunksQueue = new PQueue({ concurrency: 16 })
 
     const { dimension_separator: dimSeparator = '.' } = info.pixelArrayMetadata
 
@@ -222,7 +222,7 @@ class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
       chunkPaths.push(chunkPath)
       chunkPromises.push(() => this.dataSource.getItem(chunkPath))
     }
-    const compressedChunks = await chunksQueue.addAll(chunkPromises)
+    const compressedChunks = await this.rpcQueue.addAll(chunkPromises)
 
     const toDecompress = []
     for (let index = 0; index < compressedChunks.length; index++) {

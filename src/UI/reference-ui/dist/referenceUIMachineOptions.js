@@ -10152,6 +10152,29 @@ ColorMaps.set('CT-AAA', {
     1,
   ],
 })
+ColorMaps.set('CT-Bone', {
+  Name: 'CT-Bone',
+  NanColor: [1, 1, 0],
+  ColorSpace: 'RGB',
+  RGBPoints: [
+    0,
+    0,
+    0,
+    0,
+    0.4934461361771944,
+    0.729412,
+    0.254902,
+    0.301961,
+    0.6013757178014767,
+    0.905882,
+    0.815686,
+    0.552941,
+    1,
+    1,
+    1,
+    1,
+  ],
+})
 ColorMaps.set('CT-Bones', {
   Name: 'CT-Bones',
   NanColor: [1, 1, 0],
@@ -10204,6 +10227,72 @@ ColorMaps.set('CT-Cardiac', {
     0.615686,
     0,
     0,
+    1,
+    0.827451,
+    0.658824,
+    1,
+  ],
+})
+ColorMaps.set('CT-Cardiac2', {
+  Name: 'CT-Cardiac2',
+  NanColor: [1, 1, 0],
+  ColorSpace: 'RGB',
+  RGBPoints: [
+    0,
+    0,
+    0,
+    0,
+    0.5031823461853979,
+    0.54902,
+    0.25098,
+    0.14902,
+    0.5229676784249384,
+    0.917647,
+    0.639216,
+    0.0588235,
+    0.5416968006562756,
+    1,
+    0.878431,
+    0.623529,
+    0.7565217391304347,
+    1,
+    1,
+    1,
+    1,
+    0.827451,
+    0.658824,
+    1,
+  ],
+})
+ColorMaps.set('CT-Cardiac3', {
+  Name: 'CT-Cardiac3',
+  NanColor: [1, 1, 0],
+  ColorSpace: 'RGB',
+  RGBPoints: [
+    0,
+    0,
+    0,
+    0,
+    0.4818742083675143,
+    0,
+    0.25098,
+    1,
+    0.5035896800656275,
+    1,
+    0,
+    0,
+    0.5191007383100902,
+    1,
+    0.894893,
+    0.894893,
+    0.5532251025430681,
+    1,
+    1,
+    0.25098,
+    0.6969909762100082,
+    1,
+    1,
+    1,
     1,
     0.827451,
     0.658824,
@@ -10377,29 +10466,6 @@ ColorMaps.set('CT-Lung', {
     0.3,
   ],
 })
-ColorMaps.set('CT-MIP', {
-  Name: 'CT-MIP',
-  NanColor: [1, 1, 0],
-  ColorSpace: 'RGB',
-  RGBPoints: [
-    0,
-    0,
-    0,
-    0,
-    0.3915307629204266,
-    1,
-    1,
-    1,
-    0.6109926168990977,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-  ],
-})
 ColorMaps.set('CT-Muscle', {
   Name: 'CT-Muscle',
   NanColor: [1, 1, 0],
@@ -10512,12 +10578,6 @@ ColorMaps.set('CT-Air', {
     0,
   ],
 })
-ColorMaps.set('CT-X-ray', {
-  Name: 'CT-X-ray',
-  NanColor: [1, 1, 0],
-  ColorSpace: 'RGB',
-  RGBPoints: [0, 1, 1, 1, 1, 1, 1, 1],
-})
 ColorMaps.set('MR-Angio', {
   Name: 'MR-Angio',
   NanColor: [1, 1, 0],
@@ -10574,29 +10634,6 @@ ColorMaps.set('MR-Default', {
     0.847059,
     0.835294,
     0.788235,
-    1,
-    1,
-    1,
-    1,
-  ],
-})
-ColorMaps.set('MR-MIP', {
-  Name: 'MR-MIP',
-  NanColor: [1, 1, 0],
-  ColorSpace: 'RGB',
-  RGBPoints: [
-    0,
-    1,
-    1,
-    1,
-    0.035133035714285714,
-    1,
-    1,
-    1,
-    0.14879892857142857,
-    1,
-    1,
-    1,
     1,
     1,
     1,
@@ -10935,12 +10972,24 @@ ColorMapIcons.set(
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAJZJREFUOE/llEEOwjAMBMeN0ifwJA5ceADP4dOINjZySCGtUKuKqpeenM16Y63kjQAWQ0MMwlDbCZ7lm7HWe9vqram2nnG9XTid7/B4Yp2hCVQF85okY9Pv2e8yp4UrPVp6PjoFGzivFRZAj2Y4Hc1wv6/hd3Q8NqtX2te9/3+lu+0NQwxh9C/8mrFoOGdvXYY9u2kmwy8SMCRoT4yc6wAAAABJRU5ErkJggg=='
 )
 ColorMapIcons.set(
+  'CT-Bone',
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAIxJREFUOE/lk8sKw0AIRa86GSdplyX5/+9sXtiZQBsmQegqZCGKL7joIQBLZIEyI4p5QbTYcvIV1+rWK1xmcm+eKfvO6q8W2nfQofv4VHx4JhAHEDcVO8pbr3MGwHw3wZNH8Ha9nw+46IVHj+Dqy19U8HsvuDEWDxnOfG+mfzHcQoeHn2EJIKqx7Wd4BVsxE+gvcxdbAAAAAElFTkSuQmCC'
+)
+ColorMapIcons.set(
   'CT-Bones',
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAKdJREFUOE/Vk1sKwjAQRU8Um4Ddgt+6mex/F+1PayKmjbTTh5aCBUPBj+EOk8nAzZwoa2PkXEFes1nzauo98iBzDZlve9Vd7iSXaKXm5/pqz9v5x71xnp9nqwtwO8C1CzXkCmoNpYFCQ2GgXKpBWRvbzUbHh/lzw01aw4HMxd82fBdihISBjIQbDmkNf0M6oHvkF9jviPRzX8PLfy5E6BXDxjWcEm/4BSfTogOtNpScAAAAAElFTkSuQmCC'
 )
 ColorMapIcons.set(
   'CT-Cardiac',
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAKpJREFUOE9jZGBg+M/KxMjAysTEwMoMoiFsFhAN5jNBxUB8JDaSehaYGiLUg8yVluZmMDYTY9CIW8MwT1iAgYmNk4GJnQtCgzGMzcXAxI4uhqwWTQ+GWqg8WBzCZmRgYPg30jz8l1QPg2KJbRDFMDMo5kAxSGQM/yHVw+jq4UkanA3wZ4HBkKR/U83DWPMwA7QcgJQR2DwMjiHkPMwKiy3kWEPK23C1pOdhAOgjIFnZ4cXIAAAAAElFTkSuQmCC'
+)
+ColorMapIcons.set(
+  'CT-Cardiac2',
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAK9JREFUOE/Fk0sOgzAMBcdOEKzZttfgDmw5UDl3y7cKDYUAUtUWwSKyY8eLid8ToI9UsKq4GBkZ4vs+5r6+7rkZP7ucG2Y2eka4XmryQkmzG5gENAZNpnysBfH1rieirVifBzRb9VlNgO4oYAdv/aeeCdweBTxX0ZnAza7AopMtFpL+fsNO4k7qsZf6PpKufwYWwTqojx5m8HK44Yq8MKRZOUH94+Ea2nvo4a5ae/oJocmnWdzGgmYAAAAASUVORK5CYII='
+)
+ColorMapIcons.set(
+  'CT-Cardiac3',
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAIdJREFUOE9jZGBg+M/AxMnAwMzJAKZhmCQ+B0n6C59OZuhT2cXAsLCOgYF3HQMD5xUGBgZxBgYGMZz0vz/MDH9/MzD8+80Ap8HsP6hi6GrQ5RkZGBj+jTQP/x1pHv5DNQ8zImUNPFmCJkkalLR/IZI7PGmjJXlQkv5NlodR8v3gy8OwvI6ehwGue95ZaWDG3QAAAABJRU5ErkJggg=='
 )
 ColorMapIcons.set(
   'CT-Chest-Vessels',
@@ -10963,10 +11012,6 @@ ColorMapIcons.set(
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAJFJREFUOE9j9PX9///zZwYGdPz15y8Gxf2yDPstWBmYXF8zMDAwMTAyMDIwMIJIKBtEMzIyMIBlmCA0I5TGIQY2B2oGXB+YDzIHYi7YLDQxBkaYHFQd2F6YO5D1IInB3YJwG6Ov7/9/I83Dfz99YmD48gU1lodeDINSHyh2Ccfwn8ETw7DsQtsk/XvweJj2eRgAK1Fc9PV/j0EAAAAASUVORK5CYII='
 )
 ColorMapIcons.set(
-  'CT-MIP',
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAADZJREFUOE9jZGBg+M/Nzc1ACubh4SFaPSMjI8NgAiDX/CPFsyC1Q93Df0eah/+MNA//HkkeBgBEvRPor8UDjwAAAABJRU5ErkJggg=='
-)
-ColorMapIcons.set(
   'CT-Muscle',
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAKFJREFUOE/lk70OwjAMhD8nTQWVEAMDdGFi4w14EN7/PWgc5DRAKiQkfhbUwfLZ5xtO8gmQghOCd+Q+wWXnbT/itsITjfGZK7dPeNQvF55d3+Xa9h2bw4n18Uyz2qMRVIVkPUqekz6w7TKnhSs3Wm7uOoV046xXswA6N8NxboaHvzFs7z58/9KXjwyLEJoq987ReKH9ZYZz9t7LsGU3vsjwFZuGC2gbGbWVAAAAAElFTkSuQmCC'
 )
@@ -10983,20 +11028,12 @@ ColorMapIcons.set(
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAIpJREFUOE/lVEEOgzAMcy/w/58xvgHXAQMSo1CqdjAkJLT1sEOkynIsOYnrSLID8Kn6E/yMb7j1SAsUNVBaPQDXzFAdoPpaSyS+A77HRDw39g04YqmW1/Scd/0UcyT13wxLDsM2dTJu45cbnnMYDued46SnO4afW26DxiHDFeDab2TYcjom/8G1DC+kW4oVBvkY3wAAAABJRU5ErkJggg=='
 )
 ColorMapIcons.set(
-  'CT-X-ray',
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAACdJREFUOE/lzwcNAAAIwDDwL5kzgo7VQRMgRBJY0Tc+PLZw28JlCh8VJhPo4zq1+gAAAABJRU5ErkJggg=='
-)
-ColorMapIcons.set(
   'MR-Angio',
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAD5JREFUOE9jZGBg+M9AI/BsTSEDp3MdAyMjI9gGdBqbGDlqYHqIMQ/kkn808i/DYPXw35Hm4T8jzcO/R5KHAWCQE+iExalVAAAAAElFTkSuQmCC'
 )
 ColorMapIcons.set(
   'MR-Default',
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAJBJREFUOE/lk80KwkAMhL/EgyBCG3XFtuKtL9D3fzN/iXb7t95EFHoYCNlJsgMzAtxroKkyTkcjFDmhtCe2B2Ox2iTQ5RoRRUQ60NVtn+nbmO+zrxl15ptdKd95TO7GPyT9dmfah9vcBF/nJvjyHcFuSXftwLqDCPzS0udecE4ojH1p7D7IsLrImEuN9X9k+AF5cRPoaLoh+AAAAABJRU5ErkJggg=='
-)
-ColorMapIcons.set(
-  'MR-MIP',
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAACdJREFUOE/lzwcNAAAIwDDwL5kzgo7VQRMgRBJY0Tc+PLZw28JlCh8VJhPo4zq1+gAAAABJRU5ErkJggg=='
 )
 ColorMapIcons.set(
   'MR-T2-Brain',

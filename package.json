@@ -42,7 +42,7 @@
     "gl-matrix": "^3.4.3",
     "itk-image-io": "^1.0.0-b.15",
     "itk-mesh-io": "^1.0.0-b.15",
-    "itk-viewer-color-maps": "^1.0.2",
+    "itk-viewer-color-maps": "^1.0.3",
     "itk-viewer-icons": "^11.12.0",
     "itk-viewer-transfer-function-editor": "^1.1.4",
     "itk-wasm": "^1.0.0-b.17",

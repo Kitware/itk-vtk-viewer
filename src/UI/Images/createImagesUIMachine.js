@@ -24,13 +24,11 @@ const assignComponentVisibility = assign({
       // A component was made visible, and it was not already in the list
       // of visualized components
       const currentNumVisualized = componentVisibilities.reduce(
-        (a, c) => c + a,
+        (count, isVisible) => count + isVisible,
         0
       )
       if (currentNumVisualized + 1 > actorContext.maxIntensityComponents) {
-        // Find the index in the visualized components list of the last touched
-        // component.  We need to replace it with this component the user just
-        // turned on.
+        // Replace last touched component with turned on component
         componentVisibilities[
           actorContext.lastComponentVisibilityChanged
         ] = false
@@ -355,6 +353,8 @@ function createImagesUIMachine(options, context) {
               actions: [assignSelectedLabel, 'applySelectedLabel'],
             },
             CINEMATIC_CHANGED: { actions: 'applyCinematicChanged' },
+            IMAGE_UPDATING: { actions: forwardTo('scaleSelector') },
+            IMAGE_UPDATING_FINISHED: { actions: forwardTo('scaleSelector') },
           },
         },
       },

@@ -1,14 +1,9 @@
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import { mat4 } from 'gl-matrix'
 
-import updateVisualizedComponents from './updateVisualizedComponents'
 import { fuseImages } from './fuseImages'
 import { computeRenderedBounds } from '../Main/computeRenderedBounds'
 import { worldBoundsToIndexBounds } from '../../../IO/MultiscaleSpatialImage'
-
-function timeout(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
 
 export const RENDERED_VOXEL_MAX = 512 * 512 * 512 * 2
 
@@ -48,12 +43,12 @@ const pickVisualized = (preComputedRanges, visualizedComponents) =>
     }))
 
 async function updateRenderedImage(context) {
-  await timeout(0) // give the loading spinner a chance to start
+  // give the loading spinner a chance to start
+  await new Promise(requestAnimationFrame)
+  await new Promise(requestAnimationFrame)
 
   const name = context.images.updateRenderedName
   const actorContext = context.images.actorContext.get(name)
-
-  updateVisualizedComponents(context, name)
 
   const {
     image,

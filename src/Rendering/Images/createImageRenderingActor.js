@@ -168,9 +168,15 @@ const sendRenderedImageAssigned = (
   })
 }
 
-const sendUpdatingImage = context => {
+const sendImageUpdating = context => {
   context.service.send({
-    type: 'UPDATING_IMAGE',
+    type: 'IMAGE_UPDATING',
+  })
+}
+
+const sendImageUpdatingFinished = context => {
+  context.service.send({
+    type: 'IMAGE_UPDATING_FINISHED',
   })
 }
 
@@ -286,7 +292,7 @@ const createUpdatingImageMachine = options => {
         },
 
         loadingImage: {
-          entry: sendUpdatingImage, // send event to trigger onTransition for scaleSelector
+          entry: sendImageUpdating,
           invoke: {
             id: 'updateRenderedImage',
             src: 'updateRenderedImage',
@@ -309,6 +315,7 @@ const createUpdatingImageMachine = options => {
         },
 
         loadedImage: {
+          entry: sendImageUpdatingFinished,
           always: [
             {
               cond: 'isFramerateScalePickingOn',
@@ -385,6 +392,7 @@ const createImageRenderingActor = (options, context, name) => {
                 UPDATE_IMAGE_HISTOGRAM: {},
                 RENDERED_BOUNDS_CHANGED: {},
               },
+              entry: 'assignVisualizedComponents',
               invoke: {
                 id: 'updatingImageMachine',
                 src: createUpdatingImageMachine(options),

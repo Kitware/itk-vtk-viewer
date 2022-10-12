@@ -18086,6 +18086,7 @@ var scaleSelector = function scaleSelector(context, event) {
     }
 
     onImageAssigned(event.data)
+    spinner.style.display = 'none'
     onReceive(function(event) {
       var type = event.type
 
@@ -18098,27 +18099,10 @@ var scaleSelector = function scaleSelector(context, event) {
         scaleSelector.value = context.images.actorContext.get(
           event.data.name
         ).loadedScale
-      }
-    })
-    context.service.onTransition(function() {
-      var _imageActor$state$chi
-
-      var imageActor = context.images.imageRenderingActors.get(
-        context.images.selectedName
-      )
-      var isLoadingImage =
-        imageActor === null || imageActor === void 0
-          ? void 0
-          : (_imageActor$state$chi =
-              imageActor.state.children['updatingImageMachine']) === null ||
-            _imageActor$state$chi === void 0
-          ? void 0
-          : _imageActor$state$chi.state.matches('loadingImage')
-
-      if (isLoadingImage) {
+      } else if (type === 'IMAGE_UPDATING') {
         iconImage.style.display = 'none'
         spinner.style.display = 'block'
-      } else {
+      } else if (type === 'IMAGE_UPDATING_FINISHED') {
         iconImage.style.display = 'block'
         spinner.style.display = 'none'
       }

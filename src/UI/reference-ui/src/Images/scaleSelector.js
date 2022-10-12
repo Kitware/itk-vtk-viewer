@@ -76,6 +76,8 @@ const scaleSelector = (context, event) => (send, onReceive) => {
 
   onImageAssigned(event.data)
 
+  spinner.style.display = 'none'
+
   onReceive(event => {
     const { type } = event
     if (type === 'IMAGE_ASSIGNED') {
@@ -87,22 +89,10 @@ const scaleSelector = (context, event) => (send, onReceive) => {
       scaleSelector.value = context.images.actorContext.get(
         event.data.name
       ).loadedScale
-    }
-  })
-
-  context.service.onTransition(() => {
-    const imageActor = context.images.imageRenderingActors.get(
-      context.images.selectedName
-    )
-
-    const isLoadingImage = imageActor?.state.children[
-      'updatingImageMachine'
-    ]?.state.matches('loadingImage')
-
-    if (isLoadingImage) {
+    } else if (type === 'IMAGE_UPDATING') {
       iconImage.style.display = 'none'
       spinner.style.display = 'block'
-    } else {
+    } else if (type === 'IMAGE_UPDATING_FINISHED') {
       iconImage.style.display = 'block'
       spinner.style.display = 'none'
     }

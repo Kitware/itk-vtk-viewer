@@ -179,6 +179,8 @@ function createUIMachine(options, context) {
             CINEMATIC_CHANGED: {
               actions: forwardTo('images'),
             },
+            IMAGE_UPDATING: { actions: forwardTo('images') },
+            IMAGE_UPDATING_FINISHED: { actions: forwardTo('images') },
           },
           states: {
             // Optional feature of the user interface

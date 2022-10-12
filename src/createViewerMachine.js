@@ -2,8 +2,6 @@ import { forwardTo, Machine } from 'xstate'
 import createRenderingMachine from './Rendering/createRenderingMachine'
 import createUIMachine from './UI/createUIMachine'
 
-const noop = () => {}
-
 const createViewerMachine = (options, context, eventEmitterCallback) => {
   const { ui, rendering } = options
   const renderingMachine = createRenderingMachine(rendering, context)
@@ -166,7 +164,8 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             UPDATE_RENDERED_IMAGE: {
               actions: [forwardTo('rendering')],
             },
-            UPDATING_IMAGE: { actions: noop }, // receive event for scaleSelector onTransition
+            IMAGE_UPDATING: { actions: forwardTo('ui') },
+            IMAGE_UPDATING_FINISHED: { actions: forwardTo('ui') },
             RENDERED_IMAGE_ASSIGNED: {
               actions: [forwardTo('ui'), forwardTo('eventEmitter')],
             },

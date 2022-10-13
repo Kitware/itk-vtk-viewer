@@ -18087,6 +18087,7 @@ var scaleSelector = function scaleSelector(context, event) {
 
     onImageAssigned(event.data)
     spinner.style.display = 'none'
+    var imageLoadingPhase = 'POST_RENDER'
     onReceive(function(event) {
       var type = event.type
 
@@ -18099,12 +18100,23 @@ var scaleSelector = function scaleSelector(context, event) {
         scaleSelector.value = context.images.actorContext.get(
           event.data.name
         ).loadedScale
-      } else if (type === 'IMAGE_UPDATING') {
+      } else if (type === 'IMAGE_UPDATE_STARTED') {
         iconImage.style.display = 'none'
         spinner.style.display = 'block'
-      } else if (type === 'IMAGE_UPDATING_FINISHED') {
+        imageLoadingPhase = type
+      } else if (
+        imageLoadingPhase === 'IMAGE_UPDATE_STARTED' &&
+        type === 'IMAGE_UPDATE_FINISHED'
+      ) {
+        imageLoadingPhase = type
+      } else if (
+        imageLoadingPhase === 'IMAGE_UPDATE_FINISHED' &&
+        type === 'POST_RENDER'
+      ) {
+        // wait until after render when image is loaded on GPU
         iconImage.style.display = 'block'
         spinner.style.display = 'none'
+        imageLoadingPhase = type
       }
     })
   }

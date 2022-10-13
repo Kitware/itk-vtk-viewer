@@ -43,10 +43,6 @@ const pickVisualized = (preComputedRanges, visualizedComponents) =>
     }))
 
 async function updateRenderedImage(context) {
-  // give the loading spinner a chance to start
-  await new Promise(requestAnimationFrame)
-  await new Promise(requestAnimationFrame)
-
   const name = context.images.updateRenderedName
   const actorContext = context.images.actorContext.get(name)
 

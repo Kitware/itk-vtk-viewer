@@ -168,15 +168,15 @@ const sendRenderedImageAssigned = (
   })
 }
 
-const sendImageUpdating = context => {
+const sendImageUpdateStarted = context => {
   context.service.send({
-    type: 'IMAGE_UPDATING',
+    type: 'IMAGE_UPDATE_STARTED',
   })
 }
 
-const sendImageUpdatingFinished = context => {
+const sendImageUpdateFinished = context => {
   context.service.send({
-    type: 'IMAGE_UPDATING_FINISHED',
+    type: 'IMAGE_UPDATE_FINISHED',
   })
 }
 
@@ -285,14 +285,28 @@ const createUpdatingImageMachine = options => {
       states: {
         checkingUpdateNeeded: {
           always: [
-            { cond: 'isImageUpdateNeeded', target: 'loadingImage' },
+            { cond: 'isImageUpdateNeeded', target: 'preLoadingImage' },
             { target: '#updatingImageMachine.loadedImage' },
           ],
           exit: assign({ isUpdateForced: false }),
         },
 
+        preLoadingImage: {
+          entry: sendImageUpdateStarted,
+          invoke: {
+            id: 'preLoadingImage',
+            src: async () => {
+              // Give spinner chance to start. Waiting 2 frames works better in cached image case =|
+              await new Promise(requestAnimationFrame)
+              await new Promise(requestAnimationFrame)
+            },
+            onDone: {
+              target: 'loadingImage',
+            },
+          },
+        },
+
         loadingImage: {
-          entry: sendImageUpdating,
           invoke: {
             id: 'updateRenderedImage',
             src: 'updateRenderedImage',
@@ -315,7 +329,7 @@ const createUpdatingImageMachine = options => {
         },
 
         loadedImage: {
-          entry: sendImageUpdatingFinished,
+          entry: sendImageUpdateFinished,
           always: [
             {
               cond: 'isFramerateScalePickingOn',

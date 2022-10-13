@@ -77,6 +77,7 @@ const scaleSelector = (context, event) => (send, onReceive) => {
   onImageAssigned(event.data)
 
   spinner.style.display = 'none'
+  let imageLoadingPhase = 'POST_RENDER'
 
   onReceive(event => {
     const { type } = event
@@ -89,12 +90,23 @@ const scaleSelector = (context, event) => (send, onReceive) => {
       scaleSelector.value = context.images.actorContext.get(
         event.data.name
       ).loadedScale
-    } else if (type === 'IMAGE_UPDATING') {
+    } else if (type === 'IMAGE_UPDATE_STARTED') {
       iconImage.style.display = 'none'
       spinner.style.display = 'block'
-    } else if (type === 'IMAGE_UPDATING_FINISHED') {
+      imageLoadingPhase = type
+    } else if (
+      imageLoadingPhase === 'IMAGE_UPDATE_STARTED' &&
+      type === 'IMAGE_UPDATE_FINISHED'
+    ) {
+      imageLoadingPhase = type
+    } else if (
+      imageLoadingPhase === 'IMAGE_UPDATE_FINISHED' &&
+      type === 'POST_RENDER'
+    ) {
+      // wait until after render when image is loaded on GPU
       iconImage.style.display = 'block'
       spinner.style.display = 'none'
+      imageLoadingPhase = type
     }
   })
 }

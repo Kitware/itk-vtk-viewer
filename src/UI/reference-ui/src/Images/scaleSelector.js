@@ -28,7 +28,6 @@ const scaleSelector = (context, event) => (send, onReceive) => {
     <div itk-vtk-tooltip itk-vtk-tooltip-top-screenshot itk-vtk-tooltip-content="Resolution Scale"
       class="${style.blendModeButton}">
       <img src="${scaleSelectIconDataUri}" alt="Resolution Scale" />
-      <div class="${style.ldsRing}"><div></div><div></div><div></div><div></div></div>
     </div>
     `
   const scaleSelectorIcon = scaleSelectorDiv.children[0]
@@ -38,8 +37,6 @@ const scaleSelector = (context, event) => (send, onReceive) => {
     'invertibleButton',
     scaleSelectorIcon
   )
-
-  const [iconImage, spinner] = scaleSelectorIcon.children
 
   const scaleSelector = document.createElement('select')
   scaleSelectorDiv.appendChild(scaleSelector)
@@ -76,9 +73,6 @@ const scaleSelector = (context, event) => (send, onReceive) => {
 
   onImageAssigned(event.data)
 
-  spinner.style.display = 'none'
-  let imageLoadingPhase = 'POST_RENDER'
-
   onReceive(event => {
     const { type } = event
     if (type === 'IMAGE_ASSIGNED') {
@@ -90,23 +84,6 @@ const scaleSelector = (context, event) => (send, onReceive) => {
       scaleSelector.value = context.images.actorContext.get(
         event.data.name
       ).loadedScale
-    } else if (type === 'IMAGE_UPDATE_STARTED') {
-      iconImage.style.display = 'none'
-      spinner.style.display = 'block'
-      imageLoadingPhase = type
-    } else if (
-      imageLoadingPhase === 'IMAGE_UPDATE_STARTED' &&
-      type === 'IMAGE_UPDATE_FINISHED'
-    ) {
-      imageLoadingPhase = type
-    } else if (
-      imageLoadingPhase === 'IMAGE_UPDATE_FINISHED' &&
-      type === 'POST_RENDER'
-    ) {
-      // wait until after render when image is loaded on GPU
-      iconImage.style.display = 'block'
-      spinner.style.display = 'none'
-      imageLoadingPhase = type
     }
   })
 }

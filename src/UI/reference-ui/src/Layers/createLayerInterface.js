@@ -16,7 +16,6 @@ function createLayerEntry(context, name, layer) {
 
   const visibleButton = document.createElement('div')
   visibleButton.innerHTML = `<input id="${context.id}-visibleButton" type="checkbox" checked class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-visibleButton"><img src="${visibleIconDataUri}" alt="visible"/></label>`
-  const visibleButtonInput = visibleButton.children[0]
   const visibleLabel = visibleButton.children[1]
   applyContrastSensitiveStyleToElement(
     context,
@@ -26,7 +25,6 @@ function createLayerEntry(context, name, layer) {
   layerEntry.appendChild(visibleButton)
   const invisibleButton = document.createElement('div')
   invisibleButton.innerHTML = `<input id="${context.id}-invisibleButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="Visibility" class="${style.visibleButton} ${style.toggleButton}" for="${context.id}-invisibleButton"><img src="${invisibleIconDataUri} alt="invisible""/></label>`
-  const invisibleButtonInput = invisibleButton.children[0]
   const invisibleLabel = invisibleButton.children[1]
   applyContrastSensitiveStyleToElement(
     context,
@@ -62,6 +60,17 @@ function createLayerEntry(context, name, layer) {
   layerLabel.innerText = name
   layerEntry.appendChild(layerLabel)
 
+  const imageIcons = document.createElement('div')
+  imageIcons.setAttribute('class', `${style.iconGroup}`)
+  layerEntry.appendChild(imageIcons)
+
+  const spinner = document.createElement('div')
+  spinner.setAttribute('class', `${style.ldsRing}`)
+  spinner.innerHTML = '<div></div><div></div><div></div><div></div>'
+  imageIcons.appendChild(spinner)
+
+  layer.spinner = spinner
+
   const iconElement = document.createElement('div')
   switch (layer.type) {
     case 'image': {
@@ -77,7 +86,7 @@ function createLayerEntry(context, name, layer) {
   }
   iconElement.setAttribute('class', style.layerIcon)
   applyContrastSensitiveStyleToElement(context, 'invertibleButton', iconElement)
-  layerEntry.appendChild(iconElement)
+  imageIcons.appendChild(iconElement)
 
   layerEntry.addEventListener('click', event => {
     event.preventDefault()
@@ -87,7 +96,7 @@ function createLayerEntry(context, name, layer) {
   return layerEntry
 }
 
-function createLayerInterface(context, event) {
+function createLayerInterface(context) {
   const name = context.layers.lastAddedData.name
   const layer = context.layers.actorContext.get(name)
   const layersUIGroup = context.layers.layersUIGroup
@@ -100,12 +109,6 @@ function createLayerInterface(context, event) {
       layerEntry = createLayerEntry(context, name, layer)
       uiRow.appendChild(layerEntry)
     }
-  }
-  if (!!!layerEntry) {
-    addLayerUIRow(context)
-    const uiRow = layersUIGroup[layersUIGroup.children.length - 1]
-    layerEntry = createLayerEntry(context, name, layer)
-    uiRow.appendChild(layerEntry)
   }
 
   context.layers.uiLayers.set(name, layerEntry)

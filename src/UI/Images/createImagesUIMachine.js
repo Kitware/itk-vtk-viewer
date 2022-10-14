@@ -353,11 +353,6 @@ function createImagesUIMachine(options, context) {
               actions: [assignSelectedLabel, 'applySelectedLabel'],
             },
             CINEMATIC_CHANGED: { actions: 'applyCinematicChanged' },
-            IMAGE_UPDATE_STARTED: { actions: forwardTo('scaleSelector') },
-            IMAGE_UPDATE_FINISHED: { actions: forwardTo('scaleSelector') },
-            POST_RENDER: {
-              actions: forwardTo('scaleSelector'),
-            },
           },
         },
       },

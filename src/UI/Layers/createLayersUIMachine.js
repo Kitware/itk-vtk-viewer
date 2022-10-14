@@ -1,4 +1,4 @@
-import { Machine, assign, spawn, send } from 'xstate'
+import { Machine, assign, spawn, send, actions } from 'xstate'
 
 import { PixelTypes } from 'itk-wasm'
 
@@ -33,7 +33,11 @@ function spawnLayerRenderingActor(options) {
           layers.lastAddedData = { name, data: event.data }
           layers.layerUIActors.set(
             name,
-            spawn(createLayerUIActor(options, context), `layerUIActor-${name}`)
+            spawn(
+              createLayerUIActor(options, context, actorContext),
+              `layerUIActor-${name}`,
+              actorContext
+            )
           )
           break
         }
@@ -52,7 +56,10 @@ function spawnLayerRenderingActor(options) {
           layers.lastAddedData = { name, data: event.data }
           layers.layerUIActors.set(
             name,
-            spawn(createLayerUIActor(options, context), `layerUIActor-${name}`)
+            spawn(
+              createLayerUIActor(options, context, actorContext),
+              `layerUIActor-${name}`
+            )
           )
           break
         }
@@ -222,6 +229,19 @@ const assignSelectedName = assign({
   },
 })
 
+const forwardToNamedActor = send((_, e) => e, {
+  to: (c, e) => `layerUIActor-${e.name}`,
+})
+
+const sendEventToAllActors = actions.pure(
+  ({ layers: { layerUIActors } }, event) =>
+    Array.from(layerUIActors?.values() ?? []).map(actor =>
+      send(event, {
+        to: actor,
+      })
+    )
+)
+
 function createLayersUIMachine(options, context) {
   const { layerUIActor } = options
 
@@ -282,6 +302,9 @@ function createLayersUIMachine(options, context) {
                   }),
               ],
             },
+            IMAGE_UPDATE_STARTED: { actions: forwardToNamedActor },
+            IMAGE_UPDATE_FINISHED: { actions: forwardToNamedActor },
+            POST_RENDER: { actions: sendEventToAllActors },
           },
         },
       },

@@ -242,7 +242,6 @@
   justify-content: space-between;
   border-style: solid;
   border-width: 2px;
-  border-radius: 10%;
 }
 
 .layerEntryBrightBG {
@@ -284,6 +283,10 @@
   padding-right: 6px;
 }
 
+.layerIcon {
+  display: inline-block;
+}
+
 .layerIcon img {
   height: 1.2em;
   width: 1.2em;
@@ -291,6 +294,46 @@
   padding-bottom: 2px;
   padding-left: 8px;
   padding-right: 6px;
+}
+
+.iconGroup {
+  display: inline-block;
+}
+
+.ldsRing {
+  display: inline-block;
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+.ldsRing div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  margin: 0;
+  border: 0.15em solid #000;
+  border-radius: 50%;
+  animation: ldsRing 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #000 transparent transparent transparent;
+}
+.ldsRing div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.ldsRing div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.ldsRing div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes ldsRing {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .tooltipButtonBrightBG::before {
@@ -755,40 +798,4 @@ select:focus {
   background: black;
   margin: 0;
   padding: 0;
-}
-
-.ldsRing {
-  display: inline-block;
-  position: relative;
-  width: 20px;
-  height: 20px;
-}
-.ldsRing div {
-  box-sizing: border-box;
-  display: block;
-  position: absolute;
-  width: 1.2em;
-  height: 1.2em;
-  margin: 0;
-  border: 0.15em solid #000;
-  border-radius: 50%;
-  animation: ldsRing 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #000 transparent transparent transparent;
-}
-.ldsRing div:nth-child(1) {
-  animation-delay: -0.45s;
-}
-.ldsRing div:nth-child(2) {
-  animation-delay: -0.3s;
-}
-.ldsRing div:nth-child(3) {
-  animation-delay: -0.15s;
-}
-@keyframes ldsRing {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }

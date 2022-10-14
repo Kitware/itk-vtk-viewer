@@ -25,14 +25,14 @@ function spawnImageRenderingActor(options) {
   })
 }
 
-const sendEventToAllActors = () =>
-  actions.pure(({ images: { imageRenderingActors } }, event) =>
+const sendEventToAllActors = actions.pure(
+  ({ images: { imageRenderingActors } }, event) =>
     Array.from(imageRenderingActors.values()).map(actor =>
       send(event, {
         to: actor,
       })
     )
-  )
+)
 
 function createImagesRenderingMachine(options, context) {
   const { imageRenderingActor } = options
@@ -196,7 +196,7 @@ function createImagesRenderingMachine(options, context) {
             },
             ...makeTransitions(
               ['CROPPING_PLANES_CHANGED_BY_USER', 'CAMERA_MODIFIED'],
-              { actions: sendEventToAllActors() }
+              { actions: sendEventToAllActors }
             ),
           },
         },

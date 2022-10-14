@@ -11,10 +11,9 @@ function updateRenderedImageInterface(context, event) {
   const points = actorContext.piecewiseFunctionPoints.get(
     actorContext.selectedComponent
   )
+  // no points if just label image
   if (points) {
     transferFunctionWidget.setPoints(points)
-  } else {
-    console.warn('No transfer function points for component')
   }
 }
 

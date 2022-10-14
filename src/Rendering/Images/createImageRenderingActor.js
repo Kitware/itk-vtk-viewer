@@ -171,12 +171,14 @@ const sendRenderedImageAssigned = (
 const sendImageUpdateStarted = context => {
   context.service.send({
     type: 'IMAGE_UPDATE_STARTED',
+    name: context.actorName,
   })
 }
 
 const sendImageUpdateFinished = context => {
   context.service.send({
     type: 'IMAGE_UPDATE_FINISHED',
+    name: context.actorName,
   })
 }
 
@@ -377,10 +379,11 @@ const createUpdatingImageMachine = options => {
 }
 
 const createImageRenderingActor = (options, context, name) => {
+  const machineContext = { ...context, actorName: name }
   return createMachine(
     {
       id: 'imageRendering',
-      context: { ...context, actorName: name },
+      context: machineContext,
       type: 'parallel',
       states: {
         imageLoader: {
@@ -411,7 +414,7 @@ const createImageRenderingActor = (options, context, name) => {
                 id: 'updatingImageMachine',
                 src: createUpdatingImageMachine(options),
                 data: {
-                  ...context,
+                  ...machineContext,
                   hasScaledCoarser: false,
                   targetScale: ({ images }, event) => {
                     if (event.type === 'SET_IMAGE_SCALE')

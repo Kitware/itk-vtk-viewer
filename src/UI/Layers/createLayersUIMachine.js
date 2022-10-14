@@ -163,7 +163,7 @@ const assignImageContext = assign({
               colorMap = 'BkBu'
               break
           }
-        } else if (components === 4) {
+        } else if (components >= 4) {
           switch (component) {
             case 0:
               colorMap = 'BkRd'

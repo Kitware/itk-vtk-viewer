@@ -2,7 +2,7 @@ import createLayersInterface from './createLayersInterface'
 import createLayerInterface from './createLayerInterface'
 import toggleLayerVisibility from './toggleLayerVisibility'
 import selectLayer from './selectLayer'
-import { idle, imageUpdating } from './imageUpdateIndicator'
+import { startDataUpdate, finishDataUpdate } from './dataUpdateIndicator'
 
 const layersUIMachineOptions = {
   layerUIActor: {
@@ -10,8 +10,8 @@ const layersUIMachineOptions = {
       createLayerInterface,
       selectLayer,
       toggleLayerVisibility,
-      imageUpdating,
-      idle,
+      startDataUpdate,
+      finishDataUpdate,
     },
   },
 

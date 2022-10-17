@@ -31,15 +31,15 @@ const createLayerUIActor = (options, context, actorContext) => {
           initial: 'idle',
           states: {
             idle: {
-              entry: 'idle',
-              on: { IMAGE_UPDATE_STARTED: 'imageUpdating' },
+              entry: 'finishDataUpdate',
+              on: { START_DATA_UPDATE: 'dataUpdating' },
             },
-            imageUpdating: {
-              entry: 'imageUpdating',
-              on: { IMAGE_UPDATE_FINISHED: 'imageBuilt' },
+            dataUpdating: {
+              entry: 'startDataUpdate',
+              on: { FINISH_DATA_UPDATE: 'dataLoading' },
             },
-            imageBuilt: {
-              // wait until after render when image is loaded on GPU
+            dataLoading: {
+              // wait until data is loaded on GPU
               on: { POST_RENDER: 'idle' },
             },
           },

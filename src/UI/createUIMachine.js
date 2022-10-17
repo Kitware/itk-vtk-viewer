@@ -179,8 +179,8 @@ function createUIMachine(options, context) {
             CINEMATIC_CHANGED: {
               actions: forwardTo('images'),
             },
-            IMAGE_UPDATE_STARTED: { actions: forwardTo('layers') },
-            IMAGE_UPDATE_FINISHED: { actions: forwardTo('layers') },
+            START_DATA_UPDATE: { actions: forwardTo('layers') },
+            FINISH_DATA_UPDATE: { actions: forwardTo('layers') },
             POST_RENDER: { actions: forwardTo('layers') },
           },
           states: {

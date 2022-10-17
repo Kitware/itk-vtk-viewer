@@ -168,16 +168,16 @@ const sendRenderedImageAssigned = (
   })
 }
 
-const sendImageUpdateStarted = context => {
+const sendStartDataUpdate = context => {
   context.service.send({
-    type: 'IMAGE_UPDATE_STARTED',
+    type: 'START_DATA_UPDATE',
     name: context.actorName,
   })
 }
 
-const sendImageUpdateFinished = context => {
+const sendFinishDataUpdate = context => {
   context.service.send({
-    type: 'IMAGE_UPDATE_FINISHED',
+    type: 'FINISH_DATA_UPDATE',
     name: context.actorName,
   })
 }
@@ -294,7 +294,7 @@ const createUpdatingImageMachine = options => {
         },
 
         preLoadingImage: {
-          entry: sendImageUpdateStarted,
+          entry: sendStartDataUpdate,
           invoke: {
             id: 'preLoadingImage',
             src: async () => {
@@ -331,7 +331,7 @@ const createUpdatingImageMachine = options => {
         },
 
         loadedImage: {
-          entry: sendImageUpdateFinished,
+          entry: sendFinishDataUpdate,
           always: [
             {
               cond: 'isFramerateScalePickingOn',

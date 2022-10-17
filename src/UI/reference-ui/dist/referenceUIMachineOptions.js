@@ -2313,11 +2313,11 @@ function selectLayer(context, event) {
   }
 }
 
-function imageUpdating(_ref) {
+function startDataUpdate(_ref) {
   var spinner = _ref.actorContext.spinner
   spinner.style.visibility = 'visible'
 }
-function idle(_ref2) {
+function finishDataUpdate(_ref2) {
   var spinner = _ref2.actorContext.spinner
   spinner.style.visibility = 'hidden'
 }
@@ -2328,8 +2328,8 @@ var layersUIMachineOptions = {
       createLayerInterface: createLayerInterface,
       selectLayer: selectLayer,
       toggleLayerVisibility: toggleLayerVisibility,
-      imageUpdating: imageUpdating,
-      idle: idle,
+      startDataUpdate: startDataUpdate,
+      finishDataUpdate: finishDataUpdate,
     },
   },
   actions: {

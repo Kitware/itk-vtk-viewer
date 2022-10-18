@@ -11,20 +11,15 @@ const assignLayerVisibility = assign({
   },
 })
 
-const createLayerUIActor = (options, context) => {
+const createLayerUIActor = (options, context, actorContext) => {
   return Machine(
     {
       id: 'layerUI',
-      initial: 'idle',
-      context,
+      initial: 'active',
+      context: { actorContext, ...context },
       states: {
-        idle: {
-          always: {
-            target: 'active',
-            actions: 'createLayerInterface',
-          },
-        },
         active: {
+          entry: 'createLayerInterface',
           on: {
             SELECT_LAYER: {
               actions: 'selectLayer',
@@ -33,12 +28,21 @@ const createLayerUIActor = (options, context) => {
               actions: [assignLayerVisibility, 'toggleLayerVisibility'],
             },
           },
-        },
-        finished: {
-          type: 'final',
-        },
-        onDone: {
-          //actions: 'cleanup'
+          initial: 'idle',
+          states: {
+            idle: {
+              entry: 'finishDataUpdate',
+              on: { START_DATA_UPDATE: 'dataUpdating' },
+            },
+            dataUpdating: {
+              entry: 'startDataUpdate',
+              on: { FINISH_DATA_UPDATE: 'dataLoading' },
+            },
+            dataLoading: {
+              // wait until data is loaded on GPU
+              on: { POST_RENDER: 'idle' },
+            },
+          },
         },
       },
     },

@@ -14,6 +14,7 @@ function applyComponentVisibility(context, event) {
   const weight = visibility ? 1.0 : 0.0
 
   if (visibility && visualizedComponents.indexOf(index) < 0) {
+    // add component to visualizedComponents
     visualizedComponents.push(index)
     for (let i = 0; i < visualizedComponents.length; i++) {
       if (!componentVisibilities[visualizedComponents[i]]) {
@@ -40,7 +41,7 @@ function applyComponentVisibility(context, event) {
 
     volumeActors.forEach(volume => {
       const volumeProperty = volume.getProperty()
-      if (!!context.images.labelImage || !!context.images.editorLabelImage) {
+      if (context.images.labelImage || context.images.editorLabelImage) {
         let componentsVisible = false
         for (let i = 0; i < visualizedComponents.length - 1; i++) {
           componentsVisible = componentsVisible[i] ? true : componentsVisible

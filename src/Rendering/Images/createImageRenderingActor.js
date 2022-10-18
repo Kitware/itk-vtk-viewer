@@ -168,6 +168,20 @@ const sendRenderedImageAssigned = (
   })
 }
 
+const sendStartDataUpdate = context => {
+  context.service.send({
+    type: 'START_DATA_UPDATE',
+    name: context.actorName,
+  })
+}
+
+const sendFinishDataUpdate = context => {
+  context.service.send({
+    type: 'FINISH_DATA_UPDATE',
+    name: context.actorName,
+  })
+}
+
 const eventResponses = {
   IMAGE_ASSIGNED: {
     target: 'updatingImage',
@@ -273,10 +287,25 @@ const createUpdatingImageMachine = options => {
       states: {
         checkingUpdateNeeded: {
           always: [
-            { cond: 'isImageUpdateNeeded', target: 'loadingImage' },
+            { cond: 'isImageUpdateNeeded', target: 'preLoadingImage' },
             { target: '#updatingImageMachine.loadedImage' },
           ],
           exit: assign({ isUpdateForced: false }),
+        },
+
+        preLoadingImage: {
+          entry: sendStartDataUpdate,
+          invoke: {
+            id: 'preLoadingImage',
+            src: async () => {
+              // Give spinner chance to start. Waiting 2 frames works better in cached image case =|
+              await new Promise(requestAnimationFrame)
+              await new Promise(requestAnimationFrame)
+            },
+            onDone: {
+              target: 'loadingImage',
+            },
+          },
         },
 
         loadingImage: {
@@ -302,6 +331,7 @@ const createUpdatingImageMachine = options => {
         },
 
         loadedImage: {
+          entry: sendFinishDataUpdate,
           always: [
             {
               cond: 'isFramerateScalePickingOn',
@@ -349,10 +379,11 @@ const createUpdatingImageMachine = options => {
 }
 
 const createImageRenderingActor = (options, context, name) => {
+  const machineContext = { ...context, actorName: name }
   return createMachine(
     {
       id: 'imageRendering',
-      context: { ...context, actorName: name },
+      context: machineContext,
       type: 'parallel',
       states: {
         imageLoader: {
@@ -378,11 +409,12 @@ const createImageRenderingActor = (options, context, name) => {
                 UPDATE_IMAGE_HISTOGRAM: {},
                 RENDERED_BOUNDS_CHANGED: {},
               },
+              entry: 'assignVisualizedComponents',
               invoke: {
                 id: 'updatingImageMachine',
                 src: createUpdatingImageMachine(options),
                 data: {
-                  ...context,
+                  ...machineContext,
                   hasScaledCoarser: false,
                   targetScale: ({ images }, event) => {
                     if (event.type === 'SET_IMAGE_SCALE')

@@ -1,5 +1,5 @@
-import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager'
-import proxyConfiguration from './proxyManagerConfiguration'
+// import vtkProxyManager from 'vtk.js/Sources/Proxy/Core/ProxyManager'
+// import proxyConfiguration from './proxyManagerConfiguration'
 import createMainRenderer from './Main/createMainRenderer'
 
 // Load the rendering pieces we want to use (for both WebGL and WebGPU)
@@ -19,6 +19,9 @@ function createRenderer(context) {
   context.itkVtkView.setXyLowerLeft(context.xyLowerLeft)
 
   createMainRenderer(context)
+
+  const interactor = context.itkVtkView.getInteractor()
+  interactor.onRenderEvent(() => context.service.send('POST_RENDER'))
 }
 
 export default createRenderer

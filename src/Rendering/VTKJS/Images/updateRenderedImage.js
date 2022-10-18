@@ -1,7 +1,6 @@
 import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
 import { mat4 } from 'gl-matrix'
 
-import updateVisualizedComponents from './updateVisualizedComponents'
 import { fuseImages } from './fuseImages'
 import { computeRenderedBounds } from '../Main/computeRenderedBounds'
 import { worldBoundsToIndexBounds } from '../../../IO/MultiscaleSpatialImage'
@@ -46,8 +45,6 @@ const pickVisualized = (preComputedRanges, visualizedComponents) =>
 async function updateRenderedImage(context) {
   const name = context.images.updateRenderedName
   const actorContext = context.images.actorContext.get(name)
-
-  updateVisualizedComponents(context, name)
 
   const {
     image,

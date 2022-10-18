@@ -24,6 +24,7 @@ import mapToPiecewiseFunctionNodes from './mapToPiecewiseFunctionNodes'
 import { getBoundsOfFullImage } from '../Main/croppingPlanes'
 import { computeRenderedBounds } from '../Main/computeRenderedBounds'
 import { applyCinematicChanged } from './applyCinematicChanged'
+import assignVisualizedComponents from './assignVisualizedComponents'
 
 const EPSILON = 0.000001
 
@@ -69,6 +70,7 @@ const imagesRenderingMachineOptions = {
     actions: {
       applyRenderedImage,
       assignRenderedImage,
+      assignVisualizedComponents,
 
       toggleLayerVisibility,
 

@@ -164,6 +164,9 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             UPDATE_RENDERED_IMAGE: {
               actions: [forwardTo('rendering')],
             },
+            START_DATA_UPDATE: { actions: forwardTo('ui') },
+            FINISH_DATA_UPDATE: { actions: forwardTo('ui') },
+            POST_RENDER: { actions: forwardTo('ui') },
             RENDERED_IMAGE_ASSIGNED: {
               actions: [forwardTo('ui'), forwardTo('eventEmitter')],
             },

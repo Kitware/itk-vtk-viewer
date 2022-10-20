@@ -308,7 +308,10 @@ function createImagesUIMachine(options, context) {
               actions: ['applyColorRangeBounds'],
             },
             IMAGE_COLOR_MAP_CHANGED: {
-              actions: [assignColorMap, 'applyColorMap'],
+              actions: assignColorMap,
+            },
+            IMAGE_COLOR_MAP_DEPENDENCIES_UPDATE: {
+              actions: 'applyColorMap',
             },
             TOGGLE_IMAGE_SHADOW: {
               actions: [assignShadowEnabled, 'toggleShadow'],

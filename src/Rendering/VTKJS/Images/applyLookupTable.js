@@ -27,11 +27,6 @@ function applyLookupTable(context, event) {
 
   const uniqueLabels = Array.from(actorContext.uniqueLabels)
 
-  colorTransferFunction.setMappingRange(
-    uniqueLabels[0],
-    uniqueLabels[uniqueLabels.length - 1]
-  )
-
   applyCategoricalColorToColorTransferFunction(
     colorTransferFunction,
     uniqueLabels,

@@ -15795,10 +15795,6 @@ CategoricalColorIcons.set(
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAF5JREFUOE9jvMbA8J8BDWgmfUcXYlhrxYkhdiKlAEPsjucEDLH1gZ0YYhOvYQgx5Dc8xxC8ICCAIbbZaiOGWG37YQyx3ausMcQYrzEw/BtpHv470jz8Z6R5+PdI8jAAYiJbm4xVu1cAAAAASUVORK5CYII='
 )
 CategoricalColorIcons.set(
-  'modulate',
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAACdJREFUOE/lzwcNAAAIwDDwL5kzgo7VQRMgRBJY0Tc+PLZw28JlCh8VJhPo4zq1+gAAAABJRU5ErkJggg=='
-)
-CategoricalColorIcons.set(
   'glasbey_bw',
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAF1JREFUOE9jvMbA8J8BDWyzxhBiKPVhRFfG8F/1GIbY9GArDLGM+osYYjlNdRhiU5Y+wBBjjM7FEGstOI0hVn3zNoaY/8N9mOZdY2D4N9I8/HekefjPSPPw75HkYQDvC2FUP89MNAAAAABJRU5ErkJggg=='
 )
@@ -15809,6 +15805,10 @@ CategoricalColorIcons.set(
 CategoricalColorIcons.set(
   'glasbey_cool',
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAAGZJREFUOE9j5Mn8/58BDfzR8UMXYvhhOh1DzNN0DYbY9ogLGGJrfOZjiJ08348hdq1PH0PMf9dDDLHfriEYYmv752GI7duGaQcjT+b/fyPNw39Hmof/jDQP/6auh89jycMLBk0eBgANUmrm0LbJrAAAAABJRU5ErkJggg=='
+)
+CategoricalColorIcons.set(
+  'modulate',
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAFCAYAAAAZiY8XAAAAAXNSR0IArs4c6QAAACdJREFUOE/lzwcNAAAIwDDwL5kzgo7VQRMgRBJY0Tc+PLZw28JlCh8VJhPo4zq1+gAAAABJRU5ErkJggg=='
 )
 CategoricalColorIcons.set(
   'modulate_dark',
@@ -15885,6 +15885,7 @@ function _arrayLikeToArray$2(arr, len) {
   }
   return arr2
 }
+var REMOVED_COLOR_MAPS = ['Purples', 'Oranges', 'PuBu', 'BuPu', 'BuGn', 'GnBu']
 
 function createColorMapIconSelector(colorMapSelectorDiv) {
   var rows = 20
@@ -15907,10 +15908,25 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
   colorMapSelectorDiv.style.width = '186px' // put above lower down label map color selector
 
   colorMapSelectorDiv.style.zIndex = '2001'
-  var icons = new Array(rows * cols)
+  var filteredIcons = new Map(
+    Array.from(ColorMapIcons.entries())
+      .filter(function(_ref) {
+        var _ref2 = _slicedToArray(_ref, 1),
+          name = _ref2[0]
+
+        return !REMOVED_COLOR_MAPS.includes(name)
+      })
+      .concat(
+        Array.from(CategoricalColorIcons.entries()).slice(
+          0,
+          REMOVED_COLOR_MAPS.length
+        )
+      )
+  )
+  var icons = new Array(Math.min(rows * cols, filteredIcons.size))
   var count = 0
 
-  var _iterator = _createForOfIteratorHelper$2(ColorMapIcons.entries()),
+  var _iterator = _createForOfIteratorHelper$2(filteredIcons.entries()),
     _step
 
   try {
@@ -17584,32 +17600,23 @@ function applyColorRangeBounds(context, event) {
 }
 
 function applyColorMap(context, _ref) {
-  var _context$images$color
-
   var _ref$data = _ref.data,
     component = _ref$data.component,
-    name = _ref$data.name,
-    colorMap = _ref$data.colorMap
+    name = _ref$data.name
   var actorContext = context.images.actorContext.get(name)
-  var colorTransferFunction =
-    (_context$images$color = context.images.colorTransferFunctions) === null ||
-    _context$images$color === void 0
-      ? void 0
-      : _context$images$color.get(component)
+  var colorMap = actorContext.colorMaps.get(component)
 
   if (component === actorContext.selectedComponent) {
+    var _context$images$color
+
     context.images.iconSelector.setSelectedValue(colorMap)
+    var colorTransferFunction =
+      (_context$images$color = context.images.colorTransferFunctions) ===
+        null || _context$images$color === void 0
+        ? void 0
+        : _context$images$color.get(component)
 
     if (colorTransferFunction) {
-      var cmap = ColorMaps.get(colorMap)
-      colorTransferFunction.applyColorMap(cmap)
-
-      if (actorContext.colorRanges.has(component)) {
-        var range = actorContext.colorRanges.get(component)
-        colorTransferFunction.setMappingRange(range[0], range[1])
-        colorTransferFunction.updateRange()
-      }
-
       context.images.transferFunctionWidget.setColorTransferFunction(
         colorTransferFunction
       )

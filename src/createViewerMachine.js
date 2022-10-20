@@ -230,6 +230,9 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
                 forwardTo('eventEmitter'),
               ],
             },
+            IMAGE_COLOR_MAP_DEPENDENCIES_UPDATE: {
+              actions: forwardTo('ui'),
+            },
             TOGGLE_IMAGE_SHADOW: {
               actions: [
                 forwardTo('ui'),

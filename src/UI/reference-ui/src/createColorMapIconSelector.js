@@ -1,5 +1,14 @@
 import { IconSelect } from '@thewtex/iconselect.js/lib/control/iconselect'
-import { ColorMapIcons } from 'itk-viewer-color-maps'
+import { ColorMapIcons, CategoricalColorIcons } from 'itk-viewer-color-maps'
+
+const REMOVED_COLOR_MAPS = [
+  'Purples',
+  'Oranges',
+  'PuBu',
+  'BuPu',
+  'BuGn',
+  'GnBu',
+]
 
 function createColorMapIconSelector(colorMapSelectorDiv) {
   const rows = 20
@@ -23,9 +32,20 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
   // put above lower down label map color selector
   colorMapSelectorDiv.style.zIndex = '2001'
 
-  const icons = new Array(rows * cols)
+  const filteredIcons = new Map(
+    Array.from(ColorMapIcons.entries())
+      .filter(([name]) => !REMOVED_COLOR_MAPS.includes(name))
+      .concat(
+        Array.from(CategoricalColorIcons.entries()).slice(
+          0,
+          REMOVED_COLOR_MAPS.length
+        )
+      )
+  )
+
+  const icons = new Array(Math.min(rows * cols, filteredIcons.size))
   let count = 0
-  for (let [key, value] of ColorMapIcons.entries()) {
+  for (let [key, value] of filteredIcons.entries()) {
     const index = Math.floor(count % rows) * cols + Math.floor(count / rows)
     icons[index] = { iconFilePath: value, iconValue: key }
     count++

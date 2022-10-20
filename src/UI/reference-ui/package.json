@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.6",
-    "itk-viewer-color-maps": "^1.0.3",
+    "itk-viewer-color-maps": "^1.1.0",
     "itk-viewer-icons": "^11.13.0",
     "itk-viewer-transfer-function-editor": "^1.2.0"
   }

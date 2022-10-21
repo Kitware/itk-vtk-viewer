@@ -1,15 +1,6 @@
 import { IconSelect } from '@thewtex/iconselect.js/lib/control/iconselect'
 import { ColorMapIcons, CategoricalColorIcons } from 'itk-viewer-color-maps'
 
-const REMOVED_COLOR_MAPS = [
-  'Purples',
-  'Oranges',
-  'PuBu',
-  'BuPu',
-  'BuGn',
-  'GnBu',
-]
-
 function createColorMapIconSelector(colorMapSelectorDiv) {
   const rows = 20
   const cols = 4
@@ -33,14 +24,11 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
   colorMapSelectorDiv.style.zIndex = '2001'
 
   const filteredIcons = new Map(
-    Array.from(ColorMapIcons.entries())
-      .filter(([name]) => !REMOVED_COLOR_MAPS.includes(name))
-      .concat(
-        Array.from(CategoricalColorIcons.entries()).slice(
-          0,
-          REMOVED_COLOR_MAPS.length
-        )
+    Array.from(ColorMapIcons.entries()).concat(
+      Array.from(CategoricalColorIcons.entries()).filter(
+        ([name]) => !name.startsWith('modulate')
       )
+    )
   )
 
   const icons = new Array(Math.min(rows * cols, filteredIcons.size))

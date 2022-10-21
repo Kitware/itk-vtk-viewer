@@ -2,7 +2,7 @@ import { IconSelect } from '@thewtex/iconselect.js/lib/control/iconselect'
 import { ColorMapIcons } from 'itk-viewer-color-maps'
 
 function createColorMapIconSelector(colorMapSelectorDiv) {
-  const rows = 20
+  const rows = 19
   const cols = 4
   const iconSelectParameters = {
     selectedIconWidth: 230,
@@ -27,7 +27,8 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
     icons[index] = { iconFilePath: value, iconValue: key }
     count++
   }
-  iconSelect.refresh(icons)
+  const contiguousIcons = icons.filter(i => i)
+  iconSelect.refresh(contiguousIcons)
 
   return iconSelect
 }

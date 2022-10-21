@@ -13,6 +13,7 @@ function applyColorMap(context, { data: { name, colorMap, component } }) {
   colorTransferFunction.applyColorMap(
     getColorMap(colorMap, component + COLOR_OFFSET)
   )
+  colorTransferFunction.modified() // applyColorMap does not always trigger modified()
   if (actorContext.colorRanges.has(component)) {
     const range = actorContext.colorRanges.get(component)
     colorTransferFunction.setMappingRange(range[0], range[1])

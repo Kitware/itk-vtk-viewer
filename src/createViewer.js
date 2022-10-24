@@ -229,27 +229,6 @@ const createViewer = async (
   context.service = service
   service.start()
 
-  let imageName = null
-  if (image) {
-    const multiscaleImage = await toMultiscaleSpatialImage(image)
-    imageName = multiscaleImage?.name ?? null
-    service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
-  }
-
-  if (labelImage) {
-    const multiscaleLabelImage = await toMultiscaleSpatialImage(
-      labelImage,
-      true
-    )
-    if (multiscaleLabelImage.name === 'Image') {
-      multiscaleLabelImage.name = 'LabelImage'
-    }
-    service.send({
-      type: 'ADD_LABEL_IMAGE',
-      data: { imageName, labelImage: multiscaleLabelImage },
-    })
-  }
-
   reaction(
     () =>
       !!store.geometriesUI.geometries && store.geometriesUI.geometries.slice(),
@@ -857,8 +836,7 @@ const createViewer = async (
     return actorContext.colorMaps.get(componentIndex)
   }
 
-  publicAPI.setLabelImage = async labelImage => {
-    const imageName = context.images.selectedName
+  publicAPI.setLabelImage = async (labelImage, layerImageName) => {
     const multiscaleLabelImage = await toMultiscaleSpatialImage(
       labelImage,
       true
@@ -866,10 +844,14 @@ const createViewer = async (
     if (multiscaleLabelImage.name === 'Image') {
       multiscaleLabelImage.name = 'LabelImage'
     }
+
+    const imageName =
+      layerImageName ?? context.images.selectedName ?? multiscaleLabelImage.name
     service.send({
       type: 'ADD_LABEL_IMAGE',
       data: { imageName, labelImage: multiscaleLabelImage },
     })
+    publicAPI.setImageInterpolationEnabled(false, imageName)
   }
 
   publicAPI.getLabelImage = () => {
@@ -1194,6 +1176,17 @@ const createViewer = async (
   }
 
   addKeyboardShortcuts(context.uiContainer, service)
+
+  let imageName = null
+  if (image) {
+    const multiscaleImage = await toMultiscaleSpatialImage(image)
+    imageName = multiscaleImage?.name ?? null
+    service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
+  }
+
+  if (labelImage) {
+    publicAPI.setLabelImage(labelImage, imageName)
+  }
 
   if (!use2D) {
     publicAPI.setRotateEnabled(rotate)

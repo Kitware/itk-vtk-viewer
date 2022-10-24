@@ -1,5 +1,4 @@
-title: API
----
+## title: API
 
 This documentation provides more detailed information about the viewer application programming interface (API).
 
@@ -95,7 +94,7 @@ Select the layer identified by `name` in the user interface.
 
 ### setCroppingPlanes(croppingPlanes)
 
-The croppingPlanes parameter is an array of plane defining objects. Example: `[ { normal: [1, 0, 0], origin: [1, 2, 3] }, ...]`. Maximum number of planes is 6.  
+The croppingPlanes parameter is an array of plane defining objects. Example: `[ { normal: [1, 0, 0], origin: [1, 2, 3] }, ...]`. Maximum number of planes is 6.
 
 ### getCroppingPlanes(): [ { normal: [number, number, number], origin: [number, number, number] }, ...]
 
@@ -103,7 +102,7 @@ Returns array of plane objects.
 
 ### resetCroppingPlanes()
 
-Sets cropping box to encompass all images and geometries 
+Sets cropping box to encompass all images and geometries
 
 ### setCroppingPlanesEnabled(enabled)
 
@@ -118,9 +117,11 @@ Control visibility of croppingPlanes
 Set the image to be visualized. Can be an [itk.js Image](https://insightsoftwareconsortium.github.io/itk-js/api/Image.html) or a [scijs ndarray](http://scijs.net/packages/#scijs/ndarray) for JavaScript; for Python, it can be a [numpy](https://numpy.org) array.
 
 ### setPointSets(pointSets)
+
 Set a set of points to be visualized. It can be an array of or a single imjoy-rpc encoded ndarray. The ndarray should be an array with the shape [x, 2] or [x, 3].
 
 ### captureImage()
+
 Take a screenshot for the current view and return a base64 encoded image string.
 
 ### setImageInterpolationEnabled(enabled)
@@ -168,9 +169,9 @@ the volume rendering opacity transfer function and multi-component slice blendin
 
 ### getImagePiecewiseFunctionPoints(component, name)
 
-Set/get the points defining the piecewise volume opacity transfer and multi-component 
-slice blending function.  Parameter points is of type `[intensity: number, opacity:number][]` with
-intensity and opacity values going from 0 to 1.  The 0 to 1 intensity values are scaled between
+Set/get the points defining the piecewise volume opacity transfer and multi-component
+slice blending function. Parameter points is of type `[intensity: number, opacity:number][]` with
+intensity and opacity values going from 0 to 1. The 0 to 1 intensity values are scaled between
 the component's range of intensity values.
 Example: If the intensity values for component 0 go from 100 to 200,
 `viewer.setImagePiecewiseFunctionPoints([[0, 0], [.5, 1]], 0)` puts a point at intensity 100 and another at intensity 150.
@@ -209,6 +210,11 @@ Set/get the depth sampling distance in the volume rendering. Values range from 0
 
 Set/get the volume rendering blend mode. Supported modes: 'Composite',
 'Maximum', 'Minimum', 'Average'.
+
+### setLabelImage(labelImageToLoad, layerImageName)
+
+Loads a label image and fuses with selected image or layerImageName.
+setLabelImage disables 2D image interpolation.
 
 ### setLabelImageLookupTable(lookupTable, name)
 

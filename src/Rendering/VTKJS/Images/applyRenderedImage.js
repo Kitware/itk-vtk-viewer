@@ -11,6 +11,7 @@ import {
   updateCroppingParametersFromImage,
 } from '../Main/croppingPlanes'
 import applyLookupTable from './applyLookupTable'
+import toggleInterpolation from './toggleInterpolation'
 
 const ANNOTATION_DEFAULT =
   '<table style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
@@ -98,6 +99,8 @@ function applyRenderedImage(context, { data: { name } }) {
       .get('volume')
       .querySelector('.js-se')
     annotationContainer.style.fontFamily = 'monospace'
+
+    toggleInterpolation(context, { data: name })
 
     const { widgetCroppingPlanes } = context.main
     const sliceActors = representationProxy.getActors()

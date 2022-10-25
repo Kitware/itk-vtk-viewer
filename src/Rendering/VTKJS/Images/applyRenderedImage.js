@@ -167,18 +167,11 @@ function applyRenderedImage(context, { data: { name } }) {
 
     context.images.colorTransferFunctions.set(component, colorTransferFunction)
 
-    if (actorContext.colorMaps.has(component)) {
-      const colorMapName = actorContext.colorMaps.get(component)
-      if (!ColorMaps.has(colorMapName)) {
-        console.error(`Color map ${colorMapName} requested by not available`)
-      }
-      const cmap = ColorMaps.get(colorMapName)
-      colorTransferFunction.applyColorMap(cmap)
-      context.service.send({
-        type: 'IMAGE_COLOR_MAP_CHANGED',
-        data: { name, component, colorMap: colorMapName },
-      })
-    }
+    const colorMap = actorContext.colorMaps.get(component)
+    context.service.send({
+      type: 'IMAGE_COLOR_MAP_CHANGED',
+      data: { name, component, colorMap },
+    })
   }
   for (let component = 0; component < numberOfComponents; component++) {
     if (context.images.piecewiseFunctions.has(component)) {

@@ -15680,8 +15680,8 @@ const Container = parent => {
   }
   const domToNormalized = (x, y) => {
     const { top, left, width, height } = getSize()
-    const valueRange = viewBox[1] - viewBox[0]
-    const opacityRange = viewBox[3] - viewBox[2]
+    const valueRange = viewBox[1] - viewBox[0] || 1e-3
+    const opacityRange = viewBox[3] - viewBox[2] || 1e-3
     return [
       ((x - left) / width) * valueRange + viewBox[0],
       (1 - (y - top) / height) * opacityRange + viewBox[2],
@@ -15689,9 +15689,9 @@ const Container = parent => {
   }
   const normalizedToSvg = (x, y) => {
     const { width, height } = getSize()
-    const valueRange = viewBox[1] - viewBox[0]
+    const valueRange = viewBox[1] - viewBox[0] || 1e-3
     const xSvg = ((x - viewBox[0]) / valueRange) * width + PADDING
-    const opacityRange = viewBox[3] - viewBox[2]
+    const opacityRange = viewBox[3] - viewBox[2] || 1e-3
     const ySvg = (1 - (y - viewBox[2]) / opacityRange) * height + PADDING
     return [xSvg, ySvg]
   }
@@ -16014,8 +16014,6 @@ class Line {
 const SCALE_SENSITIVITY = 1.1
 const WheelZoom = container => {
   container.root.addEventListener('wheel', e => {
-    e.preventDefault()
-    e.stopPropagation()
     const scaleFactor = e.deltaY > 0 ? SCALE_SENSITIVITY : 1 / SCALE_SENSITIVITY
     const [targetX] = container.domToNormalized(e.clientX, e.clientY)
     const [left, right] = container.getViewBox()
@@ -16024,6 +16022,11 @@ const WheelZoom = container => {
       left - Math.max(0, targetX - left) * (scaleFactor - 1)
     )
     const newRight = Math.min(1, (right - left) * scaleFactor + newLeft)
+    if (newLeft === left && newRight === right) {
+      return
+    }
+    e.preventDefault()
+    e.stopPropagation()
     container.setViewBox(newLeft, newRight)
   })
 }
@@ -16093,6 +16096,7 @@ const updateColorCanvas = (
   return workCanvas
 }
 const logTransform = histogram => {
+  if (!histogram) return []
   const loged = histogram.map(v => (v === 0 ? 0 : Math.log(v)))
   const noZeros = loged.filter(Boolean)
   const min = Math.min(...noZeros)

@@ -1,6 +1,13 @@
 import style from './ItkVtkViewer.module.css'
 
-import createCollapseUIButton from './createCollapseUIButton'
+import './collapse-ui'
+import { setContext } from './context'
+
+const makeElement = htmlString => {
+  const template = document.createElement('template')
+  template.innerHTML = htmlString
+  return template.content.firstElementChild
+}
 
 function createInterface(context) {
   context.viewContainers = new Map()
@@ -8,6 +15,7 @@ function createInterface(context) {
   viewContainer.className = `${style.viewContainer}`
   context.viewContainers.set('volume', viewContainer)
   context.rootContainer.appendChild(viewContainer)
+  setContext(viewContainer, context)
 
   const viewport = document.createElement('div')
   viewContainer.appendChild(viewport)
@@ -23,16 +31,19 @@ function createInterface(context) {
     context.uiContainer = uiContainer
     viewport.appendChild(uiContainer)
   } else {
-    // if somehow already set (by non reference configured UI?)
+    // if somehow already set (by non reference-ui from config obj?)
     viewport.appendChild(context.uiContainer)
   }
 
   if (!context.uiGroups) {
-    // String to UI group element map
+    // String to UI group element
     context.uiGroups = new Map()
   }
 
-  createCollapseUIButton(context)
+  const collapseUIButton = makeElement(`
+    <collapse-ui />
+  `)
+  context.uiContainer.appendChild(collapseUIButton)
 }
 
 export default createInterface

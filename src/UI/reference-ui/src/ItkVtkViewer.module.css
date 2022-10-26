@@ -352,11 +352,6 @@
   -webkit-filter: invert(100%);
 }
 
-.collapseUIButton {
-  width: 1.5em;
-  cursor: pointer;
-}
-
 .screenshotButton {
   flex: 1;
   width: 8mm;

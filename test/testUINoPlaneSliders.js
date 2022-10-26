@@ -1,3 +1,4 @@
+import './customElementsDefineOverride.js'
 import referenceUIMachineOptions from '../src/UI/reference-ui/src/referenceUIMachineOptions.js'
 
 import style from '../src/UI/reference-ui/src/ItkVtkViewer.module.css'

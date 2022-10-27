@@ -1,5 +1,3 @@
-import applyGroupVisibility from './applyGroupVisibility'
-
 function toggleUICollapsed(context, event, actionMeta) {
   if (!context.uiContainer) {
     return
@@ -9,31 +7,13 @@ function toggleUICollapsed(context, event, actionMeta) {
       actionMeta.state.value.active.uiCollapsed === 'enabled'
   }
 
-  if (context.uiCollapsed) {
-    applyGroupVisibility(
-      context,
-      [
-        'main',
-        'layers',
-        'widgets',
-        'images',
-        'labelImages',
-        'labelImageWeights',
-      ],
-      !context.uiCollapsed
-    )
-  } else {
-    applyGroupVisibility(
-      context,
-      ['main', 'layers', 'widgets'],
-      !context.uiCollapsed
-    )
-    if (context.images.selectedName) {
-      context.service.send({
-        type: 'SELECT_LAYER',
-        data: context.images.selectedName,
-      })
-    }
+  context.drawer.opened = !context.uiCollapsed
+
+  if (!context.uiCollapsed && context.images.selectedName) {
+    context.service.send({
+      type: 'SELECT_LAYER',
+      data: context.images.selectedName,
+    })
   }
 
   if (!context.use2D && !!context.main.planeUIGroup) {

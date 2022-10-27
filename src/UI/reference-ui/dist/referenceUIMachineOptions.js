@@ -28,13 +28,14 @@ function styleInject(css, ref) {
 }
 
 var css_248z$1 =
-  ".ItkVtkViewer-module_loading__11c63 {\n  border: 16px solid #f3f3f3; /* Light grey */\n  border-top: 16px solid #3498db; /* Blue */\n  border-radius: 50%;\n  width: 120px;\n  height: 120px;\n  position: absolute;\n  left: calc(50% - 60px);\n  top: calc(50% - 60px);\n  -webkit-animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n          animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n  box-sizing: border-box;\n}\n\n@-webkit-keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_viewContainer__-5zNz {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  display: flex;\n  flex-direction: column;\n  background: rgba(128, 128, 128, 0.8);\n}\n\n.ItkVtkViewer-module_viewport__BMgOt {\n  position: relative;\n  flex: 1;\n  min-height: 0;\n}\n\n.ItkVtkViewer-module_uiContainer__CiawP {\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 1000;\n  overflow-x: hidden;\n  max-height: 100%;\n\n  display: flex;\n  align-items: stretch;\n  flex-direction: column;\n  padding: 6px 0 0 6px;\n  border: 0px;\n  box-sizing: border-box;\n}\n\n.ItkVtkViewer-module_uiGroup__ad-WI {\n  background: rgba(128, 128, 128, 0.5);\n  border-radius: 4px;\n  margin: 2px;\n}\n\n.ItkVtkViewer-module_uiRow__KTQa8 {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  align-items: center;\n  justify-content: space-between;\n  padding: 5px;\n}\n\n.ItkVtkViewer-module_mainUIRow__vTXih {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_planeUIRow__D5gCh {\n  background: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_layersUIRow__0LDm5 {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_progress__WydXH {\n  color: white;\n  font-size: 200%;\n  height: 100vh;\n  width: 100vw;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 100vh;\n}\n\n.ItkVtkViewer-module_piecewiseWidget__5gKl5 {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_logo__9ErCF {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  height: 2em;\n  width: 2em;\n  cursor: pointer;\n  z-index: 100;\n}\n\n.ItkVtkViewer-module_fpsMonitor__bnwqr {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  border-radius: 5px;\n  background: rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n  z-index: 101;\n}\n\n[itk-vtk-tooltip] {\n  position: relative;\n}\n[itk-vtk-tooltip]::before {\n  content: attr(itk-vtk-tooltip-content);\n  visibility: hidden;\n  position: absolute;\n  top: 50%;\n  right: calc(100% + 16px);\n  width: 400%;\n  padding: 4px 6px;\n  text-align: center;\n  text-transform: none;\n  font-size: 0.9em;\n  font-family: monospace;\n  border-radius: 3px;\n  background: rgba(0.9, 0.9, 0.9, 0.95);\n  color: white;\n  opacity: 0;\n  transform: translate(15px, -50%);\n  transition-property: all;\n  transition-duration: 0.3s;\n  transition-timing-function: ease-in-out;\n  transition-delay: 0.8s;\n  z-index: 1;\n}\n\n[itk-vtk-tooltip]:hover::before {\n  opacity: 1;\n  visibility: visible;\n  transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-bottom]::before {\n  top: calc(100% + 16px);\n  left: 50%;\n  right: initial;\n  transform: translate(-50%, -15px);\n}\n[itk-vtk-tooltip-bottom]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-right]::before {\n  top: 50%;\n  left: calc(100% + 16px);\n  right: initial;\n  transform: translate(-15px, -50%);\n}\n[itk-vtk-tooltip-right]:hover::before {\n  transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-top-screenshot]::before {\n  top: initial;\n  left: 260%;\n  right: initial;\n  bottom: calc(100% + 8px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-screenshot]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-annotations]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-annotations]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-axes]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-axes]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-fullscreen]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top]::before {\n  top: initial;\n  left: 60%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n\n.ItkVtkViewer-module_layerEntryCommon__oIE1u {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n  border-style: solid;\n  border-width: 2px;\n}\n\n.ItkVtkViewer-module_layerEntryBrightBG__qXyI2 {\n  border-color: #666;\n}\n\n.ItkVtkViewer-module_layerEntryDarkBG__BmiCj {\n  border-color: #aaa;\n}\n\n.ItkVtkViewer-module_layerLabelCommon__kTiO9 {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_layerLabelBrightBG__vAfex {\n  color: black;\n}\n\n.ItkVtkViewer-module_layerLabelDarkBG__sM6Bg {\n  color: white;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc {\n  flex-basis: 2.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 8px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_iconGroup__qqZrW {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_ldsRing__QT1wT {\n  display: inline-block;\n  position: relative;\n  width: 20px;\n  height: 20px;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div {\n  box-sizing: border-box;\n  display: block;\n  position: absolute;\n  width: 1em;\n  height: 1em;\n  margin: 0;\n  border: 0.15em solid #000;\n  border-radius: 50%;\n  -webkit-animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n          animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n  border-color: #000 transparent transparent transparent;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(1) {\n  -webkit-animation-delay: -0.45s;\n          animation-delay: -0.45s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(2) {\n  -webkit-animation-delay: -0.3s;\n          animation-delay: -0.3s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(3) {\n  -webkit-animation-delay: -0.15s;\n          animation-delay: -0.15s;\n}\n@-webkit-keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_tooltipButtonBrightBG__yffVf::before {\n}\n\n.ItkVtkViewer-module_tooltipButtonDarkBG__gEu0i::before {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_invertibleButtonBrightBG__VmIfT {\n}\n\n.ItkVtkViewer-module_invertibleButtonDarkBG__GoKgD {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 {\n  flex: 1;\n  width: 8m;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 2px;\n  padding-right: 4px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ img {\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceEntry__zXMUS {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: self-start;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceLabelCommon__Ec-uc {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceLabelBrightBG__aYmfG {\n  color: black;\n}\n\n.ItkVtkViewer-module_distanceLabelDarkBG__kYXvI {\n  color: white;\n}\n\n.ItkVtkViewer-module_distanceInput__gyNaU {\n  background: transparent;\n  color: white;\n  font-size: 1em;\n  width: 80px;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 0px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_toggleInput__jHLTo {\n  margin: 0px;\n  width: 0;\n  opacity: 0;\n  box-sizing: content-box;\n}\n\n.ItkVtkViewer-module_toggleButton__qHhHZ {\n  cursor: pointer;\n  border-radius: 0.2em;\n  opacity: 0.45;\n}\n\ninput:checked.ItkVtkViewer-module_toggleInput__jHLTo + label {\n  opacity: 1;\n}\n\n.ItkVtkViewer-module_numberInput__pDxYH {\n  color: white;\n  background: transparent;\n  font-size: 1em;\n  padding-left: 2px;\n  width: 70px;\n}\n\n.ItkVtkViewer-module_selector__yw8l- {\n  display: flex;\n  direction: row;\n  font-size: 1.2em;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n\n.ItkVtkViewer-module_disableInterface__CGB4S {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(40, 40, 40, 0.5);\n  padding: 5px;\n  margin-right: 2px;\n  border-radius: 5px 5px 0px 0px;\n  color: #777;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:hover + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(90, 90, 90, 0.5);\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:checked + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(127, 127, 127, 0.5);\n  color: #fff;\n}\n\n.ItkVtkViewer-module_componentVisibility__y1rRS {\n  position: relative;\n  top: -2px;\n  margin-left: 10px;\n}\n\nselect {\n  -moz-appearance: none;\n}\n\nselect option {\n  color: black;\n}\n\nselect:focus {\n  outline: none;\n  border: none;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderColumn__ZwISb {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  padding: 0 5px;\n}\n\n.ItkVtkViewer-module_sliderIcon__jfoL- {\n  width: 1.8em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 8px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderEntry__3r3gO {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n\n.ItkVtkViewer-module_slider__eT9qm {\n  flex: 1;\n  min-height: 1rem;\n}\n\n.ItkVtkViewer-module_planeLabel__E1zOk {\n  padding-left: 6px;\n  padding: 2px;\n  display: block;\n  font-size: 1.1em;\n  font-family: monospace;\n  color: black;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_xPlaneLabel__wK4Cb {\n  background-color: #ef5350;\n}\n\n.ItkVtkViewer-module_yPlaneLabel__rIm0j {\n  background-color: #fdd835;\n}\n\n.ItkVtkViewer-module_zPlaneLabel__94NL7 {\n  background-color: #4caf50;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ {\n  z-index: 1100;\n  position: relative;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ input {\n  position: absolute;\n  bottom: 20px;\n  left: -24px;\n  width: 12px;\n  -ms-writing-mode: bt-lr;\n      writing-mode: bt-lr;\n  -webkit-appearance: slider-vertical;\n}\n\n.ItkVtkViewer-module_bigFileDrop__cZdkP {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  background-color: white;\n  background-image: url('./dropBG.jpg');\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: contain;\n  border-radius: 10px;\n  width: 50px;\n  padding: calc(50vh - 2em) calc(50vw - 25px - 2em);\n}\n\n.ItkVtkViewer-module_fullscreenContainer__-H3c8 {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  background: black;\n  margin: 0;\n  padding: 0;\n}\n"
+  ".ItkVtkViewer-module_loading__11c63 {\n  border: 16px solid #f3f3f3; /* Light grey */\n  border-top: 16px solid #3498db; /* Blue */\n  border-radius: 50%;\n  width: 120px;\n  height: 120px;\n  position: absolute;\n  left: calc(50% - 60px);\n  top: calc(50% - 60px);\n  -webkit-animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n          animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n  box-sizing: border-box;\n}\n\n@-webkit-keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_viewContainer__-5zNz {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  display: flex;\n  flex-direction: column;\n  background: rgba(128, 128, 128, 0.8);\n}\n\n.ItkVtkViewer-module_viewport__BMgOt {\n  position: relative;\n  flex: 1;\n  min-height: 0;\n}\n\n.ItkVtkViewer-module_uiContainer__CiawP {\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 1000;\n\n  height: -webkit-fit-content;\n\n  height: -moz-fit-content;\n\n  height: fit-content;\n  max-height: 100%;\n\n  display: flex;\n\n  padding: 6px 0 0 6px;\n  border: 0px;\n  box-sizing: border-box;\n\n  --md-navigation-drawer-container-shape-start-end: 0;\n  --md-navigation-drawer-container-shape-end-end: 0;\n  --md-navigation-drawer-container-color: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_drawer__b66eM {\n  overflow: hidden auto;\n}\n\n.ItkVtkViewer-module_uiGroup__ad-WI {\n  background: rgba(128, 128, 128, 0.5);\n  border-radius: 4px;\n  margin: 2px;\n}\n\n.ItkVtkViewer-module_uiRow__KTQa8 {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  align-items: center;\n  justify-content: space-between;\n  padding: 5px;\n}\n\n.ItkVtkViewer-module_mainUIRow__vTXih {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_planeUIRow__D5gCh {\n  background: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_layersUIRow__0LDm5 {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_progress__WydXH {\n  color: white;\n  font-size: 200%;\n  height: 100vh;\n  width: 100vw;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 100vh;\n}\n\n.ItkVtkViewer-module_piecewiseWidget__5gKl5 {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_logo__9ErCF {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  height: 2em;\n  width: 2em;\n  cursor: pointer;\n  z-index: 100;\n}\n\n.ItkVtkViewer-module_fpsMonitor__bnwqr {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  border-radius: 5px;\n  background: rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n  z-index: 101;\n}\n\n[itk-vtk-tooltip] {\n  position: relative;\n}\n[itk-vtk-tooltip]::before {\n  content: attr(itk-vtk-tooltip-content);\n  visibility: hidden;\n  position: absolute;\n  top: 50%;\n  right: calc(100% + 16px);\n  width: 400%;\n  padding: 4px 6px;\n  text-align: center;\n  text-transform: none;\n  font-size: 0.9em;\n  font-family: monospace;\n  border-radius: 3px;\n  background: rgba(0.9, 0.9, 0.9, 0.95);\n  color: white;\n  opacity: 0;\n  transform: translate(15px, -50%);\n  transition-property: all;\n  transition-duration: 0.3s;\n  transition-timing-function: ease-in-out;\n  transition-delay: 0.8s;\n  z-index: 1;\n}\n\n[itk-vtk-tooltip]:hover::before {\n  opacity: 1;\n  visibility: visible;\n  transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-bottom]::before {\n  top: calc(100% + 16px);\n  left: 50%;\n  right: initial;\n  transform: translate(-50%, -15px);\n}\n[itk-vtk-tooltip-bottom]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-right]::before {\n  top: 50%;\n  left: calc(100% + 16px);\n  right: initial;\n  transform: translate(-15px, -50%);\n}\n[itk-vtk-tooltip-right]:hover::before {\n  transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-top-screenshot]::before {\n  top: initial;\n  left: 260%;\n  right: initial;\n  bottom: calc(100% + 8px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-screenshot]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-annotations]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-annotations]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-axes]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-axes]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-fullscreen]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top]::before {\n  top: initial;\n  left: 60%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n\n.ItkVtkViewer-module_layerEntryCommon__oIE1u {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n  border-style: solid;\n  border-width: 2px;\n}\n\n.ItkVtkViewer-module_layerEntryBrightBG__qXyI2 {\n  border-color: #666;\n}\n\n.ItkVtkViewer-module_layerEntryDarkBG__BmiCj {\n  border-color: #aaa;\n}\n\n.ItkVtkViewer-module_layerLabelCommon__kTiO9 {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_layerLabelBrightBG__vAfex {\n  color: black;\n}\n\n.ItkVtkViewer-module_layerLabelDarkBG__sM6Bg {\n  color: white;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc {\n  flex-basis: 2.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 8px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_iconGroup__qqZrW {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_ldsRing__QT1wT {\n  display: inline-block;\n  position: relative;\n  width: 20px;\n  height: 20px;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div {\n  box-sizing: border-box;\n  display: block;\n  position: absolute;\n  width: 1em;\n  height: 1em;\n  margin: 0;\n  border: 0.15em solid #000;\n  border-radius: 50%;\n  -webkit-animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n          animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n  border-color: #000 transparent transparent transparent;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(1) {\n  -webkit-animation-delay: -0.45s;\n          animation-delay: -0.45s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(2) {\n  -webkit-animation-delay: -0.3s;\n          animation-delay: -0.3s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(3) {\n  -webkit-animation-delay: -0.15s;\n          animation-delay: -0.15s;\n}\n@-webkit-keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_tooltipButtonBrightBG__yffVf::before {\n}\n\n.ItkVtkViewer-module_tooltipButtonDarkBG__gEu0i::before {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_invertibleButtonBrightBG__VmIfT {\n}\n\n.ItkVtkViewer-module_invertibleButtonDarkBG__GoKgD {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 {\n  flex: 1;\n  width: 8m;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 2px;\n  padding-right: 4px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ img {\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceEntry__zXMUS {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: self-start;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceLabelCommon__Ec-uc {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceLabelBrightBG__aYmfG {\n  color: black;\n}\n\n.ItkVtkViewer-module_distanceLabelDarkBG__kYXvI {\n  color: white;\n}\n\n.ItkVtkViewer-module_distanceInput__gyNaU {\n  background: transparent;\n  color: white;\n  font-size: 1em;\n  width: 80px;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 0px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_toggleInput__jHLTo {\n  margin: 0px;\n  width: 0;\n  opacity: 0;\n  box-sizing: content-box;\n}\n\n.ItkVtkViewer-module_toggleButton__qHhHZ {\n  cursor: pointer;\n  border-radius: 0.2em;\n  opacity: 0.45;\n}\n\ninput:checked.ItkVtkViewer-module_toggleInput__jHLTo + label {\n  opacity: 1;\n}\n\n.ItkVtkViewer-module_numberInput__pDxYH {\n  color: white;\n  background: transparent;\n  font-size: 1em;\n  padding-left: 2px;\n  width: 70px;\n}\n\n.ItkVtkViewer-module_selector__yw8l- {\n  display: flex;\n  direction: row;\n  font-size: 1.2em;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n\n.ItkVtkViewer-module_disableInterface__CGB4S {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(40, 40, 40, 0.5);\n  padding: 5px;\n  margin-right: 2px;\n  border-radius: 5px 5px 0px 0px;\n  color: #777;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:hover + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(90, 90, 90, 0.5);\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:checked + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(127, 127, 127, 0.5);\n  color: #fff;\n}\n\n.ItkVtkViewer-module_componentVisibility__y1rRS {\n  position: relative;\n  top: -2px;\n  margin-left: 10px;\n}\n\nselect {\n  -moz-appearance: none;\n}\n\nselect option {\n  color: black;\n}\n\nselect:focus {\n  outline: none;\n  border: none;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderColumn__ZwISb {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  padding: 0 5px;\n}\n\n.ItkVtkViewer-module_sliderIcon__jfoL- {\n  width: 1.8em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 8px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderEntry__3r3gO {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n\n.ItkVtkViewer-module_slider__eT9qm {\n  flex: 1;\n  min-height: 1rem;\n}\n\n.ItkVtkViewer-module_planeLabel__E1zOk {\n  padding-left: 6px;\n  padding: 2px;\n  display: block;\n  font-size: 1.1em;\n  font-family: monospace;\n  color: black;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_xPlaneLabel__wK4Cb {\n  background-color: #ef5350;\n}\n\n.ItkVtkViewer-module_yPlaneLabel__rIm0j {\n  background-color: #fdd835;\n}\n\n.ItkVtkViewer-module_zPlaneLabel__94NL7 {\n  background-color: #4caf50;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ {\n  z-index: 1100;\n  position: relative;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ input {\n  position: absolute;\n  bottom: 20px;\n  left: -24px;\n  width: 12px;\n  -ms-writing-mode: bt-lr;\n      writing-mode: bt-lr;\n  -webkit-appearance: slider-vertical;\n}\n\n.ItkVtkViewer-module_bigFileDrop__cZdkP {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  background-color: white;\n  background-image: url('./dropBG.jpg');\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: contain;\n  border-radius: 10px;\n  width: 50px;\n  padding: calc(50vh - 2em) calc(50vw - 25px - 2em);\n}\n\n.ItkVtkViewer-module_fullscreenContainer__-H3c8 {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  background: black;\n  margin: 0;\n  padding: 0;\n}\n\n.ItkVtkViewer-module_collapseButton__uzHPY {\n  position: absolute;\n  top: 0;\n  right: -48px;\n}\n"
 var style = {
   loading: 'ItkVtkViewer-module_loading__11c63',
   spin: 'ItkVtkViewer-module_spin__mT5S6',
   viewContainer: 'ItkVtkViewer-module_viewContainer__-5zNz',
   viewport: 'ItkVtkViewer-module_viewport__BMgOt',
   uiContainer: 'ItkVtkViewer-module_uiContainer__CiawP',
+  drawer: 'ItkVtkViewer-module_drawer__b66eM',
   uiGroup: 'ItkVtkViewer-module_uiGroup__ad-WI',
   uiRow: 'ItkVtkViewer-module_uiRow__KTQa8',
   mainUIRow:
@@ -105,6 +106,7 @@ var style = {
   gradientOpacityScale: 'ItkVtkViewer-module_gradientOpacityScale__NrqOZ',
   bigFileDrop: 'ItkVtkViewer-module_bigFileDrop__cZdkP',
   fullscreenContainer: 'ItkVtkViewer-module_fullscreenContainer__-H3c8',
+  collapseButton: 'ItkVtkViewer-module_collapseButton__uzHPY',
 }
 styleInject(css_248z$1)
 
@@ -18705,18 +18707,402 @@ function __metadata(metadataKey, metadataValue) {
 
 /**
  * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const e$6 = e => n =>
+  'function' == typeof n
+    ? ((e, n) => (customElements.define(e, n), n))(e, n)
+    : ((e, n) => {
+        const { kind: t, elements: s } = n
+        return {
+          kind: t,
+          elements: s,
+          finisher(n) {
+            customElements.define(e, n)
+          },
+        }
+      })(e, n)
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const i$5 = (i, e) =>
+  'method' === e.kind && e.descriptor && !('value' in e.descriptor)
+    ? {
+        ...e,
+        finisher(n) {
+          n.createProperty(e.key, i)
+        },
+      }
+    : {
+        kind: 'field',
+        key: Symbol(),
+        placement: 'own',
+        descriptor: {},
+        originalKey: e.key,
+        initializer() {
+          'function' == typeof e.initializer &&
+            (this[e.key] = e.initializer.call(this))
+        },
+        finisher(n) {
+          n.createProperty(e.key, i)
+        },
+      }
+function e$5(e) {
+  return (n, t) =>
+    void 0 !== t
+      ? ((i, e, n) => {
+          e.constructor.createProperty(n, i)
+        })(e, n, t)
+      : i$5(e, n)
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ function t$3(t) {
+  return e$5({ ...t, state: !0 })
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const o$5 = ({ finisher: e, descriptor: t }) => (o, n) => {
+  var r
+  if (void 0 === n) {
+    const n = null !== (r = o.originalKey) && void 0 !== r ? r : o.key,
+      i =
+        null != t
+          ? {
+              kind: 'method',
+              placement: 'prototype',
+              key: n,
+              descriptor: t(o.key),
+            }
+          : { ...o, key: n }
+    return (
+      null != e &&
+        (i.finisher = function(t) {
+          e(t, n)
+        }),
+      i
+    )
+  }
+  {
+    const r = o.constructor
+    void 0 !== t && Object.defineProperty(o, n, t(n)), null == e || e(r, n)
+  }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ function i$4(i, n) {
+  return o$5({
+    descriptor: o => {
+      const t = {
+        get() {
+          var o, n
+          return null !==
+            (n =
+              null === (o = this.renderRoot) || void 0 === o
+                ? void 0
+                : o.querySelector(i)) && void 0 !== n
+            ? n
+            : null
+        },
+        enumerable: !0,
+        configurable: !0,
+      }
+      if (n) {
+        const n = 'symbol' == typeof o ? Symbol() : '__' + o
+        t.get = function() {
+          var o, t
+          return (
+            void 0 === this[n] &&
+              (this[n] =
+                null !==
+                  (t =
+                    null === (o = this.renderRoot) || void 0 === o
+                      ? void 0
+                      : o.querySelector(i)) && void 0 !== t
+                  ? t
+                  : null),
+            this[n]
+          )
+        }
+      }
+      return t
+    },
+  })
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ var n$5
+null !=
+(null === (n$5 = window.HTMLSlotElement) || void 0 === n$5
+  ? void 0
+  : n$5.prototype.assignedElements)
+  ? (o, n) => o.assignedElements(n)
+  : (o, n) => o.assignedNodes(n).filter(o => o.nodeType === Node.ELEMENT_NODE)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * TypeScript version of the decorator
+ * @see https://www.typescriptlang.org/docs/handbook/decorators.html#property-decorators
+ */
+function tsDecorator(prototype, name, descriptor) {
+  const constructor = prototype.constructor
+  if (!descriptor) {
+    /**
+     * lit uses internal properties with two leading underscores to
+     * provide storage for accessors
+     */
+    const litInternalPropertyKey = `__${name}`
+    descriptor = constructor.getPropertyDescriptor(name, litInternalPropertyKey)
+    if (!descriptor) {
+      throw new Error('@ariaProperty must be used after a @property decorator')
+    }
+  }
+  // descriptor must exist at this point, reassign so typescript understands
+  const propDescriptor = descriptor
+  let attribute = ''
+  if (!propDescriptor.set) {
+    throw new Error(`@ariaProperty requires a setter for ${name}`)
+  }
+  // TODO(b/202853219): Remove this check when internal tooling is
+  // compatible
+  // tslint:disable-next-line:no-any bail if applied to internal generated class
+  if (prototype.dispatchWizEvent) {
+    return descriptor
+  }
+  const wrappedDescriptor = {
+    configurable: true,
+    enumerable: true,
+    set(value) {
+      if (attribute === '') {
+        const options = constructor.getPropertyOptions(name)
+        // if attribute is not a string, use `name` instead
+        attribute =
+          typeof options.attribute === 'string' ? options.attribute : name
+      }
+      if (this.hasAttribute(attribute)) {
+        this.removeAttribute(attribute)
+      }
+      propDescriptor.set.call(this, value)
+    },
+  }
+  if (propDescriptor.get) {
+    wrappedDescriptor.get = function() {
+      return propDescriptor.get.call(this)
+    }
+  }
+  return wrappedDescriptor
+}
+/**
+ * A property decorator proxies an aria attribute to an internal node
+ *
+ * This decorator is only intended for use with ARIA attributes, such as `role`
+ * and `aria-label` due to screenreader needs.
+ *
+ * Upon first render, `@ariaProperty` will remove the attribute from the host
+ * element to prevent screenreaders from reading the host instead of the
+ * internal node.
+ *
+ * This decorator should only be used for non-Symbol public fields decorated
+ * with `@property`, or on a setter with an optional getter.
+ *
+ * @example
+ * ```ts
+ * class MyElement {
+ *   @ariaProperty
+ *   @property({ type: String, attribute: 'aria-label' })
+ *   ariaLabel!: string;
+ * }
+ * ```
+ * @category Decorator
+ * @ExportDecoratedItems
+ */
+function ariaProperty$1(
+  protoOrDescriptor,
+  name,
+  // tslint:disable-next-line:no-any any is required as a return type from decorators
+  descriptor
+) {
+  if (name !== undefined) {
+    return tsDecorator(protoOrDescriptor, name, descriptor)
+  } else {
+    throw new Error('@ariaProperty only supports TypeScript Decorators')
+  }
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Specifies an observer callback that is run when the decorated property
+ * changes. The observer receives the current and old value as arguments.
+ */
+const observer = observer =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (proto, propName) => {
+    // if we haven't wrapped `updated` in this class, do so
+    if (!proto.constructor._observers) {
+      proto.constructor._observers = new Map()
+      const userUpdated = proto.updated
+      proto.updated = function(changedProperties) {
+        userUpdated.call(this, changedProperties)
+        changedProperties.forEach((v, k) => {
+          const observers = this.constructor._observers
+          const observer = observers.get(k)
+          if (observer !== undefined) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            observer.call(this, this[k], v)
+          }
+        })
+      }
+      // clone any existing observers (superclasses)
+      // eslint-disable-next-line no-prototype-builtins
+    } else if (!proto.constructor.hasOwnProperty('_observers')) {
+      const observers = proto.constructor._observers
+      proto.constructor._observers = new Map()
+      observers.forEach(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (v, k) => proto.constructor._observers.set(k, v)
+      )
+    }
+    // set this method
+    proto.constructor._observers.set(propName, observer)
+  }
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * A property decorator that helps proxy an aria attribute to an internal node.
+ *
+ * This decorator is only intended for use with ARIAMixin properties,
+ * such as `ariaLabel`, to help with screen readers.
+ *
+ * This decorator will remove the host `aria-*` attribute at runtime and add it
+ * to a `data-aria-*` attribute to avoid screenreader conflicts between the
+ * host and internal node.
+ *
+ * `@ariaProperty` decorated properties should sync with LitElement to the
+ * `data-aria-*` attribute, not the native `aria-*` attribute.
+ *
+ * @example
+ * ```ts
+ * class MyElement extends LitElement {
+ *   \@ariaProperty
+ *   // TODO(b/210730484): replace with @soyParam annotation
+ *   \@property({ type: String, attribute: 'data-aria-label', noAccessor: true})
+ *   ariaLabel!: string;
+ * }
+ * ```
+ * @category Decorator
+ * @ExportDecoratedItems
+ */
+function ariaProperty(prototype, property) {
+  // Replace the ARIAMixin property with data-* attribute syncing instead of
+  // using the native aria-* attribute reflection. This preserves the attribute
+  // for SSR and avoids screenreader conflicts after delegating the attribute
+  // to a child node.
+  Object.defineProperty(prototype, property, {
+    configurable: true,
+    enumerable: true,
+    get() {
+      return this.dataset[property] ?? ''
+    },
+    set(value) {
+      // Coerce non-string values to a string
+      const strValue = String(value ?? '')
+      if (strValue) {
+        this.dataset[property] = strValue
+      } else {
+        delete this.dataset[property]
+      }
+      // lit will call this setter whenever the data-* attribute changes.
+      // However, this.dataset[property] will automatically be updated to the
+      // current value. To avoid bugs, always request an update regardless of
+      // the old value.
+      this.requestUpdate()
+    },
+  })
+  // Define an internal property that syncs from the `aria-*` attribute with lit
+  // and delegates to the real ARIAMixin property, which renders an update.
+  // This property will immediately remove the `aria-*` attribute, which doesn't
+  // work well with SSR (which is why there's a separate synced property).
+  const internalAriaProperty = Symbol(property)
+  // "ariaLabel" -> "aria-label" / "ariaLabelledBy" -> "aria-labelledby"
+  const ariaAttribute = property.replace('aria', 'aria-').toLowerCase()
+  const constructor = prototype.constructor
+  let removingAttribute = false
+  Object.defineProperty(prototype, internalAriaProperty, {
+    get() {
+      // tslint is failing here, but the types are correct (ARIAMixin
+      // properties do not obfuscate with closure)
+      // tslint:disable-next-line:no-dict-access-on-struct-type
+      return this[property]
+    },
+    set(value) {
+      if (removingAttribute) {
+        // Ignore this update, which is triggered below
+        return
+      }
+      // Set the ARIAMixin property, which will sync the `data-*` attribute
+      // and trigger rendering if the value changed.
+      // tslint is failing here, but the types are correct (ARIAMixin
+      // properties do not obfuscate with closure)
+      // tslint:disable-next-line:no-dict-access-on-struct-type
+      this[property] = value
+      // Remove the `aria-*` attribute, which will call this setter again with
+      // the incorrect value. Ignore these updates.
+      removingAttribute = true
+      this.removeAttribute(ariaAttribute)
+      removingAttribute = false
+    },
+  })
+  // Tell lit to observe the `aria-*` attribute and set the internal property,
+  // which acts as a "aria-* attribute changed" observer.
+  constructor.createProperty(internalAriaProperty, {
+    attribute: ariaAttribute,
+    noAccessor: true,
+  })
+}
+
+/**
+ * @license
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$3 = window,
-  e$6 =
-    t$3.ShadowRoot &&
-    (void 0 === t$3.ShadyCSS || t$3.ShadyCSS.nativeShadow) &&
+const t$2 = window,
+  e$4 =
+    t$2.ShadowRoot &&
+    (void 0 === t$2.ShadyCSS || t$2.ShadyCSS.nativeShadow) &&
     'adoptedStyleSheets' in Document.prototype &&
     'replace' in CSSStyleSheet.prototype,
   s$4 = Symbol(),
-  n$5 = new WeakMap()
-class o$5 {
+  n$4 = new WeakMap()
+class o$4 {
   constructor(t, e, n) {
     if (((this._$cssResult$ = !0), n !== s$4))
       throw Error(
@@ -18727,12 +19113,12 @@ class o$5 {
   get styleSheet() {
     let t = this.o
     const s = this.t
-    if (e$6 && void 0 === t) {
+    if (e$4 && void 0 === t) {
       const e = void 0 !== s && 1 === s.length
-      e && (t = n$5.get(s)),
+      e && (t = n$4.get(s)),
         void 0 === t &&
           ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText),
-          e && n$5.set(s, t))
+          e && n$4.set(s, t))
     }
     return t
   }
@@ -18740,8 +19126,8 @@ class o$5 {
     return this.cssText
   }
 }
-const r$2 = t => new o$5('string' == typeof t ? t : t + '', void 0, s$4),
-  i$5 = (t, ...e) => {
+const r$2 = t => new o$4('string' == typeof t ? t : t + '', void 0, s$4),
+  i$3 = (t, ...e) => {
     const n =
       1 === t.length
         ? t[0]
@@ -18760,22 +19146,22 @@ const r$2 = t => new o$5('string' == typeof t ? t : t + '', void 0, s$4),
               t[n + 1],
             t[0]
           )
-    return new o$5(n, t, s$4)
+    return new o$4(n, t, s$4)
   },
   S$1 = (s, n) => {
-    e$6
+    e$4
       ? (s.adoptedStyleSheets = n.map(t =>
           t instanceof CSSStyleSheet ? t : t.styleSheet
         ))
       : n.forEach(e => {
           const n = document.createElement('style'),
-            o = t$3.litNonce
+            o = t$2.litNonce
           void 0 !== o && n.setAttribute('nonce', o),
             (n.textContent = e.cssText),
             s.appendChild(n)
         })
   },
-  c$1 = e$6
+  c$1 = e$4
     ? t => t
     : t =>
         t instanceof CSSStyleSheet
@@ -18791,11 +19177,11 @@ const r$2 = t => new o$5('string' == typeof t ? t : t + '', void 0, s$4),
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */ var s$3
-const e$5 = window,
-  r$1 = e$5.trustedTypes,
+const e$3 = window,
+  r$1 = e$3.trustedTypes,
   h$1 = r$1 ? r$1.emptyScript : '',
-  o$4 = e$5.reactiveElementPolyfillSupport,
-  n$4 = {
+  o$3 = e$3.reactiveElementPolyfillSupport,
+  n$3 = {
     toAttribute(t, i) {
       switch (i) {
         case Boolean:
@@ -18831,7 +19217,7 @@ const e$5 = window,
   l$4 = {
     attribute: !0,
     type: String,
-    converter: n$4,
+    converter: n$3,
     reflect: !1,
     hasChanged: a$2,
   }
@@ -18995,7 +19381,7 @@ class d$1 extends HTMLElement {
       const h = (void 0 !==
       (null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute)
         ? s.converter
-        : n$4
+        : n$3
       ).toAttribute(i, s.type)
       ;(this._$El = t),
         null == h ? this.removeAttribute(r) : this.setAttribute(r, h),
@@ -19016,7 +19402,7 @@ class d$1 extends HTMLElement {
                 ? void 0
                 : s.fromAttribute)
             ? t.converter
-            : n$4
+            : n$3
       ;(this._$El = r),
         (this[r] = h.fromAttribute(i, t.type)),
         (this._$El = null)
@@ -19114,10 +19500,10 @@ class d$1 extends HTMLElement {
   (d$1.elementProperties = new Map()),
   (d$1.elementStyles = []),
   (d$1.shadowRootOptions = { mode: 'open' }),
-  null == o$4 || o$4({ ReactiveElement: d$1 }),
-  (null !== (s$3 = e$5.reactiveElementVersions) && void 0 !== s$3
+  null == o$3 || o$3({ ReactiveElement: d$1 }),
+  (null !== (s$3 = e$3.reactiveElementVersions) && void 0 !== s$3
     ? s$3
-    : (e$5.reactiveElementVersions = [])
+    : (e$3.reactiveElementVersions = [])
   ).push('1.4.1')
 
 /**
@@ -19125,13 +19511,13 @@ class d$1 extends HTMLElement {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-var t$2
-const i$4 = window,
-  s$2 = i$4.trustedTypes,
-  e$4 = s$2 ? s$2.createPolicy('lit-html', { createHTML: t => t }) : void 0,
-  o$3 = `lit$${(Math.random() + '').slice(9)}$`,
-  n$3 = '?' + o$3,
-  l$3 = `<${n$3}>`,
+var t$1
+const i$2 = window,
+  s$2 = i$2.trustedTypes,
+  e$2 = s$2 ? s$2.createPolicy('lit-html', { createHTML: t => t }) : void 0,
+  o$2 = `lit$${(Math.random() + '').slice(9)}$`,
+  n$2 = '?' + o$2,
+  l$3 = `<${n$2}>`,
   h = document,
   r = (t = '') => h.createComment(t),
   d = t => null === t || ('object' != typeof t && 'function' != typeof t),
@@ -19194,13 +19580,13 @@ const i$4 = window,
         d === v
           ? s + l$3
           : c >= 0
-          ? (n.push(e), s.slice(0, c) + '$lit$' + s.slice(c) + o$3 + y)
-          : s + o$3 + (-2 === c ? (n.push(void 0), i) : y)
+          ? (n.push(e), s.slice(0, c) + '$lit$' + s.slice(c) + o$2 + y)
+          : s + o$2 + (-2 === c ? (n.push(void 0), i) : y)
     }
     const u = r + (t[s] || '<?>') + (2 === i ? '</svg>' : '')
     if (!Array.isArray(t) || !t.hasOwnProperty('raw'))
       throw Error('invalid template strings array')
-    return [void 0 !== e$4 ? e$4.createHTML(u) : u, n]
+    return [void 0 !== e$2 ? e$2.createHTML(u) : u, n]
   }
 class C {
   constructor({ strings: t, _$litType$: i }, e) {
@@ -19225,10 +19611,10 @@ class C {
         if (l.hasAttributes()) {
           const t = []
           for (const i of l.getAttributeNames())
-            if (i.endsWith('$lit$') || i.startsWith(o$3)) {
+            if (i.endsWith('$lit$') || i.startsWith(o$2)) {
               const s = a[d++]
               if ((t.push(i), void 0 !== s)) {
-                const t = l.getAttribute(s.toLowerCase() + '$lit$').split(o$3),
+                const t = l.getAttribute(s.toLowerCase() + '$lit$').split(o$2),
                   i = /([.?@])?(.*)/.exec(s)
                 c.push({
                   type: 1,
@@ -19243,7 +19629,7 @@ class C {
           for (const i of t) l.removeAttribute(i)
         }
         if ($.test(l.tagName)) {
-          const t = l.textContent.split(o$3),
+          const t = l.textContent.split(o$2),
             i = t.length - 1
           if (i > 0) {
             l.textContent = s$2 ? s$2.emptyScript : ''
@@ -19253,11 +19639,11 @@ class C {
           }
         }
       } else if (8 === l.nodeType)
-        if (l.data === n$3) c.push({ type: 2, index: h })
+        if (l.data === n$2) c.push({ type: 2, index: h })
         else {
           let t = -1
-          for (; -1 !== (t = l.data.indexOf(o$3, t + 1)); )
-            c.push({ type: 7, index: h }), (t += o$3.length - 1)
+          for (; -1 !== (t = l.data.indexOf(o$2, t + 1)); )
+            c.push({ type: 7, index: h }), (t += o$2.length - 1)
         }
       h++
     }
@@ -19563,11 +19949,11 @@ class I {
     P(this, t)
   }
 }
-const z = i$4.litHtmlPolyfillSupport
+const z = i$2.litHtmlPolyfillSupport
 null == z || z(C, N),
-  (null !== (t$2 = i$4.litHtmlVersions) && void 0 !== t$2
-    ? t$2
-    : (i$4.litHtmlVersions = [])
+  (null !== (t$1 = i$2.litHtmlVersions) && void 0 !== t$1
+    ? t$1
+    : (i$2.litHtmlVersions = [])
   ).push('2.4.0')
 const Z = (t, i, s) => {
   var e, o
@@ -19593,7 +19979,7 @@ const Z = (t, i, s) => {
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ var l$2, o$2
+ */ var l$2, o$1
 class s$1 extends d$1 {
   constructor() {
     super(...arguments),
@@ -19634,198 +20020,12 @@ class s$1 extends d$1 {
   null === (l$2 = globalThis.litElementHydrateSupport) ||
     void 0 === l$2 ||
     l$2.call(globalThis, { LitElement: s$1 })
-const n$2 = globalThis.litElementPolyfillSupport
-null == n$2 || n$2({ LitElement: s$1 })
-;(null !== (o$2 = globalThis.litElementVersions) && void 0 !== o$2
-  ? o$2
+const n$1 = globalThis.litElementPolyfillSupport
+null == n$1 || n$1({ LitElement: s$1 })
+;(null !== (o$1 = globalThis.litElementVersions) && void 0 !== o$1
+  ? o$1
   : (globalThis.litElementVersions = [])
 ).push('3.2.2')
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const e$3 = e => n =>
-  'function' == typeof n
-    ? ((e, n) => (customElements.define(e, n), n))(e, n)
-    : ((e, n) => {
-        const { kind: t, elements: s } = n
-        return {
-          kind: t,
-          elements: s,
-          finisher(n) {
-            customElements.define(e, n)
-          },
-        }
-      })(e, n)
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const i$3 = (i, e) =>
-  'method' === e.kind && e.descriptor && !('value' in e.descriptor)
-    ? {
-        ...e,
-        finisher(n) {
-          n.createProperty(e.key, i)
-        },
-      }
-    : {
-        kind: 'field',
-        key: Symbol(),
-        placement: 'own',
-        descriptor: {},
-        originalKey: e.key,
-        initializer() {
-          'function' == typeof e.initializer &&
-            (this[e.key] = e.initializer.call(this))
-        },
-        finisher(n) {
-          n.createProperty(e.key, i)
-        },
-      }
-function e$2(e) {
-  return (n, t) =>
-    void 0 !== t
-      ? ((i, e, n) => {
-          e.constructor.createProperty(n, i)
-        })(e, n, t)
-      : i$3(e, n)
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ function t$1(t) {
-  return e$2({ ...t, state: !0 })
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const o$1 = ({ finisher: e, descriptor: t }) => (o, n) => {
-  var r
-  if (void 0 === n) {
-    const n = null !== (r = o.originalKey) && void 0 !== r ? r : o.key,
-      i =
-        null != t
-          ? {
-              kind: 'method',
-              placement: 'prototype',
-              key: n,
-              descriptor: t(o.key),
-            }
-          : { ...o, key: n }
-    return (
-      null != e &&
-        (i.finisher = function(t) {
-          e(t, n)
-        }),
-      i
-    )
-  }
-  {
-    const r = o.constructor
-    void 0 !== t && Object.defineProperty(o, n, t(n)), null == e || e(r, n)
-  }
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ function i$2(i, n) {
-  return o$1({
-    descriptor: o => {
-      const t = {
-        get() {
-          var o, n
-          return null !==
-            (n =
-              null === (o = this.renderRoot) || void 0 === o
-                ? void 0
-                : o.querySelector(i)) && void 0 !== n
-            ? n
-            : null
-        },
-        enumerable: !0,
-        configurable: !0,
-      }
-      if (n) {
-        const n = 'symbol' == typeof o ? Symbol() : '__' + o
-        t.get = function() {
-          var o, t
-          return (
-            void 0 === this[n] &&
-              (this[n] =
-                null !==
-                  (t =
-                    null === (o = this.renderRoot) || void 0 === o
-                      ? void 0
-                      : o.querySelector(i)) && void 0 !== t
-                  ? t
-                  : null),
-            this[n]
-          )
-        }
-      }
-      return t
-    },
-  })
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ var n$1
-null !=
-(null === (n$1 = window.HTMLSlotElement) || void 0 === n$1
-  ? void 0
-  : n$1.prototype.assignedElements)
-  ? (o, n) => o.assignedElements(n)
-  : (o, n) => o.assignedNodes(n).filter(o => o.nodeType === Node.ELEMENT_NODE)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/** @soyCompatible */
-class Icon extends s$1 {
-  /** @soyTemplate */
-  render() {
-    return y`<span><slot></slot></span>`
-  }
-}
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$4 = i$5`:host{font-family:"Material Icons";font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-moz-osx-font-smoothing:grayscale}/*# sourceMappingURL=icon-styles.css.map */
-`
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * @soyCompatible
- * @final
- * @suppress {visibility}
- */
-let MdIcon = class MdIcon extends Icon {}
-MdIcon.styles = [styles$4]
-MdIcon = __decorate([e$3('md-icon')], MdIcon)
 
 /**
  * @license
@@ -19918,6 +20118,182 @@ class i$1 {
 
 /**
  * @license
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const l$1 = l => (null != l ? l : b)
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/** @soyCompatible */
+class NavigationDrawer extends s$1 {
+  constructor() {
+    super(...arguments)
+    // tslint:disable-next-line:no-new-decorators
+    this.ariaModal = 'false'
+    this.opened = false
+    this.pivot = 'end'
+  }
+  /** @soyTemplate */
+  render() {
+    const ariaExpanded = this.opened ? 'true' : 'false'
+    const ariaHidden = !this.opened ? 'true' : 'false'
+    return y`
+      <div
+        aria-describedby="${l$1(this.ariaDescribedBy)}"
+        aria-expanded="${ariaExpanded}"
+        aria-hidden="${ariaHidden}"
+        aria-label="${l$1(this.ariaLabel)}"
+        aria-labelledby="${l$1(this.ariaLabelledBy)}"
+        aria-modal="${this.ariaModal}"
+        class="md3-navigation-drawer ${this.getRenderClasses()}"
+        role="dialog"><div class="md3-elevation-overlay"
+        ></div>
+        <div class="md3-navigation-drawer__slot-content">
+          <slot></slot>
+        </div>
+      </div>
+    `
+  }
+  /** @soyTemplate classMap */
+  getRenderClasses() {
+    return o({
+      'md3-navigation-drawer--opened': this.opened,
+      'md3-navigation-drawer--pivot-at-start': this.pivot === 'start',
+    })
+  }
+}
+__decorate(
+  [
+    ariaProperty$1,
+    e$5({ type: String, attribute: 'aria-describedby' }),
+    __metadata('design:type', String),
+  ],
+  NavigationDrawer.prototype,
+  'ariaDescribedBy',
+  void 0
+)
+__decorate(
+  [
+    ariaProperty,
+    e$5({ type: String, attribute: 'data-aria-label', noAccessor: true }),
+    __metadata('design:type', Object),
+  ],
+  NavigationDrawer.prototype,
+  'ariaLabel',
+  void 0
+)
+__decorate(
+  [
+    ariaProperty,
+    e$5({ attribute: 'data-aria-modal', type: String, noAccessor: true }),
+    __metadata('design:type', String),
+  ],
+  NavigationDrawer.prototype,
+  'ariaModal',
+  void 0
+)
+__decorate(
+  [
+    ariaProperty$1,
+    e$5({ type: String, attribute: 'aria-labelledby' }),
+    __metadata('design:type', String),
+  ],
+  NavigationDrawer.prototype,
+  'ariaLabelledBy',
+  void 0
+)
+__decorate(
+  [
+    e$5({ type: Boolean }), // tslint:disable-next-line:no-new-decorators
+    observer(function(value) {
+      setTimeout(() => {
+        this.dispatchEvent(
+          new CustomEvent('navigation-drawer-changed', {
+            detail: { opened: value },
+            bubbles: true,
+            composed: true,
+          })
+        )
+      }, 250)
+    }),
+    __metadata('design:type', Object),
+  ],
+  NavigationDrawer.prototype,
+  'opened',
+  void 0
+)
+__decorate(
+  [e$5({ type: String }), __metadata('design:type', String)],
+  NavigationDrawer.prototype,
+  'pivot',
+  void 0
+)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$5 = i$3`.md3-elevation-overlay{position:absolute;inset:0;border-radius:inherit;pointer-events:none;transition:opacity 280ms cubic-bezier(0.4, 0, 0.2, 1);z-index:-2}:host{display:flex}.md3-navigation-drawer{inline-size:0;box-sizing:border-box;display:flex;justify-content:flex-end;overflow:hidden;overflow-y:auto;visibility:hidden;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) .25s}.md3-navigation-drawer .md3-elevation-overlay{width:inherit;z-index:0}.md3-navigation-drawer--opened{visibility:visible;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) 0s}.md3-navigation-drawer--pivot-at-start{justify-content:flex-start}.md3-navigation-drawer__slot-content{display:flex;flex-direction:column;position:relative}.md3-navigation-drawer{background-color:var(--md-navigation-drawer-container-color, #fff);border-start-start-radius:var(--md-navigation-drawer-container-shape-start-start, 0);border-start-end-radius:var(--md-navigation-drawer-container-shape-start-end, 16px);border-end-end-radius:var(--md-navigation-drawer-container-shape-end-end, 16px);border-end-start-radius:var(--md-navigation-drawer-container-shape-end-start, 0);height:var(--md-navigation-drawer-container-height, 100%);--md-elevation-box-shadow-for-gss:none;box-shadow:var(--md-navigation-drawer-standard-container-elevation-shadow, var(--md-elevation-box-shadow-for-gss))}.md3-navigation-drawer.md3-navigation-drawer--opened{inline-size:var(--md-navigation-drawer-container-width, 360px)}.md3-navigation-drawer .md3-navigation-drawer__slot-content{min-inline-size:var(--md-navigation-drawer-container-width, 360px);max-inline-size:var(--md-navigation-drawer-container-width, 360px)}.md3-navigation-drawer .md3-elevation-overlay{opacity:var(--md-navigation-drawer-standard-container-elevation-overlay-opacity, 0)}/*# sourceMappingURL=navigation-drawer-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @soyCompatible
+ * @final
+ * @suppress {visibility}
+ */
+let MdNavigationDrawer = class MdNavigationDrawer extends NavigationDrawer {}
+MdNavigationDrawer.styles = [styles$5]
+MdNavigationDrawer = __decorate(
+  [e$6('md-navigation-drawer')],
+  MdNavigationDrawer
+)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/** @soyCompatible */
+class Icon extends s$1 {
+  /** @soyTemplate */
+  render() {
+    return y`<span><slot></slot></span>`
+  }
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$4 = i$3`:host{font-family:"Material Icons";font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-moz-osx-font-smoothing:grayscale}/*# sourceMappingURL=icon-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @soyCompatible
+ * @final
+ * @suppress {visibility}
+ */
+let MdIcon = class MdIcon extends Icon {}
+MdIcon.styles = [styles$4]
+MdIcon = __decorate([e$6('md-icon')], MdIcon)
+
+/**
+ * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19939,7 +20315,7 @@ class FocusRing extends s$1 {
   }
 }
 __decorate(
-  [e$2({ type: Boolean }), __metadata('design:type', Object)],
+  [e$5({ type: Boolean }), __metadata('design:type', Object)],
   FocusRing.prototype,
   'visible',
   void 0
@@ -19950,7 +20326,7 @@ __decorate(
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$3 = i$5`:host{pointer-events:none}.md3-focus-ring{display:none;position:absolute;box-sizing:border-box}.md3-focus-ring::before{inset:0;position:absolute;content:""}.md3-focus-ring--visible{display:block}.md3-focus-ring{inset:calc(-1*(var(--md-focus-ring-container-outer-padding-vertical, 2px) + var(--md-focus-ring-inner-ring-width, 2px) + var(--md-focus-ring-outer-ring-width, 2px))) calc(-1*(var(--md-focus-ring-container-outer-padding-horizontal, 2px) + var(--md-focus-ring-inner-ring-width, 2px) + var(--md-focus-ring-outer-ring-width, 2px)));border:var(--md-focus-ring-outer-ring-width, 2px) solid var(--md-focus-ring-outer-ring-color, var(--md-sys-color-tertiary-container, #ffd8e4));border-radius:var(--md-focus-ring-ring-radius, 8px)}.md3-focus-ring::before{border:var(--md-focus-ring-inner-ring-width, 2px) solid var(--md-focus-ring-inner-ring-color, var(--md-sys-color-on-tertiary-container, #31111d));border-radius:calc(var(--md-focus-ring-ring-radius, 8px) - var(--md-focus-ring-outer-ring-width, 2px))}/*# sourceMappingURL=focus-ring-styles.css.map */
+const styles$3 = i$3`:host{pointer-events:none}.md3-focus-ring{display:none;position:absolute;box-sizing:border-box}.md3-focus-ring::before{inset:0;position:absolute;content:""}.md3-focus-ring--visible{display:block}.md3-focus-ring{inset:calc(-1*(var(--md-focus-ring-container-outer-padding-vertical, 2px) + var(--md-focus-ring-inner-ring-width, 2px) + var(--md-focus-ring-outer-ring-width, 2px))) calc(-1*(var(--md-focus-ring-container-outer-padding-horizontal, 2px) + var(--md-focus-ring-inner-ring-width, 2px) + var(--md-focus-ring-outer-ring-width, 2px)));border:var(--md-focus-ring-outer-ring-width, 2px) solid var(--md-focus-ring-outer-ring-color, var(--md-sys-color-tertiary-container, #ffd8e4));border-radius:var(--md-focus-ring-ring-radius, 8px)}.md3-focus-ring::before{border:var(--md-focus-ring-inner-ring-width, 2px) solid var(--md-focus-ring-inner-ring-color, var(--md-sys-color-on-tertiary-container, #31111d));border-radius:calc(var(--md-focus-ring-ring-radius, 8px) - var(--md-focus-ring-outer-ring-width, 2px))}/*# sourceMappingURL=focus-ring-styles.css.map */
 `
 
 /**
@@ -19965,7 +20341,7 @@ const styles$3 = i$5`:host{pointer-events:none}.md3-focus-ring{display:none;posi
  */
 let MdFocusRing = class MdFocusRing extends FocusRing {}
 MdFocusRing.styles = [styles$3]
-MdFocusRing = __decorate([e$3('md-focus-ring')], MdFocusRing)
+MdFocusRing = __decorate([e$6('md-focus-ring')], MdFocusRing)
 
 /**
  * @license
@@ -20356,104 +20732,6 @@ class ActionElement extends s$1 {
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-/**
- * A property decorator that helps proxy an aria attribute to an internal node.
- *
- * This decorator is only intended for use with ARIAMixin properties,
- * such as `ariaLabel`, to help with screen readers.
- *
- * This decorator will remove the host `aria-*` attribute at runtime and add it
- * to a `data-aria-*` attribute to avoid screenreader conflicts between the
- * host and internal node.
- *
- * `@ariaProperty` decorated properties should sync with LitElement to the
- * `data-aria-*` attribute, not the native `aria-*` attribute.
- *
- * @example
- * ```ts
- * class MyElement extends LitElement {
- *   \@ariaProperty
- *   // TODO(b/210730484): replace with @soyParam annotation
- *   \@property({ type: String, attribute: 'data-aria-label', noAccessor: true})
- *   ariaLabel!: string;
- * }
- * ```
- * @category Decorator
- * @ExportDecoratedItems
- */
-function ariaProperty(prototype, property) {
-  // Replace the ARIAMixin property with data-* attribute syncing instead of
-  // using the native aria-* attribute reflection. This preserves the attribute
-  // for SSR and avoids screenreader conflicts after delegating the attribute
-  // to a child node.
-  Object.defineProperty(prototype, property, {
-    configurable: true,
-    enumerable: true,
-    get() {
-      return this.dataset[property] ?? ''
-    },
-    set(value) {
-      // Coerce non-string values to a string
-      const strValue = String(value ?? '')
-      if (strValue) {
-        this.dataset[property] = strValue
-      } else {
-        delete this.dataset[property]
-      }
-      // lit will call this setter whenever the data-* attribute changes.
-      // However, this.dataset[property] will automatically be updated to the
-      // current value. To avoid bugs, always request an update regardless of
-      // the old value.
-      this.requestUpdate()
-    },
-  })
-  // Define an internal property that syncs from the `aria-*` attribute with lit
-  // and delegates to the real ARIAMixin property, which renders an update.
-  // This property will immediately remove the `aria-*` attribute, which doesn't
-  // work well with SSR (which is why there's a separate synced property).
-  const internalAriaProperty = Symbol(property)
-  // "ariaLabel" -> "aria-label" / "ariaLabelledBy" -> "aria-labelledby"
-  const ariaAttribute = property.replace('aria', 'aria-').toLowerCase()
-  const constructor = prototype.constructor
-  let removingAttribute = false
-  Object.defineProperty(prototype, internalAriaProperty, {
-    get() {
-      // tslint is failing here, but the types are correct (ARIAMixin
-      // properties do not obfuscate with closure)
-      // tslint:disable-next-line:no-dict-access-on-struct-type
-      return this[property]
-    },
-    set(value) {
-      if (removingAttribute) {
-        // Ignore this update, which is triggered below
-        return
-      }
-      // Set the ARIAMixin property, which will sync the `data-*` attribute
-      // and trigger rendering if the value changed.
-      // tslint is failing here, but the types are correct (ARIAMixin
-      // properties do not obfuscate with closure)
-      // tslint:disable-next-line:no-dict-access-on-struct-type
-      this[property] = value
-      // Remove the `aria-*` attribute, which will call this setter again with
-      // the incorrect value. Ignore these updates.
-      removingAttribute = true
-      this.removeAttribute(ariaAttribute)
-      removingAttribute = false
-    },
-  })
-  // Tell lit to observe the `aria-*` attribute and set the internal property,
-  // which acts as a "aria-* attribute changed" observer.
-  constructor.createProperty(internalAriaProperty, {
-    attribute: ariaAttribute,
-    noAccessor: true,
-  })
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
 class FocusGlobal {
   constructor() {
     this.visible = false
@@ -20778,37 +21056,37 @@ class Ripple extends s$1 {
   }
 }
 __decorate(
-  [i$2('.md3-ripple-surface'), __metadata('design:type', HTMLElement)],
+  [i$4('.md3-ripple-surface'), __metadata('design:type', HTMLElement)],
   Ripple.prototype,
   'mdRoot',
   void 0
 )
 __decorate(
-  [e$2({ type: Boolean }), __metadata('design:type', Object)],
+  [e$5({ type: Boolean }), __metadata('design:type', Object)],
   Ripple.prototype,
   'unbounded',
   void 0
 )
 __decorate(
-  [e$2({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
   Ripple.prototype,
   'disabled',
   void 0
 )
 __decorate(
-  [t$1(), __metadata('design:type', Object)],
+  [t$3(), __metadata('design:type', Object)],
   Ripple.prototype,
   'hovered',
   void 0
 )
 __decorate(
-  [t$1(), __metadata('design:type', Object)],
+  [t$3(), __metadata('design:type', Object)],
   Ripple.prototype,
   'focused',
   void 0
 )
 __decorate(
-  [t$1(), __metadata('design:type', Object)],
+  [t$3(), __metadata('design:type', Object)],
   Ripple.prototype,
   'pressed',
   void 0
@@ -20819,7 +21097,7 @@ __decorate(
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$2 = i$5`:host{position:absolute;inset:0;pointer-events:none;overflow:hidden;display:flex}:host([disabled]){opacity:0}.md3-ripple-surface{position:absolute;inset:0;pointer-events:none;overflow:hidden;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}.md3-ripple-surface::before,.md3-ripple-surface::after{position:absolute;opacity:0;pointer-events:none;z-index:-1;content:""}.md3-ripple-surface::before{transition:opacity 15ms linear,background-color 15ms linear;inset:0}.md3-ripple-surface::after{transition:opacity 375ms linear;transform-origin:center center}.md3-ripple--focused::before{transition-duration:75ms}.md3-ripple--pressed::after{transition-duration:105ms}.md3-ripple-surface{border-radius:var(--md-ripple-state-layer-shape, 0)}.md3-ripple-surface::before{background-color:var(--md-ripple-hover-state-layer-color, black)}.md3-ripple-surface::after{background:radial-gradient(closest-side, var(--md-ripple-pressed-state-layer-color, black) max(100% - 70px, 65%), transparent 100%)}.md3-ripple-surface.md3-ripple--hovered::before{opacity:var(--md-ripple-hover-state-layer-opacity, 0.08);background-color:var(--md-ripple-hover-state-layer-color, black)}.md3-ripple-surface.md3-ripple--focused::before{opacity:var(--md-ripple-focus-state-layer-opacity, 0.12);background-color:var(--md-ripple-focus-state-layer-color, black)}.md3-ripple-surface.md3-ripple--pressed::after{opacity:var(--md-ripple-pressed-state-layer-opacity, 0.12)}.md3-ripple-surface.md3-ripple--unbounded{border-radius:var(--md-ripple-state-layer-shape, 9999px)}/*# sourceMappingURL=ripple-styles.css.map */
+const styles$2 = i$3`:host{position:absolute;inset:0;pointer-events:none;overflow:hidden;display:flex}:host([disabled]){opacity:0}.md3-ripple-surface{position:absolute;inset:0;pointer-events:none;overflow:hidden;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}.md3-ripple-surface::before,.md3-ripple-surface::after{position:absolute;opacity:0;pointer-events:none;z-index:-1;content:""}.md3-ripple-surface::before{transition:opacity 15ms linear,background-color 15ms linear;inset:0}.md3-ripple-surface::after{transition:opacity 375ms linear;transform-origin:center center}.md3-ripple--focused::before{transition-duration:75ms}.md3-ripple--pressed::after{transition-duration:105ms}.md3-ripple-surface{border-radius:var(--md-ripple-state-layer-shape, 0)}.md3-ripple-surface::before{background-color:var(--md-ripple-hover-state-layer-color, black)}.md3-ripple-surface::after{background:radial-gradient(closest-side, var(--md-ripple-pressed-state-layer-color, black) max(100% - 70px, 65%), transparent 100%)}.md3-ripple-surface.md3-ripple--hovered::before{opacity:var(--md-ripple-hover-state-layer-opacity, 0.08);background-color:var(--md-ripple-hover-state-layer-color, black)}.md3-ripple-surface.md3-ripple--focused::before{opacity:var(--md-ripple-focus-state-layer-opacity, 0.12);background-color:var(--md-ripple-focus-state-layer-color, black)}.md3-ripple-surface.md3-ripple--pressed::after{opacity:var(--md-ripple-pressed-state-layer-opacity, 0.12)}.md3-ripple-surface.md3-ripple--unbounded{border-radius:var(--md-ripple-state-layer-shape, 9999px)}/*# sourceMappingURL=ripple-styles.css.map */
 `
 
 /**
@@ -20834,13 +21112,7 @@ const styles$2 = i$5`:host{position:absolute;inset:0;pointer-events:none;overflo
  */
 let MdRipple = class MdRipple extends Ripple {}
 MdRipple.styles = [styles$2]
-MdRipple = __decorate([e$3('md-ripple')], MdRipple)
-
-/**
- * @license
- * Copyright 2018 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ const l$1 = l => (null != l ? l : b)
+MdRipple = __decorate([e$6('md-ripple')], MdRipple)
 
 /**
  * @license
@@ -20989,25 +21261,25 @@ class IconButton extends ActionElement {
   }
 }
 __decorate(
-  [e$2({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
   IconButton.prototype,
   'disabled',
   void 0
 )
 __decorate(
-  [e$2({ type: String }), __metadata('design:type', Object)],
+  [e$5({ type: String }), __metadata('design:type', Object)],
   IconButton.prototype,
   'icon',
   void 0
 )
 __decorate(
-  [e$2({ type: Boolean }), __metadata('design:type', Object)],
+  [e$5({ type: Boolean }), __metadata('design:type', Object)],
   IconButton.prototype,
   'flipIconInRtl',
   void 0
 )
 __decorate(
-  [e$2({ type: Boolean }), __metadata('design:type', Object)],
+  [e$5({ type: Boolean }), __metadata('design:type', Object)],
   IconButton.prototype,
   'flipIcon',
   void 0
@@ -21015,7 +21287,7 @@ __decorate(
 __decorate(
   [
     ariaProperty, // tslint:disable-line:no-new-decorators
-    e$2({ type: String, attribute: 'aria-label' }),
+    e$5({ type: String, attribute: 'aria-label' }),
     __metadata('design:type', String),
   ],
   IconButton.prototype,
@@ -21025,7 +21297,7 @@ __decorate(
 __decorate(
   [
     ariaProperty, // tslint:disable-line:no-new-decorators
-    e$2({ type: String, attribute: 'aria-haspopup' }),
+    e$5({ type: String, attribute: 'aria-haspopup' }),
     __metadata('design:type', String),
   ],
   IconButton.prototype,
@@ -21033,19 +21305,19 @@ __decorate(
   void 0
 )
 __decorate(
-  [i$2('button'), __metadata('design:type', HTMLElement)],
+  [i$4('button'), __metadata('design:type', HTMLElement)],
   IconButton.prototype,
   'buttonElement',
   void 0
 )
 __decorate(
-  [i$2('md-ripple'), __metadata('design:type', MdRipple)],
+  [i$4('md-ripple'), __metadata('design:type', MdRipple)],
   IconButton.prototype,
   'ripple',
   void 0
 )
 __decorate(
-  [t$1(), __metadata('design:type', Object)],
+  [t$3(), __metadata('design:type', Object)],
   IconButton.prototype,
   'showFocusRing',
   void 0
@@ -21056,7 +21328,7 @@ __decorate(
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$1 = i$5`:host{display:inline-flex;outline:none;--md-focus-ring-container-outer-padding-vertical:0px;--md-focus-ring-container-outer-padding-horizontal:0px}:host([disabled]){pointer-events:none}.md3-icon-button{align-items:center;border:none;box-sizing:border-box;cursor:pointer;display:flex;fill:currentColor;justify-content:center;outline:none;position:relative;text-decoration:none;user-select:none;z-index:0}.md3-icon-button i,.md3-icon-button svg,.md3-icon-button img,.md3-icon-button ::slotted(*){display:block}.md3-icon-button--flip-icon .md3-icon-button__icon{transform:scaleX(-1)}.md3-icon-button__icon{display:inline-flex}.md3-icon-button__icon.md3-icon-button__icon--on{display:none}.md3-icon-button--on .md3-icon-button__icon{display:none}.md3-icon-button--on .md3-icon-button__icon.md3-icon-button__icon--on{display:inline-flex}.md3-icon-button__link{height:100%;outline:none;position:absolute;width:100%}.md3-icon-button__touch{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%)}/*# sourceMappingURL=icon-button-styles.css.map */
+const styles$1 = i$3`:host{display:inline-flex;outline:none;--md-focus-ring-container-outer-padding-vertical:0px;--md-focus-ring-container-outer-padding-horizontal:0px}:host([disabled]){pointer-events:none}.md3-icon-button{align-items:center;border:none;box-sizing:border-box;cursor:pointer;display:flex;fill:currentColor;justify-content:center;outline:none;position:relative;text-decoration:none;user-select:none;z-index:0}.md3-icon-button i,.md3-icon-button svg,.md3-icon-button img,.md3-icon-button ::slotted(*){display:block}.md3-icon-button--flip-icon .md3-icon-button__icon{transform:scaleX(-1)}.md3-icon-button__icon{display:inline-flex}.md3-icon-button__icon.md3-icon-button__icon--on{display:none}.md3-icon-button--on .md3-icon-button__icon{display:none}.md3-icon-button--on .md3-icon-button__icon.md3-icon-button__icon--on{display:inline-flex}.md3-icon-button__link{height:100%;outline:none;position:absolute;width:100%}.md3-icon-button__touch{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%)}/*# sourceMappingURL=icon-button-styles.css.map */
 `
 
 /**
@@ -21064,7 +21336,7 @@ const styles$1 = i$5`:host{display:inline-flex;outline:none;--md-focus-ring-cont
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles = i$5`.md3-icon-button--standard{background-color:rgba(0,0,0,0)}.md3-icon-button--standard{font-size:var(--md-icon-button-icon-size, 24px);height:var(--md-icon-button-state-layer-size, 40px);width:var(--md-icon-button-state-layer-size, 40px);margin:max(0px,(48px - var(--md-icon-button-state-layer-size, 40px))/2);color:var(--md-icon-button-unselected-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--md-ripple-focus-state-layer-color:var(--md-icon-button-unselected-focus-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--md-ripple-focus-state-layer-opacity:var(--md-icon-button-unselected-focus-state-layer-opacity, 0.08);--md-ripple-hover-state-layer-color:var(--md-icon-button-unselected-hover-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--md-ripple-hover-state-layer-opacity:var(--md-icon-button-unselected-hover-state-layer-opacity, 0.08);--md-ripple-pressed-state-layer-color:var(--md-icon-button-unselected-pressed-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--md-ripple-pressed-state-layer-opacity:var(--md-icon-button-unselected-pressed-state-layer-opacity, 0.12)}.md3-icon-button--standard i,.md3-icon-button--standard svg,.md3-icon-button--standard img{height:var(--md-icon-button-icon-size, 24px);width:var(--md-icon-button-icon-size, 24px)}.md3-icon-button--standard:disabled{color:var(--md-icon-button-disabled-icon-color, rgb(var(--md-sys-color-on-surface-rgb, 28, 27, 31), 0.38))}.md3-icon-button--standard:focus{color:var(--md-icon-button-unselected-focus-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}.md3-icon-button--standard:hover{color:var(--md-icon-button-unselected-hover-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}.md3-icon-button--standard:not(:disabled):active{color:var(--md-icon-button-unselected-pressed-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}.md3-icon-button--standard.md3-icon-button--on{color:var(--md-icon-button-selected-icon-color, var(--md-sys-color-primary, #6750a4))}.md3-icon-button--standard.md3-icon-button--on:disabled{color:var(--md-icon-button-disabled-icon-color, rgb(var(--md-sys-color-on-surface-rgb, 28, 27, 31), 0.38))}.md3-icon-button--standard.md3-icon-button--on:focus{color:var(--md-icon-button-selected-focus-icon-color, var(--md-sys-color-primary, #6750a4))}.md3-icon-button--standard.md3-icon-button--on:hover{color:var(--md-icon-button-selected-hover-icon-color, var(--md-sys-color-primary, #6750a4))}.md3-icon-button--standard.md3-icon-button--on:not(:disabled):active{color:var(--md-icon-button-selected-pressed-icon-color, var(--md-sys-color-primary, #6750a4))}.md3-icon-button--standard.md3-icon-button--on{--md-ripple-focus-state-layer-color:var(--md-icon-button-selected-focus-state-layer-color, var(--md-sys-color-primary, #6750a4));--md-ripple-focus-state-layer-opacity:var(--md-icon-button-selected-focus-state-layer-opacity, 0.12);--md-ripple-hover-state-layer-color:var(--md-icon-button-selected-hover-state-layer-color, var(--md-sys-color-primary, #6750a4));--md-ripple-hover-state-layer-opacity:var(--md-icon-button-selected-hover-state-layer-opacity, 0.08);--md-ripple-pressed-state-layer-color:var(--md-icon-button-selected-pressed-state-layer-color, var(--md-sys-color-primary, #6750a4));--md-ripple-pressed-state-layer-opacity:var(--md-icon-button-selected-pressed-state-layer-opacity, 0.12)}/*# sourceMappingURL=standard-styles.css.map */
+const styles = i$3`.md3-icon-button--standard{background-color:rgba(0,0,0,0)}.md3-icon-button--standard{font-size:var(--md-icon-button-icon-size, 24px);height:var(--md-icon-button-state-layer-size, 40px);width:var(--md-icon-button-state-layer-size, 40px);margin:max(0px,(48px - var(--md-icon-button-state-layer-size, 40px))/2);color:var(--md-icon-button-unselected-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--md-ripple-focus-state-layer-color:var(--md-icon-button-unselected-focus-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--md-ripple-focus-state-layer-opacity:var(--md-icon-button-unselected-focus-state-layer-opacity, 0.08);--md-ripple-hover-state-layer-color:var(--md-icon-button-unselected-hover-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--md-ripple-hover-state-layer-opacity:var(--md-icon-button-unselected-hover-state-layer-opacity, 0.08);--md-ripple-pressed-state-layer-color:var(--md-icon-button-unselected-pressed-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--md-ripple-pressed-state-layer-opacity:var(--md-icon-button-unselected-pressed-state-layer-opacity, 0.12)}.md3-icon-button--standard i,.md3-icon-button--standard svg,.md3-icon-button--standard img{height:var(--md-icon-button-icon-size, 24px);width:var(--md-icon-button-icon-size, 24px)}.md3-icon-button--standard:disabled{color:var(--md-icon-button-disabled-icon-color, rgb(var(--md-sys-color-on-surface-rgb, 28, 27, 31), 0.38))}.md3-icon-button--standard:focus{color:var(--md-icon-button-unselected-focus-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}.md3-icon-button--standard:hover{color:var(--md-icon-button-unselected-hover-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}.md3-icon-button--standard:not(:disabled):active{color:var(--md-icon-button-unselected-pressed-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}.md3-icon-button--standard.md3-icon-button--on{color:var(--md-icon-button-selected-icon-color, var(--md-sys-color-primary, #6750a4))}.md3-icon-button--standard.md3-icon-button--on:disabled{color:var(--md-icon-button-disabled-icon-color, rgb(var(--md-sys-color-on-surface-rgb, 28, 27, 31), 0.38))}.md3-icon-button--standard.md3-icon-button--on:focus{color:var(--md-icon-button-selected-focus-icon-color, var(--md-sys-color-primary, #6750a4))}.md3-icon-button--standard.md3-icon-button--on:hover{color:var(--md-icon-button-selected-hover-icon-color, var(--md-sys-color-primary, #6750a4))}.md3-icon-button--standard.md3-icon-button--on:not(:disabled):active{color:var(--md-icon-button-selected-pressed-icon-color, var(--md-sys-color-primary, #6750a4))}.md3-icon-button--standard.md3-icon-button--on{--md-ripple-focus-state-layer-color:var(--md-icon-button-selected-focus-state-layer-color, var(--md-sys-color-primary, #6750a4));--md-ripple-focus-state-layer-opacity:var(--md-icon-button-selected-focus-state-layer-opacity, 0.12);--md-ripple-hover-state-layer-color:var(--md-icon-button-selected-hover-state-layer-color, var(--md-sys-color-primary, #6750a4));--md-ripple-hover-state-layer-opacity:var(--md-icon-button-selected-hover-state-layer-opacity, 0.08);--md-ripple-pressed-state-layer-color:var(--md-icon-button-selected-pressed-state-layer-color, var(--md-sys-color-primary, #6750a4));--md-ripple-pressed-state-layer-opacity:var(--md-icon-button-selected-pressed-state-layer-opacity, 0.12)}/*# sourceMappingURL=standard-styles.css.map */
 `
 
 /**
@@ -21084,7 +21356,7 @@ let MdStandardIconButton = class MdStandardIconButton extends IconButton {
 }
 MdStandardIconButton.styles = [styles$1, styles]
 MdStandardIconButton = __decorate(
-  [e$3('md-standard-icon-button')],
+  [e$6('md-standard-icon-button')],
   MdStandardIconButton
 )
 
@@ -21127,15 +21399,15 @@ let CollapseUi = class CollapseUi extends s$1 {
     this.context.service.send('TOGGLE_UI_COLLAPSED')
   }
 }
-CollapseUi.styles = i$5`
+CollapseUi.styles = i$3`
     .icon {
       width: 100%;
     }
   `
 __decorate([InjectContext()], CollapseUi.prototype, 'context', void 0)
-CollapseUi = __decorate([e$3('collapse-ui')], CollapseUi)
+CollapseUi = __decorate([e$6('collapse-ui')], CollapseUi)
 
-var makeElement = function makeElement(htmlString) {
+var makeHtml = function makeHtml(htmlString) {
   var template = document.createElement('template')
   template.innerHTML = htmlString
   return template.content.firstElementChild
@@ -21153,25 +21425,37 @@ function createInterface(context) {
   viewport.setAttribute('class', style.viewport)
   var container3d = context.renderingViewContainers.get('volume')
   viewport.appendChild(container3d)
-  container3d.style.height = '100%'
+  container3d.style.height = '100%' // if somehow already set (by non reference-ui from config obj?)
 
   if (!context.uiContainer) {
-    var uiContainer = document.createElement('div')
-    uiContainer.setAttribute('class', style.uiContainer)
-    context.uiContainer = uiContainer
-    viewport.appendChild(uiContainer)
-  } else {
-    // if somehow already set (by non reference-ui from config obj?)
-    viewport.appendChild(context.uiContainer)
+    context.uiContainer = document.createElement('div')
   }
+
+  var sidebar = makeHtml(
+    "\n    <div class='"
+      .concat(
+        style.uiContainer,
+        "'>\n      <md-navigation-drawer type=\"dismissible\" id='drawer' class='"
+      )
+      .concat(
+        style.drawer,
+        "'></md-navigation-drawer>\n      <collapse-ui class='"
+      )
+      .concat(style.collapseButton, "'/>\n    </div>\n  ")
+  )
+  var drawer = sidebar.querySelector('#drawer')
+  drawer.appendChild(context.uiContainer)
+  viewport.appendChild(sidebar)
+  context.drawer = drawer // FIXME: hack to keep scroll bar from squishing uiContainer, because uiContainer width does not get reduces with scroll bar.
+
+  setTimeout(function() {
+    drawer.shadowRoot.children[0].style.overflow = 'visible'
+  }, 0)
 
   if (!context.uiGroups) {
     // String to UI group element
     context.uiGroups = new Map()
   }
-
-  var collapseUIButton = makeElement('\n    <collapse-ui />\n  ')
-  context.uiContainer.appendChild(collapseUIButton)
 }
 
 function toggleUICollapsed(context, event, actionMeta) {
@@ -21184,32 +21468,13 @@ function toggleUICollapsed(context, event, actionMeta) {
       actionMeta.state.value.active.uiCollapsed === 'enabled'
   }
 
-  if (context.uiCollapsed) {
-    applyGroupVisibility(
-      context,
-      [
-        'main',
-        'layers',
-        'widgets',
-        'images',
-        'labelImages',
-        'labelImageWeights',
-      ],
-      !context.uiCollapsed
-    )
-  } else {
-    applyGroupVisibility(
-      context,
-      ['main', 'layers', 'widgets'],
-      !context.uiCollapsed
-    )
+  context.drawer.opened = !context.uiCollapsed
 
-    if (context.images.selectedName) {
-      context.service.send({
-        type: 'SELECT_LAYER',
-        data: context.images.selectedName,
-      })
-    }
+  if (!context.uiCollapsed && context.images.selectedName) {
+    context.service.send({
+      type: 'SELECT_LAYER',
+      data: context.images.selectedName,
+    })
   }
 
   if (!context.use2D && !!context.main.planeUIGroup) {

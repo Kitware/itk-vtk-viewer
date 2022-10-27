@@ -1,5 +1,5 @@
-// Avoids error importing config UIs multiple times in tests
-// customElements.define will be called multiple times buy Material-Web components
+// Avoids error importing config UIs multiple times in tests when
+// customElements.define will be called multiple times by Material-Web components
 
 function safeDecorator(fn) {
   return function(...args) {

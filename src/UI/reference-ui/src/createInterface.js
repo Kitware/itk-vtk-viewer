@@ -1,9 +1,10 @@
 import style from './ItkVtkViewer.module.css'
+import '@material/web/navigationdrawer/navigation-drawer.js'
 
 import './collapse-ui'
 import { setContext } from './context'
 
-const makeElement = htmlString => {
+const makeHtml = htmlString => {
   const template = document.createElement('template')
   template.innerHTML = htmlString
   return template.content.firstElementChild
@@ -25,25 +26,32 @@ function createInterface(context) {
   viewport.appendChild(container3d)
   container3d.style.height = '100%'
 
+  // if somehow already set (by non reference-ui from config obj?)
   if (!context.uiContainer) {
-    const uiContainer = document.createElement('div')
-    uiContainer.setAttribute('class', style.uiContainer)
-    context.uiContainer = uiContainer
-    viewport.appendChild(uiContainer)
-  } else {
-    // if somehow already set (by non reference-ui from config obj?)
-    viewport.appendChild(context.uiContainer)
+    context.uiContainer = document.createElement('div')
   }
+
+  const sidebar = makeHtml(`
+    <div class='${style.uiContainer}'>
+      <md-navigation-drawer type="dismissible" id='drawer' class='${style.drawer}'></md-navigation-drawer>
+      <collapse-ui class='${style.collapseButton}'/>
+    </div>
+  `)
+  const drawer = sidebar.querySelector('#drawer')
+  drawer.appendChild(context.uiContainer)
+  viewport.appendChild(sidebar)
+
+  context.drawer = drawer
+
+  // FIXME: hack to keep scroll bar from squishing uiContainer, because uiContainer width does not get reduces with scroll bar.
+  setTimeout(() => {
+    drawer.shadowRoot.children[0].style.overflow = 'visible'
+  }, 0)
 
   if (!context.uiGroups) {
     // String to UI group element
     context.uiGroups = new Map()
   }
-
-  const collapseUIButton = makeElement(`
-    <collapse-ui />
-  `)
-  context.uiContainer.appendChild(collapseUIButton)
 }
 
 export default createInterface

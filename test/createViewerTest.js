@@ -6,7 +6,8 @@ import testUtils from 'vtk.js/Sources/Testing/testUtils'
 import vtk from 'vtk.js/Sources/vtk'
 
 import createViewer from '../src/createViewer'
-import referenceUIMachineOptions from '../src/UI/reference-ui/src/referenceUIMachineOptions'
+import './customElementsDefineOverride.js'
+import referenceUIMachineOptions from '../src/UI/reference-ui'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
 const testLabelImage3DPath = 'base/test/data/input/HeadMRVolumeLabels.nrrd'

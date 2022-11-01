@@ -42,15 +42,23 @@
   top: 0;
   left: 0;
   z-index: 1000;
-  overflow-x: hidden;
+
+  height: fit-content;
   max-height: 100%;
 
   display: flex;
-  align-items: stretch;
-  flex-direction: column;
+
   padding: 6px 0 0 6px;
   border: 0px;
   box-sizing: border-box;
+
+  --md-navigation-drawer-container-shape-start-end: 0;
+  --md-navigation-drawer-container-shape-end-end: 0;
+  --md-navigation-drawer-container-color: rgba(128, 128, 128, 0.5);
+}
+
+.drawer {
+  overflow: hidden auto;
 }
 
 .uiGroup {
@@ -350,11 +358,6 @@
 .invertibleButtonDarkBG {
   filter: invert(100%);
   -webkit-filter: invert(100%);
-}
-
-.collapseUIButton {
-  width: 1.5em;
-  cursor: pointer;
 }
 
 .screenshotButton {
@@ -798,4 +801,10 @@ select:focus {
   background: black;
   margin: 0;
   padding: 0;
+}
+
+.collapseButton {
+  position: absolute;
+  top: 0;
+  right: -48px;
 }

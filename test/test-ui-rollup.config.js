@@ -6,11 +6,19 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import { babel } from '@rollup/plugin-babel'
 import ignore from 'rollup-plugin-ignore'
+import typescript from '@rollup/plugin-typescript'
 
 export default {
   input: 'test/testUINoPlaneSliders.js',
   output: { file: 'test/testUINoPlaneSlidersBundle.js', format: 'es' },
   plugins: [
+    typescript({
+      tsconfig: 'src/UI/reference-ui/tsconfig.json',
+      compilerOptions: {
+        declaration: false,
+        declarationMap: false,
+      },
+    }),
     // ignore crypto module
     ignore(['crypto']),
     commonjs({

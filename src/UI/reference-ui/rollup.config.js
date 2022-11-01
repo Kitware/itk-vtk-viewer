@@ -7,6 +7,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 import { babel } from '@rollup/plugin-babel'
 import ignore from 'rollup-plugin-ignore'
+import typescript from '@rollup/plugin-typescript'
 
 export default {
   input: 'src/referenceUIMachineOptions.js',
@@ -24,6 +25,7 @@ export default {
     commonjs({
       transformMixedEsModules: true,
     }),
+    typescript(),
     babel({
       include: ['src/**'],
       extensions: ['.js'],

@@ -1,4 +1,5 @@
-import vtkMouseRangeManipulator from '@kitware/vtk.js/Interaction/Manipulators/MouseRangeManipulator'
+import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator'
+
 const MIN_WINDOW = 1e-8
 const MIN_WIDTH = 1e-8
 

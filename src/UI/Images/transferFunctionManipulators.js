@@ -1,4 +1,6 @@
 import vtkMouseRangeManipulator from '@kitware/vtk.js/Interaction/Manipulators/MouseRangeManipulator'
+import vtkGestureCameraManipulator from '@kitware/vtk.js/Interaction/Manipulators/GestureCameraManipulator'
+
 const MIN_WINDOW = 1e-8
 const MIN_WIDTH = 1e-8
 
@@ -94,15 +96,29 @@ export const createTransferFunctionManipulators = context => (
     alt: true,
   })
 
+  const gestureManipulator = vtkGestureCameraManipulator.newInstance({
+    pinchEnabled: true,
+    rotateEnabled: true,
+    panEnabled: true,
+  })
+
   // max as 1.01 not 1.0 to allow for squishing of low function points if a point is already at 1
   pwfRangeManipulator.setVerticalListener(0, 1.01, 0.01, pwfGet, pwfSet)
   pwfRangeManipulatorShift.setVerticalListener(0, 1.01, 0.01, pwfGet, pwfSet)
-  ;[rangeManipulator, pwfRangeManipulator, pwfRangeManipulatorShift].forEach(
-    m => {
+  ;[
+    rangeManipulator,
+    pwfRangeManipulator,
+    pwfRangeManipulatorShift,
+    gestureManipulator,
+  ].forEach(m => {
+    if (m.isA('vtkGestureCameraManipulator')) {
+      context.itkVtkView.getInteractorStyle2D().addGestureManipulator(m)
+      context.itkVtkView.getInteractorStyle3D().addGestureManipulator(m)
+    } else {
       context.itkVtkView.getInteractorStyle2D().addMouseManipulator(m)
       context.itkVtkView.getInteractorStyle3D().addMouseManipulator(m)
     }
-  )
+  })
 
   const applyColorRange = (context, event) => {
     const name = event.data.name

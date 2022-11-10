@@ -18,16 +18,16 @@ const composeTransforms = (transforms = [], dimCount) =>
   transforms.reduce(
     ({ scale, translation }, transform) => {
       if (transform.type === 'scale') {
-        const scaleTransform = transform.scale
+        const { scale: transformScale } = transform
         return {
-          scale: scale.map((s, i) => s * scaleTransform[i]),
-          translation: translation.map((t, i) => t * scaleTransform[i]),
+          scale: scale.map((s, i) => s * transformScale[i]),
+          translation: translation.map((t, i) => t * transformScale[i]),
         }
       } else if (transform.type === 'translation') {
-        const translationTransform = transform.translation
+        const { translation: transformTranslation } = transform
         return {
           scale,
-          translation: translation.map((t, i) => t + translationTransform[i]),
+          translation: translation.map((t, i) => t + transformTranslation[i]),
         }
       }
     },
@@ -53,6 +53,28 @@ export const computeTransform = (imageMetadata, datasetMetadata, dimCount) => {
     ],
     dimCount
   )
+}
+
+// if missing coordinateTransformations, make all scales same size as finest scale
+const ensureScaleTransforms = datasetsWithArrayMetadata => {
+  const hasDatasetCoordinateTransform = datasetsWithArrayMetadata.some(
+    ({ dataset }) => dataset.coordinateTransformations
+  )
+  if (hasDatasetCoordinateTransform) return datasetsWithArrayMetadata
+
+  const targetSize = datasetsWithArrayMetadata[0].pixelArrayMetadata.shape
+
+  return datasetsWithArrayMetadata.map(({ dataset, pixelArrayMetadata }) => {
+    const { shape } = pixelArrayMetadata
+    const scale = targetSize.map((target, idx) => target / shape[idx])
+    return {
+      dataset: {
+        ...dataset,
+        coordinateTransformations: [{ scale, type: 'scale' }],
+      },
+      pixelArrayMetadata,
+    }
+  })
 }
 
 // lazy creation of voxel/pixel/dimension coordinates array
@@ -102,8 +124,8 @@ const findAxesLongNames = async ({ dataset, dataSource, dims }) => {
 
 const createScaledImageInfo = async ({
   multiscaleImage,
-  pixelArrayMetadata,
   dataset,
+  pixelArrayMetadata,
   dataSource,
   multiscaleSpatialImageVersion,
 }) => {
@@ -151,15 +173,23 @@ const extractScaleSpacing = async dataSource => {
     ? multiscales[0] // if multiple images (multiscales), just grab first one
     : multiscales
 
+  const datasetsWithArrayMetadataRaw = await Promise.all(
+    multiscaleImage.datasets.map(async dataset => ({
+      dataset,
+      pixelArrayMetadata: await dataSource.getItem(`${dataset.path}/.zarray`),
+    }))
+  )
+
+  const datasetsWithArrayMetadata = ensureScaleTransforms(
+    datasetsWithArrayMetadataRaw
+  )
+
   const scaleInfo = await Promise.all(
-    multiscaleImage.datasets.map(async dataset => {
-      const pixelArrayMetadata = await dataSource.getItem(
-        `${dataset.path}/.zarray`
-      )
+    datasetsWithArrayMetadata.map(async ({ dataset, pixelArrayMetadata }) => {
       return createScaledImageInfo({
         multiscaleImage,
-        pixelArrayMetadata,
         dataset,
+        pixelArrayMetadata,
         dataSource,
         multiscaleSpatialImageVersion,
       })

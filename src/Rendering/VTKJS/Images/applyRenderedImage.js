@@ -398,12 +398,14 @@ function applyRenderedImage(context, { data: { name } }) {
 
   const loadedImage = actorContext.image ?? actorContext.labelImage
   const hasOneScale = loadedImage.scaleInfo.length === 1
-  if (hasOneScale) {
-    context.itkVtkView.setSeCornerAnnotation(ANNOTATION_DEFAULT)
-  } else {
-    context.itkVtkView.setSeCornerAnnotation(
-      `${ANNOTATION_CUSTOM_PREFIX}<td style="margin-left: 0; margin-right: auto;">${actorContext.loadedScale}</td>${ANNOTATION_CUSTOM_POSTFIX}`
-    )
+  if (context.itkVtkView.setSeCornerAnnotation) {
+    if (hasOneScale) {
+      context.itkVtkView.setSeCornerAnnotation(ANNOTATION_DEFAULT)
+    } else {
+      context.itkVtkView.setSeCornerAnnotation(
+        `${ANNOTATION_CUSTOM_PREFIX}<td style="margin-left: 0; margin-right: auto;">${actorContext.loadedScale}</td>${ANNOTATION_CUSTOM_POSTFIX}`
+      )
+    }
   }
 }
 

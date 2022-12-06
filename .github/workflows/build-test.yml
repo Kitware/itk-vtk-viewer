@@ -21,10 +21,12 @@ jobs:
         run: npm ci
 
       - name: Download testing data
-        shell: bash
-        run: |
-          curl -OL https://github.com/Kitware/itk-vtk-viewer/releases/download/v14.5.0/itk-vtk-viewer-testing-data.tar.gz
-          tar xvzf ./itk-vtk-viewer-testing-data.tar.gz -C test/
+        uses: datalad/datalad-action/get@main
+        with:
+          release: 0.17.3
+          source: https://github.com/InsightSoftwareConsortium/itk-viewer-testing-data
+          dataset_path: test/data
+          all: true
 
       - name: Build
         run: npm run build

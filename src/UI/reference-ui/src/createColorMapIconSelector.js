@@ -5,7 +5,7 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
   const rows = 20
   const cols = 4
   const iconSelectParameters = {
-    selectedIconWidth: 170,
+    selectedIconWidth: 160,
     selectedIconHeight: 22,
     selectedBoxPadding: 1,
     iconsWidth: 80,
@@ -19,7 +19,7 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
     colorMapSelectorDiv,
     iconSelectParameters
   )
-  colorMapSelectorDiv.style.width = '186px'
+  colorMapSelectorDiv.style.width = '174px'
   // put above lower down label map color selector
   colorMapSelectorDiv.style.zIndex = '2001'
 

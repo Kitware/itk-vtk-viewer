@@ -264,8 +264,12 @@
   border: none;
   background: transparent;
   font-size: 1.2em;
-  margin-right: 10px;
   z-index: 1000;
+
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 
 .layerLabelBrightBG {
@@ -429,7 +433,6 @@
   width: 8mm;
   padding-top: 2px;
   padding-bottom: 2px;
-  padding-left: 2px;
   padding-right: 4px;
   cursor: pointer;
   z-index: 1000;
@@ -437,6 +440,7 @@
 
 .interpolationButton img {
   width: 1.2em;
+  margin-top: 4px;
 }
 
 .cropButton {

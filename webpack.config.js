@@ -124,9 +124,13 @@ module.exports = (env, argv) => [
             from: path.join(__dirname, 'src', 'IO', 'Downsample', 'web-build'),
             to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
           },
+          {
+            from: path.join(__dirname, 'src', 'IO', 'Resample', 'web-build'),
+            to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
+          },
         ],
       }),
-      // workbox plugin should be last plugin.  Don't create in development to avoid warining with devServer --watch
+      // workbox plugin should be last plugin.  Don't create in development to avoid warning with devServer --watch
       argv.mode !== 'development'
         ? new GenerateSW({
             cacheId: 'itk-vtk-viewer-',
@@ -151,7 +155,7 @@ module.exports = (env, argv) => [
           })
         : undefined,
       new WebPackBar(),
-    ].filter(Boolean), // filter removes optional workbox placehoder
+    ].filter(Boolean), // filter removes optional workbox placeholder
     performance,
     devServer,
   },

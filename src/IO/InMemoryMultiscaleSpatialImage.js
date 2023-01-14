@@ -267,7 +267,6 @@ class InMemoryMultiscaleSpatialImage extends MultiscaleSpatialImage {
         ]
         downsampleTaskArgs.push([pipelinePath, args, desiredOutputs, inputs])
       }
-      console.log(downsampleTaskArgs)
       const results = await downsampleWorkerPool.runTasks(downsampleTaskArgs)
         .promise
       const validResults = results.filter(r => r.returnValue === 0)

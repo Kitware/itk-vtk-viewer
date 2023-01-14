@@ -24,8 +24,8 @@
 #include "itkPipeline.h"
 #include "itkInputImage.h"
 #include "itkOutputImage.h"
-#include "itkSupportInputImageTypesNoVectorImage.h"
 #include "itkOutputTextStream.h"
+#include "itkSupportInputImageTypes.h"
 
 template <typename TImage>
 int ResampleLabelImage(itk::wasm::Pipeline &pipeline, itk::wasm::InputImage<TImage> &inputImage)
@@ -144,17 +144,17 @@ public:
 
 int main(int argc, char *argv[])
 {
-  itk::wasm::Pipeline pipeline("Resample a label image", argc, argv);
+  itk::wasm::Pipeline pipeline("Resample", "Resample a label image", argc, argv);
 
-  return itk::wasm::SupportInputImageTypesNoVectorImage<PipelineFunctor,
-                                                        uint8_t,
-                                                        int8_t,
-                                                        uint16_t,
-                                                        int16_t,
-                                                        uint32_t,
-                                                        int32_t,
-                                                        uint64_t,
-                                                        int64_t,
-                                                        float,
-                                                        double>::Dimensions<2U, 3U>("InputImage", pipeline);
+  return itk::wasm::SupportInputImageTypes<PipelineFunctor,
+                                           uint8_t,
+                                           int8_t,
+                                           uint16_t,
+                                           int16_t,
+                                           uint32_t,
+                                           int32_t,
+                                           uint64_t,
+                                           int64_t,
+                                           float,
+                                           double>::Dimensions<2U, 3U>("InputImage", pipeline);
 }

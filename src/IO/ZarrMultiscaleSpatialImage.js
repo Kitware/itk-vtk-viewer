@@ -229,7 +229,8 @@ class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
   constructor(zarrStoreParser, scaleInfo, imageType) {
     super(scaleInfo, imageType)
     this.dataSource = zarrStoreParser
-    this.rpcQueue = new PQueue({ concurrency: 10 })
+    let proc = window.navigator.hardwareConcurrency
+    this.rpcQueue = new PQueue({ concurrency: proc })
   }
 
   async getChunksImpl(scale, cxyztArray) {

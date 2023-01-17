@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(Resample)
+project(ResampleLabelImage)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -21,6 +21,6 @@ find_package(ITK REQUIRED
   )
 include(${ITK_USE_FILE})
 
-add_executable(Resample Resample.cxx)
-target_link_libraries(Resample PUBLIC ${ITK_LIBRARIES})
+add_executable(ResampleLabelImage ResampleLabelImage.cxx)
+target_link_libraries(ResampleLabelImage PUBLIC ${ITK_LIBRARIES})
 

@@ -144,7 +144,7 @@ public:
 
 int main(int argc, char *argv[])
 {
-  itk::wasm::Pipeline pipeline("Resample", "Resample a label image", argc, argv);
+  itk::wasm::Pipeline pipeline("ResampleLabelImage", "Resample a label image", argc, argv);
 
   return itk::wasm::SupportInputImageTypes<PipelineFunctor,
                                            uint8_t,
@@ -154,7 +154,5 @@ int main(int argc, char *argv[])
                                            uint32_t,
                                            int32_t,
                                            uint64_t,
-                                           int64_t,
-                                           float,
-                                           double>::Dimensions<2U, 3U>("InputImage", pipeline);
+                                           int64_t>::Dimensions<2U, 3U>("InputImage", pipeline);
 }

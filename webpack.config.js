@@ -1,3 +1,4 @@
+/* eslint-env node */
 const webpack = require('webpack')
 const path = require('path')
 
@@ -125,7 +126,13 @@ module.exports = (env, argv) => [
             to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
           },
           {
-            from: path.join(__dirname, 'src', 'IO', 'Resample', 'web-build'),
+            from: path.join(
+              __dirname,
+              'src',
+              'IO',
+              'ResampleLabelImage',
+              'web-build'
+            ),
             to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
           },
         ],

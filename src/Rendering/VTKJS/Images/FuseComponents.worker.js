@@ -1,6 +1,6 @@
 import registerWebworker from 'webworker-promise/lib/register'
 import { computeRanges } from '../../../IO/Analyze/computeRanges'
-import { resample } from '../../../IO/Resample/resample'
+import { resampleLabelImage } from '../../../IO/ResampleLabelImage/ResampleLabelImage'
 import { parseByComponent, fuseComponents } from './fuseImagesUtils'
 
 const pickRanges = compInfos =>
@@ -22,7 +22,7 @@ const ensureSameSize = async images => {
     images.map(image => {
       if (image.size.every((s, idx) => s === maxSize[idx])) return image
 
-      return resample(maxSize, image)
+      return resampleLabelImage(maxSize, image)
     })
   )
 }

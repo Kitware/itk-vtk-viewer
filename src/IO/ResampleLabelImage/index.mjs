@@ -25,7 +25,7 @@ if (program.args.length < 2) {
 
 const inputFile = program.args[0]
 const outputFile = program.args[1]
-const pipelinePath = path.resolve('./web-build/Resample')
+const pipelinePath = path.resolve('./web-build/ResampleLabelImage')
 
 const size = [100, 100]
 

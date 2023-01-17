@@ -112,12 +112,12 @@ const makeMat4 = ({ direction, origin, spacing }) => {
 }
 
 const makeIndexToWorld = ({ direction: inDirection, origin, spacing }) => {
+  // ITK (and VTKMath) uses row-major index axis, but gl-matrix uses column-major. Transpose.
   const DIMENSIONS = 3
-  const direction = [...inDirection]
+  const direction = Array(inDirection.length)
   for (let idx = 0; idx < DIMENSIONS; ++idx) {
     for (let col = 0; col < DIMENSIONS; ++col) {
-      // ITK (and VTKMath) uses row-major index axis, but gl-matrix uses column-major. Transpose.
-      direction[col + idx * 3] = direction[idx + col * DIMENSIONS]
+      direction[col + idx * 3] = inDirection[idx + col * DIMENSIONS]
     }
   }
 

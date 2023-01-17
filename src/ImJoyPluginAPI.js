@@ -128,7 +128,7 @@ class ImJoyPluginAPI {
     this.viewer.setRenderingViewContainerStyle(containerStyle)
   }
   getRenderingViewStyle() {
-    return this.viewer.getRenderingViewStyle()
+    return this.viewer.getRenderingViewContainerStyle()
   }
 
   setBackgroundColor(bgColor) {

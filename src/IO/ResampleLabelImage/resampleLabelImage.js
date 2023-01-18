@@ -24,7 +24,9 @@ async function runWasm(pipeline, args, image) {
     ? pipelineWorkerUrl.substring(5)
     : pipelineWorkerUrl
 
-  const worker = new Worker(pipelinesWorkerUrlNoBlob)
+  const worker = new Worker(
+    new URL(pipelinesWorkerUrlNoBlob, self.location.origin) // URL is invalid for tests unless base provided to URL
+  )
 
   const { outputs } = await runPipeline(
     worker,

@@ -1,10 +1,4 @@
-import {
-  runPipeline,
-  InterfaceTypes,
-  imageSharedBufferOrCopy,
-  //   WorkerPool,
-  //   stackImages,
-} from 'itk-wasm'
+import { runPipeline, InterfaceTypes, imageSharedBufferOrCopy } from 'itk-wasm'
 
 import itkConfig from '../itkConfig.js'
 

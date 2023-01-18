@@ -13,28 +13,27 @@ const pickRanges = compInfos =>
     }, [])
     ?.map(([min, max]) => ({ min, max }))
 
-const ensureSameSize = async images => {
-  const maxSize = images.reduce((maxSize, { size }) => {
-    return size.map((s, i) => Math.max(s, maxSize[i] ?? 0))
-  }, [])
+const ensureSameSize = async ({ image, labelImage }) => {
+  const { size: imageSize } = image
+  const { size: labelSize } = labelImage
 
-  return await Promise.all(
-    images.map(image => {
-      if (image.size.every((s, idx) => s === maxSize[idx])) return image
+  if (imageSize.every((s, idx) => s === labelSize[idx])) return labelImage
 
-      return resampleLabelImage(maxSize, image)
-    })
-  )
+  return resampleLabelImage(image, labelImage)
 }
 
-registerWebworker(async ({ image, label, visualizedComponents }) => {
-  const [imageResampled, labelResampled] = await ensureSameSize([image, label])
+registerWebworker(async ({ image, labelImage, visualizedComponents }) => {
+  const labelResampled =
+    labelImage &&
+    (await ensureSameSize({
+      image: Array.isArray(image) ? image[0] : image, // if Conglomerate, just grab first image
+      labelImage,
+    }))
 
   const [imageByComponent, labelByComponent] = [
-    imageResampled,
+    image,
     labelResampled,
   ].map(image => parseByComponent(image))
-
   const componentInfo = visualizedComponents.map(
     comp =>
       comp >= 0 ? imageByComponent[comp] : labelByComponent[comp * -1 - 1] // label component index starts at -1

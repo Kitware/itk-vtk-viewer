@@ -10,7 +10,9 @@ class ImJoyPluginAPI {
     if (ctx.data && ctx.data.image) {
       if (ctx.config) {
         const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
-          ctx.data.image
+          ctx.data.image,
+          false,
+          ctx.config.maxConcurrency
         )
         const is2D = multiscaleImage.imageType.dimension === 2
         this.viewer = await itkVtkViewer.createViewer(container, {
@@ -23,7 +25,7 @@ class ImJoyPluginAPI {
           config: ctx.config,
         })
       } else {
-        await this.setImage(ctx.data.image)
+        await this.setImage(ctx.data.image, ctx.config.maxConcurrency)
       }
     } else if (ctx.data && ctx.data.pointSets) {
       if (ctx.config) {
@@ -76,9 +78,11 @@ class ImJoyPluginAPI {
     return await this.viewer.captureImage()
   }
 
-  async setImage(image) {
+  async setImage(image, maxConcurrency) {
     const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
-      image
+      image,
+      false,
+      maxConcurrency
     )
     const is2D = multiscaleImage.imageType.dimension === 2
     if (this.viewer === null) {
@@ -90,7 +94,7 @@ class ImJoyPluginAPI {
         rotate: false,
       })
     } else {
-      await this.viewer.setImage(multiscaleImage)
+      await this.viewer.setImage(multiscaleImage, maxConcurrency)
     }
   }
 
@@ -360,6 +364,14 @@ class ImJoyPluginAPI {
 
   getImageVolumeScatteringBlend(name) {
     return this.viewer.getImageVolumeScatteringBlend(name)
+  }
+
+  setRpcMaxConcurrency(value) {
+    this.viewer.setMaxConcurrency(value)
+  }
+
+  getRpcMaxConcurrency() {
+    return this.viewer.getMaxConcurrency()
   }
 }
 

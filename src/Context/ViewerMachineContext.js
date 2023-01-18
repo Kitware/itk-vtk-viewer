@@ -42,6 +42,9 @@ class ViewerMachineContext {
       if (typeof config.uiCollapsed !== 'undefined') {
         this.uiCollapsed = config.uiCollapsed
       }
+      if (typeof config.maxConcurrency !== 'undefined') {
+        this.maxConcurrency = config.maxConcurrency
+      }
       this.main = new MainMachineContext(config.main)
     } else {
       this.main = new MainMachineContext()
@@ -66,6 +69,7 @@ class ViewerMachineContext {
       xyLowerLeft: this.xyLowerLeft,
       renderingViewContainerStyle: { ...this.renderingViewContainerStyle },
       uiCollapsed: this.uiCollapsed,
+      maxConcurrency: this.maxConcurrency,
 
       main: this.main.getConfig(),
     }
@@ -108,6 +112,10 @@ class ViewerMachineContext {
   // Has the user interface been collapsed, leaving on the interactive
   // rendering?
   uiCollapsed = false
+
+  // Has the user set the number of available processors, or will we determine
+  // that dynamically from the client?
+  maxConcurrency = 0
 
   // Main machine context
   main = null

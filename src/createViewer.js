@@ -662,7 +662,11 @@ const createViewer = async (
 
   publicAPI.setImage = async (image, imageName) => {
     const name = imageName ?? context.images?.selectedName ?? 'Image'
-    const multiscaleImage = await toMultiscaleSpatialImage(image)
+    const multiscaleImage = await toMultiscaleSpatialImage(
+      image,
+      false,
+      context.maxConcurrency
+    )
     multiscaleImage.name = name
     if (context.images.actorContext.has(name)) {
       const actorContext = context.images.actorContext.get(name)
@@ -839,7 +843,8 @@ const createViewer = async (
   publicAPI.setLabelImage = async (labelImage, layerImageName) => {
     const multiscaleLabelImage = await toMultiscaleSpatialImage(
       labelImage,
-      true
+      true,
+      context.maxConcurrency
     )
     if (multiscaleLabelImage.name === 'Image') {
       multiscaleLabelImage.name = 'LabelImage'
@@ -1175,11 +1180,23 @@ const createViewer = async (
     return actorContext.cinematicParameters.scatteringBlend
   }
 
+  publicAPI.setMaxConcurrency = value => {
+    context.maxConcurrency = value
+  }
+
+  publicAPI.getMaxConcurrency = () => {
+    return context.maxConcurrency
+  }
+
   addKeyboardShortcuts(context.uiContainer, service)
 
   let imageName = null
   if (image) {
-    const multiscaleImage = await toMultiscaleSpatialImage(image)
+    const multiscaleImage = await toMultiscaleSpatialImage(
+      image,
+      false,
+      context.maxConcurrency
+    )
     imageName = multiscaleImage?.name ?? null
     service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
   }

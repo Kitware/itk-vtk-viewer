@@ -27,8 +27,6 @@ const inputFile = program.args[0]
 const outputFile = program.args[1]
 const pipelinePath = path.resolve('./web-build/ResampleLabelImage')
 
-const size = [100, 100]
-
 try {
   const inputImage = await readLocalFile(inputFile)
 
@@ -42,10 +40,21 @@ try {
     { type: InterfaceTypes.Image },
     // { type: InterfaceTypes.TextStream },
   ]
+  const size = [100, 100]
+  const spacing = [2, 2]
+  const origin = [1, 3]
+  const direction = [0, 1, 1, 0]
   const args = [
     '0',
     '0',
+    '--size',
     size.join(','),
+    '--spacing',
+    spacing.join(','),
+    '--origin',
+    origin.join(','),
+    '--direction',
+    direction.join(','),
     // '--max-total-splits',
     // '10',
     // '--split',

@@ -1,6 +1,6 @@
 import registerWebworker from 'webworker-promise/lib/register'
 import { computeRanges } from '../../../IO/Analyze/computeRanges'
-import { resampleLabelImage } from '../../../IO/ResampleLabelImage/ResampleLabelImage'
+import { resampleLabelImage } from '../../../IO/ResampleLabelImage/resampleLabelImage'
 import { parseByComponent, fuseComponents } from './fuseImagesUtils'
 
 const pickRanges = compInfos =>

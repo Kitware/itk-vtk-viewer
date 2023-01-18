@@ -39,7 +39,16 @@ int ResampleLabelImage(itk::wasm::Pipeline &pipeline, itk::wasm::InputImage<TIma
   pipeline.add_option("OutputImage", outputImage, "Output image")->required();
 
   std::vector<unsigned int> outSize;
-  pipeline.add_option("outSize", outSize, "New image size for each direction")->expected(2, 3)->delimiter(',');
+  pipeline.add_option("-z,--size", outSize, "New image size for each direction")->expected(2, 3)->delimiter(',');
+
+  std::vector<double> outSpacing;
+  pipeline.add_option("-p,--spacing", outSpacing, "New image spacing for each direction")->expected(2, 3)->delimiter(',');
+
+  std::vector<double> outOrigin;
+  pipeline.add_option("-o,--origin", outOrigin, "New image origin for each direction")->expected(2, 3)->delimiter(',');
+
+  std::vector<double> outDirection;
+  pipeline.add_option("-d,--direction", outDirection, "New image direction")->expected(4, 9)->delimiter(',');
 
   unsigned int maxTotalSplits = 1;
   pipeline.add_option("-m,--max-total-splits", maxTotalSplits, "Maximum total splits when processed in parallel");
@@ -56,34 +65,40 @@ int ResampleLabelImage(itk::wasm::Pipeline &pipeline, itk::wasm::InputImage<TIma
 
   using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
   auto resampleFilter = ResampleFilterType::New();
+  resampleFilter->SetInput(inImage);
 
   using InterpolatorType = itk::LabelImageGenericInterpolateImageFunction<ImageType, itk::LinearInterpolateImageFunction>;
   auto interpolator = InterpolatorType::New();
   resampleFilter->SetInterpolator(interpolator);
 
-  resampleFilter->SetInput(inImage);
-  resampleFilter->SetOutputParametersFromImage(inImage);
-
   using RegionType = typename ImageType::RegionType;
-  const typename ImageType::SizeType &inputSize = inImage->GetLargestPossibleRegion().GetSize();
-
-  const typename TImage::SpacingType &inputSpacing = inImage->GetSpacing();
-  typename ImageType::SpacingType outputSpacing;
-  // for (int i : outputSpacing)
-  for (int i = 0; i < outputSpacing.size(); ++i)
-  {
-    outputSpacing[i] = inputSpacing[i] * (double)inputSize[i] / (double)outSize[i];
-  }
-  resampleFilter->SetOutputSpacing(outputSpacing);
 
   typename ImageType::SizeType outputSize;
-  // for (int i : outputSize)
-  for (int i = 0; i < outputSize.size(); ++i)
+  typename ImageType::SpacingType outputSpacing;
+  typename ImageType::PointType outputOrigin;
+  const int dims = outputSize.size();
+  for (int i = 0; i < dims; ++i)
   {
     outputSize[i] = outSize[i];
+    outputSpacing[i] = outSpacing[i];
+    outputOrigin[i] = outOrigin[i];
   }
   resampleFilter->SetSize(outputSize);
+  resampleFilter->SetOutputSpacing(outputSpacing);
+  resampleFilter->SetOutputOrigin(outputOrigin);
 
+  typename ImageType::DirectionType outputDirection;
+  for (int row = 0; row < dims; ++row)
+  {
+    for (int col = 0; col < dims; ++col)
+    {
+      outputDirection(row, col) = outDirection[row * dims + col];
+    }
+  }
+
+  resampleFilter->SetOutputDirection(outputDirection);
+
+  // Split handling
   using ROIFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
   resampleFilter->UpdateOutputInformation();
   const RegionType largestRegion(resampleFilter->GetOutput()->GetLargestPossibleRegion());

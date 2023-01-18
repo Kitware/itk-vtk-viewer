@@ -3,7 +3,7 @@ import { runPipeline, InterfaceTypes, imageSharedBufferOrCopy } from 'itk-wasm'
 import itkConfig from '../itkConfig.js'
 
 async function runWasm(pipeline, args, image) {
-  const taskArgs = ['0', '0', args.join(','), '--memory-io']
+  const taskArgs = ['0', '0', ...args, '--memory-io']
   const inputs = [
     {
       type: InterfaceTypes.Image,
@@ -39,6 +39,18 @@ async function runWasm(pipeline, args, image) {
   return outputs[0].data
 }
 
-export async function resampleLabelImage(size, image) {
-  return runWasm('Resample', size, image)
+export async function resampleLabelImage(image, labelImage) {
+  const { size, spacing, origin, direction } = image
+  const args = [
+    '--size',
+    size.join(','),
+    '--spacing',
+    spacing.join(','),
+    '--origin',
+    origin.join(','),
+    '--direction',
+    direction.join(','),
+  ]
+
+  return runWasm('ResampleLabelImage', args, labelImage)
 }

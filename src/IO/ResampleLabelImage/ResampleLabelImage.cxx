@@ -1,3 +1,20 @@
+/*=========================================================================
+ *
+ *  Copyright NumFOCUS
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkBinShrinkImageFilter.h"
 #include "itkVectorImage.h"
 #include "itkResampleImageFilter.h"
@@ -50,6 +67,7 @@ int ResampleLabelImage(itk::wasm::Pipeline &pipeline, itk::wasm::InputImage<TIma
   std::vector<double> outDirection;
   pipeline.add_option("-d,--direction", outDirection, "New image direction")->expected(4, 9)->delimiter(',');
 
+  // split args
   unsigned int maxTotalSplits = 1;
   pipeline.add_option("-m,--max-total-splits", maxTotalSplits, "Maximum total splits when processed in parallel");
 
@@ -68,10 +86,7 @@ int ResampleLabelImage(itk::wasm::Pipeline &pipeline, itk::wasm::InputImage<TIma
   resampleFilter->SetInput(inImage);
 
   using InterpolatorType = itk::LabelImageGenericInterpolateImageFunction<ImageType, itk::LinearInterpolateImageFunction>;
-  auto interpolator = InterpolatorType::New();
-  resampleFilter->SetInterpolator(interpolator);
-
-  using RegionType = typename ImageType::RegionType;
+  resampleFilter->SetInterpolator(InterpolatorType::New());
 
   typename ImageType::SizeType outputSize;
   typename ImageType::SpacingType outputSpacing;
@@ -101,6 +116,7 @@ int ResampleLabelImage(itk::wasm::Pipeline &pipeline, itk::wasm::InputImage<TIma
   // Split handling
   using ROIFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
   resampleFilter->UpdateOutputInformation();
+  using RegionType = typename ImageType::RegionType;
   const RegionType largestRegion(resampleFilter->GetOutput()->GetLargestPossibleRegion());
 
   using SplitterType = itk::ImageRegionSplitterSlowDimension;
@@ -169,5 +185,7 @@ int main(int argc, char *argv[])
                                            uint32_t,
                                            int32_t,
                                            uint64_t,
-                                           int64_t>::Dimensions<2U, 3U>("InputImage", pipeline);
+                                           int64_t,
+                                           float,
+                                           double>::Dimensions<2U, 3U>("InputImage", pipeline);
 }

@@ -240,7 +240,6 @@ class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
     if (maxConcurrency === 0) {
       maxConcurrency = window.navigator.hardwareConcurrency
     }
-    console.log('MAX CONCURRENCY: ', maxConcurrency)
     this.rpcQueue = new PQueue({ concurrency: maxConcurrency })
   }
 

@@ -237,8 +237,11 @@ class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
   constructor(zarrStoreParser, scaleInfo, imageType, maxConcurrency = 0) {
     super(scaleInfo, imageType)
     this.dataSource = zarrStoreParser
-    if (maxConcurrency === 0) {
-      maxConcurrency = window.navigator.hardwareConcurrency
+    if (maxConcurrency !== 0) {
+      maxConcurrency = Math.min(
+        window.navigator.hardwareConcurrency,
+        maxConcurrency
+      )
     }
     this.rpcQueue = new PQueue({ concurrency: maxConcurrency })
   }

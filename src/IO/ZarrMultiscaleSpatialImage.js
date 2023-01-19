@@ -215,21 +215,33 @@ const extractScaleSpacing = async dataSource => {
 
 class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
   // Store parameter is object with getItem (but not a ZarrStoreParser)
-  static async fromStore(store) {
+  static async fromStore(store, maxConcurrency = 0) {
     const zarrStoreParser = new ZarrStoreParser(store)
     const { scaleInfo, imageType } = await extractScaleSpacing(zarrStoreParser)
-    return new ZarrMultiscaleSpatialImage(zarrStoreParser, scaleInfo, imageType)
+    return new ZarrMultiscaleSpatialImage(
+      zarrStoreParser,
+      scaleInfo,
+      imageType,
+      maxConcurrency
+    )
   }
 
-  static async fromUrl(url) {
-    return ZarrMultiscaleSpatialImage.fromStore(new HttpStore(url))
+  static async fromUrl(url, maxConcurrency = 0) {
+    return ZarrMultiscaleSpatialImage.fromStore(
+      new HttpStore(url),
+      maxConcurrency
+    )
   }
 
   // Use static factory functions to construct
-  constructor(zarrStoreParser, scaleInfo, imageType) {
+  constructor(zarrStoreParser, scaleInfo, imageType, maxConcurrency = 0) {
     super(scaleInfo, imageType)
     this.dataSource = zarrStoreParser
-    this.rpcQueue = new PQueue({ concurrency: 10 })
+    if (maxConcurrency === 0) {
+      maxConcurrency = window.navigator.hardwareConcurrency
+    }
+    console.log('MAX CONCURRENCY: ', maxConcurrency)
+    this.rpcQueue = new PQueue({ concurrency: maxConcurrency })
   }
 
   async getChunksImpl(scale, cxyztArray) {

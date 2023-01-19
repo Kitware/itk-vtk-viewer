@@ -36,7 +36,11 @@ async function itkImageToInMemoryMultiscaleSpatialImage(image, isLabelImage) {
   return multiscaleImage
 }
 
-async function toMultiscaleSpatialImage(image, isLabelImage = false) {
+async function toMultiscaleSpatialImage(
+  image,
+  isLabelImage = false,
+  maxConcurrency = 0
+) {
   let multiscaleImage = null
   if (image instanceof MultiscaleSpatialImage) {
     // Already a multi-scale, chunked image
@@ -49,7 +53,10 @@ async function toMultiscaleSpatialImage(image, isLabelImage = false) {
     )
   } else if (typeof image.getItem === 'function') {
     // key value store
-    multiscaleImage = ZarrMultiscaleSpatialImage.fromStore(image)
+    multiscaleImage = ZarrMultiscaleSpatialImage.fromStore(
+      image,
+      maxConcurrency
+    )
   } else if (image._rtype !== undefined && image._rtype === 'ndarray') {
     // ndarray
     const itkImage = ndarrayToItkImage(image)
@@ -59,7 +66,10 @@ async function toMultiscaleSpatialImage(image, isLabelImage = false) {
     )
   } else if (image.href !== undefined) {
     if (isZarr(image.href)) {
-      multiscaleImage = ZarrMultiscaleSpatialImage.fromUrl(image)
+      multiscaleImage = ZarrMultiscaleSpatialImage.fromUrl(
+        image,
+        maxConcurrency
+      )
     } else {
       const dataBuffer = await fetchBinaryContent(image)
       const { image: itkImage, webWorker } = await readImageArrayBuffer(

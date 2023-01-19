@@ -36,7 +36,7 @@ const TEST_VIEWER_STYLE = {
 }
 
 const baselineConfig = JSON.parse(
-  '{"viewerConfigVersion":"0.3","uiMachineOptions":"reference","xyLowerLeft":false,"renderingViewContainerStyle":{"position":"relative","width":"600px","height":"600px","minHeight":"600px","minWidth":"600px","maxHeight":"600px","maxWidth":"600px","margin":"0","padding":"0","top":"0","left":"0","overflow":"hidden"},"uiCollapsed":true,"main":{"backgroundColor":[0.7,0.2,0.8],"units":"mm"}}'
+  '{"viewerConfigVersion":"0.3","uiMachineOptions":"reference","xyLowerLeft":false,"renderingViewContainerStyle":{"position":"relative","width":"600px","height":"600px","minHeight":"600px","minWidth":"600px","maxHeight":"600px","maxWidth":"600px","margin":"0","padding":"0","top":"0","left":"0","overflow":"hidden"},"uiCollapsed":true,"main":{"backgroundColor":[0.7,0.2,0.8],"units":"mm"},"maxConcurrency":0}'
 )
 
 function makePointSet() {

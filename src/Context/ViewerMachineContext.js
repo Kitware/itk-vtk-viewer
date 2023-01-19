@@ -3,6 +3,8 @@ import LayersMachineContext from './LayersMachineContext'
 import ImagesMachineContext from './ImagesMachineContext'
 import WidgetsMachineContext from './WidgetsMachineContext'
 
+export const MAX_CONCURRENCY = 128
+
 const defaultRenderingViewContainerStyle = {
   position: 'relative',
   width: '100%',
@@ -115,7 +117,7 @@ class ViewerMachineContext {
 
   // Has the user set the number of available processors, or will we determine
   // that dynamically from the client?
-  maxConcurrency = 0
+  maxConcurrency = MAX_CONCURRENCY
 
   // Main machine context
   main = null

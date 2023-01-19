@@ -1,4 +1,5 @@
 import { PixelTypes } from 'itk-wasm'
+import PQueue from 'p-queue'
 
 import MultiscaleSpatialImage from './MultiscaleSpatialImage'
 import bloscZarrDecompress from '../Compression/bloscZarrDecompress'
@@ -6,8 +7,7 @@ import ZarrStoreParser from './ZarrStoreParser'
 import HttpStore from './HttpStore'
 import { CXYZT, toDimensionMap } from './dimensionUtils'
 import { getComponentType } from './dtypeUtils'
-
-import PQueue from 'p-queue'
+import { MAX_CONCURRENCY } from '../Context/ViewerMachineContext'
 
 // ends with zarr and optional nested image name like foo.zarr/image1
 export const isZarr = url => /zarr((\/)[\w-]+\/?)?$/.test(url)
@@ -215,7 +215,7 @@ const extractScaleSpacing = async dataSource => {
 
 class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
   // Store parameter is object with getItem (but not a ZarrStoreParser)
-  static async fromStore(store, maxConcurrency = 0) {
+  static async fromStore(store, maxConcurrency) {
     const zarrStoreParser = new ZarrStoreParser(store)
     const { scaleInfo, imageType } = await extractScaleSpacing(zarrStoreParser)
     return new ZarrMultiscaleSpatialImage(
@@ -226,7 +226,7 @@ class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
     )
   }
 
-  static async fromUrl(url, maxConcurrency = 0) {
+  static async fromUrl(url, maxConcurrency) {
     return ZarrMultiscaleSpatialImage.fromStore(
       new HttpStore(url),
       maxConcurrency
@@ -234,16 +234,15 @@ class ZarrMultiscaleSpatialImage extends MultiscaleSpatialImage {
   }
 
   // Use static factory functions to construct
-  constructor(zarrStoreParser, scaleInfo, imageType, maxConcurrency = 0) {
+  constructor(zarrStoreParser, scaleInfo, imageType, maxConcurrency) {
     super(scaleInfo, imageType)
     this.dataSource = zarrStoreParser
-    if (maxConcurrency !== 0) {
-      maxConcurrency = Math.min(
-        window.navigator.hardwareConcurrency,
-        maxConcurrency
-      )
-    }
-    this.rpcQueue = new PQueue({ concurrency: maxConcurrency })
+
+    const concurrency = Math.min(
+      window.navigator.hardwareConcurrency,
+      maxConcurrency ?? MAX_CONCURRENCY
+    )
+    this.rpcQueue = new PQueue({ concurrency })
   }
 
   async getChunksImpl(scale, cxyztArray) {

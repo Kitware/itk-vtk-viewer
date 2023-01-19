@@ -47,7 +47,7 @@ async function makeImage({ image, progressCallback, isLabelImage = false }) {
   const imageUrlObj = new URL(image, document.location)
 
   if (isZarr(image)) {
-    return await toMultiscaleSpatialImage(imageUrlObj, isLabelImage)
+    return toMultiscaleSpatialImage(imageUrlObj, isLabelImage)
   }
 
   const result = await readImageArrayBuffer(
@@ -56,7 +56,8 @@ async function makeImage({ image, progressCallback, isLabelImage = false }) {
     imageUrlObj.pathname.split('/').pop()
   )
   result.webWorker.terminate()
-  return await toMultiscaleSpatialImage(result.image)
+
+  return toMultiscaleSpatialImage(result.image, isLabelImage)
 }
 
 async function parseImageArg(image, progressCallback) {

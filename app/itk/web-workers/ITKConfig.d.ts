@@ -4,5 +4,6 @@ interface ITKConfig {
     pipelinesUrl: string;
     imageIOUrl: string;
     meshIOUrl: string;
+    [key: string]: string | undefined;
 }
 export default ITKConfig;

@@ -1,3 +1,0 @@
-const ImageIOIndex = [@ImageIOIndex_ARRAY@]
-
-export default ImageIOIndex

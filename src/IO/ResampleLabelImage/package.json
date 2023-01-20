@@ -1,0 +1,18 @@
+{
+  "name": "resample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "itk-wasm build",
+    "build:debug": "itk-wasm build -- -DCMAKE_BUILD_TYPE=Debug",
+    "test": "node index.mjs ../Downsample/cthead1-bin.png resample.png"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "itk-image-io": "^1.0.0-b.54",
+    "itk-wasm": "^1.0.0-b.54"
+  }
+}

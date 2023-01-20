@@ -39,7 +39,7 @@ async function itkImageToInMemoryMultiscaleSpatialImage(image, isLabelImage) {
 async function toMultiscaleSpatialImage(
   image,
   isLabelImage = false,
-  maxConcurrency = 0
+  maxConcurrency
 ) {
   let multiscaleImage = null
   if (image instanceof MultiscaleSpatialImage) {

@@ -7,53 +7,44 @@ class ImJoyPluginAPI {
   }
 
   async run(ctx) {
-    if (ctx.data && ctx.data.image) {
-      if (ctx.config) {
-        const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
+    if (ctx.data) {
+      let multiscaleImage = null
+      let is2D = false
+      if (ctx.data.image) {
+        multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
           ctx.data.image,
           false,
           ctx.config.maxConcurrency
         )
-        const is2D = multiscaleImage.imageType.dimension === 2
-        this.viewer = await itkVtkViewer.createViewer(container, {
-          image: multiscaleImage,
-          labelImage: ctx.data?.labelImage,
-          pointSets: null,
-          geometries: null,
-          use2D: is2D,
-          rotate: false,
-          config: ctx.config,
-        })
-      } else {
-        await this.setImage(ctx.data.image, ctx.config.maxConcurrency)
+        is2D = multiscaleImage.imageType.dimension === 2
       }
-    } else if (ctx.data && ctx.data.pointSets) {
-      if (ctx.config) {
-        let pointSets = ctx.data.pointSets
+      let pointSets = null
+      if (ctx.data.pointSets) {
+        pointSets = ctx.data.pointSets
         if (!Array.isArray(pointSets)) pointSets = [pointSets]
         pointSets = pointSets.map(points =>
           itkVtkViewer.utils.ndarrayToPointSet(points)
         )
-        this.viewer = await itkVtkViewer.createViewer(container, {
-          image: null,
+      }
+      if (ctx.config) {
+        const data = {
+          image: multiscaleImage,
           labelImage: ctx.data?.labelImage,
           pointSets: pointSets,
           geometries: null,
+          use2D: is2D,
           rotate: false,
           config: ctx.config,
-        })
+        }
+        this.viewer = await itkVtkViewer.createViewer(container, data)
       } else {
-        await this.setPointSets(ctx.data.pointSets)
+        if (multiscaleImage) {
+          await this.setImage(ctx.data.image, ctx.config.maxConcurrency)
+        }
+        if (pointSets) {
+          await this.setPointSets(ctx.data.pointSets)
+        }
       }
-    } else if (ctx.data && ctx.config) {
-      this.viewer = await itkVtkViewer.createViewer(container, {
-        image: null,
-        labelImage: null,
-        pointSets: null,
-        geometries: null,
-        rotate: false,
-        config: ctx.config,
-      })
     }
   }
 

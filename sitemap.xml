@@ -4,16 +4,7 @@
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/index.html</loc>
     
-    <lastmod>2023-01-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/index.html</loc>
-    
-    <lastmod>2023-01-24</lastmod>
+    <lastmod>2023-01-27</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -22,7 +13,7 @@
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/docs/shortcuts.html</loc>
     
-    <lastmod>2023-01-24</lastmod>
+    <lastmod>2023-01-27</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -31,7 +22,7 @@
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/docs/viewer.html</loc>
     
-    <lastmod>2023-01-24</lastmod>
+    <lastmod>2023-01-27</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -40,34 +31,16 @@
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/docs/imjoy.html</loc>
     
-    <lastmod>2023-01-24</lastmod>
+    <lastmod>2023-01-27</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/config/index.html</loc>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/index.html</loc>
     
-    <lastmod>2023-01-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/cli.html</loc>
-    
-    <lastmod>2023-01-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/customizeUI.html</loc>
-    
-    <lastmod>2023-01-24</lastmod>
+    <lastmod>2023-01-27</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -76,7 +49,34 @@
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/docs/embeddedViewer.html</loc>
     
-    <lastmod>2023-01-24</lastmod>
+    <lastmod>2023-01-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/config/index.html</loc>
+    
+    <lastmod>2023-01-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/cli.html</loc>
+    
+    <lastmod>2023-01-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/customizeUI.html</loc>
+    
+    <lastmod>2023-01-27</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -85,7 +85,7 @@
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/api/index.html</loc>
     
-    <lastmod>2023-01-24</lastmod>
+    <lastmod>2023-01-27</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -94,7 +94,7 @@
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/2016/04/29/kw-doc/</loc>
     
-    <lastmod>2023-01-24</lastmod>
+    <lastmod>2023-01-27</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -103,7 +103,7 @@
 
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer</loc>
-    <lastmod>2023-01-24</lastmod>
+    <lastmod>2023-01-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>

@@ -65,6 +65,11 @@ class ImJoyPluginAPI {
     }
   }
 
+  addPointSet(pointSet) {
+    let points = itkVtkViewer.utils.ndarrayToPointSet(pointSet)
+    this.viewer.addPointSet(points)
+  }
+
   async captureImage() {
     return await this.viewer.captureImage()
   }

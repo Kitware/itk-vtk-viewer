@@ -1045,6 +1045,13 @@ const createViewer = async (
     return actorContext.blendMode
   }
 
+  publicAPI.addPointSet = pointSet => {
+    if (!store.pointSetsUI.pointSets) {
+      store.pointSetsUI.pointSets = []
+    }
+    store.pointSetsUI.pointSets.push(pointSet)
+  }
+
   reaction(
     () => {
       return store.pointSetsUI.colors.slice()

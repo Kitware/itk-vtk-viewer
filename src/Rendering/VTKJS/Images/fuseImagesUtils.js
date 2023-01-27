@@ -19,7 +19,9 @@ export const parseByComponent = scaleImage => {
 }
 
 export const countElements = componentInfo =>
-  componentInfo.map(({ data }) => data.length).reduce(sum)
+  componentInfo
+    .map(({ data, srcComponentCount }) => data.length / srcComponentCount)
+    .reduce(sum)
 
 export const getLargestTypeByBytes = componentInfo =>
   componentInfo

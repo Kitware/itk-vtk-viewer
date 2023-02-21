@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-env node */
 
 import { Command } from 'commander/esm.mjs'
 import path from 'path'
@@ -25,7 +26,7 @@ if (program.args.length < 2) {
 
 const inputFile = program.args[0]
 const outputFile = program.args[1]
-const pipelinePath = path.resolve('./web-build/ResampleLabelImage')
+const pipelinePath = path.resolve('./emscripten-build/ResampleLabelImage')
 
 try {
   const inputImage = await readLocalFile(inputFile)

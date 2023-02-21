@@ -12,6 +12,8 @@ import { MAX_CONCURRENCY } from '../src/Context/ViewerMachineContext'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
 const testLabelImage3DPath = 'base/test/data/input/HeadMRVolumeLabels.nrrd'
+const test2ComponentImage3DPath =
+  'base/test/data/input/HeadMRVolume2Components.nrrd'
 const testImage3DPath2 = 'base/test/data/input/mri3D.nrrd'
 
 // import createViewerBaseline from './data/baseline/createViewer.png'
@@ -641,4 +643,85 @@ test('Test createViewer custom UI options', async t => {
   )
 
   gc.releaseResources()
+})
+
+const makeImages = async paths => {
+  return Promise.all(
+    paths.map(async path => {
+      const response = await axios.get(path, {
+        responseType: 'arraybuffer',
+      })
+      const { image, webWorker } = await readImageArrayBuffer(
+        null,
+        response.data,
+        'data.nrrd'
+      )
+      webWorker.terminate()
+      return image
+    })
+  )
+}
+
+test('Test createViewer setCompareImage with checkerboard', async t => {
+  const gc = testUtils.createGarbageCollector(t)
+
+  const container = document.querySelector('body')
+  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+  container.appendChild(viewerContainer)
+
+  const [image, fixedImage] = await makeImages([
+    testImage3DPath,
+    testLabelImage3DPath,
+  ])
+
+  const viewer = await createViewer(container, {
+    rotate: false,
+  })
+  viewer.setImage(fixedImage, 'fixed')
+  await viewer.setImage(image, 'moving')
+  const compareOptions = {
+    method: 'checkerboard',
+    pattern: [10, 5, 2],
+  }
+  viewer.setCompareImages('fixed', 'moving', compareOptions)
+
+  t.plan(1)
+  viewer.once('renderedImageAssigned', () => {
+    const { method } = viewer.getCompareImages('moving')
+
+    t.same(method, compareOptions.method, 'compare method matches')
+    gc.releaseResources()
+  })
+})
+
+test('Test createViewer setCompareImage with checkerboard and 2 component image', async t => {
+  const gc = testUtils.createGarbageCollector(t)
+
+  const container = document.querySelector('body')
+  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+  container.appendChild(viewerContainer)
+
+  const [image, fixedImage] = await makeImages([
+    testImage3DPath,
+    test2ComponentImage3DPath,
+  ])
+
+  const viewer = await createViewer(container, {
+    fixedImage,
+    rotate: false,
+  })
+  await viewer.setImage(image, 'moving')
+  const compareOptions = {
+    method: 'checkerboard',
+    pattern: [10, 5, 2],
+  }
+  viewer.setCompareImages('', 'moving', compareOptions)
+
+  t.plan(1)
+  viewer.once('renderedImageAssigned', () => {
+    t.pass(
+      'createViewer did not crash right after setFixedImage and setCheckerboard'
+    )
+    gc.releaseResources()
+  })
 })

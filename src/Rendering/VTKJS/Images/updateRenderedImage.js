@@ -51,6 +51,7 @@ async function updateRenderedImage(context) {
     labelImage,
     editorLabelImage,
     visualizedComponents,
+    compare,
   } = actorContext
 
   if (!image && !labelImage && !editorLabelImage) {
@@ -76,8 +77,15 @@ async function updateRenderedImage(context) {
       `Voxel count over max at scale ${targetScale}. Requested: ${voxelCount} Max: ${RENDERED_VOXEL_MAX}`
     )
 
-  const [imageAtScale, labelAtScale] = await Promise.all(
-    [image, labelImage].map(image => image?.getImage(targetScale, boundsToLoad))
+  const fixedImage =
+    compare.method !== 'disabled'
+      ? context.images.actorContext.get(compare?.fixedImageName)?.image
+      : undefined
+
+  const [imageAtScale, labelAtScale, fixedImageAtScale] = await Promise.all(
+    [image, labelImage, fixedImage].map(image =>
+      image?.getImage(targetScale, boundsToLoad)
+    )
   )
   const imageOrLabelAtScale = imageAtScale ?? labelAtScale
 
@@ -87,6 +95,7 @@ async function updateRenderedImage(context) {
 
   const isFuseNeeded =
     (labelAtScale && imageAtScale) || // fuse with label image
+    fixedImageAtScale ||
     Array.isArray(imageAtScale) || // is conglomerate
     imageOrLabelAtScale?.imageType.components !== visualizedComponents.length // more components in image than renderable
 
@@ -94,7 +103,9 @@ async function updateRenderedImage(context) {
     ? await fuseImages({
         imageAtScale,
         labelAtScale,
+        fixedImageAtScale,
         visualizedComponents,
+        compare,
       })
     : {
         itkImage: imageOrLabelAtScale,

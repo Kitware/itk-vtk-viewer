@@ -28,6 +28,8 @@ const createViewer = async (
   {
     image,
     labelImage,
+    fixedImage,
+    compare,
     geometries,
     pointSets,
     use2D = false,
@@ -355,6 +357,7 @@ const createViewer = async (
   store.pointSetsUI.pointSets = pointSets
 
   store.itkVtkView.resize()
+  // eslint-disable-next-line no-unused-vars
   const resizeSensor = new ResizeSensor(store.container, function() {
     store.itkVtkView.resize()
   })
@@ -952,6 +955,34 @@ const createViewer = async (
     return actorContext.labelImageWeights
   }
 
+  // Moving image must have been added last.
+
+  // options can be:
+  // { method: 'checkerboard', pattern: number[], swapImageOrder: boolean } ||
+  // { method: 'disabled' }
+
+  // `pattern` is an array with the number of checkerboard boxes for each dimension.
+  // If pattern === undefined, it defaults to 4 boxes across each dimension.
+  // swapImageOrder reverse which image is sampled for each checkerboard box.
+  publicAPI.setCompareImages = (fixedImageName, movingImageName, options) => {
+    // fuse with moving
+    service.send({
+      type: 'COMPARE_IMAGES',
+      data: {
+        name: movingImageName,
+        fixedImageName,
+        options,
+      },
+    })
+  }
+
+  publicAPI.getCompareImages = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    return context.images.actorContext.get(name).compare
+  }
+
   publicAPI.setImageShadowEnabled = (enabled, name) => {
     if (typeof name === 'undefined') {
       name = context.images.selectedName
@@ -1065,7 +1096,7 @@ const createViewer = async (
 
   publicAPI.getPointSetColor = index => {
     const hexColor = store.pointSetsUI.colors[index]
-    const rgbColor = hex2rgb(rgbColor)
+    const rgbColor = hex2rgb(hexColor)
     return rgbColor
   }
 
@@ -1190,6 +1221,11 @@ const createViewer = async (
 
   addKeyboardShortcuts(context.uiContainer, service)
 
+  // must come before moving image
+  if (fixedImage) {
+    publicAPI.setImage(fixedImage, 'fixed')
+  }
+
   let imageName = null
   if (image) {
     const multiscaleImage = await toMultiscaleSpatialImage(
@@ -1204,6 +1240,8 @@ const createViewer = async (
   if (labelImage) {
     publicAPI.setLabelImage(labelImage, imageName)
   }
+
+  publicAPI.setCompareImages('fixed', imageName, compare)
 
   if (!use2D) {
     publicAPI.setRotateEnabled(rotate)

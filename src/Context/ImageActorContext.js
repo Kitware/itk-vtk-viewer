@@ -108,11 +108,14 @@ class ImageActorContext {
   labelNames = new Map()
 
   // Label index selected for changes in the UI, or special 'all' value that
-  // identifies all non-backgound (index 0) labels
+  // identifies all non-background (index 0) labels
   selectedLabel = 'all'
 
   // Cached histogram by component for use by UI when switching selected component
   histograms = new Map()
+
+  // Option config object for fusing 2 images, i.e. 'checkerboard'. See index.md for object shape.
+  compare = { method: 'disable' }
 }
 
 export default ImageActorContext

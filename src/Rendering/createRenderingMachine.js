@@ -248,6 +248,12 @@ const createRenderingMachine = (options, context) => {
             UPDATE_IMAGE_HISTOGRAM: {
               actions: forwardTo('images'),
             },
+            SET_FIXED_IMAGE: {
+              actions: forwardTo('images'),
+            },
+            COMPARE_IMAGES: {
+              actions: forwardTo('images'),
+            },
           },
         },
       },

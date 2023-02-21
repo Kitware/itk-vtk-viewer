@@ -1,6 +1,3 @@
-/web-build/*
-!web-build/ResampleLabelImage.js
-!web-build/ResampleLabelImage.umd.js
-!web-build/ResampleLabelImage.wasm
-!web-build/ResampleLabelImage.umd.wasm
+/emscripten-build/*
+!emscripten-build/ResampleLabelImage*
 resample.png

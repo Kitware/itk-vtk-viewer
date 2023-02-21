@@ -33,6 +33,7 @@ const areBoundsBiggerThanLoaded = context => {
     images: { actorContext, updateRenderedName },
   } = context
   const { loadedBounds } = actorContext.get(updateRenderedName)
+  if (!loadedBounds) return true
 
   const current = computeRenderedBounds(context)
   const fullImage = getBoundsOfFullImage(context)

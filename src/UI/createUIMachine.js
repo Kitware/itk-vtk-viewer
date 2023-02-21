@@ -185,6 +185,12 @@ function createUIMachine(options, context) {
             START_DATA_UPDATE: { actions: forwardTo('layers') },
             FINISH_DATA_UPDATE: { actions: forwardTo('layers') },
             POST_RENDER: { actions: forwardTo('layers') },
+            COMPARE_UPDATED: {
+              actions: forwardTo('layers'),
+            },
+            COMPONENT_VISIBILITIES_UPDATED: {
+              actions: forwardTo('images'),
+            },
           },
           states: {
             // Optional feature of the user interface

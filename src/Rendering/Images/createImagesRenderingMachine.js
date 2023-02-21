@@ -25,6 +25,10 @@ function spawnImageRenderingActor(options) {
   })
 }
 
+const forwardToNamedActor = send((_, e) => e, {
+  to: (c, e) => `imageRenderingActor-${e.name ?? e.data.name}`,
+})
+
 const sendEventToAllActors = actions.pure(
   ({ images: { imageRenderingActors } }, event) =>
     Array.from(imageRenderingActors.values()).map(actor =>
@@ -144,56 +148,22 @@ function createImagesRenderingMachine(options, context) {
                 to: (c, e) => `imageRenderingActor-${e.data}`,
               }),
             },
-            IMAGE_GRADIENT_OPACITY_CHANGED: {
-              actions: send((_, e) => e, {
-                to: (c, e) => `imageRenderingActor-${e.data.name}`,
-              }),
-            },
-            IMAGE_GRADIENT_OPACITY_SCALE_CHANGED: {
-              actions: send((_, e) => e, {
-                to: (c, e) => `imageRenderingActor-${e.data.name}`,
-              }),
-            },
-            IMAGE_VOLUME_SAMPLE_DISTANCE_CHANGED: {
-              actions: send((_, e) => e, {
-                to: (c, e) => `imageRenderingActor-${e.data.name}`,
-              }),
-            },
-            IMAGE_BLEND_MODE_CHANGED: {
-              actions: send((_, e) => e, {
-                to: (c, e) => `imageRenderingActor-${e.data.name}`,
-              }),
-            },
-            UPDATE_IMAGE_HISTOGRAM: {
-              actions: send((_, e) => e, {
-                to: (c, e) => `imageRenderingActor-${e.data.name}`,
-              }),
-            },
-            LABEL_IMAGE_LOOKUP_TABLE_CHANGED: {
-              actions: send((_, e) => e, {
-                to: (c, e) => `imageRenderingActor-${e.data.name}`,
-              }),
-            },
-            LABEL_IMAGE_BLEND_CHANGED: {
-              actions: send((_, e) => e, {
-                to: (c, e) => `imageRenderingActor-${e.data.name}`,
-              }),
-            },
-            LABEL_IMAGE_WEIGHTS_CHANGED: {
-              actions: send((_, e) => e, {
-                to: (c, e) => `imageRenderingActor-${e.data.name}`,
-              }),
-            },
-            LABEL_IMAGE_LABEL_NAMES_CHANGED: {
-              actions: send((_, e) => e, {
-                to: (c, e) => `imageRenderingActor-${e.data.name}`,
-              }),
-            },
-            LABEL_IMAGE_SELECTED_LABEL_CHANGED: {
-              actions: send((_, e) => e, {
-                to: (c, e) => `imageRenderingActor-${e.data.name}`,
-              }),
-            },
+            ...makeTransitions(
+              [
+                'IMAGE_GRADIENT_OPACITY_CHANGED',
+                'IMAGE_GRADIENT_OPACITY_SCALE_CHANGED',
+                'IMAGE_VOLUME_SAMPLE_DISTANCE_CHANGED',
+                'IMAGE_BLEND_MODE_CHANGED',
+                'UPDATE_IMAGE_HISTOGRAM',
+                'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
+                'LABEL_IMAGE_BLEND_CHANGED',
+                'LABEL_IMAGE_WEIGHTS_CHANGED',
+                'LABEL_IMAGE_SELECTED_LABEL_CHANGED',
+                'LABEL_IMAGE_LABEL_NAMES_CHANGED',
+                'COMPARE_IMAGES',
+              ],
+              { actions: forwardToNamedActor }
+            ),
             ...makeTransitions(
               ['CROPPING_PLANES_CHANGED_BY_USER', 'CAMERA_MODIFIED'],
               { actions: sendEventToAllActors }

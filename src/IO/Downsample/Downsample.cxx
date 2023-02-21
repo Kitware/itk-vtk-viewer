@@ -43,10 +43,8 @@
 #include "itkSupportInputImageTypes.h"
 #include "itkOutputTextStream.h"
 
-
-template<typename TImage>
-int
-Downsample(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImage> & inputImage)
+template <typename TImage>
+int Downsample(itk::wasm::Pipeline &pipeline, itk::wasm::InputImage<TImage> &inputImage)
 {
   using ImageType = TImage;
 
@@ -70,28 +68,29 @@ Downsample(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImage> & input
 
   ITK_WASM_PARSE(pipeline);
 
-  using FilterType = itk::BinShrinkImageFilter< ImageType, ImageType >;
+  using FilterType = itk::BinShrinkImageFilter<ImageType, ImageType>;
   auto filter = FilterType::New();
-  filter->SetInput( inputImage.Get() );
-  filter->SetShrinkFactor( 0, factors[0] );
-  filter->SetShrinkFactor( 1, factors[1] );
-  if (ImageType::ImageDimension > 2) {
-    filter->SetShrinkFactor( 2, factors[2] );
+  filter->SetInput(inputImage.Get());
+  filter->SetShrinkFactor(0, factors[0]);
+  filter->SetShrinkFactor(1, factors[1]);
+  if (ImageType::ImageDimension > 2)
+  {
+    filter->SetShrinkFactor(2, factors[2]);
   }
 
-  using ResampleFilterType = itk::ResampleImageFilter< ImageType, ImageType >;
+  using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
   auto resampleFilter = ResampleFilterType::New();
-  resampleFilter->SetInput( inputImage.Get() );
+  resampleFilter->SetInput(inputImage.Get());
 
   filter->UpdateOutputInformation();
-  using ROIFilterType = itk::ExtractImageFilter< ImageType, ImageType >;
+  using ROIFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
   auto roiFilter = ROIFilterType::New();
   using RegionType = typename ImageType::RegionType;
-  const RegionType largestRegion( filter->GetOutput()->GetLargestPossibleRegion() );
+  const RegionType largestRegion(filter->GetOutput()->GetLargestPossibleRegion());
 
   using SplitterType = itk::ImageRegionSplitterSlowDimension;
   auto splitter = SplitterType::New();
-  const unsigned int numberOfSplits = splitter->GetNumberOfSplits( largestRegion, maxTotalSplits );
+  const unsigned int numberOfSplits = splitter->GetNumberOfSplits(largestRegion, maxTotalSplits);
 
   if (split >= numberOfSplits)
   {
@@ -100,15 +99,15 @@ Downsample(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImage> & input
   }
 
   if (!numberOfSplitsStreamOption->empty())
-    {
+  {
     numberOfSplitsStream.Get() << numberOfSplits;
-    }
+  }
 
-  RegionType requestedRegion( largestRegion );
-  splitter->GetSplit( split, numberOfSplits, requestedRegion );
-  roiFilter->SetExtractionRegion( requestedRegion );
-  roiFilter->SetInput( filter->GetOutput() );
-  
+  RegionType requestedRegion(largestRegion);
+  splitter->GetSplit(split, numberOfSplits, requestedRegion);
+  roiFilter->SetExtractionRegion(requestedRegion);
+  roiFilter->SetInput(filter->GetOutput());
+
   ITK_WASM_CATCH_EXCEPTION(pipeline, roiFilter->Update());
 
   auto result = roiFilter->GetOutput();
@@ -117,12 +116,11 @@ Downsample(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImage> & input
   return EXIT_SUCCESS;
 }
 
-
-template<typename TImage>
+template <typename TImage>
 class PipelineFunctor
 {
 public:
-  int operator()(itk::wasm::Pipeline & pipeline)
+  int operator()(itk::wasm::Pipeline &pipeline)
   {
     using ImageType = TImage;
 
@@ -136,46 +134,43 @@ public:
   }
 };
 
-
-int main( int argc, char * argv[] )
+int main(int argc, char *argv[])
 {
-  itk::wasm::Pipeline pipeline("Downsample an image", argc, argv);
+  itk::wasm::Pipeline pipeline("Downsample", "Downsample an image", argc, argv);
 
   return itk::wasm::SupportInputImageTypes<PipelineFunctor,
-   uint8_t,
-   int8_t,
-   uint16_t,
-   int16_t,
-   uint32_t,
-   int32_t,
-   uint64_t,
-   int64_t,
-   float,
-   double,
-   itk::RGBPixel<uint8_t>,
-   itk::RGBAPixel<uint8_t>,
-   itk::VariableLengthVector<uint8_t>,
-   itk::VariableLengthVector<int8_t>,
-   itk::VariableLengthVector<uint16_t>,
-   itk::VariableLengthVector<int16_t>,
-   itk::VariableLengthVector<uint32_t>,
-   itk::VariableLengthVector<int32_t>,
-   itk::VariableLengthVector<uint64_t>,
-   itk::VariableLengthVector<int64_t>,
-   itk::VariableLengthVector<float>,
-   itk::VariableLengthVector<double>,
-   itk::Vector<float, 2>,
-   itk::Vector<double, 2>,
-   itk::Vector<float, 3>,
-   itk::Vector<double, 3>,
-   itk::Vector<uint8_t, 3>,
-   itk::Vector<uint8_t, 3>,
-   itk::Vector<uint8_t, 4>,
-   itk::Vector<uint8_t, 4>,
-   itk::CovariantVector<float, 2>,
-   itk::CovariantVector<double, 2>,
-   itk::CovariantVector<float, 3>,
-   itk::CovariantVector<double, 3>
-   >
-  ::Dimensions<2U,3U>("InputImage", pipeline);
+                                           uint8_t,
+                                           int8_t,
+                                           uint16_t,
+                                           int16_t,
+                                           uint32_t,
+                                           int32_t,
+                                           uint64_t,
+                                           int64_t,
+                                           float,
+                                           double,
+                                           itk::RGBPixel<uint8_t>,
+                                           itk::RGBAPixel<uint8_t>,
+                                           itk::VariableLengthVector<uint8_t>,
+                                           itk::VariableLengthVector<int8_t>,
+                                           itk::VariableLengthVector<uint16_t>,
+                                           itk::VariableLengthVector<int16_t>,
+                                           itk::VariableLengthVector<uint32_t>,
+                                           itk::VariableLengthVector<int32_t>,
+                                           itk::VariableLengthVector<uint64_t>,
+                                           itk::VariableLengthVector<int64_t>,
+                                           itk::VariableLengthVector<float>,
+                                           itk::VariableLengthVector<double>,
+                                           itk::Vector<float, 2>,
+                                           itk::Vector<double, 2>,
+                                           itk::Vector<float, 3>,
+                                           itk::Vector<double, 3>,
+                                           itk::Vector<uint8_t, 3>,
+                                           itk::Vector<uint8_t, 3>,
+                                           itk::Vector<uint8_t, 4>,
+                                           itk::Vector<uint8_t, 4>,
+                                           itk::CovariantVector<float, 2>,
+                                           itk::CovariantVector<double, 2>,
+                                           itk::CovariantVector<float, 3>,
+                                           itk::CovariantVector<double, 3>>::Dimensions<2U, 3U>("InputImage", pipeline);
 }

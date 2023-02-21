@@ -6,8 +6,7 @@ function updateAvailableComponents(context) {
   const image = actorContext.image
 
   if (image) {
-    const components = image.imageType.components
-    const viewerDOMId = context.id
+    const components = actorContext.componentVisibilities.length
     if (components > 1 && actorContext.independentComponents) {
       context.images.componentRow.style.display = 'flex'
     } else {
@@ -29,7 +28,7 @@ function updateAvailableComponents(context) {
             actorContext.componentVisibilities[idx] ? 'checked="checked"' : ''
           } class="${
             style.componentVisibility
-          }" data-component-index="${component}"\></label>`
+          }" data-component-index="${component}"></label>`
       )
       .join('')
     context.images.componentSelector.value = actorContext.selectedComponent

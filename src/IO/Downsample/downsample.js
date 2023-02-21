@@ -29,8 +29,8 @@ if (program.args.length < 2) {
 const inputFile = program.args[0]
 const outputFile = program.args[1]
 const pipelinePath = program.options.labelImage
-  ? path.resolve('./web-build/DownsampleLabelImage')
-  : path.resolve('./web-build/Downsample')
+  ? path.resolve('./emscripten-build/DownsampleLabelImage')
+  : path.resolve('./emscripten-build/Downsample')
 console.log(pipelinePath)
 
 const factors = [2, 2, 2]

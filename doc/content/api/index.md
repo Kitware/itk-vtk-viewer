@@ -246,3 +246,17 @@ string values.
 ### setImageScale(resolutionScale)
 
 resolutionScale is a integer with 0 being the most detailed scale.
+
+### setCompareImages(fixedImageName, movingImageName, options)
+
+Moving image must have been added last.
+
+`options` can be:
+
+```
+{ method: 'checkerboard', pattern: number[], swapImageOrder: boolean } ||
+{ method: 'disabled' }
+```
+
+`pattern` is an array with the number of checkerboard boxes for each dimension.
+If pattern === undefined, it defaults to 4 boxes across each dimension

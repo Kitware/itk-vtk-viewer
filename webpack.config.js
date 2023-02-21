@@ -122,7 +122,13 @@ module.exports = (env, argv) => [
             to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
           },
           {
-            from: path.join(__dirname, 'src', 'IO', 'Downsample', 'web-build'),
+            from: path.join(
+              __dirname,
+              'src',
+              'IO',
+              'Downsample',
+              'emscripten-build'
+            ),
             to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
           },
           {
@@ -131,7 +137,17 @@ module.exports = (env, argv) => [
               'src',
               'IO',
               'ResampleLabelImage',
-              'web-build'
+              'emscripten-build'
+            ),
+            to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
+          },
+          {
+            from: path.join(
+              __dirname,
+              'src',
+              'IO',
+              'Checkerboard',
+              'emscripten-build'
             ),
             to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
           },

@@ -5,6 +5,7 @@ import { PixelTypes } from 'itk-wasm'
 import createLayerUIActor from './createLayerUIActor'
 import LayerActorContext from '../../Context/LayerActorContext'
 import ImageActorContext from '../../Context/ImageActorContext'
+import { getOutputImageComponentCount } from '../../Rendering/Images/createImageRenderingActor'
 
 function resize(arr, newSize, defaultValue) {
   return [
@@ -120,12 +121,6 @@ const assignImageContext = assign({
       return images
     }
 
-    actorContext.componentVisibilities = resize(
-      actorContext.componentVisibilities,
-      image.imageType.components,
-      true
-    )
-
     const components = image.imageType.components
 
     // Assign default independentComponents
@@ -217,6 +212,33 @@ const assignImageContext = assign({
   },
 })
 
+const assignComponentVisibilities = assign({
+  images: ({ images }, event) => {
+    const actorContext = images.actorContext.get(event.data.name)
+
+    const { image } = actorContext
+
+    actorContext.componentVisibilities = resize(
+      actorContext.componentVisibilities,
+      image.imageType.components,
+      true
+    )
+
+    actorContext.componentVisibilities = actorContext.componentVisibilities.slice(
+      0,
+      getOutputImageComponentCount(actorContext)
+    )
+    return images
+  },
+})
+
+const sendComponentVisibilitiesUpdated = (c, { data: { name } }) => {
+  c.service.send({
+    type: 'COMPONENT_VISIBILITIES_UPDATED',
+    data: { name },
+  })
+}
+
 const assignSelectedName = assign({
   images: (context, event) => {
     const images = context.images
@@ -274,6 +296,7 @@ function createLayersUIMachine(options, context) {
               actions: [
                 spawnLayerRenderingActor(layerUIActor),
                 assignImageContext,
+                assignComponentVisibilities,
                 c =>
                   c.service.send({
                     type: 'IMAGE_ASSIGNED',
@@ -305,6 +328,12 @@ function createLayersUIMachine(options, context) {
             START_DATA_UPDATE: { actions: forwardToNamedActor },
             FINISH_DATA_UPDATE: { actions: forwardToNamedActor },
             POST_RENDER: { actions: sendEventToAllActors },
+            COMPARE_UPDATED: {
+              actions: [
+                assignComponentVisibilities,
+                sendComponentVisibilitiesUpdated,
+              ],
+            },
           },
         },
       },

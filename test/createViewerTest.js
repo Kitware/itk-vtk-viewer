@@ -250,7 +250,7 @@ test('Test createViewer', async t => {
   t.notSame(viewer.getCroppingPlanes(), plane, 'reset cropping planes ')
 
   const viewProxy = viewer.getViewProxy()
-  const renderWindow = viewProxy.getOpenglRenderWindow()
+  const renderWindow = viewProxy.getOpenGLRenderWindow()
   // Consistent baseline image size for regression testing
   renderWindow.setSize(600, 600)
   viewer.render()
@@ -474,7 +474,7 @@ test('Test createViewer.setImage', async t => {
 
   viewer.setImage(itkImage2)
   const viewProxy = viewer.getViewProxy()
-  const renderWindow = viewProxy.getOpenglRenderWindow()
+  const renderWindow = viewProxy.getOpenGLRenderWindow()
   // Consistent baseline image size for regression testing
   renderWindow.setSize(600, 600)
   const representation = viewProxy.getRepresentations()[0]

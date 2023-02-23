@@ -1036,7 +1036,7 @@ function ItkVtkViewProxy(publicAPI, model) {
       const devicePixelRatio = window.devicePixelRatio || 1
       const width = Math.max(10, Math.floor(devicePixelRatio * dims.width))
       const height = Math.max(10, Math.floor(devicePixelRatio * dims.height))
-      model.openglRenderWindow.setSize(width, height)
+      model._openGLRenderWindow.setSize(width, height)
 
       model.scaleBarCanvas.width = (100 * devicePixelRatio).toFixed()
       model.scaleBarCanvas.height = (30 * devicePixelRatio).toFixed()

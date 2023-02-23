@@ -1,5 +1,5 @@
 import macro from 'vtk.js/Sources/macros'
-import vtkSVGRepresentation from 'vtk.js/Sources/Widgets/SVG/SVGRepresentation'
+import vtkSVGRepresentation from '../SVGRepresentation'
 
 const { createSvgElement } = vtkSVGRepresentation
 

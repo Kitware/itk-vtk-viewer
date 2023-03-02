@@ -31,8 +31,8 @@ In general ITK/VTK Viewer tries to be as portable as possible; the specific conf
 
 ITK/VTK Viewer supports the following development environments:
 
-- Node 12+
-- NPM 6+
+- Node 16+
+- NPM 8+
 
 and the following browsers:
 

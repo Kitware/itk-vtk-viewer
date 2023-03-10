@@ -338,6 +338,18 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             SCREENSHOT_TAKEN: {
               actions: [forwardTo('eventEmitter')],
             },
+            SET_FIXED_IMAGE: {
+              actions: forwardTo('rendering'),
+            },
+            COMPARE_IMAGES: {
+              actions: forwardTo('rendering'),
+            },
+            COMPARE_UPDATED: {
+              actions: forwardTo('ui'),
+            },
+            COMPONENT_VISIBILITIES_UPDATED: {
+              actions: forwardTo('ui'),
+            },
           },
         },
       },

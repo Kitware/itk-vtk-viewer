@@ -369,6 +369,18 @@ class ImJoyPluginAPI {
   getRpcMaxConcurrency() {
     return this.viewer.getMaxConcurrency()
   }
+
+  setCompareImages(fixedImageName, movingImageName, options) {
+    return this.viewer.setCompareImages(
+      fixedImageName,
+      movingImageName,
+      options
+    )
+  }
+
+  getCompareImages(name) {
+    return this.viewer.getCompareImages(name)
+  }
 }
 
 export default ImJoyPluginAPI

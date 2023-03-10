@@ -83,7 +83,17 @@ const readDataFromFiles = async files => {
 
 export const processFiles = async (
   container,
-  { files, image, labelImage, config, labelImageNames, rotate, use2D, ...rest }
+  {
+    files,
+    image,
+    labelImage,
+    fixedImage,
+    config,
+    labelImageNames,
+    rotate,
+    use2D,
+    ...rest
+  }
 ) => {
   UserInterface.emptyContainer(container)
   UserInterface.createLoadingProgress(container)
@@ -98,6 +108,7 @@ export const processFiles = async (
     ...viewerConfig,
     config,
     rotate,
+    fixedImage,
     ...rest,
   })
 }

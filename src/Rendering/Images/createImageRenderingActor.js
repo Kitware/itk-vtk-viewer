@@ -1,6 +1,13 @@
 import { assign, createMachine, forwardTo, send } from 'xstate'
 import { makeTransitions } from './makeTransitions'
 
+export const getOutputImageComponentCount = actorContext => {
+  const {
+    compare: { method },
+  } = actorContext
+  return method === 'checkerboard' ? 1 : Number.POSITIVE_INFINITY
+}
+
 const getLoadedImage = actorContext =>
   actorContext.image ?? actorContext.labelImage
 
@@ -21,6 +28,11 @@ const assignColorRange = assign({
     return images
   },
 })
+
+const clearColorRange = (c, { data: { name } }) => {
+  const actorContext = c.images.actorContext.get(name)
+  actorContext.colorRanges = new Map()
+}
 
 const assignUpdateRenderedName = assign({
   images: (context, event) => {
@@ -140,18 +152,27 @@ const computeIsCinematicPossible = (context, { data: { itkImage, name } }) => {
   })
 }
 
+const assignCompare = assign({
+  images: ({ images }, { data: { name, fixedImageName, options } }) => {
+    const actorContext = images.actorContext.get(name)
+    actorContext.compare = { ...options, fixedImageName }
+    return images
+  },
+})
+
 const KNOWN_ERRORS = [
   'Voxel count over max at scale',
-  "Failed to execute 'postMessage' on 'Worker': Data cannot be cloned, out of memory.",
-  "Failed to execute 'postMessage' on 'DedicatedWorkerGlobalScope': Data cannot be cloned, out of memory.",
+  "Failed to execute 'postMessage' on 'Worker': Data cannot be cloned, out of memory.", // Chrome
+  "Failed to execute 'postMessage' on 'DedicatedWorkerGlobalScope': Data cannot be cloned, out of memory.", // Firefox
   'Array buffer allocation failed',
+  'Aborted(). Build with -sASSERTIONS for more info',
 ]
 
 const checkIsKnownErrorOrThrow = (c, { data: error }) => {
   if (
-    KNOWN_ERRORS.some(knownMessage => error.message.startsWith(knownMessage))
+    KNOWN_ERRORS.some(knownMessage => error.message?.startsWith(knownMessage))
   ) {
-    console.warn(`Could not update image : ${error.message}`)
+    console.warn('Could not update image', error.stack)
   } else {
     throw error
   }
@@ -182,6 +203,19 @@ const sendFinishDataUpdate = context => {
   })
 }
 
+// force update
+const forceUpdate = (c, e) =>
+  c.service.send({
+    type: 'UPDATE_RENDERED_IMAGE',
+    data: { name: e.data.name },
+  })
+
+const sendCompareUpdated = (c, { data: { name } }) => {
+  c.service.send({
+    type: 'COMPARE_UPDATED',
+    data: { name },
+  })
+}
 const eventResponses = {
   IMAGE_ASSIGNED: {
     target: 'updatingImage',
@@ -271,6 +305,9 @@ const eventResponses = {
   },
   CINEMATIC_CHANGED: {
     actions: 'applyCinematicChanged',
+  },
+  COMPARE_IMAGES: {
+    actions: [assignCompare, clearColorRange, sendCompareUpdated, forceUpdate],
   },
 }
 
@@ -390,6 +427,11 @@ const createImageRenderingActor = (options, context, name) => {
           initial: 'idle',
           states: {
             idle: {
+              on: {
+                COMPARE_IMAGES: {
+                  actions: [assignCompare, sendCompareUpdated],
+                },
+              },
               invoke: {
                 id: 'createImageRenderer',
                 src: 'createImageRenderer',

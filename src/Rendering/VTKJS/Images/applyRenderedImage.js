@@ -1,7 +1,6 @@
 import vtkColorTransferFunction from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction'
 import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction'
 import { OpacityMode } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants'
-import { ColorMaps } from 'itk-viewer-color-maps'
 
 import applyGradientOpacity from './applyGradientOpacity'
 import applyLabelImageBlend from './applyLabelImageBlend'
@@ -70,7 +69,6 @@ function applyRenderedImage(context, { data: { name } }) {
 
   const image = actorContext.image
   const labelImage = actorContext.labelImage
-  const editorLabelImage = actorContext.editorLabelImage
   const numberOfComponents = image ? image.imageType.components : 0
 
   context.images.source.setInputData(actorContext.fusedImage)
@@ -172,17 +170,14 @@ function applyRenderedImage(context, { data: { name } }) {
       type: 'IMAGE_COLOR_MAP_CHANGED',
       data: { name, component, colorMap },
     })
-  }
-  for (let component = 0; component < numberOfComponents; component++) {
-    if (context.images.piecewiseFunctions.has(component)) {
-      continue
-    }
 
-    const piecewiseFunction = {
-      slice: vtkPiecewiseFunction.newInstance(),
-      volume: vtkPiecewiseFunction.newInstance(),
+    if (!context.images.piecewiseFunctions.has(component)) {
+      const piecewiseFunction = {
+        slice: vtkPiecewiseFunction.newInstance(),
+        volume: vtkPiecewiseFunction.newInstance(),
+      }
+      context.images.piecewiseFunctions.set(component, piecewiseFunction)
     }
-    context.images.piecewiseFunctions.set(component, piecewiseFunction)
   }
 
   // Visualized components may have updated -> set color transfer function, piecewise function, component visibility, independent components in slices
@@ -229,8 +224,14 @@ function applyRenderedImage(context, { data: { name } }) {
     volumeProperty.setIndependentComponents(actorContext.independentComponents)
 
     let componentsVisible = false
+
     actorContext.visualizedComponents.forEach(
       (componentIndex, fusedImageIndex) => {
+        // Set for intensity and label map components.  Components count may have changed.
+        const mode =
+          componentIndex < 0 ? OpacityMode.PROPORTIONAL : OpacityMode.FRACTIONAL
+        volumeProperty.setOpacityMode(fusedImageIndex, mode)
+
         if (!context.images.colorTransferFunctions.has(componentIndex)) {
           return
         }
@@ -255,17 +256,6 @@ function applyRenderedImage(context, { data: { name } }) {
         )
       }
     )
-
-    if (!!labelImage || !!editorLabelImage) {
-      let mode = OpacityMode.PROPORTIONAL
-      if (!componentsVisible) {
-        mode = OpacityMode.FRACTIONAL
-      }
-      const labelMapComponentIndex = actorContext.visualizedComponents.indexOf(
-        -1
-      )
-      volumeProperty.setOpacityMode(labelMapComponentIndex, mode)
-    }
   })
 
   // Todo: results in necessary side-effect?
@@ -385,11 +375,13 @@ function applyRenderedImage(context, { data: { name } }) {
         type: 'LABEL_IMAGE_LOOKUP_TABLE_CHANGED',
         data: { name, lookupTable: actorContext.lookupTable },
       })
-      // apply synchronously to avoid error on render in use2D=true case
-      applyLookupTable(context, {
-        data: { name, lookupTable: actorContext.lookupTable },
-      })
     }
+
+    // Always call if component count changes.
+    // Apply synchronously to avoid error on render in use2D=true case.
+    applyLookupTable(context, {
+      data: { name, lookupTable: actorContext.lookupTable },
+    })
 
     applyLabelImageBlend(context, {
       data: { name, labelImageBlend: actorContext.labelImageBlend },

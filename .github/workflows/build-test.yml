@@ -23,7 +23,7 @@ jobs:
       - name: Download testing data
         shell: bash
         run: |
-          curl -OL https://github.com/Kitware/itk-vtk-viewer/releases/download/v14.27.0/itk-vtk-viewer-testing-data.tar.gz
+          curl -OL https://github.com/Kitware/itk-vtk-viewer/releases/download/v14.31.0/itk-vtk-viewer-testing-data.tar.gz
           tar xvzf ./itk-vtk-viewer-testing-data.tar.gz -C test/
 
       - name: Build

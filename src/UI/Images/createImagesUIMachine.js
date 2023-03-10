@@ -356,6 +356,9 @@ function createImagesUIMachine(options, context) {
               actions: [assignSelectedLabel, 'applySelectedLabel'],
             },
             CINEMATIC_CHANGED: { actions: 'applyCinematicChanged' },
+            COMPONENT_VISIBILITIES_UPDATED: {
+              actions: 'updateImageInterface',
+            },
           },
         },
       },

@@ -1,0 +1,3 @@
+/emscripten-build/*
+!emscripten-build/Downsample*
+resample.png

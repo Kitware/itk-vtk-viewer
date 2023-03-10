@@ -78,6 +78,7 @@ export async function createViewerFromUrl(
     files = [],
     image,
     labelImage,
+    fixedImage,
     config,
     labelImageNames = null,
     rotate = true,
@@ -111,6 +112,11 @@ export async function createViewerFromUrl(
     isLabelImage: true,
   })
 
+  const fixedImageObject = await makeImage({
+    image: fixedImage,
+    progressCallback,
+  })
+
   let viewerConfig = null
   if (config) {
     const response = await axios.get(config, {
@@ -128,6 +134,7 @@ export async function createViewerFromUrl(
     files: fileObjects,
     image: fetchedImage,
     labelImage: labelImageObject,
+    fixedImage: fixedImageObject,
     config: viewerConfig,
     labelImageNames: labelImageNameObject,
     rotate,
@@ -149,7 +156,7 @@ export function initializeEmbeddedViewers() {
     const el = viewers[count]
     if (!el.dataset.loaded) {
       el.dataset.loaded = true
-      // Apply size to conatiner
+      // Apply size to container
       const [width, height] = (el.dataset.viewport || '500x500').split('x')
       el.style.position = 'relative'
       el.style.width = Number.isFinite(Number(width)) ? `${width}px` : width
@@ -177,6 +184,17 @@ export function initializeEmbeddedViewers() {
       })
     }
   }
+}
+
+function createCompareOptions(userParams) {
+  if (userParams.compare) {
+    return {
+      method: userParams.compare,
+      pattern: userParams.pattern,
+      swapImageOrder: userParams.swapImageOrder,
+    }
+  }
+  return undefined
 }
 
 export function processURLParameters(container, addOnParameters = {}) {
@@ -207,6 +225,8 @@ export function processURLParameters(container, addOnParameters = {}) {
       rotate: userParams.rotate ?? true,
       use2D: !!userParams.use2D,
       gradientOpacity: userParams.gradientOpacity,
+      fixedImage: userParams.fixedImage,
+      compare: createCompareOptions(userParams),
     })
   }
   return null

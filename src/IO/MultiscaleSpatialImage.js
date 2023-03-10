@@ -356,7 +356,8 @@ class MultiscaleSpatialImage {
     }
   }
 
-  async scaleIndexToWorld(scale) {
+  async scaleIndexToWorld(requestedScale) {
+    const scale = Math.min(requestedScale, this.scaleInfo.length - 1)
     if (this.scaleInfo[scale].indexToWorld)
       return this.scaleInfo[scale].indexToWorld
 
@@ -375,7 +376,8 @@ class MultiscaleSpatialImage {
   }
 
   /* Retrieve bounded image at scale. */
-  async getImage(scale, worldBounds = []) {
+  async getImage(requestedScale, worldBounds = []) {
+    const scale = Math.min(requestedScale, this.scaleInfo.length - 1)
     const indexToWorld = await this.scaleIndexToWorld(scale)
 
     const { dims } = this.scaleInfo[scale]

@@ -41,12 +41,11 @@
 #include "itkPipeline.h"
 #include "itkInputImage.h"
 #include "itkOutputImage.h"
-#include "itkSupportInputImageTypesNoVectorImage.h"
+#include "itkSupportInputImageTypes.h"
 #include "itkOutputTextStream.h"
 
-template < typename TImage >
-int
-DownsampleLabelImage(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImage> & inputImage)
+template <typename TImage>
+int DownsampleLabelImage(itk::wasm::Pipeline &pipeline, itk::wasm::InputImage<TImage> &inputImage)
 {
   using ImageType = TImage;
 
@@ -70,28 +69,29 @@ DownsampleLabelImage(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImag
 
   ITK_WASM_PARSE(pipeline);
 
-  using FilterType = itk::BinShrinkImageFilter< ImageType, ImageType >;
+  using FilterType = itk::BinShrinkImageFilter<ImageType, ImageType>;
   auto filter = FilterType::New();
-  filter->SetInput( inputImage.Get() );
-  filter->SetShrinkFactor( 0, factors[0] );
-  filter->SetShrinkFactor( 1, factors[1] );
-  if (ImageType::ImageDimension > 2) {
-    filter->SetShrinkFactor( 2, factors[2] );
+  filter->SetInput(inputImage.Get());
+  filter->SetShrinkFactor(0, factors[0]);
+  filter->SetShrinkFactor(1, factors[1]);
+  if (ImageType::ImageDimension > 2)
+  {
+    filter->SetShrinkFactor(2, factors[2]);
   }
 
-  using ResampleFilterType = itk::ResampleImageFilter< ImageType, ImageType >;
+  using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
   auto resampleFilter = ResampleFilterType::New();
-  resampleFilter->SetInput( inputImage.Get() );
+  resampleFilter->SetInput(inputImage.Get());
 
   filter->UpdateOutputInformation();
-  using ROIFilterType = itk::ExtractImageFilter< ImageType, ImageType >;
+  using ROIFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
   auto roiFilter = ROIFilterType::New();
   using RegionType = typename ImageType::RegionType;
-  const RegionType largestRegion( filter->GetOutput()->GetLargestPossibleRegion() );
+  const RegionType largestRegion(filter->GetOutput()->GetLargestPossibleRegion());
 
   using SplitterType = itk::ImageRegionSplitterSlowDimension;
   auto splitter = SplitterType::New();
-  const unsigned int numberOfSplits = splitter->GetNumberOfSplits( largestRegion, maxTotalSplits );
+  const unsigned int numberOfSplits = splitter->GetNumberOfSplits(largestRegion, maxTotalSplits);
 
   if (split >= numberOfSplits)
   {
@@ -100,31 +100,31 @@ DownsampleLabelImage(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImag
   }
 
   if (!numberOfSplitsStreamOption->empty())
-    {
+  {
     numberOfSplitsStream.Get() << numberOfSplits;
-    }
+  }
 
-  RegionType requestedRegion( largestRegion );
-  splitter->GetSplit( split, numberOfSplits, requestedRegion );
-  roiFilter->SetExtractionRegion( requestedRegion );
+  RegionType requestedRegion(largestRegion);
+  splitter->GetSplit(split, numberOfSplits, requestedRegion);
+  roiFilter->SetExtractionRegion(requestedRegion);
 
-  roiFilter->SetInput( resampleFilter->GetOutput() );
-  const ImageType * shrunk = filter->GetOutput();
-  resampleFilter->SetSize( shrunk->GetLargestPossibleRegion().GetSize() );
-  resampleFilter->SetOutputOrigin( shrunk->GetOrigin() );
+  roiFilter->SetInput(resampleFilter->GetOutput());
+  const ImageType *shrunk = filter->GetOutput();
+  resampleFilter->SetSize(shrunk->GetLargestPossibleRegion().GetSize());
+  resampleFilter->SetOutputOrigin(shrunk->GetOrigin());
   auto spacing = shrunk->GetSpacing();
-  resampleFilter->SetOutputSpacing( spacing );
-  resampleFilter->SetOutputDirection( shrunk->GetDirection() );
+  resampleFilter->SetOutputSpacing(spacing);
+  resampleFilter->SetOutputDirection(shrunk->GetDirection());
   using CoordRepType = double;
   using InterpolatorType = itk::LabelImageGenericInterpolateImageFunction<ImageType, itk::LinearInterpolateImageFunction>;
   auto interpolator = InterpolatorType::New();
-  resampleFilter->SetInterpolator( interpolator );
+  resampleFilter->SetInterpolator(interpolator);
 
   try
   {
     roiFilter->Update();
   }
-  catch( std::exception & error )
+  catch (std::exception &error)
   {
     std::cerr << "Error: " << error.what() << std::endl;
     return EXIT_FAILURE;
@@ -135,11 +135,11 @@ DownsampleLabelImage(itk::wasm::Pipeline & pipeline, itk::wasm::InputImage<TImag
   return EXIT_SUCCESS;
 }
 
-template<typename TImage>
+template <typename TImage>
 class PipelineFunctor
 {
 public:
-  int operator()(itk::wasm::Pipeline & pipeline)
+  int operator()(itk::wasm::Pipeline &pipeline)
   {
     using ImageType = TImage;
 
@@ -153,22 +153,19 @@ public:
   }
 };
 
-
-int main( int argc, char * argv[] )
+int main(int argc, char *argv[])
 {
-  itk::wasm::Pipeline pipeline("Downsample a label image", argc, argv);
+  itk::wasm::Pipeline pipeline("DownsampleLabel", "Downsample a label image", argc, argv);
 
-  return itk::wasm::SupportInputImageTypesNoVectorImage<PipelineFunctor,
-   uint8_t,
-   int8_t,
-   uint16_t,
-   int16_t,
-   uint32_t,
-   int32_t,
-   uint64_t,
-   int64_t,
-   float,
-   double
-   >
-  ::Dimensions<2U,3U>("InputImage", pipeline);
+  return itk::wasm::SupportInputImageTypes<PipelineFunctor,
+                                           uint8_t,
+                                           int8_t,
+                                           uint16_t,
+                                           int16_t,
+                                           uint32_t,
+                                           int32_t,
+                                           uint64_t,
+                                           int64_t,
+                                           float,
+                                           double>::Dimensions<2U, 3U>("InputImage", pipeline);
 }

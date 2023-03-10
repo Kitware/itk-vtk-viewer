@@ -1,18 +1,22 @@
 import { assign } from 'xstate'
+import { getOutputImageComponentCount } from '../../Images/createImageRenderingActor'
 
 const assignVisualizedComponents = assign({
   images: context => {
     const name = context.actorName
     const actorContext = context.images.actorContext.get(name)
-    const image = actorContext.image
-    const labelImage = actorContext.labelImage
-    const editorLabelImage = actorContext.editorLabelImage
+    const { image, labelImage, editorLabelImage } = actorContext
     if (image) {
       const imageComponents = image.imageType.components
       actorContext.visualizedComponents = Array(image.imageType.components)
         .fill(0)
         .map((_, idx) => idx)
         .filter(i => actorContext.componentVisibilities[i])
+
+      actorContext.visualizedComponents = actorContext.visualizedComponents.slice(
+        0,
+        getOutputImageComponentCount(actorContext)
+      )
 
       actorContext.maxIntensityComponents = 4
       if (labelImage) {
@@ -23,7 +27,7 @@ const assignVisualizedComponents = assign({
       }
 
       const numVizComps = Math.min(
-        imageComponents,
+        actorContext.visualizedComponents.length,
         actorContext.maxIntensityComponents
       )
       if (actorContext.visualizedComponents.length > numVizComps) {
@@ -43,6 +47,7 @@ const assignVisualizedComponents = assign({
         )
       }
     }
+
     if (labelImage) {
       actorContext.visualizedComponents =
         actorContext.visualizedComponents ?? []

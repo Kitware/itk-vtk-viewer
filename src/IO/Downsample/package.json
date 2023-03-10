@@ -30,8 +30,8 @@
   "homepage": "https://github.com/InsightSoftwareConsortium/itk-wasm#readme",
   "dependencies": {
     "commander": "^9.1.0",
-    "itk-image-io": "^1.0.0-b.8",
-    "itk-wasm": "^1.0.0-b.8"
+    "itk-image-io": "^1.0.0-b.84",
+    "itk-wasm": "^1.0.0-b.84"
   },
   "devDependencies": {
     "cypress": "^9.5.2",

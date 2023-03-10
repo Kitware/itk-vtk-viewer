@@ -165,13 +165,14 @@ const KNOWN_ERRORS = [
   "Failed to execute 'postMessage' on 'Worker': Data cannot be cloned, out of memory.", // Chrome
   "Failed to execute 'postMessage' on 'DedicatedWorkerGlobalScope': Data cannot be cloned, out of memory.", // Firefox
   'Array buffer allocation failed',
+  'Aborted(). Build with -sASSERTIONS for more info',
 ]
 
 const checkIsKnownErrorOrThrow = (c, { data: error }) => {
   if (
     KNOWN_ERRORS.some(knownMessage => error.message?.startsWith(knownMessage))
   ) {
-    console.warn(`Could not update image : ${error.message}`)
+    console.warn('Could not update image', error.stack)
   } else {
     throw error
   }

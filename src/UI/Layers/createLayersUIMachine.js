@@ -1,4 +1,4 @@
-import { Machine, assign, spawn, send, actions } from 'xstate'
+import { Machine, assign, spawn, send, actions, forwardTo } from 'xstate'
 
 import { PixelTypes } from 'itk-wasm'
 
@@ -280,12 +280,19 @@ function createLayersUIMachine(options, context) {
           },
         },
         active: {
+          invoke: [
+            {
+              src: 'compareUI',
+            },
+          ],
           on: {
             SELECT_LAYER: {
               assignSelectedName,
-              actions: send((_, e) => e, {
-                to: (c, e) => `layerUIActor-${e.data}`,
-              }),
+              actions: [
+                send((_, e) => e, {
+                  to: (c, e) => `layerUIActor-${e.data}`,
+                }),
+              ],
             },
             TOGGLE_LAYER_VISIBILITY: {
               actions: send((_, e) => e, {
@@ -332,6 +339,10 @@ function createLayersUIMachine(options, context) {
               actions: [
                 assignComponentVisibilities,
                 sendComponentVisibilitiesUpdated,
+                send((_, e) => e, {
+                  to: (c, e) => `layerUIActor-${e.data.name}`,
+                }),
+                forwardTo('compareUI'),
               ],
             },
           },

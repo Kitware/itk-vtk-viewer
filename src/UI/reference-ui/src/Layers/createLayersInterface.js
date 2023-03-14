@@ -14,6 +14,11 @@ function createLayersInterface(context) {
   addLayerUIRow(context)
 
   context.uiContainer.appendChild(layersUIGroup)
+
+  const compareContainer = document.createElement('div')
+  compareContainer.setAttribute('class', style.uiGroup)
+  context.uiContainer.appendChild(compareContainer)
+  context.layers.compareContainer = compareContainer
 }
 
 export default createLayersInterface

@@ -837,3 +837,8 @@ select:focus {
   width: 1.3em;
   height: 1.3em;
 }
+
+.inputLabel {
+  line-height: 1.7;
+  margin-right: 4px;
+}

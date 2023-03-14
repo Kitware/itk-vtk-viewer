@@ -1,3 +1,9 @@
+export const defaultCompare = {
+  method: 'disable',
+  pattern: [4, 4, 4],
+  swapImageOrder: false,
+}
+
 class ImageActorContext {
   // MultiscaleSpatialImage to be visualized
   image = null
@@ -115,7 +121,7 @@ class ImageActorContext {
   histograms = new Map()
 
   // Option config object for fusing 2 images, i.e. 'checkerboard'. See index.md for object shape.
-  compare = { method: 'disable' }
+  compare = { ...defaultCompare }
 
   // Override default left button mouse interactor to use window width/level interactor
   windowLevelEnabled = false

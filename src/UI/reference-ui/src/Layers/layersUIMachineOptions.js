@@ -3,6 +3,7 @@ import createLayerInterface from './createLayerInterface'
 import toggleLayerVisibility from './toggleLayerVisibility'
 import selectLayer from './selectLayer'
 import { startDataUpdate, finishDataUpdate } from './dataUpdateIndicator'
+import { compareUI } from './compareUI'
 
 const layersUIMachineOptions = {
   layerUIActor: {
@@ -17,6 +18,10 @@ const layersUIMachineOptions = {
 
   actions: {
     createLayersInterface,
+  },
+
+  services: {
+    compareUI,
   },
 }
 

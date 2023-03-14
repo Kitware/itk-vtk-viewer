@@ -41,7 +41,7 @@
     "@babel/runtime": "^7.17.6",
     "@material/web": "^0.1.0-alpha.0",
     "itk-viewer-color-maps": "^1.2.0",
-    "itk-viewer-icons": "^11.13.0",
+    "itk-viewer-icons": "^11.13.1",
     "itk-viewer-transfer-function-editor": "^1.2.2",
     "lit": "^2.4.0"
   }

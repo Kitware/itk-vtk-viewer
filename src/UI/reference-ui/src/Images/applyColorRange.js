@@ -12,11 +12,16 @@ function applyColorRange(context, event) {
 
   const colorRange = event.data.range
 
-  const minimumInput = context.images.colorRangeInputRow.children[1]
-  const maximumInput = context.images.colorRangeInputRow.children[3]
+  const minimumInput = context.images.colorRangeInputRow.children[1].children[0]
+  const maximumInput = context.images.colorRangeInputRow.children[3].children[0]
 
-  minimumInput.value = colorRange[0]
-  maximumInput.value = colorRange[1]
+  if (actorContext.windowLevelEnabled) {
+    minimumInput.value = colorRange[1] - colorRange[0]
+    maximumInput.value = (colorRange[1] + colorRange[0]) / 2
+  } else {
+    minimumInput.value = colorRange[0]
+    maximumInput.value = colorRange[1]
+  }
 
   let fullRange = colorRange
   if (actorContext.colorRangeBounds.has(component)) {

@@ -350,6 +350,12 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             COMPONENT_VISIBILITIES_UPDATED: {
               actions: forwardTo('ui'),
             },
+            WINDOW_LEVEL_TOGGLED: {
+              actions: [forwardTo('ui'), forwardTo('rendering')],
+            },
+            IMAGE_COLOR_RANGE_RESET: {
+              actions: [forwardTo('ui'), forwardTo('rendering')],
+            },
           },
         },
       },

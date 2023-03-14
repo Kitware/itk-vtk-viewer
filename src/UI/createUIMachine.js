@@ -182,6 +182,12 @@ function createUIMachine(options, context) {
             CINEMATIC_CHANGED: {
               actions: forwardTo('images'),
             },
+            WINDOW_LEVEL_TOGGLED: {
+              actions: forwardTo('images'),
+            },
+            IMAGE_COLOR_RANGE_RESET: {
+              actions: forwardTo('images'),
+            },
             START_DATA_UPDATE: { actions: forwardTo('layers') },
             FINISH_DATA_UPDATE: { actions: forwardTo('layers') },
             POST_RENDER: { actions: forwardTo('layers') },

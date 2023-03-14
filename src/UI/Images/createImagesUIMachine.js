@@ -224,6 +224,17 @@ const assignSelectedLabel = assign({
   },
 })
 
+const assignWindowLevelEnabled = assign({
+  images: (context, event) => {
+    const images = context.images
+    const name = event.data.name
+
+    const actorContext = context.images.actorContext.get(name)
+    actorContext.windowLevelEnabled = !actorContext.windowLevelEnabled
+    return images
+  },
+})
+
 function createImagesUIMachine(options, context) {
   return Machine(
     {
@@ -358,6 +369,16 @@ function createImagesUIMachine(options, context) {
             CINEMATIC_CHANGED: { actions: 'applyCinematicChanged' },
             COMPONENT_VISIBILITIES_UPDATED: {
               actions: 'updateImageInterface',
+            },
+            WINDOW_LEVEL_TOGGLED: {
+              actions: [
+                assignWindowLevelEnabled,
+                'toggleWindowLevel',
+                forwardTo('transferFunctionManipulators'),
+              ],
+            },
+            IMAGE_COLOR_RANGE_RESET: {
+              actions: ['applyWindowLevelReset'],
             },
           },
         },

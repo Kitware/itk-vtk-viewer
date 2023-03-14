@@ -254,6 +254,9 @@ const createRenderingMachine = (options, context) => {
             COMPARE_IMAGES: {
               actions: forwardTo('images'),
             },
+            WINDOW_LEVEL_TOGGLED: {
+              actions: forwardTo('images'),
+            },
           },
         },
       },

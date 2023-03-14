@@ -23,6 +23,7 @@ import applySelectedLabel from './applySelectedLabel'
 import scaleSelector from './scaleSelector'
 import { applyPiecewiseFunctionPointsToEditor } from './createTransferFunctionWidget'
 import { applyCinematicChanged } from './cinematic'
+import toggleWindowLevel from './toggleWindowLevel'
 
 const imagesUIMachineOptions = {
   actions: {
@@ -41,6 +42,7 @@ const imagesUIMachineOptions = {
     applyColorMap,
     applyPiecewiseFunctionGaussians,
     applyPiecewiseFunctionPointsToEditor,
+    toggleWindowLevel,
 
     toggleShadow,
     applyGradientOpacity,

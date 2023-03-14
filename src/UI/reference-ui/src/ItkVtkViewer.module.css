@@ -181,6 +181,11 @@
 [itk-vtk-tooltip-right]:hover::before {
   transform: translate(0, -50%);
 }
+[itk-vtk-tooltip-left]::before {
+  top: -50%;
+  right: 50%;
+  left: initial;
+}
 
 [itk-vtk-tooltip-top-screenshot]::before {
   top: initial;
@@ -240,6 +245,13 @@
   bottom: calc(100% + 10px);
   transform: translate(-50%, 15px);
   width: 400%;
+}
+[itk-vtk-tooltip-top-input]::before {
+  top: initial;
+  right: initial;
+  bottom: 25%;
+  transform: translate(-50%, 15px);
+  width: fit-content;
 }
 
 .layerEntryCommon {
@@ -811,4 +823,17 @@ select:focus {
   position: absolute;
   top: 0;
   right: -48px;
+}
+
+.windowLevelButton {
+  width: 8mm;
+  padding: 4px;
+  padding-left: 0px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.windowLevelButton img {
+  width: 1.3em;
+  height: 1.3em;
 }

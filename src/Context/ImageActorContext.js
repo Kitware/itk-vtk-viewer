@@ -116,6 +116,9 @@ class ImageActorContext {
 
   // Option config object for fusing 2 images, i.e. 'checkerboard'. See index.md for object shape.
   compare = { method: 'disable' }
+
+  // Override default left button mouse interactor to use window width/level interactor
+  windowLevelEnabled = false
 }
 
 export default ImageActorContext

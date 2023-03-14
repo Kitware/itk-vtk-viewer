@@ -161,6 +161,7 @@ function createImagesRenderingMachine(options, context) {
                 'LABEL_IMAGE_SELECTED_LABEL_CHANGED',
                 'LABEL_IMAGE_LABEL_NAMES_CHANGED',
                 'COMPARE_IMAGES',
+                'WINDOW_LEVEL_TOGGLED',
               ],
               { actions: forwardToNamedActor }
             ),

@@ -68,10 +68,17 @@ export const createTransferFunctionManipulators = context => (
     setPoints(newPoints)
   }
 
+  // pan
+  const manipulator2D = context.itkVtkView
+    .getInteractorStyle2D()
+    .findMouseManipulator(1, false, false, false)
+  // rotate
+  const manipulator3D = context.itkVtkView
+    .getInteractorStyle3D()
+    .findMouseManipulator(1, false, false, false)
   // window/level
   const rangeManipulator = vtkMouseRangeManipulator.newInstance({
     button: 1,
-    alt: true,
   })
 
   const pwfGet = () => {
@@ -124,42 +131,69 @@ export const createTransferFunctionManipulators = context => (
       fullRange = actorContext.colorRangeBounds.get(component)
     }
     const diff = fullRange[1] - fullRange[0]
-
-    const colorRangeNormalized = [
-      (colorRange[0] - fullRange[0]) / diff,
-      (colorRange[1] - fullRange[0]) / diff,
-    ]
-    const normDelta = colorRangeNormalized[1] - colorRangeNormalized[0]
-    const steps = normDelta / 100.0
+    const steps = 10 ** Math.ceil(Math.log(diff / 1000))
 
     // level
     rangeManipulator.setHorizontalListener(
-      colorRangeNormalized[0],
-      colorRangeNormalized[1],
+      fullRange[0],
+      fullRange[1],
       steps,
       levelGet,
-      levelSet
+      levelSet,
+      1
     )
 
     // window
     rangeManipulator.setVerticalListener(
       MIN_WINDOW,
-      normDelta,
+      diff,
       steps,
       windowGet,
-      windowSet
+      windowSet,
+      1
     )
   }
 
   onReceive(event => {
     const { type } = event
+    const name = event.data.name
+    const actorContext = context.images.actorContext.get(name)
+    const component = event.data.component
+    if (type === 'WINDOW_LEVEL_TOGGLED') {
+      if (actorContext.windowLevelEnabled) {
+        context.itkVtkView
+          .getInteractorStyle2D()
+          .removeMouseManipulator(manipulator2D)
+        context.itkVtkView
+          .getInteractorStyle3D()
+          .removeMouseManipulator(manipulator3D)
+        context.itkVtkView
+          .getInteractorStyle2D()
+          .addMouseManipulator(rangeManipulator)
+        context.itkVtkView
+          .getInteractorStyle3D()
+          .addMouseManipulator(rangeManipulator)
+      } else {
+        context.itkVtkView
+          .getInteractorStyle2D()
+          .removeMouseManipulator(rangeManipulator)
+        context.itkVtkView
+          .getInteractorStyle3D()
+          .removeMouseManipulator(rangeManipulator)
+        context.itkVtkView
+          .getInteractorStyle2D()
+          .addMouseManipulator(manipulator2D)
+        context.itkVtkView
+          .getInteractorStyle3D()
+          .addMouseManipulator(manipulator3D)
+      }
+    }
     if (
-      type === 'SELECT_IMAGE_COMPONENT' ||
-      type === 'IMAGE_COLOR_RANGE_CHANGED'
+      actorContext.windowLevelEnabled &&
+      (type === 'SELECT_IMAGE_COMPONENT' ||
+        type === 'IMAGE_COLOR_RANGE_CHANGED' ||
+        type === 'WINDOW_LEVEL_TOGGLED')
     ) {
-      const name = event.data.name
-      const actorContext = context.images.actorContext.get(name)
-      const component = event.data.component
       if (
         actorContext.selectedComponent === component &&
         actorContext.colorRanges.has(component)

@@ -13,8 +13,8 @@ function applyColorRangeBounds(context, event) {
 
   const range = event.data.range
 
-  const minimumInput = context.images.colorRangeInputRow.children[0]
-  const maximumInput = context.images.colorRangeInputRow.children[2]
+  const minimumInput = context.images.colorRangeInputRow.children[1].children[0]
+  const maximumInput = context.images.colorRangeInputRow.children[3].children[0]
 
   minimumInput.min = range[0]
   minimumInput.max = range[1]

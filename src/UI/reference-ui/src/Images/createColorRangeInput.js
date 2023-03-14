@@ -21,9 +21,19 @@ function createColorRangeInput(context, imageUIGroup) {
   const minimumInput = document.createElement('input')
   minimumInput.type = 'number'
   minimumInput.setAttribute('class', style.numberInput)
+  const minimumDiv = document.createElement('div')
+  minimumDiv.setAttribute('itk-vtk-tooltip', '')
+  minimumDiv.setAttribute('itk-vtk-tooltip-top-input', '')
+  minimumDiv.setAttribute('itk-vtk-tooltip-content', 'Color range min')
+  minimumDiv.appendChild(minimumInput)
   const maximumInput = document.createElement('input')
   maximumInput.type = 'number'
   maximumInput.setAttribute('class', style.numberInput)
+  const maximumDiv = document.createElement('div')
+  maximumDiv.setAttribute('itk-vtk-tooltip', '')
+  maximumDiv.setAttribute('itk-vtk-tooltip-top-input', '')
+  maximumDiv.setAttribute('itk-vtk-tooltip-content', 'Color range max')
+  maximumDiv.appendChild(maximumInput)
 
   minimumInput.addEventListener('change', event => {
     event.preventDefault()
@@ -33,7 +43,14 @@ function createColorRangeInput(context, imageUIGroup) {
     const currentRange = actorContext.colorRanges.get(
       actorContext.selectedComponent
     )
-    const newRange = [Number(event.target.value), currentRange[1]]
+    let newRange = []
+    if (actorContext.windowLevelEnabled) {
+      const level = (currentRange[1] + currentRange[0]) / 2
+      const width = Number(event.target.value)
+      newRange = [level - width / 2, level + width / 2]
+    } else {
+      newRange = [Number(event.target.value), currentRange[1]]
+    }
     context.service.send({
       type: 'IMAGE_COLOR_RANGE_CHANGED',
       data: {
@@ -51,7 +68,14 @@ function createColorRangeInput(context, imageUIGroup) {
     const currentRange = actorContext.colorRanges.get(
       actorContext.selectedComponent
     )
-    const newRange = [currentRange[0], Number(event.target.value)]
+    let newRange = []
+    if (actorContext.windowLevelEnabled) {
+      const width = currentRange[1] - currentRange[0]
+      const level = Number(event.target.value)
+      newRange = [level - width / 2, level + width / 2]
+    } else {
+      newRange = [currentRange[0], Number(event.target.value)]
+    }
     context.service.send({
       type: 'IMAGE_COLOR_RANGE_CHANGED',
       data: {
@@ -65,9 +89,9 @@ function createColorRangeInput(context, imageUIGroup) {
   const colorMapSelector = document.createElement('div')
   colorMapSelector.id = `${viewerDOMId}-imageColorMapSelector`
 
-  colorRangeInputRow.appendChild(minimumInput)
+  colorRangeInputRow.appendChild(minimumDiv)
   colorRangeInputRow.appendChild(colorMapSelector)
-  colorRangeInputRow.appendChild(maximumInput)
+  colorRangeInputRow.appendChild(maximumDiv)
 
   const iconSelector = createColorMapIconSelector(colorMapSelector)
   context.images.iconSelector = iconSelector

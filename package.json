@@ -44,7 +44,7 @@
     "itk-image-io": "^1.0.0-b.84",
     "itk-mesh-io": "^1.0.0-b.84",
     "itk-viewer-color-maps": "^1.2.0",
-    "itk-viewer-icons": "^11.13.0",
+    "itk-viewer-icons": "11.13.1",
     "itk-viewer-transfer-function-editor": "^1.2.2",
     "itk-wasm": "^1.0.0-b.83",
     "mobx": "^5.15.7",

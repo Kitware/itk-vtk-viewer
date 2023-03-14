@@ -1,9 +1,6 @@
 import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator'
 
 const MIN_WINDOW = 1e-8
-const MIN_WIDTH = 1e-8
-
-const clampX = ([x, y]) => [Math.min(1, Math.max(0, x)), y]
 
 export const createTransferFunctionManipulators = context => (
   callback,
@@ -30,42 +27,52 @@ export const createTransferFunctionManipulators = context => (
     })
   }
 
-  const getXMinMax = () => {
-    const xPositions = getPoints().map(([x]) => x)
-    return { min: Math.min(...xPositions), max: Math.max(...xPositions) }
+  const newRange = (width, level) => {
+    return [level - width / 2, level + width / 2]
   }
 
   const windowGet = () => {
-    const { min, max } = getXMinMax()
-    const width = max - min
-    return width
+    const name = context.images.selectedName
+    const actorContext = context.images.actorContext.get(name)
+    const component = actorContext.selectedComponent
+    const [lower, upper] = actorContext.colorRanges.get(component)
+    return upper - lower
   }
 
   const windowSet = newWidth => {
-    const { min, max } = getXMinMax()
-    const width = max - min || MIN_WIDTH
-    const newMin = (min + max) / 2 - newWidth / 2
-
-    const newPoints = getPoints()
-      // normalize in old range, then scale to new range
-      .map(([x, y]) => [((x - min) / width) * newWidth + newMin, y])
-      .map(clampX)
-    setPoints(newPoints)
+    const name = context.images.selectedName
+    const actorContext = context.images.actorContext.get(name)
+    const component = actorContext.selectedComponent
+    context.service.send({
+      type: 'IMAGE_COLOR_RANGE_CHANGED',
+      data: {
+        name: context.images.selectedName,
+        component,
+        range: newRange(newWidth, levelGet()),
+      },
+    })
   }
 
   const levelGet = () => {
-    const { min, max } = getXMinMax()
-    return (min + max) / 2
+    const name = context.images.selectedName
+    const actorContext = context.images.actorContext.get(name)
+    const component = actorContext.selectedComponent
+    const [lower, upper] = actorContext.colorRanges.get(component)
+    return (upper + lower) / 2
   }
 
   const levelSet = newLevel => {
-    const oldLevel = levelGet()
-    const delta = newLevel - oldLevel
-    const newPoints = getPoints()
-      // normalize in old range, then scale to new range
-      .map(([x, y]) => [x + delta, y])
-      .map(clampX)
-    setPoints(newPoints)
+    const name = context.images.selectedName
+    const actorContext = context.images.actorContext.get(name)
+    const component = actorContext.selectedComponent
+    context.service.send({
+      type: 'IMAGE_COLOR_RANGE_CHANGED',
+      data: {
+        name: context.images.selectedName,
+        component,
+        range: newRange(windowGet(), newLevel),
+      },
+    })
   }
 
   // pan
@@ -134,9 +141,9 @@ export const createTransferFunctionManipulators = context => (
     const steps = 10 ** Math.ceil(Math.log(diff / 1000))
 
     // level
-    rangeManipulator.setHorizontalListener(
-      fullRange[0],
-      fullRange[1],
+    rangeManipulator.setVerticalListener(
+      fullRange[0] - diff,
+      fullRange[1] + diff,
       steps,
       levelGet,
       levelSet,
@@ -144,9 +151,9 @@ export const createTransferFunctionManipulators = context => (
     )
 
     // window
-    rangeManipulator.setVerticalListener(
+    rangeManipulator.setHorizontalListener(
       MIN_WINDOW,
-      diff,
+      diff * 2,
       steps,
       windowGet,
       windowSet,

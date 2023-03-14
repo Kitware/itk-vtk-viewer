@@ -24,6 +24,7 @@ import scaleSelector from './scaleSelector'
 import { applyPiecewiseFunctionPointsToEditor } from './createTransferFunctionWidget'
 import { applyCinematicChanged } from './cinematic'
 import toggleWindowLevel from './toggleWindowLevel'
+import applyWindowLevelReset from './applyWindowingReset'
 
 const imagesUIMachineOptions = {
   actions: {
@@ -43,6 +44,7 @@ const imagesUIMachineOptions = {
     applyPiecewiseFunctionGaussians,
     applyPiecewiseFunctionPointsToEditor,
     toggleWindowLevel,
+    applyWindowLevelReset,
 
     toggleShadow,
     applyGradientOpacity,

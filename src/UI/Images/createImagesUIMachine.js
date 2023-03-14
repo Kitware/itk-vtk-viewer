@@ -377,6 +377,9 @@ function createImagesUIMachine(options, context) {
                 forwardTo('transferFunctionManipulators'),
               ],
             },
+            IMAGE_COLOR_RANGE_RESET: {
+              actions: ['applyWindowLevelReset'],
+            },
           },
         },
       },

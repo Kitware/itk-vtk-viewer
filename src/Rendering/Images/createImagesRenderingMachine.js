@@ -162,6 +162,7 @@ function createImagesRenderingMachine(options, context) {
                 'LABEL_IMAGE_LABEL_NAMES_CHANGED',
                 'COMPARE_IMAGES',
                 'WINDOW_LEVEL_TOGGLED',
+                'IMAGE_COLOR_RANGE_RESET',
               ],
               { actions: forwardToNamedActor }
             ),

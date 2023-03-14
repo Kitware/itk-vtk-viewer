@@ -2,6 +2,7 @@ import style from '../ItkVtkViewer.module.css'
 
 import createInterpolationButton from './createInterpolationButton'
 import createColorMapIconSelector from '../createColorMapIconSelector'
+import createWindowLevelReset from './createWindowLevelReset'
 
 function createColorRangeInput(context, imageUIGroup) {
   const viewerDOMId = context.id
@@ -87,6 +88,8 @@ function createColorRangeInput(context, imageUIGroup) {
     }
   })
   context.images.colorMapSelector = colorMapSelector
+
+  createWindowLevelReset(context, colorRangeInputRow)
 
   imageUIGroup.appendChild(colorRangeInputRow)
 }

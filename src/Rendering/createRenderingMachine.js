@@ -257,6 +257,9 @@ const createRenderingMachine = (options, context) => {
             WINDOW_LEVEL_TOGGLED: {
               actions: forwardTo('images'),
             },
+            IMAGE_COLOR_RANGE_RESET: {
+              actions: forwardTo('images'),
+            },
           },
         },
       },

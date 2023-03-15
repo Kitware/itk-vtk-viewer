@@ -321,6 +321,7 @@ const createUpdatingImageMachine = options => {
   return createMachine(
     {
       id: 'updatingImageMachine',
+      predictableActionArguments: true,
       initial: 'checkingUpdateNeeded',
       states: {
         checkingUpdateNeeded: {
@@ -421,6 +422,7 @@ const createImageRenderingActor = (options, context, name) => {
   return createMachine(
     {
       id: 'imageRendering',
+      predictableActionArguments: true,
       context: machineContext,
       type: 'parallel',
       states: {

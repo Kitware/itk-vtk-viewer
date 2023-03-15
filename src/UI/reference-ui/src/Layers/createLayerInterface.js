@@ -7,6 +7,8 @@ import {
   imageIconDataUri,
   labelsIconDataUri,
 } from 'itk-viewer-icons'
+import { makeHtml } from '../utils'
+import './layerSettings.js'
 
 function createLayerEntry(context, name, layer) {
   const layerEntry = document.createElement('div')
@@ -86,7 +88,13 @@ function createLayerEntry(context, name, layer) {
   }
   iconElement.setAttribute('class', style.layerIcon)
   applyContrastSensitiveStyleToElement(context, 'invertibleButton', iconElement)
-  imageIcons.appendChild(iconElement)
+
+  const settings = makeHtml(
+    `<layer-settings class="${style.layerIcon}"></layer-settings>`
+  )
+  settings.layer = layer
+  settings.name = name
+  imageIcons.appendChild(settings)
 
   layerEntry.addEventListener('click', event => {
     event.preventDefault()

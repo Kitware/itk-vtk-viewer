@@ -28,7 +28,7 @@ function styleInject(css, ref) {
 }
 
 var css_248z$1 =
-  ".ItkVtkViewer-module_loading__11c63 {\n  border: 16px solid #f3f3f3; /* Light grey */\n  border-top: 16px solid #3498db; /* Blue */\n  border-radius: 50%;\n  width: 120px;\n  height: 120px;\n  position: absolute;\n  left: calc(50% - 60px);\n  top: calc(50% - 60px);\n  -webkit-animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n          animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n  box-sizing: border-box;\n}\n\n@-webkit-keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_viewContainer__-5zNz {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  display: flex;\n  flex-direction: column;\n  background: rgba(128, 128, 128, 0.8);\n}\n\n.ItkVtkViewer-module_viewport__BMgOt {\n  position: relative;\n  flex: 1;\n  min-height: 0;\n}\n\n.ItkVtkViewer-module_uiContainer__CiawP {\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 1000;\n\n  height: -webkit-fit-content;\n\n  height: -moz-fit-content;\n\n  height: fit-content;\n  max-height: 100%;\n\n  display: flex;\n\n  padding: 6px 0 0 6px;\n  border: 0px;\n  box-sizing: border-box;\n\n  --md-navigation-drawer-container-shape-start-end: 0;\n  --md-navigation-drawer-container-shape-end-end: 0;\n  --md-navigation-drawer-container-color: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_drawer__b66eM {\n  overflow: hidden auto;\n}\n\n.ItkVtkViewer-module_uiGroup__ad-WI {\n  background: rgba(128, 128, 128, 0.5);\n  border-radius: 4px;\n  margin: 2px;\n}\n\n.ItkVtkViewer-module_uiRow__KTQa8 {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  align-items: center;\n  justify-content: space-between;\n  padding: 5px;\n}\n\n.ItkVtkViewer-module_mainUIRow__vTXih {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_planeUIRow__D5gCh {\n  background: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_layersUIRow__0LDm5 {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_progress__WydXH {\n  color: white;\n  font-size: 200%;\n  height: 100vh;\n  width: 100vw;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 100vh;\n}\n\n.ItkVtkViewer-module_piecewiseWidget__5gKl5 {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_logo__9ErCF {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  height: 2em;\n  width: 2em;\n  cursor: pointer;\n  z-index: 100;\n}\n\n.ItkVtkViewer-module_fpsMonitor__bnwqr {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  border-radius: 5px;\n  background: rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n  z-index: 101;\n}\n\n[itk-vtk-tooltip] {\n  position: relative;\n}\n[itk-vtk-tooltip]::before {\n  content: attr(itk-vtk-tooltip-content);\n  visibility: hidden;\n  position: absolute;\n  top: 50%;\n  right: calc(100% + 16px);\n  width: 400%;\n  padding: 4px 6px;\n  text-align: center;\n  text-transform: none;\n  font-size: 0.9em;\n  font-family: monospace;\n  border-radius: 3px;\n  background: rgba(0.9, 0.9, 0.9, 0.95);\n  color: white;\n  opacity: 0;\n  transform: translate(15px, -50%);\n  transition-property: all;\n  transition-duration: 0.3s;\n  transition-timing-function: ease-in-out;\n  transition-delay: 0.8s;\n  z-index: 3000;\n}\n\n[itk-vtk-tooltip]:hover::before {\n  opacity: 1;\n  visibility: visible;\n  transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-bottom]::before {\n  top: calc(100% + 16px);\n  left: 50%;\n  right: initial;\n  transform: translate(-50%, -15px);\n}\n[itk-vtk-tooltip-bottom]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-right]::before {\n  top: 50%;\n  left: calc(100% + 16px);\n  right: initial;\n  transform: translate(-15px, -50%);\n}\n[itk-vtk-tooltip-right]:hover::before {\n  transform: translate(0, -50%);\n}\n[itk-vtk-tooltip-left]::before {\n  top: -50%;\n  right: 50%;\n  left: initial;\n}\n\n[itk-vtk-tooltip-top-screenshot]::before {\n  top: initial;\n  left: 260%;\n  right: initial;\n  bottom: calc(100% + 8px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-screenshot]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-annotations]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-annotations]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-axes]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-axes]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-fullscreen]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top]::before {\n  top: initial;\n  left: 60%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-input]::before {\n  top: initial;\n  right: initial;\n  bottom: 25%;\n  transform: translate(-50%, 15px);\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}\n\n.ItkVtkViewer-module_layerEntryCommon__oIE1u {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n  border-style: solid;\n  border-width: 2px;\n}\n\n.ItkVtkViewer-module_layerEntryBrightBG__qXyI2 {\n  border-color: #666;\n}\n\n.ItkVtkViewer-module_layerEntryDarkBG__BmiCj {\n  border-color: #aaa;\n}\n\n.ItkVtkViewer-module_layerLabelCommon__kTiO9 {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  z-index: 1000;\n\n  flex: 1;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  text-align: center;\n}\n\n.ItkVtkViewer-module_layerLabelBrightBG__vAfex {\n  color: black;\n}\n\n.ItkVtkViewer-module_layerLabelDarkBG__sM6Bg {\n  color: white;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc {\n  flex-basis: 2.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 8px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_iconGroup__qqZrW {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_ldsRing__QT1wT {\n  display: inline-block;\n  position: relative;\n  width: 20px;\n  height: 20px;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div {\n  box-sizing: border-box;\n  display: block;\n  position: absolute;\n  width: 1em;\n  height: 1em;\n  margin: 0;\n  border: 0.15em solid #000;\n  border-radius: 50%;\n  -webkit-animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n          animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n  border-color: #000 transparent transparent transparent;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(1) {\n  -webkit-animation-delay: -0.45s;\n          animation-delay: -0.45s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(2) {\n  -webkit-animation-delay: -0.3s;\n          animation-delay: -0.3s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(3) {\n  -webkit-animation-delay: -0.15s;\n          animation-delay: -0.15s;\n}\n@-webkit-keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_tooltipButtonBrightBG__yffVf::before {\n}\n\n.ItkVtkViewer-module_tooltipButtonDarkBG__gEu0i::before {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_invertibleButtonBrightBG__VmIfT {\n}\n\n.ItkVtkViewer-module_invertibleButtonDarkBG__GoKgD {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 {\n  flex: 1;\n  width: 8m;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-right: 4px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ img {\n  width: 1.2em;\n  margin-top: 4px;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceEntry__zXMUS {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: self-start;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceLabelCommon__Ec-uc {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceLabelBrightBG__aYmfG {\n  color: black;\n}\n\n.ItkVtkViewer-module_distanceLabelDarkBG__kYXvI {\n  color: white;\n}\n\n.ItkVtkViewer-module_distanceInput__gyNaU {\n  background: transparent;\n  color: white;\n  font-size: 1em;\n  width: 80px;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 0px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_toggleInput__jHLTo {\n  margin: 0px;\n  width: 0;\n  opacity: 0;\n  box-sizing: content-box;\n}\n\n.ItkVtkViewer-module_toggleButton__qHhHZ {\n  cursor: pointer;\n  border-radius: 0.2em;\n  opacity: 0.45;\n}\n\ninput:checked.ItkVtkViewer-module_toggleInput__jHLTo + label {\n  opacity: 1;\n}\n\n.ItkVtkViewer-module_numberInput__pDxYH {\n  color: white;\n  background: transparent;\n  font-size: 1em;\n  padding-left: 2px;\n  width: 70px;\n}\n\n.ItkVtkViewer-module_selector__yw8l- {\n  display: flex;\n  direction: row;\n  font-size: 1.2em;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n\n.ItkVtkViewer-module_disableInterface__CGB4S {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(40, 40, 40, 0.5);\n  padding: 5px;\n  margin-right: 2px;\n  border-radius: 5px 5px 0px 0px;\n  color: #777;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:hover + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(90, 90, 90, 0.5);\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:checked + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(127, 127, 127, 0.5);\n  color: #fff;\n}\n\n.ItkVtkViewer-module_componentVisibility__y1rRS {\n  position: relative;\n  top: -2px;\n  margin-left: 10px;\n}\n\nselect {\n  -moz-appearance: none;\n}\n\nselect option {\n  color: black;\n}\n\nselect:focus {\n  outline: none;\n  border: none;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderColumn__ZwISb {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  padding: 0 5px;\n}\n\n.ItkVtkViewer-module_sliderIcon__jfoL- {\n  width: 1.8em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 8px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderEntry__3r3gO {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n\n.ItkVtkViewer-module_slider__eT9qm {\n  flex: 1;\n  min-height: 1rem;\n}\n\n.ItkVtkViewer-module_planeLabel__E1zOk {\n  padding-left: 6px;\n  padding: 2px;\n  display: block;\n  font-size: 1.1em;\n  font-family: monospace;\n  color: black;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_xPlaneLabel__wK4Cb {\n  background-color: #ef5350;\n}\n\n.ItkVtkViewer-module_yPlaneLabel__rIm0j {\n  background-color: #fdd835;\n}\n\n.ItkVtkViewer-module_zPlaneLabel__94NL7 {\n  background-color: #4caf50;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ {\n  z-index: 1100;\n  position: relative;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ input {\n  position: absolute;\n  bottom: 20px;\n  left: -24px;\n  width: 12px;\n  -ms-writing-mode: bt-lr;\n      writing-mode: bt-lr;\n  -webkit-appearance: slider-vertical;\n}\n\n.ItkVtkViewer-module_bigFileDrop__cZdkP {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  background-color: white;\n  background-image: url('./dropBG.jpg');\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: contain;\n  border-radius: 10px;\n  width: 50px;\n  padding: calc(50vh - 2em) calc(50vw - 25px - 2em);\n}\n\n.ItkVtkViewer-module_fullscreenContainer__-H3c8 {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  background: black;\n  margin: 0;\n  padding: 0;\n}\n\n.ItkVtkViewer-module_collapseButton__uzHPY {\n  position: absolute;\n  top: 0;\n  right: -48px;\n}\n\n.ItkVtkViewer-module_windowLevelButton__Lx0Tj {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_windowLevelButton__Lx0Tj img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_inputLabel__dDf8G {\n  line-height: 1.7;\n}\n"
+  ".ItkVtkViewer-module_loading__11c63 {\n  border: 16px solid #f3f3f3; /* Light grey */\n  border-top: 16px solid #3498db; /* Blue */\n  border-radius: 50%;\n  width: 120px;\n  height: 120px;\n  position: absolute;\n  left: calc(50% - 60px);\n  top: calc(50% - 60px);\n  -webkit-animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n          animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n  box-sizing: border-box;\n}\n\n@-webkit-keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_viewContainer__-5zNz {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  display: flex;\n  flex-direction: column;\n  background: rgba(128, 128, 128, 0.8);\n}\n\n.ItkVtkViewer-module_viewport__BMgOt {\n  position: relative;\n  flex: 1;\n  min-height: 0;\n}\n\n.ItkVtkViewer-module_uiContainer__CiawP {\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 1000;\n\n  height: -webkit-fit-content;\n\n  height: -moz-fit-content;\n\n  height: fit-content;\n  max-height: 100%;\n\n  display: flex;\n\n  padding: 6px 0 0 6px;\n  border: 0px;\n  box-sizing: border-box;\n\n  --md-navigation-drawer-container-shape-start-end: 0;\n  --md-navigation-drawer-container-shape-end-end: 0;\n  --md-navigation-drawer-container-color: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_drawer__b66eM {\n  overflow: hidden auto;\n}\n\n.ItkVtkViewer-module_uiGroup__ad-WI {\n  background: rgba(128, 128, 128, 0.5);\n  border-radius: 4px;\n  margin: 2px;\n}\n\n.ItkVtkViewer-module_uiRow__KTQa8 {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  align-items: center;\n  justify-content: space-between;\n  padding: 5px;\n}\n\n.ItkVtkViewer-module_mainUIRow__vTXih {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_planeUIRow__D5gCh {\n  background: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_layersUIRow__0LDm5 {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_progress__WydXH {\n  color: white;\n  font-size: 200%;\n  height: 100vh;\n  width: 100vw;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 100vh;\n}\n\n.ItkVtkViewer-module_piecewiseWidget__5gKl5 {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_logo__9ErCF {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  height: 2em;\n  width: 2em;\n  cursor: pointer;\n  z-index: 100;\n}\n\n.ItkVtkViewer-module_fpsMonitor__bnwqr {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  border-radius: 5px;\n  background: rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n  z-index: 101;\n}\n\n[itk-vtk-tooltip] {\n  position: relative;\n}\n[itk-vtk-tooltip]::before {\n  content: attr(itk-vtk-tooltip-content);\n  visibility: hidden;\n  position: absolute;\n  top: 50%;\n  right: calc(100% + 16px);\n  width: 400%;\n  padding: 4px 6px;\n  text-align: center;\n  text-transform: none;\n  font-size: 0.9em;\n  font-family: monospace;\n  border-radius: 3px;\n  background: rgba(0.9, 0.9, 0.9, 0.95);\n  color: white;\n  opacity: 0;\n  transform: translate(15px, -50%);\n  transition-property: all;\n  transition-duration: 0.3s;\n  transition-timing-function: ease-in-out;\n  transition-delay: 0.8s;\n  z-index: 3000;\n}\n\n[itk-vtk-tooltip]:hover::before {\n  opacity: 1;\n  visibility: visible;\n  transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-bottom]::before {\n  top: calc(100% + 16px);\n  left: 50%;\n  right: initial;\n  transform: translate(-50%, -15px);\n}\n[itk-vtk-tooltip-bottom]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-right]::before {\n  top: 50%;\n  left: calc(100% + 16px);\n  right: initial;\n  transform: translate(-15px, -50%);\n}\n[itk-vtk-tooltip-right]:hover::before {\n  transform: translate(0, -50%);\n}\n[itk-vtk-tooltip-left]::before {\n  top: -50%;\n  right: 50%;\n  left: initial;\n}\n\n[itk-vtk-tooltip-top-screenshot]::before {\n  top: initial;\n  left: 260%;\n  right: initial;\n  bottom: calc(100% + 8px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-screenshot]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-annotations]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-annotations]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-axes]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-axes]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-fullscreen]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top]::before {\n  top: initial;\n  left: 60%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-input]::before {\n  top: initial;\n  right: initial;\n  bottom: 25%;\n  transform: translate(-50%, 15px);\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}\n\n.ItkVtkViewer-module_layerEntryCommon__oIE1u {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n  border-style: solid;\n  border-width: 2px;\n}\n\n.ItkVtkViewer-module_layerEntryBrightBG__qXyI2 {\n  border-color: #666;\n}\n\n.ItkVtkViewer-module_layerEntryDarkBG__BmiCj {\n  border-color: #aaa;\n}\n\n.ItkVtkViewer-module_layerLabelCommon__kTiO9 {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  z-index: 1000;\n\n  flex: 1;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  text-align: center;\n}\n\n.ItkVtkViewer-module_layerLabelBrightBG__vAfex {\n  color: black;\n}\n\n.ItkVtkViewer-module_layerLabelDarkBG__sM6Bg {\n  color: white;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc {\n  flex-basis: 2.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 8px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_iconGroup__qqZrW {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_ldsRing__QT1wT {\n  display: inline-block;\n  position: relative;\n  width: 20px;\n  height: 20px;\n  margin-top: 4px;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div {\n  box-sizing: border-box;\n  display: block;\n  position: absolute;\n  width: 1em;\n  height: 1em;\n  margin: 0;\n  border: 0.15em solid #000;\n  border-radius: 50%;\n  -webkit-animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n          animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n  border-color: #000 transparent transparent transparent;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(1) {\n  -webkit-animation-delay: -0.45s;\n          animation-delay: -0.45s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(2) {\n  -webkit-animation-delay: -0.3s;\n          animation-delay: -0.3s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(3) {\n  -webkit-animation-delay: -0.15s;\n          animation-delay: -0.15s;\n}\n@-webkit-keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_tooltipButtonBrightBG__yffVf::before {\n}\n\n.ItkVtkViewer-module_tooltipButtonDarkBG__gEu0i::before {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_invertibleButtonBrightBG__VmIfT {\n}\n\n.ItkVtkViewer-module_invertibleButtonDarkBG__GoKgD {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 {\n  flex: 1;\n  width: 8m;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-right: 4px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ img {\n  width: 1.2em;\n  margin-top: 4px;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceEntry__zXMUS {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: self-start;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceLabelCommon__Ec-uc {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceLabelBrightBG__aYmfG {\n  color: black;\n}\n\n.ItkVtkViewer-module_distanceLabelDarkBG__kYXvI {\n  color: white;\n}\n\n.ItkVtkViewer-module_distanceInput__gyNaU {\n  background: transparent;\n  color: white;\n  font-size: 1em;\n  width: 80px;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 0px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_toggleInput__jHLTo {\n  margin: 0px;\n  width: 0;\n  opacity: 0;\n  box-sizing: content-box;\n}\n\n.ItkVtkViewer-module_toggleButton__qHhHZ {\n  cursor: pointer;\n  border-radius: 0.2em;\n  opacity: 0.45;\n}\n\ninput:checked.ItkVtkViewer-module_toggleInput__jHLTo + label {\n  opacity: 1;\n}\n\n.ItkVtkViewer-module_numberInput__pDxYH {\n  color: white;\n  background: transparent;\n  font-size: 1em;\n  padding-left: 2px;\n  width: 70px;\n}\n\n.ItkVtkViewer-module_selector__yw8l- {\n  display: flex;\n  direction: row;\n  font-size: 1.2em;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n\n.ItkVtkViewer-module_disableInterface__CGB4S {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(40, 40, 40, 0.5);\n  padding: 5px;\n  margin-right: 2px;\n  border-radius: 5px 5px 0px 0px;\n  color: #777;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:hover + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(90, 90, 90, 0.5);\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:checked + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(127, 127, 127, 0.5);\n  color: #fff;\n}\n\n.ItkVtkViewer-module_componentVisibility__y1rRS {\n  position: relative;\n  top: -2px;\n  margin-left: 10px;\n}\n\nselect {\n  -moz-appearance: none;\n}\n\nselect option {\n  color: black;\n}\n\nselect:focus {\n  outline: none;\n  border: none;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderColumn__ZwISb {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  padding: 0 5px;\n}\n\n.ItkVtkViewer-module_sliderIcon__jfoL- {\n  width: 1.8em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 8px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderEntry__3r3gO {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n\n.ItkVtkViewer-module_slider__eT9qm {\n  flex: 1;\n  min-height: 1rem;\n}\n\n.ItkVtkViewer-module_planeLabel__E1zOk {\n  padding-left: 6px;\n  padding: 2px;\n  display: block;\n  font-size: 1.1em;\n  font-family: monospace;\n  color: black;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_xPlaneLabel__wK4Cb {\n  background-color: #ef5350;\n}\n\n.ItkVtkViewer-module_yPlaneLabel__rIm0j {\n  background-color: #fdd835;\n}\n\n.ItkVtkViewer-module_zPlaneLabel__94NL7 {\n  background-color: #4caf50;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ {\n  z-index: 1100;\n  position: relative;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ input {\n  position: absolute;\n  bottom: 20px;\n  left: -24px;\n  width: 12px;\n  -ms-writing-mode: bt-lr;\n      writing-mode: bt-lr;\n  -webkit-appearance: slider-vertical;\n}\n\n.ItkVtkViewer-module_bigFileDrop__cZdkP {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  background-color: white;\n  background-image: url('./dropBG.jpg');\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: contain;\n  border-radius: 10px;\n  width: 50px;\n  padding: calc(50vh - 2em) calc(50vw - 25px - 2em);\n}\n\n.ItkVtkViewer-module_fullscreenContainer__-H3c8 {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  background: black;\n  margin: 0;\n  padding: 0;\n}\n\n.ItkVtkViewer-module_collapseButton__uzHPY {\n  position: absolute;\n  top: 0;\n  right: -48px;\n}\n\n.ItkVtkViewer-module_windowLevelButton__Lx0Tj {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_windowLevelButton__Lx0Tj img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_inputLabel__dDf8G {\n  line-height: 1.7;\n}\n"
 var style = {
   loading: 'ItkVtkViewer-module_loading__11c63',
   spin: 'ItkVtkViewer-module_spin__mT5S6',
@@ -214,11 +214,9 @@ function applyContrastSensitiveStyleToElement(context, cssClass, element) {
     var addPostFix = uiDarkMode ? 'DarkBG' : 'BrightBG'
     var removePostFix = !uiDarkMode ? 'DarkBG' : 'BrightBG'
     var removeClass = style[''.concat(cssClass).concat(removePostFix)]
-
     if (element.classList.contains(removeClass)) {
       element.classList.remove(removeClass)
     }
-
     element.classList.add(style[''.concat(cssClass).concat(addPostFix)])
   }
 }
@@ -267,6 +265,27 @@ function getDefaultExportFromCjs(x) {
   return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default')
     ? x['default']
     : x
+}
+
+function getAugmentedNamespace(n) {
+  if (n.__esModule) return n
+  var a = Object.defineProperty({}, '__esModule', { value: true })
+  Object.keys(n).forEach(function(k) {
+    var d = Object.getOwnPropertyDescriptor(n, k)
+    Object.defineProperty(
+      a,
+      k,
+      d.get
+        ? d
+        : {
+            enumerable: true,
+            get: function() {
+              return n[k]
+            },
+          }
+    )
+  })
+  return a
 }
 
 var toConsumableArray$1 = { exports: {} }
@@ -382,7 +401,8 @@ var _toConsumableArray = /*@__PURE__*/ getDefaultExportFromCjs(
 
 var fullscreenMethods = []
 window.addEventListener('load', function() {
-  var body = document.querySelector('body') // https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API
+  var body = document.querySelector('body')
+  // https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API
   ;[
     ['requestFullscreen', 'exitFullscreen', 'fullscreenchange', 'fullscreen'],
     [
@@ -589,7 +609,6 @@ function createViewPlanesToggle(context, volumeRow) {
     event.preventDefault()
     event.stopPropagation()
     var slicingPlanes = context.main.slicingPlanes
-
     if (
       !slicingPlanes.x.visibile &&
       !slicingPlanes.y.visible &&
@@ -1597,7 +1616,6 @@ function createPlaneSliders(context) {
   xPlaneInvisibleButton.children[1]
   xPlaneRow.appendChild(xPlaneInvisibleButton)
   context.main.xPlaneInvisibleButton = xPlaneInvisibleButton
-
   if (context.main.viewMode === 'Volume') {
     if (context.main.slicingPlanes.x.visible) {
       xPlaneVisibleButton.style.display = 'flex'
@@ -1610,7 +1628,6 @@ function createPlaneSliders(context) {
     xPlaneVisibleButton.style.display = 'none'
     xPlaneInvisibleButton.style.display = 'none'
   }
-
   xPlaneVisibleButton.addEventListener('click', function(event) {
     event.preventDefault()
     event.stopPropagation()
@@ -1665,7 +1682,6 @@ function createPlaneSliders(context) {
   xPlanePlayButton.children[1]
   xPlaneRow.appendChild(xPlanePlayButton)
   context.main.xPlanePlayButton = xPlanePlayButton
-
   if (context.main.slicingPlanes.x.scroll) {
     xPlanePauseButton.style.display = 'flex'
     xPlanePlayButton.style.display = 'none'
@@ -1673,7 +1689,6 @@ function createPlaneSliders(context) {
     xPlanePauseButton.style.display = 'none'
     xPlanePlayButton.style.display = 'flex'
   }
-
   xPlanePauseButton.addEventListener('click', function(event) {
     event.preventDefault()
     event.stopPropagation()
@@ -1761,7 +1776,6 @@ function createPlaneSliders(context) {
   yPlaneInvisibleButton.children[1]
   yPlaneRow.appendChild(yPlaneInvisibleButton)
   context.main.yPlaneInvisibleButton = yPlaneInvisibleButton
-
   if (context.main.viewMode === 'Volume') {
     if (context.main.slicingPlanes.y.visible) {
       yPlaneVisibleButton.style.display = 'flex'
@@ -1774,7 +1788,6 @@ function createPlaneSliders(context) {
     yPlaneVisibleButton.style.display = 'none'
     yPlaneInvisibleButton.style.display = 'none'
   }
-
   yPlaneVisibleButton.addEventListener('click', function(event) {
     event.preventDefault()
     event.stopPropagation()
@@ -1829,7 +1842,6 @@ function createPlaneSliders(context) {
   yPlanePlayButton.children[1]
   yPlaneRow.appendChild(yPlanePlayButton)
   context.main.yPlanePlayButton = yPlanePlayButton
-
   if (context.main.slicingPlanes.y.scroll) {
     yPlanePauseButton.style.display = 'flex'
     yPlanePlayButton.style.display = 'none'
@@ -1837,7 +1849,6 @@ function createPlaneSliders(context) {
     yPlanePauseButton.style.display = 'none'
     yPlanePlayButton.style.display = 'flex'
   }
-
   yPlanePauseButton.addEventListener('click', function(event) {
     event.preventDefault()
     event.stopPropagation()
@@ -1925,7 +1936,6 @@ function createPlaneSliders(context) {
   zPlaneInvisibleButton.children[1]
   zPlaneRow.appendChild(zPlaneInvisibleButton)
   context.main.zPlaneInvisibleButton = zPlaneInvisibleButton
-
   if (context.main.viewMode === 'Volume') {
     if (context.main.slicingPlanes.z.visible) {
       zPlaneVisibleButton.style.display = 'flex'
@@ -1938,7 +1948,6 @@ function createPlaneSliders(context) {
     zPlaneVisibleButton.style.display = 'none'
     zPlaneInvisibleButton.style.display = 'none'
   }
-
   zPlaneVisibleButton.addEventListener('click', function(event) {
     event.preventDefault()
     event.stopPropagation()
@@ -1993,7 +2002,6 @@ function createPlaneSliders(context) {
   zPlanePlayButton.children[1]
   zPlaneRow.appendChild(zPlanePlayButton)
   context.main.zPlanePlayButton = zPlanePlayButton
-
   if (context.main.slicingPlanes.z.scroll) {
     zPlanePauseButton.style.display = 'flex'
     zPlanePlayButton.style.display = 'none'
@@ -2001,7 +2009,6 @@ function createPlaneSliders(context) {
     zPlanePauseButton.style.display = 'none'
     zPlanePlayButton.style.display = 'flex'
   }
-
   zPlanePauseButton.addEventListener('click', function(event) {
     event.preventDefault()
     event.stopPropagation()
@@ -2055,11 +2062,9 @@ function createPlaneSliders(context) {
   planeUIGroup.appendChild(zPlaneRow)
   var viewContainer = context.viewContainers.get('volume')
   viewContainer.appendChild(planeUIGroup)
-
   if (context.use2D || context.uiCollapsed) {
     planeUIGroup.style.display = 'none'
   }
-
   context.main.planeUIGroup = planeUIGroup
 }
 
@@ -2324,11 +2329,9 @@ function createMainInterface(context) {
   mainUIGroup.appendChild(mainUIRow1)
   createScreenshotButton(context, mainUIRow1)
   createFullscreenButton(context, mainUIRow1)
-
   if (!context.use2D) {
     createRotateButton(context, mainUIRow1)
   }
-
   createAnnotationsButton(context, mainUIRow1)
   createAxesButton(context, mainUIRow1)
   createViewPlanesToggle(context, mainUIRow1)
@@ -2336,7 +2339,6 @@ function createMainInterface(context) {
   createBackgroundColorButton(context, mainUIRow1)
   var mainUIRow2 = document.createElement('div')
   mainUIRow2.setAttribute('class', style.mainUIRow)
-
   if (context.use2D) {
     createViewModeButtons(context, mainUIRow2)
     createCroppingButtons(context, mainUIRow1)
@@ -2347,24 +2349,22 @@ function createMainInterface(context) {
     createResetCameraButton(context, mainUIRow2)
     mainUIGroup.appendChild(mainUIRow2)
   }
-
   context.uiContainer.appendChild(mainUIGroup)
 }
 
 function toggleFullscreen(context, event, actionMeta) {
   var fullscreenEnabled = context.main.fullscreenEnabled
   var fullscreenButtonInput = context.main.fullscreenButton.children[0]
-  fullscreenButtonInput.checked = fullscreenEnabled // Triggered by operating system events, e.g. pressing Esc while in
-  // Fullscreen or F11 when not in fullscreen
+  fullscreenButtonInput.checked = fullscreenEnabled
 
+  // Triggered by operating system events, e.g. pressing Esc while in
+  // Fullscreen or F11 when not in fullscreen
   if (fullscreenEnabled === document[fullscreenMethods[3]]) {
     return
   }
-
   var container = context.rootContainer
   var oldWidth = context.main.rootContainerOldWidth
   var oldHeight = context.main.rootContainerOldHeight
-
   if (fullscreenEnabled) {
     context.main.rootContainerOldWidth = container.style.width
     context.main.rootContainerOldHeight = container.style.height
@@ -2388,27 +2388,21 @@ function toggleBackgroundColor(context) {
 
 function viewModeXPlane$1(context) {
   var main = context.main
-
   if (main.xPlaneButton) {
     main.xPlaneButton.checked = true
   }
-
   if (main.yPlaneButton) {
     main.yPlaneButton.checked = false
   }
-
   if (main.zPlaneButton) {
     main.zPlaneButton.checked = false
   }
-
   if (main.volumeButton) {
     main.volumeButton.checked = false
   }
-
   if (!main.planeUIGroup) {
     return
   }
-
   if (!context.use2D) {
     main.xPlaneVisibleButton.style.display = 'none'
     main.xPlaneInvisibleButton.style.display = 'none'
@@ -2417,7 +2411,6 @@ function viewModeXPlane$1(context) {
     main.zPlaneVisibleButton.style.display = 'none'
     main.zPlaneInvisibleButton.style.display = 'none'
   }
-
   main.planeUIGroup.style.display = 'block'
   main.xPlaneRow.style.display = 'flex'
   main.yPlaneRow.style.display = 'none'
@@ -2426,27 +2419,21 @@ function viewModeXPlane$1(context) {
 
 function viewModeYPlane$1(context) {
   var main = context.main
-
   if (main.xPlaneButton) {
     main.xPlaneButton.checked = false
   }
-
   if (main.yPlaneButton) {
     main.yPlaneButton.checked = true
   }
-
   if (main.zPlaneButton) {
     main.zPlaneButton.checked = false
   }
-
   if (main.volumeButton) {
     main.volumeButton.checked = false
   }
-
   if (!main.planeUIGroup) {
     return
   }
-
   if (!context.use2D) {
     main.xPlaneVisibleButton.style.display = 'none'
     main.xPlaneInvisibleButton.style.display = 'none'
@@ -2455,7 +2442,6 @@ function viewModeYPlane$1(context) {
     main.zPlaneVisibleButton.style.display = 'none'
     main.zPlaneInvisibleButton.style.display = 'none'
   }
-
   main.planeUIGroup.style.display = 'block'
   main.xPlaneRow.style.display = 'none'
   main.yPlaneRow.style.display = 'flex'
@@ -2464,27 +2450,21 @@ function viewModeYPlane$1(context) {
 
 function viewModeZPlane$1(context) {
   var main = context.main
-
   if (main.xPlaneButton) {
     main.xPlaneButton.checked = false
   }
-
   if (main.yPlaneButton) {
     main.yPlaneButton.checked = false
   }
-
   if (main.zPlaneButton) {
     main.zPlaneButton.checked = true
   }
-
   if (main.volumeButton) {
     main.volumeButton.checked = false
   }
-
   if (!main.planeUIGroup) {
     return
   }
-
   if (!context.use2D) {
     main.xPlaneVisibleButton.style.display = 'none'
     main.xPlaneInvisibleButton.style.display = 'none'
@@ -2493,7 +2473,6 @@ function viewModeZPlane$1(context) {
     main.zPlaneVisibleButton.style.display = 'none'
     main.zPlaneInvisibleButton.style.display = 'none'
   }
-
   main.planeUIGroup.style.display = 'block'
   main.xPlaneRow.style.display = 'none'
   main.yPlaneRow.style.display = 'none'
@@ -2502,27 +2481,21 @@ function viewModeZPlane$1(context) {
 
 function viewModeVolume$1(context) {
   var main = context.main
-
   if (main.xPlaneButton) {
     main.xPlaneButton.checked = false
   }
-
   if (main.yPlaneButton) {
     main.yPlaneButton.checked = false
   }
-
   if (main.zPlaneButton) {
     main.zPlaneButton.checked = false
   }
-
   if (main.volumeButton) {
     main.volumeButton.checked = true
   }
-
   if (!main.planeUIGroup) {
     return
   }
-
   var slicingPlanes = main.slicingPlanes
   main.xPlaneVisibleButton.style.display = slicingPlanes.x.visible
     ? 'flex'
@@ -2542,7 +2515,6 @@ function viewModeVolume$1(context) {
   main.zPlaneInvisibleButton.style.display = slicingPlanes.z.visible
     ? 'none'
     : 'flex'
-
   if (context.uiCollapsed) {
     main.planeUIGroup.style.display = 'none'
   } else {
@@ -2556,15 +2528,12 @@ function viewModeVolume$1(context) {
 function applySlicingPlanes(context, event) {
   var slicingPlanes = event.data
   var main = context.main
-
   if (context.use2D) {
     if (main.viewPlanesButton) {
       main.viewPlanesButton.style.display = 'none'
     }
-
     return
   }
-
   if (
     !slicingPlanes.x.visibile &&
     !slicingPlanes.y.visible &&
@@ -2578,11 +2547,9 @@ function applySlicingPlanes(context, event) {
       main.viewPlanesButtonInput.checked = true
     }
   }
-
   if (!main.planeUIGroup) {
     return
   }
-
   main.xSliceElement.min = slicingPlanes.x.min
   main.xSliceElement.max = slicingPlanes.x.max
   main.xSliceElement.step = slicingPlanes.x.step
@@ -2592,7 +2559,6 @@ function applySlicingPlanes(context, event) {
   main.zSliceElement.min = slicingPlanes.z.min
   main.zSliceElement.max = slicingPlanes.z.max
   main.zSliceElement.step = slicingPlanes.z.step
-
   if (main.viewMode === 'Volume') {
     main.xPlaneVisibleButton.style.display = slicingPlanes.x.visible
       ? 'flex'
@@ -2613,7 +2579,6 @@ function applySlicingPlanes(context, event) {
       ? 'none'
       : 'flex'
   }
-
   main.xPlanePauseButton.style.display = slicingPlanes.x.scroll
     ? 'flex'
     : 'none'
@@ -2631,11 +2596,9 @@ function applySlicingPlanes(context, event) {
 function applyXSlice(context, event) {
   var position = event.data
   var xPlaneLabel = context.main.xPlaneLabel
-
   if (!xPlaneLabel) {
     return
   }
-
   var numberOfValueChars = 6
   var valueString = String(position).substring(0, numberOfValueChars)
   var padLength =
@@ -2650,11 +2613,9 @@ function applyXSlice(context, event) {
 function applyYSlice(context, event) {
   var position = event.data
   var yPlaneLabel = context.main.yPlaneLabel
-
   if (!yPlaneLabel) {
     return
   }
-
   var numberOfValueChars = 6
   var valueString = String(position).substring(0, numberOfValueChars)
   var padLength =
@@ -2669,11 +2630,9 @@ function applyYSlice(context, event) {
 function applyZSlice(context, event) {
   var position = event.data
   var zPlaneLabel = context.main.zPlaneLabel
-
   if (!zPlaneLabel) {
     return
   }
-
   var numberOfValueChars = 6
   var valueString = String(position).substring(0, numberOfValueChars)
   var padLength =
@@ -2715,8 +2674,9 @@ function createLayersInterface(context) {
   var layersUIGroup = document.createElement('div')
   layersUIGroup.setAttribute('class', style.uiGroup)
   context.layers.layersUIGroup = layersUIGroup
-  context.uiGroups.set('layers', layersUIGroup) // layer name -> layerEntry map
+  context.uiGroups.set('layers', layersUIGroup)
 
+  // layer name -> layerEntry map
   context.layers.uiLayers = new Map()
   addLayerUIRow(context)
   context.uiContainer.appendChild(layersUIGroup)
@@ -2725,6 +2685,2702 @@ function createLayersInterface(context) {
   context.uiContainer.appendChild(compareContainer)
   context.layers.compareContainer = compareContainer
 }
+
+var makeHtml = function makeHtml(htmlString) {
+  var template = document.createElement('template')
+  template.innerHTML = htmlString
+  return template.content.firstElementChild
+}
+
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+
+function __decorate(decorators, target, key, desc) {
+  var c = arguments.length,
+    r =
+      c < 3
+        ? target
+        : desc === null
+        ? (desc = Object.getOwnPropertyDescriptor(target, key))
+        : desc,
+    d
+  if (typeof Reflect === 'object' && typeof Reflect.decorate === 'function')
+    r = Reflect.decorate(decorators, target, key, desc)
+  else
+    for (var i = decorators.length - 1; i >= 0; i--)
+      if ((d = decorators[i]))
+        r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r
+  return c > 3 && r && Object.defineProperty(target, key, r), r
+}
+
+function __metadata(metadataKey, metadataValue) {
+  if (typeof Reflect === 'object' && typeof Reflect.metadata === 'function')
+    return Reflect.metadata(metadataKey, metadataValue)
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const t$5 = window,
+  e$9 =
+    t$5.ShadowRoot &&
+    (void 0 === t$5.ShadyCSS || t$5.ShadyCSS.nativeShadow) &&
+    'adoptedStyleSheets' in Document.prototype &&
+    'replace' in CSSStyleSheet.prototype,
+  s$6 = Symbol(),
+  n$6 = new WeakMap()
+class o$6 {
+  constructor(t, e, n) {
+    if (((this._$cssResult$ = !0), n !== s$6))
+      throw Error(
+        'CSSResult is not constructable. Use `unsafeCSS` or `css` instead.'
+      )
+    ;(this.cssText = t), (this.t = e)
+  }
+  get styleSheet() {
+    let t = this.o
+    const s = this.t
+    if (e$9 && void 0 === t) {
+      const e = void 0 !== s && 1 === s.length
+      e && (t = n$6.get(s)),
+        void 0 === t &&
+          ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText),
+          e && n$6.set(s, t))
+    }
+    return t
+  }
+  toString() {
+    return this.cssText
+  }
+}
+const r$3 = t => new o$6('string' == typeof t ? t : t + '', void 0, s$6),
+  i$4 = (t, ...e) => {
+    const n =
+      1 === t.length
+        ? t[0]
+        : e.reduce(
+            (e, s, n) =>
+              e +
+              (t => {
+                if (!0 === t._$cssResult$) return t.cssText
+                if ('number' == typeof t) return t
+                throw Error(
+                  "Value passed to 'css' function must be a 'css' function result: " +
+                    t +
+                    ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security."
+                )
+              })(s) +
+              t[n + 1],
+            t[0]
+          )
+    return new o$6(n, t, s$6)
+  },
+  S$1 = (s, n) => {
+    e$9
+      ? (s.adoptedStyleSheets = n.map(t =>
+          t instanceof CSSStyleSheet ? t : t.styleSheet
+        ))
+      : n.forEach(e => {
+          const n = document.createElement('style'),
+            o = t$5.litNonce
+          void 0 !== o && n.setAttribute('nonce', o),
+            (n.textContent = e.cssText),
+            s.appendChild(n)
+        })
+  },
+  c$1 = e$9
+    ? t => t
+    : t =>
+        t instanceof CSSStyleSheet
+          ? (t => {
+              let e = ''
+              for (const s of t.cssRules) e += s.cssText
+              return r$3(e)
+            })(t)
+          : t
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ var s$5
+const e$8 = window,
+  r$2 = e$8.trustedTypes,
+  h$1 = r$2 ? r$2.emptyScript : '',
+  o$5 = e$8.reactiveElementPolyfillSupport,
+  n$5 = {
+    toAttribute(t, i) {
+      switch (i) {
+        case Boolean:
+          t = t ? h$1 : null
+          break
+        case Object:
+        case Array:
+          t = null == t ? t : JSON.stringify(t)
+      }
+      return t
+    },
+    fromAttribute(t, i) {
+      let s = t
+      switch (i) {
+        case Boolean:
+          s = null !== t
+          break
+        case Number:
+          s = null === t ? null : Number(t)
+          break
+        case Object:
+        case Array:
+          try {
+            s = JSON.parse(t)
+          } catch (t) {
+            s = null
+          }
+      }
+      return s
+    },
+  },
+  a$1 = (t, i) => i !== t && (i == i || t == t),
+  l$3 = {
+    attribute: !0,
+    type: String,
+    converter: n$5,
+    reflect: !1,
+    hasChanged: a$1,
+  }
+class d$1 extends HTMLElement {
+  constructor() {
+    super(),
+      (this._$Ei = new Map()),
+      (this.isUpdatePending = !1),
+      (this.hasUpdated = !1),
+      (this._$El = null),
+      this.u()
+  }
+  static addInitializer(t) {
+    var i
+    this.finalize(),
+      (null !== (i = this.h) && void 0 !== i ? i : (this.h = [])).push(t)
+  }
+  static get observedAttributes() {
+    this.finalize()
+    const t = []
+    return (
+      this.elementProperties.forEach((i, s) => {
+        const e = this._$Ep(s, i)
+        void 0 !== e && (this._$Ev.set(e, s), t.push(e))
+      }),
+      t
+    )
+  }
+  static createProperty(t, i = l$3) {
+    if (
+      (i.state && (i.attribute = !1),
+      this.finalize(),
+      this.elementProperties.set(t, i),
+      !i.noAccessor && !this.prototype.hasOwnProperty(t))
+    ) {
+      const s = 'symbol' == typeof t ? Symbol() : '__' + t,
+        e = this.getPropertyDescriptor(t, s, i)
+      void 0 !== e && Object.defineProperty(this.prototype, t, e)
+    }
+  }
+  static getPropertyDescriptor(t, i, s) {
+    return {
+      get() {
+        return this[i]
+      },
+      set(e) {
+        const r = this[t]
+        ;(this[i] = e), this.requestUpdate(t, r, s)
+      },
+      configurable: !0,
+      enumerable: !0,
+    }
+  }
+  static getPropertyOptions(t) {
+    return this.elementProperties.get(t) || l$3
+  }
+  static finalize() {
+    if (this.hasOwnProperty('finalized')) return !1
+    this.finalized = !0
+    const t = Object.getPrototypeOf(this)
+    if (
+      (t.finalize(),
+      void 0 !== t.h && (this.h = [...t.h]),
+      (this.elementProperties = new Map(t.elementProperties)),
+      (this._$Ev = new Map()),
+      this.hasOwnProperty('properties'))
+    ) {
+      const t = this.properties,
+        i = [
+          ...Object.getOwnPropertyNames(t),
+          ...Object.getOwnPropertySymbols(t),
+        ]
+      for (const s of i) this.createProperty(s, t[s])
+    }
+    return (this.elementStyles = this.finalizeStyles(this.styles)), !0
+  }
+  static finalizeStyles(i) {
+    const s = []
+    if (Array.isArray(i)) {
+      const e = new Set(i.flat(1 / 0).reverse())
+      for (const i of e) s.unshift(c$1(i))
+    } else void 0 !== i && s.push(c$1(i))
+    return s
+  }
+  static _$Ep(t, i) {
+    const s = i.attribute
+    return !1 === s
+      ? void 0
+      : 'string' == typeof s
+      ? s
+      : 'string' == typeof t
+      ? t.toLowerCase()
+      : void 0
+  }
+  u() {
+    var t
+    ;(this._$E_ = new Promise(t => (this.enableUpdating = t))),
+      (this._$AL = new Map()),
+      this._$Eg(),
+      this.requestUpdate(),
+      null === (t = this.constructor.h) ||
+        void 0 === t ||
+        t.forEach(t => t(this))
+  }
+  addController(t) {
+    var i, s
+    ;(null !== (i = this._$ES) && void 0 !== i ? i : (this._$ES = [])).push(t),
+      void 0 !== this.renderRoot &&
+        this.isConnected &&
+        (null === (s = t.hostConnected) || void 0 === s || s.call(t))
+  }
+  removeController(t) {
+    var i
+    null === (i = this._$ES) ||
+      void 0 === i ||
+      i.splice(this._$ES.indexOf(t) >>> 0, 1)
+  }
+  _$Eg() {
+    this.constructor.elementProperties.forEach((t, i) => {
+      this.hasOwnProperty(i) && (this._$Ei.set(i, this[i]), delete this[i])
+    })
+  }
+  createRenderRoot() {
+    var t
+    const s =
+      null !== (t = this.shadowRoot) && void 0 !== t
+        ? t
+        : this.attachShadow(this.constructor.shadowRootOptions)
+    return S$1(s, this.constructor.elementStyles), s
+  }
+  connectedCallback() {
+    var t
+    void 0 === this.renderRoot && (this.renderRoot = this.createRenderRoot()),
+      this.enableUpdating(!0),
+      null === (t = this._$ES) ||
+        void 0 === t ||
+        t.forEach(t => {
+          var i
+          return null === (i = t.hostConnected) || void 0 === i
+            ? void 0
+            : i.call(t)
+        })
+  }
+  enableUpdating(t) {}
+  disconnectedCallback() {
+    var t
+    null === (t = this._$ES) ||
+      void 0 === t ||
+      t.forEach(t => {
+        var i
+        return null === (i = t.hostDisconnected) || void 0 === i
+          ? void 0
+          : i.call(t)
+      })
+  }
+  attributeChangedCallback(t, i, s) {
+    this._$AK(t, s)
+  }
+  _$EO(t, i, s = l$3) {
+    var e
+    const r = this.constructor._$Ep(t, s)
+    if (void 0 !== r && !0 === s.reflect) {
+      const h = (void 0 !==
+      (null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute)
+        ? s.converter
+        : n$5
+      ).toAttribute(i, s.type)
+      ;(this._$El = t),
+        null == h ? this.removeAttribute(r) : this.setAttribute(r, h),
+        (this._$El = null)
+    }
+  }
+  _$AK(t, i) {
+    var s
+    const e = this.constructor,
+      r = e._$Ev.get(t)
+    if (void 0 !== r && this._$El !== r) {
+      const t = e.getPropertyOptions(r),
+        h =
+          'function' == typeof t.converter
+            ? { fromAttribute: t.converter }
+            : void 0 !==
+              (null === (s = t.converter) || void 0 === s
+                ? void 0
+                : s.fromAttribute)
+            ? t.converter
+            : n$5
+      ;(this._$El = r),
+        (this[r] = h.fromAttribute(i, t.type)),
+        (this._$El = null)
+    }
+  }
+  requestUpdate(t, i, s) {
+    let e = !0
+    void 0 !== t &&
+      (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || a$1)(
+        this[t],
+        i
+      )
+        ? (this._$AL.has(t) || this._$AL.set(t, i),
+          !0 === s.reflect &&
+            this._$El !== t &&
+            (void 0 === this._$EC && (this._$EC = new Map()),
+            this._$EC.set(t, s)))
+        : (e = !1)),
+      !this.isUpdatePending && e && (this._$E_ = this._$Ej())
+  }
+  async _$Ej() {
+    this.isUpdatePending = !0
+    try {
+      await this._$E_
+    } catch (t) {
+      Promise.reject(t)
+    }
+    const t = this.scheduleUpdate()
+    return null != t && (await t), !this.isUpdatePending
+  }
+  scheduleUpdate() {
+    return this.performUpdate()
+  }
+  performUpdate() {
+    var t
+    if (!this.isUpdatePending) return
+    this.hasUpdated,
+      this._$Ei &&
+        (this._$Ei.forEach((t, i) => (this[i] = t)), (this._$Ei = void 0))
+    let i = !1
+    const s = this._$AL
+    try {
+      ;(i = this.shouldUpdate(s)),
+        i
+          ? (this.willUpdate(s),
+            null === (t = this._$ES) ||
+              void 0 === t ||
+              t.forEach(t => {
+                var i
+                return null === (i = t.hostUpdate) || void 0 === i
+                  ? void 0
+                  : i.call(t)
+              }),
+            this.update(s))
+          : this._$Ek()
+    } catch (t) {
+      throw ((i = !1), this._$Ek(), t)
+    }
+    i && this._$AE(s)
+  }
+  willUpdate(t) {}
+  _$AE(t) {
+    var i
+    null === (i = this._$ES) ||
+      void 0 === i ||
+      i.forEach(t => {
+        var i
+        return null === (i = t.hostUpdated) || void 0 === i ? void 0 : i.call(t)
+      }),
+      this.hasUpdated || ((this.hasUpdated = !0), this.firstUpdated(t)),
+      this.updated(t)
+  }
+  _$Ek() {
+    ;(this._$AL = new Map()), (this.isUpdatePending = !1)
+  }
+  get updateComplete() {
+    return this.getUpdateComplete()
+  }
+  getUpdateComplete() {
+    return this._$E_
+  }
+  shouldUpdate(t) {
+    return !0
+  }
+  update(t) {
+    void 0 !== this._$EC &&
+      (this._$EC.forEach((t, i) => this._$EO(i, this[i], t)),
+      (this._$EC = void 0)),
+      this._$Ek()
+  }
+  updated(t) {}
+  firstUpdated(t) {}
+}
+;(d$1.finalized = !0),
+  (d$1.elementProperties = new Map()),
+  (d$1.elementStyles = []),
+  (d$1.shadowRootOptions = { mode: 'open' }),
+  null == o$5 || o$5({ ReactiveElement: d$1 }),
+  (null !== (s$5 = e$8.reactiveElementVersions) && void 0 !== s$5
+    ? s$5
+    : (e$8.reactiveElementVersions = [])
+  ).push('1.6.1')
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+var t$4
+const i$3 = window,
+  s$4 = i$3.trustedTypes,
+  e$7 = s$4 ? s$4.createPolicy('lit-html', { createHTML: t => t }) : void 0,
+  o$4 = `lit$${(Math.random() + '').slice(9)}$`,
+  n$4 = '?' + o$4,
+  l$2 = `<${n$4}>`,
+  h = document,
+  r$1 = (t = '') => h.createComment(t),
+  d = t => null === t || ('object' != typeof t && 'function' != typeof t),
+  u = Array.isArray,
+  c = t =>
+    u(t) || 'function' == typeof (null == t ? void 0 : t[Symbol.iterator]),
+  v = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
+  a = /-->/g,
+  f = />/g,
+  _ = RegExp(
+    '>|[ \t\n\f\r](?:([^\\s"\'>=/]+)([ \t\n\f\r]*=[ \t\n\f\r]*(?:[^ \t\n\f\r"\'`<>=]|("|\')|))|$)',
+    'g'
+  ),
+  m = /'/g,
+  p = /"/g,
+  $ = /^(?:script|style|textarea|title)$/i,
+  g = t => (i, ...s) => ({ _$litType$: t, strings: i, values: s }),
+  y = g(1),
+  x = Symbol.for('lit-noChange'),
+  b = Symbol.for('lit-nothing'),
+  T = new WeakMap(),
+  A = h.createTreeWalker(h, 129, null, !1),
+  E = (t, i) => {
+    const s = t.length - 1,
+      n = []
+    let h,
+      r = 2 === i ? '<svg>' : '',
+      d = v
+    for (let i = 0; i < s; i++) {
+      const s = t[i]
+      let e,
+        u,
+        c = -1,
+        g = 0
+      for (; g < s.length && ((d.lastIndex = g), (u = d.exec(s)), null !== u); )
+        (g = d.lastIndex),
+          d === v
+            ? '!--' === u[1]
+              ? (d = a)
+              : void 0 !== u[1]
+              ? (d = f)
+              : void 0 !== u[2]
+              ? ($.test(u[2]) && (h = RegExp('</' + u[2], 'g')), (d = _))
+              : void 0 !== u[3] && (d = _)
+            : d === _
+            ? '>' === u[0]
+              ? ((d = null != h ? h : v), (c = -1))
+              : void 0 === u[1]
+              ? (c = -2)
+              : ((c = d.lastIndex - u[2].length),
+                (e = u[1]),
+                (d = void 0 === u[3] ? _ : '"' === u[3] ? p : m))
+            : d === p || d === m
+            ? (d = _)
+            : d === a || d === f
+            ? (d = v)
+            : ((d = _), (h = void 0))
+      const y = d === _ && t[i + 1].startsWith('/>') ? ' ' : ''
+      r +=
+        d === v
+          ? s + l$2
+          : c >= 0
+          ? (n.push(e), s.slice(0, c) + '$lit$' + s.slice(c) + o$4 + y)
+          : s + o$4 + (-2 === c ? (n.push(void 0), i) : y)
+    }
+    const u = r + (t[s] || '<?>') + (2 === i ? '</svg>' : '')
+    if (!Array.isArray(t) || !t.hasOwnProperty('raw'))
+      throw Error('invalid template strings array')
+    return [void 0 !== e$7 ? e$7.createHTML(u) : u, n]
+  }
+class C {
+  constructor({ strings: t, _$litType$: i }, e) {
+    let l
+    this.parts = []
+    let h = 0,
+      d = 0
+    const u = t.length - 1,
+      c = this.parts,
+      [v, a] = E(t, i)
+    if (
+      ((this.el = C.createElement(v, e)),
+      (A.currentNode = this.el.content),
+      2 === i)
+    ) {
+      const t = this.el.content,
+        i = t.firstChild
+      i.remove(), t.append(...i.childNodes)
+    }
+    for (; null !== (l = A.nextNode()) && c.length < u; ) {
+      if (1 === l.nodeType) {
+        if (l.hasAttributes()) {
+          const t = []
+          for (const i of l.getAttributeNames())
+            if (i.endsWith('$lit$') || i.startsWith(o$4)) {
+              const s = a[d++]
+              if ((t.push(i), void 0 !== s)) {
+                const t = l.getAttribute(s.toLowerCase() + '$lit$').split(o$4),
+                  i = /([.?@])?(.*)/.exec(s)
+                c.push({
+                  type: 1,
+                  index: h,
+                  name: i[2],
+                  strings: t,
+                  ctor:
+                    '.' === i[1] ? M : '?' === i[1] ? k : '@' === i[1] ? H : S,
+                })
+              } else c.push({ type: 6, index: h })
+            }
+          for (const i of t) l.removeAttribute(i)
+        }
+        if ($.test(l.tagName)) {
+          const t = l.textContent.split(o$4),
+            i = t.length - 1
+          if (i > 0) {
+            l.textContent = s$4 ? s$4.emptyScript : ''
+            for (let s = 0; s < i; s++)
+              l.append(t[s], r$1()),
+                A.nextNode(),
+                c.push({ type: 2, index: ++h })
+            l.append(t[i], r$1())
+          }
+        }
+      } else if (8 === l.nodeType)
+        if (l.data === n$4) c.push({ type: 2, index: h })
+        else {
+          let t = -1
+          for (; -1 !== (t = l.data.indexOf(o$4, t + 1)); )
+            c.push({ type: 7, index: h }), (t += o$4.length - 1)
+        }
+      h++
+    }
+  }
+  static createElement(t, i) {
+    const s = h.createElement('template')
+    return (s.innerHTML = t), s
+  }
+}
+function P(t, i, s = t, e) {
+  var o, n, l, h
+  if (i === x) return i
+  let r =
+    void 0 !== e
+      ? null === (o = s._$Co) || void 0 === o
+        ? void 0
+        : o[e]
+      : s._$Cl
+  const u = d(i) ? void 0 : i._$litDirective$
+  return (
+    (null == r ? void 0 : r.constructor) !== u &&
+      (null === (n = null == r ? void 0 : r._$AO) ||
+        void 0 === n ||
+        n.call(r, !1),
+      void 0 === u ? (r = void 0) : ((r = new u(t)), r._$AT(t, s, e)),
+      void 0 !== e
+        ? ((null !== (l = (h = s)._$Co) && void 0 !== l ? l : (h._$Co = []))[
+            e
+          ] = r)
+        : (s._$Cl = r)),
+    void 0 !== r && (i = P(t, r._$AS(t, i.values), r, e)),
+    i
+  )
+}
+class V {
+  constructor(t, i) {
+    ;(this.u = []), (this._$AN = void 0), (this._$AD = t), (this._$AM = i)
+  }
+  get parentNode() {
+    return this._$AM.parentNode
+  }
+  get _$AU() {
+    return this._$AM._$AU
+  }
+  v(t) {
+    var i
+    const {
+        el: { content: s },
+        parts: e,
+      } = this._$AD,
+      o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i
+        ? i
+        : h
+      ).importNode(s, !0)
+    A.currentNode = o
+    let n = A.nextNode(),
+      l = 0,
+      r = 0,
+      d = e[0]
+    for (; void 0 !== d; ) {
+      if (l === d.index) {
+        let i
+        2 === d.type
+          ? (i = new N(n, n.nextSibling, this, t))
+          : 1 === d.type
+          ? (i = new d.ctor(n, d.name, d.strings, this, t))
+          : 6 === d.type && (i = new I(n, this, t)),
+          this.u.push(i),
+          (d = e[++r])
+      }
+      l !== (null == d ? void 0 : d.index) && ((n = A.nextNode()), l++)
+    }
+    return o
+  }
+  p(t) {
+    let i = 0
+    for (const s of this.u)
+      void 0 !== s &&
+        (void 0 !== s.strings
+          ? (s._$AI(t, s, i), (i += s.strings.length - 2))
+          : s._$AI(t[i])),
+        i++
+  }
+}
+class N {
+  constructor(t, i, s, e) {
+    var o
+    ;(this.type = 2),
+      (this._$AH = b),
+      (this._$AN = void 0),
+      (this._$AA = t),
+      (this._$AB = i),
+      (this._$AM = s),
+      (this.options = e),
+      (this._$Cm =
+        null === (o = null == e ? void 0 : e.isConnected) || void 0 === o || o)
+  }
+  get _$AU() {
+    var t, i
+    return null !==
+      (i = null === (t = this._$AM) || void 0 === t ? void 0 : t._$AU) &&
+      void 0 !== i
+      ? i
+      : this._$Cm
+  }
+  get parentNode() {
+    let t = this._$AA.parentNode
+    const i = this._$AM
+    return void 0 !== i && 11 === t.nodeType && (t = i.parentNode), t
+  }
+  get startNode() {
+    return this._$AA
+  }
+  get endNode() {
+    return this._$AB
+  }
+  _$AI(t, i = this) {
+    ;(t = P(this, t, i)),
+      d(t)
+        ? t === b || null == t || '' === t
+          ? (this._$AH !== b && this._$AR(), (this._$AH = b))
+          : t !== this._$AH && t !== x && this.g(t)
+        : void 0 !== t._$litType$
+        ? this.$(t)
+        : void 0 !== t.nodeType
+        ? this.T(t)
+        : c(t)
+        ? this.k(t)
+        : this.g(t)
+  }
+  O(t, i = this._$AB) {
+    return this._$AA.parentNode.insertBefore(t, i)
+  }
+  T(t) {
+    this._$AH !== t && (this._$AR(), (this._$AH = this.O(t)))
+  }
+  g(t) {
+    this._$AH !== b && d(this._$AH)
+      ? (this._$AA.nextSibling.data = t)
+      : this.T(h.createTextNode(t)),
+      (this._$AH = t)
+  }
+  $(t) {
+    var i
+    const { values: s, _$litType$: e } = t,
+      o =
+        'number' == typeof e
+          ? this._$AC(t)
+          : (void 0 === e.el && (e.el = C.createElement(e.h, this.options)), e)
+    if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o)
+      this._$AH.p(s)
+    else {
+      const t = new V(o, this),
+        i = t.v(this.options)
+      t.p(s), this.T(i), (this._$AH = t)
+    }
+  }
+  _$AC(t) {
+    let i = T.get(t.strings)
+    return void 0 === i && T.set(t.strings, (i = new C(t))), i
+  }
+  k(t) {
+    u(this._$AH) || ((this._$AH = []), this._$AR())
+    const i = this._$AH
+    let s,
+      e = 0
+    for (const o of t)
+      e === i.length
+        ? i.push((s = new N(this.O(r$1()), this.O(r$1()), this, this.options)))
+        : (s = i[e]),
+        s._$AI(o),
+        e++
+    e < i.length && (this._$AR(s && s._$AB.nextSibling, e), (i.length = e))
+  }
+  _$AR(t = this._$AA.nextSibling, i) {
+    var s
+    for (
+      null === (s = this._$AP) || void 0 === s || s.call(this, !1, !0, i);
+      t && t !== this._$AB;
+
+    ) {
+      const i = t.nextSibling
+      t.remove(), (t = i)
+    }
+  }
+  setConnected(t) {
+    var i
+    void 0 === this._$AM &&
+      ((this._$Cm = t),
+      null === (i = this._$AP) || void 0 === i || i.call(this, t))
+  }
+}
+class S {
+  constructor(t, i, s, e, o) {
+    ;(this.type = 1),
+      (this._$AH = b),
+      (this._$AN = void 0),
+      (this.element = t),
+      (this.name = i),
+      (this._$AM = e),
+      (this.options = o),
+      s.length > 2 || '' !== s[0] || '' !== s[1]
+        ? ((this._$AH = Array(s.length - 1).fill(new String())),
+          (this.strings = s))
+        : (this._$AH = b)
+  }
+  get tagName() {
+    return this.element.tagName
+  }
+  get _$AU() {
+    return this._$AM._$AU
+  }
+  _$AI(t, i = this, s, e) {
+    const o = this.strings
+    let n = !1
+    if (void 0 === o)
+      (t = P(this, t, i, 0)),
+        (n = !d(t) || (t !== this._$AH && t !== x)),
+        n && (this._$AH = t)
+    else {
+      const e = t
+      let l, h
+      for (t = o[0], l = 0; l < o.length - 1; l++)
+        (h = P(this, e[s + l], i, l)),
+          h === x && (h = this._$AH[l]),
+          n || (n = !d(h) || h !== this._$AH[l]),
+          h === b ? (t = b) : t !== b && (t += (null != h ? h : '') + o[l + 1]),
+          (this._$AH[l] = h)
+    }
+    n && !e && this.j(t)
+  }
+  j(t) {
+    t === b
+      ? this.element.removeAttribute(this.name)
+      : this.element.setAttribute(this.name, null != t ? t : '')
+  }
+}
+class M extends S {
+  constructor() {
+    super(...arguments), (this.type = 3)
+  }
+  j(t) {
+    this.element[this.name] = t === b ? void 0 : t
+  }
+}
+const R = s$4 ? s$4.emptyScript : ''
+class k extends S {
+  constructor() {
+    super(...arguments), (this.type = 4)
+  }
+  j(t) {
+    t && t !== b
+      ? this.element.setAttribute(this.name, R)
+      : this.element.removeAttribute(this.name)
+  }
+}
+class H extends S {
+  constructor(t, i, s, e, o) {
+    super(t, i, s, e, o), (this.type = 5)
+  }
+  _$AI(t, i = this) {
+    var s
+    if ((t = null !== (s = P(this, t, i, 0)) && void 0 !== s ? s : b) === x)
+      return
+    const e = this._$AH,
+      o =
+        (t === b && e !== b) ||
+        t.capture !== e.capture ||
+        t.once !== e.once ||
+        t.passive !== e.passive,
+      n = t !== b && (e === b || o)
+    o && this.element.removeEventListener(this.name, this, e),
+      n && this.element.addEventListener(this.name, this, t),
+      (this._$AH = t)
+  }
+  handleEvent(t) {
+    var i, s
+    'function' == typeof this._$AH
+      ? this._$AH.call(
+          null !==
+            (s =
+              null === (i = this.options) || void 0 === i ? void 0 : i.host) &&
+            void 0 !== s
+            ? s
+            : this.element,
+          t
+        )
+      : this._$AH.handleEvent(t)
+  }
+}
+class I {
+  constructor(t, i, s) {
+    ;(this.element = t),
+      (this.type = 6),
+      (this._$AN = void 0),
+      (this._$AM = i),
+      (this.options = s)
+  }
+  get _$AU() {
+    return this._$AM._$AU
+  }
+  _$AI(t) {
+    P(this, t)
+  }
+}
+const z = i$3.litHtmlPolyfillSupport
+null == z || z(C, N),
+  (null !== (t$4 = i$3.litHtmlVersions) && void 0 !== t$4
+    ? t$4
+    : (i$3.litHtmlVersions = [])
+  ).push('2.6.1')
+const Z = (t, i, s) => {
+  var e, o
+  const n =
+    null !== (e = null == s ? void 0 : s.renderBefore) && void 0 !== e ? e : i
+  let l = n._$litPart$
+  if (void 0 === l) {
+    const t =
+      null !== (o = null == s ? void 0 : s.renderBefore) && void 0 !== o
+        ? o
+        : null
+    n._$litPart$ = l = new N(
+      i.insertBefore(r$1(), t),
+      t,
+      void 0,
+      null != s ? s : {}
+    )
+  }
+  return l._$AI(t), l
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ var l$1, o$3
+class s$3 extends d$1 {
+  constructor() {
+    super(...arguments),
+      (this.renderOptions = { host: this }),
+      (this._$Do = void 0)
+  }
+  createRenderRoot() {
+    var t, e
+    const i = super.createRenderRoot()
+    return (
+      (null !== (t = (e = this.renderOptions).renderBefore) && void 0 !== t) ||
+        (e.renderBefore = i.firstChild),
+      i
+    )
+  }
+  update(t) {
+    const i = this.render()
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected),
+      super.update(t),
+      (this._$Do = Z(i, this.renderRoot, this.renderOptions))
+  }
+  connectedCallback() {
+    var t
+    super.connectedCallback(),
+      null === (t = this._$Do) || void 0 === t || t.setConnected(!0)
+  }
+  disconnectedCallback() {
+    var t
+    super.disconnectedCallback(),
+      null === (t = this._$Do) || void 0 === t || t.setConnected(!1)
+  }
+  render() {
+    return x
+  }
+}
+;(s$3.finalized = !0),
+  (s$3._$litElement$ = !0),
+  null === (l$1 = globalThis.litElementHydrateSupport) ||
+    void 0 === l$1 ||
+    l$1.call(globalThis, { LitElement: s$3 })
+const n$3 = globalThis.litElementPolyfillSupport
+null == n$3 || n$3({ LitElement: s$3 })
+;(null !== (o$3 = globalThis.litElementVersions) && void 0 !== o$3
+  ? o$3
+  : (globalThis.litElementVersions = [])
+).push('3.2.2')
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const e$6 = e => n =>
+  'function' == typeof n
+    ? ((e, n) => (customElements.define(e, n), n))(e, n)
+    : ((e, n) => {
+        const { kind: t, elements: s } = n
+        return {
+          kind: t,
+          elements: s,
+          finisher(n) {
+            customElements.define(e, n)
+          },
+        }
+      })(e, n)
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const i$2 = (i, e) =>
+  'method' === e.kind && e.descriptor && !('value' in e.descriptor)
+    ? {
+        ...e,
+        finisher(n) {
+          n.createProperty(e.key, i)
+        },
+      }
+    : {
+        kind: 'field',
+        key: Symbol(),
+        placement: 'own',
+        descriptor: {},
+        originalKey: e.key,
+        initializer() {
+          'function' == typeof e.initializer &&
+            (this[e.key] = e.initializer.call(this))
+        },
+        finisher(n) {
+          n.createProperty(e.key, i)
+        },
+      }
+function e$5(e) {
+  return (n, t) =>
+    void 0 !== t
+      ? ((i, e, n) => {
+          e.constructor.createProperty(n, i)
+        })(e, n, t)
+      : i$2(e, n)
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ function t$3(t) {
+  return e$5({ ...t, state: !0 })
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const o$2 = ({ finisher: e, descriptor: t }) => (o, n) => {
+  var r
+  if (void 0 === n) {
+    const n = null !== (r = o.originalKey) && void 0 !== r ? r : o.key,
+      i =
+        null != t
+          ? {
+              kind: 'method',
+              placement: 'prototype',
+              key: n,
+              descriptor: t(o.key),
+            }
+          : { ...o, key: n }
+    return (
+      null != e &&
+        (i.finisher = function(t) {
+          e(t, n)
+        }),
+      i
+    )
+  }
+  {
+    const r = o.constructor
+    void 0 !== t && Object.defineProperty(o, n, t(n)), null == e || e(r, n)
+  }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ function i$1(i, n) {
+  return o$2({
+    descriptor: o => {
+      const t = {
+        get() {
+          var o, n
+          return null !==
+            (n =
+              null === (o = this.renderRoot) || void 0 === o
+                ? void 0
+                : o.querySelector(i)) && void 0 !== n
+            ? n
+            : null
+        },
+        enumerable: !0,
+        configurable: !0,
+      }
+      if (n) {
+        const n = 'symbol' == typeof o ? Symbol() : '__' + o
+        t.get = function() {
+          var o, t
+          return (
+            void 0 === this[n] &&
+              (this[n] =
+                null !==
+                  (t =
+                    null === (o = this.renderRoot) || void 0 === o
+                      ? void 0
+                      : o.querySelector(i)) && void 0 !== t
+                  ? t
+                  : null),
+            this[n]
+          )
+        }
+      }
+      return t
+    },
+  })
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+function e$4(e) {
+  return o$2({
+    descriptor: r => ({
+      async get() {
+        var r
+        return (
+          await this.updateComplete,
+          null === (r = this.renderRoot) || void 0 === r
+            ? void 0
+            : r.querySelector(e)
+        )
+      },
+      enumerable: !0,
+      configurable: !0,
+    }),
+  })
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ var n$2
+null !=
+(null === (n$2 = window.HTMLSlotElement) || void 0 === n$2
+  ? void 0
+  : n$2.prototype.assignedElements)
+  ? (o, n) => o.assignedElements(n)
+  : (o, n) => o.assignedNodes(n).filter(o => o.nodeType === Node.ELEMENT_NODE)
+
+var selectState = {}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+class s$2 extends Event {
+  constructor(s, t, e) {
+    super('context-request', { bubbles: !0, composed: !0 }),
+      (this.context = s),
+      (this.callback = t),
+      (this.subscribe = e)
+  }
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+function n$1(n) {
+  return n
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ class s$1 {
+  constructor(t, s, i, h = !1) {
+    ;(this.host = t),
+      (this.context = s),
+      (this.callback = i),
+      (this.subscribe = h),
+      (this.provided = !1),
+      (this.value = void 0),
+      this.host.addController(this)
+  }
+  hostConnected() {
+    this.dispatchRequest()
+  }
+  hostDisconnected() {
+    this.unsubscribe && (this.unsubscribe(), (this.unsubscribe = void 0))
+  }
+  dispatchRequest() {
+    this.host.dispatchEvent(
+      new s$2(
+        this.context,
+        (t, s) => {
+          this.unsubscribe &&
+            (this.unsubscribe !== s &&
+              ((this.provided = !1), this.unsubscribe()),
+            this.subscribe || this.unsubscribe()),
+            (this.value = t),
+            this.host.requestUpdate(),
+            (this.provided && !this.subscribe) ||
+              ((this.provided = !0), this.callback && this.callback(t, s)),
+            (this.unsubscribe = s)
+        },
+        this.subscribe
+      )
+    )
+  }
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+class t$2 {
+  constructor(t) {
+    ;(this.callbacks = new Map()),
+      (this.updateObservers = () => {
+        for (const [t, s] of this.callbacks) t(this.t, s)
+      }),
+      void 0 !== t && (this.value = t)
+  }
+  get value() {
+    return this.t
+  }
+  set value(t) {
+    this.setValue(t)
+  }
+  setValue(t, s = !1) {
+    const i = s || !Object.is(t, this.t)
+    ;(this.t = t), i && this.updateObservers()
+  }
+  addCallback(t, s) {
+    s &&
+      (this.callbacks.has(t) ||
+        this.callbacks.set(t, () => {
+          this.callbacks.delete(t)
+        })),
+      t(this.value)
+  }
+  clearCallbacks() {
+    this.callbacks.clear()
+  }
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ class s extends Event {
+  constructor(t) {
+    super('context-provider', { bubbles: !0, composed: !0 }), (this.context = t)
+  }
+}
+class e$3 extends t$2 {
+  constructor(t, s, e) {
+    super(e),
+      (this.host = t),
+      (this.context = s),
+      (this.onContextRequest = t => {
+        t.context === this.context &&
+          t.composedPath()[0] !== this.host &&
+          (t.stopPropagation(), this.addCallback(t.callback, t.subscribe))
+      }),
+      this.attachListeners(),
+      this.host.addController(this)
+  }
+  attachListeners() {
+    this.host.addEventListener('context-request', this.onContextRequest)
+  }
+  hostConnected() {
+    this.host.dispatchEvent(new s(this.context))
+  }
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ class e$2 {
+  constructor() {
+    ;(this.pendingContextRequests = new Map()),
+      (this.onContextProvider = e => {
+        const s = this.pendingContextRequests.get(e.context)
+        s &&
+          (this.pendingContextRequests.delete(e.context),
+          s.forEach(s => {
+            const c = s.element,
+              i = s.callback
+            c && c.dispatchEvent(new s$2(e.context, i, !0))
+          }))
+      }),
+      (this.onContextRequest = t => {
+        if (!t.subscribe) return
+        const e = { element: t.target, callback: t.callback }
+        let s = this.pendingContextRequests.get(t.context)
+        s || ((s = new Set()), this.pendingContextRequests.set(t.context, s)),
+          s.add(e)
+      })
+  }
+  attach(t) {
+    t.addEventListener('context-request', this.onContextRequest),
+      t.addEventListener('context-provider', this.onContextProvider)
+  }
+  detach(t) {
+    t.removeEventListener('context-request', this.onContextRequest),
+      t.removeEventListener('context-provider', this.onContextProvider)
+  }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ function o$1({ context: o }) {
+  return o$2({
+    finisher: (t, n) => {
+      const r = new WeakMap()
+      t.addInitializer(t => {
+        r.set(t, new e$3(t, o))
+      })
+      const i = Object.getOwnPropertyDescriptor(t.prototype, n),
+        c = null == i ? void 0 : i.set,
+        s = {
+          ...i,
+          set: function(t) {
+            var e
+            null === (e = r.get(this)) || void 0 === e || e.setValue(t),
+              c && c.call(this, t)
+          },
+        }
+      Object.defineProperty(t.prototype, n, s)
+    },
+  })
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ function t$1({ context: t, subscribe: o }) {
+  return o$2({
+    finisher: (e, n) => {
+      e.addInitializer(e => {
+        new s$1(
+          e,
+          t,
+          r => {
+            e[n] = r
+          },
+          o
+        )
+      })
+    },
+  })
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const e$1 = o$1,
+  r = t$1
+
+var context = /*#__PURE__*/ Object.freeze({
+  __proto__: null,
+  contextProvided: r,
+  contextProvider: e$1,
+  ContextEvent: s$2,
+  createContext: n$1,
+  ContextConsumer: s$1,
+  ContextProvider: e$3,
+  ContextRoot: e$2,
+  provide: o$1,
+  consume: t$1,
+})
+
+var require$$0 = /*@__PURE__*/ getAugmentedNamespace(context)
+
+var selectController = {}
+
+;(function(exports) {
+  Object.defineProperty(exports, '__esModule', { value: true })
+  exports.connectSelector = exports.SelectorController = exports.getSnapshot = exports.getServiceSnapshot = exports.isActorWithState = exports.isService = exports.defaultCompare = void 0
+  const defaultCompare = (a, b) => a === b
+  exports.defaultCompare = defaultCompare
+  function isService(actor) {
+    return 'state' in actor && 'machine' in actor
+  }
+  exports.isService = isService
+  function isActorWithState(actorRef) {
+    return 'state' in actorRef
+  }
+  exports.isActorWithState = isActorWithState
+  function getServiceSnapshot(service) {
+    return service.status !== 0
+      ? service.getSnapshot()
+      : service.machine.initialState
+  }
+  exports.getServiceSnapshot = getServiceSnapshot
+  function getSnapshot(actorRef) {
+    if (isService(actorRef)) {
+      return getServiceSnapshot(actorRef)
+    }
+    return isActorWithState(actorRef) ? actorRef.state : undefined
+  }
+  exports.getSnapshot = getSnapshot
+  class SelectorController {
+    host
+    subscription
+    selected
+    constructor(host, actorRef, selector, compare = exports.defaultCompare) {
+      this.host = host
+      this.host.addController(this)
+      this.selected = selector(getSnapshot(actorRef))
+      this.subscription = actorRef.subscribe(emitted => {
+        const nextSelected = selector(emitted)
+        if (!compare(this.selected, nextSelected)) {
+          this.selected = nextSelected
+          this.host.requestUpdate()
+        }
+      })
+    }
+    get value() {
+      return this.selected
+    }
+    hostDisconnected() {
+      this.subscription.unsubscribe()
+    }
+  }
+  exports.SelectorController = SelectorController
+  function connectSelector(
+    host,
+    actorRef,
+    selector,
+    compare = exports.defaultCompare
+  ) {
+    return new SelectorController(host, actorRef, selector, compare)
+  }
+  exports.connectSelector = connectSelector
+})(selectController)
+
+Object.defineProperty(selectState, '__esModule', { value: true })
+selectState.compareObjects = compareArrays_1 = selectState.compareArrays = connectState_1 = selectState.connectState = selectState.SelectState = void 0
+const context_1 = require$$0
+const select_controller_js_1 = selectController
+class SelectState {
+  serviceContext
+  selectorController
+  host
+  selector
+  compare // if current value same as old value, return true
+  constructor(
+    context,
+    host,
+    selector,
+    compare = select_controller_js_1.defaultCompare
+  ) {
+    ;(this.host = host).addController(this)
+    this.serviceContext = new context_1.ContextConsumer(
+      this.host,
+      context,
+      undefined,
+      true
+    )
+    this.selector = selector
+    this.compare = compare
+  }
+  hostConnected() {
+    // has hostConnected already been called?
+    if (this.selectorController) {
+      this.hostDisconnected()
+    }
+    this.serviceContext.hostConnected()
+    this.selectorController = new select_controller_js_1.SelectorController(
+      this.host,
+      this.serviceContext.value.service,
+      this.selector,
+      this.compare
+    )
+  }
+  hostDisconnected() {
+    this.serviceContext?.hostDisconnected()
+    this.selectorController?.hostDisconnected()
+  }
+  get value() {
+    return this.selectorController?.value
+  }
+}
+selectState.SelectState = SelectState
+// Factory function for SelectState
+function connectState(
+  context,
+  host,
+  selector,
+  compare = select_controller_js_1.defaultCompare
+) {
+  return new SelectState(context, host, selector, compare)
+}
+var connectState_1 = (selectState.connectState = connectState)
+const compareArrays = (a, b) =>
+  a.length === b.length && a.every((value, idx) => value === b[idx])
+var compareArrays_1 = (selectState.compareArrays = compareArrays)
+const compareObjects = (obj1, obj2) =>
+  Object.keys(obj1).length === Object.keys(obj2).length &&
+  Object.keys(obj1).every(key => {
+    return (
+      Object.prototype.hasOwnProperty.call(obj2, key) && obj1[key] === obj2[key]
+    )
+  })
+selectState.compareObjects = compareObjects
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @summary An accessible, themable ring designed to be shown on
+ * `:focus-visible`.
+ *
+ * @description
+ * An accessible, themable ring designed to be shown on focus-visible.
+ * Focus ring is designed to be controlled by the `strong-focus` module in the
+ * same package.
+ *
+ * In most cases, `visible` should be set to
+ * `shouldShowStrongFocus()` on `focus` and `pointerdown` (see `pointerPress()`
+ * documentation in the `strong-focus` module), and `false` on `blur`.
+ */
+class FocusRing extends s$3 {
+  constructor() {
+    super(...arguments)
+    /**
+     * Makes the focus ring visible.
+     */
+    this.visible = false
+  }
+}
+__decorate(
+  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  FocusRing.prototype,
+  'visible',
+  void 0
+)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$7 = i$4`:host{--_shape-start-start: var(--md-focus-ring-shape-start-start, var(--md-focus-ring-shape, 9999px));--_shape-start-end: var(--md-focus-ring-shape-start-end, var(--md-focus-ring-shape, 9999px));--_shape-end-end: var(--md-focus-ring-shape-end-end, var(--md-focus-ring-shape, 9999px));--_shape-end-start: var(--md-focus-ring-shape-end-start, var(--md-focus-ring-shape, 9999px));--_offset-vertical: var(--md-focus-ring-offset-vertical, 2px);--_offset-horizontal: var(--md-focus-ring-offset-horizontal, 2px);--_width: var(--md-focus-ring-width, 3px);--_color: var(--md-focus-ring-color, var(--md-sys-color-secondary, #625b71));display:none;position:absolute;box-sizing:border-box;pointer-events:none;border:var(--_width) solid var(--_color);border-start-start-radius:var(--_shape-start-start);border-start-end-radius:var(--_shape-start-end);border-end-start-radius:var(--_shape-end-start);border-end-end-radius:var(--_shape-end-end);inset:calc(-1*(var(--_offset-vertical) + var(--_width))) calc(-1*(var(--_offset-horizontal) + var(--_width)))}:host([visible]){display:flex}/*# sourceMappingURL=focus-ring-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @soyCompatible
+ * @final
+ * @suppress {visibility}
+ */
+let MdFocusRing = class MdFocusRing extends FocusRing {}
+MdFocusRing.styles = [styles$7]
+MdFocusRing = __decorate([e$6('md-focus-ring')], MdFocusRing)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/** @soyCompatible */
+class Icon extends s$3 {
+  /** @soyTemplate */
+  render() {
+    return y`<span><slot></slot></span>`
+  }
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$6 = i$4`:host{--_color: var(--md-icon-color, inherit);--_font: var(--md-icon-font, "Material Symbols Outlined");--_font-variation-settings: var(--md-icon-font-variation-settings, inherit);--_size: var(--md-icon-size, 24px);--_weight: var(--md-icon-weight, 400);display:inline-flex;color:var(--_color);font-family:var(--_font);font-weight:var(--_weight);font-style:normal;font-size:var(--_size);font-variation-settings:var(--_font-variation-settings);line-height:1;letter-spacing:normal;text-transform:none;white-space:nowrap;word-wrap:normal;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-moz-osx-font-smoothing:grayscale}span ::slotted(svg){fill:currentColor}span ::slotted(*){height:var(--_size);width:var(--_size)}/*# sourceMappingURL=icon-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @soyCompatible
+ * @final
+ * @suppress {visibility}
+ */
+let MdIcon = class MdIcon extends Icon {}
+MdIcon.styles = [styles$6]
+MdIcon = __decorate([e$6('md-icon')], MdIcon)
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const t = {
+    ATTRIBUTE: 1,
+    CHILD: 2,
+    PROPERTY: 3,
+    BOOLEAN_ATTRIBUTE: 4,
+    EVENT: 5,
+    ELEMENT: 6,
+  },
+  e = t => (...e) => ({ _$litDirective$: t, values: e })
+class i {
+  constructor(t) {}
+  get _$AU() {
+    return this._$AM._$AU
+  }
+  _$AT(t, e, i) {
+    ;(this._$Ct = t), (this._$AM = e), (this._$Ci = i)
+  }
+  _$AS(t, e) {
+    return this.update(t, e)
+  }
+  update(t, e) {
+    return this.render(...e)
+  }
+}
+
+/**
+ * @license
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const o = e(
+  class extends i {
+    constructor(t$1) {
+      var i
+      if (
+        (super(t$1),
+        t$1.type !== t.ATTRIBUTE ||
+          'class' !== t$1.name ||
+          (null === (i = t$1.strings) || void 0 === i ? void 0 : i.length) > 2)
+      )
+        throw Error(
+          '`classMap()` can only be used in the `class` attribute and must be the only part in the attribute.'
+        )
+    }
+    render(t) {
+      return (
+        ' ' +
+        Object.keys(t)
+          .filter(i => t[i])
+          .join(' ') +
+        ' '
+      )
+    }
+    update(i, [s]) {
+      var r, o
+      if (void 0 === this.nt) {
+        ;(this.nt = new Set()),
+          void 0 !== i.strings &&
+            (this.st = new Set(
+              i.strings
+                .join(' ')
+                .split(/\s/)
+                .filter(t => '' !== t)
+            ))
+        for (const t in s)
+          s[t] &&
+            !(null === (r = this.st) || void 0 === r ? void 0 : r.has(t)) &&
+            this.nt.add(t)
+        return this.render(s)
+      }
+      const e = i.element.classList
+      this.nt.forEach(t => {
+        t in s || (e.remove(t), this.nt.delete(t))
+      })
+      for (const t in s) {
+        const i = !!s[t]
+        i === this.nt.has(t) ||
+          (null === (o = this.st) || void 0 === o ? void 0 : o.has(t)) ||
+          (i ? (e.add(t), this.nt.add(t)) : (e.remove(t), this.nt.delete(t)))
+      }
+      return x
+    }
+  }
+)
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Easing functions to use for web animations.
+ *
+ * **NOTE:** `EASING.EMPHASIZED` is approximated with unknown accuracy.
+ *
+ * TODO(b/241113345): replace with tokens
+ */
+const EASING = {
+  STANDARD: 'cubic-bezier(0.2, 0, 0, 1)',
+  STANDARD_ACCELERATE: 'cubic-bezier(.3,0,1,1)',
+  STANDARD_DECELERATE: 'cubic-bezier(0,0,0,1)',
+  EMPHASIZED: 'cubic-bezier(.3,0,0,1)',
+  EMPHASIZED_ACCELERATE: 'cubic-bezier(.3,0,.8,.15)',
+  EMPHASIZED_DECELERATE: 'cubic-bezier(.05,.7,.1,1)',
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const PRESS_GROW_MS = 450
+const MINIMUM_PRESS_MS = 225
+const INITIAL_ORIGIN_SCALE = 0.2
+const PADDING$1 = 10
+const SOFT_EDGE_MINIMUM_SIZE = 75
+const SOFT_EDGE_CONTAINER_RATIO = 0.35
+const PRESS_PSEUDO = '::after'
+const ANIMATION_FILL = 'forwards'
+/**
+ * Interaction states for the ripple.
+ *
+ * On Touch:
+ *  - `INACTIVE -> TOUCH_DELAY -> WAITING_FOR_CLICK -> INACTIVE`
+ *  - `INACTIVE -> TOUCH_DELAY -> HOLDING -> WAITING_FOR_CLICK -> INACTIVE`
+ *
+ * On Mouse or Pen:
+ *   - `INACTIVE -> WAITING_FOR_CLICK -> INACTIVE`
+ */
+var State
+;(function(State) {
+  /**
+   * Initial state of the control, no touch in progress.
+   *
+   * Transitions:
+   *   - on touch down: transition to `TOUCH_DELAY`.
+   *   - on mouse down: transition to `WAITING_FOR_CLICK`.
+   */
+  State[(State['INACTIVE'] = 0)] = 'INACTIVE'
+  /**
+   * Touch down has been received, waiting to determine if it's a swipe or
+   * scroll.
+   *
+   * Transitions:
+   *   - on touch up: begin press; transition to `WAITING_FOR_CLICK`.
+   *   - on cancel: transition to `INACTIVE`.
+   *   - after `TOUCH_DELAY_MS`: begin press; transition to `HOLDING`.
+   */
+  State[(State['TOUCH_DELAY'] = 1)] = 'TOUCH_DELAY'
+  /**
+   * A touch has been deemed to be a press
+   *
+   * Transitions:
+   *  - on up: transition to `WAITING_FOR_CLICK`.
+   */
+  State[(State['HOLDING'] = 2)] = 'HOLDING'
+  /**
+   * The user touch has finished, transition into rest state.
+   *
+   * Transitions:
+   *   - on click end press; transition to `INACTIVE`.
+   */
+  State[(State['WAITING_FOR_CLICK'] = 3)] = 'WAITING_FOR_CLICK'
+})(State || (State = {}))
+/**
+ * Delay reacting to touch so that we do not show the ripple for a swipe or
+ * scroll interaction.
+ */
+const TOUCH_DELAY_MS = 150
+/**
+ * A ripple component.
+ */
+class Ripple extends s$3 {
+  constructor() {
+    super(...arguments)
+    // TODO(https://bugs.webkit.org/show_bug.cgi?id=247546)
+    // Remove Safari workaround that requires reflecting `unbounded` so
+    // it can be styled against.
+    /**
+     * Sets the ripple to be an unbounded circle.
+     */
+    this.unbounded = false
+    /**
+     * Disables the ripple.
+     */
+    this.disabled = false
+    this.hovered = false
+    this.focused = false
+    this.pressed = false
+    this.rippleSize = ''
+    this.rippleScale = ''
+    this.initialSize = 0
+    this.state = State.INACTIVE
+    this.checkBoundsAfterContextMenu = false
+  }
+  handlePointerenter(event) {
+    if (!this.shouldReactToEvent(event)) {
+      return
+    }
+    this.hovered = true
+  }
+  handlePointerleave(event) {
+    if (!this.shouldReactToEvent(event)) {
+      return
+    }
+    this.hovered = false
+    // release a held mouse or pen press that moves outside the element
+    if (this.state !== State.INACTIVE) {
+      this.endPressAnimation()
+    }
+  }
+  handleFocusin() {
+    this.focused = true
+  }
+  handleFocusout() {
+    this.focused = false
+  }
+  handlePointerup(event) {
+    if (!this.shouldReactToEvent(event)) {
+      return
+    }
+    if (this.state === State.HOLDING) {
+      this.state = State.WAITING_FOR_CLICK
+      return
+    }
+    if (this.state === State.TOUCH_DELAY) {
+      this.state = State.WAITING_FOR_CLICK
+      this.startPressAnimation(this.rippleStartEvent)
+      return
+    }
+  }
+  async handlePointerdown(event) {
+    if (!this.shouldReactToEvent(event)) {
+      return
+    }
+    this.rippleStartEvent = event
+    if (!this.isTouch(event)) {
+      this.state = State.WAITING_FOR_CLICK
+      this.startPressAnimation(event)
+      return
+    }
+    // after a longpress contextmenu event, an extra `pointerdown` can be
+    // dispatched to the pressed element. Check that the down is within
+    // bounds of the element in this case.
+    if (this.checkBoundsAfterContextMenu && !this.inBounds(event)) {
+      return
+    }
+    this.checkBoundsAfterContextMenu = false
+    // Wait for a hold after touch delay
+    this.state = State.TOUCH_DELAY
+    await new Promise(resolve => {
+      setTimeout(resolve, TOUCH_DELAY_MS)
+    })
+    if (this.state !== State.TOUCH_DELAY) {
+      return
+    }
+    this.state = State.HOLDING
+    this.startPressAnimation(event)
+  }
+  handleClick() {
+    // Click is a MouseEvent in Firefox and Safari, so we cannot use
+    // `shouldReactToEvent`
+    if (this.disabled) {
+      return
+    }
+    if (this.state === State.WAITING_FOR_CLICK) {
+      this.endPressAnimation()
+      return
+    }
+    if (this.state === State.INACTIVE) {
+      // keyboard synthesized click event
+      this.startPressAnimation()
+      this.endPressAnimation()
+    }
+  }
+  handlePointercancel(event) {
+    if (!this.shouldReactToEvent(event)) {
+      return
+    }
+    this.endPressAnimation()
+  }
+  handleContextmenu() {
+    if (this.disabled) {
+      return
+    }
+    this.checkBoundsAfterContextMenu = true
+    this.endPressAnimation()
+  }
+  render() {
+    const classes = {
+      hovered: this.hovered,
+      focused: this.focused,
+      pressed: this.pressed,
+      unbounded: this.unbounded,
+    }
+    return y`<div class="surface ${o(classes)}"></div>`
+  }
+  update(changedProps) {
+    if (changedProps.has('disabled') && this.disabled) {
+      this.hovered = false
+      this.focused = false
+      this.pressed = false
+    }
+    super.update(changedProps)
+  }
+  getDimensions() {
+    return (this.parentElement ?? this).getBoundingClientRect()
+  }
+  determineRippleSize() {
+    const { height, width } = this.getDimensions()
+    const maxDim = Math.max(height, width)
+    const softEdgeSize = Math.max(
+      SOFT_EDGE_CONTAINER_RATIO * maxDim,
+      SOFT_EDGE_MINIMUM_SIZE
+    )
+    let maxRadius = maxDim
+    let initialSize = Math.floor(maxDim * INITIAL_ORIGIN_SCALE)
+    const hypotenuse = Math.sqrt(width ** 2 + height ** 2)
+    maxRadius = hypotenuse + PADDING$1
+    // ensure `initialSize` is even for unbounded
+    if (this.unbounded) {
+      initialSize = initialSize - (initialSize % 2)
+    }
+    this.initialSize = initialSize
+    this.rippleScale = `${(maxRadius + softEdgeSize) / initialSize}`
+    this.rippleSize = `${this.initialSize}px`
+  }
+  getNormalizedPointerEventCoords(pointerEvent) {
+    const { scrollX, scrollY } = window
+    const { left, top } = this.getDimensions()
+    const documentX = scrollX + left
+    const documentY = scrollY + top
+    const { pageX, pageY } = pointerEvent
+    return { x: pageX - documentX, y: pageY - documentY }
+  }
+  getTranslationCoordinates(positionEvent) {
+    const { height, width } = this.getDimensions()
+    // end in the center
+    const endPoint = {
+      x: (width - this.initialSize) / 2,
+      y: (height - this.initialSize) / 2,
+    }
+    let startPoint
+    if (positionEvent instanceof PointerEvent) {
+      startPoint = this.getNormalizedPointerEventCoords(positionEvent)
+    } else {
+      startPoint = {
+        x: width / 2,
+        y: height / 2,
+      }
+    }
+    // center around start point
+    startPoint = {
+      x: startPoint.x - this.initialSize / 2,
+      y: startPoint.y - this.initialSize / 2,
+    }
+    return { startPoint, endPoint }
+  }
+  startPressAnimation(positionEvent) {
+    this.pressed = true
+    this.growAnimation?.cancel()
+    this.determineRippleSize()
+    const { startPoint, endPoint } = this.getTranslationCoordinates(
+      positionEvent
+    )
+    const translateStart = `${startPoint.x}px, ${startPoint.y}px`
+    const translateEnd = `${endPoint.x}px, ${endPoint.y}px`
+    this.growAnimation = this.mdRoot.animate(
+      {
+        top: [0, 0],
+        left: [0, 0],
+        height: [this.rippleSize, this.rippleSize],
+        width: [this.rippleSize, this.rippleSize],
+        transform: [
+          `translate(${translateStart}) scale(1)`,
+          `translate(${translateEnd}) scale(${this.rippleScale})`,
+        ],
+      },
+      {
+        pseudoElement: PRESS_PSEUDO,
+        duration: PRESS_GROW_MS,
+        easing: EASING.STANDARD,
+        fill: ANIMATION_FILL,
+      }
+    )
+  }
+  async endPressAnimation() {
+    const animation = this.growAnimation
+    const pressAnimationPlayState = animation?.currentTime ?? Infinity
+    if (pressAnimationPlayState >= MINIMUM_PRESS_MS) {
+      this.pressed = false
+      return
+    }
+    await new Promise(resolve => {
+      setTimeout(resolve, MINIMUM_PRESS_MS - pressAnimationPlayState)
+    })
+    if (this.growAnimation !== animation) {
+      // A new press animation was started. The old animation was canceled and
+      // should not finish the pressed state.
+      return
+    }
+    this.pressed = false
+  }
+  /**
+   * Returns `true` if
+   *  - the ripple element is enabled
+   *  - the pointer is primary for the input type
+   *  - the pointer is the pointer that started the interaction, or will start
+   * the interaction
+   *  - the pointer is a touch, or the pointer state has the primary button
+   * held, or the pointer is hovering
+   */
+  shouldReactToEvent(event) {
+    if (this.disabled || !event.isPrimary) {
+      return false
+    }
+    if (
+      this.rippleStartEvent &&
+      this.rippleStartEvent.pointerId !== event.pointerId
+    ) {
+      return false
+    }
+    if (event.type === 'pointerenter' || event.type === 'pointerleave') {
+      return !this.isTouch(event)
+    }
+    const isPrimaryButton = event.buttons === 1
+    return this.isTouch(event) || isPrimaryButton
+  }
+  /**
+   * Check if the event is within the bounds of the element.
+   *
+   * This is only needed for the "stuck" contextmenu longpress on Chrome.
+   */
+  inBounds({ x, y }) {
+    const { top, left, bottom, right } = this.getBoundingClientRect()
+    return x >= left && x <= right && y >= top && y <= bottom
+  }
+  isTouch({ pointerType }) {
+    return pointerType === 'touch'
+  }
+}
+__decorate(
+  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  Ripple.prototype,
+  'unbounded',
+  void 0
+)
+__decorate(
+  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  Ripple.prototype,
+  'disabled',
+  void 0
+)
+__decorate(
+  [t$3(), __metadata('design:type', Object)],
+  Ripple.prototype,
+  'hovered',
+  void 0
+)
+__decorate(
+  [t$3(), __metadata('design:type', Object)],
+  Ripple.prototype,
+  'focused',
+  void 0
+)
+__decorate(
+  [t$3(), __metadata('design:type', Object)],
+  Ripple.prototype,
+  'pressed',
+  void 0
+)
+__decorate(
+  [i$1('.surface'), __metadata('design:type', HTMLElement)],
+  Ripple.prototype,
+  'mdRoot',
+  void 0
+)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$5 = i$4`:host{--_focus-color: var(--md-ripple-focus-color, var(--md-sys-color-on-surface, #1c1b1f));--_focus-opacity: var(--md-ripple-focus-opacity, 0.12);--_hover-color: var(--md-ripple-hover-color, var(--md-sys-color-on-surface, #1c1b1f));--_hover-opacity: var(--md-ripple-hover-opacity, 0.08);--_pressed-color: var(--md-ripple-pressed-color, var(--md-sys-color-on-surface, #1c1b1f));--_pressed-opacity: var(--md-ripple-pressed-opacity, 0.12);--_shape: var(--md-ripple-shape, 0px)}:host{display:flex}:host([disabled]){opacity:0}:host,.surface{position:absolute;inset:0;pointer-events:none;overflow:hidden}.surface{will-change:transform;border-radius:var(--_shape);outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}.surface::before,.surface::after{position:absolute;opacity:0;pointer-events:none;content:""}.surface::before{background-color:var(--_hover-color);transition:opacity 15ms linear,background-color 15ms linear;inset:0}.surface::after{background:radial-gradient(closest-side, var(--_pressed-color) max(100% - 70px, 65%), transparent 100%);transition:opacity 375ms linear;transform-origin:center center}.hovered::before{background-color:var(--_hover-color);opacity:var(--_hover-opacity)}.focused::before{background-color:var(--_focus-color);opacity:var(--_focus-opacity);transition-duration:75ms}.pressed::after{opacity:var(--_pressed-opacity);transition-duration:105ms}.unbounded{--_shape: var(--md-ripple-shape, 9999px)}@media screen and (forced-colors: active){:host{display:none}}/*# sourceMappingURL=ripple-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @summary Ripples, also known as state layers, are visual indicators used to
+ * communicate the status of a component or interactive element.
+ *
+ * @description A state layer is a semi-transparent covering on an element that
+ * indicates its state. State layers provide a systematic approach to
+ * visualizing states by using opacity. A layer can be applied to an entire
+ * element or in a circular shape and only one state layer can be applied at a
+ * given time.
+ *
+ * @final
+ * @suppress {visibility}
+ */
+let MdRipple = class MdRipple extends Ripple {}
+MdRipple.styles = [styles$5]
+MdRipple = __decorate([e$6('md-ripple')], MdRipple)
+
+/**
+ * @license
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const l = l => (null != l ? l : b)
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+function n(n, o, r) {
+  return n ? o() : null == r ? void 0 : r()
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Returns `true` if the given element is in a right-to-left direction.
+ *
+ * @param el Element to determine direction from
+ * @param shouldCheck Optional. If `false`, return `false` without checking
+ *     direction. Determining the direction of `el` is somewhat expensive, so
+ *     this parameter can be used as a conditional guard. Defaults to `true`.
+ */
+function isRtl(el, shouldCheck = true) {
+  return (
+    shouldCheck &&
+    getComputedStyle(el)
+      .getPropertyValue('direction')
+      .trim() === 'rtl'
+  )
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * A property decorator that helps proxy an aria attribute to an internal node.
+ *
+ * This decorator is only intended for use with ARIAMixin properties,
+ * such as `ariaLabel`, to help with screen readers.
+ *
+ * This decorator will remove the host `aria-*` attribute at runtime and add it
+ * to a `data-aria-*` attribute to avoid screenreader conflicts between the
+ * host and internal node.
+ *
+ * `@ariaProperty` decorated properties should sync with LitElement to the
+ * `data-aria-*` attribute, not the native `aria-*` attribute.
+ *
+ * @example
+ * ```ts
+ * class MyElement extends LitElement {
+ *   \@ariaProperty
+ *   // TODO(b/210730484): replace with @soyParam annotation
+ *   \@property({ type: String, attribute: 'data-aria-label', noAccessor: true})
+ *   ariaLabel!: string;
+ * }
+ * ```
+ * @category Decorator
+ * @ExportDecoratedItems
+ */
+function ariaProperty(prototype, property) {
+  // Replace the ARIAMixin property with data-* attribute syncing instead of
+  // using the native aria-* attribute reflection. This preserves the attribute
+  // for SSR and avoids screenreader conflicts after delegating the attribute
+  // to a child node.
+  Object.defineProperty(prototype, property, {
+    configurable: true,
+    enumerable: true,
+    get() {
+      return this.dataset[property] ?? ''
+    },
+    set(value) {
+      // Coerce non-string values to a string
+      const strValue = String(value ?? '')
+      if (strValue) {
+        this.dataset[property] = strValue
+      } else {
+        delete this.dataset[property]
+      }
+      // lit will call this setter whenever the data-* attribute changes.
+      // However, this.dataset[property] will automatically be updated to the
+      // current value. To avoid bugs, always request an update regardless of
+      // the old value.
+      this.requestUpdate()
+    },
+  })
+  // Define an internal property that syncs from the `aria-*` attribute with lit
+  // and delegates to the real ARIAMixin property, which renders an update.
+  // This property will immediately remove the `aria-*` attribute, which doesn't
+  // work well with SSR (which is why there's a separate synced property).
+  const internalAriaProperty = Symbol(property)
+  // "ariaLabel" -> "aria-label" / "ariaLabelledBy" -> "aria-labelledby"
+  const ariaAttribute = property.replace('aria', 'aria-').toLowerCase()
+  const constructor = prototype.constructor
+  let removingAttribute = false
+  Object.defineProperty(prototype, internalAriaProperty, {
+    get() {
+      // tslint is failing here, but the types are correct (ARIAMixin
+      // properties do not obfuscate with closure)
+      // tslint:disable-next-line:no-dict-access-on-struct-type
+      return this[property]
+    },
+    set(value) {
+      if (removingAttribute) {
+        // Ignore this update, which is triggered below
+        return
+      }
+      // Set the ARIAMixin property, which will sync the `data-*` attribute
+      // and trigger rendering if the value changed.
+      // tslint is failing here, but the types are correct (ARIAMixin
+      // properties do not obfuscate with closure)
+      // tslint:disable-next-line:no-dict-access-on-struct-type
+      this[property] = value
+      // Remove the `aria-*` attribute, which will call this setter again with
+      // the incorrect value. Ignore these updates.
+      removingAttribute = true
+      this.removeAttribute(ariaAttribute)
+      removingAttribute = false
+    },
+  })
+  // Tell lit to observe the `aria-*` attribute and set the internal property,
+  // which acts as a "aria-* attribute changed" observer.
+  constructor.createProperty(internalAriaProperty, {
+    attribute: ariaAttribute,
+    noAccessor: true,
+  })
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+class FocusGlobal {
+  constructor() {
+    this.visible = false
+  }
+  setVisible(visible) {
+    this.visible = visible
+  }
+}
+/**
+ * This object can be overwritten by the `setup()` function to use a different
+ * focus coordination object.
+ */
+let focusObject = new FocusGlobal()
+/**
+ * Set of keyboard event codes that correspond to keyboard navigation
+ */
+const KEYBOARD_NAVIGATION_KEYS = new Set([
+  'Tab',
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowUp',
+  'ArrowDown',
+])
+function keydownHandler(e) {
+  if (KEYBOARD_NAVIGATION_KEYS.has(e.key)) {
+    focusObject.setVisible(true)
+  }
+}
+/**
+ * Set up integration with alternate global focus tracking object
+ *
+ * @param focusGlobal A global focus object to coordinate between multiple
+ *     systems
+ * @param enableKeydownHandler Set to true to let StrongFocusService listen for
+ *     keyboard navigation
+ */
+function setup(focusGlobal, enableKeydownHandler = false) {
+  focusObject = focusGlobal
+  if (enableKeydownHandler) {
+    window.addEventListener('keydown', keydownHandler)
+  } else {
+    window.removeEventListener('keydown', keydownHandler)
+  }
+}
+/**
+ * Returns `true` if the component should show strong focus.
+ *
+ * By default, strong focus is shown only on keyboard navigation, and not on
+ * pointer interaction.
+ */
+function shouldShowStrongFocus() {
+  return focusObject.visible
+}
+/**
+ * Components should call this when a user interacts with a component with a
+ * pointing device.
+ *
+ * By default, this will prevent the strong focus from being shown.
+ */
+function pointerPress() {
+  focusObject.setVisible(false)
+}
+setup(focusObject, true)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+class RippleDirective extends i {
+  constructor(partInfo) {
+    super(partInfo)
+    this.rippleGetter = async () => null
+    if (partInfo.type !== t.ELEMENT) {
+      throw new Error('The `ripple` directive must be used on an element')
+    }
+  }
+  render(ripple) {
+    return x
+  }
+  // Use EventListenerObject::handleEvent interface to handle events without
+  // generating bound event handlers
+  async handleEvent(event) {
+    const ripple = await this.rippleGetter()
+    if (!ripple) {
+      return
+    }
+    switch (event.type) {
+      case 'click':
+        ripple.handleClick()
+        break
+      case 'contextmenu':
+        ripple.handleContextmenu()
+        break
+      case 'pointercancel':
+        ripple.handlePointercancel(event)
+        break
+      case 'pointerdown':
+        await ripple.handlePointerdown(event)
+        break
+      case 'pointerenter':
+        ripple.handlePointerenter(event)
+        break
+      case 'pointerleave':
+        ripple.handlePointerleave(event)
+        break
+      case 'pointerup':
+        ripple.handlePointerup(event)
+        break
+    }
+  }
+  update(part, [ripple]) {
+    if (!this.element) {
+      // NOTE: addEventListener typing needs to be used with HTMLElements or a
+      // subclass
+      this.element = part.element
+      this.element.addEventListener('click', this)
+      this.element.addEventListener('contextmenu', this)
+      this.element.addEventListener('pointercancel', this)
+      this.element.addEventListener('pointerdown', this)
+      this.element.addEventListener('pointerenter', this)
+      this.element.addEventListener('pointerleave', this)
+      this.element.addEventListener('pointerup', this)
+    }
+    // Normalize given ripple accessor
+    this.rippleGetter = typeof ripple === 'function' ? ripple : () => ripple
+    return x
+  }
+}
+/**
+ * Connects a Ripple element to a node that drives the interaction
+ *
+ * @param rippleGetter A function that returns an `md-ripple` element
+ * @param simulateKeyboardClick For elements that do not issue a click on
+ *     keyboard interaction, pass `true` to enable press animations on Enter or
+ *     Spacebar
+ */
+const ripple = e(RippleDirective)
+
+/**
+ * @license
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+// tslint:disable-next-line:enforce-comments-on-exported-symbols
+class IconButton extends s$3 {
+  constructor() {
+    super(...arguments)
+    /**
+     * Disables the icon button and makes it non-interactive.
+     */
+    this.disabled = false
+    /**
+     * Flips the icon if it is in an RTL context at startup.
+     */
+    this.flipIconInRtl = false
+    this.flipIcon = isRtl(this, this.flipIconInRtl)
+    this.showFocusRing = false
+    this.showRipple = false
+    this.getRipple = () => {
+      this.showRipple = true
+      return this.ripple
+    }
+    this.renderRipple = () => {
+      return y`<md-ripple ?disabled="${this.disabled}"></md-ripple>`
+    }
+  }
+  render() {
+    return y`<button
+        class="md3-icon-button ${o(this.getRenderClasses())}"
+        aria-label="${l(this.ariaLabel)}"
+        aria-haspopup="${l(this.ariaHasPopup)}"
+        ?disabled="${this.disabled}"
+        @focus="${this.handleFocus}"
+        @blur="${this.handleBlur}"
+        @pointerdown="${this.handlePointerDown}"
+        ${ripple(this.getRipple)}>
+        ${this.renderFocusRing()}
+        ${n(this.showRipple, this.renderRipple)}
+        ${this.renderIcon()}
+        ${this.renderTouchTarget()}
+  </button>`
+  }
+  getRenderClasses() {
+    return {
+      'md3-icon-button--flip-icon': this.flipIcon,
+    }
+  }
+  renderIcon() {
+    // Note, it's important not to render the icon property as a slot fallback
+    // to avoid any whitespace from overridding it.
+    return y`<md-icon class="md3-icon-button__icon"><slot></slot></md-icon>`
+  }
+  renderTouchTarget() {
+    return y`<span class="md3-icon-button__touch"></span>`
+  }
+  renderFocusRing() {
+    return y`<md-focus-ring .visible="${this.showFocusRing}"></md-focus-ring>`
+  }
+  connectedCallback() {
+    this.flipIcon = isRtl(this, this.flipIconInRtl)
+    super.connectedCallback()
+  }
+  handlePointerDown() {
+    pointerPress()
+    this.showFocusRing = shouldShowStrongFocus()
+  }
+  handleFocus() {
+    this.showFocusRing = shouldShowStrongFocus()
+  }
+  handleBlur() {
+    this.showFocusRing = false
+  }
+}
+__decorate(
+  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  IconButton.prototype,
+  'disabled',
+  void 0
+)
+__decorate(
+  [e$5({ type: Boolean }), __metadata('design:type', Object)],
+  IconButton.prototype,
+  'flipIconInRtl',
+  void 0
+)
+__decorate(
+  [t$3(), __metadata('design:type', Boolean)],
+  IconButton.prototype,
+  'flipIcon',
+  void 0
+)
+__decorate(
+  [
+    ariaProperty,
+    e$5({ type: String, attribute: 'data-aria-label' }),
+    __metadata('design:type', String),
+  ],
+  IconButton.prototype,
+  'ariaLabel',
+  void 0
+)
+__decorate(
+  [
+    ariaProperty,
+    e$5({ type: String, attribute: 'data-aria-haspopup' }),
+    __metadata('design:type', String),
+  ],
+  IconButton.prototype,
+  'ariaHasPopup',
+  void 0
+)
+__decorate(
+  [i$1('button'), __metadata('design:type', HTMLElement)],
+  IconButton.prototype,
+  'buttonElement',
+  void 0
+)
+__decorate(
+  [e$4('md-ripple'), __metadata('design:type', Promise)],
+  IconButton.prototype,
+  'ripple',
+  void 0
+)
+__decorate(
+  [t$3(), __metadata('design:type', Object)],
+  IconButton.prototype,
+  'showFocusRing',
+  void 0
+)
+__decorate(
+  [t$3(), __metadata('design:type', Object)],
+  IconButton.prototype,
+  'showRipple',
+  void 0
+)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$4 = i$4`:host{display:inline-flex;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);height:max(48px,var(--_container-size));width:max(48px,var(--_container-size));align-items:center;justify-content:center}:host([disabled]){pointer-events:none}.md3-icon-button{align-items:center;border:none;box-sizing:border-box;cursor:pointer;display:flex;justify-content:center;outline:none;position:relative;text-decoration:none;user-select:none;z-index:0;height:var(--_container-size);width:var(--_container-size);border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.md3-icon-button__icon{--md-icon-size:var(--_icon-size);--md-icon-weight:inherit}md-ripple{z-index:-1;border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.md3-icon-button--flip-icon .md3-icon-button__icon{transform:scaleX(-1)}.md3-icon-button__icon{display:inline-flex}.md3-icon-button__link{height:100%;outline:none;position:absolute;width:100%}.md3-icon-button__touch{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%)}/*# sourceMappingURL=shared-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$3 = i$4`:host{--_state-layer-shape-start-start: var(--md-icon-button-state-layer-shape-start-start, var(--md-icon-button-state-layer-shape, 9999px));--_state-layer-shape-start-end: var(--md-icon-button-state-layer-shape-start-end, var(--md-icon-button-state-layer-shape, 9999px));--_state-layer-shape-end-end: var(--md-icon-button-state-layer-shape-end-end, var(--md-icon-button-state-layer-shape, 9999px));--_state-layer-shape-end-start: var(--md-icon-button-state-layer-shape-end-start, var(--md-icon-button-state-layer-shape, 9999px));--_disabled-icon-color: var(--md-icon-button-disabled-icon-color, rgb(var(--md-sys-color-on-surface-rgb, 28, 27, 31), 0.38));--_icon-size: var(--md-icon-button-icon-size, 24px);--_selected-focus-icon-color: var(--md-icon-button-selected-focus-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-focus-state-layer-color: var(--md-icon-button-selected-focus-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-focus-state-layer-opacity: var(--md-icon-button-selected-focus-state-layer-opacity, 0.12);--_selected-hover-icon-color: var(--md-icon-button-selected-hover-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-color: var(--md-icon-button-selected-hover-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-opacity: var(--md-icon-button-selected-hover-state-layer-opacity, 0.08);--_selected-icon-color: var(--md-icon-button-selected-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-icon-color: var(--md-icon-button-selected-pressed-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-color: var(--md-icon-button-selected-pressed-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-opacity: var(--md-icon-button-selected-pressed-state-layer-opacity, 0.12);--_state-layer-size: var(--md-icon-button-state-layer-size, 40px);--_unselected-focus-icon-color: var(--md-icon-button-unselected-focus-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-focus-state-layer-color: var(--md-icon-button-unselected-focus-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-focus-state-layer-opacity: var(--md-icon-button-unselected-focus-state-layer-opacity, 0.12);--_unselected-hover-icon-color: var(--md-icon-button-unselected-hover-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-hover-state-layer-color: var(--md-icon-button-unselected-hover-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-hover-state-layer-opacity: var(--md-icon-button-unselected-hover-state-layer-opacity, 0.08);--_unselected-icon-color: var(--md-icon-button-unselected-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-pressed-icon-color: var(--md-icon-button-unselected-pressed-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-pressed-state-layer-color: var(--md-icon-button-unselected-pressed-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-pressed-state-layer-opacity: var(--md-icon-button-unselected-pressed-state-layer-opacity, 0.12);height:max(48px,var(--_state-layer-size));width:max(48px,var(--_state-layer-size));--md-focus-ring-shape-start-start:var(--md-focus-ring-shape, var(--_state-layer-shape-start-start));--md-focus-ring-shape-start-end:var(--md-focus-ring-shape, var(--_state-layer-shape-start-end));--md-focus-ring-shape-end-end:var(--md-focus-ring-shape, var(--_state-layer-shape-end-end));--md-focus-ring-shape-end-start:var(--md-focus-ring-shape, var(--_state-layer-shape-end-start)))))}.md3-icon-button--standard{background-color:rgba(0,0,0,0);color:var(--_unselected-icon-color);height:var(--_state-layer-size);width:var(--_state-layer-size);--md-ripple-focus-color:var(--_unselected-focus-state-layer-color);--md-ripple-focus-opacity:var(--_unselected-focus-state-layer-opacity);--md-ripple-hover-color:var(--_unselected-hover-state-layer-color);--md-ripple-hover-opacity:var(--_unselected-hover-state-layer-opacity);--md-ripple-pressed-color:var(--_unselected-pressed-state-layer-color);--md-ripple-pressed-opacity:var(--_unselected-pressed-state-layer-opacity);--md-ripple-shape:var(--_state-layer-shape-start-start)}.md3-icon-button--standard:hover{color:var(--_unselected-hover-icon-color)}.md3-icon-button--standard:focus{color:var(--_unselected-focus-icon-color)}.md3-icon-button--standard:active{color:var(--_unselected-pressed-icon-color)}.md3-icon-button--standard:disabled{color:var(--_disabled-icon-color)}.md3-icon-button--selected{--md-ripple-focus-color:var(--_selected-focus-state-layer-color);--md-ripple-focus-opacity:var(--_selected-focus-state-layer-opacity);--md-ripple-hover-color:var(--_selected-hover-state-layer-color);--md-ripple-hover-opacity:var(--_selected-hover-state-layer-opacity);--md-ripple-pressed-color:var(--_selected-pressed-state-layer-color);--md-ripple-pressed-opacity:var(--_selected-pressed-state-layer-opacity)}.md3-icon-button--selected:not(:disabled){color:var(--_selected-icon-color)}.md3-icon-button--selected:not(:disabled):hover{color:var(--_selected-hover-icon-color)}.md3-icon-button--selected:not(:disabled):focus{color:var(--_selected-focus-icon-color)}.md3-icon-button--selected:not(:disabled):active{color:var(--_selected-pressed-icon-color)}/*# sourceMappingURL=standard-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @summary Icon buttons help people take supplementary actions with a single
+ * tap.
+ *
+ * @description
+ * __Emphasis:__ Low emphasis – For optional or supplementary actions with the
+ * least amount of prominence.
+ *
+ * __Rationale:__ The most compact and unobtrusive type of button, icon buttons
+ * are used for optional supplementary actions such as "Bookmark" or "Star."
+ *
+ * __Example usages:__
+ * - Add to Favorites
+ * - Print
+ */
+let MdStandardIconButton = class MdStandardIconButton extends IconButton {
+  getRenderClasses() {
+    return {
+      ...super.getRenderClasses(),
+      'md3-icon-button--standard': true,
+    }
+  }
+}
+MdStandardIconButton.styles = [styles$4, styles$3]
+MdStandardIconButton = __decorate(
+  [e$6('md-standard-icon-button')],
+  MdStandardIconButton
+)
+
+// "Inject" XState context into components with DOM events
+const viewerContext = n$1('viewer-context')
+let appContext
+const setContext = (providerElement, context) => {
+  appContext = context
+  providerElement.addEventListener('request', event => {
+    const { detail } = event
+    detail.context = context
+    event.stopPropagation()
+  })
+}
+function InjectContext() {
+  return (target, name) => {
+    const property = {
+      get() {
+        const event = new CustomEvent('request', {
+          detail: {},
+          bubbles: true,
+          composed: true,
+        })
+        // @ts-ignore
+        this.dispatchEvent(event)
+        return event.detail.context
+      },
+    }
+    Object.defineProperty(target, name, property)
+    return target
+  }
+}
+
+let LayerSettings = class LayerSettings extends s$3 {
+  constructor() {
+    super(...arguments)
+    this.layer = { type: 'image' }
+    this.name = ''
+    this.otherImages = connectState_1(
+      viewerContext,
+      this,
+      state => {
+        return new Map(
+          [...state.context.layers.actorContext.entries()].filter(([key]) => {
+            var _a
+            return (
+              key !== this.name &&
+              ((_a = state.context.images.actorContext.get(this.name)) ===
+                null || _a === void 0
+                ? void 0
+                : _a.labelImage) !== key
+            )
+          })
+        )
+      },
+      (a, b) => compareArrays_1([...a.keys()], [...b.keys()])
+    )
+    this.selectedName = connectState_1(
+      viewerContext,
+      this,
+      state => state.context.images.selectedName
+    )
+  }
+  getIcon() {
+    if (this.layer.type === 'image') {
+      if (
+        this.name === this.selectedName.value &&
+        this.otherImages.value &&
+        this.otherImages.value.size > 0
+      )
+        return { icon: optimizedSVGDataUri$6, alt: 'image settings' }
+      return { icon: optimizedSVGDataUri$o, alt: 'image' }
+    }
+    if (this.layer.type === 'labelImage')
+      return { icon: optimizedSVGDataUri$l, alt: 'labels' }
+    throw new Error(`Unsupported layer type: ${this.layer.type}`)
+  }
+  render() {
+    const { icon, alt } = this.getIcon()
+    return y`
+      <div>
+        <img src="${icon}" alt="${alt}" class="icon" />
+      </div>
+    `
+  }
+}
+LayerSettings.styles = i$4`
+    .icon {
+      height: 1.2em;
+      width: 1.2em;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      padding-left: 8px;
+      padding-right: 6px;
+    }
+  `
+__decorate([e$5()], LayerSettings.prototype, 'layer', void 0)
+__decorate([e$5()], LayerSettings.prototype, 'name', void 0)
+LayerSettings = __decorate([e$6('layer-settings')], LayerSettings)
 
 function createLayerEntry(context, name, layer) {
   var layerEntry = document.createElement('div')
@@ -2767,7 +5423,6 @@ function createLayerEntry(context, name, layer) {
     invisibleLabel
   )
   layerEntry.appendChild(invisibleButton)
-
   if (layer.visible) {
     visibleButton.style.display = 'flex'
     invisibleButton.style.display = 'none'
@@ -2775,7 +5430,6 @@ function createLayerEntry(context, name, layer) {
     visibleButton.style.display = 'none'
     invisibleButton.style.display = 'flex'
   }
-
   visibleButton.addEventListener('click', function(event) {
     event.preventDefault()
     event.stopPropagation()
@@ -2808,7 +5462,6 @@ function createLayerEntry(context, name, layer) {
   imageIcons.appendChild(spinner)
   layer.spinner = spinner
   var iconElement = document.createElement('div')
-
   switch (layer.type) {
     case 'image': {
       iconElement.innerHTML = '<img src="'.concat(
@@ -2817,7 +5470,6 @@ function createLayerEntry(context, name, layer) {
       )
       break
     }
-
     case 'labelImage': {
       iconElement.innerHTML = '<img src="'.concat(
         optimizedSVGDataUri$l,
@@ -2825,14 +5477,17 @@ function createLayerEntry(context, name, layer) {
       )
       break
     }
-
     default:
       throw new Error('Unsupported layer type: '.concat(layer.type))
   }
-
   iconElement.setAttribute('class', style.layerIcon)
   applyContrastSensitiveStyleToElement(context, 'invertibleButton', iconElement)
-  imageIcons.appendChild(iconElement)
+  var settings = makeHtml(
+    '<layer-settings class="'.concat(style.layerIcon, '"></layer-settings>')
+  )
+  settings.layer = layer
+  settings.name = name
+  imageIcons.appendChild(settings)
   layerEntry.addEventListener('click', function(event) {
     event.preventDefault()
     context.service.send({
@@ -2842,23 +5497,19 @@ function createLayerEntry(context, name, layer) {
   })
   return layerEntry
 }
-
 function createLayerInterface(context) {
   var name = context.layers.lastAddedData.name
   var layer = context.layers.actorContext.get(name)
   var layersUIGroup = context.layers.layersUIGroup
   var layerEntry = null
   var numRows = layersUIGroup.children.length
-
   for (var row = 0; row < numRows; row++) {
     var uiRow = layersUIGroup.children[row]
-
     if (uiRow.children.length < 2) {
       layerEntry = createLayerEntry(context, name, layer)
       uiRow.appendChild(layerEntry)
     }
   }
-
   context.layers.uiLayers.set(name, layerEntry)
 }
 
@@ -2867,9 +5518,7 @@ function applyGroupVisibility(context, groupNames, visible) {
     if (!context.uiGroups.has(groupNames[idx])) {
       continue
     }
-
     var uiGroup = context.uiGroups.get(groupNames[idx])
-
     if (visible) {
       uiGroup.style.display = 'block'
     } else {
@@ -2886,19 +5535,16 @@ function toggleLayerVisibility(context, event) {
   var layerEntry = context.layers.uiLayers.get(name)
   var visibleButton = layerEntry.children[0]
   var invisibleButton = layerEntry.children[1]
-
   if (visible) {
     visibleButton.style.display = 'flex'
     invisibleButton.style.display = 'none'
   } else {
     visibleButton.style.display = 'none'
     invisibleButton.style.display = 'flex'
-
     switch (actorContext.type) {
       case 'image':
         applyGroupVisibility(context, ['images'], false)
         break
-
       case 'labelImage':
         applyGroupVisibility(
           context,
@@ -2906,7 +5552,6 @@ function toggleLayerVisibility(context, event) {
           false
         )
         break
-
       default:
         console.error('Unsupported layer type: '.concat(type))
     }
@@ -2915,7 +5560,6 @@ function toggleLayerVisibility(context, event) {
 
 var selectedBorderWidth = '3px'
 var unselectedBorderWidth = '2px'
-
 function selectLayer(context, event) {
   var name = event.data
   var actorContext = context.layers.actorContext.get(name)
@@ -2928,21 +5572,17 @@ function selectLayer(context, event) {
       entry.style.borderWidth = unselectedBorderWidth
     }
   })
-
   if (!actorContext.visible) {
     context.service.send({
       type: 'TOGGLE_LAYER_VISIBILITY',
       data: name,
     })
   }
-
   if (!context.uiCollapsed) {
     var imageActorContext = actorContext.imageActorContext
-
     switch (type) {
       case 'image':
         applyGroupVisibility(context, ['images'], true)
-
         if (imageActorContext.labelImageName) {
           applyGroupVisibility(
             context,
@@ -2950,21 +5590,17 @@ function selectLayer(context, event) {
             true
           )
         }
-
         break
-
       case 'labelImage':
         if (actorContext.imageName) {
           applyGroupVisibility(context, ['images'], true)
         }
-
         applyGroupVisibility(
           context,
           ['labelImages', 'labelImageWeights'],
           true
         )
         break
-
       default:
         console.error('Unsupported layer type: '.concat(type))
     }
@@ -3131,12 +5767,6 @@ var _slicedToArray = /*@__PURE__*/ getDefaultExportFromCjs(
   slicedToArray.exports
 )
 
-var makeHtml = function makeHtml(htmlString) {
-  var template = document.createElement('template')
-  template.innerHTML = htmlString
-  return template.content.firstElementChild
-}
-
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object)
   if (Object.getOwnPropertySymbols) {
@@ -3149,7 +5779,6 @@ function ownKeys(object, enumerableOnly) {
   }
   return keys
 }
-
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {}
@@ -3223,41 +5852,33 @@ var compareUI = function compareUI(context) {
           '" alt="rotate"/></label></input>\n    </div>\n  '
         )
     )
-
     var _checkerboardRoot$que = checkerboardRoot.querySelectorAll('input'),
       _checkerboardRoot$que2 = _slicedToArray(_checkerboardRoot$que, 4),
       xPattern = _checkerboardRoot$que2[0],
       yPattern = _checkerboardRoot$que2[1],
       zPattern = _checkerboardRoot$que2[2],
       swapOrder = _checkerboardRoot$que2[3]
-
     var update = function update() {
       var name = context.images.selectedName
       var imageContext = context.images.actorContext.get(name)
-
       var _ref =
           imageContext !== null && imageContext !== void 0 ? imageContext : {},
         _ref$compare = _ref.compare,
         compare = _ref$compare === void 0 ? undefined : _ref$compare
-
       var _ref2 = compare !== null && compare !== void 0 ? compare : {},
         _ref2$method = _ref2.method,
         method = _ref2$method === void 0 ? undefined : _ref2$method
-
       if (!method || method === 'disable') {
         root.style.display = 'none'
       } else {
         root.style.display = 'block'
-
         if (method === 'checkerboard') {
           var _compare$pattern
-
           if (root.firstChild) root.removeChild(root.firstChild)
           root.appendChild(checkerboardRoot)
           var _compare = context.images.actorContext.get(
             context.images.selectedName
           ).compare
-
           var _ref3 =
               (_compare$pattern = _compare.pattern) !== null &&
               _compare$pattern !== void 0
@@ -3267,7 +5888,6 @@ var compareUI = function compareUI(context) {
             x = _ref4[0],
             y = _ref4[1],
             z = _ref4[2]
-
           xPattern.value = x
           yPattern.value = y
           zPattern.value = z
@@ -3275,9 +5895,7 @@ var compareUI = function compareUI(context) {
         }
       }
     }
-
     update()
-
     var updateCompare = function updateCompare(options) {
       var name = context.images.selectedName
       var imageContext = context.images.actorContext.get(name)
@@ -3291,13 +5909,10 @@ var compareUI = function compareUI(context) {
         },
       })
     }
-
     xPattern.addEventListener('change', function(event) {
       var _context$images$actor
-
       event.preventDefault()
       event.stopPropagation()
-
       var _ref5 =
           (_context$images$actor = context.images.actorContext.get(
             context.images.selectedName
@@ -3306,7 +5921,6 @@ var compareUI = function compareUI(context) {
             : [],
         _ref6 = _toArray(_ref5),
         yz = _ref6.slice(1)
-
       var x = parseInt(event.target.value)
       updateCompare({
         pattern: [x].concat(_toConsumableArray(yz)),
@@ -3314,10 +5928,8 @@ var compareUI = function compareUI(context) {
     })
     yPattern.addEventListener('change', function(event) {
       var _context$images$actor2
-
       event.preventDefault()
       event.stopPropagation()
-
       var _ref7 =
           (_context$images$actor2 = context.images.actorContext.get(
             context.images.selectedName
@@ -3327,7 +5939,6 @@ var compareUI = function compareUI(context) {
         _ref8 = _slicedToArray(_ref7, 3),
         x = _ref8[0],
         z = _ref8[2]
-
       var y = parseInt(event.target.value)
       updateCompare({
         pattern: [x, y, z],
@@ -3335,10 +5946,8 @@ var compareUI = function compareUI(context) {
     })
     zPattern.addEventListener('change', function(event) {
       var _context$images$actor3
-
       event.preventDefault()
       event.stopPropagation()
-
       var _ref9 =
           (_context$images$actor3 = context.images.actorContext.get(
             context.images.selectedName
@@ -3348,7 +5957,6 @@ var compareUI = function compareUI(context) {
         _ref10 = _slicedToArray(_ref9, 2),
         x = _ref10[0],
         y = _ref10[1]
-
       var z = parseInt(event.target.value)
       updateCompare({
         pattern: [x, y, z],
@@ -3363,7 +5971,6 @@ var compareUI = function compareUI(context) {
     })
     onReceive(function(event) {
       var type = event.type
-
       if (type === 'COMPARE_UPDATED') {
         update()
       }
@@ -3396,9 +6003,9 @@ function createComponentSelector(context, imageUIGroup) {
   componentSelector.id = ''.concat(viewerDOMId, '-componentSelector')
   context.images.componentSelector = componentSelector
   var componentRow = document.createElement('div')
-  componentRow.setAttribute('class', style.uiRow) // This row needs custom bottom padding, to aid in the illusion
+  componentRow.setAttribute('class', style.uiRow)
+  // This row needs custom bottom padding, to aid in the illusion
   // that it's the tabbed portion of a tabbed pane
-
   componentRow.setAttribute('style', 'padding-bottom: 0px;')
   componentRow.className += ' '.concat(viewerDOMId, '-volumeComponents')
   context.images.componentRow = componentRow
@@ -3406,7 +6013,6 @@ function createComponentSelector(context, imageUIGroup) {
     event.preventDefault()
     event.stopPropagation()
     var selectedIndex = Number(event.target.dataset.componentIndex)
-
     if (event.target.type === 'radio') {
       context.service.send({
         type: 'SELECT_IMAGE_COMPONENT',
@@ -3439,12 +6045,12 @@ function toggleInterpolation(context, event) {
 }
 
 function createInterpolationButton(context, uiRow) {
-  var interpolationButton = document.createElement('div') // Todo: send event to disable interpolation when label maps added
+  var interpolationButton = document.createElement('div')
+  // Todo: send event to disable interpolation when label maps added
   //if (context.images.labelMaps.length) {
   //context.images.interpolationEnabled = false
   //}
   // and the "input" element needs to get the 'disabled' attribute added
-
   interpolationButton.innerHTML = '<input id="'
     .concat(context.id, '-toggleInterpolationButton" type="checkbox" class="')
     .concat(
@@ -16398,7 +19004,6 @@ function _createForOfIteratorHelper$2(o, allowArrayLike) {
     },
   }
 }
-
 function _unsupportedIterableToArray$2(o, minLen) {
   if (!o) return
   if (typeof o === 'string') return _arrayLikeToArray$2(o, minLen)
@@ -16408,7 +19013,6 @@ function _unsupportedIterableToArray$2(o, minLen) {
   if (n === 'Arguments' || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
     return _arrayLikeToArray$2(o, minLen)
 }
-
 function _arrayLikeToArray$2(arr, len) {
   if (len == null || len > arr.length) len = arr.length
   for (var i = 0, arr2 = new Array(len); i < len; i++) {
@@ -16416,7 +19020,6 @@ function _arrayLikeToArray$2(arr, len) {
   }
   return arr2
 }
-
 function createColorMapIconSelector(colorMapSelectorDiv) {
   var rows = 20
   var cols = 4
@@ -16435,31 +19038,27 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
     colorMapSelectorDiv,
     iconSelectParameters
   )
-  colorMapSelectorDiv.style.width = '154px' // put above lower down label map color selector
-
+  colorMapSelectorDiv.style.width = '154px'
+  // put above lower down label map color selector
   colorMapSelectorDiv.style.zIndex = '2001'
   var filteredIcons = new Map(
     Array.from(ColorMapIcons.entries()).concat(
       Array.from(CategoricalColorIcons.entries()).filter(function(_ref) {
         var _ref2 = _slicedToArray(_ref, 1),
           name = _ref2[0]
-
         return !name.startsWith('modulate')
       })
     )
   )
   var icons = new Array(Math.min(rows * cols, filteredIcons.size))
   var count = 0
-
   var _iterator = _createForOfIteratorHelper$2(filteredIcons.entries()),
     _step
-
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done; ) {
       var _step$value = _slicedToArray(_step.value, 2),
         key = _step$value[0],
         value = _step$value[1]
-
       var index = Math.floor(count % rows) * cols + Math.floor(count / rows)
       icons[index] = {
         iconFilePath: value,
@@ -16472,9 +19071,9 @@ function createColorMapIconSelector(colorMapSelectorDiv) {
   } finally {
     _iterator.f()
   }
+  iconSelect.refresh(icons)
 
-  iconSelect.refresh(icons) // keeps popout from getting clipped outside of sidebar width
-
+  // keeps popout from getting clipped outside of sidebar width
   var box = colorMapSelectorDiv.querySelector('.icon-select .box')
   box.style.left = '-87px'
   box.style.top = '100%'
@@ -16513,9 +19112,9 @@ function createWindowLevelReset(context, uiContainer) {
 function createColorRangeInput(context, imageUIGroup) {
   var viewerDOMId = context.id
   var colorRangeInputRow = document.createElement('div')
-  colorRangeInputRow.setAttribute('class', style.uiRow) // This row needs background different from normal uiRows, to aid
+  colorRangeInputRow.setAttribute('class', style.uiRow)
+  // This row needs background different from normal uiRows, to aid
   // in the illusion that it's the content portion of a tabbed pane
-
   colorRangeInputRow.setAttribute(
     'style',
     'background: rgba(127, 127, 127, 0.5);'
@@ -16547,7 +19146,6 @@ function createColorRangeInput(context, imageUIGroup) {
       actorContext.selectedComponent
     )
     var newRange = []
-
     if (actorContext.windowLevelEnabled) {
       var level = (currentRange[1] + currentRange[0]) / 2
       var width = Number(event.target.value)
@@ -16555,7 +19153,6 @@ function createColorRangeInput(context, imageUIGroup) {
     } else {
       newRange = [Number(event.target.value), currentRange[1]]
     }
-
     context.service.send({
       type: 'IMAGE_COLOR_RANGE_CHANGED',
       data: {
@@ -16574,7 +19171,6 @@ function createColorRangeInput(context, imageUIGroup) {
       actorContext.selectedComponent
     )
     var newRange = []
-
     if (actorContext.windowLevelEnabled) {
       var width = currentRange[1] - currentRange[0]
       var level = Number(event.target.value)
@@ -16582,7 +19178,6 @@ function createColorRangeInput(context, imageUIGroup) {
     } else {
       newRange = [currentRange[0], Number(event.target.value)]
     }
-
     context.service.send({
       type: 'IMAGE_COLOR_RANGE_CHANGED',
       data: {
@@ -16607,7 +19202,6 @@ function createColorRangeInput(context, imageUIGroup) {
     var componentIndex = actorContext.selectedComponent
     var colorMap = iconSelector.getSelectedValue()
     var currentColorMap = actorContext.colorMaps.get(componentIndex)
-
     if (currentColorMap !== colorMap) {
       context.service.send({
         type: 'IMAGE_COLOR_MAP_CHANGED',
@@ -16625,6 +19219,7 @@ function createColorRangeInput(context, imageUIGroup) {
 }
 
 // from https://stackoverflow.com/a/27078401
+
 // Trailing call functionality is desired.
 // Returns a function, that, when invoked, will only be triggered at most once
 // during a given window of time. Normally, the throttled function will run
@@ -16636,34 +19231,29 @@ function throttle(func, wait, options) {
   var timeout = null
   var previous = 0
   if (!options) options = {}
-
   var later = function later() {
     previous = options.leading === false ? 0 : Date.now()
     timeout = null
     result = func.apply(context, args)
     if (!timeout) context = args = null
   }
-
   return function() {
     var now = Date.now()
     if (!previous && options.leading === false) previous = now
     var remaining = wait - (now - previous)
     context = this
     args = arguments
-
     if (remaining <= 0 || remaining > wait) {
       if (timeout) {
         clearTimeout(timeout)
         timeout = null
       }
-
       previous = now
       result = func.apply(context, args)
       if (!timeout) context = args = null
     } else if (!timeout && options.trailing !== false) {
       timeout = setTimeout(later, remaining)
     }
-
     return result
   }
 }
@@ -16682,7 +19272,7 @@ var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== 'symbol' ? key + '' : key, value)
   return value
 }
-const PADDING$1 = 10
+const PADDING = 10
 const makeSvg = () => {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
   svg.setAttribute(
@@ -16727,10 +19317,10 @@ const Container = parent => {
   const getSize = () => {
     const { top, left, width, height } = root.getBoundingClientRect()
     return {
-      width: width - 2 * PADDING$1,
-      height: height - 2 * PADDING$1,
-      top: top + PADDING$1,
-      left: left + PADDING$1,
+      width: width - 2 * PADDING,
+      height: height - 2 * PADDING,
+      top: top + PADDING,
+      left: left + PADDING,
     }
   }
   const domToNormalized = (x, y) => {
@@ -16745,9 +19335,9 @@ const Container = parent => {
   const normalizedToSvg = (x, y) => {
     const { width, height } = getSize()
     const valueRange = viewBox[1] - viewBox[0] || 1e-3
-    const xSvg = ((x - viewBox[0]) / valueRange) * width + PADDING$1
+    const xSvg = ((x - viewBox[0]) / valueRange) * width + PADDING
     const opacityRange = viewBox[3] - viewBox[2] || 1e-3
-    const ySvg = (1 - (y - viewBox[2]) / opacityRange) * height + PADDING$1
+    const ySvg = (1 - (y - viewBox[2]) / opacityRange) * height + PADDING
     return [xSvg, ySvg]
   }
   const borderSize = () => {
@@ -17300,7 +19890,6 @@ class TransferFunctionEditor {
 }
 
 var PIECEWISE_UPDATE_DELAY = 100
-
 var updateContextPiecewiseFunction = function updateContextPiecewiseFunction(
   context,
   points
@@ -17319,7 +19908,6 @@ var updateContextPiecewiseFunction = function updateContextPiecewiseFunction(
     },
   })
 }
-
 var vtkPiecewiseGaussianWidgetFacade = function vtkPiecewiseGaussianWidgetFacade(
   tfEditor,
   context
@@ -17327,7 +19915,6 @@ var vtkPiecewiseGaussianWidgetFacade = function vtkPiecewiseGaussianWidgetFacade
   var update = function update() {
     return updateContextPiecewiseFunction(context, tfEditor.getPoints())
   }
-
   var throttledUpdate = throttle(update, PIECEWISE_UPDATE_DELAY)
   tfEditor.eventTarget.addEventListener('updated', throttledUpdate)
   return {
@@ -17344,11 +19931,9 @@ var vtkPiecewiseGaussianWidgetFacade = function vtkPiecewiseGaussianWidgetFacade
           var _ref2 = _slicedToArray(_ref, 2),
             newX = _ref2[0],
             newY = _ref2[1]
-
           var _currentPoints$idx = _slicedToArray(currentPoints[idx], 2),
             oldX = _currentPoints$idx[0],
             oldY = _currentPoints$idx[1]
-
           return newX !== oldX || newY !== oldY
         })
       if (arePointsModified) tfEditor.setPoints(points)
@@ -17374,7 +19959,6 @@ var vtkPiecewiseGaussianWidgetFacade = function vtkPiecewiseGaussianWidgetFacade
     },
   }
 }
-
 var createTransferFunctionEditor = function createTransferFunctionEditor(
   context,
   mount
@@ -17391,9 +19975,9 @@ var createTransferFunctionWidget = function createTransferFunctionWidget(
   piecewiseWidgetContainer.setAttribute('style', 'height: 150px; width: 400px')
   piecewiseWidgetContainer.setAttribute('class', style.piecewiseWidget)
   var transferFunctionWidgetRow = document.createElement('div')
-  transferFunctionWidgetRow.setAttribute('class', style.uiRow) // This row needs background different from normal uiRows, to aid
+  transferFunctionWidgetRow.setAttribute('class', style.uiRow)
+  // This row needs background different from normal uiRows, to aid
   // in the illusion that it's the content portion of a tabbed pane
-
   transferFunctionWidgetRow.setAttribute(
     'style',
     'background: rgba(127, 127, 127, 0.5);'
@@ -17418,7 +20002,6 @@ var applyPiecewiseFunctionPointsToEditor = function applyPiecewiseFunctionPoints
     component = _event$data.component,
     name = _event$data.name
   var imageActorContext = actorContext.get(name)
-
   if (component === imageActorContext.selectedComponent) {
     transferFunctionWidget.setPoints(points)
   }
@@ -17575,25 +20158,20 @@ function createBlendModeSelector(context, uiContainer) {
     event.preventDefault()
     event.stopPropagation()
     var mode = 'blendmode'
-
     switch (parseInt(event.target.value)) {
       case 0:
         mode = 'Composite'
         break
-
       case 1:
         mode = 'Maximum'
         break
-
       case 2:
         mode = 'Minimum'
         break
-
       case 3:
         mode = 'Average'
         break
     }
-
     context.service.send({
       type: 'IMAGE_BLEND_MODE_CHANGED',
       data: {
@@ -17606,7 +20184,6 @@ function createBlendModeSelector(context, uiContainer) {
 }
 
 var sliderMap = new Map()
-
 function makeSlider(context, label, parameterName, _ref) {
   var min = _ref.min,
     max = _ref.max,
@@ -17639,7 +20216,6 @@ function makeSlider(context, label, parameterName, _ref) {
   sliderMap.set(parameterName, slider)
   return container
 }
-
 function createCinematicParameters(context, rowParent) {
   // hidable sliders
   var row = document.createElement('div')
@@ -17775,7 +20351,6 @@ function _createForOfIteratorHelper$1(o, allowArrayLike) {
     },
   }
 }
-
 function _unsupportedIterableToArray$1(o, minLen) {
   if (!o) return
   if (typeof o === 'string') return _arrayLikeToArray$1(o, minLen)
@@ -17785,7 +20360,6 @@ function _unsupportedIterableToArray$1(o, minLen) {
   if (n === 'Arguments' || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
     return _arrayLikeToArray$1(o, minLen)
 }
-
 function _arrayLikeToArray$1(arr, len) {
   if (len == null || len > arr.length) len = arr.length
   for (var i = 0, arr2 = new Array(len); i < len; i++) {
@@ -17793,7 +20367,6 @@ function _arrayLikeToArray$1(arr, len) {
   }
   return arr2
 }
-
 function createCategoricalColorIconSelector(categoricalColorSelectorDiv) {
   var rows = 4
   var cols = 2
@@ -17815,16 +20388,13 @@ function createCategoricalColorIconSelector(categoricalColorSelectorDiv) {
   categoricalColorSelectorDiv.style.width = '154px'
   var icons = new Array(rows * cols)
   var count = 0
-
   var _iterator = _createForOfIteratorHelper$1(CategoricalColorIcons.entries()),
     _step
-
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done; ) {
       var _step$value = _slicedToArray(_step.value, 2),
         key = _step$value[0],
         value = _step$value[1]
-
       var index = Math.floor(count % rows) * cols + Math.floor(count / rows)
       icons[index] = {
         iconFilePath: value,
@@ -17837,7 +20407,6 @@ function createCategoricalColorIconSelector(categoricalColorSelectorDiv) {
   } finally {
     _iterator.f()
   }
-
   iconSelect.refresh(icons)
   return iconSelect
 }
@@ -17960,7 +20529,6 @@ function _createForOfIteratorHelper(o, allowArrayLike) {
     },
   }
 }
-
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return
   if (typeof o === 'string') return _arrayLikeToArray(o, minLen)
@@ -17970,7 +20538,6 @@ function _unsupportedIterableToArray(o, minLen) {
   if (n === 'Arguments' || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
     return _arrayLikeToArray(o, minLen)
 }
-
 function _arrayLikeToArray(arr, len) {
   if (len == null || len > arr.length) len = arr.length
   for (var i = 0, arr2 = new Array(len); i < len; i++) {
@@ -17978,7 +20545,6 @@ function _arrayLikeToArray(arr, len) {
   }
   return arr2
 }
-
 function createLabelMapWeightWidget(context) {
   var labelImageWeightUIGroup = document.createElement('div')
   context.images.labelImageWeightUIGroup = labelImageWeightUIGroup
@@ -17998,8 +20564,8 @@ function createLabelMapWeightWidget(context) {
   context.images.labelSelector = labelSelector
   uniqueLabelSelectorDiv.appendChild(labelSelector)
   var sliderEntry = document.createElement('div')
-  sliderEntry.setAttribute('class', style.sliderEntry) // <input type="range" min="0" max="1" value="${context.images.labelImageWeights[0]}" step="0.05" id="${context.id}-labelImageWeightSlider" class="${style.slider}" />`
-
+  sliderEntry.setAttribute('class', style.sliderEntry)
+  // <input type="range" min="0" max="1" value="${context.images.labelImageWeights[0]}" step="0.05" id="${context.id}-labelImageWeightSlider" class="${style.slider}" />`
   sliderEntry.innerHTML = '\n    <input type="range" min="0" max="1" value="1.0" step="0.05" id="'
     .concat(context.id, '-labelImageWeightSlider" class="')
     .concat(style.slider, '" />')
@@ -18028,13 +20594,10 @@ function createLabelMapWeightWidget(context) {
     var name = context.images.selectedName
     var actorContext = context.images.actorContext.get(name)
     var labelImageWeights = actorContext.labelImageWeights
-
     if (actorContext.selectedLabel === 'all') {
       var weight = Number(weightElement.value)
-
       var _iterator = _createForOfIteratorHelper(labelImageWeights.keys()),
         _step
-
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done; ) {
           var label = _step.value
@@ -18045,7 +20608,6 @@ function createLabelMapWeightWidget(context) {
       } finally {
         _iterator.f()
       }
-
       actorContext.labelImageToggleWeight = weight
     } else {
       labelImageWeights.set(
@@ -18053,7 +20615,6 @@ function createLabelMapWeightWidget(context) {
         Number(weightElement.value)
       )
     }
-
     context.service.send({
       type: 'LABEL_IMAGE_WEIGHTS_CHANGED',
       data: {
@@ -18091,16 +20652,13 @@ function updateAvailableComponents(context) {
   var name = context.images.selectedName
   var actorContext = context.images.actorContext.get(name)
   var image = actorContext.image
-
   if (image) {
     var components = actorContext.componentVisibilities.length
-
     if (components > 1 && actorContext.independentComponents) {
       context.images.componentRow.style.display = 'flex'
     } else {
       context.images.componentRow.style.display = 'none'
     }
-
     context.images.componentSelector.innerHTML = new Array(components)
       .fill(undefined)
       .map(function(_, ii) {
@@ -18131,18 +20689,15 @@ function applyColorRange(context, event) {
   var name = event.data.name
   var component = event.data.component
   var actorContext = context.images.actorContext.get(name)
-
   if (
     name !== context.images.selectedName ||
     component !== actorContext.selectedComponent
   ) {
     return
   }
-
   var colorRange = event.data.range
   var minimumInput = context.images.colorRangeInputRow.children[1].children[0]
   var maximumInput = context.images.colorRangeInputRow.children[3].children[0]
-
   if (actorContext.windowLevelEnabled) {
     minimumInput.value = colorRange[1] - colorRange[0]
     maximumInput.value = (colorRange[1] + colorRange[0]) / 2
@@ -18150,18 +20705,14 @@ function applyColorRange(context, event) {
     minimumInput.value = colorRange[0]
     maximumInput.value = colorRange[1]
   }
-
   var fullRange = colorRange
-
   if (actorContext.colorRangeBounds.has(component)) {
     fullRange = actorContext.colorRangeBounds.get(component)
   }
-
   if (event.data.fullRange) {
     // use more up to date colorRangeBounds
     fullRange = event.data.fullRange
   }
-
   var diff = fullRange[1] - fullRange[0]
   var colorRangeNormalized = [
     (colorRange[0] - fullRange[0]) / diff,
@@ -18175,14 +20726,12 @@ function applyColorRangeBounds(context, event) {
     name = _event$data.name,
     component = _event$data.component
   var actorContext = context.images.actorContext.get(name)
-
   if (
     name !== context.images.selectedName ||
     component !== actorContext.selectedComponent
   ) {
     return
   }
-
   var range = event.data.range
   var minimumInput = context.images.colorRangeInputRow.children[1].children[0]
   var maximumInput = context.images.colorRangeInputRow.children[3].children[0]
@@ -18191,7 +20740,6 @@ function applyColorRangeBounds(context, event) {
   maximumInput.min = range[0]
   maximumInput.max = range[1]
   var image = actorContext.image
-
   if (
     (image && image.imageType.componentType === 'float') ||
     image.imageType.componentType === 'double'
@@ -18200,7 +20748,6 @@ function applyColorRangeBounds(context, event) {
     minimumInput.step = step
     maximumInput.step = step
   }
-
   if (actorContext.colorRanges.has(component)) {
     applyColorRange(context, {
       data: {
@@ -18219,17 +20766,14 @@ function applyColorMap(context, _ref) {
     name = _ref$data.name
   var actorContext = context.images.actorContext.get(name)
   var colorMap = actorContext.colorMaps.get(component)
-
   if (component === actorContext.selectedComponent) {
     var _context$images$color
-
     context.images.iconSelector.setSelectedValue(colorMap)
     var colorTransferFunction =
       (_context$images$color = context.images.colorTransferFunctions) ===
         null || _context$images$color === void 0
         ? void 0
         : _context$images$color.get(component)
-
     if (colorTransferFunction) {
       context.images.transferFunctionWidget.setColorTransferFunction(
         colorTransferFunction
@@ -18267,32 +20811,25 @@ function applyBlendMode(context, event) {
   event.data.name
   var blendMode = event.data.blendMode
   var blendModeLower = blendMode.toLowerCase()
-
   switch (blendModeLower) {
     case 'composite':
       context.images.blendModeSelector.value = 0
-
       if (!context.use2D) {
         context.images.volumeRow1.style.display = 'flex'
       }
-
       break
-
     case 'maximum':
       context.images.blendModeSelector.value = 1
       context.images.volumeRow1.style.display = 'none'
       break
-
     case 'minimum':
       context.images.blendModeSelector.value = 2
       context.images.volumeRow1.style.display = 'none'
       break
-
     case 'average':
       context.images.blendModeSelector.value = 3
       context.images.volumeRow1.style.display = 'none'
       break
-
     default:
       throw new Error('Invalid blend mode: '.concat(blendMode))
   }
@@ -18303,8 +20840,9 @@ function updateImageInterface(context) {
   var name = context.images.selectedName
   var actorContext = context.images.actorContext.get(name)
   var image = actorContext.image
-  var component = actorContext.selectedComponent // If not a 2D RGB image
+  var component = actorContext.selectedComponent
 
+  // If not a 2D RGB image
   if (actorContext.independentComponents) {
     context.images.colorRangeInputRow.style.display = 'flex'
     context.images.colorMapSelector.style.display = 'block'
@@ -18312,13 +20850,11 @@ function updateImageInterface(context) {
     context.images.colorRangeInputRow.style.display = 'none'
     context.images.colorMapSelector.style.display = 'none'
   }
-
   if (image) {
     if (image.imageType.dimension === 3) {
       context.images.volumeUiElements.forEach(function(e) {
         return (e.style.display = 'flex')
       })
-
       if (context.main.xPlaneRow) {
         context.main.xPlaneRow.style.display = 'flex'
         context.main.yPlaneRow.style.display = 'flex'
@@ -18328,18 +20864,15 @@ function updateImageInterface(context) {
       context.images.volumeUiElements.forEach(function(e) {
         return (e.style.display = 'none')
       })
-
       if (context.main.xPlaneRow) {
         context.main.xPlaneRow.style.display = 'none'
         context.main.yPlaneRow.style.display = 'none'
         context.main.zPlaneRow.style.display = 'none'
       }
     }
-
     toggleInterpolation(context, {
       data: name,
     })
-
     if (actorContext.colorRanges.has(component)) {
       applyColorRange(context, {
         data: {
@@ -18349,7 +20882,6 @@ function updateImageInterface(context) {
         },
       })
     }
-
     if (actorContext.colorRangeBounds.has(component)) {
       applyColorRangeBounds(context, {
         data: {
@@ -18359,7 +20891,6 @@ function updateImageInterface(context) {
         },
       })
     }
-
     if (actorContext.colorMaps.has(component)) {
       var colorMap = actorContext.colorMaps.get(component)
       applyColorMap(context, {
@@ -18371,7 +20902,6 @@ function updateImageInterface(context) {
       })
       context.images.iconSelector.setSelectedValue(colorMap)
     }
-
     toggleShadow(context, {
       data: name,
     })
@@ -18405,11 +20935,9 @@ function updateImageInterface(context) {
 function applyLookupTable(context, event) {
   var name = event.data.name
   var lut = event.data.lookupTable
-
   if (name !== context.images.selectedName) {
     return
   }
-
   if (lut !== context.images.labelImageIconSelector.getSelectedValue()) {
     context.images.labelImageIconSelector.setSelectedValue(lut)
   }
@@ -18422,7 +20950,6 @@ function applyLabelImageBlend(context, event) {
   var slider = context.images.labelImageBlendSlider
   slider.value = labelImageBlend
   var haveImage = !!actorContext.image
-
   if (haveImage) {
     slider.style.display = 'flex'
   } else {
@@ -18434,7 +20961,6 @@ function updateLabelImageInterface(context) {
   var name = context.images.selectedName
   var actorContext = context.images.actorContext.get(name)
   var labelImage = actorContext.labelImage
-
   if (labelImage) {
     applyLookupTable(context, {
       data: {
@@ -18455,16 +20981,14 @@ function updateRenderedImageInterface(context, event) {
   var name = event.data
   var actorContext = context.images.actorContext.get(name)
   var transferFunctionWidget = context.images.transferFunctionWidget
-
   if (!transferFunctionWidget) {
     console.warn('No transfer function widget')
     return
   }
-
   var points = actorContext.piecewiseFunctionPoints.get(
     actorContext.selectedComponent
-  ) // no points if just label image
-
+  )
+  // no points if just label image
   if (points) {
     transferFunctionWidget.setPoints(points)
   }
@@ -18472,18 +20996,15 @@ function updateRenderedImageInterface(context, event) {
 
 function applyHistogram(context, event) {
   var _event$data$histogram
-
   var name = event.data.name
   var component = event.data.component
   var actorContext = context.images.actorContext.get(name)
-
   if (
     name !== context.images.selectedName ||
     component !== actorContext.selectedComponent
   ) {
     return
   }
-
   var histogram =
     (_event$data$histogram = event.data.histogram) !== null &&
     _event$data$histogram !== void 0
@@ -18498,7 +21019,6 @@ function selectImageComponent(context, event) {
   var actorContext = context.images.actorContext.get(name)
   var component = event.data.component
   var transferFunctionWidget = context.images.transferFunctionWidget
-
   if (actorContext.colorRanges.has(component)) {
     var range = actorContext.colorRanges.get(component)
     applyColorRange(context, {
@@ -18509,15 +21029,12 @@ function selectImageComponent(context, event) {
       },
     })
   }
-
   var piecewiseFunctionPoints = actorContext.piecewiseFunctionPoints.get(
     component
   )
-
   if (transferFunctionWidget && piecewiseFunctionPoints) {
     transferFunctionWidget.setPoints(piecewiseFunctionPoints)
   }
-
   if (actorContext.colorRangeBounds.has(component)) {
     applyColorRangeBounds(context, {
       data: {
@@ -18527,7 +21044,6 @@ function selectImageComponent(context, event) {
       },
     })
   }
-
   if (actorContext.colorMaps.has(component)) {
     applyColorMap(context, {
       data: {
@@ -18540,9 +21056,7 @@ function selectImageComponent(context, event) {
       actorContext.colorMaps.get(component)
     )
   }
-
   var histogram = actorContext.histograms.get(component)
-
   if (histogram) {
     applyHistogram(context, {
       data: {
@@ -18564,11 +21078,9 @@ function selectImageComponent(context, event) {
 
 function applyComponentVisibility(context, event) {
   var name = event.data.name
-
   if (name !== context.images.selectedName) {
     return
   }
-
   var actorContext = context.images.actorContext.get(name)
   var componentSelector = context.images.componentSelector
   actorContext.componentVisibilities.forEach(function(visibility, compIdx) {
@@ -18615,7 +21127,6 @@ function applySelectedLabel(context, event) {
   var name = event.data.name
   var actorContext = context.images.actorContext.get(name)
   var selectedLabel = event.data.selectedLabel
-
   if (selectedLabel === 'all') {
     context.images.labelSelector.selectedIndex = 0 // 'All' is first
   } else {
@@ -18628,12 +21139,10 @@ function applySelectedLabel(context, event) {
 
 function applyScaleCount(input, scaleCount) {
   input.innerHTML = '' // clear old options
-
   var autoPickOption = document.createElement('option')
   autoPickOption.value = 'Framerate-pick'
   autoPickOption.innerHTML = 'Framerate-pick'
   input.appendChild(autoPickOption)
-
   _toConsumableArray(Array(scaleCount).keys())
     .reverse()
     .forEach(function(i) {
@@ -18643,7 +21152,6 @@ function applyScaleCount(input, scaleCount) {
       input.appendChild(option)
     })
 }
-
 var scaleSelector = function scaleSelector(context, event) {
   return function(send, onReceive) {
     var scaleSelectorDiv = document.createElement('div')
@@ -18660,7 +21168,6 @@ var scaleSelector = function scaleSelector(context, event) {
       )
     var scaleSelectorIcon = scaleSelectorDiv.children[0]
     context.images.scaleSelectorIconDiv = scaleSelectorIcon // stash for applyImagesContrastSensitiveStyle
-
     applyContrastSensitiveStyleToElement(
       context,
       'invertibleButton',
@@ -18676,7 +21183,6 @@ var scaleSelector = function scaleSelector(context, event) {
       var imageActor = context.images.imageRenderingActors.get(
         context.images.selectedName
       )
-
       if (event.target.value === 'Framerate-pick') {
         imageActor.send('ADJUST_SCALE_FOR_FRAMERATE')
       } else {
@@ -18685,10 +21191,8 @@ var scaleSelector = function scaleSelector(context, event) {
         })
       }
     })
-
     function onImageAssigned(name) {
       var _imageActorContext$im
-
       var imageActorContext = context.images.actorContext.get(name)
       var image =
         (_imageActorContext$im = imageActorContext.image) !== null &&
@@ -18696,7 +21200,6 @@ var scaleSelector = function scaleSelector(context, event) {
           ? _imageActorContext$im
           : imageActorContext.labelImage
       var scaleCount = image.scaleInfo.length
-
       if (scaleCount > 1) {
         scaleSelectorDiv.style.display = 'flex'
         applyScaleCount(scaleSelector, scaleCount)
@@ -18704,11 +21207,9 @@ var scaleSelector = function scaleSelector(context, event) {
         scaleSelectorDiv.style.display = 'none'
       }
     }
-
     onImageAssigned(event.data)
     onReceive(function(event) {
       var type = event.type
-
       if (type === 'IMAGE_ASSIGNED') {
         onImageAssigned(event.data)
       } else if (type === 'RENDERED_IMAGE_ASSIGNED') {
@@ -18724,7 +21225,6 @@ var scaleSelector = function scaleSelector(context, event) {
 }
 
 var MIN_WINDOW = 1e-8
-
 function toggleWindowLevel(context, event) {
   var name = event.data.name
   var actorContext = context.images.actorContext.get(name)
@@ -18738,7 +21238,6 @@ function toggleWindowLevel(context, event) {
   var maximumTooltip = context.images.colorRangeInputRow.children[3]
   var minimumInput = minimumTooltip.children[0]
   var maximumInput = maximumTooltip.children[0]
-
   if (wl) {
     minimumTooltip.setAttribute('itk-vtk-tooltip-content', 'Window width')
     maximumTooltip.setAttribute('itk-vtk-tooltip-content', 'Window level')
@@ -18763,9 +21262,7 @@ function toggleWindowLevel(context, event) {
     minimumInput.max = fullRange[1]
     maximumInput.min = fullRange[0]
     maximumInput.max = fullRange[1]
-
     var _step = (fullRange[1] - fullRange[0]) / 1000.0
-
     minimumInput.step = _step
     maximumInput.step = _step
   }
@@ -18780,11 +21277,9 @@ function applyWindowLevelReset(context, _ref) {
   var lMin = bounds[0]
   var level = wMax / 2 + lMin
   var width = wMax
-
   var newRange = function newRange() {
     return [level - width / 2, level + width / 2]
   }
-
   context.service.send({
     type: 'IMAGE_COLOR_RANGE_CHANGED',
     data: {
@@ -18830,18 +21325,17 @@ var imagesUIMachineOptions = {
 }
 
 function createDistanceWidget(context, widgetsUIGroup) {
-  var viewerDOMId = context.id // Put distance tools in their own row
+  var viewerDOMId = context.id
 
+  // Put distance tools in their own row
   var distanceRulerRow = document.createElement('div')
   distanceRulerRow.setAttribute('class', style.uiRow)
   distanceRulerRow.style.display = context.use2D ? 'flex' : 'none'
-
   if (context.main.viewMode === 'Volume' && !context.use2D) {
     distanceRulerRow.style.display = 'none'
   } else {
     distanceRulerRow.style.display = 'flex'
   }
-
   var distanceEntry = document.createElement('div')
   distanceEntry.setAttribute('class', style.distanceEntry)
   var distanceButton = document.createElement('span')
@@ -18918,7 +21412,6 @@ function viewModeVolume(context) {
   if (context.widgets.distanceEnabled) {
     context.service.send('TOGGLE_DISTANCE_WIDGET')
   }
-
   context.widgets.distanceRulerRow.style.display = 'none'
 }
 
@@ -18956,7 +21449,6 @@ function applyMainContrastSensitiveStyle$1(context) {
     'invertibleButton',
     context.main.screenshotButton
   )
-
   if (context.main.fullscreenButton) {
     applyContrastSensitiveStyleToElement(
       context,
@@ -18964,7 +21456,6 @@ function applyMainContrastSensitiveStyle$1(context) {
       context.main.fullscreenButton
     )
   }
-
   if (context.main.rotateButtonLabel) {
     applyContrastSensitiveStyleToElement(
       context,
@@ -18972,7 +21463,6 @@ function applyMainContrastSensitiveStyle$1(context) {
       context.main.rotateButtonLabel
     )
   }
-
   applyContrastSensitiveStyleToElement(
     context,
     'invertibleButton',
@@ -18998,7 +21488,6 @@ function applyMainContrastSensitiveStyle$1(context) {
     'invertibleButton',
     context.main.bgColorButtonLabel
   )
-
   if (!context.use2D) {
     applyContrastSensitiveStyleToElement(
       context,
@@ -19026,7 +21515,6 @@ function applyMainContrastSensitiveStyle$1(context) {
       context.main.viewPlanesButtonLabel
     )
   }
-
   applyContrastSensitiveStyleToElement(
     context,
     'invertibleButton',
@@ -19075,7 +21563,6 @@ function applyImagesContrastSensitiveStyle(context) {
       context.images.distanceLabel
     )
   }
-
   if (context.images.shadowButtonLabel) {
     applyContrastSensitiveStyleToElement(
       context,
@@ -19130,1460 +21617,67 @@ function toggleDarkMode(context) {
   applyMainContrastSensitiveStyle(context)
 }
 
-/******************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-
-function __decorate(decorators, target, key, desc) {
-  var c = arguments.length,
-    r =
-      c < 3
-        ? target
-        : desc === null
-        ? (desc = Object.getOwnPropertyDescriptor(target, key))
-        : desc,
-    d
-  if (typeof Reflect === 'object' && typeof Reflect.decorate === 'function')
-    r = Reflect.decorate(decorators, target, key, desc)
-  else
-    for (var i = decorators.length - 1; i >= 0; i--)
-      if ((d = decorators[i]))
-        r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r
-  return c > 3 && r && Object.defineProperty(target, key, r), r
-}
-
-function __metadata(metadataKey, metadataValue) {
-  if (typeof Reflect === 'object' && typeof Reflect.metadata === 'function')
-    return Reflect.metadata(metadataKey, metadataValue)
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const e$6 = e => n =>
-  'function' == typeof n
-    ? ((e, n) => (customElements.define(e, n), n))(e, n)
-    : ((e, n) => {
-        const { kind: t, elements: s } = n
-        return {
-          kind: t,
-          elements: s,
-          finisher(n) {
-            customElements.define(e, n)
-          },
-        }
-      })(e, n)
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const i$5 = (i, e) =>
-  'method' === e.kind && e.descriptor && !('value' in e.descriptor)
-    ? {
-        ...e,
-        finisher(n) {
-          n.createProperty(e.key, i)
-        },
-      }
-    : {
-        kind: 'field',
-        key: Symbol(),
-        placement: 'own',
-        descriptor: {},
-        originalKey: e.key,
-        initializer() {
-          'function' == typeof e.initializer &&
-            (this[e.key] = e.initializer.call(this))
-        },
-        finisher(n) {
-          n.createProperty(e.key, i)
-        },
-      }
-function e$5(e) {
-  return (n, t) =>
-    void 0 !== t
-      ? ((i, e, n) => {
-          e.constructor.createProperty(n, i)
-        })(e, n, t)
-      : i$5(e, n)
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ function t$3(t) {
-  return e$5({ ...t, state: !0 })
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const o$5 = ({ finisher: e, descriptor: t }) => (o, n) => {
-  var r
-  if (void 0 === n) {
-    const n = null !== (r = o.originalKey) && void 0 !== r ? r : o.key,
-      i =
-        null != t
-          ? {
-              kind: 'method',
-              placement: 'prototype',
-              key: n,
-              descriptor: t(o.key),
-            }
-          : { ...o, key: n }
-    return (
-      null != e &&
-        (i.finisher = function(t) {
-          e(t, n)
-        }),
-      i
-    )
-  }
-  {
-    const r = o.constructor
-    void 0 !== t && Object.defineProperty(o, n, t(n)), null == e || e(r, n)
-  }
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ function i$4(i, n) {
-  return o$5({
-    descriptor: o => {
-      const t = {
-        get() {
-          var o, n
-          return null !==
-            (n =
-              null === (o = this.renderRoot) || void 0 === o
-                ? void 0
-                : o.querySelector(i)) && void 0 !== n
-            ? n
-            : null
-        },
-        enumerable: !0,
-        configurable: !0,
-      }
-      if (n) {
-        const n = 'symbol' == typeof o ? Symbol() : '__' + o
-        t.get = function() {
-          var o, t
-          return (
-            void 0 === this[n] &&
-              (this[n] =
-                null !==
-                  (t =
-                    null === (o = this.renderRoot) || void 0 === o
-                      ? void 0
-                      : o.querySelector(i)) && void 0 !== t
-                  ? t
-                  : null),
-            this[n]
-          )
-        }
-      }
-      return t
-    },
-  })
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ var n$5
-null !=
-(null === (n$5 = window.HTMLSlotElement) || void 0 === n$5
-  ? void 0
-  : n$5.prototype.assignedElements)
-  ? (o, n) => o.assignedElements(n)
-  : (o, n) => o.assignedNodes(n).filter(o => o.nodeType === Node.ELEMENT_NODE)
-
 /**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * TypeScript version of the decorator
- * @see https://www.typescriptlang.org/docs/handbook/decorators.html#property-decorators
+ * A component for elevation.
  */
-function tsDecorator(prototype, name, descriptor) {
-  const constructor = prototype.constructor
-  if (!descriptor) {
+class Elevation extends s$3 {
+  constructor() {
+    super(...arguments)
     /**
-     * lit uses internal properties with two leading underscores to
-     * provide storage for accessors
+     * Whether or not the elevation level should display a shadow.
      */
-    const litInternalPropertyKey = `__${name}`
-    descriptor = constructor.getPropertyDescriptor(name, litInternalPropertyKey)
-    if (!descriptor) {
-      throw new Error('@ariaProperty must be used after a @property decorator')
-    }
-  }
-  // descriptor must exist at this point, reassign so typescript understands
-  const propDescriptor = descriptor
-  let attribute = ''
-  if (!propDescriptor.set) {
-    throw new Error(`@ariaProperty requires a setter for ${name}`)
-  }
-  // TODO(b/202853219): Remove this check when internal tooling is
-  // compatible
-  // tslint:disable-next-line:no-any bail if applied to internal generated class
-  if (prototype.dispatchWizEvent) {
-    return descriptor
-  }
-  const wrappedDescriptor = {
-    configurable: true,
-    enumerable: true,
-    set(value) {
-      if (attribute === '') {
-        const options = constructor.getPropertyOptions(name)
-        // if attribute is not a string, use `name` instead
-        attribute =
-          typeof options.attribute === 'string' ? options.attribute : name
-      }
-      if (this.hasAttribute(attribute)) {
-        this.removeAttribute(attribute)
-      }
-      propDescriptor.set.call(this, value)
-    },
-  }
-  if (propDescriptor.get) {
-    wrappedDescriptor.get = function() {
-      return propDescriptor.get.call(this)
-    }
-  }
-  return wrappedDescriptor
-}
-/**
- * A property decorator proxies an aria attribute to an internal node
- *
- * This decorator is only intended for use with ARIA attributes, such as `role`
- * and `aria-label` due to screenreader needs.
- *
- * Upon first render, `@ariaProperty` will remove the attribute from the host
- * element to prevent screenreaders from reading the host instead of the
- * internal node.
- *
- * This decorator should only be used for non-Symbol public fields decorated
- * with `@property`, or on a setter with an optional getter.
- *
- * @example
- * ```ts
- * class MyElement {
- *   @ariaProperty
- *   @property({ type: String, attribute: 'aria-label' })
- *   ariaLabel!: string;
- * }
- * ```
- * @category Decorator
- * @ExportDecoratedItems
- */
-function ariaProperty$1(
-  protoOrDescriptor,
-  name,
-  // tslint:disable-next-line:no-any any is required as a return type from decorators
-  descriptor
-) {
-  if (name !== undefined) {
-    return tsDecorator(protoOrDescriptor, name, descriptor)
-  } else {
-    throw new Error('@ariaProperty only supports TypeScript Decorators')
-  }
-}
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * Specifies an observer callback that is run when the decorated property
- * changes. The observer receives the current and old value as arguments.
- */
-const observer = observer =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (proto, propName) => {
-    // if we haven't wrapped `updated` in this class, do so
-    if (!proto.constructor._observers) {
-      proto.constructor._observers = new Map()
-      const userUpdated = proto.updated
-      proto.updated = function(changedProperties) {
-        userUpdated.call(this, changedProperties)
-        changedProperties.forEach((v, k) => {
-          const observers = this.constructor._observers
-          const observer = observers.get(k)
-          if (observer !== undefined) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            observer.call(this, this[k], v)
-          }
-        })
-      }
-      // clone any existing observers (superclasses)
-      // eslint-disable-next-line no-prototype-builtins
-    } else if (!proto.constructor.hasOwnProperty('_observers')) {
-      const observers = proto.constructor._observers
-      proto.constructor._observers = new Map()
-      observers.forEach(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (v, k) => proto.constructor._observers.set(k, v)
-      )
-    }
-    // set this method
-    proto.constructor._observers.set(propName, observer)
-  }
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * A property decorator that helps proxy an aria attribute to an internal node.
- *
- * This decorator is only intended for use with ARIAMixin properties,
- * such as `ariaLabel`, to help with screen readers.
- *
- * This decorator will remove the host `aria-*` attribute at runtime and add it
- * to a `data-aria-*` attribute to avoid screenreader conflicts between the
- * host and internal node.
- *
- * `@ariaProperty` decorated properties should sync with LitElement to the
- * `data-aria-*` attribute, not the native `aria-*` attribute.
- *
- * @example
- * ```ts
- * class MyElement extends LitElement {
- *   \@ariaProperty
- *   // TODO(b/210730484): replace with @soyParam annotation
- *   \@property({ type: String, attribute: 'data-aria-label', noAccessor: true})
- *   ariaLabel!: string;
- * }
- * ```
- * @category Decorator
- * @ExportDecoratedItems
- */
-function ariaProperty(prototype, property) {
-  // Replace the ARIAMixin property with data-* attribute syncing instead of
-  // using the native aria-* attribute reflection. This preserves the attribute
-  // for SSR and avoids screenreader conflicts after delegating the attribute
-  // to a child node.
-  Object.defineProperty(prototype, property, {
-    configurable: true,
-    enumerable: true,
-    get() {
-      return this.dataset[property] ?? ''
-    },
-    set(value) {
-      // Coerce non-string values to a string
-      const strValue = String(value ?? '')
-      if (strValue) {
-        this.dataset[property] = strValue
-      } else {
-        delete this.dataset[property]
-      }
-      // lit will call this setter whenever the data-* attribute changes.
-      // However, this.dataset[property] will automatically be updated to the
-      // current value. To avoid bugs, always request an update regardless of
-      // the old value.
-      this.requestUpdate()
-    },
-  })
-  // Define an internal property that syncs from the `aria-*` attribute with lit
-  // and delegates to the real ARIAMixin property, which renders an update.
-  // This property will immediately remove the `aria-*` attribute, which doesn't
-  // work well with SSR (which is why there's a separate synced property).
-  const internalAriaProperty = Symbol(property)
-  // "ariaLabel" -> "aria-label" / "ariaLabelledBy" -> "aria-labelledby"
-  const ariaAttribute = property.replace('aria', 'aria-').toLowerCase()
-  const constructor = prototype.constructor
-  let removingAttribute = false
-  Object.defineProperty(prototype, internalAriaProperty, {
-    get() {
-      // tslint is failing here, but the types are correct (ARIAMixin
-      // properties do not obfuscate with closure)
-      // tslint:disable-next-line:no-dict-access-on-struct-type
-      return this[property]
-    },
-    set(value) {
-      if (removingAttribute) {
-        // Ignore this update, which is triggered below
-        return
-      }
-      // Set the ARIAMixin property, which will sync the `data-*` attribute
-      // and trigger rendering if the value changed.
-      // tslint is failing here, but the types are correct (ARIAMixin
-      // properties do not obfuscate with closure)
-      // tslint:disable-next-line:no-dict-access-on-struct-type
-      this[property] = value
-      // Remove the `aria-*` attribute, which will call this setter again with
-      // the incorrect value. Ignore these updates.
-      removingAttribute = true
-      this.removeAttribute(ariaAttribute)
-      removingAttribute = false
-    },
-  })
-  // Tell lit to observe the `aria-*` attribute and set the internal property,
-  // which acts as a "aria-* attribute changed" observer.
-  constructor.createProperty(internalAriaProperty, {
-    attribute: ariaAttribute,
-    noAccessor: true,
-  })
-}
-
-/**
- * @license
- * Copyright 2019 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const t$2 = window,
-  e$4 =
-    t$2.ShadowRoot &&
-    (void 0 === t$2.ShadyCSS || t$2.ShadyCSS.nativeShadow) &&
-    'adoptedStyleSheets' in Document.prototype &&
-    'replace' in CSSStyleSheet.prototype,
-  s$4 = Symbol(),
-  n$4 = new WeakMap()
-class o$4 {
-  constructor(t, e, n) {
-    if (((this._$cssResult$ = !0), n !== s$4))
-      throw Error(
-        'CSSResult is not constructable. Use `unsafeCSS` or `css` instead.'
-      )
-    ;(this.cssText = t), (this.t = e)
-  }
-  get styleSheet() {
-    let t = this.o
-    const s = this.t
-    if (e$4 && void 0 === t) {
-      const e = void 0 !== s && 1 === s.length
-      e && (t = n$4.get(s)),
-        void 0 === t &&
-          ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText),
-          e && n$4.set(s, t))
-    }
-    return t
-  }
-  toString() {
-    return this.cssText
-  }
-}
-const r$2 = t => new o$4('string' == typeof t ? t : t + '', void 0, s$4),
-  i$3 = (t, ...e) => {
-    const n =
-      1 === t.length
-        ? t[0]
-        : e.reduce(
-            (e, s, n) =>
-              e +
-              (t => {
-                if (!0 === t._$cssResult$) return t.cssText
-                if ('number' == typeof t) return t
-                throw Error(
-                  "Value passed to 'css' function must be a 'css' function result: " +
-                    t +
-                    ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security."
-                )
-              })(s) +
-              t[n + 1],
-            t[0]
-          )
-    return new o$4(n, t, s$4)
-  },
-  S$1 = (s, n) => {
-    e$4
-      ? (s.adoptedStyleSheets = n.map(t =>
-          t instanceof CSSStyleSheet ? t : t.styleSheet
-        ))
-      : n.forEach(e => {
-          const n = document.createElement('style'),
-            o = t$2.litNonce
-          void 0 !== o && n.setAttribute('nonce', o),
-            (n.textContent = e.cssText),
-            s.appendChild(n)
-        })
-  },
-  c$1 = e$4
-    ? t => t
-    : t =>
-        t instanceof CSSStyleSheet
-          ? (t => {
-              let e = ''
-              for (const s of t.cssRules) e += s.cssText
-              return r$2(e)
-            })(t)
-          : t
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ var s$3
-const e$3 = window,
-  r$1 = e$3.trustedTypes,
-  h$1 = r$1 ? r$1.emptyScript : '',
-  o$3 = e$3.reactiveElementPolyfillSupport,
-  n$3 = {
-    toAttribute(t, i) {
-      switch (i) {
-        case Boolean:
-          t = t ? h$1 : null
-          break
-        case Object:
-        case Array:
-          t = null == t ? t : JSON.stringify(t)
-      }
-      return t
-    },
-    fromAttribute(t, i) {
-      let s = t
-      switch (i) {
-        case Boolean:
-          s = null !== t
-          break
-        case Number:
-          s = null === t ? null : Number(t)
-          break
-        case Object:
-        case Array:
-          try {
-            s = JSON.parse(t)
-          } catch (t) {
-            s = null
-          }
-      }
-      return s
-    },
-  },
-  a$2 = (t, i) => i !== t && (i == i || t == t),
-  l$4 = {
-    attribute: !0,
-    type: String,
-    converter: n$3,
-    reflect: !1,
-    hasChanged: a$2,
-  }
-class d$1 extends HTMLElement {
-  constructor() {
-    super(),
-      (this._$Ei = new Map()),
-      (this.isUpdatePending = !1),
-      (this.hasUpdated = !1),
-      (this._$El = null),
-      this.u()
-  }
-  static addInitializer(t) {
-    var i
-    ;(null !== (i = this.h) && void 0 !== i) || (this.h = []), this.h.push(t)
-  }
-  static get observedAttributes() {
-    this.finalize()
-    const t = []
-    return (
-      this.elementProperties.forEach((i, s) => {
-        const e = this._$Ep(s, i)
-        void 0 !== e && (this._$Ev.set(e, s), t.push(e))
-      }),
-      t
-    )
-  }
-  static createProperty(t, i = l$4) {
-    if (
-      (i.state && (i.attribute = !1),
-      this.finalize(),
-      this.elementProperties.set(t, i),
-      !i.noAccessor && !this.prototype.hasOwnProperty(t))
-    ) {
-      const s = 'symbol' == typeof t ? Symbol() : '__' + t,
-        e = this.getPropertyDescriptor(t, s, i)
-      void 0 !== e && Object.defineProperty(this.prototype, t, e)
-    }
-  }
-  static getPropertyDescriptor(t, i, s) {
-    return {
-      get() {
-        return this[i]
-      },
-      set(e) {
-        const r = this[t]
-        ;(this[i] = e), this.requestUpdate(t, r, s)
-      },
-      configurable: !0,
-      enumerable: !0,
-    }
-  }
-  static getPropertyOptions(t) {
-    return this.elementProperties.get(t) || l$4
-  }
-  static finalize() {
-    if (this.hasOwnProperty('finalized')) return !1
-    this.finalized = !0
-    const t = Object.getPrototypeOf(this)
-    if (
-      (t.finalize(),
-      (this.elementProperties = new Map(t.elementProperties)),
-      (this._$Ev = new Map()),
-      this.hasOwnProperty('properties'))
-    ) {
-      const t = this.properties,
-        i = [
-          ...Object.getOwnPropertyNames(t),
-          ...Object.getOwnPropertySymbols(t),
-        ]
-      for (const s of i) this.createProperty(s, t[s])
-    }
-    return (this.elementStyles = this.finalizeStyles(this.styles)), !0
-  }
-  static finalizeStyles(i) {
-    const s = []
-    if (Array.isArray(i)) {
-      const e = new Set(i.flat(1 / 0).reverse())
-      for (const i of e) s.unshift(c$1(i))
-    } else void 0 !== i && s.push(c$1(i))
-    return s
-  }
-  static _$Ep(t, i) {
-    const s = i.attribute
-    return !1 === s
-      ? void 0
-      : 'string' == typeof s
-      ? s
-      : 'string' == typeof t
-      ? t.toLowerCase()
-      : void 0
-  }
-  u() {
-    var t
-    ;(this._$E_ = new Promise(t => (this.enableUpdating = t))),
-      (this._$AL = new Map()),
-      this._$Eg(),
-      this.requestUpdate(),
-      null === (t = this.constructor.h) ||
-        void 0 === t ||
-        t.forEach(t => t(this))
-  }
-  addController(t) {
-    var i, s
-    ;(null !== (i = this._$ES) && void 0 !== i ? i : (this._$ES = [])).push(t),
-      void 0 !== this.renderRoot &&
-        this.isConnected &&
-        (null === (s = t.hostConnected) || void 0 === s || s.call(t))
-  }
-  removeController(t) {
-    var i
-    null === (i = this._$ES) ||
-      void 0 === i ||
-      i.splice(this._$ES.indexOf(t) >>> 0, 1)
-  }
-  _$Eg() {
-    this.constructor.elementProperties.forEach((t, i) => {
-      this.hasOwnProperty(i) && (this._$Ei.set(i, this[i]), delete this[i])
-    })
-  }
-  createRenderRoot() {
-    var t
-    const s =
-      null !== (t = this.shadowRoot) && void 0 !== t
-        ? t
-        : this.attachShadow(this.constructor.shadowRootOptions)
-    return S$1(s, this.constructor.elementStyles), s
-  }
-  connectedCallback() {
-    var t
-    void 0 === this.renderRoot && (this.renderRoot = this.createRenderRoot()),
-      this.enableUpdating(!0),
-      null === (t = this._$ES) ||
-        void 0 === t ||
-        t.forEach(t => {
-          var i
-          return null === (i = t.hostConnected) || void 0 === i
-            ? void 0
-            : i.call(t)
-        })
-  }
-  enableUpdating(t) {}
-  disconnectedCallback() {
-    var t
-    null === (t = this._$ES) ||
-      void 0 === t ||
-      t.forEach(t => {
-        var i
-        return null === (i = t.hostDisconnected) || void 0 === i
-          ? void 0
-          : i.call(t)
-      })
-  }
-  attributeChangedCallback(t, i, s) {
-    this._$AK(t, s)
-  }
-  _$EO(t, i, s = l$4) {
-    var e
-    const r = this.constructor._$Ep(t, s)
-    if (void 0 !== r && !0 === s.reflect) {
-      const h = (void 0 !==
-      (null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute)
-        ? s.converter
-        : n$3
-      ).toAttribute(i, s.type)
-      ;(this._$El = t),
-        null == h ? this.removeAttribute(r) : this.setAttribute(r, h),
-        (this._$El = null)
-    }
-  }
-  _$AK(t, i) {
-    var s
-    const e = this.constructor,
-      r = e._$Ev.get(t)
-    if (void 0 !== r && this._$El !== r) {
-      const t = e.getPropertyOptions(r),
-        h =
-          'function' == typeof t.converter
-            ? { fromAttribute: t.converter }
-            : void 0 !==
-              (null === (s = t.converter) || void 0 === s
-                ? void 0
-                : s.fromAttribute)
-            ? t.converter
-            : n$3
-      ;(this._$El = r),
-        (this[r] = h.fromAttribute(i, t.type)),
-        (this._$El = null)
-    }
-  }
-  requestUpdate(t, i, s) {
-    let e = !0
-    void 0 !== t &&
-      (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || a$2)(
-        this[t],
-        i
-      )
-        ? (this._$AL.has(t) || this._$AL.set(t, i),
-          !0 === s.reflect &&
-            this._$El !== t &&
-            (void 0 === this._$EC && (this._$EC = new Map()),
-            this._$EC.set(t, s)))
-        : (e = !1)),
-      !this.isUpdatePending && e && (this._$E_ = this._$Ej())
-  }
-  async _$Ej() {
-    this.isUpdatePending = !0
-    try {
-      await this._$E_
-    } catch (t) {
-      Promise.reject(t)
-    }
-    const t = this.scheduleUpdate()
-    return null != t && (await t), !this.isUpdatePending
-  }
-  scheduleUpdate() {
-    return this.performUpdate()
-  }
-  performUpdate() {
-    var t
-    if (!this.isUpdatePending) return
-    this.hasUpdated,
-      this._$Ei &&
-        (this._$Ei.forEach((t, i) => (this[i] = t)), (this._$Ei = void 0))
-    let i = !1
-    const s = this._$AL
-    try {
-      ;(i = this.shouldUpdate(s)),
-        i
-          ? (this.willUpdate(s),
-            null === (t = this._$ES) ||
-              void 0 === t ||
-              t.forEach(t => {
-                var i
-                return null === (i = t.hostUpdate) || void 0 === i
-                  ? void 0
-                  : i.call(t)
-              }),
-            this.update(s))
-          : this._$Ek()
-    } catch (t) {
-      throw ((i = !1), this._$Ek(), t)
-    }
-    i && this._$AE(s)
-  }
-  willUpdate(t) {}
-  _$AE(t) {
-    var i
-    null === (i = this._$ES) ||
-      void 0 === i ||
-      i.forEach(t => {
-        var i
-        return null === (i = t.hostUpdated) || void 0 === i ? void 0 : i.call(t)
-      }),
-      this.hasUpdated || ((this.hasUpdated = !0), this.firstUpdated(t)),
-      this.updated(t)
-  }
-  _$Ek() {
-    ;(this._$AL = new Map()), (this.isUpdatePending = !1)
-  }
-  get updateComplete() {
-    return this.getUpdateComplete()
-  }
-  getUpdateComplete() {
-    return this._$E_
-  }
-  shouldUpdate(t) {
-    return !0
-  }
-  update(t) {
-    void 0 !== this._$EC &&
-      (this._$EC.forEach((t, i) => this._$EO(i, this[i], t)),
-      (this._$EC = void 0)),
-      this._$Ek()
-  }
-  updated(t) {}
-  firstUpdated(t) {}
-}
-;(d$1.finalized = !0),
-  (d$1.elementProperties = new Map()),
-  (d$1.elementStyles = []),
-  (d$1.shadowRootOptions = { mode: 'open' }),
-  null == o$3 || o$3({ ReactiveElement: d$1 }),
-  (null !== (s$3 = e$3.reactiveElementVersions) && void 0 !== s$3
-    ? s$3
-    : (e$3.reactiveElementVersions = [])
-  ).push('1.4.1')
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-var t$1
-const i$2 = window,
-  s$2 = i$2.trustedTypes,
-  e$2 = s$2 ? s$2.createPolicy('lit-html', { createHTML: t => t }) : void 0,
-  o$2 = `lit$${(Math.random() + '').slice(9)}$`,
-  n$2 = '?' + o$2,
-  l$3 = `<${n$2}>`,
-  h = document,
-  r = (t = '') => h.createComment(t),
-  d = t => null === t || ('object' != typeof t && 'function' != typeof t),
-  u = Array.isArray,
-  c = t =>
-    u(t) || 'function' == typeof (null == t ? void 0 : t[Symbol.iterator]),
-  v = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
-  a$1 = /-->/g,
-  f = />/g,
-  _ = RegExp(
-    '>|[ \t\n\f\r](?:([^\\s"\'>=/]+)([ \t\n\f\r]*=[ \t\n\f\r]*(?:[^ \t\n\f\r"\'`<>=]|("|\')|))|$)',
-    'g'
-  ),
-  m = /'/g,
-  p = /"/g,
-  $ = /^(?:script|style|textarea|title)$/i,
-  g = t => (i, ...s) => ({ _$litType$: t, strings: i, values: s }),
-  y = g(1),
-  x = Symbol.for('lit-noChange'),
-  b = Symbol.for('lit-nothing'),
-  T = new WeakMap(),
-  A = h.createTreeWalker(h, 129, null, !1),
-  E = (t, i) => {
-    const s = t.length - 1,
-      n = []
-    let h,
-      r = 2 === i ? '<svg>' : '',
-      d = v
-    for (let i = 0; i < s; i++) {
-      const s = t[i]
-      let e,
-        u,
-        c = -1,
-        g = 0
-      for (; g < s.length && ((d.lastIndex = g), (u = d.exec(s)), null !== u); )
-        (g = d.lastIndex),
-          d === v
-            ? '!--' === u[1]
-              ? (d = a$1)
-              : void 0 !== u[1]
-              ? (d = f)
-              : void 0 !== u[2]
-              ? ($.test(u[2]) && (h = RegExp('</' + u[2], 'g')), (d = _))
-              : void 0 !== u[3] && (d = _)
-            : d === _
-            ? '>' === u[0]
-              ? ((d = null != h ? h : v), (c = -1))
-              : void 0 === u[1]
-              ? (c = -2)
-              : ((c = d.lastIndex - u[2].length),
-                (e = u[1]),
-                (d = void 0 === u[3] ? _ : '"' === u[3] ? p : m))
-            : d === p || d === m
-            ? (d = _)
-            : d === a$1 || d === f
-            ? (d = v)
-            : ((d = _), (h = void 0))
-      const y = d === _ && t[i + 1].startsWith('/>') ? ' ' : ''
-      r +=
-        d === v
-          ? s + l$3
-          : c >= 0
-          ? (n.push(e), s.slice(0, c) + '$lit$' + s.slice(c) + o$2 + y)
-          : s + o$2 + (-2 === c ? (n.push(void 0), i) : y)
-    }
-    const u = r + (t[s] || '<?>') + (2 === i ? '</svg>' : '')
-    if (!Array.isArray(t) || !t.hasOwnProperty('raw'))
-      throw Error('invalid template strings array')
-    return [void 0 !== e$2 ? e$2.createHTML(u) : u, n]
-  }
-class C {
-  constructor({ strings: t, _$litType$: i }, e) {
-    let l
-    this.parts = []
-    let h = 0,
-      d = 0
-    const u = t.length - 1,
-      c = this.parts,
-      [v, a] = E(t, i)
-    if (
-      ((this.el = C.createElement(v, e)),
-      (A.currentNode = this.el.content),
-      2 === i)
-    ) {
-      const t = this.el.content,
-        i = t.firstChild
-      i.remove(), t.append(...i.childNodes)
-    }
-    for (; null !== (l = A.nextNode()) && c.length < u; ) {
-      if (1 === l.nodeType) {
-        if (l.hasAttributes()) {
-          const t = []
-          for (const i of l.getAttributeNames())
-            if (i.endsWith('$lit$') || i.startsWith(o$2)) {
-              const s = a[d++]
-              if ((t.push(i), void 0 !== s)) {
-                const t = l.getAttribute(s.toLowerCase() + '$lit$').split(o$2),
-                  i = /([.?@])?(.*)/.exec(s)
-                c.push({
-                  type: 1,
-                  index: h,
-                  name: i[2],
-                  strings: t,
-                  ctor:
-                    '.' === i[1] ? M : '?' === i[1] ? k : '@' === i[1] ? H : S,
-                })
-              } else c.push({ type: 6, index: h })
-            }
-          for (const i of t) l.removeAttribute(i)
-        }
-        if ($.test(l.tagName)) {
-          const t = l.textContent.split(o$2),
-            i = t.length - 1
-          if (i > 0) {
-            l.textContent = s$2 ? s$2.emptyScript : ''
-            for (let s = 0; s < i; s++)
-              l.append(t[s], r()), A.nextNode(), c.push({ type: 2, index: ++h })
-            l.append(t[i], r())
-          }
-        }
-      } else if (8 === l.nodeType)
-        if (l.data === n$2) c.push({ type: 2, index: h })
-        else {
-          let t = -1
-          for (; -1 !== (t = l.data.indexOf(o$2, t + 1)); )
-            c.push({ type: 7, index: h }), (t += o$2.length - 1)
-        }
-      h++
-    }
-  }
-  static createElement(t, i) {
-    const s = h.createElement('template')
-    return (s.innerHTML = t), s
-  }
-}
-function P(t, i, s = t, e) {
-  var o, n, l, h
-  if (i === x) return i
-  let r =
-    void 0 !== e
-      ? null === (o = s._$Co) || void 0 === o
-        ? void 0
-        : o[e]
-      : s._$Cl
-  const u = d(i) ? void 0 : i._$litDirective$
-  return (
-    (null == r ? void 0 : r.constructor) !== u &&
-      (null === (n = null == r ? void 0 : r._$AO) ||
-        void 0 === n ||
-        n.call(r, !1),
-      void 0 === u ? (r = void 0) : ((r = new u(t)), r._$AT(t, s, e)),
-      void 0 !== e
-        ? ((null !== (l = (h = s)._$Co) && void 0 !== l ? l : (h._$Co = []))[
-            e
-          ] = r)
-        : (s._$Cl = r)),
-    void 0 !== r && (i = P(t, r._$AS(t, i.values), r, e)),
-    i
-  )
-}
-class V {
-  constructor(t, i) {
-    ;(this.u = []), (this._$AN = void 0), (this._$AD = t), (this._$AM = i)
-  }
-  get parentNode() {
-    return this._$AM.parentNode
-  }
-  get _$AU() {
-    return this._$AM._$AU
-  }
-  v(t) {
-    var i
-    const {
-        el: { content: s },
-        parts: e,
-      } = this._$AD,
-      o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i
-        ? i
-        : h
-      ).importNode(s, !0)
-    A.currentNode = o
-    let n = A.nextNode(),
-      l = 0,
-      r = 0,
-      d = e[0]
-    for (; void 0 !== d; ) {
-      if (l === d.index) {
-        let i
-        2 === d.type
-          ? (i = new N(n, n.nextSibling, this, t))
-          : 1 === d.type
-          ? (i = new d.ctor(n, d.name, d.strings, this, t))
-          : 6 === d.type && (i = new I(n, this, t)),
-          this.u.push(i),
-          (d = e[++r])
-      }
-      l !== (null == d ? void 0 : d.index) && ((n = A.nextNode()), l++)
-    }
-    return o
-  }
-  p(t) {
-    let i = 0
-    for (const s of this.u)
-      void 0 !== s &&
-        (void 0 !== s.strings
-          ? (s._$AI(t, s, i), (i += s.strings.length - 2))
-          : s._$AI(t[i])),
-        i++
-  }
-}
-class N {
-  constructor(t, i, s, e) {
-    var o
-    ;(this.type = 2),
-      (this._$AH = b),
-      (this._$AN = void 0),
-      (this._$AA = t),
-      (this._$AB = i),
-      (this._$AM = s),
-      (this.options = e),
-      (this._$Cm =
-        null === (o = null == e ? void 0 : e.isConnected) || void 0 === o || o)
-  }
-  get _$AU() {
-    var t, i
-    return null !==
-      (i = null === (t = this._$AM) || void 0 === t ? void 0 : t._$AU) &&
-      void 0 !== i
-      ? i
-      : this._$Cm
-  }
-  get parentNode() {
-    let t = this._$AA.parentNode
-    const i = this._$AM
-    return void 0 !== i && 11 === t.nodeType && (t = i.parentNode), t
-  }
-  get startNode() {
-    return this._$AA
-  }
-  get endNode() {
-    return this._$AB
-  }
-  _$AI(t, i = this) {
-    ;(t = P(this, t, i)),
-      d(t)
-        ? t === b || null == t || '' === t
-          ? (this._$AH !== b && this._$AR(), (this._$AH = b))
-          : t !== this._$AH && t !== x && this.g(t)
-        : void 0 !== t._$litType$
-        ? this.$(t)
-        : void 0 !== t.nodeType
-        ? this.T(t)
-        : c(t)
-        ? this.k(t)
-        : this.g(t)
-  }
-  O(t, i = this._$AB) {
-    return this._$AA.parentNode.insertBefore(t, i)
-  }
-  T(t) {
-    this._$AH !== t && (this._$AR(), (this._$AH = this.O(t)))
-  }
-  g(t) {
-    this._$AH !== b && d(this._$AH)
-      ? (this._$AA.nextSibling.data = t)
-      : this.T(h.createTextNode(t)),
-      (this._$AH = t)
-  }
-  $(t) {
-    var i
-    const { values: s, _$litType$: e } = t,
-      o =
-        'number' == typeof e
-          ? this._$AC(t)
-          : (void 0 === e.el && (e.el = C.createElement(e.h, this.options)), e)
-    if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o)
-      this._$AH.p(s)
-    else {
-      const t = new V(o, this),
-        i = t.v(this.options)
-      t.p(s), this.T(i), (this._$AH = t)
-    }
-  }
-  _$AC(t) {
-    let i = T.get(t.strings)
-    return void 0 === i && T.set(t.strings, (i = new C(t))), i
-  }
-  k(t) {
-    u(this._$AH) || ((this._$AH = []), this._$AR())
-    const i = this._$AH
-    let s,
-      e = 0
-    for (const o of t)
-      e === i.length
-        ? i.push((s = new N(this.O(r()), this.O(r()), this, this.options)))
-        : (s = i[e]),
-        s._$AI(o),
-        e++
-    e < i.length && (this._$AR(s && s._$AB.nextSibling, e), (i.length = e))
-  }
-  _$AR(t = this._$AA.nextSibling, i) {
-    var s
-    for (
-      null === (s = this._$AP) || void 0 === s || s.call(this, !1, !0, i);
-      t && t !== this._$AB;
-
-    ) {
-      const i = t.nextSibling
-      t.remove(), (t = i)
-    }
-  }
-  setConnected(t) {
-    var i
-    void 0 === this._$AM &&
-      ((this._$Cm = t),
-      null === (i = this._$AP) || void 0 === i || i.call(this, t))
-  }
-}
-class S {
-  constructor(t, i, s, e, o) {
-    ;(this.type = 1),
-      (this._$AH = b),
-      (this._$AN = void 0),
-      (this.element = t),
-      (this.name = i),
-      (this._$AM = e),
-      (this.options = o),
-      s.length > 2 || '' !== s[0] || '' !== s[1]
-        ? ((this._$AH = Array(s.length - 1).fill(new String())),
-          (this.strings = s))
-        : (this._$AH = b)
-  }
-  get tagName() {
-    return this.element.tagName
-  }
-  get _$AU() {
-    return this._$AM._$AU
-  }
-  _$AI(t, i = this, s, e) {
-    const o = this.strings
-    let n = !1
-    if (void 0 === o)
-      (t = P(this, t, i, 0)),
-        (n = !d(t) || (t !== this._$AH && t !== x)),
-        n && (this._$AH = t)
-    else {
-      const e = t
-      let l, h
-      for (t = o[0], l = 0; l < o.length - 1; l++)
-        (h = P(this, e[s + l], i, l)),
-          h === x && (h = this._$AH[l]),
-          n || (n = !d(h) || h !== this._$AH[l]),
-          h === b ? (t = b) : t !== b && (t += (null != h ? h : '') + o[l + 1]),
-          (this._$AH[l] = h)
-    }
-    n && !e && this.j(t)
-  }
-  j(t) {
-    t === b
-      ? this.element.removeAttribute(this.name)
-      : this.element.setAttribute(this.name, null != t ? t : '')
-  }
-}
-class M extends S {
-  constructor() {
-    super(...arguments), (this.type = 3)
-  }
-  j(t) {
-    this.element[this.name] = t === b ? void 0 : t
-  }
-}
-const R = s$2 ? s$2.emptyScript : ''
-class k extends S {
-  constructor() {
-    super(...arguments), (this.type = 4)
-  }
-  j(t) {
-    t && t !== b
-      ? this.element.setAttribute(this.name, R)
-      : this.element.removeAttribute(this.name)
-  }
-}
-class H extends S {
-  constructor(t, i, s, e, o) {
-    super(t, i, s, e, o), (this.type = 5)
-  }
-  _$AI(t, i = this) {
-    var s
-    if ((t = null !== (s = P(this, t, i, 0)) && void 0 !== s ? s : b) === x)
-      return
-    const e = this._$AH,
-      o =
-        (t === b && e !== b) ||
-        t.capture !== e.capture ||
-        t.once !== e.once ||
-        t.passive !== e.passive,
-      n = t !== b && (e === b || o)
-    o && this.element.removeEventListener(this.name, this, e),
-      n && this.element.addEventListener(this.name, this, t),
-      (this._$AH = t)
-  }
-  handleEvent(t) {
-    var i, s
-    'function' == typeof this._$AH
-      ? this._$AH.call(
-          null !==
-            (s =
-              null === (i = this.options) || void 0 === i ? void 0 : i.host) &&
-            void 0 !== s
-            ? s
-            : this.element,
-          t
-        )
-      : this._$AH.handleEvent(t)
-  }
-}
-class I {
-  constructor(t, i, s) {
-    ;(this.element = t),
-      (this.type = 6),
-      (this._$AN = void 0),
-      (this._$AM = i),
-      (this.options = s)
-  }
-  get _$AU() {
-    return this._$AM._$AU
-  }
-  _$AI(t) {
-    P(this, t)
-  }
-}
-const z = i$2.litHtmlPolyfillSupport
-null == z || z(C, N),
-  (null !== (t$1 = i$2.litHtmlVersions) && void 0 !== t$1
-    ? t$1
-    : (i$2.litHtmlVersions = [])
-  ).push('2.4.0')
-const Z = (t, i, s) => {
-  var e, o
-  const n =
-    null !== (e = null == s ? void 0 : s.renderBefore) && void 0 !== e ? e : i
-  let l = n._$litPart$
-  if (void 0 === l) {
-    const t =
-      null !== (o = null == s ? void 0 : s.renderBefore) && void 0 !== o
-        ? o
-        : null
-    n._$litPart$ = l = new N(
-      i.insertBefore(r(), t),
-      t,
-      void 0,
-      null != s ? s : {}
-    )
-  }
-  return l._$AI(t), l
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ var l$2, o$1
-class s$1 extends d$1 {
-  constructor() {
-    super(...arguments),
-      (this.renderOptions = { host: this }),
-      (this._$Do = void 0)
-  }
-  createRenderRoot() {
-    var t, e
-    const i = super.createRenderRoot()
-    return (
-      (null !== (t = (e = this.renderOptions).renderBefore) && void 0 !== t) ||
-        (e.renderBefore = i.firstChild),
-      i
-    )
-  }
-  update(t) {
-    const i = this.render()
-    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected),
-      super.update(t),
-      (this._$Do = Z(i, this.renderRoot, this.renderOptions))
-  }
-  connectedCallback() {
-    var t
-    super.connectedCallback(),
-      null === (t = this._$Do) || void 0 === t || t.setConnected(!0)
-  }
-  disconnectedCallback() {
-    var t
-    super.disconnectedCallback(),
-      null === (t = this._$Do) || void 0 === t || t.setConnected(!1)
+    this.shadow = false
+    /**
+     * Whether or not the elevation level should display a surface tint color.
+     */
+    this.surface = false
   }
   render() {
-    return x
+    return y`
+       <span class="surface"></span>
+       <span class="shadow"></span>
+     `
   }
 }
-;(s$1.finalized = !0),
-  (s$1._$litElement$ = !0),
-  null === (l$2 = globalThis.litElementHydrateSupport) ||
-    void 0 === l$2 ||
-    l$2.call(globalThis, { LitElement: s$1 })
-const n$1 = globalThis.litElementPolyfillSupport
-null == n$1 || n$1({ LitElement: s$1 })
-;(null !== (o$1 = globalThis.litElementVersions) && void 0 !== o$1
-  ? o$1
-  : (globalThis.litElementVersions = [])
-).push('3.2.2')
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const t = {
-    ATTRIBUTE: 1,
-    CHILD: 2,
-    PROPERTY: 3,
-    BOOLEAN_ATTRIBUTE: 4,
-    EVENT: 5,
-    ELEMENT: 6,
-  },
-  e$1 = t => (...e) => ({ _$litDirective$: t, values: e })
-class i$1 {
-  constructor(t) {}
-  get _$AU() {
-    return this._$AM._$AU
-  }
-  _$AT(t, e, i) {
-    ;(this._$Ct = t), (this._$AM = e), (this._$Ci = i)
-  }
-  _$AS(t, e) {
-    return this.update(t, e)
-  }
-  update(t, e) {
-    return this.render(...e)
-  }
-}
-
-/**
- * @license
- * Copyright 2018 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ const o = e$1(
-  class extends i$1 {
-    constructor(t$1) {
-      var i
-      if (
-        (super(t$1),
-        t$1.type !== t.ATTRIBUTE ||
-          'class' !== t$1.name ||
-          (null === (i = t$1.strings) || void 0 === i ? void 0 : i.length) > 2)
-      )
-        throw Error(
-          '`classMap()` can only be used in the `class` attribute and must be the only part in the attribute.'
-        )
-    }
-    render(t) {
-      return (
-        ' ' +
-        Object.keys(t)
-          .filter(i => t[i])
-          .join(' ') +
-        ' '
-      )
-    }
-    update(i, [s]) {
-      var r, o
-      if (void 0 === this.nt) {
-        ;(this.nt = new Set()),
-          void 0 !== i.strings &&
-            (this.st = new Set(
-              i.strings
-                .join(' ')
-                .split(/\s/)
-                .filter(t => '' !== t)
-            ))
-        for (const t in s)
-          s[t] &&
-            !(null === (r = this.st) || void 0 === r ? void 0 : r.has(t)) &&
-            this.nt.add(t)
-        return this.render(s)
-      }
-      const e = i.element.classList
-      this.nt.forEach(t => {
-        t in s || (e.remove(t), this.nt.delete(t))
-      })
-      for (const t in s) {
-        const i = !!s[t]
-        i === this.nt.has(t) ||
-          (null === (o = this.st) || void 0 === o ? void 0 : o.has(t)) ||
-          (i ? (e.add(t), this.nt.add(t)) : (e.remove(t), this.nt.delete(t)))
-      }
-      return x
-    }
-  }
+__decorate(
+  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  Elevation.prototype,
+  'shadow',
+  void 0
+)
+__decorate(
+  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  Elevation.prototype,
+  'surface',
+  void 0
 )
 
 /**
  * @license
- * Copyright 2018 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ const l$1 = l => (null != l ? l : b)
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$2 = i$4`:host{--_duration: var(--md-elevation-duration, 0s);--_easing: var(--md-elevation-easing, cubic-bezier(0.2, 0, 0, 1));--_level: var(--md-elevation-level, 0);--_shadow-color: var(--md-elevation-shadow-color, var(--md-sys-color-shadow, #000));--_surface-tint: var(--md-elevation-surface-tint, var(--md-sys-color-primary, #6750a4));border-radius:inherit;display:flex;position:relative}:host(:not([surface])) .surface,:host(:not([shadow])) .shadow{display:none}.surface,.shadow,.shadow::before,.shadow::after{border-radius:inherit;content:"";inset:0;position:absolute;transition-property:box-shadow,opacity;transition-duration:var(--_duration);transition-timing-function:var(--_easing)}.shadow::before{box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 3,1) + 2*clamp(0,var(--_level) - 4,1))) calc(1px*(2*clamp(0,var(--_level),1) + clamp(0,var(--_level) - 2,1) + clamp(0,var(--_level) - 4,1))) 0px var(--_shadow-color);opacity:.3}.shadow::after{opacity:.15;box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 1,1) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(3*clamp(0,var(--_level),2) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(clamp(0,var(--_level),4) + 2*clamp(0,var(--_level) - 4,1))) var(--_shadow-color)}.surface{background:var(--_surface-tint);opacity:calc(clamp(0,var(--_level),.05) + clamp(0,var(--_level) - 1,.03) + clamp(0,var(--_level) - 2,.03) + clamp(0,var(--_level) - 3,.01) + clamp(0,var(--_level) - 4,.02))}/*# sourceMappingURL=elevation-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * The `<md-elevation>` custom element with default styles.
+ *
+ * Elevation is the relative distance between two surfaces along the z-axis.
+ */
+let MdElevation = class MdElevation extends Elevation {}
+MdElevation.styles = [styles$2]
+MdElevation = __decorate([e$6('md-elevation')], MdElevation)
 
 /**
  * @license
@@ -20591,7 +21685,7 @@ class i$1 {
  * SPDX-License-Identifier: Apache-2.0
  */
 /** @soyCompatible */
-class NavigationDrawer extends s$1 {
+class NavigationDrawer extends s$3 {
   constructor() {
     super(...arguments)
     // tslint:disable-next-line:no-new-decorators
@@ -20605,15 +21699,15 @@ class NavigationDrawer extends s$1 {
     const ariaHidden = !this.opened ? 'true' : 'false'
     return y`
       <div
-        aria-describedby="${l$1(this.ariaDescribedBy)}"
+        aria-describedby="${l(this.ariaDescribedBy)}"
         aria-expanded="${ariaExpanded}"
         aria-hidden="${ariaHidden}"
-        aria-label="${l$1(this.ariaLabel)}"
-        aria-labelledby="${l$1(this.ariaLabelledBy)}"
+        aria-label="${l(this.ariaLabel)}"
+        aria-labelledby="${l(this.ariaLabelledBy)}"
         aria-modal="${this.ariaModal}"
         class="md3-navigation-drawer ${this.getRenderClasses()}"
-        role="dialog"><div class="md3-elevation-overlay"
-        ></div>
+        role="dialog">
+        <md-elevation shadow surface></md-elevation>
         <div class="md3-navigation-drawer__slot-content">
           <slot></slot>
         </div>
@@ -20627,11 +21721,24 @@ class NavigationDrawer extends s$1 {
       'md3-navigation-drawer--pivot-at-start': this.pivot === 'start',
     })
   }
+  updated(changedProperties) {
+    if (changedProperties.has('opened')) {
+      setTimeout(() => {
+        this.dispatchEvent(
+          new CustomEvent('navigation-drawer-changed', {
+            detail: { opened: this.opened },
+            bubbles: true,
+            composed: true,
+          })
+        )
+      }, 250)
+    }
+  }
 }
 __decorate(
   [
-    ariaProperty$1,
-    e$5({ type: String, attribute: 'aria-describedby' }),
+    ariaProperty,
+    e$5({ type: String, attribute: 'data-aria-describedby', noAccessor: true }),
     __metadata('design:type', String),
   ],
   NavigationDrawer.prototype,
@@ -20642,7 +21749,7 @@ __decorate(
   [
     ariaProperty,
     e$5({ type: String, attribute: 'data-aria-label', noAccessor: true }),
-    __metadata('design:type', Object),
+    __metadata('design:type', String),
   ],
   NavigationDrawer.prototype,
   'ariaLabel',
@@ -20660,8 +21767,8 @@ __decorate(
 )
 __decorate(
   [
-    ariaProperty$1,
-    e$5({ type: String, attribute: 'aria-labelledby' }),
+    ariaProperty,
+    e$5({ type: String, attribute: 'data-aria-labelledby', noAccessor: true }),
     __metadata('design:type', String),
   ],
   NavigationDrawer.prototype,
@@ -20671,17 +21778,6 @@ __decorate(
 __decorate(
   [
     e$5({ type: Boolean }), // tslint:disable-next-line:no-new-decorators
-    observer(function(value) {
-      setTimeout(() => {
-        this.dispatchEvent(
-          new CustomEvent('navigation-drawer-changed', {
-            detail: { opened: value },
-            bubbles: true,
-            composed: true,
-          })
-        )
-      }, 250)
-    }),
     __metadata('design:type', Object),
   ],
   NavigationDrawer.prototype,
@@ -20700,7 +21796,15 @@ __decorate(
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$5 = i$3`.md3-elevation-overlay{position:absolute;inset:0;border-radius:inherit;pointer-events:none;transition:opacity 280ms cubic-bezier(0.4, 0, 0.2, 1);z-index:-2}:host{display:flex}.md3-navigation-drawer{inline-size:0;box-sizing:border-box;display:flex;justify-content:flex-end;overflow:hidden;overflow-y:auto;visibility:hidden;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) .25s}.md3-navigation-drawer .md3-elevation-overlay{width:inherit;z-index:0}.md3-navigation-drawer--opened{visibility:visible;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) 0s}.md3-navigation-drawer--pivot-at-start{justify-content:flex-start}.md3-navigation-drawer__slot-content{display:flex;flex-direction:column;position:relative}.md3-navigation-drawer{background-color:var(--md-navigation-drawer-container-color, #fff);border-start-start-radius:var(--md-navigation-drawer-container-shape-start-start, 0);border-start-end-radius:var(--md-navigation-drawer-container-shape-start-end, 16px);border-end-end-radius:var(--md-navigation-drawer-container-shape-end-end, 16px);border-end-start-radius:var(--md-navigation-drawer-container-shape-end-start, 0);height:var(--md-navigation-drawer-container-height, 100%);--md-elevation-box-shadow-for-gss:none;box-shadow:var(--md-navigation-drawer-standard-container-elevation-shadow, var(--md-elevation-box-shadow-for-gss))}.md3-navigation-drawer.md3-navigation-drawer--opened{inline-size:var(--md-navigation-drawer-container-width, 360px)}.md3-navigation-drawer .md3-navigation-drawer__slot-content{min-inline-size:var(--md-navigation-drawer-container-width, 360px);max-inline-size:var(--md-navigation-drawer-container-width, 360px)}.md3-navigation-drawer .md3-elevation-overlay{opacity:var(--md-navigation-drawer-standard-container-elevation-overlay-opacity, 0)}/*# sourceMappingURL=navigation-drawer-styles.css.map */
+const styles$1 = i$4`:host{--_container-shape-start-start: var(--md-navigation-drawer-container-shape-start-start, var(--md-navigation-drawer-container-shape, 0));--_container-shape-start-end: var(--md-navigation-drawer-container-shape-start-end, var(--md-navigation-drawer-container-shape, 16px));--_container-shape-end-end: var(--md-navigation-drawer-container-shape-end-end, var(--md-navigation-drawer-container-shape, 16px));--_container-shape-end-start: var(--md-navigation-drawer-container-shape-end-start, var(--md-navigation-drawer-container-shape, 0));--_container-color: var(--md-navigation-drawer-container-color, #fff);--_container-height: var(--md-navigation-drawer-container-height, 100%);--_container-surface-tint-layer-color: ;--_container-width: var(--md-navigation-drawer-container-width, 360px);--_divider-color: var(--md-navigation-drawer-divider-color, #000);--_modal-container-elevation: var(--md-navigation-drawer-modal-container-elevation, 1);--_standard-container-elevation: var(--md-navigation-drawer-standard-container-elevation, 0);--md-elevation-level:var(--_standard-container-elevation);--md-elevation-shadow-color:var(--_divider-color);--md-elevation-surface-tint:var(--_container-surface-tint-layer-color)}:host{display:flex}.md3-navigation-drawer{inline-size:0;box-sizing:border-box;display:flex;justify-content:flex-end;overflow:hidden;overflow-y:auto;visibility:hidden;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) .25s}md-elevation{inset:0;position:absolute;width:inherit;z-index:0}.md3-navigation-drawer--opened{visibility:visible;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) 0s}.md3-navigation-drawer--pivot-at-start{justify-content:flex-start}.md3-navigation-drawer__slot-content{display:flex;flex-direction:column;position:relative}/*# sourceMappingURL=navigation-drawer-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles = i$4`.md3-navigation-drawer-modal{background-color:var(--_container-color);border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-end-radius:var(--_container-shape-end-end);border-end-start-radius:var(--_container-shape-end-start);height:var(--_container-height)}.md3-navigation-drawer-modal.md3-navigation-drawer-modal--opened{inline-size:var(--_container-width)}.md3-navigation-drawer-modal .md3-navigation-drawer-modal__slot-content{min-inline-size:var(--_container-width);max-inline-size:var(--_container-width)}/*# sourceMappingURL=shared-styles.css.map */
 `
 
 /**
@@ -20714,1143 +21818,29 @@ const styles$5 = i$3`.md3-elevation-overlay{position:absolute;inset:0;border-rad
  * @suppress {visibility}
  */
 let MdNavigationDrawer = class MdNavigationDrawer extends NavigationDrawer {}
-MdNavigationDrawer.styles = [styles$5]
+MdNavigationDrawer.styles = [styles, styles$1]
 MdNavigationDrawer = __decorate(
   [e$6('md-navigation-drawer')],
   MdNavigationDrawer
 )
 
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/** @soyCompatible */
-class Icon extends s$1 {
-  /** @soyTemplate */
-  render() {
-    return y`<span><slot></slot></span>`
-  }
-}
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$4 = i$3`:host{font-family:"Material Icons";font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-moz-osx-font-smoothing:grayscale}/*# sourceMappingURL=icon-styles.css.map */
-`
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * @soyCompatible
- * @final
- * @suppress {visibility}
- */
-let MdIcon = class MdIcon extends Icon {}
-MdIcon.styles = [styles$4]
-MdIcon = __decorate([e$6('md-icon')], MdIcon)
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/** @soyCompatible */
-class FocusRing extends s$1 {
+let ServiceContext = class ServiceContext extends s$3 {
   constructor() {
     super(...arguments)
-    this.visible = false
-  }
-  /** @soyTemplate */
-  render() {
-    return y`<span class="md3-focus-ring ${o(this.getRenderClasses())}"></span>`
-  }
-  /** @soyTemplate */
-  getRenderClasses() {
-    return {
-      'md3-focus-ring--visible': this.visible,
-    }
-  }
-}
-__decorate(
-  [e$5({ type: Boolean }), __metadata('design:type', Object)],
-  FocusRing.prototype,
-  'visible',
-  void 0
-)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$3 = i$3`:host{pointer-events:none}.md3-focus-ring{display:none;position:absolute;box-sizing:border-box}.md3-focus-ring::before{inset:0;position:absolute;content:""}.md3-focus-ring--visible{display:block}.md3-focus-ring{inset:calc(-1*(var(--md-focus-ring-container-outer-padding-vertical, 2px) + var(--md-focus-ring-inner-ring-width, 2px) + var(--md-focus-ring-outer-ring-width, 2px))) calc(-1*(var(--md-focus-ring-container-outer-padding-horizontal, 2px) + var(--md-focus-ring-inner-ring-width, 2px) + var(--md-focus-ring-outer-ring-width, 2px)));border:var(--md-focus-ring-outer-ring-width, 2px) solid var(--md-focus-ring-outer-ring-color, var(--md-sys-color-tertiary-container, #ffd8e4));border-radius:var(--md-focus-ring-ring-radius, 8px)}.md3-focus-ring::before{border:var(--md-focus-ring-inner-ring-width, 2px) solid var(--md-focus-ring-inner-ring-color, var(--md-sys-color-on-tertiary-container, #31111d));border-radius:calc(var(--md-focus-ring-ring-radius, 8px) - var(--md-focus-ring-outer-ring-width, 2px))}/*# sourceMappingURL=focus-ring-styles.css.map */
-`
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * @soyCompatible
- * @final
- * @suppress {visibility}
- */
-let MdFocusRing = class MdFocusRing extends FocusRing {}
-MdFocusRing.styles = [styles$3]
-MdFocusRing = __decorate([e$6('md-focus-ring')], MdFocusRing)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * Enumeration to keep track of the lifecycle of a touch event.
- */
-// State transition diagram:
-//     +-----------------------------+
-//     |                             v
-//     |    +------+------ WAITING_FOR_MOUSE_CLICK<----+
-//     |    |      |                ^                  |
-//     |    V      |                |                  |
-// => INACTIVE -> TOUCH_DELAY -> RELEASING          HOLDING
-//                 |                                   ^
-//                 |                                   |
-//                 +-----------------------------------+
-var Phase
-;(function(Phase) {
-  // Initial state of the control, no touch in progress.
-  // Transitions:
-  //     on touch down: transition to TOUCH_DELAY.
-  //     on mouse down: transition to WAITING_FOR_MOUSE_CLICK.
-  Phase['INACTIVE'] = 'INACTIVE'
-  // Touch down has been received, waiting to determine if it's a swipe.
-  // Transitions:
-  //     on touch up: beginPress(); transition to RELEASING.
-  //     on cancel: transition to INACTIVE.
-  //     after TOUCH_DELAY_MS: beginPress(); transition to HOLDING.
-  Phase['TOUCH_DELAY'] = 'TOUCH_DELAY'
-  // A touch has been deemed to be a press
-  // Transitions:
-  //     on pointerup: endPress(); transition to WAITING_FOR_MOUSE_CLICK.
-  Phase['HOLDING'] = 'HOLDING'
-  // The user has released the mouse / touch, but we want to delay calling
-  // endPress for a little bit to avoid double clicks.
-  // Transitions:
-  //    mouse sequence after debounceDelay: endPress(); transition to INACTIVE
-  //    when in touch sequence: transitions directly to WAITING_FOR_MOUSE_CLICK
-  Phase['RELEASING'] = 'RELEASING'
-  // The user has touched, but we want to delay endPress until synthetic mouse
-  // click event occurs. Stay in this state for a fixed amount of time before
-  // giving up and transitioning into rest state.
-  // Transitions:
-  //     on click: endPress(); transition to INACTIVE.
-  //     after WAIT_FOR_MOUSE_CLICK_MS: transition to INACTIVE.
-  Phase['WAITING_FOR_MOUSE_CLICK'] = 'WAITING_FOR_MOUSE_CLICK'
-})(Phase || (Phase = {}))
-/**
- * Delay time from touchstart to when element#beginPress is invoked.
- */
-const TOUCH_DELAY_MS = 150
-/**
- * Delay time from beginning to wait for synthetic mouse events till giving up.
- */
-const WAIT_FOR_MOUSE_CLICK_MS = 500
-/**
- * ActionController normalizes user interaction on components and distills it
- * into calling `beginPress` and `endPress` on the component.
- *
- * `beginPress` is a good hook to affect visuals for pressed state, including
- * ripple.
- *
- * `endPress` is a good hook for firing events based on user interaction, and
- * cleaning up the pressed visual state.
- *
- * A component using an ActionController need only implement the ActionElement
- * interface and add the ActionController's event listeners to understand user
- * interaction.
- */
-class ActionController {
-  constructor(element) {
-    this.element = element
-    this.phase = Phase.INACTIVE
-    this.touchTimer = null
-    this.clickTimer = null
-    this.lastPositionEvent = null
-    this.pressed = false
-    this.checkBoundsAfterContextMenu = false
-    // event listeners
-    /**
-     * Pointer down event handler.
-     */
-    this.pointerDown = e => {
-      if (!this.shouldRespondToEvent(e) || this.phase !== Phase.INACTIVE) {
-        return
-      }
-      if (this.isTouch(e)) {
-        // after a longpress contextmenu event, an extra `pointerdown` can be
-        // dispatched to the pressed element. Check that the down is within
-        // bounds of the element in this case.
-        if (this.checkBoundsAfterContextMenu && !this.inBounds(e)) {
-          return
-        }
-        this.checkBoundsAfterContextMenu = false
-        this.lastPositionEvent = e
-        this.setPhase(Phase.TOUCH_DELAY)
-        this.touchTimer = setTimeout(() => {
-          this.touchDelayFinished()
-        }, TOUCH_DELAY_MS)
-      } else {
-        const leftButtonPressed = e.button === 0
-        if (
-          !leftButtonPressed ||
-          (this.ignoreClicksWithModifiers && this.eventHasModifiers(e))
-        ) {
-          return
-        }
-        this.setPhase(Phase.WAITING_FOR_MOUSE_CLICK)
-        this.beginPress(e)
-      }
-    }
-    /**
-     * Pointer up event handler.
-     */
-    this.pointerUp = e => {
-      if (!this.isTouch(e) || !this.shouldRespondToEvent(e)) {
-        return
-      }
-      if (this.phase === Phase.HOLDING) {
-        this.waitForClick()
-      } else if (this.phase === Phase.TOUCH_DELAY) {
-        this.setPhase(Phase.RELEASING)
-        this.beginPress()
-        this.waitForClick()
-      }
-    }
-    /**
-     * Click event handler.
-     */
-    this.click = e => {
-      if (
-        this.disabled ||
-        (this.ignoreClicksWithModifiers && this.eventHasModifiers(e))
-      ) {
-        return
-      }
-      if (this.phase === Phase.WAITING_FOR_MOUSE_CLICK) {
-        this.endPress()
-        this.setPhase(Phase.INACTIVE)
-        return
-      }
-      // keyboard synthesized click event
-      if (this.phase === Phase.INACTIVE && !this.pressed) {
-        this.press()
-      }
-    }
-    /**
-     * Pointer leave event handler.
-     */
-    this.pointerLeave = e => {
-      // cancel a held press that moves outside the element
-      if (this.shouldRespondToEvent(e) && !this.isTouch(e) && this.pressed) {
-        this.cancelPress()
-      }
-    }
-    /**
-     * Pointer cancel event handler.
-     */
-    this.pointerCancel = e => {
-      if (this.shouldRespondToEvent(e)) {
-        this.cancelPress()
-      }
-    }
-    /**
-     * Contextmenu event handler.
-     */
-    this.contextMenu = () => {
-      if (!this.disabled) {
-        this.checkBoundsAfterContextMenu = true
-        this.cancelPress()
-      }
-    }
-    this.element.addController(this)
-  }
-  get disabled() {
-    return this.element.disabled
-  }
-  get ignoreClicksWithModifiers() {
-    return this.element.ignoreClicksWithModifiers ?? false
-  }
-  setPhase(newPhase) {
-    this.phase = newPhase
-  }
-  /**
-   * Calls beginPress and then endPress. Allows us to programmatically click
-   * on the element.
-   */
-  press() {
-    this.beginPress(/* positionEvent= */ null)
-    this.setPhase(Phase.INACTIVE)
-    this.endPress()
-  }
-  /**
-   * Call `beginPress` on element with triggering event, if applicable.
-   */
-  beginPress(positionEvent = this.lastPositionEvent) {
-    this.pressed = true
-    this.element.beginPress({ positionEvent })
-  }
-  /**
-   * Call `endPress` on element, and clean up timers.
-   */
-  endPress() {
-    this.pressed = false
-    this.element.endPress({ cancelled: false })
-    this.cleanup()
-  }
-  cleanup() {
-    if (this.touchTimer) {
-      clearTimeout(this.touchTimer)
-    }
-    this.touchTimer = null
-    if (this.clickTimer) {
-      clearTimeout(this.clickTimer)
-    }
-    this.clickTimer = null
-    this.lastPositionEvent = null
-  }
-  /**
-   * Call `endPress` with cancelled state on element, and cleanup timers.
-   */
-  cancelPress() {
-    this.pressed = false
-    this.cleanup()
-    if (this.phase === Phase.TOUCH_DELAY) {
-      this.setPhase(Phase.INACTIVE)
-    } else if (this.phase !== Phase.INACTIVE) {
-      this.setPhase(Phase.INACTIVE)
-      this.element.endPress({ cancelled: true })
-    }
-  }
-  isTouch(e) {
-    return e.pointerType === 'touch'
-  }
-  touchDelayFinished() {
-    if (this.phase !== Phase.TOUCH_DELAY) {
-      return
-    }
-    this.setPhase(Phase.HOLDING)
-    this.beginPress()
-  }
-  waitForClick() {
-    this.setPhase(Phase.WAITING_FOR_MOUSE_CLICK)
-    this.clickTimer = setTimeout(() => {
-      // If a click event does not occur, clean up the interaction state.
-      if (this.phase === Phase.WAITING_FOR_MOUSE_CLICK) {
-        this.cancelPress()
-      }
-    }, WAIT_FOR_MOUSE_CLICK_MS)
-  }
-  /**
-   * Check if event should trigger actions on the element.
-   */
-  shouldRespondToEvent(e) {
-    return !this.disabled && e.isPrimary
-  }
-  /**
-   * Check if the event is within the bounds of the element.
-   *
-   * This is only needed for the "stuck" contextmenu longpress on Chrome.
-   */
-  inBounds(ev) {
-    const { top, left, bottom, right } = this.element.getBoundingClientRect()
-    const { x, y } = ev
-    return x >= left && x <= right && y >= top && y <= bottom
-  }
-  eventHasModifiers(e) {
-    return e.altKey || e.ctrlKey || e.shiftKey || e.metaKey
-  }
-  /**
-   * Cancel interactions if the element is removed from the DOM.
-   */
-  hostDisconnected() {
-    this.cancelPress()
-  }
-  /**
-   * If the element becomes disabled, cancel interactions.
-   */
-  hostUpdated() {
-    if (this.disabled) {
-      this.cancelPress()
-    }
-  }
-}
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * @soyCompatible
- *
- * ActionElement is a base class that provides a handy starting point for using
- * ActionController. Subclasses should add the event handlers on the interactive
- * node in the template, and override `beginPress` and `endPress` to handle
- * pressed state, ripple interaction, and any other "press" interaction.
- */
-class ActionElement extends s$1 {
-  constructor() {
-    super(...arguments)
-    this.actionController = new ActionController(this)
-  }
-  /**
-   * Hook method called when we've confirmed that the gesture is intended to be
-   * a press. Subclasses should change the visual state of the control to
-   * 'active' at this point, and possibly fire an event. Subclasses should
-   * override this method if more needs to be done.
-   *
-   * @param options `positionEvent` is the Event that is considered the
-   * beginning of the press. Null if this was a keyboard interaction.
-   */
-  beginPress(options) {}
-  /**
-   * Hook method called when the control goes from a pressed to unpressed
-   * state.
-   *
-   * @param options If `cancelled` is true, means the user canceled the action.
-   *    Subclasses which trigger events on endPress() should check the value
-   *    of this flag, and modify their behavior accordingly.
-   */
-  endPress({ cancelled, actionData }) {
-    if (!cancelled) {
-      this.dispatchEvent(
-        new CustomEvent('action', {
-          detail: actionData,
-          bubbles: true,
-          composed: true,
-        })
-      )
-    }
-  }
-  /**
-   * Hook method for the ActionController.
-   * Subclasses should add this method as an event handler on the interactive
-   * template element with `@pointerdown="${this.handlePointerDown}"`
-   */
-  handlePointerDown(e) {
-    this.actionController.pointerDown(e)
-  }
-  /**
-   * Hook method for the ActionController.
-   * Subclasses should add this method as an event handler on the interactive
-   * template element with `@pointerup="${this.handlePointerUp}"`
-   */
-  handlePointerUp(e) {
-    this.actionController.pointerUp(e)
-  }
-  /**
-   * Hook method for the ActionController.
-   * Subclasses should add this method as an event handler on the interactive
-   * template element with `@pointercancel="${this.handlePointerCancel}"`
-   */
-  handlePointerCancel(e) {
-    this.actionController.pointerCancel(e)
-  }
-  /**
-   * Hook method for the ActionController.
-   * Subclasses should add this method as an event handler on the interactive
-   * template element with `@pointerleave="${this.handlePointerleave}"`
-   */
-  handlePointerLeave(e) {
-    this.actionController.pointerLeave(e)
-  }
-  /**
-   * Hook method for the ActionController.
-   * Subclasses should add this method as an event handler on the interactive
-   * template element with `@click="${this.handleClick}"`
-   */
-  handleClick(e) {
-    this.actionController.click(e)
-  }
-  /**
-   * Hook method for the ActionController.
-   * Subclasses should add this method as an event handler on the interactive
-   * template element with `@contextmenu="${this.handleContextMenu}"`
-   */
-  handleContextMenu() {
-    this.actionController.contextMenu()
-  }
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-class FocusGlobal {
-  constructor() {
-    this.visible = false
-  }
-  setVisible(visible) {
-    this.visible = visible
-  }
-}
-/**
- * This object can be overwritten by the `setup()` function to use a different
- * focus coordination object.
- */
-let focusObject = new FocusGlobal()
-/**
- * Set of keyboard event codes that correspond to keyboard navigation
- */
-const KEYBOARD_NAVIGATION_KEYS = new Set([
-  'Tab',
-  'ArrowLeft',
-  'ArrowRight',
-  'ArrowUp',
-  'ArrowDown',
-])
-const KEYDOWN_HANDLER = e => {
-  if (KEYBOARD_NAVIGATION_KEYS.has(e.key)) {
-    focusObject.setVisible(true)
-  }
-}
-/**
- * Set up integration with alternate global focus tracking object
- *
- * @param focusGlobal A global focus object to coordinate between multiple
- *     systems
- * @param enableKeydownHandler Set to true to let StrongFocusService listen for
- *     keyboard navigation
- */
-function setup(focusGlobal, enableKeydownHandler = false) {
-  focusObject = focusGlobal
-  if (enableKeydownHandler) {
-    window.addEventListener('keydown', KEYDOWN_HANDLER)
-  } else {
-    window.removeEventListener('keydown', KEYDOWN_HANDLER)
-  }
-}
-/**
- * Returns `true` if the component should show strong focus.
- *
- * By default, strong focus is shown only on keyboard navigation, and not on
- * pointer interaction.
- */
-function shouldShowStrongFocus() {
-  return focusObject.visible
-}
-/**
- * Components should call this when a user interacts with a component with a
- * pointing device.
- *
- * By default, this will prevent the strong focus from being shown.
- */
-function pointerPress() {
-  focusObject.setVisible(false)
-}
-setup(focusObject, true)
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * Easing functions to use for web animations.
- *
- * TODO(b/241113345): replace with tokens
- */
-var Easing
-;(function(Easing) {
-  Easing['STANDARD'] = 'cubic-bezier(0.2, 0, 0, 1)'
-})(Easing || (Easing = {}))
-/**
- * Creates an `AnimationSignal` that can be used to cancel a previous task.
- *
- * @example
- * class MyClass {
- *   private labelAnimationSignal = createAnimationSignal();
- *
- *   private async animateLabel() {
- *     // Start of the task. Previous tasks will be canceled.
- *     const signal = this.labelAnimationSignal.start();
- *
- *     // Do async work...
- *     if (signal.aborted) {
- *       // Use AbortSignal to check if a request was made to abort after some
- *       // asynchronous work.
- *       return;
- *     }
- *
- *     const animation = this.animate(...);
- *     // Add event listeners to be notified when the task should be canceled.
- *     signal.addEventListener('abort', () => {
- *       animation.cancel();
- *     });
- *
- *     animation.addEventListener('finish', () => {
- *       // Tell the signal that the current task is finished.
- *       this.labelAnimationSignal.finish();
- *     });
- *   }
- * }
- *
- * @return An `AnimationSignal`.
- */
-function createAnimationSignal() {
-  // The current animation's AbortController
-  let animationAbortController = null
-  return {
-    start() {
-      // Tell the previous animation to cancel.
-      animationAbortController?.abort()
-      // Set up a new AbortController for the current animation.
-      animationAbortController = new AbortController()
-      // Provide the AbortSignal so that the caller can check aborted status
-      // and add listeners.
-      return animationAbortController.signal
-    },
-    finish() {
-      animationAbortController = null
-    },
-  }
-}
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const PRESS_GROW_MS = 450
-const MINIMUM_PRESS_MS = 225
-const INITIAL_ORIGIN_SCALE = 0.2
-const PADDING = 10
-const SOFT_EDGE_MINIMUM_SIZE = 75
-const SOFT_EDGE_CONTAINER_RATIO = 0.35
-const PRESS_PSEUDO = '::after'
-const ANIMATION_FILL = 'forwards'
-/** @soyCompatible */
-class Ripple extends s$1 {
-  constructor() {
-    super(...arguments)
-    this.unbounded = false
-    this.disabled = false
-    this.hovered = false
-    this.focused = false
-    this.pressed = false
-    this.rippleSize = ''
-    this.rippleScale = ''
-    this.initialSize = 0
-    this.pressAnimationSignal = createAnimationSignal()
-    this.growAnimation = null
-    this.delayedEndPressHandle = null
-  }
-  /** @soyTemplate */
-  render() {
-    return y`<div class="md3-ripple-surface ${o(
-      this.getRenderRippleClasses()
-    )}"></div>`
-  }
-  /** @soyTemplate */
-  getRenderRippleClasses() {
-    return {
-      'md3-ripple--hovered': this.hovered,
-      'md3-ripple--focused': this.focused,
-      'md3-ripple--pressed': this.pressed,
-      'md3-ripple--unbounded': this.unbounded,
-    }
-  }
-  update(changedProps) {
-    if (changedProps.has('disabled') && this.disabled) {
-      this.endHover()
-      this.endFocus()
-      this.endPress()
-    }
-    super.update(changedProps)
-  }
-  getDimensions() {
-    return (this.parentElement ?? this).getBoundingClientRect()
-  }
-  determineRippleSize() {
-    const { height, width } = this.getDimensions()
-    const maxDim = Math.max(height, width)
-    const softEdgeSize = Math.max(
-      SOFT_EDGE_CONTAINER_RATIO * maxDim,
-      SOFT_EDGE_MINIMUM_SIZE
-    )
-    let maxRadius = maxDim
-    let initialSize = Math.floor(maxDim * INITIAL_ORIGIN_SCALE)
-    const hypotenuse = Math.sqrt(width ** 2 + height ** 2)
-    maxRadius = hypotenuse + PADDING
-    // ensure `initialSize` is even for unbounded
-    if (this.unbounded) {
-      initialSize = initialSize - (initialSize % 2)
-    }
-    this.initialSize = initialSize
-    this.rippleScale = `${(maxRadius + softEdgeSize) / initialSize}`
-    this.rippleSize = `${this.initialSize}px`
-  }
-  getNormalizedPointerEventCoords(pointerEvent) {
-    const { scrollX, scrollY } = window
-    const { left, top } = this.getDimensions()
-    const documentX = scrollX + left
-    const documentY = scrollY + top
-    const { pageX, pageY } = pointerEvent
-    return { x: pageX - documentX, y: pageY - documentY }
-  }
-  getTranslationCoordinates(positionEvent) {
-    const { height, width } = this.getDimensions()
-    // end in the center
-    const endPoint = {
-      x: (width - this.initialSize) / 2,
-      y: (height - this.initialSize) / 2,
-    }
-    let startPoint
-    if (positionEvent instanceof PointerEvent) {
-      startPoint = this.getNormalizedPointerEventCoords(positionEvent)
-    } else {
-      startPoint = {
-        x: width / 2,
-        y: height / 2,
-      }
-    }
-    // center around start point
-    startPoint = {
-      x: startPoint.x - this.initialSize / 2,
-      y: startPoint.y - this.initialSize / 2,
-    }
-    return { startPoint, endPoint }
-  }
-  startPressAnimation(positionEvent) {
-    this.determineRippleSize()
-    const { startPoint, endPoint } = this.getTranslationCoordinates(
-      positionEvent
-    )
-    const translateStart = `${startPoint.x}px, ${startPoint.y}px`
-    const translateEnd = `${endPoint.x}px, ${endPoint.y}px`
-    const signal = this.pressAnimationSignal.start()
-    const growAnimation = this.mdRoot.animate(
-      {
-        top: [0, 0],
-        left: [0, 0],
-        height: [this.rippleSize, this.rippleSize],
-        width: [this.rippleSize, this.rippleSize],
-        transform: [
-          `translate(${translateStart}) scale(1)`,
-          `translate(${translateEnd}) scale(${this.rippleScale})`,
-        ],
-      },
-      {
-        pseudoElement: PRESS_PSEUDO,
-        duration: PRESS_GROW_MS,
-        easing: Easing.STANDARD,
-        fill: ANIMATION_FILL,
-      }
-    )
-    growAnimation.addEventListener('finish', () => {
-      this.pressAnimationSignal.finish()
-      this.growAnimation = null
+    // @ts-ignore
+    this.provider = new e$3(this, viewerContext, {
+      service: appContext.service,
     })
-    signal.addEventListener('abort', () => {
-      growAnimation.cancel()
-      this.growAnimation = null
-    })
-    this.growAnimation = growAnimation
   }
-  /**
-   * @deprecated Use beginHover
-   */
-  startHover(hoverEvent) {
-    this.beginHover(hoverEvent)
-  }
-  beginHover(hoverEvent) {
-    if (hoverEvent?.pointerType !== 'touch') {
-      this.hovered = true
-    }
-  }
-  endHover() {
-    this.hovered = false
-  }
-  /**
-   * @deprecated Use beginFocus
-   */
-  startFocus() {
-    this.beginFocus()
-  }
-  beginFocus() {
-    this.focused = true
-  }
-  endFocus() {
-    this.focused = false
-  }
-  /**
-   * @deprecated Use beginPress
-   */
-  startPress(positionEvent) {
-    this.beginPress(positionEvent)
-  }
-  beginPress(positionEvent) {
-    this.pressed = true
-    if (this.delayedEndPressHandle !== null) {
-      clearTimeout(this.delayedEndPressHandle)
-      this.delayedEndPressHandle = null
-    }
-    this.startPressAnimation(positionEvent)
-  }
-  endPress() {
-    const pressAnimationPlayState = this.growAnimation?.currentTime ?? Infinity
-    if (pressAnimationPlayState >= MINIMUM_PRESS_MS) {
-      this.pressed = false
-    } else {
-      this.delayedEndPressHandle = setTimeout(() => {
-        this.pressed = false
-        this.delayedEndPressHandle = null
-      }, MINIMUM_PRESS_MS - pressAnimationPlayState)
-    }
-  }
-}
-__decorate(
-  [i$4('.md3-ripple-surface'), __metadata('design:type', HTMLElement)],
-  Ripple.prototype,
-  'mdRoot',
-  void 0
-)
-__decorate(
-  [e$5({ type: Boolean }), __metadata('design:type', Object)],
-  Ripple.prototype,
-  'unbounded',
-  void 0
-)
-__decorate(
-  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
-  Ripple.prototype,
-  'disabled',
-  void 0
-)
-__decorate(
-  [t$3(), __metadata('design:type', Object)],
-  Ripple.prototype,
-  'hovered',
-  void 0
-)
-__decorate(
-  [t$3(), __metadata('design:type', Object)],
-  Ripple.prototype,
-  'focused',
-  void 0
-)
-__decorate(
-  [t$3(), __metadata('design:type', Object)],
-  Ripple.prototype,
-  'pressed',
-  void 0
-)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$2 = i$3`:host{position:absolute;inset:0;pointer-events:none;overflow:hidden;display:flex}:host([disabled]){opacity:0}.md3-ripple-surface{position:absolute;inset:0;pointer-events:none;overflow:hidden;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}.md3-ripple-surface::before,.md3-ripple-surface::after{position:absolute;opacity:0;pointer-events:none;z-index:-1;content:""}.md3-ripple-surface::before{transition:opacity 15ms linear,background-color 15ms linear;inset:0}.md3-ripple-surface::after{transition:opacity 375ms linear;transform-origin:center center}.md3-ripple--focused::before{transition-duration:75ms}.md3-ripple--pressed::after{transition-duration:105ms}.md3-ripple-surface{border-radius:var(--md-ripple-state-layer-shape, 0)}.md3-ripple-surface::before{background-color:var(--md-ripple-hover-state-layer-color, black)}.md3-ripple-surface::after{background:radial-gradient(closest-side, var(--md-ripple-pressed-state-layer-color, black) max(100% - 70px, 65%), transparent 100%)}.md3-ripple-surface.md3-ripple--hovered::before{opacity:var(--md-ripple-hover-state-layer-opacity, 0.08);background-color:var(--md-ripple-hover-state-layer-color, black)}.md3-ripple-surface.md3-ripple--focused::before{opacity:var(--md-ripple-focus-state-layer-opacity, 0.12);background-color:var(--md-ripple-focus-state-layer-color, black)}.md3-ripple-surface.md3-ripple--pressed::after{opacity:var(--md-ripple-pressed-state-layer-opacity, 0.12)}.md3-ripple-surface.md3-ripple--unbounded{border-radius:var(--md-ripple-state-layer-shape, 9999px)}/*# sourceMappingURL=ripple-styles.css.map */
-`
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * @soyCompatible
- * @final
- * @suppress {visibility}
- */
-let MdRipple = class MdRipple extends Ripple {}
-MdRipple.styles = [styles$2]
-MdRipple = __decorate([e$6('md-ripple')], MdRipple)
-
-/**
- * @license
- * Copyright 2020 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ const e = Symbol.for(''),
-  l = t => {
-    if ((null == t ? void 0 : t.r) === e)
-      return null == t ? void 0 : t._$litStatic$
-  },
-  i = (t, ...r) => ({
-    _$litStatic$: r.reduce(
-      (r, e, l) =>
-        r +
-        (t => {
-          if (void 0 !== t._$litStatic$) return t._$litStatic$
-          throw Error(
-            `Value passed to 'literal' function must be a 'literal' result: ${t}. Use 'unsafeStatic' to pass non-literal values, but\n            take care to ensure page security.`
-          )
-        })(e) +
-        t[l + 1],
-      t[0]
-    ),
-    r: e,
-  }),
-  s = new Map(),
-  a = t => (r, ...e) => {
-    const o = e.length
-    let i, a
-    const n = [],
-      u = []
-    let c,
-      $ = 0,
-      f = !1
-    for (; $ < o; ) {
-      for (c = r[$]; $ < o && void 0 !== ((a = e[$]), (i = l(a))); )
-        (c += i + r[++$]), (f = !0)
-      u.push(a), n.push(c), $++
-    }
-    if (($ === o && n.push(r[o]), f)) {
-      const t = n.join('$$lit$$')
-      void 0 === (r = s.get(t)) && ((n.raw = n), s.set(t, (r = n))), (e = u)
-    }
-    return t(r, ...e)
-  },
-  n = a(y)
-
-/**
- * @license
- * Copyright 2018 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/** @soyCompatible */
-class IconButton extends ActionElement {
-  constructor() {
-    super(...arguments)
-    this.disabled = false
-    this.icon = ''
-    this.flipIconInRtl = false
-    this.flipIcon = false
-    this.showFocusRing = false
-    this.rippleElementTag = i`md-ripple`
-    this.focusElementTag = i`md-focus-ring`
-    this.iconElementTag = i`md-icon`
-  }
-  /** @soyTemplate */
-  renderRipple() {
-    return n`<${this.rippleElementTag} ?disabled="${this.disabled}" unbounded> </${this.rippleElementTag}>`
-  }
-  /** @soyTemplate */
   render() {
-    return y`<button
-        class="md3-icon-button ${o(this.getRenderClasses())}"
-        aria-label="${l$1(this.ariaLabel)}"
-        aria-haspopup="${l$1(this.ariaHasPopup)}"
-        ?disabled="${this.disabled}"
-        @focus="${this.handleFocus}"
-        @blur="${this.handleBlur}"
-        @pointerdown="${this.handlePointerDown}"
-        @pointerup="${this.handlePointerUp}"
-        @pointercancel="${this.handlePointerCancel}"
-        @pointerleave="${this.handlePointerLeave}"
-        @pointerenter="${this.handlePointerEnter}"
-        @click="${this.handleClick}"
-        @contextmenu="${this.handleContextMenu}">
-        ${this.renderFocusRing()}
-        ${this.renderRipple()}
-        <span class="md3-icon-button__icon">${this.renderIcon(this.icon)}</span>
-        ${this.renderTouchTarget()}
-        <span class="md3-icon-button__icon"><slot></slot></span>
-  </button>`
-  }
-  /** @soyTemplate */
-  getRenderClasses() {
-    return {
-      'md3-icon-button--flip-icon': this.flipIcon,
-    }
-  }
-  /** @soyTemplate */
-  renderIcon(icon) {
-    return icon
-      ? n`<${this.iconElementTag}>${icon}</${this.iconElementTag}>`
-      : ''
-  }
-  /** @soyTemplate */
-  renderTouchTarget() {
-    return y`<span class="md3-icon-button__touch"></span>`
-  }
-  /** @soyTemplate */
-  renderFocusRing() {
-    return n`<${this.focusElementTag} .visible="${this.showFocusRing}"></${this.focusElementTag}>`
-  }
-  connectedCallback() {
-    this.maybeFlipIconInRtl()
-    super.connectedCallback()
-  }
-  maybeFlipIconInRtl() {
-    if (!this.flipIconInRtl) return
-    const isRtl = getComputedStyle(this).getPropertyValue('direction') === 'rtl'
-    this.flipIcon = isRtl
-  }
-  beginPress({ positionEvent }) {
-    this.ripple.beginPress(positionEvent)
-  }
-  endPress(options) {
-    this.ripple.endPress()
-    super.endPress(options)
-  }
-  handlePointerDown(e) {
-    super.handlePointerDown(e)
-    pointerPress()
-    this.showFocusRing = shouldShowStrongFocus()
-  }
-  handlePointerEnter(e) {
-    this.ripple.beginHover(e)
-  }
-  handlePointerLeave(e) {
-    super.handlePointerLeave(e)
-    this.ripple.endHover()
-  }
-  handleFocus() {
-    this.showFocusRing = shouldShowStrongFocus()
-  }
-  handleBlur() {
-    this.showFocusRing = false
+    return y`
+      <slot></slot>
+    `
   }
 }
-__decorate(
-  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
-  IconButton.prototype,
-  'disabled',
-  void 0
-)
-__decorate(
-  [e$5({ type: String }), __metadata('design:type', Object)],
-  IconButton.prototype,
-  'icon',
-  void 0
-)
-__decorate(
-  [e$5({ type: Boolean }), __metadata('design:type', Object)],
-  IconButton.prototype,
-  'flipIconInRtl',
-  void 0
-)
-__decorate(
-  [e$5({ type: Boolean }), __metadata('design:type', Object)],
-  IconButton.prototype,
-  'flipIcon',
-  void 0
-)
-__decorate(
-  [
-    ariaProperty, // tslint:disable-line:no-new-decorators
-    e$5({ type: String, attribute: 'aria-label' }),
-    __metadata('design:type', String),
-  ],
-  IconButton.prototype,
-  'ariaLabel',
-  void 0
-)
-__decorate(
-  [
-    ariaProperty, // tslint:disable-line:no-new-decorators
-    e$5({ type: String, attribute: 'aria-haspopup' }),
-    __metadata('design:type', String),
-  ],
-  IconButton.prototype,
-  'ariaHasPopup',
-  void 0
-)
-__decorate(
-  [i$4('button'), __metadata('design:type', HTMLElement)],
-  IconButton.prototype,
-  'buttonElement',
-  void 0
-)
-__decorate(
-  [i$4('md-ripple'), __metadata('design:type', MdRipple)],
-  IconButton.prototype,
-  'ripple',
-  void 0
-)
-__decorate(
-  [t$3(), __metadata('design:type', Object)],
-  IconButton.prototype,
-  'showFocusRing',
-  void 0
-)
+ServiceContext = __decorate([e$6('service-context')], ServiceContext)
 
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$1 = i$3`:host{display:inline-flex;outline:none;--md-focus-ring-container-outer-padding-vertical:0px;--md-focus-ring-container-outer-padding-horizontal:0px}:host([disabled]){pointer-events:none}.md3-icon-button{align-items:center;border:none;box-sizing:border-box;cursor:pointer;display:flex;fill:currentColor;justify-content:center;outline:none;position:relative;text-decoration:none;user-select:none;z-index:0}.md3-icon-button i,.md3-icon-button svg,.md3-icon-button img,.md3-icon-button ::slotted(*){display:block}.md3-icon-button--flip-icon .md3-icon-button__icon{transform:scaleX(-1)}.md3-icon-button__icon{display:inline-flex}.md3-icon-button__icon.md3-icon-button__icon--on{display:none}.md3-icon-button--on .md3-icon-button__icon{display:none}.md3-icon-button--on .md3-icon-button__icon.md3-icon-button__icon--on{display:inline-flex}.md3-icon-button__link{height:100%;outline:none;position:absolute;width:100%}.md3-icon-button__touch{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%)}/*# sourceMappingURL=icon-button-styles.css.map */
-`
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles = i$3`.md3-icon-button--standard{background-color:rgba(0,0,0,0)}.md3-icon-button--standard{font-size:var(--md-icon-button-icon-size, 24px);height:var(--md-icon-button-state-layer-size, 40px);width:var(--md-icon-button-state-layer-size, 40px);margin:max(0px,(48px - var(--md-icon-button-state-layer-size, 40px))/2);color:var(--md-icon-button-unselected-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--md-ripple-focus-state-layer-color:var(--md-icon-button-unselected-focus-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--md-ripple-focus-state-layer-opacity:var(--md-icon-button-unselected-focus-state-layer-opacity, 0.08);--md-ripple-hover-state-layer-color:var(--md-icon-button-unselected-hover-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--md-ripple-hover-state-layer-opacity:var(--md-icon-button-unselected-hover-state-layer-opacity, 0.08);--md-ripple-pressed-state-layer-color:var(--md-icon-button-unselected-pressed-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--md-ripple-pressed-state-layer-opacity:var(--md-icon-button-unselected-pressed-state-layer-opacity, 0.12)}.md3-icon-button--standard i,.md3-icon-button--standard svg,.md3-icon-button--standard img{height:var(--md-icon-button-icon-size, 24px);width:var(--md-icon-button-icon-size, 24px)}.md3-icon-button--standard:disabled{color:var(--md-icon-button-disabled-icon-color, rgb(var(--md-sys-color-on-surface-rgb, 28, 27, 31), 0.38))}.md3-icon-button--standard:focus{color:var(--md-icon-button-unselected-focus-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}.md3-icon-button--standard:hover{color:var(--md-icon-button-unselected-hover-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}.md3-icon-button--standard:not(:disabled):active{color:var(--md-icon-button-unselected-pressed-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}.md3-icon-button--standard.md3-icon-button--on{color:var(--md-icon-button-selected-icon-color, var(--md-sys-color-primary, #6750a4))}.md3-icon-button--standard.md3-icon-button--on:disabled{color:var(--md-icon-button-disabled-icon-color, rgb(var(--md-sys-color-on-surface-rgb, 28, 27, 31), 0.38))}.md3-icon-button--standard.md3-icon-button--on:focus{color:var(--md-icon-button-selected-focus-icon-color, var(--md-sys-color-primary, #6750a4))}.md3-icon-button--standard.md3-icon-button--on:hover{color:var(--md-icon-button-selected-hover-icon-color, var(--md-sys-color-primary, #6750a4))}.md3-icon-button--standard.md3-icon-button--on:not(:disabled):active{color:var(--md-icon-button-selected-pressed-icon-color, var(--md-sys-color-primary, #6750a4))}.md3-icon-button--standard.md3-icon-button--on{--md-ripple-focus-state-layer-color:var(--md-icon-button-selected-focus-state-layer-color, var(--md-sys-color-primary, #6750a4));--md-ripple-focus-state-layer-opacity:var(--md-icon-button-selected-focus-state-layer-opacity, 0.12);--md-ripple-hover-state-layer-color:var(--md-icon-button-selected-hover-state-layer-color, var(--md-sys-color-primary, #6750a4));--md-ripple-hover-state-layer-opacity:var(--md-icon-button-selected-hover-state-layer-opacity, 0.08);--md-ripple-pressed-state-layer-color:var(--md-icon-button-selected-pressed-state-layer-color, var(--md-sys-color-primary, #6750a4));--md-ripple-pressed-state-layer-opacity:var(--md-icon-button-selected-pressed-state-layer-opacity, 0.12)}/*# sourceMappingURL=standard-styles.css.map */
-`
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/** @soyCompatible */
-let MdStandardIconButton = class MdStandardIconButton extends IconButton {
-  /** @soyTemplate */
-  getRenderClasses() {
-    return {
-      ...super.getRenderClasses(),
-      'md3-icon-button--standard': true,
-    }
-  }
-}
-MdStandardIconButton.styles = [styles$1, styles]
-MdStandardIconButton = __decorate(
-  [e$6('md-standard-icon-button')],
-  MdStandardIconButton
-)
-
-// "Inject" XState context into components with DOM events
-const setContext = (providerElement, context) => {
-  providerElement.addEventListener('request', event => {
-    const { detail } = event
-    detail.context = context
-    event.stopPropagation()
-  })
-}
-function InjectContext() {
-  return (target, name) => {
-    const property = {
-      get() {
-        const event = new CustomEvent('request', {
-          detail: {},
-          bubbles: true,
-          composed: true,
-        })
-        // @ts-ignore
-        this.dispatchEvent(event)
-        return event.detail.context
-      },
-    }
-    Object.defineProperty(target, name, property)
-    return target
-  }
-}
-
-let CollapseUi = class CollapseUi extends s$1 {
+let CollapseUi = class CollapseUi extends s$3 {
   render() {
     return y`
       <md-standard-icon-button @click=${this.toggleUi}>
@@ -21862,7 +21852,7 @@ let CollapseUi = class CollapseUi extends s$1 {
     this.context.service.send('TOGGLE_UI_COLLAPSED')
   }
 }
-CollapseUi.styles = i$3`
+CollapseUi.styles = i$4`
     .icon {
       width: 100%;
     }
@@ -21870,24 +21860,56 @@ CollapseUi.styles = i$3`
 __decorate([InjectContext()], CollapseUi.prototype, 'context', void 0)
 CollapseUi = __decorate([e$6('collapse-ui')], CollapseUi)
 
+function updateDrawer(context) {
+  context.drawer.opened = !context.uiCollapsed
+  var drawerChild = context.drawer.shadowRoot.children[0]
+  if (drawerChild)
+    drawerChild.style.width = context.drawer.opened ? '410px' : ''
+}
+function toggleUICollapsed(context, event, actionMeta) {
+  if (!context.uiContainer) {
+    return
+  }
+  if (actionMeta) {
+    context.uiCollapsed =
+      actionMeta.state.value.active.uiCollapsed === 'enabled'
+  }
+  updateDrawer(context)
+  if (!context.uiCollapsed && context.images.selectedName) {
+    context.service.send({
+      type: 'SELECT_LAYER',
+      data: context.images.selectedName,
+    })
+  }
+  if (!context.use2D && !!context.main.planeUIGroup) {
+    if (context.uiCollapsed && context.main.viewMode === 'Volume') {
+      context.main.planeUIGroup.style.display = 'none'
+    } else {
+      context.main.planeUIGroup.style.display = 'block'
+    }
+  }
+}
+
 function createInterface(context) {
   context.viewContainers = new Map()
   var viewContainer = document.createElement('div')
   viewContainer.className = ''.concat(style.viewContainer)
   context.viewContainers.set('volume', viewContainer)
-  context.rootContainer.appendChild(viewContainer)
   setContext(viewContainer, context)
+  var serviceContextProvider = document.createElement('service-context')
+  serviceContextProvider.appendChild(viewContainer)
+  context.rootContainer.appendChild(serviceContextProvider)
   var viewport = document.createElement('div')
   viewContainer.appendChild(viewport)
   viewport.setAttribute('class', style.viewport)
   var container3d = context.renderingViewContainers.get('volume')
   viewport.appendChild(container3d)
-  container3d.style.height = '100%' // if somehow already set (by non reference-ui from config obj?)
+  container3d.style.height = '100%'
 
+  // if somehow already set (by non reference-ui from config obj?)
   if (!context.uiContainer) {
     context.uiContainer = document.createElement('div')
   }
-
   var sidebar = makeHtml(
     "\n    <div class='"
       .concat(
@@ -21903,43 +21925,16 @@ function createInterface(context) {
   var drawer = sidebar.querySelector('#drawer')
   drawer.appendChild(context.uiContainer)
   viewport.appendChild(sidebar)
-  context.drawer = drawer // FIXME: hack to keep scroll bar from squishing uiContainer, because uiContainer width does not get reduces with scroll bar.
-
+  context.drawer = drawer
   setTimeout(function() {
+    // hack to keep scroll bar from squishing uiContainer, because uiContainer width does not get reduces with scroll bar.
     drawer.shadowRoot.children[0].style.overflow = 'visible'
+    // sets hacked width of drawer based on context.uiCollapsed
+    updateDrawer(context)
   }, 0)
-
   if (!context.uiGroups) {
     // String to UI group element
     context.uiGroups = new Map()
-  }
-}
-
-function toggleUICollapsed(context, event, actionMeta) {
-  if (!context.uiContainer) {
-    return
-  }
-
-  if (actionMeta) {
-    context.uiCollapsed =
-      actionMeta.state.value.active.uiCollapsed === 'enabled'
-  }
-
-  context.drawer.opened = !context.uiCollapsed
-
-  if (!context.uiCollapsed && context.images.selectedName) {
-    context.service.send({
-      type: 'SELECT_LAYER',
-      data: context.images.selectedName,
-    })
-  }
-
-  if (!context.use2D && !!context.main.planeUIGroup) {
-    if (context.uiCollapsed && context.main.viewMode === 'Volume') {
-      context.main.planeUIGroup.style.display = 'none'
-    } else {
-      context.main.planeUIGroup.style.display = 'block'
-    }
   }
 }
 

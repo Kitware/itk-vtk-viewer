@@ -1,3 +1,11 @@
+export function updateDrawer(context) {
+  context.drawer.opened = !context.uiCollapsed
+
+  const drawerChild = context.drawer.shadowRoot.children[0]
+  if (drawerChild)
+    drawerChild.style.width = context.drawer.opened ? '410px' : ''
+}
+
 function toggleUICollapsed(context, event, actionMeta) {
   if (!context.uiContainer) {
     return
@@ -7,7 +15,7 @@ function toggleUICollapsed(context, event, actionMeta) {
       actionMeta.state.value.active.uiCollapsed === 'enabled'
   }
 
-  context.drawer.opened = !context.uiCollapsed
+  updateDrawer(context)
 
   if (!context.uiCollapsed && context.images.selectedName) {
     context.service.send({

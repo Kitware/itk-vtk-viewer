@@ -1,17 +1,22 @@
 import style from './ItkVtkViewer.module.css'
 import '@material/web/navigationdrawer/navigation-drawer.js'
-
+import './serviceContext'
 import './collapse-ui'
 import { setContext } from './context'
 import { makeHtml } from './utils'
+import { updateDrawer } from './toggleUICollapsed'
 
 function createInterface(context) {
   context.viewContainers = new Map()
+
   const viewContainer = document.createElement('div')
   viewContainer.className = `${style.viewContainer}`
   context.viewContainers.set('volume', viewContainer)
-  context.rootContainer.appendChild(viewContainer)
   setContext(viewContainer, context)
+
+  const serviceContextProvider = document.createElement('service-context')
+  serviceContextProvider.appendChild(viewContainer)
+  context.rootContainer.appendChild(serviceContextProvider)
 
   const viewport = document.createElement('div')
   viewContainer.appendChild(viewport)
@@ -35,12 +40,13 @@ function createInterface(context) {
   const drawer = sidebar.querySelector('#drawer')
   drawer.appendChild(context.uiContainer)
   viewport.appendChild(sidebar)
-
   context.drawer = drawer
 
-  // FIXME: hack to keep scroll bar from squishing uiContainer, because uiContainer width does not get reduces with scroll bar.
   setTimeout(() => {
+    // hack to keep scroll bar from squishing uiContainer, because uiContainer width does not get reduces with scroll bar.
     drawer.shadowRoot.children[0].style.overflow = 'visible'
+    // sets hacked width of drawer based on context.uiCollapsed
+    updateDrawer(context)
   }, 0)
 
   if (!context.uiGroups) {

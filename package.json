@@ -31,7 +31,7 @@
   "types": "./src/index.d.ts",
   "dependencies": {
     "@kitware/vtk.js": "^26.5.6",
-    "@material/web": "^0.1.0-alpha.0",
+    "@material/web": "^1.0.0-pre.4",
     "@thewtex/iconselect.js": "^2.1.2",
     "@xstate/inspect": "^0.4.1",
     "axios": "^0.21.1",
@@ -56,9 +56,10 @@
     "regenerator-runtime": "^0.13.7",
     "vtk.js": "^26.5.6",
     "webworker-promise": "^0.4.2",
-    "xstate": "^4.16.2"
+    "xstate": "^4.37.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/plugin-transform-runtime": "^7.13.6",
     "@babel/preset-env": "^7.13.5",
     "@babel/runtime": "^7.13.6",
@@ -137,6 +138,7 @@
     "format": "prettier --write src/UserInterface/**/*.js src/*.js",
     "lint:types": "tsc --noEmit",
     "start": "webpack serve --mode development --static ./dist/ --open --port 8082",
+    "dev": "webpack serve --mode development --static ./dist/ --port 8082",
     "semantic-release": "semantic-release",
     "test": "npm run test:downloadData && npm run lint:types && npm run build:test-ui && karma start ./karma.conf.js --browsers Chrome_without_sandbox,Firefox",
     "test:downloadData": "node test/downloadData.mjs",

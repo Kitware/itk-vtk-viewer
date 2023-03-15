@@ -282,6 +282,7 @@ function createLayersUIMachine(options, context) {
         active: {
           invoke: [
             {
+              id: 'compareUI',
               src: 'compareUI',
             },
           ],

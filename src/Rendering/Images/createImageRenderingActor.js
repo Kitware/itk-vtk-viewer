@@ -1,4 +1,5 @@
 import { assign, createMachine, forwardTo, send } from 'xstate'
+import { defaultCompare } from '../../Context/ImageActorContext'
 import { makeTransitions } from './makeTransitions'
 
 export const getOutputImageComponentCount = actorContext => {
@@ -155,7 +156,7 @@ const computeIsCinematicPossible = (context, { data: { itkImage, name } }) => {
 const assignCompare = assign({
   images: ({ images }, { data: { name, fixedImageName, options } }) => {
     const actorContext = images.actorContext.get(name)
-    actorContext.compare = { ...options, fixedImageName }
+    actorContext.compare = { ...defaultCompare, ...options, fixedImageName }
     return images
   },
 })

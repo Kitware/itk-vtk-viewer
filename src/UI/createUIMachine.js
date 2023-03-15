@@ -1,4 +1,4 @@
-import { Machine, forwardTo, assign } from 'xstate'
+import { Machine, forwardTo } from 'xstate'
 
 import createMainUIMachine from './Main/createMainUIMachine'
 import createLayersUIMachine from './Layers/createLayersUIMachine'

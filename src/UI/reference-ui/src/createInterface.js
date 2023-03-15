@@ -3,12 +3,7 @@ import '@material/web/navigationdrawer/navigation-drawer.js'
 
 import './collapse-ui'
 import { setContext } from './context'
-
-const makeHtml = htmlString => {
-  const template = document.createElement('template')
-  template.innerHTML = htmlString
-  return template.content.firstElementChild
-}
+import { makeHtml } from './utils'
 
 function createInterface(context) {
   context.viewContainers = new Map()

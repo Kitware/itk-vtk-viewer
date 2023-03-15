@@ -13,7 +13,7 @@ export const compareUI = context => (send, onReceive) => {
 
   const swapButtonId = `${context.id}-swapImageOrder`
   const checkerboardRoot = makeHtml(`
-    <div style="display: flex">
+    <div style="display: flex; justify-content: space-between;">
       <label class="${style.inputLabel}">Checkerboard Pattern X:</label>
       <input id="x-pattern" type="number" class="${style.selector} ${style.numberInput}" style="max-width: 3.2ch" />
       <label class="${style.inputLabel}">Y:</label>
@@ -37,7 +37,7 @@ export const compareUI = context => (send, onReceive) => {
     const { compare = undefined } = imageContext ?? {}
     const { method = undefined } = compare ?? {}
 
-    if (!method || method === 'disabled') {
+    if (!method || method === 'disable') {
       root.style.display = 'none'
     } else {
       root.style.display = 'block'

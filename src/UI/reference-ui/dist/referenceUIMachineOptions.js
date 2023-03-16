@@ -5805,7 +5805,7 @@ var compareUI = function compareUI(context) {
     var root = document.createElement('div')
     root.setAttribute(
       'style',
-      'align-self: center; align-content: center; height: 25px; margin-right: 5px'
+      'align-self: center; align-content: center; height: 25px; margin-left: 4px; margin-right: 4px'
     )
     var parent = context.layers.compareContainer
     parent.appendChild(root)

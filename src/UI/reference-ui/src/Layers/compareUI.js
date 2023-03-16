@@ -6,7 +6,7 @@ export const compareUI = context => (send, onReceive) => {
   const root = document.createElement('div')
   root.setAttribute(
     'style',
-    'align-self: center; align-content: center; height: 25px; margin-right: 5px'
+    'align-self: center; align-content: center; height: 25px; margin-left: 4px; margin-right: 4px'
   )
   const parent = context.layers.compareContainer
   parent.appendChild(root)

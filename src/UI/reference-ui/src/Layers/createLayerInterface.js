@@ -8,7 +8,7 @@ import {
   labelsIconDataUri,
 } from 'itk-viewer-icons'
 import { makeHtml } from '../utils'
-import './layerSettings.js'
+import './layerIcon.js'
 
 function createLayerEntry(context, name, layer) {
   const layerEntry = document.createElement('div')
@@ -73,28 +73,10 @@ function createLayerEntry(context, name, layer) {
 
   layer.spinner = spinner
 
-  const iconElement = document.createElement('div')
-  switch (layer.type) {
-    case 'image': {
-      iconElement.innerHTML = `<img src="${imageIconDataUri}" alt="image"/>`
-      break
-    }
-    case 'labelImage': {
-      iconElement.innerHTML = `<img src="${labelsIconDataUri}" alt="labels"/>`
-      break
-    }
-    default:
-      throw new Error(`Unsupported layer type: ${layer.type}`)
-  }
-  iconElement.setAttribute('class', style.layerIcon)
-  applyContrastSensitiveStyleToElement(context, 'invertibleButton', iconElement)
-
-  const settings = makeHtml(
-    `<layer-settings class="${style.layerIcon}"></layer-settings>`
-  )
-  settings.layer = layer
-  settings.name = name
-  imageIcons.appendChild(settings)
+  const icon = makeHtml(`<layer-icon class="${style.layerIcon}"></layer-icon>`)
+  icon.layer = layer
+  icon.name = name
+  imageIcons.appendChild(icon)
 
   layerEntry.addEventListener('click', event => {
     event.preventDefault()

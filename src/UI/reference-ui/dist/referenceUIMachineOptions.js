@@ -4215,6 +4215,36 @@ const compareObjects = (obj1, obj2) =>
   })
 selectState.compareObjects = compareObjects
 
+// "Inject" XState context into components with DOM events
+const viewerContext = n$1('viewer-context')
+let appContext
+const setContext = (providerElement, context) => {
+  appContext = context
+  providerElement.addEventListener('request', event => {
+    const { detail } = event
+    detail.context = context
+    event.stopPropagation()
+  })
+}
+function InjectContext() {
+  return (target, name) => {
+    const property = {
+      get() {
+        const event = new CustomEvent('request', {
+          detail: {},
+          bubbles: true,
+          composed: true,
+        })
+        // @ts-ignore
+        this.dispatchEvent(event)
+        return event.detail.context
+      },
+    }
+    Object.defineProperty(target, name, property)
+    return target
+  }
+}
+
 /**
  * @license
  * Copyright 2021 Google LLC
@@ -5285,36 +5315,6 @@ MdStandardIconButton = __decorate(
   MdStandardIconButton
 )
 
-// "Inject" XState context into components with DOM events
-const viewerContext = n$1('viewer-context')
-let appContext
-const setContext = (providerElement, context) => {
-  appContext = context
-  providerElement.addEventListener('request', event => {
-    const { detail } = event
-    detail.context = context
-    event.stopPropagation()
-  })
-}
-function InjectContext() {
-  return (target, name) => {
-    const property = {
-      get() {
-        const event = new CustomEvent('request', {
-          detail: {},
-          bubbles: true,
-          composed: true,
-        })
-        // @ts-ignore
-        this.dispatchEvent(event)
-        return event.detail.context
-      },
-    }
-    Object.defineProperty(target, name, property)
-    return target
-  }
-}
-
 let LayerSettings = class LayerSettings extends s$3 {
   constructor() {
     super(...arguments)
@@ -5381,6 +5381,80 @@ LayerSettings.styles = i$4`
 __decorate([e$5()], LayerSettings.prototype, 'layer', void 0)
 __decorate([e$5()], LayerSettings.prototype, 'name', void 0)
 LayerSettings = __decorate([e$6('layer-settings')], LayerSettings)
+
+let LayerIcon = class LayerIcon extends s$3 {
+  constructor() {
+    super(...arguments)
+    this.layer = { type: 'image' }
+    this.name = ''
+    this.settingsOpen = true
+    this.otherImages = connectState_1(
+      viewerContext,
+      this,
+      state => {
+        return new Map(
+          [...state.context.layers.actorContext.entries()].filter(([key]) => {
+            var _a
+            return (
+              key !== this.name &&
+              ((_a = state.context.images.actorContext.get(this.name)) ===
+                null || _a === void 0
+                ? void 0
+                : _a.labelImage) !== key
+            )
+          })
+        )
+      },
+      (a, b) => compareArrays_1([...a.keys()], [...b.keys()])
+    )
+    this.selectedName = connectState_1(
+      viewerContext,
+      this,
+      state => state.context.images.selectedName
+    )
+  }
+  getIcon() {
+    if (this.layer.type === 'image') {
+      if (
+        this.name === this.selectedName.value &&
+        this.otherImages.value &&
+        this.otherImages.value.size > 0
+      )
+        return { icon: optimizedSVGDataUri$6, alt: 'settings' }
+      return { icon: optimizedSVGDataUri$o, alt: 'image' }
+    }
+    if (this.layer.type === 'labelImage')
+      return { icon: optimizedSVGDataUri$l, alt: 'labels' }
+    throw new Error(`Unsupported layer type: ${this.layer.type}`)
+  }
+  render() {
+    const { icon, alt } = this.getIcon()
+    return y`
+      <img src="${icon}" alt="${alt}" class="icon" />
+      ${
+        this.settingsOpen
+          ? y`
+            <layer-settings></layer-settings>
+          `
+          : undefined
+      }
+    `
+  }
+}
+LayerIcon.styles = i$4`
+    .icon {
+      height: 1.2em;
+      width: 1.2em;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      padding-left: 8px;
+      padding-right: 6px;
+    }
+  `
+__decorate([e$5()], LayerIcon.prototype, 'layer', void 0)
+__decorate([e$5()], LayerIcon.prototype, 'name', void 0)
+__decorate([t$3()], LayerIcon.prototype, 'settingsOpen', void 0)
+LayerIcon = __decorate([e$6('layer-icon')], LayerIcon)
 
 function createLayerEntry(context, name, layer) {
   var layerEntry = document.createElement('div')
@@ -5461,33 +5535,12 @@ function createLayerEntry(context, name, layer) {
   spinner.innerHTML = '<div></div><div></div><div></div><div></div>'
   imageIcons.appendChild(spinner)
   layer.spinner = spinner
-  var iconElement = document.createElement('div')
-  switch (layer.type) {
-    case 'image': {
-      iconElement.innerHTML = '<img src="'.concat(
-        optimizedSVGDataUri$o,
-        '" alt="image"/>'
-      )
-      break
-    }
-    case 'labelImage': {
-      iconElement.innerHTML = '<img src="'.concat(
-        optimizedSVGDataUri$l,
-        '" alt="labels"/>'
-      )
-      break
-    }
-    default:
-      throw new Error('Unsupported layer type: '.concat(layer.type))
-  }
-  iconElement.setAttribute('class', style.layerIcon)
-  applyContrastSensitiveStyleToElement(context, 'invertibleButton', iconElement)
-  var settings = makeHtml(
-    '<layer-settings class="'.concat(style.layerIcon, '"></layer-settings>')
+  var icon = makeHtml(
+    '<layer-icon class="'.concat(style.layerIcon, '"></layer-icon>')
   )
-  settings.layer = layer
-  settings.name = name
-  imageIcons.appendChild(settings)
+  icon.layer = layer
+  icon.name = name
+  imageIcons.appendChild(icon)
   layerEntry.addEventListener('click', function(event) {
     event.preventDefault()
     context.service.send({

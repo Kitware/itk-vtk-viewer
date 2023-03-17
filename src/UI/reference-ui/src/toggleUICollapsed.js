@@ -3,7 +3,9 @@ export function updateDrawer(context) {
 
   const drawerChild = context.drawer.shadowRoot.children[0]
   if (drawerChild)
-    drawerChild.style.width = context.drawer.opened ? '410px' : ''
+    drawerChild.style.width = context.drawer.opened
+      ? 'var(--_container-width)'
+      : ''
 }
 
 function toggleUICollapsed(context, event, actionMeta) {

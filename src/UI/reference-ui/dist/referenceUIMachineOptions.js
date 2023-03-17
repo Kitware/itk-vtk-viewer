@@ -28,7 +28,7 @@ function styleInject(css, ref) {
 }
 
 var css_248z$1 =
-  ".ItkVtkViewer-module_loading__11c63 {\n  border: 16px solid #f3f3f3; /* Light grey */\n  border-top: 16px solid #3498db; /* Blue */\n  border-radius: 50%;\n  width: 120px;\n  height: 120px;\n  position: absolute;\n  left: calc(50% - 60px);\n  top: calc(50% - 60px);\n  -webkit-animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n          animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n  box-sizing: border-box;\n}\n\n@-webkit-keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_viewContainer__-5zNz {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  display: flex;\n  flex-direction: column;\n  background: rgba(128, 128, 128, 0.8);\n}\n\n.ItkVtkViewer-module_viewport__BMgOt {\n  position: relative;\n  flex: 1;\n  min-height: 0;\n}\n\n.ItkVtkViewer-module_uiContainer__CiawP {\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 1000;\n\n  height: -webkit-fit-content;\n\n  height: -moz-fit-content;\n\n  height: fit-content;\n  max-height: 100%;\n\n  display: flex;\n\n  padding: 6px 0 0 6px;\n  border: 0px;\n  box-sizing: border-box;\n\n  --md-navigation-drawer-container-shape-start-end: 0;\n  --md-navigation-drawer-container-shape-end-end: 0;\n  --md-navigation-drawer-container-color: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_drawer__b66eM {\n  overflow: hidden auto;\n}\n\n.ItkVtkViewer-module_uiGroup__ad-WI {\n  background: rgba(128, 128, 128, 0.5);\n  border-radius: 4px;\n  margin: 2px;\n}\n\n.ItkVtkViewer-module_uiRow__KTQa8 {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  align-items: center;\n  justify-content: space-between;\n  padding: 5px;\n}\n\n.ItkVtkViewer-module_mainUIRow__vTXih {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_planeUIRow__D5gCh {\n  background: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_layersUIRow__0LDm5 {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_progress__WydXH {\n  color: white;\n  font-size: 200%;\n  height: 100vh;\n  width: 100vw;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 100vh;\n}\n\n.ItkVtkViewer-module_piecewiseWidget__5gKl5 {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_logo__9ErCF {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  height: 2em;\n  width: 2em;\n  cursor: pointer;\n  z-index: 100;\n}\n\n.ItkVtkViewer-module_fpsMonitor__bnwqr {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  border-radius: 5px;\n  background: rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n  z-index: 101;\n}\n\n[itk-vtk-tooltip] {\n  position: relative;\n}\n[itk-vtk-tooltip]::before {\n  content: attr(itk-vtk-tooltip-content);\n  visibility: hidden;\n  position: absolute;\n  top: 50%;\n  right: calc(100% + 16px);\n  width: 400%;\n  padding: 4px 6px;\n  text-align: center;\n  text-transform: none;\n  font-size: 0.9em;\n  font-family: monospace;\n  border-radius: 3px;\n  background: rgba(0.9, 0.9, 0.9, 0.95);\n  color: white;\n  opacity: 0;\n  transform: translate(15px, -50%);\n  transition-property: all;\n  transition-duration: 0.3s;\n  transition-timing-function: ease-in-out;\n  transition-delay: 0.8s;\n  z-index: 3000;\n}\n\n[itk-vtk-tooltip]:hover::before {\n  opacity: 1;\n  visibility: visible;\n  transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-bottom]::before {\n  top: calc(100% + 16px);\n  left: 50%;\n  right: initial;\n  transform: translate(-50%, -15px);\n}\n[itk-vtk-tooltip-bottom]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-right]::before {\n  top: 50%;\n  left: calc(100% + 16px);\n  right: initial;\n  transform: translate(-15px, -50%);\n}\n[itk-vtk-tooltip-right]:hover::before {\n  transform: translate(0, -50%);\n}\n[itk-vtk-tooltip-left]::before {\n  top: -50%;\n  right: 50%;\n  left: initial;\n}\n\n[itk-vtk-tooltip-top-screenshot]::before {\n  top: initial;\n  left: 260%;\n  right: initial;\n  bottom: calc(100% + 8px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-screenshot]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-annotations]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-annotations]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-axes]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-axes]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-fullscreen]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top]::before {\n  top: initial;\n  left: 60%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-input]::before {\n  top: initial;\n  right: initial;\n  bottom: 25%;\n  transform: translate(-50%, 15px);\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}\n\n.ItkVtkViewer-module_layerEntryCommon__oIE1u {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n  border-style: solid;\n  border-width: 2px;\n}\n\n.ItkVtkViewer-module_layerEntryBrightBG__qXyI2 {\n  border-color: #666;\n}\n\n.ItkVtkViewer-module_layerEntryDarkBG__BmiCj {\n  border-color: #aaa;\n}\n\n.ItkVtkViewer-module_layerLabelCommon__kTiO9 {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  z-index: 1000;\n\n  flex: 1;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  text-align: center;\n}\n\n.ItkVtkViewer-module_layerLabelBrightBG__vAfex {\n  color: black;\n}\n\n.ItkVtkViewer-module_layerLabelDarkBG__sM6Bg {\n  color: white;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc {\n  flex-basis: 2.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 8px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_iconGroup__qqZrW {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_ldsRing__QT1wT {\n  display: inline-block;\n  position: relative;\n  width: 20px;\n  height: 20px;\n  margin-top: 4px;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div {\n  box-sizing: border-box;\n  display: block;\n  position: absolute;\n  width: 1em;\n  height: 1em;\n  margin: 0;\n  border: 0.15em solid #000;\n  border-radius: 50%;\n  -webkit-animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n          animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n  border-color: #000 transparent transparent transparent;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(1) {\n  -webkit-animation-delay: -0.45s;\n          animation-delay: -0.45s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(2) {\n  -webkit-animation-delay: -0.3s;\n          animation-delay: -0.3s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(3) {\n  -webkit-animation-delay: -0.15s;\n          animation-delay: -0.15s;\n}\n@-webkit-keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_tooltipButtonBrightBG__yffVf::before {\n}\n\n.ItkVtkViewer-module_tooltipButtonDarkBG__gEu0i::before {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_invertibleButtonBrightBG__VmIfT {\n}\n\n.ItkVtkViewer-module_invertibleButtonDarkBG__GoKgD {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 {\n  flex: 1;\n  width: 8m;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-right: 4px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ img {\n  width: 1.2em;\n  margin-top: 4px;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceEntry__zXMUS {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: self-start;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceLabelCommon__Ec-uc {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceLabelBrightBG__aYmfG {\n  color: black;\n}\n\n.ItkVtkViewer-module_distanceLabelDarkBG__kYXvI {\n  color: white;\n}\n\n.ItkVtkViewer-module_distanceInput__gyNaU {\n  background: transparent;\n  color: white;\n  font-size: 1em;\n  width: 80px;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 0px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_toggleInput__jHLTo {\n  margin: 0px;\n  width: 0;\n  opacity: 0;\n  box-sizing: content-box;\n}\n\n.ItkVtkViewer-module_toggleButton__qHhHZ {\n  cursor: pointer;\n  border-radius: 0.2em;\n  opacity: 0.45;\n}\n\ninput:checked.ItkVtkViewer-module_toggleInput__jHLTo + label {\n  opacity: 1;\n}\n\n.ItkVtkViewer-module_numberInput__pDxYH {\n  color: white;\n  background: transparent;\n  font-size: 1em;\n  padding-left: 2px;\n  width: 70px;\n}\n\n.ItkVtkViewer-module_selector__yw8l- {\n  display: flex;\n  direction: row;\n  font-size: 1.2em;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n\n.ItkVtkViewer-module_disableInterface__CGB4S {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(40, 40, 40, 0.5);\n  padding: 5px;\n  margin-right: 2px;\n  border-radius: 5px 5px 0px 0px;\n  color: #777;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:hover + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(90, 90, 90, 0.5);\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:checked + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(127, 127, 127, 0.5);\n  color: #fff;\n}\n\n.ItkVtkViewer-module_componentVisibility__y1rRS {\n  position: relative;\n  top: -2px;\n  margin-left: 10px;\n}\n\nselect {\n  -moz-appearance: none;\n}\n\nselect option {\n  color: black;\n}\n\nselect:focus {\n  outline: none;\n  border: none;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderColumn__ZwISb {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  padding: 0 5px;\n}\n\n.ItkVtkViewer-module_sliderIcon__jfoL- {\n  width: 1.8em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 8px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderEntry__3r3gO {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n\n.ItkVtkViewer-module_slider__eT9qm {\n  flex: 1;\n  min-height: 1rem;\n}\n\n.ItkVtkViewer-module_planeLabel__E1zOk {\n  padding-left: 6px;\n  padding: 2px;\n  display: block;\n  font-size: 1.1em;\n  font-family: monospace;\n  color: black;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_xPlaneLabel__wK4Cb {\n  background-color: #ef5350;\n}\n\n.ItkVtkViewer-module_yPlaneLabel__rIm0j {\n  background-color: #fdd835;\n}\n\n.ItkVtkViewer-module_zPlaneLabel__94NL7 {\n  background-color: #4caf50;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ {\n  z-index: 1100;\n  position: relative;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ input {\n  position: absolute;\n  bottom: 20px;\n  left: -24px;\n  width: 12px;\n  -ms-writing-mode: bt-lr;\n      writing-mode: bt-lr;\n  -webkit-appearance: slider-vertical;\n}\n\n.ItkVtkViewer-module_bigFileDrop__cZdkP {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  background-color: white;\n  background-image: url('./dropBG.jpg');\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: contain;\n  border-radius: 10px;\n  width: 50px;\n  padding: calc(50vh - 2em) calc(50vw - 25px - 2em);\n}\n\n.ItkVtkViewer-module_fullscreenContainer__-H3c8 {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  background: black;\n  margin: 0;\n  padding: 0;\n}\n\n.ItkVtkViewer-module_collapseButton__uzHPY {\n  position: absolute;\n  top: 0;\n  right: -48px;\n}\n\n.ItkVtkViewer-module_windowLevelButton__Lx0Tj {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_windowLevelButton__Lx0Tj img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_inputLabel__dDf8G {\n  line-height: 1.7;\n}\n"
+  ".ItkVtkViewer-module_loading__11c63 {\n  border: 16px solid #f3f3f3; /* Light grey */\n  border-top: 16px solid #3498db; /* Blue */\n  border-radius: 50%;\n  width: 120px;\n  height: 120px;\n  position: absolute;\n  left: calc(50% - 60px);\n  top: calc(50% - 60px);\n  -webkit-animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n          animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n  box-sizing: border-box;\n}\n\n@-webkit-keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_viewContainer__-5zNz {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  display: flex;\n  flex-direction: column;\n  background: rgba(128, 128, 128, 0.8);\n}\n\n.ItkVtkViewer-module_viewport__BMgOt {\n  position: relative;\n  flex: 1;\n  min-height: 0;\n}\n\n.ItkVtkViewer-module_uiContainer__CiawP {\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 1000;\n\n  height: -webkit-fit-content;\n\n  height: -moz-fit-content;\n\n  height: fit-content;\n  max-height: 100%;\n\n  display: flex;\n\n  padding: 6px 0 0 6px;\n  border: 0px;\n  box-sizing: border-box;\n\n  --md-navigation-drawer-container-shape-start-end: 0;\n  --md-navigation-drawer-container-shape-end-end: 0;\n  --md-navigation-drawer-container-color: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_drawer__b66eM {\n  overflow: hidden auto;\n}\n\n.ItkVtkViewer-module_floater__sSNkw {\n  position: absolute;\n  z-index: 3000;\n}\n\n.ItkVtkViewer-module_uiGroup__ad-WI {\n  background: rgba(128, 128, 128, 0.5);\n  border-radius: 4px;\n  margin: 2px;\n}\n\n.ItkVtkViewer-module_uiRow__KTQa8 {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  align-items: center;\n  justify-content: space-between;\n  padding: 5px;\n}\n\n.ItkVtkViewer-module_mainUIRow__vTXih {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_planeUIRow__D5gCh {\n  background: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_layersUIRow__0LDm5 {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_progress__WydXH {\n  color: white;\n  font-size: 200%;\n  height: 100vh;\n  width: 100vw;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 100vh;\n}\n\n.ItkVtkViewer-module_piecewiseWidget__5gKl5 {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_logo__9ErCF {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  height: 2em;\n  width: 2em;\n  cursor: pointer;\n  z-index: 100;\n}\n\n.ItkVtkViewer-module_fpsMonitor__bnwqr {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  border-radius: 5px;\n  background: rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n  z-index: 101;\n}\n\n[itk-vtk-tooltip] {\n  position: relative;\n}\n[itk-vtk-tooltip]::before {\n  content: attr(itk-vtk-tooltip-content);\n  visibility: hidden;\n  position: absolute;\n  top: 50%;\n  right: calc(100% + 16px);\n  width: 400%;\n  padding: 4px 6px;\n  text-align: center;\n  text-transform: none;\n  font-size: 0.9em;\n  font-family: monospace;\n  border-radius: 3px;\n  background: rgba(0.9, 0.9, 0.9, 0.95);\n  color: white;\n  opacity: 0;\n  transform: translate(15px, -50%);\n  transition-property: all;\n  transition-duration: 0.3s;\n  transition-timing-function: ease-in-out;\n  transition-delay: 0.8s;\n  z-index: 3000;\n}\n\n[itk-vtk-tooltip]:hover::before {\n  opacity: 1;\n  visibility: visible;\n  transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-bottom]::before {\n  top: calc(100% + 16px);\n  left: 50%;\n  right: initial;\n  transform: translate(-50%, -15px);\n}\n[itk-vtk-tooltip-bottom]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-right]::before {\n  top: 50%;\n  left: calc(100% + 16px);\n  right: initial;\n  transform: translate(-15px, -50%);\n}\n[itk-vtk-tooltip-right]:hover::before {\n  transform: translate(0, -50%);\n}\n[itk-vtk-tooltip-left]::before {\n  top: -50%;\n  right: 50%;\n  left: initial;\n}\n\n[itk-vtk-tooltip-top-screenshot]::before {\n  top: initial;\n  left: 260%;\n  right: initial;\n  bottom: calc(100% + 8px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-screenshot]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-annotations]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-annotations]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-axes]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-axes]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-fullscreen]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top]::before {\n  top: initial;\n  left: 60%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-input]::before {\n  top: initial;\n  right: initial;\n  bottom: 25%;\n  transform: translate(-50%, 15px);\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}\n\n.ItkVtkViewer-module_layerEntryCommon__oIE1u {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n  border-style: solid;\n  border-width: 2px;\n}\n\n.ItkVtkViewer-module_layerEntryBrightBG__qXyI2 {\n  border-color: #666;\n}\n\n.ItkVtkViewer-module_layerEntryDarkBG__BmiCj {\n  border-color: #aaa;\n}\n\n.ItkVtkViewer-module_layerLabelCommon__kTiO9 {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  z-index: 1000;\n\n  flex: 1;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  text-align: center;\n}\n\n.ItkVtkViewer-module_layerLabelBrightBG__vAfex {\n  color: black;\n}\n\n.ItkVtkViewer-module_layerLabelDarkBG__sM6Bg {\n  color: white;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc {\n  flex-basis: 2.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 8px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_iconGroup__qqZrW {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_ldsRing__QT1wT {\n  display: inline-block;\n  position: relative;\n  width: 20px;\n  height: 20px;\n  margin-top: 4px;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div {\n  box-sizing: border-box;\n  display: block;\n  position: absolute;\n  width: 1em;\n  height: 1em;\n  margin: 0;\n  border: 0.15em solid #000;\n  border-radius: 50%;\n  -webkit-animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n          animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n  border-color: #000 transparent transparent transparent;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(1) {\n  -webkit-animation-delay: -0.45s;\n          animation-delay: -0.45s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(2) {\n  -webkit-animation-delay: -0.3s;\n          animation-delay: -0.3s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(3) {\n  -webkit-animation-delay: -0.15s;\n          animation-delay: -0.15s;\n}\n@-webkit-keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_tooltipButtonBrightBG__yffVf::before {\n}\n\n.ItkVtkViewer-module_tooltipButtonDarkBG__gEu0i::before {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_invertibleButtonBrightBG__VmIfT {\n}\n\n.ItkVtkViewer-module_invertibleButtonDarkBG__GoKgD {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 {\n  flex: 1;\n  width: 8m;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-right: 4px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ img {\n  width: 1.2em;\n  margin-top: 4px;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceEntry__zXMUS {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: self-start;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceLabelCommon__Ec-uc {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceLabelBrightBG__aYmfG {\n  color: black;\n}\n\n.ItkVtkViewer-module_distanceLabelDarkBG__kYXvI {\n  color: white;\n}\n\n.ItkVtkViewer-module_distanceInput__gyNaU {\n  background: transparent;\n  color: white;\n  font-size: 1em;\n  width: 80px;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 0px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_toggleInput__jHLTo {\n  margin: 0px;\n  width: 0;\n  opacity: 0;\n  box-sizing: content-box;\n}\n\n.ItkVtkViewer-module_toggleButton__qHhHZ {\n  cursor: pointer;\n  border-radius: 0.2em;\n  opacity: 0.45;\n}\n\ninput:checked.ItkVtkViewer-module_toggleInput__jHLTo + label {\n  opacity: 1;\n}\n\n.ItkVtkViewer-module_numberInput__pDxYH {\n  color: white;\n  background: transparent;\n  font-size: 1em;\n  padding-left: 2px;\n  width: 70px;\n}\n\n.ItkVtkViewer-module_selector__yw8l- {\n  display: flex;\n  direction: row;\n  font-size: 1.2em;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n\n.ItkVtkViewer-module_disableInterface__CGB4S {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(40, 40, 40, 0.5);\n  padding: 5px;\n  margin-right: 2px;\n  border-radius: 5px 5px 0px 0px;\n  color: #777;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:hover + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(90, 90, 90, 0.5);\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:checked + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(127, 127, 127, 0.5);\n  color: #fff;\n}\n\n.ItkVtkViewer-module_componentVisibility__y1rRS {\n  position: relative;\n  top: -2px;\n  margin-left: 10px;\n}\n\nselect {\n  -moz-appearance: none;\n}\n\nselect option {\n  color: black;\n}\n\nselect:focus {\n  outline: none;\n  border: none;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderColumn__ZwISb {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  padding: 0 5px;\n}\n\n.ItkVtkViewer-module_sliderIcon__jfoL- {\n  width: 1.8em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 8px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderEntry__3r3gO {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n\n.ItkVtkViewer-module_slider__eT9qm {\n  flex: 1;\n  min-height: 1rem;\n}\n\n.ItkVtkViewer-module_planeLabel__E1zOk {\n  padding-left: 6px;\n  padding: 2px;\n  display: block;\n  font-size: 1.1em;\n  font-family: monospace;\n  color: black;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_xPlaneLabel__wK4Cb {\n  background-color: #ef5350;\n}\n\n.ItkVtkViewer-module_yPlaneLabel__rIm0j {\n  background-color: #fdd835;\n}\n\n.ItkVtkViewer-module_zPlaneLabel__94NL7 {\n  background-color: #4caf50;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ {\n  z-index: 1100;\n  position: relative;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ input {\n  position: absolute;\n  bottom: 20px;\n  left: -24px;\n  width: 12px;\n  -ms-writing-mode: bt-lr;\n      writing-mode: bt-lr;\n  -webkit-appearance: slider-vertical;\n}\n\n.ItkVtkViewer-module_bigFileDrop__cZdkP {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  background-color: white;\n  background-image: url('./dropBG.jpg');\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: contain;\n  border-radius: 10px;\n  width: 50px;\n  padding: calc(50vh - 2em) calc(50vw - 25px - 2em);\n}\n\n.ItkVtkViewer-module_fullscreenContainer__-H3c8 {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  background: black;\n  margin: 0;\n  padding: 0;\n}\n\n.ItkVtkViewer-module_collapseButton__uzHPY {\n  position: absolute;\n  top: 0;\n  right: -48px;\n}\n\n.ItkVtkViewer-module_windowLevelButton__Lx0Tj {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_windowLevelButton__Lx0Tj img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_inputLabel__dDf8G {\n  line-height: 1.7;\n}\n"
 var style = {
   loading: 'ItkVtkViewer-module_loading__11c63',
   spin: 'ItkVtkViewer-module_spin__mT5S6',
@@ -36,6 +36,7 @@ var style = {
   viewport: 'ItkVtkViewer-module_viewport__BMgOt',
   uiContainer: 'ItkVtkViewer-module_uiContainer__CiawP',
   drawer: 'ItkVtkViewer-module_drawer__b66eM',
+  floater: 'ItkVtkViewer-module_floater__sSNkw',
   uiGroup: 'ItkVtkViewer-module_uiGroup__ad-WI',
   uiRow: 'ItkVtkViewer-module_uiRow__KTQa8',
   mainUIRow:
@@ -309,7 +310,6 @@ var arrayLikeToArray$1 = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(arrayLikeToArray$1)
-
 ;(function(module) {
   var arrayLikeToArray = arrayLikeToArray$1.exports
 
@@ -371,7 +371,6 @@ var nonIterableSpread$1 = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(nonIterableSpread$1)
-
 ;(function(module) {
   var arrayWithoutHoles = arrayWithoutHoles$1.exports
 
@@ -709,7 +708,6 @@ var arrayLikeToArray = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(arrayLikeToArray)
-
 ;(function(module) {
   var arrayLikeToArray$1 = arrayLikeToArray.exports
 
@@ -741,7 +739,6 @@ var nonIterableRest$1 = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(nonIterableRest$1)
-
 ;(function(module) {
   var arrayWithHoles = arrayWithHoles$1.exports
 
@@ -864,7 +861,6 @@ var nonIterableSpread = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(nonIterableSpread)
-
 ;(function(module) {
   var arrayWithoutHoles$1 = arrayWithoutHoles.exports
 
@@ -932,7 +928,6 @@ var isNativeReflectConstruct = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(isNativeReflectConstruct)
-
 ;(function(module) {
   var setPrototypeOf$1 = setPrototypeOf.exports
 
@@ -1338,7 +1333,6 @@ var getPrototypeOf = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(getPrototypeOf)
-
 ;(function(module) {
   var getPrototypeOf$1 = getPrototypeOf.exports
 
@@ -1355,7 +1349,6 @@ var getPrototypeOf = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(superPropBase)
-
 ;(function(module) {
   var superPropBase$1 = superPropBase.exports
 
@@ -1435,7 +1428,6 @@ var assertThisInitialized = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(assertThisInitialized)
-
 ;(function(module) {
   var _typeof$1 = _typeof.exports['default']
 
@@ -1471,7 +1463,6 @@ var isNativeFunction = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(isNativeFunction)
-
 ;(function(module) {
   var getPrototypeOf$1 = getPrototypeOf.exports
 
@@ -2736,16 +2727,16 @@ function __metadata(metadataKey, metadataValue) {
  * SPDX-License-Identifier: BSD-3-Clause
  */
 const t$5 = window,
-  e$9 =
+  e$c =
     t$5.ShadowRoot &&
     (void 0 === t$5.ShadyCSS || t$5.ShadyCSS.nativeShadow) &&
     'adoptedStyleSheets' in Document.prototype &&
     'replace' in CSSStyleSheet.prototype,
-  s$6 = Symbol(),
-  n$6 = new WeakMap()
-class o$6 {
+  s$7 = Symbol(),
+  n$8 = new WeakMap()
+class o$9 {
   constructor(t, e, n) {
-    if (((this._$cssResult$ = !0), n !== s$6))
+    if (((this._$cssResult$ = !0), n !== s$7))
       throw Error(
         'CSSResult is not constructable. Use `unsafeCSS` or `css` instead.'
       )
@@ -2754,12 +2745,12 @@ class o$6 {
   get styleSheet() {
     let t = this.o
     const s = this.t
-    if (e$9 && void 0 === t) {
+    if (e$c && void 0 === t) {
       const e = void 0 !== s && 1 === s.length
-      e && (t = n$6.get(s)),
+      e && (t = n$8.get(s)),
         void 0 === t &&
           ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText),
-          e && n$6.set(s, t))
+          e && n$8.set(s, t))
     }
     return t
   }
@@ -2767,8 +2758,8 @@ class o$6 {
     return this.cssText
   }
 }
-const r$3 = t => new o$6('string' == typeof t ? t : t + '', void 0, s$6),
-  i$4 = (t, ...e) => {
+const r$4 = t => new o$9('string' == typeof t ? t : t + '', void 0, s$7),
+  i$5 = (t, ...e) => {
     const n =
       1 === t.length
         ? t[0]
@@ -2787,10 +2778,10 @@ const r$3 = t => new o$6('string' == typeof t ? t : t + '', void 0, s$6),
               t[n + 1],
             t[0]
           )
-    return new o$6(n, t, s$6)
+    return new o$9(n, t, s$7)
   },
   S$1 = (s, n) => {
-    e$9
+    e$c
       ? (s.adoptedStyleSheets = n.map(t =>
           t instanceof CSSStyleSheet ? t : t.styleSheet
         ))
@@ -2802,14 +2793,14 @@ const r$3 = t => new o$6('string' == typeof t ? t : t + '', void 0, s$6),
             s.appendChild(n)
         })
   },
-  c$1 = e$9
+  c$2 = e$c
     ? t => t
     : t =>
         t instanceof CSSStyleSheet
           ? (t => {
               let e = ''
               for (const s of t.cssRules) e += s.cssText
-              return r$3(e)
+              return r$4(e)
             })(t)
           : t
 
@@ -2817,16 +2808,16 @@ const r$3 = t => new o$6('string' == typeof t ? t : t + '', void 0, s$6),
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ var s$5
-const e$8 = window,
-  r$2 = e$8.trustedTypes,
-  h$1 = r$2 ? r$2.emptyScript : '',
-  o$5 = e$8.reactiveElementPolyfillSupport,
-  n$5 = {
+ */ var s$6
+const e$b = window,
+  r$3 = e$b.trustedTypes,
+  h$3 = r$3 ? r$3.emptyScript : '',
+  o$8 = e$b.reactiveElementPolyfillSupport,
+  n$7 = {
     toAttribute(t, i) {
       switch (i) {
         case Boolean:
-          t = t ? h$1 : null
+          t = t ? h$3 : null
           break
         case Object:
         case Array:
@@ -2855,10 +2846,10 @@ const e$8 = window,
     },
   },
   a$1 = (t, i) => i !== t && (i == i || t == t),
-  l$3 = {
+  l$5 = {
     attribute: !0,
     type: String,
-    converter: n$5,
+    converter: n$7,
     reflect: !1,
     hasChanged: a$1,
   }
@@ -2887,7 +2878,7 @@ class d$1 extends HTMLElement {
       t
     )
   }
-  static createProperty(t, i = l$3) {
+  static createProperty(t, i = l$5) {
     if (
       (i.state && (i.attribute = !1),
       this.finalize(),
@@ -2913,7 +2904,7 @@ class d$1 extends HTMLElement {
     }
   }
   static getPropertyOptions(t) {
-    return this.elementProperties.get(t) || l$3
+    return this.elementProperties.get(t) || l$5
   }
   static finalize() {
     if (this.hasOwnProperty('finalized')) return !1
@@ -2939,8 +2930,8 @@ class d$1 extends HTMLElement {
     const s = []
     if (Array.isArray(i)) {
       const e = new Set(i.flat(1 / 0).reverse())
-      for (const i of e) s.unshift(c$1(i))
-    } else void 0 !== i && s.push(c$1(i))
+      for (const i of e) s.unshift(c$2(i))
+    } else void 0 !== i && s.push(c$2(i))
     return s
   }
   static _$Ep(t, i) {
@@ -3017,14 +3008,14 @@ class d$1 extends HTMLElement {
   attributeChangedCallback(t, i, s) {
     this._$AK(t, s)
   }
-  _$EO(t, i, s = l$3) {
+  _$EO(t, i, s = l$5) {
     var e
     const r = this.constructor._$Ep(t, s)
     if (void 0 !== r && !0 === s.reflect) {
       const h = (void 0 !==
       (null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute)
         ? s.converter
-        : n$5
+        : n$7
       ).toAttribute(i, s.type)
       ;(this._$El = t),
         null == h ? this.removeAttribute(r) : this.setAttribute(r, h),
@@ -3045,7 +3036,7 @@ class d$1 extends HTMLElement {
                 ? void 0
                 : s.fromAttribute)
             ? t.converter
-            : n$5
+            : n$7
       ;(this._$El = r),
         (this[r] = h.fromAttribute(i, t.type)),
         (this._$El = null)
@@ -3143,10 +3134,10 @@ class d$1 extends HTMLElement {
   (d$1.elementProperties = new Map()),
   (d$1.elementStyles = []),
   (d$1.shadowRootOptions = { mode: 'open' }),
-  null == o$5 || o$5({ ReactiveElement: d$1 }),
-  (null !== (s$5 = e$8.reactiveElementVersions) && void 0 !== s$5
-    ? s$5
-    : (e$8.reactiveElementVersions = [])
+  null == o$8 || o$8({ ReactiveElement: d$1 }),
+  (null !== (s$6 = e$b.reactiveElementVersions) && void 0 !== s$6
+    ? s$6
+    : (e$b.reactiveElementVersions = [])
   ).push('1.6.1')
 
 /**
@@ -3155,17 +3146,17 @@ class d$1 extends HTMLElement {
  * SPDX-License-Identifier: BSD-3-Clause
  */
 var t$4
-const i$3 = window,
-  s$4 = i$3.trustedTypes,
-  e$7 = s$4 ? s$4.createPolicy('lit-html', { createHTML: t => t }) : void 0,
-  o$4 = `lit$${(Math.random() + '').slice(9)}$`,
-  n$4 = '?' + o$4,
-  l$2 = `<${n$4}>`,
-  h = document,
-  r$1 = (t = '') => h.createComment(t),
+const i$4 = window,
+  s$5 = i$4.trustedTypes,
+  e$a = s$5 ? s$5.createPolicy('lit-html', { createHTML: t => t }) : void 0,
+  o$7 = `lit$${(Math.random() + '').slice(9)}$`,
+  n$6 = '?' + o$7,
+  l$4 = `<${n$6}>`,
+  h$2 = document,
+  r$2 = (t = '') => h$2.createComment(t),
   d = t => null === t || ('object' != typeof t && 'function' != typeof t),
   u = Array.isArray,
-  c = t =>
+  c$1 = t =>
     u(t) || 'function' == typeof (null == t ? void 0 : t[Symbol.iterator]),
   v = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
   a = /-->/g,
@@ -3182,7 +3173,7 @@ const i$3 = window,
   x = Symbol.for('lit-noChange'),
   b = Symbol.for('lit-nothing'),
   T = new WeakMap(),
-  A = h.createTreeWalker(h, 129, null, !1),
+  A = h$2.createTreeWalker(h$2, 129, null, !1),
   E = (t, i) => {
     const s = t.length - 1,
       n = []
@@ -3221,15 +3212,15 @@ const i$3 = window,
       const y = d === _ && t[i + 1].startsWith('/>') ? ' ' : ''
       r +=
         d === v
-          ? s + l$2
+          ? s + l$4
           : c >= 0
-          ? (n.push(e), s.slice(0, c) + '$lit$' + s.slice(c) + o$4 + y)
-          : s + o$4 + (-2 === c ? (n.push(void 0), i) : y)
+          ? (n.push(e), s.slice(0, c) + '$lit$' + s.slice(c) + o$7 + y)
+          : s + o$7 + (-2 === c ? (n.push(void 0), i) : y)
     }
     const u = r + (t[s] || '<?>') + (2 === i ? '</svg>' : '')
     if (!Array.isArray(t) || !t.hasOwnProperty('raw'))
       throw Error('invalid template strings array')
-    return [void 0 !== e$7 ? e$7.createHTML(u) : u, n]
+    return [void 0 !== e$a ? e$a.createHTML(u) : u, n]
   }
 class C {
   constructor({ strings: t, _$litType$: i }, e) {
@@ -3254,10 +3245,10 @@ class C {
         if (l.hasAttributes()) {
           const t = []
           for (const i of l.getAttributeNames())
-            if (i.endsWith('$lit$') || i.startsWith(o$4)) {
+            if (i.endsWith('$lit$') || i.startsWith(o$7)) {
               const s = a[d++]
               if ((t.push(i), void 0 !== s)) {
-                const t = l.getAttribute(s.toLowerCase() + '$lit$').split(o$4),
+                const t = l.getAttribute(s.toLowerCase() + '$lit$').split(o$7),
                   i = /([.?@])?(.*)/.exec(s)
                 c.push({
                   type: 1,
@@ -3272,29 +3263,29 @@ class C {
           for (const i of t) l.removeAttribute(i)
         }
         if ($.test(l.tagName)) {
-          const t = l.textContent.split(o$4),
+          const t = l.textContent.split(o$7),
             i = t.length - 1
           if (i > 0) {
-            l.textContent = s$4 ? s$4.emptyScript : ''
+            l.textContent = s$5 ? s$5.emptyScript : ''
             for (let s = 0; s < i; s++)
-              l.append(t[s], r$1()),
+              l.append(t[s], r$2()),
                 A.nextNode(),
                 c.push({ type: 2, index: ++h })
-            l.append(t[i], r$1())
+            l.append(t[i], r$2())
           }
         }
       } else if (8 === l.nodeType)
-        if (l.data === n$4) c.push({ type: 2, index: h })
+        if (l.data === n$6) c.push({ type: 2, index: h })
         else {
           let t = -1
-          for (; -1 !== (t = l.data.indexOf(o$4, t + 1)); )
-            c.push({ type: 7, index: h }), (t += o$4.length - 1)
+          for (; -1 !== (t = l.data.indexOf(o$7, t + 1)); )
+            c.push({ type: 7, index: h }), (t += o$7.length - 1)
         }
       h++
     }
   }
   static createElement(t, i) {
-    const s = h.createElement('template')
+    const s = h$2.createElement('template')
     return (s.innerHTML = t), s
   }
 }
@@ -3341,7 +3332,7 @@ class V {
       } = this._$AD,
       o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i
         ? i
-        : h
+        : h$2
       ).importNode(s, !0)
     A.currentNode = o
     let n = A.nextNode(),
@@ -3415,7 +3406,7 @@ class N {
         ? this.$(t)
         : void 0 !== t.nodeType
         ? this.T(t)
-        : c(t)
+        : c$1(t)
         ? this.k(t)
         : this.g(t)
   }
@@ -3428,7 +3419,7 @@ class N {
   g(t) {
     this._$AH !== b && d(this._$AH)
       ? (this._$AA.nextSibling.data = t)
-      : this.T(h.createTextNode(t)),
+      : this.T(h$2.createTextNode(t)),
       (this._$AH = t)
   }
   $(t) {
@@ -3457,7 +3448,7 @@ class N {
       e = 0
     for (const o of t)
       e === i.length
-        ? i.push((s = new N(this.O(r$1()), this.O(r$1()), this, this.options)))
+        ? i.push((s = new N(this.O(r$2()), this.O(r$2()), this, this.options)))
         : (s = i[e]),
         s._$AI(o),
         e++
@@ -3534,7 +3525,7 @@ class M extends S {
     this.element[this.name] = t === b ? void 0 : t
   }
 }
-const R = s$4 ? s$4.emptyScript : ''
+const R = s$5 ? s$5.emptyScript : ''
 class k extends S {
   constructor() {
     super(...arguments), (this.type = 4)
@@ -3594,11 +3585,11 @@ class I {
     P(this, t)
   }
 }
-const z = i$3.litHtmlPolyfillSupport
+const z = i$4.litHtmlPolyfillSupport
 null == z || z(C, N),
-  (null !== (t$4 = i$3.litHtmlVersions) && void 0 !== t$4
+  (null !== (t$4 = i$4.litHtmlVersions) && void 0 !== t$4
     ? t$4
-    : (i$3.litHtmlVersions = [])
+    : (i$4.litHtmlVersions = [])
   ).push('2.6.1')
 const Z = (t, i, s) => {
   var e, o
@@ -3611,7 +3602,7 @@ const Z = (t, i, s) => {
         ? o
         : null
     n._$litPart$ = l = new N(
-      i.insertBefore(r$1(), t),
+      i.insertBefore(r$2(), t),
       t,
       void 0,
       null != s ? s : {}
@@ -3624,8 +3615,8 @@ const Z = (t, i, s) => {
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ var l$1, o$3
-class s$3 extends d$1 {
+ */ var l$3, o$6
+class s$4 extends d$1 {
   constructor() {
     super(...arguments),
       (this.renderOptions = { host: this }),
@@ -3660,15 +3651,15 @@ class s$3 extends d$1 {
     return x
   }
 }
-;(s$3.finalized = !0),
-  (s$3._$litElement$ = !0),
-  null === (l$1 = globalThis.litElementHydrateSupport) ||
-    void 0 === l$1 ||
-    l$1.call(globalThis, { LitElement: s$3 })
-const n$3 = globalThis.litElementPolyfillSupport
-null == n$3 || n$3({ LitElement: s$3 })
-;(null !== (o$3 = globalThis.litElementVersions) && void 0 !== o$3
-  ? o$3
+;(s$4.finalized = !0),
+  (s$4._$litElement$ = !0),
+  null === (l$3 = globalThis.litElementHydrateSupport) ||
+    void 0 === l$3 ||
+    l$3.call(globalThis, { LitElement: s$4 })
+const n$5 = globalThis.litElementPolyfillSupport
+null == n$5 || n$5({ LitElement: s$4 })
+;(null !== (o$6 = globalThis.litElementVersions) && void 0 !== o$6
+  ? o$6
   : (globalThis.litElementVersions = [])
 ).push('3.2.2')
 
@@ -3677,7 +3668,7 @@ null == n$3 || n$3({ LitElement: s$3 })
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const e$6 = e => n =>
+const e$9 = e => n =>
   'function' == typeof n
     ? ((e, n) => (customElements.define(e, n), n))(e, n)
     : ((e, n) => {
@@ -3696,7 +3687,7 @@ const e$6 = e => n =>
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const i$2 = (i, e) =>
+const i$3 = (i, e) =>
   'method' === e.kind && e.descriptor && !('value' in e.descriptor)
     ? {
         ...e,
@@ -3718,13 +3709,13 @@ const i$2 = (i, e) =>
           n.createProperty(e.key, i)
         },
       }
-function e$5(e) {
+function e$8(e) {
   return (n, t) =>
     void 0 !== t
       ? ((i, e, n) => {
           e.constructor.createProperty(n, i)
         })(e, n, t)
-      : i$2(e, n)
+      : i$3(e, n)
 }
 
 /**
@@ -3732,7 +3723,7 @@ function e$5(e) {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */ function t$3(t) {
-  return e$5({ ...t, state: !0 })
+  return e$8({ ...t, state: !0 })
 }
 
 /**
@@ -3740,7 +3731,7 @@ function e$5(e) {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const o$2 = ({ finisher: e, descriptor: t }) => (o, n) => {
+const o$5 = ({ finisher: e, descriptor: t }) => (o, n) => {
   var r
   if (void 0 === n) {
     const n = null !== (r = o.originalKey) && void 0 !== r ? r : o.key,
@@ -3771,8 +3762,8 @@ const o$2 = ({ finisher: e, descriptor: t }) => (o, n) => {
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ function i$1(i, n) {
-  return o$2({
+ */ function i$2(i, n) {
+  return o$5({
     descriptor: o => {
       const t = {
         get() {
@@ -3816,8 +3807,8 @@ const o$2 = ({ finisher: e, descriptor: t }) => (o, n) => {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-function e$4(e) {
-  return o$2({
+function e$7(e) {
+  return o$5({
     descriptor: r => ({
       async get() {
         var r
@@ -3838,13 +3829,33 @@ function e$4(e) {
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ var n$2
-null !=
-(null === (n$2 = window.HTMLSlotElement) || void 0 === n$2
-  ? void 0
-  : n$2.prototype.assignedElements)
-  ? (o, n) => o.assignedElements(n)
-  : (o, n) => o.assignedNodes(n).filter(o => o.nodeType === Node.ELEMENT_NODE)
+ */ var n$4
+const e$6 =
+  null !=
+  (null === (n$4 = window.HTMLSlotElement) || void 0 === n$4
+    ? void 0
+    : n$4.prototype.assignedElements)
+    ? (o, n) => o.assignedElements(n)
+    : (o, n) => o.assignedNodes(n).filter(o => o.nodeType === Node.ELEMENT_NODE)
+function l$2(n) {
+  const { slot: l, selector: t } = null != n ? n : {}
+  return o$5({
+    descriptor: o => ({
+      get() {
+        var o
+        const r = 'slot' + (l ? `[name=${l}]` : ':not([name])'),
+          i =
+            null === (o = this.renderRoot) || void 0 === o
+              ? void 0
+              : o.querySelector(r),
+          s = null != i ? e$6(i, n) : []
+        return t ? s.filter(o => o.matches(t)) : s
+      },
+      enumerable: !0,
+      configurable: !0,
+    }),
+  })
+}
 
 var selectState = {}
 
@@ -3853,7 +3864,7 @@ var selectState = {}
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-class s$2 extends Event {
+class s$3 extends Event {
   constructor(s, t, e) {
     super('context-request', { bubbles: !0, composed: !0 }),
       (this.context = s),
@@ -3867,7 +3878,7 @@ class s$2 extends Event {
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-function n$1(n) {
+function n$3(n) {
   return n
 }
 
@@ -3875,7 +3886,7 @@ function n$1(n) {
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ class s$1 {
+ */ class s$2 {
   constructor(t, s, i, h = !1) {
     ;(this.host = t),
       (this.context = s),
@@ -3893,7 +3904,7 @@ function n$1(n) {
   }
   dispatchRequest() {
     this.host.dispatchEvent(
-      new s$2(
+      new s$3(
         this.context,
         (t, s) => {
           this.unsubscribe &&
@@ -3952,12 +3963,12 @@ class t$2 {
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ class s extends Event {
+ */ class s$1 extends Event {
   constructor(t) {
     super('context-provider', { bubbles: !0, composed: !0 }), (this.context = t)
   }
 }
-class e$3 extends t$2 {
+class e$5 extends t$2 {
   constructor(t, s, e) {
     super(e),
       (this.host = t),
@@ -3974,7 +3985,7 @@ class e$3 extends t$2 {
     this.host.addEventListener('context-request', this.onContextRequest)
   }
   hostConnected() {
-    this.host.dispatchEvent(new s(this.context))
+    this.host.dispatchEvent(new s$1(this.context))
   }
 }
 
@@ -3982,7 +3993,7 @@ class e$3 extends t$2 {
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ class e$2 {
+ */ class e$4 {
   constructor() {
     ;(this.pendingContextRequests = new Map()),
       (this.onContextProvider = e => {
@@ -3992,7 +4003,7 @@ class e$3 extends t$2 {
           s.forEach(s => {
             const c = s.element,
               i = s.callback
-            c && c.dispatchEvent(new s$2(e.context, i, !0))
+            c && c.dispatchEvent(new s$3(e.context, i, !0))
           }))
       }),
       (this.onContextRequest = t => {
@@ -4017,12 +4028,12 @@ class e$3 extends t$2 {
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ function o$1({ context: o }) {
-  return o$2({
+ */ function o$4({ context: o }) {
+  return o$5({
     finisher: (t, n) => {
       const r = new WeakMap()
       t.addInitializer(t => {
-        r.set(t, new e$3(t, o))
+        r.set(t, new e$5(t, o))
       })
       const i = Object.getOwnPropertyDescriptor(t.prototype, n),
         c = null == i ? void 0 : i.set,
@@ -4044,10 +4055,10 @@ class e$3 extends t$2 {
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */ function t$1({ context: t, subscribe: o }) {
-  return o$2({
+  return o$5({
     finisher: (e, n) => {
       e.addInitializer(e => {
-        new s$1(
+        new s$2(
           e,
           t,
           r => {
@@ -4064,19 +4075,19 @@ class e$3 extends t$2 {
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ const e$1 = o$1,
-  r = t$1
+ */ const e$3 = o$4,
+  r$1 = t$1
 
 var context = /*#__PURE__*/ Object.freeze({
   __proto__: null,
-  contextProvided: r,
-  contextProvider: e$1,
-  ContextEvent: s$2,
-  createContext: n$1,
-  ContextConsumer: s$1,
-  ContextProvider: e$3,
-  ContextRoot: e$2,
-  provide: o$1,
+  contextProvided: r$1,
+  contextProvider: e$3,
+  ContextEvent: s$3,
+  createContext: n$3,
+  ContextConsumer: s$2,
+  ContextProvider: e$5,
+  ContextRoot: e$4,
+  provide: o$4,
   consume: t$1,
 })
 
@@ -4216,7 +4227,7 @@ const compareObjects = (obj1, obj2) =>
 selectState.compareObjects = compareObjects
 
 // "Inject" XState context into components with DOM events
-const viewerContext = n$1('viewer-context')
+const viewerContext = n$3('viewer-context')
 let appContext
 const setContext = (providerElement, context) => {
   appContext = context
@@ -4247,94 +4258,9 @@ function InjectContext() {
 
 /**
  * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * @summary An accessible, themable ring designed to be shown on
- * `:focus-visible`.
- *
- * @description
- * An accessible, themable ring designed to be shown on focus-visible.
- * Focus ring is designed to be controlled by the `strong-focus` module in the
- * same package.
- *
- * In most cases, `visible` should be set to
- * `shouldShowStrongFocus()` on `focus` and `pointerdown` (see `pointerPress()`
- * documentation in the `strong-focus` module), and `false` on `blur`.
- */
-class FocusRing extends s$3 {
-  constructor() {
-    super(...arguments)
-    /**
-     * Makes the focus ring visible.
-     */
-    this.visible = false
-  }
-}
-__decorate(
-  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
-  FocusRing.prototype,
-  'visible',
-  void 0
-)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$7 = i$4`:host{--_shape-start-start: var(--md-focus-ring-shape-start-start, var(--md-focus-ring-shape, 9999px));--_shape-start-end: var(--md-focus-ring-shape-start-end, var(--md-focus-ring-shape, 9999px));--_shape-end-end: var(--md-focus-ring-shape-end-end, var(--md-focus-ring-shape, 9999px));--_shape-end-start: var(--md-focus-ring-shape-end-start, var(--md-focus-ring-shape, 9999px));--_offset-vertical: var(--md-focus-ring-offset-vertical, 2px);--_offset-horizontal: var(--md-focus-ring-offset-horizontal, 2px);--_width: var(--md-focus-ring-width, 3px);--_color: var(--md-focus-ring-color, var(--md-sys-color-secondary, #625b71));display:none;position:absolute;box-sizing:border-box;pointer-events:none;border:var(--_width) solid var(--_color);border-start-start-radius:var(--_shape-start-start);border-start-end-radius:var(--_shape-start-end);border-end-start-radius:var(--_shape-end-start);border-end-end-radius:var(--_shape-end-end);inset:calc(-1*(var(--_offset-vertical) + var(--_width))) calc(-1*(var(--_offset-horizontal) + var(--_width)))}:host([visible]){display:flex}/*# sourceMappingURL=focus-ring-styles.css.map */
-`
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * @soyCompatible
- * @final
- * @suppress {visibility}
- */
-let MdFocusRing = class MdFocusRing extends FocusRing {}
-MdFocusRing.styles = [styles$7]
-MdFocusRing = __decorate([e$6('md-focus-ring')], MdFocusRing)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/** @soyCompatible */
-class Icon extends s$3 {
-  /** @soyTemplate */
-  render() {
-    return y`<span><slot></slot></span>`
-  }
-}
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$6 = i$4`:host{--_color: var(--md-icon-color, inherit);--_font: var(--md-icon-font, "Material Symbols Outlined");--_font-variation-settings: var(--md-icon-font-variation-settings, inherit);--_size: var(--md-icon-size, 24px);--_weight: var(--md-icon-weight, 400);display:inline-flex;color:var(--_color);font-family:var(--_font);font-weight:var(--_weight);font-style:normal;font-size:var(--_size);font-variation-settings:var(--_font-variation-settings);line-height:1;letter-spacing:normal;text-transform:none;white-space:nowrap;word-wrap:normal;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-moz-osx-font-smoothing:grayscale}span ::slotted(svg){fill:currentColor}span ::slotted(*){height:var(--_size);width:var(--_size)}/*# sourceMappingURL=icon-styles.css.map */
-`
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * @soyCompatible
- * @final
- * @suppress {visibility}
- */
-let MdIcon = class MdIcon extends Icon {}
-MdIcon.styles = [styles$6]
-MdIcon = __decorate([e$6('md-icon')], MdIcon)
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const e$2 = o => void 0 === o.strings
 
 /**
  * @license
@@ -4349,8 +4275,8 @@ const t = {
     EVENT: 5,
     ELEMENT: 6,
   },
-  e = t => (...e) => ({ _$litDirective$: t, values: e })
-class i {
+  e$1 = t => (...e) => ({ _$litDirective$: t, values: e })
+class i$1 {
   constructor(t) {}
   get _$AU() {
     return this._$AM._$AU
@@ -4368,10 +4294,153 @@ class i {
 
 /**
  * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const s = (i, t) => {
+    var e, o
+    const r = i._$AN
+    if (void 0 === r) return !1
+    for (const i of r)
+      null === (o = (e = i)._$AO) || void 0 === o || o.call(e, t, !1), s(i, t)
+    return !0
+  },
+  o$3 = i => {
+    let t, e
+    do {
+      if (void 0 === (t = i._$AM)) break
+      ;(e = t._$AN), e.delete(i), (i = t)
+    } while (0 === (null == e ? void 0 : e.size))
+  },
+  r = i => {
+    for (let t; (t = i._$AM); i = t) {
+      let e = t._$AN
+      if (void 0 === e) t._$AN = e = new Set()
+      else if (e.has(i)) break
+      e.add(i), l$1(t)
+    }
+  }
+function n$2(i) {
+  void 0 !== this._$AN ? (o$3(this), (this._$AM = i), r(this)) : (this._$AM = i)
+}
+function h$1(i, t = !1, e = 0) {
+  const r = this._$AH,
+    n = this._$AN
+  if (void 0 !== n && 0 !== n.size)
+    if (t)
+      if (Array.isArray(r))
+        for (let i = e; i < r.length; i++) s(r[i], !1), o$3(r[i])
+      else null != r && (s(r, !1), o$3(r))
+    else s(this, i)
+}
+const l$1 = i => {
+  var t$1, s, o, r
+  i.type == t.CHILD &&
+    ((null !== (t$1 = (o = i)._$AP) && void 0 !== t$1) || (o._$AP = h$1),
+    (null !== (s = (r = i)._$AQ) && void 0 !== s) || (r._$AQ = n$2))
+}
+class c extends i$1 {
+  constructor() {
+    super(...arguments), (this._$AN = void 0)
+  }
+  _$AT(i, t, e) {
+    super._$AT(i, t, e), r(this), (this.isConnected = i._$AU)
+  }
+  _$AO(i, t = !0) {
+    var e, r
+    i !== this.isConnected &&
+      ((this.isConnected = i),
+      i
+        ? null === (e = this.reconnected) || void 0 === e || e.call(this)
+        : null === (r = this.disconnected) || void 0 === r || r.call(this)),
+      t && (s(this, i), o$3(this))
+  }
+  setValue(t) {
+    if (e$2(this._$Ct)) this._$Ct._$AI(t, this)
+    else {
+      const i = [...this._$Ct._$AH]
+      ;(i[this._$Ci] = t), this._$Ct._$AI(i, this, 0)
+    }
+  }
+  disconnected() {}
+  reconnected() {}
+}
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const e = () => new o$2()
+class o$2 {}
+const h = new WeakMap(),
+  n$1 = e$1(
+    class extends c {
+      render(t) {
+        return b
+      }
+      update(t, [s]) {
+        var e
+        const o = s !== this.Y
+        return (
+          o && void 0 !== this.Y && this.rt(void 0),
+          (o || this.lt !== this.ct) &&
+            ((this.Y = s),
+            (this.dt =
+              null === (e = t.options) || void 0 === e ? void 0 : e.host),
+            this.rt((this.ct = t.element))),
+          b
+        )
+      }
+      rt(i) {
+        var t
+        if ('function' == typeof this.Y) {
+          const s = null !== (t = this.dt) && void 0 !== t ? t : globalThis
+          let e = h.get(s)
+          void 0 === e && ((e = new WeakMap()), h.set(s, e)),
+            void 0 !== e.get(this.Y) && this.Y.call(this.dt, void 0),
+            e.set(this.Y, i),
+            void 0 !== i && this.Y.call(this.dt, i)
+        } else this.Y.value = i
+      }
+      get lt() {
+        var i, t, s
+        return 'function' == typeof this.Y
+          ? null ===
+              (t = h.get(
+                null !== (i = this.dt) && void 0 !== i ? i : globalThis
+              )) || void 0 === t
+            ? void 0
+            : t.get(this.Y)
+          : null === (s = this.Y) || void 0 === s
+          ? void 0
+          : s.value
+      }
+      disconnected() {
+        this.lt === this.ct && this.rt(void 0)
+      }
+      reconnected() {
+        this.rt(this.ct)
+      }
+    }
+  )
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+function* o$1(o, f) {
+  if (void 0 !== o) {
+    let i = 0
+    for (const t of o) yield f(t, i++)
+  }
+}
+
+/**
+ * @license
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ const o = e(
-  class extends i {
+ */ const o = e$1(
+  class extends i$1 {
     constructor(t$1) {
       var i
       if (
@@ -4427,6 +4496,679 @@ class i {
 
 /**
  * @license
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const l = l => (null != l ? l : b)
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * A property decorator that helps proxy an aria attribute to an internal node.
+ *
+ * This decorator is only intended for use with ARIAMixin properties,
+ * such as `ariaLabel`, to help with screen readers.
+ *
+ * This decorator will remove the host `aria-*` attribute at runtime and add it
+ * to a `data-aria-*` attribute to avoid screenreader conflicts between the
+ * host and internal node.
+ *
+ * `@ariaProperty` decorated properties should sync with LitElement to the
+ * `data-aria-*` attribute, not the native `aria-*` attribute.
+ *
+ * @example
+ * ```ts
+ * class MyElement extends LitElement {
+ *   \@ariaProperty
+ *   // TODO(b/210730484): replace with @soyParam annotation
+ *   \@property({ type: String, attribute: 'data-aria-label', noAccessor: true})
+ *   ariaLabel!: string;
+ * }
+ * ```
+ * @category Decorator
+ * @ExportDecoratedItems
+ */
+function ariaProperty(prototype, property) {
+  // Replace the ARIAMixin property with data-* attribute syncing instead of
+  // using the native aria-* attribute reflection. This preserves the attribute
+  // for SSR and avoids screenreader conflicts after delegating the attribute
+  // to a child node.
+  Object.defineProperty(prototype, property, {
+    configurable: true,
+    enumerable: true,
+    get() {
+      return this.dataset[property] ?? ''
+    },
+    set(value) {
+      // Coerce non-string values to a string
+      const strValue = String(value ?? '')
+      if (strValue) {
+        this.dataset[property] = strValue
+      } else {
+        delete this.dataset[property]
+      }
+      // lit will call this setter whenever the data-* attribute changes.
+      // However, this.dataset[property] will automatically be updated to the
+      // current value. To avoid bugs, always request an update regardless of
+      // the old value.
+      this.requestUpdate()
+    },
+  })
+  // Define an internal property that syncs from the `aria-*` attribute with lit
+  // and delegates to the real ARIAMixin property, which renders an update.
+  // This property will immediately remove the `aria-*` attribute, which doesn't
+  // work well with SSR (which is why there's a separate synced property).
+  const internalAriaProperty = Symbol(property)
+  // "ariaLabel" -> "aria-label" / "ariaLabelledBy" -> "aria-labelledby"
+  const ariaAttribute = property.replace('aria', 'aria-').toLowerCase()
+  const constructor = prototype.constructor
+  let removingAttribute = false
+  Object.defineProperty(prototype, internalAriaProperty, {
+    get() {
+      // tslint is failing here, but the types are correct (ARIAMixin
+      // properties do not obfuscate with closure)
+      // tslint:disable-next-line:no-dict-access-on-struct-type
+      return this[property]
+    },
+    set(value) {
+      if (removingAttribute) {
+        // Ignore this update, which is triggered below
+        return
+      }
+      // Set the ARIAMixin property, which will sync the `data-*` attribute
+      // and trigger rendering if the value changed.
+      // tslint is failing here, but the types are correct (ARIAMixin
+      // properties do not obfuscate with closure)
+      // tslint:disable-next-line:no-dict-access-on-struct-type
+      this[property] = value
+      // Remove the `aria-*` attribute, which will call this setter again with
+      // the incorrect value. Ignore these updates.
+      removingAttribute = true
+      this.removeAttribute(ariaAttribute)
+      removingAttribute = false
+    },
+  })
+  // Tell lit to observe the `aria-*` attribute and set the internal property,
+  // which acts as a "aria-* attribute changed" observer.
+  constructor.createProperty(internalAriaProperty, {
+    attribute: ariaAttribute,
+    noAccessor: true,
+  })
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const NAVIGABLE_KEYS = {
+  ArrowDown: 'ArrowDown',
+  ArrowUp: 'ArrowUp',
+  Home: 'Home',
+  End: 'End',
+}
+const navigableKeySet = new Set(Object.values(NAVIGABLE_KEYS))
+function isNavigableKey(key) {
+  return navigableKeySet.has(key)
+}
+// tslint:disable-next-line:enforce-comments-on-exported-symbols
+class List extends s$4 {
+  constructor() {
+    super(...arguments)
+    // @ts-ignore(b/264292293): Use `override` with TS 4.9+
+    this.role = 'list'
+    /**
+     * The tabindex of the underlying list.
+     */
+    this.listTabIndex = 0
+  }
+  render() {
+    return this.renderList()
+  }
+  /**
+   * Renders the main list element.
+   */
+  renderList() {
+    return y`
+    <ul class="md3-list ${o(this.getListClasses())}"
+        aria-label="${l(this.ariaLabel)}"
+        tabindex=${this.listTabIndex}
+        role=${this.role}
+        @keydown=${this.handleKeydown}
+        >
+      ${this.renderContent()}
+    </ul>
+  `
+  }
+  /**
+   * The classes to be applied to the underlying list.
+   */
+  getListClasses() {
+    return {}
+  }
+  /**
+   * The content to be slotted into the list.
+   */
+  renderContent() {
+    return y`<span><slot @click=${e => {
+      e.stopPropagation()
+    }}></slot></span>`
+  }
+  /**
+   * Handles keyboard navigation in the list.
+   *
+   * @param event {KeyboardEvent} The keyboard event that triggers this handler.
+   */
+  handleKeydown(event) {
+    const key = event.key
+    if (!isNavigableKey(key)) {
+      return
+    }
+    // do not use this.items directly so we don't re-query the DOM unnecessarily
+    const items = this.items
+    if (!items.length) {
+      return
+    }
+    const activeItemRecord = List.getActiveItem(items)
+    if (activeItemRecord) {
+      activeItemRecord.item.active = false
+    }
+    event.preventDefault()
+    switch (key) {
+      // Activate the next item
+      case NAVIGABLE_KEYS.ArrowDown:
+        if (activeItemRecord) {
+          const next = List.getNextItem(items, activeItemRecord.index)
+          if (next) next.active = true
+        } else {
+          List.activateFirstItem(items)
+        }
+        break
+      // Activate the previous item
+      case NAVIGABLE_KEYS.ArrowUp:
+        if (activeItemRecord) {
+          const prev = List.getPrevItem(items, activeItemRecord.index)
+          if (prev) prev.active = true
+        } else {
+          items[items.length - 1].active = true
+        }
+        break
+      // Activate the first item
+      case NAVIGABLE_KEYS.Home:
+        List.activateFirstItem(items)
+        break
+      // Activate the last item
+      case NAVIGABLE_KEYS.End:
+        List.activateLastItem(items)
+        break
+    }
+  }
+  /**
+   * Activates the first non-disabled item of a given array of items.
+   *
+   * @param items {Array<ListItem>} The items from which to activate the
+   * first item.
+   */
+  static activateFirstItem(items) {
+    // NOTE: These selector functions are static and not on the instance such
+    // that multiple operations can be chained and we do not have to re-query
+    // the DOM
+    const firstItem = List.getFirstActivatableItem(items)
+    if (firstItem) {
+      firstItem.active = true
+    }
+  }
+  /**
+   * Activates the last non-disabled item of a given array of items.
+   *
+   * @param items {Array<ListItem>} The items from which to activate the
+   * last item.
+   */
+  static activateLastItem(items) {
+    const lastItem = List.getLastActivatableItem(items)
+    if (lastItem) {
+      lastItem.active = true
+    }
+  }
+  /**
+   * Deactivates the currently active item of a given array of items.
+   *
+   * @param items {Array<ListItem>} The items from which to deactivate the
+   * active item.
+   * @returns A record of the deleselcted activated item including the item and
+   * the index of the item or `null` if none are deactivated.
+   */
+  static deactivateActiveItem(items) {
+    const activeItem = List.getActiveItem(items)
+    if (activeItem) {
+      activeItem.item.active = false
+    }
+    return activeItem
+  }
+  focus() {
+    this.listRoot.focus()
+  }
+  /**
+   * Retrieves the the first activated item of a given array of items.
+   *
+   * @param items {Array<ListItem>} The items to search.
+   * @returns A record of the first activated item including the item and the
+   * index of the item or `null` if none are activated.
+   */
+  static getActiveItem(items) {
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i]
+      if (item.active) {
+        return {
+          item,
+          index: i,
+        }
+      }
+    }
+    return null
+  }
+  /**
+   * Retrieves the the first non-disabled item of a given array of items. This
+   * the first item that is not disabled.
+   *
+   * @param items {Array<ListItem>} The items to search.
+   * @returns The first activatable item or `null` if none are activatable.
+   */
+  static getFirstActivatableItem(items) {
+    for (const item of items) {
+      if (!item.disabled) {
+        return item
+      }
+    }
+    return null
+  }
+  /**
+   * Retrieves the the last non-disabled item of a given array of items.
+   *
+   * @param items {Array<ListItem>} The items to search.
+   * @returns The last activatable item or `null` if none are activatable.
+   */
+  static getLastActivatableItem(items) {
+    for (let i = items.length - 1; i >= 0; i--) {
+      const item = items[i]
+      if (!item.disabled) {
+        return item
+      }
+    }
+    return null
+  }
+  /**
+   * Retrieves the the next non-disabled item of a given array of items.
+   *
+   * @param items {Array<ListItem>} The items to search.
+   * @param index {{index: number}} The index to search from.
+   * @returns The next activatable item or `null` if none are activatable.
+   */
+  static getNextItem(items, index) {
+    for (let i = 1; i < items.length; i++) {
+      const nextIndex = (i + index) % items.length
+      const item = items[nextIndex]
+      if (!item.disabled) {
+        return item
+      }
+    }
+    return null
+  }
+  /**
+   * Retrieves the the previous non-disabled item of a given array of items.
+   *
+   * @param items {Array<ListItem>} The items to search.
+   * @param index {{index: number}} The index to search from.
+   * @returns The previous activatable item or `null` if none are activatable.
+   */
+  static getPrevItem(items, index) {
+    for (let i = 1; i < items.length; i++) {
+      const prevIndex = (index - i + items.length) % items.length
+      const item = items[prevIndex]
+      if (!item.disabled) {
+        return item
+      }
+    }
+    return null
+  }
+}
+List.shadowRootOptions = { mode: 'open', delegatesFocus: true }
+__decorate(
+  [
+    ariaProperty,
+    e$8({ type: String, attribute: 'data-aria-label', noAccessor: true }),
+    __metadata('design:type', String),
+  ],
+  List.prototype,
+  'ariaLabel',
+  void 0
+)
+__decorate(
+  [
+    ariaProperty,
+    e$8({
+      type: String,
+      attribute: 'data-aria-activedescendant',
+      noAccessor: true,
+    }),
+    __metadata('design:type', String),
+  ],
+  List.prototype,
+  'ariaActivedescendant',
+  void 0
+)
+__decorate(
+  [
+    ariaProperty,
+    // tslint:disable-next-line
+    e$8({ type: String, attribute: 'data-role', noAccessor: true }),
+    // @ts-ignore(b/264292293): Use `override` with TS 4.9+
+    __metadata('design:type', String),
+  ],
+  List.prototype,
+  'role',
+  void 0
+)
+__decorate(
+  [e$8({ type: Number }), __metadata('design:type', Number)],
+  List.prototype,
+  'listTabIndex',
+  void 0
+)
+__decorate(
+  [i$2('.md3-list'), __metadata('design:type', HTMLElement)],
+  List.prototype,
+  'listRoot',
+  void 0
+)
+__decorate(
+  [
+    l$2({ flatten: true, selector: '[md-list-item]' }),
+    __metadata('design:type', Array),
+  ],
+  List.prototype,
+  'items',
+  void 0
+)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$b = i$5`:host{--_container-color: var(--md-list-container-color, var(--md-sys-color-surface, #fffbfe));color:unset}.md3-list{background-color:var(--_container-color);display:block;list-style-type:none;margin:0;min-width:300px;outline:none;padding:8px 0;position:relative}/*# sourceMappingURL=list-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @summary Lists are continuous, vertical indexes of text or images.
+ *
+ * @description
+ * Lists consist of one or more list items, and can contain actions represented
+ * by icons and text. List items come in three sizes: one-line, two-line, and
+ * three-line.
+ *
+ * __Takeaways:__
+ *
+ * - Lists should be sorted in logical ways that make content easy to scan, such
+ *   as alphabetical, numerical, chronological, or by user preference.
+ * - Lists present content in a way that makes it easy to identify a specific
+ *   item in a collection and act on it.
+ * - Lists should present icons, text, and actions in a consistent format.
+ *
+ * @final
+ * @suppress {visibility}
+ */
+let MdList = class MdList extends List {}
+MdList.styles = [styles$b]
+MdList = __decorate([e$9('md-list')], MdList)
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @summary An accessible, themable ring designed to be shown on
+ * `:focus-visible`.
+ *
+ * @description
+ * An accessible, themable ring designed to be shown on focus-visible.
+ * Focus ring is designed to be controlled by the `strong-focus` module in the
+ * same package.
+ *
+ * In most cases, `visible` should be set to
+ * `shouldShowStrongFocus()` on `focus` and `pointerdown` (see `pointerPress()`
+ * documentation in the `strong-focus` module), and `false` on `blur`.
+ */
+class FocusRing extends s$4 {
+  constructor() {
+    super(...arguments)
+    /**
+     * Makes the focus ring visible.
+     */
+    this.visible = false
+  }
+}
+__decorate(
+  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  FocusRing.prototype,
+  'visible',
+  void 0
+)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$a = i$5`:host{--_shape-start-start: var(--md-focus-ring-shape-start-start, var(--md-focus-ring-shape, 9999px));--_shape-start-end: var(--md-focus-ring-shape-start-end, var(--md-focus-ring-shape, 9999px));--_shape-end-end: var(--md-focus-ring-shape-end-end, var(--md-focus-ring-shape, 9999px));--_shape-end-start: var(--md-focus-ring-shape-end-start, var(--md-focus-ring-shape, 9999px));--_offset-vertical: var(--md-focus-ring-offset-vertical, 2px);--_offset-horizontal: var(--md-focus-ring-offset-horizontal, 2px);--_width: var(--md-focus-ring-width, 3px);--_color: var(--md-focus-ring-color, var(--md-sys-color-secondary, #625b71));display:none;position:absolute;box-sizing:border-box;pointer-events:none;border:var(--_width) solid var(--_color);border-start-start-radius:var(--_shape-start-start);border-start-end-radius:var(--_shape-start-end);border-end-start-radius:var(--_shape-end-start);border-end-end-radius:var(--_shape-end-end);inset:calc(-1*(var(--_offset-vertical) + var(--_width))) calc(-1*(var(--_offset-horizontal) + var(--_width)))}:host([visible]){display:flex}/*# sourceMappingURL=focus-ring-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @soyCompatible
+ * @final
+ * @suppress {visibility}
+ */
+let MdFocusRing = class MdFocusRing extends FocusRing {}
+MdFocusRing.styles = [styles$a]
+MdFocusRing = __decorate([e$9('md-focus-ring')], MdFocusRing)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * A component for elevation.
+ */
+class Elevation extends s$4 {
+  constructor() {
+    super(...arguments)
+    /**
+     * Whether or not the elevation level should display a shadow.
+     */
+    this.shadow = false
+    /**
+     * Whether or not the elevation level should display a surface tint color.
+     */
+    this.surface = false
+  }
+  render() {
+    return y`
+       <span class="surface"></span>
+       <span class="shadow"></span>
+     `
+  }
+}
+__decorate(
+  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  Elevation.prototype,
+  'shadow',
+  void 0
+)
+__decorate(
+  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  Elevation.prototype,
+  'surface',
+  void 0
+)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$9 = i$5`:host{--_duration: var(--md-elevation-duration, 0s);--_easing: var(--md-elevation-easing, cubic-bezier(0.2, 0, 0, 1));--_level: var(--md-elevation-level, 0);--_shadow-color: var(--md-elevation-shadow-color, var(--md-sys-color-shadow, #000));--_surface-tint: var(--md-elevation-surface-tint, var(--md-sys-color-primary, #6750a4));border-radius:inherit;display:flex;position:relative}:host(:not([surface])) .surface,:host(:not([shadow])) .shadow{display:none}.surface,.shadow,.shadow::before,.shadow::after{border-radius:inherit;content:"";inset:0;position:absolute;transition-property:box-shadow,opacity;transition-duration:var(--_duration);transition-timing-function:var(--_easing)}.shadow::before{box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 3,1) + 2*clamp(0,var(--_level) - 4,1))) calc(1px*(2*clamp(0,var(--_level),1) + clamp(0,var(--_level) - 2,1) + clamp(0,var(--_level) - 4,1))) 0px var(--_shadow-color);opacity:.3}.shadow::after{opacity:.15;box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 1,1) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(3*clamp(0,var(--_level),2) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(clamp(0,var(--_level),4) + 2*clamp(0,var(--_level) - 4,1))) var(--_shadow-color)}.surface{background:var(--_surface-tint);opacity:calc(clamp(0,var(--_level),.05) + clamp(0,var(--_level) - 1,.03) + clamp(0,var(--_level) - 2,.03) + clamp(0,var(--_level) - 3,.01) + clamp(0,var(--_level) - 4,.02))}/*# sourceMappingURL=elevation-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * The `<md-elevation>` custom element with default styles.
+ *
+ * Elevation is the relative distance between two surfaces along the z-axis.
+ */
+let MdElevation = class MdElevation extends Elevation {}
+MdElevation.styles = [styles$9]
+MdElevation = __decorate([e$9('md-elevation')], MdElevation)
+
+/**
+ * @license
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const i = e$1(
+  class extends i$1 {
+    constructor(t$1) {
+      var e
+      if (
+        (super(t$1),
+        t$1.type !== t.ATTRIBUTE ||
+          'style' !== t$1.name ||
+          (null === (e = t$1.strings) || void 0 === e ? void 0 : e.length) > 2)
+      )
+        throw Error(
+          'The `styleMap` directive must be used in the `style` attribute and must be the only part in the attribute.'
+        )
+    }
+    render(t) {
+      return Object.keys(t).reduce((e, r) => {
+        const s = t[r]
+        return null == s
+          ? e
+          : e +
+              `${(r = r
+                .replace(/(?:^(webkit|moz|ms|o)|)(?=[A-Z])/g, '-$&')
+                .toLowerCase())}:${s};`
+      }, '')
+    }
+    update(e, [r]) {
+      const { style: s } = e.element
+      if (void 0 === this.vt) {
+        this.vt = new Set()
+        for (const t in r) this.vt.add(t)
+        return this.render(r)
+      }
+      this.vt.forEach(t => {
+        null == r[t] &&
+          (this.vt.delete(t),
+          t.includes('-') ? s.removeProperty(t) : (s[t] = ''))
+      })
+      for (const t in r) {
+        const e = r[t]
+        null != e &&
+          (this.vt.add(t), t.includes('-') ? s.setProperty(t, e) : (s[t] = e))
+      }
+      return x
+    }
+  }
+)
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+class FocusGlobal {
+  constructor() {
+    this.visible = false
+  }
+  setVisible(visible) {
+    this.visible = visible
+  }
+}
+/**
+ * This object can be overwritten by the `setup()` function to use a different
+ * focus coordination object.
+ */
+let focusObject = new FocusGlobal()
+/**
+ * Set of keyboard event codes that correspond to keyboard navigation
+ */
+const KEYBOARD_NAVIGATION_KEYS = new Set([
+  'Tab',
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowUp',
+  'ArrowDown',
+])
+function keydownHandler(e) {
+  if (KEYBOARD_NAVIGATION_KEYS.has(e.key)) {
+    focusObject.setVisible(true)
+  }
+}
+/**
+ * Set up integration with alternate global focus tracking object
+ *
+ * @param focusGlobal A global focus object to coordinate between multiple
+ *     systems
+ * @param enableKeydownHandler Set to true to let StrongFocusService listen for
+ *     keyboard navigation
+ */
+function setup(focusGlobal, enableKeydownHandler = false) {
+  focusObject = focusGlobal
+  if (enableKeydownHandler) {
+    window.addEventListener('keydown', keydownHandler)
+  } else {
+    window.removeEventListener('keydown', keydownHandler)
+  }
+}
+/**
+ * Returns `true` if the component should show strong focus.
+ *
+ * By default, strong focus is shown only on keyboard navigation, and not on
+ * pointer interaction.
+ */
+function shouldShowStrongFocus() {
+  return focusObject.visible
+}
+/**
+ * Components should call this when a user interacts with a component with a
+ * pointing device.
+ *
+ * By default, this will prevent the strong focus from being shown.
+ */
+function pointerPress() {
+  focusObject.setVisible(false)
+}
+setup(focusObject, true)
+
+/**
+ * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -4445,6 +5187,1354 @@ const EASING = {
   EMPHASIZED_ACCELERATE: 'cubic-bezier(.3,0,.8,.15)',
   EMPHASIZED_DECELERATE: 'cubic-bezier(.05,.7,.1,1)',
 }
+/**
+ * Creates an `AnimationSignal` that can be used to cancel a previous task.
+ *
+ * @example
+ * class MyClass {
+ *   private labelAnimationSignal = createAnimationSignal();
+ *
+ *   private async animateLabel() {
+ *     // Start of the task. Previous tasks will be canceled.
+ *     const signal = this.labelAnimationSignal.start();
+ *
+ *     // Do async work...
+ *     if (signal.aborted) {
+ *       // Use AbortSignal to check if a request was made to abort after some
+ *       // asynchronous work.
+ *       return;
+ *     }
+ *
+ *     const animation = this.animate(...);
+ *     // Add event listeners to be notified when the task should be canceled.
+ *     signal.addEventListener('abort', () => {
+ *       animation.cancel();
+ *     });
+ *
+ *     animation.addEventListener('finish', () => {
+ *       // Tell the signal that the current task is finished.
+ *       this.labelAnimationSignal.finish();
+ *     });
+ *   }
+ * }
+ *
+ * @return An `AnimationSignal`.
+ */
+function createAnimationSignal() {
+  // The current animation's AbortController
+  let animationAbortController = null
+  return {
+    start() {
+      // Tell the previous animation to cancel.
+      animationAbortController?.abort()
+      // Set up a new AbortController for the current animation.
+      animationAbortController = new AbortController()
+      // Provide the AbortSignal so that the caller can check aborted status
+      // and add listeners.
+      return animationAbortController.signal
+    },
+    finish() {
+      animationAbortController = null
+    },
+  }
+}
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Given a surface, an anchor, corners, and some options, this surface will
+ * calculate the position of a surface to align the two given corners and keep
+ * the surface inside the window viewport. It also provides a StyleInfo map that
+ * can be applied to the surface to handle visiblility and position.
+ */
+class SurfacePositionController {
+  /**
+   * @param host The host to connect the controller to.
+   * @param getProperties A function that returns the properties for the
+   * controller.
+   */
+  constructor(host, getProperties) {
+    this.host = host
+    this.getProperties = getProperties
+    // The current styles to apply to the surface.
+    this.surfaceStylesInternal = {
+      display: 'none',
+    }
+    // Previous values stored for change detection. Open change detection is
+    // calculated separately so initialize it here.
+    this.lastValues = { isOpen: false }
+    this.host.addController(this)
+  }
+  /**
+   * The StyleInfo map to apply to the surface via Lit's stylemap
+   */
+  get surfaceStyles() {
+    return this.surfaceStylesInternal
+  }
+  /**
+   * Calculates the surface's new position required so that the surface's
+   * `surfaceCorner` aligns to the anchor's `anchorCorner` while keeping the
+   * surface inside the window viewport. This positioning also respects RTL by
+   * checking `getComputedStyle()` on the surface element.
+   */
+  async position() {
+    const {
+      surfaceEl,
+      anchorEl,
+      anchorCorner: anchorCornerRaw,
+      surfaceCorner: surfaceCornerRaw,
+      isTopLayer: topLayerRaw,
+      xOffset,
+      yOffset,
+    } = this.getProperties()
+    const anchorCorner = anchorCornerRaw.toUpperCase().trim()
+    const surfaceCorner = surfaceCornerRaw.toUpperCase().trim()
+    if (!surfaceEl || !anchorEl) {
+      return
+    }
+    // Paint the surface transparently so that we can get the position and the
+    // rect info of the surface.
+    this.surfaceStylesInternal = {
+      display: 'block',
+      opacity: '0',
+    }
+    // Wait for it to be visible.
+    this.host.requestUpdate()
+    await this.host.updateComplete
+    const surfaceRect = surfaceEl.getBoundingClientRect()
+    const anchorRect = anchorEl.getBoundingClientRect()
+    const [surfaceBlock, surfaceInline] = surfaceCorner.split('_')
+    const [anchorBlock, anchorInline] = anchorCorner.split('_')
+    // We use number booleans to multiply values rather than `if` / ternary
+    // statements because it _heavily_ cuts down on nesting and readability
+    const isTopLayer = topLayerRaw ? 1 : 0
+    // LTR depends on the direction of the SURFACE not the anchor.
+    const isLTR = getComputedStyle(surfaceEl).direction === 'ltr' ? 1 : 0
+    const isRTL = isLTR ? 0 : 1
+    const isSurfaceInlineStart = surfaceInline === 'START' ? 1 : 0
+    const isSurfaceInlineEnd = surfaceInline === 'END' ? 1 : 0
+    const isSurfaceBlockStart = surfaceBlock === 'START' ? 1 : 0
+    const isSurfaceBlockEnd = surfaceBlock === 'END' ? 1 : 0
+    const isOneInlineEnd = anchorInline !== surfaceInline ? 1 : 0
+    const isOneBlockEnd = anchorBlock !== surfaceBlock ? 1 : 0
+    /*
+     * A diagram that helps describe some of the variables used in the following
+     * calculations.
+     *
+     * ┌───── inline/blockTopLayerOffset
+     * │       │
+     * │     ┌─▼───┐                  Window
+     * │    ┌┼─────┴────────────────────────┐
+     * │    ││                              │
+     * └──► ││  ┌──inline/blockAnchorOffset │
+     *      ││  │     │                     │
+     *      └┤  │  ┌──▼───┐                 │
+     *       │  │ ┌┼──────┤                 │
+     *       │  └─►│Anchor│                 │
+     *       │    └┴──────┘                 │
+     *       │                              │
+     *       │     ┌────────────────────────┼────┐
+     *       │     │ Surface                │    │
+     *       │     │                        │    │
+     *       │     │                        │    │
+     *       │     │                        │    │
+     *       │     │                        │    │
+     *       │     │                        │    │
+     *       └─────┼────────────────────────┘    ├┐
+     *             │ inline/blockOOBCorrection   ││
+     *             │                         │   ││
+     *             │                         ├──►││
+     *             │                         │   ││
+     *             └────────────────────────┐▼───┼┘
+     *                                      └────┘
+     */
+    // Whether or not to apply the width of the anchor
+    const inlineAnchorOffset = isOneInlineEnd * anchorRect.width + xOffset
+    // The inline position of the anchor relative to window in LTR
+    const inlineTopLayerOffsetLTR =
+      isSurfaceInlineStart * anchorRect.left +
+      isSurfaceInlineEnd * (window.innerWidth - anchorRect.right)
+    // The inline position of the anchor relative to window in RTL
+    const inlineTopLayerOffsetRTL =
+      isSurfaceInlineStart * (window.innerWidth - anchorRect.right) +
+      isSurfaceInlineEnd * anchorRect.left
+    // The inline position of the anchor relative to window
+    const inlineTopLayerOffset =
+      isLTR * inlineTopLayerOffsetLTR + isRTL * inlineTopLayerOffsetRTL
+    // If the surface's inline would be out of bounds of the window, move it
+    // back in
+    const inlineOutOfBoundsCorrection = Math.min(
+      0,
+      window.innerWidth -
+        inlineTopLayerOffset -
+        inlineAnchorOffset -
+        surfaceRect.width
+    )
+    // The inline logical value of the surface
+    const inline =
+      isTopLayer * inlineTopLayerOffset +
+      inlineAnchorOffset +
+      inlineOutOfBoundsCorrection
+    // Whether or not to apply the height of the anchor
+    const blockAnchorOffset = isOneBlockEnd * anchorRect.height + yOffset
+    // The absolute block position of the anchor relative to window
+    const blockTopLayerOffset =
+      isSurfaceBlockStart * anchorRect.top +
+      isSurfaceBlockEnd * (window.innerHeight - anchorRect.bottom)
+    // If the surface's block would be out of bounds of the window, move it back
+    // in
+    const blockOutOfBoundsCorrection = Math.min(
+      0,
+      window.innerHeight -
+        blockTopLayerOffset -
+        blockAnchorOffset -
+        surfaceRect.height
+    )
+    // The block logical value of the surface
+    const block =
+      isTopLayer * blockTopLayerOffset +
+      blockAnchorOffset +
+      blockOutOfBoundsCorrection
+    const surfaceBlockProperty =
+      surfaceBlock === 'START' ? 'inset-block-start' : 'inset-block-end'
+    const surfaceInlineProperty =
+      surfaceInline === 'START' ? 'inset-inline-start' : 'inset-inline-end'
+    this.surfaceStylesInternal = {
+      display: 'block',
+      opacity: '1',
+      [surfaceBlockProperty]: `${block}px`,
+      [surfaceInlineProperty]: `${inline}px`,
+    }
+    this.host.requestUpdate()
+  }
+  hostUpdate() {
+    this.onUpdate()
+  }
+  hostUpdated() {
+    this.onUpdate()
+  }
+  /**
+   * Checks whether the properties passed into the controller have changed since
+   * the last positioning. If so, it will reposition if the surface is open or
+   * close it if the surface should close.
+   */
+  async onUpdate() {
+    const props = this.getProperties()
+    let hasChanged = false
+    for (const [key, value] of Object.entries(props)) {
+      // tslint:disable-next-line
+      hasChanged = hasChanged || value !== this.lastValues[key]
+      if (hasChanged) break
+    }
+    const openChanged = this.lastValues.isOpen !== props.isOpen
+    const hasAnchor = !!props.anchorEl
+    const hasSurface = !!props.surfaceEl
+    if (hasChanged && hasAnchor && hasSurface) {
+      // Only update isOpen, because if it's closed, we do not want to waste
+      // time on a useless reposition calculation. So save the other "dirty"
+      // values until next time it opens.
+      this.lastValues.isOpen = props.isOpen
+      if (props.isOpen) {
+        // We are going to do a reposition, so save the prop values for future
+        // dirty checking.
+        this.lastValues = props
+        await this.position()
+        props.onOpen()
+      } else if (openChanged) {
+        await props.beforeClose()
+        this.close()
+        props.onClose()
+      }
+    }
+  }
+  /**
+   * Hides the surface.
+   */
+  close() {
+    this.surfaceStylesInternal = {
+      display: 'none',
+    }
+    this.host.requestUpdate()
+  }
+}
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+// Indicies to access the TypeaheadRecord tuple
+const TYPEAHEAD_INDEX = 0
+const TYPEAHEAD_ITEM = 1
+const TYPEAHEAD_TEXT = 2
+/**
+ * This controller listens to `keydown` events and searches the header text of
+ * an array of `MenuItem`s with the corresponding entered keys within the buffer
+ * time and activates the item.
+ *
+ * @example
+ * ```ts
+ * const typeaheadController = new TypeaheadController(() => ({
+ *   typeaheadBufferTime: 50,
+ *   getItems: () => Array.from(document.querySelectorAll('md-menu-item'))
+ * }));
+ * html`
+ *   <div
+ *       @keydown=${typeaheadController.onKeydown}
+ *       tabindex="0"
+ *       class="activeItemText">
+ *     <!-- focusable element that will receive keydown events -->
+ *     Apple
+ *   </div>
+ *   <div>
+ *     <md-menu-item active header="Apple"></md-menu-item>
+ *     <md-menu-item header="Apricot"></md-menu-item>
+ *     <md-menu-item header="Banana"></md-menu-item>
+ *     <md-menu-item header="Olive"></md-menu-item>
+ *     <md-menu-item header="Orange"></md-menu-item>
+ *   </div>
+ * `;
+ * ```
+ */
+class TypeaheadController {
+  /**
+   * @param getProperties A function that returns the options of the typeahead
+   * controller:
+   *
+   * {
+   *   getItems: A function that returns an array of menu items to be searched.
+   *   typeaheadBufferTime: The maximum time between each keystroke to keep the
+   *       current type buffer alive.
+   * }
+   */
+  constructor(getProperties) {
+    this.getProperties = getProperties
+    /**
+     * Array of tuples that helps with indexing.
+     */
+    this.typeaheadRecords = []
+    /**
+     * Currently-typed text since last buffer timeout
+     */
+    this.typaheadBuffer = ''
+    /**
+     * The timeout id from the current buffer's setTimeout
+     */
+    this.cancelTypeaheadTimeout = 0
+    /**
+     * If we are currently "typing"
+     */
+    this.isTypingAhead = false
+    /**
+     * The record of the last active item.
+     */
+    this.lastActiveRecord = null
+    /**
+     * Apply this listener to the element that will receive `keydown` events that
+     * should trigger this controller.
+     *
+     * @param e The native browser `KeyboardEvent` from the `keydown` event.
+     */
+    this.onKeydown = e => {
+      if (this.isTypingAhead) {
+        this.typeahead(e)
+      } else {
+        this.beginTypeahead(e)
+      }
+    }
+    /**
+     * Ends the current typeahead and clears the buffer.
+     */
+    this.endTypeahead = () => {
+      this.isTypingAhead = false
+      this.typaheadBuffer = ''
+      this.typeaheadRecords = []
+    }
+  }
+  get items() {
+    return this.getProperties().getItems()
+  }
+  /**
+   * Sets up typingahead
+   */
+  beginTypeahead(e) {
+    // We don't want to typeahead if the _beginning_ of the typeahead is a menu
+    // navigation, or a selection. We will handle "Space" only if it's in the
+    // middle of a typeahead
+    if (
+      e.code === 'Space' ||
+      e.code === 'Enter' ||
+      e.code.startsWith('Arrow') ||
+      e.code === 'Escape'
+    ) {
+      if (this.lastActiveRecord) {
+        this.lastActiveRecord[TYPEAHEAD_ITEM].active = false
+      }
+      return
+    }
+    this.isTypingAhead = true
+    // Generates the record array data structure which is the index, the element
+    // and a normalized header.
+    this.typeaheadRecords = this.items.map((el, index) => [
+      index,
+      el,
+      el.headline.trim().toLowerCase(),
+    ])
+    this.lastActiveRecord =
+      this.typeaheadRecords.find(record => record[TYPEAHEAD_ITEM].active) ??
+      null
+    if (this.lastActiveRecord) {
+      this.lastActiveRecord[TYPEAHEAD_ITEM].active = false
+    }
+    this.typeahead(e)
+  }
+  /**
+   * Performs the typeahead. Based on the normalized items and the current text
+   * buffer, finds the _next_ item with matching text and activates it.
+   *
+   * @example
+   *
+   * items: Apple, Banana, Olive, Orange, Cucumber
+   * buffer: ''
+   * user types: o
+   *
+   * activates Olive
+   *
+   * @example
+   *
+   * items: Apple, Banana, Olive (active), Orange, Cucumber
+   * buffer: 'o'
+   * user types: l
+   *
+   * activates Olive
+   *
+   * @example
+   *
+   * items: Apple, Banana, Olive (active), Orange, Cucumber
+   * buffer: ''
+   * user types: o
+   *
+   * activates Orange
+   *
+   * @example
+   *
+   * items: Apple, Banana, Olive, Orange (active), Cucumber
+   * buffer: ''
+   * user types: o
+   *
+   * activates Olive
+   */
+  typeahead(e) {
+    clearTimeout(this.cancelTypeaheadTimeout)
+    // Stop typingahead if one of the navigation or selection keys (except for
+    // Space) are pressed
+    if (
+      e.code === 'Enter' ||
+      e.code.startsWith('Arrow') ||
+      e.code === 'Escape'
+    ) {
+      this.endTypeahead()
+      if (this.lastActiveRecord) {
+        this.lastActiveRecord[TYPEAHEAD_ITEM].active = false
+      }
+      return
+    }
+    // If Space is pressed, prevent it from selecting and closing the menu
+    if (e.code === 'Space') {
+      e.stopPropagation()
+    }
+    // Start up a new keystroke buffer timeout
+    this.cancelTypeaheadTimeout = setTimeout(
+      this.endTypeahead,
+      this.getProperties().typeaheadBufferTime
+    )
+    this.typaheadBuffer += e.key.toLowerCase()
+    const lastActiveIndex = this.lastActiveRecord
+      ? this.lastActiveRecord[TYPEAHEAD_INDEX]
+      : -1
+    const numRecords = this.typeaheadRecords.length
+    /**
+     * Sorting function that will resort the items starting with the given index
+     *
+     * @example
+     *
+     * this.typeaheadRecords =
+     * 0: [0, <reference>, 'apple']
+     * 1: [1, <reference>, 'apricot']
+     * 2: [2, <reference>, 'banana']
+     * 3: [3, <reference>, 'olive'] <-- lastActiveIndex
+     * 4: [4, <reference>, 'orange']
+     * 5: [5, <reference>, 'strawberry']
+     *
+     * this.typeaheadRecords.sort((a,b) => rebaseIndexOnActive(a)
+     *                                       - rebaseIndexOnActive(b)) ===
+     * 0: [3, <reference>, 'olive'] <-- lastActiveIndex
+     * 1: [4, <reference>, 'orange']
+     * 2: [5, <reference>, 'strawberry']
+     * 3: [0, <reference>, 'apple']
+     * 4: [1, <reference>, 'apricot']
+     * 5: [2, <reference>, 'banana']
+     */
+    const rebaseIndexOnActive = record => {
+      return (
+        (record[TYPEAHEAD_INDEX] + numRecords - lastActiveIndex) % numRecords
+      )
+    }
+    // records filtered and sorted / rebased around the last active index
+    const matchingRecords = this.typeaheadRecords
+      .filter(
+        record =>
+          !record[TYPEAHEAD_ITEM].disabled &&
+          record[TYPEAHEAD_TEXT].startsWith(this.typaheadBuffer)
+      )
+      .sort((a, b) => rebaseIndexOnActive(a) - rebaseIndexOnActive(b))
+    // Just leave if there's nothing that matches. Native select will just
+    // choose the first thing that starts with the next letter in the alphabet
+    // but that's out of scope and hard to localize
+    if (matchingRecords.length === 0) {
+      clearTimeout(this.cancelTypeaheadTimeout)
+      if (this.lastActiveRecord) {
+        this.lastActiveRecord[TYPEAHEAD_ITEM].active = false
+      }
+      this.endTypeahead()
+      return
+    }
+    const isNewQuery = this.typaheadBuffer.length === 1
+    let nextRecord
+    // This is likely the case that someone is trying to "tab" through different
+    // entries that start with the same letter
+    if (this.lastActiveRecord === matchingRecords[0] && isNewQuery) {
+      nextRecord = matchingRecords[1] ?? matchingRecords[0]
+    } else {
+      nextRecord = matchingRecords[0]
+    }
+    if (this.lastActiveRecord) {
+      this.lastActiveRecord[TYPEAHEAD_ITEM].active = false
+    }
+    this.lastActiveRecord = nextRecord
+    nextRecord[TYPEAHEAD_ITEM].active = true
+    return
+  }
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Gets the currently focused element on the page.
+ *
+ * @param activeDoc The document or shadowroot from which to start the search.
+ *    Defaults to `window.document`
+ * @return Returns the currently deeply focused element or `null` if none.
+ */
+function getFocusedElement(activeDoc = document) {
+  const activeEl = activeDoc.activeElement
+  if (!activeEl) {
+    return null
+  }
+  if (activeEl.shadowRoot) {
+    return getFocusedElement(activeEl.shadowRoot) ?? activeEl
+  }
+  return activeEl
+}
+/**
+ * @fires opening Fired before the opening animation begins (not fired on quick)
+ * @fires opened Fired once the menu is open, after any animations
+ * @fires closing Fired before the closing animation begins (not fired on quick)
+ * @fires closed Fired once the menu is closed, after any animations
+ */
+class Menu extends s$4 {
+  constructor() {
+    super(...arguments)
+    /**
+     * The element in which the menu should align to.
+     */
+    this.anchor = null
+    /**
+     * Makes the element use `position:fixed` instead of `position:absolute`. In
+     * most cases, the menu should position itself above most other
+     * `position:absolute` or `position:fixed` elements when placed inside of
+     * them. e.g. using a menu inside of an `md-dialog`.
+     *
+     * __NOTE__: Fixed menus will not scroll with the page and will be fixed to
+     * the window instead.
+     */
+    this.fixed = false
+    /**
+     * Skips the opening and closing animations.
+     */
+    this.quick = false
+    /**
+     * Displays overflow content like a submenu.
+     *
+     * __NOTE__: This may cause adverse effects if you set
+     * `md-menu {max-height:...}`
+     * and have items overflowing items in the "y" direction.
+     */
+    this.hasOverflow = false
+    /**
+     * Opens the menu and makes it visible. Alternative to the `.show()` and
+     * `.close()` methods
+     */
+    this.open = false
+    /**
+     * Offsets the menu's inline alignment from the anchor by the given number in
+     * pixels. This value is direction aware and will follow the LTR / RTL
+     * direction.
+     *
+     * e.g. LTR: positive -> right, negative -> left
+     *      RTL: positive -> left, negative -> right
+     */
+    this.xOffset = 0
+    /**
+     * Offsets the menu's block alignment from the anchor by the given number in
+     * pixels.
+     *
+     * e.g. positive -> down, negative -> up
+     */
+    this.yOffset = 0
+    /**
+     * The tabindex of the underlying list element.
+     */
+    this.listTabIndex = 0
+    /**
+     * The max time between the keystrokes of the typeahead menu behavior before
+     * it clears the typeahead buffer.
+     */
+    this.typeaheadBufferTime = 200
+    /**
+     * The corner of the anchor which to align the menu in the standard logical
+     * property style of <block>_<inline>.
+     */
+    this.anchorCorner = 'END_START'
+    /**
+     * The corner of the menu which to align the anchor in the standard logical
+     * property style of <block>_<inline>.
+     */
+    this.menuCorner = 'START_START'
+    /**
+     * Keeps the user clicks outside the menu
+     */
+    this.stayOpenOnOutsideClick = false
+    /**
+     * After closing, does not restore focus to the last focused element before
+     * the menu was opened.
+     */
+    this.skipRestoreFocus = false
+    /**
+     * The element that should be focused by default once opened.
+     */
+    this.defaultFocus = 'LIST_ROOT'
+    this.openCloseAnimationSignal = createAnimationSignal()
+    /**
+     * The element that was focused before the menu opened.
+     */
+    this.lastFocusedElement = null
+    /**
+     * Handles typeahead navigation through the menu.
+     */
+    this.typeaheadController = new TypeaheadController(() => {
+      return {
+        getItems: () => this.items,
+        typeaheadBufferTime: this.typeaheadBufferTime,
+      }
+    })
+    /**
+     * Handles positioning the surface and aligning it to the anchor.
+     */
+    this.menuPositionController = new SurfacePositionController(this, () => {
+      return {
+        anchorCorner: this.anchorCorner,
+        surfaceCorner: this.menuCorner,
+        surfaceEl: this.surfaceEl,
+        anchorEl: this.anchor,
+        isTopLayer: this.fixed,
+        isOpen: this.open,
+        xOffset: this.xOffset,
+        yOffset: this.yOffset,
+        onOpen: this.onOpened,
+        beforeClose: this.beforeClose,
+        onClose: this.onClosed,
+      }
+    })
+    /**
+     * Saves the last focused element focuses the new element based on
+     * `defaultFocus`, and animates open.
+     */
+    this.onOpened = () => {
+      this.lastFocusedElement = getFocusedElement()
+      if (!this.listElement) return
+      const items = this.listElement.items
+      const activeItemRecord = List.getActiveItem(items)
+      if (activeItemRecord && this.defaultFocus !== 'NONE') {
+        activeItemRecord.item.active = false
+      }
+      switch (this.defaultFocus) {
+        case 'FIRST_ITEM':
+          const first = List.getFirstActivatableItem(items)
+          if (first) {
+            first.active = true
+          }
+          break
+        case 'LAST_ITEM':
+          const last = List.getLastActivatableItem(items)
+          if (last) {
+            last.active = true
+          }
+          break
+        case 'LIST_ROOT':
+          this.listElement?.focus()
+          break
+        default:
+        case 'NONE':
+          // Do nothing.
+          break
+      }
+      if (this.quick) {
+        this.dispatchEvent(new Event('opened'))
+      } else {
+        this.animateOpen()
+      }
+    }
+    /**
+     * Animates closed.
+     */
+    this.beforeClose = async () => {
+      this.open = false
+      if (!this.quick) {
+        await this.animateClose()
+      }
+    }
+    /**
+     * Focuses the last focused element.
+     */
+    this.onClosed = () => {
+      if (this.quick) {
+        this.dispatchEvent(new Event('closed'))
+      }
+      if (!this.skipRestoreFocus) {
+        this.lastFocusedElement?.focus?.()
+      }
+    }
+    this.onWindowClick = e => {
+      if (!this.stayOpenOnOutsideClick && !e.composedPath().includes(this)) {
+        this.open = false
+      }
+    }
+  }
+  /**
+   * Whether the menu is animating upwards or downwards when opening. This is
+   * helpful for calculating some animation calculations.
+   */
+  get openDirection() {
+    const menuCornerBlock = this.menuCorner.split('_')[0]
+    return menuCornerBlock === 'START' ? 'DOWN' : 'UP'
+  }
+  /**
+   * The menu items associated with this menu. The items must be `MenuItem`s and
+   * have both the `md-menu-item` and `md-list-item` attributes.
+   */
+  get items() {
+    const listElement = this.listElement
+    if (listElement) {
+      return listElement.items.filter(el => el.hasAttribute('md-menu-item'))
+    }
+    return []
+  }
+  render() {
+    return this.renderSurface()
+  }
+  /**
+   * Renders the positionable surface element and its contents.
+   */
+  renderSurface() {
+    return y`
+       <div
+           class="menu ${o(this.getSurfaceClasses())}"
+           style=${i(this.menuPositionController.surfaceStyles)}>
+        ${this.renderList()} 
+        ${this.renderElevation()}
+        ${this.renderFocusRing()}
+       </div>
+     `
+  }
+  /**
+   * Renders the List element and its items
+   */
+  renderList() {
+    return y`
+       <md-list
+          role="menu"
+          class="list"
+          .ariaLabel=${this.ariaLabel}
+          listTabIndex=${this.listTabIndex}
+          @focus=${this.onListFocus}
+          @blur=${this.onListBlur}
+          @click=${this.onListClick}
+          @keydown=${this.typeaheadController.onKeydown}>
+         ${this.renderMenuItems()}
+       </md-list>`
+  }
+  /**
+   * Renders the menu items' slot
+   */
+  renderMenuItems() {
+    return y`<slot
+        @close-menu=${this.onCloseMenu}
+        @deactivate-items=${this.onDeactivateItems}></slot>`
+  }
+  /**
+   * Renders the elevation component.
+   */
+  renderElevation() {
+    return y`<md-elevation shadow surface></md-elevation>`
+  }
+  /**
+   * Renders the focus ring component.
+   */
+  renderFocusRing() {
+    return y`<md-focus-ring></md-focus-ring>`
+  }
+  getSurfaceClasses() {
+    return {
+      open: this.open,
+      fixed: this.fixed,
+      'has-overflow': this.hasOverflow,
+    }
+  }
+  onListFocus() {
+    this.focusRing.visible = shouldShowStrongFocus()
+  }
+  onListClick() {
+    pointerPress()
+    this.focusRing.visible = shouldShowStrongFocus()
+  }
+  onListBlur() {
+    this.focusRing.visible = false
+  }
+  /**
+   * Performs the opening animation:
+   *
+   * https://direct.googleplex.com/#/spec/295000003+271060003
+   */
+  animateOpen() {
+    const surfaceEl = this.surfaceEl
+    const slotEl = this.slotEl
+    if (!surfaceEl || !slotEl) return
+    const openDirection = this.openDirection
+    this.dispatchEvent(new Event('opening'))
+    // needs to be imperative because we don't want to mix animation and Lit
+    // render timing
+    surfaceEl.classList.toggle('animating', true)
+    const signal = this.openCloseAnimationSignal.start()
+    const height = surfaceEl.offsetHeight
+    const openingUpwards = openDirection === 'UP'
+    const children = this.items
+    const FULL_DURATION = 500
+    const SURFACE_OPACITY_DURATION = 50
+    const ITEM_OPACITY_DURATION = 250
+    // We want to fit every child fade-in animation within the full duration of
+    // the animation.
+    const DELAY_BETWEEN_ITEMS =
+      (FULL_DURATION - ITEM_OPACITY_DURATION) / children.length
+    const surfaceHeightAnimation = surfaceEl.animate(
+      [{ height: '0px' }, { height: `${height}px` }],
+      {
+        duration: FULL_DURATION,
+        easing: EASING.EMPHASIZED,
+      }
+    )
+    // When we are opening upwards, we want to make sure the last item is always
+    // in view, so we need to translate it upwards the opposite direction of the
+    // height animation
+    const upPositionCorrectionAnimation = slotEl.animate(
+      [
+        { transform: openingUpwards ? `translateY(-${height}px)` : '' },
+        { transform: '' },
+      ],
+      { duration: FULL_DURATION, easing: EASING.EMPHASIZED }
+    )
+    const surfaceOpacityAnimation = surfaceEl.animate(
+      [{ opacity: 0 }, { opacity: 1 }],
+      SURFACE_OPACITY_DURATION
+    )
+    const childrenAnimations = []
+    for (let i = 0; i < children.length; i++) {
+      // If we are animating upwards, then reverse the children list.
+      const directionalIndex = openingUpwards ? children.length - 1 - i : i
+      const child = children[directionalIndex]
+      const animation = child.animate([{ opacity: 0 }, { opacity: 1 }], {
+        duration: ITEM_OPACITY_DURATION,
+        delay: DELAY_BETWEEN_ITEMS * i,
+      })
+      // Make them all initially hidden and then clean up at the end of each
+      // animation.
+      child.classList.toggle('hidden', true)
+      animation.addEventListener('finish', () => {
+        child.classList.toggle('hidden', false)
+      })
+      childrenAnimations.push([child, animation])
+    }
+    signal.addEventListener('abort', () => {
+      surfaceHeightAnimation.cancel()
+      upPositionCorrectionAnimation.cancel()
+      surfaceOpacityAnimation.cancel()
+      childrenAnimations.forEach(([child, animation]) => {
+        child.classList.toggle('hidden', false)
+        animation.cancel()
+      })
+    })
+    surfaceHeightAnimation.addEventListener('finish', () => {
+      surfaceEl.classList.toggle('animating', false)
+      this.openCloseAnimationSignal.finish()
+      this.dispatchEvent(new Event('opened'))
+    })
+  }
+  /**
+   * Performs the closing animation:
+   *
+   * https://direct.googleplex.com/#/spec/295000003+271060003
+   */
+  animateClose() {
+    let resolve
+    let reject
+    // This promise blocks the surface position controller from setting
+    // display: none on the surface which will interfere with this animation.
+    const animationEnded = new Promise((res, rej) => {
+      resolve = res
+      reject = rej
+    })
+    const surfaceEl = this.surfaceEl
+    const slotEl = this.slotEl
+    if (!surfaceEl || !slotEl) {
+      reject()
+      return animationEnded
+    }
+    const openDirection = this.openDirection
+    const closingDownwards = openDirection === 'UP'
+    this.dispatchEvent(new Event('closing'))
+    // needs to be imperative because we don't want to mix animation and Lit
+    // render timing
+    surfaceEl.classList.toggle('animating', true)
+    const signal = this.openCloseAnimationSignal.start()
+    const height = surfaceEl.offsetHeight
+    const children = this.items
+    const FULL_DURATION = 150
+    const SURFACE_OPACITY_DURATION = 50
+    // The surface fades away at the very end
+    const SURFACE_OPACITY_DELAY = FULL_DURATION - SURFACE_OPACITY_DURATION
+    const ITEM_OPACITY_DURATION = 50
+    const ITEM_OPACITY_INITIAL_DELAY = 50
+    const END_HEIGHT_PRECENTAGE = 0.35
+    // We want to fit every child fade-out animation within the full duration of
+    // the animation.
+    const DELAY_BETWEEN_ITEMS =
+      (FULL_DURATION - ITEM_OPACITY_INITIAL_DELAY - ITEM_OPACITY_DURATION) /
+      children.length
+    // The mock has the animation shrink to 35%
+    const surfaceHeightAnimation = surfaceEl.animate(
+      [
+        { height: `${height}px` },
+        { height: `${height * END_HEIGHT_PRECENTAGE}px` },
+      ],
+      {
+        duration: FULL_DURATION,
+        easing: EASING.EMPHASIZED_ACCELERATE,
+      }
+    )
+    // When we are closing downwards, we want to make sure the last item is
+    // always in view, so we need to translate it upwards the opposite direction
+    // of the height animation
+    const downPositionCorrectionAnimation = slotEl.animate(
+      [
+        { transform: '' },
+        {
+          transform: closingDownwards
+            ? `translateY(-${height * (1 - END_HEIGHT_PRECENTAGE)}px)`
+            : '',
+        },
+      ],
+      { duration: FULL_DURATION, easing: EASING.EMPHASIZED_ACCELERATE }
+    )
+    const surfaceOpacityAnimation = surfaceEl.animate(
+      [{ opacity: 1 }, { opacity: 0 }],
+      { duration: SURFACE_OPACITY_DURATION, delay: SURFACE_OPACITY_DELAY }
+    )
+    const childrenAnimations = []
+    for (let i = 0; i < children.length; i++) {
+      // If the animation is closing upwards, then reverse the list of
+      // children so that we animate in the opposite direction.
+      const directionalIndex = closingDownwards ? i : children.length - 1 - i
+      const child = children[directionalIndex]
+      const animation = child.animate([{ opacity: 1 }, { opacity: 0 }], {
+        duration: ITEM_OPACITY_DURATION,
+        delay: ITEM_OPACITY_INITIAL_DELAY + DELAY_BETWEEN_ITEMS * i,
+      })
+      // Make sure the items stay hidden at the end of each child animation.
+      // We clean this up at the end of the overall animation.
+      animation.addEventListener('finish', () => {
+        child.classList.toggle('hidden', true)
+      })
+      childrenAnimations.push([child, animation])
+    }
+    signal.addEventListener('abort', () => {
+      surfaceHeightAnimation.cancel()
+      downPositionCorrectionAnimation.cancel()
+      surfaceOpacityAnimation.cancel()
+      childrenAnimations.forEach(([child, animation]) => {
+        animation.cancel()
+        child.classList.toggle('hidden', false)
+      })
+      reject()
+    })
+    surfaceHeightAnimation.addEventListener('finish', () => {
+      surfaceEl.classList.toggle('animating', false)
+      childrenAnimations.forEach(([child]) => {
+        child.classList.toggle('hidden', false)
+      })
+      this.openCloseAnimationSignal.finish()
+      this.dispatchEvent(new Event('closed'))
+      resolve(true)
+    })
+    return animationEnded
+  }
+  connectedCallback() {
+    super.connectedCallback()
+    if (window && window.addEventListener) {
+      window.addEventListener('click', this.onWindowClick, { capture: true })
+    }
+  }
+  disconnectedCallback() {
+    super.disconnectedCallback()
+    if (window && window.removeEventListener) {
+      window.removeEventListener('click', this.onWindowClick)
+    }
+  }
+  onCloseMenu(e) {
+    this.close()
+  }
+  onDeactivateItems(e) {
+    e.stopPropagation()
+    const items = this.items
+    for (const item of items) {
+      item.active = false
+    }
+  }
+  focus() {
+    this.listElement?.focus()
+  }
+  close() {
+    this.open = false
+    this.items.forEach(item => {
+      item.close?.()
+    })
+  }
+  show() {
+    this.open = true
+  }
+}
+__decorate(
+  [i$2('md-list'), __metadata('design:type', List)],
+  Menu.prototype,
+  'listElement',
+  void 0
+)
+__decorate(
+  [i$2('.menu'), __metadata('design:type', HTMLElement)],
+  Menu.prototype,
+  'surfaceEl',
+  void 0
+)
+__decorate(
+  [i$2('slot'), __metadata('design:type', HTMLSlotElement)],
+  Menu.prototype,
+  'slotEl',
+  void 0
+)
+__decorate(
+  [i$2('md-focus-ring'), __metadata('design:type', MdFocusRing)],
+  Menu.prototype,
+  'focusRing',
+  void 0
+)
+__decorate(
+  [
+    ariaProperty,
+    e$8({ type: String, attribute: 'data-aria-label', noAccessor: true }),
+    __metadata('design:type', String),
+  ],
+  Menu.prototype,
+  'ariaLabel',
+  void 0
+)
+__decorate(
+  [e$8({ attribute: false }), __metadata('design:type', HTMLElement)],
+  Menu.prototype,
+  'anchor',
+  void 0
+)
+__decorate(
+  [e$8({ type: Boolean }), __metadata('design:type', Object)],
+  Menu.prototype,
+  'fixed',
+  void 0
+)
+__decorate(
+  [e$8({ type: Boolean }), __metadata('design:type', Object)],
+  Menu.prototype,
+  'quick',
+  void 0
+)
+__decorate(
+  [
+    e$8({ type: Boolean, attribute: 'has-overflow' }),
+    __metadata('design:type', Object),
+  ],
+  Menu.prototype,
+  'hasOverflow',
+  void 0
+)
+__decorate(
+  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  Menu.prototype,
+  'open',
+  void 0
+)
+__decorate(
+  [
+    e$8({ type: Number, attribute: 'x-offset' }),
+    __metadata('design:type', Object),
+  ],
+  Menu.prototype,
+  'xOffset',
+  void 0
+)
+__decorate(
+  [
+    e$8({ type: Number, attribute: 'y-offset' }),
+    __metadata('design:type', Object),
+  ],
+  Menu.prototype,
+  'yOffset',
+  void 0
+)
+__decorate(
+  [
+    e$8({ type: Number, attribute: 'list-tab-index' }),
+    __metadata('design:type', Object),
+  ],
+  Menu.prototype,
+  'listTabIndex',
+  void 0
+)
+__decorate(
+  [
+    e$8({ type: Number, attribute: 'typeahead-delay' }),
+    __metadata('design:type', Object),
+  ],
+  Menu.prototype,
+  'typeaheadBufferTime',
+  void 0
+)
+__decorate(
+  [
+    e$8({ type: String, attribute: 'anchor-corner' }),
+    __metadata('design:type', String),
+  ],
+  Menu.prototype,
+  'anchorCorner',
+  void 0
+)
+__decorate(
+  [
+    e$8({ type: String, attribute: 'menu-corner' }),
+    __metadata('design:type', String),
+  ],
+  Menu.prototype,
+  'menuCorner',
+  void 0
+)
+__decorate(
+  [
+    e$8({ type: Boolean, attribute: 'stay-open-on-outside-click' }),
+    __metadata('design:type', Object),
+  ],
+  Menu.prototype,
+  'stayOpenOnOutsideClick',
+  void 0
+)
+__decorate(
+  [
+    e$8({ type: Boolean, attribute: 'skip-restore-focus' }),
+    __metadata('design:type', Object),
+  ],
+  Menu.prototype,
+  'skipRestoreFocus',
+  void 0
+)
+__decorate(
+  [
+    e$8({ type: String, attribute: 'default-focus' }),
+    __metadata('design:type', String),
+  ],
+  Menu.prototype,
+  'defaultFocus',
+  void 0
+)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$8 = i$5`:host{--_container-color: var(--md-menu-container-color, var(--md-sys-color-surface, #fffbfe));--_container-elevation: var(--md-menu-container-elevation, 3);--_container-shadow-color: var(--md-menu-container-shadow-color, var(--md-sys-color-shadow, #000));--_container-shape: var(--md-menu-container-shape, 4px);--_container-surface-tint-layer-color: var(--md-menu-container-surface-tint-layer-color, var(--md-sys-color-primary, #6750a4));--md-list-container-color:var(--_container-color);--md-elevation-level:var(--_container-elevation);--md-elevation-shadow-color:var(--_container-shadow-color);--md-elevation-surface-tint:var(--_container-surface-tint-layer-color);--md-focus-ring-shape-start-start:var(--md-focus-ring-shape, var(--_container-shape));--md-focus-ring-shape-start-end:var(--md-focus-ring-shape, var(--_container-shape));--md-focus-ring-shape-end-end:var(--md-focus-ring-shape, var(--_container-shape));--md-focus-ring-shape-end-start:var(--md-focus-ring-shape, var(--_container-shape))}.menu{border-radius:var(--_container-shape);display:none;opacity:0;z-index:20;position:absolute;user-select:none;max-height:inherit;height:inherit}.menu.fixed{position:fixed}.menu md-list{height:inherit;max-height:inherit;display:block;overflow:auto}.menu.has-overflow md-list{overflow:visible}.menu.animating md-list{pointer-events:none;overflow:hidden}.menu.animating ::slotted(.hidden){opacity:0}.menu slot{display:block;height:inherit;max-height:inherit}md-elevation{position:absolute;inset:0;pointer-events:none}/*# sourceMappingURL=menu-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * The event that closes any parent menus. It is recommended to subclass and
+ * dispatch this event rather than creating your own `close-menu` event.
+ */
+class CloseMenuEvent extends Event {
+  constructor(initiator, reason) {
+    super('close-menu', { bubbles: true, composed: true })
+    this.initiator = initiator
+    this.reason = reason
+    this.itemPath = [initiator]
+  }
+}
+/**
+ * The default close menu event used by md-menu. To create your own `close-menu`
+ * event, you should subclass the `CloseMenuEvent` instead.
+ */
+// tslint:disable-next-line
+const DefaultCloseMenuEvent = CloseMenuEvent
+/**
+ * The event that requests the parent md-menu to deactivate all other items.
+ */
+class DeactivateItemsEvent extends Event {
+  constructor() {
+    super('deactivate-items', { bubbles: true, composed: true })
+  }
+}
+/**
+ * Keys that are used to navigate menus.
+ */
+const NAVIGABLE_KEY = {
+  UP: 'ArrowUp',
+  DOWN: 'ArrowDown',
+  RIGHT: 'ArrowRight',
+  LEFT: 'ArrowLeft',
+}
+/**
+ * Keys that are used for selection in menus.
+ */
+const SELECTION_KEY = {
+  SPACE: 'Space',
+  ENTER: 'Enter',
+}
+/**
+ * Default close `Reason` kind values.
+ */
+const CLOSE_REASON = {
+  CLICK_SELECTION: 'CLICK_SELECTION',
+  KEYDOWN: 'KEYDOWN',
+}
+/**
+ * Keys that can close menus.
+ */
+const KEYDOWN_CLOSE_KEYS = {
+  ESCAPE: 'Escape',
+  SPACE: SELECTION_KEY.SPACE,
+  ENTER: SELECTION_KEY.ENTER,
+}
+/**
+ * Determines whether the given key code is a key code that should close the
+ * menu.
+ *
+ * @param code The KeyboardEvent code to check.
+ * @return Whether or not the key code is in the predetermined list to close the
+ * menu.
+ */
+function isClosableKey(code) {
+  return Object.values(KEYDOWN_CLOSE_KEYS).some(value => value === code)
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @summary Menus display a list of choices on a temporary surface.
+ *
+ * @description
+ * Menus appear when users interact with a button, action, or other control.
+ *
+ * They can be opened from a variety of elements, most commonly icon buttons,
+ * buttons, and text fields.
+ *
+ * md-menu listens for the `close-menu` and `deselect-items` events.
+ *
+ * - `close-menu` closes the menu when dispatched from a child element.
+ * - `deselect-items` deselects all of its immediate menu-item children.
+ *
+ * @example
+ * ```html
+ * <div style="position:relative;">
+ *   <button
+ *       class="anchor"
+ *       ${ref(anchorRef)}
+ *       @click=${() => this.menuRef.value.show()}>
+ *     Click to open menu
+ *   </button>
+ *   <!--
+ *     `has-overflow` is required when using a submenu which overflows the
+ *     menu's contents
+ *   -->
+ *   <md-menu has-overflow ${ref(menuRef)} ${(el) => el.anchor =
+ * anchorRef.value}> <md-menu-item header="This is a header"></md-menu-item>
+ *     <md-sub-menu-item header="this is a submenu item">
+ *       <md-menu slot="submenu">
+ *         <md-menu-item
+ *           header="This is an item inside a submenu"></md-menu-item>
+ *       </md-menu>
+ *     </md-sub-menu>
+ *   </md-menu>
+ * </div>
+ * ```
+ *
+ * @final
+ * @suppress {visibility}
+ */
+let MdMenu = class MdMenu extends Menu {}
+MdMenu.styles = [styles$8]
+MdMenu = __decorate([e$9('md-menu')], MdMenu)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$7 = i$5`:host{--_list-item-container-color: var(--md-list-list-item-container-color, var(--md-sys-color-surface, #fffbfe));--_list-item-container-shape: var(--md-list-list-item-container-shape, 0px);--_list-item-disabled-label-text-color: var(--md-list-list-item-disabled-label-text-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-disabled-label-text-opacity: var(--md-list-list-item-disabled-label-text-opacity, 0.3);--_list-item-disabled-leading-icon-color: var(--md-list-list-item-disabled-leading-icon-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-disabled-leading-icon-opacity: var(--md-list-list-item-disabled-leading-icon-opacity, 0.38);--_list-item-disabled-trailing-icon-color: var(--md-list-list-item-disabled-trailing-icon-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-disabled-trailing-icon-opacity: var(--md-list-list-item-disabled-trailing-icon-opacity, 0.38);--_list-item-focus-label-text-color: var(--md-list-list-item-focus-label-text-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-focus-leading-icon-icon-color: var(--md-list-list-item-focus-leading-icon-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-focus-state-layer-color: var(--md-list-list-item-focus-state-layer-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-focus-state-layer-opacity: var(--md-list-list-item-focus-state-layer-opacity, 0.12);--_list-item-focus-trailing-icon-icon-color: var(--md-list-list-item-focus-trailing-icon-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-hover-label-text-color: var(--md-list-list-item-hover-label-text-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-hover-leading-icon-icon-color: var(--md-list-list-item-hover-leading-icon-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-hover-state-layer-color: var(--md-list-list-item-hover-state-layer-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-hover-state-layer-opacity: var(--md-list-list-item-hover-state-layer-opacity, 0.08);--_list-item-hover-trailing-icon-icon-color: var(--md-list-list-item-hover-trailing-icon-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-label-text-color: var(--md-list-list-item-label-text-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-label-text-line-height: var(--md-list-list-item-label-text-line-height, 1.5rem);--_list-item-label-text-type: var(--md-list-list-item-label-text-type, 400 1rem / 1.5rem Roboto);--_list-item-large-leading-video-height: var(--md-list-list-item-large-leading-video-height, 69px);--_list-item-leading-avatar-label-color: var(--md-list-list-item-leading-avatar-label-color, var(--md-sys-color-on-primary-container, #21005d));--_list-item-leading-avatar-label-type: var(--md-list-list-item-leading-avatar-label-type, 500 1rem / 1.5rem Roboto);--_list-item-leading-avatar-color: var(--md-list-list-item-leading-avatar-color, var(--md-sys-color-primary-container, #eaddff));--_list-item-leading-avatar-shape: var(--md-list-list-item-leading-avatar-shape, 9999px);--_list-item-leading-avatar-size: var(--md-list-list-item-leading-avatar-size, 40px);--_list-item-leading-icon-color: var(--md-list-list-item-leading-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-leading-icon-size: var(--md-list-list-item-leading-icon-size, 18px);--_list-item-leading-image-height: var(--md-list-list-item-leading-image-height, 56px);--_list-item-leading-image-shape: var(--md-list-list-item-leading-image-shape, 0px);--_list-item-leading-image-width: var(--md-list-list-item-leading-image-width, 56px);--_list-item-leading-video-shape: var(--md-list-list-item-leading-video-shape, 0px);--_list-item-leading-video-width: var(--md-list-list-item-leading-video-width, 100px);--_list-item-one-line-container-height: var(--md-list-list-item-one-line-container-height, 56px);--_list-item-pressed-label-text-color: var(--md-list-list-item-pressed-label-text-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-pressed-leading-icon-icon-color: var(--md-list-list-item-pressed-leading-icon-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-pressed-state-layer-color: var(--md-list-list-item-pressed-state-layer-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-pressed-state-layer-opacity: var(--md-list-list-item-pressed-state-layer-opacity, 0.12);--_list-item-pressed-trailing-icon-icon-color: var(--md-list-list-item-pressed-trailing-icon-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-small-leading-video-height: var(--md-list-list-item-small-leading-video-height, 56px);--_list-item-supporting-text-color: var(--md-list-list-item-supporting-text-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-supporting-text-type: var(--md-list-list-item-supporting-text-type, 400 0.875rem / 1.25rem Roboto);--_list-item-three-line-container-height: var(--md-list-list-item-three-line-container-height, 88px);--_list-item-trailing-icon-color: var(--md-list-list-item-trailing-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-trailing-icon-size: var(--md-list-list-item-trailing-icon-size, 24px);--_list-item-trailing-supporting-text-color: var(--md-list-list-item-trailing-supporting-text-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-trailing-supporting-text-line-height: var(--md-list-list-item-trailing-supporting-text-line-height, 1rem);--_list-item-trailing-supporting-text-type: var(--md-list-list-item-trailing-supporting-text-type, 500 0.688rem / 1rem Roboto);--_list-item-two-line-container-height: var(--md-list-list-item-two-line-container-height, 72px)}:host{color:unset;--md-focus-ring-shape-start-start:var(--md-focus-ring-shape, 4px);--md-focus-ring-shape-start-end:var(--md-focus-ring-shape, 4px);--md-focus-ring-shape-end-end:var(--md-focus-ring-shape, 4px);--md-focus-ring-shape-end-start:var(--md-focus-ring-shape, 4px);--md-focus-ring-offset-vertical:-2px;--md-focus-ring-offset-horizontal:-3px;--md-ripple-hover-color:var(--_list-item-hover-state-layer-color);--md-ripple-hover-opacity:var(--_list-item-hover-state-layer-opacity);--md-ripple-pressed-color:var(--_list-item-pressed-state-layer-color);--md-ripple-pressed-opacity:var(--_list-item-pressed-state-layer-opacity);--md-ripple-focus-color:var(--_list-item-focus-state-layer-color);--md-ripple-focus-opacity:var(--_list-item-focus-state-layer-opacity)}.list-item{align-items:center;box-sizing:border-box;display:flex;outline:none;position:relative;width:100%;text-decoration:none;background-color:var(--_list-item-container-color);border-radius:var(--_list-item-container-shape)}.list-item:not(.disabled){cursor:pointer}.list-item.disabled{pointer-events:none}.content-wrapper{display:flex;width:100%}.with-one-line{min-height:var(--_list-item-one-line-container-height)}.with-two-line{min-height:var(--_list-item-two-line-container-height)}.with-three-line{min-height:var(--_list-item-three-line-container-height)}.start{display:inline-flex;flex-direction:column;justify-content:center;align-items:center;flex:0 0 auto;z-index:1}.with-three-line .start{justify-content:start}.with-leading-thumbnail .start,.with-leading-image .start{padding-inline-start:16px}.with-leading-video .start{padding-inline-start:0}.body{display:inline-flex;justify-content:center;flex-direction:column;box-sizing:border-box;flex:1 0 0;padding-inline-start:16px;z-index:1}.end{display:inline-flex;flex-direction:column;justify-content:center;flex:0 0 auto;padding-inline-end:24px;z-index:1}.with-three-line .end{justify-content:start}.label-text{display:flex;color:var(--_list-item-label-text-color);font:var(--_list-item-label-text-type)}:hover .label-text{color:var(--_list-item-hover-label-text-color)}:focus .label-text{color:var(--_list-item-focus-label-text-color)}:active .label-text{color:var(--_list-item-pressed-label-text-color)}.disabled .label-text{color:var(--_list-item-disabled-label-text-color);opacity:var(--_list-item-disabled-label-text-opacity)}.supporting-text{display:block;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:100%;color:var(--_list-item-supporting-text-color);font:var(--_list-item-supporting-text-type)}.disabled .supporting-text{color:var(--_list-item-disabled-label-text-color);opacity:var(--_list-item-disabled-label-text-opacity)}.supporting-text--multi-line{-webkit-box-orient:vertical;-webkit-line-clamp:2;display:-webkit-box;overflow:hidden;white-space:normal}.trailing-supporting-text{padding-inline-start:16px;font:var(--_list-item-trailing-supporting-text-type)}.list-item:not(.disabled) .trailing-supporting-text{color:var(--_list-item-trailing-supporting-text-color)}.disabled .trailing-supporting-text{color:var(--_list-item-disabled-label-text-color);opacity:var(--_list-item-disabled-label-text-opacity)}.with-three-line .trailing-supporting-text{padding-block-start:calc((var(--_list-item-label-text-line-height) - var(--_list-item-trailing-supporting-text-line-height))/2)}.focus-ring{z-index:1}::slotted([data-variant=image]){display:inline-flex;margin-inline-start:16px;height:var(--_list-item-leading-image-height);width:var(--_list-item-leading-image-width);border-radius:var(--_list-item-leading-image-shape);padding-block:calc((var(--_list-item-two-line-container-height) - var(--_list-item-leading-image-height))/2)}.with-three-line ::slotted([data-variant=image]){padding-block:0}slot[name=start]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-leading-icon-color);--md-icon-size:var(--_list-item-leading-icon-size)}.with-three-line slot[name=start]::slotted([data-variant=icon]){padding-block-start:calc((var(--_list-item-label-text-line-height) - var(--_list-item-leading-icon-size))/2)}slot[name=end]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-trailing-icon-color);--md-icon-size:var(--_list-item-trailing-icon-size)}.with-three-line slot[name=end]::slotted([data-variant=icon]){padding-block-start:calc((var(--_list-item-label-text-line-height) - var(--_list-item-trailing-icon-size))/2)}::slotted([data-variant=icon]){padding-inline-start:16px}:hover slot[name=start]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-hover-leading-icon-icon-color)}:hover slot[name=end]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-hover-trailing-icon-icon-color)}:focus slot[name=start]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-focus-leading-icon-icon-color)}:focus slot[name=end]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-focus-trailing-icon-icon-color)}:active slot[name=start]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-pressed-leading-icon-icon-color)}:active slot[name=end]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-pressed-trailing-icon-icon-color)}.disabled slot[name=start]::slotted([data-variant=icon]){opacity:var(--_list-item-disabled-leading-icon-opacity);--md-icon-color:var(--_list-item-disabled-leading-icon-color)}.disabled slot[name=end]::slotted([data-variant=icon]){opacity:var(--_list-item-disabled-trailing-icon-opacity);--md-icon-color:var(--_list-item-disabled-trailing-icon-color)}::slotted([data-variant=avatar]){display:inline-flex;justify-content:center;align-items:center;margin-inline-start:16px;background-color:var(--_list-item-leading-avatar-color);height:var(--_list-item-leading-avatar-size);width:var(--_list-item-leading-avatar-size);border-radius:var(--_list-item-leading-avatar-shape);color:var(--_list-item-leading-avatar-label-color);font:var(--_list-item-leading-avatar-label-type)}::slotted([data-variant=video]),::slotted([data-variant=video-large]){display:inline-flex;object-fit:cover;height:var(--_list-item-small-leading-video-height);width:var(--_list-item-leading-video-width);border-radius:var(--_list-item-leading-video-shape);padding-block:calc((var(--_list-item-three-line-container-height) - var(--_list-item-small-leading-video-height))/2)}.with-three-line ::slotted([data-variant=video]),.with-three-line ::slotted([data-variant=video-large]){padding-block:0}::slotted([data-variant=video-large]){padding-block:calc((var(--_list-item-three-line-container-height) - var(--_list-item-large-leading-video-height))/2);height:var(--_list-item-large-leading-video-height)}/*# sourceMappingURL=list-item-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$6 = i$5`:host{--_list-item-selected-container-color: var(--md-menu-list-item-selected-container-color, var(--md-sys-color-surface-variant, #e7e0ec))}:host([active]) .list-item,:host(:active) .list-item,.list-item:focus{background-color:var(--_list-item-selected-container-color)}.list-item:has(.submenu:hover){--md-ripple-hover-opacity:0}/*# sourceMappingURL=menu-item-styles.css.map */
+`
 
 /**
  * @license
@@ -4512,7 +6602,7 @@ const TOUCH_DELAY_MS = 150
 /**
  * A ripple component.
  */
-class Ripple extends s$3 {
+class Ripple extends s$4 {
   constructor() {
     super(...arguments)
     // TODO(https://bugs.webkit.org/show_bug.cgi?id=247546)
@@ -4782,13 +6872,13 @@ class Ripple extends s$3 {
   }
 }
 __decorate(
-  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
   Ripple.prototype,
   'unbounded',
   void 0
 )
 __decorate(
-  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
   Ripple.prototype,
   'disabled',
   void 0
@@ -4812,7 +6902,7 @@ __decorate(
   void 0
 )
 __decorate(
-  [i$1('.surface'), __metadata('design:type', HTMLElement)],
+  [i$2('.surface'), __metadata('design:type', HTMLElement)],
   Ripple.prototype,
   'mdRoot',
   void 0
@@ -4823,7 +6913,7 @@ __decorate(
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$5 = i$4`:host{--_focus-color: var(--md-ripple-focus-color, var(--md-sys-color-on-surface, #1c1b1f));--_focus-opacity: var(--md-ripple-focus-opacity, 0.12);--_hover-color: var(--md-ripple-hover-color, var(--md-sys-color-on-surface, #1c1b1f));--_hover-opacity: var(--md-ripple-hover-opacity, 0.08);--_pressed-color: var(--md-ripple-pressed-color, var(--md-sys-color-on-surface, #1c1b1f));--_pressed-opacity: var(--md-ripple-pressed-opacity, 0.12);--_shape: var(--md-ripple-shape, 0px)}:host{display:flex}:host([disabled]){opacity:0}:host,.surface{position:absolute;inset:0;pointer-events:none;overflow:hidden}.surface{will-change:transform;border-radius:var(--_shape);outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}.surface::before,.surface::after{position:absolute;opacity:0;pointer-events:none;content:""}.surface::before{background-color:var(--_hover-color);transition:opacity 15ms linear,background-color 15ms linear;inset:0}.surface::after{background:radial-gradient(closest-side, var(--_pressed-color) max(100% - 70px, 65%), transparent 100%);transition:opacity 375ms linear;transform-origin:center center}.hovered::before{background-color:var(--_hover-color);opacity:var(--_hover-opacity)}.focused::before{background-color:var(--_focus-color);opacity:var(--_focus-opacity);transition-duration:75ms}.pressed::after{opacity:var(--_pressed-opacity);transition-duration:105ms}.unbounded{--_shape: var(--md-ripple-shape, 9999px)}@media screen and (forced-colors: active){:host{display:none}}/*# sourceMappingURL=ripple-styles.css.map */
+const styles$5 = i$5`:host{--_focus-color: var(--md-ripple-focus-color, var(--md-sys-color-on-surface, #1c1b1f));--_focus-opacity: var(--md-ripple-focus-opacity, 0.12);--_hover-color: var(--md-ripple-hover-color, var(--md-sys-color-on-surface, #1c1b1f));--_hover-opacity: var(--md-ripple-hover-opacity, 0.08);--_pressed-color: var(--md-ripple-pressed-color, var(--md-sys-color-on-surface, #1c1b1f));--_pressed-opacity: var(--md-ripple-pressed-opacity, 0.12);--_shape: var(--md-ripple-shape, 0px)}:host{display:flex}:host([disabled]){opacity:0}:host,.surface{position:absolute;inset:0;pointer-events:none;overflow:hidden}.surface{will-change:transform;border-radius:var(--_shape);outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}.surface::before,.surface::after{position:absolute;opacity:0;pointer-events:none;content:""}.surface::before{background-color:var(--_hover-color);transition:opacity 15ms linear,background-color 15ms linear;inset:0}.surface::after{background:radial-gradient(closest-side, var(--_pressed-color) max(100% - 70px, 65%), transparent 100%);transition:opacity 375ms linear;transform-origin:center center}.hovered::before{background-color:var(--_hover-color);opacity:var(--_hover-opacity)}.focused::before{background-color:var(--_focus-color);opacity:var(--_focus-opacity);transition-duration:75ms}.pressed::after{opacity:var(--_pressed-opacity);transition-duration:105ms}.unbounded{--_shape: var(--md-ripple-shape, 9999px)}@media screen and (forced-colors: active){:host{display:none}}/*# sourceMappingURL=ripple-styles.css.map */
 `
 
 /**
@@ -4846,218 +6936,14 @@ const styles$5 = i$4`:host{--_focus-color: var(--md-ripple-focus-color, var(--md
  */
 let MdRipple = class MdRipple extends Ripple {}
 MdRipple.styles = [styles$5]
-MdRipple = __decorate([e$6('md-ripple')], MdRipple)
-
-/**
- * @license
- * Copyright 2018 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ const l = l => (null != l ? l : b)
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-function n(n, o, r) {
-  return n ? o() : null == r ? void 0 : r()
-}
+MdRipple = __decorate([e$9('md-ripple')], MdRipple)
 
 /**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-/**
- * Returns `true` if the given element is in a right-to-left direction.
- *
- * @param el Element to determine direction from
- * @param shouldCheck Optional. If `false`, return `false` without checking
- *     direction. Determining the direction of `el` is somewhat expensive, so
- *     this parameter can be used as a conditional guard. Defaults to `true`.
- */
-function isRtl(el, shouldCheck = true) {
-  return (
-    shouldCheck &&
-    getComputedStyle(el)
-      .getPropertyValue('direction')
-      .trim() === 'rtl'
-  )
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * A property decorator that helps proxy an aria attribute to an internal node.
- *
- * This decorator is only intended for use with ARIAMixin properties,
- * such as `ariaLabel`, to help with screen readers.
- *
- * This decorator will remove the host `aria-*` attribute at runtime and add it
- * to a `data-aria-*` attribute to avoid screenreader conflicts between the
- * host and internal node.
- *
- * `@ariaProperty` decorated properties should sync with LitElement to the
- * `data-aria-*` attribute, not the native `aria-*` attribute.
- *
- * @example
- * ```ts
- * class MyElement extends LitElement {
- *   \@ariaProperty
- *   // TODO(b/210730484): replace with @soyParam annotation
- *   \@property({ type: String, attribute: 'data-aria-label', noAccessor: true})
- *   ariaLabel!: string;
- * }
- * ```
- * @category Decorator
- * @ExportDecoratedItems
- */
-function ariaProperty(prototype, property) {
-  // Replace the ARIAMixin property with data-* attribute syncing instead of
-  // using the native aria-* attribute reflection. This preserves the attribute
-  // for SSR and avoids screenreader conflicts after delegating the attribute
-  // to a child node.
-  Object.defineProperty(prototype, property, {
-    configurable: true,
-    enumerable: true,
-    get() {
-      return this.dataset[property] ?? ''
-    },
-    set(value) {
-      // Coerce non-string values to a string
-      const strValue = String(value ?? '')
-      if (strValue) {
-        this.dataset[property] = strValue
-      } else {
-        delete this.dataset[property]
-      }
-      // lit will call this setter whenever the data-* attribute changes.
-      // However, this.dataset[property] will automatically be updated to the
-      // current value. To avoid bugs, always request an update regardless of
-      // the old value.
-      this.requestUpdate()
-    },
-  })
-  // Define an internal property that syncs from the `aria-*` attribute with lit
-  // and delegates to the real ARIAMixin property, which renders an update.
-  // This property will immediately remove the `aria-*` attribute, which doesn't
-  // work well with SSR (which is why there's a separate synced property).
-  const internalAriaProperty = Symbol(property)
-  // "ariaLabel" -> "aria-label" / "ariaLabelledBy" -> "aria-labelledby"
-  const ariaAttribute = property.replace('aria', 'aria-').toLowerCase()
-  const constructor = prototype.constructor
-  let removingAttribute = false
-  Object.defineProperty(prototype, internalAriaProperty, {
-    get() {
-      // tslint is failing here, but the types are correct (ARIAMixin
-      // properties do not obfuscate with closure)
-      // tslint:disable-next-line:no-dict-access-on-struct-type
-      return this[property]
-    },
-    set(value) {
-      if (removingAttribute) {
-        // Ignore this update, which is triggered below
-        return
-      }
-      // Set the ARIAMixin property, which will sync the `data-*` attribute
-      // and trigger rendering if the value changed.
-      // tslint is failing here, but the types are correct (ARIAMixin
-      // properties do not obfuscate with closure)
-      // tslint:disable-next-line:no-dict-access-on-struct-type
-      this[property] = value
-      // Remove the `aria-*` attribute, which will call this setter again with
-      // the incorrect value. Ignore these updates.
-      removingAttribute = true
-      this.removeAttribute(ariaAttribute)
-      removingAttribute = false
-    },
-  })
-  // Tell lit to observe the `aria-*` attribute and set the internal property,
-  // which acts as a "aria-* attribute changed" observer.
-  constructor.createProperty(internalAriaProperty, {
-    attribute: ariaAttribute,
-    noAccessor: true,
-  })
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-class FocusGlobal {
-  constructor() {
-    this.visible = false
-  }
-  setVisible(visible) {
-    this.visible = visible
-  }
-}
-/**
- * This object can be overwritten by the `setup()` function to use a different
- * focus coordination object.
- */
-let focusObject = new FocusGlobal()
-/**
- * Set of keyboard event codes that correspond to keyboard navigation
- */
-const KEYBOARD_NAVIGATION_KEYS = new Set([
-  'Tab',
-  'ArrowLeft',
-  'ArrowRight',
-  'ArrowUp',
-  'ArrowDown',
-])
-function keydownHandler(e) {
-  if (KEYBOARD_NAVIGATION_KEYS.has(e.key)) {
-    focusObject.setVisible(true)
-  }
-}
-/**
- * Set up integration with alternate global focus tracking object
- *
- * @param focusGlobal A global focus object to coordinate between multiple
- *     systems
- * @param enableKeydownHandler Set to true to let StrongFocusService listen for
- *     keyboard navigation
- */
-function setup(focusGlobal, enableKeydownHandler = false) {
-  focusObject = focusGlobal
-  if (enableKeydownHandler) {
-    window.addEventListener('keydown', keydownHandler)
-  } else {
-    window.removeEventListener('keydown', keydownHandler)
-  }
-}
-/**
- * Returns `true` if the component should show strong focus.
- *
- * By default, strong focus is shown only on keyboard navigation, and not on
- * pointer interaction.
- */
-function shouldShowStrongFocus() {
-  return focusObject.visible
-}
-/**
- * Components should call this when a user interacts with a component with a
- * pointing device.
- *
- * By default, this will prevent the strong focus from being shown.
- */
-function pointerPress() {
-  focusObject.setVisible(false)
-}
-setup(focusObject, true)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-class RippleDirective extends i {
+class RippleDirective extends i$1 {
   constructor(partInfo) {
     super(partInfo)
     this.rippleGetter = async () => null
@@ -5125,142 +7011,327 @@ class RippleDirective extends i {
  *     keyboard interaction, pass `true` to enable press animations on Enter or
  *     Spacebar
  */
-const ripple = e(RippleDirective)
+const ripple = e$1(RippleDirective)
 
 /**
  * @license
- * Copyright 2018 Google LLC
+ * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
 // tslint:disable-next-line:enforce-comments-on-exported-symbols
-class IconButton extends s$3 {
+class ListItemEl extends s$4 {
   constructor() {
     super(...arguments)
+    // @ts-ignore(b/264292293): Use `override` with TS 4.9+
+    this.role = 'listitem'
     /**
-     * Disables the icon button and makes it non-interactive.
+     * The primary, headline text of the list item.
+     */
+    this.headline = ''
+    /**
+     * The one-line supporting text below the headline. Set
+     * `multiLineSupportingText` to `true` to support multiple lines in the
+     * supporting text.
+     */
+    this.supportingText = ''
+    /**
+     * Modifies `supportingText` to support multiple lines.
+     */
+    this.multiLineSupportingText = false
+    /**
+     * The supporting text placed at the end of the item. Overriden by elements
+     * slotted into the `end` slot.
+     */
+    this.trailingSupportingText = ''
+    /**
+     * Disables the item and makes it non-selectable and non-interactive.
      */
     this.disabled = false
     /**
-     * Flips the icon if it is in an RTL context at startup.
+     * The tabindex of the underlying item.
+     *
+     * __NOTE:__ this is overriden by the keyboard behavior of `md-list` and by
+     * setting `selected`.
      */
-    this.flipIconInRtl = false
-    this.flipIcon = isRtl(this, this.flipIconInRtl)
+    this.itemTabIndex = -1
+    /**
+     * Whether or not the element is in the selected visual state. When active,
+     * tabindex is set to 0, and in some list item variants (like md-list-item),
+     * focuses the underlying item.
+     */
+    this.active = false
+    /**
+     * READONLY. Sets the `md-list-item` attribute on the element.
+     */
+    this.isListItem = true
     this.showFocusRing = false
     this.showRipple = false
+    /**
+     * Only meant to be overriden by subclassing and not by the user. This is
+     * so that we have control over focus on specific variants such as disabling
+     * focus on <md-autocomplete-item> but enabling it for <md-menu-item>.
+     */
+    this.focusOnSelection = true
     this.getRipple = () => {
       this.showRipple = true
       return this.ripple
     }
-    this.renderRipple = () => {
-      return y`<md-ripple ?disabled="${this.disabled}"></md-ripple>`
+    this.isFirstUpdate = true
+  }
+  willUpdate(changed) {
+    if (changed.has('active') && !this.disabled) {
+      if (this.active) {
+        this.itemTabIndex = 0
+        if (this.focusOnSelection) {
+          this.showFocusRing = shouldShowStrongFocus()
+        }
+        // Do not reset anything if it's the first render because user could
+        // have set `itemTabIndex` manually.
+      } else if (!this.isFirstUpdate) {
+        this.itemTabIndex = -1
+      }
     }
   }
   render() {
-    return y`<button
-        class="md3-icon-button ${o(this.getRenderClasses())}"
-        aria-label="${l(this.ariaLabel)}"
-        aria-haspopup="${l(this.ariaHasPopup)}"
-        ?disabled="${this.disabled}"
-        @focus="${this.handleFocus}"
-        @blur="${this.handleBlur}"
-        @pointerdown="${this.handlePointerDown}"
-        ${ripple(this.getRipple)}>
+    return this.renderListItem(y`
+      <div class="content-wrapper">
+        ${this.renderStart()}
+        ${this.renderBody()}
+        ${this.renderEnd()}
+        ${this.renderRipple()}
         ${this.renderFocusRing()}
-        ${n(this.showRipple, this.renderRipple)}
-        ${this.renderIcon()}
-        ${this.renderTouchTarget()}
-  </button>`
+      </div>`)
   }
+  /**
+   * Renders the root list item.
+   *
+   * @param content {unkown} the child content of the list item.
+   */
+  renderListItem(content) {
+    return y`
+      <li
+          tabindex=${this.disabled ? -1 : this.itemTabIndex}
+          role=${this.role}
+          aria-selected=${this.ariaSelected || b}
+          aria-checked=${this.ariaChecked || b}
+          class="list-item ${o(this.getRenderClasses())}"
+          @pointerdown=${this.onPointerdown}
+          @focus=${this.onFocus}
+          @blur=${this.onBlur}
+          @click=${this.onClick}
+          @pointerenter=${this.onPointerenter}
+          @pointerleave=${this.onPointerleave}
+          @keydown=${this.onKeydown}
+          ${ripple(this.getRipple)}>${content}</li>`
+  }
+  /**
+   * Handles rendering of the ripple element.
+   */
+  renderRipple() {
+    return this.showRipple
+      ? y`<md-ripple ?disabled="${this.disabled}"></md-ripple>`
+      : b
+  }
+  /**
+   * Handles rendering of the focus ring.
+   */
+  renderFocusRing() {
+    return y`<md-focus-ring class="focus-ring" .visible="${this.showFocusRing}"></md-focus-ring>`
+  }
+  /**
+   * Classes applied to the list item root.
+   */
   getRenderClasses() {
     return {
-      'md3-icon-button--flip-icon': this.flipIcon,
+      'with-one-line': this.supportingText === '',
+      'with-two-line':
+        this.supportingText !== '' && !this.multiLineSupportingText,
+      'with-three-line':
+        this.supportingText !== '' && this.multiLineSupportingText,
+      disabled: this.disabled,
     }
   }
-  renderIcon() {
-    // Note, it's important not to render the icon property as a slot fallback
-    // to avoid any whitespace from overridding it.
-    return y`<md-icon class="md3-icon-button__icon"><slot></slot></md-icon>`
+  /**
+   * The content rendered at the start of the list item.
+   */
+  renderStart() {
+    return y`<div class="start"><slot name="start"></slot></div>`
   }
-  renderTouchTarget() {
-    return y`<span class="md3-icon-button__touch"></span>`
+  /**
+   * Handles rendering the headline and supporting text.
+   */
+  renderBody() {
+    const supportingText =
+      this.supportingText !== '' ? this.renderSupportingText() : ''
+    return y`<div class="body"
+      ><span class="label-text">${this.headline}</span>${supportingText}</div>`
   }
-  renderFocusRing() {
-    return y`<md-focus-ring .visible="${this.showFocusRing}"></md-focus-ring>`
+  /**
+   * Renders the one-line supporting text.
+   */
+  renderSupportingText() {
+    return y`<span
+        class="supporting-text ${o(this.getSupportingTextClasses())}"
+      >${this.supportingText}</span>`
   }
-  connectedCallback() {
-    this.flipIcon = isRtl(this, this.flipIconInRtl)
-    super.connectedCallback()
+  /**
+   * Gets the classes for the supporting text node
+   */
+  getSupportingTextClasses() {
+    return { 'supporting-text--multi-line': this.multiLineSupportingText }
   }
-  handlePointerDown() {
+  /**
+   * The content rendered at the end of the list item.
+   */
+  renderEnd() {
+    const supportingText =
+      this.trailingSupportingText !== ''
+        ? this.renderTrailingSupportingText()
+        : ''
+    return y`<div class="end"
+      ><slot name="end">${supportingText}</slot></div>`
+  }
+  /**
+   * Renders the supporting text at the end of the list item.
+   */
+  renderTrailingSupportingText() {
+    return y`<span class="trailing-supporting-text"
+      >${this.trailingSupportingText}</span>`
+  }
+  onPointerdown() {
     pointerPress()
     this.showFocusRing = shouldShowStrongFocus()
   }
-  handleFocus() {
+  onFocus() {
     this.showFocusRing = shouldShowStrongFocus()
   }
-  handleBlur() {
+  onBlur() {
     this.showFocusRing = false
+  }
+  // For easier overriding in menu-item
+  onClick(e) {}
+  onKeydown(e) {}
+  onPointerenter(e) {}
+  onPointerleave(e) {}
+  updated(changed) {
+    super.updated(changed)
+    // will focus the list item root if it is selected but not on the first
+    // update or else it may cause the page to jump on first load.
+    if (
+      changed.has('active') &&
+      !this.isFirstUpdate &&
+      this.active &&
+      this.focusOnSelection
+    ) {
+      this.listItemRoot.focus()
+    }
+    this.isFirstUpdate = false
   }
 }
 __decorate(
-  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
-  IconButton.prototype,
+  [
+    ariaProperty,
+    // tslint:disable-next-line
+    e$8({ type: String, attribute: 'data-role', noAccessor: true }),
+    // @ts-ignore(b/264292293): Use `override` with TS 4.9+
+    __metadata('design:type', String),
+  ],
+  ListItemEl.prototype,
+  'role',
+  void 0
+)
+__decorate(
+  [
+    ariaProperty,
+    e$8({ type: String, attribute: 'data-aria-selected', noAccessor: true }),
+    __metadata('design:type', String),
+  ],
+  ListItemEl.prototype,
+  'ariaSelected',
+  void 0
+)
+__decorate(
+  [
+    ariaProperty,
+    e$8({ type: String, attribute: 'data-aria-checked', noAccessor: true }),
+    __metadata('design:type', String),
+  ],
+  ListItemEl.prototype,
+  'ariaChecked',
+  void 0
+)
+__decorate(
+  [e$8(), __metadata('design:type', Object)],
+  ListItemEl.prototype,
+  'headline',
+  void 0
+)
+__decorate(
+  [e$8(), __metadata('design:type', Object)],
+  ListItemEl.prototype,
+  'supportingText',
+  void 0
+)
+__decorate(
+  [e$8({ type: Boolean }), __metadata('design:type', Object)],
+  ListItemEl.prototype,
+  'multiLineSupportingText',
+  void 0
+)
+__decorate(
+  [e$8(), __metadata('design:type', Object)],
+  ListItemEl.prototype,
+  'trailingSupportingText',
+  void 0
+)
+__decorate(
+  [e$8({ type: Boolean }), __metadata('design:type', Object)],
+  ListItemEl.prototype,
   'disabled',
   void 0
 )
 __decorate(
-  [e$5({ type: Boolean }), __metadata('design:type', Object)],
-  IconButton.prototype,
-  'flipIconInRtl',
+  [e$8({ type: Number }), __metadata('design:type', Object)],
+  ListItemEl.prototype,
+  'itemTabIndex',
   void 0
 )
 __decorate(
-  [t$3(), __metadata('design:type', Boolean)],
-  IconButton.prototype,
-  'flipIcon',
-  void 0
-)
-__decorate(
-  [
-    ariaProperty,
-    e$5({ type: String, attribute: 'data-aria-label' }),
-    __metadata('design:type', String),
-  ],
-  IconButton.prototype,
-  'ariaLabel',
+  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  ListItemEl.prototype,
+  'active',
   void 0
 )
 __decorate(
   [
-    ariaProperty,
-    e$5({ type: String, attribute: 'data-aria-haspopup' }),
-    __metadata('design:type', String),
+    e$8({ type: Boolean, attribute: 'md-list-item', reflect: true }),
+    __metadata('design:type', Object),
   ],
-  IconButton.prototype,
-  'ariaHasPopup',
+  ListItemEl.prototype,
+  'isListItem',
   void 0
 )
 __decorate(
-  [i$1('button'), __metadata('design:type', HTMLElement)],
-  IconButton.prototype,
-  'buttonElement',
-  void 0
-)
-__decorate(
-  [e$4('md-ripple'), __metadata('design:type', Promise)],
-  IconButton.prototype,
+  [e$7('md-ripple'), __metadata('design:type', Promise)],
+  ListItemEl.prototype,
   'ripple',
   void 0
 )
 __decorate(
+  [i$2('.list-item'), __metadata('design:type', HTMLElement)],
+  ListItemEl.prototype,
+  'listItemRoot',
+  void 0
+)
+__decorate(
   [t$3(), __metadata('design:type', Object)],
-  IconButton.prototype,
+  ListItemEl.prototype,
   'showFocusRing',
   void 0
 )
 __decorate(
   [t$3(), __metadata('design:type', Object)],
-  IconButton.prototype,
+  ListItemEl.prototype,
   'showRipple',
   void 0
 )
@@ -5270,119 +7341,516 @@ __decorate(
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$4 = i$4`:host{display:inline-flex;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);height:max(48px,var(--_container-size));width:max(48px,var(--_container-size));align-items:center;justify-content:center}:host([disabled]){pointer-events:none}.md3-icon-button{align-items:center;border:none;box-sizing:border-box;cursor:pointer;display:flex;justify-content:center;outline:none;position:relative;text-decoration:none;user-select:none;z-index:0;height:var(--_container-size);width:var(--_container-size);border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.md3-icon-button__icon{--md-icon-size:var(--_icon-size);--md-icon-weight:inherit}md-ripple{z-index:-1;border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.md3-icon-button--flip-icon .md3-icon-button__icon{transform:scaleX(-1)}.md3-icon-button__icon{display:inline-flex}.md3-icon-button__link{height:100%;outline:none;position:absolute;width:100%}.md3-icon-button__touch{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%)}/*# sourceMappingURL=shared-styles.css.map */
-`
+/**
+ * @fires close-menu {CloseMenuEvent}
+ */
+class MenuItemEl extends ListItemEl {
+  constructor() {
+    super(...arguments)
+    this.role = 'menuitem'
+    /**
+     * READONLY: self-identifies as a menu item and sets its identifying attribute
+     */
+    this.isMenuItem = true
+    /**
+     * Keeps the menu open if clicked or keyboard selected.
+     */
+    this.keepOpen = false
+    /**
+     * Used for overriding e.g. sub-menu-item.
+     */
+    this.keepOpenOnClick = false
+  }
+  onClick() {
+    if (this.keepOpen || this.keepOpenOnClick) return
+    this.dispatchEvent(
+      new DefaultCloseMenuEvent(this, { kind: CLOSE_REASON.CLICK_SELECTION })
+    )
+  }
+  onKeydown(e) {
+    if (this.keepOpen) return
+    const keyCode = e.code
+    if (isClosableKey(keyCode)) {
+      e.preventDefault()
+      this.dispatchEvent(
+        new DefaultCloseMenuEvent(this, {
+          kind: CLOSE_REASON.KEYDOWN,
+          key: keyCode,
+        })
+      )
+    }
+  }
+}
+__decorate(
+  [
+    e$8({ type: Boolean, attribute: 'md-menu-item', reflect: true }),
+    __metadata('design:type', Object),
+  ],
+  MenuItemEl.prototype,
+  'isMenuItem',
+  void 0
+)
+__decorate(
+  [
+    e$8({ type: Boolean, attribute: 'keep-open' }),
+    __metadata('design:type', Object),
+  ],
+  MenuItemEl.prototype,
+  'keepOpen',
+  void 0
+)
 
 /**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$3 = i$4`:host{--_state-layer-shape-start-start: var(--md-icon-button-state-layer-shape-start-start, var(--md-icon-button-state-layer-shape, 9999px));--_state-layer-shape-start-end: var(--md-icon-button-state-layer-shape-start-end, var(--md-icon-button-state-layer-shape, 9999px));--_state-layer-shape-end-end: var(--md-icon-button-state-layer-shape-end-end, var(--md-icon-button-state-layer-shape, 9999px));--_state-layer-shape-end-start: var(--md-icon-button-state-layer-shape-end-start, var(--md-icon-button-state-layer-shape, 9999px));--_disabled-icon-color: var(--md-icon-button-disabled-icon-color, rgb(var(--md-sys-color-on-surface-rgb, 28, 27, 31), 0.38));--_icon-size: var(--md-icon-button-icon-size, 24px);--_selected-focus-icon-color: var(--md-icon-button-selected-focus-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-focus-state-layer-color: var(--md-icon-button-selected-focus-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-focus-state-layer-opacity: var(--md-icon-button-selected-focus-state-layer-opacity, 0.12);--_selected-hover-icon-color: var(--md-icon-button-selected-hover-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-color: var(--md-icon-button-selected-hover-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-opacity: var(--md-icon-button-selected-hover-state-layer-opacity, 0.08);--_selected-icon-color: var(--md-icon-button-selected-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-icon-color: var(--md-icon-button-selected-pressed-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-color: var(--md-icon-button-selected-pressed-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-opacity: var(--md-icon-button-selected-pressed-state-layer-opacity, 0.12);--_state-layer-size: var(--md-icon-button-state-layer-size, 40px);--_unselected-focus-icon-color: var(--md-icon-button-unselected-focus-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-focus-state-layer-color: var(--md-icon-button-unselected-focus-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-focus-state-layer-opacity: var(--md-icon-button-unselected-focus-state-layer-opacity, 0.12);--_unselected-hover-icon-color: var(--md-icon-button-unselected-hover-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-hover-state-layer-color: var(--md-icon-button-unselected-hover-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-hover-state-layer-opacity: var(--md-icon-button-unselected-hover-state-layer-opacity, 0.08);--_unselected-icon-color: var(--md-icon-button-unselected-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-pressed-icon-color: var(--md-icon-button-unselected-pressed-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-pressed-state-layer-color: var(--md-icon-button-unselected-pressed-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-pressed-state-layer-opacity: var(--md-icon-button-unselected-pressed-state-layer-opacity, 0.12);height:max(48px,var(--_state-layer-size));width:max(48px,var(--_state-layer-size));--md-focus-ring-shape-start-start:var(--md-focus-ring-shape, var(--_state-layer-shape-start-start));--md-focus-ring-shape-start-end:var(--md-focus-ring-shape, var(--_state-layer-shape-start-end));--md-focus-ring-shape-end-end:var(--md-focus-ring-shape, var(--_state-layer-shape-end-end));--md-focus-ring-shape-end-start:var(--md-focus-ring-shape, var(--_state-layer-shape-end-start)))))}.md3-icon-button--standard{background-color:rgba(0,0,0,0);color:var(--_unselected-icon-color);height:var(--_state-layer-size);width:var(--_state-layer-size);--md-ripple-focus-color:var(--_unselected-focus-state-layer-color);--md-ripple-focus-opacity:var(--_unselected-focus-state-layer-opacity);--md-ripple-hover-color:var(--_unselected-hover-state-layer-color);--md-ripple-hover-opacity:var(--_unselected-hover-state-layer-opacity);--md-ripple-pressed-color:var(--_unselected-pressed-state-layer-color);--md-ripple-pressed-opacity:var(--_unselected-pressed-state-layer-opacity);--md-ripple-shape:var(--_state-layer-shape-start-start)}.md3-icon-button--standard:hover{color:var(--_unselected-hover-icon-color)}.md3-icon-button--standard:focus{color:var(--_unselected-focus-icon-color)}.md3-icon-button--standard:active{color:var(--_unselected-pressed-icon-color)}.md3-icon-button--standard:disabled{color:var(--_disabled-icon-color)}.md3-icon-button--selected{--md-ripple-focus-color:var(--_selected-focus-state-layer-color);--md-ripple-focus-opacity:var(--_selected-focus-state-layer-opacity);--md-ripple-hover-color:var(--_selected-hover-state-layer-color);--md-ripple-hover-opacity:var(--_selected-hover-state-layer-opacity);--md-ripple-pressed-color:var(--_selected-pressed-state-layer-color);--md-ripple-pressed-opacity:var(--_selected-pressed-state-layer-opacity)}.md3-icon-button--selected:not(:disabled){color:var(--_selected-icon-color)}.md3-icon-button--selected:not(:disabled):hover{color:var(--_selected-hover-icon-color)}.md3-icon-button--selected:not(:disabled):focus{color:var(--_selected-focus-icon-color)}.md3-icon-button--selected:not(:disabled):active{color:var(--_selected-pressed-icon-color)}/*# sourceMappingURL=standard-styles.css.map */
-`
+/**
+ * @summary Menus display a list of choices on a temporary surface.
+ *
+ * @description
+ * Menu items are the selectable choices within the menu. Menu items must
+ * implement the `MenuItem` interface and also have the `md-menu-item`
+ * attribute. Additionally menu items are list items so they must also have the
+ * `md-list-item` attribute.
+ *
+ * Menu items can control a menu by selectively firing the `close-menu` and
+ * `deselect-items` events.
+ *
+ * @final
+ * @suppress {visibility}
+ */
+let MdMenuItem = class MdMenuItem extends MenuItemEl {}
+MdMenuItem.styles = [styles$7, styles$6]
+MdMenuItem = __decorate([e$9('md-menu-item')], MdMenuItem)
 
 /**
  * @license
- * Copyright 2021 Google LLC
+ * Copyright 2023 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+function stopPropagation(e) {
+  e.stopPropagation()
+}
 /**
- * @summary Icon buttons help people take supplementary actions with a single
- * tap.
- *
- * @description
- * __Emphasis:__ Low emphasis – For optional or supplementary actions with the
- * least amount of prominence.
- *
- * __Rationale:__ The most compact and unobtrusive type of button, icon buttons
- * are used for optional supplementary actions such as "Bookmark" or "Star."
- *
- * __Example usages:__
- * - Add to Favorites
- * - Print
+ * @fires deactivate-items {DeactivateItemsEvent} Requests the parent menu to
+ *     deselect other items when a submenu opens
  */
-let MdStandardIconButton = class MdStandardIconButton extends IconButton {
-  getRenderClasses() {
-    return {
-      ...super.getRenderClasses(),
-      'md3-icon-button--standard': true,
+class SubMenuItem extends MenuItemEl {
+  constructor() {
+    super(...arguments)
+    this.role = 'menuitem'
+    /**
+     * The anchorCorner to set on the submenu.
+     */
+    this.anchorCorner = 'START_END'
+    /**
+     * The menuCorner to set on the submenu.
+     */
+    this.menuCorner = 'START_START'
+    /**
+     * The delay between pointerenter and submenu opening.
+     */
+    this.hoverOpenDelay = 400
+    /**
+     * The delay between ponterleave and the submenu closing.
+     */
+    this.hoverCloseDelay = 400
+    this.keepOpenOnClick = true
+    this.previousOpenTimeout = 0
+    this.previousCloseTimeout = 0
+    /**
+     * Starts the default 400ms countdown to open the submenu.
+     */
+    this.onPointerenter = () => {
+      clearTimeout(this.previousOpenTimeout)
+      clearTimeout(this.previousCloseTimeout)
+      if (this.submenuEl?.open) return
+      // Open synchronously if delay is 0. (screenshot tests infra
+      // would never resolve otherwise)
+      if (!this.hoverOpenDelay) {
+        this.show()
+      } else {
+        this.previousOpenTimeout = setTimeout(() => {
+          this.show()
+        }, this.hoverOpenDelay)
+      }
+    }
+    /**
+     * Starts the default 400ms countdown to close the submenu.
+     */
+    this.onPointerleave = () => {
+      clearTimeout(this.previousCloseTimeout)
+      clearTimeout(this.previousOpenTimeout)
+      // Close synchronously if delay is 0. (screenshot tests infra
+      // would never resolve otherwise)
+      if (!this.hoverCloseDelay) {
+        this.close()
+      } else {
+        this.previousCloseTimeout = setTimeout(() => {
+          this.close()
+        }, this.hoverCloseDelay)
+      }
+    }
+  }
+  get submenuEl() {
+    return this.menus[0]
+  }
+  onClick() {
+    this.show()
+  }
+  /**
+   * On item keydown handles opening the submenu.
+   */
+  onKeydown(e) {
+    const shouldOpenSubmenu = this.isSubmenuOpenKey(e.code)
+    if (e.code === SELECTION_KEY.SPACE) {
+      // prevent space from scrolling. Only open the submenu.
+      e.preventDefault()
+    }
+    if (!shouldOpenSubmenu) {
+      super.onKeydown(e)
+      return
+    }
+    const submenu = this.submenuEl
+    if (!submenu) return
+    const submenuItems = submenu.items
+    const firstActivatableItem = List.getFirstActivatableItem(submenuItems)
+    if (firstActivatableItem) {
+      this.show(() => {
+        firstActivatableItem.active = true
+      })
+      return
+    }
+  }
+  /**
+   * Render the submenu at the end
+   */
+  renderEnd() {
+    return y`${super.renderEnd()}${this.renderSubMenu()}`
+  }
+  /**
+   * Renders the slot for the submenu.
+   */
+  renderSubMenu() {
+    return y`<span class="submenu"><slot
+        name="submenu"
+        @pointerdown=${stopPropagation}
+        @click=${stopPropagation}
+        @keydown=${this.onSubMenuKeydown}
+        @close-menu=${this.onCloseSubmenu}
+    ></slot></span>`
+  }
+  onCloseSubmenu(e) {
+    e.itemPath.push(this)
+    // Escape should only close one menu not all of the menus unlike space or
+    // click selection which should close all menus.
+    if (
+      e.reason.kind === CLOSE_REASON.KEYDOWN &&
+      e.reason.key === KEYDOWN_CLOSE_KEYS.ESCAPE
+    ) {
+      e.stopPropagation()
+      this.active = true
+      // It might already be active so manually focus
+      this.listItemRoot.focus()
+      return
+    }
+    this.active = false
+  }
+  async onSubMenuKeydown(e) {
+    // Stop propagation so that we don't accidentally close every parent menu.
+    // Additionally, we want to isolate things like the typeahead keydowns
+    // from bubbling up to the parent menu and confounding things.
+    e.stopPropagation()
+    const shouldClose = this.isSubmenuCloseKey(e.code)
+    if (!shouldClose) return
+    this.close(() => {
+      List.deactivateActiveItem(this.submenuEl.items)
+      this.listItemRoot.focus()
+      this.active = true
+    })
+  }
+  /**
+   * Shows the submenu.
+   *
+   * @param onOpened A function to call after the menu is opened.
+   */
+  show(onOpened = () => {}) {
+    const menu = this.submenuEl
+    if (!menu) return
+    menu.quick = true
+    // Submenus are in overflow when not fixed. Can remove once we have native
+    // popup support
+    menu.hasOverflow = true
+    menu.anchorCorner = this.anchorCorner
+    menu.menuCorner = this.menuCorner
+    menu.anchor = this
+    // We manually set focus with `active` on keyboard navigation. And we
+    // want to focus the root on hover, so the user can pick up navigation with
+    // keyboard after hover.
+    menu.defaultFocus = 'LIST_ROOT'
+    menu.skipRestoreFocus = true
+    // Menu could already be opened because of mouse interaction
+    const menuAlreadyOpen = menu.open
+    menu.show()
+    // Deactivate other items. This can be the case if the user has tabbed
+    // around the menu and then mouses over an md-sub-menu.
+    this.dispatchEvent(new DeactivateItemsEvent())
+    this.active = true
+    // This is the case of mouse hovering when already opened via keyboard or
+    // vice versa
+    if (menuAlreadyOpen) {
+      onOpened()
+    } else {
+      menu.addEventListener('opened', onOpened, { once: true })
+    }
+  }
+  /**
+   * Closes the submenu.
+   *
+   * @param onClosed A function to call after the menu is closed.
+   */
+  close(onClosed = () => {}) {
+    const menu = this.submenuEl
+    if (!menu || !menu.open) return
+    menu.quick = true
+    menu.close()
+    this.active = false
+    menu.addEventListener('closed', onClosed, { once: true })
+  }
+  /**
+   * Determines whether the given KeyboardEvent code is one that should open
+   * the submenu. This is RTL-aware. By default, left, right, space, or enter.
+   *
+   * @param code The native KeyboardEvent code.
+   * @return Whether or not the key code should open the submenu.
+   */
+  isSubmenuOpenKey(code) {
+    const isRtl = getComputedStyle(this).direction === 'rtl'
+    const arrowEnterKey = isRtl ? NAVIGABLE_KEY.LEFT : NAVIGABLE_KEY.RIGHT
+    switch (code) {
+      case arrowEnterKey:
+      case SELECTION_KEY.SPACE:
+      case SELECTION_KEY.ENTER:
+        return true
+      default:
+        return false
+    }
+  }
+  /**
+   * Determines whether the given KeyboardEvent code is one that should close
+   * the submenu. This is RTL-aware. By default right, left, or escape.
+   *
+   * @param code The native KeyboardEvent code.
+   * @return Whether or not the key code should close the submenu.
+   */
+  isSubmenuCloseKey(code) {
+    const isRtl = getComputedStyle(this).direction === 'rtl'
+    const arrowEnterKey = isRtl ? NAVIGABLE_KEY.RIGHT : NAVIGABLE_KEY.LEFT
+    switch (code) {
+      case arrowEnterKey:
+      case KEYDOWN_CLOSE_KEYS.ESCAPE:
+        return true
+      default:
+        return false
     }
   }
 }
-MdStandardIconButton.styles = [styles$4, styles$3]
-MdStandardIconButton = __decorate(
-  [e$6('md-standard-icon-button')],
-  MdStandardIconButton
+__decorate(
+  [e$8({ attribute: 'anchor-corner' }), __metadata('design:type', String)],
+  SubMenuItem.prototype,
+  'anchorCorner',
+  void 0
+)
+__decorate(
+  [e$8({ attribute: 'menu-corner' }), __metadata('design:type', String)],
+  SubMenuItem.prototype,
+  'menuCorner',
+  void 0
+)
+__decorate(
+  [
+    e$8({ type: Number, attribute: 'hover-open-delay' }),
+    __metadata('design:type', Object),
+  ],
+  SubMenuItem.prototype,
+  'hoverOpenDelay',
+  void 0
+)
+__decorate(
+  [
+    e$8({ type: Number, attribute: 'hover-close-delay' }),
+    __metadata('design:type', Object),
+  ],
+  SubMenuItem.prototype,
+  'hoverCloseDelay',
+  void 0
+)
+__decorate(
+  [l$2({ slot: 'submenu' }), __metadata('design:type', Array)],
+  SubMenuItem.prototype,
+  'menus',
+  void 0
 )
 
-let LayerSettings = class LayerSettings extends s$3 {
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @summary Menus display a list of choices on a temporary surface.
+ *
+ * @description
+ * Menu items are the selectable choices within the menu. Menu items must
+ * implement the `MenuItem` interface and also have the `md-menu-item`
+ * attribute. Additionally menu items are list items so they must also have the
+ * `md-list-item` attribute.
+ *
+ * Menu items can control a menu by selectively firing the `close-menu` and
+ * `deselect-items` events.
+ *
+ * This menu item will open a sub-menu that is slotted in the `submenu` slot.
+ * Additionally, the containing menu must either have `has-overflow` or `fixed`
+ * set to `true` in order to display the containing menu properly.
+ *
+ * @example
+ * ```html
+ * <div style="position:relative;">
+ *   <button
+ *       class="anchor"
+ *       ${ref(anchorRef)}
+ *       @click=${() => this.menuRef.value.show()}>
+ *     Click to open menu
+ *   </button>
+ *   <!--
+ *     `has-overflow` is required when using a submenu which overflows the
+ *     menu's contents
+ *   -->
+ *   <md-menu has-overflow ${ref(menuRef)} ${(el) => el.anchor =
+ * anchorRef.value}> <md-menu-item header="This is a header"></md-menu-item>
+ *     <md-sub-menu-item header="this is a submenu item">
+ *       <md-menu slot="submenu">
+ *         <md-menu-item
+ *           header="This is an item inside a submenu"></md-menu-item>
+ *       </md-menu>
+ *     </md-sub-menu>
+ *   </md-menu>
+ * </div>
+ * ```
+ *
+ * @final
+ * @suppress {visibility}
+ */
+let MdSubMenuItem = class MdSubMenuItem extends SubMenuItem {}
+MdSubMenuItem.styles = [styles$7, styles$6]
+MdSubMenuItem = __decorate([e$9('md-sub-menu-item')], MdSubMenuItem)
+
+let LayerSettings = class LayerSettings extends s$4 {
   constructor() {
     super(...arguments)
-    this.layer = { type: 'image' }
     this.name = ''
-    this.otherImages = connectState_1(
-      viewerContext,
-      this,
-      state => {
-        return new Map(
-          [...state.context.layers.actorContext.entries()].filter(([key]) => {
-            var _a
-            return (
-              key !== this.name &&
-              ((_a = state.context.images.actorContext.get(this.name)) ===
-                null || _a === void 0
-                ? void 0
-                : _a.labelImage) !== key
-            )
-          })
-        )
-      },
-      (a, b) => compareArrays_1([...a.keys()], [...b.keys()])
-    )
-    this.selectedName = connectState_1(
-      viewerContext,
-      this,
-      state => state.context.images.selectedName
-    )
+    this.otherImages = []
+    this.enable = true
+    this.menuRef = e()
+    this.anchorRef = e()
+    // avoid overflow: hidden on parents clipping menu
+    this.floatingAnchor = makeHtml(`<div class="${style.floater}"></div>`)
+    this.stateService = new s$2(this, viewerContext, undefined, true)
   }
-  getIcon() {
-    if (this.layer.type === 'image') {
-      if (
-        this.name === this.selectedName.value &&
-        this.otherImages.value &&
-        this.otherImages.value.size > 0
-      )
-        return { icon: optimizedSVGDataUri$6, alt: 'image settings' }
-      return { icon: optimizedSVGDataUri$o, alt: 'image' }
+  connectedCallback() {
+    super.connectedCallback()
+    document.body.appendChild(this.floatingAnchor)
+  }
+  disconnectedCallback() {
+    super.disconnectedCallback()
+    document.body.removeChild(this.floatingAnchor)
+  }
+  showMenu() {
+    var _a, _b
+    if (!this.enable) return
+    const { top = 0, left = 0 } =
+      (_b =
+        (_a = this.anchorRef.value) === null || _a === void 0
+          ? void 0
+          : _a.getBoundingClientRect()) !== null && _b !== void 0
+        ? _b
+        : {}
+    this.floatingAnchor.style.top = `${top}px`
+    this.floatingAnchor.style.left = `${left}px`
+    if (this.menuRef.value) {
+      this.menuRef.value.anchor = this.floatingAnchor
+      this.floatingAnchor.appendChild(this.menuRef.value)
+      this.menuRef.value.show()
     }
-    if (this.layer.type === 'labelImage')
-      return { icon: optimizedSVGDataUri$l, alt: 'labels' }
-    throw new Error(`Unsupported layer type: ${this.layer.type}`)
+  }
+  compareWith(name) {
+    var _a
+    ;(_a = this.stateService.value) === null || _a === void 0
+      ? void 0
+      : _a.service.send({
+          type: 'COMPARE_IMAGES',
+          data: {
+            name: this.name,
+            fixedImageName: name,
+            options: { method: 'checkerboard' },
+          },
+        })
+  }
+  stopComparing() {
+    var _a
+    ;(_a = this.stateService.value) === null || _a === void 0
+      ? void 0
+      : _a.service.send({
+          type: 'COMPARE_IMAGES',
+          data: {
+            name: this.name,
+            options: { method: 'disable' },
+          },
+        })
   }
   render() {
-    const { icon, alt } = this.getIcon()
     return y`
-      <div>
-        <img src="${icon}" alt="${alt}" class="icon" />
+      <div
+        @click=${() => {
+          this.showMenu()
+          this.render()
+        }}
+        class=${this.enable ? 'clickable' : ''}
+      >
+        <slot></slot>
+        <div ${n$1(this.anchorRef)} style="position:relative; z-index: 4000;">
+          <md-menu ${n$1(this.menuRef)}>
+            ${o$1(
+              this.otherImages,
+              name => y`
+                  <md-menu-item
+                    headline="Checkerboard compare with ${name}"
+                    @click=${() => this.compareWith(name)}
+                  ></md-menu-item>
+                `
+            )}
+            <md-menu-item
+              headline="Stop comparing"
+              @click=${this.stopComparing}
+            ></md-menu-item>
+          </md-menu>
+        </div>
       </div>
     `
   }
 }
-LayerSettings.styles = i$4`
-    .icon {
-      height: 1.2em;
-      width: 1.2em;
-      padding-top: 2px;
-      padding-bottom: 2px;
-      padding-left: 8px;
-      padding-right: 6px;
+LayerSettings.styles = i$5`
+    .clickable {
+      cursor: pointer;
     }
   `
-__decorate([e$5()], LayerSettings.prototype, 'layer', void 0)
-__decorate([e$5()], LayerSettings.prototype, 'name', void 0)
-LayerSettings = __decorate([e$6('layer-settings')], LayerSettings)
+__decorate([e$8()], LayerSettings.prototype, 'name', void 0)
+__decorate([e$8()], LayerSettings.prototype, 'otherImages', void 0)
+__decorate([e$8()], LayerSettings.prototype, 'enable', void 0)
+LayerSettings = __decorate([e$9('layer-settings')], LayerSettings)
 
-let LayerIcon = class LayerIcon extends s$3 {
+let LayerIcon = class LayerIcon extends s$4 {
   constructor() {
     super(...arguments)
     this.layer = { type: 'image' }
@@ -5391,21 +7859,18 @@ let LayerIcon = class LayerIcon extends s$3 {
     this.otherImages = connectState_1(
       viewerContext,
       this,
-      state => {
-        return new Map(
-          [...state.context.layers.actorContext.entries()].filter(([key]) => {
-            var _a
-            return (
-              key !== this.name &&
-              ((_a = state.context.images.actorContext.get(this.name)) ===
-                null || _a === void 0
-                ? void 0
-                : _a.labelImage) !== key
-            )
-          })
-        )
-      },
-      (a, b) => compareArrays_1([...a.keys()], [...b.keys()])
+      state =>
+        [...state.context.layers.actorContext.keys()].filter(key => {
+          var _a
+          return (
+            key !== this.name &&
+            ((_a = state.context.images.actorContext.get(this.name)) === null ||
+            _a === void 0
+              ? void 0
+              : _a.labelImage) !== key
+          )
+        }),
+      compareArrays_1
     )
     this.selectedName = connectState_1(
       viewerContext,
@@ -5418,7 +7883,7 @@ let LayerIcon = class LayerIcon extends s$3 {
       if (
         this.name === this.selectedName.value &&
         this.otherImages.value &&
-        this.otherImages.value.size > 0
+        this.otherImages.value.length > 0
       )
         return { icon: optimizedSVGDataUri$6, alt: 'settings' }
       return { icon: optimizedSVGDataUri$o, alt: 'image' }
@@ -5429,19 +7894,21 @@ let LayerIcon = class LayerIcon extends s$3 {
   }
   render() {
     const { icon, alt } = this.getIcon()
+    const settingsPossible = alt === 'settings'
     return y`
-      <img src="${icon}" alt="${alt}" class="icon" />
-      ${
-        this.settingsOpen
-          ? y`
-            <layer-settings></layer-settings>
-          `
-          : undefined
-      }
+      <div>
+        <layer-settings
+          .name=${this.name}
+          .otherImages=${this.otherImages.value}
+          .enable=${settingsPossible}
+        >
+          <img src="${icon}" alt="${alt}" class="icon" />
+        </layer-settings>
+      </div>
     `
   }
 }
-LayerIcon.styles = i$4`
+LayerIcon.styles = i$5`
     .icon {
       height: 1.2em;
       width: 1.2em;
@@ -5451,10 +7918,10 @@ LayerIcon.styles = i$4`
       padding-right: 6px;
     }
   `
-__decorate([e$5()], LayerIcon.prototype, 'layer', void 0)
-__decorate([e$5()], LayerIcon.prototype, 'name', void 0)
+__decorate([e$8()], LayerIcon.prototype, 'layer', void 0)
+__decorate([e$8()], LayerIcon.prototype, 'name', void 0)
 __decorate([t$3()], LayerIcon.prototype, 'settingsOpen', void 0)
-LayerIcon = __decorate([e$6('layer-icon')], LayerIcon)
+LayerIcon = __decorate([e$9('layer-icon')], LayerIcon)
 
 function createLayerEntry(context, name, layer) {
   var layerEntry = document.createElement('div')
@@ -5696,7 +8163,6 @@ var nonIterableRest = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(nonIterableRest)
-
 ;(function(module) {
   var arrayWithHoles$1 = arrayWithHoles.exports
 
@@ -5792,7 +8258,6 @@ var iterableToArrayLimit = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(iterableToArrayLimit)
-
 ;(function(module) {
   var arrayWithHoles$1 = arrayWithHoles.exports
 
@@ -21672,73 +24137,11 @@ function toggleDarkMode(context) {
 
 /**
  * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * A component for elevation.
- */
-class Elevation extends s$3 {
-  constructor() {
-    super(...arguments)
-    /**
-     * Whether or not the elevation level should display a shadow.
-     */
-    this.shadow = false
-    /**
-     * Whether or not the elevation level should display a surface tint color.
-     */
-    this.surface = false
-  }
-  render() {
-    return y`
-       <span class="surface"></span>
-       <span class="shadow"></span>
-     `
-  }
-}
-__decorate(
-  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
-  Elevation.prototype,
-  'shadow',
-  void 0
-)
-__decorate(
-  [e$5({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
-  Elevation.prototype,
-  'surface',
-  void 0
-)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$2 = i$4`:host{--_duration: var(--md-elevation-duration, 0s);--_easing: var(--md-elevation-easing, cubic-bezier(0.2, 0, 0, 1));--_level: var(--md-elevation-level, 0);--_shadow-color: var(--md-elevation-shadow-color, var(--md-sys-color-shadow, #000));--_surface-tint: var(--md-elevation-surface-tint, var(--md-sys-color-primary, #6750a4));border-radius:inherit;display:flex;position:relative}:host(:not([surface])) .surface,:host(:not([shadow])) .shadow{display:none}.surface,.shadow,.shadow::before,.shadow::after{border-radius:inherit;content:"";inset:0;position:absolute;transition-property:box-shadow,opacity;transition-duration:var(--_duration);transition-timing-function:var(--_easing)}.shadow::before{box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 3,1) + 2*clamp(0,var(--_level) - 4,1))) calc(1px*(2*clamp(0,var(--_level),1) + clamp(0,var(--_level) - 2,1) + clamp(0,var(--_level) - 4,1))) 0px var(--_shadow-color);opacity:.3}.shadow::after{opacity:.15;box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 1,1) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(3*clamp(0,var(--_level),2) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(clamp(0,var(--_level),4) + 2*clamp(0,var(--_level) - 4,1))) var(--_shadow-color)}.surface{background:var(--_surface-tint);opacity:calc(clamp(0,var(--_level),.05) + clamp(0,var(--_level) - 1,.03) + clamp(0,var(--_level) - 2,.03) + clamp(0,var(--_level) - 3,.01) + clamp(0,var(--_level) - 4,.02))}/*# sourceMappingURL=elevation-styles.css.map */
-`
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * The `<md-elevation>` custom element with default styles.
- *
- * Elevation is the relative distance between two surfaces along the z-axis.
- */
-let MdElevation = class MdElevation extends Elevation {}
-MdElevation.styles = [styles$2]
-MdElevation = __decorate([e$6('md-elevation')], MdElevation)
-
-/**
- * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
 /** @soyCompatible */
-class NavigationDrawer extends s$3 {
+class NavigationDrawer extends s$4 {
   constructor() {
     super(...arguments)
     // tslint:disable-next-line:no-new-decorators
@@ -21791,7 +24194,7 @@ class NavigationDrawer extends s$3 {
 __decorate(
   [
     ariaProperty,
-    e$5({ type: String, attribute: 'data-aria-describedby', noAccessor: true }),
+    e$8({ type: String, attribute: 'data-aria-describedby', noAccessor: true }),
     __metadata('design:type', String),
   ],
   NavigationDrawer.prototype,
@@ -21801,7 +24204,7 @@ __decorate(
 __decorate(
   [
     ariaProperty,
-    e$5({ type: String, attribute: 'data-aria-label', noAccessor: true }),
+    e$8({ type: String, attribute: 'data-aria-label', noAccessor: true }),
     __metadata('design:type', String),
   ],
   NavigationDrawer.prototype,
@@ -21811,7 +24214,7 @@ __decorate(
 __decorate(
   [
     ariaProperty,
-    e$5({ attribute: 'data-aria-modal', type: String, noAccessor: true }),
+    e$8({ attribute: 'data-aria-modal', type: String, noAccessor: true }),
     __metadata('design:type', String),
   ],
   NavigationDrawer.prototype,
@@ -21821,7 +24224,7 @@ __decorate(
 __decorate(
   [
     ariaProperty,
-    e$5({ type: String, attribute: 'data-aria-labelledby', noAccessor: true }),
+    e$8({ type: String, attribute: 'data-aria-labelledby', noAccessor: true }),
     __metadata('design:type', String),
   ],
   NavigationDrawer.prototype,
@@ -21830,7 +24233,7 @@ __decorate(
 )
 __decorate(
   [
-    e$5({ type: Boolean }), // tslint:disable-next-line:no-new-decorators
+    e$8({ type: Boolean }), // tslint:disable-next-line:no-new-decorators
     __metadata('design:type', Object),
   ],
   NavigationDrawer.prototype,
@@ -21838,7 +24241,7 @@ __decorate(
   void 0
 )
 __decorate(
-  [e$5({ type: String }), __metadata('design:type', String)],
+  [e$8({ type: String }), __metadata('design:type', String)],
   NavigationDrawer.prototype,
   'pivot',
   void 0
@@ -21849,7 +24252,7 @@ __decorate(
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$1 = i$4`:host{--_container-shape-start-start: var(--md-navigation-drawer-container-shape-start-start, var(--md-navigation-drawer-container-shape, 0));--_container-shape-start-end: var(--md-navigation-drawer-container-shape-start-end, var(--md-navigation-drawer-container-shape, 16px));--_container-shape-end-end: var(--md-navigation-drawer-container-shape-end-end, var(--md-navigation-drawer-container-shape, 16px));--_container-shape-end-start: var(--md-navigation-drawer-container-shape-end-start, var(--md-navigation-drawer-container-shape, 0));--_container-color: var(--md-navigation-drawer-container-color, #fff);--_container-height: var(--md-navigation-drawer-container-height, 100%);--_container-surface-tint-layer-color: ;--_container-width: var(--md-navigation-drawer-container-width, 360px);--_divider-color: var(--md-navigation-drawer-divider-color, #000);--_modal-container-elevation: var(--md-navigation-drawer-modal-container-elevation, 1);--_standard-container-elevation: var(--md-navigation-drawer-standard-container-elevation, 0);--md-elevation-level:var(--_standard-container-elevation);--md-elevation-shadow-color:var(--_divider-color);--md-elevation-surface-tint:var(--_container-surface-tint-layer-color)}:host{display:flex}.md3-navigation-drawer{inline-size:0;box-sizing:border-box;display:flex;justify-content:flex-end;overflow:hidden;overflow-y:auto;visibility:hidden;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) .25s}md-elevation{inset:0;position:absolute;width:inherit;z-index:0}.md3-navigation-drawer--opened{visibility:visible;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) 0s}.md3-navigation-drawer--pivot-at-start{justify-content:flex-start}.md3-navigation-drawer__slot-content{display:flex;flex-direction:column;position:relative}/*# sourceMappingURL=navigation-drawer-styles.css.map */
+const styles$4 = i$5`:host{--_container-shape-start-start: var(--md-navigation-drawer-container-shape-start-start, var(--md-navigation-drawer-container-shape, 0));--_container-shape-start-end: var(--md-navigation-drawer-container-shape-start-end, var(--md-navigation-drawer-container-shape, 16px));--_container-shape-end-end: var(--md-navigation-drawer-container-shape-end-end, var(--md-navigation-drawer-container-shape, 16px));--_container-shape-end-start: var(--md-navigation-drawer-container-shape-end-start, var(--md-navigation-drawer-container-shape, 0));--_container-color: var(--md-navigation-drawer-container-color, #fff);--_container-height: var(--md-navigation-drawer-container-height, 100%);--_container-surface-tint-layer-color: ;--_container-width: var(--md-navigation-drawer-container-width, 360px);--_divider-color: var(--md-navigation-drawer-divider-color, #000);--_modal-container-elevation: var(--md-navigation-drawer-modal-container-elevation, 1);--_standard-container-elevation: var(--md-navigation-drawer-standard-container-elevation, 0);--md-elevation-level:var(--_standard-container-elevation);--md-elevation-shadow-color:var(--_divider-color);--md-elevation-surface-tint:var(--_container-surface-tint-layer-color)}:host{display:flex}.md3-navigation-drawer{inline-size:0;box-sizing:border-box;display:flex;justify-content:flex-end;overflow:hidden;overflow-y:auto;visibility:hidden;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) .25s}md-elevation{inset:0;position:absolute;width:inherit;z-index:0}.md3-navigation-drawer--opened{visibility:visible;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) 0s}.md3-navigation-drawer--pivot-at-start{justify-content:flex-start}.md3-navigation-drawer__slot-content{display:flex;flex-direction:column;position:relative}/*# sourceMappingURL=navigation-drawer-styles.css.map */
 `
 
 /**
@@ -21857,7 +24260,7 @@ const styles$1 = i$4`:host{--_container-shape-start-start: var(--md-navigation-d
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles = i$4`.md3-navigation-drawer-modal{background-color:var(--_container-color);border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-end-radius:var(--_container-shape-end-end);border-end-start-radius:var(--_container-shape-end-start);height:var(--_container-height)}.md3-navigation-drawer-modal.md3-navigation-drawer-modal--opened{inline-size:var(--_container-width)}.md3-navigation-drawer-modal .md3-navigation-drawer-modal__slot-content{min-inline-size:var(--_container-width);max-inline-size:var(--_container-width)}/*# sourceMappingURL=shared-styles.css.map */
+const styles$3 = i$5`.md3-navigation-drawer-modal{background-color:var(--_container-color);border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-end-radius:var(--_container-shape-end-end);border-end-start-radius:var(--_container-shape-end-start);height:var(--_container-height)}.md3-navigation-drawer-modal.md3-navigation-drawer-modal--opened{inline-size:var(--_container-width)}.md3-navigation-drawer-modal .md3-navigation-drawer-modal__slot-content{min-inline-size:var(--_container-width);max-inline-size:var(--_container-width)}/*# sourceMappingURL=shared-styles.css.map */
 `
 
 /**
@@ -21871,17 +24274,17 @@ const styles = i$4`.md3-navigation-drawer-modal{background-color:var(--_containe
  * @suppress {visibility}
  */
 let MdNavigationDrawer = class MdNavigationDrawer extends NavigationDrawer {}
-MdNavigationDrawer.styles = [styles, styles$1]
+MdNavigationDrawer.styles = [styles$3, styles$4]
 MdNavigationDrawer = __decorate(
-  [e$6('md-navigation-drawer')],
+  [e$9('md-navigation-drawer')],
   MdNavigationDrawer
 )
 
-let ServiceContext = class ServiceContext extends s$3 {
+let ServiceContext = class ServiceContext extends s$4 {
   constructor() {
     super(...arguments)
     // @ts-ignore
-    this.provider = new e$3(this, viewerContext, {
+    this.provider = new e$5(this, viewerContext, {
       service: appContext.service,
     })
   }
@@ -21891,9 +24294,263 @@ let ServiceContext = class ServiceContext extends s$3 {
     `
   }
 }
-ServiceContext = __decorate([e$6('service-context')], ServiceContext)
+ServiceContext = __decorate([e$9('service-context')], ServiceContext)
 
-let CollapseUi = class CollapseUi extends s$3 {
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/** @soyCompatible */
+class Icon extends s$4 {
+  /** @soyTemplate */
+  render() {
+    return y`<span><slot></slot></span>`
+  }
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$2 = i$5`:host{--_color: var(--md-icon-color, inherit);--_font: var(--md-icon-font, "Material Symbols Outlined");--_font-variation-settings: var(--md-icon-font-variation-settings, inherit);--_size: var(--md-icon-size, 24px);--_weight: var(--md-icon-weight, 400);display:inline-flex;color:var(--_color);font-family:var(--_font);font-weight:var(--_weight);font-style:normal;font-size:var(--_size);font-variation-settings:var(--_font-variation-settings);line-height:1;letter-spacing:normal;text-transform:none;white-space:nowrap;word-wrap:normal;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-moz-osx-font-smoothing:grayscale}span ::slotted(svg){fill:currentColor}span ::slotted(*){height:var(--_size);width:var(--_size)}/*# sourceMappingURL=icon-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @soyCompatible
+ * @final
+ * @suppress {visibility}
+ */
+let MdIcon = class MdIcon extends Icon {}
+MdIcon.styles = [styles$2]
+MdIcon = __decorate([e$9('md-icon')], MdIcon)
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+function n(n, o, r) {
+  return n ? o() : null == r ? void 0 : r()
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Returns `true` if the given element is in a right-to-left direction.
+ *
+ * @param el Element to determine direction from
+ * @param shouldCheck Optional. If `false`, return `false` without checking
+ *     direction. Determining the direction of `el` is somewhat expensive, so
+ *     this parameter can be used as a conditional guard. Defaults to `true`.
+ */
+function isRtl(el, shouldCheck = true) {
+  return (
+    shouldCheck &&
+    getComputedStyle(el)
+      .getPropertyValue('direction')
+      .trim() === 'rtl'
+  )
+}
+
+/**
+ * @license
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+// tslint:disable-next-line:enforce-comments-on-exported-symbols
+class IconButton extends s$4 {
+  constructor() {
+    super(...arguments)
+    /**
+     * Disables the icon button and makes it non-interactive.
+     */
+    this.disabled = false
+    /**
+     * Flips the icon if it is in an RTL context at startup.
+     */
+    this.flipIconInRtl = false
+    this.flipIcon = isRtl(this, this.flipIconInRtl)
+    this.showFocusRing = false
+    this.showRipple = false
+    this.getRipple = () => {
+      this.showRipple = true
+      return this.ripple
+    }
+    this.renderRipple = () => {
+      return y`<md-ripple ?disabled="${this.disabled}"></md-ripple>`
+    }
+  }
+  render() {
+    return y`<button
+        class="md3-icon-button ${o(this.getRenderClasses())}"
+        aria-label="${l(this.ariaLabel)}"
+        aria-haspopup="${l(this.ariaHasPopup)}"
+        ?disabled="${this.disabled}"
+        @focus="${this.handleFocus}"
+        @blur="${this.handleBlur}"
+        @pointerdown="${this.handlePointerDown}"
+        ${ripple(this.getRipple)}>
+        ${this.renderFocusRing()}
+        ${n(this.showRipple, this.renderRipple)}
+        ${this.renderIcon()}
+        ${this.renderTouchTarget()}
+  </button>`
+  }
+  getRenderClasses() {
+    return {
+      'md3-icon-button--flip-icon': this.flipIcon,
+    }
+  }
+  renderIcon() {
+    // Note, it's important not to render the icon property as a slot fallback
+    // to avoid any whitespace from overridding it.
+    return y`<md-icon class="md3-icon-button__icon"><slot></slot></md-icon>`
+  }
+  renderTouchTarget() {
+    return y`<span class="md3-icon-button__touch"></span>`
+  }
+  renderFocusRing() {
+    return y`<md-focus-ring .visible="${this.showFocusRing}"></md-focus-ring>`
+  }
+  connectedCallback() {
+    this.flipIcon = isRtl(this, this.flipIconInRtl)
+    super.connectedCallback()
+  }
+  handlePointerDown() {
+    pointerPress()
+    this.showFocusRing = shouldShowStrongFocus()
+  }
+  handleFocus() {
+    this.showFocusRing = shouldShowStrongFocus()
+  }
+  handleBlur() {
+    this.showFocusRing = false
+  }
+}
+__decorate(
+  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  IconButton.prototype,
+  'disabled',
+  void 0
+)
+__decorate(
+  [e$8({ type: Boolean }), __metadata('design:type', Object)],
+  IconButton.prototype,
+  'flipIconInRtl',
+  void 0
+)
+__decorate(
+  [t$3(), __metadata('design:type', Boolean)],
+  IconButton.prototype,
+  'flipIcon',
+  void 0
+)
+__decorate(
+  [
+    ariaProperty,
+    e$8({ type: String, attribute: 'data-aria-label' }),
+    __metadata('design:type', String),
+  ],
+  IconButton.prototype,
+  'ariaLabel',
+  void 0
+)
+__decorate(
+  [
+    ariaProperty,
+    e$8({ type: String, attribute: 'data-aria-haspopup' }),
+    __metadata('design:type', String),
+  ],
+  IconButton.prototype,
+  'ariaHasPopup',
+  void 0
+)
+__decorate(
+  [i$2('button'), __metadata('design:type', HTMLElement)],
+  IconButton.prototype,
+  'buttonElement',
+  void 0
+)
+__decorate(
+  [e$7('md-ripple'), __metadata('design:type', Promise)],
+  IconButton.prototype,
+  'ripple',
+  void 0
+)
+__decorate(
+  [t$3(), __metadata('design:type', Object)],
+  IconButton.prototype,
+  'showFocusRing',
+  void 0
+)
+__decorate(
+  [t$3(), __metadata('design:type', Object)],
+  IconButton.prototype,
+  'showRipple',
+  void 0
+)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$1 = i$5`:host{display:inline-flex;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);height:max(48px,var(--_container-size));width:max(48px,var(--_container-size));align-items:center;justify-content:center}:host([disabled]){pointer-events:none}.md3-icon-button{align-items:center;border:none;box-sizing:border-box;cursor:pointer;display:flex;justify-content:center;outline:none;position:relative;text-decoration:none;user-select:none;z-index:0;height:var(--_container-size);width:var(--_container-size);border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.md3-icon-button__icon{--md-icon-size:var(--_icon-size);--md-icon-weight:inherit}md-ripple{z-index:-1;border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.md3-icon-button--flip-icon .md3-icon-button__icon{transform:scaleX(-1)}.md3-icon-button__icon{display:inline-flex}.md3-icon-button__link{height:100%;outline:none;position:absolute;width:100%}.md3-icon-button__touch{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%)}/*# sourceMappingURL=shared-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles = i$5`:host{--_state-layer-shape-start-start: var(--md-icon-button-state-layer-shape-start-start, var(--md-icon-button-state-layer-shape, 9999px));--_state-layer-shape-start-end: var(--md-icon-button-state-layer-shape-start-end, var(--md-icon-button-state-layer-shape, 9999px));--_state-layer-shape-end-end: var(--md-icon-button-state-layer-shape-end-end, var(--md-icon-button-state-layer-shape, 9999px));--_state-layer-shape-end-start: var(--md-icon-button-state-layer-shape-end-start, var(--md-icon-button-state-layer-shape, 9999px));--_disabled-icon-color: var(--md-icon-button-disabled-icon-color, rgb(var(--md-sys-color-on-surface-rgb, 28, 27, 31), 0.38));--_icon-size: var(--md-icon-button-icon-size, 24px);--_selected-focus-icon-color: var(--md-icon-button-selected-focus-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-focus-state-layer-color: var(--md-icon-button-selected-focus-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-focus-state-layer-opacity: var(--md-icon-button-selected-focus-state-layer-opacity, 0.12);--_selected-hover-icon-color: var(--md-icon-button-selected-hover-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-color: var(--md-icon-button-selected-hover-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-opacity: var(--md-icon-button-selected-hover-state-layer-opacity, 0.08);--_selected-icon-color: var(--md-icon-button-selected-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-icon-color: var(--md-icon-button-selected-pressed-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-color: var(--md-icon-button-selected-pressed-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-opacity: var(--md-icon-button-selected-pressed-state-layer-opacity, 0.12);--_state-layer-size: var(--md-icon-button-state-layer-size, 40px);--_unselected-focus-icon-color: var(--md-icon-button-unselected-focus-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-focus-state-layer-color: var(--md-icon-button-unselected-focus-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-focus-state-layer-opacity: var(--md-icon-button-unselected-focus-state-layer-opacity, 0.12);--_unselected-hover-icon-color: var(--md-icon-button-unselected-hover-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-hover-state-layer-color: var(--md-icon-button-unselected-hover-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-hover-state-layer-opacity: var(--md-icon-button-unselected-hover-state-layer-opacity, 0.08);--_unselected-icon-color: var(--md-icon-button-unselected-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-pressed-icon-color: var(--md-icon-button-unselected-pressed-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-pressed-state-layer-color: var(--md-icon-button-unselected-pressed-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-pressed-state-layer-opacity: var(--md-icon-button-unselected-pressed-state-layer-opacity, 0.12);height:max(48px,var(--_state-layer-size));width:max(48px,var(--_state-layer-size));--md-focus-ring-shape-start-start:var(--md-focus-ring-shape, var(--_state-layer-shape-start-start));--md-focus-ring-shape-start-end:var(--md-focus-ring-shape, var(--_state-layer-shape-start-end));--md-focus-ring-shape-end-end:var(--md-focus-ring-shape, var(--_state-layer-shape-end-end));--md-focus-ring-shape-end-start:var(--md-focus-ring-shape, var(--_state-layer-shape-end-start)))))}.md3-icon-button--standard{background-color:rgba(0,0,0,0);color:var(--_unselected-icon-color);height:var(--_state-layer-size);width:var(--_state-layer-size);--md-ripple-focus-color:var(--_unselected-focus-state-layer-color);--md-ripple-focus-opacity:var(--_unselected-focus-state-layer-opacity);--md-ripple-hover-color:var(--_unselected-hover-state-layer-color);--md-ripple-hover-opacity:var(--_unselected-hover-state-layer-opacity);--md-ripple-pressed-color:var(--_unselected-pressed-state-layer-color);--md-ripple-pressed-opacity:var(--_unselected-pressed-state-layer-opacity);--md-ripple-shape:var(--_state-layer-shape-start-start)}.md3-icon-button--standard:hover{color:var(--_unselected-hover-icon-color)}.md3-icon-button--standard:focus{color:var(--_unselected-focus-icon-color)}.md3-icon-button--standard:active{color:var(--_unselected-pressed-icon-color)}.md3-icon-button--standard:disabled{color:var(--_disabled-icon-color)}.md3-icon-button--selected{--md-ripple-focus-color:var(--_selected-focus-state-layer-color);--md-ripple-focus-opacity:var(--_selected-focus-state-layer-opacity);--md-ripple-hover-color:var(--_selected-hover-state-layer-color);--md-ripple-hover-opacity:var(--_selected-hover-state-layer-opacity);--md-ripple-pressed-color:var(--_selected-pressed-state-layer-color);--md-ripple-pressed-opacity:var(--_selected-pressed-state-layer-opacity)}.md3-icon-button--selected:not(:disabled){color:var(--_selected-icon-color)}.md3-icon-button--selected:not(:disabled):hover{color:var(--_selected-hover-icon-color)}.md3-icon-button--selected:not(:disabled):focus{color:var(--_selected-focus-icon-color)}.md3-icon-button--selected:not(:disabled):active{color:var(--_selected-pressed-icon-color)}/*# sourceMappingURL=standard-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @summary Icon buttons help people take supplementary actions with a single
+ * tap.
+ *
+ * @description
+ * __Emphasis:__ Low emphasis – For optional or supplementary actions with the
+ * least amount of prominence.
+ *
+ * __Rationale:__ The most compact and unobtrusive type of button, icon buttons
+ * are used for optional supplementary actions such as "Bookmark" or "Star."
+ *
+ * __Example usages:__
+ * - Add to Favorites
+ * - Print
+ */
+let MdStandardIconButton = class MdStandardIconButton extends IconButton {
+  getRenderClasses() {
+    return {
+      ...super.getRenderClasses(),
+      'md3-icon-button--standard': true,
+    }
+  }
+}
+MdStandardIconButton.styles = [styles$1, styles]
+MdStandardIconButton = __decorate(
+  [e$9('md-standard-icon-button')],
+  MdStandardIconButton
+)
+
+let CollapseUi = class CollapseUi extends s$4 {
   render() {
     return y`
       <md-standard-icon-button @click=${this.toggleUi}>
@@ -21905,19 +24562,21 @@ let CollapseUi = class CollapseUi extends s$3 {
     this.context.service.send('TOGGLE_UI_COLLAPSED')
   }
 }
-CollapseUi.styles = i$4`
+CollapseUi.styles = i$5`
     .icon {
       width: 100%;
     }
   `
 __decorate([InjectContext()], CollapseUi.prototype, 'context', void 0)
-CollapseUi = __decorate([e$6('collapse-ui')], CollapseUi)
+CollapseUi = __decorate([e$9('collapse-ui')], CollapseUi)
 
 function updateDrawer(context) {
   context.drawer.opened = !context.uiCollapsed
   var drawerChild = context.drawer.shadowRoot.children[0]
   if (drawerChild)
-    drawerChild.style.width = context.drawer.opened ? '410px' : ''
+    drawerChild.style.width = context.drawer.opened
+      ? 'var(--_container-width)'
+      : ''
 }
 function toggleUICollapsed(context, event, actionMeta) {
   if (!context.uiContainer) {
@@ -21975,10 +24634,11 @@ function createInterface(context) {
       )
       .concat(style.collapseButton, "'/>\n    </div>\n  ")
   )
-  var drawer = sidebar.querySelector('#drawer')
-  drawer.appendChild(context.uiContainer)
   viewport.appendChild(sidebar)
+  var drawer = sidebar.querySelector('#drawer')
   context.drawer = drawer
+  drawer.appendChild(context.uiContainer)
+  context.uiContainer.style.width = 'var(--_container-width)'
   setTimeout(function() {
     // hack to keep scroll bar from squishing uiContainer, because uiContainer width does not get reduces with scroll bar.
     drawer.shadowRoot.children[0].style.overflow = 'visible'

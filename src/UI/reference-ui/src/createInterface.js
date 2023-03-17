@@ -37,10 +37,12 @@ function createInterface(context) {
       <collapse-ui class='${style.collapseButton}'/>
     </div>
   `)
-  const drawer = sidebar.querySelector('#drawer')
-  drawer.appendChild(context.uiContainer)
   viewport.appendChild(sidebar)
+
+  const drawer = sidebar.querySelector('#drawer')
   context.drawer = drawer
+  drawer.appendChild(context.uiContainer)
+  context.uiContainer.style.width = 'var(--_container-width)'
 
   setTimeout(() => {
     // hack to keep scroll bar from squishing uiContainer, because uiContainer width does not get reduces with scroll bar.

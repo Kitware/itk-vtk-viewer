@@ -24,16 +24,13 @@ class LayerIcon extends LitElement {
   otherImages = connectState(
     viewerContext,
     this,
-    (state: any) => {
-      return new Map(
-        [...state.context.layers.actorContext.entries()].filter(
-          ([key]) =>
-            key !== this.name &&
-            state.context.images.actorContext.get(this.name)?.labelImage !== key
-        )
-      )
-    },
-    (a, b) => compareArrays([...a.keys()], [...b.keys()])
+    (state: any) =>
+      [...state.context.layers.actorContext.keys()].filter(
+        key =>
+          key !== this.name &&
+          state.context.images.actorContext.get(this.name)?.labelImage !== key
+      ),
+    compareArrays
   )
 
   selectedName = connectState(
@@ -47,7 +44,7 @@ class LayerIcon extends LitElement {
       if (
         this.name === this.selectedName.value &&
         this.otherImages.value &&
-        this.otherImages.value.size > 0
+        this.otherImages.value.length > 0
       )
         return { icon: toggleIconDataUri, alt: 'settings' }
       return { icon: imageIconDataUri, alt: 'image' }
@@ -59,13 +56,17 @@ class LayerIcon extends LitElement {
 
   render() {
     const { icon, alt } = this.getIcon()
+    const settingsPossible = alt === 'settings'
     return html`
-      <img src="${icon}" alt="${alt}" class="icon" />
-      ${this.settingsOpen
-        ? html`
-            <layer-settings></layer-settings>
-          `
-        : undefined}
+      <div>
+        <layer-settings
+          .name=${this.name}
+          .otherImages=${this.otherImages.value}
+          .enable=${settingsPossible}
+        >
+          <img src="${icon}" alt="${alt}" class="icon" />
+        </layer-settings>
+      </div>
     `
   }
 

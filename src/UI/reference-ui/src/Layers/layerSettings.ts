@@ -1,76 +1,113 @@
 import { LitElement, html, css } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
-import { compareArrays, connectState } from 'xstate-lit/dist/select-state.js'
-import '@material/web/iconbutton/standard-icon-button.js'
-
-import {
-  imageIconDataUri,
-  labelsIconDataUri,
-  toggleIconDataUri,
-} from 'itk-viewer-icons'
+import { ref, createRef, Ref } from 'lit/directives/ref.js'
+import { map } from 'lit/directives/map.js'
+import { ContextConsumer } from '@lit-labs/context'
+import '@material/web/menu/menu.js'
+import { MdMenu } from '@material/web/menu/menu.js'
+import '@material/web/menu/menu-item.js'
+import '@material/web/menu/sub-menu-item.js'
+import { makeHtml } from '../utils'
+import style from '../ItkVtkViewer.module.css'
 import { viewerContext } from '../context'
 
 @customElement('layer-settings')
 class LayerSettings extends LitElement {
   @property()
-  layer: { type: string } = { type: 'image' }
-
-  @property()
   name: string = ''
 
-  otherImages = connectState(
-    viewerContext,
-    this,
-    (state: any) => {
-      return new Map(
-        [...state.context.layers.actorContext.entries()].filter(
-          ([key]) =>
-            key !== this.name &&
-            state.context.images.actorContext.get(this.name)?.labelImage !== key
-        )
-      )
-    },
-    (a, b) => compareArrays([...a.keys()], [...b.keys()])
-  )
+  @property()
+  otherImages: Array<string> = []
 
-  selectedName = connectState(
-    viewerContext,
-    this,
-    (state: any) => state.context.images.selectedName
-  )
+  @property()
+  enable: boolean = true
 
-  getIcon() {
-    if (this.layer.type === 'image') {
-      if (
-        this.name === this.selectedName.value &&
-        this.otherImages.value &&
-        this.otherImages.value.size > 0
-      )
-        return { icon: toggleIconDataUri, alt: 'image settings' }
-      return { icon: imageIconDataUri, alt: 'image' }
+  menuRef: Ref<MdMenu> = createRef()
+  anchorRef: Ref<HTMLElement> = createRef()
+  // avoid overflow: hidden on parents clipping menu
+  floatingAnchor = makeHtml(`<div class="${style.floater}"></div>`)
+
+  stateService = new ContextConsumer(this, viewerContext, undefined, true)
+
+  connectedCallback() {
+    super.connectedCallback()
+    document.body.appendChild(this.floatingAnchor)
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback()
+    document.body.removeChild(this.floatingAnchor)
+  }
+
+  showMenu() {
+    if (!this.enable) return
+    const { top = 0, left = 0 } =
+      this.anchorRef.value?.getBoundingClientRect() ?? {}
+    this.floatingAnchor.style.top = `${top}px`
+    this.floatingAnchor.style.left = `${left}px`
+    if (this.menuRef.value) {
+      this.menuRef.value.anchor = this.floatingAnchor
+      this.floatingAnchor.appendChild(this.menuRef.value)
+      this.menuRef.value.show()
     }
-    if (this.layer.type === 'labelImage')
-      return { icon: labelsIconDataUri, alt: 'labels' }
-    throw new Error(`Unsupported layer type: ${this.layer.type}`)
+  }
+
+  compareWith(name: string) {
+    this.stateService.value?.service.send({
+      type: 'COMPARE_IMAGES',
+      data: {
+        name: this.name,
+        fixedImageName: name,
+        options: { method: 'checkerboard' },
+      },
+    })
+  }
+
+  stopComparing() {
+    this.stateService.value?.service.send({
+      type: 'COMPARE_IMAGES',
+      data: {
+        name: this.name,
+        options: { method: 'disable' },
+      },
+    })
   }
 
   render() {
-    const { icon, alt } = this.getIcon()
     return html`
-      <div>
-        <img src="${icon}" alt="${alt}" class="icon" />
+      <div
+        @click=${() => {
+          this.showMenu()
+          this.render()
+        }}
+        class=${this.enable ? 'clickable' : ''}
+      >
+        <slot></slot>
+        <div ${ref(this.anchorRef)} style="position:relative; z-index: 4000;">
+          <md-menu ${ref(this.menuRef)}>
+            ${map(
+              this.otherImages,
+              name =>
+                html`
+                  <md-menu-item
+                    headline="Checkerboard compare with ${name}"
+                    @click=${() => this.compareWith(name)}
+                  ></md-menu-item>
+                `
+            )}
+            <md-menu-item
+              headline="Stop comparing"
+              @click=${this.stopComparing}
+            ></md-menu-item>
+          </md-menu>
+        </div>
       </div>
     `
   }
 
   static styles = css`
-    .icon {
-      height: 1.2em;
-      width: 1.2em;
-      padding-top: 2px;
-      padding-bottom: 2px;
-      padding-left: 8px;
-      padding-right: 6px;
+    .clickable {
+      cursor: pointer;
     }
   `
 }

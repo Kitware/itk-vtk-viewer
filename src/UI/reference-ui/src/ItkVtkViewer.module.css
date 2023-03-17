@@ -61,6 +61,11 @@
   overflow: hidden auto;
 }
 
+.floater {
+  position: absolute;
+  z-index: 3000;
+}
+
 .uiGroup {
   background: rgba(128, 128, 128, 0.5);
   border-radius: 4px;

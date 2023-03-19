@@ -11,7 +11,7 @@ const updateHistogramWorkerPool = webWorkerPromiseWorkerPool(
   UpdateHistogramWorker,
   'updateHistogram'
 )
-
+updateHistogramWorkerPool.terminateWorkers()
 export const computeHistogram = async (
   values,
   component,
@@ -83,5 +83,6 @@ export const computeHistogram = async (
   for (let ii = 0; ii < numberOfBins; ii++) {
     histogram[ii] /= maxHistogram
   }
+  updateHistogramWorkerPool.terminateWorkers()
   return histogram
 }

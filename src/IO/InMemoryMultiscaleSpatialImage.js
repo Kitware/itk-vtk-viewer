@@ -15,6 +15,7 @@ const numberOfWorkers = navigator.hardwareConcurrency
   ? navigator.hardwareConcurrency
   : 6
 const downsampleWorkerPool = new WorkerPool(numberOfWorkers, runPipeline)
+downsampleWorkerPool.terminateWorkers()
 
 class Coords {
   constructor(image, dims) {
@@ -269,6 +270,7 @@ class InMemoryMultiscaleSpatialImage extends MultiscaleSpatialImage {
       }
       const results = await downsampleWorkerPool.runTasks(downsampleTaskArgs)
         .promise
+      downsampleWorkerPool.terminateWorkers()
       const validResults = results.filter(r => r.returnValue === 0)
       const imageSplits = validResults.map(({ outputs }) => outputs[0].data)
       currentImage = stackImages(imageSplits)

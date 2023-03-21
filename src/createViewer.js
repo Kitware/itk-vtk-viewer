@@ -678,7 +678,8 @@ const createViewer = async (
   }
 
   publicAPI.setImage = async (image, imageName) => {
-    const name = imageName ?? context.images?.selectedName ?? 'Image'
+    const name =
+      imageName ?? image.name ?? context.images?.selectedName ?? 'Image'
     const multiscaleImage = await toMultiscaleSpatialImage(
       image,
       false,

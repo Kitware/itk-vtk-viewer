@@ -9,21 +9,12 @@ class ImJoyPluginAPI {
   async run(ctx) {
     if (!ctx.data) return
 
-    let multiscaleImage = null
-    let is2D = false
-    if (ctx.data.image) {
-      multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
-        ctx.data.image,
-        false,
-        ctx.config.maxConcurrency
-      )
-      is2D = multiscaleImage.imageType.dimension === 2
-    }
-
     let pointSets = null
     if (ctx.data.pointSets) {
       pointSets = ctx.data.pointSets
+
       if (!Array.isArray(pointSets)) pointSets = [pointSets]
+
       pointSets = pointSets.map(points =>
         itkVtkViewer.utils.ndarrayToPointSet(points)
       )
@@ -31,11 +22,10 @@ class ImJoyPluginAPI {
 
     if (ctx.config) {
       this.viewer = await itkVtkViewer.createViewer(container, {
-        image: multiscaleImage,
-        labelImage: ctx.data?.labelImage,
-        pointSets: pointSets,
+        image: ctx.data.image,
+        labelImage: ctx.data.labelImage,
+        pointSets,
         geometries: null,
-        use2D: is2D,
         rotate: false,
         config: ctx.config,
       })
@@ -78,13 +68,11 @@ class ImJoyPluginAPI {
       false
     )
     multiscaleImage.name = name
-    const is2D = multiscaleImage.imageType.dimension === 2
     if (this.viewer === null) {
       this.viewer = await itkVtkViewer.createViewer(container, {
-        image: multiscaleImage,
+        image: multiscaleImage, // pass image now to switch to 2D if image is 2D
         pointSets: null,
         geometries: null,
-        use2D: is2D,
         rotate: false,
       })
     } else {

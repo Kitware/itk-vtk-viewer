@@ -32,7 +32,7 @@ const createViewer = async (
     compare,
     geometries,
     pointSets,
-    use2D = false,
+    use2D = undefined, // if undefined, use image dimension if exists
     rotate = true,
     config,
     gradientOpacity,
@@ -217,7 +217,21 @@ const createViewer = async (
     }
   }
 
-  context.use2D = use2D
+  const imageMultiscale =
+    image &&
+    (await toMultiscaleSpatialImage(image, false, context.maxConcurrency))
+
+  const labelImageMultiscale =
+    labelImage &&
+    (await toMultiscaleSpatialImage(labelImage, true, context.maxConcurrency))
+
+  const imageOrLabelImage = imageMultiscale || labelImageMultiscale
+
+  context.use2D =
+    use2D ??
+    ((imageOrLabelImage && imageOrLabelImage.imageType.dimension === 2) ||
+      false)
+
   context.rootContainer = rootContainer
   // Todo: move to viewer machine
   context.container = store.container
@@ -687,21 +701,22 @@ const createViewer = async (
     return context.images.actorContext.get(name).image
   }
 
-  publicAPI.setImageInterpolationEnabled = (enabled, name) => {
-    if (typeof name === 'undefined') {
-      name = context.images.selectedName
-    }
-    if (enabled !== context.main.interpolationEnabled) {
-      service.send({ type: 'TOGGLE_IMAGE_INTERPOLATION', data: name })
-    }
-  }
-
   publicAPI.getImageInterpolationEnabled = name => {
     if (typeof name === 'undefined') {
       name = context.images.selectedName
     }
     const actorContext = context.images.actorContext.get(name)
     return actorContext.interpolationEnabled
+  }
+
+  publicAPI.setImageInterpolationEnabled = (enabled, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const currentEnabled = publicAPI.getImageInterpolationEnabled(name)
+    if (enabled !== currentEnabled) {
+      service.send({ type: 'TOGGLE_IMAGE_INTERPOLATION', data: name })
+    }
   }
 
   publicAPI.setImageComponentVisibility = (visibility, component, name) => {
@@ -1233,24 +1248,17 @@ const createViewer = async (
     publicAPI.setImage(fixedImage, 'fixed')
   }
 
-  let imageName = null
-  if (image) {
-    const multiscaleImage = await toMultiscaleSpatialImage(
-      image,
-      false,
-      context.maxConcurrency
-    )
-    imageName = multiscaleImage?.name ?? null
-    service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
+  if (imageMultiscale) {
+    service.send({ type: 'ADD_IMAGE', data: imageMultiscale })
   }
 
-  if (labelImage) {
-    publicAPI.setLabelImage(labelImage, imageName)
+  if (labelImageMultiscale) {
+    publicAPI.setLabelImage(labelImageMultiscale, imageMultiscale?.name)
   }
 
-  publicAPI.setCompareImages('fixed', imageName, compare)
+  publicAPI.setCompareImages('fixed', imageMultiscale?.name, compare)
 
-  if (!use2D) {
+  if (!context.use2D) {
     publicAPI.setRotateEnabled(rotate)
   }
 

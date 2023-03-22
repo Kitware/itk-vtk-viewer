@@ -77,10 +77,15 @@ async function updateRenderedImage(context) {
       `Voxel count over max at scale ${targetScale}. Requested: ${voxelCount} Max: ${RENDERED_VOXEL_MAX}`
     )
 
-  const fixedImage =
-    compare.method !== 'disabled'
-      ? context.images.actorContext.get(compare?.fixedImageName)?.image
-      : undefined
+  const compareEnabled = compare?.method !== 'disabled'
+  const fixedImage = compareEnabled
+    ? context.images.actorContext.get(compare.fixedImageName)?.image
+    : undefined
+
+  if (compareEnabled && !fixedImage)
+    console.error(
+      `Did not find image to compare with name: ${compare.fixedImageName}`
+    )
 
   const [imageAtScale, labelAtScale, fixedImageAtScale] = await Promise.all(
     [image, labelImage, fixedImage].map(image =>

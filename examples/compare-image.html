@@ -33,6 +33,7 @@
         )
 
         const container = document.querySelector('#viewport')
+
         // Provide fixedImage and compare as createViewer options example:
         // const viewer = await itkVtkViewer.createViewer(container, {
         //   rotate: false,
@@ -45,24 +46,24 @@
         const viewer = await itkVtkViewer.createViewer(container, {
           rotate: false,
         })
-        viewer.setImage(fixedImageUrl, 'fixed') // fixed image must be first one added
+        viewer.setImage(fixedImageUrl, 'Fixed') // fixed image must be first one added
         viewer.setImage(imageUrl, 'Image')
 
-        viewer.setCompareImages('fixed', 'Image', {
+        viewer.setCompareImages('Fixed', 'Image', {
           method: 'checkerboard',
           swapImageOrder: true,
         })
 
         setTimeout(
           () =>
-            viewer.setCompareImages('fixed', 'Image', {
+            viewer.setCompareImages('Fixed', 'Image', {
               method: 'disabled',
             }),
           2000
         )
         setTimeout(
           () =>
-            viewer.setCompareImages('fixed', 'Image', {
+            viewer.setCompareImages('Fixed', 'Image', {
               method: 'checkerboard',
               pattern: [1, 2, 3],
             }),
@@ -71,7 +72,7 @@
 
         setTimeout(
           () =>
-            viewer.setCompareImages('fixed', 'Image', {
+            viewer.setCompareImages('Fixed', 'Image', {
               method: 'checkerboard',
               pattern: [1, 2, 3],
               swapImageOrder: true,

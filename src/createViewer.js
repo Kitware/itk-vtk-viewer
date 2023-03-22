@@ -1264,7 +1264,7 @@ const createViewer = async (
 
   // must come before moving/main image
   if (fixedImage) {
-    await publicAPI.setImage(fixedImage, 'fixed') // must await so fixedImage is the first one
+    await publicAPI.setImage(fixedImage, 'Fixed') // must await so fixedImage is the first one
   }
 
   if (imageMultiscale) {
@@ -1276,7 +1276,7 @@ const createViewer = async (
   }
 
   if (fixedImage && imageMultiscale) {
-    publicAPI.setCompareImages('fixed', imageMultiscale.name, compare)
+    publicAPI.setCompareImages('Fixed', imageMultiscale.name, compare)
   }
 
   if (!context.use2D) {

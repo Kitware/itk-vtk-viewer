@@ -715,7 +715,7 @@ test('Test createViewer setCompareImage with checkerboard and 2 component image'
     method: 'checkerboard',
     pattern: [10, 5, 2],
   }
-  viewer.setCompareImages('', 'moving', compareOptions)
+  viewer.setCompareImages('fixed', 'moving', compareOptions)
 
   t.plan(1)
   viewer.once('renderedImageAssigned', () => {

@@ -63,20 +63,14 @@ class ImJoyPluginAPI {
   }
 
   async setImage(image, name) {
-    const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
-      image,
-      false
-    )
-    multiscaleImage.name = name
     if (this.viewer === null) {
       this.viewer = await itkVtkViewer.createViewer(container, {
-        image: multiscaleImage, // pass image now to switch to 2D if image is 2D
-        pointSets: null,
-        geometries: null,
+        image,
+        imageName: name,
         rotate: false,
       })
     } else {
-      await this.viewer.setImage(multiscaleImage, name)
+      await this.viewer.setImage(image, name)
     }
   }
 
@@ -87,10 +81,7 @@ class ImJoyPluginAPI {
   async setLabelImage(labelImage) {
     if (this.viewer === null) {
       this.viewer = await itkVtkViewer.createViewer(container, {
-        image: null,
         labelImage: labelImage,
-        pointSets: null,
-        geometries: null,
         rotate: false,
       })
     } else {

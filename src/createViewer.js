@@ -27,6 +27,7 @@ const createViewer = async (
   rootContainer,
   {
     image,
+    imageName = undefined,
     labelImage,
     fixedImage,
     compare,
@@ -677,7 +678,7 @@ const createViewer = async (
     context.service.send({ type: 'SELECT_LAYER', data: name })
   }
 
-  publicAPI.setImage = async (image, imageName) => {
+  const setImage = async (image, imageName) => {
     const name =
       imageName ?? image.name ?? context.images?.selectedName ?? 'Image'
     const multiscaleImage = await toMultiscaleSpatialImage(
@@ -693,6 +694,18 @@ const createViewer = async (
     } else {
       service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
     }
+  }
+
+  // Queue lets other methods, like setCompareImage, wait for image rendering actor to be created.
+  // Otherwise context setting events cant be passed to missing image rendering actor.
+  let setImageQueue = []
+  publicAPI.setImage = (image, imageName) => {
+    const promise = setImage(image, imageName)
+    setImageQueue = [promise, ...setImageQueue]
+    promise.finally(() => {
+      setImageQueue = setImageQueue.filter(p => p === promise)
+    })
+    return promise
   }
 
   publicAPI.getImage = name => {
@@ -980,7 +993,12 @@ const createViewer = async (
   // `pattern` is an array with the number of checkerboard boxes for each dimension.
   // If pattern === undefined, it defaults to 4 boxes across each dimension.
   // swapImageOrder reverse which image is sampled for each checkerboard box.
-  publicAPI.setCompareImages = (fixedImageName, movingImageName, options) => {
+  publicAPI.setCompareImages = async (
+    fixedImageName,
+    movingImageName,
+    options
+  ) => {
+    await Promise.allSettled(setImageQueue)
     // fuse with moving
     service.send({
       type: 'COMPARE_IMAGES',
@@ -1244,20 +1262,22 @@ const createViewer = async (
 
   addKeyboardShortcuts(context.uiContainer, service)
 
-  // must come before moving image
+  // must come before moving/main image
   if (fixedImage) {
-    publicAPI.setImage(fixedImage, 'fixed')
+    await publicAPI.setImage(fixedImage, 'fixed') // must await so fixedImage is the first one
   }
 
   if (imageMultiscale) {
-    service.send({ type: 'ADD_IMAGE', data: imageMultiscale })
+    await publicAPI.setImage(imageMultiscale, imageName) // await for image.name to get assigned for fixedImage and setCompareImages
   }
 
   if (labelImageMultiscale) {
     publicAPI.setLabelImage(labelImageMultiscale, imageMultiscale?.name)
   }
 
-  publicAPI.setCompareImages('fixed', imageMultiscale?.name, compare)
+  if (fixedImage && imageMultiscale) {
+    publicAPI.setCompareImages('fixed', imageMultiscale.name, compare)
+  }
 
   if (!context.use2D) {
     publicAPI.setRotateEnabled(rotate)

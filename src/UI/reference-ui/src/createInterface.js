@@ -7,12 +7,12 @@ import { makeHtml } from './utils'
 import { updateDrawer } from './toggleUICollapsed'
 
 function createInterface(context) {
+  setContext(context)
   context.viewContainers = new Map()
 
   const viewContainer = document.createElement('div')
   viewContainer.className = `${style.viewContainer}`
   context.viewContainers.set('volume', viewContainer)
-  setContext(viewContainer, context)
 
   const serviceContextProvider = document.createElement('service-context')
   serviceContextProvider.appendChild(viewContainer)

@@ -310,6 +310,7 @@ var arrayLikeToArray$1 = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(arrayLikeToArray$1)
+
 ;(function(module) {
   var arrayLikeToArray = arrayLikeToArray$1.exports
 
@@ -371,6 +372,7 @@ var nonIterableSpread$1 = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(nonIterableSpread$1)
+
 ;(function(module) {
   var arrayWithoutHoles = arrayWithoutHoles$1.exports
 
@@ -708,6 +710,7 @@ var arrayLikeToArray = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(arrayLikeToArray)
+
 ;(function(module) {
   var arrayLikeToArray$1 = arrayLikeToArray.exports
 
@@ -739,6 +742,7 @@ var nonIterableRest$1 = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(nonIterableRest$1)
+
 ;(function(module) {
   var arrayWithHoles = arrayWithHoles$1.exports
 
@@ -861,6 +865,7 @@ var nonIterableSpread = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(nonIterableSpread)
+
 ;(function(module) {
   var arrayWithoutHoles$1 = arrayWithoutHoles.exports
 
@@ -928,6 +933,7 @@ var isNativeReflectConstruct = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(isNativeReflectConstruct)
+
 ;(function(module) {
   var setPrototypeOf$1 = setPrototypeOf.exports
 
@@ -1333,6 +1339,7 @@ var getPrototypeOf = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(getPrototypeOf)
+
 ;(function(module) {
   var getPrototypeOf$1 = getPrototypeOf.exports
 
@@ -1349,6 +1356,7 @@ var getPrototypeOf = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(superPropBase)
+
 ;(function(module) {
   var superPropBase$1 = superPropBase.exports
 
@@ -1428,6 +1436,7 @@ var assertThisInitialized = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(assertThisInitialized)
+
 ;(function(module) {
   var _typeof$1 = _typeof.exports['default']
 
@@ -1463,6 +1472,7 @@ var isNativeFunction = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(isNativeFunction)
+
 ;(function(module) {
   var getPrototypeOf$1 = getPrototypeOf.exports
 
@@ -4229,31 +4239,8 @@ selectState.compareObjects = compareObjects
 // "Inject" XState context into components with DOM events
 const viewerContext = n$3('viewer-context')
 let appContext
-const setContext = (providerElement, context) => {
+const setContext = context => {
   appContext = context
-  providerElement.addEventListener('request', event => {
-    const { detail } = event
-    detail.context = context
-    event.stopPropagation()
-  })
-}
-function InjectContext() {
-  return (target, name) => {
-    const property = {
-      get() {
-        const event = new CustomEvent('request', {
-          detail: {},
-          bubbles: true,
-          composed: true,
-        })
-        // @ts-ignore
-        this.dispatchEvent(event)
-        return event.detail.context
-      },
-    }
-    Object.defineProperty(target, name, property)
-    return target
-  }
 }
 
 /**
@@ -8163,6 +8150,7 @@ var nonIterableRest = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(nonIterableRest)
+
 ;(function(module) {
   var arrayWithHoles$1 = arrayWithHoles.exports
 
@@ -8258,6 +8246,7 @@ var iterableToArrayLimit = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(iterableToArrayLimit)
+
 ;(function(module) {
   var arrayWithHoles$1 = arrayWithHoles.exports
 
@@ -24554,6 +24543,14 @@ MdStandardIconButton = __decorate(
 )
 
 let CollapseUi = class CollapseUi extends s$4 {
+  constructor() {
+    super(...arguments)
+    this.service = connectState_1(
+      viewerContext,
+      this,
+      state => state.context.service
+    )
+  }
   render() {
     return y`
       <md-standard-icon-button @click=${this.toggleUi}>
@@ -24562,7 +24559,7 @@ let CollapseUi = class CollapseUi extends s$4 {
     `
   }
   toggleUi() {
-    this.context.service.send('TOGGLE_UI_COLLAPSED')
+    this.service.value.send('TOGGLE_UI_COLLAPSED')
   }
 }
 CollapseUi.styles = i$5`
@@ -24570,7 +24567,6 @@ CollapseUi.styles = i$5`
       width: 100%;
     }
   `
-__decorate([InjectContext()], CollapseUi.prototype, 'context', void 0)
 CollapseUi = __decorate([e$9('collapse-ui')], CollapseUi)
 
 function updateDrawer(context) {
@@ -24606,11 +24602,11 @@ function toggleUICollapsed(context, event, actionMeta) {
 }
 
 function createInterface(context) {
+  setContext(context)
   context.viewContainers = new Map()
   var viewContainer = document.createElement('div')
   viewContainer.className = ''.concat(style.viewContainer)
   context.viewContainers.set('volume', viewContainer)
-  setContext(viewContainer, context)
   var serviceContextProvider = document.createElement('service-context')
   serviceContextProvider.appendChild(viewContainer)
   context.rootContainer.appendChild(serviceContextProvider)

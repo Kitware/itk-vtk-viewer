@@ -31,7 +31,7 @@ async function updateHistogram(context) {
 
   context.service.send({
     type: 'IMAGE_HISTOGRAM_UPDATED',
-    data: { name, component, histogram },
+    data: { name: context.actorName, component, histogram },
   })
 }
 

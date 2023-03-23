@@ -72,6 +72,9 @@ export const compareUI = context => (send, onReceive) => {
       },
     })
   }
+
+  const parsePattern = value => Math.max(1, parseInt(value))
+
   xPattern.addEventListener('change', event => {
     event.preventDefault()
     event.stopPropagation()
@@ -80,7 +83,7 @@ export const compareUI = context => (send, onReceive) => {
       context.images.actorContext.get(context.images.selectedName).compare
         .pattern ?? []
 
-    const x = parseInt(event.target.value)
+    const x = parsePattern(event.target.value)
     updateCompare({ pattern: [x, ...yz] })
   })
   yPattern.addEventListener('change', event => {
@@ -91,7 +94,7 @@ export const compareUI = context => (send, onReceive) => {
       context.images.actorContext.get(context.images.selectedName).compare
         .pattern ?? []
 
-    const y = parseInt(event.target.value)
+    const y = parsePattern(event.target.value)
     updateCompare({ pattern: [x, y, z] })
   })
   zPattern.addEventListener('change', event => {
@@ -102,7 +105,7 @@ export const compareUI = context => (send, onReceive) => {
       context.images.actorContext.get(context.images.selectedName).compare
         .pattern ?? []
 
-    const z = parseInt(event.target.value)
+    const z = parsePattern(event.target.value)
     updateCompare({ pattern: [x, y, z] })
   })
   swapOrder.addEventListener('change', event => {

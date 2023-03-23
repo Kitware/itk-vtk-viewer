@@ -140,9 +140,6 @@ function applyRenderedImage(context, { data: { name } }) {
   // triggers update of ImageSliceOutlines if fusedImage size changed
   representationProxy.getActors().forEach(actor => actor.getMapper().modified())
 
-  // call after representations are created
-  updateCroppingParametersFromImage(context, actorContext.fusedImage)
-
   // Create color map and piecewise function objects as needed
   if (typeof context.images.colorTransferFunctions === 'undefined') {
     context.images.colorTransferFunctions = new Map()
@@ -164,12 +161,6 @@ function applyRenderedImage(context, { data: { name } }) {
     }
 
     context.images.colorTransferFunctions.set(component, colorTransferFunction)
-
-    const colorMap = actorContext.colorMaps.get(component)
-    context.service.send({
-      type: 'IMAGE_COLOR_MAP_CHANGED',
-      data: { name, component, colorMap },
-    })
 
     if (!context.images.piecewiseFunctions.has(component)) {
       const piecewiseFunction = {
@@ -387,6 +378,19 @@ function applyRenderedImage(context, { data: { name } }) {
       data: { name, labelImageBlend: actorContext.labelImageBlend },
     })
   }
+
+  // Call after representations have been updated with possibly more or less components.
+  // IMAGE_COLOR_MAP_CHANGED triggers a render which errors if a slice representation is missing a transfer function for a component
+  for (let component = 0; component < numberOfComponents; component++) {
+    const colorMap = actorContext.colorMaps.get(component)
+    context.service.send({
+      type: 'IMAGE_COLOR_MAP_CHANGED',
+      data: { name, component, colorMap },
+    })
+  }
+
+  // call after representations are created
+  updateCroppingParametersFromImage(context, actorContext.fusedImage)
 
   const loadedImage = actorContext.image ?? actorContext.labelImage
   const hasOneScale = loadedImage.scaleInfo.length === 1

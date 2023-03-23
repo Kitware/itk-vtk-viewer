@@ -35,8 +35,9 @@ const areBoundsBiggerThanLoaded = context => {
   const { loadedBounds } = actorContext.get(updateRenderedName)
   if (!loadedBounds) return true
 
-  const current = computeRenderedBounds(context)
   const fullImage = getBoundsOfFullImage(context)
+  const current = computeRenderedBounds(context)
+  // clamp rendered bounds to max size of image
   current.forEach((b, i) => {
     current[i] =
       i % 2
@@ -104,8 +105,9 @@ const imagesRenderingMachineOptions = {
 
       isImageUpdateNeeded: context =>
         context.isUpdateForced ||
-        !isTargetScaleLoaded(context) ||
-        areBoundsBiggerThanLoaded(context),
+        (context.images.selectedName === context.actorName && // only update if rendering (aka selected)
+          (!isTargetScaleLoaded(context) ||
+            areBoundsBiggerThanLoaded(context))),
     },
   },
 

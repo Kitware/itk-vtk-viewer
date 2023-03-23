@@ -19,17 +19,9 @@ function makeHistogram(actorContext, component) {
   )
 }
 
-async function updateHistogram(
-  context,
-  {
-    data: { name, component } = {
-      name: context.images.selectedName,
-      component: context.images.actorContext.get(context.images.selectedName)
-        .selectedComponent,
-    },
-  }
-) {
-  const actorContext = context.images.actorContext.get(name)
+async function updateHistogram(context) {
+  const actorContext = context.images.actorContext.get(context.actorName)
+  const component = actorContext.selectedComponent
 
   const histogram =
     actorContext.histograms.get(component) ?? // histogram may have been cleared after loading new data

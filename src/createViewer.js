@@ -22,6 +22,7 @@ import {
 } from './Rendering/VTKJS/Main/croppingPlanes'
 
 import { reaction, toJS } from 'mobx'
+import PQueue from 'p-queue'
 
 const createViewer = async (
   rootContainer,
@@ -678,7 +679,17 @@ const createViewer = async (
     context.service.send({ type: 'SELECT_LAYER', data: name })
   }
 
-  const setImage = async (image, imageName) => {
+  // Queue lets setCompareImage wait for setImage.
+  // Otherwise context setting events cant be passed to missing image rendering actor.
+  const apiFunctionQueue = new PQueue({ concurrency: 1 })
+  const queueApi = funcToQueue => (...args) =>
+    apiFunctionQueue.add(() => funcToQueue(...args))
+
+  // Queueing setImage syncs the order setImage(s) are called with the order image actorContexts are created, no matter the data passed.
+  // Some images take longer with toMultiscaleSpatialImage, then get sent to state machine later, even if they were called with viewer.setImage first.
+  // The last added image is the context.image.selectedImage
+  publicAPI.setImage = queueApi(async (image, imageName) => {
+    console.log('setImage', imageName)
     const name =
       imageName ?? image.name ?? context.images?.selectedName ?? 'Image'
     const multiscaleImage = await toMultiscaleSpatialImage(
@@ -694,19 +705,7 @@ const createViewer = async (
     } else {
       service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
     }
-  }
-
-  // Queue lets other methods, like setCompareImage, wait for image rendering actor to be created.
-  // Otherwise context setting events cant be passed to missing image rendering actor.
-  let setImageQueue = []
-  publicAPI.setImage = (image, imageName) => {
-    const promise = setImage(image, imageName)
-    setImageQueue = [promise, ...setImageQueue]
-    promise.finally(() => {
-      setImageQueue = setImageQueue.filter(p => p === promise)
-    })
-    return promise
-  }
+  })
 
   publicAPI.getImage = name => {
     if (typeof name === 'undefined' && context.images.selectedName) {
@@ -993,22 +992,19 @@ const createViewer = async (
   // `pattern` is an array with the number of checkerboard boxes for each dimension.
   // If pattern === undefined, it defaults to 4 boxes across each dimension.
   // swapImageOrder reverse which image is sampled for each checkerboard box.
-  publicAPI.setCompareImages = async (
-    fixedImageName,
-    movingImageName,
-    options
-  ) => {
-    await Promise.allSettled(setImageQueue)
-    // fuse with moving
-    service.send({
-      type: 'COMPARE_IMAGES',
-      data: {
-        name: movingImageName,
-        fixedImageName,
-        options,
-      },
-    })
-  }
+  publicAPI.setCompareImages = queueApi(
+    async (fixedImageName, movingImageName, options) => {
+      // fuse with moving
+      service.send({
+        type: 'COMPARE_IMAGES',
+        data: {
+          name: movingImageName,
+          fixedImageName,
+          options,
+        },
+      })
+    }
+  )
 
   publicAPI.getCompareImages = name => {
     if (typeof name === 'undefined') {

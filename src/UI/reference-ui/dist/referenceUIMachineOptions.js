@@ -310,7 +310,6 @@ var arrayLikeToArray$1 = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(arrayLikeToArray$1)
-
 ;(function(module) {
   var arrayLikeToArray = arrayLikeToArray$1.exports
 
@@ -372,7 +371,6 @@ var nonIterableSpread$1 = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(nonIterableSpread$1)
-
 ;(function(module) {
   var arrayWithoutHoles = arrayWithoutHoles$1.exports
 
@@ -710,7 +708,6 @@ var arrayLikeToArray = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(arrayLikeToArray)
-
 ;(function(module) {
   var arrayLikeToArray$1 = arrayLikeToArray.exports
 
@@ -742,7 +739,6 @@ var nonIterableRest$1 = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(nonIterableRest$1)
-
 ;(function(module) {
   var arrayWithHoles = arrayWithHoles$1.exports
 
@@ -865,7 +861,6 @@ var nonIterableSpread = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(nonIterableSpread)
-
 ;(function(module) {
   var arrayWithoutHoles$1 = arrayWithoutHoles.exports
 
@@ -933,7 +928,6 @@ var isNativeReflectConstruct = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(isNativeReflectConstruct)
-
 ;(function(module) {
   var setPrototypeOf$1 = setPrototypeOf.exports
 
@@ -1339,7 +1333,6 @@ var getPrototypeOf = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(getPrototypeOf)
-
 ;(function(module) {
   var getPrototypeOf$1 = getPrototypeOf.exports
 
@@ -1356,7 +1349,6 @@ var getPrototypeOf = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(superPropBase)
-
 ;(function(module) {
   var superPropBase$1 = superPropBase.exports
 
@@ -1436,7 +1428,6 @@ var assertThisInitialized = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(assertThisInitialized)
-
 ;(function(module) {
   var _typeof$1 = _typeof.exports['default']
 
@@ -1472,7 +1463,6 @@ var isNativeFunction = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(isNativeFunction)
-
 ;(function(module) {
   var getPrototypeOf$1 = getPrototypeOf.exports
 
@@ -7815,7 +7805,7 @@ let LayerSettings = class LayerSettings extends s$4 {
           type: 'COMPARE_IMAGES',
           data: {
             name: this.name,
-            options: { method: 'disable' },
+            options: { method: 'disabled' },
           },
         })
   }
@@ -8173,7 +8163,6 @@ var nonIterableRest = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(nonIterableRest)
-
 ;(function(module) {
   var arrayWithHoles$1 = arrayWithHoles.exports
 
@@ -8269,7 +8258,6 @@ var iterableToArrayLimit = { exports: {} }
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
 })(iterableToArrayLimit)
-
 ;(function(module) {
   var arrayWithHoles$1 = arrayWithHoles.exports
 
@@ -8398,7 +8386,7 @@ var compareUI = function compareUI(context) {
       var _ref2 = compare !== null && compare !== void 0 ? compare : {},
         _ref2$method = _ref2.method,
         method = _ref2$method === void 0 ? undefined : _ref2$method
-      if (!method || method === 'disable') {
+      if (!method || method === 'disabled') {
         root.style.display = 'none'
       } else {
         root.style.display = 'block'
@@ -8439,6 +8427,9 @@ var compareUI = function compareUI(context) {
         },
       })
     }
+    var parsePattern = function parsePattern(value) {
+      return Math.max(1, parseInt(value))
+    }
     xPattern.addEventListener('change', function(event) {
       var _context$images$actor
       event.preventDefault()
@@ -8451,7 +8442,7 @@ var compareUI = function compareUI(context) {
             : [],
         _ref6 = _toArray(_ref5),
         yz = _ref6.slice(1)
-      var x = parseInt(event.target.value)
+      var x = parsePattern(event.target.value)
       updateCompare({
         pattern: [x].concat(_toConsumableArray(yz)),
       })
@@ -8469,7 +8460,7 @@ var compareUI = function compareUI(context) {
         _ref8 = _slicedToArray(_ref7, 3),
         x = _ref8[0],
         z = _ref8[2]
-      var y = parseInt(event.target.value)
+      var y = parsePattern(event.target.value)
       updateCompare({
         pattern: [x, y, z],
       })
@@ -8487,7 +8478,7 @@ var compareUI = function compareUI(context) {
         _ref10 = _slicedToArray(_ref9, 2),
         x = _ref10[0],
         y = _ref10[1]
-      var z = parseInt(event.target.value)
+      var z = parsePattern(event.target.value)
       updateCompare({
         pattern: [x, y, z],
       })

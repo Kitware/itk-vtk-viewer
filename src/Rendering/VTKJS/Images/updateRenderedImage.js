@@ -43,7 +43,7 @@ const pickVisualized = (preComputedRanges, visualizedComponents) =>
     }))
 
 async function updateRenderedImage(context) {
-  const name = context.images.updateRenderedName
+  const name = context.actorName
   const actorContext = context.images.actorContext.get(name)
 
   const {

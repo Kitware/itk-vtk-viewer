@@ -22,12 +22,19 @@ export function getCropWidgetBounds(context, bounds = []) {
   return bounds
 }
 
-export function getBoundsOfFullImage({ images }) {
-  const imageActorContext = images.actorContext.get(images.updateRenderedName)
+export function getBoundsOfFullImage({ images, actorName }) {
+  const imageActorContext = images.actorContext.get(actorName)
   if (!imageActorContext || imageActorContext.loadedScale === null)
     return [...vtkBoundingBox.INIT_BOUNDS]
 
-  const multiScale = imageActorContext.image ?? imageActorContext.labelImage
+  const { compare } = imageActorContext
+  const compareEnabled = compare?.method !== 'disabled'
+  const fixedImage = compareEnabled
+    ? images.actorContext.get(compare.fixedImageName)?.image
+    : undefined
+
+  const multiScale =
+    fixedImage ?? imageActorContext.image ?? imageActorContext.labelImage
   return multiScale.getWorldBounds(imageActorContext.loadedScale)
 }
 

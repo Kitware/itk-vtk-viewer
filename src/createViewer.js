@@ -679,8 +679,8 @@ const createViewer = async (
     context.service.send({ type: 'SELECT_LAYER', data: name })
   }
 
-  // Queue lets setCompareImage wait for setImage.
-  // Otherwise context setting events cant be passed to missing image rendering actor.
+  // A shared API queue lets setCompareImage wait for setImage.
+  // Otherwise imageActorContext setting events won't yet have a actor machine to receive them.
   const apiFunctionQueue = new PQueue({ concurrency: 1 })
   const queueApi = funcToQueue => (...args) =>
     apiFunctionQueue.add(() => funcToQueue(...args))
@@ -689,7 +689,6 @@ const createViewer = async (
   // Some images take longer with toMultiscaleSpatialImage, then get sent to state machine later, even if they were called with viewer.setImage first.
   // The last added image is the context.image.selectedImage
   publicAPI.setImage = queueApi(async (image, imageName) => {
-    console.log('setImage', imageName)
     const name =
       imageName ?? image.name ?? context.images?.selectedName ?? 'Image'
     const multiscaleImage = await toMultiscaleSpatialImage(

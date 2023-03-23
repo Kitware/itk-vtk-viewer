@@ -37,7 +37,7 @@ export const compareUI = context => (send, onReceive) => {
     const { compare = undefined } = imageContext ?? {}
     const { method = undefined } = compare ?? {}
 
-    if (!method || method === 'disable') {
+    if (!method || method === 'disabled') {
       root.style.display = 'none'
     } else {
       root.style.display = 'block'

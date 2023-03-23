@@ -68,7 +68,7 @@ class LayerSettings extends LitElement {
       type: 'COMPARE_IMAGES',
       data: {
         name: this.name,
-        options: { method: 'disable' },
+        options: { method: 'disabled' },
       },
     })
   }

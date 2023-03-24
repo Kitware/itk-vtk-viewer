@@ -7844,13 +7844,16 @@ let LayerIcon = class LayerIcon extends s$4 {
       this,
       state =>
         [...state.context.layers.actorContext.keys()].filter(key => {
-          var _a
+          var _a, _b
           return (
             key !== this.name &&
-            ((_a = state.context.images.actorContext.get(this.name)) === null ||
-            _a === void 0
+            ((_b =
+              (_a = state.context.images.actorContext.get(this.name)) ===
+                null || _a === void 0
+                ? void 0
+                : _a.labelImage) === null || _b === void 0
               ? void 0
-              : _a.labelImage) !== key
+              : _b.name) !== key
           )
         }),
       compareArrays_1

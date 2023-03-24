@@ -28,7 +28,8 @@ class LayerIcon extends LitElement {
       [...state.context.layers.actorContext.keys()].filter(
         key =>
           key !== this.name &&
-          state.context.images.actorContext.get(this.name)?.labelImage !== key
+          state.context.images.actorContext.get(this.name)?.labelImage?.name !==
+            key
       ),
     compareArrays
   )

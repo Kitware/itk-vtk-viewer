@@ -870,7 +870,7 @@ const createViewer = async (
     return actorContext.colorMaps.get(componentIndex)
   }
 
-  publicAPI.setLabelImage = async (labelImage, layerImageName) => {
+  publicAPI.setLabelImage = queueApi(async (labelImage, layerImageName) => {
     const multiscaleLabelImage = await toMultiscaleSpatialImage(
       labelImage,
       true,
@@ -887,7 +887,7 @@ const createViewer = async (
       data: { imageName, labelImage: multiscaleLabelImage },
     })
     publicAPI.setImageInterpolationEnabled(false, imageName)
-  }
+  })
 
   publicAPI.getLabelImage = () => {
     const name = context.images.selectedName

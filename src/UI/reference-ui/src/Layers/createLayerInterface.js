@@ -1,12 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
-import {
-  visibleIconDataUri,
-  invisibleIconDataUri,
-  imageIconDataUri,
-  labelsIconDataUri,
-} from 'itk-viewer-icons'
+import { visibleIconDataUri, invisibleIconDataUri } from 'itk-viewer-icons'
 import { makeHtml } from '../utils'
 import './layerIcon.js'
 
@@ -89,17 +84,9 @@ function createLayerEntry(context, name, layer) {
 function createLayerInterface(context) {
   const name = context.layers.lastAddedData.name
   const layer = context.layers.actorContext.get(name)
-  const layersUIGroup = context.layers.layersUIGroup
 
-  let layerEntry = null
-  const numRows = layersUIGroup.children.length
-  for (let row = 0; row < numRows; row++) {
-    const uiRow = layersUIGroup.children[row]
-    if (uiRow.children.length < 2) {
-      layerEntry = createLayerEntry(context, name, layer)
-      uiRow.appendChild(layerEntry)
-    }
-  }
+  const layerEntry = createLayerEntry(context, name, layer)
+  context.layers.layersUIGroup.appendChild(layerEntry)
 
   context.layers.uiLayers.set(name, layerEntry)
 }

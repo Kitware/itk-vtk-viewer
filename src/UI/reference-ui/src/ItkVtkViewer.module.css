@@ -92,10 +92,8 @@
   background: rgba(128, 128, 128, 0.5);
 }
 
-.layersUIRow {
-  composes: uiRow;
-  justify-content: space-around;
-  max-width: 420px;
+.layers {
+  flex-wrap: wrap;
 }
 
 .progress {

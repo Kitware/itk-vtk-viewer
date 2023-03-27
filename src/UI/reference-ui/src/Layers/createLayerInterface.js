@@ -1,12 +1,9 @@
 import style from '../ItkVtkViewer.module.css'
 
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
-import {
-  visibleIconDataUri,
-  invisibleIconDataUri,
-  imageIconDataUri,
-  labelsIconDataUri,
-} from 'itk-viewer-icons'
+import { visibleIconDataUri, invisibleIconDataUri } from 'itk-viewer-icons'
+import { makeHtml } from '../utils'
+import './layerIcon.js'
 
 function createLayerEntry(context, name, layer) {
   const layerEntry = document.createElement('div')
@@ -71,22 +68,10 @@ function createLayerEntry(context, name, layer) {
 
   layer.spinner = spinner
 
-  const iconElement = document.createElement('div')
-  switch (layer.type) {
-    case 'image': {
-      iconElement.innerHTML = `<img src="${imageIconDataUri}" alt="image"/>`
-      break
-    }
-    case 'labelImage': {
-      iconElement.innerHTML = `<img src="${labelsIconDataUri}" alt="labels"/>`
-      break
-    }
-    default:
-      throw new Error(`Unsupported layer type: ${layer.type}`)
-  }
-  iconElement.setAttribute('class', style.layerIcon)
-  applyContrastSensitiveStyleToElement(context, 'invertibleButton', iconElement)
-  imageIcons.appendChild(iconElement)
+  const icon = makeHtml(`<layer-icon class="${style.layerIcon}"></layer-icon>`)
+  icon.layer = layer
+  icon.name = name
+  imageIcons.appendChild(icon)
 
   layerEntry.addEventListener('click', event => {
     event.preventDefault()
@@ -99,17 +84,9 @@ function createLayerEntry(context, name, layer) {
 function createLayerInterface(context) {
   const name = context.layers.lastAddedData.name
   const layer = context.layers.actorContext.get(name)
-  const layersUIGroup = context.layers.layersUIGroup
 
-  let layerEntry = null
-  const numRows = layersUIGroup.children.length
-  for (let row = 0; row < numRows; row++) {
-    const uiRow = layersUIGroup.children[row]
-    if (uiRow.children.length < 2) {
-      layerEntry = createLayerEntry(context, name, layer)
-      uiRow.appendChild(layerEntry)
-    }
-  }
+  const layerEntry = createLayerEntry(context, name, layer)
+  context.layers.layersUIGroup.appendChild(layerEntry)
 
   context.layers.uiLayers.set(name, layerEntry)
 }

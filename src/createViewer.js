@@ -22,17 +22,19 @@ import {
 } from './Rendering/VTKJS/Main/croppingPlanes'
 
 import { reaction, toJS } from 'mobx'
+import PQueue from 'p-queue'
 
 const createViewer = async (
   rootContainer,
   {
     image,
+    imageName = undefined,
     labelImage,
     fixedImage,
     compare,
     geometries,
     pointSets,
-    use2D = false,
+    use2D = undefined, // if undefined, use image dimension if exists
     rotate = true,
     config,
     gradientOpacity,
@@ -217,7 +219,21 @@ const createViewer = async (
     }
   }
 
-  context.use2D = use2D
+  const imageMultiscale =
+    image &&
+    (await toMultiscaleSpatialImage(image, false, context.maxConcurrency))
+
+  const labelImageMultiscale =
+    labelImage &&
+    (await toMultiscaleSpatialImage(labelImage, true, context.maxConcurrency))
+
+  const imageOrLabelImage = imageMultiscale || labelImageMultiscale
+
+  context.use2D =
+    use2D ??
+    ((imageOrLabelImage && imageOrLabelImage.imageType.dimension === 2) ||
+      false)
+
   context.rootContainer = rootContainer
   // Todo: move to viewer machine
   context.container = store.container
@@ -663,8 +679,18 @@ const createViewer = async (
     context.service.send({ type: 'SELECT_LAYER', data: name })
   }
 
-  publicAPI.setImage = async (image, imageName) => {
-    const name = imageName ?? context.images?.selectedName ?? 'Image'
+  // A shared API queue lets setCompareImage wait for setImage.
+  // Otherwise imageActorContext setting events won't yet have a actor machine to receive them.
+  const apiFunctionQueue = new PQueue({ concurrency: 1 })
+  const queueApi = funcToQueue => (...args) =>
+    apiFunctionQueue.add(() => funcToQueue(...args))
+
+  // Queueing setImage syncs the order setImage(s) are called with the order image actorContexts are created, no matter the data passed.
+  // Some images take longer with toMultiscaleSpatialImage, then get sent to state machine later, even if they were called with viewer.setImage first.
+  // The last added image is the context.image.selectedImage
+  publicAPI.setImage = queueApi(async (image, imageName) => {
+    const name =
+      imageName ?? image.name ?? context.images?.selectedName ?? 'Image'
     const multiscaleImage = await toMultiscaleSpatialImage(
       image,
       false,
@@ -678,7 +704,7 @@ const createViewer = async (
     } else {
       service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
     }
-  }
+  })
 
   publicAPI.getImage = name => {
     if (typeof name === 'undefined' && context.images.selectedName) {
@@ -687,21 +713,22 @@ const createViewer = async (
     return context.images.actorContext.get(name).image
   }
 
-  publicAPI.setImageInterpolationEnabled = (enabled, name) => {
-    if (typeof name === 'undefined') {
-      name = context.images.selectedName
-    }
-    if (enabled !== context.main.interpolationEnabled) {
-      service.send({ type: 'TOGGLE_IMAGE_INTERPOLATION', data: name })
-    }
-  }
-
   publicAPI.getImageInterpolationEnabled = name => {
     if (typeof name === 'undefined') {
       name = context.images.selectedName
     }
     const actorContext = context.images.actorContext.get(name)
     return actorContext.interpolationEnabled
+  }
+
+  publicAPI.setImageInterpolationEnabled = (enabled, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const currentEnabled = publicAPI.getImageInterpolationEnabled(name)
+    if (enabled !== currentEnabled) {
+      service.send({ type: 'TOGGLE_IMAGE_INTERPOLATION', data: name })
+    }
   }
 
   publicAPI.setImageComponentVisibility = (visibility, component, name) => {
@@ -843,7 +870,7 @@ const createViewer = async (
     return actorContext.colorMaps.get(componentIndex)
   }
 
-  publicAPI.setLabelImage = async (labelImage, layerImageName) => {
+  publicAPI.setLabelImage = queueApi(async (labelImage, layerImageName) => {
     const multiscaleLabelImage = await toMultiscaleSpatialImage(
       labelImage,
       true,
@@ -860,7 +887,7 @@ const createViewer = async (
       data: { imageName, labelImage: multiscaleLabelImage },
     })
     publicAPI.setImageInterpolationEnabled(false, imageName)
-  }
+  })
 
   publicAPI.getLabelImage = () => {
     const name = context.images.selectedName
@@ -964,17 +991,19 @@ const createViewer = async (
   // `pattern` is an array with the number of checkerboard boxes for each dimension.
   // If pattern === undefined, it defaults to 4 boxes across each dimension.
   // swapImageOrder reverse which image is sampled for each checkerboard box.
-  publicAPI.setCompareImages = (fixedImageName, movingImageName, options) => {
-    // fuse with moving
-    service.send({
-      type: 'COMPARE_IMAGES',
-      data: {
-        name: movingImageName,
-        fixedImageName,
-        options,
-      },
-    })
-  }
+  publicAPI.setCompareImages = queueApi(
+    async (fixedImageName, movingImageName, options) => {
+      // fuse with moving
+      service.send({
+        type: 'COMPARE_IMAGES',
+        data: {
+          name: movingImageName,
+          fixedImageName,
+          options,
+        },
+      })
+    }
+  )
 
   publicAPI.getCompareImages = name => {
     if (typeof name === 'undefined') {
@@ -1228,29 +1257,24 @@ const createViewer = async (
 
   addKeyboardShortcuts(context.uiContainer, service)
 
-  // must come before moving image
+  // must come before moving/main image
   if (fixedImage) {
-    publicAPI.setImage(fixedImage, 'fixed')
+    await publicAPI.setImage(fixedImage, 'Fixed') // must await so fixedImage is the first one
   }
 
-  let imageName = null
-  if (image) {
-    const multiscaleImage = await toMultiscaleSpatialImage(
-      image,
-      false,
-      context.maxConcurrency
-    )
-    imageName = multiscaleImage?.name ?? null
-    service.send({ type: 'ADD_IMAGE', data: multiscaleImage })
+  if (imageMultiscale) {
+    await publicAPI.setImage(imageMultiscale, imageName) // await for image.name to get assigned for fixedImage and setCompareImages
   }
 
-  if (labelImage) {
-    publicAPI.setLabelImage(labelImage, imageName)
+  if (labelImageMultiscale) {
+    publicAPI.setLabelImage(labelImageMultiscale, imageMultiscale?.name)
   }
 
-  publicAPI.setCompareImages('fixed', imageName, compare)
+  if (fixedImage && imageMultiscale) {
+    publicAPI.setCompareImages('Fixed', imageMultiscale.name, compare)
+  }
 
-  if (!use2D) {
+  if (!context.use2D) {
     publicAPI.setRotateEnabled(rotate)
   }
 

@@ -7,43 +7,31 @@ class ImJoyPluginAPI {
   }
 
   async run(ctx) {
-    if (ctx.data) {
-      let multiscaleImage = null
-      let is2D = false
-      if (ctx.data.image) {
-        multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
-          ctx.data.image,
-          false,
-          ctx.config.maxConcurrency
-        )
-        is2D = multiscaleImage.imageType.dimension === 2
-      }
-      let pointSets = null
-      if (ctx.data.pointSets) {
-        pointSets = ctx.data.pointSets
-        if (!Array.isArray(pointSets)) pointSets = [pointSets]
-        pointSets = pointSets.map(points =>
-          itkVtkViewer.utils.ndarrayToPointSet(points)
-        )
-      }
-      if (ctx.config) {
-        const data = {
-          image: multiscaleImage,
-          labelImage: ctx.data?.labelImage,
-          pointSets: pointSets,
-          geometries: null,
-          use2D: is2D,
-          rotate: false,
-          config: ctx.config,
-        }
-        this.viewer = await itkVtkViewer.createViewer(container, data)
-      } else {
-        if (multiscaleImage) {
-          await this.setImage(ctx.data.image, ctx.config.maxConcurrency)
-        }
-        if (pointSets) {
-          await this.setPointSets(ctx.data.pointSets)
-        }
+    if (!ctx.data) return
+
+    let pointSets = null
+    if (ctx.data.pointSets) {
+      pointSets = ctx.data.pointSets
+
+      if (!Array.isArray(pointSets)) pointSets = [pointSets]
+
+      pointSets = pointSets.map(points =>
+        itkVtkViewer.utils.ndarrayToPointSet(points)
+      )
+    }
+
+    if (ctx.config) {
+      this.viewer = await itkVtkViewer.createViewer(container, {
+        image: ctx.data.image,
+        labelImage: ctx.data.labelImage,
+        pointSets,
+        geometries: null,
+        rotate: false,
+        config: ctx.config,
+      })
+    } else {
+      if (pointSets) {
+        await this.setPointSets(ctx.data.pointSets)
       }
     }
   }
@@ -74,23 +62,15 @@ class ImJoyPluginAPI {
     return await this.viewer.captureImage()
   }
 
-  async setImage(image, maxConcurrency) {
-    const multiscaleImage = await itkVtkViewer.utils.toMultiscaleSpatialImage(
-      image,
-      false,
-      maxConcurrency
-    )
-    const is2D = multiscaleImage.imageType.dimension === 2
+  async setImage(image, name) {
     if (this.viewer === null) {
       this.viewer = await itkVtkViewer.createViewer(container, {
-        image: multiscaleImage,
-        pointSets: null,
-        geometries: null,
-        use2D: is2D,
+        image,
+        imageName: name,
         rotate: false,
       })
     } else {
-      await this.viewer.setImage(multiscaleImage, maxConcurrency)
+      await this.viewer.setImage(image, name)
     }
   }
 
@@ -101,10 +81,7 @@ class ImJoyPluginAPI {
   async setLabelImage(labelImage) {
     if (this.viewer === null) {
       this.viewer = await itkVtkViewer.createViewer(container, {
-        image: null,
         labelImage: labelImage,
-        pointSets: null,
-        geometries: null,
         rotate: false,
       })
     } else {

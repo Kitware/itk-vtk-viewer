@@ -257,6 +257,7 @@ function createImagesUIMachine(options, context) {
         active: {
           invoke: [
             {
+              id: 'scaleSelector',
               src: 'scaleSelector',
             },
             {

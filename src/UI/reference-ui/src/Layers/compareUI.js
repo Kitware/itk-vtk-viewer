@@ -6,14 +6,14 @@ export const compareUI = context => (send, onReceive) => {
   const root = document.createElement('div')
   root.setAttribute(
     'style',
-    'align-self: center; align-content: center; height: 25px; margin-right: 5px'
+    'align-self: center; align-content: center; height: 25px; margin-left: 4px; margin-right: 4px'
   )
   const parent = context.layers.compareContainer
   parent.appendChild(root)
 
   const swapButtonId = `${context.id}-swapImageOrder`
   const checkerboardRoot = makeHtml(`
-    <div style="display: flex">
+    <div style="display: flex; justify-content: space-between;">
       <label class="${style.inputLabel}">Checkerboard Pattern X:</label>
       <input id="x-pattern" type="number" class="${style.selector} ${style.numberInput}" style="max-width: 3.2ch" />
       <label class="${style.inputLabel}">Y:</label>
@@ -72,6 +72,9 @@ export const compareUI = context => (send, onReceive) => {
       },
     })
   }
+
+  const parsePattern = value => Math.max(1, parseInt(value))
+
   xPattern.addEventListener('change', event => {
     event.preventDefault()
     event.stopPropagation()
@@ -80,7 +83,7 @@ export const compareUI = context => (send, onReceive) => {
       context.images.actorContext.get(context.images.selectedName).compare
         .pattern ?? []
 
-    const x = parseInt(event.target.value)
+    const x = parsePattern(event.target.value)
     updateCompare({ pattern: [x, ...yz] })
   })
   yPattern.addEventListener('change', event => {
@@ -91,7 +94,7 @@ export const compareUI = context => (send, onReceive) => {
       context.images.actorContext.get(context.images.selectedName).compare
         .pattern ?? []
 
-    const y = parseInt(event.target.value)
+    const y = parsePattern(event.target.value)
     updateCompare({ pattern: [x, y, z] })
   })
   zPattern.addEventListener('change', event => {
@@ -102,7 +105,7 @@ export const compareUI = context => (send, onReceive) => {
       context.images.actorContext.get(context.images.selectedName).compare
         .pattern ?? []
 
-    const z = parseInt(event.target.value)
+    const z = parsePattern(event.target.value)
     updateCompare({ pattern: [x, y, z] })
   })
   swapOrder.addEventListener('change', event => {

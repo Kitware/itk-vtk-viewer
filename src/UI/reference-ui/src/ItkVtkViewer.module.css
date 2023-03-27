@@ -61,6 +61,11 @@
   overflow: hidden auto;
 }
 
+.floater {
+  position: absolute;
+  z-index: 3000;
+}
+
 .uiGroup {
   background: rgba(128, 128, 128, 0.5);
   border-radius: 4px;
@@ -87,10 +92,8 @@
   background: rgba(128, 128, 128, 0.5);
 }
 
-.layersUIRow {
-  composes: uiRow;
-  justify-content: space-around;
-  max-width: 420px;
+.layers {
+  flex-wrap: wrap;
 }
 
 .progress {
@@ -329,6 +332,7 @@
   position: relative;
   width: 20px;
   height: 20px;
+  margin-top: 4px;
 }
 .ldsRing div {
   box-sizing: border-box;
@@ -840,5 +844,4 @@ select:focus {
 
 .inputLabel {
   line-height: 1.7;
-  margin-right: 4px;
 }

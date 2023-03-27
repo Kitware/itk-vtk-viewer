@@ -8,6 +8,7 @@ import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 import toggleCroppingPlanes from './toggleCroppingPlanes'
 import HandlesInPixelsImageCroppingWidget from '../Widgets/HandlesInPixelsImageCroppingWidget'
 import { transformBounds } from '../../../transformBounds'
+import { arraysEqual } from '../../../internalUtils'
 
 export function getCropWidgetBounds(context, bounds = []) {
   const { croppingWidget } = context.main
@@ -21,12 +22,19 @@ export function getCropWidgetBounds(context, bounds = []) {
   return bounds
 }
 
-export function getBoundsOfFullImage({ images }) {
-  const imageActorContext = images.actorContext.get(images.updateRenderedName)
+export function getBoundsOfFullImage({ images, actorName }) {
+  const imageActorContext = images.actorContext.get(actorName)
   if (!imageActorContext || imageActorContext.loadedScale === null)
     return [...vtkBoundingBox.INIT_BOUNDS]
 
-  const multiScale = imageActorContext.image ?? imageActorContext.labelImage
+  const { compare } = imageActorContext
+  const compareEnabled = compare?.method !== 'disabled'
+  const fixedImage = compareEnabled
+    ? images.actorContext.get(compare.fixedImageName)?.image
+    : undefined
+
+  const multiScale =
+    fixedImage ?? imageActorContext.image ?? imageActorContext.labelImage
   return multiScale.getWorldBounds(imageActorContext.loadedScale)
 }
 
@@ -160,6 +168,12 @@ export function updateCroppingParameters(context) {
     .forEach(bounds => {
       vtkBoundingBox.addBounds(croppingBoundingBox, ...bounds)
     })
+  const uninitialized = arraysEqual(
+    croppingBoundingBox,
+    vtkBoundingBox.INIT_BOUNDS
+  )
+
+  if (uninitialized) return
 
   // Put global bounds in image oriented space
   const orientation = quat.fromMat3([], croppingVirtualImage.getDirection())

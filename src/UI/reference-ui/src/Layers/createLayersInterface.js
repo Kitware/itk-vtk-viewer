@@ -1,19 +1,16 @@
 import style from '../ItkVtkViewer.module.css'
-
-import addLayerUIRow from './addLayerUIRow'
+import { makeHtml } from '../utils'
 
 function createLayersInterface(context) {
-  const layersUIGroup = document.createElement('div')
-  layersUIGroup.setAttribute('class', style.uiGroup)
+  const layersUIGroup = makeHtml(`
+    <div class="${style.uiGroup} ${style.uiRow} ${style.layers}"></div>
+  `)
   context.layers.layersUIGroup = layersUIGroup
   context.uiGroups.set('layers', layersUIGroup)
+  context.uiContainer.appendChild(layersUIGroup)
 
   // layer name -> layerEntry map
   context.layers.uiLayers = new Map()
-
-  addLayerUIRow(context)
-
-  context.uiContainer.appendChild(layersUIGroup)
 
   const compareContainer = document.createElement('div')
   compareContainer.setAttribute('class', style.uiGroup)

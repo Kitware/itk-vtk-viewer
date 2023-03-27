@@ -282,6 +282,7 @@ function createLayersUIMachine(options, context) {
         active: {
           invoke: [
             {
+              id: 'compareUI',
               src: 'compareUI',
             },
           ],
@@ -349,7 +350,8 @@ function createLayersUIMachine(options, context) {
         },
       },
     },
-    options
+    // need service stub to avoid errors if overridden options does not define
+    { services: { compareUI: () => () => undefined }, ...options }
   )
 }
 

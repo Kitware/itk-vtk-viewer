@@ -1,5 +1,5 @@
 export const defaultCompare = {
-  method: 'disable',
+  method: 'disabled',
   pattern: [4, 4, 4],
   swapImageOrder: false,
 }

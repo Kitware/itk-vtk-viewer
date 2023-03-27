@@ -1,7 +1,10 @@
 /* eslint-disable global-require */
 const path = require('path')
 
-const vtkRules = require('vtk.js/Utilities/config/rules-vtk.js')
+const vtkRules = require('vtk.js/Utilities/config/dependency.js').webpack.core
+  .rules
+const cssRules = require('vtk.js/Utilities/config/dependency.js').webpack.css
+  .rules
 
 var webpack = require('webpack')
 
@@ -21,6 +24,23 @@ const fallback = {
 }
 
 const itkConfigTest = path.resolve(__dirname, 'test', 'itkConfigBrowserTest.js')
+
+// should be same as in webpack.config.js
+const moduleConfigRules = [
+  { test: /\.js$/, loader: 'babel-loader', dependency: { not: ['url'] } },
+  {
+    test: /\.worker.js$/,
+    use: [{ loader: 'worker-loader', options: { inline: 'no-fallback' } }],
+  },
+  {
+    test: /\.(png|jpg)$/,
+    type: 'asset',
+    parser: { dataUrlCondition: { maxSize: 128 * 1024 } },
+  }, // 128kb
+  { test: /\.svg$/, type: 'asset/source' },
+].concat(vtkRules, cssRules)
+
+const entry = path.join(__dirname, './src/index.js')
 
 module.exports = function init(config) {
   config.set({
@@ -113,9 +133,13 @@ module.exports = function init(config) {
       mode: 'development',
       devtool: 'eval-source-map',
       module: {
-        rules: [{ test: /\.(png|jpg)$/, type: 'asset/inline' }].concat(
-          vtkRules
-        ),
+        rules: moduleConfigRules.concat([
+          {
+            test: entry,
+            loader: 'expose-loader',
+            options: { exposes: 'itkVtkViewer' },
+          },
+        ]),
       },
       resolve: {
         modules: [path.resolve(__dirname, 'node_modules'), sourcePath],
@@ -156,7 +180,6 @@ module.exports = function init(config) {
       args: config.dockered ? ['--dockered'] : [],
     },
 
-    // browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 5000,
 
     port: 9876,

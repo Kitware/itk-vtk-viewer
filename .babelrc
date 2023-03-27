@@ -1,12 +1,19 @@
 {
-  presets: [
-    ['@babel/preset-env', {
-      targets: {
-        browsers: ['last 2 versions'],
-      },
-      useBuiltIns: false,
-    }],
-    "mobx",
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": ["last 2 versions"]
+        },
+        "useBuiltIns": false
+      }
+    ],
+    "mobx"
   ],
-  "plugins": ["@babel/plugin-transform-runtime"]
+  "plugins": [
+    "@babel/plugin-transform-runtime",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose": true }]
+  ]
 }

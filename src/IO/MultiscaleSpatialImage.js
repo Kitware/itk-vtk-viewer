@@ -409,7 +409,9 @@ class MultiscaleSpatialImage {
   }
 
   // indexToWorld will be undefined if getImage() not completed on scale first
-  getWorldBounds(scale) {
+  getWorldBounds(requestedScale) {
+    // clap scale same as getImage for when comparing images
+    const scale = Math.min(requestedScale, this.scaleInfo.length - 1)
     const { indexToWorld } = this.scaleInfo[scale]
     const imageBounds = ensuredDims(
       [0, 1],

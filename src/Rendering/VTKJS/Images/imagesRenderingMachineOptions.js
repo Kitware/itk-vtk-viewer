@@ -30,13 +30,15 @@ const EPSILON = 0.000001
 
 const areBoundsBiggerThanLoaded = context => {
   const {
-    images: { actorContext, updateRenderedName },
+    images: { actorContext },
+    actorName,
   } = context
-  const { loadedBounds } = actorContext.get(updateRenderedName)
+  const { loadedBounds } = actorContext.get(actorName)
   if (!loadedBounds) return true
 
-  const current = computeRenderedBounds(context)
   const fullImage = getBoundsOfFullImage(context)
+  const current = computeRenderedBounds(context)
+  // clamp rendered bounds to max size of image
   current.forEach((b, i) => {
     current[i] =
       i % 2
@@ -53,10 +55,11 @@ const areBoundsBiggerThanLoaded = context => {
 
 const isTargetScaleLoaded = context => {
   const {
-    images: { actorContext, updateRenderedName },
+    images: { actorContext },
     targetScale,
+    actorName,
   } = context
-  const { loadedScale } = actorContext.get(updateRenderedName)
+  const { loadedScale } = actorContext.get(actorName)
   return loadedScale === targetScale
 }
 
@@ -98,14 +101,14 @@ const imagesRenderingMachineOptions = {
     },
 
     guards: {
-      isFramerateScalePickingOn: ({ images }) =>
-        images.actorContext.get(images.updateRenderedName)
-          .isFramerateScalePickingOn,
+      isFramerateScalePickingOn: ({ images, actorName }) =>
+        images.actorContext.get(actorName).isFramerateScalePickingOn,
 
       isImageUpdateNeeded: context =>
         context.isUpdateForced ||
-        !isTargetScaleLoaded(context) ||
-        areBoundsBiggerThanLoaded(context),
+        (context.images.selectedName === context.actorName && // only update if rendering (aka selected)
+          (!isTargetScaleLoaded(context) ||
+            areBoundsBiggerThanLoaded(context))),
     },
   },
 

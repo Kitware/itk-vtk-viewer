@@ -1,3 +1,4 @@
+import { arraysEqual } from '../../internalUtils.js'
 import { runWasm } from '../itkWasmUtils.js'
 
 export async function resampleLabelImage(image, labelImage) {
@@ -16,16 +17,9 @@ export async function resampleLabelImage(image, labelImage) {
   return runWasm({ pipeline: 'ResampleLabelImage', args, images: [labelImage] })
 }
 
-function compareArrays(a, b) {
-  for (let i = 0; i < a.length; i++) {
-    if (a[i] !== b[i]) return false
-  }
-  return true
-}
-
 export function compareImageSpaces(imageA, imageB) {
   const equalKeys = ['size', 'direction', 'origin', 'spacing'].map(key =>
-    compareArrays(imageA[key], imageB[key])
+    arraysEqual(imageA[key], imageB[key])
   )
   return equalKeys.every(b => b)
 }

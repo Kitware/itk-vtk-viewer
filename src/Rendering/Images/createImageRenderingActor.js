@@ -30,9 +30,15 @@ const assignColorRange = assign({
   },
 })
 
-const clearColorRange = (c, { data: { name } }) => {
+const dirtyColorRanges = (c, { data: { name } }) => {
+  const actorContext = c.images.actorContext.get(name)
+  actorContext.dirtyColorRanges = true
+}
+
+const cleanColorRanges = (c, { data: { name } }) => {
   const actorContext = c.images.actorContext.get(name)
   actorContext.colorRanges = new Map()
+  actorContext.dirtyColorRanges = false
 }
 
 const assignUpdateRenderedName = assign({
@@ -308,7 +314,7 @@ const eventResponses = {
     actions: 'applyCinematicChanged',
   },
   COMPARE_IMAGES: {
-    actions: [assignCompare, clearColorRange, sendCompareUpdated, forceUpdate],
+    actions: [assignCompare, dirtyColorRanges, sendCompareUpdated, forceUpdate],
   },
 }
 
@@ -321,6 +327,7 @@ const createUpdatingImageMachine = options => {
   return createMachine(
     {
       id: 'updatingImageMachine',
+      predictableActionArguments: true,
       initial: 'checkingUpdateNeeded',
       states: {
         checkingUpdateNeeded: {
@@ -356,6 +363,7 @@ const createUpdatingImageMachine = options => {
                 'assignRenderedImage',
                 assignLoadedScale,
                 assignClearHistograms,
+                cleanColorRanges,
                 'applyRenderedImage',
                 sendRenderedImageAssigned,
                 computeIsCinematicPossible,
@@ -421,6 +429,7 @@ const createImageRenderingActor = (options, context, name) => {
   return createMachine(
     {
       id: 'imageRendering',
+      predictableActionArguments: true,
       context: machineContext,
       type: 'parallel',
       states: {

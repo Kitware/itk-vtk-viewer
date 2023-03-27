@@ -154,12 +154,6 @@ function applyRenderedImage(context, { data: { name } }) {
       context.images.colorTransferFunctions.get(component) ??
       vtkColorTransferFunction.newInstance()
 
-    if (actorContext.colorRanges.has(component)) {
-      const range = actorContext.colorRanges.get(component)
-      colorTransferFunction.setMappingRange(range[0], range[1])
-      colorTransferFunction.updateRange()
-    }
-
     context.images.colorTransferFunctions.set(component, colorTransferFunction)
 
     if (!context.images.piecewiseFunctions.has(component)) {

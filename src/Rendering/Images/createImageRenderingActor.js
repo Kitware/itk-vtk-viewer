@@ -37,8 +37,10 @@ const dirtyColorRanges = (c, { data: { name } }) => {
 
 const cleanColorRanges = (c, { data: { name } }) => {
   const actorContext = c.images.actorContext.get(name)
-  actorContext.colorRanges = new Map()
-  actorContext.dirtyColorRanges = false
+  if (actorContext.dirtyColorRanges) {
+    actorContext.colorRanges = new Map()
+    actorContext.dirtyColorRanges = false
+  }
 }
 
 const assignUpdateRenderedName = assign({

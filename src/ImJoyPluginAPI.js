@@ -347,7 +347,7 @@ class ImJoyPluginAPI {
     return this.viewer.getMaxConcurrency()
   }
 
-  setCompareImages(fixedImageName, movingImageName, options) {
+  compareImages(fixedImageName, movingImageName, options) {
     return this.viewer.setCompareImages(
       fixedImageName,
       movingImageName,

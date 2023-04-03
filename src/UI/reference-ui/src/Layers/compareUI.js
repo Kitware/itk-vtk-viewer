@@ -37,23 +37,21 @@ export const compareUI = context => (send, onReceive) => {
     const { compare = undefined } = imageContext ?? {}
     const { method = undefined } = compare ?? {}
 
-    if (!method || method === 'disabled') {
-      root.style.display = 'none'
-    } else {
+    if (method === 'checkerboard') {
       root.style.display = 'block'
-      if (method === 'checkerboard') {
-        if (root.firstChild) root.removeChild(root.firstChild)
-        root.appendChild(checkerboardRoot)
+      if (root.firstChild) root.removeChild(root.firstChild)
+      root.appendChild(checkerboardRoot)
 
-        const compare = context.images.actorContext.get(
-          context.images.selectedName
-        ).compare
-        const [x, y, z] = compare.pattern ?? []
-        xPattern.value = x
-        yPattern.value = y
-        zPattern.value = z
-        swapOrder.checked = !!compare.swapImageOrder
-      }
+      const compare = context.images.actorContext.get(
+        context.images.selectedName
+      ).compare
+      const [x, y, z] = compare.pattern ?? []
+      xPattern.value = x
+      yPattern.value = y
+      zPattern.value = z
+      swapOrder.checked = !!compare.swapImageOrder
+    } else {
+      root.style.display = 'none'
     }
   }
 

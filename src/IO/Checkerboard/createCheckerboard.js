@@ -1,4 +1,5 @@
 import { runWasm } from '../itkWasmUtils.js'
+
 export async function createCheckerboard(
   movingImage,
   fixedImage,

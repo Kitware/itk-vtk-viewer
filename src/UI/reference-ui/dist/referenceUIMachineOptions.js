@@ -8366,31 +8366,29 @@ var compareUI = function compareUI(context) {
       var _ref2 = compare !== null && compare !== void 0 ? compare : {},
         _ref2$method = _ref2.method,
         method = _ref2$method === void 0 ? undefined : _ref2$method
-      if (!method || method === 'disabled') {
-        root.style.display = 'none'
-      } else {
+      if (method === 'checkerboard') {
+        var _compare$pattern
         root.style.display = 'block'
-        if (method === 'checkerboard') {
-          var _compare$pattern
-          if (root.firstChild) root.removeChild(root.firstChild)
-          root.appendChild(checkerboardRoot)
-          var _compare = context.images.actorContext.get(
-            context.images.selectedName
-          ).compare
-          var _ref3 =
-              (_compare$pattern = _compare.pattern) !== null &&
-              _compare$pattern !== void 0
-                ? _compare$pattern
-                : [],
-            _ref4 = _slicedToArray(_ref3, 3),
-            x = _ref4[0],
-            y = _ref4[1],
-            z = _ref4[2]
-          xPattern.value = x
-          yPattern.value = y
-          zPattern.value = z
-          swapOrder.checked = !!_compare.swapImageOrder
-        }
+        if (root.firstChild) root.removeChild(root.firstChild)
+        root.appendChild(checkerboardRoot)
+        var _compare = context.images.actorContext.get(
+          context.images.selectedName
+        ).compare
+        var _ref3 =
+            (_compare$pattern = _compare.pattern) !== null &&
+            _compare$pattern !== void 0
+              ? _compare$pattern
+              : [],
+          _ref4 = _slicedToArray(_ref3, 3),
+          x = _ref4[0],
+          y = _ref4[1],
+          z = _ref4[2]
+        xPattern.value = x
+        yPattern.value = y
+        zPattern.value = z
+        swapOrder.checked = !!_compare.swapImageOrder
+      } else {
+        root.style.display = 'none'
       }
     }
     update()

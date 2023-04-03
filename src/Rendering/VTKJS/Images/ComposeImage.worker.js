@@ -1,7 +1,7 @@
 import registerWebworker from 'webworker-promise/lib/register'
 import { computeRanges } from '../../../IO/Analyze/computeRanges'
 import { createRangeHelper } from '../../../IO/Analyze/createRangeHelper'
-import { createCheckerboard } from '../../../IO/Checkerboard/createCheckerboard'
+import { createCompareImage } from '../../../IO/Compare/createCompareImage'
 import {
   compareImageSpaces,
   resampleLabelImage,
@@ -99,14 +99,18 @@ const fuseConglomerate = image => {
   })
 }
 
-const makeCheckerboard = async ({ image, fixedImage, options }) => {
+const makeCompareImage = async ({ image, fixedImage, options }) => {
+  if (options.method === 'disabled') return image
+
   const itkImage = await fuseConglomerate(image)
   const itkFixedImage = await fuseConglomerate(fixedImage)
+
   const { ranges } = await ensureRanges(itkFixedImage)
   const rangeHelper = createRangeHelper()
   ranges.flat().forEach(v => rangeHelper.add(v))
   const { min, max } = rangeHelper.getRange()
-  return createCheckerboard(itkImage, itkFixedImage, {
+
+  return createCompareImage(itkImage, itkFixedImage, {
     minMax: [min, max],
     ...options,
   })
@@ -130,15 +134,23 @@ registerWebworker(
     fixedImage,
     compare,
   }) => {
-    const checkerboardActive = compare.method === 'checkerboard'
-    let image =
-      checkerboardActive && fixedImage
-        ? await makeCheckerboard({
-            image: inImage,
-            fixedImage,
-            options: compare,
-          })
-        : await pickIntensityComponents(inImage, visualizedComponents)
+    // const checkerboardActive = compare.method === 'checkerboard'
+    // let image =
+    //   checkerboardActive && fixedImage
+    //     ? await makeCheckerboard({
+    //         image: inImage,
+    //         fixedImage,
+    //         options: compare,
+    //       })
+    //     : await pickIntensityComponents(inImage, visualizedComponents)
+
+    let image = await makeCompareImage({
+      image: inImage,
+      fixedImage,
+      options: compare,
+    })
+
+    image = await pickIntensityComponents(image, visualizedComponents)
 
     // Label processing
     const labelResampled = await ensureSameImageSpace({

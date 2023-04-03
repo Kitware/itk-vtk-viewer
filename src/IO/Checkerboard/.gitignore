@@ -1,3 +1,0 @@
-/emscripten-build/*
-!emscripten-build/checkerboard*
-output.png

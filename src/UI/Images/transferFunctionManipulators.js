@@ -138,7 +138,7 @@ export const createTransferFunctionManipulators = context => (
       fullRange = actorContext.colorRangeBounds.get(component)
     }
     const diff = fullRange[1] - fullRange[0]
-    const steps = 10 ** Math.ceil(Math.log(diff / 1000))
+    const steps = Math.min(10 ** Math.ceil(Math.log(diff / 1000)), 10)
 
     // level
     rangeManipulator.setVerticalListener(

@@ -216,18 +216,14 @@ const assignComponentVisibilities = assign({
   images: ({ images }, event) => {
     const actorContext = images.actorContext.get(event.data.name)
 
-    const { image } = actorContext
+    const outputImageComponentCount = getOutputImageComponentCount(actorContext)
 
     actorContext.componentVisibilities = resize(
       actorContext.componentVisibilities,
-      image.imageType.components,
+      outputImageComponentCount,
       true
     )
 
-    actorContext.componentVisibilities = actorContext.componentVisibilities.slice(
-      0,
-      getOutputImageComponentCount(actorContext)
-    )
     return images
   },
 })

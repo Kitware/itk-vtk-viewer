@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(compare)
+project(Compare)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -22,6 +22,6 @@ find_package(ITK REQUIRED
   )
 include(${ITK_USE_FILE})
 
-add_executable(compare compare.cxx)
-target_link_libraries(compare PUBLIC ${ITK_LIBRARIES})
+add_executable(Compare Compare.cxx)
+target_link_libraries(Compare PUBLIC ${ITK_LIBRARIES})
 

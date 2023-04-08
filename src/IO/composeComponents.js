@@ -49,3 +49,58 @@ export const fuseComponents = ({ componentInfo, arrayToFill }) => {
   }
   return fusedImageData
 }
+
+export const pickAndFuseComponents = async ({
+  image,
+  labelImage,
+  components,
+}) => {
+  // not Conglomerate, no label image, and all components needed: just return image
+  if (
+    !Array.isArray(image) &&
+    !labelImage &&
+    image.imageType.components === components.length
+  )
+    return image
+
+  const [imageByComponent, labelByComponent] = [image, labelImage].map(image =>
+    parseByComponent(image)
+  )
+  const componentInfo = components.map(
+    comp =>
+      comp >= 0 ? imageByComponent[comp] : labelByComponent[comp * -1 - 1] // label component index starts at -1
+  )
+
+  const imageArray = fuseComponents({
+    componentInfo,
+  })
+
+  const ranges = componentInfo.map(
+    ({ image: { ranges }, fromComponent }) => ranges && ranges[fromComponent]
+  )
+
+  // picks out one from ConglomerateImage
+  const singleImage = Array.isArray(image) ? image[0] : image
+
+  const itkImage = {
+    ...singleImage,
+    data: imageArray,
+    imageType: {
+      ...singleImage.imageType,
+      components: components.length,
+    },
+    ranges,
+  }
+  return itkImage
+}
+
+export const composeComponents = images => {
+  const componentCount = images.map(i => i.imageType.components).reduce(sum)
+  // include all components
+  const components = [...Array(componentCount).keys()]
+  // compose Conglomerate images
+  return pickAndFuseComponents({
+    image: images,
+    components,
+  })
+}

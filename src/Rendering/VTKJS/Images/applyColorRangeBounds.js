@@ -34,7 +34,7 @@ export const applyColorRangeBounds = (context, event) => {
   const newRangeDiff = newRange[1] - newRange[0]
 
   const actorContext = context.images.actorContext.get(name)
-  const oldPoints = actorContext.piecewiseFunctionPoints?.get(component)
+  const oldPoints = actorContext.piecewiseFunctionPoints.get(component)
   const points = oldPoints
     // find real intensity value of normalized points
     .map(([x, y]) => [x * oldRangeDiff + oldBounds[0], y])

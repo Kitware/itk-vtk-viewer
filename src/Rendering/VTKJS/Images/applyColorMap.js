@@ -10,6 +10,9 @@ function applyColorMap(context, { data: { name, colorMap, component } }) {
     component
   )
 
+  // if number of components increased after compare set and applyRenderedImage has not happened yet
+  if (!colorTransferFunction) return
+
   colorTransferFunction.applyColorMap(
     getColorMap(colorMap, component + COLOR_OFFSET)
   )

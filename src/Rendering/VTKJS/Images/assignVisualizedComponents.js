@@ -7,8 +7,8 @@ const assignVisualizedComponents = assign({
     const actorContext = context.images.actorContext.get(name)
     const { image, labelImage, editorLabelImage } = actorContext
     if (image) {
-      const imageComponents = image.imageType.components
-      actorContext.visualizedComponents = Array(image.imageType.components)
+      const imageComponents = getOutputImageComponentCount(actorContext)
+      actorContext.visualizedComponents = Array(imageComponents)
         .fill(0)
         .map((_, idx) => idx)
         .filter(i => actorContext.componentVisibilities[i])

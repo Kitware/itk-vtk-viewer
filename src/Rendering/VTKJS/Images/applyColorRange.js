@@ -19,7 +19,7 @@ function applyColorRange(context, { data: { name, component, range } }) {
   ]
   const normDelta = colorRangeNormalized[1] - colorRangeNormalized[0]
 
-  const oldPoints = actorContext.piecewiseFunctionPoints?.get(component)
+  const oldPoints = actorContext.piecewiseFunctionPoints.get(component)
   const xValues = oldPoints.map(([x]) => x)
   // if 1 point, assume whole range
   const maxOldPoints = xValues.length > 1 ? Math.max(...xValues) : 1

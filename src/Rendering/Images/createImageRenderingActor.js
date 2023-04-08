@@ -4,9 +4,12 @@ import { makeTransitions } from './makeTransitions'
 
 export const getOutputImageComponentCount = actorContext => {
   const {
+    image,
     compare: { method },
   } = actorContext
-  return method === 'checkerboard' ? 1 : Number.POSITIVE_INFINITY
+  if (method === 'checkerboard') return 1
+  if (method === 'cyan-magenta' || method === 'blend') return 2
+  return image.imageType.components
 }
 
 const getLoadedImage = actorContext =>
@@ -38,7 +41,13 @@ const dirtyColorRanges = (c, { data: { name } }) => {
 const cleanColorRanges = (c, { data: { name } }) => {
   const actorContext = c.images.actorContext.get(name)
   if (actorContext.dirtyColorRanges) {
+    // let applyRenderedImage update colorRanges and colorRangeBounds
     actorContext.colorRanges = new Map()
+    const componentCount = getOutputImageComponentCount(actorContext)
+    actorContext.colorRangeBoundsAutoAdjust = new Map(
+      [...Array(componentCount).keys()].map(c => [c, true])
+    )
+
     actorContext.dirtyColorRanges = false
   }
 }
@@ -162,9 +171,41 @@ const computeIsCinematicPossible = (context, { data: { itkImage, name } }) => {
 }
 
 const assignCompare = assign({
-  images: ({ images }, { data: { name, fixedImageName, options } }) => {
+  images: (
+    { images, service, use2D },
+    { data: { name, fixedImageName, options } }
+  ) => {
     const actorContext = images.actorContext.get(name)
     actorContext.compare = { ...defaultCompare, ...options, fixedImageName }
+
+    const { method } = options
+    if (method === 'cyan-magenta' || method === 'blend') {
+      for (let component = 0; component < 2; component++) {
+        const points = use2D
+          ? [
+              [0, 1],
+              [1, 1],
+            ]
+          : [
+              [0, 0],
+              [1, 1],
+            ]
+        service.send({
+          type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED',
+          data: { name, component, points },
+        })
+      }
+    }
+    if (method === 'cyan-magenta') {
+      service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component: 0, colorMap: 'BkCy' },
+      })
+      service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component: 1, colorMap: 'BkMa' },
+      })
+    }
     return images
   },
 })

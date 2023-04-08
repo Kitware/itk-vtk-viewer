@@ -69,7 +69,11 @@ function applyRenderedImage(context, { data: { name } }) {
 
   const image = actorContext.image
   const labelImage = actorContext.labelImage
-  const numberOfComponents = image ? image.imageType.components : 0
+  const numberOfComponents =
+    actorContext.fusedImage
+      ?.getPointData()
+      .getScalars()
+      .getNumberOfComponents() ?? 0
 
   context.images.source.setInputData(actorContext.fusedImage)
 
@@ -163,6 +167,17 @@ function applyRenderedImage(context, { data: { name } }) {
       }
       context.images.piecewiseFunctions.set(component, piecewiseFunction)
     }
+
+    // Compare may have increased number of components.
+    // Trigger update as we have colorTransferFunctions now
+    context.service.send({
+      type: 'IMAGE_COLOR_MAP_CHANGED',
+      data: {
+        name,
+        component,
+        colorMap: actorContext.colorMaps.get(component),
+      },
+    })
   }
 
   // Visualized components may have updated -> set color transfer function, piecewise function, component visibility, independent components in slices
@@ -174,6 +189,10 @@ function applyRenderedImage(context, { data: { name } }) {
     actorContext.visualizedComponents.forEach(
       (componentIndex, fusedImageIndex) => {
         if (!context.images.colorTransferFunctions.has(componentIndex)) {
+          console.error(
+            'Did not find colorTransferFunction for component: ' +
+              componentIndex
+          )
           return
         }
 

@@ -40,9 +40,10 @@
 #include "itkCastImageFilter.h"
 #include "itkVectorMagnitudeImageFilter.h"
 #include "itkRGBToLuminanceImageFilter.h"
+#include "itkComposeImageFilter.h"
 
 template <typename TMovingImage, typename TFixedImage>
-int Checkerboard(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage, const TFixedImage *fixedImage)
+int Compare(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage, const TFixedImage *fixedImage)
 {
   using ImageType = TMovingImage;
   using FixedImageType = TFixedImage;
@@ -50,9 +51,8 @@ int Checkerboard(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage,
   pipeline.get_option("input-image")->required()->type_name("INPUT_IMAGE");
   pipeline.get_option("fixed-image")->required()->type_name("INPUT_IMAGE");
 
-  using OutputImageType = itk::wasm::OutputImage<FixedImageType>;
-  OutputImageType outputImage;
-  pipeline.add_option("output-image", outputImage, "Output image")->required()->type_name("OUTPUT_IMAGE");
+  std::string method;
+  pipeline.add_option("-e,--method", method, "Compare method")->required();
 
   std::vector<float> range;
   pipeline.add_option("-r,--range", range, "Min and max intensity values of output image")->expected(2)->delimiter(',');
@@ -73,7 +73,7 @@ int Checkerboard(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage,
   itk::wasm::OutputTextStream numberOfSplitsStream;
   auto numberOfSplitsStreamOption = pipeline.add_option("--number-of-splits", numberOfSplitsStream, "Number of splits");
 
-  ITK_WASM_PARSE(pipeline);
+  ITK_WASM_PRE_PARSE(pipeline);
 
   // Resample moving to fixed image
   using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
@@ -91,72 +91,142 @@ int Checkerboard(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage,
   rescaleFilter->SetOutputMinimum(range[0]);
   rescaleFilter->SetOutputMaximum(range[1]);
 
-  // Checkerboard images
-  using FilterType = itk::CheckerBoardImageFilter<FixedImageType>;
-  auto filter = FilterType::New();
-
-  if (swapImageOrder)
+  if (method.compare("checkerboard") == 0)
   {
-    filter->SetInput1(fixedImage);
-    filter->SetInput2(rescaleFilter->GetOutput());
+    // Checkerboard images
+    using FilterType = itk::CheckerBoardImageFilter<FixedImageType>;
+    auto filter = FilterType::New();
+
+    if (swapImageOrder)
+    {
+      filter->SetInput1(fixedImage);
+      filter->SetInput2(rescaleFilter->GetOutput());
+    }
+    else
+    {
+      filter->SetInput1(rescaleFilter->GetOutput());
+      filter->SetInput2(fixedImage);
+    }
+
+    const int dims = pattern.size();
+    if (dims > 0)
+    {
+      typename FilterType::PatternArrayType checkerPattern;
+      for (int i = 0; i < dims; ++i)
+      {
+        checkerPattern[i] = pattern[i];
+      }
+      filter->SetCheckerPattern(checkerPattern);
+    }
+
+    // Split handling
+    using ROIFilterType = itk::ExtractImageFilter<FixedImageType, FixedImageType>;
+    filter->UpdateOutputInformation();
+    using RegionType = typename FixedImageType::RegionType;
+    const RegionType largestRegion(filter->GetOutput()->GetLargestPossibleRegion());
+
+    using SplitterType = itk::ImageRegionSplitterSlowDimension;
+    auto splitter = SplitterType::New();
+    const unsigned int numberOfSplits = splitter->GetNumberOfSplits(largestRegion, maxTotalSplits);
+
+    if (split >= numberOfSplits)
+    {
+      std::cerr << "Error: requested split: " << split << " is outside the number of splits: " << numberOfSplits << std::endl;
+      return EXIT_FAILURE;
+    }
+
+    if (!numberOfSplitsStreamOption->empty())
+    {
+      numberOfSplitsStream.Get() << numberOfSplits;
+    }
+
+    RegionType requestedRegion(largestRegion);
+    splitter->GetSplit(split, numberOfSplits, requestedRegion);
+    auto roiFilter = ROIFilterType::New();
+    roiFilter->SetExtractionRegion(requestedRegion);
+    roiFilter->SetInput(filter->GetOutput());
+
+    try
+    {
+      roiFilter->Update();
+    }
+    catch (std::exception &error)
+    {
+      std::cerr << "Error: " << error.what() << std::endl;
+      return EXIT_FAILURE;
+    }
+
+    using OutputImageType = itk::wasm::OutputImage<FixedImageType>;
+    OutputImageType outputImage;
+    pipeline.add_option("output-image", outputImage, "Output image")->required()->type_name("OUTPUT_IMAGE");
+
+    ITK_WASM_PARSE(pipeline);
+
+    outputImage.Set(roiFilter->GetOutput());
+
+    return EXIT_SUCCESS;
   }
   else
   {
-    filter->SetInput1(rescaleFilter->GetOutput());
-    filter->SetInput2(fixedImage);
-  }
+    // cyan-magenta or blend
 
-  const int dims = pattern.size();
-  if (dims > 0)
-  {
-    typename FilterType::PatternArrayType checkerPattern;
-    for (int i = 0; i < dims; ++i)
+    // using FilterType = itk::ComposeImageFilter<FixedImageType>;
+    // auto filter = FilterType::New();
+    // filter->SetInput(0, fixedImage);
+    // filter->SetInput(1, rescaleFilter->GetOutput());
+
+    // using PipelineOutputType = typename itk::VectorImage<typename FixedImageType::PixelType, FixedImageType::ImageDimension>;
+
+    auto filter = rescaleFilter;
+    using PipelineOutputType = FixedImageType;
+
+    using OutputImageType = itk::wasm::OutputImage<PipelineOutputType>;
+    OutputImageType outputImage;
+    pipeline.add_option("output-image", outputImage, "Output image")->required()->type_name("OUTPUT_IMAGE");
+
+    ITK_WASM_PARSE(pipeline);
+
+    // Split handling
+    using ROIFilterType = itk::ExtractImageFilter<PipelineOutputType, PipelineOutputType>;
+    filter->UpdateOutputInformation();
+    using RegionType = typename PipelineOutputType::RegionType;
+    const RegionType largestRegion(filter->GetOutput()->GetLargestPossibleRegion());
+
+    using SplitterType = itk::ImageRegionSplitterSlowDimension;
+    auto splitter = SplitterType::New();
+    const unsigned int numberOfSplits = splitter->GetNumberOfSplits(largestRegion, maxTotalSplits);
+
+    if (split >= numberOfSplits)
     {
-      checkerPattern[i] = pattern[i];
+      std::cerr << "Error: requested split: " << split << " is outside the number of splits: " << numberOfSplits << std::endl;
+      return EXIT_FAILURE;
     }
-    filter->SetCheckerPattern(checkerPattern);
+
+    if (!numberOfSplitsStreamOption->empty())
+    {
+      numberOfSplitsStream.Get() << numberOfSplits;
+    }
+
+    RegionType requestedRegion(largestRegion);
+    splitter->GetSplit(split, numberOfSplits, requestedRegion);
+    auto roiFilter = ROIFilterType::New();
+    roiFilter->SetExtractionRegion(requestedRegion);
+    roiFilter->SetInput(filter->GetOutput());
+
+    try
+    {
+      roiFilter->Update();
+    }
+    catch (std::exception &error)
+    {
+      std::cerr << "Error: " << error.what() << std::endl;
+      return EXIT_FAILURE;
+    }
+
+    outputImage.Set(roiFilter->GetOutput());
+
+    return EXIT_SUCCESS;
   }
-
-  // Split handling
-  using ROIFilterType = itk::ExtractImageFilter<FixedImageType, FixedImageType>;
-  filter->UpdateOutputInformation();
-  using RegionType = typename FixedImageType::RegionType;
-  const RegionType largestRegion(filter->GetOutput()->GetLargestPossibleRegion());
-
-  using SplitterType = itk::ImageRegionSplitterSlowDimension;
-  auto splitter = SplitterType::New();
-  const unsigned int numberOfSplits = splitter->GetNumberOfSplits(largestRegion, maxTotalSplits);
-
-  if (split >= numberOfSplits)
-  {
-    std::cerr << "Error: requested split: " << split << " is outside the number of splits: " << numberOfSplits << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  if (!numberOfSplitsStreamOption->empty())
-  {
-    numberOfSplitsStream.Get() << numberOfSplits;
-  }
-
-  RegionType requestedRegion(largestRegion);
-  splitter->GetSplit(split, numberOfSplits, requestedRegion);
-  auto roiFilter = ROIFilterType::New();
-  roiFilter->SetExtractionRegion(requestedRegion);
-  roiFilter->SetInput(filter->GetOutput());
-
-  try
-  {
-    roiFilter->Update();
-  }
-  catch (std::exception &error)
-  {
-    std::cerr << "Error: " << error.what() << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  outputImage.Set(roiFilter->GetOutput());
-
-  return EXIT_SUCCESS;
 }
 
 using MagnitudePixelType = float;
@@ -279,8 +349,8 @@ private:
       auto movingScalarImage = EnsureOneComponent<TImage>(parsedImage);
       auto fixedScalarImage = EnsureOneComponent<TFixedImage>(fixed);
 
-      // The images as SmartPointers may be important to avoid silent failure of Checkerboard() (due to cleanup of image memory?)
-      return Checkerboard(pipeline, movingScalarImage.GetPointer(), fixedScalarImage.GetPointer());
+      // The images as SmartPointers may be important to avoid silent failure of Compare() (due to cleanup of image memory?)
+      return Compare(pipeline, movingScalarImage.GetPointer(), fixedScalarImage.GetPointer());
     }
   };
 
@@ -289,7 +359,7 @@ private:
 
 int main(int argc, char *argv[])
 {
-  itk::wasm::Pipeline pipeline("checkerboard", "Combine two images by alternating blocks of a checkerboard pattern.", argc, argv);
+  itk::wasm::Pipeline pipeline("compare", "Combine two images by method", argc, argv);
 
   return itk::wasm::SupportInputImageTypes<InputImagePipelineFunctor,
                                            uint8_t,

@@ -7767,7 +7767,7 @@ let LayerSettings = class LayerSettings extends s$4 {
       this.menuRef.value.show()
     }
   }
-  compareWith(name) {
+  compareWith(name, method) {
     var _a
     ;(_a = this.stateService.value) === null || _a === void 0
       ? void 0
@@ -7776,7 +7776,7 @@ let LayerSettings = class LayerSettings extends s$4 {
           data: {
             name: this.name,
             fixedImageName: name,
-            options: { method: 'checkerboard' },
+            options: { method },
           },
         })
   }
@@ -7809,7 +7809,15 @@ let LayerSettings = class LayerSettings extends s$4 {
               name => y`
                   <md-menu-item
                     headline="Checkerboard compare with ${name}"
-                    @click=${() => this.compareWith(name)}
+                    @click=${() => this.compareWith(name, 'checkerboard')}
+                  ></md-menu-item>
+                  <md-menu-item
+                    headline="Cyan-Magenta compare with ${name}"
+                    @click=${() => this.compareWith(name, 'cyan-magenta')}
+                  ></md-menu-item>
+                  <md-menu-item
+                    headline="Blend compare with ${name}"
+                    @click=${() => this.compareWith(name, 'blend')}
                   ></md-menu-item>
                 `
             )}
@@ -23234,10 +23242,6 @@ function applyColorRangeBounds(context, event) {
   var range = event.data.range
   var minimumInput = context.images.colorRangeInputRow.children[1].children[0]
   var maximumInput = context.images.colorRangeInputRow.children[3].children[0]
-  minimumInput.min = range[0]
-  minimumInput.max = range[1]
-  maximumInput.min = range[0]
-  maximumInput.max = range[1]
   var image = actorContext.image
   if (
     (image && image.imageType.componentType === 'float') ||

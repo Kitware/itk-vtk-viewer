@@ -196,6 +196,7 @@ const assignCompare = assign({
         })
       }
     }
+
     if (method === 'cyan-magenta') {
       service.send({
         type: 'IMAGE_COLOR_MAP_CHANGED',
@@ -206,6 +207,18 @@ const assignCompare = assign({
         data: { name, component: 1, colorMap: 'BkMa' },
       })
     }
+
+    if (method === 'blend') {
+      service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component: 0, colorMap: 'Grayscale' },
+      })
+      service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component: 1, colorMap: 'Grayscale' },
+      })
+    }
+
     return images
   },
 })

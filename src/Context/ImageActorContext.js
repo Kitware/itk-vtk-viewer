@@ -1,7 +1,8 @@
 export const defaultCompare = {
-  method: 'disabled',
-  pattern: [4, 4, 4],
-  swapImageOrder: false,
+  method: 'disabled', // 'checkerboard', 'cyan-magenta', 'blend', 'disabled'
+  pattern: [4, 4, 4], // when checkerboard, number of "squares" across each dimension
+  swapImageOrder: false, // when checkerboard, switches moving/fixed image in each square
+  componentMix: 0.5, // when method is blend, changes opaqueness of moving vs fixed image. Value of 1 means max opacity for moving image, 0 for fixed image.
 }
 
 class ImageActorContext {
@@ -120,7 +121,7 @@ class ImageActorContext {
   // Cached histogram by component for use by UI when switching selected component
   histograms = new Map()
 
-  // Option config object for fusing 2 images, i.e. 'checkerboard'. See index.md for object shape.
+  // Option config object for fusing 2 images, i.e. 'checkerboard'. See defaultCompare for object shape.
   compare = { ...defaultCompare }
 
   // Override default left button mouse interactor to use window width/level interactor

@@ -23267,10 +23267,11 @@ function applyColorMap(context, _ref) {
   var _ref$data = _ref.data,
     component = _ref$data.component,
     name = _ref$data.name
+  if (context.images.selectedName !== name) return
   var actorContext = context.images.actorContext.get(name)
-  var colorMap = actorContext.colorMaps.get(component)
   if (component === actorContext.selectedComponent) {
     var _context$images$color
+    var colorMap = actorContext.colorMaps.get(component)
     context.images.iconSelector.setSelectedValue(colorMap)
     var colorTransferFunction =
       (_context$images$color = context.images.colorTransferFunctions) ===

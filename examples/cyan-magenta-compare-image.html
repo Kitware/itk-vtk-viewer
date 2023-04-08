@@ -37,41 +37,41 @@
         const container = document.querySelector('#viewport')
 
         // Provide fixedImage and compare as createViewer options example:
-        // const viewer = await itkVtkViewer.createViewer(container, {
-        //   rotate: false,
-        //   image,
-        //   fixedImage,
-        //   labelImage,
-        //   compare: { method: 'checkerboard' },
-        // })
-
-        // Call setImage to add images, then setCompareImages example:
         const viewer = await itkVtkViewer.createViewer(container, {
           rotate: false,
+          image,
+          fixedImage,
+          // labelImage,
+          compare: { method: 'blend' },
         })
-        viewer.setImage(fixedImage, 'Fixed') // fixed image must be first one added
-        viewer.setImage(image, 'Image')
+
+        // Call setImage to add images, then setCompareImages example:
+        // const viewer = await itkVtkViewer.createViewer(container, {
+        //   rotate: false,
+        // })
+        // viewer.setImage(fixedImage, 'Fixed') // fixed image must be first one added
+        // viewer.setImage(image, 'Image')
         // viewer.setLabelImage(labelImage, 'Image')
 
-        viewer.setCompareImages('Fixed', 'Image', {
-          method: 'cyan-magenta',
-        })
+        // viewer.setCompareImages('Fixed', 'Image', {
+        //   method: 'cyan-magenta',
+        // })
 
-        setTimeout(
-          () =>
-            viewer.setCompareImages('Fixed', 'Image', {
-              method: 'disabled',
-            }),
-          2000
-        )
+        // setTimeout(
+        //   () =>
+        //     viewer.setCompareImages('Fixed', 'Image', {
+        //       method: 'disabled',
+        //     }),
+        //   2000
+        // )
 
-        setTimeout(
-          () =>
-            viewer.setCompareImages('Fixed', 'Image', {
-              method: 'cyan-magenta',
-            }),
-          4000
-        )
+        // setTimeout(
+        //   () =>
+        //     viewer.setCompareImages('Fixed', 'Image', {
+        //       method: 'cyan-magenta',
+        //     }),
+        //   4000
+        // )
 
         window.viewer = viewer
       }

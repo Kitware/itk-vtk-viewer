@@ -6,7 +6,8 @@ const COLOR_OFFSET = 146
 function applyColorMap(context, { data: { name, colorMap, component } }) {
   const actorContext = context.images.actorContext.get(name)
 
-  const colorTransferFunction = context.images.colorTransferFunctions.get(
+  // Optional chain on colorTransferFunctions in case compare set in createViewer
+  const colorTransferFunction = context.images.colorTransferFunctions?.get(
     component
   )
 

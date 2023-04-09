@@ -33,25 +33,6 @@ const assignColorRange = assign({
   },
 })
 
-const dirtyColorRanges = (c, { data: { name } }) => {
-  const actorContext = c.images.actorContext.get(name)
-  actorContext.dirtyColorRanges = true
-}
-
-const cleanColorRanges = (c, { data: { name } }) => {
-  const actorContext = c.images.actorContext.get(name)
-  if (actorContext.dirtyColorRanges) {
-    // let applyRenderedImage update colorRanges and colorRangeBounds
-    actorContext.colorRanges = new Map()
-    const componentCount = getOutputImageComponentCount(actorContext)
-    actorContext.colorRangeBoundsAutoAdjust = new Map(
-      [...Array(componentCount).keys()].map(c => [c, true])
-    )
-
-    actorContext.dirtyColorRanges = false
-  }
-}
-
 const assignUpdateRenderedName = assign({
   images: (context, event) => {
     const images = context.images
@@ -170,58 +151,116 @@ const computeIsCinematicPossible = (context, { data: { itkImage, name } }) => {
   })
 }
 
+// force rebuilding image
+const forceUpdate = c =>
+  c.service.send({
+    type: 'UPDATE_RENDERED_IMAGE',
+    data: { name: c.actorName },
+  })
+
+const sendCompareUpdated = (c, { data: { name } }) => {
+  c.service.send({
+    type: 'COMPARE_UPDATED',
+    data: { name },
+  })
+}
+
+const updateCompare = (
+  { service, use2D, images: { actorContext: actorMap } },
+  name
+) => {
+  const actorContext = actorMap.get(name)
+  const { method } = actorContext.compare
+  const { method: lastMethod } = actorContext.lastCompare ?? {}
+  if (lastMethod === method) return
+
+  if (method === 'cyan-magenta' || method === 'blend') {
+    for (let component = 0; component < 2; component++) {
+      const points = use2D
+        ? [
+            [0, 1],
+            [1, 1],
+          ]
+        : [
+            [0, 0],
+            [1, 1],
+          ]
+      service.send({
+        type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED',
+        data: { name, component, points },
+      })
+    }
+  }
+
+  if (method === 'cyan-magenta') {
+    service.send({
+      type: 'IMAGE_COLOR_MAP_CHANGED',
+      data: { name, component: 0, colorMap: 'BkCy' },
+    })
+    service.send({
+      type: 'IMAGE_COLOR_MAP_CHANGED',
+      data: { name, component: 1, colorMap: 'BkMa' },
+    })
+  }
+
+  if (method === 'blend') {
+    service.send({
+      type: 'IMAGE_COLOR_MAP_CHANGED',
+      data: { name, component: 0, colorMap: 'Grayscale' },
+    })
+    service.send({
+      type: 'IMAGE_COLOR_MAP_CHANGED',
+      data: { name, component: 1, colorMap: 'Grayscale' },
+    })
+  }
+}
+
 const assignCompare = assign({
-  images: (
-    { images, service, use2D },
-    { data: { name, fixedImageName, options } }
-  ) => {
-    const actorContext = images.actorContext.get(name)
+  images: (context, { data: { name, fixedImageName, options } }) => {
+    const actorContext = context.images.actorContext.get(name)
+    actorContext.lastCompare = { ...actorContext.compare } // for diffing downstream
     actorContext.compare = { ...defaultCompare, ...options, fixedImageName }
-
-    const { method } = options
-    if (method === 'cyan-magenta' || method === 'blend') {
-      for (let component = 0; component < 2; component++) {
-        const points = use2D
-          ? [
-              [0, 1],
-              [1, 1],
-            ]
-          : [
-              [0, 0],
-              [1, 1],
-            ]
-        service.send({
-          type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED',
-          data: { name, component, points },
-        })
-      }
-    }
-
-    if (method === 'cyan-magenta') {
-      service.send({
-        type: 'IMAGE_COLOR_MAP_CHANGED',
-        data: { name, component: 0, colorMap: 'BkCy' },
-      })
-      service.send({
-        type: 'IMAGE_COLOR_MAP_CHANGED',
-        data: { name, component: 1, colorMap: 'BkMa' },
-      })
-    }
-
-    if (method === 'blend') {
-      service.send({
-        type: 'IMAGE_COLOR_MAP_CHANGED',
-        data: { name, component: 0, colorMap: 'Grayscale' },
-      })
-      service.send({
-        type: 'IMAGE_COLOR_MAP_CHANGED',
-        data: { name, component: 1, colorMap: 'Grayscale' },
-      })
-    }
-
-    return images
+    updateCompare(context, name)
+    return context.images
   },
 })
+
+const dirtyColorRanges = c => {
+  const actorContext = c.images.actorContext.get(c.actorName)
+  actorContext.dirtyColorRanges = true
+}
+
+const cleanColorRanges = (c, { data: { name } }) => {
+  const actorContext = c.images.actorContext.get(name)
+  if (actorContext.dirtyColorRanges) {
+    // let applyRenderedImage update colorRanges and colorRangeBounds
+    actorContext.colorRanges = new Map()
+    const componentCount = getOutputImageComponentCount(actorContext)
+    actorContext.colorRangeBoundsAutoAdjust = new Map(
+      [...Array(componentCount).keys()].map(c => [c, true])
+    )
+
+    actorContext.dirtyColorRanges = false
+  }
+}
+
+const afterCompareMaybeForceUpdate = context => {
+  const {
+    actorName,
+    images: { actorContext: actorMap },
+  } = context
+  const actorContext = actorMap.get(actorName)
+
+  // eslint-disable-next-line no-unused-vars
+  const { imageMix, ...compare } = actorContext.compare
+  // eslint-disable-next-line no-unused-vars
+  const { imageMix: lastMix, ...lastCompare } = actorContext.lastCompare ?? {}
+
+  if (JSON.stringify(compare) === JSON.stringify(lastCompare)) return
+
+  dirtyColorRanges(context)
+  forceUpdate(context)
+}
 
 const KNOWN_ERRORS = [
   'Voxel count over max at scale',
@@ -266,19 +305,6 @@ const sendFinishDataUpdate = context => {
   })
 }
 
-// force update
-const forceUpdate = (c, e) =>
-  c.service.send({
-    type: 'UPDATE_RENDERED_IMAGE',
-    data: { name: e.data.name },
-  })
-
-const sendCompareUpdated = (c, { data: { name } }) => {
-  c.service.send({
-    type: 'COMPARE_UPDATED',
-    data: { name },
-  })
-}
 const eventResponses = {
   IMAGE_ASSIGNED: {
     target: 'updatingImage',
@@ -370,7 +396,7 @@ const eventResponses = {
     actions: 'applyCinematicChanged',
   },
   COMPARE_IMAGES: {
-    actions: [assignCompare, dirtyColorRanges, sendCompareUpdated, forceUpdate],
+    actions: [assignCompare, sendCompareUpdated, afterCompareMaybeForceUpdate],
   },
 }
 

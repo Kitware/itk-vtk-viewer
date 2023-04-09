@@ -170,48 +170,57 @@ const updateCompare = (
   name
 ) => {
   const actorContext = actorMap.get(name)
-  const { method } = actorContext.compare
-  const { method: lastMethod } = actorContext.lastCompare ?? {}
-  if (lastMethod === method) return
 
-  if (method === 'cyan-magenta' || method === 'blend') {
+  const { method, imageMix } = actorContext.compare
+  const { method: lastMethod, imageMix: lastImageMix } =
+    actorContext.lastCompare ?? {}
+
+  if (lastMethod !== method) {
+    if (method === 'cyan-magenta') {
+      service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component: 0, colorMap: 'BkCy' },
+      })
+      service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component: 1, colorMap: 'BkMa' },
+      })
+    }
+
+    if (method === 'blend') {
+      service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component: 0, colorMap: 'Grayscale' },
+      })
+      service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component: 1, colorMap: 'Grayscale' },
+      })
+    }
+  }
+
+  if (
+    (method === 'cyan-magenta' || method === 'blend') &&
+    (lastMethod !== method || imageMix !== lastImageMix)
+  ) {
+    const mix0 = imageMix
+    const mix1 = 1 - imageMix
     for (let component = 0; component < 2; component++) {
+      const mix = component ? mix1 : mix0
       const points = use2D
         ? [
-            [0, 1],
-            [1, 1],
+            [0, mix],
+            [1, mix],
           ]
         : [
             [0, 0],
-            [1, 1],
+            [1, mix],
           ]
       service.send({
         type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED',
         data: { name, component, points },
       })
     }
-  }
-
-  if (method === 'cyan-magenta') {
-    service.send({
-      type: 'IMAGE_COLOR_MAP_CHANGED',
-      data: { name, component: 0, colorMap: 'BkCy' },
-    })
-    service.send({
-      type: 'IMAGE_COLOR_MAP_CHANGED',
-      data: { name, component: 1, colorMap: 'BkMa' },
-    })
-  }
-
-  if (method === 'blend') {
-    service.send({
-      type: 'IMAGE_COLOR_MAP_CHANGED',
-      data: { name, component: 0, colorMap: 'Grayscale' },
-    })
-    service.send({
-      type: 'IMAGE_COLOR_MAP_CHANGED',
-      data: { name, component: 1, colorMap: 'Grayscale' },
-    })
   }
 }
 

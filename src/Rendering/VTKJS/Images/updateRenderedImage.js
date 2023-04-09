@@ -77,7 +77,7 @@ async function updateRenderedImage(context) {
       `Voxel count over max at scale ${targetScale}. Requested: ${voxelCount} Max: ${RENDERED_VOXEL_MAX}`
     )
 
-  const compareEnabled = compare?.method !== 'disabled'
+  const compareEnabled = compare.method && compare.method !== 'disabled'
   const fixedImage = compareEnabled
     ? context.images.actorContext.get(compare.fixedImageName)?.image
     : undefined

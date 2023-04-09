@@ -67,6 +67,7 @@ class ImageActorContext {
   // characterizing a VTK piecewise function
   piecewiseFunctions = new Map()
 
+  // Not used!
   // Map of the image intensity component to the array of
   // { position, width, xBias, yBias } gaussian parameters that define the
   // piecewise functions
@@ -122,7 +123,7 @@ class ImageActorContext {
   histograms = new Map()
 
   // Option config object for fusing 2 images, i.e. 'checkerboard'. See defaultCompare for object shape.
-  compare = { ...defaultCompare }
+  compare = {} // empty object allows initial update "diff" to detect changes and apply parameters
 
   // Override default left button mouse interactor to use window width/level interactor
   windowLevelEnabled = false

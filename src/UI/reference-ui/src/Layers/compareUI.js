@@ -43,28 +43,30 @@ export const compareUI = context => (send, onReceive) => {
   const update = () => {
     const name = context.images.selectedName
     const imageContext = context.images.actorContext.get(name)
-    const { compare = undefined } = imageContext ?? {}
+    const { compare = undefined, lastCompare = undefined } = imageContext ?? {}
     const { method = undefined } = compare ?? {}
+    const { method: lastMethod = undefined } = lastCompare ?? {}
 
-    if (method === 'checkerboard') {
-      root.style.display = 'block'
-      if (root.firstChild) root.removeChild(root.firstChild)
-      root.appendChild(checkerboardRoot)
+    if (lastMethod !== method) {
+      if (method && method !== 'disabled') root.style.display = 'block'
+      else root.style.display = 'none'
 
-      const [x, y, z] = compare.pattern ?? []
-      xPattern.value = x
-      yPattern.value = y
-      zPattern.value = z
-      swapOrder.checked = !!compare.swapImageOrder
-    } else if (method === 'cyan-magenta' || method === 'blend') {
-      root.style.display = 'block'
-      if (root.firstChild) root.removeChild(root.firstChild)
-      root.appendChild(imageMixRoot)
-
-      imageMixSlider.value = compare.imageMix
-    } else {
-      root.style.display = 'none'
+      if (method === 'checkerboard') {
+        if (root.firstChild) root.removeChild(root.firstChild)
+        root.appendChild(checkerboardRoot)
+      } else if (method === 'cyan-magenta' || method === 'blend') {
+        if (root.firstChild) root.removeChild(root.firstChild)
+        root.appendChild(imageMixRoot)
+      }
     }
+
+    const [x, y, z] = compare?.pattern ?? []
+    xPattern.value = x
+    yPattern.value = y
+    zPattern.value = z
+    swapOrder.checked = !!compare?.swapImageOrder ?? false
+
+    imageMixSlider.value = compare?.imageMix ?? 0.5
   }
 
   update()
@@ -125,7 +127,7 @@ export const compareUI = context => (send, onReceive) => {
     updateCompare({ swapImageOrder: event.target.checked })
   })
 
-  imageMixSlider.addEventListener('change', event => {
+  imageMixSlider.addEventListener('input', event => {
     event.preventDefault()
     event.stopPropagation()
 

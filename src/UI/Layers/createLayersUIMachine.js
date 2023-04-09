@@ -104,11 +104,25 @@ const assignImageContext = assign({
 
     let layerContext
     if (labelImage) {
+      if (
+        actorContext.image &&
+        labelImage.imageType.dimension !==
+          actorContext.image.imageType.dimension
+      )
+        throw new Error('Label image dimensions do not match Image dimensions')
+
       actorContext.labelImage = labelImage
       actorContext.labelImageName = labelImageName
       layerContext = context.layers.actorContext.get(labelImageName)
       actorContext.imageName = imageName ?? 'Image'
     } else {
+      if (
+        actorContext.labelImage &&
+        image.imageType.dimensions !==
+          actorContext.labelImage.imageType.dimensions
+      )
+        throw new Error('Label image dimensions do not match Image dimensions')
+
       image = context.layers.lastAddedData.data
       actorContext.image = image
       layerContext = context.layers.actorContext.get(imageName)

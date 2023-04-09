@@ -8320,7 +8320,7 @@ var compareUI = function compareUI(context) {
       '\n    <div style="display: flex; justify-content: space-between;">\n      <label class="'
         .concat(
           style.inputLabel,
-          '">Checkerboard Pattern X:</label>\n      <input id="x-pattern" type="number" class="'
+          '">Checkerboard Pattern X</label>\n      <input id="x-pattern" type="number" class="'
         )
         .concat(style.selector, ' ')
         .concat(
@@ -8358,12 +8358,23 @@ var compareUI = function compareUI(context) {
           '" alt="rotate"/></label></input>\n    </div>\n  '
         )
     )
+    var imageMixRoot = makeHtml(
+      '\n    <div style="display: flex; justify-content: space-between;">\n      <label class="'
+        .concat(
+          style.inputLabel,
+          '">Image Mix</label>\n    <input type="range" min="0" max="1" step=".01" value=".5" \n      class="'
+        )
+        .concat(style.slider, '" />\n    </div>\n  ')
+    )
     var _checkerboardRoot$que = checkerboardRoot.querySelectorAll('input'),
       _checkerboardRoot$que2 = _slicedToArray(_checkerboardRoot$que, 4),
       xPattern = _checkerboardRoot$que2[0],
       yPattern = _checkerboardRoot$que2[1],
       zPattern = _checkerboardRoot$que2[2],
       swapOrder = _checkerboardRoot$que2[3]
+    var _imageMixRoot$querySe = imageMixRoot.querySelectorAll('input'),
+      _imageMixRoot$querySe2 = _slicedToArray(_imageMixRoot$querySe, 1),
+      imageMixSlider = _imageMixRoot$querySe2[0]
     var update = function update() {
       var name = context.images.selectedName
       var imageContext = context.images.actorContext.get(name)
@@ -8379,11 +8390,8 @@ var compareUI = function compareUI(context) {
         root.style.display = 'block'
         if (root.firstChild) root.removeChild(root.firstChild)
         root.appendChild(checkerboardRoot)
-        var _compare = context.images.actorContext.get(
-          context.images.selectedName
-        ).compare
         var _ref3 =
-            (_compare$pattern = _compare.pattern) !== null &&
+            (_compare$pattern = compare.pattern) !== null &&
             _compare$pattern !== void 0
               ? _compare$pattern
               : [],
@@ -8394,7 +8402,12 @@ var compareUI = function compareUI(context) {
         xPattern.value = x
         yPattern.value = y
         zPattern.value = z
-        swapOrder.checked = !!_compare.swapImageOrder
+        swapOrder.checked = !!compare.swapImageOrder
+      } else if (method === 'cyan-magenta' || method === 'blend') {
+        root.style.display = 'block'
+        if (root.firstChild) root.removeChild(root.firstChild)
+        root.appendChild(imageMixRoot)
+        imageMixSlider.value = compare.imageMix
       } else {
         root.style.display = 'none'
       }
@@ -8474,6 +8487,13 @@ var compareUI = function compareUI(context) {
       event.stopPropagation()
       updateCompare({
         swapImageOrder: event.target.checked,
+      })
+    })
+    imageMixSlider.addEventListener('change', function(event) {
+      event.preventDefault()
+      event.stopPropagation()
+      updateCompare({
+        imageMix: event.target.value,
       })
     })
     onReceive(function(event) {

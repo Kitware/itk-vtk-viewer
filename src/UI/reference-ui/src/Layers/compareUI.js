@@ -14,13 +14,20 @@ export const compareUI = context => (send, onReceive) => {
   const swapButtonId = `${context.id}-swapImageOrder`
   const checkerboardRoot = makeHtml(`
     <div style="display: flex; justify-content: space-between;">
-      <label class="${style.inputLabel}">Checkerboard Pattern X:</label>
+      <label class="${style.inputLabel}">Checkerboard Pattern X</label>
       <input id="x-pattern" type="number" class="${style.selector} ${style.numberInput}" style="max-width: 3.2ch" />
       <label class="${style.inputLabel}">Y:</label>
       <input type="number" class="${style.selector} ${style.numberInput}" style="max-width: 3.2ch" />
       <label class="${style.inputLabel}">Z:</label>
       <input type="number" class="${style.selector} ${style.numberInput}" style="max-width: 3.2ch" />
       <input type="checkbox" id="${swapButtonId}" class="${style.toggleInput}"><label for="${swapButtonId}" itk-vtk-tooltip itk-vtk-tooltip-left-fullscreen itk-vtk-tooltip-content="Swap image order" class="${style.rotateButton} ${style.toggleButton}"><img src="${rotateIconDataUri}" alt="rotate"/></label></input>
+    </div>
+  `)
+  const imageMixRoot = makeHtml(`
+    <div style="display: flex; justify-content: space-between;">
+      <label class="${style.inputLabel}">Image Mix</label>
+    <input type="range" min="0" max="1" step=".01" value=".5" 
+      class="${style.slider}" />
     </div>
   `)
 
@@ -30,6 +37,8 @@ export const compareUI = context => (send, onReceive) => {
     zPattern,
     swapOrder,
   ] = checkerboardRoot.querySelectorAll('input')
+
+  const [imageMixSlider] = imageMixRoot.querySelectorAll('input')
 
   const update = () => {
     const name = context.images.selectedName
@@ -42,14 +51,17 @@ export const compareUI = context => (send, onReceive) => {
       if (root.firstChild) root.removeChild(root.firstChild)
       root.appendChild(checkerboardRoot)
 
-      const compare = context.images.actorContext.get(
-        context.images.selectedName
-      ).compare
       const [x, y, z] = compare.pattern ?? []
       xPattern.value = x
       yPattern.value = y
       zPattern.value = z
       swapOrder.checked = !!compare.swapImageOrder
+    } else if (method === 'cyan-magenta' || method === 'blend') {
+      root.style.display = 'block'
+      if (root.firstChild) root.removeChild(root.firstChild)
+      root.appendChild(imageMixRoot)
+
+      imageMixSlider.value = compare.imageMix
     } else {
       root.style.display = 'none'
     }
@@ -111,6 +123,13 @@ export const compareUI = context => (send, onReceive) => {
     event.stopPropagation()
 
     updateCompare({ swapImageOrder: event.target.checked })
+  })
+
+  imageMixSlider.addEventListener('change', event => {
+    event.preventDefault()
+    event.stopPropagation()
+
+    updateCompare({ imageMix: event.target.value })
   })
 
   onReceive(event => {

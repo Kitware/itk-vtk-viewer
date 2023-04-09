@@ -41,8 +41,8 @@
           rotate: false,
           image,
           fixedImage,
-          // labelImage,
-          compare: { method: 'blend' },
+          labelImage,
+          compare: { method: 'cyan-magenta', imageMix: 0.25 },
         })
 
         // Call setImage to add images, then setCompareImages example:
@@ -57,21 +57,21 @@
         //   method: 'cyan-magenta',
         // })
 
-        // setTimeout(
-        //   () =>
-        //     viewer.setCompareImages('Fixed', 'Image', {
-        //       method: 'disabled',
-        //     }),
-        //   2000
-        // )
+        setTimeout(
+          () =>
+            viewer.setCompareImages('Fixed', 'Image', {
+              method: 'disabled',
+            }),
+          2000
+        )
 
-        // setTimeout(
-        //   () =>
-        //     viewer.setCompareImages('Fixed', 'Image', {
-        //       method: 'cyan-magenta',
-        //     }),
-        //   4000
-        // )
+        setTimeout(
+          () =>
+            viewer.setCompareImages('Fixed', 'Image', {
+              method: 'cyan-magenta',
+            }),
+          4000
+        )
 
         window.viewer = viewer
       }

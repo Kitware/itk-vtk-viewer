@@ -228,7 +228,12 @@ const assignCompare = assign({
   images: (context, { data: { name, fixedImageName, options } }) => {
     const actorContext = context.images.actorContext.get(name)
     actorContext.lastCompare = { ...actorContext.compare } // for diffing downstream
-    actorContext.compare = { ...defaultCompare, ...options, fixedImageName }
+    actorContext.compare = {
+      ...defaultCompare,
+      ...actorContext.compare,
+      ...options,
+      fixedImageName,
+    }
     updateCompare(context, name)
     return context.images
   },

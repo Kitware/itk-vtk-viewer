@@ -55,8 +55,12 @@ const fuseConglomerate = image => {
 }
 
 const makeCompareImage = async ({ image, fixedImage, options }) => {
-  if (options.method === 'disabled') return image
+  if (!options.method || options.method === 'disabled') return image
 
+  if (!fixedImage) {
+    console.error('No fixed image')
+    return
+  }
   const itkImage = await fuseConglomerate(image)
   const itkFixedImage = await fuseConglomerate(fixedImage)
 

@@ -255,8 +255,28 @@ Moving image must have been added last.
 
 ```
 { method: 'checkerboard', pattern: number[], swapImageOrder: boolean } ||
+{ method: 'cyan-magenta', imageMix: number } ||
+{ method: 'blend', imageMix: number } ||
 { method: 'disabled' }
 ```
 
+`method` can be `checkerboard`, `cyan-magenta` or `blend`. The moving image is
+re-sampled to the fixed image space.
+
+`checkerboard` picks pixels from the fixed and moving image to create a
+checkerboard pattern.
+
+`cyan-magenta` method puts the fixed image on component 0, moving image on component 1
+and changes the color map for fixed image to cyan, moving image to magenta.
+
+`blend` method puts the fixed image on component 0, moving image on component 1
+and changes the color maps for both to grayscale.
+
 `pattern` is an array with the number of checkerboard boxes for each dimension.
 If pattern === undefined, it defaults to 4 boxes across each dimension
+
+`swapImageOrder` reverses which image is sampled for each checkerboard box.
+
+`imageMix` is active when method is `blend` or `cyan-magenta`. `imageMix` changes the percent contribution the fixed vs moving image makes to the
+render by modifying the opacity transfer function. Value of 1 means max opacity for
+moving image, 0 for fixed image.

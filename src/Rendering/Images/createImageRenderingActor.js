@@ -203,8 +203,8 @@ const updateCompare = (
     (method === 'cyan-magenta' || method === 'blend') &&
     (lastMethod !== method || imageMix !== lastImageMix)
   ) {
-    const mix0 = imageMix
-    const mix1 = 1 - imageMix
+    const mix0 = 1 - imageMix
+    const mix1 = imageMix
     for (let component = 0; component < 2; component++) {
       const mix = component ? mix1 : mix0
       const points = use2D

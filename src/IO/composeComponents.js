@@ -1,29 +1,11 @@
 const sum = (a, b) => a + b
 
-export const parseByComponent = scaleImage => {
-  if (!scaleImage) return []
-
-  // lift ITK image into array if not already (like from InMemoryMultiscaleSpatialImage)
-  const scaleImages = Array.isArray(scaleImage) ? scaleImage : [scaleImage]
-  // return array of all image components
-  return scaleImages.flatMap(image => {
-    const srcComponentCount = image.imageType.components
-    // pull each component from image
-    return [...Array(srcComponentCount).keys()].map(fromComponent => ({
-      fromComponent,
-      srcComponentCount,
-      image,
-      data: image.data,
-    }))
-  })
-}
-
-export const countElements = componentInfo =>
+const countElements = componentInfo =>
   componentInfo
     .map(({ data, srcComponentCount }) => data.length / srcComponentCount)
     .reduce(sum)
 
-export const getLargestTypeByBytes = componentInfo =>
+const getLargestTypeByBytes = componentInfo =>
   componentInfo
     .map(({ data }) => data)
     .reduce((lastType, typedArray) =>
@@ -32,7 +14,7 @@ export const getLargestTypeByBytes = componentInfo =>
         : typedArray
     )
 
-export const fuseComponents = ({ componentInfo, arrayToFill }) => {
+const fuseComponents = ({ componentInfo, arrayToFill }) => {
   const elementCount = countElements(componentInfo)
   const fusedImageData =
     arrayToFill ??
@@ -48,6 +30,24 @@ export const fuseComponents = ({ componentInfo, arrayToFill }) => {
     }
   }
   return fusedImageData
+}
+
+// returns "component infos"
+export const parseByComponent = scaleImage => {
+  if (!scaleImage) return []
+
+  // lift ITK image into array if not already (like from InMemoryMultiscaleSpatialImage)
+  const scaleImages = Array.isArray(scaleImage) ? scaleImage : [scaleImage]
+  return scaleImages.flatMap(image => {
+    const srcComponentCount = image.imageType.components
+    // pull each component from image
+    return [...Array(srcComponentCount).keys()].map(fromComponent => ({
+      fromComponent,
+      srcComponentCount,
+      image,
+      data: image.data,
+    }))
+  })
 }
 
 export const pickAndFuseComponents = async ({
@@ -70,6 +70,15 @@ export const pickAndFuseComponents = async ({
     comp =>
       comp >= 0 ? imageByComponent[comp] : labelByComponent[comp * -1 - 1] // label component index starts at -1
   )
+
+  componentInfo.forEach((compInfo, idx) => {
+    if (!compInfo) {
+      throw new Error(
+        'pickAndFuseComponents: Missing component for requested component: ' +
+          idx
+      )
+    }
+  })
 
   const imageArray = fuseComponents({
     componentInfo,

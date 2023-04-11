@@ -181,6 +181,8 @@ const createViewer = async (
           case 'SCREENSHOT_TAKEN':
             eventEmitter.emit('screenshotTaken', event.data)
             break
+          case 'TAKE_SCREENSHOT':
+            break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
         }

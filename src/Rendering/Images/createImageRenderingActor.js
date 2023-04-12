@@ -2,13 +2,12 @@ import { assign, createMachine, forwardTo, send } from 'xstate'
 import { defaultCompare } from '../../Context/ImageActorContext'
 import { makeTransitions } from './makeTransitions'
 
-export const getOutputImageComponentCount = actorContext => {
+export const getOutputIntensityComponentCount = actorContext => {
   const {
     image,
     compare: { method },
   } = actorContext
-  if (method === 'checkerboard') return 1
-  if (method === 'cyan-magenta' || method === 'blend') return 2
+  if (method !== 'disabled') return 2
   return image.imageType.components
 }
 
@@ -176,6 +175,7 @@ const updateCompare = (
     actorContext.lastCompare ?? {}
 
   if (lastMethod !== method) {
+    // besides setting the color maps, this adds another entry for the possibly new second component
     if (method === 'cyan-magenta') {
       service.send({
         type: 'IMAGE_COLOR_MAP_CHANGED',
@@ -187,7 +187,7 @@ const updateCompare = (
       })
     }
 
-    if (method === 'blend') {
+    if (method === 'blend' || method === 'checkerboard') {
       service.send({
         type: 'IMAGE_COLOR_MAP_CHANGED',
         data: { name, component: 0, colorMap: 'Grayscale' },
@@ -200,7 +200,7 @@ const updateCompare = (
   }
 
   if (
-    (method === 'cyan-magenta' || method === 'blend') &&
+    method !== 'disabled' &&
     (lastMethod !== method || imageMix !== lastImageMix)
   ) {
     const mix0 = 1 - imageMix
@@ -249,7 +249,7 @@ const cleanColorRanges = (c, { data: { name } }) => {
   if (actorContext.dirtyColorRanges) {
     // let applyRenderedImage update colorRanges and colorRangeBounds
     actorContext.colorRanges = new Map()
-    const componentCount = getOutputImageComponentCount(actorContext)
+    const componentCount = getOutputIntensityComponentCount(actorContext)
     actorContext.colorRangeBoundsAutoAdjust = new Map(
       [...Array(componentCount).keys()].map(c => [c, true])
     )

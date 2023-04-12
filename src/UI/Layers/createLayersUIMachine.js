@@ -5,7 +5,7 @@ import { PixelTypes } from 'itk-wasm'
 import createLayerUIActor from './createLayerUIActor'
 import LayerActorContext from '../../Context/LayerActorContext'
 import ImageActorContext from '../../Context/ImageActorContext'
-import { getOutputImageComponentCount } from '../../Rendering/Images/createImageRenderingActor'
+import { getOutputIntensityComponentCount } from '../../Rendering/Images/createImageRenderingActor'
 
 function resize(arr, newSize, defaultValue) {
   return [
@@ -230,11 +230,11 @@ const assignComponentVisibilities = assign({
   images: ({ images }, event) => {
     const actorContext = images.actorContext.get(event.data.name)
 
-    const outputImageComponentCount = getOutputImageComponentCount(actorContext)
+    const componentCount = getOutputIntensityComponentCount(actorContext)
 
     actorContext.componentVisibilities = resize(
       actorContext.componentVisibilities,
-      outputImageComponentCount,
+      componentCount,
       true
     )
 

@@ -48,7 +48,7 @@ export async function runWasm({
     const taskArgs = [
       ...[...Array(images.length).keys()].map(num => num.toString()),
       '0',
-      ...args,
+      ...args.map(o => o.toString()),
       '--max-total-splits',
       '' + splits,
       '--split',

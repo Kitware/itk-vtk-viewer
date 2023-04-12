@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <fstream>
 #include "itkVectorImage.h"
 #include "itkResampleImageFilter.h"
 #include "itkLinearInterpolateImageFunction.h"
@@ -29,7 +30,6 @@
 #include "itkFixedArray.h"
 #include "itkArray.h"
 #include "itkVariableLengthVector.h"
-#include <fstream>
 #include "itkPipeline.h"
 #include "itkInputImage.h"
 #include "itkOutputImage.h"
@@ -51,17 +51,14 @@ int Compare(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage, cons
   pipeline.get_option("input-image")->required()->type_name("INPUT_IMAGE");
   pipeline.get_option("fixed-image")->required()->type_name("INPUT_IMAGE");
 
-  std::string method;
-  pipeline.add_option("-e,--method", method, "Compare method")->required();
+  bool checkerboard;
+  pipeline.add_option("-c,--checkerboard", checkerboard, "Do checkerboard filter");
 
   std::vector<float> range;
   pipeline.add_option("-r,--range", range, "Min and max intensity values of output image")->expected(2)->delimiter(',');
 
   std::vector<unsigned int> pattern;
   pipeline.add_option("-p,--pattern", pattern, "Number of boxes for each dimension")->expected(2, 3)->delimiter(',');
-
-  bool swapImageOrder;
-  pipeline.add_option("-o,--swap-image-order", swapImageOrder, "Change which image goes first in pattern");
 
   // split args
   unsigned int maxTotalSplits = 1;
@@ -91,22 +88,29 @@ int Compare(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage, cons
   rescaleFilter->SetOutputMinimum(range[0]);
   rescaleFilter->SetOutputMaximum(range[1]);
 
-  if (method.compare("checkerboard") == 0)
+  using RescaleFilterTypeFixed = itk::IntensityWindowingImageFilter<FixedImageType, FixedImageType>;
+  auto rescaleFilterFixed = RescaleFilterTypeFixed::New();
+  rescaleFilterFixed->SetInput(fixedImage);
+  rescaleFilterFixed->SetWindowMinimum(range[0]);
+  rescaleFilterFixed->SetWindowMaximum(range[1]);
+  rescaleFilterFixed->SetOutputMinimum(range[0]);
+  rescaleFilterFixed->SetOutputMaximum(range[1]);
+
+  typename FixedImageType::Pointer component0 = rescaleFilterFixed->GetOutput();
+  typename FixedImageType::Pointer component1 = rescaleFilter->GetOutput();
+
+  if (checkerboard)
   {
     // Checkerboard images
     using FilterType = itk::CheckerBoardImageFilter<FixedImageType>;
-    auto filter = FilterType::New();
+    auto check0 = FilterType::New();
+    auto check1 = FilterType::New();
 
-    if (swapImageOrder)
-    {
-      filter->SetInput1(fixedImage);
-      filter->SetInput2(rescaleFilter->GetOutput());
-    }
-    else
-    {
-      filter->SetInput1(rescaleFilter->GetOutput());
-      filter->SetInput2(fixedImage);
-    }
+    check0->SetInput1(component0);
+    check0->SetInput2(component1);
+
+    check1->SetInput1(component1);
+    check1->SetInput2(component0);
 
     const int dims = pattern.size();
     if (dims > 0)
@@ -116,117 +120,71 @@ int Compare(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage, cons
       {
         checkerPattern[i] = pattern[i];
       }
-      filter->SetCheckerPattern(checkerPattern);
+
+      check0->SetCheckerPattern(checkerPattern);
+      check1->SetCheckerPattern(checkerPattern);
     }
 
-    // Split handling
-    using ROIFilterType = itk::ExtractImageFilter<FixedImageType, FixedImageType>;
-    filter->UpdateOutputInformation();
-    using RegionType = typename FixedImageType::RegionType;
-    const RegionType largestRegion(filter->GetOutput()->GetLargestPossibleRegion());
+    // Without UpdateLargestPossibleRegion there is a runtime error
+    check0->UpdateLargestPossibleRegion();
+    check1->UpdateLargestPossibleRegion();
 
-    using SplitterType = itk::ImageRegionSplitterSlowDimension;
-    auto splitter = SplitterType::New();
-    const unsigned int numberOfSplits = splitter->GetNumberOfSplits(largestRegion, maxTotalSplits);
-
-    if (split >= numberOfSplits)
-    {
-      std::cerr << "Error: requested split: " << split << " is outside the number of splits: " << numberOfSplits << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    if (!numberOfSplitsStreamOption->empty())
-    {
-      numberOfSplitsStream.Get() << numberOfSplits;
-    }
-
-    RegionType requestedRegion(largestRegion);
-    splitter->GetSplit(split, numberOfSplits, requestedRegion);
-    auto roiFilter = ROIFilterType::New();
-    roiFilter->SetExtractionRegion(requestedRegion);
-    roiFilter->SetInput(filter->GetOutput());
-
-    try
-    {
-      roiFilter->Update();
-    }
-    catch (std::exception &error)
-    {
-      std::cerr << "Error: " << error.what() << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    using OutputImageType = itk::wasm::OutputImage<FixedImageType>;
-    OutputImageType outputImage;
-    pipeline.add_option("output-image", outputImage, "Output image")->required()->type_name("OUTPUT_IMAGE");
-
-    ITK_WASM_PARSE(pipeline);
-
-    outputImage.Set(roiFilter->GetOutput());
-
-    return EXIT_SUCCESS;
+    component0 = check0->GetOutput();
+    component1 = check1->GetOutput();
   }
-  else
+
+  using PipelineOutputType = itk::Image<itk::Vector<typename FixedImageType::PixelType, 2>, ImageType::ImageDimension>;
+  using FilterType = itk::ComposeImageFilter<FixedImageType, PipelineOutputType>;
+  auto compose = FilterType::New();
+  compose->SetInput(0, component0);
+  compose->SetInput(1, component1);
+
+  using OutputImageType = itk::wasm::OutputImage<PipelineOutputType>;
+  OutputImageType outputImage;
+  pipeline.add_option("output-image", outputImage, "Output image")->required()->type_name("OUTPUT_IMAGE");
+
+  ITK_WASM_PARSE(pipeline);
+
+  // Split handling
+  using ROIFilterType = itk::ExtractImageFilter<PipelineOutputType, PipelineOutputType>;
+  compose->UpdateOutputInformation();
+  using RegionType = typename PipelineOutputType::RegionType;
+  const RegionType largestRegion(compose->GetOutput()->GetLargestPossibleRegion());
+
+  using SplitterType = itk::ImageRegionSplitterSlowDimension;
+  auto splitter = SplitterType::New();
+  const unsigned int numberOfSplits = splitter->GetNumberOfSplits(largestRegion, maxTotalSplits);
+
+  if (split >= numberOfSplits)
   {
-    // cyan-magenta or blend
-
-    // using FilterType = itk::ComposeImageFilter<FixedImageType>;
-    // auto filter = FilterType::New();
-    // filter->SetInput(0, fixedImage);
-    // filter->SetInput(1, rescaleFilter->GetOutput());
-
-    // using PipelineOutputType = typename itk::VectorImage<typename FixedImageType::PixelType, FixedImageType::ImageDimension>;
-
-    auto filter = rescaleFilter;
-    using PipelineOutputType = FixedImageType;
-
-    using OutputImageType = itk::wasm::OutputImage<PipelineOutputType>;
-    OutputImageType outputImage;
-    pipeline.add_option("output-image", outputImage, "Output image")->required()->type_name("OUTPUT_IMAGE");
-
-    ITK_WASM_PARSE(pipeline);
-
-    // Split handling
-    using ROIFilterType = itk::ExtractImageFilter<PipelineOutputType, PipelineOutputType>;
-    filter->UpdateOutputInformation();
-    using RegionType = typename PipelineOutputType::RegionType;
-    const RegionType largestRegion(filter->GetOutput()->GetLargestPossibleRegion());
-
-    using SplitterType = itk::ImageRegionSplitterSlowDimension;
-    auto splitter = SplitterType::New();
-    const unsigned int numberOfSplits = splitter->GetNumberOfSplits(largestRegion, maxTotalSplits);
-
-    if (split >= numberOfSplits)
-    {
-      std::cerr << "Error: requested split: " << split << " is outside the number of splits: " << numberOfSplits << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    if (!numberOfSplitsStreamOption->empty())
-    {
-      numberOfSplitsStream.Get() << numberOfSplits;
-    }
-
-    RegionType requestedRegion(largestRegion);
-    splitter->GetSplit(split, numberOfSplits, requestedRegion);
-    auto roiFilter = ROIFilterType::New();
-    roiFilter->SetExtractionRegion(requestedRegion);
-    roiFilter->SetInput(filter->GetOutput());
-
-    try
-    {
-      roiFilter->Update();
-    }
-    catch (std::exception &error)
-    {
-      std::cerr << "Error: " << error.what() << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    outputImage.Set(roiFilter->GetOutput());
-
-    return EXIT_SUCCESS;
+    std::cerr << "Error: requested split: " << split << " is outside the number of splits: " << numberOfSplits << std::endl;
+    return EXIT_FAILURE;
   }
+
+  if (!numberOfSplitsStreamOption->empty())
+  {
+    numberOfSplitsStream.Get() << numberOfSplits;
+  }
+
+  RegionType requestedRegion(largestRegion);
+  splitter->GetSplit(split, numberOfSplits, requestedRegion);
+  auto roiFilter = ROIFilterType::New();
+  roiFilter->SetExtractionRegion(requestedRegion);
+  roiFilter->SetInput(compose->GetOutput());
+
+  try
+  {
+    roiFilter->Update();
+  }
+  catch (std::exception &error)
+  {
+    std::cerr << "Error: " << error.what() << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  outputImage.Set(roiFilter->GetOutput());
+
+  return EXIT_SUCCESS;
 }
 
 using MagnitudePixelType = float;

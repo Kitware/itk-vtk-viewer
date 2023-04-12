@@ -224,7 +224,8 @@ class MultiscaleSpatialImage {
       const dim = this.spatialDims[index]
       if (info.coords.has(dim)) {
         const coords = await info.coords.get(dim)
-        spacing[index] = coords[1] - coords[0]
+        // if has one entry for dim, just use, else find difference between first 2
+        spacing[index] = coords.length === 1 ? coords[0] : coords[1] - coords[0]
       } else {
         spacing[index] = 1.0
       }

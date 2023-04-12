@@ -86,7 +86,7 @@ const extentToBounds = (ex, indexToWorld) => {
   return bounds
 }
 
-const ensure3dDirection = d => {
+export const ensure3dDirection = d => {
   if (d.length >= 9) {
     return d
   }

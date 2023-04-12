@@ -1,8 +1,9 @@
 export const defaultCompare = {
-  method: 'disabled', // 'checkerboard', 'cyan-magenta', 'blend', 'disabled'
+  method: 'disabled', // 'checkerboard', 'cyan-magenta' | 'blend' | 'disabled'
+  imageMix: 0.5, // changes opaqueness of moving vs fixed image. Value of 1 means max opacity for moving image, 0 for fixed image.
+  checkerboard: false, // mixes the 2 images in a alternating pattern.
   pattern: [4, 4, 4], // when checkerboard, number of "squares" across each dimension
   swapImageOrder: false, // when checkerboard, switches moving/fixed image in each square
-  imageMix: 0.5, // when method is blend or cyan-magenta, changes opaqueness of moving vs fixed image. Value of 1 means max opacity for moving image, 0 for fixed image.
 }
 
 class ImageActorContext {

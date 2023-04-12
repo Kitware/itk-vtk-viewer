@@ -8443,7 +8443,7 @@ var compareUI = function compareUI(context) {
         data: {
           name: name,
           fixedImageName: compare.fixedImageName,
-          options: _objectSpread(_objectSpread({}, compare), options),
+          options: _objectSpread({}, options),
         },
       })
     }

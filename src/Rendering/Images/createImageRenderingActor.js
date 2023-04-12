@@ -199,10 +199,7 @@ const updateCompare = (
     }
   }
 
-  if (
-    method !== 'disabled' &&
-    (lastMethod !== method || imageMix !== lastImageMix)
-  ) {
+  if (method !== 'disabled' && imageMix !== lastImageMix) {
     const mix0 = 1 - imageMix
     const mix1 = imageMix
     for (let component = 0; component < 2; component++) {
@@ -227,12 +224,34 @@ const updateCompare = (
 const assignCompare = assign({
   images: (context, { data: { name, fixedImageName, options } }) => {
     const actorContext = context.images.actorContext.get(name)
-    actorContext.lastCompare = { ...actorContext.compare } // for diffing downstream
-    actorContext.compare = {
+    actorContext.lastCompare = { ...actorContext.compare } // for diffing later by updateCompare, UI, etc.
+
+    const updatedCompare = {
       ...defaultCompare,
       ...actorContext.compare,
       ...options,
+    }
+
+    const computedCheckerboard = {
+      ...updatedCompare,
+      checkerboard: updatedCompare.method === 'checkerboard' ? true : false,
+      // after computed values to let explicit set of values to take precedence
+      ...options,
+    }
+
+    const computedImageMix = {
+      ...computedCheckerboard,
+      // compute imageMix from swapImageOrder if checkerboard is on
+      ...(computedCheckerboard.checkerboard
+        ? { imageMix: computedCheckerboard.swapImageOrder ? 1 : 0 }
+        : {}),
+    }
+
+    actorContext.compare = {
       fixedImageName,
+      ...computedImageMix,
+      // after computed values to let explicit set of values to take precedence
+      ...options,
     }
     updateCompare(context, name)
     return context.images
@@ -266,9 +285,10 @@ const afterCompareMaybeForceUpdate = context => {
   const actorContext = actorMap.get(actorName)
 
   // eslint-disable-next-line no-unused-vars
-  const { imageMix, ...compare } = actorContext.compare
+  const { imageMix, swapImageOrder, ...compare } = actorContext.compare
   // eslint-disable-next-line no-unused-vars
-  const { imageMix: lastMix, ...lastCompare } = actorContext.lastCompare ?? {}
+  const { imageMix: _, swapImageOrder: __, ...lastCompare } =
+    actorContext.lastCompare ?? {}
 
   if (JSON.stringify(compare) === JSON.stringify(lastCompare)) return
 

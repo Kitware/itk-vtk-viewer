@@ -80,7 +80,7 @@ export const compareUI = context => (send, onReceive) => {
       data: {
         name,
         fixedImageName: compare.fixedImageName,
-        options: { ...compare, ...options },
+        options: { ...options },
       },
     })
   }

@@ -222,10 +222,9 @@ class MultiscaleSpatialImage {
     const spacing = new Array(this.spatialDims.length)
     for (let index = 0; index < this.spatialDims.length; index++) {
       const dim = this.spatialDims[index]
-      if (info.coords.has(dim)) {
-        const coords = await info.coords.get(dim)
-        // if has one entry for dim, just use, else find difference between first 2
-        spacing[index] = coords.length === 1 ? coords[0] : coords[1] - coords[0]
+      const dimCoords = await info.coords.get(dim)
+      if (dimCoords && dimCoords.length >= 2) {
+        spacing[index] = dimCoords[1] - dimCoords[0]
       } else {
         spacing[index] = 1.0
       }

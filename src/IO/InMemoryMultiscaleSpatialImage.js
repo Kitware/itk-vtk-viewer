@@ -1,4 +1,7 @@
-import MultiscaleSpatialImage, { storeImage } from './MultiscaleSpatialImage'
+import MultiscaleSpatialImage, {
+  ensure3dDirection,
+  storeImage,
+} from './MultiscaleSpatialImage'
 import componentTypeToTypedArray from './componentTypeToTypedArray'
 
 import {
@@ -195,6 +198,9 @@ async function chunkImage(image, chunkSize) {
   ).map(({ min, max }) => [min, max])
 
   const orderByDims = orderBy(dims)
+
+  const direction3d = ensure3dDirection(image.direction)
+
   const scaleInfo = {
     dims,
     coords: new Coords(image, [...dims].reverse()), // Coords assumes xyz
@@ -202,7 +208,7 @@ async function chunkImage(image, chunkSize) {
     chunkSize: orderByDims(toDimensionMap(CXYZT, sizeCXYZTChunks)),
     arrayShape: orderByDims(toDimensionMap(CXYZT, sizeCXYZTElements)),
     ranges,
-    direction: image.direction && chunkArray(3, [...image.direction].reverse()), // reverse to cast xyz to zyx
+    direction: chunkArray(3, [...direction3d].reverse()), // reverse to cast xyz to zyx
   }
 
   return { scaleInfo, chunksStride, chunks }

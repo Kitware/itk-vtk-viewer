@@ -574,7 +574,6 @@ const createViewer = async (
     publicAPI.setUICollapsed(true)
   }
 
-  // https://github.com/eligrey/canvas-toBlob.js ?
   publicAPI.captureImage = () => {
     return store.itkVtkView.captureImage()
   }

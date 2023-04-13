@@ -6,12 +6,16 @@ export async function createCompareImage(
   { method, minMax, pattern = undefined }
 ) {
   const checkerboard = method === 'checkerboard' ? true : false
+  const clampedPattern = pattern
+    ? fixedImage.size.map((s, idx) => Math.min(s, pattern[idx]))
+    : []
   const args = [
     '--checkerboard',
     checkerboard,
     '--range',
     minMax.join(','),
-    ...(pattern ? ['--pattern', pattern.join(',')] : []),
+    '--pattern',
+    clampedPattern.join(','),
   ]
 
   const image = await runWasm({

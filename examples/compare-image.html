@@ -14,9 +14,10 @@
     <script>
       async function main() {
         const image = new URL(
-          'test-data/HeadMRVolume.nrrd',
+          // 'test-data/HeadMRVolume.nrrd',
           // 'test-data/HeadMRVolume2Components.nrrd',
           // 'http://localhost:8082/test-data/idr/6001240.zarr',
+          'test-data/HeadMRVolume2DTop.nrrd',
           window.location.origin
         )
 
@@ -24,7 +25,8 @@
           // 'test-data/HeadMRVolume.nrrd',
           // 'test-data/HeadMRVolumeLabels.nrrd',
           // 'test-data/HeadMRVolumeLabelsSmaller.nrrd',
-          'test-data/HeadMRVolume2Components.nrrd',
+          // 'test-data/HeadMRVolume2Components.nrrd',
+          'test-data/HeadMRVolume2DTop.nrrd',
           window.location.origin
         )
 
@@ -36,53 +38,53 @@
         const container = document.querySelector('#viewport')
 
         // Provide fixedImage and compare as createViewer options example:
-        // const viewer = await itkVtkViewer.createViewer(container, {
-        //   rotate: false,
-        //   image,
-        //   fixedImage,
-        //   labelImage,
-        //   compare: { method: 'checkerboard' },
-        // })
-
-        // Call setImage to add images, then setCompareImages example:
         const viewer = await itkVtkViewer.createViewer(container, {
           rotate: false,
-        })
-        viewer.setImage(fixedImage, 'Fixed') // fixed image must be first one added
-        viewer.setImage(image, 'Image')
-        // viewer.setLabelImage(labelImage, 'Image')
-
-        viewer.setCompareImages('Fixed', 'Image', {
-          method: 'checkerboard',
-          swapImageOrder: false,
+          image,
+          fixedImage,
+          // labelImage,
+          compare: { method: 'checkerboard' },
         })
 
-        setTimeout(
-          () =>
-            viewer.setCompareImages('Fixed', 'Image', {
-              method: 'disabled',
-            }),
-          2000
-        )
+        // Call setImage to add images, then setCompareImages example:
+        // const viewer = await itkVtkViewer.createViewer(container, {
+        //   rotate: false,
+        // })
+        // viewer.setImage(fixedImage, 'Fixed') // fixed image must be first one added
+        // viewer.setImage(image, 'Image')
+        // viewer.setLabelImage(labelImage)
 
-        setTimeout(
-          () =>
-            viewer.setCompareImages('Fixed', 'Image', {
-              method: 'checkerboard',
-              pattern: [1, 2, 3],
-            }),
-          4000
-        )
+        // viewer.setCompareImages('Fixed', 'Image', {
+        //   method: 'checkerboard',
+        //   swapImageOrder: false,
+        // })
 
-        setTimeout(
-          () =>
-            viewer.setCompareImages('Fixed', 'Image', {
-              method: 'checkerboard',
-              pattern: [1, 2, 3],
-              swapImageOrder: true,
-            }),
-          6000
-        )
+        // setTimeout(
+        //   () =>
+        //     viewer.setCompareImages('Fixed', 'Image', {
+        //       method: 'disabled',
+        //     }),
+        //   2000
+        // )
+
+        // setTimeout(
+        //   () =>
+        //     viewer.setCompareImages('Fixed', 'Image', {
+        //       method: 'checkerboard',
+        //       pattern: [1, 2, 3],
+        //     }),
+        //   4000
+        // )
+
+        // setTimeout(
+        //   () =>
+        //     viewer.setCompareImages('Fixed', 'Image', {
+        //       method: 'checkerboard',
+        //       pattern: [1, 2, 3],
+        //       swapImageOrder: true,
+        //     }),
+        //   6000
+        // )
 
         window.viewer = viewer
       }

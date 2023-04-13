@@ -727,6 +727,34 @@ test('Test createViewer setCompareImage with checkerboard and 2 component image'
   })
 })
 
+test('Test setCompareImage with checkerboard and 2D image', async t => {
+  const gc = testUtils.createGarbageCollector(t)
+
+  const container = document.querySelector('body')
+  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+  container.appendChild(viewerContainer)
+
+  const [image, fixedImage] = await makeImages([testImage2D, testImage2D])
+
+  const compareOptions = {
+    method: 'checkerboard',
+  }
+  const viewer = await createViewer(container, {
+    image,
+    fixedImage,
+    compare: compareOptions,
+    rotate: false,
+  })
+  t.plan(1)
+  viewer.once('renderedImageAssigned', () => {
+    // first rendered image is just the image, not the fused compare image
+    viewer.once('renderedImageAssigned', () => {
+      t.pass('createViewer did not crash right after compare.')
+      gc.releaseResources()
+    })
+  })
+})
+
 test('Test cyan-magenta compare', async t => {
   const gc = testUtils.createGarbageCollector(t)
 

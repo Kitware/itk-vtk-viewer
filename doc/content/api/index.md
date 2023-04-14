@@ -249,36 +249,39 @@ resolutionScale is a integer with 0 being the most detailed scale.
 
 ### setCompareImages(fixedImageName, movingImageName, options)
 
-Moving image must have been added last.
+Post processing to detect difference in images. The moving and fixed images are separately
+compressed to one component with a vector magnitude or luminance filter. Then, the moving image is
+re-sampled to the fixed image space. The final rendered image has the fixed image on the first component,
+the moving image is on the second component.
 
-`options` can be:
+The moving image must have been added last.
+
+`options` is an Object with:
 
 ```
-{ method: 'checkerboard', pattern: number[], swapImageOrder: boolean } ||
-{ method: 'cyan-magenta', imageMix: number, checkerboard: boolean } ||
-{ method: 'blend', imageMix: number, checkerboard: boolean } ||
-{ method: 'disabled' }
+{
+    method: 'checkerboard' | 'cyan-magenta' | 'blend' | 'disabled',
+    imageMix?: number,
+    checkerboard?: boolean,
+    pattern?: number[],
+    swapImageOrder?: boolean
+}
 ```
 
-`method` can be `checkerboard`, `cyan-magenta` or `blend`. The moving image is
-re-sampled to the fixed image space.
-
-`checkerboard` picks pixels from the fixed and moving image to create a
-checkerboard pattern. The 2 components in the output image differ by the
-image order for each checkerboard box.
-
-`cyan-magenta` method puts the fixed image on component 0, moving image on component 1
-and changes the color map for fixed image to cyan, moving image to magenta.
-
-`blend` method puts the fixed image on component 0, moving image on component 1
-and changes the color maps for both to grayscale.
-
-`pattern` is an array with the number of checkerboard boxes for each dimension.
-If pattern === undefined, it defaults to 4 boxes across each dimension
+`method` can be `blend`, `cyan-magenta`, `checkerboard`, or `disabled`.
+`blend` simply initiates the comparison composition of images.
+`cyan-magenta` changes the color map for fixed image to cyan, moving image to magenta.
+`checkerboard` is equivalent to `blend` with `imageMix` set to `0`.
 
 `imageMix` changes the percent contribution the fixed vs moving image makes to the
 render by modifying the opacity transfer function. Value of 1 means max opacity for
 moving image, 0 for fixed image.
 
-`swapImageOrder` changes the opacity transfer to just show the first or second
-component. Use this to toggle the checkerboard pattern.
+`checkerboard` picks pixels from the fixed and moving image to create a
+checkerboard pattern. The 2 components in the output image differ by the
+image order for each checkerboard box.
+
+`pattern` is an array with the number of checkerboard boxes for each dimension.
+If pattern === undefined, it defaults to 4 boxes across each dimension
+
+`swapImageOrder` toggles the checkerboard pattern by switching the imageMix parameter between 0 and 1.

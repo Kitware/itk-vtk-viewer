@@ -188,13 +188,10 @@ const updateCompare = (
     }
 
     if (method === 'blend' || method === 'checkerboard') {
+      const colorForSecondComp = actorContext.colorMaps.get(0)
       service.send({
         type: 'IMAGE_COLOR_MAP_CHANGED',
-        data: { name, component: 0, colorMap: 'Grayscale' },
-      })
-      service.send({
-        type: 'IMAGE_COLOR_MAP_CHANGED',
-        data: { name, component: 1, colorMap: 'Grayscale' },
+        data: { name, component: 1, colorMap: colorForSecondComp },
       })
     }
   }

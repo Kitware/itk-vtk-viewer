@@ -8311,12 +8311,12 @@ var compareUI = function compareUI(context) {
     var root = document.createElement('div')
     root.setAttribute(
       'style',
-      'align-self: center; align-content: center; height: 25px; margin-left: 4px; margin-right: 4px'
+      'align-self: center; align-content: center; margin-left: 4px; margin-right: 4px'
     )
     var parent = context.layers.compareContainer
     parent.appendChild(root)
     var swapButtonId = ''.concat(context.id, '-swapImageOrder')
-    var checkerboardRoot = makeHtml(
+    var checkerboardUi = makeHtml(
       '\n    <div style="display: flex; justify-content: space-between;">\n      <label class="'
         .concat(
           style.inputLabel,
@@ -8358,6 +8358,7 @@ var compareUI = function compareUI(context) {
           '" alt="rotate"/></label></input>\n    </div>\n  '
         )
     )
+    root.appendChild(checkerboardUi)
     var imageMixRoot = makeHtml(
       '\n    <div style="display: flex; justify-content: space-between;">\n      <label class="'
         .concat(
@@ -8366,12 +8367,13 @@ var compareUI = function compareUI(context) {
         )
         .concat(style.slider, '" />\n    </div>\n  ')
     )
-    var _checkerboardRoot$que = checkerboardRoot.querySelectorAll('input'),
-      _checkerboardRoot$que2 = _slicedToArray(_checkerboardRoot$que, 4),
-      xPattern = _checkerboardRoot$que2[0],
-      yPattern = _checkerboardRoot$que2[1],
-      zPattern = _checkerboardRoot$que2[2],
-      swapOrder = _checkerboardRoot$que2[3]
+    root.appendChild(imageMixRoot)
+    var _checkerboardUi$query = checkerboardUi.querySelectorAll('input'),
+      _checkerboardUi$query2 = _slicedToArray(_checkerboardUi$query, 4),
+      xPattern = _checkerboardUi$query2[0],
+      yPattern = _checkerboardUi$query2[1],
+      zPattern = _checkerboardUi$query2[2],
+      swapOrder = _checkerboardUi$query2[3]
     var _imageMixRoot$querySe = imageMixRoot.querySelectorAll('input'),
       _imageMixRoot$querySe2 = _slicedToArray(_imageMixRoot$querySe, 1),
       imageMixSlider = _imageMixRoot$querySe2[0]
@@ -8387,7 +8389,8 @@ var compareUI = function compareUI(context) {
         lastCompare = _ref$lastCompare === void 0 ? undefined : _ref$lastCompare
       var _ref2 = compare !== null && compare !== void 0 ? compare : {},
         _ref2$method = _ref2.method,
-        method = _ref2$method === void 0 ? undefined : _ref2$method
+        method = _ref2$method === void 0 ? undefined : _ref2$method,
+        checkerboard = _ref2.checkerboard
       var _ref3 =
           lastCompare !== null && lastCompare !== void 0 ? lastCompare : {},
         _ref3$method = _ref3.method,
@@ -8395,12 +8398,15 @@ var compareUI = function compareUI(context) {
       if (lastMethod !== method) {
         if (method && method !== 'disabled') root.style.display = 'block'
         else root.style.display = 'none'
-        if (method === 'checkerboard') {
-          if (root.firstChild) root.removeChild(root.firstChild)
-          root.appendChild(checkerboardRoot)
-        } else if (method === 'cyan-magenta' || method === 'blend') {
-          if (root.firstChild) root.removeChild(root.firstChild)
-          root.appendChild(imageMixRoot)
+        if (checkerboard) {
+          checkerboardUi.style.display = 'flex'
+        } else {
+          checkerboardUi.style.display = 'none'
+        }
+        if (method && method !== 'disabled') {
+          imageMixRoot.style.display = 'flex'
+        } else {
+          imageMixRoot.style.display = 'none'
         }
       }
       var _ref4 =

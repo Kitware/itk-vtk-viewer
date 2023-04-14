@@ -6,13 +6,13 @@ export const compareUI = context => (send, onReceive) => {
   const root = document.createElement('div')
   root.setAttribute(
     'style',
-    'align-self: center; align-content: center; height: 25px; margin-left: 4px; margin-right: 4px'
+    'align-self: center; align-content: center; margin-left: 4px; margin-right: 4px'
   )
   const parent = context.layers.compareContainer
   parent.appendChild(root)
 
   const swapButtonId = `${context.id}-swapImageOrder`
-  const checkerboardRoot = makeHtml(`
+  const checkerboardUi = makeHtml(`
     <div style="display: flex; justify-content: space-between;">
       <label class="${style.inputLabel}">Checkerboard Pattern X</label>
       <input id="x-pattern" type="number" class="${style.selector} ${style.numberInput}" style="max-width: 3.2ch" />
@@ -23,6 +23,8 @@ export const compareUI = context => (send, onReceive) => {
       <input type="checkbox" id="${swapButtonId}" class="${style.toggleInput}"><label for="${swapButtonId}" itk-vtk-tooltip itk-vtk-tooltip-left-fullscreen itk-vtk-tooltip-content="Swap image order" class="${style.rotateButton} ${style.toggleButton}"><img src="${rotateIconDataUri}" alt="rotate"/></label></input>
     </div>
   `)
+  root.appendChild(checkerboardUi)
+
   const imageMixRoot = makeHtml(`
     <div style="display: flex; justify-content: space-between;">
       <label class="${style.inputLabel}">Image Mix</label>
@@ -30,13 +32,14 @@ export const compareUI = context => (send, onReceive) => {
       class="${style.slider}" />
     </div>
   `)
+  root.appendChild(imageMixRoot)
 
   const [
     xPattern,
     yPattern,
     zPattern,
     swapOrder,
-  ] = checkerboardRoot.querySelectorAll('input')
+  ] = checkerboardUi.querySelectorAll('input')
 
   const [imageMixSlider] = imageMixRoot.querySelectorAll('input')
 
@@ -44,19 +47,23 @@ export const compareUI = context => (send, onReceive) => {
     const name = context.images.selectedName
     const imageContext = context.images.actorContext.get(name)
     const { compare = undefined, lastCompare = undefined } = imageContext ?? {}
-    const { method = undefined } = compare ?? {}
+    const { method = undefined, checkerboard } = compare ?? {}
     const { method: lastMethod = undefined } = lastCompare ?? {}
 
     if (lastMethod !== method) {
       if (method && method !== 'disabled') root.style.display = 'block'
       else root.style.display = 'none'
 
-      if (method === 'checkerboard') {
-        if (root.firstChild) root.removeChild(root.firstChild)
-        root.appendChild(checkerboardRoot)
-      } else if (method === 'cyan-magenta' || method === 'blend') {
-        if (root.firstChild) root.removeChild(root.firstChild)
-        root.appendChild(imageMixRoot)
+      if (checkerboard) {
+        checkerboardUi.style.display = 'flex'
+      } else {
+        checkerboardUi.style.display = 'none'
+      }
+
+      if (method && method !== 'disabled') {
+        imageMixRoot.style.display = 'flex'
+      } else {
+        imageMixRoot.style.display = 'none'
       }
     }
 

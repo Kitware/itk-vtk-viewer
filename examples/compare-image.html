@@ -14,10 +14,10 @@
     <script>
       async function main() {
         const image = new URL(
-          // 'test-data/HeadMRVolume.nrrd',
+          'test-data/HeadMRVolume.nrrd',
           // 'test-data/HeadMRVolume2Components.nrrd',
           // 'http://localhost:8082/test-data/idr/6001240.zarr',
-          'test-data/HeadMRVolume2DTop.nrrd',
+          // 'test-data/HeadMRVolume2DTop.nrrd',
           window.location.origin
         )
 
@@ -25,8 +25,8 @@
           // 'test-data/HeadMRVolume.nrrd',
           // 'test-data/HeadMRVolumeLabels.nrrd',
           // 'test-data/HeadMRVolumeLabelsSmaller.nrrd',
-          // 'test-data/HeadMRVolume2Components.nrrd',
-          'test-data/HeadMRVolume2DTop.nrrd',
+          'test-data/HeadMRVolume2Components.nrrd',
+          // 'test-data/HeadMRVolume2DTop.nrrd',
           window.location.origin
         )
 
@@ -43,7 +43,7 @@
           image,
           fixedImage,
           // labelImage,
-          compare: { method: 'blend', checkerboard: true },
+          compare: { method: 'blend', imageMix: 0.25 },
         })
 
         // Call setImage to add images, then setCompareImages example:
@@ -67,24 +67,23 @@
         //   2000
         // )
 
-        // setTimeout(
-        //   () =>
-        //     viewer.setCompareImages('Fixed', 'Image', {
-        //       method: 'checkerboard',
-        //       pattern: [1, 2, 3],
-        //     }),
-        //   4000
-        // )
+        setTimeout(
+          () =>
+            viewer.setCompareImages('Fixed', 'Image', {
+              method: 'checkerboard',
+              pattern: [1, 2, 3],
+            }),
+          4000
+        )
 
-        // setTimeout(
-        //   () =>
-        //     viewer.setCompareImages('Fixed', 'Image', {
-        //       method: 'checkerboard',
-        //       pattern: [1, 2, 3],
-        //       swapImageOrder: true,
-        //     }),
-        //   6000
-        // )
+        setTimeout(
+          () =>
+            viewer.setCompareImages('Fixed', 'Image', {
+              method: 'cyan-magenta',
+              checkerboard: false,
+            }),
+          6000
+        )
 
         window.viewer = viewer
       }

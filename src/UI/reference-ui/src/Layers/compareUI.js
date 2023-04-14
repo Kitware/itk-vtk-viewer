@@ -54,17 +54,17 @@ export const compareUI = context => (send, onReceive) => {
       if (method && method !== 'disabled') root.style.display = 'block'
       else root.style.display = 'none'
 
-      if (checkerboard) {
-        checkerboardUi.style.display = 'flex'
-      } else {
-        checkerboardUi.style.display = 'none'
-      }
-
       if (method && method !== 'disabled') {
         imageMixRoot.style.display = 'flex'
       } else {
         imageMixRoot.style.display = 'none'
       }
+    }
+
+    if (checkerboard) {
+      checkerboardUi.style.display = 'flex'
+    } else {
+      checkerboardUi.style.display = 'none'
     }
 
     const [x, y, z] = compare?.pattern ?? []

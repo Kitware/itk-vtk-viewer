@@ -8398,16 +8398,16 @@ var compareUI = function compareUI(context) {
       if (lastMethod !== method) {
         if (method && method !== 'disabled') root.style.display = 'block'
         else root.style.display = 'none'
-        if (checkerboard) {
-          checkerboardUi.style.display = 'flex'
-        } else {
-          checkerboardUi.style.display = 'none'
-        }
         if (method && method !== 'disabled') {
           imageMixRoot.style.display = 'flex'
         } else {
           imageMixRoot.style.display = 'none'
         }
+      }
+      if (checkerboard) {
+        checkerboardUi.style.display = 'flex'
+      } else {
+        checkerboardUi.style.display = 'none'
       }
       var _ref4 =
           (_compare$pattern =

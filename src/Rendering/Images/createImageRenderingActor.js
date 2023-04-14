@@ -242,9 +242,15 @@ const assignCompare = assign({
       ...options,
     }
 
+    const forceCheckerboard =
+      actorContext.lastCompare.method !== 'checkerboard' &&
+      updatedCompare.method === 'checkerboard'
+        ? { checkerboard: true }
+        : {}
+
     const computedCheckerboard = {
       ...updatedCompare,
-      checkerboard: updatedCompare.method === 'checkerboard' ? true : false,
+      ...forceCheckerboard,
       // after computed values to let explicit set of values to take precedence
       ...options,
     }

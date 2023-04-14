@@ -217,6 +217,16 @@ const updateCompare = (
         type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED',
         data: { name, component, points },
       })
+      // clamp points to color range to respect window and level
+      const range =
+        actorContext.colorRanges.get(component) ??
+        actorContext.colorRanges.get(0)
+      if (range) {
+        service.send({
+          type: 'IMAGE_COLOR_RANGE_CHANGED',
+          data: { name, component, range },
+        })
+      }
     }
   }
 }

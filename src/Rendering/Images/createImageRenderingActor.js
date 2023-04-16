@@ -228,6 +228,26 @@ const updateCompare = (
   }
 }
 
+const computeCheckerboard = (currentCompare, lastCompare) => {
+  if (
+    lastCompare.method !== 'checkerboard' &&
+    currentCompare.method === 'checkerboard'
+  )
+    return true
+  if (
+    lastCompare.method === 'checkerboard' &&
+    currentCompare.method !== 'checkerboard'
+  )
+    return false
+  return currentCompare.checkerboard
+}
+
+const computeImageMix = (currentCompare, lastCompare) => {
+  if (currentCompare.checkerboard) return currentCompare.swapImageOrder ? 1 : 0
+  if (currentCompare.method !== lastCompare.method) return 0.5
+  return currentCompare.imageMix
+}
+
 const assignCompare = assign({
   images: (context, { data: { name, fixedImageName, options } }) => {
     const actorContext = context.images.actorContext.get(name)
@@ -239,25 +259,19 @@ const assignCompare = assign({
       ...options,
     }
 
-    const forceCheckerboard =
-      actorContext.lastCompare.method !== 'checkerboard' &&
-      updatedCompare.method === 'checkerboard'
-        ? { checkerboard: true }
-        : {}
-
     const computedCheckerboard = {
       ...updatedCompare,
-      ...forceCheckerboard,
+      checkerboard: computeCheckerboard(
+        updatedCompare,
+        actorContext.lastCompare
+      ),
       // after computed values to let explicit set of values to take precedence
       ...options,
     }
 
     const computedImageMix = {
       ...computedCheckerboard,
-      // compute imageMix from swapImageOrder if checkerboard is on
-      ...(computedCheckerboard.checkerboard
-        ? { imageMix: computedCheckerboard.swapImageOrder ? 1 : 0 }
-        : {}),
+      imageMix: computeImageMix(computedCheckerboard, actorContext.lastCompare),
     }
 
     actorContext.compare = {

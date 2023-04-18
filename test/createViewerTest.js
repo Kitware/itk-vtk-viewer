@@ -15,6 +15,7 @@ const testLabelImage3DPath = 'base/test/data/input/HeadMRVolumeLabels.nrrd'
 const test2ComponentImage3DPath =
   'base/test/data/input/HeadMRVolume2Components.nrrd'
 const testImage3DPath2 = 'base/test/data/input/mri3D.nrrd'
+const testImage2D = 'base/test/data/input/HeadMRVolume2DTop.nrrd'
 
 // import createViewerBaseline from './data/baseline/createViewer.png'
 // import createViewerSetImageBaseline from './data/baseline/createViewerSetImage.png'
@@ -722,6 +723,89 @@ test('Test createViewer setCompareImage with checkerboard and 2 component image'
     t.pass(
       'createViewer did not crash right after setFixedImage and setCheckerboard'
     )
+    gc.releaseResources()
+  })
+})
+
+test('Test setCompareImage with checkerboard and 2D image', async t => {
+  const gc = testUtils.createGarbageCollector(t)
+
+  const container = document.querySelector('body')
+  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+  container.appendChild(viewerContainer)
+
+  const [image, fixedImage] = await makeImages([testImage2D, testImage2D])
+
+  const compareOptions = {
+    method: 'checkerboard',
+  }
+  const viewer = await createViewer(container, {
+    image,
+    fixedImage,
+    compare: compareOptions,
+    rotate: false,
+  })
+  t.plan(1)
+  viewer.once('renderedImageAssigned', () => {
+    // first rendered image is just the image, not the fused compare image
+    viewer.once('renderedImageAssigned', () => {
+      t.pass('createViewer did not crash right after compare.')
+      gc.releaseResources()
+    })
+  })
+})
+
+test('Test cyan-magenta compare', async t => {
+  const gc = testUtils.createGarbageCollector(t)
+
+  const container = document.querySelector('body')
+  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+  container.appendChild(viewerContainer)
+
+  const [image, fixedImage] = await makeImages([
+    testImage3DPath,
+    test2ComponentImage3DPath,
+  ])
+
+  const viewer = await createViewer(container, {
+    fixedImage,
+    rotate: false,
+  })
+  await viewer.setImage(image, 'moving')
+  const compareOptions = {
+    method: 'cyan-magenta',
+  }
+  viewer.setCompareImages('Fixed', 'moving', compareOptions)
+
+  t.plan(1)
+  viewer.once('renderedImageAssigned', () => {
+    t.pass('createViewer did not crash right after compare.')
+    gc.releaseResources()
+  })
+})
+
+test('Test blend compare', async t => {
+  const gc = testUtils.createGarbageCollector(t)
+
+  const container = document.querySelector('body')
+  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+  container.appendChild(viewerContainer)
+
+  const [image, fixedImage] = await makeImages([testImage2D, testImage2D])
+  const compareOptions = {
+    method: 'blend',
+    imageMix: 0.25,
+  }
+  const viewer = await createViewer(container, {
+    image,
+    fixedImage,
+    compare: compareOptions,
+    rotate: false,
+  })
+
+  t.plan(1)
+  viewer.once('renderedImageAssigned', () => {
+    t.pass('createViewer did not crash right after compare.')
     gc.releaseResources()
   })
 })

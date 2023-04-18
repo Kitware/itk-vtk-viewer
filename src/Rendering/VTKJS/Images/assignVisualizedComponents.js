@@ -1,5 +1,5 @@
 import { assign } from 'xstate'
-import { getOutputImageComponentCount } from '../../Images/createImageRenderingActor'
+import { getOutputIntensityComponentCount } from '../../Images/createImageRenderingActor'
 
 const assignVisualizedComponents = assign({
   images: context => {
@@ -7,15 +7,15 @@ const assignVisualizedComponents = assign({
     const actorContext = context.images.actorContext.get(name)
     const { image, labelImage, editorLabelImage } = actorContext
     if (image) {
-      const imageComponents = image.imageType.components
-      actorContext.visualizedComponents = Array(image.imageType.components)
+      const imageComponents = getOutputIntensityComponentCount(actorContext)
+      actorContext.visualizedComponents = Array(imageComponents)
         .fill(0)
         .map((_, idx) => idx)
         .filter(i => actorContext.componentVisibilities[i])
 
       actorContext.visualizedComponents = actorContext.visualizedComponents.slice(
         0,
-        getOutputImageComponentCount(actorContext)
+        getOutputIntensityComponentCount(actorContext)
       )
 
       actorContext.maxIntensityComponents = 4

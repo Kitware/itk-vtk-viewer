@@ -188,11 +188,13 @@ export function initializeEmbeddedViewers() {
 
 function createCompareOptions(userParams) {
   if (userParams.compare) {
-    return {
-      method: userParams.compare,
-      pattern: userParams.pattern,
-      swapImageOrder: userParams.swapImageOrder,
-    }
+    const options = Object.fromEntries(
+      ['pattern', 'swapImageOrder', 'checkerboard', 'imageMix']
+        .map(key => [key, userParams[key]])
+        .filter(([, value]) => value)
+    )
+    options.method = userParams.compare
+    return options
   }
   return undefined
 }

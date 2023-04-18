@@ -2,11 +2,13 @@ import { assign, createMachine, forwardTo, send } from 'xstate'
 import { defaultCompare } from '../../Context/ImageActorContext'
 import { makeTransitions } from './makeTransitions'
 
-export const getOutputImageComponentCount = actorContext => {
+export const getOutputIntensityComponentCount = actorContext => {
   const {
+    image,
     compare: { method },
   } = actorContext
-  return method === 'checkerboard' ? 1 : Number.POSITIVE_INFINITY
+  if (method !== 'disabled') return 2
+  return image.imageType.components
 }
 
 const getLoadedImage = actorContext =>
@@ -29,19 +31,6 @@ const assignColorRange = assign({
     return images
   },
 })
-
-const dirtyColorRanges = (c, { data: { name } }) => {
-  const actorContext = c.images.actorContext.get(name)
-  actorContext.dirtyColorRanges = true
-}
-
-const cleanColorRanges = (c, { data: { name } }) => {
-  const actorContext = c.images.actorContext.get(name)
-  if (actorContext.dirtyColorRanges) {
-    actorContext.colorRanges = new Map()
-    actorContext.dirtyColorRanges = false
-  }
-}
 
 const assignUpdateRenderedName = assign({
   images: (context, event) => {
@@ -161,13 +150,178 @@ const computeIsCinematicPossible = (context, { data: { itkImage, name } }) => {
   })
 }
 
+// force rebuilding image
+const forceUpdate = c =>
+  c.service.send({
+    type: 'UPDATE_RENDERED_IMAGE',
+    data: { name: c.actorName },
+  })
+
+const sendCompareUpdated = (c, { data: { name } }) => {
+  c.service.send({
+    type: 'COMPARE_UPDATED',
+    data: { name },
+  })
+}
+
+const updateCompare = (
+  { service, use2D, images: { actorContext: actorMap } },
+  name
+) => {
+  const actorContext = actorMap.get(name)
+
+  const { method, imageMix } = actorContext.compare
+  const { method: lastMethod, imageMix: lastImageMix } =
+    actorContext.lastCompare ?? {}
+
+  if (lastMethod !== method) {
+    // besides setting the color maps, this adds another entry for the possibly new second component
+    if (method === 'cyan-magenta') {
+      service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component: 0, colorMap: 'BkCy' },
+      })
+      service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component: 1, colorMap: 'BkMa' },
+      })
+    }
+
+    if (method === 'blend' || method === 'checkerboard') {
+      const colorForSecondComp = actorContext.colorMaps.get(0)
+      service.send({
+        type: 'IMAGE_COLOR_MAP_CHANGED',
+        data: { name, component: 1, colorMap: colorForSecondComp },
+      })
+    }
+  }
+
+  if (method !== 'disabled' && imageMix !== lastImageMix) {
+    const mix0 = 1 - imageMix
+    const mix1 = imageMix
+    for (let component = 0; component < 2; component++) {
+      const mix = component ? mix1 : mix0
+      const points = use2D
+        ? [
+            [0, mix],
+            [1, mix],
+          ]
+        : [
+            [0, 0],
+            [1, mix],
+          ]
+      service.send({
+        type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED',
+        data: { name, component, points },
+      })
+      // clamp points to color range to respect window and level
+      const range =
+        actorContext.colorRanges.get(component) ??
+        actorContext.colorRanges.get(0)
+      if (range) {
+        service.send({
+          type: 'IMAGE_COLOR_RANGE_CHANGED',
+          data: { name, component, range },
+        })
+      }
+    }
+  }
+}
+
+const computeCheckerboard = (currentCompare, lastCompare) => {
+  if (
+    lastCompare.method !== 'checkerboard' &&
+    currentCompare.method === 'checkerboard'
+  )
+    return true
+  if (
+    lastCompare.method === 'checkerboard' &&
+    currentCompare.method !== 'checkerboard'
+  )
+    return false
+  return currentCompare.checkerboard
+}
+
+const computeImageMix = (currentCompare, lastCompare) => {
+  if (currentCompare.checkerboard) return currentCompare.swapImageOrder ? 1 : 0
+  if (currentCompare.method !== lastCompare.method) return 0.5
+  return currentCompare.imageMix
+}
+
 const assignCompare = assign({
-  images: ({ images }, { data: { name, fixedImageName, options } }) => {
-    const actorContext = images.actorContext.get(name)
-    actorContext.compare = { ...defaultCompare, ...options, fixedImageName }
-    return images
+  images: (context, { data: { name, fixedImageName, options } }) => {
+    const actorContext = context.images.actorContext.get(name)
+    actorContext.lastCompare = { ...actorContext.compare } // for diffing later by updateCompare, UI, etc.
+
+    const updatedCompare = {
+      ...defaultCompare,
+      ...actorContext.compare,
+      ...options,
+    }
+
+    const computedCheckerboard = {
+      ...updatedCompare,
+      checkerboard: computeCheckerboard(
+        updatedCompare,
+        actorContext.lastCompare
+      ),
+      // after computed values to let explicit set of values to take precedence
+      ...options,
+    }
+
+    const computedImageMix = {
+      ...computedCheckerboard,
+      imageMix: computeImageMix(computedCheckerboard, actorContext.lastCompare),
+    }
+
+    actorContext.compare = {
+      fixedImageName,
+      ...computedImageMix,
+      // after computed values to let explicit set of values to take precedence
+      ...options,
+    }
+    updateCompare(context, name)
+    return context.images
   },
 })
+
+const dirtyColorRanges = c => {
+  const actorContext = c.images.actorContext.get(c.actorName)
+  actorContext.dirtyColorRanges = true
+}
+
+const cleanColorRanges = (c, { data: { name } }) => {
+  const actorContext = c.images.actorContext.get(name)
+  if (actorContext.dirtyColorRanges) {
+    // let applyRenderedImage update colorRanges and colorRangeBounds
+    actorContext.colorRanges = new Map()
+    const componentCount = getOutputIntensityComponentCount(actorContext)
+    actorContext.colorRangeBoundsAutoAdjust = new Map(
+      [...Array(componentCount).keys()].map(c => [c, true])
+    )
+
+    actorContext.dirtyColorRanges = false
+  }
+}
+
+const afterCompareMaybeForceUpdate = context => {
+  const {
+    actorName,
+    images: { actorContext: actorMap },
+  } = context
+  const actorContext = actorMap.get(actorName)
+
+  // eslint-disable-next-line no-unused-vars
+  const { imageMix, swapImageOrder, ...compare } = actorContext.compare
+  // eslint-disable-next-line no-unused-vars
+  const { imageMix: _, swapImageOrder: __, ...lastCompare } =
+    actorContext.lastCompare ?? {}
+
+  if (JSON.stringify(compare) === JSON.stringify(lastCompare)) return
+
+  dirtyColorRanges(context)
+  forceUpdate(context)
+}
 
 const KNOWN_ERRORS = [
   'Voxel count over max at scale',
@@ -212,19 +366,6 @@ const sendFinishDataUpdate = context => {
   })
 }
 
-// force update
-const forceUpdate = (c, e) =>
-  c.service.send({
-    type: 'UPDATE_RENDERED_IMAGE',
-    data: { name: e.data.name },
-  })
-
-const sendCompareUpdated = (c, { data: { name } }) => {
-  c.service.send({
-    type: 'COMPARE_UPDATED',
-    data: { name },
-  })
-}
 const eventResponses = {
   IMAGE_ASSIGNED: {
     target: 'updatingImage',
@@ -316,7 +457,7 @@ const eventResponses = {
     actions: 'applyCinematicChanged',
   },
   COMPARE_IMAGES: {
-    actions: [assignCompare, dirtyColorRanges, sendCompareUpdated, forceUpdate],
+    actions: [assignCompare, sendCompareUpdated, afterCompareMaybeForceUpdate],
   },
 }
 

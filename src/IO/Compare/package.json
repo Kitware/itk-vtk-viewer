@@ -1,0 +1,18 @@
+{
+  "name": "checkerboard-itk-wasm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "itk-wasm -i itkwasm/emscripten:latest build",
+    "build:debug": "itk-wasm -i itkwasm/emscripten:latest-debug build -- -DCMAKE_BUILD_TYPE=Debug",
+    "test": "node index.mjs ../Downsample/cthead1.png ../Downsample/cthead1-bin.png output.png 5,8"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "itk-image-io": "^1.0.0-b.84",
+    "itk-wasm": "^1.0.0-b.84"
+  }
+}

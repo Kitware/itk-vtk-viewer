@@ -1,12 +1,16 @@
 import registerWebworker from 'webworker-promise/lib/register'
 import { computeRanges } from '../../../IO/Analyze/computeRanges'
 import { createRangeHelper } from '../../../IO/Analyze/createRangeHelper'
-import { createCheckerboard } from '../../../IO/Checkerboard/createCheckerboard'
+import { createCompareImage } from '../../../IO/Compare/createCompareImage'
 import {
   compareImageSpaces,
   resampleLabelImage,
 } from '../../../IO/ResampleLabelImage/resampleLabelImage'
-import { parseByComponent, fuseComponents } from './fuseImagesUtils'
+import {
+  composeComponents,
+  parseByComponent,
+  pickAndFuseComponents,
+} from '../../../IO/composeComponents'
 
 const pickRanges = compInfos =>
   compInfos
@@ -35,46 +39,6 @@ const ensureSameImageSpace = async ({ targetImage, resampleImage }) => {
   return resampleLabelImage(targetImage, resampleImage)
 }
 
-const pickAndFuseComponents = async ({ image, labelImage, components }) => {
-  // not Conglomerate, no label image, and all components needed: just return image
-  if (
-    !Array.isArray(image) &&
-    !labelImage &&
-    image.imageType.components === components.length
-  )
-    return image
-
-  const [imageByComponent, labelByComponent] = [image, labelImage].map(image =>
-    parseByComponent(image)
-  )
-  const componentInfo = components.map(
-    comp =>
-      comp >= 0 ? imageByComponent[comp] : labelByComponent[comp * -1 - 1] // label component index starts at -1
-  )
-
-  const imageArray = fuseComponents({
-    componentInfo,
-  })
-
-  const ranges = componentInfo.map(
-    ({ image: { ranges }, fromComponent }) => ranges && ranges[fromComponent]
-  )
-
-  // picks out one from ConglomerateImage
-  const singleImage = Array.isArray(image) ? image[0] : image
-
-  const itkImage = {
-    ...singleImage,
-    data: imageArray,
-    imageType: {
-      ...singleImage.imageType,
-      components: components.length,
-    },
-    ranges,
-  }
-  return itkImage
-}
-
 const pickIntensityComponents = (image, components) => {
   // 4+ component and ConglomerateImage processing
   // fuseLabelImage assumes label is on the last component
@@ -87,26 +51,25 @@ const pickIntensityComponents = (image, components) => {
 
 const fuseConglomerate = image => {
   if (!Array.isArray(image)) return image
-  const componentCount = image
-    .map(i => i.imageType.components)
-    .reduce((sum, comps) => sum + comps)
-  // include all components
-  const components = [...Array(componentCount).keys()]
-  // compose Conglomerate images
-  return pickAndFuseComponents({
-    image,
-    components,
-  })
+  return composeComponents(image)
 }
 
-const makeCheckerboard = async ({ image, fixedImage, options }) => {
+const makeCompareImage = async ({ image, fixedImage, options }) => {
+  if (!options.method || options.method === 'disabled') return image
+
+  if (!fixedImage) {
+    console.error('No fixed image')
+    return
+  }
   const itkImage = await fuseConglomerate(image)
   const itkFixedImage = await fuseConglomerate(fixedImage)
+
   const { ranges } = await ensureRanges(itkFixedImage)
   const rangeHelper = createRangeHelper()
   ranges.flat().forEach(v => rangeHelper.add(v))
   const { min, max } = rangeHelper.getRange()
-  return createCheckerboard(itkImage, itkFixedImage, {
+
+  return createCompareImage(itkImage, itkFixedImage, {
     minMax: [min, max],
     ...options,
   })
@@ -130,15 +93,12 @@ registerWebworker(
     fixedImage,
     compare,
   }) => {
-    const checkerboardActive = compare.method === 'checkerboard'
-    let image =
-      checkerboardActive && fixedImage
-        ? await makeCheckerboard({
-            image: inImage,
-            fixedImage,
-            options: compare,
-          })
-        : await pickIntensityComponents(inImage, visualizedComponents)
+    let image = await makeCompareImage({
+      image: inImage,
+      fixedImage,
+      options: compare,
+    })
+    image = await pickIntensityComponents(image, visualizedComponents)
 
     // Label processing
     const labelResampled = await ensureSameImageSpace({

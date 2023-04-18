@@ -151,7 +151,7 @@ module.exports = (env, argv) => [
               __dirname,
               'src',
               'IO',
-              'Checkerboard',
+              'Compare',
               'emscripten-build'
             ),
             to: path.join(__dirname, 'dist', 'itk', 'pipeline'),

@@ -69,7 +69,16 @@ function applyRenderedImage(context, { data: { name } }) {
 
   const image = actorContext.image
   const labelImage = actorContext.labelImage
-  const numberOfComponents = image ? image.imageType.components : 0
+
+  const labelImageComponentFactor = labelImage ? -1 : 0
+
+  // component count minus label image
+  const numberOfComponents = actorContext.fusedImage
+    ? actorContext.fusedImage
+        .getPointData()
+        .getScalars()
+        .getNumberOfComponents() + labelImageComponentFactor
+    : 0
 
   context.images.source.setInputData(actorContext.fusedImage)
 
@@ -163,6 +172,8 @@ function applyRenderedImage(context, { data: { name } }) {
       }
       context.images.piecewiseFunctions.set(component, piecewiseFunction)
     }
+    // Compare may have increased number of components.
+    //  send({ type: 'IMAGE_COLOR_MAP_CHANGED' }) called below after representations updated
   }
 
   // Visualized components may have updated -> set color transfer function, piecewise function, component visibility, independent components in slices
@@ -171,12 +182,10 @@ function applyRenderedImage(context, { data: { name } }) {
     const actorProperty = actor.getProperty()
     actorProperty.setIndependentComponents(actorContext.independentComponents)
     actor.getMapper().setInputData(actorContext.fusedImage)
-    actorContext.visualizedComponents.forEach(
-      (componentIndex, fusedImageIndex) => {
-        if (!context.images.colorTransferFunctions.has(componentIndex)) {
-          return
-        }
 
+    actorContext.visualizedComponents
+      .filter(componentIndex => componentIndex >= 0) // skip label map
+      .forEach((componentIndex, fusedImageIndex) => {
         const colorTransferFunction = context.images.colorTransferFunctions.get(
           componentIndex
         )
@@ -196,8 +205,7 @@ function applyRenderedImage(context, { data: { name } }) {
           componentVisibility ? 1.0 : 0.0
         )
         actorProperty.setUseLookupTableScalarRange(true)
-      }
-    )
+      })
   })
 
   // Visualized components may have updated -> set color transfer function, piecewise function, component visibility, independent components in volumes

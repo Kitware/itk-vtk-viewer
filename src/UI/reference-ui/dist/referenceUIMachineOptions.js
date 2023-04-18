@@ -7767,7 +7767,7 @@ let LayerSettings = class LayerSettings extends s$4 {
       this.menuRef.value.show()
     }
   }
-  compareWith(name) {
+  compareWith(name, method) {
     var _a
     ;(_a = this.stateService.value) === null || _a === void 0
       ? void 0
@@ -7776,7 +7776,7 @@ let LayerSettings = class LayerSettings extends s$4 {
           data: {
             name: this.name,
             fixedImageName: name,
-            options: { method: 'checkerboard' },
+            options: { method },
           },
         })
   }
@@ -7809,7 +7809,15 @@ let LayerSettings = class LayerSettings extends s$4 {
               name => y`
                   <md-menu-item
                     headline="Checkerboard compare with ${name}"
-                    @click=${() => this.compareWith(name)}
+                    @click=${() => this.compareWith(name, 'checkerboard')}
+                  ></md-menu-item>
+                  <md-menu-item
+                    headline="Cyan-Magenta compare with ${name}"
+                    @click=${() => this.compareWith(name, 'cyan-magenta')}
+                  ></md-menu-item>
+                  <md-menu-item
+                    headline="Blend compare with ${name}"
+                    @click=${() => this.compareWith(name, 'blend')}
                   ></md-menu-item>
                 `
             )}
@@ -8303,16 +8311,16 @@ var compareUI = function compareUI(context) {
     var root = document.createElement('div')
     root.setAttribute(
       'style',
-      'align-self: center; align-content: center; height: 25px; margin-left: 4px; margin-right: 4px'
+      'align-self: center; align-content: center; margin-left: 4px; margin-right: 4px'
     )
     var parent = context.layers.compareContainer
     parent.appendChild(root)
     var swapButtonId = ''.concat(context.id, '-swapImageOrder')
-    var checkerboardRoot = makeHtml(
+    var checkerboardUi = makeHtml(
       '\n    <div style="display: flex; justify-content: space-between;">\n      <label class="'
         .concat(
           style.inputLabel,
-          '">Checkerboard Pattern X:</label>\n      <input id="x-pattern" type="number" class="'
+          '">Checkerboard Pattern X</label>\n      <input id="x-pattern" type="number" class="'
         )
         .concat(style.selector, ' ')
         .concat(
@@ -8350,48 +8358,86 @@ var compareUI = function compareUI(context) {
           '" alt="rotate"/></label></input>\n    </div>\n  '
         )
     )
-    var _checkerboardRoot$que = checkerboardRoot.querySelectorAll('input'),
-      _checkerboardRoot$que2 = _slicedToArray(_checkerboardRoot$que, 4),
-      xPattern = _checkerboardRoot$que2[0],
-      yPattern = _checkerboardRoot$que2[1],
-      zPattern = _checkerboardRoot$que2[2],
-      swapOrder = _checkerboardRoot$que2[3]
+    root.appendChild(checkerboardUi)
+    var imageMixRoot = makeHtml(
+      '\n    <div style="display: flex; justify-content: space-between;">\n      <label class="'
+        .concat(
+          style.inputLabel,
+          '">Image Mix</label>\n    <input type="range" min="0" max="1" step=".01" value=".5" \n      class="'
+        )
+        .concat(style.slider, '" />\n    </div>\n  ')
+    )
+    root.appendChild(imageMixRoot)
+    var _checkerboardUi$query = checkerboardUi.querySelectorAll('input'),
+      _checkerboardUi$query2 = _slicedToArray(_checkerboardUi$query, 4),
+      xPattern = _checkerboardUi$query2[0],
+      yPattern = _checkerboardUi$query2[1],
+      zPattern = _checkerboardUi$query2[2],
+      swapOrder = _checkerboardUi$query2[3]
+    var _imageMixRoot$querySe = imageMixRoot.querySelectorAll('input'),
+      _imageMixRoot$querySe2 = _slicedToArray(_imageMixRoot$querySe, 1),
+      imageMixSlider = _imageMixRoot$querySe2[0]
     var update = function update() {
+      var _compare$pattern, _compare$swapImageOrd, _compare$imageMix
       var name = context.images.selectedName
       var imageContext = context.images.actorContext.get(name)
       var _ref =
           imageContext !== null && imageContext !== void 0 ? imageContext : {},
         _ref$compare = _ref.compare,
-        compare = _ref$compare === void 0 ? undefined : _ref$compare
+        compare = _ref$compare === void 0 ? undefined : _ref$compare,
+        _ref$lastCompare = _ref.lastCompare,
+        lastCompare = _ref$lastCompare === void 0 ? undefined : _ref$lastCompare
       var _ref2 = compare !== null && compare !== void 0 ? compare : {},
         _ref2$method = _ref2.method,
-        method = _ref2$method === void 0 ? undefined : _ref2$method
-      if (!method || method === 'disabled') {
-        root.style.display = 'none'
-      } else {
-        root.style.display = 'block'
-        if (method === 'checkerboard') {
-          var _compare$pattern
-          if (root.firstChild) root.removeChild(root.firstChild)
-          root.appendChild(checkerboardRoot)
-          var _compare = context.images.actorContext.get(
-            context.images.selectedName
-          ).compare
-          var _ref3 =
-              (_compare$pattern = _compare.pattern) !== null &&
-              _compare$pattern !== void 0
-                ? _compare$pattern
-                : [],
-            _ref4 = _slicedToArray(_ref3, 3),
-            x = _ref4[0],
-            y = _ref4[1],
-            z = _ref4[2]
-          xPattern.value = x
-          yPattern.value = y
-          zPattern.value = z
-          swapOrder.checked = !!_compare.swapImageOrder
+        method = _ref2$method === void 0 ? undefined : _ref2$method,
+        checkerboard = _ref2.checkerboard
+      var _ref3 =
+          lastCompare !== null && lastCompare !== void 0 ? lastCompare : {},
+        _ref3$method = _ref3.method,
+        lastMethod = _ref3$method === void 0 ? undefined : _ref3$method
+      if (lastMethod !== method) {
+        if (method && method !== 'disabled') root.style.display = 'block'
+        else root.style.display = 'none'
+        if (method && method !== 'disabled') {
+          imageMixRoot.style.display = 'flex'
+        } else {
+          imageMixRoot.style.display = 'none'
         }
       }
+      if (checkerboard) {
+        checkerboardUi.style.display = 'flex'
+      } else {
+        checkerboardUi.style.display = 'none'
+      }
+      var _ref4 =
+          (_compare$pattern =
+            compare === null || compare === void 0
+              ? void 0
+              : compare.pattern) !== null && _compare$pattern !== void 0
+            ? _compare$pattern
+            : [],
+        _ref5 = _slicedToArray(_ref4, 3),
+        x = _ref5[0],
+        y = _ref5[1],
+        z = _ref5[2]
+      xPattern.value = x
+      yPattern.value = y
+      zPattern.value = z
+      swapOrder.checked =
+        (_compare$swapImageOrd = !!(
+          compare !== null &&
+          compare !== void 0 &&
+          compare.swapImageOrder
+        )) !== null && _compare$swapImageOrd !== void 0
+          ? _compare$swapImageOrd
+          : false
+      imageMixSlider.value =
+        (_compare$imageMix =
+          compare === null || compare === void 0
+            ? void 0
+            : compare.imageMix) !== null && _compare$imageMix !== void 0
+          ? _compare$imageMix
+          : 0.5
     }
     update()
     var updateCompare = function updateCompare(options) {
@@ -8403,7 +8449,7 @@ var compareUI = function compareUI(context) {
         data: {
           name: name,
           fixedImageName: compare.fixedImageName,
-          options: _objectSpread(_objectSpread({}, compare), options),
+          options: _objectSpread({}, options),
         },
       })
     }
@@ -8414,14 +8460,14 @@ var compareUI = function compareUI(context) {
       var _context$images$actor
       event.preventDefault()
       event.stopPropagation()
-      var _ref5 =
+      var _ref6 =
           (_context$images$actor = context.images.actorContext.get(
             context.images.selectedName
           ).compare.pattern) !== null && _context$images$actor !== void 0
             ? _context$images$actor
             : [],
-        _ref6 = _toArray(_ref5),
-        yz = _ref6.slice(1)
+        _ref7 = _toArray(_ref6),
+        yz = _ref7.slice(1)
       var x = parsePattern(event.target.value)
       updateCompare({
         pattern: [x].concat(_toConsumableArray(yz)),
@@ -8431,15 +8477,15 @@ var compareUI = function compareUI(context) {
       var _context$images$actor2
       event.preventDefault()
       event.stopPropagation()
-      var _ref7 =
+      var _ref8 =
           (_context$images$actor2 = context.images.actorContext.get(
             context.images.selectedName
           ).compare.pattern) !== null && _context$images$actor2 !== void 0
             ? _context$images$actor2
             : [],
-        _ref8 = _slicedToArray(_ref7, 3),
-        x = _ref8[0],
-        z = _ref8[2]
+        _ref9 = _slicedToArray(_ref8, 3),
+        x = _ref9[0],
+        z = _ref9[2]
       var y = parsePattern(event.target.value)
       updateCompare({
         pattern: [x, y, z],
@@ -8449,15 +8495,15 @@ var compareUI = function compareUI(context) {
       var _context$images$actor3
       event.preventDefault()
       event.stopPropagation()
-      var _ref9 =
+      var _ref10 =
           (_context$images$actor3 = context.images.actorContext.get(
             context.images.selectedName
           ).compare.pattern) !== null && _context$images$actor3 !== void 0
             ? _context$images$actor3
             : [],
-        _ref10 = _slicedToArray(_ref9, 2),
-        x = _ref10[0],
-        y = _ref10[1]
+        _ref11 = _slicedToArray(_ref10, 2),
+        x = _ref11[0],
+        y = _ref11[1]
       var z = parsePattern(event.target.value)
       updateCompare({
         pattern: [x, y, z],
@@ -8468,6 +8514,13 @@ var compareUI = function compareUI(context) {
       event.stopPropagation()
       updateCompare({
         swapImageOrder: event.target.checked,
+      })
+    })
+    imageMixSlider.addEventListener('input', function(event) {
+      event.preventDefault()
+      event.stopPropagation()
+      updateCompare({
+        imageMix: event.target.value,
       })
     })
     onReceive(function(event) {
@@ -23236,10 +23289,6 @@ function applyColorRangeBounds(context, event) {
   var range = event.data.range
   var minimumInput = context.images.colorRangeInputRow.children[1].children[0]
   var maximumInput = context.images.colorRangeInputRow.children[3].children[0]
-  minimumInput.min = range[0]
-  minimumInput.max = range[1]
-  maximumInput.min = range[0]
-  maximumInput.max = range[1]
   var image = actorContext.image
   if (
     (image && image.imageType.componentType === 'float') ||
@@ -23265,10 +23314,11 @@ function applyColorMap(context, _ref) {
   var _ref$data = _ref.data,
     component = _ref$data.component,
     name = _ref$data.name
+  if (context.images.selectedName !== name) return
   var actorContext = context.images.actorContext.get(name)
-  var colorMap = actorContext.colorMaps.get(component)
   if (component === actorContext.selectedComponent) {
     var _context$images$color
+    var colorMap = actorContext.colorMaps.get(component)
     context.images.iconSelector.setSelectedValue(colorMap)
     var colorTransferFunction =
       (_context$images$color = context.images.colorTransferFunctions) ===

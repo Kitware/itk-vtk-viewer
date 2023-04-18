@@ -574,7 +574,6 @@ const createViewer = async (
     publicAPI.setUICollapsed(true)
   }
 
-  // https://github.com/eligrey/canvas-toBlob.js ?
   publicAPI.captureImage = () => {
     return store.itkVtkView.captureImage()
   }
@@ -985,17 +984,9 @@ const createViewer = async (
   }
 
   // Moving image must have been added last.
-
-  // options can be:
-  // { method: 'checkerboard', pattern: number[], swapImageOrder: boolean } ||
-  // { method: 'disabled' }
-
-  // `pattern` is an array with the number of checkerboard boxes for each dimension.
-  // If pattern === undefined, it defaults to 4 boxes across each dimension.
-  // swapImageOrder reverse which image is sampled for each checkerboard box.
+  // See index.md for parameter docs.
   publicAPI.setCompareImages = queueApi(
     async (fixedImageName, movingImageName, options) => {
-      // fuse with moving
       service.send({
         type: 'COMPARE_IMAGES',
         data: {

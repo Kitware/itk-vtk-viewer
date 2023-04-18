@@ -1,0 +1,3 @@
+/emscripten-build/*
+!emscripten-build/Compare*
+output.png

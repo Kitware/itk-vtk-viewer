@@ -52,13 +52,13 @@ class LayerSettings extends LitElement {
     }
   }
 
-  compareWith(name: string) {
+  compareWith(name: string, method: string) {
     this.stateService.value?.service.send({
       type: 'COMPARE_IMAGES',
       data: {
         name: this.name,
         fixedImageName: name,
-        options: { method: 'checkerboard' },
+        options: { method },
       },
     })
   }
@@ -91,7 +91,15 @@ class LayerSettings extends LitElement {
                 html`
                   <md-menu-item
                     headline="Checkerboard compare with ${name}"
-                    @click=${() => this.compareWith(name)}
+                    @click=${() => this.compareWith(name, 'checkerboard')}
+                  ></md-menu-item>
+                  <md-menu-item
+                    headline="Cyan-Magenta compare with ${name}"
+                    @click=${() => this.compareWith(name, 'cyan-magenta')}
+                  ></md-menu-item>
+                  <md-menu-item
+                    headline="Blend compare with ${name}"
+                    @click=${() => this.compareWith(name, 'blend')}
                   ></md-menu-item>
                 `
             )}

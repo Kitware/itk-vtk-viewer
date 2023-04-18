@@ -5,7 +5,7 @@ import { PixelTypes } from 'itk-wasm'
 import createLayerUIActor from './createLayerUIActor'
 import LayerActorContext from '../../Context/LayerActorContext'
 import ImageActorContext from '../../Context/ImageActorContext'
-import { getOutputImageComponentCount } from '../../Rendering/Images/createImageRenderingActor'
+import { getOutputIntensityComponentCount } from '../../Rendering/Images/createImageRenderingActor'
 
 function resize(arr, newSize, defaultValue) {
   return [
@@ -104,11 +104,25 @@ const assignImageContext = assign({
 
     let layerContext
     if (labelImage) {
+      if (
+        actorContext.image &&
+        labelImage.imageType.dimension !==
+          actorContext.image.imageType.dimension
+      )
+        throw new Error('Label image dimensions do not match Image dimensions')
+
       actorContext.labelImage = labelImage
       actorContext.labelImageName = labelImageName
       layerContext = context.layers.actorContext.get(labelImageName)
       actorContext.imageName = imageName ?? 'Image'
     } else {
+      if (
+        actorContext.labelImage &&
+        image.imageType.dimensions !==
+          actorContext.labelImage.imageType.dimensions
+      )
+        throw new Error('Label image dimensions do not match Image dimensions')
+
       image = context.layers.lastAddedData.data
       actorContext.image = image
       layerContext = context.layers.actorContext.get(imageName)
@@ -216,18 +230,14 @@ const assignComponentVisibilities = assign({
   images: ({ images }, event) => {
     const actorContext = images.actorContext.get(event.data.name)
 
-    const { image } = actorContext
+    const componentCount = getOutputIntensityComponentCount(actorContext)
 
     actorContext.componentVisibilities = resize(
       actorContext.componentVisibilities,
-      image.imageType.components,
+      componentCount,
       true
     )
 
-    actorContext.componentVisibilities = actorContext.componentVisibilities.slice(
-      0,
-      getOutputImageComponentCount(actorContext)
-    )
     return images
   },
 })

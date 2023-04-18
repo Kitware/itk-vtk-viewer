@@ -6,9 +6,13 @@ const COLOR_OFFSET = 146
 function applyColorMap(context, { data: { name, colorMap, component } }) {
   const actorContext = context.images.actorContext.get(name)
 
-  const colorTransferFunction = context.images.colorTransferFunctions.get(
+  // Optional chain on colorTransferFunctions in case compare set in createViewer
+  const colorTransferFunction = context.images.colorTransferFunctions?.get(
     component
   )
+
+  // if number of components increased after compare set and applyRenderedImage has not happened yet
+  if (!colorTransferFunction) return
 
   colorTransferFunction.applyColorMap(
     getColorMap(colorMap, component + COLOR_OFFSET)

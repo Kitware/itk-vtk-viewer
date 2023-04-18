@@ -48,8 +48,8 @@
 <meta property="og:site_name" content="itk-vtk-viewer">
 <meta property="og:description" content="title: APIThis documentation provides more detailed information about the viewer application programming interface (API). Viewer APIgetConfig()Get the viewer configuration. This can be used to restore">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-04-17T16:57:43.193Z">
-<meta property="article:modified_time" content="2023-04-17T16:57:43.193Z">
+<meta property="article:published_time" content="2023-04-18T17:30:16.528Z">
+<meta property="article:modified_time" content="2023-04-18T17:30:16.528Z">
 <meta property="article:author" content="Kitware Inc.">
 <meta name="twitter:card" content="summary">
   <!-- Google Analytics -->
@@ -153,15 +153,20 @@ the volume rendering opacity transfer function and multi-component slice blendin
 <h3 id="setLabelImageLabelNames-labeNames-name" class="article-heading"><a href="#setLabelImageLabelNames-labeNames-name" class="headerlink" title="setLabelImageLabelNames(labeNames, name)"></a>setLabelImageLabelNames(labeNames, name)<a class="article-anchor" href="#setLabelImageLabelNames-labeNames-name" aria-hidden="true"></a></h3><h3 id="getLabelImageLabelNames-name" class="article-heading"><a href="#getLabelImageLabelNames-name" class="headerlink" title="getLabelImageLabelNames(name)"></a>getLabelImageLabelNames(name)<a class="article-anchor" href="#getLabelImageLabelNames-name" aria-hidden="true"></a></h3><p>Set/get the string names for the integer label values. A Map of label integer to<br>string values.</p>
 <h3 id="setLabelImageWeights-weights-name" class="article-heading"><a href="#setLabelImageWeights-weights-name" class="headerlink" title="setLabelImageWeights(weights, name)"></a>setLabelImageWeights(weights, name)<a class="article-anchor" href="#setLabelImageWeights-weights-name" aria-hidden="true"></a></h3><h3 id="getLabelImageWeights-name" class="article-heading"><a href="#getLabelImageWeights-name" class="headerlink" title="getLabelImageWeights(name)"></a>getLabelImageWeights(name)<a class="article-anchor" href="#getLabelImageWeights-name" aria-hidden="true"></a></h3><p>Set/get the rendering weights assigned to labels. A Map of label integer to<br>float, 0.0 to 1.0, weight.<br>string values.</p>
 <h3 id="setImageScale-resolutionScale" class="article-heading"><a href="#setImageScale-resolutionScale" class="headerlink" title="setImageScale(resolutionScale)"></a>setImageScale(resolutionScale)<a class="article-anchor" href="#setImageScale-resolutionScale" aria-hidden="true"></a></h3><p>resolutionScale is a integer with 0 being the most detailed scale.</p>
-<h3 id="setCompareImages-fixedImageName-movingImageName-options" class="article-heading"><a href="#setCompareImages-fixedImageName-movingImageName-options" class="headerlink" title="setCompareImages(fixedImageName, movingImageName, options)"></a>setCompareImages(fixedImageName, movingImageName, options)<a class="article-anchor" href="#setCompareImages-fixedImageName-movingImageName-options" aria-hidden="true"></a></h3><p>Moving image must have been added last.</p>
-<p><code>options</code> can be:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123; method: &#x27;checkerboard&#x27;, pattern: number[], swapImageOrder: boolean &#125; ||</span><br><span class="line">&#123; method: &#x27;disabled&#x27; &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="setCompareImages-fixedImageName-movingImageName-options" class="article-heading"><a href="#setCompareImages-fixedImageName-movingImageName-options" class="headerlink" title="setCompareImages(fixedImageName, movingImageName, options)"></a>setCompareImages(fixedImageName, movingImageName, options)<a class="article-anchor" href="#setCompareImages-fixedImageName-movingImageName-options" aria-hidden="true"></a></h3><p>Post processing to detect difference in images. The moving and fixed images are separately<br>compressed to one component with a vector magnitude or luminance filter. Then, the moving image is<br>re-sampled to the fixed image space. The final rendered image has the fixed image on the first component,<br>the moving image is on the second component.</p>
+<p>The moving image must have been added last.</p>
+<p><code>options</code> is an Object with:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    method: &#x27;checkerboard&#x27; | &#x27;cyan-magenta&#x27; | &#x27;blend&#x27; | &#x27;disabled&#x27;,</span><br><span class="line">    imageMix?: number,</span><br><span class="line">    checkerboard?: boolean,</span><br><span class="line">    pattern?: number[],</span><br><span class="line">    swapImageOrder?: boolean</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p><code>method</code> can be <code>blend</code>, <code>cyan-magenta</code>, <code>checkerboard</code>, or <code>disabled</code>.<br><code>blend</code> simply initiates the comparison composition of images.<br><code>cyan-magenta</code> changes the color map for fixed image to cyan, moving image to magenta.<br><code>checkerboard</code> is equivalent to <code>blend</code> with <code>imageMix</code> set to <code>0</code>.</p>
+<p><code>imageMix</code> changes the percent contribution the fixed vs moving image makes to the<br>render by modifying the opacity transfer function. Value of 1 means max opacity for<br>moving image, 0 for fixed image.</p>
+<p><code>checkerboard</code> picks pixels from the fixed and moving image to create a<br>checkerboard pattern. The 2 components in the output image differ by the<br>image order for each checkerboard box.</p>
 <p><code>pattern</code> is an array with the number of checkerboard boxes for each dimension.<br>If pattern === undefined, it defaults to 4 boxes across each dimension</p>
+<p><code>swapImageOrder</code> toggles the checkerboard pattern by switching the imageMix parameter between 0 and 1.</p>
 
               </div>
               <footer class="article-footer">
-                <time class="article-footer-updated" datetime="2023-04-17T16:57:43.193Z" itemprop="dateModified">Last updated: 2023-04-17</time>
+                <time class="article-footer-updated" datetime="2023-04-18T17:30:16.528Z" itemprop="dateModified">Last updated: 2023-04-18</time>
                 
               </footer>
               

@@ -2,6 +2,7 @@ import { computeHistogram } from '../../../IO/Analyze/computeHistograms'
 
 function makeHistogram(actorContext, component) {
   const dataArray = actorContext.fusedImage.getPointData().getScalars()
+  if (!dataArray) return undefined
   const numberOfComponents = dataArray.getNumberOfComponents()
 
   const fusedImageComponent = actorContext.visualizedComponents.indexOf(
@@ -27,7 +28,7 @@ async function updateHistogram(context) {
     actorContext.histograms.get(component) ?? // histogram may have been cleared after loading new data
     (await makeHistogram(actorContext, component))
 
-  if (histogram) actorContext.histograms.set(component, histogram) // component may not be loaded
+  if (histogram) actorContext.histograms.set(component, histogram) // component or image may not be loaded
 
   context.service.send({
     type: 'IMAGE_HISTOGRAM_UPDATED',

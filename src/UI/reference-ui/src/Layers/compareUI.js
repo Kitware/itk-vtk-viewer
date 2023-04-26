@@ -15,9 +15,9 @@ export const compareUI = context => (send, onReceive) => {
     <div style="display: flex; justify-content: space-between;">
       <label class="${style.inputLabel}">Checkerboard Pattern X</label>
       <input id="x-pattern" type="number" class="${style.selector} ${style.numberInput}" style="max-width: 3.2ch" />
-      <label class="${style.inputLabel}">Y:</label>
+      <label class="${style.inputLabel}">Y</label>
       <input type="number" class="${style.selector} ${style.numberInput}" style="max-width: 3.2ch" />
-      <label class="${style.inputLabel}">Z:</label>
+      <label class="${style.inputLabel}">Z</label>
       <input type="number" class="${style.selector} ${style.numberInput}" style="max-width: 3.2ch" />
     </div>
   `)
@@ -30,7 +30,7 @@ export const compareUI = context => (send, onReceive) => {
       <input type="range" min="0" max="1" step=".01" value=".5" 
         class="${style.slider}" />
       <input type="checkbox" id="${swapButtonId}" class="${style.toggleInput}">
-        <label for="${swapButtonId}" itk-vtk-tooltip itk-vtk-tooltip-left-fullscreen itk-vtk-tooltip-content="Swap image order" class="${style.rotateButton} ${style.toggleButton}">
+        <label for="${swapButtonId}" itk-vtk-tooltip itk-vtk-tooltip-left-fullscreen itk-vtk-tooltip-content="Swap image" class="${style.rotateButton} ${style.toggleButton}">
           <img src="${rotateIconDataUri}" alt="rotate"/>
         </label>
       </input>
@@ -47,20 +47,11 @@ export const compareUI = context => (send, onReceive) => {
   const update = () => {
     const name = context.images.selectedName
     const imageContext = context.images.actorContext.get(name)
-    const { compare = undefined, lastCompare = undefined } = imageContext ?? {}
+    const { compare = undefined } = imageContext ?? {}
     const { method = undefined, checkerboard } = compare ?? {}
-    const { method: lastMethod = undefined } = lastCompare ?? {}
 
-    if (lastMethod !== method) {
-      if (method && method !== 'disabled') root.style.display = 'block'
-      else root.style.display = 'none'
-
-      if (method && method !== 'disabled') {
-        imageMixRoot.style.display = 'flex'
-      } else {
-        imageMixRoot.style.display = 'none'
-      }
-    }
+    if (method && method !== 'disabled') root.style.display = 'block'
+    else root.style.display = 'none'
 
     if (checkerboard) {
       checkerboardUi.style.display = 'flex'

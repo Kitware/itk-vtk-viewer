@@ -8328,7 +8328,7 @@ var compareUI = function compareUI(context) {
         )
         .concat(
           style.inputLabel,
-          '">Y:</label>\n      <input type="number" class="'
+          '">Y</label>\n      <input type="number" class="'
         )
         .concat(style.selector, ' ')
         .concat(
@@ -8337,7 +8337,7 @@ var compareUI = function compareUI(context) {
         )
         .concat(
           style.inputLabel,
-          '">Z:</label>\n      <input type="number" class="'
+          '">Z</label>\n      <input type="number" class="'
         )
         .concat(style.selector, ' ')
         .concat(
@@ -8358,7 +8358,7 @@ var compareUI = function compareUI(context) {
         .concat(style.toggleInput, '">\n        <label for="')
         .concat(
           swapButtonId,
-          '" itk-vtk-tooltip itk-vtk-tooltip-left-fullscreen itk-vtk-tooltip-content="Swap image order" class="'
+          '" itk-vtk-tooltip itk-vtk-tooltip-left-fullscreen itk-vtk-tooltip-content="Swap image" class="'
         )
         .concat(style.rotateButton, ' ')
         .concat(style.toggleButton, '">\n          <img src="')
@@ -8384,42 +8384,29 @@ var compareUI = function compareUI(context) {
       var _ref =
           imageContext !== null && imageContext !== void 0 ? imageContext : {},
         _ref$compare = _ref.compare,
-        compare = _ref$compare === void 0 ? undefined : _ref$compare,
-        _ref$lastCompare = _ref.lastCompare,
-        lastCompare = _ref$lastCompare === void 0 ? undefined : _ref$lastCompare
+        compare = _ref$compare === void 0 ? undefined : _ref$compare
       var _ref2 = compare !== null && compare !== void 0 ? compare : {},
         _ref2$method = _ref2.method,
         method = _ref2$method === void 0 ? undefined : _ref2$method,
         checkerboard = _ref2.checkerboard
-      var _ref3 =
-          lastCompare !== null && lastCompare !== void 0 ? lastCompare : {},
-        _ref3$method = _ref3.method,
-        lastMethod = _ref3$method === void 0 ? undefined : _ref3$method
-      if (lastMethod !== method) {
-        if (method && method !== 'disabled') root.style.display = 'block'
-        else root.style.display = 'none'
-        if (method && method !== 'disabled') {
-          imageMixRoot.style.display = 'flex'
-        } else {
-          imageMixRoot.style.display = 'none'
-        }
-      }
+      if (method && method !== 'disabled') root.style.display = 'block'
+      else root.style.display = 'none'
       if (checkerboard) {
         checkerboardUi.style.display = 'flex'
       } else {
         checkerboardUi.style.display = 'none'
       }
-      var _ref4 =
+      var _ref3 =
           (_compare$pattern =
             compare === null || compare === void 0
               ? void 0
               : compare.pattern) !== null && _compare$pattern !== void 0
             ? _compare$pattern
             : [],
-        _ref5 = _slicedToArray(_ref4, 3),
-        x = _ref5[0],
-        y = _ref5[1],
-        z = _ref5[2]
+        _ref4 = _slicedToArray(_ref3, 3),
+        x = _ref4[0],
+        y = _ref4[1],
+        z = _ref4[2]
       xPattern.value = x
       yPattern.value = y
       zPattern.value = z
@@ -8460,14 +8447,14 @@ var compareUI = function compareUI(context) {
       var _context$images$actor
       event.preventDefault()
       event.stopPropagation()
-      var _ref6 =
+      var _ref5 =
           (_context$images$actor = context.images.actorContext.get(
             context.images.selectedName
           ).compare.pattern) !== null && _context$images$actor !== void 0
             ? _context$images$actor
             : [],
-        _ref7 = _toArray(_ref6),
-        yz = _ref7.slice(1)
+        _ref6 = _toArray(_ref5),
+        yz = _ref6.slice(1)
       var x = parsePattern(event.target.value)
       updateCompare({
         pattern: [x].concat(_toConsumableArray(yz)),
@@ -8477,15 +8464,15 @@ var compareUI = function compareUI(context) {
       var _context$images$actor2
       event.preventDefault()
       event.stopPropagation()
-      var _ref8 =
+      var _ref7 =
           (_context$images$actor2 = context.images.actorContext.get(
             context.images.selectedName
           ).compare.pattern) !== null && _context$images$actor2 !== void 0
             ? _context$images$actor2
             : [],
-        _ref9 = _slicedToArray(_ref8, 3),
-        x = _ref9[0],
-        z = _ref9[2]
+        _ref8 = _slicedToArray(_ref7, 3),
+        x = _ref8[0],
+        z = _ref8[2]
       var y = parsePattern(event.target.value)
       updateCompare({
         pattern: [x, y, z],
@@ -8495,15 +8482,15 @@ var compareUI = function compareUI(context) {
       var _context$images$actor3
       event.preventDefault()
       event.stopPropagation()
-      var _ref10 =
+      var _ref9 =
           (_context$images$actor3 = context.images.actorContext.get(
             context.images.selectedName
           ).compare.pattern) !== null && _context$images$actor3 !== void 0
             ? _context$images$actor3
             : [],
-        _ref11 = _slicedToArray(_ref10, 2),
-        x = _ref11[0],
-        y = _ref11[1]
+        _ref10 = _slicedToArray(_ref9, 2),
+        x = _ref10[0],
+        y = _ref10[1]
       var z = parsePattern(event.target.value)
       updateCompare({
         pattern: [x, y, z],

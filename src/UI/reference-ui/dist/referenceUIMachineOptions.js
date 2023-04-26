@@ -8315,7 +8315,6 @@ var compareUI = function compareUI(context) {
     )
     var parent = context.layers.compareContainer
     parent.appendChild(root)
-    var swapButtonId = ''.concat(context.id, '-swapImageOrder')
     var checkerboardUi = makeHtml(
       '\n    <div style="display: flex; justify-content: space-between;">\n      <label class="'
         .concat(
@@ -8343,40 +8342,41 @@ var compareUI = function compareUI(context) {
         .concat(style.selector, ' ')
         .concat(
           style.numberInput,
-          '" style="max-width: 3.2ch" />\n      <input type="checkbox" id="'
+          '" style="max-width: 3.2ch" />\n    </div>\n  '
         )
+    )
+    root.appendChild(checkerboardUi)
+    var swapButtonId = ''.concat(context.id, '-swapImageOrder')
+    var imageMixRoot = makeHtml(
+      '\n    <div style="display: flex; justify-content: space-between;">\n      <label class="'
+        .concat(
+          style.inputLabel,
+          '">Image Mix</label>\n      <input type="range" min="0" max="1" step=".01" value=".5" \n        class="'
+        )
+        .concat(style.slider, '" />\n      <input type="checkbox" id="')
         .concat(swapButtonId, '" class="')
-        .concat(style.toggleInput, '"><label for="')
+        .concat(style.toggleInput, '">\n        <label for="')
         .concat(
           swapButtonId,
           '" itk-vtk-tooltip itk-vtk-tooltip-left-fullscreen itk-vtk-tooltip-content="Swap image order" class="'
         )
         .concat(style.rotateButton, ' ')
-        .concat(style.toggleButton, '"><img src="')
+        .concat(style.toggleButton, '">\n          <img src="')
         .concat(
           optimizedSVGDataUri$c,
-          '" alt="rotate"/></label></input>\n    </div>\n  '
+          '" alt="rotate"/>\n        </label>\n      </input>\n    </div>\n  '
         )
-    )
-    root.appendChild(checkerboardUi)
-    var imageMixRoot = makeHtml(
-      '\n    <div style="display: flex; justify-content: space-between;">\n      <label class="'
-        .concat(
-          style.inputLabel,
-          '">Image Mix</label>\n    <input type="range" min="0" max="1" step=".01" value=".5" \n      class="'
-        )
-        .concat(style.slider, '" />\n    </div>\n  ')
     )
     root.appendChild(imageMixRoot)
     var _checkerboardUi$query = checkerboardUi.querySelectorAll('input'),
-      _checkerboardUi$query2 = _slicedToArray(_checkerboardUi$query, 4),
+      _checkerboardUi$query2 = _slicedToArray(_checkerboardUi$query, 3),
       xPattern = _checkerboardUi$query2[0],
       yPattern = _checkerboardUi$query2[1],
-      zPattern = _checkerboardUi$query2[2],
-      swapOrder = _checkerboardUi$query2[3]
+      zPattern = _checkerboardUi$query2[2]
     var _imageMixRoot$querySe = imageMixRoot.querySelectorAll('input'),
-      _imageMixRoot$querySe2 = _slicedToArray(_imageMixRoot$querySe, 1),
-      imageMixSlider = _imageMixRoot$querySe2[0]
+      _imageMixRoot$querySe2 = _slicedToArray(_imageMixRoot$querySe, 2),
+      imageMixSlider = _imageMixRoot$querySe2[0],
+      swapOrder = _imageMixRoot$querySe2[1]
     var update = function update() {
       var _compare$pattern, _compare$swapImageOrd, _compare$imageMix
       var name = context.images.selectedName

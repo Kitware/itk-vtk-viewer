@@ -243,8 +243,15 @@ const computeCheckerboard = (currentCompare, lastCompare) => {
 }
 
 const computeImageMix = (currentCompare, lastCompare) => {
-  if (currentCompare.checkerboard) return currentCompare.swapImageOrder ? 1 : 0
-  if (currentCompare.method !== lastCompare.method) return 0.5
+  if (currentCompare.method !== lastCompare.method) {
+    if (currentCompare.checkerboard)
+      return currentCompare.swapImageOrder ? 1 : 0
+    return 0.5
+  }
+
+  if (currentCompare.swapImageOrder !== lastCompare.swapImageOrder)
+    return currentCompare.swapImageOrder ? 1 : 0
+
   return currentCompare.imageMix
 }
 

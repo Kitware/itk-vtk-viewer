@@ -75,6 +75,7 @@ int Compare(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage, cons
   // Resample moving to fixed image
   using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
   auto resampleFilter = ResampleFilterType::New();
+  resampleFilter->ReleaseDataFlagOn();
   resampleFilter->SetInput(movingImage);
   resampleFilter->SetReferenceImage(fixedImage);
   resampleFilter->UseReferenceImageOn();
@@ -82,6 +83,7 @@ int Compare(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage, cons
   // rescale intensity and cast PixelType of moving to fixed
   using RescaleFilterType = itk::IntensityWindowingImageFilter<ImageType, FixedImageType>;
   auto rescaleFilter = RescaleFilterType::New();
+  rescaleFilter->ReleaseDataFlagOn();
   rescaleFilter->SetInput(resampleFilter->GetOutput());
   rescaleFilter->SetWindowMinimum(range[0]);
   rescaleFilter->SetWindowMaximum(range[1]);
@@ -90,14 +92,17 @@ int Compare(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage, cons
 
   using RescaleFilterTypeFixed = itk::IntensityWindowingImageFilter<FixedImageType, FixedImageType>;
   auto rescaleFilterFixed = RescaleFilterTypeFixed::New();
+  rescaleFilterFixed->ReleaseDataFlagOn();
   rescaleFilterFixed->SetInput(fixedImage);
   rescaleFilterFixed->SetWindowMinimum(range[0]);
   rescaleFilterFixed->SetWindowMaximum(range[1]);
   rescaleFilterFixed->SetOutputMinimum(range[0]);
   rescaleFilterFixed->SetOutputMaximum(range[1]);
 
-  typename FixedImageType::Pointer component0 = rescaleFilterFixed->GetOutput();
-  typename FixedImageType::Pointer component1 = rescaleFilter->GetOutput();
+  using PipelineOutputType = itk::Image<itk::Vector<typename FixedImageType::PixelType, 2>, FixedImageType::ImageDimension>;
+  using FilterType = itk::ComposeImageFilter<FixedImageType, PipelineOutputType>;
+  auto compose = FilterType::New();
+  compose->ReleaseDataFlagOn();
 
   if (checkerboard)
   {
@@ -105,12 +110,14 @@ int Compare(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage, cons
     using FilterType = itk::CheckerBoardImageFilter<FixedImageType>;
     auto check0 = FilterType::New();
     auto check1 = FilterType::New();
+    check0->ReleaseDataFlagOn();
+    check1->ReleaseDataFlagOn();
 
-    check0->SetInput1(component0);
-    check0->SetInput2(component1);
+    check0->SetInput1(rescaleFilterFixed->GetOutput());
+    check0->SetInput2(rescaleFilter->GetOutput());
 
-    check1->SetInput1(component1);
-    check1->SetInput2(component0);
+    check1->SetInput1(rescaleFilter->GetOutput());
+    check1->SetInput2(rescaleFilterFixed->GetOutput());
 
     const int dims = pattern.size();
     if (dims > 0)
@@ -129,15 +136,15 @@ int Compare(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage, cons
     check0->UpdateLargestPossibleRegion();
     check1->UpdateLargestPossibleRegion();
 
-    component0 = check0->GetOutput();
-    component1 = check1->GetOutput();
+    compose->SetInput(0, check0->GetOutput());
+    compose->SetInput(1, check1->GetOutput());
   }
-
-  using PipelineOutputType = itk::Image<itk::Vector<typename FixedImageType::PixelType, 2>, FixedImageType::ImageDimension>;
-  using FilterType = itk::ComposeImageFilter<FixedImageType, PipelineOutputType>;
-  auto compose = FilterType::New();
-  compose->SetInput(0, component0);
-  compose->SetInput(1, component1);
+  else
+  {
+    // blend or cyan-magenta method
+    compose->SetInput(0, rescaleFilterFixed->GetOutput());
+    compose->SetInput(1, rescaleFilter->GetOutput());
+  }
 
   using OutputImageType = itk::wasm::OutputImage<PipelineOutputType>;
   OutputImageType outputImage;

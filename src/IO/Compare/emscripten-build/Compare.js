@@ -4221,7 +4221,7 @@ var Compare = (() => {
       ESTRPIPE: 135,
     }
     var asmLibraryArg = {
-      a: ___cxa_throw,
+      b: ___cxa_throw,
       d: ___syscall_fcntl64,
       r: ___syscall_getcwd,
       i: ___syscall_ioctl,
@@ -4233,7 +4233,7 @@ var Compare = (() => {
       m: _emscripten_resize_heap,
       p: _environ_get,
       q: _environ_sizes_get,
-      b: _exit,
+      a: _exit,
       e: _fd_close,
       h: _fd_read,
       k: _fd_seek,

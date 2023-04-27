@@ -4,8 +4,10 @@ import { mat4 } from 'gl-matrix'
 import { fuseImages } from './fuseImages'
 import { computeRenderedBounds } from '../Main/computeRenderedBounds'
 import { worldBoundsToIndexBounds } from '../../../IO/MultiscaleSpatialImage'
+import componentTypeToTypedArray from '../../../IO/componentTypeToTypedArray'
 
 export const RENDERED_VOXEL_MAX = 512 * 512 * 512 * 2
+const RENDERED_IMAGE_BYTES_MAX = 837970176
 
 const getVoxelCount = async (image, bounds, scale) => {
   const scaleInfo = image.scaleInfo[scale]
@@ -30,6 +32,15 @@ const getVoxelCount = async (image, bounds, scale) => {
       return end - start + 1 // plus 1 as bounds are inclusive
     })
     .reduce((voxels, dimSize) => voxels * dimSize, 1)
+}
+
+const computeBytes = async (
+  { imageType: { componentType, components } },
+  voxelCount
+) => {
+  const bytesPerElement = componentTypeToTypedArray.get(componentType)
+    .BYTES_PER_ELEMENT
+  return bytesPerElement * components * voxelCount
 }
 
 const pickVisualized = (preComputedRanges, visualizedComponents) =>
@@ -58,25 +69,6 @@ async function updateRenderedImage(context) {
     return
   }
 
-  const { targetScale } = context
-  const imageOrLabelImage = image ?? labelImage
-
-  // always load full image if least detailed scale
-  const isCoarsestScale = imageOrLabelImage.coarsestScale === targetScale
-  const boundsToLoad = isCoarsestScale
-    ? undefined
-    : computeRenderedBounds(context)
-
-  const voxelCount = await getVoxelCount(
-    imageOrLabelImage,
-    boundsToLoad,
-    targetScale
-  )
-  if (voxelCount > RENDERED_VOXEL_MAX)
-    throw new Error(
-      `Voxel count over max at scale ${targetScale}. Requested: ${voxelCount} Max: ${RENDERED_VOXEL_MAX}`
-    )
-
   const compareEnabled = compare.method && compare.method !== 'disabled'
   const fixedImage = compareEnabled
     ? context.images.actorContext.get(compare.fixedImageName)?.image
@@ -87,6 +79,27 @@ async function updateRenderedImage(context) {
       `Did not find image to compare with name: ${compare.fixedImageName}`
     )
 
+  const baseImage = fixedImage ?? image ?? labelImage
+
+  const { targetScale } = context
+  // always load full image if least detailed scale
+  const isCoarsestScale = baseImage.coarsestScale === targetScale
+  const boundsToLoad = isCoarsestScale
+    ? undefined
+    : computeRenderedBounds(context)
+
+  const voxelCount = await getVoxelCount(baseImage, boundsToLoad, targetScale)
+  if (voxelCount > RENDERED_VOXEL_MAX)
+    throw new Error(
+      `Voxel count over max at scale ${targetScale}. Requested: ${voxelCount} Max: ${RENDERED_VOXEL_MAX}`
+    )
+
+  const imageByteSize = await computeBytes(baseImage, voxelCount)
+  if (imageByteSize > RENDERED_IMAGE_BYTES_MAX)
+    throw new Error(
+      `Image byte count over max at scale ${targetScale}. Requested: ${imageByteSize} Max: ${RENDERED_IMAGE_BYTES_MAX}`
+    )
+
   const [imageAtScale, labelAtScale, fixedImageAtScale] = await Promise.all(
     [image, labelImage, fixedImage].map(image =>
       image?.getImage(targetScale, boundsToLoad)
@@ -95,8 +108,7 @@ async function updateRenderedImage(context) {
   const imageOrLabelAtScale = imageAtScale ?? labelAtScale
 
   const preComputedRanges =
-    imageOrLabelImage?.scaleInfo[targetScale].ranges ??
-    imageOrLabelAtScale?.ranges
+    baseImage?.scaleInfo[targetScale].ranges ?? imageOrLabelAtScale?.ranges
 
   const isFuseNeeded =
     (labelAtScale && imageAtScale) || // fuse with label image

@@ -332,6 +332,7 @@ const afterCompareMaybeForceUpdate = context => {
 
 const KNOWN_ERRORS = [
   'Voxel count over max at scale',
+  'Image byte count over max at scale',
   "Failed to execute 'postMessage' on 'Worker': Data cannot be cloned, out of memory.", // Chrome
   "Failed to execute 'postMessage' on 'DedicatedWorkerGlobalScope': Data cannot be cloned, out of memory.", // Firefox
   'Array buffer allocation failed',

@@ -243,8 +243,15 @@ const computeCheckerboard = (currentCompare, lastCompare) => {
 }
 
 const computeImageMix = (currentCompare, lastCompare) => {
-  if (currentCompare.checkerboard) return currentCompare.swapImageOrder ? 1 : 0
-  if (currentCompare.method !== lastCompare.method) return 0.5
+  if (currentCompare.method !== lastCompare.method) {
+    if (currentCompare.checkerboard)
+      return currentCompare.swapImageOrder ? 1 : 0
+    return 0.5
+  }
+
+  if (currentCompare.swapImageOrder !== lastCompare.swapImageOrder)
+    return currentCompare.swapImageOrder ? 1 : 0
+
   return currentCompare.imageMix
 }
 
@@ -365,6 +372,24 @@ const sendFinishDataUpdate = context => {
     name: context.actorName,
   })
 }
+
+const assignHigherErrorCountIfMostCoarse = assign({
+  errorCountAtScale: ({
+    errorCountAtScale,
+    images: { actorContext: actorMap },
+    actorName,
+    targetScale,
+  }) => {
+    const actorContext = actorMap.get(actorName)
+    if (getLoadedImage(actorContext).coarsestScale !== targetScale)
+      return errorCountAtScale
+    return errorCountAtScale + 1
+  },
+})
+
+const assignResetErrorCount = assign({
+  errorCountAtScale: 0,
+})
 
 const eventResponses = {
   IMAGE_ASSIGNED: {
@@ -510,13 +535,31 @@ const createUpdatingImageMachine = options => {
                 'applyRenderedImage',
                 sendRenderedImageAssigned,
                 computeIsCinematicPossible,
+                assignResetErrorCount,
               ],
             },
             onError: {
-              actions: [checkIsKnownErrorOrThrow, assignCoarserScale],
-              target: 'checkingUpdateNeeded',
+              actions: [
+                checkIsKnownErrorOrThrow,
+                assignHigherErrorCountIfMostCoarse,
+                assignCoarserScale,
+              ],
+              target: 'afterError',
             },
           },
+        },
+
+        afterError: {
+          entry: sendFinishDataUpdate,
+          always: [
+            {
+              cond: c => c.errorCountAtScale >= 2,
+              actions: () =>
+                console.warn('Too many errors building image. Giving up.'),
+              target: 'finished',
+            },
+            { target: 'checkingUpdateNeeded' },
+          ],
         },
 
         loadedImage: {
@@ -611,6 +654,7 @@ const createImageRenderingActor = (options, context, name) => {
                 data: {
                   ...machineContext,
                   hasScaledCoarser: false,
+                  errorCountAtScale: 0,
                   targetScale: ({ images }, event) => {
                     if (event.type === 'SET_IMAGE_SCALE')
                       return event.targetScale

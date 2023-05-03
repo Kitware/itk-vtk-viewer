@@ -4,12 +4,14 @@ import { setMatrixElement } from 'itk-wasm'
 import componentTypeToTypedArray from './componentTypeToTypedArray'
 
 import WebworkerPromise from 'webworker-promise'
-import ImageDataFromChunksWorker from './ImageDataFromChunks.worker'
 import { chunkArray, CXYZT, ensuredDims, orderBy } from './dimensionUtils'
 import { getDtype } from './dtypeUtils'
 import { transformBounds } from '../transformBounds'
 
-const imageDataFromChunksWorker = new ImageDataFromChunksWorker()
+const imageDataFromChunksWorker = new Worker(
+  new URL('./ImageDataFromChunks.worker.js', import.meta.url),
+  { type: 'module' }
+)
 const imageDataFromChunksWorkerPromise = new WebworkerPromise(
   imageDataFromChunksWorker
 )

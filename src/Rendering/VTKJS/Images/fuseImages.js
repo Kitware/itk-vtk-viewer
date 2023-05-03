@@ -1,5 +1,4 @@
 import WebworkerPromise from 'webworker-promise'
-import ComposeImageWorker from './ComposeImage.worker.js'
 
 export const fuseImages = async ({
   imageAtScale, //could be array if Conglomerate
@@ -8,7 +7,11 @@ export const fuseImages = async ({
   fixedImageAtScale,
   compare,
 }) => {
-  const worker = new WebworkerPromise(new ComposeImageWorker())
+  const composeWorker = new Worker(
+    new URL('./ComposeImage.worker.js', import.meta.url),
+    { type: 'module' }
+  )
+  const worker = new WebworkerPromise(composeWorker)
   const { image } = await worker.postMessage({
     image: imageAtScale,
     labelImage: labelAtScale,

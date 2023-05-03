@@ -1,22 +1,16 @@
-/** Todo: migrate to itk-wasm */
 import { WorkerPool } from 'itk-wasm'
 
 import WebworkerPromise from 'webworker-promise'
 
 function webWorkerPromiseWorkerPool(
   numberOfWorkers,
-  webWorkerObject,
+  makeWorker,
   operationName
 ) {
-  const createWorker = existingWorker => {
-    if (existingWorker) {
-      const webWorkerPromise = new WebworkerPromise(existingWorker)
-      return { webWorkerPromise, worker: existingWorker }
-    }
-
-    const newWorker = new webWorkerObject()
-    const newWebworkerPromise = new WebworkerPromise(newWorker)
-    return { webWorkerPromise: newWebworkerPromise, worker: newWorker }
+  const createWorker = () => {
+    const newWorker = makeWorker()
+    const webWorkerPromise = new WebworkerPromise(newWorker)
+    return { webWorkerPromise, worker: newWorker }
   }
 
   const compute = async (webWorker, ...args) => {

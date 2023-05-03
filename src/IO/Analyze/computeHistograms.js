@@ -1,4 +1,3 @@
-import UpdateHistogramWorker from './UpdateHistogram.worker'
 const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
 import webWorkerPromiseWorkerPool from './webWorkerPromiseWorkerPool'
 
@@ -8,7 +7,10 @@ const numberOfWorkers = navigator.hardwareConcurrency
 
 const updateHistogramWorkerPool = webWorkerPromiseWorkerPool(
   numberOfWorkers,
-  UpdateHistogramWorker,
+  () =>
+    new Worker(new URL('./UpdateHistogram.worker.js', import.meta.url), {
+      type: 'module',
+    }),
   'updateHistogram'
 )
 

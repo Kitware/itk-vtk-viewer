@@ -649,24 +649,29 @@ function ItkVtkViewProxy(publicAPI, model) {
     scaleBarCtx.fillStyle = model.cornerAnnotation.getAnnotationContainer().style.color
     scaleBarCtx.fillRect(0, 0, dims.width, 2 * devicePixelRatio)
 
-    scaleBarCtx.font = `${16 * devicePixelRatio}px arial`
-    scaleBarCtx.textAlign = 'center'
-    scaleBarCtx.textBaseline = 'top'
-    model.scaleBarCoordWidth.setValue(dims.width, 0)
-    const cw = model.scaleBarCoordWidth.getComputedWorldValue()
-    const cc = model.scaleBarCenterCoord.getComputedWorldValue()
-    const length = Math.sqrt(
-      (cw[0] - cc[0]) * (cw[0] - cc[0]) + (cw[1] - cc[1]) * (cw[1] - cc[1]),
-      (cw[2] - cc[2]) * (cw[2] - cc[2])
-    )
-    model.lengthPixelRatio = length / dims.width
-    const text = numberToText(length, 1)
-    scaleBarCtx.fillText(
-      `${text} ${model.units}`,
-      dims.width * 0.5,
-      6 * devicePixelRatio,
-      dims.width * 0.9
-    )
+    // try catch block to work around Firefox bug https://bugzilla.mozilla.org/show_bug.cgi?id=941146
+    try {
+      scaleBarCtx.font = `${16 * devicePixelRatio}px arial`
+      scaleBarCtx.textAlign = 'center'
+      scaleBarCtx.textBaseline = 'top'
+      model.scaleBarCoordWidth.setValue(dims.width, 0)
+      const cw = model.scaleBarCoordWidth.getComputedWorldValue()
+      const cc = model.scaleBarCenterCoord.getComputedWorldValue()
+      const length = Math.sqrt(
+        (cw[0] - cc[0]) * (cw[0] - cc[0]) + (cw[1] - cc[1]) * (cw[1] - cc[1]),
+        (cw[2] - cc[2]) * (cw[2] - cc[2])
+      )
+      model.lengthPixelRatio = length / dims.width
+      const text = numberToText(length, 1)
+      scaleBarCtx.fillText(
+        `${text} ${model.units}`,
+        dims.width * 0.5,
+        6 * devicePixelRatio,
+        dims.width * 0.9
+      )
+    } catch (e) {
+      console.error(e)
+    }
   }
   model.interactor.onEndMouseWheel(updateScaleBar)
   model.interactor.onEndPinch(updateScaleBar)

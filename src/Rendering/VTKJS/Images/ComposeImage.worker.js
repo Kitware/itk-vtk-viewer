@@ -1,4 +1,6 @@
 import registerWebworker from 'webworker-promise/lib/register'
+import vtkITKHelper from 'vtk.js/Sources/Common/DataModel/ITKHelper'
+import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 import { computeRanges } from '../../../IO/Analyze/computeRanges'
 import { createRangeHelper } from '../../../IO/Analyze/createRangeHelper'
 import { createCompareImage } from '../../../IO/Compare/createCompareImage'
@@ -11,6 +13,15 @@ import {
   parseByComponent,
   pickAndFuseComponents,
 } from '../../../IO/composeComponents'
+
+const checkOverlap = (imageA, imageB) => {
+  const [vtkA, vtkB] = [imageA, imageB].map(vtkITKHelper.convertItkToVtkImage)
+  if (!vtkBoundingBox.intersects(vtkA.getBounds(), vtkB.getBounds())) {
+    console.warn(
+      'Trying to compare images but bounds do not intersect. Moving image will be empty.'
+    )
+  }
+}
 
 const pickRanges = compInfos =>
   compInfos
@@ -63,6 +74,9 @@ const makeCompareImage = async ({ image, fixedImage, options }) => {
   }
   const itkImage = await fuseConglomerate(image)
   const itkFixedImage = await fuseConglomerate(fixedImage)
+
+  // check if there is overlap in physical space.  If none, resample of image to fixedImage will be empty.
+  checkOverlap(itkImage, itkFixedImage)
 
   const { ranges } = await ensureRanges(itkFixedImage)
   const rangeHelper = createRangeHelper()

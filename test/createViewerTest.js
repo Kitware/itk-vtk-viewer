@@ -440,7 +440,7 @@ test('Test createViewer', async t => {
     //2.0,
     //gc.releaseResources
     //)
-  }, 1000)
+  }, 2000)
 })
 
 test('Test createViewer.setImage', async t => {

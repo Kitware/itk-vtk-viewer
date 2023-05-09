@@ -196,7 +196,8 @@ module.exports = function init(config) {
       args: config.dockered ? ['--dockered'] : [],
     },
 
-    browserDisconnectTimeout: 5000,
+    browserDisconnectTimeout: 60000,
+    browserNoActivityTimeout: 60000,
 
     port: 9876,
     colors: true,

@@ -403,7 +403,8 @@ class MultiscaleSpatialImage {
     return image
   }
 
-  getIndexBounds(scale) {
+  getIndexBounds(requestedScale) {
+    const scale = Math.min(requestedScale, this.scaleInfo.length - 1)
     const { arrayShape } = this.scaleInfo[scale]
     return new Map(
       Array.from(arrayShape).map(([dim, size]) => [dim, [0, size - 1]])

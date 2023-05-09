@@ -120,8 +120,7 @@
     "webpack-dev-server": "^4.7.4",
     "webpackbar": "^5.0.0-3",
     "workbox-build": "^6.5.1",
-    "workbox-webpack-plugin": "^6.5.1",
-    "worker-loader": "^3.0.8"
+    "workbox-webpack-plugin": "^6.5.1"
   },
   "scripts": {
     "doc": "kw-doc -c ./doc/config.js",

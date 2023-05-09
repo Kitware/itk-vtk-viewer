@@ -7,10 +7,10 @@ function webWorkerPromiseWorkerPool(
   makeWorker,
   operationName
 ) {
-  const createWorker = () => {
-    const newWorker = makeWorker()
-    const webWorkerPromise = new WebworkerPromise(newWorker)
-    return { webWorkerPromise, worker: newWorker }
+  const createWorker = existingWorker => {
+    const worker = existingWorker ?? makeWorker()
+    const webWorkerPromise = new WebworkerPromise(worker)
+    return { webWorkerPromise, worker }
   }
 
   const compute = async (webWorker, ...args) => {

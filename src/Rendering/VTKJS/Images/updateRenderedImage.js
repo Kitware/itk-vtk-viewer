@@ -7,7 +7,7 @@ import { worldBoundsToIndexBounds } from '../../../IO/MultiscaleSpatialImage'
 import componentTypeToTypedArray from '../../../IO/componentTypeToTypedArray'
 
 export const RENDERED_VOXEL_MAX = 512 * 512 * 512 * 2
-const RENDERED_IMAGE_BYTES_MAX = 837970176
+const RENDERED_IMAGE_BYTES_MAX = RENDERED_VOXEL_MAX * 2 // 2 byte pixel type = 1073741824
 
 const getVoxelCount = async (image, bounds, scale) => {
   const scaleInfo = image.scaleInfo[scale]
@@ -95,7 +95,7 @@ async function updateRenderedImage(context) {
     )
 
   const imageByteSize = await computeBytes(baseImage, voxelCount)
-  if (imageByteSize > RENDERED_IMAGE_BYTES_MAX)
+  if (!isCoarsestScale && imageByteSize > RENDERED_IMAGE_BYTES_MAX)
     throw new Error(
       `Image byte count over max at scale ${targetScale}. Requested: ${imageByteSize} Max: ${RENDERED_IMAGE_BYTES_MAX}`
     )

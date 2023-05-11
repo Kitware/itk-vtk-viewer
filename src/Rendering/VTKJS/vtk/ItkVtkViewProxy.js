@@ -36,6 +36,8 @@ function numberToText(number, precision) {
 function ItkVtkViewProxy(publicAPI, model) {
   // Set our className
   model.classHierarchy.push('ItkVtkViewProxy')
+  // Use WebGL as rendering backend
+  model.renderWindow.setDefaultViewAPI('WebGL')
 
   // Private --------------------------------------------------------------------
   //

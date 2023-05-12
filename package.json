@@ -120,8 +120,7 @@
     "webpack-dev-server": "^4.7.4",
     "webpackbar": "^5.0.0-3",
     "workbox-build": "^6.5.1",
-    "workbox-webpack-plugin": "^6.5.1",
-    "worker-loader": "^3.0.8"
+    "workbox-webpack-plugin": "^6.5.1"
   },
   "scripts": {
     "doc": "kw-doc -c ./doc/config.js",
@@ -140,7 +139,7 @@
     "start": "webpack serve --mode development --static ./dist/ --open --port 8082",
     "dev": "webpack serve --mode development --static ./dist/ --port 8082",
     "semantic-release": "semantic-release",
-    "test": "npm run test:downloadData && npm run lint:types && npm run build:test-ui && karma start ./karma.conf.js --browsers Chrome_without_sandbox,Firefox",
+    "test": "npm run test:downloadData && npm run lint:types && npm run build:test-ui && karma start ./karma.conf.js --browsers Chrome_without_sandbox",
     "test:downloadData": "node test/downloadData.mjs",
     "test:headless": "./test/run.sh",
     "test:headless-debug": "./test/run.sh -d",

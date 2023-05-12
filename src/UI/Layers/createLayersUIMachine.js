@@ -221,6 +221,9 @@ const assignImageContext = assign({
     actorContext.colorRangeBoundsAutoAdjust = new Map(
       [...Array(components).keys()].map(c => [c, true])
     )
+    actorContext.piecewiseFunctionPointsAutoAdjust = new Map(
+      [...Array(components).keys()].map(c => [c, true])
+    )
 
     return images
   },

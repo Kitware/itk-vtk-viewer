@@ -72,9 +72,21 @@ const assignPiecewiseFunctionGaussians = assign({
 })
 
 const assignPiecewiseFunctionPoints = assign({
-  images: ({ images }, { data: { component, points, name } }) => {
-    const actorContext = images.actorContext.get(name)
-    actorContext.piecewiseFunctionPoints.set(component, points)
+  images: (
+    { images },
+    { data: { component, points, name, keepAutoAdjusting = true } }
+  ) => {
+    const {
+      piecewiseFunctionPoints,
+      piecewiseFunctionPointsAutoAdjust,
+    } = images.actorContext.get(name)
+    piecewiseFunctionPoints.set(component, points)
+
+    piecewiseFunctionPointsAutoAdjust.set(
+      component,
+      piecewiseFunctionPointsAutoAdjust.get(component) && keepAutoAdjusting
+    )
+
     return images
   },
 })

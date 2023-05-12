@@ -23,6 +23,7 @@ export const createTransferFunctionManipulators = context => (
         name,
         component,
         points,
+        keepAutoAdjusting: false,
       },
     })
   }

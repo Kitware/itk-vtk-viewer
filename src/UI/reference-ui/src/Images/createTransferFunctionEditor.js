@@ -15,6 +15,7 @@ const updateContextPiecewiseFunction = (context, points) => {
       name,
       component,
       points,
+      keepAutoAdjusting: false,
     },
   })
 }

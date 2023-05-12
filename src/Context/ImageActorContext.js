@@ -50,6 +50,7 @@ class ImageActorContext {
   // Map of image intensity component to array of [minValue, maxValue] for
   // mapping colors
   colorRanges = new Map()
+
   // Keep growing component ranges as new parts of the image are loaded
   // Map of image intensity component to Boolean
   colorRangesAutoAdjust = null
@@ -57,6 +58,7 @@ class ImageActorContext {
   // Map of image intensity component to array of [minBound, maxBound] for
   // limiting the color range in the UI
   colorRangeBounds = new Map()
+
   // Keep growing component bounds as new parts of the image are loaded
   // Map of image intensity component to Boolean
   colorRangeBoundsAutoAdjust = null
@@ -76,6 +78,10 @@ class ImageActorContext {
 
   // Map of x,y point in 0 to 1 range.  Scaled by colorRanges.
   piecewiseFunctionPoints = new Map()
+
+  // Boolean map by component of whether the points should be auto adjusted
+  // Set to false when the user manually adjusts the points
+  piecewiseFunctionPointsAutoAdjust = null
 
   // Use gradient-based shadows in the volume rendering
   shadowEnabled = true

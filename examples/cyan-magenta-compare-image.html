@@ -23,11 +23,11 @@
         )
 
         const fixedImage = new URL(
-          // 'test-data/HeadMRVolume.nrrd',
+          'test-data/HeadMRVolume.nrrd',
           // 'test-data/HeadMRVolumeLabels.nrrd',
           // 'test-data/HeadMRVolumeLabelsSmaller.nrrd',
           // 'test-data/HeadMRVolume2Components.nrrd',
-          'test-data/HeadMRVolume2DTop.nrrd',
+          // 'test-data/HeadMRVolume2DTop.nrrd',
           window.location.origin
         )
 
@@ -59,21 +59,21 @@
         //   method: 'cyan-magenta',
         // })
 
-        setTimeout(
-          () =>
-            viewer.setCompareImages('Fixed', 'Image', {
-              method: 'disabled',
-            }),
-          2000
-        )
+        // setTimeout(
+        //   () =>
+        //     viewer.setCompareImages('Fixed', 'Image', {
+        //       method: 'disabled',
+        //     }),
+        //   2000
+        // )
 
-        setTimeout(
-          () =>
-            viewer.setCompareImages('Fixed', 'Image', {
-              method: 'cyan-magenta',
-            }),
-          4000
-        )
+        // setTimeout(
+        //   () =>
+        //     viewer.setCompareImages('Fixed', 'Image', {
+        //       method: 'cyan-magenta',
+        //     }),
+        //   4000
+        // )
 
         window.viewer = viewer
       }

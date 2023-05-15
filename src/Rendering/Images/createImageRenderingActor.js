@@ -334,8 +334,43 @@ const afterCompareMaybeForceUpdate = context => {
   forceUpdate(context)
 }
 
-const applyAnimateImageMix = (context, { data: { play } }) => {
-  console.log(play)
+const applyAnimateImageMix = (
+  { images: { actorContext: actorMap }, itkVtkView, service },
+  { data: { play, name } }
+) => {
+  const actorContext = actorMap.get(name)
+  if (play) {
+    if (!actorContext.imageMixAnimationDirection)
+      actorContext.imageMixAnimationDirection = 1
+
+    itkVtkView.getInteractor().requestAnimation('animateImageMix')
+    actorContext.imageMixAnimation = itkVtkView
+      .getInteractor()
+      .onAnimation(() => {
+        const { imageMix, fixedImageName } = actorContext.compare
+        let newMix = imageMix + 0.02 * actorContext.imageMixAnimationDirection
+        if (newMix > 1) {
+          newMix = 1
+          actorContext.imageMixAnimationDirection *= -1
+        }
+        if (newMix < 0) {
+          newMix = 0
+          actorContext.imageMixAnimationDirection *= -1
+        }
+        service.send({
+          type: 'COMPARE_IMAGES',
+          data: {
+            name,
+            fixedImageName: fixedImageName,
+            options: { imageMix: newMix },
+          },
+        })
+      })
+  } else if (actorContext.imageMixAnimation) {
+    actorContext.imageMixAnimation.unsubscribe()
+    actorContext.imageMixAnimation = null
+    itkVtkView.getInteractor().cancelAnimation('yPlaneScroll')
+  }
 }
 
 const KNOWN_ERRORS = [

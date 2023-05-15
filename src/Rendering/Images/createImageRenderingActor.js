@@ -334,6 +334,10 @@ const afterCompareMaybeForceUpdate = context => {
   forceUpdate(context)
 }
 
+const applyAnimateImageMix = (context, { data: { play } }) => {
+  console.log(play)
+}
+
 const KNOWN_ERRORS = [
   'Voxel count over max at scale',
   'Image byte count over max at scale',
@@ -488,6 +492,9 @@ const eventResponses = {
   },
   COMPARE_IMAGES: {
     actions: [assignCompare, sendCompareUpdated, afterCompareMaybeForceUpdate],
+  },
+  ANIMATE_IMAGE_MIX: {
+    actions: applyAnimateImageMix,
   },
 }
 

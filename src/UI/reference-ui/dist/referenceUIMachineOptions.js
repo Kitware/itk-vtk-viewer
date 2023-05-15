@@ -8348,11 +8348,21 @@ var compareUI = function compareUI(context) {
     )
     root.appendChild(checkerboardUi)
     var swapButtonId = ''.concat(context.id, '-swapImageOrder')
+    var playImageMixButtonId = ''.concat(context.id, '-image-mix-play')
     var imageMixRoot = makeHtml(
       '\n    <div style="display: flex; justify-content: space-between;">\n      <label class="'
+        .concat(style.inputLabel, '">Image Mix</label>\n      <input id="')
+        .concat(playImageMixButtonId, '" type="checkbox" checked class="')
         .concat(
-          style.inputLabel,
-          '">Image Mix</label>\n      <input type="range" min="0" max="1" step=".01" value=".5" \n        class="'
+          style.toggleInput,
+          '">\n        <label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="animate" class="'
+        )
+        .concat(style.visibleButton, ' ')
+        .concat(style.toggleButton, '" for="')
+        .concat(playImageMixButtonId, '">\n          <img src="')
+        .concat(
+          optimizedSVGDataUri$i,
+          '" alt="animate" />\n        </label>\n      </input>\n      <input type="range" min="0" max="1" step=".01" value=".5" \n        class="'
         )
         .concat(style.slider, '" />\n      <input type="checkbox" id="')
         .concat(swapButtonId, '" class="')
@@ -8375,9 +8385,10 @@ var compareUI = function compareUI(context) {
       yPattern = _checkerboardUi$query2[1],
       zPattern = _checkerboardUi$query2[2]
     var _imageMixRoot$querySe = imageMixRoot.querySelectorAll('input'),
-      _imageMixRoot$querySe2 = _slicedToArray(_imageMixRoot$querySe, 2),
-      imageMixSlider = _imageMixRoot$querySe2[0],
-      swapOrder = _imageMixRoot$querySe2[1]
+      _imageMixRoot$querySe2 = _slicedToArray(_imageMixRoot$querySe, 3),
+      animateImageMix = _imageMixRoot$querySe2[0],
+      imageMixSlider = _imageMixRoot$querySe2[1],
+      swapOrder = _imageMixRoot$querySe2[2]
     var update = function update() {
       var _compare$pattern, _compare$swapImageOrd, _compare$imageMix
       var name = context.images.selectedName
@@ -8497,11 +8508,16 @@ var compareUI = function compareUI(context) {
         pattern: [x, y, z],
       })
     })
-    swapOrder.addEventListener('change', function(event) {
+    animateImageMix.addEventListener('input', function(event) {
       event.preventDefault()
       event.stopPropagation()
-      updateCompare({
-        swapImageOrder: event.target.checked,
+      var name = context.images.selectedName
+      context.service.send({
+        type: 'ANIMATE_IMAGE_MIX',
+        data: {
+          name: name,
+          play: event.target.checked,
+        },
       })
     })
     imageMixSlider.addEventListener('input', function(event) {
@@ -8509,6 +8525,13 @@ var compareUI = function compareUI(context) {
       event.stopPropagation()
       updateCompare({
         imageMix: event.target.value,
+      })
+    })
+    swapOrder.addEventListener('change', function(event) {
+      event.preventDefault()
+      event.stopPropagation()
+      updateCompare({
+        swapImageOrder: event.target.checked,
       })
     })
     onReceive(function(event) {

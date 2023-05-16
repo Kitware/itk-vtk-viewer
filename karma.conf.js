@@ -13,7 +13,7 @@ var sourcePath = path.join(__dirname, './src')
 
 if (!process.env.NODE_ENV) process.env.NODE_ENV = 'test'
 
-process.env.CHROME_BIN = require('puppeteer').executablePath()
+// process.env.CHROME_BIN = require('puppeteer').executablePath()
 
 const fallback = {
   path: false,

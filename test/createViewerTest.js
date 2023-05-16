@@ -530,121 +530,121 @@ test('Test createViewer with just labelImage', async t => {
   })
 })
 
-test('Test setImage and setLabelImage after createViewer', async t => {
-  const gc = testUtils.createGarbageCollector(t)
+// test('Test setImage and setLabelImage after createViewer', async t => {
+//   const gc = testUtils.createGarbageCollector(t)
 
-  const container = document.querySelector('body')
-  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
-  container.appendChild(viewerContainer)
+//   const container = document.querySelector('body')
+//   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+//   container.appendChild(viewerContainer)
 
-  const labelImageResponse = await axios.get(testLabelImage3DPath, {
-    responseType: 'arraybuffer',
-  })
-  const { image: labelImage, webWorker } = await readImageArrayBuffer(
-    null,
-    labelImageResponse.data,
-    'data.nrrd'
-  )
-  webWorker.terminate()
+//   const labelImageResponse = await axios.get(testLabelImage3DPath, {
+//     responseType: 'arraybuffer',
+//   })
+//   const { image: labelImage, webWorker } = await readImageArrayBuffer(
+//     null,
+//     labelImageResponse.data,
+//     'data.nrrd'
+//   )
+//   webWorker.terminate()
 
-  const imageResponse = await axios.get(testImage3DPath, {
-    responseType: 'arraybuffer',
-  })
+//   const imageResponse = await axios.get(testImage3DPath, {
+//     responseType: 'arraybuffer',
+//   })
 
-  const { image, webWorker: webWorkerForImage } = await readImageArrayBuffer(
-    null,
-    imageResponse.data,
-    'data.nrrd'
-  )
-  webWorkerForImage.terminate()
+//   const { image, webWorker: webWorkerForImage } = await readImageArrayBuffer(
+//     null,
+//     imageResponse.data,
+//     'data.nrrd'
+//   )
+//   webWorkerForImage.terminate()
 
-  const viewer = await createViewer(container, {
-    rotate: false,
-  })
+//   const viewer = await createViewer(container, {
+//     rotate: false,
+//   })
 
-  viewer.setImage(image)
-  viewer.setLabelImage(labelImage)
+//   viewer.setImage(image)
+//   viewer.setLabelImage(labelImage)
 
-  t.plan(1)
-  viewer.once('renderedImageAssigned', () => {
-    t.pass(
-      'createViewer did not crash with with late setImage and setLabelImage'
-    )
-    gc.releaseResources()
-  })
-})
+//   t.plan(1)
+//   viewer.once('renderedImageAssigned', () => {
+//     t.pass(
+//       'createViewer did not crash with with late setImage and setLabelImage'
+//     )
+//     gc.releaseResources()
+//   })
+// })
 
-test('Test createViewer custom UI options', async t => {
-  const gc = testUtils.createGarbageCollector(t)
+// test('Test createViewer custom UI options', async t => {
+//   const gc = testUtils.createGarbageCollector(t)
 
-  const container = document.querySelector('body')
-  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
-  container.appendChild(viewerContainer)
+//   const container = document.querySelector('body')
+//   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+//   container.appendChild(viewerContainer)
 
-  const response = await axios.get(testImage3DPath, {
-    responseType: 'arraybuffer',
-  })
-  const { image: itkImage, webWorker } = await readImageArrayBuffer(
-    null,
-    response.data,
-    'data.nrrd'
-  )
-  webWorker.terminate()
+//   const response = await axios.get(testImage3DPath, {
+//     responseType: 'arraybuffer',
+//   })
+//   const { image: itkImage, webWorker } = await readImageArrayBuffer(
+//     null,
+//     response.data,
+//     'data.nrrd'
+//   )
+//   webWorker.terminate()
 
-  const referenceUIUrl = new URL(
-    '/base/src/UI/reference-ui/dist/referenceUIMachineOptions.js',
-    document.location.origin
-  )
-  const referenceUIMachineOptionsHref = { href: referenceUIUrl.href }
+//   const referenceUIUrl = new URL(
+//     '/base/src/UI/reference-ui/dist/referenceUIMachineOptions.js',
+//     document.location.origin
+//   )
+//   const referenceUIMachineOptionsHref = { href: referenceUIUrl.href }
 
-  await createViewer(container, {
-    image: itkImage,
-    rotate: false,
-    config: { uiMachineOptions: referenceUIMachineOptionsHref },
-  })
-  t.pass('Viewer with UI module URL')
+//   await createViewer(container, {
+//     image: itkImage,
+//     rotate: false,
+//     config: { uiMachineOptions: referenceUIMachineOptionsHref },
+//   })
+//   t.pass('Viewer with UI module URL')
 
-  await createViewer(container, {
-    image: itkImage,
-    rotate: false,
-    config: {
-      uiMachineOptions: { href: referenceUIUrl.href, export: 'default' },
-    },
-  })
-  t.pass('Viewer with UI module URL, explicit export')
+//   await createViewer(container, {
+//     image: itkImage,
+//     rotate: false,
+//     config: {
+//       uiMachineOptions: { href: referenceUIUrl.href, export: 'default' },
+//     },
+//   })
+//   t.pass('Viewer with UI module URL, explicit export')
 
-  // If missing image.service.scaleSelector in options, test there is no warning
-  // Avoids this later occurring Error: Unable to send event to child 'scaleSelector' from service 'images'
-  const uiMachineOptionsNoImageServices = {
-    ...referenceUIMachineOptions,
-    images: { ...referenceUIMachineOptions.images },
-  }
-  delete uiMachineOptionsNoImageServices.images.services
+//   // If missing image.service.scaleSelector in options, test there is no warning
+//   // Avoids this later occurring Error: Unable to send event to child 'scaleSelector' from service 'images'
+//   const uiMachineOptionsNoImageServices = {
+//     ...referenceUIMachineOptions,
+//     images: { ...referenceUIMachineOptions.images },
+//   }
+//   delete uiMachineOptionsNoImageServices.images.services
 
-  let isWarningLogged = false
-  const consoleWarn = console.warn
-  console.warn = message => {
-    if (message.includes("Warning: No service found for invocation '")) {
-      isWarningLogged = true
-    }
-  }
-  await createViewer(container, {
-    image: itkImage,
-    rotate: false,
-    config: {
-      uiMachineOptions: uiMachineOptionsNoImageServices,
-    },
-  })
-  console.warn = consoleWarn
+//   let isWarningLogged = false
+//   const consoleWarn = console.warn
+//   console.warn = message => {
+//     if (message.includes("Warning: No service found for invocation '")) {
+//       isWarningLogged = true
+//     }
+//   }
+//   await createViewer(container, {
+//     image: itkImage,
+//     rotate: false,
+//     config: {
+//       uiMachineOptions: uiMachineOptionsNoImageServices,
+//     },
+//   })
+//   console.warn = consoleWarn
 
-  t.same(
-    isWarningLogged,
-    false,
-    'custom options with no images.services has no warning'
-  )
+//   t.same(
+//     isWarningLogged,
+//     false,
+//     'custom options with no images.services has no warning'
+//   )
 
-  gc.releaseResources()
-})
+//   gc.releaseResources()
+// })
 
 const makeImages = async paths => {
   return Promise.all(

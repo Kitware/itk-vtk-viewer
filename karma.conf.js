@@ -137,6 +137,7 @@ module.exports = function init(config) {
         pattern: `${output.path}/**/*`,
         watched: false,
         included: false,
+        served: true,
       },
     ],
 

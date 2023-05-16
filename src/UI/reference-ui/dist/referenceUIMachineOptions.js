@@ -8349,10 +8349,11 @@ var compareUI = function compareUI(context) {
     root.appendChild(checkerboardUi)
     var swapButtonId = ''.concat(context.id, '-swapImageOrder')
     var playImageMixButtonId = ''.concat(context.id, '-image-mix-play')
+    var playImageMixImgId = ''.concat(context.id, '-image-mix-play-img')
     var imageMixRoot = makeHtml(
       '\n    <div style="display: flex; justify-content: space-between;">\n      <label class="'
         .concat(style.inputLabel, '">Image Mix</label>\n      <input id="')
-        .concat(playImageMixButtonId, '" type="checkbox" checked class="')
+        .concat(playImageMixButtonId, '" type="checkbox" class="')
         .concat(
           style.toggleInput,
           '">\n        <label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="animate" class="'
@@ -8360,8 +8361,9 @@ var compareUI = function compareUI(context) {
         .concat(style.visibleButton, ' ')
         .concat(style.toggleButton, '" for="')
         .concat(playImageMixButtonId, '">\n          <img src="')
+        .concat(optimizedSVGDataUri$h, '" id="')
         .concat(
-          optimizedSVGDataUri$i,
+          playImageMixImgId,
           '" alt="animate" />\n        </label>\n      </input>\n      <input type="range" min="0" max="1" step=".01" value=".5" \n        class="'
         )
         .concat(style.slider, '" />\n      <input type="checkbox" id="')
@@ -8389,6 +8391,9 @@ var compareUI = function compareUI(context) {
       animateImageMix = _imageMixRoot$querySe2[0],
       imageMixSlider = _imageMixRoot$querySe2[1],
       swapOrder = _imageMixRoot$querySe2[2]
+    var animateImageImg = imageMixRoot.querySelector(
+      '#'.concat(playImageMixImgId)
+    )
     var update = function update() {
       var _compare$pattern, _compare$swapImageOrd, _compare$imageMix
       var name = context.images.selectedName
@@ -8437,6 +8442,12 @@ var compareUI = function compareUI(context) {
             : compare.imageMix) !== null && _compare$imageMix !== void 0
           ? _compare$imageMix
           : 0.5
+      animateImageImg.src =
+        imageContext !== null &&
+        imageContext !== void 0 &&
+        imageContext.imageMixAnimation
+          ? optimizedSVGDataUri$i
+          : optimizedSVGDataUri$h
     }
     update()
     var updateCompare = function updateCompare(options) {

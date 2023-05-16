@@ -369,7 +369,7 @@ const applyAnimateImageMix = (
   } else if (actorContext.imageMixAnimation) {
     actorContext.imageMixAnimation.unsubscribe()
     actorContext.imageMixAnimation = null
-    itkVtkView.getInteractor().cancelAnimation('yPlaneScroll')
+    itkVtkView.getInteractor().cancelAnimation('animateImageMix')
   }
 }
 

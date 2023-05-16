@@ -347,6 +347,9 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             COMPARE_UPDATED: {
               actions: forwardTo('ui'),
             },
+            ANIMATE_IMAGE_MIX: {
+              actions: forwardTo('rendering'),
+            },
             COMPONENT_VISIBILITIES_UPDATED: {
               actions: forwardTo('ui'),
             },

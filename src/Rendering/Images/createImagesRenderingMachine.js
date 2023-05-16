@@ -163,6 +163,7 @@ function createImagesRenderingMachine(options, context) {
                 'COMPARE_IMAGES',
                 'WINDOW_LEVEL_TOGGLED',
                 'IMAGE_COLOR_RANGE_RESET',
+                'ANIMATE_IMAGE_MIX',
               ],
               { actions: forwardToNamedActor }
             ),

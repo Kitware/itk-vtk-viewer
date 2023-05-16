@@ -310,6 +310,10 @@
   padding-right: 6px;
 }
 
+.noFlexBasis {
+  flex-basis: auto;
+}
+
 .layerIcon {
   display: inline-block;
 }

@@ -1,4 +1,8 @@
-import { rotateIconDataUri } from 'itk-viewer-icons'
+import {
+  playIconDataUri,
+  pauseIconDataUri,
+  rotateIconDataUri,
+} from 'itk-viewer-icons'
 import style from '../ItkVtkViewer.module.css'
 import { makeHtml } from '../utils'
 
@@ -24,9 +28,16 @@ export const compareUI = context => (send, onReceive) => {
   root.appendChild(checkerboardUi)
 
   const swapButtonId = `${context.id}-swapImageOrder`
+  const playImageMixButtonId = `${context.id}-image-mix-play`
+  const playImageMixImgId = `${context.id}-image-mix-play-img`
   const imageMixRoot = makeHtml(`
     <div style="display: flex; justify-content: space-between;">
       <label class="${style.inputLabel}">Image Mix</label>
+      <input id="${playImageMixButtonId}" type="checkbox" class="${style.toggleInput}">
+        <label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="animate" class="${style.visibleButton} ${style.noFlexBasis} ${style.toggleButton}" for="${playImageMixButtonId}">
+          <img src="${playIconDataUri}" id="${playImageMixImgId}" alt="animate" />
+        </label>
+      </input>
       <input type="range" min="0" max="1" step=".01" value=".5" 
         class="${style.slider}" />
       <input type="checkbox" id="${swapButtonId}" class="${style.toggleInput}">
@@ -42,7 +53,12 @@ export const compareUI = context => (send, onReceive) => {
     'input'
   )
 
-  const [imageMixSlider, swapOrder] = imageMixRoot.querySelectorAll('input')
+  const [
+    animateImageMix,
+    imageMixSlider,
+    swapOrder,
+  ] = imageMixRoot.querySelectorAll('input')
+  const animateImageImg = imageMixRoot.querySelector(`#${playImageMixImgId}`)
 
   const update = () => {
     const name = context.images.selectedName
@@ -66,6 +82,10 @@ export const compareUI = context => (send, onReceive) => {
     swapOrder.checked = !!compare?.swapImageOrder ?? false
 
     imageMixSlider.value = compare?.imageMix ?? 0.5
+
+    animateImageImg.src = imageContext?.imageMixAnimation
+      ? pauseIconDataUri
+      : playIconDataUri
   }
 
   update()
@@ -97,6 +117,7 @@ export const compareUI = context => (send, onReceive) => {
     const x = parsePattern(event.target.value)
     updateCompare({ pattern: [x, ...yz] })
   })
+
   yPattern.addEventListener('change', event => {
     event.preventDefault()
     event.stopPropagation()
@@ -108,6 +129,7 @@ export const compareUI = context => (send, onReceive) => {
     const y = parsePattern(event.target.value)
     updateCompare({ pattern: [x, y, z] })
   })
+
   zPattern.addEventListener('change', event => {
     event.preventDefault()
     event.stopPropagation()
@@ -119,11 +141,19 @@ export const compareUI = context => (send, onReceive) => {
     const z = parsePattern(event.target.value)
     updateCompare({ pattern: [x, y, z] })
   })
-  swapOrder.addEventListener('change', event => {
+
+  animateImageMix.addEventListener('input', event => {
     event.preventDefault()
     event.stopPropagation()
 
-    updateCompare({ swapImageOrder: event.target.checked })
+    const name = context.images.selectedName
+    context.service.send({
+      type: 'ANIMATE_IMAGE_MIX',
+      data: {
+        name,
+        play: event.target.checked,
+      },
+    })
   })
 
   imageMixSlider.addEventListener('input', event => {
@@ -131,6 +161,13 @@ export const compareUI = context => (send, onReceive) => {
     event.stopPropagation()
 
     updateCompare({ imageMix: event.target.value })
+  })
+
+  swapOrder.addEventListener('change', event => {
+    event.preventDefault()
+    event.stopPropagation()
+
+    updateCompare({ swapImageOrder: event.target.checked })
   })
 
   onReceive(event => {

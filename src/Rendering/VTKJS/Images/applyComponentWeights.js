@@ -11,7 +11,7 @@ export function applyComponentWeights(context, name) {
 
     const visualizedComponents = actorContext.visualizedComponents
     const componentVisibilities = actorContext.componentVisibilities
-    const weight = 1.0 - labelImageBlend
+    const weight = 1.0
 
     visualizedComponents.forEach((componentIdx, fusedImgIdx) => {
       let compWeight = componentVisibilities[componentIdx] ? weight : 0

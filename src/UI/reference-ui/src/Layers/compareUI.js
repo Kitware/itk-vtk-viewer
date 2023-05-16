@@ -34,7 +34,7 @@ export const compareUI = context => (send, onReceive) => {
     <div style="display: flex; justify-content: space-between;">
       <label class="${style.inputLabel}">Image Mix</label>
       <input id="${playImageMixButtonId}" type="checkbox" class="${style.toggleInput}">
-        <label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="animate" class="${style.visibleButton} ${style.toggleButton}" for="${playImageMixButtonId}">
+        <label itk-vtk-tooltip itk-vtk-tooltip-top-annotations itk-vtk-tooltip-content="animate" class="${style.visibleButton} ${style.noFlexBasis} ${style.toggleButton}" for="${playImageMixButtonId}">
           <img src="${playIconDataUri}" id="${playImageMixImgId}" alt="animate" />
         </label>
       </input>

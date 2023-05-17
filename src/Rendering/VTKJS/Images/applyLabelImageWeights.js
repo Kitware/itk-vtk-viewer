@@ -15,7 +15,6 @@ function applyLabelImageWeights(context, event) {
     piecewiseFunction = context.images.piecewiseFunctions.get('labelImage')
   }
 
-  const maxOpacity = 1.0
   const haveBackground =
     labelImageWeights.keys().next().value === 0 ? true : false
   let minLabelWeight = 0.0

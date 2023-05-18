@@ -1,4 +1,5 @@
-## title: Progressive Web App
+title: Progressive Web App
+---
 
 The [default ITK/VTK Viewer page](https://kitware.github.io/itk-vtk-viewer/app/) lets you drag and drop or select a data file from your local filesystem to visualize. Once you have loaded data with this [progressive web app](https://en.wikipedia.org/wiki/Progressive_Web_Apps), the app will also work offline.
 

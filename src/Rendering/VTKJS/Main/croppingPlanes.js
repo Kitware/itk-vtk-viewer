@@ -1,4 +1,4 @@
-import { mat4, vec3, quat } from 'gl-matrix'
+import { mat4, vec3, quat, vec4 } from 'gl-matrix'
 import vtkImageData from 'vtk.js/Sources/Common/DataModel/ImageData'
 import { transformVec3 } from 'vtk.js/Sources/Widgets/Widgets3D/ImageCroppingWidget/helpers'
 import vtkMath from 'vtk.js/Sources/Common/Core/Math'
@@ -8,7 +8,7 @@ import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 import toggleCroppingPlanes from './toggleCroppingPlanes'
 import HandlesInPixelsImageCroppingWidget from '../Widgets/HandlesInPixelsImageCroppingWidget'
 import { transformBounds } from '../../../transformBounds'
-import { arraysEqual } from '../../../internalUtils'
+import { arraysEqual, makeIndexToWorld } from '../../../internalUtils'
 
 export function getCropWidgetBounds(context, bounds = []) {
   const { croppingWidget } = context.main
@@ -176,11 +176,12 @@ export function updateCroppingParameters(context) {
   if (uninitialized) return
 
   // Put global bounds in image oriented space
-  const orientation = quat.fromMat3([], croppingVirtualImage.getDirection())
-  const worldToImageDirection = mat4.fromQuat(
-    [],
-    quat.invert(orientation, orientation)
-  )
+
+  const worldToImageDirection = makeIndexToWorld({
+    direction: croppingVirtualImage.getDirection(),
+    origin: [0, 0, 0],
+    spacing: [1, 1, 1],
+  })
 
   const orientedBox = transformBounds(
     worldToImageDirection,

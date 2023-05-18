@@ -310,6 +310,9 @@ const cleanColorRanges = (c, { data: { name } }) => {
     actorContext.colorRangeBoundsAutoAdjust = new Map(
       [...Array(componentCount).keys()].map(c => [c, true])
     )
+    actorContext.piecewiseFunctionPointsAutoAdjust = new Map(
+      [...Array(componentCount).keys()].map(c => [c, true])
+    )
 
     actorContext.dirtyColorRanges = false
   }

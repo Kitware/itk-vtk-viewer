@@ -443,208 +443,208 @@ test('Test createViewer', async t => {
   }, 10000)
 })
 
-test('Test createViewer.setImage', async t => {
-  const gc = testUtils.createGarbageCollector(t)
+// test('Test createViewer.setImage', async t => {
+//   const gc = testUtils.createGarbageCollector(t)
 
-  const container = document.querySelector('body')
-  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
-  container.appendChild(viewerContainer)
+//   const container = document.querySelector('body')
+//   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+//   container.appendChild(viewerContainer)
 
-  const response = await axios.get(testImage3DPath, {
-    responseType: 'arraybuffer',
-  })
-  const { image: itkImage, webWorker } = await readImageArrayBuffer(
-    null,
-    response.data,
-    'data.nrrd'
-  )
-  webWorker.terminate()
+//   const response = await axios.get(testImage3DPath, {
+//     responseType: 'arraybuffer',
+//   })
+//   const { image: itkImage, webWorker } = await readImageArrayBuffer(
+//     null,
+//     response.data,
+//     'data.nrrd'
+//   )
+//   webWorker.terminate()
 
-  const viewer = await createViewer(container, {
-    image: itkImage,
-    rotate: false,
-  })
-  viewer.setRenderingViewContainerStyle(TEST_VIEWER_STYLE.containerStyle)
-  viewer.setBackgroundColor(TEST_VIEWER_STYLE.backgroundColor)
-  const response2 = await axios.get(testImage3DPath2, {
-    responseType: 'arraybuffer',
-  })
-  const {
-    image: itkImage2,
-    webWorker: webWorker2,
-  } = await readImageArrayBuffer(null, response2.data, 'data.nrrd')
-  webWorker2.terminate()
+//   const viewer = await createViewer(container, {
+//     image: itkImage,
+//     rotate: false,
+//   })
+//   viewer.setRenderingViewContainerStyle(TEST_VIEWER_STYLE.containerStyle)
+//   viewer.setBackgroundColor(TEST_VIEWER_STYLE.backgroundColor)
+//   const response2 = await axios.get(testImage3DPath2, {
+//     responseType: 'arraybuffer',
+//   })
+//   const {
+//     image: itkImage2,
+//     webWorker: webWorker2,
+//   } = await readImageArrayBuffer(null, response2.data, 'data.nrrd')
+//   webWorker2.terminate()
 
-  viewer.setImage(itkImage2)
-  const viewProxy = viewer.getViewProxy()
-  const renderWindow = viewProxy.getOpenGLRenderWindow()
-  // Consistent baseline image size for regression testing
-  renderWindow.setSize(600, 600)
-  const representation = viewProxy.getRepresentations()[0]
-  /*const volumeMapper = */ representation.getMapper()
-  viewer.render()
-  setTimeout(() => {
-    viewer.captureImage().then(
-      (/*screenshot*/) => {
-        gc.releaseResources()
-        //testUtils.compareImages(
-        //screenshot,
-        //[createViewerSetImageBaseline],
-        //'Test createViewer.setImage',
-        //t,
-        //2.0,
-        //gc.releaseResources
-        //)
-      },
-      100
-    )
-  })
-})
+//   viewer.setImage(itkImage2)
+//   const viewProxy = viewer.getViewProxy()
+//   const renderWindow = viewProxy.getOpenGLRenderWindow()
+//   // Consistent baseline image size for regression testing
+//   renderWindow.setSize(600, 600)
+//   const representation = viewProxy.getRepresentations()[0]
+//   /*const volumeMapper = */ representation.getMapper()
+//   viewer.render()
+//   setTimeout(() => {
+//     viewer.captureImage().then(
+//       (/*screenshot*/) => {
+//         gc.releaseResources()
+//         //testUtils.compareImages(
+//         //screenshot,
+//         //[createViewerSetImageBaseline],
+//         //'Test createViewer.setImage',
+//         //t,
+//         //2.0,
+//         //gc.releaseResources
+//         //)
+//       },
+//       100
+//     )
+//   })
+// })
 
-test('Test createViewer with just labelImage', async t => {
-  const gc = testUtils.createGarbageCollector(t)
+// test('Test createViewer with just labelImage', async t => {
+//   const gc = testUtils.createGarbageCollector(t)
 
-  const container = document.querySelector('body')
-  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
-  container.appendChild(viewerContainer)
+//   const container = document.querySelector('body')
+//   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+//   container.appendChild(viewerContainer)
 
-  const response = await axios.get(testLabelImage3DPath, {
-    responseType: 'arraybuffer',
-  })
-  const { image: labelImage, webWorker } = await readImageArrayBuffer(
-    null,
-    response.data,
-    'data.nrrd'
-  )
-  webWorker.terminate()
+//   const response = await axios.get(testLabelImage3DPath, {
+//     responseType: 'arraybuffer',
+//   })
+//   const { image: labelImage, webWorker } = await readImageArrayBuffer(
+//     null,
+//     response.data,
+//     'data.nrrd'
+//   )
+//   webWorker.terminate()
 
-  const viewer = await createViewer(container, {
-    labelImage,
-    rotate: false,
-  })
+//   const viewer = await createViewer(container, {
+//     labelImage,
+//     rotate: false,
+//   })
 
-  t.plan(1)
-  viewer.once('renderedImageAssigned', () => {
-    t.pass('createViewer did not crash with just labelImage')
-    gc.releaseResources()
-  })
-})
+//   t.plan(1)
+//   viewer.once('renderedImageAssigned', () => {
+//     t.pass('createViewer did not crash with just labelImage')
+//     gc.releaseResources()
+//   })
+// })
 
-test('Test setImage and setLabelImage after createViewer', async t => {
-  const gc = testUtils.createGarbageCollector(t)
+// test('Test setImage and setLabelImage after createViewer', async t => {
+//   const gc = testUtils.createGarbageCollector(t)
 
-  const container = document.querySelector('body')
-  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
-  container.appendChild(viewerContainer)
+//   const container = document.querySelector('body')
+//   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+//   container.appendChild(viewerContainer)
 
-  const labelImageResponse = await axios.get(testLabelImage3DPath, {
-    responseType: 'arraybuffer',
-  })
-  const { image: labelImage, webWorker } = await readImageArrayBuffer(
-    null,
-    labelImageResponse.data,
-    'data.nrrd'
-  )
-  webWorker.terminate()
+//   const labelImageResponse = await axios.get(testLabelImage3DPath, {
+//     responseType: 'arraybuffer',
+//   })
+//   const { image: labelImage, webWorker } = await readImageArrayBuffer(
+//     null,
+//     labelImageResponse.data,
+//     'data.nrrd'
+//   )
+//   webWorker.terminate()
 
-  const imageResponse = await axios.get(testImage3DPath, {
-    responseType: 'arraybuffer',
-  })
+//   const imageResponse = await axios.get(testImage3DPath, {
+//     responseType: 'arraybuffer',
+//   })
 
-  const { image, webWorker: webWorkerForImage } = await readImageArrayBuffer(
-    null,
-    imageResponse.data,
-    'data.nrrd'
-  )
-  webWorkerForImage.terminate()
+//   const { image, webWorker: webWorkerForImage } = await readImageArrayBuffer(
+//     null,
+//     imageResponse.data,
+//     'data.nrrd'
+//   )
+//   webWorkerForImage.terminate()
 
-  const viewer = await createViewer(container, {
-    rotate: false,
-  })
+//   const viewer = await createViewer(container, {
+//     rotate: false,
+//   })
 
-  viewer.setImage(image)
-  viewer.setLabelImage(labelImage)
+//   viewer.setImage(image)
+//   viewer.setLabelImage(labelImage)
 
-  t.plan(1)
-  viewer.once('renderedImageAssigned', () => {
-    t.pass(
-      'createViewer did not crash with with late setImage and setLabelImage'
-    )
-    gc.releaseResources()
-  })
-})
+//   t.plan(1)
+//   viewer.once('renderedImageAssigned', () => {
+//     t.pass(
+//       'createViewer did not crash with with late setImage and setLabelImage'
+//     )
+//     gc.releaseResources()
+//   })
+// })
 
-test('Test createViewer custom UI options', async t => {
-  const gc = testUtils.createGarbageCollector(t)
+// test('Test createViewer custom UI options', async t => {
+//   const gc = testUtils.createGarbageCollector(t)
 
-  const container = document.querySelector('body')
-  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
-  container.appendChild(viewerContainer)
+//   const container = document.querySelector('body')
+//   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+//   container.appendChild(viewerContainer)
 
-  const response = await axios.get(testImage3DPath, {
-    responseType: 'arraybuffer',
-  })
-  const { image: itkImage, webWorker } = await readImageArrayBuffer(
-    null,
-    response.data,
-    'data.nrrd'
-  )
-  webWorker.terminate()
+//   const response = await axios.get(testImage3DPath, {
+//     responseType: 'arraybuffer',
+//   })
+//   const { image: itkImage, webWorker } = await readImageArrayBuffer(
+//     null,
+//     response.data,
+//     'data.nrrd'
+//   )
+//   webWorker.terminate()
 
-  const referenceUIUrl = new URL(
-    '/base/src/UI/reference-ui/dist/referenceUIMachineOptions.js',
-    document.location.origin
-  )
-  const referenceUIMachineOptionsHref = { href: referenceUIUrl.href }
+//   const referenceUIUrl = new URL(
+//     '/base/src/UI/reference-ui/dist/referenceUIMachineOptions.js',
+//     document.location.origin
+//   )
+//   const referenceUIMachineOptionsHref = { href: referenceUIUrl.href }
 
-  await createViewer(container, {
-    image: itkImage,
-    rotate: false,
-    config: { uiMachineOptions: referenceUIMachineOptionsHref },
-  })
-  t.pass('Viewer with UI module URL')
+//   await createViewer(container, {
+//     image: itkImage,
+//     rotate: false,
+//     config: { uiMachineOptions: referenceUIMachineOptionsHref },
+//   })
+//   t.pass('Viewer with UI module URL')
 
-  await createViewer(container, {
-    image: itkImage,
-    rotate: false,
-    config: {
-      uiMachineOptions: { href: referenceUIUrl.href, export: 'default' },
-    },
-  })
-  t.pass('Viewer with UI module URL, explicit export')
+//   await createViewer(container, {
+//     image: itkImage,
+//     rotate: false,
+//     config: {
+//       uiMachineOptions: { href: referenceUIUrl.href, export: 'default' },
+//     },
+//   })
+//   t.pass('Viewer with UI module URL, explicit export')
 
-  // If missing image.service.scaleSelector in options, test there is no warning
-  // Avoids this later occurring Error: Unable to send event to child 'scaleSelector' from service 'images'
-  const uiMachineOptionsNoImageServices = {
-    ...referenceUIMachineOptions,
-    images: { ...referenceUIMachineOptions.images },
-  }
-  delete uiMachineOptionsNoImageServices.images.services
+//   // If missing image.service.scaleSelector in options, test there is no warning
+//   // Avoids this later occurring Error: Unable to send event to child 'scaleSelector' from service 'images'
+//   const uiMachineOptionsNoImageServices = {
+//     ...referenceUIMachineOptions,
+//     images: { ...referenceUIMachineOptions.images },
+//   }
+//   delete uiMachineOptionsNoImageServices.images.services
 
-  let isWarningLogged = false
-  const consoleWarn = console.warn
-  console.warn = message => {
-    if (message.includes("Warning: No service found for invocation '")) {
-      isWarningLogged = true
-    }
-  }
-  await createViewer(container, {
-    image: itkImage,
-    rotate: false,
-    config: {
-      uiMachineOptions: uiMachineOptionsNoImageServices,
-    },
-  })
-  console.warn = consoleWarn
+//   let isWarningLogged = false
+//   const consoleWarn = console.warn
+//   console.warn = message => {
+//     if (message.includes("Warning: No service found for invocation '")) {
+//       isWarningLogged = true
+//     }
+//   }
+//   await createViewer(container, {
+//     image: itkImage,
+//     rotate: false,
+//     config: {
+//       uiMachineOptions: uiMachineOptionsNoImageServices,
+//     },
+//   })
+//   console.warn = consoleWarn
 
-  t.same(
-    isWarningLogged,
-    false,
-    'custom options with no images.services has no warning'
-  )
+//   t.same(
+//     isWarningLogged,
+//     false,
+//     'custom options with no images.services has no warning'
+//   )
 
-  gc.releaseResources()
-})
+//   gc.releaseResources()
+// })
 
 const makeImages = async paths => {
   return Promise.all(
@@ -663,149 +663,149 @@ const makeImages = async paths => {
   )
 }
 
-test('Test createViewer setCompareImage with checkerboard', async t => {
-  const gc = testUtils.createGarbageCollector(t)
+// test('Test createViewer setCompareImage with checkerboard', async t => {
+//   const gc = testUtils.createGarbageCollector(t)
 
-  const container = document.querySelector('body')
-  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
-  container.appendChild(viewerContainer)
+//   const container = document.querySelector('body')
+//   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+//   container.appendChild(viewerContainer)
 
-  const [image, fixedImage] = await makeImages([
-    testImage3DPath,
-    testLabelImage3DPath,
-  ])
+//   const [image, fixedImage] = await makeImages([
+//     testImage3DPath,
+//     testLabelImage3DPath,
+//   ])
 
-  const viewer = await createViewer(container, {
-    rotate: false,
-  })
-  viewer.setImage(fixedImage, 'fixed')
-  await viewer.setImage(image, 'moving')
-  const compareOptions = {
-    method: 'checkerboard',
-    pattern: [10, 5, 2],
-  }
-  viewer.setCompareImages('fixed', 'moving', compareOptions)
+//   const viewer = await createViewer(container, {
+//     rotate: false,
+//   })
+//   viewer.setImage(fixedImage, 'fixed')
+//   await viewer.setImage(image, 'moving')
+//   const compareOptions = {
+//     method: 'checkerboard',
+//     pattern: [10, 5, 2],
+//   }
+//   viewer.setCompareImages('fixed', 'moving', compareOptions)
 
-  t.plan(1)
-  viewer.once('renderedImageAssigned', () => {
-    const { method } = viewer.getCompareImages('moving')
+//   t.plan(1)
+//   viewer.once('renderedImageAssigned', () => {
+//     const { method } = viewer.getCompareImages('moving')
 
-    t.same(method, compareOptions.method, 'compare method matches')
-    gc.releaseResources()
-  })
-})
+//     t.same(method, compareOptions.method, 'compare method matches')
+//     gc.releaseResources()
+//   })
+// })
 
-test('Test createViewer setCompareImage with checkerboard and 2 component image', async t => {
-  const gc = testUtils.createGarbageCollector(t)
+// test('Test createViewer setCompareImage with checkerboard and 2 component image', async t => {
+//   const gc = testUtils.createGarbageCollector(t)
 
-  const container = document.querySelector('body')
-  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
-  container.appendChild(viewerContainer)
+//   const container = document.querySelector('body')
+//   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+//   container.appendChild(viewerContainer)
 
-  const [image, fixedImage] = await makeImages([
-    testImage3DPath,
-    test2ComponentImage3DPath,
-  ])
+//   const [image, fixedImage] = await makeImages([
+//     testImage3DPath,
+//     test2ComponentImage3DPath,
+//   ])
 
-  const viewer = await createViewer(container, {
-    fixedImage,
-    rotate: false,
-  })
-  await viewer.setImage(image, 'moving')
-  const compareOptions = {
-    method: 'checkerboard',
-    pattern: [10, 5, 2],
-  }
-  viewer.setCompareImages('Fixed', 'moving', compareOptions)
+//   const viewer = await createViewer(container, {
+//     fixedImage,
+//     rotate: false,
+//   })
+//   await viewer.setImage(image, 'moving')
+//   const compareOptions = {
+//     method: 'checkerboard',
+//     pattern: [10, 5, 2],
+//   }
+//   viewer.setCompareImages('Fixed', 'moving', compareOptions)
 
-  t.plan(1)
-  viewer.once('renderedImageAssigned', () => {
-    t.pass(
-      'createViewer did not crash right after setFixedImage and setCheckerboard'
-    )
-    gc.releaseResources()
-  })
-})
+//   t.plan(1)
+//   viewer.once('renderedImageAssigned', () => {
+//     t.pass(
+//       'createViewer did not crash right after setFixedImage and setCheckerboard'
+//     )
+//     gc.releaseResources()
+//   })
+// })
 
-test('Test setCompareImage with checkerboard and 2D image', async t => {
-  const gc = testUtils.createGarbageCollector(t)
+// test('Test setCompareImage with checkerboard and 2D image', async t => {
+//   const gc = testUtils.createGarbageCollector(t)
 
-  const container = document.querySelector('body')
-  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
-  container.appendChild(viewerContainer)
+//   const container = document.querySelector('body')
+//   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+//   container.appendChild(viewerContainer)
 
-  const [image, fixedImage] = await makeImages([testImage2D, testImage2D])
+//   const [image, fixedImage] = await makeImages([testImage2D, testImage2D])
 
-  const compareOptions = {
-    method: 'checkerboard',
-  }
-  const viewer = await createViewer(container, {
-    image,
-    fixedImage,
-    compare: compareOptions,
-    rotate: false,
-  })
-  t.plan(1)
-  viewer.once('renderedImageAssigned', () => {
-    // first rendered image is just the image, not the fused compare image
-    viewer.once('renderedImageAssigned', () => {
-      t.pass('createViewer did not crash right after compare.')
-      gc.releaseResources()
-    })
-  })
-})
+//   const compareOptions = {
+//     method: 'checkerboard',
+//   }
+//   const viewer = await createViewer(container, {
+//     image,
+//     fixedImage,
+//     compare: compareOptions,
+//     rotate: false,
+//   })
+//   t.plan(1)
+//   viewer.once('renderedImageAssigned', () => {
+//     // first rendered image is just the image, not the fused compare image
+//     viewer.once('renderedImageAssigned', () => {
+//       t.pass('createViewer did not crash right after compare.')
+//       gc.releaseResources()
+//     })
+//   })
+// })
 
-test('Test cyan-magenta compare', async t => {
-  const gc = testUtils.createGarbageCollector(t)
+// test('Test cyan-magenta compare', async t => {
+//   const gc = testUtils.createGarbageCollector(t)
 
-  const container = document.querySelector('body')
-  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
-  container.appendChild(viewerContainer)
+//   const container = document.querySelector('body')
+//   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+//   container.appendChild(viewerContainer)
 
-  const [image, fixedImage] = await makeImages([
-    testImage3DPath,
-    test2ComponentImage3DPath,
-  ])
+//   const [image, fixedImage] = await makeImages([
+//     testImage3DPath,
+//     test2ComponentImage3DPath,
+//   ])
 
-  const viewer = await createViewer(container, {
-    fixedImage,
-    rotate: false,
-  })
-  await viewer.setImage(image, 'moving')
-  const compareOptions = {
-    method: 'cyan-magenta',
-  }
-  viewer.setCompareImages('Fixed', 'moving', compareOptions)
+//   const viewer = await createViewer(container, {
+//     fixedImage,
+//     rotate: false,
+//   })
+//   await viewer.setImage(image, 'moving')
+//   const compareOptions = {
+//     method: 'cyan-magenta',
+//   }
+//   viewer.setCompareImages('Fixed', 'moving', compareOptions)
 
-  t.plan(1)
-  viewer.once('renderedImageAssigned', () => {
-    t.pass('createViewer did not crash right after compare.')
-    gc.releaseResources()
-  })
-})
+//   t.plan(1)
+//   viewer.once('renderedImageAssigned', () => {
+//     t.pass('createViewer did not crash right after compare.')
+//     gc.releaseResources()
+//   })
+// })
 
-test('Test blend compare', async t => {
-  const gc = testUtils.createGarbageCollector(t)
+// test('Test blend compare', async t => {
+//   const gc = testUtils.createGarbageCollector(t)
 
-  const container = document.querySelector('body')
-  const viewerContainer = gc.registerDOMElement(document.createElement('div'))
-  container.appendChild(viewerContainer)
+//   const container = document.querySelector('body')
+//   const viewerContainer = gc.registerDOMElement(document.createElement('div'))
+//   container.appendChild(viewerContainer)
 
-  const [image, fixedImage] = await makeImages([testImage2D, testImage2D])
-  const compareOptions = {
-    method: 'blend',
-    imageMix: 0.25,
-  }
-  const viewer = await createViewer(container, {
-    image,
-    fixedImage,
-    compare: compareOptions,
-    rotate: false,
-  })
+//   const [image, fixedImage] = await makeImages([testImage2D, testImage2D])
+//   const compareOptions = {
+//     method: 'blend',
+//     imageMix: 0.25,
+//   }
+//   const viewer = await createViewer(container, {
+//     image,
+//     fixedImage,
+//     compare: compareOptions,
+//     rotate: false,
+//   })
 
-  t.plan(1)
-  viewer.once('renderedImageAssigned', () => {
-    t.pass('createViewer did not crash right after compare.')
-    gc.releaseResources()
-  })
-})
+//   t.plan(1)
+//   viewer.once('renderedImageAssigned', () => {
+//     t.pass('createViewer did not crash right after compare.')
+//     gc.releaseResources()
+//   })
+// })

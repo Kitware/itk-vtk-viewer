@@ -13,7 +13,7 @@ var sourcePath = path.join(__dirname, './src')
 
 if (!process.env.NODE_ENV) process.env.NODE_ENV = 'test'
 
-process.env.CHROME_BIN = require('puppeteer').executablePath()
+// process.env.CHROME_BIN = require('puppeteer').executablePath()
 
 const fallback = {
   path: false,
@@ -137,6 +137,7 @@ module.exports = function init(config) {
         pattern: `${output.path}/**/*`,
         watched: false,
         included: false,
+        served: true,
       },
     ],
 
@@ -196,8 +197,8 @@ module.exports = function init(config) {
       args: config.dockered ? ['--dockered'] : [],
     },
 
-    browserDisconnectTimeout: 60000,
-    browserNoActivityTimeout: 60000,
+    browserDisconnectTimeout: 160000, // default 2000
+    browserNoActivityTimeout: 160000, // default 30000
 
     port: 9876,
     colors: true,

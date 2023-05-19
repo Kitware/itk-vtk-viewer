@@ -82,16 +82,23 @@ async function updateRenderedImage(context) {
   const baseImage = fixedImage ?? image ?? labelImage
 
   const { targetScale } = context
+
+  const baseImageClampedScale = Math.min(baseImage.coarsestScale, targetScale)
+
   // always load full image if least detailed scale
-  const isCoarsestScale = baseImage.coarsestScale === targetScale
+  const isCoarsestScale = baseImage.coarsestScale === baseImageClampedScale
   const boundsToLoad = isCoarsestScale
     ? undefined
     : computeRenderedBounds(context)
 
-  const voxelCount = await getVoxelCount(baseImage, boundsToLoad, targetScale)
+  const voxelCount = await getVoxelCount(
+    baseImage,
+    boundsToLoad,
+    baseImageClampedScale
+  )
   if (voxelCount > RENDERED_VOXEL_MAX)
     throw new Error(
-      `Voxel count over max at scale ${targetScale}. Requested: ${voxelCount} Max: ${RENDERED_VOXEL_MAX}`
+      `Voxel count over max at scale ${baseImageClampedScale}. Requested: ${voxelCount} Max: ${RENDERED_VOXEL_MAX}`
     )
 
   const imageByteSize = await computeBytes(baseImage, voxelCount)
@@ -108,7 +115,8 @@ async function updateRenderedImage(context) {
   const imageOrLabelAtScale = imageAtScale ?? labelAtScale
 
   const preComputedRanges =
-    baseImage?.scaleInfo[targetScale].ranges ?? imageOrLabelAtScale?.ranges
+    baseImage?.scaleInfo[baseImageClampedScale].ranges ??
+    imageOrLabelAtScale?.ranges
 
   const isFuseNeeded =
     (labelAtScale && imageAtScale) || // fuse with label image

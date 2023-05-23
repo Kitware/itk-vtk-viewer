@@ -56,6 +56,10 @@ const fallback = {
 const moduleConfigRules = [
   { test: /\.js$/, loader: 'babel-loader', dependency: { not: ['url'] } },
   {
+    test: /\.worker.js$/,
+    use: [{ loader: 'worker-loader', options: { inline: 'no-fallback' } }],
+  },
+  {
     test: /\.(png|jpg)$/,
     type: 'asset',
     parser: { dataUrlCondition: { maxSize: 128 * 1024 } },

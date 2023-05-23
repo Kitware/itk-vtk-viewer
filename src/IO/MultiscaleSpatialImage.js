@@ -9,12 +9,9 @@ import { getDtype } from './dtypeUtils'
 import { transformBounds } from '../transformBounds'
 import { makeIndexToWorld } from '../internalUtils'
 
-const imageDataFromChunksWorker = new Worker(
-  new URL('./ImageDataFromChunks.worker.js', import.meta.url),
-  { type: 'module' }
-)
+import ImageDataFromChunksWorker from './ImageDataFromChunks.worker'
 const imageDataFromChunksWorkerPromise = new WebworkerPromise(
-  imageDataFromChunksWorker
+  ImageDataFromChunksWorker
 )
 
 /* Every element corresponds to a pyramid scale

@@ -53,6 +53,7 @@ const fallback = {
   crypto: false,
 }
 
+// Should be same in karma.conf.js
 const moduleConfigRules = [
   { test: /\.js$/, loader: 'babel-loader', dependency: { not: ['url'] } },
   {

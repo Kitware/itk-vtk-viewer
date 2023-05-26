@@ -1,6 +1,8 @@
 import WebworkerPromise from 'webworker-promise'
 import ComposeImageWorker from './ComposeImage.worker.js'
 
+import itkWasmConfig from '../itkConfig.js'
+
 export const fuseImages = async ({
   imageAtScale, //could be array if Conglomerate
   labelAtScale,
@@ -15,6 +17,7 @@ export const fuseImages = async ({
     visualizedComponents,
     fixedImage: fixedImageAtScale,
     compare,
+    itkWasmConfig,
   })
   worker.terminate()
 

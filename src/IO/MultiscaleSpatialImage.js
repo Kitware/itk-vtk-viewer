@@ -11,7 +11,7 @@ import { makeIndexToWorld } from '../internalUtils'
 
 import ImageDataFromChunksWorker from './ImageDataFromChunks.worker'
 const imageDataFromChunksWorkerPromise = new WebworkerPromise(
-  ImageDataFromChunksWorker
+  new ImageDataFromChunksWorker()
 )
 
 /* Every element corresponds to a pyramid scale

@@ -1,5 +1,6 @@
 import createImageRenderer from './createImageRenderer'
 import toggleLayerVisibility from './toggleLayerVisibility'
+import toggleLabelBBox from './toggleLabelBBox'
 import applyComponentVisibility from './applyComponentVisibility'
 import updateRenderedImage from './updateRenderedImage'
 import updateHistogram from './updateHistogram'
@@ -98,6 +99,8 @@ const imagesRenderingMachineOptions = {
       applyLabelImageWeights,
       applySelectedLabel,
       applyCinematicChanged,
+
+      toggleLabelBBox,
     },
 
     guards: {

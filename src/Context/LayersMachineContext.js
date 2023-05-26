@@ -7,6 +7,9 @@ class LayersMachineContext {
 
   // A { name, data } object, queued for creation of the data's actor
   lastAddedData = null
+
+  // Draw bounding boxes around image and label (if loaded)
+  labelBBoxEnabled = false
 }
 
 export default LayersMachineContext

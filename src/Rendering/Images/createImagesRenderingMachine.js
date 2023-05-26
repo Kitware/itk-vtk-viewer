@@ -148,6 +148,11 @@ function createImagesRenderingMachine(options, context) {
                 to: (c, e) => `imageRenderingActor-${e.data}`,
               }),
             },
+            TOGGLE_LABEL_BBOX: {
+              actions: send((_, e) => e, {
+                to: c => `imageRenderingActor-${c.images.selectedName}`,
+              }),
+            },
             ...makeTransitions(
               [
                 'IMAGE_GRADIENT_OPACITY_CHANGED',

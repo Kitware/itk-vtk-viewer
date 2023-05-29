@@ -203,17 +203,12 @@ const updateCompare = (
       const startPoints = actorContext.piecewiseFunctionPoints.get(component)
       const firstX = (startPoints && startPoints[0][0]) ?? 0
       const lastX = (startPoints && startPoints[startPoints.length - 1][0]) ?? 1
+      const onePoint = startPoints && startPoints.length === 1
 
       const mix = component ? mix1 : mix0
       const points = use2D
-        ? [
-            [firstX, mix],
-            [lastX, mix],
-          ]
-        : [
-            [firstX, 0],
-            [lastX, mix],
-          ]
+        ? [...(onePoint ? [] : [[firstX, mix]]), [lastX, mix]]
+        : [...(onePoint ? [] : [[firstX, 0]]), [lastX, mix]]
       service.send({
         type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED',
         data: { name, component, points },

@@ -1,7 +1,7 @@
 export const defaultCompare = {
-  method: 'disabled', // 'checkerboard', 'cyan-magenta' | 'blend' | 'disabled'
+  method: 'cyan-magenta', // 'checkerboard', 'cyan-magenta' | 'blend' | 'disabled'
   imageMix: 0.5, // changes opaqueness of moving vs fixed image. Value of 1 means max opacity for moving image, 0 for fixed image.
-  checkerboard: false, // mixes the 2 images in a alternating pattern.
+  checkerboard: false, // mixes the 2 images with an alternating pattern.
   pattern: [4, 4, 4], // when checkerboard, number of "squares" across each dimension
   swapImageOrder: false, // when checkerboard, switches moving/fixed image in each square
 }
@@ -130,7 +130,7 @@ class ImageActorContext {
   histograms = new Map()
 
   // Option config object for fusing 2 images, i.e. 'checkerboard'. See defaultCompare for object shape.
-  compare = { method: 'disabled' } // mostly object allows initial update "diff" to detect changes and apply parameters
+  compare = {} // mostly object allows initial update "diff" to detect changes and apply parameters
 
   // Override default left button mouse interactor to use window width/level interactor
   windowLevelEnabled = false

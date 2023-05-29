@@ -7,7 +7,7 @@ export const getOutputIntensityComponentCount = actorContext => {
     image,
     compare: { method },
   } = actorContext
-  if (method !== 'disabled') return 2
+  if (method && method !== 'disabled') return 2
   return image.imageType.components
 }
 

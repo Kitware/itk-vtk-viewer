@@ -263,7 +263,7 @@ const createRenderingMachine = (options, context) => {
             IMAGE_COLOR_RANGE_RESET: {
               actions: forwardTo('images'),
             },
-            TOGGLE_LABEL_BBOX: {
+            TOGGLE_LAYER_BBOX: {
               actions: forwardTo('images'),
             },
           },

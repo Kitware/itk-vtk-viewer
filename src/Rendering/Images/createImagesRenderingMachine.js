@@ -148,11 +148,6 @@ function createImagesRenderingMachine(options, context) {
                 to: (c, e) => `imageRenderingActor-${e.data}`,
               }),
             },
-            TOGGLE_LABEL_BBOX: {
-              actions: send((_, e) => e, {
-                to: c => `imageRenderingActor-${c.images.selectedName}`,
-              }),
-            },
             ...makeTransitions(
               [
                 'IMAGE_GRADIENT_OPACITY_CHANGED',
@@ -169,6 +164,7 @@ function createImagesRenderingMachine(options, context) {
                 'WINDOW_LEVEL_TOGGLED',
                 'IMAGE_COLOR_RANGE_RESET',
                 'ANIMATE_IMAGE_MIX',
+                'TOGGLE_LAYER_BBOX',
               ],
               { actions: forwardToNamedActor }
             ),

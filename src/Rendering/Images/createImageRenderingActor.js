@@ -532,8 +532,8 @@ const eventResponses = {
   ANIMATE_IMAGE_MIX: {
     actions: applyAnimateImageMix,
   },
-  TOGGLE_LABEL_BBOX: {
-    actions: 'toggleLabelBBox',
+  TOGGLE_LAYER_BBOX: {
+    actions: 'toggleLayerBBox',
   },
 }
 

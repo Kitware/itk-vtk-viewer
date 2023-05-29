@@ -73,28 +73,30 @@ function createLayerEntry(context, name, layer) {
 
   layer.spinner = spinner
 
-  if (layer.type === 'labelImage') {
-    const labelBBoxButton = document.createElement('div')
-    labelBBoxButton.innerHTML = `<input id="${context.id}-labelBBoxButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-left itk-vtk-tooltip-content="Label BBox" class="${style.toggleButton}" for="${context.id}-labelBBoxButton"><img src="${boundingBoxIconDataUri}" alt="bbox"/></label>`
-    const labelBBoxButtonInput = labelBBoxButton.children[0]
-    const labelBBoxLabel = labelBBoxButton.children[1]
-    labelBBoxButton.style.height = '23px'
-    applyContrastSensitiveStyleToElement(
-      context,
-      'invertibleButton',
-      labelBBoxLabel
-    )
-    imageIcons.appendChild(labelBBoxButton)
-    labelBBoxButton.addEventListener('click', event => {
-      event.preventDefault()
-      event.stopPropagation()
-      context.service.send({
-        type: 'TOGGLE_LABEL_BBOX',
-        data: layer.imageActorContext.labelImageName,
-      })
-      labelBBoxButtonInput.checked = context.layers.labelBBoxEnabled
+  const layerBBoxButton = document.createElement('div')
+  layerBBoxButton.innerHTML = `<input id="${context.id}-layerBBoxButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-left itk-vtk-tooltip-content="Label BBox" class="${style.toggleButton}" for="${context.id}-layerBBoxButton"><img src="${boundingBoxIconDataUri}" alt="bbox"/></label>`
+  const layerBBoxButtonInput = layerBBoxButton.children[0]
+  const layerBBoxLabel = layerBBoxButton.children[1]
+  layerBBoxButton.style.height = '23px'
+  applyContrastSensitiveStyleToElement(
+    context,
+    'invertibleButton',
+    layerBBoxLabel
+  )
+  imageIcons.appendChild(layerBBoxButton)
+  layerBBoxButton.addEventListener('click', event => {
+    event.preventDefault()
+    event.stopPropagation()
+    context.service.send({
+      type: 'TOGGLE_LAYER_BBOX',
+      data: {
+        name: context.images.selectedName,
+        layerName: name,
+      },
     })
-  }
+    const actorContext = context.layers.actorContext.get(name)
+    layerBBoxButtonInput.checked = actorContext.bbox
+  })
 
   const icon = makeHtml(`<layer-icon class="${style.layerIcon}"></layer-icon>`)
   icon.layer = layer

@@ -1,6 +1,6 @@
 import createImageRenderer from './createImageRenderer'
 import toggleLayerVisibility from './toggleLayerVisibility'
-import toggleLabelBBox from './toggleLabelBBox'
+import toggleLayerBBox from './toggleLayerBBox'
 import applyComponentVisibility from './applyComponentVisibility'
 import updateRenderedImage from './updateRenderedImage'
 import updateHistogram from './updateHistogram'
@@ -100,7 +100,7 @@ const imagesRenderingMachineOptions = {
       applySelectedLabel,
       applyCinematicChanged,
 
-      toggleLabelBBox,
+      toggleLayerBBox,
     },
 
     guards: {

@@ -30,6 +30,7 @@ function spawnLayerRenderingActor(options) {
           const actorContext =
             layers.actorContext.get(name) ?? new LayerActorContext()
           actorContext.type = 'image'
+          actorContext.bbox = false
           layers.actorContext.set(name, actorContext)
           layers.lastAddedData = { name, data: event.data }
           layers.layerUIActors.set(
@@ -53,6 +54,7 @@ function spawnLayerRenderingActor(options) {
           const actorContext =
             layers.actorContext.get(name) ?? new LayerActorContext()
           actorContext.type = 'labelImage'
+          actorContext.bbox = false
           layers.actorContext.set(name, actorContext)
           layers.lastAddedData = { name, data: event.data }
           layers.layerUIActors.set(

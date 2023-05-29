@@ -7,6 +7,9 @@ class LayerActorContext {
 
   // img element icon for the layer or null
   icon = null
+
+  // Boolean indicating whether the dataset bounding box is visible
+  bbox = false
 }
 
 export default LayerActorContext

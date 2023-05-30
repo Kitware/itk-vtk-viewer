@@ -1,5 +1,6 @@
 import webWorkerPromiseWorkerPool from './webWorkerPromiseWorkerPool'
 import { createRangeHelper } from './createRangeHelper'
+import ComputeRangesWorker from './ComputeRanges.worker'
 
 const haveSharedArrayBuffer = typeof globalThis.SharedArrayBuffer === 'function'
 
@@ -9,10 +10,7 @@ const numberOfWorkers = navigator.hardwareConcurrency
 
 const computeRangeWorkerPool = webWorkerPromiseWorkerPool(
   numberOfWorkers,
-  () =>
-    new Worker(new URL('./ComputeRanges.worker.js', import.meta.url), {
-      type: 'module',
-    }),
+  () => new ComputeRangesWorker(),
   'computeRanges'
 )
 

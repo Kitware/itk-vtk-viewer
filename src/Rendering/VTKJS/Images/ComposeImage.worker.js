@@ -14,6 +14,8 @@ import {
   pickAndFuseComponents,
 } from '../../../IO/composeComponents'
 
+import itkConfig from '../itkConfig.js'
+
 const checkOverlap = (imageA, imageB) => {
   const [vtkA, vtkB] = [imageA, imageB].map(vtkITKHelper.convertItkToVtkImage)
   if (!vtkBoundingBox.intersects(vtkA.getBounds(), vtkB.getBounds())) {
@@ -99,6 +101,11 @@ const fuseLabelImage = async (image, labelImage) => {
   return imageWithLabel
 }
 
+const configureItkWasm = ({ pipelinesUrl, pipelineWorkerUrl }) => {
+  itkConfig.pipelinesUrl = pipelinesUrl
+  itkConfig.pipelineWorkerUrl = pipelineWorkerUrl
+}
+
 registerWebworker(
   async ({
     image: inImage,
@@ -106,7 +113,9 @@ registerWebworker(
     visualizedComponents,
     fixedImage,
     compare,
+    itkWasmConfig,
   }) => {
+    configureItkWasm(itkWasmConfig)
     let image = await makeCompareImage({
       image: inImage,
       fixedImage,

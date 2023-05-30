@@ -1,5 +1,6 @@
 const haveSharedArrayBuffer = typeof window.SharedArrayBuffer === 'function'
 import webWorkerPromiseWorkerPool from './webWorkerPromiseWorkerPool'
+import UpdateHistogramWorker from './UpdateHistogram.worker'
 
 const numberOfWorkers = navigator.hardwareConcurrency
   ? Math.min(navigator.hardwareConcurrency, 6)
@@ -7,10 +8,7 @@ const numberOfWorkers = navigator.hardwareConcurrency
 
 const updateHistogramWorkerPool = webWorkerPromiseWorkerPool(
   numberOfWorkers,
-  () =>
-    new Worker(new URL('./UpdateHistogram.worker.js', import.meta.url), {
-      type: 'module',
-    }),
+  () => new UpdateHistogramWorker(),
   'updateHistogram'
 )
 

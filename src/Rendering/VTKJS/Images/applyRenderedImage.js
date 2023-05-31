@@ -393,6 +393,18 @@ function applyRenderedImage(context, { data: { name } }) {
 
   // call after representations are created
   updateCroppingParametersFromImage(context, actorContext.fusedImage)
+  if (actorContext.image) {
+    context.itkVtkView.updateLabelBoundingBox(
+      name,
+      actorContext.image.getWorldBounds(actorContext.loadedScale)
+    )
+  }
+  if (actorContext.labelImage) {
+    context.itkVtkView.updateLabelBoundingBox(
+      actorContext.labelImageName,
+      actorContext.labelImage.getWorldBounds(actorContext.loadedScale)
+    )
+  }
 
   const loadedImage = actorContext.image ?? actorContext.labelImage
   const hasOneScale = loadedImage.scaleInfo.length === 1

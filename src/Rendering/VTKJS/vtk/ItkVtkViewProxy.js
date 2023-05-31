@@ -9,9 +9,11 @@ import vtkCoordinate from 'vtk.js/Sources/Rendering/Core/Coordinate'
 import vtkPolyData from 'vtk.js/Sources/Common/DataModel/PolyData'
 import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox'
 import vtkAxesLabelsWidget from './AxesLabelsWidget'
-import WidgetManagerPickWhileAnimating from './WidgetManagerPickWhileAnimating'
 
+import WidgetManagerPickWhileAnimating from './WidgetManagerPickWhileAnimating'
 import vtkSliceOutlineFilter from './SliceOutlineFilter'
+import vtkPoints from 'vtk.js/Sources/Common/Core/Points'
+import vtkCellArray from 'vtk.js/Sources/Common/Core/CellArray'
 
 export const VOLUME_DIFFUSE_DEFAULT = 1.0
 export const VOLUME_AMBIENT_DEFAULT = 0.4
@@ -702,6 +704,8 @@ function ItkVtkViewProxy(publicAPI, model) {
   model.axesCircleRadius = 4
   model.axesTextOffset = 14
 
+  model.layerBBoxes = new Map()
+
   // API ----------------------------------------------------------------------
   publicAPI.updateDataProbeSize = updateDataProbeSize
   publicAPI.updateScaleBar = updateScaleBar
@@ -946,6 +950,13 @@ function ItkVtkViewProxy(publicAPI, model) {
     }
   }
 
+  publicAPI.setEnableBBox = (name, enable) => {
+    const data = model.layerBBoxes.get(name)
+    if (data.actor.getVisibility() !== enable) {
+      data.actor.setVisibility(enable)
+    }
+  }
+
   const superAddRepresentation = publicAPI.addRepresentation
   publicAPI.addRepresentation = representation => {
     superAddRepresentation(representation)
@@ -1057,6 +1068,46 @@ function ItkVtkViewProxy(publicAPI, model) {
     model.interactorStyle2D.setCenterOfRotation(model.camera.getFocalPoint())
     model.interactorStyle3D.setCenterOfRotation(model.camera.getFocalPoint())
     publicAPI.renderLater()
+  }
+
+  publicAPI.createLayerBoundingBox = name => {
+    const labelBBoxPolyData = vtkPolyData.newInstance()
+    const labelBBoxMapper = vtkMapper.newInstance()
+    labelBBoxMapper.setInputData(labelBBoxPolyData)
+    const labelBBoxGridActor = vtkActor.newInstance()
+    labelBBoxGridActor.setMapper(labelBBoxMapper)
+    labelBBoxGridActor.getProperty().setColor([1.0, 0.0, 0.0])
+    labelBBoxGridActor.setVisibility(false)
+    const data = {
+      polyData: labelBBoxPolyData,
+      actor: labelBBoxGridActor,
+    }
+    model.layerBBoxes.set(name, data)
+    model.renderer.addActor(data.actor)
+  }
+
+  publicAPI.updateLabelBoundingBox = (name, bounds) => {
+    if (!model.layerBBoxes.has(name)) {
+      publicAPI.createLayerBoundingBox(name)
+    }
+
+    const data = model.layerBBoxes.get(name)
+    let points = vtkPoints.newInstance()
+    for (let i = 0; i < 2; i++) {
+      for (let j = 2; j < 4; j++) {
+        for (let k = 4; k < 6; k++) {
+          points.insertNextPoint(bounds[i], bounds[j], bounds[k])
+        }
+      }
+    }
+    data.polyData.setPoints(points)
+
+    let lines = vtkCellArray.newInstance()
+    lines.insertNextCell([0, 1, 3, 2, 0])
+    lines.insertNextCell([4, 5, 7, 6, 4])
+    lines.insertNextCell([0, 4, 6, 2])
+    lines.insertNextCell([1, 5, 7, 3])
+    data.polyData.setLines(lines)
   }
 }
 

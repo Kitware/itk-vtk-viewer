@@ -532,6 +532,9 @@ const eventResponses = {
   ANIMATE_IMAGE_MIX: {
     actions: applyAnimateImageMix,
   },
+  TOGGLE_LAYER_BBOX: {
+    actions: 'toggleLayerBBox',
+  },
 }
 
 const CHANGE_BOUNDS_EVENTS = [

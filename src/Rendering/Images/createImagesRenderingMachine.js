@@ -164,6 +164,7 @@ function createImagesRenderingMachine(options, context) {
                 'WINDOW_LEVEL_TOGGLED',
                 'IMAGE_COLOR_RANGE_RESET',
                 'ANIMATE_IMAGE_MIX',
+                'TOGGLE_LAYER_BBOX',
               ],
               { actions: forwardToNamedActor }
             ),

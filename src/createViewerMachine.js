@@ -359,6 +359,9 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             IMAGE_COLOR_RANGE_RESET: {
               actions: [forwardTo('ui'), forwardTo('rendering')],
             },
+            TOGGLE_LAYER_BBOX: {
+              actions: [forwardTo('ui'), forwardTo('rendering')],
+            },
           },
         },
       },

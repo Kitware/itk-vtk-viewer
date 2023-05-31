@@ -883,10 +883,16 @@ const createViewer = async (
 
     const imageName =
       layerImageName ?? context.images.selectedName ?? multiscaleLabelImage.name
-    service.send({
-      type: 'ADD_LABEL_IMAGE',
-      data: { imageName, labelImage: multiscaleLabelImage },
-    })
+    const actorContext = context.images.actorContext.get(imageName)
+    if (actorContext?.labelImageName === multiscaleLabelImage.name) {
+      actorContext.labelImage = multiscaleLabelImage
+      service.send({ type: 'LABEL_IMAGE_ASSIGNED', data: imageName })
+    } else {
+      service.send({
+        type: 'ADD_LABEL_IMAGE',
+        data: { imageName, labelImage: multiscaleLabelImage },
+      })
+    }
     publicAPI.setImageInterpolationEnabled(false, imageName)
   })
 

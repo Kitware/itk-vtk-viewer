@@ -1,7 +1,11 @@
 import style from '../ItkVtkViewer.module.css'
 
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
-import { visibleIconDataUri, invisibleIconDataUri } from 'itk-viewer-icons'
+import {
+  visibleIconDataUri,
+  invisibleIconDataUri,
+  boundingBoxIconDataUri,
+} from 'itk-viewer-icons'
 import { makeHtml } from '../utils'
 import './layerIcon.js'
 
@@ -58,6 +62,7 @@ function createLayerEntry(context, name, layer) {
   layerEntry.appendChild(layerLabel)
 
   const imageIcons = document.createElement('div')
+  imageIcons.style.display = 'flex'
   imageIcons.setAttribute('class', `${style.iconGroup}`)
   layerEntry.appendChild(imageIcons)
 
@@ -67,6 +72,31 @@ function createLayerEntry(context, name, layer) {
   imageIcons.appendChild(spinner)
 
   layer.spinner = spinner
+
+  const layerBBoxButton = document.createElement('div')
+  layerBBoxButton.innerHTML = `<input id="${context.id}-layerBBoxButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-left itk-vtk-tooltip-content="Label BBox" class="${style.toggleButton}" for="${context.id}-layerBBoxButton"><img src="${boundingBoxIconDataUri}" alt="bbox"/></label>`
+  const layerBBoxButtonInput = layerBBoxButton.children[0]
+  const layerBBoxLabel = layerBBoxButton.children[1]
+  layerBBoxButton.style.height = '23px'
+  applyContrastSensitiveStyleToElement(
+    context,
+    'invertibleButton',
+    layerBBoxLabel
+  )
+  imageIcons.appendChild(layerBBoxButton)
+  layerBBoxButton.addEventListener('click', event => {
+    event.preventDefault()
+    event.stopPropagation()
+    context.service.send({
+      type: 'TOGGLE_LAYER_BBOX',
+      data: {
+        name: context.images.selectedName,
+        layerName: name,
+      },
+    })
+    const actorContext = context.layers.actorContext.get(name)
+    layerBBoxButtonInput.checked = actorContext.bbox
+  })
 
   const icon = makeHtml(`<layer-icon class="${style.layerIcon}"></layer-icon>`)
   icon.layer = layer

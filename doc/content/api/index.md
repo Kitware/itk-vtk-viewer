@@ -1,4 +1,4 @@
-## title: API
+# API
 
 This documentation provides more detailed information about the viewer application programming interface (API).
 
@@ -268,9 +268,10 @@ The moving image must have been added last.
 }
 ```
 
-`method` can be `blend`, `cyan-magenta`, `checkerboard`, or `disabled`.
+`method` can be `blend`, `green-magenta`, `cyan-red`, `cyan-magenta`, `checkerboard`, or `disabled`.
 `blend` simply initiates the comparison composition of images.
-`cyan-magenta` changes the color map for fixed image to cyan, moving image to magenta.
+`cyan-magenta` changes the color map for fixed image to cyan, moving image to magenta. If images match perfectly, the color will be purple.
+`green-magenta` and `cyan-red` changes the color map for the fixed and moving image. If images match, the color will be gray/white.
 `checkerboard` is equivalent to `blend` with `imageMix` set to `0`.
 
 `imageMix` changes the percent contribution the fixed vs moving image makes to the

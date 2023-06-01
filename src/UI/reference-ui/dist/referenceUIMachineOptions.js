@@ -113,14 +113,17 @@ var style = {
 }
 styleInject(css_248z$1)
 
-const optimizedSVGDataUri$v =
+const optimizedSVGDataUri$w =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1664 1536'%3e%3cpath d='M725 431L555 881q33 0 136.5 2t160.5 2q19 0 57-2-87-253-184-452zM0 1536l2-79q23-7 56-12.5t57-10.5 49.5-14.5 44.5-29 31-50.5l237-616L757 0h128q8 14 11 21l205 480q33 78 106 257.5t114 274.5q15 34 58 144.5t72 168.5q20 45 35 57 19 15 88 29.5t84 20.5q6 38 6 57 0 4-.5 13t-.5 13q-63 0-190-8t-191-8q-76 0-215 7t-178 8q0-43 4-78l131-28q1 0 12.5-2.5t15.5-3.5 14.5-4.5 15-6.5 11-8 9-11 2.5-14q0-16-31-96.5t-72-177.5-42-100l-450-2q-26 58-76.5 195.5T382 1361q0 22 14 37.5t43.5 24.5 48.5 13.5 57 8.5 41 4q1 19 1 58 0 9-2 27-58 0-174.5-10T236 1514q-8 0-26.5 4t-21.5 4q-80 14-188 14z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$u =
+const optimizedSVGDataUri$v =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 43 41.91699981689453'%3e%3cpath d='M15 24.089V7.375L9 13V7.5L17 0l8 7.5V13l-6-5.625v15.542h16.625l-5.625-6h5.5l7.5 8-7.5 8H30l5.625-6H17.828l-11 11H15l-4 4H0v-11l4-4v8.172l11-11zm6.253 8.361L18.8 37.262v2.655h-1.707v-2.625l-2.346-4.842h1.921l1.195 2.785.17.61h.022l.165-.588 1.252-2.807h1.781zm8.267-10.533h-2.03l-1.308-2.432-.154-.5h-.021l-.175.522-1.314 2.41H22.48l2.42-3.733-2.207-3.734h2.079l1.083 2.239.227.63h.021l.235-.65 1.194-2.219h1.881l-2.235 3.702 2.342 3.765zm-16.48 1H6.96v-.985l3.875-5.095H7.28V15.45h5.76v.955L9.248 21.53h3.792v1.387z'/%3e%3c/svg%3e"
 
-const optimizedSVGDataUri$t =
+const optimizedSVGDataUri$u =
   "data:image/svg+xml,%3c%3fxml version='1.0' encoding='UTF-8' standalone='no'%3f%3e %3csvg viewBox='0 0 1763.3333740234375 1792' version='1.1' id='svg113' sodipodi:docname='blendMode.svg' inkscape:version='1.2 (1:1.2%2b202206011326%2bfc4e4096c5)' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg'%3e %3cdefs id='defs117' /%3e %3csodipodi:namedview id='namedview115' pagecolor='white' bordercolor='black' borderopacity='0.25' inkscape:showpageshadow='2' inkscape:pageopacity='0.0' inkscape:pagecheckerboard='0' inkscape:deskcolor='%23d1d1d1' showgrid='false' inkscape:zoom='0.27047836' inkscape:cx='763.46218' inkscape:cy='1454.8299' inkscape:window-width='1846' inkscape:window-height='1136' inkscape:window-x='74' inkscape:window-y='27' inkscape:window-maximized='1' inkscape:current-layer='svg113' /%3e %3cellipse style='fill:none%3bfill-opacity:1%3bstroke:black%3bstroke-width:149.145%3bstroke-dasharray:none%3bstroke-opacity:1' id='path223' cx='601' cy='899.99982' rx='525.42761' ry='525.42743' /%3e %3ccircle style='fill:black%3bfill-opacity:1%3bstroke:none%3bstroke-width:100%3bstroke-dasharray:none%3bstroke-opacity:1' id='path223-3' cx='1163' cy='900' r='600' /%3e %3c/svg%3e"
+
+const optimizedSVGDataUri$t =
+  "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3e%3cpath fill='currentColor' d='M17 22v-2h3v-3h2v3.5c0 .39-.16.74-.46 1.04c-.3.3-.65.46-1.04.46H17M7 22H3.5c-.39 0-.74-.16-1.04-.46c-.3-.3-.46-.65-.46-1.04V17h2v3h3v2M17 2h3.5c.39 0 .74.16 1.04.46c.3.3.46.65.46 1.04V7h-2V4h-3V2M7 2v2H4v3H2V3.5c0-.39.16-.74.46-1.04c.3-.3.65-.46 1.04-.46H7m6 15.25l4-2.3v-4.59l-4 2.3v4.59m-1-6.33l4-2.29l-4-2.35l-4 2.35l4 2.29m-5 4.03l4 2.3v-4.59l-4-2.3v4.59m11.23-7.36c.5.32.77.75.77 1.32v6.32c0 .57-.27 1-.77 1.32l-5.48 3.18c-.5.32-1 .32-1.5 0l-5.48-3.18c-.5-.32-.77-.75-.77-1.32V8.91c0-.57.27-1 .77-1.32l5.48-3.18c.25-.13.5-.19.75-.19s.5.06.75.19l5.48 3.18Z'/%3e%3c/svg%3e"
 
 const optimizedSVGDataUri$s =
   "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 384'%3e%3cpath d='M64 0h32v48H64zm32 288V112H64v208h208v-32zm240 0h48v32h-48z'/%3e%3cpath d='M0 64v32h288v288h32V64z'/%3e%3c/svg%3e"
@@ -528,7 +531,7 @@ function createAnnotationsButton(context, mainUIRow) {
     .concat(style.annotationsButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-toggleAnnotationsButton"><img src="')
-    .concat(optimizedSVGDataUri$v, '" alt="annotations"/></label>')
+    .concat(optimizedSVGDataUri$w, '" alt="annotations"/></label>')
   var annotationsButtonInput = annotationsButton.children[0]
   var annotationsButtonLabel = annotationsButton.children[1]
   context.main.annotationsButtonLabel = annotationsButtonLabel
@@ -564,7 +567,7 @@ function createAxesButton(context, mainUIRow) {
     .concat(style.axesButton, ' ')
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-toggleAxesButton"><img src="')
-    .concat(optimizedSVGDataUri$u, '" alt="axes"/></label>')
+    .concat(optimizedSVGDataUri$v, '" alt="axes"/></label>')
   var axesButtonInput = axesButton.children[0]
   var axesButtonLabel = axesButton.children[1]
   context.main.axesButtonLabel = axesButtonLabel
@@ -7813,6 +7816,14 @@ let LayerSettings = class LayerSettings extends s$4 {
                     @click=${() => this.compareWith(name, 'checkerboard')}
                   ></md-menu-item>
                   <md-menu-item
+                    headline="Green-Magenta compare with ${name}"
+                    @click=${() => this.compareWith(name, 'green-magenta')}
+                  ></md-menu-item>
+                  <md-menu-item
+                    headline="Cyan-Red compare with ${name}"
+                    @click=${() => this.compareWith(name, 'cyan-red')}
+                  ></md-menu-item>
+                  <md-menu-item
                     headline="Cyan-Magenta compare with ${name}"
                     @click=${() => this.compareWith(name, 'cyan-magenta')}
                   ></md-menu-item>
@@ -7990,6 +8001,7 @@ function createLayerEntry(context, name, layer) {
   layerLabel.innerText = name
   layerEntry.appendChild(layerLabel)
   var imageIcons = document.createElement('div')
+  imageIcons.style.display = 'flex'
   imageIcons.setAttribute('class', ''.concat(style.iconGroup))
   layerEntry.appendChild(imageIcons)
   var spinner = document.createElement('div')
@@ -7997,6 +8009,38 @@ function createLayerEntry(context, name, layer) {
   spinner.innerHTML = '<div></div><div></div><div></div><div></div>'
   imageIcons.appendChild(spinner)
   layer.spinner = spinner
+  var layerBBoxButton = document.createElement('div')
+  layerBBoxButton.innerHTML = '<input id="'
+    .concat(context.id, '-layerBBoxButton" type="checkbox" class="')
+    .concat(
+      style.toggleInput,
+      '"><label itk-vtk-tooltip itk-vtk-tooltip-left itk-vtk-tooltip-content="Label BBox" class="'
+    )
+    .concat(style.toggleButton, '" for="')
+    .concat(context.id, '-layerBBoxButton"><img src="')
+    .concat(optimizedSVGDataUri$t, '" alt="bbox"/></label>')
+  var layerBBoxButtonInput = layerBBoxButton.children[0]
+  var layerBBoxLabel = layerBBoxButton.children[1]
+  layerBBoxButton.style.height = '23px'
+  applyContrastSensitiveStyleToElement(
+    context,
+    'invertibleButton',
+    layerBBoxLabel
+  )
+  imageIcons.appendChild(layerBBoxButton)
+  layerBBoxButton.addEventListener('click', function(event) {
+    event.preventDefault()
+    event.stopPropagation()
+    context.service.send({
+      type: 'TOGGLE_LAYER_BBOX',
+      data: {
+        name: context.images.selectedName,
+        layerName: name,
+      },
+    })
+    var actorContext = context.layers.actorContext.get(name)
+    layerBBoxButtonInput.checked = actorContext.bbox
+  })
   var icon = makeHtml(
     '<layer-icon class="'.concat(style.layerIcon, '"></layer-icon>')
   )
@@ -22727,7 +22771,7 @@ function createBlendModeSelector(context, uiContainer) {
   var blendModeEntry = document.createElement('div')
   blendModeEntry.innerHTML = '\n    <div itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Blend mode"\n      class="'
     .concat(style.blendModeButton, '">\n      <img src="')
-    .concat(optimizedSVGDataUri$t, '" alt="blend mode" />\n    </div>\n    ')
+    .concat(optimizedSVGDataUri$u, '" alt="blend mode" />\n    </div>\n    ')
   var blendModeDiv = blendModeEntry.children[0]
   context.images.blendModeDiv = blendModeDiv
   applyContrastSensitiveStyleToElement(

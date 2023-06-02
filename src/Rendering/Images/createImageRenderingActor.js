@@ -175,15 +175,26 @@ const updateCompare = (
     actorContext.lastCompare ?? {}
 
   if (lastMethod !== method) {
-    // besides setting the color maps, this adds another entry for the possibly new second component
+    let colorMaps
+    if (method === 'green-magenta') {
+      colorMaps = ['BkGn', 'BkMa']
+    }
     if (method === 'cyan-magenta') {
+      colorMaps = ['BkCy', 'BkMa']
+    }
+    if (method === 'cyan-red') {
+      colorMaps = ['BkCy', 'BkRd']
+    }
+    if (colorMaps) {
+      // besides setting the color maps, event adds another entry in colormap Map for the possibly new second component
+      const [firstColorMap, secondColorMap] = colorMaps
       service.send({
         type: 'IMAGE_COLOR_MAP_CHANGED',
-        data: { name, component: 0, colorMap: 'BkCy' },
+        data: { name, component: 0, colorMap: firstColorMap },
       })
       service.send({
         type: 'IMAGE_COLOR_MAP_CHANGED',
-        data: { name, component: 1, colorMap: 'BkMa' },
+        data: { name, component: 1, colorMap: secondColorMap },
       })
     }
 

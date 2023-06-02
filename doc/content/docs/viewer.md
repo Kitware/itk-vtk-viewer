@@ -56,11 +56,11 @@ To compare 2 images use these parameters:
 
 `fixedImage`: full `http://` url to a data file
 
-`compare`: sets the compare "method". Could be `blend`, `cyan-magenta` or `checkerboard`
+`compare`: sets the compare "method". Could be `blend`, `green-magenta`, `cyan-red`, `cyan-magenta` or `checkerboard`
 
 `imageMix`: 0 to 1 percent contribution the fixed vs moving image
 
-`checkerboard`: `true` or `false` to force checkerboard for `blend` or `cyan-magenta`
+`checkerboard`: `true` or `false` to force checkerboard for other methods like `blend` or `cyan-magenta`
 
 `pattern`: Checkerboard pattern as array with length matching the number of dimension in the images. Example: `pattern=[1,3,4]`
 

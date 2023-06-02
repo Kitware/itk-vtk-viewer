@@ -141,7 +141,7 @@ int Compare(itk::wasm::Pipeline &pipeline, const TMovingImage *movingImage, cons
   }
   else
   {
-    // blend or cyan-magenta method
+    // blend green-magenta, cyan-red, or cyan-magenta method
     compose->SetInput(0, rescaleFilterFixed->GetOutput());
     compose->SetInput(1, rescaleFilter->GetOutput());
   }

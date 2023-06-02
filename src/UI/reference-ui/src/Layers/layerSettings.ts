@@ -94,6 +94,14 @@ class LayerSettings extends LitElement {
                     @click=${() => this.compareWith(name, 'checkerboard')}
                   ></md-menu-item>
                   <md-menu-item
+                    headline="Green-Magenta compare with ${name}"
+                    @click=${() => this.compareWith(name, 'green-magenta')}
+                  ></md-menu-item>
+                  <md-menu-item
+                    headline="Cyan-Red compare with ${name}"
+                    @click=${() => this.compareWith(name, 'cyan-red')}
+                  ></md-menu-item>
+                  <md-menu-item
                     headline="Cyan-Magenta compare with ${name}"
                     @click=${() => this.compareWith(name, 'cyan-magenta')}
                   ></md-menu-item>

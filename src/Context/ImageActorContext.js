@@ -1,5 +1,5 @@
 export const defaultCompare = {
-  method: 'cyan-magenta', // 'checkerboard', 'cyan-magenta' | 'blend' | 'disabled'
+  method: 'green-magenta', // 'checkerboard', 'cyan-magenta' | 'blend' | 'disabled'
   imageMix: 0.5, // changes opaqueness of moving vs fixed image. Value of 1 means max opacity for moving image, 0 for fixed image.
   checkerboard: false, // mixes the 2 images with an alternating pattern.
   pattern: [4, 4, 4], // when checkerboard, number of "squares" across each dimension

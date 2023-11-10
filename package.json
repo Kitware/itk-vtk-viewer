@@ -34,7 +34,7 @@
     "@material/web": "^1.0.0-pre.4",
     "@thewtex/iconselect.js": "^2.1.2",
     "@xstate/inspect": "^0.4.1",
-    "axios": "^0.21.1",
+    "axios": "^1.6.0",
     "commander": "^2.20.3",
     "css-element-queries": "^1.2.3",
     "curry": "^1.2.0",

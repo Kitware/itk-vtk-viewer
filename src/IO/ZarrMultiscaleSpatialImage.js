@@ -10,7 +10,7 @@ import { getComponentType } from './dtypeUtils'
 import { MAX_CONCURRENCY } from '../Context/ViewerMachineContext'
 
 // ends with zarr and optional nested image name like foo.zarr/image1
-export const isZarr = url => /zarr((\/)[\w-]+\/?)?$/.test(url)
+export const isZarr = url => /\w[./]zarr/.test(url)
 
 const TCZYX = Object.freeze(['t', 'c', 'z', 'y', 'x'])
 

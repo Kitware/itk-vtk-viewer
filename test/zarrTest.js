@@ -39,14 +39,22 @@ test('Test isZarr', t => {
     'real url'
   )
 
-  t.false(isZarr('foo.asdf'), 'not when .asdf extension')
-  t.false(
-    isZarr('foo.zarr.asdf/asdf'),
-    'not when .asdf extension and has suffix'
+  t.true(isZarr('https://site.com/zarr/a/b'), 'deep nested image')
+  t.true(
+    isZarr('https://site.com/foo.zarr/a/b'),
+    'deep nested image with zarr as extension'
   )
 
-  t.false(isZarr('foo.zarr.asdf.baz'), '.baz suffix')
-  t.false(isZarr('foo.zarrX.png'), '.zarrX extension, not .zarr')
+  t.false(isZarr('zarr.asdf'), 'not when .asdf extension')
+  t.false(
+    isZarr('barzarr.asdf'),
+    'not when .asdf extension withfilename barzarr'
+  )
+  t.false(
+    isZarr('barzarr.asdf/asdf'),
+    'not when .asdf extension and has suffix'
+  )
+  t.false(isZarr('foo.zarrX'), '.zarrX extension, not .zarr')
 
   t.end()
 })

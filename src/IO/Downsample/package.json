@@ -36,6 +36,6 @@
   "devDependencies": {
     "cypress": "^13.2.0",
     "http-server": "^14.1.0",
-    "start-server-and-test": "^1.14.0"
+    "start-server-and-test": "^2.0.3"
   }
 }

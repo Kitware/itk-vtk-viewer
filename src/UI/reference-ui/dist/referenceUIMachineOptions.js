@@ -8009,12 +8009,41 @@ function createLayerEntry(context, name, layer) {
   spinner.innerHTML = '<div></div><div></div><div></div><div></div>'
   imageIcons.appendChild(spinner)
   layer.spinner = spinner
+  var downloadImage = document.createElement('div')
+  downloadImage.innerHTML = '\n  <input type="checkbox" id='
+    .concat(context.id, '-download-image" class="')
+    .concat(
+      style.toggleInput,
+      '" />\n  <label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Download Image" class="'
+    )
+    .concat(style.toggleButton, '" for="')
+    .concat(context.id, '-download-image">\n    <img src="')
+    .concat(optimizedSVGDataUri$t, '" />\n  </label>\n  ')
+  var downloadImageLabel = downloadImage.children[1]
+  downloadImage.style.height = '23px'
+  applyContrastSensitiveStyleToElement(
+    context,
+    'invertibleButton',
+    downloadImageLabel
+  )
+  imageIcons.appendChild(downloadImage)
+  downloadImage.addEventListener('click', function(event) {
+    event.preventDefault()
+    event.stopPropagation()
+    context.service.send({
+      type: 'DOWNLOAD_IMAGE',
+      data: {
+        name: context.images.selectedName,
+        layerName: name,
+      },
+    })
+  })
   var layerBBoxButton = document.createElement('div')
   layerBBoxButton.innerHTML = '<input id="'
     .concat(context.id, '-layerBBoxButton" type="checkbox" class="')
     .concat(
       style.toggleInput,
-      '"><label itk-vtk-tooltip itk-vtk-tooltip-left itk-vtk-tooltip-content="Label BBox" class="'
+      '"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Label BBox" class="'
     )
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-layerBBoxButton"><img src="')

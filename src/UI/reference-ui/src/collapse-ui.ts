@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit'
 import { customElement } from 'lit/decorators.js'
 import '@material/web/iconbutton/standard-icon-button.js'
-import { toggleIconDataUri } from 'itk-viewer-icons'
+import { toggleIconDataUri } from '@itk-viewer/icons'
 import { connectState } from 'xstate-lit/dist/select-state'
 
 import { viewerContext } from './context'

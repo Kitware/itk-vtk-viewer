@@ -1,6 +1,6 @@
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import style from '../ItkVtkViewer.module.css'
-import { scaleSelectIconDataUri } from 'itk-viewer-icons'
+import { scaleSelectIconDataUri } from '@itk-viewer/icons'
 
 function applyScaleCount(input, scaleCount) {
   input.innerHTML = '' // clear old options

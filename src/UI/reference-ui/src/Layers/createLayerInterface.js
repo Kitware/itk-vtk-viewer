@@ -75,7 +75,7 @@ function createLayerEntry(context, name, layer) {
   layer.spinner = spinner
 
   const layerBBoxButton = document.createElement('div')
-  layerBBoxButton.innerHTML = `<input id="${context.id}-layerBBoxButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Label BBox" class="${style.toggleButton}" for="${context.id}-layerBBoxButton"><img src="${boundingBoxIconDataUri}" alt="bbox"/></label>`
+  layerBBoxButton.innerHTML = `<input id="${context.id}-layerBBoxButton" type="checkbox" class="${style.toggleInput}"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Bounding Box" class="${style.toggleButton}" for="${context.id}-layerBBoxButton"><img src="${boundingBoxIconDataUri}" alt="bbox"/></label>`
   const layerBBoxButtonInput = layerBBoxButton.children[0]
   const layerBBoxLabel = layerBBoxButton.children[1]
   layerBBoxButton.style.height = '23px'
@@ -99,32 +99,34 @@ function createLayerEntry(context, name, layer) {
     layerBBoxButtonInput.checked = actorContext.bbox
   })
 
-  const downloadImage = document.createElement('div')
-  downloadImage.innerHTML = `
+  if (context.layers.showSaveRoiButton) {
+    const downloadImage = document.createElement('div')
+    downloadImage.innerHTML = `
   <input type="checkbox" checked id=${context.id}-download-image" class="${style.toggleInput}" />
-  <label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Download Image" class="${style.toggleButton}" for="${context.id}-download-image">
+  <label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Save ROI" class="${style.toggleButton}" for="${context.id}-download-image">
     <img style="height: 23px" src="${downloadIconDataUri}" />
   </label>
   `
-  const downloadImageLabel = downloadImage.children[1]
-  downloadImage.style.height = '23px'
-  applyContrastSensitiveStyleToElement(
-    context,
-    'invertibleButton',
-    downloadImageLabel
-  )
-  imageIcons.appendChild(downloadImage)
-  downloadImage.addEventListener('click', event => {
-    event.preventDefault()
-    event.stopPropagation()
-    context.service.send({
-      type: 'DOWNLOAD_IMAGE',
-      data: {
-        name: context.images.selectedName,
-        layerName: name,
-      },
+    const downloadImageLabel = downloadImage.children[1]
+    downloadImage.style.height = '23px'
+    applyContrastSensitiveStyleToElement(
+      context,
+      'invertibleButton',
+      downloadImageLabel
+    )
+    imageIcons.appendChild(downloadImage)
+    downloadImage.addEventListener('click', event => {
+      event.preventDefault()
+      event.stopPropagation()
+      context.service.send({
+        type: 'DOWNLOAD_IMAGE',
+        data: {
+          name: context.images.selectedName,
+          layerName: name,
+        },
+      })
     })
-  })
+  }
 
   const icon = makeHtml(`<layer-icon class="${style.layerIcon}"></layer-icon>`)
   icon.layer = layer

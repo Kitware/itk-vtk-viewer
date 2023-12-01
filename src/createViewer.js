@@ -236,8 +236,7 @@ const createViewer = async (
 
   context.use2D =
     use2D ??
-    ((imageOrLabelImage && imageOrLabelImage.imageType.dimension === 2) ||
-      false)
+    Boolean(imageOrLabelImage && imageOrLabelImage.imageType.dimension === 2)
 
   context.rootContainer = rootContainer
   // Todo: move to viewer machine

@@ -8044,38 +8044,40 @@ function createLayerEntry(context, name, layer) {
     var actorContext = context.layers.actorContext.get(name)
     layerBBoxButtonInput.checked = actorContext.bbox
   })
-  var downloadImage = document.createElement('div')
-  downloadImage.innerHTML = '\n  <input type="checkbox" checked id='
-    .concat(context.id, '-download-image" class="')
-    .concat(
-      style.toggleInput,
-      '" />\n  <label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Download Image" class="'
+  if (context.layers.showSaveRoiButton) {
+    var downloadImage = document.createElement('div')
+    downloadImage.innerHTML = '\n  <input type="checkbox" checked id='
+      .concat(context.id, '-download-image" class="')
+      .concat(
+        style.toggleInput,
+        '" />\n  <label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Save ROI" class="'
+      )
+      .concat(style.toggleButton, '" for="')
+      .concat(
+        context.id,
+        '-download-image">\n    <img style="height: 23px" src="'
+      )
+      .concat(optimizedSVGDataUri$s, '" />\n  </label>\n  ')
+    var downloadImageLabel = downloadImage.children[1]
+    downloadImage.style.height = '23px'
+    applyContrastSensitiveStyleToElement(
+      context,
+      'invertibleButton',
+      downloadImageLabel
     )
-    .concat(style.toggleButton, '" for="')
-    .concat(
-      context.id,
-      '-download-image">\n    <img style="height: 23px" src="'
-    )
-    .concat(optimizedSVGDataUri$s, '" />\n  </label>\n  ')
-  var downloadImageLabel = downloadImage.children[1]
-  downloadImage.style.height = '23px'
-  applyContrastSensitiveStyleToElement(
-    context,
-    'invertibleButton',
-    downloadImageLabel
-  )
-  imageIcons.appendChild(downloadImage)
-  downloadImage.addEventListener('click', function(event) {
-    event.preventDefault()
-    event.stopPropagation()
-    context.service.send({
-      type: 'DOWNLOAD_IMAGE',
-      data: {
-        name: context.images.selectedName,
-        layerName: name,
-      },
+    imageIcons.appendChild(downloadImage)
+    downloadImage.addEventListener('click', function(event) {
+      event.preventDefault()
+      event.stopPropagation()
+      context.service.send({
+        type: 'DOWNLOAD_IMAGE',
+        data: {
+          name: context.images.selectedName,
+          layerName: name,
+        },
+      })
     })
-  })
+  }
   var icon = makeHtml(
     '<layer-icon class="'.concat(style.layerIcon, '"></layer-icon>')
   )

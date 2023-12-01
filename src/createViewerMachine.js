@@ -362,6 +362,12 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
             TOGGLE_LAYER_BBOX: {
               actions: [forwardTo('ui'), forwardTo('rendering')],
             },
+            DOWNLOAD_IMAGE: {
+              actions: ['downloadImage'],
+            },
+            SAVE_ROI: {
+              actions: [forwardTo('eventEmitter')],
+            },
           },
         },
       },

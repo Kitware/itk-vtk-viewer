@@ -4,6 +4,7 @@ import { getSize } from '../IO/dtypeUtils'
 const cores = navigator.hardwareConcurrency ? navigator.hardwareConcurrency : 4
 const numberOfWorkers = cores + Math.floor(Math.sqrt(cores))
 const workerPool = new WorkerPool(numberOfWorkers, runPipeline)
+workerPool.terminateWorkers()
 
 /**
  * Input:
@@ -53,7 +54,7 @@ async function bloscZarrDecompress(chunkData) {
     taskArgsArray.push(['BloscZarr', args, desiredOutputs, inputs])
   }
   const results = await workerPool.runTasks(taskArgsArray).promise
-
+  workerPool.terminateWorkers()
   const decompressedChunks = []
   for (let index = 0; index < results.length; index++) {
     // console.log(results[index].stdout)

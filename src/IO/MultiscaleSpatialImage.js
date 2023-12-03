@@ -13,7 +13,7 @@ import ImageDataFromChunksWorker from './ImageDataFromChunks.worker'
 const imageDataFromChunksWorkerPromise = new WebworkerPromise(
   new ImageDataFromChunksWorker()
 )
-
+imageDataFromChunksWorkerPromise.terminate()
 /* Every element corresponds to a pyramid scale
      Lower scales, corresponds to a higher index, correspond to a lower
      resolution. 
@@ -305,7 +305,7 @@ class MultiscaleSpatialImage {
       'imageDataFromChunks',
       args
     )
-
+    imageDataFromChunksWorkerPromise.terminate()
     return {
       imageType: this.imageType,
       name: this.scaleInfo[scale].name,

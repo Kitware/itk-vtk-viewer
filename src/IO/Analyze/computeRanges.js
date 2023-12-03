@@ -13,7 +13,7 @@ const computeRangeWorkerPool = webWorkerPromiseWorkerPool(
   () => new ComputeRangesWorker(),
   'computeRanges'
 )
-
+computeRangeWorkerPool.terminateWorkers()
 export async function computeRanges(values, numberOfComponents = 1) {
   const numberOfSplits = numberOfWorkers
 
@@ -59,6 +59,6 @@ export async function computeRanges(values, numberOfComponents = 1) {
       helpers[compIdx].add(max)
     })
   })
-
+  computeRangeWorkerPool.terminateWorkers()
   return helpers.map(h => h.getRange())
 }

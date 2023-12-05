@@ -8,17 +8,6 @@ const ViewerMachineOptions = {
   actions: {
     createRenderingViewContainers,
     styleRenderingViewContainers,
-    downloadImage: (context, event) => {
-      const { croppingPlanes } = context.main
-      context.service.send({
-        type: 'SAVE_ROI',
-        data: {
-          name: event.data.name,
-          layerName: event.data.layerName,
-          croppingPlanes,
-        },
-      })
-    },
   },
 
   ui: referenceUIMachineOptions,

@@ -109,9 +109,11 @@ function createLayerEntry(context, name, layer) {
       <form id="save-form" slot="content" method="dialog">
         ${extensions
           .map(
-            extension =>
+            (extension, i) =>
               `<label>
-                <md-radio name="format" value="${extension}" touch-target="wrapper"></md-radio>
+                <md-radio name="format" value="${extension}" ${
+                i === 0 ? 'checked' : ''
+              } touch-target="wrapper"></md-radio>
                 <span aria-hidden="true">${extension}</span>
               </label>`
           )

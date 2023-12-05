@@ -183,9 +183,6 @@ const createViewer = async (
             break
           case 'TAKE_SCREENSHOT':
             break
-          case 'SAVE_ROI':
-            eventEmitter.emit('saveRoi', event.data)
-            break
           default:
             throw new Error(`Unexpected event type: ${event.type}`)
         }

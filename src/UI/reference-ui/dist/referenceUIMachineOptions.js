@@ -10895,11 +10895,12 @@ function createLayerEntry(context, name, layer) {
       )
       .concat(
         extensions
-          .map(function(extension) {
+          .map(function(extension, i) {
             return '<label>\n                <md-radio name="format" value="'
+              .concat(extension, '" ')
               .concat(
-                extension,
-                '" touch-target="wrapper"></md-radio>\n                <span aria-hidden="true">'
+                i === 0 ? 'checked' : '',
+                ' touch-target="wrapper"></md-radio>\n                <span aria-hidden="true">'
               )
               .concat(extension, '</span>\n              </label>')
           })

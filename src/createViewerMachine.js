@@ -363,10 +363,7 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
               actions: [forwardTo('ui'), forwardTo('rendering')],
             },
             DOWNLOAD_IMAGE: {
-              actions: ['downloadImage'],
-            },
-            SAVE_ROI: {
-              actions: [forwardTo('eventEmitter')],
+              actions: [forwardTo('rendering')],
             },
           },
         },

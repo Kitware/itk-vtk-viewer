@@ -28,7 +28,7 @@ function styleInject(css, ref) {
 }
 
 var css_248z$1 =
-  ".ItkVtkViewer-module_loading__11c63 {\n  border: 16px solid #f3f3f3; /* Light grey */\n  border-top: 16px solid #3498db; /* Blue */\n  border-radius: 50%;\n  width: 120px;\n  height: 120px;\n  position: absolute;\n  left: calc(50% - 60px);\n  top: calc(50% - 60px);\n  animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n  box-sizing: border-box;\n}\n\n@keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_viewContainer__-5zNz {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  display: flex;\n  flex-direction: column;\n  background: rgba(128, 128, 128, 0.8);\n}\n\n.ItkVtkViewer-module_viewport__BMgOt {\n  position: relative;\n  flex: 1;\n  min-height: 0;\n}\n\n.ItkVtkViewer-module_uiContainer__CiawP {\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 1000;\n\n  height: -moz-fit-content;\n\n  height: -webkit-fit-content;\n\n  height: fit-content;\n  max-height: 100%;\n\n  display: flex;\n\n  padding: 6px 0 0 6px;\n  border: 0px;\n  box-sizing: border-box;\n\n  --md-navigation-drawer-container-shape-start-end: 0;\n  --md-navigation-drawer-container-shape-end-end: 0;\n  --md-navigation-drawer-container-color: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_drawer__b66eM {\n  overflow: hidden auto;\n}\n\n.ItkVtkViewer-module_floater__sSNkw {\n  position: absolute;\n  z-index: 3000;\n}\n\n.ItkVtkViewer-module_uiGroup__ad-WI {\n  background: rgba(128, 128, 128, 0.5);\n  border-radius: 4px;\n  margin: 2px;\n}\n\n.ItkVtkViewer-module_uiRow__KTQa8 {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  align-items: center;\n  justify-content: space-between;\n  padding: 5px;\n}\n\n.ItkVtkViewer-module_mainUIRow__vTXih {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_planeUIRow__D5gCh {\n  background: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_layers__ZF-gN {\n  flex-wrap: wrap;\n}\n\n.ItkVtkViewer-module_progress__WydXH {\n  color: white;\n  font-size: 200%;\n  height: 100vh;\n  width: 100vw;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 100vh;\n}\n\n.ItkVtkViewer-module_piecewiseWidget__5gKl5 {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_logo__9ErCF {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  height: 2em;\n  width: 2em;\n  cursor: pointer;\n  z-index: 100;\n}\n\n.ItkVtkViewer-module_fpsMonitor__bnwqr {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  border-radius: 5px;\n  background: rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n  z-index: 101;\n}\n\n[itk-vtk-tooltip] {\n  position: relative;\n}\n[itk-vtk-tooltip]::before {\n  content: attr(itk-vtk-tooltip-content);\n  visibility: hidden;\n  position: absolute;\n  top: 50%;\n  right: calc(100% + 16px);\n  width: 400%;\n  padding: 4px 6px;\n  text-align: center;\n  text-transform: none;\n  font-size: 0.9em;\n  font-family: monospace;\n  border-radius: 3px;\n  background: rgba(0.9, 0.9, 0.9, 0.95);\n  color: white;\n  opacity: 0;\n  transform: translate(15px, -50%);\n  transition-property: all;\n  transition-duration: 0.3s;\n  transition-timing-function: ease-in-out;\n  transition-delay: 0.8s;\n  z-index: 3000;\n}\n\n[itk-vtk-tooltip]:hover::before {\n  opacity: 1;\n  visibility: visible;\n  transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-bottom]::before {\n  top: calc(100% + 16px);\n  left: 50%;\n  right: initial;\n  transform: translate(-50%, -15px);\n}\n[itk-vtk-tooltip-bottom]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-right]::before {\n  top: 50%;\n  left: calc(100% + 16px);\n  right: initial;\n  transform: translate(-15px, -50%);\n}\n[itk-vtk-tooltip-right]:hover::before {\n  transform: translate(0, -50%);\n}\n[itk-vtk-tooltip-left]::before {\n  top: -50%;\n  right: 50%;\n  left: initial;\n}\n\n[itk-vtk-tooltip-top-screenshot]::before {\n  top: initial;\n  left: 260%;\n  right: initial;\n  bottom: calc(100% + 8px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-screenshot]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-annotations]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-annotations]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-axes]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-axes]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-fullscreen]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top]::before {\n  top: initial;\n  left: 60%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-input]::before {\n  top: initial;\n  right: initial;\n  bottom: 25%;\n  transform: translate(-50%, 15px);\n  width: -moz-fit-content;\n  width: -webkit-fit-content;\n  width: fit-content;\n}\n\n.ItkVtkViewer-module_layerEntryCommon__oIE1u {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n  border-style: solid;\n  border-width: 2px;\n}\n\n.ItkVtkViewer-module_layerEntryBrightBG__qXyI2 {\n  border-color: #666;\n}\n\n.ItkVtkViewer-module_layerEntryDarkBG__BmiCj {\n  border-color: #aaa;\n}\n\n.ItkVtkViewer-module_layerLabelCommon__kTiO9 {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  z-index: 1000;\n\n  flex: 1;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  text-align: center;\n}\n\n.ItkVtkViewer-module_layerLabelBrightBG__vAfex {\n  color: black;\n}\n\n.ItkVtkViewer-module_layerLabelDarkBG__sM6Bg {\n  color: white;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc {\n  flex-basis: 2.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_noFlexBasis__8d4hI {\n  flex-basis: auto;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 8px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_iconGroup__qqZrW {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_ldsRing__QT1wT {\n  display: inline-block;\n  position: relative;\n  width: 20px;\n  height: 20px;\n  margin-top: 4px;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div {\n  box-sizing: border-box;\n  display: block;\n  position: absolute;\n  width: 1em;\n  height: 1em;\n  margin: 0;\n  border: 0.15em solid #000;\n  border-radius: 50%;\n  animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n  border-color: #000 transparent transparent transparent;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(1) {\n  animation-delay: -0.45s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(2) {\n  animation-delay: -0.3s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(3) {\n  animation-delay: -0.15s;\n}\n@keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_tooltipButtonBrightBG__yffVf::before {\n}\n\n.ItkVtkViewer-module_tooltipButtonDarkBG__gEu0i::before {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_invertibleButtonBrightBG__VmIfT {\n}\n\n.ItkVtkViewer-module_invertibleButtonDarkBG__GoKgD {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 {\n  flex: 1;\n  width: 8m;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-right: 4px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ img {\n  width: 1.2em;\n  margin-top: 4px;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceEntry__zXMUS {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: self-start;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceLabelCommon__Ec-uc {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceLabelBrightBG__aYmfG {\n  color: black;\n}\n\n.ItkVtkViewer-module_distanceLabelDarkBG__kYXvI {\n  color: white;\n}\n\n.ItkVtkViewer-module_distanceInput__gyNaU {\n  background: transparent;\n  color: white;\n  font-size: 1em;\n  width: 80px;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 0px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_toggleInput__jHLTo {\n  margin: 0px;\n  width: 0;\n  opacity: 0;\n  box-sizing: content-box;\n}\n\n.ItkVtkViewer-module_toggleButton__qHhHZ {\n  cursor: pointer;\n  border-radius: 0.2em;\n  opacity: 0.45;\n}\n\ninput:checked.ItkVtkViewer-module_toggleInput__jHLTo + label {\n  opacity: 1;\n}\n\n.ItkVtkViewer-module_numberInput__pDxYH {\n  color: white;\n  background: transparent;\n  font-size: 1em;\n  padding-left: 2px;\n  width: 70px;\n}\n\n.ItkVtkViewer-module_selector__yw8l- {\n  display: flex;\n  direction: row;\n  font-size: 1.2em;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n\n.ItkVtkViewer-module_disableInterface__CGB4S {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(40, 40, 40, 0.5);\n  padding: 5px;\n  margin-right: 2px;\n  border-radius: 5px 5px 0px 0px;\n  color: #777;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:hover + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(90, 90, 90, 0.5);\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:checked + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(127, 127, 127, 0.5);\n  color: #fff;\n}\n\n.ItkVtkViewer-module_componentVisibility__y1rRS {\n  position: relative;\n  top: -2px;\n  margin-left: 10px;\n}\n\nselect {\n  -moz-appearance: none;\n}\n\nselect option {\n  color: black;\n}\n\nselect:focus {\n  outline: none;\n  border: none;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderColumn__ZwISb {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  padding: 0 5px;\n}\n\n.ItkVtkViewer-module_sliderIcon__jfoL- {\n  width: 1.8em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 8px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderEntry__3r3gO {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n\n.ItkVtkViewer-module_slider__eT9qm {\n  flex: 1;\n  min-height: 1rem;\n}\n\n.ItkVtkViewer-module_planeLabel__E1zOk {\n  padding-left: 6px;\n  padding: 2px;\n  display: block;\n  font-size: 1.1em;\n  font-family: monospace;\n  color: black;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_xPlaneLabel__wK4Cb {\n  background-color: #ef5350;\n}\n\n.ItkVtkViewer-module_yPlaneLabel__rIm0j {\n  background-color: #fdd835;\n}\n\n.ItkVtkViewer-module_zPlaneLabel__94NL7 {\n  background-color: #4caf50;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ {\n  z-index: 1100;\n  position: relative;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ input {\n  position: absolute;\n  bottom: 20px;\n  left: -24px;\n  width: 12px;\n  writing-mode: bt-lr;\n  -webkit-appearance: slider-vertical;\n}\n\n.ItkVtkViewer-module_bigFileDrop__cZdkP {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  background-color: white;\n  background-image: url('./dropBG.jpg');\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: contain;\n  border-radius: 10px;\n  width: 50px;\n  padding: calc(50vh - 2em) calc(50vw - 25px - 2em);\n}\n\n.ItkVtkViewer-module_fullscreenContainer__-H3c8 {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  background: black;\n  margin: 0;\n  padding: 0;\n}\n\n.ItkVtkViewer-module_collapseButton__uzHPY {\n  position: absolute;\n  top: 0;\n  right: -48px;\n}\n\n.ItkVtkViewer-module_windowLevelButton__Lx0Tj {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_windowLevelButton__Lx0Tj img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_inputLabel__dDf8G {\n  line-height: 1.7;\n}\n"
+  ".ItkVtkViewer-module_loading__11c63 {\n  border: 16px solid #f3f3f3; /* Light grey */\n  border-top: 16px solid #3498db; /* Blue */\n  border-radius: 50%;\n  width: 120px;\n  height: 120px;\n  position: absolute;\n  left: calc(50% - 60px);\n  top: calc(50% - 60px);\n  animation: ItkVtkViewer-module_spin__mT5S6 2s linear infinite;\n  box-sizing: border-box;\n}\n\n@keyframes ItkVtkViewer-module_spin__mT5S6 {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_viewContainer__-5zNz {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  display: flex;\n  flex-direction: column;\n  background: rgba(128, 128, 128, 0.8);\n}\n\n.ItkVtkViewer-module_viewport__BMgOt {\n  position: relative;\n  flex: 1;\n  min-height: 0;\n}\n\n.ItkVtkViewer-module_uiContainer__CiawP {\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 1000;\n\n  height: -moz-fit-content;\n\n  height: -webkit-fit-content;\n\n  height: fit-content;\n  max-height: 100%;\n\n  display: flex;\n\n  padding: 6px 0 0 6px;\n  border: 0px;\n  box-sizing: border-box;\n\n  --md-navigation-drawer-container-shape-start-end: 0;\n  --md-navigation-drawer-container-shape-end-end: 0;\n  --md-navigation-drawer-container-color: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_drawer__b66eM {\n  overflow: hidden auto;\n}\n\n.ItkVtkViewer-module_floater__sSNkw {\n  position: absolute;\n  z-index: 3000;\n}\n\n.ItkVtkViewer-module_uiGroup__ad-WI {\n  background: rgba(128, 128, 128, 0.5);\n  border-radius: 4px;\n  margin: 2px;\n}\n\n.ItkVtkViewer-module_uiRow__KTQa8 {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  align-items: center;\n  justify-content: space-between;\n  padding: 5px;\n}\n\n.ItkVtkViewer-module_mainUIRow__vTXih {\n  justify-content: space-around;\n  max-width: 420px;\n}\n\n.ItkVtkViewer-module_planeUIRow__D5gCh {\n  background: rgba(128, 128, 128, 0.5);\n}\n\n.ItkVtkViewer-module_layers__ZF-gN {\n  flex-wrap: wrap;\n}\n\n.ItkVtkViewer-module_progress__WydXH {\n  color: white;\n  font-size: 200%;\n  height: 100vh;\n  width: 100vw;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 100vh;\n}\n\n.ItkVtkViewer-module_piecewiseWidget__5gKl5 {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_logo__9ErCF {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  height: 2em;\n  width: 2em;\n  cursor: pointer;\n  z-index: 100;\n}\n\n.ItkVtkViewer-module_fpsMonitor__bnwqr {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  border-radius: 5px;\n  background: rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n  z-index: 101;\n}\n\n[itk-vtk-tooltip] {\n  position: relative;\n}\n[itk-vtk-tooltip]::before {\n  content: attr(itk-vtk-tooltip-content);\n  visibility: hidden;\n  position: absolute;\n  top: 50%;\n  right: calc(100% + 16px);\n  width: 400%;\n  padding: 4px 6px;\n  text-align: center;\n  text-transform: none;\n  font-size: 0.9em;\n  font-family: monospace;\n  border-radius: 3px;\n  background: rgba(0.9, 0.9, 0.9, 0.95);\n  color: white;\n  opacity: 0;\n  transform: translate(15px, -50%);\n  transition-property: all;\n  transition-duration: 0.3s;\n  transition-timing-function: ease-in-out;\n  transition-delay: 0.8s;\n  z-index: 3000;\n}\n\n[itk-vtk-tooltip]:hover::before {\n  opacity: 1;\n  visibility: visible;\n  transform: translate(0, -50%);\n}\n\n[itk-vtk-tooltip-bottom]::before {\n  top: calc(100% + 16px);\n  left: 50%;\n  right: initial;\n  transform: translate(-50%, -15px);\n}\n[itk-vtk-tooltip-bottom]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-right]::before {\n  top: 50%;\n  left: calc(100% + 16px);\n  right: initial;\n  transform: translate(-15px, -50%);\n}\n[itk-vtk-tooltip-right]:hover::before {\n  transform: translate(0, -50%);\n}\n[itk-vtk-tooltip-left]::before {\n  top: -50%;\n  right: 50%;\n  left: initial;\n}\n\n[itk-vtk-tooltip-top-screenshot]::before {\n  top: initial;\n  left: 260%;\n  right: initial;\n  bottom: calc(100% + 8px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-screenshot]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-annotations]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-annotations]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-axes]::before {\n  top: initial;\n  left: 160%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top-axes]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-fullscreen]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top]::before {\n  top: initial;\n  left: 60%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n}\n[itk-vtk-tooltip-top]:hover::before {\n  transform: translate(-50%, 0);\n}\n[itk-vtk-tooltip-top-fullscreen]::before {\n  top: initial;\n  left: 120%;\n  right: initial;\n  bottom: calc(100% + 10px);\n  transform: translate(-50%, 15px);\n  width: 400%;\n}\n[itk-vtk-tooltip-top-input]::before {\n  top: initial;\n  right: initial;\n  bottom: 25%;\n  transform: translate(-50%, 15px);\n  width: -moz-fit-content;\n  width: -webkit-fit-content;\n  width: fit-content;\n}\n\n.ItkVtkViewer-module_layerEntryCommon__oIE1u {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n  border-style: solid;\n  border-width: 2px;\n}\n\n.ItkVtkViewer-module_layerEntryBrightBG__qXyI2 {\n  border-color: #666;\n}\n\n.ItkVtkViewer-module_layerEntryDarkBG__BmiCj {\n  border-color: #aaa;\n}\n\n.ItkVtkViewer-module_layerLabelCommon__kTiO9 {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  z-index: 1000;\n\n  flex: 1;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  text-align: center;\n}\n\n.ItkVtkViewer-module_layerLabelBrightBG__vAfex {\n  color: black;\n}\n\n.ItkVtkViewer-module_layerLabelDarkBG__sM6Bg {\n  color: white;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc {\n  flex-basis: 2.5em;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_visibleButton__ezrIc img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_noFlexBasis__8d4hI {\n  flex-basis: auto;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_layerIcon__v-rxO img {\n  height: 1.2em;\n  width: 1.2em;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 8px;\n  padding-right: 6px;\n}\n\n.ItkVtkViewer-module_iconGroup__qqZrW {\n  display: inline-block;\n}\n\n.ItkVtkViewer-module_ldsRing__QT1wT {\n  display: inline-block;\n  position: relative;\n  width: 20px;\n  height: 20px;\n  margin-top: 4px;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div {\n  box-sizing: border-box;\n  display: block;\n  position: absolute;\n  width: 1em;\n  height: 1em;\n  margin: 0;\n  border: 0.15em solid #000;\n  border-radius: 50%;\n  animation: ItkVtkViewer-module_ldsRing__QT1wT 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n  border-color: #000 transparent transparent transparent;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(1) {\n  animation-delay: -0.45s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(2) {\n  animation-delay: -0.3s;\n}\n.ItkVtkViewer-module_ldsRing__QT1wT div:nth-child(3) {\n  animation-delay: -0.15s;\n}\n@keyframes ItkVtkViewer-module_ldsRing__QT1wT {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n.ItkVtkViewer-module_tooltipButtonBrightBG__yffVf::before {\n}\n\n.ItkVtkViewer-module_tooltipButtonDarkBG__gEu0i::before {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_invertibleButtonBrightBG__VmIfT {\n}\n\n.ItkVtkViewer-module_invertibleButtonDarkBG__GoKgD {\n  filter: invert(100%);\n  -webkit-filter: invert(100%);\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_screenshotButton__OL4Na img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_annotationsButton__Msb-p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_axesButton__k2H6p img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 {\n  flex: 1;\n  width: 8m;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_fullscreenButton__en3Z5 img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-right: 4px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_interpolationButton__2P0HJ img {\n  width: 1.2em;\n  margin-top: 4px;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_cropButton__ljwuU img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCropButton__SCGTH img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceEntry__zXMUS {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: self-start;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT {\n  flex: 1;\n  height: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceButton__NhxBT img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_distanceLabelCommon__Ec-uc {\n  border: none;\n  background: transparent;\n  font-size: 1.2em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_distanceLabelBrightBG__aYmfG {\n  color: black;\n}\n\n.ItkVtkViewer-module_distanceLabelDarkBG__kYXvI {\n  color: white;\n}\n\n.ItkVtkViewer-module_distanceInput__gyNaU {\n  background: transparent;\n  color: white;\n  font-size: 1em;\n  width: 80px;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_resetCameraButton__l9FGp img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_bgColorButton__yrjOX img {\n  height: 1.2em;\n  width: 1.2em;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 6px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewModeButton__OtTng img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_shadowButton__09fEk img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ {\n  flex: 1;\n  width: 8mm;\n  padding-top: 2px;\n  padding-bottom: 2px;\n  padding-left: 0px;\n  padding-right: 6px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_viewPlanesButton__rSnuZ img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_toggleInput__jHLTo {\n  margin: 0px;\n  width: 0;\n  opacity: 0;\n  box-sizing: content-box;\n}\n\n.ItkVtkViewer-module_toggleButton__qHhHZ {\n  cursor: pointer;\n  border-radius: 0.2em;\n  opacity: 0.45;\n}\n\ninput:checked.ItkVtkViewer-module_toggleInput__jHLTo + label {\n  opacity: 1;\n}\n\n.ItkVtkViewer-module_numberInput__pDxYH {\n  color: white;\n  background: transparent;\n  font-size: 1em;\n  padding-left: 2px;\n  width: 70px;\n}\n\n.ItkVtkViewer-module_selector__yw8l- {\n  display: flex;\n  direction: row;\n  font-size: 1.2em;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF {\n  position: absolute;\n  opacity: 0;\n  pointer-events: none;\n}\n\n.ItkVtkViewer-module_disableInterface__CGB4S {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(40, 40, 40, 0.5);\n  padding: 5px;\n  margin-right: 2px;\n  border-radius: 5px 5px 0px 0px;\n  color: #777;\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:hover + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(90, 90, 90, 0.5);\n}\n\n.ItkVtkViewer-module_componentTab__6KSJF:checked + .ItkVtkViewer-module_compTabLabel__8u4iU {\n  background: rgba(127, 127, 127, 0.5);\n  color: #fff;\n}\n\n.ItkVtkViewer-module_componentVisibility__y1rRS {\n  position: relative;\n  top: -2px;\n  margin-left: 10px;\n}\n\nselect {\n  -moz-appearance: none;\n}\n\nselect option {\n  color: black;\n}\n\nselect:focus {\n  outline: none;\n  border: none;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_sampleDistanceButton__NjT0o img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderColumn__ZwISb {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  padding: 0 5px;\n}\n\n.ItkVtkViewer-module_sliderIcon__jfoL- {\n  width: 1.8em;\n  margin-right: 10px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 8px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_blendModeButton__cit1w img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 6px;\n  padding-right: 0px;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_gradientOpacitySlider__wkEqP img {\n  width: 1.2em;\n  height: 1.2em;\n}\n\n.ItkVtkViewer-module_sliderEntry__3r3gO {\n  flex: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n\n.ItkVtkViewer-module_slider__eT9qm {\n  flex: 1;\n  min-height: 1rem;\n}\n\n.ItkVtkViewer-module_planeLabel__E1zOk {\n  padding-left: 6px;\n  padding: 2px;\n  display: block;\n  font-size: 1.1em;\n  font-family: monospace;\n  color: black;\n  border-width: 2px;\n  border-radius: 10%;\n}\n\n.ItkVtkViewer-module_xPlaneLabel__wK4Cb {\n  background-color: #ef5350;\n}\n\n.ItkVtkViewer-module_yPlaneLabel__rIm0j {\n  background-color: #fdd835;\n}\n\n.ItkVtkViewer-module_zPlaneLabel__94NL7 {\n  background-color: #4caf50;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ {\n  z-index: 1100;\n  position: relative;\n}\n\n.ItkVtkViewer-module_gradientOpacityScale__NrqOZ input {\n  position: absolute;\n  bottom: 20px;\n  left: -24px;\n  width: 12px;\n  writing-mode: bt-lr;\n  -webkit-appearance: slider-vertical;\n}\n\n.ItkVtkViewer-module_bigFileDrop__cZdkP {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  background-color: white;\n  background-image: url('./dropBG.jpg');\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: contain;\n  border-radius: 10px;\n  width: 50px;\n  padding: calc(50vh - 2em) calc(50vw - 25px - 2em);\n}\n\n.ItkVtkViewer-module_fullscreenContainer__-H3c8 {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  background: black;\n  margin: 0;\n  padding: 0;\n}\n\n.ItkVtkViewer-module_collapseButton__uzHPY {\n  position: absolute;\n  top: 0;\n  right: -48px;\n}\n\n.ItkVtkViewer-module_windowLevelButton__Lx0Tj {\n  width: 8mm;\n  padding: 4px;\n  padding-left: 0px;\n  cursor: pointer;\n  z-index: 1000;\n}\n\n.ItkVtkViewer-module_windowLevelButton__Lx0Tj img {\n  width: 1.3em;\n  height: 1.3em;\n}\n\n.ItkVtkViewer-module_inputLabel__dDf8G {\n  line-height: 1.7;\n}\n\n.ItkVtkViewer-module_saveDialog__BKmAa label {\n  display: flex;\n  align-items: center;\n}\n"
 var style = {
   loading: 'ItkVtkViewer-module_loading__11c63',
   spin: 'ItkVtkViewer-module_spin__mT5S6',
@@ -110,6 +110,7 @@ var style = {
   collapseButton: 'ItkVtkViewer-module_collapseButton__uzHPY',
   windowLevelButton: 'ItkVtkViewer-module_windowLevelButton__Lx0Tj',
   inputLabel: 'ItkVtkViewer-module_inputLabel__dDf8G',
+  saveDialog: 'ItkVtkViewer-module_saveDialog__BKmAa',
 }
 styleInject(css_248z$1)
 
@@ -2731,1629 +2732,10 @@ function __decorate(decorators, target, key, desc) {
 
 /**
  * @license
- * Copyright 2019 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const t$9 = window,
-  e$j =
-    t$9.ShadowRoot &&
-    (void 0 === t$9.ShadyCSS || t$9.ShadyCSS.nativeShadow) &&
-    'adoptedStyleSheets' in Document.prototype &&
-    'replace' in CSSStyleSheet.prototype,
-  s$b = Symbol(),
-  n$d = new WeakMap()
-class o$f {
-  constructor(t, e, n) {
-    if (((this._$cssResult$ = !0), n !== s$b))
-      throw Error(
-        'CSSResult is not constructable. Use `unsafeCSS` or `css` instead.'
-      )
-    ;(this.cssText = t), (this.t = e)
-  }
-  get styleSheet() {
-    let t = this.o
-    const s = this.t
-    if (e$j && void 0 === t) {
-      const e = void 0 !== s && 1 === s.length
-      e && (t = n$d.get(s)),
-        void 0 === t &&
-          ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText),
-          e && n$d.set(s, t))
-    }
-    return t
-  }
-  toString() {
-    return this.cssText
-  }
-}
-const r$b = t => new o$f('string' == typeof t ? t : t + '', void 0, s$b),
-  i$8 = (t, ...e) => {
-    const n =
-      1 === t.length
-        ? t[0]
-        : e.reduce(
-            (e, s, n) =>
-              e +
-              (t => {
-                if (!0 === t._$cssResult$) return t.cssText
-                if ('number' == typeof t) return t
-                throw Error(
-                  "Value passed to 'css' function must be a 'css' function result: " +
-                    t +
-                    ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security."
-                )
-              })(s) +
-              t[n + 1],
-            t[0]
-          )
-    return new o$f(n, t, s$b)
-  },
-  S$3 = (s, n) => {
-    e$j
-      ? (s.adoptedStyleSheets = n.map(t =>
-          t instanceof CSSStyleSheet ? t : t.styleSheet
-        ))
-      : n.forEach(e => {
-          const n = document.createElement('style'),
-            o = t$9.litNonce
-          void 0 !== o && n.setAttribute('nonce', o),
-            (n.textContent = e.cssText),
-            s.appendChild(n)
-        })
-  },
-  c$5 = e$j
-    ? t => t
-    : t =>
-        t instanceof CSSStyleSheet
-          ? (t => {
-              let e = ''
-              for (const s of t.cssRules) e += s.cssText
-              return r$b(e)
-            })(t)
-          : t
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ var s$a
-const e$i = window,
-  r$a = e$i.trustedTypes,
-  h$5 = r$a ? r$a.emptyScript : '',
-  o$e = e$i.reactiveElementPolyfillSupport,
-  n$c = {
-    toAttribute(t, i) {
-      switch (i) {
-        case Boolean:
-          t = t ? h$5 : null
-          break
-        case Object:
-        case Array:
-          t = null == t ? t : JSON.stringify(t)
-      }
-      return t
-    },
-    fromAttribute(t, i) {
-      let s = t
-      switch (i) {
-        case Boolean:
-          s = null !== t
-          break
-        case Number:
-          s = null === t ? null : Number(t)
-          break
-        case Object:
-        case Array:
-          try {
-            s = JSON.parse(t)
-          } catch (t) {
-            s = null
-          }
-      }
-      return s
-    },
-  },
-  a$4 = (t, i) => i !== t && (i == i || t == t),
-  l$6 = {
-    attribute: !0,
-    type: String,
-    converter: n$c,
-    reflect: !1,
-    hasChanged: a$4,
-  }
-class d$3 extends HTMLElement {
-  constructor() {
-    super(),
-      (this._$Ei = new Map()),
-      (this.isUpdatePending = !1),
-      (this.hasUpdated = !1),
-      (this._$El = null),
-      this.u()
-  }
-  static addInitializer(t) {
-    var i
-    this.finalize(),
-      (null !== (i = this.h) && void 0 !== i ? i : (this.h = [])).push(t)
-  }
-  static get observedAttributes() {
-    this.finalize()
-    const t = []
-    return (
-      this.elementProperties.forEach((i, s) => {
-        const e = this._$Ep(s, i)
-        void 0 !== e && (this._$Ev.set(e, s), t.push(e))
-      }),
-      t
-    )
-  }
-  static createProperty(t, i = l$6) {
-    if (
-      (i.state && (i.attribute = !1),
-      this.finalize(),
-      this.elementProperties.set(t, i),
-      !i.noAccessor && !this.prototype.hasOwnProperty(t))
-    ) {
-      const s = 'symbol' == typeof t ? Symbol() : '__' + t,
-        e = this.getPropertyDescriptor(t, s, i)
-      void 0 !== e && Object.defineProperty(this.prototype, t, e)
-    }
-  }
-  static getPropertyDescriptor(t, i, s) {
-    return {
-      get() {
-        return this[i]
-      },
-      set(e) {
-        const r = this[t]
-        ;(this[i] = e), this.requestUpdate(t, r, s)
-      },
-      configurable: !0,
-      enumerable: !0,
-    }
-  }
-  static getPropertyOptions(t) {
-    return this.elementProperties.get(t) || l$6
-  }
-  static finalize() {
-    if (this.hasOwnProperty('finalized')) return !1
-    this.finalized = !0
-    const t = Object.getPrototypeOf(this)
-    if (
-      (t.finalize(),
-      void 0 !== t.h && (this.h = [...t.h]),
-      (this.elementProperties = new Map(t.elementProperties)),
-      (this._$Ev = new Map()),
-      this.hasOwnProperty('properties'))
-    ) {
-      const t = this.properties,
-        i = [
-          ...Object.getOwnPropertyNames(t),
-          ...Object.getOwnPropertySymbols(t),
-        ]
-      for (const s of i) this.createProperty(s, t[s])
-    }
-    return (this.elementStyles = this.finalizeStyles(this.styles)), !0
-  }
-  static finalizeStyles(i) {
-    const s = []
-    if (Array.isArray(i)) {
-      const e = new Set(i.flat(1 / 0).reverse())
-      for (const i of e) s.unshift(c$5(i))
-    } else void 0 !== i && s.push(c$5(i))
-    return s
-  }
-  static _$Ep(t, i) {
-    const s = i.attribute
-    return !1 === s
-      ? void 0
-      : 'string' == typeof s
-      ? s
-      : 'string' == typeof t
-      ? t.toLowerCase()
-      : void 0
-  }
-  u() {
-    var t
-    ;(this._$E_ = new Promise(t => (this.enableUpdating = t))),
-      (this._$AL = new Map()),
-      this._$Eg(),
-      this.requestUpdate(),
-      null === (t = this.constructor.h) ||
-        void 0 === t ||
-        t.forEach(t => t(this))
-  }
-  addController(t) {
-    var i, s
-    ;(null !== (i = this._$ES) && void 0 !== i ? i : (this._$ES = [])).push(t),
-      void 0 !== this.renderRoot &&
-        this.isConnected &&
-        (null === (s = t.hostConnected) || void 0 === s || s.call(t))
-  }
-  removeController(t) {
-    var i
-    null === (i = this._$ES) ||
-      void 0 === i ||
-      i.splice(this._$ES.indexOf(t) >>> 0, 1)
-  }
-  _$Eg() {
-    this.constructor.elementProperties.forEach((t, i) => {
-      this.hasOwnProperty(i) && (this._$Ei.set(i, this[i]), delete this[i])
-    })
-  }
-  createRenderRoot() {
-    var t
-    const s =
-      null !== (t = this.shadowRoot) && void 0 !== t
-        ? t
-        : this.attachShadow(this.constructor.shadowRootOptions)
-    return S$3(s, this.constructor.elementStyles), s
-  }
-  connectedCallback() {
-    var t
-    void 0 === this.renderRoot && (this.renderRoot = this.createRenderRoot()),
-      this.enableUpdating(!0),
-      null === (t = this._$ES) ||
-        void 0 === t ||
-        t.forEach(t => {
-          var i
-          return null === (i = t.hostConnected) || void 0 === i
-            ? void 0
-            : i.call(t)
-        })
-  }
-  enableUpdating(t) {}
-  disconnectedCallback() {
-    var t
-    null === (t = this._$ES) ||
-      void 0 === t ||
-      t.forEach(t => {
-        var i
-        return null === (i = t.hostDisconnected) || void 0 === i
-          ? void 0
-          : i.call(t)
-      })
-  }
-  attributeChangedCallback(t, i, s) {
-    this._$AK(t, s)
-  }
-  _$EO(t, i, s = l$6) {
-    var e
-    const r = this.constructor._$Ep(t, s)
-    if (void 0 !== r && !0 === s.reflect) {
-      const h = (void 0 !==
-      (null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute)
-        ? s.converter
-        : n$c
-      ).toAttribute(i, s.type)
-      ;(this._$El = t),
-        null == h ? this.removeAttribute(r) : this.setAttribute(r, h),
-        (this._$El = null)
-    }
-  }
-  _$AK(t, i) {
-    var s
-    const e = this.constructor,
-      r = e._$Ev.get(t)
-    if (void 0 !== r && this._$El !== r) {
-      const t = e.getPropertyOptions(r),
-        h =
-          'function' == typeof t.converter
-            ? { fromAttribute: t.converter }
-            : void 0 !==
-              (null === (s = t.converter) || void 0 === s
-                ? void 0
-                : s.fromAttribute)
-            ? t.converter
-            : n$c
-      ;(this._$El = r),
-        (this[r] = h.fromAttribute(i, t.type)),
-        (this._$El = null)
-    }
-  }
-  requestUpdate(t, i, s) {
-    let e = !0
-    void 0 !== t &&
-      (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || a$4)(
-        this[t],
-        i
-      )
-        ? (this._$AL.has(t) || this._$AL.set(t, i),
-          !0 === s.reflect &&
-            this._$El !== t &&
-            (void 0 === this._$EC && (this._$EC = new Map()),
-            this._$EC.set(t, s)))
-        : (e = !1)),
-      !this.isUpdatePending && e && (this._$E_ = this._$Ej())
-  }
-  async _$Ej() {
-    this.isUpdatePending = !0
-    try {
-      await this._$E_
-    } catch (t) {
-      Promise.reject(t)
-    }
-    const t = this.scheduleUpdate()
-    return null != t && (await t), !this.isUpdatePending
-  }
-  scheduleUpdate() {
-    return this.performUpdate()
-  }
-  performUpdate() {
-    var t
-    if (!this.isUpdatePending) return
-    this.hasUpdated,
-      this._$Ei &&
-        (this._$Ei.forEach((t, i) => (this[i] = t)), (this._$Ei = void 0))
-    let i = !1
-    const s = this._$AL
-    try {
-      ;(i = this.shouldUpdate(s)),
-        i
-          ? (this.willUpdate(s),
-            null === (t = this._$ES) ||
-              void 0 === t ||
-              t.forEach(t => {
-                var i
-                return null === (i = t.hostUpdate) || void 0 === i
-                  ? void 0
-                  : i.call(t)
-              }),
-            this.update(s))
-          : this._$Ek()
-    } catch (t) {
-      throw ((i = !1), this._$Ek(), t)
-    }
-    i && this._$AE(s)
-  }
-  willUpdate(t) {}
-  _$AE(t) {
-    var i
-    null === (i = this._$ES) ||
-      void 0 === i ||
-      i.forEach(t => {
-        var i
-        return null === (i = t.hostUpdated) || void 0 === i ? void 0 : i.call(t)
-      }),
-      this.hasUpdated || ((this.hasUpdated = !0), this.firstUpdated(t)),
-      this.updated(t)
-  }
-  _$Ek() {
-    ;(this._$AL = new Map()), (this.isUpdatePending = !1)
-  }
-  get updateComplete() {
-    return this.getUpdateComplete()
-  }
-  getUpdateComplete() {
-    return this._$E_
-  }
-  shouldUpdate(t) {
-    return !0
-  }
-  update(t) {
-    void 0 !== this._$EC &&
-      (this._$EC.forEach((t, i) => this._$EO(i, this[i], t)),
-      (this._$EC = void 0)),
-      this._$Ek()
-  }
-  updated(t) {}
-  firstUpdated(t) {}
-}
-;(d$3.finalized = !0),
-  (d$3.elementProperties = new Map()),
-  (d$3.elementStyles = []),
-  (d$3.shadowRootOptions = { mode: 'open' }),
-  null == o$e || o$e({ ReactiveElement: d$3 }),
-  (null !== (s$a = e$i.reactiveElementVersions) && void 0 !== s$a
-    ? s$a
-    : (e$i.reactiveElementVersions = [])
-  ).push('1.6.1')
-
-/**
- * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-var t$8
-const i$7 = window,
-  s$9 = i$7.trustedTypes,
-  e$h = s$9 ? s$9.createPolicy('lit-html', { createHTML: t => t }) : void 0,
-  o$d = `lit$${(Math.random() + '').slice(9)}$`,
-  n$b = '?' + o$d,
-  l$5 = `<${n$b}>`,
-  h$4 = document,
-  r$9 = (t = '') => h$4.createComment(t),
-  d$2 = t => null === t || ('object' != typeof t && 'function' != typeof t),
-  u$2 = Array.isArray,
-  c$4 = t =>
-    u$2(t) || 'function' == typeof (null == t ? void 0 : t[Symbol.iterator]),
-  v$1 = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
-  a$3 = /-->/g,
-  f$2 = />/g,
-  _$1 = RegExp(
-    '>|[ \t\n\f\r](?:([^\\s"\'>=/]+)([ \t\n\f\r]*=[ \t\n\f\r]*(?:[^ \t\n\f\r"\'`<>=]|("|\')|))|$)',
-    'g'
-  ),
-  m$1 = /'/g,
-  p$2 = /"/g,
-  $$1 = /^(?:script|style|textarea|title)$/i,
-  g$1 = t => (i, ...s) => ({ _$litType$: t, strings: i, values: s }),
-  y$2 = g$1(1),
-  x$1 = Symbol.for('lit-noChange'),
-  b$1 = Symbol.for('lit-nothing'),
-  T$1 = new WeakMap(),
-  A$1 = h$4.createTreeWalker(h$4, 129, null, !1),
-  E$1 = (t, i) => {
-    const s = t.length - 1,
-      n = []
-    let h,
-      r = 2 === i ? '<svg>' : '',
-      d = v$1
-    for (let i = 0; i < s; i++) {
-      const s = t[i]
-      let e,
-        u,
-        c = -1,
-        g = 0
-      for (; g < s.length && ((d.lastIndex = g), (u = d.exec(s)), null !== u); )
-        (g = d.lastIndex),
-          d === v$1
-            ? '!--' === u[1]
-              ? (d = a$3)
-              : void 0 !== u[1]
-              ? (d = f$2)
-              : void 0 !== u[2]
-              ? ($$1.test(u[2]) && (h = RegExp('</' + u[2], 'g')), (d = _$1))
-              : void 0 !== u[3] && (d = _$1)
-            : d === _$1
-            ? '>' === u[0]
-              ? ((d = null != h ? h : v$1), (c = -1))
-              : void 0 === u[1]
-              ? (c = -2)
-              : ((c = d.lastIndex - u[2].length),
-                (e = u[1]),
-                (d = void 0 === u[3] ? _$1 : '"' === u[3] ? p$2 : m$1))
-            : d === p$2 || d === m$1
-            ? (d = _$1)
-            : d === a$3 || d === f$2
-            ? (d = v$1)
-            : ((d = _$1), (h = void 0))
-      const y = d === _$1 && t[i + 1].startsWith('/>') ? ' ' : ''
-      r +=
-        d === v$1
-          ? s + l$5
-          : c >= 0
-          ? (n.push(e), s.slice(0, c) + '$lit$' + s.slice(c) + o$d + y)
-          : s + o$d + (-2 === c ? (n.push(void 0), i) : y)
-    }
-    const u = r + (t[s] || '<?>') + (2 === i ? '</svg>' : '')
-    if (!Array.isArray(t) || !t.hasOwnProperty('raw'))
-      throw Error('invalid template strings array')
-    return [void 0 !== e$h ? e$h.createHTML(u) : u, n]
-  }
-class C$1 {
-  constructor({ strings: t, _$litType$: i }, e) {
-    let l
-    this.parts = []
-    let h = 0,
-      d = 0
-    const u = t.length - 1,
-      c = this.parts,
-      [v, a] = E$1(t, i)
-    if (
-      ((this.el = C$1.createElement(v, e)),
-      (A$1.currentNode = this.el.content),
-      2 === i)
-    ) {
-      const t = this.el.content,
-        i = t.firstChild
-      i.remove(), t.append(...i.childNodes)
-    }
-    for (; null !== (l = A$1.nextNode()) && c.length < u; ) {
-      if (1 === l.nodeType) {
-        if (l.hasAttributes()) {
-          const t = []
-          for (const i of l.getAttributeNames())
-            if (i.endsWith('$lit$') || i.startsWith(o$d)) {
-              const s = a[d++]
-              if ((t.push(i), void 0 !== s)) {
-                const t = l.getAttribute(s.toLowerCase() + '$lit$').split(o$d),
-                  i = /([.?@])?(.*)/.exec(s)
-                c.push({
-                  type: 1,
-                  index: h,
-                  name: i[2],
-                  strings: t,
-                  ctor:
-                    '.' === i[1]
-                      ? M$1
-                      : '?' === i[1]
-                      ? k$1
-                      : '@' === i[1]
-                      ? H$1
-                      : S$2,
-                })
-              } else c.push({ type: 6, index: h })
-            }
-          for (const i of t) l.removeAttribute(i)
-        }
-        if ($$1.test(l.tagName)) {
-          const t = l.textContent.split(o$d),
-            i = t.length - 1
-          if (i > 0) {
-            l.textContent = s$9 ? s$9.emptyScript : ''
-            for (let s = 0; s < i; s++)
-              l.append(t[s], r$9()),
-                A$1.nextNode(),
-                c.push({ type: 2, index: ++h })
-            l.append(t[i], r$9())
-          }
-        }
-      } else if (8 === l.nodeType)
-        if (l.data === n$b) c.push({ type: 2, index: h })
-        else {
-          let t = -1
-          for (; -1 !== (t = l.data.indexOf(o$d, t + 1)); )
-            c.push({ type: 7, index: h }), (t += o$d.length - 1)
-        }
-      h++
-    }
-  }
-  static createElement(t, i) {
-    const s = h$4.createElement('template')
-    return (s.innerHTML = t), s
-  }
-}
-function P$1(t, i, s = t, e) {
-  var o, n, l, h
-  if (i === x$1) return i
-  let r =
-    void 0 !== e
-      ? null === (o = s._$Co) || void 0 === o
-        ? void 0
-        : o[e]
-      : s._$Cl
-  const u = d$2(i) ? void 0 : i._$litDirective$
-  return (
-    (null == r ? void 0 : r.constructor) !== u &&
-      (null === (n = null == r ? void 0 : r._$AO) ||
-        void 0 === n ||
-        n.call(r, !1),
-      void 0 === u ? (r = void 0) : ((r = new u(t)), r._$AT(t, s, e)),
-      void 0 !== e
-        ? ((null !== (l = (h = s)._$Co) && void 0 !== l ? l : (h._$Co = []))[
-            e
-          ] = r)
-        : (s._$Cl = r)),
-    void 0 !== r && (i = P$1(t, r._$AS(t, i.values), r, e)),
-    i
-  )
-}
-class V$1 {
-  constructor(t, i) {
-    ;(this.u = []), (this._$AN = void 0), (this._$AD = t), (this._$AM = i)
-  }
-  get parentNode() {
-    return this._$AM.parentNode
-  }
-  get _$AU() {
-    return this._$AM._$AU
-  }
-  v(t) {
-    var i
-    const {
-        el: { content: s },
-        parts: e,
-      } = this._$AD,
-      o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i
-        ? i
-        : h$4
-      ).importNode(s, !0)
-    A$1.currentNode = o
-    let n = A$1.nextNode(),
-      l = 0,
-      r = 0,
-      d = e[0]
-    for (; void 0 !== d; ) {
-      if (l === d.index) {
-        let i
-        2 === d.type
-          ? (i = new N$1(n, n.nextSibling, this, t))
-          : 1 === d.type
-          ? (i = new d.ctor(n, d.name, d.strings, this, t))
-          : 6 === d.type && (i = new I$1(n, this, t)),
-          this.u.push(i),
-          (d = e[++r])
-      }
-      l !== (null == d ? void 0 : d.index) && ((n = A$1.nextNode()), l++)
-    }
-    return o
-  }
-  p(t) {
-    let i = 0
-    for (const s of this.u)
-      void 0 !== s &&
-        (void 0 !== s.strings
-          ? (s._$AI(t, s, i), (i += s.strings.length - 2))
-          : s._$AI(t[i])),
-        i++
-  }
-}
-class N$1 {
-  constructor(t, i, s, e) {
-    var o
-    ;(this.type = 2),
-      (this._$AH = b$1),
-      (this._$AN = void 0),
-      (this._$AA = t),
-      (this._$AB = i),
-      (this._$AM = s),
-      (this.options = e),
-      (this._$Cm =
-        null === (o = null == e ? void 0 : e.isConnected) || void 0 === o || o)
-  }
-  get _$AU() {
-    var t, i
-    return null !==
-      (i = null === (t = this._$AM) || void 0 === t ? void 0 : t._$AU) &&
-      void 0 !== i
-      ? i
-      : this._$Cm
-  }
-  get parentNode() {
-    let t = this._$AA.parentNode
-    const i = this._$AM
-    return void 0 !== i && 11 === t.nodeType && (t = i.parentNode), t
-  }
-  get startNode() {
-    return this._$AA
-  }
-  get endNode() {
-    return this._$AB
-  }
-  _$AI(t, i = this) {
-    ;(t = P$1(this, t, i)),
-      d$2(t)
-        ? t === b$1 || null == t || '' === t
-          ? (this._$AH !== b$1 && this._$AR(), (this._$AH = b$1))
-          : t !== this._$AH && t !== x$1 && this.g(t)
-        : void 0 !== t._$litType$
-        ? this.$(t)
-        : void 0 !== t.nodeType
-        ? this.T(t)
-        : c$4(t)
-        ? this.k(t)
-        : this.g(t)
-  }
-  O(t, i = this._$AB) {
-    return this._$AA.parentNode.insertBefore(t, i)
-  }
-  T(t) {
-    this._$AH !== t && (this._$AR(), (this._$AH = this.O(t)))
-  }
-  g(t) {
-    this._$AH !== b$1 && d$2(this._$AH)
-      ? (this._$AA.nextSibling.data = t)
-      : this.T(h$4.createTextNode(t)),
-      (this._$AH = t)
-  }
-  $(t) {
-    var i
-    const { values: s, _$litType$: e } = t,
-      o =
-        'number' == typeof e
-          ? this._$AC(t)
-          : (void 0 === e.el && (e.el = C$1.createElement(e.h, this.options)),
-            e)
-    if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o)
-      this._$AH.p(s)
-    else {
-      const t = new V$1(o, this),
-        i = t.v(this.options)
-      t.p(s), this.T(i), (this._$AH = t)
-    }
-  }
-  _$AC(t) {
-    let i = T$1.get(t.strings)
-    return void 0 === i && T$1.set(t.strings, (i = new C$1(t))), i
-  }
-  k(t) {
-    u$2(this._$AH) || ((this._$AH = []), this._$AR())
-    const i = this._$AH
-    let s,
-      e = 0
-    for (const o of t)
-      e === i.length
-        ? i.push(
-            (s = new N$1(this.O(r$9()), this.O(r$9()), this, this.options))
-          )
-        : (s = i[e]),
-        s._$AI(o),
-        e++
-    e < i.length && (this._$AR(s && s._$AB.nextSibling, e), (i.length = e))
-  }
-  _$AR(t = this._$AA.nextSibling, i) {
-    var s
-    for (
-      null === (s = this._$AP) || void 0 === s || s.call(this, !1, !0, i);
-      t && t !== this._$AB;
-
-    ) {
-      const i = t.nextSibling
-      t.remove(), (t = i)
-    }
-  }
-  setConnected(t) {
-    var i
-    void 0 === this._$AM &&
-      ((this._$Cm = t),
-      null === (i = this._$AP) || void 0 === i || i.call(this, t))
-  }
-}
-class S$2 {
-  constructor(t, i, s, e, o) {
-    ;(this.type = 1),
-      (this._$AH = b$1),
-      (this._$AN = void 0),
-      (this.element = t),
-      (this.name = i),
-      (this._$AM = e),
-      (this.options = o),
-      s.length > 2 || '' !== s[0] || '' !== s[1]
-        ? ((this._$AH = Array(s.length - 1).fill(new String())),
-          (this.strings = s))
-        : (this._$AH = b$1)
-  }
-  get tagName() {
-    return this.element.tagName
-  }
-  get _$AU() {
-    return this._$AM._$AU
-  }
-  _$AI(t, i = this, s, e) {
-    const o = this.strings
-    let n = !1
-    if (void 0 === o)
-      (t = P$1(this, t, i, 0)),
-        (n = !d$2(t) || (t !== this._$AH && t !== x$1)),
-        n && (this._$AH = t)
-    else {
-      const e = t
-      let l, h
-      for (t = o[0], l = 0; l < o.length - 1; l++)
-        (h = P$1(this, e[s + l], i, l)),
-          h === x$1 && (h = this._$AH[l]),
-          n || (n = !d$2(h) || h !== this._$AH[l]),
-          h === b$1
-            ? (t = b$1)
-            : t !== b$1 && (t += (null != h ? h : '') + o[l + 1]),
-          (this._$AH[l] = h)
-    }
-    n && !e && this.j(t)
-  }
-  j(t) {
-    t === b$1
-      ? this.element.removeAttribute(this.name)
-      : this.element.setAttribute(this.name, null != t ? t : '')
-  }
-}
-class M$1 extends S$2 {
-  constructor() {
-    super(...arguments), (this.type = 3)
-  }
-  j(t) {
-    this.element[this.name] = t === b$1 ? void 0 : t
-  }
-}
-const R$1 = s$9 ? s$9.emptyScript : ''
-class k$1 extends S$2 {
-  constructor() {
-    super(...arguments), (this.type = 4)
-  }
-  j(t) {
-    t && t !== b$1
-      ? this.element.setAttribute(this.name, R$1)
-      : this.element.removeAttribute(this.name)
-  }
-}
-class H$1 extends S$2 {
-  constructor(t, i, s, e, o) {
-    super(t, i, s, e, o), (this.type = 5)
-  }
-  _$AI(t, i = this) {
-    var s
-    if (
-      (t = null !== (s = P$1(this, t, i, 0)) && void 0 !== s ? s : b$1) === x$1
-    )
-      return
-    const e = this._$AH,
-      o =
-        (t === b$1 && e !== b$1) ||
-        t.capture !== e.capture ||
-        t.once !== e.once ||
-        t.passive !== e.passive,
-      n = t !== b$1 && (e === b$1 || o)
-    o && this.element.removeEventListener(this.name, this, e),
-      n && this.element.addEventListener(this.name, this, t),
-      (this._$AH = t)
-  }
-  handleEvent(t) {
-    var i, s
-    'function' == typeof this._$AH
-      ? this._$AH.call(
-          null !==
-            (s =
-              null === (i = this.options) || void 0 === i ? void 0 : i.host) &&
-            void 0 !== s
-            ? s
-            : this.element,
-          t
-        )
-      : this._$AH.handleEvent(t)
-  }
-}
-class I$1 {
-  constructor(t, i, s) {
-    ;(this.element = t),
-      (this.type = 6),
-      (this._$AN = void 0),
-      (this._$AM = i),
-      (this.options = s)
-  }
-  get _$AU() {
-    return this._$AM._$AU
-  }
-  _$AI(t) {
-    P$1(this, t)
-  }
-}
-const z = i$7.litHtmlPolyfillSupport
-null == z || z(C$1, N$1),
-  (null !== (t$8 = i$7.litHtmlVersions) && void 0 !== t$8
-    ? t$8
-    : (i$7.litHtmlVersions = [])
-  ).push('2.6.1')
-const Z$1 = (t, i, s) => {
-  var e, o
-  const n =
-    null !== (e = null == s ? void 0 : s.renderBefore) && void 0 !== e ? e : i
-  let l = n._$litPart$
-  if (void 0 === l) {
-    const t =
-      null !== (o = null == s ? void 0 : s.renderBefore) && void 0 !== o
-        ? o
-        : null
-    n._$litPart$ = l = new N$1(
-      i.insertBefore(r$9(), t),
-      t,
-      void 0,
-      null != s ? s : {}
-    )
-  }
-  return l._$AI(t), l
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ var l$4, o$c
-class s$8 extends d$3 {
-  constructor() {
-    super(...arguments),
-      (this.renderOptions = { host: this }),
-      (this._$Do = void 0)
-  }
-  createRenderRoot() {
-    var t, e
-    const i = super.createRenderRoot()
-    return (
-      (null !== (t = (e = this.renderOptions).renderBefore) && void 0 !== t) ||
-        (e.renderBefore = i.firstChild),
-      i
-    )
-  }
-  update(t) {
-    const i = this.render()
-    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected),
-      super.update(t),
-      (this._$Do = Z$1(i, this.renderRoot, this.renderOptions))
-  }
-  connectedCallback() {
-    var t
-    super.connectedCallback(),
-      null === (t = this._$Do) || void 0 === t || t.setConnected(!0)
-  }
-  disconnectedCallback() {
-    var t
-    super.disconnectedCallback(),
-      null === (t = this._$Do) || void 0 === t || t.setConnected(!1)
-  }
-  render() {
-    return x$1
-  }
-}
-;(s$8.finalized = !0),
-  (s$8._$litElement$ = !0),
-  null === (l$4 = globalThis.litElementHydrateSupport) ||
-    void 0 === l$4 ||
-    l$4.call(globalThis, { LitElement: s$8 })
-const n$a = globalThis.litElementPolyfillSupport
-null == n$a || n$a({ LitElement: s$8 })
-;(null !== (o$c = globalThis.litElementVersions) && void 0 !== o$c
-  ? o$c
-  : (globalThis.litElementVersions = [])
-).push('3.2.2')
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const e$g = e => n =>
-  'function' == typeof n
-    ? ((e, n) => (customElements.define(e, n), n))(e, n)
-    : ((e, n) => {
-        const { kind: t, elements: s } = n
-        return {
-          kind: t,
-          elements: s,
-          finisher(n) {
-            customElements.define(e, n)
-          },
-        }
-      })(e, n)
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const i$6 = (i, e) =>
-  'method' === e.kind && e.descriptor && !('value' in e.descriptor)
-    ? {
-        ...e,
-        finisher(n) {
-          n.createProperty(e.key, i)
-        },
-      }
-    : {
-        kind: 'field',
-        key: Symbol(),
-        placement: 'own',
-        descriptor: {},
-        originalKey: e.key,
-        initializer() {
-          'function' == typeof e.initializer &&
-            (this[e.key] = e.initializer.call(this))
-        },
-        finisher(n) {
-          n.createProperty(e.key, i)
-        },
-      }
-function e$f(e) {
-  return (n, t) =>
-    void 0 !== t
-      ? ((i, e, n) => {
-          e.constructor.createProperty(n, i)
-        })(e, n, t)
-      : i$6(e, n)
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ function t$7(t) {
-  return e$f({ ...t, state: !0 })
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const o$b = ({ finisher: e, descriptor: t }) => (o, n) => {
-  var r
-  if (void 0 === n) {
-    const n = null !== (r = o.originalKey) && void 0 !== r ? r : o.key,
-      i =
-        null != t
-          ? {
-              kind: 'method',
-              placement: 'prototype',
-              key: n,
-              descriptor: t(o.key),
-            }
-          : { ...o, key: n }
-    return (
-      null != e &&
-        (i.finisher = function(t) {
-          e(t, n)
-        }),
-      i
-    )
-  }
-  {
-    const r = o.constructor
-    void 0 !== t && Object.defineProperty(o, n, t(n)), null == e || e(r, n)
-  }
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ var n$9
-null !=
-(null === (n$9 = window.HTMLSlotElement) || void 0 === n$9
-  ? void 0
-  : n$9.prototype.assignedElements)
-  ? (o, n) => o.assignedElements(n)
-  : (o, n) => o.assignedNodes(n).filter(o => o.nodeType === Node.ELEMENT_NODE)
-
-var selectState = {}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-class s$7 extends Event {
-  constructor(s, t, e) {
-    super('context-request', { bubbles: !0, composed: !0 }),
-      (this.context = s),
-      (this.callback = t),
-      (this.subscribe = e)
-  }
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-function n$8(n) {
-  return n
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ class s$6 {
-  constructor(t, s, i, h = !1) {
-    ;(this.host = t),
-      (this.context = s),
-      (this.callback = i),
-      (this.subscribe = h),
-      (this.provided = !1),
-      (this.value = void 0),
-      this.host.addController(this)
-  }
-  hostConnected() {
-    this.dispatchRequest()
-  }
-  hostDisconnected() {
-    this.unsubscribe && (this.unsubscribe(), (this.unsubscribe = void 0))
-  }
-  dispatchRequest() {
-    this.host.dispatchEvent(
-      new s$7(
-        this.context,
-        (t, s) => {
-          this.unsubscribe &&
-            (this.unsubscribe !== s &&
-              ((this.provided = !1), this.unsubscribe()),
-            this.subscribe || this.unsubscribe()),
-            (this.value = t),
-            this.host.requestUpdate(),
-            (this.provided && !this.subscribe) ||
-              ((this.provided = !0), this.callback && this.callback(t, s)),
-            (this.unsubscribe = s)
-        },
-        this.subscribe
-      )
-    )
-  }
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-class t$6 {
-  constructor(t) {
-    ;(this.callbacks = new Map()),
-      (this.updateObservers = () => {
-        for (const [t, s] of this.callbacks) t(this.t, s)
-      }),
-      void 0 !== t && (this.value = t)
-  }
-  get value() {
-    return this.t
-  }
-  set value(t) {
-    this.setValue(t)
-  }
-  setValue(t, s = !1) {
-    const i = s || !Object.is(t, this.t)
-    ;(this.t = t), i && this.updateObservers()
-  }
-  addCallback(t, s) {
-    s &&
-      (this.callbacks.has(t) ||
-        this.callbacks.set(t, () => {
-          this.callbacks.delete(t)
-        })),
-      t(this.value)
-  }
-  clearCallbacks() {
-    this.callbacks.clear()
-  }
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ class s$5 extends Event {
-  constructor(t) {
-    super('context-provider', { bubbles: !0, composed: !0 }), (this.context = t)
-  }
-}
-class e$e extends t$6 {
-  constructor(t, s, e) {
-    super(e),
-      (this.host = t),
-      (this.context = s),
-      (this.onContextRequest = t => {
-        t.context === this.context &&
-          t.composedPath()[0] !== this.host &&
-          (t.stopPropagation(), this.addCallback(t.callback, t.subscribe))
-      }),
-      this.attachListeners(),
-      this.host.addController(this)
-  }
-  attachListeners() {
-    this.host.addEventListener('context-request', this.onContextRequest)
-  }
-  hostConnected() {
-    this.host.dispatchEvent(new s$5(this.context))
-  }
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ class e$d {
-  constructor() {
-    ;(this.pendingContextRequests = new Map()),
-      (this.onContextProvider = e => {
-        const s = this.pendingContextRequests.get(e.context)
-        s &&
-          (this.pendingContextRequests.delete(e.context),
-          s.forEach(s => {
-            const c = s.element,
-              i = s.callback
-            c && c.dispatchEvent(new s$7(e.context, i, !0))
-          }))
-      }),
-      (this.onContextRequest = t => {
-        if (!t.subscribe) return
-        const e = { element: t.target, callback: t.callback }
-        let s = this.pendingContextRequests.get(t.context)
-        s || ((s = new Set()), this.pendingContextRequests.set(t.context, s)),
-          s.add(e)
-      })
-  }
-  attach(t) {
-    t.addEventListener('context-request', this.onContextRequest),
-      t.addEventListener('context-provider', this.onContextProvider)
-  }
-  detach(t) {
-    t.removeEventListener('context-request', this.onContextRequest),
-      t.removeEventListener('context-provider', this.onContextProvider)
-  }
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ function o$a({ context: o }) {
-  return o$b({
-    finisher: (t, n) => {
-      const r = new WeakMap()
-      t.addInitializer(t => {
-        r.set(t, new e$e(t, o))
-      })
-      const i = Object.getOwnPropertyDescriptor(t.prototype, n),
-        c = null == i ? void 0 : i.set,
-        s = {
-          ...i,
-          set: function(t) {
-            var e
-            null === (e = r.get(this)) || void 0 === e || e.setValue(t),
-              c && c.call(this, t)
-          },
-        }
-      Object.defineProperty(t.prototype, n, s)
-    },
-  })
-}
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ function t$5({ context: t, subscribe: o }) {
-  return o$b({
-    finisher: (e, n) => {
-      e.addInitializer(e => {
-        new s$6(
-          e,
-          t,
-          r => {
-            e[n] = r
-          },
-          o
-        )
-      })
-    },
-  })
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ const e$c = o$a,
-  r$8 = t$5
-
-var context = /*#__PURE__*/ Object.freeze({
-  __proto__: null,
-  contextProvided: r$8,
-  contextProvider: e$c,
-  ContextEvent: s$7,
-  createContext: n$8,
-  ContextConsumer: s$6,
-  ContextProvider: e$e,
-  ContextRoot: e$d,
-  provide: o$a,
-  consume: t$5,
-})
-
-var require$$0 = /*@__PURE__*/ getAugmentedNamespace(context)
-
-var selectController = {}
-
-;(function(exports) {
-  Object.defineProperty(exports, '__esModule', { value: true })
-  exports.connectSelector = exports.SelectorController = exports.getSnapshot = exports.getServiceSnapshot = exports.isActorWithState = exports.isService = exports.defaultCompare = void 0
-  const defaultCompare = (a, b) => a === b
-  exports.defaultCompare = defaultCompare
-  function isService(actor) {
-    return 'state' in actor && 'machine' in actor
-  }
-  exports.isService = isService
-  function isActorWithState(actorRef) {
-    return 'state' in actorRef
-  }
-  exports.isActorWithState = isActorWithState
-  function getServiceSnapshot(service) {
-    return service.status !== 0
-      ? service.getSnapshot()
-      : service.machine.initialState
-  }
-  exports.getServiceSnapshot = getServiceSnapshot
-  function getSnapshot(actorRef) {
-    if (isService(actorRef)) {
-      return getServiceSnapshot(actorRef)
-    }
-    return isActorWithState(actorRef) ? actorRef.state : undefined
-  }
-  exports.getSnapshot = getSnapshot
-  class SelectorController {
-    host
-    subscription
-    selected
-    constructor(host, actorRef, selector, compare = exports.defaultCompare) {
-      this.host = host
-      this.host.addController(this)
-      this.selected = selector(getSnapshot(actorRef))
-      this.subscription = actorRef.subscribe(emitted => {
-        const nextSelected = selector(emitted)
-        if (!compare(this.selected, nextSelected)) {
-          this.selected = nextSelected
-          this.host.requestUpdate()
-        }
-      })
-    }
-    get value() {
-      return this.selected
-    }
-    hostDisconnected() {
-      this.subscription.unsubscribe()
-    }
-  }
-  exports.SelectorController = SelectorController
-  function connectSelector(
-    host,
-    actorRef,
-    selector,
-    compare = exports.defaultCompare
-  ) {
-    return new SelectorController(host, actorRef, selector, compare)
-  }
-  exports.connectSelector = connectSelector
-})(selectController)
-
-Object.defineProperty(selectState, '__esModule', { value: true })
-selectState.compareObjects = compareArrays_1 = selectState.compareArrays = connectState_1 = selectState.connectState = selectState.SelectState = void 0
-const context_1 = require$$0
-const select_controller_js_1 = selectController
-class SelectState {
-  serviceContext
-  selectorController
-  host
-  selector
-  compare // if current value same as old value, return true
-  constructor(
-    context,
-    host,
-    selector,
-    compare = select_controller_js_1.defaultCompare
-  ) {
-    ;(this.host = host).addController(this)
-    this.serviceContext = new context_1.ContextConsumer(
-      this.host,
-      context,
-      undefined,
-      true
-    )
-    this.selector = selector
-    this.compare = compare
-  }
-  hostConnected() {
-    // has hostConnected already been called?
-    if (this.selectorController) {
-      this.hostDisconnected()
-    }
-    this.serviceContext.hostConnected()
-    this.selectorController = new select_controller_js_1.SelectorController(
-      this.host,
-      this.serviceContext.value.service,
-      this.selector,
-      this.compare
-    )
-  }
-  hostDisconnected() {
-    this.serviceContext?.hostDisconnected()
-    this.selectorController?.hostDisconnected()
-  }
-  get value() {
-    return this.selectorController?.value
-  }
-}
-selectState.SelectState = SelectState
-// Factory function for SelectState
-function connectState(
-  context,
-  host,
-  selector,
-  compare = select_controller_js_1.defaultCompare
-) {
-  return new SelectState(context, host, selector, compare)
-}
-var connectState_1 = (selectState.connectState = connectState)
-const compareArrays = (a, b) =>
-  a.length === b.length && a.every((value, idx) => value === b[idx])
-var compareArrays_1 = (selectState.compareArrays = compareArrays)
-const compareObjects = (obj1, obj2) =>
-  Object.keys(obj1).length === Object.keys(obj2).length &&
-  Object.keys(obj1).every(key => {
-    return (
-      Object.prototype.hasOwnProperty.call(obj2, key) && obj1[key] === obj2[key]
-    )
-  })
-selectState.compareObjects = compareObjects
-
-// "Inject" XState context into components with DOM events
-const viewerContext = n$8('viewer-context')
-let appContext
-const setContext = context => {
-  appContext = context
-}
-
-/**
- * @license
- * Copyright 2020 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ const e$b = o => void 0 === o.strings
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const t$4 = {
-    ATTRIBUTE: 1,
-    CHILD: 2,
-    PROPERTY: 3,
-    BOOLEAN_ATTRIBUTE: 4,
-    EVENT: 5,
-    ELEMENT: 6,
-  },
-  e$a = t => (...e) => ({ _$litDirective$: t, values: e })
-class i$5 {
-  constructor(t) {}
-  get _$AU() {
-    return this._$AM._$AU
-  }
-  _$AT(t, e, i) {
-    ;(this._$Ct = t), (this._$AM = e), (this._$Ci = i)
-  }
-  _$AS(t, e) {
-    return this.update(t, e)
-  }
-  update(t, e) {
-    return this.render(...e)
-  }
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ const s$4 = (i, t) => {
-    var e, o
-    const r = i._$AN
-    if (void 0 === r) return !1
-    for (const i of r)
-      null === (o = (e = i)._$AO) || void 0 === o || o.call(e, t, !1), s$4(i, t)
-    return !0
-  },
-  o$9 = i => {
-    let t, e
-    do {
-      if (void 0 === (t = i._$AM)) break
-      ;(e = t._$AN), e.delete(i), (i = t)
-    } while (0 === (null == e ? void 0 : e.size))
-  },
-  r$7 = i => {
-    for (let t; (t = i._$AM); i = t) {
-      let e = t._$AN
-      if (void 0 === e) t._$AN = e = new Set()
-      else if (e.has(i)) break
-      e.add(i), l$3(t)
-    }
-  }
-function n$7(i) {
-  void 0 !== this._$AN
-    ? (o$9(this), (this._$AM = i), r$7(this))
-    : (this._$AM = i)
-}
-function h$3(i, t = !1, e = 0) {
-  const r = this._$AH,
-    n = this._$AN
-  if (void 0 !== n && 0 !== n.size)
-    if (t)
-      if (Array.isArray(r))
-        for (let i = e; i < r.length; i++) s$4(r[i], !1), o$9(r[i])
-      else null != r && (s$4(r, !1), o$9(r))
-    else s$4(this, i)
-}
-const l$3 = i => {
-  var t, s, o, r
-  i.type == t$4.CHILD &&
-    ((null !== (t = (o = i)._$AP) && void 0 !== t) || (o._$AP = h$3),
-    (null !== (s = (r = i)._$AQ) && void 0 !== s) || (r._$AQ = n$7))
-}
-class c$3 extends i$5 {
-  constructor() {
-    super(...arguments), (this._$AN = void 0)
-  }
-  _$AT(i, t, e) {
-    super._$AT(i, t, e), r$7(this), (this.isConnected = i._$AU)
-  }
-  _$AO(i, t = !0) {
-    var e, r
-    i !== this.isConnected &&
-      ((this.isConnected = i),
-      i
-        ? null === (e = this.reconnected) || void 0 === e || e.call(this)
-        : null === (r = this.disconnected) || void 0 === r || r.call(this)),
-      t && (s$4(this, i), o$9(this))
-  }
-  setValue(t) {
-    if (e$b(this._$Ct)) this._$Ct._$AI(t, this)
-    else {
-      const i = [...this._$Ct._$AH]
-      ;(i[this._$Ci] = t), this._$Ct._$AI(i, this, 0)
-    }
-  }
-  disconnected() {}
-  reconnected() {}
-}
-
-/**
- * @license
- * Copyright 2020 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ const e$9 = () => new o$8()
-class o$8 {}
-const h$2 = new WeakMap(),
-  n$6 = e$a(
-    class extends c$3 {
-      render(t) {
-        return b$1
-      }
-      update(t, [s]) {
-        var e
-        const o = s !== this.Y
-        return (
-          o && void 0 !== this.Y && this.rt(void 0),
-          (o || this.lt !== this.ct) &&
-            ((this.Y = s),
-            (this.dt =
-              null === (e = t.options) || void 0 === e ? void 0 : e.host),
-            this.rt((this.ct = t.element))),
-          b$1
-        )
-      }
-      rt(i) {
-        var t
-        if ('function' == typeof this.Y) {
-          const s = null !== (t = this.dt) && void 0 !== t ? t : globalThis
-          let e = h$2.get(s)
-          void 0 === e && ((e = new WeakMap()), h$2.set(s, e)),
-            void 0 !== e.get(this.Y) && this.Y.call(this.dt, void 0),
-            e.set(this.Y, i),
-            void 0 !== i && this.Y.call(this.dt, i)
-        } else this.Y.value = i
-      }
-      get lt() {
-        var i, t, s
-        return 'function' == typeof this.Y
-          ? null ===
-              (t = h$2.get(
-                null !== (i = this.dt) && void 0 !== i ? i : globalThis
-              )) || void 0 === t
-            ? void 0
-            : t.get(this.Y)
-          : null === (s = this.Y) || void 0 === s
-          ? void 0
-          : s.value
-      }
-      disconnected() {
-        this.lt === this.ct && this.rt(void 0)
-      }
-      reconnected() {
-        this.rt(this.ct)
-      }
-    }
-  )
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-function* o$7(o, f) {
-  if (void 0 !== o) {
-    let i = 0
-    for (const t of o) yield f(t, i++)
-  }
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const t$3 = t => (e, o) => {
+const t$9 = t => (e, o) => {
   void 0 !== o
     ? o.addInitializer(() => {
         customElements.define(t, e)
@@ -4366,17 +2748,17 @@ const t$3 = t => (e, o) => {
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$2 = globalThis,
-  e$8 =
-    t$2.ShadowRoot &&
-    (void 0 === t$2.ShadyCSS || t$2.ShadyCSS.nativeShadow) &&
+const t$8 = globalThis,
+  e$j =
+    t$8.ShadowRoot &&
+    (void 0 === t$8.ShadyCSS || t$8.ShadyCSS.nativeShadow) &&
     'adoptedStyleSheets' in Document.prototype &&
     'replace' in CSSStyleSheet.prototype,
-  s$3 = Symbol(),
-  o$6 = new WeakMap()
-class n$5 {
+  s$b = Symbol(),
+  o$f = new WeakMap()
+class n$d {
   constructor(t, e, o) {
-    if (((this._$cssResult$ = !0), o !== s$3))
+    if (((this._$cssResult$ = !0), o !== s$b))
       throw Error(
         'CSSResult is not constructable. Use `unsafeCSS` or `css` instead.'
       )
@@ -4385,12 +2767,12 @@ class n$5 {
   get styleSheet() {
     let t = this.o
     const s = this.t
-    if (e$8 && void 0 === t) {
+    if (e$j && void 0 === t) {
       const e = void 0 !== s && 1 === s.length
-      e && (t = o$6.get(s)),
+      e && (t = o$f.get(s)),
         void 0 === t &&
           ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText),
-          e && o$6.set(s, t))
+          e && o$f.set(s, t))
     }
     return t
   }
@@ -4398,8 +2780,8 @@ class n$5 {
     return this.cssText
   }
 }
-const r$6 = t => new n$5('string' == typeof t ? t : t + '', void 0, s$3),
-  i$4 = (t, ...e) => {
+const r$b = t => new n$d('string' == typeof t ? t : t + '', void 0, s$b),
+  i$8 = (t, ...e) => {
     const o =
       1 === t.length
         ? t[0]
@@ -4418,30 +2800,30 @@ const r$6 = t => new n$5('string' == typeof t ? t : t + '', void 0, s$3),
               t[o + 1],
             t[0]
           )
-    return new n$5(o, t, s$3)
+    return new n$d(o, t, s$b)
   },
-  S$1 = (s, o) => {
-    if (e$8)
+  S$3 = (s, o) => {
+    if (e$j)
       s.adoptedStyleSheets = o.map(t =>
         t instanceof CSSStyleSheet ? t : t.styleSheet
       )
     else
       for (const e of o) {
         const o = document.createElement('style'),
-          n = t$2.litNonce
+          n = t$8.litNonce
         void 0 !== n && o.setAttribute('nonce', n),
           (o.textContent = e.cssText),
           s.appendChild(o)
       }
   },
-  c$2 = e$8
+  c$5 = e$j
     ? t => t
     : t =>
         t instanceof CSSStyleSheet
           ? (t => {
               let e = ''
               for (const s of t.cssRules) e += s.cssText
-              return r$6(e)
+              return r$b(e)
             })(t)
           : t
 
@@ -4450,23 +2832,23 @@ const r$6 = t => new n$5('string' == typeof t ? t : t + '', void 0, s$3),
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */ const {
-    is: i$3,
-    defineProperty: e$7,
-    getOwnPropertyDescriptor: r$5,
-    getOwnPropertyNames: h$1,
-    getOwnPropertySymbols: o$5,
-    getPrototypeOf: n$4,
+    is: i$7,
+    defineProperty: e$i,
+    getOwnPropertyDescriptor: r$a,
+    getOwnPropertyNames: h$5,
+    getOwnPropertySymbols: o$e,
+    getPrototypeOf: n$c,
   } = Object,
-  a$2 = globalThis,
-  c$1 = a$2.trustedTypes,
-  l$2 = c$1 ? c$1.emptyScript : '',
-  p$1 = a$2.reactiveElementPolyfillSupport,
-  d$1 = (t, s) => t,
-  u$1 = {
+  a$4 = globalThis,
+  c$4 = a$4.trustedTypes,
+  l$6 = c$4 ? c$4.emptyScript : '',
+  p$2 = a$4.reactiveElementPolyfillSupport,
+  d$3 = (t, s) => t,
+  u$2 = {
     toAttribute(t, s) {
       switch (s) {
         case Boolean:
-          t = t ? l$2 : null
+          t = t ? l$6 : null
           break
         case Object:
         case Array:
@@ -4494,24 +2876,24 @@ const r$6 = t => new n$5('string' == typeof t ? t : t + '', void 0, s$3),
       return i
     },
   },
-  f$1 = (t, s) => !i$3(t, s),
-  y$1 = {
+  f$2 = (t, s) => !i$7(t, s),
+  y$2 = {
     attribute: !0,
     type: String,
-    converter: u$1,
+    converter: u$2,
     reflect: !1,
-    hasChanged: f$1,
+    hasChanged: f$2,
   }
 ;(Symbol.metadata ??= Symbol('metadata')),
-  (a$2.litPropertyMetadata ??= new WeakMap())
-class b extends HTMLElement {
+  (a$4.litPropertyMetadata ??= new WeakMap())
+class b$1 extends HTMLElement {
   static addInitializer(t) {
     this._$Ei(), (this.l ??= []).push(t)
   }
   static get observedAttributes() {
     return this.finalize(), this._$Eh && [...this._$Eh.keys()]
   }
-  static createProperty(t, s = y$1) {
+  static createProperty(t, s = y$2) {
     if (
       (s.state && (s.attribute = !1),
       this._$Ei(),
@@ -4520,11 +2902,11 @@ class b extends HTMLElement {
     ) {
       const i = Symbol(),
         r = this.getPropertyDescriptor(t, i, s)
-      void 0 !== r && e$7(this.prototype, t, r)
+      void 0 !== r && e$i(this.prototype, t, r)
     }
   }
   static getPropertyDescriptor(t, s, i) {
-    const { get: e, set: h } = r$5(this.prototype, t) ?? {
+    const { get: e, set: h } = r$a(this.prototype, t) ?? {
       get() {
         return this[s]
       },
@@ -4545,24 +2927,24 @@ class b extends HTMLElement {
     }
   }
   static getPropertyOptions(t) {
-    return this.elementProperties.get(t) ?? y$1
+    return this.elementProperties.get(t) ?? y$2
   }
   static _$Ei() {
-    if (this.hasOwnProperty(d$1('elementProperties'))) return
-    const t = n$4(this)
+    if (this.hasOwnProperty(d$3('elementProperties'))) return
+    const t = n$c(this)
     t.finalize(),
       void 0 !== t.l && (this.l = [...t.l]),
       (this.elementProperties = new Map(t.elementProperties))
   }
   static finalize() {
-    if (this.hasOwnProperty(d$1('finalized'))) return
+    if (this.hasOwnProperty(d$3('finalized'))) return
     if (
       ((this.finalized = !0),
       this._$Ei(),
-      this.hasOwnProperty(d$1('properties')))
+      this.hasOwnProperty(d$3('properties')))
     ) {
       const t = this.properties,
-        s = [...h$1(t), ...o$5(t)]
+        s = [...h$5(t), ...o$e(t)]
       for (const i of s) this.createProperty(i, t[i])
     }
     const t = this[Symbol.metadata]
@@ -4581,8 +2963,8 @@ class b extends HTMLElement {
     const i = []
     if (Array.isArray(s)) {
       const e = new Set(s.flat(1 / 0).reverse())
-      for (const s of e) i.unshift(c$2(s))
-    } else void 0 !== s && i.push(c$2(s))
+      for (const s of e) i.unshift(c$5(s))
+    } else void 0 !== s && i.push(c$5(s))
     return i
   }
   static _$Eu(t, s) {
@@ -4627,7 +3009,7 @@ class b extends HTMLElement {
   createRenderRoot() {
     const t =
       this.shadowRoot ?? this.attachShadow(this.constructor.shadowRootOptions)
-    return S$1(t, this.constructor.elementStyles), t
+    return S$3(t, this.constructor.elementStyles), t
   }
   connectedCallback() {
     ;(this.renderRoot ??= this.createRenderRoot()),
@@ -4647,7 +3029,7 @@ class b extends HTMLElement {
     if (void 0 !== e && !0 === i.reflect) {
       const r = (void 0 !== i.converter?.toAttribute
         ? i.converter
-        : u$1
+        : u$2
       ).toAttribute(s, i.type)
       ;(this._$Em = t),
         null == r ? this.removeAttribute(e) : this.setAttribute(e, r),
@@ -4664,7 +3046,7 @@ class b extends HTMLElement {
             ? { fromAttribute: t.converter }
             : void 0 !== t.converter?.fromAttribute
             ? t.converter
-            : u$1
+            : u$2
       ;(this._$Em = e),
         (this[e] = r.fromAttribute(s, t.type)),
         (this._$Em = null)
@@ -4674,7 +3056,7 @@ class b extends HTMLElement {
     if (void 0 !== t) {
       if (
         ((i ??= this.constructor.getPropertyOptions(t)),
-        !(i.hasChanged ?? f$1)(e ? r : this[t], s))
+        !(i.hasChanged ?? f$2)(e ? r : this[t], s))
       )
         return
       this.C(t, s, i)
@@ -4751,25 +3133,25 @@ class b extends HTMLElement {
   updated(t) {}
   firstUpdated(t) {}
 }
-;(b.elementStyles = []),
-  (b.shadowRootOptions = { mode: 'open' }),
-  (b[d$1('elementProperties')] = new Map()),
-  (b[d$1('finalized')] = new Map()),
-  p$1?.({ ReactiveElement: b }),
-  (a$2.reactiveElementVersions ??= []).push('2.0.2')
+;(b$1.elementStyles = []),
+  (b$1.shadowRootOptions = { mode: 'open' }),
+  (b$1[d$3('elementProperties')] = new Map()),
+  (b$1[d$3('finalized')] = new Map()),
+  p$2?.({ ReactiveElement: b$1 }),
+  (a$4.reactiveElementVersions ??= []).push('2.0.2')
 
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ const o$4 = {
+ */ const o$d = {
     attribute: !0,
     type: String,
-    converter: u$1,
+    converter: u$2,
     reflect: !1,
-    hasChanged: f$1,
+    hasChanged: f$2,
   },
-  r$4 = (t = o$4, e, r) => {
+  r$9 = (t = o$d, e, r) => {
     const { kind: n, metadata: i } = r
     let s = globalThis.litPropertyMetadata.get(i)
     if (
@@ -4797,10 +3179,10 @@ class b extends HTMLElement {
     }
     throw Error('Unsupported decorator location: ' + n)
   }
-function n$3(t) {
+function n$b(t) {
   return (e, o) =>
     'object' == typeof o
-      ? r$4(t, e, o)
+      ? r$9(t, e, o)
       : ((t, e, o) => {
           const r = e.hasOwnProperty(o)
           return (
@@ -4814,8 +3196,8 @@ function n$3(t) {
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ function r$3(r) {
-  return n$3({ ...r, state: !0, attribute: !1 })
+ */ function r$8(r) {
+  return n$b({ ...r, state: !0, attribute: !1 })
 }
 
 /**
@@ -4823,7 +3205,7 @@ function n$3(t) {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const e$6 = (e, t, c) => (
+const e$h = (e, t, c) => (
   (c.configurable = !0),
   (c.enumerable = !0),
   Reflect.decorate && 'object' != typeof t && Object.defineProperty(e, t, c),
@@ -4834,7 +3216,7 @@ const e$6 = (e, t, c) => (
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ function e$5(e, r) {
+ */ function e$g(e, r) {
   return (n, s, i) => {
     const o = t => t.renderRoot?.querySelector(e) ?? null
     if (r) {
@@ -4853,7 +3235,7 @@ const e$6 = (e, t, c) => (
                 },
               }
             })()
-      return e$6(n, s, {
+      return e$h(n, s, {
         get() {
           let t = e.call(this)
           return (
@@ -4865,7 +3247,7 @@ const e$6 = (e, t, c) => (
         },
       })
     }
-    return e$6(n, s, {
+    return e$h(n, s, {
       get() {
         return o(this)
       },
@@ -4878,13 +3260,13 @@ const e$6 = (e, t, c) => (
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-let e$4
-function r$2(r) {
+let e$f
+function r$7(r) {
   return (n, o) =>
-    e$6(n, o, {
+    e$h(n, o, {
       get() {
         return (
-          this.renderRoot ?? (e$4 ??= document.createDocumentFragment())
+          this.renderRoot ?? (e$f ??= document.createDocumentFragment())
         ).querySelectorAll(r)
       },
     })
@@ -4894,11 +3276,11 @@ function r$2(r) {
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ function o$3(o) {
+ */ function o$c(o) {
   return (e, n) => {
     const { slot: r, selector: s } = o ?? {},
       c = 'slot' + (r ? `[name=${r}]` : ':not([name])')
-    return e$6(e, n, {
+    return e$h(e, n, {
       get() {
         const t = this.renderRoot?.querySelector(c),
           e = t?.assignedElements(o) ?? []
@@ -4913,46 +3295,46 @@ function r$2(r) {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$1 = globalThis,
-  i$2 = t$1.trustedTypes,
-  s$2 = i$2 ? i$2.createPolicy('lit-html', { createHTML: t => t }) : void 0,
-  e$3 = '$lit$',
-  h = `lit$${(Math.random() + '').slice(9)}$`,
-  o$2 = '?' + h,
-  n$2 = `<${o$2}>`,
-  r$1 = document,
-  l$1 = () => r$1.createComment(''),
-  c = t => null === t || ('object' != typeof t && 'function' != typeof t),
-  a$1 = Array.isArray,
-  u = t => a$1(t) || 'function' == typeof t?.[Symbol.iterator],
-  d = '[ \t\n\f\r]',
-  f = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
-  v = /-->/g,
-  _ = />/g,
-  m = RegExp(
-    `>|${d}(?:([^\\s"'>=/]+)(${d}*=${d}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,
+const t$7 = globalThis,
+  i$6 = t$7.trustedTypes,
+  s$a = i$6 ? i$6.createPolicy('lit-html', { createHTML: t => t }) : void 0,
+  e$e = '$lit$',
+  h$4 = `lit$${(Math.random() + '').slice(9)}$`,
+  o$b = '?' + h$4,
+  n$a = `<${o$b}>`,
+  r$6 = document,
+  l$5 = () => r$6.createComment(''),
+  c$3 = t => null === t || ('object' != typeof t && 'function' != typeof t),
+  a$3 = Array.isArray,
+  u$1 = t => a$3(t) || 'function' == typeof t?.[Symbol.iterator],
+  d$2 = '[ \t\n\f\r]',
+  f$1 = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
+  v$1 = /-->/g,
+  _$1 = />/g,
+  m$1 = RegExp(
+    `>|${d$2}(?:([^\\s"'>=/]+)(${d$2}*=${d$2}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,
     'g'
   ),
-  p = /'/g,
-  g = /"/g,
-  $ = /^(?:script|style|textarea|title)$/i,
-  y = t => (i, ...s) => ({ _$litType$: t, strings: i, values: s }),
-  x = y(1),
+  p$1 = /'/g,
+  g$1 = /"/g,
+  $$1 = /^(?:script|style|textarea|title)$/i,
+  y$1 = t => (i, ...s) => ({ _$litType$: t, strings: i, values: s }),
+  x$1 = y$1(1),
   w = Symbol.for('lit-noChange'),
-  T = Symbol.for('lit-nothing'),
-  A = new WeakMap(),
-  E = r$1.createTreeWalker(r$1, 129)
-function C(t, i) {
+  T$1 = Symbol.for('lit-nothing'),
+  A$1 = new WeakMap(),
+  E$1 = r$6.createTreeWalker(r$6, 129)
+function C$1(t, i) {
   if (!Array.isArray(t) || !t.hasOwnProperty('raw'))
     throw Error('invalid template strings array')
-  return void 0 !== s$2 ? s$2.createHTML(i) : i
+  return void 0 !== s$a ? s$a.createHTML(i) : i
 }
-const P = (t, i) => {
+const P$1 = (t, i) => {
   const s = t.length - 1,
     o = []
   let r,
     l = 2 === i ? '<svg>' : '',
-    c = f
+    c = f$1
   for (let i = 0; i < s; i++) {
     const s = t[i]
     let a,
@@ -4961,38 +3343,38 @@ const P = (t, i) => {
       y = 0
     for (; y < s.length && ((c.lastIndex = y), (u = c.exec(s)), null !== u); )
       (y = c.lastIndex),
-        c === f
+        c === f$1
           ? '!--' === u[1]
-            ? (c = v)
+            ? (c = v$1)
             : void 0 !== u[1]
-            ? (c = _)
+            ? (c = _$1)
             : void 0 !== u[2]
-            ? ($.test(u[2]) && (r = RegExp('</' + u[2], 'g')), (c = m))
-            : void 0 !== u[3] && (c = m)
-          : c === m
+            ? ($$1.test(u[2]) && (r = RegExp('</' + u[2], 'g')), (c = m$1))
+            : void 0 !== u[3] && (c = m$1)
+          : c === m$1
           ? '>' === u[0]
-            ? ((c = r ?? f), (d = -1))
+            ? ((c = r ?? f$1), (d = -1))
             : void 0 === u[1]
             ? (d = -2)
             : ((d = c.lastIndex - u[2].length),
               (a = u[1]),
-              (c = void 0 === u[3] ? m : '"' === u[3] ? g : p))
-          : c === g || c === p
-          ? (c = m)
-          : c === v || c === _
-          ? (c = f)
-          : ((c = m), (r = void 0))
-    const x = c === m && t[i + 1].startsWith('/>') ? ' ' : ''
+              (c = void 0 === u[3] ? m$1 : '"' === u[3] ? g$1 : p$1))
+          : c === g$1 || c === p$1
+          ? (c = m$1)
+          : c === v$1 || c === _$1
+          ? (c = f$1)
+          : ((c = m$1), (r = void 0))
+    const x = c === m$1 && t[i + 1].startsWith('/>') ? ' ' : ''
     l +=
-      c === f
-        ? s + n$2
+      c === f$1
+        ? s + n$a
         : d >= 0
-        ? (o.push(a), s.slice(0, d) + e$3 + s.slice(d) + h + x)
-        : s + h + (-2 === d ? i : x)
+        ? (o.push(a), s.slice(0, d) + e$e + s.slice(d) + h$4 + x)
+        : s + h$4 + (-2 === d ? i : x)
   }
-  return [C(t, l + (t[s] || '<?>') + (2 === i ? '</svg>' : '')), o]
+  return [C$1(t, l + (t[s] || '<?>') + (2 === i ? '</svg>' : '')), o]
 }
-class V {
+class V$1 {
   constructor({ strings: t, _$litType$: s }, n) {
     let r
     this.parts = []
@@ -5000,22 +3382,22 @@ class V {
       a = 0
     const u = t.length - 1,
       d = this.parts,
-      [f, v] = P(t, s)
+      [f, v] = P$1(t, s)
     if (
-      ((this.el = V.createElement(f, n)),
-      (E.currentNode = this.el.content),
+      ((this.el = V$1.createElement(f, n)),
+      (E$1.currentNode = this.el.content),
       2 === s)
     ) {
       const t = this.el.content.firstChild
       t.replaceWith(...t.childNodes)
     }
-    for (; null !== (r = E.nextNode()) && d.length < u; ) {
+    for (; null !== (r = E$1.nextNode()) && d.length < u; ) {
       if (1 === r.nodeType) {
         if (r.hasAttributes())
           for (const t of r.getAttributeNames())
-            if (t.endsWith(e$3)) {
+            if (t.endsWith(e$e)) {
               const i = v[a++],
-                s = r.getAttribute(t).split(h),
+                s = r.getAttribute(t).split(h$4),
                 e = /([.?@])?(.*)/.exec(i)
               d.push({
                 type: 1,
@@ -5023,53 +3405,59 @@ class V {
                 name: e[2],
                 strings: s,
                 ctor:
-                  '.' === e[1] ? k : '?' === e[1] ? H : '@' === e[1] ? I : R,
+                  '.' === e[1]
+                    ? k$1
+                    : '?' === e[1]
+                    ? H$1
+                    : '@' === e[1]
+                    ? I$1
+                    : R$1,
               }),
                 r.removeAttribute(t)
             } else
-              t.startsWith(h) &&
+              t.startsWith(h$4) &&
                 (d.push({ type: 6, index: c }), r.removeAttribute(t))
-        if ($.test(r.tagName)) {
-          const t = r.textContent.split(h),
+        if ($$1.test(r.tagName)) {
+          const t = r.textContent.split(h$4),
             s = t.length - 1
           if (s > 0) {
-            r.textContent = i$2 ? i$2.emptyScript : ''
+            r.textContent = i$6 ? i$6.emptyScript : ''
             for (let i = 0; i < s; i++)
-              r.append(t[i], l$1()),
-                E.nextNode(),
+              r.append(t[i], l$5()),
+                E$1.nextNode(),
                 d.push({ type: 2, index: ++c })
-            r.append(t[s], l$1())
+            r.append(t[s], l$5())
           }
         }
       } else if (8 === r.nodeType)
-        if (r.data === o$2) d.push({ type: 2, index: c })
+        if (r.data === o$b) d.push({ type: 2, index: c })
         else {
           let t = -1
-          for (; -1 !== (t = r.data.indexOf(h, t + 1)); )
-            d.push({ type: 7, index: c }), (t += h.length - 1)
+          for (; -1 !== (t = r.data.indexOf(h$4, t + 1)); )
+            d.push({ type: 7, index: c }), (t += h$4.length - 1)
         }
       c++
     }
   }
   static createElement(t, i) {
-    const s = r$1.createElement('template')
+    const s = r$6.createElement('template')
     return (s.innerHTML = t), s
   }
 }
-function N(t, i, s = t, e) {
+function N$1(t, i, s = t, e) {
   if (i === w) return i
   let h = void 0 !== e ? s._$Co?.[e] : s._$Cl
-  const o = c(i) ? void 0 : i._$litDirective$
+  const o = c$3(i) ? void 0 : i._$litDirective$
   return (
     h?.constructor !== o &&
       (h?._$AO?.(!1),
       void 0 === o ? (h = void 0) : ((h = new o(t)), h._$AT(t, s, e)),
       void 0 !== e ? ((s._$Co ??= [])[e] = h) : (s._$Cl = h)),
-    void 0 !== h && (i = N(t, h._$AS(t, i.values), h, e)),
+    void 0 !== h && (i = N$1(t, h._$AS(t, i.values), h, e)),
     i
   )
 }
-class S {
+class S$2 {
   constructor(t, i) {
     ;(this._$AV = []), (this._$AN = void 0), (this._$AD = t), (this._$AM = i)
   }
@@ -5084,9 +3472,9 @@ class S {
         el: { content: i },
         parts: s,
       } = this._$AD,
-      e = (t?.creationScope ?? r$1).importNode(i, !0)
-    E.currentNode = e
-    let h = E.nextNode(),
+      e = (t?.creationScope ?? r$6).importNode(i, !0)
+    E$1.currentNode = e
+    let h = E$1.nextNode(),
       o = 0,
       n = 0,
       l = s[0]
@@ -5094,16 +3482,16 @@ class S {
       if (o === l.index) {
         let i
         2 === l.type
-          ? (i = new M(h, h.nextSibling, this, t))
+          ? (i = new M$1(h, h.nextSibling, this, t))
           : 1 === l.type
           ? (i = new l.ctor(h, l.name, l.strings, this, t))
           : 6 === l.type && (i = new L(h, this, t)),
           this._$AV.push(i),
           (l = s[++n])
       }
-      o !== l?.index && ((h = E.nextNode()), o++)
+      o !== l?.index && ((h = E$1.nextNode()), o++)
     }
-    return (E.currentNode = r$1), e
+    return (E$1.currentNode = r$6), e
   }
   p(t) {
     let i = 0
@@ -5115,13 +3503,13 @@ class S {
         i++
   }
 }
-class M {
+class M$1 {
   get _$AU() {
     return this._$AM?._$AU ?? this._$Cv
   }
   constructor(t, i, s, e) {
     ;(this.type = 2),
-      (this._$AH = T),
+      (this._$AH = T$1),
       (this._$AN = void 0),
       (this._$AA = t),
       (this._$AB = i),
@@ -5141,16 +3529,16 @@ class M {
     return this._$AB
   }
   _$AI(t, i = this) {
-    ;(t = N(this, t, i)),
-      c(t)
-        ? t === T || null == t || '' === t
-          ? (this._$AH !== T && this._$AR(), (this._$AH = T))
+    ;(t = N$1(this, t, i)),
+      c$3(t)
+        ? t === T$1 || null == t || '' === t
+          ? (this._$AH !== T$1 && this._$AR(), (this._$AH = T$1))
           : t !== this._$AH && t !== w && this._(t)
         : void 0 !== t._$litType$
         ? this.g(t)
         : void 0 !== t.nodeType
         ? this.$(t)
-        : u(t)
+        : u$1(t)
         ? this.T(t)
         : this._(t)
   }
@@ -5161,9 +3549,9 @@ class M {
     this._$AH !== t && (this._$AR(), (this._$AH = this.k(t)))
   }
   _(t) {
-    this._$AH !== T && c(this._$AH)
+    this._$AH !== T$1 && c$3(this._$AH)
       ? (this._$AA.nextSibling.data = t)
-      : this.$(r$1.createTextNode(t)),
+      : this.$(r$6.createTextNode(t)),
       (this._$AH = t)
   }
   g(t) {
@@ -5172,27 +3560,29 @@ class M {
         'number' == typeof s
           ? this._$AC(t)
           : (void 0 === s.el &&
-              (s.el = V.createElement(C(s.h, s.h[0]), this.options)),
+              (s.el = V$1.createElement(C$1(s.h, s.h[0]), this.options)),
             s)
     if (this._$AH?._$AD === e) this._$AH.p(i)
     else {
-      const t = new S(e, this),
+      const t = new S$2(e, this),
         s = t.u(this.options)
       t.p(i), this.$(s), (this._$AH = t)
     }
   }
   _$AC(t) {
-    let i = A.get(t.strings)
-    return void 0 === i && A.set(t.strings, (i = new V(t))), i
+    let i = A$1.get(t.strings)
+    return void 0 === i && A$1.set(t.strings, (i = new V$1(t))), i
   }
   T(t) {
-    a$1(this._$AH) || ((this._$AH = []), this._$AR())
+    a$3(this._$AH) || ((this._$AH = []), this._$AR())
     const i = this._$AH
     let s,
       e = 0
     for (const h of t)
       e === i.length
-        ? i.push((s = new M(this.k(l$1()), this.k(l$1()), this, this.options)))
+        ? i.push(
+            (s = new M$1(this.k(l$5()), this.k(l$5()), this, this.options))
+          )
         : (s = i[e]),
         s._$AI(h),
         e++
@@ -5208,7 +3598,7 @@ class M {
     void 0 === this._$AM && ((this._$Cv = t), this._$AP?.(t))
   }
 }
-class R {
+class R$1 {
   get tagName() {
     return this.element.tagName
   }
@@ -5217,7 +3607,7 @@ class R {
   }
   constructor(t, i, s, e, h) {
     ;(this.type = 1),
-      (this._$AH = T),
+      (this._$AH = T$1),
       (this._$AN = void 0),
       (this.element = t),
       (this.name = i),
@@ -5226,62 +3616,62 @@ class R {
       s.length > 2 || '' !== s[0] || '' !== s[1]
         ? ((this._$AH = Array(s.length - 1).fill(new String())),
           (this.strings = s))
-        : (this._$AH = T)
+        : (this._$AH = T$1)
   }
   _$AI(t, i = this, s, e) {
     const h = this.strings
     let o = !1
     if (void 0 === h)
-      (t = N(this, t, i, 0)),
-        (o = !c(t) || (t !== this._$AH && t !== w)),
+      (t = N$1(this, t, i, 0)),
+        (o = !c$3(t) || (t !== this._$AH && t !== w)),
         o && (this._$AH = t)
     else {
       const e = t
       let n, r
       for (t = h[0], n = 0; n < h.length - 1; n++)
-        (r = N(this, e[s + n], i, n)),
+        (r = N$1(this, e[s + n], i, n)),
           r === w && (r = this._$AH[n]),
-          (o ||= !c(r) || r !== this._$AH[n]),
-          r === T ? (t = T) : t !== T && (t += (r ?? '') + h[n + 1]),
+          (o ||= !c$3(r) || r !== this._$AH[n]),
+          r === T$1 ? (t = T$1) : t !== T$1 && (t += (r ?? '') + h[n + 1]),
           (this._$AH[n] = r)
     }
     o && !e && this.O(t)
   }
   O(t) {
-    t === T
+    t === T$1
       ? this.element.removeAttribute(this.name)
       : this.element.setAttribute(this.name, t ?? '')
   }
 }
-class k extends R {
+class k$1 extends R$1 {
   constructor() {
     super(...arguments), (this.type = 3)
   }
   O(t) {
-    this.element[this.name] = t === T ? void 0 : t
+    this.element[this.name] = t === T$1 ? void 0 : t
   }
 }
-class H extends R {
+class H$1 extends R$1 {
   constructor() {
     super(...arguments), (this.type = 4)
   }
   O(t) {
-    this.element.toggleAttribute(this.name, !!t && t !== T)
+    this.element.toggleAttribute(this.name, !!t && t !== T$1)
   }
 }
-class I extends R {
+class I$1 extends R$1 {
   constructor(t, i, s, e, h) {
     super(t, i, s, e, h), (this.type = 5)
   }
   _$AI(t, i = this) {
-    if ((t = N(this, t, i, 0) ?? T) === w) return
+    if ((t = N$1(this, t, i, 0) ?? T$1) === w) return
     const s = this._$AH,
       e =
-        (t === T && s !== T) ||
+        (t === T$1 && s !== T$1) ||
         t.capture !== s.capture ||
         t.once !== s.once ||
         t.passive !== s.passive,
-      h = t !== T && (s === T || e)
+      h = t !== T$1 && (s === T$1 || e)
     e && this.element.removeEventListener(this.name, this, s),
       h && this.element.addEventListener(this.name, this, t),
       (this._$AH = t)
@@ -5304,17 +3694,17 @@ class L {
     return this._$AM._$AU
   }
   _$AI(t) {
-    N(this, t)
+    N$1(this, t)
   }
 }
-const Z = t$1.litHtmlPolyfillSupport
-Z?.(V, M), (t$1.litHtmlVersions ??= []).push('3.1.0')
+const Z$1 = t$7.litHtmlPolyfillSupport
+Z$1?.(V$1, M$1), (t$7.litHtmlVersions ??= []).push('3.1.0')
 const j = (t, i, s) => {
   const e = s?.renderBefore ?? i
   let h = e._$litPart$
   if (void 0 === h) {
     const t = s?.renderBefore ?? null
-    e._$litPart$ = h = new M(i.insertBefore(l$1(), t), t, void 0, s ?? {})
+    e._$litPart$ = h = new M$1(i.insertBefore(l$5(), t), t, void 0, s ?? {})
   }
   return h._$AI(t), h
 }
@@ -5323,7 +3713,7 @@ const j = (t, i, s) => {
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ class s$1 extends b {
+ */ class s$9 extends b$1 {
   constructor() {
     super(...arguments),
       (this.renderOptions = { host: this }),
@@ -5349,11 +3739,11 @@ const j = (t, i, s) => {
     return w
   }
 }
-;(s$1._$litElement$ = !0),
-  (s$1['finalized'] = !0),
-  globalThis.litElementHydrateSupport?.({ LitElement: s$1 })
-const r = globalThis.litElementPolyfillSupport
-r?.({ LitElement: s$1 })
+;(s$9._$litElement$ = !0),
+  (s$9['finalized'] = !0),
+  globalThis.litElementHydrateSupport?.({ LitElement: s$9 })
+const r$5 = globalThis.litElementPolyfillSupport
+r$5?.({ LitElement: s$9 })
 ;(globalThis.litElementVersions ??= []).push('4.0.2')
 
 /**
@@ -5362,292 +3752,77 @@ r?.({ LitElement: s$1 })
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * A key to retrieve an `Attachable` element's `AttachableController` from a
- * global `MutationObserver`.
+ * A divider component.
  */
-const ATTACHABLE_CONTROLLER = Symbol('attachableController')
-let FOR_ATTRIBUTE_OBSERVER
-{
-  /**
-   * A global `MutationObserver` that reacts to `for` attribute changes on
-   * `Attachable` elements. If the `for` attribute changes, the controller will
-   * re-attach to the new referenced element.
-   */
-  FOR_ATTRIBUTE_OBSERVER = new MutationObserver(records => {
-    for (const record of records) {
-      // When a control's `for` attribute changes, inform its
-      // `AttachableController` to update to a new control.
-      record.target[ATTACHABLE_CONTROLLER]?.hostConnected()
-    }
-  })
-}
-/**
- * A controller that provides an implementation for `Attachable` elements.
- *
- * @example
- * ```ts
- * class MyElement extends LitElement implements Attachable {
- *   get control() { return this.attachableController.control; }
- *
- *   private readonly attachableController = new AttachableController(
- *     this,
- *     (previousControl, newControl) => {
- *       previousControl?.removeEventListener('click', this.handleClick);
- *       newControl?.addEventListener('click', this.handleClick);
- *     }
- *   );
- *
- *   // Implement remaining `Attachable` properties/methods that call the
- *   // controller's properties/methods.
- * }
- * ```
- */
-class AttachableController {
-  get htmlFor() {
-    return this.host.getAttribute('for')
-  }
-  set htmlFor(htmlFor) {
-    if (htmlFor === null) {
-      this.host.removeAttribute('for')
-    } else {
-      this.host.setAttribute('for', htmlFor)
-    }
-  }
-  get control() {
-    if (this.host.hasAttribute('for')) {
-      if (!this.htmlFor || !this.host.isConnected) {
-        return null
-      }
-      return this.host.getRootNode().querySelector(`#${this.htmlFor}`)
-    }
-    return this.currentControl || this.host.parentElement
-  }
-  set control(control) {
-    if (control) {
-      this.attach(control)
-    } else {
-      this.detach()
-    }
-  }
-  /**
-   * Creates a new controller for an `Attachable` element.
-   *
-   * @param host The `Attachable` element.
-   * @param onControlChange A callback with two parameters for the previous and
-   *     next control. An `Attachable` element may perform setup or teardown
-   *     logic whenever the control changes.
-   */
-  constructor(host, onControlChange) {
-    this.host = host
-    this.onControlChange = onControlChange
-    this.currentControl = null
-    host.addController(this)
-    host[ATTACHABLE_CONTROLLER] = this
-    FOR_ATTRIBUTE_OBSERVER?.observe(host, { attributeFilter: ['for'] })
-  }
-  attach(control) {
-    if (control === this.currentControl) {
-      return
-    }
-    this.setCurrentControl(control)
-    // When imperatively attaching, remove the `for` attribute so
-    // that the attached control is used instead of a referenced one.
-    this.host.removeAttribute('for')
-  }
-  detach() {
-    this.setCurrentControl(null)
-    // When imperatively detaching, add an empty `for=""` attribute. This will
-    // ensure the control is `null` rather than the `parentElement`.
-    this.host.setAttribute('for', '')
-  }
-  /** @private */
-  hostConnected() {
-    this.setCurrentControl(this.control)
-  }
-  /** @private */
-  hostDisconnected() {
-    this.setCurrentControl(null)
-  }
-  setCurrentControl(control) {
-    this.onControlChange(this.currentControl, control)
-    this.currentControl = control
-  }
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * Events that the focus ring listens to.
- *
- * @fires visibility-changed Fired whenever `visible` changes.
- */
-const EVENTS$1 = ['focusin', 'focusout', 'pointerdown']
-/**
- * A focus ring component.
- */
-class FocusRing extends s$1 {
+class Divider extends s$9 {
   constructor() {
     super(...arguments)
     /**
-     * Makes the focus ring visible.
+     * Indents the divider with equal padding on both sides.
      */
-    this.visible = false
+    this.inset = false
     /**
-     * Makes the focus ring animate inwards instead of outwards.
+     * Indents the divider with padding on the leading side.
      */
-    this.inward = false
-    this.attachableController = new AttachableController(
-      this,
-      this.onControlChange.bind(this)
-    )
-  }
-  get htmlFor() {
-    return this.attachableController.htmlFor
-  }
-  set htmlFor(htmlFor) {
-    this.attachableController.htmlFor = htmlFor
-  }
-  get control() {
-    return this.attachableController.control
-  }
-  set control(control) {
-    this.attachableController.control = control
-  }
-  attach(control) {
-    this.attachableController.attach(control)
-  }
-  detach() {
-    this.attachableController.detach()
-  }
-  connectedCallback() {
-    super.connectedCallback()
-    // Needed for VoiceOver, which will create a "group" if the element is a
-    // sibling to other content.
-    this.setAttribute('aria-hidden', 'true')
-  }
-  /** @private */
-  handleEvent(event) {
-    if (event[HANDLED_BY_FOCUS_RING]) {
-      // This ensures the focus ring does not activate when multiple focus rings
-      // are used within a single component.
-      return
-    }
-    switch (event.type) {
-      default:
-        return
-      case 'focusin':
-        this.visible = this.control?.matches(':focus-visible') ?? false
-        break
-      case 'focusout':
-      case 'pointerdown':
-        this.visible = false
-        break
-    }
-    event[HANDLED_BY_FOCUS_RING] = true
-  }
-  onControlChange(prev, next) {
-    for (const event of EVENTS$1) {
-      prev?.removeEventListener(event, this)
-      next?.addEventListener(event, this)
-    }
-  }
-  update(changed) {
-    if (changed.has('visible')) {
-      // This logic can be removed once the `:has` selector has been introduced
-      // to Firefox. This is necessary to allow correct submenu styles.
-      this.dispatchEvent(new Event('visibility-changed'))
-    }
-    super.update(changed)
+    this.insetStart = false
+    /**
+     * Indents the divider with padding on the trailing side.
+     */
+    this.insetEnd = false
   }
 }
 __decorate(
-  [n$3({ type: Boolean, reflect: true })],
-  FocusRing.prototype,
-  'visible',
+  [n$b({ type: Boolean, reflect: true })],
+  Divider.prototype,
+  'inset',
   void 0
 )
 __decorate(
-  [n$3({ type: Boolean, reflect: true })],
-  FocusRing.prototype,
-  'inward',
+  [n$b({ type: Boolean, reflect: true, attribute: 'inset-start' })],
+  Divider.prototype,
+  'insetStart',
   void 0
 )
-const HANDLED_BY_FOCUS_RING = Symbol('handledByFocusRing')
+__decorate(
+  [n$b({ type: Boolean, reflect: true, attribute: 'inset-end' })],
+  Divider.prototype,
+  'insetEnd',
+  void 0
+)
 
 /**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$a = i$4`:host{animation-delay:0s,calc(var(--md-focus-ring-duration, 600ms)*.25);animation-duration:calc(var(--md-focus-ring-duration, 600ms)*.25),calc(var(--md-focus-ring-duration, 600ms)*.75);animation-timing-function:cubic-bezier(0.2, 0, 0, 1);box-sizing:border-box;color:var(--md-focus-ring-color, var(--md-sys-color-secondary, #625b71));display:none;pointer-events:none;position:absolute}:host([visible]){display:flex}:host(:not([inward])){animation-name:outward-grow,outward-shrink;border-end-end-radius:calc(var(--md-focus-ring-shape-end-end, var(--md-focus-ring-shape, 9999px)) + var(--md-focus-ring-outward-offset, 2px));border-end-start-radius:calc(var(--md-focus-ring-shape-end-start, var(--md-focus-ring-shape, 9999px)) + var(--md-focus-ring-outward-offset, 2px));border-start-end-radius:calc(var(--md-focus-ring-shape-start-end, var(--md-focus-ring-shape, 9999px)) + var(--md-focus-ring-outward-offset, 2px));border-start-start-radius:calc(var(--md-focus-ring-shape-start-start, var(--md-focus-ring-shape, 9999px)) + var(--md-focus-ring-outward-offset, 2px));inset:calc(-1*var(--md-focus-ring-outward-offset, 2px));outline:var(--md-focus-ring-width, 3px) solid currentColor}:host([inward]){animation-name:inward-grow,inward-shrink;border-end-end-radius:calc(var(--md-focus-ring-shape-end-end, var(--md-focus-ring-shape, 9999px)) - var(--md-focus-ring-inward-offset, 0px));border-end-start-radius:calc(var(--md-focus-ring-shape-end-start, var(--md-focus-ring-shape, 9999px)) - var(--md-focus-ring-inward-offset, 0px));border-start-end-radius:calc(var(--md-focus-ring-shape-start-end, var(--md-focus-ring-shape, 9999px)) - var(--md-focus-ring-inward-offset, 0px));border-start-start-radius:calc(var(--md-focus-ring-shape-start-start, var(--md-focus-ring-shape, 9999px)) - var(--md-focus-ring-inward-offset, 0px));border:var(--md-focus-ring-width, 3px) solid currentColor;inset:var(--md-focus-ring-inward-offset, 0px)}@keyframes outward-grow{from{outline-width:0}to{outline-width:var(--md-focus-ring-active-width, 8px)}}@keyframes outward-shrink{from{outline-width:var(--md-focus-ring-active-width, 8px)}}@keyframes inward-grow{from{border-width:0}to{border-width:var(--md-focus-ring-active-width, 8px)}}@keyframes inward-shrink{from{border-width:var(--md-focus-ring-active-width, 8px)}}@media(prefers-reduced-motion){:host{animation:none}}/*# sourceMappingURL=focus-ring-styles.css.map */
+const styles$f = i$8`:host{--_color: var(--md-divider-color, var(--md-sys-color-outline-variant, #cac4d0));--_thickness: var(--md-divider-thickness, 1px);box-sizing:border-box;color:var(--_color);display:flex;height:var(--_thickness);width:100%}:host([inset]),:host([inset-start]){padding-inline-start:16px}:host([inset]),:host([inset-end]){padding-inline-end:16px}:host::before{background:currentColor;content:"";height:100%;width:100%}@media(forced-colors: active){:host::before{background:CanvasText}}/*# sourceMappingURL=divider-styles.css.map */
 `
 
 /**
  * @license
- * Copyright 2021 Google LLC
+ * Copyright 2023 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * TODO(b/267336424): add docs
+ * @summary A divider is a thin line that groups content in lists and
+ * containers.
+ *
+ * @description Dividers can reinforce tapability, such as when used to separate
+ * list items or define tappable regions in an accordion.
  *
  * @final
  * @suppress {visibility}
  */
-let MdFocusRing = class MdFocusRing extends FocusRing {}
-MdFocusRing.styles = [styles$a]
-MdFocusRing = __decorate([t$3('md-focus-ring')], MdFocusRing)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * A component for elevation.
- */
-class Elevation extends s$1 {
-  connectedCallback() {
-    super.connectedCallback()
-    // Needed for VoiceOver, which will create a "group" if the element is a
-    // sibling to other content.
-    this.setAttribute('aria-hidden', 'true')
-  }
-  render() {
-    return x`<span class="shadow"></span>`
-  }
-}
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$9 = i$4`:host{--_level: var(--md-elevation-level, 0);--_shadow-color: var(--md-elevation-shadow-color, var(--md-sys-color-shadow, #000));display:flex;pointer-events:none}:host,.shadow,.shadow::before,.shadow::after{border-radius:inherit;inset:0;position:absolute;transition-duration:inherit;transition-property:inherit;transition-timing-function:inherit}.shadow::before,.shadow::after{content:"";transition-property:box-shadow,opacity}.shadow::before{box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 3,1) + 2*clamp(0,var(--_level) - 4,1))) calc(1px*(2*clamp(0,var(--_level),1) + clamp(0,var(--_level) - 2,1) + clamp(0,var(--_level) - 4,1))) 0px var(--_shadow-color);opacity:.3}.shadow::after{box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 1,1) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(3*clamp(0,var(--_level),2) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(clamp(0,var(--_level),4) + 2*clamp(0,var(--_level) - 4,1))) var(--_shadow-color);opacity:.15}/*# sourceMappingURL=elevation-styles.css.map */
-`
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * The `<md-elevation>` custom element with default styles.
- *
- * Elevation is the relative distance between two surfaces along the z-axis.
- */
-let MdElevation = class MdElevation extends Elevation {}
-MdElevation.styles = [styles$9]
-MdElevation = __decorate([t$3('md-elevation')], MdElevation)
+let MdDivider = class MdDivider extends Divider {}
+MdDivider.styles = [styles$f]
+MdDivider = __decorate([t$9('md-divider')], MdDivider)
 
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t = {
+const t$6 = {
     ATTRIBUTE: 1,
     CHILD: 2,
     PROPERTY: 3,
@@ -5655,8 +3830,8 @@ const t = {
     EVENT: 5,
     ELEMENT: 6,
   },
-  e$2 = t => (...e) => ({ _$litDirective$: t, values: e })
-class i$1 {
+  e$d = t => (...e) => ({ _$litDirective$: t, values: e })
+class i$5 {
   constructor(t) {}
   get _$AU() {
     return this._$AM._$AU
@@ -5676,14 +3851,12 @@ class i$1 {
  * @license
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ const e$1 = e$2(
-  class extends i$1 {
-    constructor(t$1) {
+ */ const e$c = e$d(
+  class extends i$5 {
+    constructor(t) {
       if (
-        (super(t$1),
-        t$1.type !== t.ATTRIBUTE ||
-          'class' !== t$1.name ||
-          t$1.strings?.length > 2)
+        (super(t),
+        t.type !== t$6.ATTRIBUTE || 'class' !== t.name || t.strings?.length > 2)
       )
         throw Error(
           '`classMap()` can only be used in the `class` attribute and must be the only part in the attribute.'
@@ -5723,61 +3896,6 @@ class i$1 {
     }
   }
 )
-
-/**
- * @license
- * Copyright 2018 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ const n$1 = 'important',
-  i = ' !' + n$1,
-  o$1 = e$2(
-    class extends i$1 {
-      constructor(t$1) {
-        if (
-          (super(t$1),
-          t$1.type !== t.ATTRIBUTE ||
-            'style' !== t$1.name ||
-            t$1.strings?.length > 2)
-        )
-          throw Error(
-            'The `styleMap` directive must be used in the `style` attribute and must be the only part in the attribute.'
-          )
-      }
-      render(t) {
-        return Object.keys(t).reduce((e, r) => {
-          const s = t[r]
-          return null == s
-            ? e
-            : e +
-                `${(r = r.includes('-')
-                  ? r
-                  : r
-                      .replace(/(?:^(webkit|moz|ms|o)|)(?=[A-Z])/g, '-$&')
-                      .toLowerCase())}:${s};`
-        }, '')
-      }
-      update(e, [r]) {
-        const { style: s } = e.element
-        if (void 0 === this.ut)
-          return (this.ut = new Set(Object.keys(r))), this.render(r)
-        for (const t of this.ut)
-          null == r[t] &&
-            (this.ut.delete(t),
-            t.includes('-') ? s.removeProperty(t) : (s[t] = null))
-        for (const t in r) {
-          const e = r[t]
-          if (null != e) {
-            this.ut.add(t)
-            const r = 'string' == typeof e && e.endsWith(i)
-            t.includes('-') || r
-              ? s.setProperty(t, r ? e.slice(0, -11) : e, r ? n$1 : '')
-              : (s[t] = e)
-          }
-        }
-        return w
-      }
-    }
-  )
 
 /**
  * @license
@@ -6012,6 +4130,188 @@ function checkIfElementInternalsSupportsAria(internals) {
 
 /**
  * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Sets up a `ReactiveElement` constructor to enable updates when delegating
+ * aria attributes. Elements may bind `this.aria*` properties to `aria-*`
+ * attributes in their render functions.
+ *
+ * This function will:
+ * - Call `requestUpdate()` when an aria attribute changes.
+ * - Add `role="presentation"` to the host.
+ *
+ * NOTE: The following features are not currently supported:
+ * - Delegating IDREF attributes (ex: `aria-labelledby`, `aria-controls`)
+ * - Delegating the `role` attribute
+ *
+ * @example
+ * class XButton extends LitElement {
+ *   static {
+ *     requestUpdateOnAriaChange(XButton);
+ *   }
+ *
+ *   protected override render() {
+ *     return html`
+ *       <button aria-label=${this.ariaLabel || nothing}>
+ *         <slot></slot>
+ *       </button>
+ *     `;
+ *   }
+ * }
+ *
+ * @param ctor The `ReactiveElement` constructor to patch.
+ */
+function requestUpdateOnAriaChange(ctor) {
+  for (const ariaProperty of ARIA_PROPERTIES) {
+    ctor.createProperty(ariaProperty, {
+      attribute: ariaPropertyToAttribute(ariaProperty),
+      reflect: true,
+    })
+  }
+  ctor.addInitializer(element => {
+    const controller = {
+      hostConnected() {
+        element.setAttribute('role', 'presentation')
+      },
+    }
+    element.addController(controller)
+  })
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Re-dispatches an event from the provided element.
+ *
+ * This function is useful for forwarding non-composed events, such as `change`
+ * events.
+ *
+ * @example
+ * class MyInput extends LitElement {
+ *   render() {
+ *     return html`<input @change=${this.redispatchEvent}>`;
+ *   }
+ *
+ *   protected redispatchEvent(event: Event) {
+ *     redispatchEvent(this, event);
+ *   }
+ * }
+ *
+ * @param element The element to dispatch the event from.
+ * @param event The event to re-dispatch.
+ * @return Whether or not the event was dispatched (if cancelable).
+ */
+function redispatchEvent(element, event) {
+  // For bubbling events in SSR light DOM (or composed), stop their propagation
+  // and dispatch the copy.
+  if (event.bubbles && (!element.shadowRoot || event.composed)) {
+    event.stopPropagation()
+  }
+  const copy = Reflect.construct(event.constructor, [event.type, event])
+  const dispatched = element.dispatchEvent(copy)
+  if (!dispatched) {
+    event.preventDefault()
+  }
+  return dispatched
+}
+/**
+ * Dispatches a click event to the given element that triggers a native action,
+ * but is not composed and therefore is not seen outside the element.
+ *
+ * This is useful for responding to an external click event on the host element
+ * that should trigger an internal action like a button click.
+ *
+ * Note, a helper is provided because setting this up correctly is a bit tricky.
+ * In particular, calling `click` on an element creates a composed event, which
+ * is not desirable, and a manually dispatched event must specifically be a
+ * `MouseEvent` to trigger a native action.
+ *
+ * @example
+ * hostClickListener = (event: MouseEvent) {
+ *   if (isActivationClick(event)) {
+ *     this.dispatchActivationClick(this.buttonElement);
+ *   }
+ * }
+ *
+ */
+function dispatchActivationClick(element) {
+  const event = new MouseEvent('click', { bubbles: true })
+  element.dispatchEvent(event)
+  return event
+}
+/**
+ * Returns true if the click event should trigger an activation behavior. The
+ * behavior is defined by the element and is whatever it should do when
+ * clicked.
+ *
+ * Typically when an element needs to handle a click, the click is generated
+ * from within the element and an event listener within the element implements
+ * the needed behavior; however, it's possible to fire a click directly
+ * at the element that the element should handle. This method helps
+ * distinguish these "external" clicks.
+ *
+ * An "external" click can be triggered in a number of ways: via a click
+ * on an associated label for a form  associated element, calling
+ * `element.click()`, or calling
+ * `element.dispatchEvent(new MouseEvent('click', ...))`.
+ *
+ * Also works around Firefox issue
+ * https://bugzilla.mozilla.org/show_bug.cgi?id=1804576 by squelching
+ * events for a microtask after called.
+ *
+ * @example
+ * hostClickListener = (event: MouseEvent) {
+ *   if (isActivationClick(event)) {
+ *     this.dispatchActivationClick(this.buttonElement);
+ *   }
+ * }
+ *
+ */
+function isActivationClick(event) {
+  // Event must start at the event target.
+  if (event.currentTarget !== event.target) {
+    return false
+  }
+  // Event must not be retargeted from shadowRoot.
+  if (event.composedPath()[0] !== event.target) {
+    return false
+  }
+  // Target must not be disabled; this should only occur for a synthetically
+  // dispatched click.
+  if (event.target.disabled) {
+    return false
+  }
+  // This is an activation if the event should not be squelched.
+  return !squelchEvent(event)
+}
+// TODO(https://bugzilla.mozilla.org/show_bug.cgi?id=1804576)
+//  Remove when Firefox bug is addressed.
+function squelchEvent(event) {
+  const squelched = isSquelchingEvents
+  if (squelched) {
+    event.preventDefault()
+    event.stopImmediatePropagation()
+  }
+  squelchEventsForMicrotask()
+  return squelched
+}
+// Ignore events for one microtask only.
+let isSquelchingEvents = false
+async function squelchEventsForMicrotask() {
+  isSquelchingEvents = true
+  // Need to pause for just one microtask.
+  // tslint:disable-next-line
+  await null
+  isSquelchingEvents = false
+}
+
+/**
+ * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -6081,6 +4381,3634 @@ function createAnimationSignal() {
     },
   }
 }
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * The default dialog open animation.
+ */
+const DIALOG_DEFAULT_OPEN_ANIMATION = {
+  dialog: [
+    [
+      // Dialog slide down
+      [{ transform: 'translateY(-50px)' }, { transform: 'translateY(0)' }],
+      { duration: 500, easing: EASING.EMPHASIZED },
+    ],
+  ],
+  scrim: [
+    [
+      // Scrim fade in
+      [{ opacity: 0 }, { opacity: 0.32 }],
+      { duration: 500, easing: 'linear' },
+    ],
+  ],
+  container: [
+    [
+      // Container fade in
+      [{ opacity: 0 }, { opacity: 1 }],
+      { duration: 50, easing: 'linear', pseudoElement: '::before' },
+    ],
+    [
+      // Container grow
+      // Note: current spec says to grow from 0dp->100% and shrink from
+      // 100%->35%. We change this to 35%->100% to simplify the animation that
+      // is supposed to clip content as it grows. From 0dp it's possible to see
+      // text/actions appear before the container has fully grown.
+      [{ height: '35%' }, { height: '100%' }],
+      { duration: 500, easing: EASING.EMPHASIZED, pseudoElement: '::before' },
+    ],
+  ],
+  headline: [
+    [
+      // Headline fade in
+      [{ opacity: 0 }, { opacity: 0, offset: 0.2 }, { opacity: 1 }],
+      { duration: 250, easing: 'linear', fill: 'forwards' },
+    ],
+  ],
+  content: [
+    [
+      // Content fade in
+      [{ opacity: 0 }, { opacity: 0, offset: 0.2 }, { opacity: 1 }],
+      { duration: 250, easing: 'linear', fill: 'forwards' },
+    ],
+  ],
+  actions: [
+    [
+      // Actions fade in
+      [{ opacity: 0 }, { opacity: 0, offset: 0.5 }, { opacity: 1 }],
+      { duration: 300, easing: 'linear', fill: 'forwards' },
+    ],
+  ],
+}
+/**
+ * The default dialog close animation.
+ */
+const DIALOG_DEFAULT_CLOSE_ANIMATION = {
+  dialog: [
+    [
+      // Dialog slide up
+      [{ transform: 'translateY(0)' }, { transform: 'translateY(-50px)' }],
+      { duration: 150, easing: EASING.EMPHASIZED_ACCELERATE },
+    ],
+  ],
+  scrim: [
+    [
+      // Scrim fade out
+      [{ opacity: 0.32 }, { opacity: 0 }],
+      { duration: 150, easing: 'linear' },
+    ],
+  ],
+  container: [
+    [
+      // Container shrink
+      [{ height: '100%' }, { height: '35%' }],
+      {
+        duration: 150,
+        easing: EASING.EMPHASIZED_ACCELERATE,
+        pseudoElement: '::before',
+      },
+    ],
+    [
+      // Container fade out
+      [{ opacity: '1' }, { opacity: '0' }],
+      { delay: 100, duration: 50, easing: 'linear', pseudoElement: '::before' },
+    ],
+  ],
+  headline: [
+    [
+      // Headline fade out
+      [{ opacity: 1 }, { opacity: 0 }],
+      { duration: 100, easing: 'linear', fill: 'forwards' },
+    ],
+  ],
+  content: [
+    [
+      // Content fade out
+      [{ opacity: 1 }, { opacity: 0 }],
+      { duration: 100, easing: 'linear', fill: 'forwards' },
+    ],
+  ],
+  actions: [
+    [
+      // Actions fade out
+      [{ opacity: 1 }, { opacity: 0 }],
+      { duration: 100, easing: 'linear', fill: 'forwards' },
+    ],
+  ],
+}
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * A dialog component.
+ *
+ * @fires open Dispatched when the dialog is opening before any animations.
+ * @fires opened Dispatched when the dialog has opened after any animations.
+ * @fires close Dispatched when the dialog is closing before any animations.
+ * @fires closed Dispatched when the dialog has closed after any animations.
+ * @fires cancel Dispatched when the dialog has been canceled by clicking on the
+ *     scrim or pressing Escape.
+ */
+class Dialog extends s$9 {
+  /**
+   * Opens the dialog when set to `true` and closes it when set to `false`.
+   */
+  get open() {
+    return this.isOpen
+  }
+  set open(open) {
+    if (open === this.isOpen) {
+      return
+    }
+    this.isOpen = open
+    if (open) {
+      this.setAttribute('open', '')
+      this.show()
+    } else {
+      this.removeAttribute('open')
+      this.close()
+    }
+  }
+  constructor() {
+    super()
+    /**
+     * Gets or sets the dialog's return value, usually to indicate which button
+     * a user pressed to close it.
+     *
+     * https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/returnValue
+     */
+    this.returnValue = ''
+    /**
+     * Gets the opening animation for a dialog. Set to a new function to customize
+     * the animation.
+     */
+    this.getOpenAnimation = () => DIALOG_DEFAULT_OPEN_ANIMATION
+    /**
+     * Gets the closing animation for a dialog. Set to a new function to customize
+     * the animation.
+     */
+    this.getCloseAnimation = () => DIALOG_DEFAULT_CLOSE_ANIMATION
+    this.isOpen = false
+    this.isOpening = false
+    this.isConnectedPromise = this.getIsConnectedPromise()
+    this.isAtScrollTop = false
+    this.isAtScrollBottom = false
+    this.nextClickIsFromContent = false
+    // Dialogs should not be SSR'd while open, so we can just use runtime checks.
+    this.hasHeadline = false
+    this.hasActions = false
+    this.hasIcon = false
+    {
+      this.addEventListener('submit', this.handleSubmit)
+    }
+  }
+  /**
+   * Opens the dialog and fires a cancelable `open` event. After a dialog's
+   * animation, an `opened` event is fired.
+   *
+   * Add an `autocomplete` attribute to a child of the dialog that should
+   * receive focus after opening.
+   *
+   * @return A Promise that resolves after the animation is finished and the
+   *     `opened` event was fired.
+   */
+  async show() {
+    this.isOpening = true
+    // Dialogs can be opened before being attached to the DOM, so we need to
+    // wait until we're connected before calling `showModal()`.
+    await this.isConnectedPromise
+    await this.updateComplete
+    const dialog = this.dialog
+    // Check if already opened or if `dialog.close()` was called while awaiting.
+    if (dialog.open || !this.isOpening) {
+      this.isOpening = false
+      return
+    }
+    const preventOpen = !this.dispatchEvent(
+      new Event('open', { cancelable: true })
+    )
+    if (preventOpen) {
+      this.open = false
+      return
+    }
+    // All Material dialogs are modal.
+    dialog.showModal()
+    this.open = true
+    // Reset scroll position if re-opening a dialog with the same content.
+    if (this.scroller) {
+      this.scroller.scrollTop = 0
+    }
+    // Native modal dialogs ignore autofocus and instead force focus to the
+    // first focusable child. Override this behavior if there is a child with
+    // an autofocus attribute.
+    this.querySelector('[autofocus]')?.focus()
+    await this.animateDialog(this.getOpenAnimation())
+    this.dispatchEvent(new Event('opened'))
+    this.isOpening = false
+  }
+  /**
+   * Closes the dialog and fires a cancelable `close` event. After a dialog's
+   * animation, a `closed` event is fired.
+   *
+   * @param returnValue A return value usually indicating which button was used
+   *     to close a dialog. If a dialog is canceled by clicking the scrim or
+   *     pressing Escape, it will not change the return value after closing.
+   * @return A Promise that resolves after the animation is finished and the
+   *     `closed` event was fired.
+   */
+  async close(returnValue = this.returnValue) {
+    this.isOpening = false
+    if (!this.isConnected) {
+      // Disconnected dialogs do not fire close events or animate.
+      this.open = false
+      return
+    }
+    await this.updateComplete
+    const dialog = this.dialog
+    // Check if already closed or if `dialog.show()` was called while awaiting.
+    if (!dialog.open || this.isOpening) {
+      this.open = false
+      return
+    }
+    const prevReturnValue = this.returnValue
+    this.returnValue = returnValue
+    const preventClose = !this.dispatchEvent(
+      new Event('close', { cancelable: true })
+    )
+    if (preventClose) {
+      this.returnValue = prevReturnValue
+      return
+    }
+    await this.animateDialog(this.getCloseAnimation())
+    dialog.close(returnValue)
+    this.open = false
+    this.dispatchEvent(new Event('closed'))
+  }
+  connectedCallback() {
+    super.connectedCallback()
+    this.isConnectedPromiseResolve()
+  }
+  disconnectedCallback() {
+    super.disconnectedCallback()
+    this.isConnectedPromise = this.getIsConnectedPromise()
+  }
+  render() {
+    const scrollable =
+      this.open && !(this.isAtScrollTop && this.isAtScrollBottom)
+    const classes = {
+      'has-headline': this.hasHeadline,
+      'has-actions': this.hasActions,
+      'has-icon': this.hasIcon,
+      scrollable: scrollable,
+      'show-top-divider': scrollable && !this.isAtScrollTop,
+      'show-bottom-divider': scrollable && !this.isAtScrollBottom,
+    }
+    const { ariaLabel } = this
+    return x$1`
+      <div class="scrim"></div>
+      <dialog
+        class=${e$c(classes)}
+        aria-label=${ariaLabel || T$1}
+        aria-labelledby=${this.hasHeadline ? 'headline' : T$1}
+        role=${this.type === 'alert' ? 'alertdialog' : T$1}
+        @cancel=${this.handleCancel}
+        @click=${this.handleDialogClick}
+        .returnValue=${this.returnValue || T$1}
+      >
+        <div class="container"
+          @click=${this.handleContentClick}
+        >
+          <div class="headline">
+            <div class="icon" aria-hidden="true">
+              <slot name="icon" @slotchange=${this.handleIconChange}></slot>
+            </div>
+            <h2 id="headline" aria-hidden=${!this.hasHeadline || T$1}>
+              <slot name="headline"
+                  @slotchange=${this.handleHeadlineChange}></slot>
+            </h2>
+            <md-divider></md-divider>
+          </div>
+          <div class="scroller">
+            <div class="content">
+              <div class="top anchor"></div>
+              <slot name="content"></slot>
+              <div class="bottom anchor"></div>
+            </div>
+          </div>
+          <div class="actions">
+            <md-divider></md-divider>
+            <slot name="actions"
+              @slotchange=${this.handleActionsChange}></slot>
+          </div>
+        </div>
+      </dialog>
+    `
+  }
+  firstUpdated() {
+    this.intersectionObserver = new IntersectionObserver(
+      entries => {
+        for (const entry of entries) {
+          this.handleAnchorIntersection(entry)
+        }
+      },
+      { root: this.scroller }
+    )
+    this.intersectionObserver.observe(this.topAnchor)
+    this.intersectionObserver.observe(this.bottomAnchor)
+  }
+  handleDialogClick() {
+    if (this.nextClickIsFromContent) {
+      // Avoid doing a layout calculation below if we know the click came from
+      // content.
+      this.nextClickIsFromContent = false
+      return
+    }
+    // Click originated on the backdrop. Native `<dialog>`s will not cancel,
+    // but Material dialogs do.
+    const preventDefault = !this.dispatchEvent(
+      new Event('cancel', { cancelable: true })
+    )
+    if (preventDefault) {
+      return
+    }
+    this.close()
+  }
+  handleContentClick() {
+    this.nextClickIsFromContent = true
+  }
+  handleSubmit(event) {
+    const form = event.target
+    const { submitter } = event
+    if (form.method !== 'dialog' || !submitter) {
+      return
+    }
+    // Close reason is the submitter's value attribute, or the dialog's
+    // `returnValue` if there is no attribute.
+    this.close(submitter.getAttribute('value') ?? this.returnValue)
+  }
+  handleCancel(event) {
+    if (event.target !== this.dialog) {
+      // Ignore any cancel events dispatched by content.
+      return
+    }
+    const preventDefault = !redispatchEvent(this, event)
+    // We always prevent default on the original dialog event since we'll
+    // animate closing it before it actually closes.
+    event.preventDefault()
+    if (preventDefault) {
+      return
+    }
+    this.close()
+  }
+  async animateDialog(animation) {
+    const { dialog, scrim, container, headline, content, actions } = this
+    if (!dialog || !scrim || !container || !headline || !content || !actions) {
+      return
+    }
+    const {
+      container: containerAnimate,
+      dialog: dialogAnimate,
+      scrim: scrimAnimate,
+      headline: headlineAnimate,
+      content: contentAnimate,
+      actions: actionsAnimate,
+    } = animation
+    const elementAndAnimation = [
+      [dialog, dialogAnimate ?? []],
+      [scrim, scrimAnimate ?? []],
+      [container, containerAnimate ?? []],
+      [headline, headlineAnimate ?? []],
+      [content, contentAnimate ?? []],
+      [actions, actionsAnimate ?? []],
+    ]
+    const animations = []
+    for (const [element, animation] of elementAndAnimation) {
+      for (const animateArgs of animation) {
+        animations.push(element.animate(...animateArgs))
+      }
+    }
+    await Promise.all(animations.map(animation => animation.finished))
+  }
+  handleHeadlineChange(event) {
+    const slot = event.target
+    this.hasHeadline = slot.assignedElements().length > 0
+  }
+  handleActionsChange(event) {
+    const slot = event.target
+    this.hasActions = slot.assignedElements().length > 0
+  }
+  handleIconChange(event) {
+    const slot = event.target
+    this.hasIcon = slot.assignedElements().length > 0
+  }
+  handleAnchorIntersection(entry) {
+    const { target, isIntersecting } = entry
+    if (target === this.topAnchor) {
+      this.isAtScrollTop = isIntersecting
+    }
+    if (target === this.bottomAnchor) {
+      this.isAtScrollBottom = isIntersecting
+    }
+  }
+  getIsConnectedPromise() {
+    return new Promise(resolve => {
+      this.isConnectedPromiseResolve = resolve
+    })
+  }
+}
+;(() => {
+  requestUpdateOnAriaChange(Dialog)
+})()
+/** @nocollapse */
+Dialog.shadowRootOptions = {
+  ...s$9.shadowRootOptions,
+  delegatesFocus: true,
+}
+__decorate([n$b({ type: Boolean })], Dialog.prototype, 'open', null)
+__decorate([n$b({ attribute: false })], Dialog.prototype, 'returnValue', void 0)
+__decorate([n$b()], Dialog.prototype, 'type', void 0)
+__decorate([e$g('dialog')], Dialog.prototype, 'dialog', void 0)
+__decorate([e$g('.scrim')], Dialog.prototype, 'scrim', void 0)
+__decorate([e$g('.container')], Dialog.prototype, 'container', void 0)
+__decorate([e$g('.headline')], Dialog.prototype, 'headline', void 0)
+__decorate([e$g('.content')], Dialog.prototype, 'content', void 0)
+__decorate([e$g('.actions')], Dialog.prototype, 'actions', void 0)
+__decorate([r$8()], Dialog.prototype, 'isAtScrollTop', void 0)
+__decorate([r$8()], Dialog.prototype, 'isAtScrollBottom', void 0)
+__decorate([e$g('.scroller')], Dialog.prototype, 'scroller', void 0)
+__decorate([e$g('.top.anchor')], Dialog.prototype, 'topAnchor', void 0)
+__decorate([e$g('.bottom.anchor')], Dialog.prototype, 'bottomAnchor', void 0)
+__decorate([r$8()], Dialog.prototype, 'hasHeadline', void 0)
+__decorate([r$8()], Dialog.prototype, 'hasActions', void 0)
+__decorate([r$8()], Dialog.prototype, 'hasIcon', void 0)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$e = i$8`:host{--_container-color: var(--md-dialog-container-color, var(--md-sys-color-surface-container-high, #ece6f0));--_container-shape: var(--md-dialog-container-shape, 28px);--_headline-color: var(--md-dialog-headline-color, var(--md-sys-color-on-surface, #1d1b20));--_headline-font: var(--md-dialog-headline-font, var(--md-sys-typescale-headline-small-font, var(--md-ref-typeface-brand, Roboto)));--_headline-line-height: var(--md-dialog-headline-line-height, var(--md-sys-typescale-headline-small-line-height, 2rem));--_headline-size: var(--md-dialog-headline-size, var(--md-sys-typescale-headline-small-size, 1.5rem));--_headline-weight: var(--md-dialog-headline-weight, var(--md-sys-typescale-headline-small-weight, var(--md-ref-typeface-weight-regular, 400)));--_supporting-text-color: var(--md-dialog-supporting-text-color, var(--md-sys-color-on-surface-variant, #49454f));--_supporting-text-font: var(--md-dialog-supporting-text-font, var(--md-sys-typescale-body-medium-font, var(--md-ref-typeface-plain, Roboto)));--_supporting-text-line-height: var(--md-dialog-supporting-text-line-height, var(--md-sys-typescale-body-medium-line-height, 1.25rem));--_supporting-text-size: var(--md-dialog-supporting-text-size, var(--md-sys-typescale-body-medium-size, 0.875rem));--_supporting-text-weight: var(--md-dialog-supporting-text-weight, var(--md-sys-typescale-body-medium-weight, var(--md-ref-typeface-weight-regular, 400)));--_icon-color: var(--md-dialog-icon-color, var(--md-sys-color-secondary, #625b71));--_icon-size: var(--md-dialog-icon-size, 24px);--_container-shape-start-start: var( --md-dialog-container-shape-start-start, var(--_container-shape) );--_container-shape-start-end: var( --md-dialog-container-shape-start-end, var(--_container-shape) );--_container-shape-end-end: var( --md-dialog-container-shape-end-end, var(--_container-shape) );--_container-shape-end-start: var( --md-dialog-container-shape-end-start, var(--_container-shape) );border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-end-radius:var(--_container-shape-end-end);border-end-start-radius:var(--_container-shape-end-start);display:contents;margin:auto;max-height:min(560px,100% - 48px);max-width:min(560px,100% - 48px);min-height:140px;min-width:280px;position:fixed;height:fit-content;width:fit-content}dialog{background:rgba(0,0,0,0);border:none;border-radius:inherit;flex-direction:column;height:inherit;margin:inherit;max-height:inherit;max-width:inherit;min-height:inherit;min-width:inherit;outline:none;overflow:visible;padding:0;width:inherit}dialog[open]{display:flex}::backdrop{background:none}.scrim{background:var(--md-sys-color-scrim, #000);display:none;inset:0;opacity:32%;pointer-events:none;position:fixed;z-index:1}:host([open]) .scrim{display:flex}h2{all:unset;align-self:stretch}.headline{align-items:center;color:var(--_headline-color);display:flex;flex-direction:column;font-family:var(--_headline-font);font-size:var(--_headline-size);line-height:var(--_headline-line-height);font-weight:var(--_headline-weight);position:relative}slot[name=headline]::slotted(*){align-items:center;align-self:stretch;box-sizing:border-box;display:flex;gap:8px;padding:24px 24px 0}.icon{display:flex}slot[name=icon]::slotted(*){color:var(--_icon-color);fill:currentColor;font-size:var(--_icon-size);padding-top:24px;height:var(--_icon-size);width:var(--_icon-size)}.has-icon slot[name=headline]::slotted(*){justify-content:center;padding-top:16px}.scrollable slot[name=headline]::slotted(*){padding-bottom:16px}.scrollable.has-headline slot[name=content]::slotted(*){padding-top:8px}.container{border-radius:inherit;display:flex;flex-direction:column;flex-grow:1;overflow:hidden;position:relative;transform-origin:top}.container::before{background:var(--_container-color);border-radius:inherit;content:"";inset:0;position:absolute}.scroller{display:flex;flex:1;flex-direction:column;overflow:hidden;z-index:1}.scrollable .scroller{overflow-y:scroll}.content{color:var(--_supporting-text-color);font-family:var(--_supporting-text-font);font-size:var(--_supporting-text-size);line-height:var(--_supporting-text-line-height);font-weight:var(--_supporting-text-weight);height:min-content;position:relative}slot[name=content]::slotted(*){box-sizing:border-box;padding:24px}.anchor{position:absolute}.top.anchor{top:0}.bottom.anchor{bottom:0}.actions{position:relative}slot[name=actions]::slotted(*){box-sizing:border-box;display:flex;gap:8px;justify-content:flex-end;padding:16px 24px 24px}.has-actions slot[name=content]::slotted(*){padding-bottom:8px}md-divider{display:none;position:absolute}.has-headline.show-top-divider .headline md-divider,.has-actions.show-bottom-divider .actions md-divider{display:flex}.headline md-divider{bottom:0}.actions md-divider{top:0}@media(forced-colors: active){dialog{outline:2px solid WindowText}}/*# sourceMappingURL=dialog-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @summary Dialogs can require an action, communicate information, or help
+ * users accomplish a task. There are two types of dialogs: basic and
+ * full-screen.
+ *
+ * @description
+ * A dialog is a modal window that appears in front of app content to provide
+ * critical information or ask for a decision. Dialogs disable all app
+ * functionality when they appear, and remain on screen until confirmed,
+ * dismissed, or a required action has been taken.
+ *
+ * Dialogs are purposefully interruptive, so they should be used sparingly.
+ * A less disruptive alternative is to use a menu, which provides options
+ * without interrupting a user’s experience.
+ *
+ * On mobile devices only, complex dialogs should be displayed fullscreen.
+ *
+ * __Example usages:__
+ * - Common use cases for basic dialogs include alerts, quick selection, and
+ * confirmation.
+ * - More complex dialogs may contain actions that require a series of tasks
+ * to complete. One example is creating a calendar entry with the event title,
+ * date, location, and time.
+ */
+let MdDialog = class MdDialog extends Dialog {}
+MdDialog.styles = [styles$e]
+MdDialog = __decorate([t$9('md-dialog')], MdDialog)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$d = i$8`:host{display:inline-flex;height:var(--_container-height);outline:none;font-family:var(--_label-text-font);font-size:var(--_label-text-size);line-height:var(--_label-text-line-height);font-weight:var(--_label-text-weight);-webkit-tap-highlight-color:rgba(0,0,0,0);vertical-align:top;--md-ripple-hover-color: var(--_hover-state-layer-color);--md-ripple-pressed-color: var(--_pressed-state-layer-color);--md-ripple-hover-opacity: var(--_hover-state-layer-opacity);--md-ripple-pressed-opacity: var(--_pressed-state-layer-opacity)}:host([touch-target=wrapper]){margin:max(0px,(48px - var(--_container-height))/2) 0}md-focus-ring{--md-focus-ring-shape-start-start: var(--_container-shape-start-start);--md-focus-ring-shape-start-end: var(--_container-shape-start-end);--md-focus-ring-shape-end-end: var(--_container-shape-end-end);--md-focus-ring-shape-end-start: var(--_container-shape-end-start)}:host([disabled]){cursor:default;pointer-events:none}.button{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-inline-size:64px;border:none;outline:none;user-select:none;-webkit-appearance:none;vertical-align:middle;background:rgba(0,0,0,0);text-decoration:none;inline-size:100%;position:relative;z-index:0;height:100%;font:inherit;color:var(--_label-text-color);padding-inline-start:var(--_leading-space);padding-inline-end:var(--_trailing-space);gap:8px}.button::before{background-color:var(--_container-color);border-radius:inherit;content:"";inset:0;position:absolute}.button::-moz-focus-inner{padding:0;border:0}.button:hover{color:var(--_hover-label-text-color);cursor:pointer}.button:focus{color:var(--_focus-label-text-color)}.button:active{color:var(--_pressed-label-text-color);outline:none}.button:disabled .button__label{color:var(--_disabled-label-text-color);opacity:var(--_disabled-label-text-opacity)}.button:disabled::before{background-color:var(--_disabled-container-color);opacity:var(--_disabled-container-opacity)}@media(forced-colors: active){.button::before{content:"";box-sizing:border-box;border:1px solid CanvasText;border-radius:inherit;inset:0;pointer-events:none;position:absolute}.button:disabled{--_disabled-icon-opacity: 1;--_disabled-container-opacity: 1;--_disabled-label-text-opacity: 1}}.button,.button__ripple{border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.button::after,.button::before,md-elevation,.button__ripple{z-index:-1}.button--icon-leading{padding-inline-start:var(--_with-leading-icon-leading-space);padding-inline-end:var(--_with-leading-icon-trailing-space)}.button--icon-trailing{padding-inline-start:var(--_with-trailing-icon-leading-space);padding-inline-end:var(--_with-trailing-icon-trailing-space)}.link-button-wrapper{inline-size:100%}.button ::slotted([slot=icon]){display:inline-flex;position:relative;writing-mode:horizontal-tb;fill:currentColor;color:var(--_icon-color);font-size:var(--_icon-size);inline-size:var(--_icon-size);block-size:var(--_icon-size)}.button:hover ::slotted([slot=icon]){color:var(--_hover-icon-color)}.button:focus ::slotted([slot=icon]){color:var(--_focus-icon-color)}.button:active ::slotted([slot=icon]){color:var(--_pressed-icon-color)}.button:disabled ::slotted([slot=icon]){color:var(--_disabled-icon-color);opacity:var(--_disabled-icon-opacity)}.touch{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%)}:host([touch-target=none]) .touch{display:none}/*# sourceMappingURL=shared-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * A key to retrieve an `Attachable` element's `AttachableController` from a
+ * global `MutationObserver`.
+ */
+const ATTACHABLE_CONTROLLER = Symbol('attachableController')
+let FOR_ATTRIBUTE_OBSERVER
+{
+  /**
+   * A global `MutationObserver` that reacts to `for` attribute changes on
+   * `Attachable` elements. If the `for` attribute changes, the controller will
+   * re-attach to the new referenced element.
+   */
+  FOR_ATTRIBUTE_OBSERVER = new MutationObserver(records => {
+    for (const record of records) {
+      // When a control's `for` attribute changes, inform its
+      // `AttachableController` to update to a new control.
+      record.target[ATTACHABLE_CONTROLLER]?.hostConnected()
+    }
+  })
+}
+/**
+ * A controller that provides an implementation for `Attachable` elements.
+ *
+ * @example
+ * ```ts
+ * class MyElement extends LitElement implements Attachable {
+ *   get control() { return this.attachableController.control; }
+ *
+ *   private readonly attachableController = new AttachableController(
+ *     this,
+ *     (previousControl, newControl) => {
+ *       previousControl?.removeEventListener('click', this.handleClick);
+ *       newControl?.addEventListener('click', this.handleClick);
+ *     }
+ *   );
+ *
+ *   // Implement remaining `Attachable` properties/methods that call the
+ *   // controller's properties/methods.
+ * }
+ * ```
+ */
+class AttachableController {
+  get htmlFor() {
+    return this.host.getAttribute('for')
+  }
+  set htmlFor(htmlFor) {
+    if (htmlFor === null) {
+      this.host.removeAttribute('for')
+    } else {
+      this.host.setAttribute('for', htmlFor)
+    }
+  }
+  get control() {
+    if (this.host.hasAttribute('for')) {
+      if (!this.htmlFor || !this.host.isConnected) {
+        return null
+      }
+      return this.host.getRootNode().querySelector(`#${this.htmlFor}`)
+    }
+    return this.currentControl || this.host.parentElement
+  }
+  set control(control) {
+    if (control) {
+      this.attach(control)
+    } else {
+      this.detach()
+    }
+  }
+  /**
+   * Creates a new controller for an `Attachable` element.
+   *
+   * @param host The `Attachable` element.
+   * @param onControlChange A callback with two parameters for the previous and
+   *     next control. An `Attachable` element may perform setup or teardown
+   *     logic whenever the control changes.
+   */
+  constructor(host, onControlChange) {
+    this.host = host
+    this.onControlChange = onControlChange
+    this.currentControl = null
+    host.addController(this)
+    host[ATTACHABLE_CONTROLLER] = this
+    FOR_ATTRIBUTE_OBSERVER?.observe(host, { attributeFilter: ['for'] })
+  }
+  attach(control) {
+    if (control === this.currentControl) {
+      return
+    }
+    this.setCurrentControl(control)
+    // When imperatively attaching, remove the `for` attribute so
+    // that the attached control is used instead of a referenced one.
+    this.host.removeAttribute('for')
+  }
+  detach() {
+    this.setCurrentControl(null)
+    // When imperatively detaching, add an empty `for=""` attribute. This will
+    // ensure the control is `null` rather than the `parentElement`.
+    this.host.setAttribute('for', '')
+  }
+  /** @private */
+  hostConnected() {
+    this.setCurrentControl(this.control)
+  }
+  /** @private */
+  hostDisconnected() {
+    this.setCurrentControl(null)
+  }
+  setCurrentControl(control) {
+    this.onControlChange(this.currentControl, control)
+    this.currentControl = control
+  }
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Events that the focus ring listens to.
+ *
+ * @fires visibility-changed Fired whenever `visible` changes.
+ */
+const EVENTS$1 = ['focusin', 'focusout', 'pointerdown']
+/**
+ * A focus ring component.
+ */
+class FocusRing extends s$9 {
+  constructor() {
+    super(...arguments)
+    /**
+     * Makes the focus ring visible.
+     */
+    this.visible = false
+    /**
+     * Makes the focus ring animate inwards instead of outwards.
+     */
+    this.inward = false
+    this.attachableController = new AttachableController(
+      this,
+      this.onControlChange.bind(this)
+    )
+  }
+  get htmlFor() {
+    return this.attachableController.htmlFor
+  }
+  set htmlFor(htmlFor) {
+    this.attachableController.htmlFor = htmlFor
+  }
+  get control() {
+    return this.attachableController.control
+  }
+  set control(control) {
+    this.attachableController.control = control
+  }
+  attach(control) {
+    this.attachableController.attach(control)
+  }
+  detach() {
+    this.attachableController.detach()
+  }
+  connectedCallback() {
+    super.connectedCallback()
+    // Needed for VoiceOver, which will create a "group" if the element is a
+    // sibling to other content.
+    this.setAttribute('aria-hidden', 'true')
+  }
+  /** @private */
+  handleEvent(event) {
+    if (event[HANDLED_BY_FOCUS_RING]) {
+      // This ensures the focus ring does not activate when multiple focus rings
+      // are used within a single component.
+      return
+    }
+    switch (event.type) {
+      default:
+        return
+      case 'focusin':
+        this.visible = this.control?.matches(':focus-visible') ?? false
+        break
+      case 'focusout':
+      case 'pointerdown':
+        this.visible = false
+        break
+    }
+    event[HANDLED_BY_FOCUS_RING] = true
+  }
+  onControlChange(prev, next) {
+    for (const event of EVENTS$1) {
+      prev?.removeEventListener(event, this)
+      next?.addEventListener(event, this)
+    }
+  }
+  update(changed) {
+    if (changed.has('visible')) {
+      // This logic can be removed once the `:has` selector has been introduced
+      // to Firefox. This is necessary to allow correct submenu styles.
+      this.dispatchEvent(new Event('visibility-changed'))
+    }
+    super.update(changed)
+  }
+}
+__decorate(
+  [n$b({ type: Boolean, reflect: true })],
+  FocusRing.prototype,
+  'visible',
+  void 0
+)
+__decorate(
+  [n$b({ type: Boolean, reflect: true })],
+  FocusRing.prototype,
+  'inward',
+  void 0
+)
+const HANDLED_BY_FOCUS_RING = Symbol('handledByFocusRing')
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$c = i$8`:host{animation-delay:0s,calc(var(--md-focus-ring-duration, 600ms)*.25);animation-duration:calc(var(--md-focus-ring-duration, 600ms)*.25),calc(var(--md-focus-ring-duration, 600ms)*.75);animation-timing-function:cubic-bezier(0.2, 0, 0, 1);box-sizing:border-box;color:var(--md-focus-ring-color, var(--md-sys-color-secondary, #625b71));display:none;pointer-events:none;position:absolute}:host([visible]){display:flex}:host(:not([inward])){animation-name:outward-grow,outward-shrink;border-end-end-radius:calc(var(--md-focus-ring-shape-end-end, var(--md-focus-ring-shape, 9999px)) + var(--md-focus-ring-outward-offset, 2px));border-end-start-radius:calc(var(--md-focus-ring-shape-end-start, var(--md-focus-ring-shape, 9999px)) + var(--md-focus-ring-outward-offset, 2px));border-start-end-radius:calc(var(--md-focus-ring-shape-start-end, var(--md-focus-ring-shape, 9999px)) + var(--md-focus-ring-outward-offset, 2px));border-start-start-radius:calc(var(--md-focus-ring-shape-start-start, var(--md-focus-ring-shape, 9999px)) + var(--md-focus-ring-outward-offset, 2px));inset:calc(-1*var(--md-focus-ring-outward-offset, 2px));outline:var(--md-focus-ring-width, 3px) solid currentColor}:host([inward]){animation-name:inward-grow,inward-shrink;border-end-end-radius:calc(var(--md-focus-ring-shape-end-end, var(--md-focus-ring-shape, 9999px)) - var(--md-focus-ring-inward-offset, 0px));border-end-start-radius:calc(var(--md-focus-ring-shape-end-start, var(--md-focus-ring-shape, 9999px)) - var(--md-focus-ring-inward-offset, 0px));border-start-end-radius:calc(var(--md-focus-ring-shape-start-end, var(--md-focus-ring-shape, 9999px)) - var(--md-focus-ring-inward-offset, 0px));border-start-start-radius:calc(var(--md-focus-ring-shape-start-start, var(--md-focus-ring-shape, 9999px)) - var(--md-focus-ring-inward-offset, 0px));border:var(--md-focus-ring-width, 3px) solid currentColor;inset:var(--md-focus-ring-inward-offset, 0px)}@keyframes outward-grow{from{outline-width:0}to{outline-width:var(--md-focus-ring-active-width, 8px)}}@keyframes outward-shrink{from{outline-width:var(--md-focus-ring-active-width, 8px)}}@keyframes inward-grow{from{border-width:0}to{border-width:var(--md-focus-ring-active-width, 8px)}}@keyframes inward-shrink{from{border-width:var(--md-focus-ring-active-width, 8px)}}@media(prefers-reduced-motion){:host{animation:none}}/*# sourceMappingURL=focus-ring-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * TODO(b/267336424): add docs
+ *
+ * @final
+ * @suppress {visibility}
+ */
+let MdFocusRing = class MdFocusRing extends FocusRing {}
+MdFocusRing.styles = [styles$c]
+MdFocusRing = __decorate([t$9('md-focus-ring')], MdFocusRing)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const PRESS_GROW_MS = 450
+const MINIMUM_PRESS_MS = 225
+const INITIAL_ORIGIN_SCALE = 0.2
+const PADDING$1 = 10
+const SOFT_EDGE_MINIMUM_SIZE = 75
+const SOFT_EDGE_CONTAINER_RATIO = 0.35
+const PRESS_PSEUDO = '::after'
+const ANIMATION_FILL = 'forwards'
+/**
+ * Interaction states for the ripple.
+ *
+ * On Touch:
+ *  - `INACTIVE -> TOUCH_DELAY -> WAITING_FOR_CLICK -> INACTIVE`
+ *  - `INACTIVE -> TOUCH_DELAY -> HOLDING -> WAITING_FOR_CLICK -> INACTIVE`
+ *
+ * On Mouse or Pen:
+ *   - `INACTIVE -> WAITING_FOR_CLICK -> INACTIVE`
+ */
+var State
+;(function(State) {
+  /**
+   * Initial state of the control, no touch in progress.
+   *
+   * Transitions:
+   *   - on touch down: transition to `TOUCH_DELAY`.
+   *   - on mouse down: transition to `WAITING_FOR_CLICK`.
+   */
+  State[(State['INACTIVE'] = 0)] = 'INACTIVE'
+  /**
+   * Touch down has been received, waiting to determine if it's a swipe or
+   * scroll.
+   *
+   * Transitions:
+   *   - on touch up: begin press; transition to `WAITING_FOR_CLICK`.
+   *   - on cancel: transition to `INACTIVE`.
+   *   - after `TOUCH_DELAY_MS`: begin press; transition to `HOLDING`.
+   */
+  State[(State['TOUCH_DELAY'] = 1)] = 'TOUCH_DELAY'
+  /**
+   * A touch has been deemed to be a press
+   *
+   * Transitions:
+   *  - on up: transition to `WAITING_FOR_CLICK`.
+   */
+  State[(State['HOLDING'] = 2)] = 'HOLDING'
+  /**
+   * The user touch has finished, transition into rest state.
+   *
+   * Transitions:
+   *   - on click end press; transition to `INACTIVE`.
+   */
+  State[(State['WAITING_FOR_CLICK'] = 3)] = 'WAITING_FOR_CLICK'
+})(State || (State = {}))
+/**
+ * Events that the ripple listens to.
+ */
+const EVENTS = [
+  'click',
+  'contextmenu',
+  'pointercancel',
+  'pointerdown',
+  'pointerenter',
+  'pointerleave',
+  'pointerup',
+]
+/**
+ * Delay reacting to touch so that we do not show the ripple for a swipe or
+ * scroll interaction.
+ */
+const TOUCH_DELAY_MS = 150
+/**
+ * A ripple component.
+ */
+class Ripple extends s$9 {
+  constructor() {
+    super(...arguments)
+    /**
+     * Disables the ripple.
+     */
+    this.disabled = false
+    this.hovered = false
+    this.pressed = false
+    this.rippleSize = ''
+    this.rippleScale = ''
+    this.initialSize = 0
+    this.state = State.INACTIVE
+    this.checkBoundsAfterContextMenu = false
+    this.attachableController = new AttachableController(
+      this,
+      this.onControlChange.bind(this)
+    )
+  }
+  get htmlFor() {
+    return this.attachableController.htmlFor
+  }
+  set htmlFor(htmlFor) {
+    this.attachableController.htmlFor = htmlFor
+  }
+  get control() {
+    return this.attachableController.control
+  }
+  set control(control) {
+    this.attachableController.control = control
+  }
+  attach(control) {
+    this.attachableController.attach(control)
+  }
+  detach() {
+    this.attachableController.detach()
+  }
+  connectedCallback() {
+    super.connectedCallback()
+    // Needed for VoiceOver, which will create a "group" if the element is a
+    // sibling to other content.
+    this.setAttribute('aria-hidden', 'true')
+  }
+  render() {
+    const classes = {
+      hovered: this.hovered,
+      pressed: this.pressed,
+    }
+    return x$1`<div class="surface ${e$c(classes)}"></div>`
+  }
+  update(changedProps) {
+    if (changedProps.has('disabled') && this.disabled) {
+      this.hovered = false
+      this.pressed = false
+    }
+    super.update(changedProps)
+  }
+  /**
+   * TODO(b/269799771): make private
+   * @private only public for slider
+   */
+  handlePointerenter(event) {
+    if (!this.shouldReactToEvent(event)) {
+      return
+    }
+    this.hovered = true
+  }
+  /**
+   * TODO(b/269799771): make private
+   * @private only public for slider
+   */
+  handlePointerleave(event) {
+    if (!this.shouldReactToEvent(event)) {
+      return
+    }
+    this.hovered = false
+    // release a held mouse or pen press that moves outside the element
+    if (this.state !== State.INACTIVE) {
+      this.endPressAnimation()
+    }
+  }
+  handlePointerup(event) {
+    if (!this.shouldReactToEvent(event)) {
+      return
+    }
+    if (this.state === State.HOLDING) {
+      this.state = State.WAITING_FOR_CLICK
+      return
+    }
+    if (this.state === State.TOUCH_DELAY) {
+      this.state = State.WAITING_FOR_CLICK
+      this.startPressAnimation(this.rippleStartEvent)
+      return
+    }
+  }
+  async handlePointerdown(event) {
+    if (!this.shouldReactToEvent(event)) {
+      return
+    }
+    this.rippleStartEvent = event
+    if (!this.isTouch(event)) {
+      this.state = State.WAITING_FOR_CLICK
+      this.startPressAnimation(event)
+      return
+    }
+    // after a longpress contextmenu event, an extra `pointerdown` can be
+    // dispatched to the pressed element. Check that the down is within
+    // bounds of the element in this case.
+    if (this.checkBoundsAfterContextMenu && !this.inBounds(event)) {
+      return
+    }
+    this.checkBoundsAfterContextMenu = false
+    // Wait for a hold after touch delay
+    this.state = State.TOUCH_DELAY
+    await new Promise(resolve => {
+      setTimeout(resolve, TOUCH_DELAY_MS)
+    })
+    if (this.state !== State.TOUCH_DELAY) {
+      return
+    }
+    this.state = State.HOLDING
+    this.startPressAnimation(event)
+  }
+  handleClick() {
+    // Click is a MouseEvent in Firefox and Safari, so we cannot use
+    // `shouldReactToEvent`
+    if (this.disabled) {
+      return
+    }
+    if (this.state === State.WAITING_FOR_CLICK) {
+      this.endPressAnimation()
+      return
+    }
+    if (this.state === State.INACTIVE) {
+      // keyboard synthesized click event
+      this.startPressAnimation()
+      this.endPressAnimation()
+    }
+  }
+  handlePointercancel(event) {
+    if (!this.shouldReactToEvent(event)) {
+      return
+    }
+    this.endPressAnimation()
+  }
+  handleContextmenu() {
+    if (this.disabled) {
+      return
+    }
+    this.checkBoundsAfterContextMenu = true
+    this.endPressAnimation()
+  }
+  determineRippleSize() {
+    const { height, width } = this.getBoundingClientRect()
+    const maxDim = Math.max(height, width)
+    const softEdgeSize = Math.max(
+      SOFT_EDGE_CONTAINER_RATIO * maxDim,
+      SOFT_EDGE_MINIMUM_SIZE
+    )
+    const initialSize = Math.floor(maxDim * INITIAL_ORIGIN_SCALE)
+    const hypotenuse = Math.sqrt(width ** 2 + height ** 2)
+    const maxRadius = hypotenuse + PADDING$1
+    this.initialSize = initialSize
+    this.rippleScale = `${(maxRadius + softEdgeSize) / initialSize}`
+    this.rippleSize = `${initialSize}px`
+  }
+  getNormalizedPointerEventCoords(pointerEvent) {
+    const { scrollX, scrollY } = window
+    const { left, top } = this.getBoundingClientRect()
+    const documentX = scrollX + left
+    const documentY = scrollY + top
+    const { pageX, pageY } = pointerEvent
+    return { x: pageX - documentX, y: pageY - documentY }
+  }
+  getTranslationCoordinates(positionEvent) {
+    const { height, width } = this.getBoundingClientRect()
+    // end in the center
+    const endPoint = {
+      x: (width - this.initialSize) / 2,
+      y: (height - this.initialSize) / 2,
+    }
+    let startPoint
+    if (positionEvent instanceof PointerEvent) {
+      startPoint = this.getNormalizedPointerEventCoords(positionEvent)
+    } else {
+      startPoint = {
+        x: width / 2,
+        y: height / 2,
+      }
+    }
+    // center around start point
+    startPoint = {
+      x: startPoint.x - this.initialSize / 2,
+      y: startPoint.y - this.initialSize / 2,
+    }
+    return { startPoint, endPoint }
+  }
+  startPressAnimation(positionEvent) {
+    if (!this.mdRoot) {
+      return
+    }
+    this.pressed = true
+    this.growAnimation?.cancel()
+    this.determineRippleSize()
+    const { startPoint, endPoint } = this.getTranslationCoordinates(
+      positionEvent
+    )
+    const translateStart = `${startPoint.x}px, ${startPoint.y}px`
+    const translateEnd = `${endPoint.x}px, ${endPoint.y}px`
+    this.growAnimation = this.mdRoot.animate(
+      {
+        top: [0, 0],
+        left: [0, 0],
+        height: [this.rippleSize, this.rippleSize],
+        width: [this.rippleSize, this.rippleSize],
+        transform: [
+          `translate(${translateStart}) scale(1)`,
+          `translate(${translateEnd}) scale(${this.rippleScale})`,
+        ],
+      },
+      {
+        pseudoElement: PRESS_PSEUDO,
+        duration: PRESS_GROW_MS,
+        easing: EASING.STANDARD,
+        fill: ANIMATION_FILL,
+      }
+    )
+  }
+  async endPressAnimation() {
+    this.state = State.INACTIVE
+    const animation = this.growAnimation
+    let pressAnimationPlayState = Infinity
+    if (typeof animation?.currentTime === 'number') {
+      pressAnimationPlayState = animation.currentTime
+    } else if (animation?.currentTime) {
+      pressAnimationPlayState = animation.currentTime.to('ms').value
+    }
+    if (pressAnimationPlayState >= MINIMUM_PRESS_MS) {
+      this.pressed = false
+      return
+    }
+    await new Promise(resolve => {
+      setTimeout(resolve, MINIMUM_PRESS_MS - pressAnimationPlayState)
+    })
+    if (this.growAnimation !== animation) {
+      // A new press animation was started. The old animation was canceled and
+      // should not finish the pressed state.
+      return
+    }
+    this.pressed = false
+  }
+  /**
+   * Returns `true` if
+   *  - the ripple element is enabled
+   *  - the pointer is primary for the input type
+   *  - the pointer is the pointer that started the interaction, or will start
+   * the interaction
+   *  - the pointer is a touch, or the pointer state has the primary button
+   * held, or the pointer is hovering
+   */
+  shouldReactToEvent(event) {
+    if (this.disabled || !event.isPrimary) {
+      return false
+    }
+    if (
+      this.rippleStartEvent &&
+      this.rippleStartEvent.pointerId !== event.pointerId
+    ) {
+      return false
+    }
+    if (event.type === 'pointerenter' || event.type === 'pointerleave') {
+      return !this.isTouch(event)
+    }
+    const isPrimaryButton = event.buttons === 1
+    return this.isTouch(event) || isPrimaryButton
+  }
+  /**
+   * Check if the event is within the bounds of the element.
+   *
+   * This is only needed for the "stuck" contextmenu longpress on Chrome.
+   */
+  inBounds({ x, y }) {
+    const { top, left, bottom, right } = this.getBoundingClientRect()
+    return x >= left && x <= right && y >= top && y <= bottom
+  }
+  isTouch({ pointerType }) {
+    return pointerType === 'touch'
+  }
+  /** @private */
+  async handleEvent(event) {
+    switch (event.type) {
+      case 'click':
+        this.handleClick()
+        break
+      case 'contextmenu':
+        this.handleContextmenu()
+        break
+      case 'pointercancel':
+        this.handlePointercancel(event)
+        break
+      case 'pointerdown':
+        await this.handlePointerdown(event)
+        break
+      case 'pointerenter':
+        this.handlePointerenter(event)
+        break
+      case 'pointerleave':
+        this.handlePointerleave(event)
+        break
+      case 'pointerup':
+        this.handlePointerup(event)
+        break
+    }
+  }
+  onControlChange(prev, next) {
+    for (const event of EVENTS) {
+      prev?.removeEventListener(event, this)
+      next?.addEventListener(event, this)
+    }
+  }
+}
+__decorate(
+  [n$b({ type: Boolean, reflect: true })],
+  Ripple.prototype,
+  'disabled',
+  void 0
+)
+__decorate([r$8()], Ripple.prototype, 'hovered', void 0)
+__decorate([r$8()], Ripple.prototype, 'pressed', void 0)
+__decorate([e$g('.surface')], Ripple.prototype, 'mdRoot', void 0)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$b = i$8`:host{--_hover-color: var(--md-ripple-hover-color, var(--md-sys-color-on-surface, #1d1b20));--_hover-opacity: var(--md-ripple-hover-opacity, 0.08);--_pressed-color: var(--md-ripple-pressed-color, var(--md-sys-color-on-surface, #1d1b20));--_pressed-opacity: var(--md-ripple-pressed-opacity, 0.12);display:flex;margin:auto;pointer-events:none}:host([disabled]){display:none}@media(forced-colors: active){:host{display:none}}:host,.surface{border-radius:inherit;position:absolute;inset:0;overflow:hidden}.surface{-webkit-tap-highlight-color:rgba(0,0,0,0)}.surface::before,.surface::after{content:"";opacity:0;position:absolute}.surface::before{background-color:var(--_hover-color);inset:0;transition:opacity 15ms linear,background-color 15ms linear}.surface::after{background:radial-gradient(closest-side, var(--_pressed-color) max(100% - 70px, 65%), transparent 100%);transform-origin:center center;transition:opacity 375ms linear}.hovered::before{background-color:var(--_hover-color);opacity:var(--_hover-opacity)}.pressed::after{opacity:var(--_pressed-opacity);transition-duration:105ms}/*# sourceMappingURL=ripple-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @summary Ripples, also known as state layers, are visual indicators used to
+ * communicate the status of a component or interactive element.
+ *
+ * @description A state layer is a semi-transparent covering on an element that
+ * indicates its state. State layers provide a systematic approach to
+ * visualizing states by using opacity. A layer can be applied to an entire
+ * element or in a circular shape and only one state layer can be applied at a
+ * given time.
+ *
+ * @final
+ * @suppress {visibility}
+ */
+let MdRipple = class MdRipple extends Ripple {}
+MdRipple.styles = [styles$b]
+MdRipple = __decorate([t$9('md-ripple')], MdRipple)
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const e$b = Symbol.for(''),
+  o$a = t => {
+    if (t?.r === e$b) return t?._$litStatic$
+  },
+  s$8 = (t, ...r) => ({
+    _$litStatic$: r.reduce(
+      (r, e, o) =>
+        r +
+        (t => {
+          if (void 0 !== t._$litStatic$) return t._$litStatic$
+          throw Error(
+            `Value passed to 'literal' function must be a 'literal' result: ${t}. Use 'unsafeStatic' to pass non-literal values, but\n            take care to ensure page security.`
+          )
+        })(e) +
+        t[o + 1],
+      t[0]
+    ),
+    r: e$b,
+  }),
+  a$2 = new Map(),
+  l$4 = t => (r, ...e) => {
+    const i = e.length
+    let s, l
+    const n = [],
+      u = []
+    let c,
+      $ = 0,
+      f = !1
+    for (; $ < i; ) {
+      for (c = r[$]; $ < i && void 0 !== ((l = e[$]), (s = o$a(l))); )
+        (c += s + r[++$]), (f = !0)
+      $ !== i && u.push(l), n.push(c), $++
+    }
+    if (($ === i && n.push(r[i]), f)) {
+      const t = n.join('$$lit$$')
+      void 0 === (r = a$2.get(t)) && ((n.raw = n), a$2.set(t, (r = n))), (e = u)
+    }
+    return t(r, ...e)
+  },
+  n$9 = l$4(x$1)
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * A unique symbol used for protected access to an instance's
+ * `ElementInternals`.
+ *
+ * @example
+ * ```ts
+ * class MyElement extends LitElement {
+ *   static formAssociated = true;
+ *
+ *   [internals] = this.attachInternals();
+ * }
+ *
+ * function getForm(element: MyElement) {
+ *   return element[internals].form;
+ * }
+ * ```
+ */
+const internals = Symbol('internals')
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Sets up an element's constructor to enable form submission. The element
+ * instance should be form associated and have a `type` property.
+ *
+ * A click listener is added to each element instance. If the click is not
+ * default prevented, it will submit the element's form, if any.
+ *
+ * @example
+ * ```ts
+ * class MyElement extends LitElement {
+ *   static {
+ *     setupFormSubmitter(MyElement);
+ *   }
+ *
+ *   static formAssociated = true;
+ *
+ *   type: FormSubmitterType = 'submit';
+ *
+ *   [internals] = this.attachInternals();
+ * }
+ * ```
+ *
+ * @param ctor The form submitter element's constructor.
+ */
+function setupFormSubmitter(ctor) {
+  ctor.addInitializer(instance => {
+    const submitter = instance
+    submitter.addEventListener('click', async event => {
+      const { type, [internals]: elementInternals } = submitter
+      const { form } = elementInternals
+      if (!form || type === 'button') {
+        return
+      }
+      // Wait a microtask for event bubbling to complete.
+      await new Promise(resolve => {
+        resolve()
+      })
+      if (event.defaultPrevented) {
+        return
+      }
+      if (type === 'reset') {
+        form.reset()
+        return
+      }
+      // form.requestSubmit(submitter) does not work with form associated custom
+      // elements. This patches the dispatched submit event to add the correct
+      // `submitter`.
+      // See https://github.com/WICG/webcomponents/issues/814
+      form.addEventListener(
+        'submit',
+        submitEvent => {
+          Object.defineProperty(submitEvent, 'submitter', {
+            configurable: true,
+            enumerable: true,
+            get: () => submitter,
+          })
+        },
+        { capture: true, once: true }
+      )
+      elementInternals.setFormValue(submitter.value)
+      form.requestSubmit()
+    })
+  })
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+var _a$2
+/**
+ * A button component.
+ */
+class Button extends s$9 {
+  get name() {
+    return this.getAttribute('name') ?? ''
+  }
+  set name(name) {
+    this.setAttribute('name', name)
+  }
+  /**
+   * The associated form element with which this element's value will submit.
+   */
+  get form() {
+    return this[internals].form
+  }
+  constructor() {
+    super()
+    /**
+     * Whether or not the button is disabled.
+     */
+    this.disabled = false
+    /**
+     * The URL that the link button points to.
+     */
+    this.href = ''
+    /**
+     * Where to display the linked `href` URL for a link button. Common options
+     * include `_blank` to open in a new tab.
+     */
+    this.target = ''
+    /**
+     * Whether to render the icon at the inline end of the label rather than the
+     * inline start.
+     *
+     * _Note:_ Link buttons cannot have trailing icons.
+     */
+    this.trailingIcon = false
+    /**
+     * Whether to display the icon or not.
+     */
+    this.hasIcon = false
+    this.type = 'submit'
+    this.value = ''
+    /** @private */
+    this[_a$2] = this /* needed for closure */.attachInternals()
+    this.handleActivationClick = event => {
+      if (!isActivationClick(event) || !this.buttonElement) {
+        return
+      }
+      this.focus()
+      dispatchActivationClick(this.buttonElement)
+    }
+    {
+      this.addEventListener('click', this.handleActivationClick)
+    }
+  }
+  focus() {
+    this.buttonElement?.focus()
+  }
+  blur() {
+    this.buttonElement?.blur()
+  }
+  render() {
+    // Link buttons may not be disabled
+    const isDisabled = this.disabled && !this.href
+    const button = this.href ? s$8`a` : s$8`button`
+    // Needed for closure conformance
+    const { ariaLabel, ariaHasPopup, ariaExpanded } = this
+    return n$9`
+      <${button}
+        class="button ${e$c(this.getRenderClasses())}"
+        ?disabled=${isDisabled}
+        aria-label="${ariaLabel || T$1}"
+        aria-haspopup="${ariaHasPopup || T$1}"
+        aria-expanded="${ariaExpanded || T$1}"
+        href=${this.href || T$1}
+        target=${this.target || T$1}
+      >${this.renderContent()}</${button}>`
+  }
+  getRenderClasses() {
+    return {
+      'button--icon-leading': !this.trailingIcon && this.hasIcon,
+      'button--icon-trailing': this.trailingIcon && this.hasIcon,
+    }
+  }
+  renderContent() {
+    // Link buttons may not be disabled
+    const isDisabled = this.disabled && !this.href
+    const icon = x$1`<slot name="icon" @slotchange="${this.handleSlotChange}"></slot>`
+    return x$1`
+      ${this.renderElevation?.()}
+      ${this.renderOutline?.()}
+      <md-focus-ring part="focus-ring"></md-focus-ring>
+      <md-ripple class="button__ripple" ?disabled="${isDisabled}"></md-ripple>
+      <span class="touch"></span>
+      ${this.trailingIcon ? T$1 : icon}
+      <span class="button__label"><slot></slot></span>
+      ${this.trailingIcon ? icon : T$1}
+    `
+  }
+  handleSlotChange() {
+    this.hasIcon = this.assignedIcons.length > 0
+  }
+}
+_a$2 = internals
+;(() => {
+  requestUpdateOnAriaChange(Button)
+  setupFormSubmitter(Button)
+})()
+/** @nocollapse */
+Button.formAssociated = true
+/** @nocollapse */
+Button.shadowRootOptions = { mode: 'open', delegatesFocus: true }
+__decorate(
+  [n$b({ type: Boolean, reflect: true })],
+  Button.prototype,
+  'disabled',
+  void 0
+)
+__decorate([n$b()], Button.prototype, 'href', void 0)
+__decorate([n$b()], Button.prototype, 'target', void 0)
+__decorate(
+  [n$b({ type: Boolean, attribute: 'trailing-icon' })],
+  Button.prototype,
+  'trailingIcon',
+  void 0
+)
+__decorate(
+  [n$b({ type: Boolean, attribute: 'has-icon' })],
+  Button.prototype,
+  'hasIcon',
+  void 0
+)
+__decorate([n$b()], Button.prototype, 'type', void 0)
+__decorate([n$b()], Button.prototype, 'value', void 0)
+__decorate([e$g('.button')], Button.prototype, 'buttonElement', void 0)
+__decorate(
+  [o$c({ slot: 'icon', flatten: true })],
+  Button.prototype,
+  'assignedIcons',
+  void 0
+)
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * A text button component.
+ */
+class TextButton extends Button {}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$a = i$8`:host{--_container-height: var(--md-text-button-container-height, 40px);--_container-shape: var(--md-text-button-container-shape, 9999px);--_disabled-label-text-color: var(--md-text-button-disabled-label-text-color, var(--md-sys-color-on-surface, #1d1b20));--_disabled-label-text-opacity: var(--md-text-button-disabled-label-text-opacity, 0.38);--_focus-label-text-color: var(--md-text-button-focus-label-text-color, var(--md-sys-color-primary, #6750a4));--_hover-label-text-color: var(--md-text-button-hover-label-text-color, var(--md-sys-color-primary, #6750a4));--_hover-state-layer-color: var(--md-text-button-hover-state-layer-color, var(--md-sys-color-primary, #6750a4));--_hover-state-layer-opacity: var(--md-text-button-hover-state-layer-opacity, 0.08);--_label-text-color: var(--md-text-button-label-text-color, var(--md-sys-color-primary, #6750a4));--_label-text-font: var(--md-text-button-label-text-font, var(--md-sys-typescale-label-large-font, var(--md-ref-typeface-plain, Roboto)));--_label-text-line-height: var(--md-text-button-label-text-line-height, var(--md-sys-typescale-label-large-line-height, 1.25rem));--_label-text-size: var(--md-text-button-label-text-size, var(--md-sys-typescale-label-large-size, 0.875rem));--_label-text-weight: var(--md-text-button-label-text-weight, var(--md-sys-typescale-label-large-weight, var(--md-ref-typeface-weight-medium, 500)));--_pressed-label-text-color: var(--md-text-button-pressed-label-text-color, var(--md-sys-color-primary, #6750a4));--_pressed-state-layer-color: var(--md-text-button-pressed-state-layer-color, var(--md-sys-color-primary, #6750a4));--_pressed-state-layer-opacity: var(--md-text-button-pressed-state-layer-opacity, 0.12);--_disabled-icon-color: var(--md-text-button-disabled-icon-color, var(--md-sys-color-on-surface, #1d1b20));--_disabled-icon-opacity: var(--md-text-button-disabled-icon-opacity, 0.38);--_focus-icon-color: var(--md-text-button-focus-icon-color, var(--md-sys-color-primary, #6750a4));--_hover-icon-color: var(--md-text-button-hover-icon-color, var(--md-sys-color-primary, #6750a4));--_icon-color: var(--md-text-button-icon-color, var(--md-sys-color-primary, #6750a4));--_icon-size: var(--md-text-button-icon-size, 18px);--_pressed-icon-color: var(--md-text-button-pressed-icon-color, var(--md-sys-color-primary, #6750a4));--_leading-space: var(--md-text-button-leading-space, 12px);--_trailing-space: var(--md-text-button-trailing-space, 12px);--_with-leading-icon-leading-space: var(--md-text-button-with-leading-icon-leading-space, 12px);--_with-leading-icon-trailing-space: var(--md-text-button-with-leading-icon-trailing-space, 16px);--_with-trailing-icon-leading-space: var(--md-text-button-with-trailing-icon-leading-space, 16px);--_with-trailing-icon-trailing-space: var(--md-text-button-with-trailing-icon-trailing-space, 12px);--_container-color: none;--_disabled-container-color: none;--_disabled-container-opacity: 0;--_container-shape-start-start: var( --md-text-button-container-shape-start-start, var(--_container-shape) );--_container-shape-start-end: var( --md-text-button-container-shape-start-end, var(--_container-shape) );--_container-shape-end-end: var( --md-text-button-container-shape-end-end, var(--_container-shape) );--_container-shape-end-start: var( --md-text-button-container-shape-end-start, var(--_container-shape) )}/*# sourceMappingURL=text-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @summary Buttons help people take action, such as sending an email, sharing a
+ * document, or liking a comment.
+ *
+ * @description
+ * __Emphasis:__ Low emphasis – For optional or supplementary actions with the
+ * least amount of prominence
+ *
+ * __Rationale:__ Text buttons have less visual prominence, so should be used
+ * for low emphasis actions, such as an alternative option.
+ *
+ * __Example usages:__
+ * - Learn more
+ * - View all
+ * - Change account
+ * - Turn on
+ *
+ * @final
+ * @suppress {visibility}
+ */
+let MdTextButton = class MdTextButton extends TextButton {}
+MdTextButton.styles = [styles$d, styles$a]
+MdTextButton = __decorate([t$9('md-text-button')], MdTextButton)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * A `ReactiveController` that provides root node-scoped single selection for
+ * elements, similar to native `<input type="radio">` selection.
+ *
+ * To use, elements should add the controller and call
+ * `selectionController.handleCheckedChange()` in a getter/setter. This must
+ * be synchronous to match native behavior.
+ *
+ * @example
+ * const CHECKED = Symbol('checked');
+ *
+ * class MyToggle extends LitElement {
+ *   get checked() { return this[CHECKED]; }
+ *   set checked(checked: boolean) {
+ *     const oldValue = this.checked;
+ *     if (oldValue === checked) {
+ *       return;
+ *     }
+ *
+ *     this[CHECKED] = checked;
+ *     this.selectionController.handleCheckedChange();
+ *     this.requestUpdate('checked', oldValue);
+ *   }
+ *
+ *   [CHECKED] = false;
+ *
+ *   private selectionController = new SingleSelectionController(this);
+ *
+ *   constructor() {
+ *     super();
+ *     this.addController(this.selectionController);
+ *   }
+ * }
+ */
+class SingleSelectionController {
+  constructor(host) {
+    this.host = host
+    this.focused = false
+    this.root = null
+    this.handleFocusIn = () => {
+      this.focused = true
+      this.updateTabIndices()
+    }
+    this.handleFocusOut = () => {
+      this.focused = false
+      this.updateTabIndices()
+    }
+    /**
+     * Handles arrow key events from the host. Using the arrow keys will
+     * select and check the next or previous sibling with the host's
+     * `name` attribute.
+     */
+    this.handleKeyDown = event => {
+      const isDown = event.key === 'ArrowDown'
+      const isUp = event.key === 'ArrowUp'
+      const isLeft = event.key === 'ArrowLeft'
+      const isRight = event.key === 'ArrowRight'
+      // Ignore non-arrow keys
+      if (!isLeft && !isRight && !isDown && !isUp) {
+        return
+      }
+      // Don't try to select another sibling if there aren't any.
+      const siblings = this.getNamedSiblings()
+      if (!siblings.length) {
+        return
+      }
+      // Prevent default interactions on the element for arrow keys,
+      // since this controller will introduce new behavior.
+      event.preventDefault()
+      // Check if moving forwards or backwards
+      const isRtl = getComputedStyle(this.host).direction === 'rtl'
+      const forwards = isRtl ? isLeft || isDown : isRight || isDown
+      const hostIndex = siblings.indexOf(this.host)
+      let nextIndex = forwards ? hostIndex + 1 : hostIndex - 1
+      // Search for the next sibling that is not disabled to select.
+      // If we return to the host index, there is nothing to select.
+      while (nextIndex !== hostIndex) {
+        if (nextIndex >= siblings.length) {
+          // Return to start if moving past the last item.
+          nextIndex = 0
+        } else if (nextIndex < 0) {
+          // Go to end if moving before the first item.
+          nextIndex = siblings.length - 1
+        }
+        // Check if the next sibling is disabled. If so,
+        // move the index and continue searching.
+        const nextSibling = siblings[nextIndex]
+        if (nextSibling.hasAttribute('disabled')) {
+          if (forwards) {
+            nextIndex++
+          } else {
+            nextIndex--
+          }
+          continue
+        }
+        // Uncheck and remove focusability from other siblings.
+        for (const sibling of siblings) {
+          if (sibling !== nextSibling) {
+            sibling.checked = false
+            sibling.tabIndex = -1
+            sibling.blur()
+          }
+        }
+        // The next sibling should be checked, focused and dispatch a change event
+        nextSibling.checked = true
+        nextSibling.tabIndex = 0
+        nextSibling.focus()
+        // Fire a change event since the change is triggered by a user action.
+        // This matches native <input type="radio"> behavior.
+        nextSibling.dispatchEvent(new Event('change', { bubbles: true }))
+        break
+      }
+    }
+  }
+  hostConnected() {
+    this.root = this.host.getRootNode()
+    this.host.addEventListener('keydown', this.handleKeyDown)
+    this.host.addEventListener('focusin', this.handleFocusIn)
+    this.host.addEventListener('focusout', this.handleFocusOut)
+    if (this.host.checked) {
+      // Uncheck other siblings when attached if already checked. This mimics
+      // native <input type="radio"> behavior.
+      this.uncheckSiblings()
+    }
+    // Update for the newly added host.
+    this.updateTabIndices()
+  }
+  hostDisconnected() {
+    this.host.removeEventListener('keydown', this.handleKeyDown)
+    this.host.removeEventListener('focusin', this.handleFocusIn)
+    this.host.removeEventListener('focusout', this.handleFocusOut)
+    // Update for siblings that are still connected.
+    this.updateTabIndices()
+    this.root = null
+  }
+  /**
+   * Should be called whenever the host's `checked` property changes
+   * synchronously.
+   */
+  handleCheckedChange() {
+    if (!this.host.checked) {
+      return
+    }
+    this.uncheckSiblings()
+    this.updateTabIndices()
+  }
+  uncheckSiblings() {
+    for (const sibling of this.getNamedSiblings()) {
+      if (sibling !== this.host) {
+        sibling.checked = false
+      }
+    }
+  }
+  /**
+   * Updates the `tabindex` of the host and its siblings.
+   */
+  updateTabIndices() {
+    // There are three tabindex states for a group of elements:
+    // 1. If any are checked, that element is focusable.
+    const siblings = this.getNamedSiblings()
+    const checkedSibling = siblings.find(sibling => sibling.checked)
+    // 2. If an element is focused, the others are no longer focusable.
+    if (checkedSibling || this.focused) {
+      const focusable = checkedSibling || this.host
+      focusable.tabIndex = 0
+      for (const sibling of siblings) {
+        if (sibling !== focusable) {
+          sibling.tabIndex = -1
+        }
+      }
+      return
+    }
+    // 3. If none are checked or focused, all are focusable.
+    for (const sibling of siblings) {
+      sibling.tabIndex = 0
+    }
+  }
+  /**
+   * Retrieves all siblings in the host element's root with the same `name`
+   * attribute.
+   */
+  getNamedSiblings() {
+    const name = this.host.getAttribute('name')
+    if (!name || !this.root) {
+      return []
+    }
+    return Array.from(this.root.querySelectorAll(`[name="${name}"]`))
+  }
+}
+
+/**
+ * @license
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+var _a$1
+const CHECKED = Symbol('checked')
+let maskId = 0
+/**
+ * A radio component.
+ *
+ * @fires input Dispatched when the value changes from user interaction.
+ * --bubbles
+ * @fires change Dispatched when the value changes from user interaction.
+ * --bubbles --composed
+ */
+class Radio extends s$9 {
+  /**
+   * Whether or not the radio is selected.
+   */
+  get checked() {
+    return this[CHECKED]
+  }
+  set checked(checked) {
+    const wasChecked = this.checked
+    if (wasChecked === checked) {
+      return
+    }
+    this[CHECKED] = checked
+    const state = String(checked)
+    this.internals.setFormValue(this.checked ? this.value : null, state)
+    this.requestUpdate('checked', wasChecked)
+    this.selectionController.handleCheckedChange()
+  }
+  /**
+   * The HTML name to use in form submission.
+   */
+  get name() {
+    return this.getAttribute('name') ?? ''
+  }
+  set name(name) {
+    this.setAttribute('name', name)
+  }
+  /**
+   * The associated form element with which this element's value will submit.
+   */
+  get form() {
+    return this.internals.form
+  }
+  /**
+   * The labels this element is associated with.
+   */
+  get labels() {
+    return this.internals.labels
+  }
+  constructor() {
+    super()
+    // Unique maskId is required because of a Safari bug that fail to persist
+    // reference to the mask. This should be removed once the bug is fixed.
+    this.maskId = `cutout${++maskId}`
+    this[_a$1] = false
+    /**
+     * Whether or not the radio is disabled.
+     */
+    this.disabled = false
+    /**
+     * The element value to use in form submission when checked.
+     */
+    this.value = 'on'
+    this.selectionController = new SingleSelectionController(this)
+    this.internals = polyfillElementInternalsAria(
+      this,
+      this /* needed for closure */.attachInternals()
+    )
+    this.addController(this.selectionController)
+    {
+      this.internals.role = 'radio'
+      this.addEventListener('click', this.handleClick.bind(this))
+      this.addEventListener('keydown', this.handleKeydown.bind(this))
+    }
+  }
+  render() {
+    const classes = { checked: this.checked }
+    return x$1`
+      <div class="container ${e$c(classes)}" aria-hidden="true">
+        <md-ripple part="ripple" .control=${this}
+            ?disabled=${this.disabled}></md-ripple>
+        <md-focus-ring part="focus-ring" .control=${this}></md-focus-ring>
+        <svg class="icon" viewBox="0 0 20 20">
+          <mask id="${this.maskId}">
+            <rect width="100%" height="100%" fill="white" />
+            <circle cx="10" cy="10" r="8" fill="black" />
+          </mask>
+          <circle class="outer circle" cx="10" cy="10" r="10"
+              mask="url(#${this.maskId})" />
+          <circle class="inner circle" cx="10" cy="10" r="5" />
+        </svg>
+
+        <input
+          id="input"
+          type="radio"
+          tabindex="-1"
+          .checked=${this.checked}
+          .value=${this.value}
+          ?disabled=${this.disabled}
+        >
+      </div>
+    `
+  }
+  updated() {
+    this.internals.ariaChecked = String(this.checked)
+  }
+  async handleClick(event) {
+    if (this.disabled) {
+      return
+    }
+    // allow event to propagate to user code after a microtask.
+    await 0
+    if (event.defaultPrevented) {
+      return
+    }
+    if (isActivationClick(event)) {
+      this.focus()
+    }
+    // Per spec, clicking on a radio input always selects it.
+    this.checked = true
+    this.dispatchEvent(new Event('change', { bubbles: true }))
+    this.dispatchEvent(
+      new InputEvent('input', { bubbles: true, composed: true })
+    )
+  }
+  async handleKeydown(event) {
+    // allow event to propagate to user code after a microtask.
+    await 0
+    if (event.key !== ' ' || event.defaultPrevented) {
+      return
+    }
+    this.click()
+  }
+  /** @private */
+  formResetCallback() {
+    // The checked property does not reflect, so the original attribute set by
+    // the user is used to determine the default value.
+    this.checked = this.hasAttribute('checked')
+  }
+  /** @private */
+  formStateRestoreCallback(state) {
+    this.checked = state === 'true'
+  }
+}
+_a$1 = CHECKED
+;(() => {
+  setupHostAria(Radio)
+})()
+/** @nocollapse */
+Radio.formAssociated = true
+__decorate([n$b({ type: Boolean })], Radio.prototype, 'checked', null)
+__decorate(
+  [n$b({ type: Boolean, reflect: true })],
+  Radio.prototype,
+  'disabled',
+  void 0
+)
+__decorate([n$b()], Radio.prototype, 'value', void 0)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$9 = i$8`@layer{:host{--_disabled-selected-icon-color: var(--md-radio-disabled-selected-icon-color, var(--md-sys-color-on-surface, #1d1b20));--_disabled-selected-icon-opacity: var(--md-radio-disabled-selected-icon-opacity, 0.38);--_disabled-unselected-icon-color: var(--md-radio-disabled-unselected-icon-color, var(--md-sys-color-on-surface, #1d1b20));--_disabled-unselected-icon-opacity: var(--md-radio-disabled-unselected-icon-opacity, 0.38);--_icon-size: var(--md-radio-icon-size, 20px);--_selected-focus-icon-color: var(--md-radio-selected-focus-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-icon-color: var(--md-radio-selected-hover-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-color: var(--md-radio-selected-hover-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-opacity: var(--md-radio-selected-hover-state-layer-opacity, 0.08);--_selected-icon-color: var(--md-radio-selected-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-icon-color: var(--md-radio-selected-pressed-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-color: var(--md-radio-selected-pressed-state-layer-color, var(--md-sys-color-on-surface, #1d1b20));--_selected-pressed-state-layer-opacity: var(--md-radio-selected-pressed-state-layer-opacity, 0.12);--_state-layer-size: var(--md-radio-state-layer-size, 40px);--_focus-icon-color: var(--md-radio-focus-icon-color, var(--md-sys-color-on-surface, #1d1b20));--_hover-icon-color: var(--md-radio-hover-icon-color, var(--md-sys-color-on-surface, #1d1b20));--_hover-state-layer-color: var(--md-radio-hover-state-layer-color, var(--md-sys-color-on-surface, #1d1b20));--_hover-state-layer-opacity: var(--md-radio-hover-state-layer-opacity, 0.08);--_icon-color: var(--md-radio-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_pressed-icon-color: var(--md-radio-pressed-icon-color, var(--md-sys-color-on-surface, #1d1b20));--_pressed-state-layer-color: var(--md-radio-pressed-state-layer-color, var(--md-sys-color-primary, #6750a4));--_pressed-state-layer-opacity: var(--md-radio-pressed-state-layer-opacity, 0.12);--md-ripple-hover-color: var(--_hover-state-layer-color);--md-ripple-hover-opacity: var(--_hover-state-layer-opacity);--md-ripple-pressed-color: var(--_pressed-state-layer-color);--md-ripple-pressed-opacity: var(--_pressed-state-layer-opacity);display:inline-flex;height:var(--_icon-size);outline:none;position:relative;vertical-align:top;width:var(--_icon-size);-webkit-tap-highlight-color:rgba(0,0,0,0);cursor:pointer}:host([disabled]){cursor:default}:host([touch-target=wrapper]){margin:max(0px,(48px - var(--_icon-size))/2)}.container{display:flex;height:100%;place-content:center;place-items:center;width:100%}md-focus-ring{height:44px;inset:unset;width:44px}.checked{--md-ripple-hover-color: var(--_selected-hover-state-layer-color);--md-ripple-hover-opacity: var(--_selected-hover-state-layer-opacity);--md-ripple-pressed-color: var(--_selected-pressed-state-layer-color);--md-ripple-pressed-opacity: var(--_selected-pressed-state-layer-opacity)}input{appearance:none;height:48px;margin:0;position:absolute;width:48px;cursor:inherit}:host([touch-target=none]) input{width:100%;height:100%}md-ripple{border-radius:50%;height:var(--_state-layer-size);inset:unset;width:var(--_state-layer-size)}.icon{fill:var(--_icon-color);inset:0;position:absolute}.outer.circle{transition:fill 50ms linear}.inner.circle{opacity:0;transform-origin:center;transition:opacity 50ms linear}.checked .icon{fill:var(--_selected-icon-color)}.checked .inner.circle{animation:inner-circle-grow 300ms cubic-bezier(0.05, 0.7, 0.1, 1);opacity:1}@keyframes inner-circle-grow{from{transform:scale(0)}to{transform:scale(1)}}:host([disabled]) .circle{animation-duration:0s;transition-duration:0s}:host(:hover) .icon{fill:var(--_hover-icon-color)}:host(:focus-within) .icon{fill:var(--_focus-icon-color)}:host(:active) .icon{fill:var(--_pressed-icon-color)}:host([disabled]) .icon{fill:var(--_disabled-unselected-icon-color);opacity:var(--_disabled-unselected-icon-opacity)}:host(:hover) .checked .icon{fill:var(--_selected-hover-icon-color)}:host(:focus-within) .checked .icon{fill:var(--_selected-focus-icon-color)}:host(:active) .checked .icon{fill:var(--_selected-pressed-icon-color)}:host([disabled]) .checked .icon{fill:var(--_disabled-selected-icon-color);opacity:var(--_disabled-selected-icon-opacity)}}@layer hcm{@media(forced-colors: active){.icon{fill:CanvasText}:host([disabled]) .icon{fill:GrayText;opacity:1}}}/*# sourceMappingURL=radio-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @summary Radio buttons allow users to select one option from a set.
+ *
+ * @description
+ * Radio buttons are the recommended way to allow users to make a single
+ * selection from a list of options.
+ *
+ * Only one radio button can be selected at a time.
+ *
+ * Use radio buttons to:
+ * - Select a single option from a set
+ * - Expose all available options
+ *
+ * @final
+ * @suppress {visibility}
+ */
+let MdRadio = class MdRadio extends Radio {}
+MdRadio.styles = [styles$9]
+MdRadio = __decorate([t$9('md-radio')], MdRadio)
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const t$5 = window,
+  e$a =
+    t$5.ShadowRoot &&
+    (void 0 === t$5.ShadyCSS || t$5.ShadyCSS.nativeShadow) &&
+    'adoptedStyleSheets' in Document.prototype &&
+    'replace' in CSSStyleSheet.prototype,
+  s$7 = Symbol(),
+  n$8 = new WeakMap()
+class o$9 {
+  constructor(t, e, n) {
+    if (((this._$cssResult$ = !0), n !== s$7))
+      throw Error(
+        'CSSResult is not constructable. Use `unsafeCSS` or `css` instead.'
+      )
+    ;(this.cssText = t), (this.t = e)
+  }
+  get styleSheet() {
+    let t = this.o
+    const s = this.t
+    if (e$a && void 0 === t) {
+      const e = void 0 !== s && 1 === s.length
+      e && (t = n$8.get(s)),
+        void 0 === t &&
+          ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText),
+          e && n$8.set(s, t))
+    }
+    return t
+  }
+  toString() {
+    return this.cssText
+  }
+}
+const r$4 = t => new o$9('string' == typeof t ? t : t + '', void 0, s$7),
+  i$4 = (t, ...e) => {
+    const n =
+      1 === t.length
+        ? t[0]
+        : e.reduce(
+            (e, s, n) =>
+              e +
+              (t => {
+                if (!0 === t._$cssResult$) return t.cssText
+                if ('number' == typeof t) return t
+                throw Error(
+                  "Value passed to 'css' function must be a 'css' function result: " +
+                    t +
+                    ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security."
+                )
+              })(s) +
+              t[n + 1],
+            t[0]
+          )
+    return new o$9(n, t, s$7)
+  },
+  S$1 = (s, n) => {
+    e$a
+      ? (s.adoptedStyleSheets = n.map(t =>
+          t instanceof CSSStyleSheet ? t : t.styleSheet
+        ))
+      : n.forEach(e => {
+          const n = document.createElement('style'),
+            o = t$5.litNonce
+          void 0 !== o && n.setAttribute('nonce', o),
+            (n.textContent = e.cssText),
+            s.appendChild(n)
+        })
+  },
+  c$2 = e$a
+    ? t => t
+    : t =>
+        t instanceof CSSStyleSheet
+          ? (t => {
+              let e = ''
+              for (const s of t.cssRules) e += s.cssText
+              return r$4(e)
+            })(t)
+          : t
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ var s$6
+const e$9 = window,
+  r$3 = e$9.trustedTypes,
+  h$3 = r$3 ? r$3.emptyScript : '',
+  o$8 = e$9.reactiveElementPolyfillSupport,
+  n$7 = {
+    toAttribute(t, i) {
+      switch (i) {
+        case Boolean:
+          t = t ? h$3 : null
+          break
+        case Object:
+        case Array:
+          t = null == t ? t : JSON.stringify(t)
+      }
+      return t
+    },
+    fromAttribute(t, i) {
+      let s = t
+      switch (i) {
+        case Boolean:
+          s = null !== t
+          break
+        case Number:
+          s = null === t ? null : Number(t)
+          break
+        case Object:
+        case Array:
+          try {
+            s = JSON.parse(t)
+          } catch (t) {
+            s = null
+          }
+      }
+      return s
+    },
+  },
+  a$1 = (t, i) => i !== t && (i == i || t == t),
+  l$3 = {
+    attribute: !0,
+    type: String,
+    converter: n$7,
+    reflect: !1,
+    hasChanged: a$1,
+  }
+class d$1 extends HTMLElement {
+  constructor() {
+    super(),
+      (this._$Ei = new Map()),
+      (this.isUpdatePending = !1),
+      (this.hasUpdated = !1),
+      (this._$El = null),
+      this.u()
+  }
+  static addInitializer(t) {
+    var i
+    this.finalize(),
+      (null !== (i = this.h) && void 0 !== i ? i : (this.h = [])).push(t)
+  }
+  static get observedAttributes() {
+    this.finalize()
+    const t = []
+    return (
+      this.elementProperties.forEach((i, s) => {
+        const e = this._$Ep(s, i)
+        void 0 !== e && (this._$Ev.set(e, s), t.push(e))
+      }),
+      t
+    )
+  }
+  static createProperty(t, i = l$3) {
+    if (
+      (i.state && (i.attribute = !1),
+      this.finalize(),
+      this.elementProperties.set(t, i),
+      !i.noAccessor && !this.prototype.hasOwnProperty(t))
+    ) {
+      const s = 'symbol' == typeof t ? Symbol() : '__' + t,
+        e = this.getPropertyDescriptor(t, s, i)
+      void 0 !== e && Object.defineProperty(this.prototype, t, e)
+    }
+  }
+  static getPropertyDescriptor(t, i, s) {
+    return {
+      get() {
+        return this[i]
+      },
+      set(e) {
+        const r = this[t]
+        ;(this[i] = e), this.requestUpdate(t, r, s)
+      },
+      configurable: !0,
+      enumerable: !0,
+    }
+  }
+  static getPropertyOptions(t) {
+    return this.elementProperties.get(t) || l$3
+  }
+  static finalize() {
+    if (this.hasOwnProperty('finalized')) return !1
+    this.finalized = !0
+    const t = Object.getPrototypeOf(this)
+    if (
+      (t.finalize(),
+      void 0 !== t.h && (this.h = [...t.h]),
+      (this.elementProperties = new Map(t.elementProperties)),
+      (this._$Ev = new Map()),
+      this.hasOwnProperty('properties'))
+    ) {
+      const t = this.properties,
+        i = [
+          ...Object.getOwnPropertyNames(t),
+          ...Object.getOwnPropertySymbols(t),
+        ]
+      for (const s of i) this.createProperty(s, t[s])
+    }
+    return (this.elementStyles = this.finalizeStyles(this.styles)), !0
+  }
+  static finalizeStyles(i) {
+    const s = []
+    if (Array.isArray(i)) {
+      const e = new Set(i.flat(1 / 0).reverse())
+      for (const i of e) s.unshift(c$2(i))
+    } else void 0 !== i && s.push(c$2(i))
+    return s
+  }
+  static _$Ep(t, i) {
+    const s = i.attribute
+    return !1 === s
+      ? void 0
+      : 'string' == typeof s
+      ? s
+      : 'string' == typeof t
+      ? t.toLowerCase()
+      : void 0
+  }
+  u() {
+    var t
+    ;(this._$E_ = new Promise(t => (this.enableUpdating = t))),
+      (this._$AL = new Map()),
+      this._$Eg(),
+      this.requestUpdate(),
+      null === (t = this.constructor.h) ||
+        void 0 === t ||
+        t.forEach(t => t(this))
+  }
+  addController(t) {
+    var i, s
+    ;(null !== (i = this._$ES) && void 0 !== i ? i : (this._$ES = [])).push(t),
+      void 0 !== this.renderRoot &&
+        this.isConnected &&
+        (null === (s = t.hostConnected) || void 0 === s || s.call(t))
+  }
+  removeController(t) {
+    var i
+    null === (i = this._$ES) ||
+      void 0 === i ||
+      i.splice(this._$ES.indexOf(t) >>> 0, 1)
+  }
+  _$Eg() {
+    this.constructor.elementProperties.forEach((t, i) => {
+      this.hasOwnProperty(i) && (this._$Ei.set(i, this[i]), delete this[i])
+    })
+  }
+  createRenderRoot() {
+    var t
+    const s =
+      null !== (t = this.shadowRoot) && void 0 !== t
+        ? t
+        : this.attachShadow(this.constructor.shadowRootOptions)
+    return S$1(s, this.constructor.elementStyles), s
+  }
+  connectedCallback() {
+    var t
+    void 0 === this.renderRoot && (this.renderRoot = this.createRenderRoot()),
+      this.enableUpdating(!0),
+      null === (t = this._$ES) ||
+        void 0 === t ||
+        t.forEach(t => {
+          var i
+          return null === (i = t.hostConnected) || void 0 === i
+            ? void 0
+            : i.call(t)
+        })
+  }
+  enableUpdating(t) {}
+  disconnectedCallback() {
+    var t
+    null === (t = this._$ES) ||
+      void 0 === t ||
+      t.forEach(t => {
+        var i
+        return null === (i = t.hostDisconnected) || void 0 === i
+          ? void 0
+          : i.call(t)
+      })
+  }
+  attributeChangedCallback(t, i, s) {
+    this._$AK(t, s)
+  }
+  _$EO(t, i, s = l$3) {
+    var e
+    const r = this.constructor._$Ep(t, s)
+    if (void 0 !== r && !0 === s.reflect) {
+      const h = (void 0 !==
+      (null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute)
+        ? s.converter
+        : n$7
+      ).toAttribute(i, s.type)
+      ;(this._$El = t),
+        null == h ? this.removeAttribute(r) : this.setAttribute(r, h),
+        (this._$El = null)
+    }
+  }
+  _$AK(t, i) {
+    var s
+    const e = this.constructor,
+      r = e._$Ev.get(t)
+    if (void 0 !== r && this._$El !== r) {
+      const t = e.getPropertyOptions(r),
+        h =
+          'function' == typeof t.converter
+            ? { fromAttribute: t.converter }
+            : void 0 !==
+              (null === (s = t.converter) || void 0 === s
+                ? void 0
+                : s.fromAttribute)
+            ? t.converter
+            : n$7
+      ;(this._$El = r),
+        (this[r] = h.fromAttribute(i, t.type)),
+        (this._$El = null)
+    }
+  }
+  requestUpdate(t, i, s) {
+    let e = !0
+    void 0 !== t &&
+      (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || a$1)(
+        this[t],
+        i
+      )
+        ? (this._$AL.has(t) || this._$AL.set(t, i),
+          !0 === s.reflect &&
+            this._$El !== t &&
+            (void 0 === this._$EC && (this._$EC = new Map()),
+            this._$EC.set(t, s)))
+        : (e = !1)),
+      !this.isUpdatePending && e && (this._$E_ = this._$Ej())
+  }
+  async _$Ej() {
+    this.isUpdatePending = !0
+    try {
+      await this._$E_
+    } catch (t) {
+      Promise.reject(t)
+    }
+    const t = this.scheduleUpdate()
+    return null != t && (await t), !this.isUpdatePending
+  }
+  scheduleUpdate() {
+    return this.performUpdate()
+  }
+  performUpdate() {
+    var t
+    if (!this.isUpdatePending) return
+    this.hasUpdated,
+      this._$Ei &&
+        (this._$Ei.forEach((t, i) => (this[i] = t)), (this._$Ei = void 0))
+    let i = !1
+    const s = this._$AL
+    try {
+      ;(i = this.shouldUpdate(s)),
+        i
+          ? (this.willUpdate(s),
+            null === (t = this._$ES) ||
+              void 0 === t ||
+              t.forEach(t => {
+                var i
+                return null === (i = t.hostUpdate) || void 0 === i
+                  ? void 0
+                  : i.call(t)
+              }),
+            this.update(s))
+          : this._$Ek()
+    } catch (t) {
+      throw ((i = !1), this._$Ek(), t)
+    }
+    i && this._$AE(s)
+  }
+  willUpdate(t) {}
+  _$AE(t) {
+    var i
+    null === (i = this._$ES) ||
+      void 0 === i ||
+      i.forEach(t => {
+        var i
+        return null === (i = t.hostUpdated) || void 0 === i ? void 0 : i.call(t)
+      }),
+      this.hasUpdated || ((this.hasUpdated = !0), this.firstUpdated(t)),
+      this.updated(t)
+  }
+  _$Ek() {
+    ;(this._$AL = new Map()), (this.isUpdatePending = !1)
+  }
+  get updateComplete() {
+    return this.getUpdateComplete()
+  }
+  getUpdateComplete() {
+    return this._$E_
+  }
+  shouldUpdate(t) {
+    return !0
+  }
+  update(t) {
+    void 0 !== this._$EC &&
+      (this._$EC.forEach((t, i) => this._$EO(i, this[i], t)),
+      (this._$EC = void 0)),
+      this._$Ek()
+  }
+  updated(t) {}
+  firstUpdated(t) {}
+}
+;(d$1.finalized = !0),
+  (d$1.elementProperties = new Map()),
+  (d$1.elementStyles = []),
+  (d$1.shadowRootOptions = { mode: 'open' }),
+  null == o$8 || o$8({ ReactiveElement: d$1 }),
+  (null !== (s$6 = e$9.reactiveElementVersions) && void 0 !== s$6
+    ? s$6
+    : (e$9.reactiveElementVersions = [])
+  ).push('1.6.1')
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+var t$4
+const i$3 = window,
+  s$5 = i$3.trustedTypes,
+  e$8 = s$5 ? s$5.createPolicy('lit-html', { createHTML: t => t }) : void 0,
+  o$7 = `lit$${(Math.random() + '').slice(9)}$`,
+  n$6 = '?' + o$7,
+  l$2 = `<${n$6}>`,
+  h$2 = document,
+  r$2 = (t = '') => h$2.createComment(t),
+  d = t => null === t || ('object' != typeof t && 'function' != typeof t),
+  u = Array.isArray,
+  c$1 = t =>
+    u(t) || 'function' == typeof (null == t ? void 0 : t[Symbol.iterator]),
+  v = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
+  a = /-->/g,
+  f = />/g,
+  _ = RegExp(
+    '>|[ \t\n\f\r](?:([^\\s"\'>=/]+)([ \t\n\f\r]*=[ \t\n\f\r]*(?:[^ \t\n\f\r"\'`<>=]|("|\')|))|$)',
+    'g'
+  ),
+  m = /'/g,
+  p = /"/g,
+  $ = /^(?:script|style|textarea|title)$/i,
+  g = t => (i, ...s) => ({ _$litType$: t, strings: i, values: s }),
+  y = g(1),
+  x = Symbol.for('lit-noChange'),
+  b = Symbol.for('lit-nothing'),
+  T = new WeakMap(),
+  A = h$2.createTreeWalker(h$2, 129, null, !1),
+  E = (t, i) => {
+    const s = t.length - 1,
+      n = []
+    let h,
+      r = 2 === i ? '<svg>' : '',
+      d = v
+    for (let i = 0; i < s; i++) {
+      const s = t[i]
+      let e,
+        u,
+        c = -1,
+        g = 0
+      for (; g < s.length && ((d.lastIndex = g), (u = d.exec(s)), null !== u); )
+        (g = d.lastIndex),
+          d === v
+            ? '!--' === u[1]
+              ? (d = a)
+              : void 0 !== u[1]
+              ? (d = f)
+              : void 0 !== u[2]
+              ? ($.test(u[2]) && (h = RegExp('</' + u[2], 'g')), (d = _))
+              : void 0 !== u[3] && (d = _)
+            : d === _
+            ? '>' === u[0]
+              ? ((d = null != h ? h : v), (c = -1))
+              : void 0 === u[1]
+              ? (c = -2)
+              : ((c = d.lastIndex - u[2].length),
+                (e = u[1]),
+                (d = void 0 === u[3] ? _ : '"' === u[3] ? p : m))
+            : d === p || d === m
+            ? (d = _)
+            : d === a || d === f
+            ? (d = v)
+            : ((d = _), (h = void 0))
+      const y = d === _ && t[i + 1].startsWith('/>') ? ' ' : ''
+      r +=
+        d === v
+          ? s + l$2
+          : c >= 0
+          ? (n.push(e), s.slice(0, c) + '$lit$' + s.slice(c) + o$7 + y)
+          : s + o$7 + (-2 === c ? (n.push(void 0), i) : y)
+    }
+    const u = r + (t[s] || '<?>') + (2 === i ? '</svg>' : '')
+    if (!Array.isArray(t) || !t.hasOwnProperty('raw'))
+      throw Error('invalid template strings array')
+    return [void 0 !== e$8 ? e$8.createHTML(u) : u, n]
+  }
+class C {
+  constructor({ strings: t, _$litType$: i }, e) {
+    let l
+    this.parts = []
+    let h = 0,
+      d = 0
+    const u = t.length - 1,
+      c = this.parts,
+      [v, a] = E(t, i)
+    if (
+      ((this.el = C.createElement(v, e)),
+      (A.currentNode = this.el.content),
+      2 === i)
+    ) {
+      const t = this.el.content,
+        i = t.firstChild
+      i.remove(), t.append(...i.childNodes)
+    }
+    for (; null !== (l = A.nextNode()) && c.length < u; ) {
+      if (1 === l.nodeType) {
+        if (l.hasAttributes()) {
+          const t = []
+          for (const i of l.getAttributeNames())
+            if (i.endsWith('$lit$') || i.startsWith(o$7)) {
+              const s = a[d++]
+              if ((t.push(i), void 0 !== s)) {
+                const t = l.getAttribute(s.toLowerCase() + '$lit$').split(o$7),
+                  i = /([.?@])?(.*)/.exec(s)
+                c.push({
+                  type: 1,
+                  index: h,
+                  name: i[2],
+                  strings: t,
+                  ctor:
+                    '.' === i[1] ? M : '?' === i[1] ? k : '@' === i[1] ? H : S,
+                })
+              } else c.push({ type: 6, index: h })
+            }
+          for (const i of t) l.removeAttribute(i)
+        }
+        if ($.test(l.tagName)) {
+          const t = l.textContent.split(o$7),
+            i = t.length - 1
+          if (i > 0) {
+            l.textContent = s$5 ? s$5.emptyScript : ''
+            for (let s = 0; s < i; s++)
+              l.append(t[s], r$2()),
+                A.nextNode(),
+                c.push({ type: 2, index: ++h })
+            l.append(t[i], r$2())
+          }
+        }
+      } else if (8 === l.nodeType)
+        if (l.data === n$6) c.push({ type: 2, index: h })
+        else {
+          let t = -1
+          for (; -1 !== (t = l.data.indexOf(o$7, t + 1)); )
+            c.push({ type: 7, index: h }), (t += o$7.length - 1)
+        }
+      h++
+    }
+  }
+  static createElement(t, i) {
+    const s = h$2.createElement('template')
+    return (s.innerHTML = t), s
+  }
+}
+function P(t, i, s = t, e) {
+  var o, n, l, h
+  if (i === x) return i
+  let r =
+    void 0 !== e
+      ? null === (o = s._$Co) || void 0 === o
+        ? void 0
+        : o[e]
+      : s._$Cl
+  const u = d(i) ? void 0 : i._$litDirective$
+  return (
+    (null == r ? void 0 : r.constructor) !== u &&
+      (null === (n = null == r ? void 0 : r._$AO) ||
+        void 0 === n ||
+        n.call(r, !1),
+      void 0 === u ? (r = void 0) : ((r = new u(t)), r._$AT(t, s, e)),
+      void 0 !== e
+        ? ((null !== (l = (h = s)._$Co) && void 0 !== l ? l : (h._$Co = []))[
+            e
+          ] = r)
+        : (s._$Cl = r)),
+    void 0 !== r && (i = P(t, r._$AS(t, i.values), r, e)),
+    i
+  )
+}
+class V {
+  constructor(t, i) {
+    ;(this.u = []), (this._$AN = void 0), (this._$AD = t), (this._$AM = i)
+  }
+  get parentNode() {
+    return this._$AM.parentNode
+  }
+  get _$AU() {
+    return this._$AM._$AU
+  }
+  v(t) {
+    var i
+    const {
+        el: { content: s },
+        parts: e,
+      } = this._$AD,
+      o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i
+        ? i
+        : h$2
+      ).importNode(s, !0)
+    A.currentNode = o
+    let n = A.nextNode(),
+      l = 0,
+      r = 0,
+      d = e[0]
+    for (; void 0 !== d; ) {
+      if (l === d.index) {
+        let i
+        2 === d.type
+          ? (i = new N(n, n.nextSibling, this, t))
+          : 1 === d.type
+          ? (i = new d.ctor(n, d.name, d.strings, this, t))
+          : 6 === d.type && (i = new I(n, this, t)),
+          this.u.push(i),
+          (d = e[++r])
+      }
+      l !== (null == d ? void 0 : d.index) && ((n = A.nextNode()), l++)
+    }
+    return o
+  }
+  p(t) {
+    let i = 0
+    for (const s of this.u)
+      void 0 !== s &&
+        (void 0 !== s.strings
+          ? (s._$AI(t, s, i), (i += s.strings.length - 2))
+          : s._$AI(t[i])),
+        i++
+  }
+}
+class N {
+  constructor(t, i, s, e) {
+    var o
+    ;(this.type = 2),
+      (this._$AH = b),
+      (this._$AN = void 0),
+      (this._$AA = t),
+      (this._$AB = i),
+      (this._$AM = s),
+      (this.options = e),
+      (this._$Cm =
+        null === (o = null == e ? void 0 : e.isConnected) || void 0 === o || o)
+  }
+  get _$AU() {
+    var t, i
+    return null !==
+      (i = null === (t = this._$AM) || void 0 === t ? void 0 : t._$AU) &&
+      void 0 !== i
+      ? i
+      : this._$Cm
+  }
+  get parentNode() {
+    let t = this._$AA.parentNode
+    const i = this._$AM
+    return void 0 !== i && 11 === t.nodeType && (t = i.parentNode), t
+  }
+  get startNode() {
+    return this._$AA
+  }
+  get endNode() {
+    return this._$AB
+  }
+  _$AI(t, i = this) {
+    ;(t = P(this, t, i)),
+      d(t)
+        ? t === b || null == t || '' === t
+          ? (this._$AH !== b && this._$AR(), (this._$AH = b))
+          : t !== this._$AH && t !== x && this.g(t)
+        : void 0 !== t._$litType$
+        ? this.$(t)
+        : void 0 !== t.nodeType
+        ? this.T(t)
+        : c$1(t)
+        ? this.k(t)
+        : this.g(t)
+  }
+  O(t, i = this._$AB) {
+    return this._$AA.parentNode.insertBefore(t, i)
+  }
+  T(t) {
+    this._$AH !== t && (this._$AR(), (this._$AH = this.O(t)))
+  }
+  g(t) {
+    this._$AH !== b && d(this._$AH)
+      ? (this._$AA.nextSibling.data = t)
+      : this.T(h$2.createTextNode(t)),
+      (this._$AH = t)
+  }
+  $(t) {
+    var i
+    const { values: s, _$litType$: e } = t,
+      o =
+        'number' == typeof e
+          ? this._$AC(t)
+          : (void 0 === e.el && (e.el = C.createElement(e.h, this.options)), e)
+    if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o)
+      this._$AH.p(s)
+    else {
+      const t = new V(o, this),
+        i = t.v(this.options)
+      t.p(s), this.T(i), (this._$AH = t)
+    }
+  }
+  _$AC(t) {
+    let i = T.get(t.strings)
+    return void 0 === i && T.set(t.strings, (i = new C(t))), i
+  }
+  k(t) {
+    u(this._$AH) || ((this._$AH = []), this._$AR())
+    const i = this._$AH
+    let s,
+      e = 0
+    for (const o of t)
+      e === i.length
+        ? i.push((s = new N(this.O(r$2()), this.O(r$2()), this, this.options)))
+        : (s = i[e]),
+        s._$AI(o),
+        e++
+    e < i.length && (this._$AR(s && s._$AB.nextSibling, e), (i.length = e))
+  }
+  _$AR(t = this._$AA.nextSibling, i) {
+    var s
+    for (
+      null === (s = this._$AP) || void 0 === s || s.call(this, !1, !0, i);
+      t && t !== this._$AB;
+
+    ) {
+      const i = t.nextSibling
+      t.remove(), (t = i)
+    }
+  }
+  setConnected(t) {
+    var i
+    void 0 === this._$AM &&
+      ((this._$Cm = t),
+      null === (i = this._$AP) || void 0 === i || i.call(this, t))
+  }
+}
+class S {
+  constructor(t, i, s, e, o) {
+    ;(this.type = 1),
+      (this._$AH = b),
+      (this._$AN = void 0),
+      (this.element = t),
+      (this.name = i),
+      (this._$AM = e),
+      (this.options = o),
+      s.length > 2 || '' !== s[0] || '' !== s[1]
+        ? ((this._$AH = Array(s.length - 1).fill(new String())),
+          (this.strings = s))
+        : (this._$AH = b)
+  }
+  get tagName() {
+    return this.element.tagName
+  }
+  get _$AU() {
+    return this._$AM._$AU
+  }
+  _$AI(t, i = this, s, e) {
+    const o = this.strings
+    let n = !1
+    if (void 0 === o)
+      (t = P(this, t, i, 0)),
+        (n = !d(t) || (t !== this._$AH && t !== x)),
+        n && (this._$AH = t)
+    else {
+      const e = t
+      let l, h
+      for (t = o[0], l = 0; l < o.length - 1; l++)
+        (h = P(this, e[s + l], i, l)),
+          h === x && (h = this._$AH[l]),
+          n || (n = !d(h) || h !== this._$AH[l]),
+          h === b ? (t = b) : t !== b && (t += (null != h ? h : '') + o[l + 1]),
+          (this._$AH[l] = h)
+    }
+    n && !e && this.j(t)
+  }
+  j(t) {
+    t === b
+      ? this.element.removeAttribute(this.name)
+      : this.element.setAttribute(this.name, null != t ? t : '')
+  }
+}
+class M extends S {
+  constructor() {
+    super(...arguments), (this.type = 3)
+  }
+  j(t) {
+    this.element[this.name] = t === b ? void 0 : t
+  }
+}
+const R = s$5 ? s$5.emptyScript : ''
+class k extends S {
+  constructor() {
+    super(...arguments), (this.type = 4)
+  }
+  j(t) {
+    t && t !== b
+      ? this.element.setAttribute(this.name, R)
+      : this.element.removeAttribute(this.name)
+  }
+}
+class H extends S {
+  constructor(t, i, s, e, o) {
+    super(t, i, s, e, o), (this.type = 5)
+  }
+  _$AI(t, i = this) {
+    var s
+    if ((t = null !== (s = P(this, t, i, 0)) && void 0 !== s ? s : b) === x)
+      return
+    const e = this._$AH,
+      o =
+        (t === b && e !== b) ||
+        t.capture !== e.capture ||
+        t.once !== e.once ||
+        t.passive !== e.passive,
+      n = t !== b && (e === b || o)
+    o && this.element.removeEventListener(this.name, this, e),
+      n && this.element.addEventListener(this.name, this, t),
+      (this._$AH = t)
+  }
+  handleEvent(t) {
+    var i, s
+    'function' == typeof this._$AH
+      ? this._$AH.call(
+          null !==
+            (s =
+              null === (i = this.options) || void 0 === i ? void 0 : i.host) &&
+            void 0 !== s
+            ? s
+            : this.element,
+          t
+        )
+      : this._$AH.handleEvent(t)
+  }
+}
+class I {
+  constructor(t, i, s) {
+    ;(this.element = t),
+      (this.type = 6),
+      (this._$AN = void 0),
+      (this._$AM = i),
+      (this.options = s)
+  }
+  get _$AU() {
+    return this._$AM._$AU
+  }
+  _$AI(t) {
+    P(this, t)
+  }
+}
+const z = i$3.litHtmlPolyfillSupport
+null == z || z(C, N),
+  (null !== (t$4 = i$3.litHtmlVersions) && void 0 !== t$4
+    ? t$4
+    : (i$3.litHtmlVersions = [])
+  ).push('2.6.1')
+const Z = (t, i, s) => {
+  var e, o
+  const n =
+    null !== (e = null == s ? void 0 : s.renderBefore) && void 0 !== e ? e : i
+  let l = n._$litPart$
+  if (void 0 === l) {
+    const t =
+      null !== (o = null == s ? void 0 : s.renderBefore) && void 0 !== o
+        ? o
+        : null
+    n._$litPart$ = l = new N(
+      i.insertBefore(r$2(), t),
+      t,
+      void 0,
+      null != s ? s : {}
+    )
+  }
+  return l._$AI(t), l
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ var l$1, o$6
+class s$4 extends d$1 {
+  constructor() {
+    super(...arguments),
+      (this.renderOptions = { host: this }),
+      (this._$Do = void 0)
+  }
+  createRenderRoot() {
+    var t, e
+    const i = super.createRenderRoot()
+    return (
+      (null !== (t = (e = this.renderOptions).renderBefore) && void 0 !== t) ||
+        (e.renderBefore = i.firstChild),
+      i
+    )
+  }
+  update(t) {
+    const i = this.render()
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected),
+      super.update(t),
+      (this._$Do = Z(i, this.renderRoot, this.renderOptions))
+  }
+  connectedCallback() {
+    var t
+    super.connectedCallback(),
+      null === (t = this._$Do) || void 0 === t || t.setConnected(!0)
+  }
+  disconnectedCallback() {
+    var t
+    super.disconnectedCallback(),
+      null === (t = this._$Do) || void 0 === t || t.setConnected(!1)
+  }
+  render() {
+    return x
+  }
+}
+;(s$4.finalized = !0),
+  (s$4._$litElement$ = !0),
+  null === (l$1 = globalThis.litElementHydrateSupport) ||
+    void 0 === l$1 ||
+    l$1.call(globalThis, { LitElement: s$4 })
+const n$5 = globalThis.litElementPolyfillSupport
+null == n$5 || n$5({ LitElement: s$4 })
+;(null !== (o$6 = globalThis.litElementVersions) && void 0 !== o$6
+  ? o$6
+  : (globalThis.litElementVersions = [])
+).push('3.2.2')
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const e$7 = e => n =>
+  'function' == typeof n
+    ? ((e, n) => (customElements.define(e, n), n))(e, n)
+    : ((e, n) => {
+        const { kind: t, elements: s } = n
+        return {
+          kind: t,
+          elements: s,
+          finisher(n) {
+            customElements.define(e, n)
+          },
+        }
+      })(e, n)
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const i$2 = (i, e) =>
+  'method' === e.kind && e.descriptor && !('value' in e.descriptor)
+    ? {
+        ...e,
+        finisher(n) {
+          n.createProperty(e.key, i)
+        },
+      }
+    : {
+        kind: 'field',
+        key: Symbol(),
+        placement: 'own',
+        descriptor: {},
+        originalKey: e.key,
+        initializer() {
+          'function' == typeof e.initializer &&
+            (this[e.key] = e.initializer.call(this))
+        },
+        finisher(n) {
+          n.createProperty(e.key, i)
+        },
+      }
+function e$6(e) {
+  return (n, t) =>
+    void 0 !== t
+      ? ((i, e, n) => {
+          e.constructor.createProperty(n, i)
+        })(e, n, t)
+      : i$2(e, n)
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ function t$3(t) {
+  return e$6({ ...t, state: !0 })
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const o$5 = ({ finisher: e, descriptor: t }) => (o, n) => {
+  var r
+  if (void 0 === n) {
+    const n = null !== (r = o.originalKey) && void 0 !== r ? r : o.key,
+      i =
+        null != t
+          ? {
+              kind: 'method',
+              placement: 'prototype',
+              key: n,
+              descriptor: t(o.key),
+            }
+          : { ...o, key: n }
+    return (
+      null != e &&
+        (i.finisher = function(t) {
+          e(t, n)
+        }),
+      i
+    )
+  }
+  {
+    const r = o.constructor
+    void 0 !== t && Object.defineProperty(o, n, t(n)), null == e || e(r, n)
+  }
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ var n$4
+null !=
+(null === (n$4 = window.HTMLSlotElement) || void 0 === n$4
+  ? void 0
+  : n$4.prototype.assignedElements)
+  ? (o, n) => o.assignedElements(n)
+  : (o, n) => o.assignedNodes(n).filter(o => o.nodeType === Node.ELEMENT_NODE)
+
+var selectState = {}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+class s$3 extends Event {
+  constructor(s, t, e) {
+    super('context-request', { bubbles: !0, composed: !0 }),
+      (this.context = s),
+      (this.callback = t),
+      (this.subscribe = e)
+  }
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+function n$3(n) {
+  return n
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ class s$2 {
+  constructor(t, s, i, h = !1) {
+    ;(this.host = t),
+      (this.context = s),
+      (this.callback = i),
+      (this.subscribe = h),
+      (this.provided = !1),
+      (this.value = void 0),
+      this.host.addController(this)
+  }
+  hostConnected() {
+    this.dispatchRequest()
+  }
+  hostDisconnected() {
+    this.unsubscribe && (this.unsubscribe(), (this.unsubscribe = void 0))
+  }
+  dispatchRequest() {
+    this.host.dispatchEvent(
+      new s$3(
+        this.context,
+        (t, s) => {
+          this.unsubscribe &&
+            (this.unsubscribe !== s &&
+              ((this.provided = !1), this.unsubscribe()),
+            this.subscribe || this.unsubscribe()),
+            (this.value = t),
+            this.host.requestUpdate(),
+            (this.provided && !this.subscribe) ||
+              ((this.provided = !0), this.callback && this.callback(t, s)),
+            (this.unsubscribe = s)
+        },
+        this.subscribe
+      )
+    )
+  }
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+class t$2 {
+  constructor(t) {
+    ;(this.callbacks = new Map()),
+      (this.updateObservers = () => {
+        for (const [t, s] of this.callbacks) t(this.t, s)
+      }),
+      void 0 !== t && (this.value = t)
+  }
+  get value() {
+    return this.t
+  }
+  set value(t) {
+    this.setValue(t)
+  }
+  setValue(t, s = !1) {
+    const i = s || !Object.is(t, this.t)
+    ;(this.t = t), i && this.updateObservers()
+  }
+  addCallback(t, s) {
+    s &&
+      (this.callbacks.has(t) ||
+        this.callbacks.set(t, () => {
+          this.callbacks.delete(t)
+        })),
+      t(this.value)
+  }
+  clearCallbacks() {
+    this.callbacks.clear()
+  }
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ class s$1 extends Event {
+  constructor(t) {
+    super('context-provider', { bubbles: !0, composed: !0 }), (this.context = t)
+  }
+}
+class e$5 extends t$2 {
+  constructor(t, s, e) {
+    super(e),
+      (this.host = t),
+      (this.context = s),
+      (this.onContextRequest = t => {
+        t.context === this.context &&
+          t.composedPath()[0] !== this.host &&
+          (t.stopPropagation(), this.addCallback(t.callback, t.subscribe))
+      }),
+      this.attachListeners(),
+      this.host.addController(this)
+  }
+  attachListeners() {
+    this.host.addEventListener('context-request', this.onContextRequest)
+  }
+  hostConnected() {
+    this.host.dispatchEvent(new s$1(this.context))
+  }
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ class e$4 {
+  constructor() {
+    ;(this.pendingContextRequests = new Map()),
+      (this.onContextProvider = e => {
+        const s = this.pendingContextRequests.get(e.context)
+        s &&
+          (this.pendingContextRequests.delete(e.context),
+          s.forEach(s => {
+            const c = s.element,
+              i = s.callback
+            c && c.dispatchEvent(new s$3(e.context, i, !0))
+          }))
+      }),
+      (this.onContextRequest = t => {
+        if (!t.subscribe) return
+        const e = { element: t.target, callback: t.callback }
+        let s = this.pendingContextRequests.get(t.context)
+        s || ((s = new Set()), this.pendingContextRequests.set(t.context, s)),
+          s.add(e)
+      })
+  }
+  attach(t) {
+    t.addEventListener('context-request', this.onContextRequest),
+      t.addEventListener('context-provider', this.onContextProvider)
+  }
+  detach(t) {
+    t.removeEventListener('context-request', this.onContextRequest),
+      t.removeEventListener('context-provider', this.onContextProvider)
+  }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ function o$4({ context: o }) {
+  return o$5({
+    finisher: (t, n) => {
+      const r = new WeakMap()
+      t.addInitializer(t => {
+        r.set(t, new e$5(t, o))
+      })
+      const i = Object.getOwnPropertyDescriptor(t.prototype, n),
+        c = null == i ? void 0 : i.set,
+        s = {
+          ...i,
+          set: function(t) {
+            var e
+            null === (e = r.get(this)) || void 0 === e || e.setValue(t),
+              c && c.call(this, t)
+          },
+        }
+      Object.defineProperty(t.prototype, n, s)
+    },
+  })
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ function t$1({ context: t, subscribe: o }) {
+  return o$5({
+    finisher: (e, n) => {
+      e.addInitializer(e => {
+        new s$2(
+          e,
+          t,
+          r => {
+            e[n] = r
+          },
+          o
+        )
+      })
+    },
+  })
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const e$3 = o$4,
+  r$1 = t$1
+
+var context = /*#__PURE__*/ Object.freeze({
+  __proto__: null,
+  contextProvided: r$1,
+  contextProvider: e$3,
+  ContextEvent: s$3,
+  createContext: n$3,
+  ContextConsumer: s$2,
+  ContextProvider: e$5,
+  ContextRoot: e$4,
+  provide: o$4,
+  consume: t$1,
+})
+
+var require$$0 = /*@__PURE__*/ getAugmentedNamespace(context)
+
+var selectController = {}
+
+;(function(exports) {
+  Object.defineProperty(exports, '__esModule', { value: true })
+  exports.connectSelector = exports.SelectorController = exports.getSnapshot = exports.getServiceSnapshot = exports.isActorWithState = exports.isService = exports.defaultCompare = void 0
+  const defaultCompare = (a, b) => a === b
+  exports.defaultCompare = defaultCompare
+  function isService(actor) {
+    return 'state' in actor && 'machine' in actor
+  }
+  exports.isService = isService
+  function isActorWithState(actorRef) {
+    return 'state' in actorRef
+  }
+  exports.isActorWithState = isActorWithState
+  function getServiceSnapshot(service) {
+    return service.status !== 0
+      ? service.getSnapshot()
+      : service.machine.initialState
+  }
+  exports.getServiceSnapshot = getServiceSnapshot
+  function getSnapshot(actorRef) {
+    if (isService(actorRef)) {
+      return getServiceSnapshot(actorRef)
+    }
+    return isActorWithState(actorRef) ? actorRef.state : undefined
+  }
+  exports.getSnapshot = getSnapshot
+  class SelectorController {
+    host
+    subscription
+    selected
+    constructor(host, actorRef, selector, compare = exports.defaultCompare) {
+      this.host = host
+      this.host.addController(this)
+      this.selected = selector(getSnapshot(actorRef))
+      this.subscription = actorRef.subscribe(emitted => {
+        const nextSelected = selector(emitted)
+        if (!compare(this.selected, nextSelected)) {
+          this.selected = nextSelected
+          this.host.requestUpdate()
+        }
+      })
+    }
+    get value() {
+      return this.selected
+    }
+    hostDisconnected() {
+      this.subscription.unsubscribe()
+    }
+  }
+  exports.SelectorController = SelectorController
+  function connectSelector(
+    host,
+    actorRef,
+    selector,
+    compare = exports.defaultCompare
+  ) {
+    return new SelectorController(host, actorRef, selector, compare)
+  }
+  exports.connectSelector = connectSelector
+})(selectController)
+
+Object.defineProperty(selectState, '__esModule', { value: true })
+selectState.compareObjects = compareArrays_1 = selectState.compareArrays = connectState_1 = selectState.connectState = selectState.SelectState = void 0
+const context_1 = require$$0
+const select_controller_js_1 = selectController
+class SelectState {
+  serviceContext
+  selectorController
+  host
+  selector
+  compare // if current value same as old value, return true
+  constructor(
+    context,
+    host,
+    selector,
+    compare = select_controller_js_1.defaultCompare
+  ) {
+    ;(this.host = host).addController(this)
+    this.serviceContext = new context_1.ContextConsumer(
+      this.host,
+      context,
+      undefined,
+      true
+    )
+    this.selector = selector
+    this.compare = compare
+  }
+  hostConnected() {
+    // has hostConnected already been called?
+    if (this.selectorController) {
+      this.hostDisconnected()
+    }
+    this.serviceContext.hostConnected()
+    this.selectorController = new select_controller_js_1.SelectorController(
+      this.host,
+      this.serviceContext.value.service,
+      this.selector,
+      this.compare
+    )
+  }
+  hostDisconnected() {
+    this.serviceContext?.hostDisconnected()
+    this.selectorController?.hostDisconnected()
+  }
+  get value() {
+    return this.selectorController?.value
+  }
+}
+selectState.SelectState = SelectState
+// Factory function for SelectState
+function connectState(
+  context,
+  host,
+  selector,
+  compare = select_controller_js_1.defaultCompare
+) {
+  return new SelectState(context, host, selector, compare)
+}
+var connectState_1 = (selectState.connectState = connectState)
+const compareArrays = (a, b) =>
+  a.length === b.length && a.every((value, idx) => value === b[idx])
+var compareArrays_1 = (selectState.compareArrays = compareArrays)
+const compareObjects = (obj1, obj2) =>
+  Object.keys(obj1).length === Object.keys(obj2).length &&
+  Object.keys(obj1).every(key => {
+    return (
+      Object.prototype.hasOwnProperty.call(obj2, key) && obj1[key] === obj2[key]
+    )
+  })
+selectState.compareObjects = compareObjects
+
+// "Inject" XState context into components with DOM events
+const viewerContext = n$3('viewer-context')
+let appContext
+const setContext = context => {
+  appContext = context
+}
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const e$2 = o => void 0 === o.strings
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const t = {
+    ATTRIBUTE: 1,
+    CHILD: 2,
+    PROPERTY: 3,
+    BOOLEAN_ATTRIBUTE: 4,
+    EVENT: 5,
+    ELEMENT: 6,
+  },
+  e$1 = t => (...e) => ({ _$litDirective$: t, values: e })
+class i$1 {
+  constructor(t) {}
+  get _$AU() {
+    return this._$AM._$AU
+  }
+  _$AT(t, e, i) {
+    ;(this._$Ct = t), (this._$AM = e), (this._$Ci = i)
+  }
+  _$AS(t, e) {
+    return this.update(t, e)
+  }
+  update(t, e) {
+    return this.render(...e)
+  }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const s = (i, t) => {
+    var e, o
+    const r = i._$AN
+    if (void 0 === r) return !1
+    for (const i of r)
+      null === (o = (e = i)._$AO) || void 0 === o || o.call(e, t, !1), s(i, t)
+    return !0
+  },
+  o$3 = i => {
+    let t, e
+    do {
+      if (void 0 === (t = i._$AM)) break
+      ;(e = t._$AN), e.delete(i), (i = t)
+    } while (0 === (null == e ? void 0 : e.size))
+  },
+  r = i => {
+    for (let t; (t = i._$AM); i = t) {
+      let e = t._$AN
+      if (void 0 === e) t._$AN = e = new Set()
+      else if (e.has(i)) break
+      e.add(i), l(t)
+    }
+  }
+function n$2(i) {
+  void 0 !== this._$AN ? (o$3(this), (this._$AM = i), r(this)) : (this._$AM = i)
+}
+function h$1(i, t = !1, e = 0) {
+  const r = this._$AH,
+    n = this._$AN
+  if (void 0 !== n && 0 !== n.size)
+    if (t)
+      if (Array.isArray(r))
+        for (let i = e; i < r.length; i++) s(r[i], !1), o$3(r[i])
+      else null != r && (s(r, !1), o$3(r))
+    else s(this, i)
+}
+const l = i => {
+  var t$1, s, o, r
+  i.type == t.CHILD &&
+    ((null !== (t$1 = (o = i)._$AP) && void 0 !== t$1) || (o._$AP = h$1),
+    (null !== (s = (r = i)._$AQ) && void 0 !== s) || (r._$AQ = n$2))
+}
+class c extends i$1 {
+  constructor() {
+    super(...arguments), (this._$AN = void 0)
+  }
+  _$AT(i, t, e) {
+    super._$AT(i, t, e), r(this), (this.isConnected = i._$AU)
+  }
+  _$AO(i, t = !0) {
+    var e, r
+    i !== this.isConnected &&
+      ((this.isConnected = i),
+      i
+        ? null === (e = this.reconnected) || void 0 === e || e.call(this)
+        : null === (r = this.disconnected) || void 0 === r || r.call(this)),
+      t && (s(this, i), o$3(this))
+  }
+  setValue(t) {
+    if (e$2(this._$Ct)) this._$Ct._$AI(t, this)
+    else {
+      const i = [...this._$Ct._$AH]
+      ;(i[this._$Ci] = t), this._$Ct._$AI(i, this, 0)
+    }
+  }
+  disconnected() {}
+  reconnected() {}
+}
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const e = () => new o$2()
+class o$2 {}
+const h = new WeakMap(),
+  n$1 = e$1(
+    class extends c {
+      render(t) {
+        return b
+      }
+      update(t, [s]) {
+        var e
+        const o = s !== this.Y
+        return (
+          o && void 0 !== this.Y && this.rt(void 0),
+          (o || this.lt !== this.ct) &&
+            ((this.Y = s),
+            (this.dt =
+              null === (e = t.options) || void 0 === e ? void 0 : e.host),
+            this.rt((this.ct = t.element))),
+          b
+        )
+      }
+      rt(i) {
+        var t
+        if ('function' == typeof this.Y) {
+          const s = null !== (t = this.dt) && void 0 !== t ? t : globalThis
+          let e = h.get(s)
+          void 0 === e && ((e = new WeakMap()), h.set(s, e)),
+            void 0 !== e.get(this.Y) && this.Y.call(this.dt, void 0),
+            e.set(this.Y, i),
+            void 0 !== i && this.Y.call(this.dt, i)
+        } else this.Y.value = i
+      }
+      get lt() {
+        var i, t, s
+        return 'function' == typeof this.Y
+          ? null ===
+              (t = h.get(
+                null !== (i = this.dt) && void 0 !== i ? i : globalThis
+              )) || void 0 === t
+            ? void 0
+            : t.get(this.Y)
+          : null === (s = this.Y) || void 0 === s
+          ? void 0
+          : s.value
+      }
+      disconnected() {
+        this.lt === this.ct && this.rt(void 0)
+      }
+      reconnected() {
+        this.rt(this.ct)
+      }
+    }
+  )
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+function* o$1(o, f) {
+  if (void 0 !== o) {
+    let i = 0
+    for (const t of o) yield f(t, i++)
+  }
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * A component for elevation.
+ */
+class Elevation extends s$9 {
+  connectedCallback() {
+    super.connectedCallback()
+    // Needed for VoiceOver, which will create a "group" if the element is a
+    // sibling to other content.
+    this.setAttribute('aria-hidden', 'true')
+  }
+  render() {
+    return x$1`<span class="shadow"></span>`
+  }
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$8 = i$8`:host{--_level: var(--md-elevation-level, 0);--_shadow-color: var(--md-elevation-shadow-color, var(--md-sys-color-shadow, #000));display:flex;pointer-events:none}:host,.shadow,.shadow::before,.shadow::after{border-radius:inherit;inset:0;position:absolute;transition-duration:inherit;transition-property:inherit;transition-timing-function:inherit}.shadow::before,.shadow::after{content:"";transition-property:box-shadow,opacity}.shadow::before{box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 3,1) + 2*clamp(0,var(--_level) - 4,1))) calc(1px*(2*clamp(0,var(--_level),1) + clamp(0,var(--_level) - 2,1) + clamp(0,var(--_level) - 4,1))) 0px var(--_shadow-color);opacity:.3}.shadow::after{box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 1,1) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(3*clamp(0,var(--_level),2) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(clamp(0,var(--_level),4) + 2*clamp(0,var(--_level) - 4,1))) var(--_shadow-color);opacity:.15}/*# sourceMappingURL=elevation-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * The `<md-elevation>` custom element with default styles.
+ *
+ * Elevation is the relative distance between two surfaces along the z-axis.
+ */
+let MdElevation = class MdElevation extends Elevation {}
+MdElevation.styles = [styles$8]
+MdElevation = __decorate([t$9('md-elevation')], MdElevation)
+
+/**
+ * @license
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const n = 'important',
+  i = ' !' + n,
+  o = e$d(
+    class extends i$5 {
+      constructor(t) {
+        if (
+          (super(t),
+          t.type !== t$6.ATTRIBUTE ||
+            'style' !== t.name ||
+            t.strings?.length > 2)
+        )
+          throw Error(
+            'The `styleMap` directive must be used in the `style` attribute and must be the only part in the attribute.'
+          )
+      }
+      render(t) {
+        return Object.keys(t).reduce((e, r) => {
+          const s = t[r]
+          return null == s
+            ? e
+            : e +
+                `${(r = r.includes('-')
+                  ? r
+                  : r
+                      .replace(/(?:^(webkit|moz|ms|o)|)(?=[A-Z])/g, '-$&')
+                      .toLowerCase())}:${s};`
+        }, '')
+      }
+      update(e, [r]) {
+        const { style: s } = e.element
+        if (void 0 === this.ut)
+          return (this.ut = new Set(Object.keys(r))), this.render(r)
+        for (const t of this.ut)
+          null == r[t] &&
+            (this.ut.delete(t),
+            t.includes('-') ? s.removeProperty(t) : (s[t] = null))
+        for (const t in r) {
+          const e = r[t]
+          if (null != e) {
+            this.ut.add(t)
+            const r = 'string' == typeof e && e.endsWith(i)
+            t.includes('-') || r
+              ? s.setProperty(t, r ? e.slice(0, -11) : e, r ? n : '')
+              : (s[t] = e)
+          }
+        }
+        return w
+      }
+    }
+  )
 
 /**
  * @license
@@ -7240,7 +9168,7 @@ function getFocusedElement(activeDoc = document) {
  * @fires closing Fired before the closing animation begins
  * @fires closed Fired once the menu is closed, after any animations
  */
-class Menu extends s$1 {
+class Menu extends s$9 {
   /**
    * Whether the menu is animating upwards or downwards when opening. This is
    * helpful for calculating some animation calculations.
@@ -7643,10 +9571,10 @@ class Menu extends s$1 {
    * Renders the positionable surface element and its contents.
    */
   renderSurface() {
-    return x`
+    return x$1`
        <div
-          class="menu ${e$1(this.getSurfaceClasses())}"
-          style=${o$1(this.menuPositionController.surfaceStyles)}>
+          class="menu ${e$c(this.getSurfaceClasses())}"
+          style=${o(this.menuPositionController.surfaceStyles)}>
         ${this.renderElevation()}
         <div class="items">
           <div class="item-padding">
@@ -7660,7 +9588,7 @@ class Menu extends s$1 {
    * Renders the menu items' slot
    */
   renderMenuItems() {
-    return x`<slot
+    return x$1`<slot
         @close-menu=${this.onCloseMenu}
         @deactivate-items=${this.onDeactivateItems}
         @request-activation=${this.onRequestActivation}
@@ -7674,7 +9602,7 @@ class Menu extends s$1 {
    * Renders the elevation component.
    */
   renderElevation() {
-    return x`<md-elevation part="elevation"></md-elevation>`
+    return x$1`<md-elevation part="elevation"></md-elevation>`
   }
   getSurfaceClasses() {
     return {
@@ -7970,86 +9898,86 @@ class Menu extends s$1 {
   // We want to manage tabindex ourselves.
   setupHostAria(Menu, { focusable: false })
 })()
-__decorate([e$5('.menu')], Menu.prototype, 'surfaceEl', void 0)
-__decorate([e$5('slot')], Menu.prototype, 'slotEl', void 0)
-__decorate([n$3()], Menu.prototype, 'anchor', void 0)
-__decorate([n$3()], Menu.prototype, 'positioning', void 0)
-__decorate([n$3({ type: Boolean })], Menu.prototype, 'quick', void 0)
+__decorate([e$g('.menu')], Menu.prototype, 'surfaceEl', void 0)
+__decorate([e$g('slot')], Menu.prototype, 'slotEl', void 0)
+__decorate([n$b()], Menu.prototype, 'anchor', void 0)
+__decorate([n$b()], Menu.prototype, 'positioning', void 0)
+__decorate([n$b({ type: Boolean })], Menu.prototype, 'quick', void 0)
 __decorate(
-  [n$3({ type: Boolean, attribute: 'has-overflow' })],
+  [n$b({ type: Boolean, attribute: 'has-overflow' })],
   Menu.prototype,
   'hasOverflow',
   void 0
 )
 __decorate(
-  [n$3({ type: Boolean, reflect: true })],
+  [n$b({ type: Boolean, reflect: true })],
   Menu.prototype,
   'open',
   void 0
 )
 __decorate(
-  [n$3({ type: Number, attribute: 'x-offset' })],
+  [n$b({ type: Number, attribute: 'x-offset' })],
   Menu.prototype,
   'xOffset',
   void 0
 )
 __decorate(
-  [n$3({ type: Number, attribute: 'y-offset' })],
+  [n$b({ type: Number, attribute: 'y-offset' })],
   Menu.prototype,
   'yOffset',
   void 0
 )
 __decorate(
-  [n$3({ type: Number, attribute: 'typeahead-delay' })],
+  [n$b({ type: Number, attribute: 'typeahead-delay' })],
   Menu.prototype,
   'typeaheadDelay',
   void 0
 )
 __decorate(
-  [n$3({ attribute: 'anchor-corner' })],
+  [n$b({ attribute: 'anchor-corner' })],
   Menu.prototype,
   'anchorCorner',
   void 0
 )
 __decorate(
-  [n$3({ attribute: 'menu-corner' })],
+  [n$b({ attribute: 'menu-corner' })],
   Menu.prototype,
   'menuCorner',
   void 0
 )
 __decorate(
-  [n$3({ type: Boolean, attribute: 'stay-open-on-outside-click' })],
+  [n$b({ type: Boolean, attribute: 'stay-open-on-outside-click' })],
   Menu.prototype,
   'stayOpenOnOutsideClick',
   void 0
 )
 __decorate(
-  [n$3({ type: Boolean, attribute: 'stay-open-on-focusout' })],
+  [n$b({ type: Boolean, attribute: 'stay-open-on-focusout' })],
   Menu.prototype,
   'stayOpenOnFocusout',
   void 0
 )
 __decorate(
-  [n$3({ type: Boolean, attribute: 'skip-restore-focus' })],
+  [n$b({ type: Boolean, attribute: 'skip-restore-focus' })],
   Menu.prototype,
   'skipRestoreFocus',
   void 0
 )
 __decorate(
-  [n$3({ attribute: 'default-focus' })],
+  [n$b({ attribute: 'default-focus' })],
   Menu.prototype,
   'defaultFocus',
   void 0
 )
-__decorate([o$3({ flatten: true })], Menu.prototype, 'slotItems', void 0)
-__decorate([r$3()], Menu.prototype, 'typeaheadActive', void 0)
+__decorate([o$c({ flatten: true })], Menu.prototype, 'slotItems', void 0)
+__decorate([r$8()], Menu.prototype, 'typeaheadActive', void 0)
 
 /**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$8 = i$4`:host{--md-elevation-level: var(--md-menu-container-elevation, 2);--md-elevation-shadow-color: var(--md-menu-container-shadow-color, var(--md-sys-color-shadow, #000));min-width:112px;color:unset;display:contents}md-focus-ring{--md-focus-ring-shape: var(--md-menu-container-shape, 4px)}.menu{border-radius:var(--md-menu-container-shape, 4px);display:none;opacity:0;z-index:20;position:absolute;user-select:none;max-height:inherit;height:inherit;min-width:inherit;max-width:inherit}.fixed{position:fixed}.items{display:block;list-style-type:none;margin:0;outline:none;box-sizing:border-box;background-color:var(--md-menu-container-color, var(--md-sys-color-surface-container, #f3edf7));height:inherit;max-height:inherit;overflow:auto;min-width:inherit;max-width:inherit;border-radius:inherit}.item-padding{padding-block:8px}.has-overflow .items{overflow:visible}.animating .items{overflow:hidden}.has-overflow.animating .items{pointer-events:none}.animating ::slotted(.md-menu-hidden){opacity:0}slot{display:block;height:inherit;max-height:inherit}::slotted(:is(md-divider,[role=separator])){margin:8px 0}@media(forced-colors: active){.menu{border-style:solid;border-color:CanvasText;border-width:1px}}/*# sourceMappingURL=menu-styles.css.map */
+const styles$7 = i$8`:host{--md-elevation-level: var(--md-menu-container-elevation, 2);--md-elevation-shadow-color: var(--md-menu-container-shadow-color, var(--md-sys-color-shadow, #000));min-width:112px;color:unset;display:contents}md-focus-ring{--md-focus-ring-shape: var(--md-menu-container-shape, 4px)}.menu{border-radius:var(--md-menu-container-shape, 4px);display:none;opacity:0;z-index:20;position:absolute;user-select:none;max-height:inherit;height:inherit;min-width:inherit;max-width:inherit}.fixed{position:fixed}.items{display:block;list-style-type:none;margin:0;outline:none;box-sizing:border-box;background-color:var(--md-menu-container-color, var(--md-sys-color-surface-container, #f3edf7));height:inherit;max-height:inherit;overflow:auto;min-width:inherit;max-width:inherit;border-radius:inherit}.item-padding{padding-block:8px}.has-overflow .items{overflow:visible}.animating .items{overflow:hidden}.has-overflow.animating .items{pointer-events:none}.animating ::slotted(.md-menu-hidden){opacity:0}slot{display:block;height:inherit;max-height:inherit}::slotted(:is(md-divider,[role=separator])){margin:8px 0}@media(forced-colors: active){.menu{border-style:solid;border-color:CanvasText;border-width:1px}}/*# sourceMappingURL=menu-styles.css.map */
 `
 
 /**
@@ -8107,447 +10035,8 @@ const styles$8 = i$4`:host{--md-elevation-level: var(--md-menu-container-elevati
  * @suppress {visibility}
  */
 let MdMenu = class MdMenu extends Menu {}
-MdMenu.styles = [styles$8]
-MdMenu = __decorate([t$3('md-menu')], MdMenu)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const PRESS_GROW_MS = 450
-const MINIMUM_PRESS_MS = 225
-const INITIAL_ORIGIN_SCALE = 0.2
-const PADDING$1 = 10
-const SOFT_EDGE_MINIMUM_SIZE = 75
-const SOFT_EDGE_CONTAINER_RATIO = 0.35
-const PRESS_PSEUDO = '::after'
-const ANIMATION_FILL = 'forwards'
-/**
- * Interaction states for the ripple.
- *
- * On Touch:
- *  - `INACTIVE -> TOUCH_DELAY -> WAITING_FOR_CLICK -> INACTIVE`
- *  - `INACTIVE -> TOUCH_DELAY -> HOLDING -> WAITING_FOR_CLICK -> INACTIVE`
- *
- * On Mouse or Pen:
- *   - `INACTIVE -> WAITING_FOR_CLICK -> INACTIVE`
- */
-var State
-;(function(State) {
-  /**
-   * Initial state of the control, no touch in progress.
-   *
-   * Transitions:
-   *   - on touch down: transition to `TOUCH_DELAY`.
-   *   - on mouse down: transition to `WAITING_FOR_CLICK`.
-   */
-  State[(State['INACTIVE'] = 0)] = 'INACTIVE'
-  /**
-   * Touch down has been received, waiting to determine if it's a swipe or
-   * scroll.
-   *
-   * Transitions:
-   *   - on touch up: begin press; transition to `WAITING_FOR_CLICK`.
-   *   - on cancel: transition to `INACTIVE`.
-   *   - after `TOUCH_DELAY_MS`: begin press; transition to `HOLDING`.
-   */
-  State[(State['TOUCH_DELAY'] = 1)] = 'TOUCH_DELAY'
-  /**
-   * A touch has been deemed to be a press
-   *
-   * Transitions:
-   *  - on up: transition to `WAITING_FOR_CLICK`.
-   */
-  State[(State['HOLDING'] = 2)] = 'HOLDING'
-  /**
-   * The user touch has finished, transition into rest state.
-   *
-   * Transitions:
-   *   - on click end press; transition to `INACTIVE`.
-   */
-  State[(State['WAITING_FOR_CLICK'] = 3)] = 'WAITING_FOR_CLICK'
-})(State || (State = {}))
-/**
- * Events that the ripple listens to.
- */
-const EVENTS = [
-  'click',
-  'contextmenu',
-  'pointercancel',
-  'pointerdown',
-  'pointerenter',
-  'pointerleave',
-  'pointerup',
-]
-/**
- * Delay reacting to touch so that we do not show the ripple for a swipe or
- * scroll interaction.
- */
-const TOUCH_DELAY_MS = 150
-/**
- * A ripple component.
- */
-class Ripple extends s$1 {
-  constructor() {
-    super(...arguments)
-    /**
-     * Disables the ripple.
-     */
-    this.disabled = false
-    this.hovered = false
-    this.pressed = false
-    this.rippleSize = ''
-    this.rippleScale = ''
-    this.initialSize = 0
-    this.state = State.INACTIVE
-    this.checkBoundsAfterContextMenu = false
-    this.attachableController = new AttachableController(
-      this,
-      this.onControlChange.bind(this)
-    )
-  }
-  get htmlFor() {
-    return this.attachableController.htmlFor
-  }
-  set htmlFor(htmlFor) {
-    this.attachableController.htmlFor = htmlFor
-  }
-  get control() {
-    return this.attachableController.control
-  }
-  set control(control) {
-    this.attachableController.control = control
-  }
-  attach(control) {
-    this.attachableController.attach(control)
-  }
-  detach() {
-    this.attachableController.detach()
-  }
-  connectedCallback() {
-    super.connectedCallback()
-    // Needed for VoiceOver, which will create a "group" if the element is a
-    // sibling to other content.
-    this.setAttribute('aria-hidden', 'true')
-  }
-  render() {
-    const classes = {
-      hovered: this.hovered,
-      pressed: this.pressed,
-    }
-    return x`<div class="surface ${e$1(classes)}"></div>`
-  }
-  update(changedProps) {
-    if (changedProps.has('disabled') && this.disabled) {
-      this.hovered = false
-      this.pressed = false
-    }
-    super.update(changedProps)
-  }
-  /**
-   * TODO(b/269799771): make private
-   * @private only public for slider
-   */
-  handlePointerenter(event) {
-    if (!this.shouldReactToEvent(event)) {
-      return
-    }
-    this.hovered = true
-  }
-  /**
-   * TODO(b/269799771): make private
-   * @private only public for slider
-   */
-  handlePointerleave(event) {
-    if (!this.shouldReactToEvent(event)) {
-      return
-    }
-    this.hovered = false
-    // release a held mouse or pen press that moves outside the element
-    if (this.state !== State.INACTIVE) {
-      this.endPressAnimation()
-    }
-  }
-  handlePointerup(event) {
-    if (!this.shouldReactToEvent(event)) {
-      return
-    }
-    if (this.state === State.HOLDING) {
-      this.state = State.WAITING_FOR_CLICK
-      return
-    }
-    if (this.state === State.TOUCH_DELAY) {
-      this.state = State.WAITING_FOR_CLICK
-      this.startPressAnimation(this.rippleStartEvent)
-      return
-    }
-  }
-  async handlePointerdown(event) {
-    if (!this.shouldReactToEvent(event)) {
-      return
-    }
-    this.rippleStartEvent = event
-    if (!this.isTouch(event)) {
-      this.state = State.WAITING_FOR_CLICK
-      this.startPressAnimation(event)
-      return
-    }
-    // after a longpress contextmenu event, an extra `pointerdown` can be
-    // dispatched to the pressed element. Check that the down is within
-    // bounds of the element in this case.
-    if (this.checkBoundsAfterContextMenu && !this.inBounds(event)) {
-      return
-    }
-    this.checkBoundsAfterContextMenu = false
-    // Wait for a hold after touch delay
-    this.state = State.TOUCH_DELAY
-    await new Promise(resolve => {
-      setTimeout(resolve, TOUCH_DELAY_MS)
-    })
-    if (this.state !== State.TOUCH_DELAY) {
-      return
-    }
-    this.state = State.HOLDING
-    this.startPressAnimation(event)
-  }
-  handleClick() {
-    // Click is a MouseEvent in Firefox and Safari, so we cannot use
-    // `shouldReactToEvent`
-    if (this.disabled) {
-      return
-    }
-    if (this.state === State.WAITING_FOR_CLICK) {
-      this.endPressAnimation()
-      return
-    }
-    if (this.state === State.INACTIVE) {
-      // keyboard synthesized click event
-      this.startPressAnimation()
-      this.endPressAnimation()
-    }
-  }
-  handlePointercancel(event) {
-    if (!this.shouldReactToEvent(event)) {
-      return
-    }
-    this.endPressAnimation()
-  }
-  handleContextmenu() {
-    if (this.disabled) {
-      return
-    }
-    this.checkBoundsAfterContextMenu = true
-    this.endPressAnimation()
-  }
-  determineRippleSize() {
-    const { height, width } = this.getBoundingClientRect()
-    const maxDim = Math.max(height, width)
-    const softEdgeSize = Math.max(
-      SOFT_EDGE_CONTAINER_RATIO * maxDim,
-      SOFT_EDGE_MINIMUM_SIZE
-    )
-    const initialSize = Math.floor(maxDim * INITIAL_ORIGIN_SCALE)
-    const hypotenuse = Math.sqrt(width ** 2 + height ** 2)
-    const maxRadius = hypotenuse + PADDING$1
-    this.initialSize = initialSize
-    this.rippleScale = `${(maxRadius + softEdgeSize) / initialSize}`
-    this.rippleSize = `${initialSize}px`
-  }
-  getNormalizedPointerEventCoords(pointerEvent) {
-    const { scrollX, scrollY } = window
-    const { left, top } = this.getBoundingClientRect()
-    const documentX = scrollX + left
-    const documentY = scrollY + top
-    const { pageX, pageY } = pointerEvent
-    return { x: pageX - documentX, y: pageY - documentY }
-  }
-  getTranslationCoordinates(positionEvent) {
-    const { height, width } = this.getBoundingClientRect()
-    // end in the center
-    const endPoint = {
-      x: (width - this.initialSize) / 2,
-      y: (height - this.initialSize) / 2,
-    }
-    let startPoint
-    if (positionEvent instanceof PointerEvent) {
-      startPoint = this.getNormalizedPointerEventCoords(positionEvent)
-    } else {
-      startPoint = {
-        x: width / 2,
-        y: height / 2,
-      }
-    }
-    // center around start point
-    startPoint = {
-      x: startPoint.x - this.initialSize / 2,
-      y: startPoint.y - this.initialSize / 2,
-    }
-    return { startPoint, endPoint }
-  }
-  startPressAnimation(positionEvent) {
-    if (!this.mdRoot) {
-      return
-    }
-    this.pressed = true
-    this.growAnimation?.cancel()
-    this.determineRippleSize()
-    const { startPoint, endPoint } = this.getTranslationCoordinates(
-      positionEvent
-    )
-    const translateStart = `${startPoint.x}px, ${startPoint.y}px`
-    const translateEnd = `${endPoint.x}px, ${endPoint.y}px`
-    this.growAnimation = this.mdRoot.animate(
-      {
-        top: [0, 0],
-        left: [0, 0],
-        height: [this.rippleSize, this.rippleSize],
-        width: [this.rippleSize, this.rippleSize],
-        transform: [
-          `translate(${translateStart}) scale(1)`,
-          `translate(${translateEnd}) scale(${this.rippleScale})`,
-        ],
-      },
-      {
-        pseudoElement: PRESS_PSEUDO,
-        duration: PRESS_GROW_MS,
-        easing: EASING.STANDARD,
-        fill: ANIMATION_FILL,
-      }
-    )
-  }
-  async endPressAnimation() {
-    this.state = State.INACTIVE
-    const animation = this.growAnimation
-    let pressAnimationPlayState = Infinity
-    if (typeof animation?.currentTime === 'number') {
-      pressAnimationPlayState = animation.currentTime
-    } else if (animation?.currentTime) {
-      pressAnimationPlayState = animation.currentTime.to('ms').value
-    }
-    if (pressAnimationPlayState >= MINIMUM_PRESS_MS) {
-      this.pressed = false
-      return
-    }
-    await new Promise(resolve => {
-      setTimeout(resolve, MINIMUM_PRESS_MS - pressAnimationPlayState)
-    })
-    if (this.growAnimation !== animation) {
-      // A new press animation was started. The old animation was canceled and
-      // should not finish the pressed state.
-      return
-    }
-    this.pressed = false
-  }
-  /**
-   * Returns `true` if
-   *  - the ripple element is enabled
-   *  - the pointer is primary for the input type
-   *  - the pointer is the pointer that started the interaction, or will start
-   * the interaction
-   *  - the pointer is a touch, or the pointer state has the primary button
-   * held, or the pointer is hovering
-   */
-  shouldReactToEvent(event) {
-    if (this.disabled || !event.isPrimary) {
-      return false
-    }
-    if (
-      this.rippleStartEvent &&
-      this.rippleStartEvent.pointerId !== event.pointerId
-    ) {
-      return false
-    }
-    if (event.type === 'pointerenter' || event.type === 'pointerleave') {
-      return !this.isTouch(event)
-    }
-    const isPrimaryButton = event.buttons === 1
-    return this.isTouch(event) || isPrimaryButton
-  }
-  /**
-   * Check if the event is within the bounds of the element.
-   *
-   * This is only needed for the "stuck" contextmenu longpress on Chrome.
-   */
-  inBounds({ x, y }) {
-    const { top, left, bottom, right } = this.getBoundingClientRect()
-    return x >= left && x <= right && y >= top && y <= bottom
-  }
-  isTouch({ pointerType }) {
-    return pointerType === 'touch'
-  }
-  /** @private */
-  async handleEvent(event) {
-    switch (event.type) {
-      case 'click':
-        this.handleClick()
-        break
-      case 'contextmenu':
-        this.handleContextmenu()
-        break
-      case 'pointercancel':
-        this.handlePointercancel(event)
-        break
-      case 'pointerdown':
-        await this.handlePointerdown(event)
-        break
-      case 'pointerenter':
-        this.handlePointerenter(event)
-        break
-      case 'pointerleave':
-        this.handlePointerleave(event)
-        break
-      case 'pointerup':
-        this.handlePointerup(event)
-        break
-    }
-  }
-  onControlChange(prev, next) {
-    for (const event of EVENTS) {
-      prev?.removeEventListener(event, this)
-      next?.addEventListener(event, this)
-    }
-  }
-}
-__decorate(
-  [n$3({ type: Boolean, reflect: true })],
-  Ripple.prototype,
-  'disabled',
-  void 0
-)
-__decorate([r$3()], Ripple.prototype, 'hovered', void 0)
-__decorate([r$3()], Ripple.prototype, 'pressed', void 0)
-__decorate([e$5('.surface')], Ripple.prototype, 'mdRoot', void 0)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$7 = i$4`:host{--_hover-color: var(--md-ripple-hover-color, var(--md-sys-color-on-surface, #1d1b20));--_hover-opacity: var(--md-ripple-hover-opacity, 0.08);--_pressed-color: var(--md-ripple-pressed-color, var(--md-sys-color-on-surface, #1d1b20));--_pressed-opacity: var(--md-ripple-pressed-opacity, 0.12);display:flex;margin:auto;pointer-events:none}:host([disabled]){display:none}@media(forced-colors: active){:host{display:none}}:host,.surface{border-radius:inherit;position:absolute;inset:0;overflow:hidden}.surface{-webkit-tap-highlight-color:rgba(0,0,0,0)}.surface::before,.surface::after{content:"";opacity:0;position:absolute}.surface::before{background-color:var(--_hover-color);inset:0;transition:opacity 15ms linear,background-color 15ms linear}.surface::after{background:radial-gradient(closest-side, var(--_pressed-color) max(100% - 70px, 65%), transparent 100%);transform-origin:center center;transition:opacity 375ms linear}.hovered::before{background-color:var(--_hover-color);opacity:var(--_hover-opacity)}.pressed::after{opacity:var(--_pressed-opacity);transition-duration:105ms}/*# sourceMappingURL=ripple-styles.css.map */
-`
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * @summary Ripples, also known as state layers, are visual indicators used to
- * communicate the status of a component or interactive element.
- *
- * @description A state layer is a semi-transparent covering on an element that
- * indicates its state. State layers provide a systematic approach to
- * visualizing states by using opacity. A layer can be applied to an entire
- * element or in a circular shape and only one state layer can be applied at a
- * given time.
- *
- * @final
- * @suppress {visibility}
- */
-let MdRipple = class MdRipple extends Ripple {}
-MdRipple.styles = [styles$7]
-MdRipple = __decorate([t$3('md-ripple')], MdRipple)
+MdMenu.styles = [styles$7]
+MdMenu = __decorate([t$9('md-menu')], MdMenu)
 
 /**
  * @license
@@ -8557,7 +10046,7 @@ MdRipple = __decorate([t$3('md-ripple')], MdRipple)
 /**
  * An item layout component.
  */
-class Item extends s$1 {
+class Item extends s$9 {
   constructor() {
     super(...arguments)
     /**
@@ -8570,7 +10059,7 @@ class Item extends s$1 {
     this.multiline = false
   }
   render() {
-    return x`
+    return x$1`
       <slot name="container"></slot>
       <slot class="non-text" name="start"></slot>
       <div class="text">
@@ -8605,12 +10094,12 @@ class Item extends s$1 {
   }
 }
 __decorate(
-  [n$3({ type: Boolean, reflect: true })],
+  [n$b({ type: Boolean, reflect: true })],
   Item.prototype,
   'multiline',
   void 0
 )
-__decorate([r$2('.text slot')], Item.prototype, 'textSlots', void 0)
+__decorate([r$7('.text slot')], Item.prototype, 'textSlots', void 0)
 function slotHasContent(slot) {
   for (const node of slot.assignedNodes({ flatten: true })) {
     // Assume there's content if there's an element slotted in
@@ -8631,7 +10120,7 @@ function slotHasContent(slot) {
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$6 = i$4`:host{color:var(--md-sys-color-on-surface, #1d1b20);font-family:var(--md-sys-typescale-body-large-font, var(--md-ref-typeface-plain, Roboto));font-size:var(--md-sys-typescale-body-large-size, 1rem);font-weight:var(--md-sys-typescale-body-large-weight, var(--md-ref-typeface-weight-regular, 400));line-height:var(--md-sys-typescale-body-large-line-height, 1.5rem);align-items:center;box-sizing:border-box;display:flex;gap:16px;min-height:56px;overflow:hidden;padding:12px 16px;position:relative;text-overflow:ellipsis}:host([multiline]){min-height:72px}[name=overline]{color:var(--md-sys-color-on-surface-variant, #49454f);font-family:var(--md-sys-typescale-label-small-font, var(--md-ref-typeface-plain, Roboto));font-size:var(--md-sys-typescale-label-small-size, 0.6875rem);font-weight:var(--md-sys-typescale-label-small-weight, var(--md-ref-typeface-weight-medium, 500));line-height:var(--md-sys-typescale-label-small-line-height, 1rem)}[name=supporting-text]{color:var(--md-sys-color-on-surface-variant, #49454f);font-family:var(--md-sys-typescale-body-medium-font, var(--md-ref-typeface-plain, Roboto));font-size:var(--md-sys-typescale-body-medium-size, 0.875rem);font-weight:var(--md-sys-typescale-body-medium-weight, var(--md-ref-typeface-weight-regular, 400));line-height:var(--md-sys-typescale-body-medium-line-height, 1.25rem)}[name=trailing-supporting-text]{color:var(--md-sys-color-on-surface-variant, #49454f);font-family:var(--md-sys-typescale-label-small-font, var(--md-ref-typeface-plain, Roboto));font-size:var(--md-sys-typescale-label-small-size, 0.6875rem);font-weight:var(--md-sys-typescale-label-small-weight, var(--md-ref-typeface-weight-medium, 500));line-height:var(--md-sys-typescale-label-small-line-height, 1rem)}[name=container]::slotted(*){inset:0;position:absolute}.default-slot{display:inline}.default-slot,.text ::slotted(*){overflow:hidden;text-overflow:ellipsis}.text{display:flex;flex:1;flex-direction:column;overflow:hidden}/*# sourceMappingURL=item-styles.css.map */
+const styles$6 = i$8`:host{color:var(--md-sys-color-on-surface, #1d1b20);font-family:var(--md-sys-typescale-body-large-font, var(--md-ref-typeface-plain, Roboto));font-size:var(--md-sys-typescale-body-large-size, 1rem);font-weight:var(--md-sys-typescale-body-large-weight, var(--md-ref-typeface-weight-regular, 400));line-height:var(--md-sys-typescale-body-large-line-height, 1.5rem);align-items:center;box-sizing:border-box;display:flex;gap:16px;min-height:56px;overflow:hidden;padding:12px 16px;position:relative;text-overflow:ellipsis}:host([multiline]){min-height:72px}[name=overline]{color:var(--md-sys-color-on-surface-variant, #49454f);font-family:var(--md-sys-typescale-label-small-font, var(--md-ref-typeface-plain, Roboto));font-size:var(--md-sys-typescale-label-small-size, 0.6875rem);font-weight:var(--md-sys-typescale-label-small-weight, var(--md-ref-typeface-weight-medium, 500));line-height:var(--md-sys-typescale-label-small-line-height, 1rem)}[name=supporting-text]{color:var(--md-sys-color-on-surface-variant, #49454f);font-family:var(--md-sys-typescale-body-medium-font, var(--md-ref-typeface-plain, Roboto));font-size:var(--md-sys-typescale-body-medium-size, 0.875rem);font-weight:var(--md-sys-typescale-body-medium-weight, var(--md-ref-typeface-weight-regular, 400));line-height:var(--md-sys-typescale-body-medium-line-height, 1.25rem)}[name=trailing-supporting-text]{color:var(--md-sys-color-on-surface-variant, #49454f);font-family:var(--md-sys-typescale-label-small-font, var(--md-ref-typeface-plain, Roboto));font-size:var(--md-sys-typescale-label-small-size, 0.6875rem);font-weight:var(--md-sys-typescale-label-small-weight, var(--md-ref-typeface-weight-medium, 500));line-height:var(--md-sys-typescale-label-small-line-height, 1rem)}[name=container]::slotted(*){inset:0;position:absolute}.default-slot{display:inline}.default-slot,.text ::slotted(*){overflow:hidden;text-overflow:ellipsis}.text{display:flex;flex:1;flex-direction:column;overflow:hidden}/*# sourceMappingURL=item-styles.css.map */
 `
 
 /**
@@ -8697,104 +10186,7 @@ const styles$6 = i$4`:host{color:var(--md-sys-color-on-surface, #1d1b20);font-fa
  */
 let MdItem = class MdItem extends Item {}
 MdItem.styles = [styles$6]
-MdItem = __decorate([t$3('md-item')], MdItem)
-
-/**
- * @license
- * Copyright 2020 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ const e = Symbol.for(''),
-  o = t => {
-    if (t?.r === e) return t?._$litStatic$
-  },
-  s = (t, ...r) => ({
-    _$litStatic$: r.reduce(
-      (r, e, o) =>
-        r +
-        (t => {
-          if (void 0 !== t._$litStatic$) return t._$litStatic$
-          throw Error(
-            `Value passed to 'literal' function must be a 'literal' result: ${t}. Use 'unsafeStatic' to pass non-literal values, but\n            take care to ensure page security.`
-          )
-        })(e) +
-        t[o + 1],
-      t[0]
-    ),
-    r: e,
-  }),
-  a = new Map(),
-  l = t => (r, ...e) => {
-    const i = e.length
-    let s, l
-    const n = [],
-      u = []
-    let c,
-      $ = 0,
-      f = !1
-    for (; $ < i; ) {
-      for (c = r[$]; $ < i && void 0 !== ((l = e[$]), (s = o(l))); )
-        (c += s + r[++$]), (f = !0)
-      $ !== i && u.push(l), n.push(c), $++
-    }
-    if (($ === i && n.push(r[i]), f)) {
-      const t = n.join('$$lit$$')
-      void 0 === (r = a.get(t)) && ((n.raw = n), a.set(t, (r = n))), (e = u)
-    }
-    return t(r, ...e)
-  },
-  n = l(x)
-
-/**
- * @license
- * Copyright 2023 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * Sets up a `ReactiveElement` constructor to enable updates when delegating
- * aria attributes. Elements may bind `this.aria*` properties to `aria-*`
- * attributes in their render functions.
- *
- * This function will:
- * - Call `requestUpdate()` when an aria attribute changes.
- * - Add `role="presentation"` to the host.
- *
- * NOTE: The following features are not currently supported:
- * - Delegating IDREF attributes (ex: `aria-labelledby`, `aria-controls`)
- * - Delegating the `role` attribute
- *
- * @example
- * class XButton extends LitElement {
- *   static {
- *     requestUpdateOnAriaChange(XButton);
- *   }
- *
- *   protected override render() {
- *     return html`
- *       <button aria-label=${this.ariaLabel || nothing}>
- *         <slot></slot>
- *       </button>
- *     `;
- *   }
- * }
- *
- * @param ctor The `ReactiveElement` constructor to patch.
- */
-function requestUpdateOnAriaChange(ctor) {
-  for (const ariaProperty of ARIA_PROPERTIES) {
-    ctor.createProperty(ariaProperty, {
-      attribute: ariaPropertyToAttribute(ariaProperty),
-      reflect: true,
-    })
-  }
-  ctor.addInitializer(element => {
-    const controller = {
-      hostConnected() {
-        element.setAttribute('role', 'presentation')
-      },
-    }
-    element.addController(controller)
-  })
-}
+MdItem = __decorate([t$9('md-item')], MdItem)
 
 /**
  * @license
@@ -8917,7 +10309,7 @@ class MenuItemController {
 /**
  * @fires close-menu {CloseMenuEvent}
  */
-class MenuItemEl extends s$1 {
+class MenuItemEl extends s$9 {
   constructor() {
     super(...arguments)
     /**
@@ -8963,7 +10355,7 @@ class MenuItemEl extends s$1 {
     this.menuItemController.setTypeaheadText(text)
   }
   render() {
-    return this.renderListItem(x`
+    return this.renderListItem(x$1`
       <md-item>
         <div slot="container">
           ${this.renderRipple()}
@@ -8985,31 +10377,31 @@ class MenuItemEl extends s$1 {
     let tag
     switch (this.menuItemController.tagName) {
       case 'a':
-        tag = s`a`
+        tag = s$8`a`
         break
       case 'button':
-        tag = s`button`
+        tag = s$8`button`
         break
       default:
       case 'li':
-        tag = s`li`
+        tag = s$8`li`
         break
     }
     // TODO(b/265339866): announce "button"/"link" inside of a list item. Until
     // then all are "menuitem" roles for correct announcement.
-    const target = isAnchor && !!this.target ? this.target : T
-    return n`
+    const target = isAnchor && !!this.target ? this.target : T$1
+    return n$9`
       <${tag}
         id="item"
         tabindex=${this.disabled && !isAnchor ? -1 : 0}
         role=${this.menuItemController.role}
-        aria-label=${this.ariaLabel || T}
-        aria-selected=${this.ariaSelected || T}
-        aria-checked=${this.ariaChecked || T}
-        aria-expanded=${this.ariaExpanded || T}
-        aria-haspopup=${this.ariaHasPopup || T}
-        class="list-item ${e$1(this.getRenderClasses())}"
-        href=${this.href || T}
+        aria-label=${this.ariaLabel || T$1}
+        aria-selected=${this.ariaSelected || T$1}
+        aria-checked=${this.ariaChecked || T$1}
+        aria-expanded=${this.ariaExpanded || T$1}
+        aria-haspopup=${this.ariaHasPopup || T$1}
+        class="list-item ${e$c(this.getRenderClasses())}"
+        href=${this.href || T$1}
         target=${target}
         @click=${this.menuItemController.onClick}
         @keydown=${this.menuItemController.onKeydown}
@@ -9020,7 +10412,7 @@ class MenuItemEl extends s$1 {
    * Handles rendering of the ripple element.
    */
   renderRipple() {
-    return x`
+    return x$1`
       <md-ripple
           part="ripple"
           for="item"
@@ -9030,7 +10422,7 @@ class MenuItemEl extends s$1 {
    * Handles rendering of the focus ring.
    */
   renderFocusRing() {
-    return x`
+    return x$1`
       <md-focus-ring
           part="focus-ring"
           for="item"
@@ -9049,7 +10441,7 @@ class MenuItemEl extends s$1 {
    * Handles rendering the headline and supporting text.
    */
   renderBody() {
-    return x`
+    return x$1`
       <slot></slot>
       <slot name="overline" slot="overline"></slot>
       <slot name="headline" slot="headline"></slot>
@@ -9069,34 +10461,34 @@ class MenuItemEl extends s$1 {
 })()
 /** @nocollapse */
 MenuItemEl.shadowRootOptions = {
-  ...s$1.shadowRootOptions,
+  ...s$9.shadowRootOptions,
   delegatesFocus: true,
 }
 __decorate(
-  [n$3({ type: Boolean, reflect: true })],
+  [n$b({ type: Boolean, reflect: true })],
   MenuItemEl.prototype,
   'disabled',
   void 0
 )
-__decorate([n$3()], MenuItemEl.prototype, 'type', void 0)
-__decorate([n$3()], MenuItemEl.prototype, 'href', void 0)
-__decorate([n$3()], MenuItemEl.prototype, 'target', void 0)
+__decorate([n$b()], MenuItemEl.prototype, 'type', void 0)
+__decorate([n$b()], MenuItemEl.prototype, 'href', void 0)
+__decorate([n$b()], MenuItemEl.prototype, 'target', void 0)
 __decorate(
-  [n$3({ type: Boolean, attribute: 'keep-open' })],
+  [n$b({ type: Boolean, attribute: 'keep-open' })],
   MenuItemEl.prototype,
   'keepOpen',
   void 0
 )
-__decorate([n$3({ type: Boolean })], MenuItemEl.prototype, 'selected', void 0)
-__decorate([e$5('.list-item')], MenuItemEl.prototype, 'listItemRoot', void 0)
+__decorate([n$b({ type: Boolean })], MenuItemEl.prototype, 'selected', void 0)
+__decorate([e$g('.list-item')], MenuItemEl.prototype, 'listItemRoot', void 0)
 __decorate(
-  [o$3({ slot: 'headline' })],
+  [o$c({ slot: 'headline' })],
   MenuItemEl.prototype,
   'headlineElements',
   void 0
 )
 __decorate(
-  [n$3({ attribute: 'typeahead-text' })],
+  [n$b({ attribute: 'typeahead-text' })],
   MenuItemEl.prototype,
   'typeaheadText',
   null
@@ -9107,7 +10499,7 @@ __decorate(
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$5 = i$4`:host{display:flex;--md-ripple-hover-color: var(--md-menu-item-hover-state-layer-color, var(--md-sys-color-on-surface, #1d1b20));--md-ripple-hover-opacity: var(--md-menu-item-hover-state-layer-opacity, 0.08);--md-ripple-pressed-color: var(--md-menu-item-pressed-state-layer-color, var(--md-sys-color-on-surface, #1d1b20));--md-ripple-pressed-opacity: var(--md-menu-item-pressed-state-layer-opacity, 0.12)}:host([disabled]){opacity:var(--md-menu-item-disabled-opacity, 0.3);pointer-events:none}md-focus-ring{z-index:1;--md-focus-ring-shape: 8px}a,button,li{background:none;border:none;padding:0;margin:0;text-align:unset;text-decoration:none}.list-item{border-radius:inherit;display:flex;flex:1;max-width:inherit;min-width:inherit;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}.list-item:not(.disabled){cursor:pointer}[slot=container]{pointer-events:none}md-ripple{border-radius:inherit}md-item{border-radius:inherit;flex:1;color:var(--md-menu-item-label-text-color, var(--md-sys-color-on-surface, #1d1b20));font-family:var(--md-menu-item-label-text-font, var(--md-sys-typescale-body-large-font, var(--md-ref-typeface-plain, Roboto)));font-size:var(--md-menu-item-label-text-size, var(--md-sys-typescale-body-large-size, 1rem));line-height:var(--md-menu-item-label-text-line-height, var(--md-sys-typescale-body-large-line-height, 1.5rem));font-weight:var(--md-menu-item-label-text-weight, var(--md-sys-typescale-body-large-weight, var(--md-ref-typeface-weight-regular, 400)));min-height:var(--md-menu-item-one-line-container-height, 56px);padding-top:var(--md-menu-item-top-space, 12px);padding-bottom:var(--md-menu-item-bottom-space, 12px);padding-inline-start:var(--md-menu-item-leading-space, 16px);padding-inline-end:var(--md-menu-item-trailing-space, 16px)}md-item[multiline]{min-height:var(--md-menu-item-two-line-container-height, 72px)}[slot=supporting-text]{color:var(--md-menu-item-supporting-text-color, var(--md-sys-color-on-surface-variant, #49454f));font-family:var(--md-menu-item-supporting-text-font, var(--md-sys-typescale-body-medium-font, var(--md-ref-typeface-plain, Roboto)));font-size:var(--md-menu-item-supporting-text-size, var(--md-sys-typescale-body-medium-size, 0.875rem));line-height:var(--md-menu-item-supporting-text-line-height, var(--md-sys-typescale-body-medium-line-height, 1.25rem));font-weight:var(--md-menu-item-supporting-text-weight, var(--md-sys-typescale-body-medium-weight, var(--md-ref-typeface-weight-regular, 400)))}[slot=trailing-supporting-text]{color:var(--md-menu-item-trailing-supporting-text-color, var(--md-sys-color-on-surface-variant, #49454f));font-family:var(--md-menu-item-trailing-supporting-text-font, var(--md-sys-typescale-label-small-font, var(--md-ref-typeface-plain, Roboto)));font-size:var(--md-menu-item-trailing-supporting-text-size, var(--md-sys-typescale-label-small-size, 0.6875rem));line-height:var(--md-menu-item-trailing-supporting-text-line-height, var(--md-sys-typescale-label-small-line-height, 1rem));font-weight:var(--md-menu-item-trailing-supporting-text-weight, var(--md-sys-typescale-label-small-weight, var(--md-ref-typeface-weight-medium, 500)))}:is([slot=start],[slot=end])::slotted(*){fill:currentColor}[slot=start]{color:var(--md-menu-item-leading-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}[slot=end]{color:var(--md-menu-item-trailing-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}.list-item.selected{background-color:var(--md-menu-item-selected-container-color, var(--md-sys-color-secondary-container, #e8def8))}.selected:not(.disabled) ::slotted(*){color:var(--md-menu-item-selected-label-text-color, var(--md-sys-color-on-secondary-container, #1d192b))}@media(forced-colors: active){:host([disabled]),:host([disabled]) slot{color:GrayText;opacity:1}.list-item{position:relative}.list-item.selected::before{content:"";position:absolute;inset:0;box-sizing:border-box;border-radius:inherit;pointer-events:none;border:3px double CanvasText}}/*# sourceMappingURL=menu-item-styles.css.map */
+const styles$5 = i$8`:host{display:flex;--md-ripple-hover-color: var(--md-menu-item-hover-state-layer-color, var(--md-sys-color-on-surface, #1d1b20));--md-ripple-hover-opacity: var(--md-menu-item-hover-state-layer-opacity, 0.08);--md-ripple-pressed-color: var(--md-menu-item-pressed-state-layer-color, var(--md-sys-color-on-surface, #1d1b20));--md-ripple-pressed-opacity: var(--md-menu-item-pressed-state-layer-opacity, 0.12)}:host([disabled]){opacity:var(--md-menu-item-disabled-opacity, 0.3);pointer-events:none}md-focus-ring{z-index:1;--md-focus-ring-shape: 8px}a,button,li{background:none;border:none;padding:0;margin:0;text-align:unset;text-decoration:none}.list-item{border-radius:inherit;display:flex;flex:1;max-width:inherit;min-width:inherit;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}.list-item:not(.disabled){cursor:pointer}[slot=container]{pointer-events:none}md-ripple{border-radius:inherit}md-item{border-radius:inherit;flex:1;color:var(--md-menu-item-label-text-color, var(--md-sys-color-on-surface, #1d1b20));font-family:var(--md-menu-item-label-text-font, var(--md-sys-typescale-body-large-font, var(--md-ref-typeface-plain, Roboto)));font-size:var(--md-menu-item-label-text-size, var(--md-sys-typescale-body-large-size, 1rem));line-height:var(--md-menu-item-label-text-line-height, var(--md-sys-typescale-body-large-line-height, 1.5rem));font-weight:var(--md-menu-item-label-text-weight, var(--md-sys-typescale-body-large-weight, var(--md-ref-typeface-weight-regular, 400)));min-height:var(--md-menu-item-one-line-container-height, 56px);padding-top:var(--md-menu-item-top-space, 12px);padding-bottom:var(--md-menu-item-bottom-space, 12px);padding-inline-start:var(--md-menu-item-leading-space, 16px);padding-inline-end:var(--md-menu-item-trailing-space, 16px)}md-item[multiline]{min-height:var(--md-menu-item-two-line-container-height, 72px)}[slot=supporting-text]{color:var(--md-menu-item-supporting-text-color, var(--md-sys-color-on-surface-variant, #49454f));font-family:var(--md-menu-item-supporting-text-font, var(--md-sys-typescale-body-medium-font, var(--md-ref-typeface-plain, Roboto)));font-size:var(--md-menu-item-supporting-text-size, var(--md-sys-typescale-body-medium-size, 0.875rem));line-height:var(--md-menu-item-supporting-text-line-height, var(--md-sys-typescale-body-medium-line-height, 1.25rem));font-weight:var(--md-menu-item-supporting-text-weight, var(--md-sys-typescale-body-medium-weight, var(--md-ref-typeface-weight-regular, 400)))}[slot=trailing-supporting-text]{color:var(--md-menu-item-trailing-supporting-text-color, var(--md-sys-color-on-surface-variant, #49454f));font-family:var(--md-menu-item-trailing-supporting-text-font, var(--md-sys-typescale-label-small-font, var(--md-ref-typeface-plain, Roboto)));font-size:var(--md-menu-item-trailing-supporting-text-size, var(--md-sys-typescale-label-small-size, 0.6875rem));line-height:var(--md-menu-item-trailing-supporting-text-line-height, var(--md-sys-typescale-label-small-line-height, 1rem));font-weight:var(--md-menu-item-trailing-supporting-text-weight, var(--md-sys-typescale-label-small-weight, var(--md-ref-typeface-weight-medium, 500)))}:is([slot=start],[slot=end])::slotted(*){fill:currentColor}[slot=start]{color:var(--md-menu-item-leading-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}[slot=end]{color:var(--md-menu-item-trailing-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}.list-item.selected{background-color:var(--md-menu-item-selected-container-color, var(--md-sys-color-secondary-container, #e8def8))}.selected:not(.disabled) ::slotted(*){color:var(--md-menu-item-selected-label-text-color, var(--md-sys-color-on-secondary-container, #1d192b))}@media(forced-colors: active){:host([disabled]),:host([disabled]) slot{color:GrayText;opacity:1}.list-item{position:relative}.list-item.selected::before{content:"";position:absolute;inset:0;box-sizing:border-box;border-radius:inherit;pointer-events:none;border:3px double CanvasText}}/*# sourceMappingURL=menu-item-styles.css.map */
 `
 
 /**
@@ -9132,19 +10524,19 @@ const styles$5 = i$4`:host{display:flex;--md-ripple-hover-color: var(--md-menu-i
  */
 let MdMenuItem = class MdMenuItem extends MenuItemEl {}
 MdMenuItem.styles = [styles$5]
-MdMenuItem = __decorate([t$3('md-menu-item')], MdMenuItem)
+MdMenuItem = __decorate([t$9('md-menu-item')], MdMenuItem)
 
-let LayerSettings = class LayerSettings extends s$8 {
+let LayerSettings = class LayerSettings extends s$4 {
   constructor() {
     super(...arguments)
     this.name = ''
     this.otherImages = []
     this.enable = true
-    this.menuRef = e$9()
-    this.anchorRef = e$9()
+    this.menuRef = e()
+    this.anchorRef = e()
     // avoid overflow: hidden on parents clipping menu
     this.floatingAnchor = makeHtml(`<div class="${style.floater}"></div>`)
-    this.stateService = new s$6(this, viewerContext, undefined, true)
+    this.stateService = new s$2(this, viewerContext, undefined, true)
   }
   connectedCallback() {
     super.connectedCallback()
@@ -9198,7 +10590,7 @@ let LayerSettings = class LayerSettings extends s$8 {
         })
   }
   render() {
-    return y$2`
+    return y`
       <div
         @click=${() => {
           this.showMenu()
@@ -9207,11 +10599,11 @@ let LayerSettings = class LayerSettings extends s$8 {
         class=${this.enable ? 'clickable' : ''}
       >
         <slot></slot>
-        <div ${n$6(this.anchorRef)} style="position:relative; z-index: 4000;">
-          <md-menu ${n$6(this.menuRef)} style="min-width: 280px;">
-            ${o$7(
+        <div ${n$1(this.anchorRef)} style="position:relative; z-index: 4000;">
+          <md-menu ${n$1(this.menuRef)} style="min-width: 280px;">
+            ${o$1(
               this.otherImages,
-              name => y$2`
+              name => y`
                   <md-menu-item
                     @click=${() => this.compareWith(name, 'checkerboard')}
                   >
@@ -9258,17 +10650,17 @@ let LayerSettings = class LayerSettings extends s$8 {
     `
   }
 }
-LayerSettings.styles = i$8`
+LayerSettings.styles = i$4`
     .clickable {
       cursor: pointer;
     }
   `
-__decorate([e$f()], LayerSettings.prototype, 'name', void 0)
-__decorate([e$f()], LayerSettings.prototype, 'otherImages', void 0)
-__decorate([e$f()], LayerSettings.prototype, 'enable', void 0)
-LayerSettings = __decorate([e$g('layer-settings')], LayerSettings)
+__decorate([e$6()], LayerSettings.prototype, 'name', void 0)
+__decorate([e$6()], LayerSettings.prototype, 'otherImages', void 0)
+__decorate([e$6()], LayerSettings.prototype, 'enable', void 0)
+LayerSettings = __decorate([e$7('layer-settings')], LayerSettings)
 
-let LayerIcon = class LayerIcon extends s$8 {
+let LayerIcon = class LayerIcon extends s$4 {
   constructor() {
     super(...arguments)
     this.layer = { type: 'image' }
@@ -9316,7 +10708,7 @@ let LayerIcon = class LayerIcon extends s$8 {
   render() {
     const { icon, alt } = this.getIcon()
     const settingsPossible = alt === 'settings'
-    return y$2`
+    return y`
       <div>
         <layer-settings
           .name=${this.name}
@@ -9329,7 +10721,7 @@ let LayerIcon = class LayerIcon extends s$8 {
     `
   }
 }
-LayerIcon.styles = i$8`
+LayerIcon.styles = i$4`
     .icon {
       height: 1.2em;
       width: 1.2em;
@@ -9339,10 +10731,10 @@ LayerIcon.styles = i$8`
       padding-right: 6px;
     }
   `
-__decorate([e$f()], LayerIcon.prototype, 'layer', void 0)
-__decorate([e$f()], LayerIcon.prototype, 'name', void 0)
-__decorate([t$7()], LayerIcon.prototype, 'settingsOpen', void 0)
-LayerIcon = __decorate([e$g('layer-icon')], LayerIcon)
+__decorate([e$6()], LayerIcon.prototype, 'layer', void 0)
+__decorate([e$6()], LayerIcon.prototype, 'name', void 0)
+__decorate([t$3()], LayerIcon.prototype, 'settingsOpen', void 0)
+LayerIcon = __decorate([e$7('layer-icon')], LayerIcon)
 
 function createLayerEntry(context, name, layer) {
   var layerEntry = document.createElement('div')
@@ -9458,6 +10850,28 @@ function createLayerEntry(context, name, layer) {
   })
 
   // if (context.layers.showSaveRoiButton) {
+
+  var dialog = makeHtml(
+    '\n    <md-dialog class="'.concat(
+      style.saveDialog,
+      '">\n      <div slot="headline">Choose save file format</div>\n      <form id="save-form" slot="content" method="dialog">\n        <label>\n          <md-radio name="pet" value="cats" aria-label="Cats" touch-target="wrapper" checked></md-radio>\n          <span aria-hidden="true">Cats</span>\n        </label>\n        <label>\n          <md-radio name="pet" value="dogs" aria-label="Dogs" touch-target="wrapper"></md-radio>\n          <span aria-hidden="true">Dogs</span>\n        </label>\n        <label>\n          <md-radio name="pet" value="birds" aria-label="Birds" touch-target="wrapper"></md-radio>\n          <span aria-hidden="true">Birds</span>\n        </label>\n      </form>\n      <div slot="actions">\n        <md-text-button form="save-form" value="cancel">Cancel</md-text-button>\n        <md-text-button form="save-form" autofocus value="ok">OK</md-text-button>\n      </div>\n    </md-dialog>\n  '
+    )
+  )
+  imageIcons.appendChild(dialog)
+  dialog.addEventListener('close', function() {
+    var okClicked = dialog.returnValue === 'ok'
+    if (okClicked) {
+      var format = document.querySelector('md-radio[name="pet"]').value
+      console.log('format', format)
+      context.service.send({
+        type: 'DOWNLOAD_IMAGE',
+        data: {
+          name: context.images.selectedName,
+          layerName: name,
+        },
+      })
+    }
+  })
   var downloadImage = document.createElement('div')
   downloadImage.innerHTML = '\n  <input type="checkbox" checked id='
     .concat(context.id, '-download-image" class="')
@@ -9482,17 +10896,8 @@ function createLayerEntry(context, name, layer) {
   downloadImage.addEventListener('click', function(event) {
     event.preventDefault()
     event.stopPropagation()
-    // context.service.send({
-    //   type: 'DOWNLOAD_IMAGE',
-    //   data: {
-    //     name: context.images.selectedName,
-    //     layerName: name,
-    //   },
-    // })
-    console.log('Download image')
+    dialog.show()
   })
-  // }
-
   var icon = makeHtml(
     '<layer-icon class="'.concat(style.layerIcon, '"></layer-icon>')
   )
@@ -25705,7 +27110,7 @@ function toggleDarkMode(context) {
 /**
  * TODO(b/265346501): add docs
  */
-class NavigationDrawer extends s$1 {
+class NavigationDrawer extends s$9 {
   constructor() {
     super(...arguments)
     this.opened = false
@@ -25716,12 +27121,12 @@ class NavigationDrawer extends s$1 {
     const ariaHidden = !this.opened ? 'true' : 'false'
     // Needed for closure conformance
     const { ariaLabel, ariaModal } = this
-    return x`
+    return x$1`
       <div
         aria-expanded="${ariaExpanded}"
         aria-hidden="${ariaHidden}"
-        aria-label=${ariaLabel || T}
-        aria-modal="${ariaModal || T}"
+        aria-label=${ariaLabel || T$1}
+        aria-modal="${ariaModal || T$1}"
         class="md3-navigation-drawer ${this.getRenderClasses()}"
         role="dialog">
         <md-elevation></md-elevation>
@@ -25732,7 +27137,7 @@ class NavigationDrawer extends s$1 {
     `
   }
   getRenderClasses() {
-    return e$1({
+    return e$c({
       'md3-navigation-drawer--opened': this.opened,
       'md3-navigation-drawer--pivot-at-start': this.pivot === 'start',
     })
@@ -25755,19 +27160,19 @@ class NavigationDrawer extends s$1 {
   requestUpdateOnAriaChange(NavigationDrawer)
 })()
 __decorate(
-  [n$3({ type: Boolean })],
+  [n$b({ type: Boolean })],
   NavigationDrawer.prototype,
   'opened',
   void 0
 )
-__decorate([n$3()], NavigationDrawer.prototype, 'pivot', void 0)
+__decorate([n$b()], NavigationDrawer.prototype, 'pivot', void 0)
 
 /**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$4 = i$4`:host{--_container-color: var(--md-navigation-drawer-container-color, #fff);--_container-height: var(--md-navigation-drawer-container-height, 100%);--_container-shape: var(--md-navigation-drawer-container-shape, 0 16px 16px 0);--_container-width: var(--md-navigation-drawer-container-width, 360px);--_divider-color: var(--md-navigation-drawer-divider-color, #000);--_modal-container-elevation: var(--md-navigation-drawer-modal-container-elevation, 1);--_standard-container-elevation: var(--md-navigation-drawer-standard-container-elevation, 0);--md-elevation-level: var(--_standard-container-elevation);--md-elevation-shadow-color: var(--_divider-color)}:host{display:flex}.md3-navigation-drawer{inline-size:0;box-sizing:border-box;display:flex;justify-content:flex-end;overflow:hidden;overflow-y:auto;visibility:hidden;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) .25s}md-elevation{z-index:0}.md3-navigation-drawer--opened{visibility:visible;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) 0s}.md3-navigation-drawer--pivot-at-start{justify-content:flex-start}.md3-navigation-drawer__slot-content{display:flex;flex-direction:column;position:relative}/*# sourceMappingURL=navigation-drawer-styles.css.map */
+const styles$4 = i$8`:host{--_container-color: var(--md-navigation-drawer-container-color, #fff);--_container-height: var(--md-navigation-drawer-container-height, 100%);--_container-shape: var(--md-navigation-drawer-container-shape, 0 16px 16px 0);--_container-width: var(--md-navigation-drawer-container-width, 360px);--_divider-color: var(--md-navigation-drawer-divider-color, #000);--_modal-container-elevation: var(--md-navigation-drawer-modal-container-elevation, 1);--_standard-container-elevation: var(--md-navigation-drawer-standard-container-elevation, 0);--md-elevation-level: var(--_standard-container-elevation);--md-elevation-shadow-color: var(--_divider-color)}:host{display:flex}.md3-navigation-drawer{inline-size:0;box-sizing:border-box;display:flex;justify-content:flex-end;overflow:hidden;overflow-y:auto;visibility:hidden;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) .25s}md-elevation{z-index:0}.md3-navigation-drawer--opened{visibility:visible;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) 0s}.md3-navigation-drawer--pivot-at-start{justify-content:flex-start}.md3-navigation-drawer__slot-content{display:flex;flex-direction:column;position:relative}/*# sourceMappingURL=navigation-drawer-styles.css.map */
 `
 
 /**
@@ -25775,7 +27180,7 @@ const styles$4 = i$4`:host{--_container-color: var(--md-navigation-drawer-contai
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$3 = i$4`.md3-navigation-drawer-modal{background-color:var(--_container-color);border-radius:var(--_container-shape);height:var(--_container-height)}.md3-navigation-drawer-modal.md3-navigation-drawer-modal--opened{inline-size:var(--_container-width)}.md3-navigation-drawer-modal .md3-navigation-drawer-modal__slot-content{min-inline-size:var(--_container-width);max-inline-size:var(--_container-width)}/*# sourceMappingURL=shared-styles.css.map */
+const styles$3 = i$8`.md3-navigation-drawer-modal{background-color:var(--_container-color);border-radius:var(--_container-shape);height:var(--_container-height)}.md3-navigation-drawer-modal.md3-navigation-drawer-modal--opened{inline-size:var(--_container-width)}.md3-navigation-drawer-modal .md3-navigation-drawer-modal__slot-content{min-inline-size:var(--_container-width);max-inline-size:var(--_container-width)}/*# sourceMappingURL=shared-styles.css.map */
 `
 
 /**
@@ -25790,119 +27195,25 @@ const styles$3 = i$4`.md3-navigation-drawer-modal{background-color:var(--_contai
 let MdNavigationDrawer = class MdNavigationDrawer extends NavigationDrawer {}
 MdNavigationDrawer.styles = [styles$3, styles$4]
 MdNavigationDrawer = __decorate(
-  [t$3('md-navigation-drawer')],
+  [t$9('md-navigation-drawer')],
   MdNavigationDrawer
 )
 
-let ServiceContext = class ServiceContext extends s$8 {
+let ServiceContext = class ServiceContext extends s$4 {
   constructor() {
     super(...arguments)
     // @ts-ignore
-    this.provider = new e$e(this, viewerContext, {
+    this.provider = new e$5(this, viewerContext, {
       service: appContext.service,
     })
   }
   render() {
-    return y$2`
+    return y`
       <slot></slot>
     `
   }
 }
-ServiceContext = __decorate([e$g('service-context')], ServiceContext)
-
-/**
- * @license
- * Copyright 2023 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * A unique symbol used for protected access to an instance's
- * `ElementInternals`.
- *
- * @example
- * ```ts
- * class MyElement extends LitElement {
- *   static formAssociated = true;
- *
- *   [internals] = this.attachInternals();
- * }
- *
- * function getForm(element: MyElement) {
- *   return element[internals].form;
- * }
- * ```
- */
-const internals = Symbol('internals')
-
-/**
- * @license
- * Copyright 2023 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * Sets up an element's constructor to enable form submission. The element
- * instance should be form associated and have a `type` property.
- *
- * A click listener is added to each element instance. If the click is not
- * default prevented, it will submit the element's form, if any.
- *
- * @example
- * ```ts
- * class MyElement extends LitElement {
- *   static {
- *     setupFormSubmitter(MyElement);
- *   }
- *
- *   static formAssociated = true;
- *
- *   type: FormSubmitterType = 'submit';
- *
- *   [internals] = this.attachInternals();
- * }
- * ```
- *
- * @param ctor The form submitter element's constructor.
- */
-function setupFormSubmitter(ctor) {
-  ctor.addInitializer(instance => {
-    const submitter = instance
-    submitter.addEventListener('click', async event => {
-      const { type, [internals]: elementInternals } = submitter
-      const { form } = elementInternals
-      if (!form || type === 'button') {
-        return
-      }
-      // Wait a microtask for event bubbling to complete.
-      await new Promise(resolve => {
-        resolve()
-      })
-      if (event.defaultPrevented) {
-        return
-      }
-      if (type === 'reset') {
-        form.reset()
-        return
-      }
-      // form.requestSubmit(submitter) does not work with form associated custom
-      // elements. This patches the dispatched submit event to add the correct
-      // `submitter`.
-      // See https://github.com/WICG/webcomponents/issues/814
-      form.addEventListener(
-        'submit',
-        submitEvent => {
-          Object.defineProperty(submitEvent, 'submitter', {
-            configurable: true,
-            enumerable: true,
-            get: () => submitter,
-          })
-        },
-        { capture: true, once: true }
-      )
-      elementInternals.setFormValue(submitter.value)
-      form.requestSubmit()
-    })
-  })
-}
+ServiceContext = __decorate([e$7('service-context')], ServiceContext)
 
 /**
  * @license
@@ -25933,7 +27244,7 @@ function isRtl(el, shouldCheck = true) {
  */
 var _a
 // tslint:disable-next-line:enforce-comments-on-exported-symbols
-class IconButton extends s$1 {
+class IconButton extends s$9 {
   constructor() {
     super(...arguments)
     /**
@@ -26000,31 +27311,31 @@ class IconButton extends s$1 {
     }
   }
   render() {
-    const tag = this.href ? s`div` : s`button`
+    const tag = this.href ? s$8`div` : s$8`button`
     // Needed for closure conformance
     const { ariaLabel, ariaHasPopup, ariaExpanded } = this
     const hasToggledAriaLabel = ariaLabel && this.ariaLabelSelected
-    const ariaPressedValue = !this.toggle ? T : this.selected
-    let ariaLabelValue = T
+    const ariaPressedValue = !this.toggle ? T$1 : this.selected
+    let ariaLabelValue = T$1
     if (!this.href) {
       ariaLabelValue =
         hasToggledAriaLabel && this.selected
           ? this.ariaLabelSelected
           : ariaLabel
     }
-    return n`<${tag}
-        class="icon-button ${e$1(this.getRenderClasses())}"
+    return n$9`<${tag}
+        class="icon-button ${e$c(this.getRenderClasses())}"
         id="button"
-        aria-label="${ariaLabelValue || T}"
-        aria-haspopup="${(!this.href && ariaHasPopup) || T}"
-        aria-expanded="${(!this.href && ariaExpanded) || T}"
+        aria-label="${ariaLabelValue || T$1}"
+        aria-haspopup="${(!this.href && ariaHasPopup) || T$1}"
+        aria-expanded="${(!this.href && ariaExpanded) || T$1}"
         aria-pressed="${ariaPressedValue}"
         ?disabled="${!this.href && this.disabled}"
         @click="${this.handleClick}">
         ${this.renderFocusRing()}
         ${this.renderRipple()}
-        ${!this.selected ? this.renderIcon() : T}
-        ${this.selected ? this.renderSelectedIcon() : T}
+        ${!this.selected ? this.renderIcon() : T$1}
+        ${this.selected ? this.renderSelectedIcon() : T$1}
         ${this.renderTouchTarget()}
         ${this.href && this.renderLink()}
   </${tag}>`
@@ -26032,12 +27343,12 @@ class IconButton extends s$1 {
   renderLink() {
     // Needed for closure conformance
     const { ariaLabel } = this
-    return x`
+    return x$1`
       <a class="link"
         id="link"
         href="${this.href}"
-        target="${this.target || T}"
-        aria-label="${ariaLabel || T}"
+        target="${this.target || T$1}"
+        aria-label="${ariaLabel || T$1}"
       ></a>
     `
   }
@@ -26048,23 +27359,23 @@ class IconButton extends s$1 {
     }
   }
   renderIcon() {
-    return x`<span class="icon"><slot></slot></span>`
+    return x$1`<span class="icon"><slot></slot></span>`
   }
   renderSelectedIcon() {
     // Use default slot as fallback to not require specifying multiple icons
-    return x`<span class="icon icon--selected"><slot name="selected"><slot></slot></slot></span>`
+    return x$1`<span class="icon icon--selected"><slot name="selected"><slot></slot></slot></span>`
   }
   renderTouchTarget() {
-    return x`<span class="touch"></span>`
+    return x$1`<span class="touch"></span>`
   }
   renderFocusRing() {
-    return x`<md-focus-ring part="focus-ring" for=${
+    return x$1`<md-focus-ring part="focus-ring" for=${
       this.href ? 'link' : 'button'
     }></md-focus-ring>`
   }
   renderRipple() {
-    return x`<md-ripple
-      for=${this.href ? 'link' : T}
+    return x$1`<md-ripple
+      for=${this.href ? 'link' : T$1}
       ?disabled="${!this.href && this.disabled}"
     ></md-ripple>`
   }
@@ -26097,42 +27408,42 @@ IconButton.formAssociated = true
 /** @nocollapse */
 IconButton.shadowRootOptions = { mode: 'open', delegatesFocus: true }
 __decorate(
-  [n$3({ type: Boolean, reflect: true })],
+  [n$b({ type: Boolean, reflect: true })],
   IconButton.prototype,
   'disabled',
   void 0
 )
 __decorate(
-  [n$3({ type: Boolean, attribute: 'flip-icon-in-rtl' })],
+  [n$b({ type: Boolean, attribute: 'flip-icon-in-rtl' })],
   IconButton.prototype,
   'flipIconInRtl',
   void 0
 )
-__decorate([n$3()], IconButton.prototype, 'href', void 0)
-__decorate([n$3()], IconButton.prototype, 'target', void 0)
+__decorate([n$b()], IconButton.prototype, 'href', void 0)
+__decorate([n$b()], IconButton.prototype, 'target', void 0)
 __decorate(
-  [n$3({ attribute: 'aria-label-selected' })],
+  [n$b({ attribute: 'aria-label-selected' })],
   IconButton.prototype,
   'ariaLabelSelected',
   void 0
 )
-__decorate([n$3({ type: Boolean })], IconButton.prototype, 'toggle', void 0)
+__decorate([n$b({ type: Boolean })], IconButton.prototype, 'toggle', void 0)
 __decorate(
-  [n$3({ type: Boolean, reflect: true })],
+  [n$b({ type: Boolean, reflect: true })],
   IconButton.prototype,
   'selected',
   void 0
 )
-__decorate([n$3()], IconButton.prototype, 'type', void 0)
-__decorate([n$3()], IconButton.prototype, 'value', void 0)
-__decorate([r$3()], IconButton.prototype, 'flipIcon', void 0)
+__decorate([n$b()], IconButton.prototype, 'type', void 0)
+__decorate([n$b()], IconButton.prototype, 'value', void 0)
+__decorate([r$8()], IconButton.prototype, 'flipIcon', void 0)
 
 /**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$2 = i$4`:host{display:inline-flex;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);height:var(--_container-height);width:var(--_container-width);justify-content:center}:host([touch-target=wrapper]){margin:max(0px,(48px - var(--_container-height))/2) max(0px,(48px - var(--_container-width))/2)}md-focus-ring{--md-focus-ring-shape-start-start: var(--_container-shape-start-start);--md-focus-ring-shape-start-end: var(--_container-shape-start-end);--md-focus-ring-shape-end-end: var(--_container-shape-end-end);--md-focus-ring-shape-end-start: var(--_container-shape-end-start)}:host([disabled]){pointer-events:none}.icon-button{place-items:center;background:none;border:none;box-sizing:border-box;cursor:pointer;display:flex;place-content:center;outline:none;padding:0;position:relative;text-decoration:none;user-select:none;z-index:0;flex:1;border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.icon ::slotted(*){font-size:var(--_icon-size);height:var(--_icon-size);width:var(--_icon-size);font-weight:inherit}md-ripple{z-index:-1;border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.flip-icon .icon{transform:scaleX(-1)}.icon{display:inline-flex}.link{height:100%;outline:none;position:absolute;width:100%}.touch{position:absolute;height:max(48px,100%);width:max(48px,100%)}:host([touch-target=none]) .touch{display:none}@media(forced-colors: active){:host([disabled]){--_disabled-icon-opacity: 1}}/*# sourceMappingURL=shared-styles.css.map */
+const styles$2 = i$8`:host{display:inline-flex;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);height:var(--_container-height);width:var(--_container-width);justify-content:center}:host([touch-target=wrapper]){margin:max(0px,(48px - var(--_container-height))/2) max(0px,(48px - var(--_container-width))/2)}md-focus-ring{--md-focus-ring-shape-start-start: var(--_container-shape-start-start);--md-focus-ring-shape-start-end: var(--_container-shape-start-end);--md-focus-ring-shape-end-end: var(--_container-shape-end-end);--md-focus-ring-shape-end-start: var(--_container-shape-end-start)}:host([disabled]){pointer-events:none}.icon-button{place-items:center;background:none;border:none;box-sizing:border-box;cursor:pointer;display:flex;place-content:center;outline:none;padding:0;position:relative;text-decoration:none;user-select:none;z-index:0;flex:1;border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.icon ::slotted(*){font-size:var(--_icon-size);height:var(--_icon-size);width:var(--_icon-size);font-weight:inherit}md-ripple{z-index:-1;border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.flip-icon .icon{transform:scaleX(-1)}.icon{display:inline-flex}.link{height:100%;outline:none;position:absolute;width:100%}.touch{position:absolute;height:max(48px,100%);width:max(48px,100%)}:host([touch-target=none]) .touch{display:none}@media(forced-colors: active){:host([disabled]){--_disabled-icon-opacity: 1}}/*# sourceMappingURL=shared-styles.css.map */
 `
 
 /**
@@ -26140,7 +27451,7 @@ const styles$2 = i$4`:host{display:inline-flex;outline:none;-webkit-tap-highligh
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$1 = i$4`:host{--_disabled-icon-color: var(--md-icon-button-disabled-icon-color, var(--md-sys-color-on-surface, #1d1b20));--_disabled-icon-opacity: var(--md-icon-button-disabled-icon-opacity, 0.38);--_icon-size: var(--md-icon-button-icon-size, 24px);--_selected-focus-icon-color: var(--md-icon-button-selected-focus-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-icon-color: var(--md-icon-button-selected-hover-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-color: var(--md-icon-button-selected-hover-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-opacity: var(--md-icon-button-selected-hover-state-layer-opacity, 0.08);--_selected-icon-color: var(--md-icon-button-selected-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-icon-color: var(--md-icon-button-selected-pressed-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-color: var(--md-icon-button-selected-pressed-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-opacity: var(--md-icon-button-selected-pressed-state-layer-opacity, 0.12);--_state-layer-height: var(--md-icon-button-state-layer-height, 40px);--_state-layer-shape: var(--md-icon-button-state-layer-shape, 9999px);--_state-layer-width: var(--md-icon-button-state-layer-width, 40px);--_focus-icon-color: var(--md-icon-button-focus-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_hover-icon-color: var(--md-icon-button-hover-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_hover-state-layer-color: var(--md-icon-button-hover-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_hover-state-layer-opacity: var(--md-icon-button-hover-state-layer-opacity, 0.08);--_icon-color: var(--md-icon-button-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_pressed-icon-color: var(--md-icon-button-pressed-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_pressed-state-layer-color: var(--md-icon-button-pressed-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_pressed-state-layer-opacity: var(--md-icon-button-pressed-state-layer-opacity, 0.12);--_container-shape-start-start: 0;--_container-shape-start-end: 0;--_container-shape-end-end: 0;--_container-shape-end-start: 0;--_container-height: 0;--_container-width: 0;height:var(--_state-layer-height);width:var(--_state-layer-width)}:host([touch-target=wrapper]){margin:max(0px,(48px - var(--_state-layer-height))/2) max(0px,(48px - var(--_state-layer-width))/2)}md-focus-ring{--md-focus-ring-shape-start-start: var(--_state-layer-shape);--md-focus-ring-shape-start-end: var(--_state-layer-shape);--md-focus-ring-shape-end-end: var(--_state-layer-shape);--md-focus-ring-shape-end-start: var(--_state-layer-shape)}.standard{background-color:rgba(0,0,0,0);color:var(--_icon-color);--md-ripple-hover-color: var(--_hover-state-layer-color);--md-ripple-hover-opacity: var(--_hover-state-layer-opacity);--md-ripple-pressed-color: var(--_pressed-state-layer-color);--md-ripple-pressed-opacity: var(--_pressed-state-layer-opacity)}.standard:hover{color:var(--_hover-icon-color)}.standard:focus{color:var(--_focus-icon-color)}.standard:active{color:var(--_pressed-icon-color)}.standard:disabled{color:var(--_disabled-icon-color)}md-ripple{border-radius:var(--_state-layer-shape)}.standard:disabled .icon{opacity:var(--_disabled-icon-opacity)}.selected{--md-ripple-hover-color: var(--_selected-hover-state-layer-color);--md-ripple-hover-opacity: var(--_selected-hover-state-layer-opacity);--md-ripple-pressed-color: var(--_selected-pressed-state-layer-color);--md-ripple-pressed-opacity: var(--_selected-pressed-state-layer-opacity)}.selected:not(:disabled){color:var(--_selected-icon-color)}.selected:not(:disabled):hover{color:var(--_selected-hover-icon-color)}.selected:not(:disabled):focus{color:var(--_selected-focus-icon-color)}.selected:not(:disabled):active{color:var(--_selected-pressed-icon-color)}/*# sourceMappingURL=standard-styles.css.map */
+const styles$1 = i$8`:host{--_disabled-icon-color: var(--md-icon-button-disabled-icon-color, var(--md-sys-color-on-surface, #1d1b20));--_disabled-icon-opacity: var(--md-icon-button-disabled-icon-opacity, 0.38);--_icon-size: var(--md-icon-button-icon-size, 24px);--_selected-focus-icon-color: var(--md-icon-button-selected-focus-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-icon-color: var(--md-icon-button-selected-hover-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-color: var(--md-icon-button-selected-hover-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-opacity: var(--md-icon-button-selected-hover-state-layer-opacity, 0.08);--_selected-icon-color: var(--md-icon-button-selected-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-icon-color: var(--md-icon-button-selected-pressed-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-color: var(--md-icon-button-selected-pressed-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-opacity: var(--md-icon-button-selected-pressed-state-layer-opacity, 0.12);--_state-layer-height: var(--md-icon-button-state-layer-height, 40px);--_state-layer-shape: var(--md-icon-button-state-layer-shape, 9999px);--_state-layer-width: var(--md-icon-button-state-layer-width, 40px);--_focus-icon-color: var(--md-icon-button-focus-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_hover-icon-color: var(--md-icon-button-hover-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_hover-state-layer-color: var(--md-icon-button-hover-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_hover-state-layer-opacity: var(--md-icon-button-hover-state-layer-opacity, 0.08);--_icon-color: var(--md-icon-button-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_pressed-icon-color: var(--md-icon-button-pressed-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_pressed-state-layer-color: var(--md-icon-button-pressed-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_pressed-state-layer-opacity: var(--md-icon-button-pressed-state-layer-opacity, 0.12);--_container-shape-start-start: 0;--_container-shape-start-end: 0;--_container-shape-end-end: 0;--_container-shape-end-start: 0;--_container-height: 0;--_container-width: 0;height:var(--_state-layer-height);width:var(--_state-layer-width)}:host([touch-target=wrapper]){margin:max(0px,(48px - var(--_state-layer-height))/2) max(0px,(48px - var(--_state-layer-width))/2)}md-focus-ring{--md-focus-ring-shape-start-start: var(--_state-layer-shape);--md-focus-ring-shape-start-end: var(--_state-layer-shape);--md-focus-ring-shape-end-end: var(--_state-layer-shape);--md-focus-ring-shape-end-start: var(--_state-layer-shape)}.standard{background-color:rgba(0,0,0,0);color:var(--_icon-color);--md-ripple-hover-color: var(--_hover-state-layer-color);--md-ripple-hover-opacity: var(--_hover-state-layer-opacity);--md-ripple-pressed-color: var(--_pressed-state-layer-color);--md-ripple-pressed-opacity: var(--_pressed-state-layer-opacity)}.standard:hover{color:var(--_hover-icon-color)}.standard:focus{color:var(--_focus-icon-color)}.standard:active{color:var(--_pressed-icon-color)}.standard:disabled{color:var(--_disabled-icon-color)}md-ripple{border-radius:var(--_state-layer-shape)}.standard:disabled .icon{opacity:var(--_disabled-icon-opacity)}.selected{--md-ripple-hover-color: var(--_selected-hover-state-layer-color);--md-ripple-hover-opacity: var(--_selected-hover-state-layer-opacity);--md-ripple-pressed-color: var(--_selected-pressed-state-layer-color);--md-ripple-pressed-opacity: var(--_selected-pressed-state-layer-opacity)}.selected:not(:disabled){color:var(--_selected-icon-color)}.selected:not(:disabled):hover{color:var(--_selected-hover-icon-color)}.selected:not(:disabled):focus{color:var(--_selected-focus-icon-color)}.selected:not(:disabled):active{color:var(--_selected-pressed-icon-color)}/*# sourceMappingURL=standard-styles.css.map */
 `
 
 /**
@@ -26172,7 +27483,7 @@ let MdIconButton = class MdIconButton extends IconButton {
   }
 }
 MdIconButton.styles = [styles$2, styles$1]
-MdIconButton = __decorate([t$3('md-icon-button')], MdIconButton)
+MdIconButton = __decorate([t$9('md-icon-button')], MdIconButton)
 
 /**
  * @license
@@ -26182,9 +27493,9 @@ MdIconButton = __decorate([t$3('md-icon-button')], MdIconButton)
 /**
  * TODO(b/265336902): add docs
  */
-class Icon extends s$1 {
+class Icon extends s$9 {
   render() {
-    return x`<slot></slot>`
+    return x$1`<slot></slot>`
   }
   connectedCallback() {
     super.connectedCallback()
@@ -26206,7 +27517,7 @@ class Icon extends s$1 {
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles = i$4`:host{font-size:24px;width:24px;height:24px;color:inherit;font-variation-settings:inherit;font-weight:400;font-family:var(--md-icon-font, Material Symbols Outlined);display:inline-flex;font-style:normal;line-height:1;overflow:hidden;letter-spacing:normal;text-transform:none;user-select:none;white-space:nowrap;word-wrap:normal;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-moz-osx-font-smoothing:grayscale}::slotted(svg){fill:currentColor}::slotted(*){height:100%;width:100%}/*# sourceMappingURL=icon-styles.css.map */
+const styles = i$8`:host{font-size:24px;width:24px;height:24px;color:inherit;font-variation-settings:inherit;font-weight:400;font-family:var(--md-icon-font, Material Symbols Outlined);display:inline-flex;font-style:normal;line-height:1;overflow:hidden;letter-spacing:normal;text-transform:none;user-select:none;white-space:nowrap;word-wrap:normal;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-moz-osx-font-smoothing:grayscale}::slotted(svg){fill:currentColor}::slotted(*){height:100%;width:100%}/*# sourceMappingURL=icon-styles.css.map */
 `
 
 /**
@@ -26221,9 +27532,9 @@ const styles = i$4`:host{font-size:24px;width:24px;height:24px;color:inherit;fon
 let MdIcon = class MdIcon extends Icon {}
 /** @nocollapse */
 MdIcon.styles = [styles]
-MdIcon = __decorate([t$3('md-icon')], MdIcon)
+MdIcon = __decorate([t$9('md-icon')], MdIcon)
 
-let CollapseUi = class CollapseUi extends s$8 {
+let CollapseUi = class CollapseUi extends s$4 {
   constructor() {
     super(...arguments)
     this.service = connectState_1(
@@ -26233,7 +27544,7 @@ let CollapseUi = class CollapseUi extends s$8 {
     )
   }
   render() {
-    return y$2`
+    return y`
       <md-icon-button @click=${this.toggleUi}>
         <img src="${optimizedSVGDataUri$6}" alt="toggle" class="icon" />
       </md-icon-button>
@@ -26243,12 +27554,12 @@ let CollapseUi = class CollapseUi extends s$8 {
     this.service.value.send('TOGGLE_UI_COLLAPSED')
   }
 }
-CollapseUi.styles = i$8`
+CollapseUi.styles = i$4`
     .icon {
       width: 100%;
     }
   `
-CollapseUi = __decorate([e$g('collapse-ui')], CollapseUi)
+CollapseUi = __decorate([e$7('collapse-ui')], CollapseUi)
 
 function updateDrawer(context) {
   context.drawer.opened = !context.uiCollapsed

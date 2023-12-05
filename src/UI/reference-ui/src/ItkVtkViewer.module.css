@@ -849,3 +849,8 @@ select:focus {
 .inputLabel {
   line-height: 1.7;
 }
+
+.saveDialog label {
+  display: flex;
+  align-items: center;
+}

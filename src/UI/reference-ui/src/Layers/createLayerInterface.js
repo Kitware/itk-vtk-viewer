@@ -1,3 +1,6 @@
+import '@material/web/dialog/dialog.js'
+import '@material/web/button/text-button.js'
+import '@material/web/radio/radio.js'
 import {
   invisibleIconDataUri,
   boundingBoxIconDataUri,
@@ -100,6 +103,49 @@ function createLayerEntry(context, name, layer) {
   })
 
   // if (context.layers.showSaveRoiButton) {
+
+  const dialog = makeHtml(`
+    <md-dialog class="${style.saveDialog}">
+      <div slot="headline">Choose save file format</div>
+      <form id="save-form" slot="content" method="dialog">
+        <label>
+          <md-radio name="pet" value="cats" aria-label="Cats" touch-target="wrapper" checked></md-radio>
+          <span aria-hidden="true">Cats</span>
+        </label>
+        <label>
+          <md-radio name="pet" value="dogs" aria-label="Dogs" touch-target="wrapper"></md-radio>
+          <span aria-hidden="true">Dogs</span>
+        </label>
+        <label>
+          <md-radio name="pet" value="birds" aria-label="Birds" touch-target="wrapper"></md-radio>
+          <span aria-hidden="true">Birds</span>
+        </label>
+      </form>
+      <div slot="actions">
+        <md-text-button form="save-form" value="cancel">Cancel</md-text-button>
+        <md-text-button form="save-form" autofocus value="ok">OK</md-text-button>
+      </div>
+    </md-dialog>
+  `)
+
+  imageIcons.appendChild(dialog)
+
+  dialog.addEventListener('close', () => {
+    const okClicked = dialog.returnValue === 'ok'
+
+    if (okClicked) {
+      const format = document.querySelector('md-radio[name="pet"]').value
+      console.log('format', format)
+      context.service.send({
+        type: 'DOWNLOAD_IMAGE',
+        data: {
+          name: context.images.selectedName,
+          layerName: name,
+        },
+      })
+    }
+  })
+
   const downloadImage = document.createElement('div')
   downloadImage.innerHTML = `
   <input type="checkbox" checked id=${context.id}-download-image" class="${style.toggleInput}" />
@@ -118,16 +164,8 @@ function createLayerEntry(context, name, layer) {
   downloadImage.addEventListener('click', event => {
     event.preventDefault()
     event.stopPropagation()
-    // context.service.send({
-    //   type: 'DOWNLOAD_IMAGE',
-    //   data: {
-    //     name: context.images.selectedName,
-    //     layerName: name,
-    //   },
-    // })
-    console.log('Download image')
+    dialog.show()
   })
-  // }
 
   const icon = makeHtml(`<layer-icon class="${style.layerIcon}"></layer-icon>`)
   icon.layer = layer

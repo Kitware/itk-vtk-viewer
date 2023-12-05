@@ -2729,27 +2729,22 @@ function __decorate(decorators, target, key, desc) {
   return c > 3 && r && Object.defineProperty(target, key, r), r
 }
 
-function __metadata(metadataKey, metadataValue) {
-  if (typeof Reflect === 'object' && typeof Reflect.metadata === 'function')
-    return Reflect.metadata(metadataKey, metadataValue)
-}
-
 /**
  * @license
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$5 = window,
-  e$c =
-    t$5.ShadowRoot &&
-    (void 0 === t$5.ShadyCSS || t$5.ShadyCSS.nativeShadow) &&
+const t$9 = window,
+  e$j =
+    t$9.ShadowRoot &&
+    (void 0 === t$9.ShadyCSS || t$9.ShadyCSS.nativeShadow) &&
     'adoptedStyleSheets' in Document.prototype &&
     'replace' in CSSStyleSheet.prototype,
-  s$7 = Symbol(),
-  n$8 = new WeakMap()
-class o$9 {
+  s$b = Symbol(),
+  n$d = new WeakMap()
+class o$f {
   constructor(t, e, n) {
-    if (((this._$cssResult$ = !0), n !== s$7))
+    if (((this._$cssResult$ = !0), n !== s$b))
       throw Error(
         'CSSResult is not constructable. Use `unsafeCSS` or `css` instead.'
       )
@@ -2758,12 +2753,12 @@ class o$9 {
   get styleSheet() {
     let t = this.o
     const s = this.t
-    if (e$c && void 0 === t) {
+    if (e$j && void 0 === t) {
       const e = void 0 !== s && 1 === s.length
-      e && (t = n$8.get(s)),
+      e && (t = n$d.get(s)),
         void 0 === t &&
           ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText),
-          e && n$8.set(s, t))
+          e && n$d.set(s, t))
     }
     return t
   }
@@ -2771,8 +2766,8 @@ class o$9 {
     return this.cssText
   }
 }
-const r$4 = t => new o$9('string' == typeof t ? t : t + '', void 0, s$7),
-  i$5 = (t, ...e) => {
+const r$b = t => new o$f('string' == typeof t ? t : t + '', void 0, s$b),
+  i$8 = (t, ...e) => {
     const n =
       1 === t.length
         ? t[0]
@@ -2791,29 +2786,29 @@ const r$4 = t => new o$9('string' == typeof t ? t : t + '', void 0, s$7),
               t[n + 1],
             t[0]
           )
-    return new o$9(n, t, s$7)
+    return new o$f(n, t, s$b)
   },
-  S$1 = (s, n) => {
-    e$c
+  S$3 = (s, n) => {
+    e$j
       ? (s.adoptedStyleSheets = n.map(t =>
           t instanceof CSSStyleSheet ? t : t.styleSheet
         ))
       : n.forEach(e => {
           const n = document.createElement('style'),
-            o = t$5.litNonce
+            o = t$9.litNonce
           void 0 !== o && n.setAttribute('nonce', o),
             (n.textContent = e.cssText),
             s.appendChild(n)
         })
   },
-  c$2 = e$c
+  c$5 = e$j
     ? t => t
     : t =>
         t instanceof CSSStyleSheet
           ? (t => {
               let e = ''
               for (const s of t.cssRules) e += s.cssText
-              return r$4(e)
+              return r$b(e)
             })(t)
           : t
 
@@ -2821,16 +2816,16 @@ const r$4 = t => new o$9('string' == typeof t ? t : t + '', void 0, s$7),
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ var s$6
-const e$b = window,
-  r$3 = e$b.trustedTypes,
-  h$3 = r$3 ? r$3.emptyScript : '',
-  o$8 = e$b.reactiveElementPolyfillSupport,
-  n$7 = {
+ */ var s$a
+const e$i = window,
+  r$a = e$i.trustedTypes,
+  h$5 = r$a ? r$a.emptyScript : '',
+  o$e = e$i.reactiveElementPolyfillSupport,
+  n$c = {
     toAttribute(t, i) {
       switch (i) {
         case Boolean:
-          t = t ? h$3 : null
+          t = t ? h$5 : null
           break
         case Object:
         case Array:
@@ -2858,15 +2853,15 @@ const e$b = window,
       return s
     },
   },
-  a$1 = (t, i) => i !== t && (i == i || t == t),
-  l$5 = {
+  a$4 = (t, i) => i !== t && (i == i || t == t),
+  l$6 = {
     attribute: !0,
     type: String,
-    converter: n$7,
+    converter: n$c,
     reflect: !1,
-    hasChanged: a$1,
+    hasChanged: a$4,
   }
-class d$1 extends HTMLElement {
+class d$3 extends HTMLElement {
   constructor() {
     super(),
       (this._$Ei = new Map()),
@@ -2891,7 +2886,7 @@ class d$1 extends HTMLElement {
       t
     )
   }
-  static createProperty(t, i = l$5) {
+  static createProperty(t, i = l$6) {
     if (
       (i.state && (i.attribute = !1),
       this.finalize(),
@@ -2917,7 +2912,7 @@ class d$1 extends HTMLElement {
     }
   }
   static getPropertyOptions(t) {
-    return this.elementProperties.get(t) || l$5
+    return this.elementProperties.get(t) || l$6
   }
   static finalize() {
     if (this.hasOwnProperty('finalized')) return !1
@@ -2943,8 +2938,8 @@ class d$1 extends HTMLElement {
     const s = []
     if (Array.isArray(i)) {
       const e = new Set(i.flat(1 / 0).reverse())
-      for (const i of e) s.unshift(c$2(i))
-    } else void 0 !== i && s.push(c$2(i))
+      for (const i of e) s.unshift(c$5(i))
+    } else void 0 !== i && s.push(c$5(i))
     return s
   }
   static _$Ep(t, i) {
@@ -2991,7 +2986,7 @@ class d$1 extends HTMLElement {
       null !== (t = this.shadowRoot) && void 0 !== t
         ? t
         : this.attachShadow(this.constructor.shadowRootOptions)
-    return S$1(s, this.constructor.elementStyles), s
+    return S$3(s, this.constructor.elementStyles), s
   }
   connectedCallback() {
     var t
@@ -3021,14 +3016,14 @@ class d$1 extends HTMLElement {
   attributeChangedCallback(t, i, s) {
     this._$AK(t, s)
   }
-  _$EO(t, i, s = l$5) {
+  _$EO(t, i, s = l$6) {
     var e
     const r = this.constructor._$Ep(t, s)
     if (void 0 !== r && !0 === s.reflect) {
       const h = (void 0 !==
       (null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute)
         ? s.converter
-        : n$7
+        : n$c
       ).toAttribute(i, s.type)
       ;(this._$El = t),
         null == h ? this.removeAttribute(r) : this.setAttribute(r, h),
@@ -3049,7 +3044,7 @@ class d$1 extends HTMLElement {
                 ? void 0
                 : s.fromAttribute)
             ? t.converter
-            : n$7
+            : n$c
       ;(this._$El = r),
         (this[r] = h.fromAttribute(i, t.type)),
         (this._$El = null)
@@ -3058,7 +3053,7 @@ class d$1 extends HTMLElement {
   requestUpdate(t, i, s) {
     let e = !0
     void 0 !== t &&
-      (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || a$1)(
+      (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || a$4)(
         this[t],
         i
       )
@@ -3143,14 +3138,14 @@ class d$1 extends HTMLElement {
   updated(t) {}
   firstUpdated(t) {}
 }
-;(d$1.finalized = !0),
-  (d$1.elementProperties = new Map()),
-  (d$1.elementStyles = []),
-  (d$1.shadowRootOptions = { mode: 'open' }),
-  null == o$8 || o$8({ ReactiveElement: d$1 }),
-  (null !== (s$6 = e$b.reactiveElementVersions) && void 0 !== s$6
-    ? s$6
-    : (e$b.reactiveElementVersions = [])
+;(d$3.finalized = !0),
+  (d$3.elementProperties = new Map()),
+  (d$3.elementStyles = []),
+  (d$3.shadowRootOptions = { mode: 'open' }),
+  null == o$e || o$e({ ReactiveElement: d$3 }),
+  (null !== (s$a = e$i.reactiveElementVersions) && void 0 !== s$a
+    ? s$a
+    : (e$i.reactiveElementVersions = [])
   ).push('1.6.1')
 
 /**
@@ -3158,41 +3153,41 @@ class d$1 extends HTMLElement {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-var t$4
-const i$4 = window,
-  s$5 = i$4.trustedTypes,
-  e$a = s$5 ? s$5.createPolicy('lit-html', { createHTML: t => t }) : void 0,
-  o$7 = `lit$${(Math.random() + '').slice(9)}$`,
-  n$6 = '?' + o$7,
-  l$4 = `<${n$6}>`,
-  h$2 = document,
-  r$2 = (t = '') => h$2.createComment(t),
-  d = t => null === t || ('object' != typeof t && 'function' != typeof t),
-  u = Array.isArray,
-  c$1 = t =>
-    u(t) || 'function' == typeof (null == t ? void 0 : t[Symbol.iterator]),
-  v = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
-  a = /-->/g,
-  f = />/g,
-  _ = RegExp(
+var t$8
+const i$7 = window,
+  s$9 = i$7.trustedTypes,
+  e$h = s$9 ? s$9.createPolicy('lit-html', { createHTML: t => t }) : void 0,
+  o$d = `lit$${(Math.random() + '').slice(9)}$`,
+  n$b = '?' + o$d,
+  l$5 = `<${n$b}>`,
+  h$4 = document,
+  r$9 = (t = '') => h$4.createComment(t),
+  d$2 = t => null === t || ('object' != typeof t && 'function' != typeof t),
+  u$2 = Array.isArray,
+  c$4 = t =>
+    u$2(t) || 'function' == typeof (null == t ? void 0 : t[Symbol.iterator]),
+  v$1 = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
+  a$3 = /-->/g,
+  f$2 = />/g,
+  _$1 = RegExp(
     '>|[ \t\n\f\r](?:([^\\s"\'>=/]+)([ \t\n\f\r]*=[ \t\n\f\r]*(?:[^ \t\n\f\r"\'`<>=]|("|\')|))|$)',
     'g'
   ),
-  m = /'/g,
-  p = /"/g,
-  $ = /^(?:script|style|textarea|title)$/i,
-  g = t => (i, ...s) => ({ _$litType$: t, strings: i, values: s }),
-  y = g(1),
-  x = Symbol.for('lit-noChange'),
-  b = Symbol.for('lit-nothing'),
-  T = new WeakMap(),
-  A = h$2.createTreeWalker(h$2, 129, null, !1),
-  E = (t, i) => {
+  m$1 = /'/g,
+  p$2 = /"/g,
+  $$1 = /^(?:script|style|textarea|title)$/i,
+  g$1 = t => (i, ...s) => ({ _$litType$: t, strings: i, values: s }),
+  y$2 = g$1(1),
+  x$1 = Symbol.for('lit-noChange'),
+  b$1 = Symbol.for('lit-nothing'),
+  T$1 = new WeakMap(),
+  A$1 = h$4.createTreeWalker(h$4, 129, null, !1),
+  E$1 = (t, i) => {
     const s = t.length - 1,
       n = []
     let h,
       r = 2 === i ? '<svg>' : '',
-      d = v
+      d = v$1
     for (let i = 0; i < s; i++) {
       const s = t[i]
       let e,
@@ -3201,41 +3196,41 @@ const i$4 = window,
         g = 0
       for (; g < s.length && ((d.lastIndex = g), (u = d.exec(s)), null !== u); )
         (g = d.lastIndex),
-          d === v
+          d === v$1
             ? '!--' === u[1]
-              ? (d = a)
+              ? (d = a$3)
               : void 0 !== u[1]
-              ? (d = f)
+              ? (d = f$2)
               : void 0 !== u[2]
-              ? ($.test(u[2]) && (h = RegExp('</' + u[2], 'g')), (d = _))
-              : void 0 !== u[3] && (d = _)
-            : d === _
+              ? ($$1.test(u[2]) && (h = RegExp('</' + u[2], 'g')), (d = _$1))
+              : void 0 !== u[3] && (d = _$1)
+            : d === _$1
             ? '>' === u[0]
-              ? ((d = null != h ? h : v), (c = -1))
+              ? ((d = null != h ? h : v$1), (c = -1))
               : void 0 === u[1]
               ? (c = -2)
               : ((c = d.lastIndex - u[2].length),
                 (e = u[1]),
-                (d = void 0 === u[3] ? _ : '"' === u[3] ? p : m))
-            : d === p || d === m
-            ? (d = _)
-            : d === a || d === f
-            ? (d = v)
-            : ((d = _), (h = void 0))
-      const y = d === _ && t[i + 1].startsWith('/>') ? ' ' : ''
+                (d = void 0 === u[3] ? _$1 : '"' === u[3] ? p$2 : m$1))
+            : d === p$2 || d === m$1
+            ? (d = _$1)
+            : d === a$3 || d === f$2
+            ? (d = v$1)
+            : ((d = _$1), (h = void 0))
+      const y = d === _$1 && t[i + 1].startsWith('/>') ? ' ' : ''
       r +=
-        d === v
-          ? s + l$4
+        d === v$1
+          ? s + l$5
           : c >= 0
-          ? (n.push(e), s.slice(0, c) + '$lit$' + s.slice(c) + o$7 + y)
-          : s + o$7 + (-2 === c ? (n.push(void 0), i) : y)
+          ? (n.push(e), s.slice(0, c) + '$lit$' + s.slice(c) + o$d + y)
+          : s + o$d + (-2 === c ? (n.push(void 0), i) : y)
     }
     const u = r + (t[s] || '<?>') + (2 === i ? '</svg>' : '')
     if (!Array.isArray(t) || !t.hasOwnProperty('raw'))
       throw Error('invalid template strings array')
-    return [void 0 !== e$a ? e$a.createHTML(u) : u, n]
+    return [void 0 !== e$h ? e$h.createHTML(u) : u, n]
   }
-class C {
+class C$1 {
   constructor({ strings: t, _$litType$: i }, e) {
     let l
     this.parts = []
@@ -3243,25 +3238,25 @@ class C {
       d = 0
     const u = t.length - 1,
       c = this.parts,
-      [v, a] = E(t, i)
+      [v, a] = E$1(t, i)
     if (
-      ((this.el = C.createElement(v, e)),
-      (A.currentNode = this.el.content),
+      ((this.el = C$1.createElement(v, e)),
+      (A$1.currentNode = this.el.content),
       2 === i)
     ) {
       const t = this.el.content,
         i = t.firstChild
       i.remove(), t.append(...i.childNodes)
     }
-    for (; null !== (l = A.nextNode()) && c.length < u; ) {
+    for (; null !== (l = A$1.nextNode()) && c.length < u; ) {
       if (1 === l.nodeType) {
         if (l.hasAttributes()) {
           const t = []
           for (const i of l.getAttributeNames())
-            if (i.endsWith('$lit$') || i.startsWith(o$7)) {
+            if (i.endsWith('$lit$') || i.startsWith(o$d)) {
               const s = a[d++]
               if ((t.push(i), void 0 !== s)) {
-                const t = l.getAttribute(s.toLowerCase() + '$lit$').split(o$7),
+                const t = l.getAttribute(s.toLowerCase() + '$lit$').split(o$d),
                   i = /([.?@])?(.*)/.exec(s)
                 c.push({
                   type: 1,
@@ -3269,49 +3264,55 @@ class C {
                   name: i[2],
                   strings: t,
                   ctor:
-                    '.' === i[1] ? M : '?' === i[1] ? k : '@' === i[1] ? H : S,
+                    '.' === i[1]
+                      ? M$1
+                      : '?' === i[1]
+                      ? k$1
+                      : '@' === i[1]
+                      ? H$1
+                      : S$2,
                 })
               } else c.push({ type: 6, index: h })
             }
           for (const i of t) l.removeAttribute(i)
         }
-        if ($.test(l.tagName)) {
-          const t = l.textContent.split(o$7),
+        if ($$1.test(l.tagName)) {
+          const t = l.textContent.split(o$d),
             i = t.length - 1
           if (i > 0) {
-            l.textContent = s$5 ? s$5.emptyScript : ''
+            l.textContent = s$9 ? s$9.emptyScript : ''
             for (let s = 0; s < i; s++)
-              l.append(t[s], r$2()),
-                A.nextNode(),
+              l.append(t[s], r$9()),
+                A$1.nextNode(),
                 c.push({ type: 2, index: ++h })
-            l.append(t[i], r$2())
+            l.append(t[i], r$9())
           }
         }
       } else if (8 === l.nodeType)
-        if (l.data === n$6) c.push({ type: 2, index: h })
+        if (l.data === n$b) c.push({ type: 2, index: h })
         else {
           let t = -1
-          for (; -1 !== (t = l.data.indexOf(o$7, t + 1)); )
-            c.push({ type: 7, index: h }), (t += o$7.length - 1)
+          for (; -1 !== (t = l.data.indexOf(o$d, t + 1)); )
+            c.push({ type: 7, index: h }), (t += o$d.length - 1)
         }
       h++
     }
   }
   static createElement(t, i) {
-    const s = h$2.createElement('template')
+    const s = h$4.createElement('template')
     return (s.innerHTML = t), s
   }
 }
-function P(t, i, s = t, e) {
+function P$1(t, i, s = t, e) {
   var o, n, l, h
-  if (i === x) return i
+  if (i === x$1) return i
   let r =
     void 0 !== e
       ? null === (o = s._$Co) || void 0 === o
         ? void 0
         : o[e]
       : s._$Cl
-  const u = d(i) ? void 0 : i._$litDirective$
+  const u = d$2(i) ? void 0 : i._$litDirective$
   return (
     (null == r ? void 0 : r.constructor) !== u &&
       (null === (n = null == r ? void 0 : r._$AO) ||
@@ -3323,11 +3324,11 @@ function P(t, i, s = t, e) {
             e
           ] = r)
         : (s._$Cl = r)),
-    void 0 !== r && (i = P(t, r._$AS(t, i.values), r, e)),
+    void 0 !== r && (i = P$1(t, r._$AS(t, i.values), r, e)),
     i
   )
 }
-class V {
+class V$1 {
   constructor(t, i) {
     ;(this.u = []), (this._$AN = void 0), (this._$AD = t), (this._$AM = i)
   }
@@ -3345,10 +3346,10 @@ class V {
       } = this._$AD,
       o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i
         ? i
-        : h$2
+        : h$4
       ).importNode(s, !0)
-    A.currentNode = o
-    let n = A.nextNode(),
+    A$1.currentNode = o
+    let n = A$1.nextNode(),
       l = 0,
       r = 0,
       d = e[0]
@@ -3356,14 +3357,14 @@ class V {
       if (l === d.index) {
         let i
         2 === d.type
-          ? (i = new N(n, n.nextSibling, this, t))
+          ? (i = new N$1(n, n.nextSibling, this, t))
           : 1 === d.type
           ? (i = new d.ctor(n, d.name, d.strings, this, t))
-          : 6 === d.type && (i = new I(n, this, t)),
+          : 6 === d.type && (i = new I$1(n, this, t)),
           this.u.push(i),
           (d = e[++r])
       }
-      l !== (null == d ? void 0 : d.index) && ((n = A.nextNode()), l++)
+      l !== (null == d ? void 0 : d.index) && ((n = A$1.nextNode()), l++)
     }
     return o
   }
@@ -3377,11 +3378,11 @@ class V {
         i++
   }
 }
-class N {
+class N$1 {
   constructor(t, i, s, e) {
     var o
     ;(this.type = 2),
-      (this._$AH = b),
+      (this._$AH = b$1),
       (this._$AN = void 0),
       (this._$AA = t),
       (this._$AB = i),
@@ -3410,16 +3411,16 @@ class N {
     return this._$AB
   }
   _$AI(t, i = this) {
-    ;(t = P(this, t, i)),
-      d(t)
-        ? t === b || null == t || '' === t
-          ? (this._$AH !== b && this._$AR(), (this._$AH = b))
-          : t !== this._$AH && t !== x && this.g(t)
+    ;(t = P$1(this, t, i)),
+      d$2(t)
+        ? t === b$1 || null == t || '' === t
+          ? (this._$AH !== b$1 && this._$AR(), (this._$AH = b$1))
+          : t !== this._$AH && t !== x$1 && this.g(t)
         : void 0 !== t._$litType$
         ? this.$(t)
         : void 0 !== t.nodeType
         ? this.T(t)
-        : c$1(t)
+        : c$4(t)
         ? this.k(t)
         : this.g(t)
   }
@@ -3430,9 +3431,9 @@ class N {
     this._$AH !== t && (this._$AR(), (this._$AH = this.O(t)))
   }
   g(t) {
-    this._$AH !== b && d(this._$AH)
+    this._$AH !== b$1 && d$2(this._$AH)
       ? (this._$AA.nextSibling.data = t)
-      : this.T(h$2.createTextNode(t)),
+      : this.T(h$4.createTextNode(t)),
       (this._$AH = t)
   }
   $(t) {
@@ -3441,27 +3442,30 @@ class N {
       o =
         'number' == typeof e
           ? this._$AC(t)
-          : (void 0 === e.el && (e.el = C.createElement(e.h, this.options)), e)
+          : (void 0 === e.el && (e.el = C$1.createElement(e.h, this.options)),
+            e)
     if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o)
       this._$AH.p(s)
     else {
-      const t = new V(o, this),
+      const t = new V$1(o, this),
         i = t.v(this.options)
       t.p(s), this.T(i), (this._$AH = t)
     }
   }
   _$AC(t) {
-    let i = T.get(t.strings)
-    return void 0 === i && T.set(t.strings, (i = new C(t))), i
+    let i = T$1.get(t.strings)
+    return void 0 === i && T$1.set(t.strings, (i = new C$1(t))), i
   }
   k(t) {
-    u(this._$AH) || ((this._$AH = []), this._$AR())
+    u$2(this._$AH) || ((this._$AH = []), this._$AR())
     const i = this._$AH
     let s,
       e = 0
     for (const o of t)
       e === i.length
-        ? i.push((s = new N(this.O(r$2()), this.O(r$2()), this, this.options)))
+        ? i.push(
+            (s = new N$1(this.O(r$9()), this.O(r$9()), this, this.options))
+          )
         : (s = i[e]),
         s._$AI(o),
         e++
@@ -3485,10 +3489,10 @@ class N {
       null === (i = this._$AP) || void 0 === i || i.call(this, t))
   }
 }
-class S {
+class S$2 {
   constructor(t, i, s, e, o) {
     ;(this.type = 1),
-      (this._$AH = b),
+      (this._$AH = b$1),
       (this._$AN = void 0),
       (this.element = t),
       (this.name = i),
@@ -3497,7 +3501,7 @@ class S {
       s.length > 2 || '' !== s[0] || '' !== s[1]
         ? ((this._$AH = Array(s.length - 1).fill(new String())),
           (this.strings = s))
-        : (this._$AH = b)
+        : (this._$AH = b$1)
   }
   get tagName() {
     return this.element.tagName
@@ -3509,61 +3513,65 @@ class S {
     const o = this.strings
     let n = !1
     if (void 0 === o)
-      (t = P(this, t, i, 0)),
-        (n = !d(t) || (t !== this._$AH && t !== x)),
+      (t = P$1(this, t, i, 0)),
+        (n = !d$2(t) || (t !== this._$AH && t !== x$1)),
         n && (this._$AH = t)
     else {
       const e = t
       let l, h
       for (t = o[0], l = 0; l < o.length - 1; l++)
-        (h = P(this, e[s + l], i, l)),
-          h === x && (h = this._$AH[l]),
-          n || (n = !d(h) || h !== this._$AH[l]),
-          h === b ? (t = b) : t !== b && (t += (null != h ? h : '') + o[l + 1]),
+        (h = P$1(this, e[s + l], i, l)),
+          h === x$1 && (h = this._$AH[l]),
+          n || (n = !d$2(h) || h !== this._$AH[l]),
+          h === b$1
+            ? (t = b$1)
+            : t !== b$1 && (t += (null != h ? h : '') + o[l + 1]),
           (this._$AH[l] = h)
     }
     n && !e && this.j(t)
   }
   j(t) {
-    t === b
+    t === b$1
       ? this.element.removeAttribute(this.name)
       : this.element.setAttribute(this.name, null != t ? t : '')
   }
 }
-class M extends S {
+class M$1 extends S$2 {
   constructor() {
     super(...arguments), (this.type = 3)
   }
   j(t) {
-    this.element[this.name] = t === b ? void 0 : t
+    this.element[this.name] = t === b$1 ? void 0 : t
   }
 }
-const R = s$5 ? s$5.emptyScript : ''
-class k extends S {
+const R$1 = s$9 ? s$9.emptyScript : ''
+class k$1 extends S$2 {
   constructor() {
     super(...arguments), (this.type = 4)
   }
   j(t) {
-    t && t !== b
-      ? this.element.setAttribute(this.name, R)
+    t && t !== b$1
+      ? this.element.setAttribute(this.name, R$1)
       : this.element.removeAttribute(this.name)
   }
 }
-class H extends S {
+class H$1 extends S$2 {
   constructor(t, i, s, e, o) {
     super(t, i, s, e, o), (this.type = 5)
   }
   _$AI(t, i = this) {
     var s
-    if ((t = null !== (s = P(this, t, i, 0)) && void 0 !== s ? s : b) === x)
+    if (
+      (t = null !== (s = P$1(this, t, i, 0)) && void 0 !== s ? s : b$1) === x$1
+    )
       return
     const e = this._$AH,
       o =
-        (t === b && e !== b) ||
+        (t === b$1 && e !== b$1) ||
         t.capture !== e.capture ||
         t.once !== e.once ||
         t.passive !== e.passive,
-      n = t !== b && (e === b || o)
+      n = t !== b$1 && (e === b$1 || o)
     o && this.element.removeEventListener(this.name, this, e),
       n && this.element.addEventListener(this.name, this, t),
       (this._$AH = t)
@@ -3583,7 +3591,7 @@ class H extends S {
       : this._$AH.handleEvent(t)
   }
 }
-class I {
+class I$1 {
   constructor(t, i, s) {
     ;(this.element = t),
       (this.type = 6),
@@ -3595,16 +3603,16 @@ class I {
     return this._$AM._$AU
   }
   _$AI(t) {
-    P(this, t)
+    P$1(this, t)
   }
 }
-const z = i$4.litHtmlPolyfillSupport
-null == z || z(C, N),
-  (null !== (t$4 = i$4.litHtmlVersions) && void 0 !== t$4
-    ? t$4
-    : (i$4.litHtmlVersions = [])
+const z = i$7.litHtmlPolyfillSupport
+null == z || z(C$1, N$1),
+  (null !== (t$8 = i$7.litHtmlVersions) && void 0 !== t$8
+    ? t$8
+    : (i$7.litHtmlVersions = [])
   ).push('2.6.1')
-const Z = (t, i, s) => {
+const Z$1 = (t, i, s) => {
   var e, o
   const n =
     null !== (e = null == s ? void 0 : s.renderBefore) && void 0 !== e ? e : i
@@ -3614,8 +3622,8 @@ const Z = (t, i, s) => {
       null !== (o = null == s ? void 0 : s.renderBefore) && void 0 !== o
         ? o
         : null
-    n._$litPart$ = l = new N(
-      i.insertBefore(r$2(), t),
+    n._$litPart$ = l = new N$1(
+      i.insertBefore(r$9(), t),
       t,
       void 0,
       null != s ? s : {}
@@ -3628,8 +3636,8 @@ const Z = (t, i, s) => {
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ var l$3, o$6
-class s$4 extends d$1 {
+ */ var l$4, o$c
+class s$8 extends d$3 {
   constructor() {
     super(...arguments),
       (this.renderOptions = { host: this }),
@@ -3648,7 +3656,7 @@ class s$4 extends d$1 {
     const i = this.render()
     this.hasUpdated || (this.renderOptions.isConnected = this.isConnected),
       super.update(t),
-      (this._$Do = Z(i, this.renderRoot, this.renderOptions))
+      (this._$Do = Z$1(i, this.renderRoot, this.renderOptions))
   }
   connectedCallback() {
     var t
@@ -3661,18 +3669,18 @@ class s$4 extends d$1 {
       null === (t = this._$Do) || void 0 === t || t.setConnected(!1)
   }
   render() {
-    return x
+    return x$1
   }
 }
-;(s$4.finalized = !0),
-  (s$4._$litElement$ = !0),
-  null === (l$3 = globalThis.litElementHydrateSupport) ||
-    void 0 === l$3 ||
-    l$3.call(globalThis, { LitElement: s$4 })
-const n$5 = globalThis.litElementPolyfillSupport
-null == n$5 || n$5({ LitElement: s$4 })
-;(null !== (o$6 = globalThis.litElementVersions) && void 0 !== o$6
-  ? o$6
+;(s$8.finalized = !0),
+  (s$8._$litElement$ = !0),
+  null === (l$4 = globalThis.litElementHydrateSupport) ||
+    void 0 === l$4 ||
+    l$4.call(globalThis, { LitElement: s$8 })
+const n$a = globalThis.litElementPolyfillSupport
+null == n$a || n$a({ LitElement: s$8 })
+;(null !== (o$c = globalThis.litElementVersions) && void 0 !== o$c
+  ? o$c
   : (globalThis.litElementVersions = [])
 ).push('3.2.2')
 
@@ -3681,7 +3689,7 @@ null == n$5 || n$5({ LitElement: s$4 })
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const e$9 = e => n =>
+const e$g = e => n =>
   'function' == typeof n
     ? ((e, n) => (customElements.define(e, n), n))(e, n)
     : ((e, n) => {
@@ -3700,7 +3708,7 @@ const e$9 = e => n =>
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const i$3 = (i, e) =>
+const i$6 = (i, e) =>
   'method' === e.kind && e.descriptor && !('value' in e.descriptor)
     ? {
         ...e,
@@ -3722,21 +3730,21 @@ const i$3 = (i, e) =>
           n.createProperty(e.key, i)
         },
       }
-function e$8(e) {
+function e$f(e) {
   return (n, t) =>
     void 0 !== t
       ? ((i, e, n) => {
           e.constructor.createProperty(n, i)
         })(e, n, t)
-      : i$3(e, n)
+      : i$6(e, n)
 }
 
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ function t$3(t) {
-  return e$8({ ...t, state: !0 })
+ */ function t$7(t) {
+  return e$f({ ...t, state: !0 })
 }
 
 /**
@@ -3744,7 +3752,7 @@ function e$8(e) {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const o$5 = ({ finisher: e, descriptor: t }) => (o, n) => {
+const o$b = ({ finisher: e, descriptor: t }) => (o, n) => {
   var r
   if (void 0 === n) {
     const n = null !== (r = o.originalKey) && void 0 !== r ? r : o.key,
@@ -3773,102 +3781,15 @@ const o$5 = ({ finisher: e, descriptor: t }) => (o, n) => {
 
 /**
  * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */ function i$2(i, n) {
-  return o$5({
-    descriptor: o => {
-      const t = {
-        get() {
-          var o, n
-          return null !==
-            (n =
-              null === (o = this.renderRoot) || void 0 === o
-                ? void 0
-                : o.querySelector(i)) && void 0 !== n
-            ? n
-            : null
-        },
-        enumerable: !0,
-        configurable: !0,
-      }
-      if (n) {
-        const n = 'symbol' == typeof o ? Symbol() : '__' + o
-        t.get = function() {
-          var o, t
-          return (
-            void 0 === this[n] &&
-              (this[n] =
-                null !==
-                  (t =
-                    null === (o = this.renderRoot) || void 0 === o
-                      ? void 0
-                      : o.querySelector(i)) && void 0 !== t
-                  ? t
-                  : null),
-            this[n]
-          )
-        }
-      }
-      return t
-    },
-  })
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-function e$7(e) {
-  return o$5({
-    descriptor: r => ({
-      async get() {
-        var r
-        return (
-          await this.updateComplete,
-          null === (r = this.renderRoot) || void 0 === r
-            ? void 0
-            : r.querySelector(e)
-        )
-      },
-      enumerable: !0,
-      configurable: !0,
-    }),
-  })
-}
-
-/**
- * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ var n$4
-const e$6 =
-  null !=
-  (null === (n$4 = window.HTMLSlotElement) || void 0 === n$4
-    ? void 0
-    : n$4.prototype.assignedElements)
-    ? (o, n) => o.assignedElements(n)
-    : (o, n) => o.assignedNodes(n).filter(o => o.nodeType === Node.ELEMENT_NODE)
-function l$2(n) {
-  const { slot: l, selector: t } = null != n ? n : {}
-  return o$5({
-    descriptor: o => ({
-      get() {
-        var o
-        const r = 'slot' + (l ? `[name=${l}]` : ':not([name])'),
-          i =
-            null === (o = this.renderRoot) || void 0 === o
-              ? void 0
-              : o.querySelector(r),
-          s = null != i ? e$6(i, n) : []
-        return t ? s.filter(o => o.matches(t)) : s
-      },
-      enumerable: !0,
-      configurable: !0,
-    }),
-  })
-}
+ */ var n$9
+null !=
+(null === (n$9 = window.HTMLSlotElement) || void 0 === n$9
+  ? void 0
+  : n$9.prototype.assignedElements)
+  ? (o, n) => o.assignedElements(n)
+  : (o, n) => o.assignedNodes(n).filter(o => o.nodeType === Node.ELEMENT_NODE)
 
 var selectState = {}
 
@@ -3877,7 +3798,7 @@ var selectState = {}
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-class s$3 extends Event {
+class s$7 extends Event {
   constructor(s, t, e) {
     super('context-request', { bubbles: !0, composed: !0 }),
       (this.context = s),
@@ -3891,7 +3812,7 @@ class s$3 extends Event {
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-function n$3(n) {
+function n$8(n) {
   return n
 }
 
@@ -3899,7 +3820,7 @@ function n$3(n) {
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ class s$2 {
+ */ class s$6 {
   constructor(t, s, i, h = !1) {
     ;(this.host = t),
       (this.context = s),
@@ -3917,7 +3838,7 @@ function n$3(n) {
   }
   dispatchRequest() {
     this.host.dispatchEvent(
-      new s$3(
+      new s$7(
         this.context,
         (t, s) => {
           this.unsubscribe &&
@@ -3941,7 +3862,7 @@ function n$3(n) {
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-class t$2 {
+class t$6 {
   constructor(t) {
     ;(this.callbacks = new Map()),
       (this.updateObservers = () => {
@@ -3976,12 +3897,12 @@ class t$2 {
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ class s$1 extends Event {
+ */ class s$5 extends Event {
   constructor(t) {
     super('context-provider', { bubbles: !0, composed: !0 }), (this.context = t)
   }
 }
-class e$5 extends t$2 {
+class e$e extends t$6 {
   constructor(t, s, e) {
     super(e),
       (this.host = t),
@@ -3998,7 +3919,7 @@ class e$5 extends t$2 {
     this.host.addEventListener('context-request', this.onContextRequest)
   }
   hostConnected() {
-    this.host.dispatchEvent(new s$1(this.context))
+    this.host.dispatchEvent(new s$5(this.context))
   }
 }
 
@@ -4006,7 +3927,7 @@ class e$5 extends t$2 {
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ class e$4 {
+ */ class e$d {
   constructor() {
     ;(this.pendingContextRequests = new Map()),
       (this.onContextProvider = e => {
@@ -4016,7 +3937,7 @@ class e$5 extends t$2 {
           s.forEach(s => {
             const c = s.element,
               i = s.callback
-            c && c.dispatchEvent(new s$3(e.context, i, !0))
+            c && c.dispatchEvent(new s$7(e.context, i, !0))
           }))
       }),
       (this.onContextRequest = t => {
@@ -4041,12 +3962,12 @@ class e$5 extends t$2 {
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ function o$4({ context: o }) {
-  return o$5({
+ */ function o$a({ context: o }) {
+  return o$b({
     finisher: (t, n) => {
       const r = new WeakMap()
       t.addInitializer(t => {
-        r.set(t, new e$5(t, o))
+        r.set(t, new e$e(t, o))
       })
       const i = Object.getOwnPropertyDescriptor(t.prototype, n),
         c = null == i ? void 0 : i.set,
@@ -4067,11 +3988,11 @@ class e$5 extends t$2 {
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ function t$1({ context: t, subscribe: o }) {
-  return o$5({
+ */ function t$5({ context: t, subscribe: o }) {
+  return o$b({
     finisher: (e, n) => {
       e.addInitializer(e => {
-        new s$2(
+        new s$6(
           e,
           t,
           r => {
@@ -4088,20 +4009,20 @@ class e$5 extends t$2 {
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ const e$3 = o$4,
-  r$1 = t$1
+ */ const e$c = o$a,
+  r$8 = t$5
 
 var context = /*#__PURE__*/ Object.freeze({
   __proto__: null,
-  contextProvided: r$1,
-  contextProvider: e$3,
-  ContextEvent: s$3,
-  createContext: n$3,
-  ContextConsumer: s$2,
-  ContextProvider: e$5,
-  ContextRoot: e$4,
-  provide: o$4,
-  consume: t$1,
+  contextProvided: r$8,
+  contextProvider: e$c,
+  ContextEvent: s$7,
+  createContext: n$8,
+  ContextConsumer: s$6,
+  ContextProvider: e$e,
+  ContextRoot: e$d,
+  provide: o$a,
+  consume: t$5,
 })
 
 var require$$0 = /*@__PURE__*/ getAugmentedNamespace(context)
@@ -4240,7 +4161,7 @@ const compareObjects = (obj1, obj2) =>
 selectState.compareObjects = compareObjects
 
 // "Inject" XState context into components with DOM events
-const viewerContext = n$3('viewer-context')
+const viewerContext = n$8('viewer-context')
 let appContext
 const setContext = context => {
   appContext = context
@@ -4250,14 +4171,14 @@ const setContext = context => {
  * @license
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ const e$2 = o => void 0 === o.strings
+ */ const e$b = o => void 0 === o.strings
 
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t = {
+const t$4 = {
     ATTRIBUTE: 1,
     CHILD: 2,
     PROPERTY: 3,
@@ -4265,8 +4186,8 @@ const t = {
     EVENT: 5,
     ELEMENT: 6,
   },
-  e$1 = t => (...e) => ({ _$litDirective$: t, values: e })
-class i$1 {
+  e$a = t => (...e) => ({ _$litDirective$: t, values: e })
+class i$5 {
   constructor(t) {}
   get _$AU() {
     return this._$AM._$AU
@@ -4286,54 +4207,56 @@ class i$1 {
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ const s = (i, t) => {
+ */ const s$4 = (i, t) => {
     var e, o
     const r = i._$AN
     if (void 0 === r) return !1
     for (const i of r)
-      null === (o = (e = i)._$AO) || void 0 === o || o.call(e, t, !1), s(i, t)
+      null === (o = (e = i)._$AO) || void 0 === o || o.call(e, t, !1), s$4(i, t)
     return !0
   },
-  o$3 = i => {
+  o$9 = i => {
     let t, e
     do {
       if (void 0 === (t = i._$AM)) break
       ;(e = t._$AN), e.delete(i), (i = t)
     } while (0 === (null == e ? void 0 : e.size))
   },
-  r = i => {
+  r$7 = i => {
     for (let t; (t = i._$AM); i = t) {
       let e = t._$AN
       if (void 0 === e) t._$AN = e = new Set()
       else if (e.has(i)) break
-      e.add(i), l$1(t)
+      e.add(i), l$3(t)
     }
   }
-function n$2(i) {
-  void 0 !== this._$AN ? (o$3(this), (this._$AM = i), r(this)) : (this._$AM = i)
+function n$7(i) {
+  void 0 !== this._$AN
+    ? (o$9(this), (this._$AM = i), r$7(this))
+    : (this._$AM = i)
 }
-function h$1(i, t = !1, e = 0) {
+function h$3(i, t = !1, e = 0) {
   const r = this._$AH,
     n = this._$AN
   if (void 0 !== n && 0 !== n.size)
     if (t)
       if (Array.isArray(r))
-        for (let i = e; i < r.length; i++) s(r[i], !1), o$3(r[i])
-      else null != r && (s(r, !1), o$3(r))
-    else s(this, i)
+        for (let i = e; i < r.length; i++) s$4(r[i], !1), o$9(r[i])
+      else null != r && (s$4(r, !1), o$9(r))
+    else s$4(this, i)
 }
-const l$1 = i => {
-  var t$1, s, o, r
-  i.type == t.CHILD &&
-    ((null !== (t$1 = (o = i)._$AP) && void 0 !== t$1) || (o._$AP = h$1),
-    (null !== (s = (r = i)._$AQ) && void 0 !== s) || (r._$AQ = n$2))
+const l$3 = i => {
+  var t, s, o, r
+  i.type == t$4.CHILD &&
+    ((null !== (t = (o = i)._$AP) && void 0 !== t) || (o._$AP = h$3),
+    (null !== (s = (r = i)._$AQ) && void 0 !== s) || (r._$AQ = n$7))
 }
-class c extends i$1 {
+class c$3 extends i$5 {
   constructor() {
     super(...arguments), (this._$AN = void 0)
   }
   _$AT(i, t, e) {
-    super._$AT(i, t, e), r(this), (this.isConnected = i._$AU)
+    super._$AT(i, t, e), r$7(this), (this.isConnected = i._$AU)
   }
   _$AO(i, t = !0) {
     var e, r
@@ -4342,10 +4265,10 @@ class c extends i$1 {
       i
         ? null === (e = this.reconnected) || void 0 === e || e.call(this)
         : null === (r = this.disconnected) || void 0 === r || r.call(this)),
-      t && (s(this, i), o$3(this))
+      t && (s$4(this, i), o$9(this))
   }
   setValue(t) {
-    if (e$2(this._$Ct)) this._$Ct._$AI(t, this)
+    if (e$b(this._$Ct)) this._$Ct._$AI(t, this)
     else {
       const i = [...this._$Ct._$AH]
       ;(i[this._$Ci] = t), this._$Ct._$AI(i, this, 0)
@@ -4359,13 +4282,13 @@ class c extends i$1 {
  * @license
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ const e = () => new o$2()
-class o$2 {}
-const h = new WeakMap(),
-  n$1 = e$1(
-    class extends c {
+ */ const e$9 = () => new o$8()
+class o$8 {}
+const h$2 = new WeakMap(),
+  n$6 = e$a(
+    class extends c$3 {
       render(t) {
-        return b
+        return b$1
       }
       update(t, [s]) {
         var e
@@ -4377,15 +4300,15 @@ const h = new WeakMap(),
             (this.dt =
               null === (e = t.options) || void 0 === e ? void 0 : e.host),
             this.rt((this.ct = t.element))),
-          b
+          b$1
         )
       }
       rt(i) {
         var t
         if ('function' == typeof this.Y) {
           const s = null !== (t = this.dt) && void 0 !== t ? t : globalThis
-          let e = h.get(s)
-          void 0 === e && ((e = new WeakMap()), h.set(s, e)),
+          let e = h$2.get(s)
+          void 0 === e && ((e = new WeakMap()), h$2.set(s, e)),
             void 0 !== e.get(this.Y) && this.Y.call(this.dt, void 0),
             e.set(this.Y, i),
             void 0 !== i && this.Y.call(this.dt, i)
@@ -4395,7 +4318,7 @@ const h = new WeakMap(),
         var i, t, s
         return 'function' == typeof this.Y
           ? null ===
-              (t = h.get(
+              (t = h$2.get(
                 null !== (i = this.dt) && void 0 !== i ? i : globalThis
               )) || void 0 === t
             ? void 0
@@ -4418,7 +4341,7 @@ const h = new WeakMap(),
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-function* o$1(o, f) {
+function* o$7(o, f) {
   if (void 0 !== o) {
     let i = 0
     for (const t of o) yield f(t, i++)
@@ -4427,469 +4350,1129 @@ function* o$1(o, f) {
 
 /**
  * @license
- * Copyright 2018 Google LLC
+ * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ const o = e$1(
-  class extends i$1 {
-    constructor(t$1) {
-      var i
-      if (
-        (super(t$1),
-        t$1.type !== t.ATTRIBUTE ||
-          'class' !== t$1.name ||
-          (null === (i = t$1.strings) || void 0 === i ? void 0 : i.length) > 2)
-      )
-        throw Error(
-          '`classMap()` can only be used in the `class` attribute and must be the only part in the attribute.'
-        )
-    }
-    render(t) {
-      return (
-        ' ' +
-        Object.keys(t)
-          .filter(i => t[i])
-          .join(' ') +
-        ' '
-      )
-    }
-    update(i, [s]) {
-      var r, o
-      if (void 0 === this.nt) {
-        ;(this.nt = new Set()),
-          void 0 !== i.strings &&
-            (this.st = new Set(
-              i.strings
-                .join(' ')
-                .split(/\s/)
-                .filter(t => '' !== t)
-            ))
-        for (const t in s)
-          s[t] &&
-            !(null === (r = this.st) || void 0 === r ? void 0 : r.has(t)) &&
-            this.nt.add(t)
-        return this.render(s)
-      }
-      const e = i.element.classList
-      this.nt.forEach(t => {
-        t in s || (e.remove(t), this.nt.delete(t))
+ */
+const t$3 = t => (e, o) => {
+  void 0 !== o
+    ? o.addInitializer(() => {
+        customElements.define(t, e)
       })
-      for (const t in s) {
-        const i = !!s[t]
-        i === this.nt.has(t) ||
-          (null === (o = this.st) || void 0 === o ? void 0 : o.has(t)) ||
-          (i ? (e.add(t), this.nt.add(t)) : (e.remove(t), this.nt.delete(t)))
+    : customElements.define(t, e)
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const t$2 = globalThis,
+  e$8 =
+    t$2.ShadowRoot &&
+    (void 0 === t$2.ShadyCSS || t$2.ShadyCSS.nativeShadow) &&
+    'adoptedStyleSheets' in Document.prototype &&
+    'replace' in CSSStyleSheet.prototype,
+  s$3 = Symbol(),
+  o$6 = new WeakMap()
+class n$5 {
+  constructor(t, e, o) {
+    if (((this._$cssResult$ = !0), o !== s$3))
+      throw Error(
+        'CSSResult is not constructable. Use `unsafeCSS` or `css` instead.'
+      )
+    ;(this.cssText = t), (this.t = e)
+  }
+  get styleSheet() {
+    let t = this.o
+    const s = this.t
+    if (e$8 && void 0 === t) {
+      const e = void 0 !== s && 1 === s.length
+      e && (t = o$6.get(s)),
+        void 0 === t &&
+          ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText),
+          e && o$6.set(s, t))
+    }
+    return t
+  }
+  toString() {
+    return this.cssText
+  }
+}
+const r$6 = t => new n$5('string' == typeof t ? t : t + '', void 0, s$3),
+  i$4 = (t, ...e) => {
+    const o =
+      1 === t.length
+        ? t[0]
+        : e.reduce(
+            (e, s, o) =>
+              e +
+              (t => {
+                if (!0 === t._$cssResult$) return t.cssText
+                if ('number' == typeof t) return t
+                throw Error(
+                  "Value passed to 'css' function must be a 'css' function result: " +
+                    t +
+                    ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security."
+                )
+              })(s) +
+              t[o + 1],
+            t[0]
+          )
+    return new n$5(o, t, s$3)
+  },
+  S$1 = (s, o) => {
+    if (e$8)
+      s.adoptedStyleSheets = o.map(t =>
+        t instanceof CSSStyleSheet ? t : t.styleSheet
+      )
+    else
+      for (const e of o) {
+        const o = document.createElement('style'),
+          n = t$2.litNonce
+        void 0 !== n && o.setAttribute('nonce', n),
+          (o.textContent = e.cssText),
+          s.appendChild(o)
       }
-      return x
+  },
+  c$2 = e$8
+    ? t => t
+    : t =>
+        t instanceof CSSStyleSheet
+          ? (t => {
+              let e = ''
+              for (const s of t.cssRules) e += s.cssText
+              return r$6(e)
+            })(t)
+          : t
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const {
+    is: i$3,
+    defineProperty: e$7,
+    getOwnPropertyDescriptor: r$5,
+    getOwnPropertyNames: h$1,
+    getOwnPropertySymbols: o$5,
+    getPrototypeOf: n$4,
+  } = Object,
+  a$2 = globalThis,
+  c$1 = a$2.trustedTypes,
+  l$2 = c$1 ? c$1.emptyScript : '',
+  p$1 = a$2.reactiveElementPolyfillSupport,
+  d$1 = (t, s) => t,
+  u$1 = {
+    toAttribute(t, s) {
+      switch (s) {
+        case Boolean:
+          t = t ? l$2 : null
+          break
+        case Object:
+        case Array:
+          t = null == t ? t : JSON.stringify(t)
+      }
+      return t
+    },
+    fromAttribute(t, s) {
+      let i = t
+      switch (s) {
+        case Boolean:
+          i = null !== t
+          break
+        case Number:
+          i = null === t ? null : Number(t)
+          break
+        case Object:
+        case Array:
+          try {
+            i = JSON.parse(t)
+          } catch (t) {
+            i = null
+          }
+      }
+      return i
+    },
+  },
+  f$1 = (t, s) => !i$3(t, s),
+  y$1 = {
+    attribute: !0,
+    type: String,
+    converter: u$1,
+    reflect: !1,
+    hasChanged: f$1,
+  }
+;(Symbol.metadata ??= Symbol('metadata')),
+  (a$2.litPropertyMetadata ??= new WeakMap())
+class b extends HTMLElement {
+  static addInitializer(t) {
+    this._$Ei(), (this.l ??= []).push(t)
+  }
+  static get observedAttributes() {
+    return this.finalize(), this._$Eh && [...this._$Eh.keys()]
+  }
+  static createProperty(t, s = y$1) {
+    if (
+      (s.state && (s.attribute = !1),
+      this._$Ei(),
+      this.elementProperties.set(t, s),
+      !s.noAccessor)
+    ) {
+      const i = Symbol(),
+        r = this.getPropertyDescriptor(t, i, s)
+      void 0 !== r && e$7(this.prototype, t, r)
     }
   }
+  static getPropertyDescriptor(t, s, i) {
+    const { get: e, set: h } = r$5(this.prototype, t) ?? {
+      get() {
+        return this[s]
+      },
+      set(t) {
+        this[s] = t
+      },
+    }
+    return {
+      get() {
+        return e?.call(this)
+      },
+      set(s) {
+        const r = e?.call(this)
+        h.call(this, s), this.requestUpdate(t, r, i)
+      },
+      configurable: !0,
+      enumerable: !0,
+    }
+  }
+  static getPropertyOptions(t) {
+    return this.elementProperties.get(t) ?? y$1
+  }
+  static _$Ei() {
+    if (this.hasOwnProperty(d$1('elementProperties'))) return
+    const t = n$4(this)
+    t.finalize(),
+      void 0 !== t.l && (this.l = [...t.l]),
+      (this.elementProperties = new Map(t.elementProperties))
+  }
+  static finalize() {
+    if (this.hasOwnProperty(d$1('finalized'))) return
+    if (
+      ((this.finalized = !0),
+      this._$Ei(),
+      this.hasOwnProperty(d$1('properties')))
+    ) {
+      const t = this.properties,
+        s = [...h$1(t), ...o$5(t)]
+      for (const i of s) this.createProperty(i, t[i])
+    }
+    const t = this[Symbol.metadata]
+    if (null !== t) {
+      const s = litPropertyMetadata.get(t)
+      if (void 0 !== s) for (const [t, i] of s) this.elementProperties.set(t, i)
+    }
+    this._$Eh = new Map()
+    for (const [t, s] of this.elementProperties) {
+      const i = this._$Eu(t, s)
+      void 0 !== i && this._$Eh.set(i, t)
+    }
+    this.elementStyles = this.finalizeStyles(this.styles)
+  }
+  static finalizeStyles(s) {
+    const i = []
+    if (Array.isArray(s)) {
+      const e = new Set(s.flat(1 / 0).reverse())
+      for (const s of e) i.unshift(c$2(s))
+    } else void 0 !== s && i.push(c$2(s))
+    return i
+  }
+  static _$Eu(t, s) {
+    const i = s.attribute
+    return !1 === i
+      ? void 0
+      : 'string' == typeof i
+      ? i
+      : 'string' == typeof t
+      ? t.toLowerCase()
+      : void 0
+  }
+  constructor() {
+    super(),
+      (this._$Ep = void 0),
+      (this.isUpdatePending = !1),
+      (this.hasUpdated = !1),
+      (this._$Em = null),
+      this._$Ev()
+  }
+  _$Ev() {
+    ;(this._$Eg = new Promise(t => (this.enableUpdating = t))),
+      (this._$AL = new Map()),
+      this._$ES(),
+      this.requestUpdate(),
+      this.constructor.l?.forEach(t => t(this))
+  }
+  addController(t) {
+    ;(this._$E_ ??= new Set()).add(t),
+      void 0 !== this.renderRoot && this.isConnected && t.hostConnected?.()
+  }
+  removeController(t) {
+    this._$E_?.delete(t)
+  }
+  _$ES() {
+    const t = new Map(),
+      s = this.constructor.elementProperties
+    for (const i of s.keys())
+      this.hasOwnProperty(i) && (t.set(i, this[i]), delete this[i])
+    t.size > 0 && (this._$Ep = t)
+  }
+  createRenderRoot() {
+    const t =
+      this.shadowRoot ?? this.attachShadow(this.constructor.shadowRootOptions)
+    return S$1(t, this.constructor.elementStyles), t
+  }
+  connectedCallback() {
+    ;(this.renderRoot ??= this.createRenderRoot()),
+      this.enableUpdating(!0),
+      this._$E_?.forEach(t => t.hostConnected?.())
+  }
+  enableUpdating(t) {}
+  disconnectedCallback() {
+    this._$E_?.forEach(t => t.hostDisconnected?.())
+  }
+  attributeChangedCallback(t, s, i) {
+    this._$AK(t, i)
+  }
+  _$EO(t, s) {
+    const i = this.constructor.elementProperties.get(t),
+      e = this.constructor._$Eu(t, i)
+    if (void 0 !== e && !0 === i.reflect) {
+      const r = (void 0 !== i.converter?.toAttribute
+        ? i.converter
+        : u$1
+      ).toAttribute(s, i.type)
+      ;(this._$Em = t),
+        null == r ? this.removeAttribute(e) : this.setAttribute(e, r),
+        (this._$Em = null)
+    }
+  }
+  _$AK(t, s) {
+    const i = this.constructor,
+      e = i._$Eh.get(t)
+    if (void 0 !== e && this._$Em !== e) {
+      const t = i.getPropertyOptions(e),
+        r =
+          'function' == typeof t.converter
+            ? { fromAttribute: t.converter }
+            : void 0 !== t.converter?.fromAttribute
+            ? t.converter
+            : u$1
+      ;(this._$Em = e),
+        (this[e] = r.fromAttribute(s, t.type)),
+        (this._$Em = null)
+    }
+  }
+  requestUpdate(t, s, i, e = !1, r) {
+    if (void 0 !== t) {
+      if (
+        ((i ??= this.constructor.getPropertyOptions(t)),
+        !(i.hasChanged ?? f$1)(e ? r : this[t], s))
+      )
+        return
+      this.C(t, s, i)
+    }
+    !1 === this.isUpdatePending && (this._$Eg = this._$EP())
+  }
+  C(t, s, i) {
+    this._$AL.has(t) || this._$AL.set(t, s),
+      !0 === i.reflect && this._$Em !== t && (this._$Ej ??= new Set()).add(t)
+  }
+  async _$EP() {
+    this.isUpdatePending = !0
+    try {
+      await this._$Eg
+    } catch (t) {
+      Promise.reject(t)
+    }
+    const t = this.scheduleUpdate()
+    return null != t && (await t), !this.isUpdatePending
+  }
+  scheduleUpdate() {
+    return this.performUpdate()
+  }
+  performUpdate() {
+    if (!this.isUpdatePending) return
+    if (!this.hasUpdated) {
+      if (((this.renderRoot ??= this.createRenderRoot()), this._$Ep)) {
+        for (const [t, s] of this._$Ep) this[t] = s
+        this._$Ep = void 0
+      }
+      const t = this.constructor.elementProperties
+      if (t.size > 0)
+        for (const [s, i] of t)
+          !0 !== i.wrapped ||
+            this._$AL.has(s) ||
+            void 0 === this[s] ||
+            this.C(s, this[s], i)
+    }
+    let t = !1
+    const s = this._$AL
+    try {
+      ;(t = this.shouldUpdate(s)),
+        t
+          ? (this.willUpdate(s),
+            this._$E_?.forEach(t => t.hostUpdate?.()),
+            this.update(s))
+          : this._$ET()
+    } catch (s) {
+      throw ((t = !1), this._$ET(), s)
+    }
+    t && this._$AE(s)
+  }
+  willUpdate(t) {}
+  _$AE(t) {
+    this._$E_?.forEach(t => t.hostUpdated?.()),
+      this.hasUpdated || ((this.hasUpdated = !0), this.firstUpdated(t)),
+      this.updated(t)
+  }
+  _$ET() {
+    ;(this._$AL = new Map()), (this.isUpdatePending = !1)
+  }
+  get updateComplete() {
+    return this.getUpdateComplete()
+  }
+  getUpdateComplete() {
+    return this._$Eg
+  }
+  shouldUpdate(t) {
+    return !0
+  }
+  update(t) {
+    ;(this._$Ej &&= this._$Ej.forEach(t => this._$EO(t, this[t]))), this._$ET()
+  }
+  updated(t) {}
+  firstUpdated(t) {}
+}
+;(b.elementStyles = []),
+  (b.shadowRootOptions = { mode: 'open' }),
+  (b[d$1('elementProperties')] = new Map()),
+  (b[d$1('finalized')] = new Map()),
+  p$1?.({ ReactiveElement: b }),
+  (a$2.reactiveElementVersions ??= []).push('2.0.2')
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const o$4 = {
+    attribute: !0,
+    type: String,
+    converter: u$1,
+    reflect: !1,
+    hasChanged: f$1,
+  },
+  r$4 = (t = o$4, e, r) => {
+    const { kind: n, metadata: i } = r
+    let s = globalThis.litPropertyMetadata.get(i)
+    if (
+      (void 0 === s && globalThis.litPropertyMetadata.set(i, (s = new Map())),
+      s.set(r.name, t),
+      'accessor' === n)
+    ) {
+      const { name: o } = r
+      return {
+        set(r) {
+          const n = e.get.call(this)
+          e.set.call(this, r), this.requestUpdate(o, n, t)
+        },
+        init(e) {
+          return void 0 !== e && this.C(o, void 0, t), e
+        },
+      }
+    }
+    if ('setter' === n) {
+      const { name: o } = r
+      return function(r) {
+        const n = this[o]
+        e.call(this, r), this.requestUpdate(o, n, t)
+      }
+    }
+    throw Error('Unsupported decorator location: ' + n)
+  }
+function n$3(t) {
+  return (e, o) =>
+    'object' == typeof o
+      ? r$4(t, e, o)
+      : ((t, e, o) => {
+          const r = e.hasOwnProperty(o)
+          return (
+            e.constructor.createProperty(o, r ? { ...t, wrapped: !0 } : t),
+            r ? Object.getOwnPropertyDescriptor(e, o) : void 0
+          )
+        })(t, e, o)
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ function r$3(r) {
+  return n$3({ ...r, state: !0, attribute: !1 })
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const e$6 = (e, t, c) => (
+  (c.configurable = !0),
+  (c.enumerable = !0),
+  Reflect.decorate && 'object' != typeof t && Object.defineProperty(e, t, c),
+  c
 )
 
 /**
  * @license
- * Copyright 2018 Google LLC
+ * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ const l = l => (null != l ? l : b)
+ */ function e$5(e, r) {
+  return (n, s, i) => {
+    const o = t => t.renderRoot?.querySelector(e) ?? null
+    if (r) {
+      const { get: e, set: r } =
+        'object' == typeof s
+          ? n
+          : i ??
+            (() => {
+              const t = Symbol()
+              return {
+                get() {
+                  return this[t]
+                },
+                set(e) {
+                  this[t] = e
+                },
+              }
+            })()
+      return e$6(n, s, {
+        get() {
+          let t = e.call(this)
+          return (
+            void 0 === t &&
+              ((t = o(this)),
+              (null !== t || this.hasUpdated) && r.call(this, t)),
+            t
+          )
+        },
+      })
+    }
+    return e$6(n, s, {
+      get() {
+        return o(this)
+      },
+    })
+  }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+let e$4
+function r$2(r) {
+  return (n, o) =>
+    e$6(n, o, {
+      get() {
+        return (
+          this.renderRoot ?? (e$4 ??= document.createDocumentFragment())
+        ).querySelectorAll(r)
+      },
+    })
+}
 
 /**
  * @license
  * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ function o$3(o) {
+  return (e, n) => {
+    const { slot: r, selector: s } = o ?? {},
+      c = 'slot' + (r ? `[name=${r}]` : ':not([name])')
+    return e$6(e, n, {
+      get() {
+        const t = this.renderRoot?.querySelector(c),
+          e = t?.assignedElements(o) ?? []
+        return void 0 === s ? e : e.filter(t => t.matches(s))
+      },
+    })
+  }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const t$1 = globalThis,
+  i$2 = t$1.trustedTypes,
+  s$2 = i$2 ? i$2.createPolicy('lit-html', { createHTML: t => t }) : void 0,
+  e$3 = '$lit$',
+  h = `lit$${(Math.random() + '').slice(9)}$`,
+  o$2 = '?' + h,
+  n$2 = `<${o$2}>`,
+  r$1 = document,
+  l$1 = () => r$1.createComment(''),
+  c = t => null === t || ('object' != typeof t && 'function' != typeof t),
+  a$1 = Array.isArray,
+  u = t => a$1(t) || 'function' == typeof t?.[Symbol.iterator],
+  d = '[ \t\n\f\r]',
+  f = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
+  v = /-->/g,
+  _ = />/g,
+  m = RegExp(
+    `>|${d}(?:([^\\s"'>=/]+)(${d}*=${d}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,
+    'g'
+  ),
+  p = /'/g,
+  g = /"/g,
+  $ = /^(?:script|style|textarea|title)$/i,
+  y = t => (i, ...s) => ({ _$litType$: t, strings: i, values: s }),
+  x = y(1),
+  w = Symbol.for('lit-noChange'),
+  T = Symbol.for('lit-nothing'),
+  A = new WeakMap(),
+  E = r$1.createTreeWalker(r$1, 129)
+function C(t, i) {
+  if (!Array.isArray(t) || !t.hasOwnProperty('raw'))
+    throw Error('invalid template strings array')
+  return void 0 !== s$2 ? s$2.createHTML(i) : i
+}
+const P = (t, i) => {
+  const s = t.length - 1,
+    o = []
+  let r,
+    l = 2 === i ? '<svg>' : '',
+    c = f
+  for (let i = 0; i < s; i++) {
+    const s = t[i]
+    let a,
+      u,
+      d = -1,
+      y = 0
+    for (; y < s.length && ((c.lastIndex = y), (u = c.exec(s)), null !== u); )
+      (y = c.lastIndex),
+        c === f
+          ? '!--' === u[1]
+            ? (c = v)
+            : void 0 !== u[1]
+            ? (c = _)
+            : void 0 !== u[2]
+            ? ($.test(u[2]) && (r = RegExp('</' + u[2], 'g')), (c = m))
+            : void 0 !== u[3] && (c = m)
+          : c === m
+          ? '>' === u[0]
+            ? ((c = r ?? f), (d = -1))
+            : void 0 === u[1]
+            ? (d = -2)
+            : ((d = c.lastIndex - u[2].length),
+              (a = u[1]),
+              (c = void 0 === u[3] ? m : '"' === u[3] ? g : p))
+          : c === g || c === p
+          ? (c = m)
+          : c === v || c === _
+          ? (c = f)
+          : ((c = m), (r = void 0))
+    const x = c === m && t[i + 1].startsWith('/>') ? ' ' : ''
+    l +=
+      c === f
+        ? s + n$2
+        : d >= 0
+        ? (o.push(a), s.slice(0, d) + e$3 + s.slice(d) + h + x)
+        : s + h + (-2 === d ? i : x)
+  }
+  return [C(t, l + (t[s] || '<?>') + (2 === i ? '</svg>' : '')), o]
+}
+class V {
+  constructor({ strings: t, _$litType$: s }, n) {
+    let r
+    this.parts = []
+    let c = 0,
+      a = 0
+    const u = t.length - 1,
+      d = this.parts,
+      [f, v] = P(t, s)
+    if (
+      ((this.el = V.createElement(f, n)),
+      (E.currentNode = this.el.content),
+      2 === s)
+    ) {
+      const t = this.el.content.firstChild
+      t.replaceWith(...t.childNodes)
+    }
+    for (; null !== (r = E.nextNode()) && d.length < u; ) {
+      if (1 === r.nodeType) {
+        if (r.hasAttributes())
+          for (const t of r.getAttributeNames())
+            if (t.endsWith(e$3)) {
+              const i = v[a++],
+                s = r.getAttribute(t).split(h),
+                e = /([.?@])?(.*)/.exec(i)
+              d.push({
+                type: 1,
+                index: c,
+                name: e[2],
+                strings: s,
+                ctor:
+                  '.' === e[1] ? k : '?' === e[1] ? H : '@' === e[1] ? I : R,
+              }),
+                r.removeAttribute(t)
+            } else
+              t.startsWith(h) &&
+                (d.push({ type: 6, index: c }), r.removeAttribute(t))
+        if ($.test(r.tagName)) {
+          const t = r.textContent.split(h),
+            s = t.length - 1
+          if (s > 0) {
+            r.textContent = i$2 ? i$2.emptyScript : ''
+            for (let i = 0; i < s; i++)
+              r.append(t[i], l$1()),
+                E.nextNode(),
+                d.push({ type: 2, index: ++c })
+            r.append(t[s], l$1())
+          }
+        }
+      } else if (8 === r.nodeType)
+        if (r.data === o$2) d.push({ type: 2, index: c })
+        else {
+          let t = -1
+          for (; -1 !== (t = r.data.indexOf(h, t + 1)); )
+            d.push({ type: 7, index: c }), (t += h.length - 1)
+        }
+      c++
+    }
+  }
+  static createElement(t, i) {
+    const s = r$1.createElement('template')
+    return (s.innerHTML = t), s
+  }
+}
+function N(t, i, s = t, e) {
+  if (i === w) return i
+  let h = void 0 !== e ? s._$Co?.[e] : s._$Cl
+  const o = c(i) ? void 0 : i._$litDirective$
+  return (
+    h?.constructor !== o &&
+      (h?._$AO?.(!1),
+      void 0 === o ? (h = void 0) : ((h = new o(t)), h._$AT(t, s, e)),
+      void 0 !== e ? ((s._$Co ??= [])[e] = h) : (s._$Cl = h)),
+    void 0 !== h && (i = N(t, h._$AS(t, i.values), h, e)),
+    i
+  )
+}
+class S {
+  constructor(t, i) {
+    ;(this._$AV = []), (this._$AN = void 0), (this._$AD = t), (this._$AM = i)
+  }
+  get parentNode() {
+    return this._$AM.parentNode
+  }
+  get _$AU() {
+    return this._$AM._$AU
+  }
+  u(t) {
+    const {
+        el: { content: i },
+        parts: s,
+      } = this._$AD,
+      e = (t?.creationScope ?? r$1).importNode(i, !0)
+    E.currentNode = e
+    let h = E.nextNode(),
+      o = 0,
+      n = 0,
+      l = s[0]
+    for (; void 0 !== l; ) {
+      if (o === l.index) {
+        let i
+        2 === l.type
+          ? (i = new M(h, h.nextSibling, this, t))
+          : 1 === l.type
+          ? (i = new l.ctor(h, l.name, l.strings, this, t))
+          : 6 === l.type && (i = new L(h, this, t)),
+          this._$AV.push(i),
+          (l = s[++n])
+      }
+      o !== l?.index && ((h = E.nextNode()), o++)
+    }
+    return (E.currentNode = r$1), e
+  }
+  p(t) {
+    let i = 0
+    for (const s of this._$AV)
+      void 0 !== s &&
+        (void 0 !== s.strings
+          ? (s._$AI(t, s, i), (i += s.strings.length - 2))
+          : s._$AI(t[i])),
+        i++
+  }
+}
+class M {
+  get _$AU() {
+    return this._$AM?._$AU ?? this._$Cv
+  }
+  constructor(t, i, s, e) {
+    ;(this.type = 2),
+      (this._$AH = T),
+      (this._$AN = void 0),
+      (this._$AA = t),
+      (this._$AB = i),
+      (this._$AM = s),
+      (this.options = e),
+      (this._$Cv = e?.isConnected ?? !0)
+  }
+  get parentNode() {
+    let t = this._$AA.parentNode
+    const i = this._$AM
+    return void 0 !== i && 11 === t?.nodeType && (t = i.parentNode), t
+  }
+  get startNode() {
+    return this._$AA
+  }
+  get endNode() {
+    return this._$AB
+  }
+  _$AI(t, i = this) {
+    ;(t = N(this, t, i)),
+      c(t)
+        ? t === T || null == t || '' === t
+          ? (this._$AH !== T && this._$AR(), (this._$AH = T))
+          : t !== this._$AH && t !== w && this._(t)
+        : void 0 !== t._$litType$
+        ? this.g(t)
+        : void 0 !== t.nodeType
+        ? this.$(t)
+        : u(t)
+        ? this.T(t)
+        : this._(t)
+  }
+  k(t) {
+    return this._$AA.parentNode.insertBefore(t, this._$AB)
+  }
+  $(t) {
+    this._$AH !== t && (this._$AR(), (this._$AH = this.k(t)))
+  }
+  _(t) {
+    this._$AH !== T && c(this._$AH)
+      ? (this._$AA.nextSibling.data = t)
+      : this.$(r$1.createTextNode(t)),
+      (this._$AH = t)
+  }
+  g(t) {
+    const { values: i, _$litType$: s } = t,
+      e =
+        'number' == typeof s
+          ? this._$AC(t)
+          : (void 0 === s.el &&
+              (s.el = V.createElement(C(s.h, s.h[0]), this.options)),
+            s)
+    if (this._$AH?._$AD === e) this._$AH.p(i)
+    else {
+      const t = new S(e, this),
+        s = t.u(this.options)
+      t.p(i), this.$(s), (this._$AH = t)
+    }
+  }
+  _$AC(t) {
+    let i = A.get(t.strings)
+    return void 0 === i && A.set(t.strings, (i = new V(t))), i
+  }
+  T(t) {
+    a$1(this._$AH) || ((this._$AH = []), this._$AR())
+    const i = this._$AH
+    let s,
+      e = 0
+    for (const h of t)
+      e === i.length
+        ? i.push((s = new M(this.k(l$1()), this.k(l$1()), this, this.options)))
+        : (s = i[e]),
+        s._$AI(h),
+        e++
+    e < i.length && (this._$AR(s && s._$AB.nextSibling, e), (i.length = e))
+  }
+  _$AR(t = this._$AA.nextSibling, i) {
+    for (this._$AP?.(!1, !0, i); t && t !== this._$AB; ) {
+      const i = t.nextSibling
+      t.remove(), (t = i)
+    }
+  }
+  setConnected(t) {
+    void 0 === this._$AM && ((this._$Cv = t), this._$AP?.(t))
+  }
+}
+class R {
+  get tagName() {
+    return this.element.tagName
+  }
+  get _$AU() {
+    return this._$AM._$AU
+  }
+  constructor(t, i, s, e, h) {
+    ;(this.type = 1),
+      (this._$AH = T),
+      (this._$AN = void 0),
+      (this.element = t),
+      (this.name = i),
+      (this._$AM = e),
+      (this.options = h),
+      s.length > 2 || '' !== s[0] || '' !== s[1]
+        ? ((this._$AH = Array(s.length - 1).fill(new String())),
+          (this.strings = s))
+        : (this._$AH = T)
+  }
+  _$AI(t, i = this, s, e) {
+    const h = this.strings
+    let o = !1
+    if (void 0 === h)
+      (t = N(this, t, i, 0)),
+        (o = !c(t) || (t !== this._$AH && t !== w)),
+        o && (this._$AH = t)
+    else {
+      const e = t
+      let n, r
+      for (t = h[0], n = 0; n < h.length - 1; n++)
+        (r = N(this, e[s + n], i, n)),
+          r === w && (r = this._$AH[n]),
+          (o ||= !c(r) || r !== this._$AH[n]),
+          r === T ? (t = T) : t !== T && (t += (r ?? '') + h[n + 1]),
+          (this._$AH[n] = r)
+    }
+    o && !e && this.O(t)
+  }
+  O(t) {
+    t === T
+      ? this.element.removeAttribute(this.name)
+      : this.element.setAttribute(this.name, t ?? '')
+  }
+}
+class k extends R {
+  constructor() {
+    super(...arguments), (this.type = 3)
+  }
+  O(t) {
+    this.element[this.name] = t === T ? void 0 : t
+  }
+}
+class H extends R {
+  constructor() {
+    super(...arguments), (this.type = 4)
+  }
+  O(t) {
+    this.element.toggleAttribute(this.name, !!t && t !== T)
+  }
+}
+class I extends R {
+  constructor(t, i, s, e, h) {
+    super(t, i, s, e, h), (this.type = 5)
+  }
+  _$AI(t, i = this) {
+    if ((t = N(this, t, i, 0) ?? T) === w) return
+    const s = this._$AH,
+      e =
+        (t === T && s !== T) ||
+        t.capture !== s.capture ||
+        t.once !== s.once ||
+        t.passive !== s.passive,
+      h = t !== T && (s === T || e)
+    e && this.element.removeEventListener(this.name, this, s),
+      h && this.element.addEventListener(this.name, this, t),
+      (this._$AH = t)
+  }
+  handleEvent(t) {
+    'function' == typeof this._$AH
+      ? this._$AH.call(this.options?.host ?? this.element, t)
+      : this._$AH.handleEvent(t)
+  }
+}
+class L {
+  constructor(t, i, s) {
+    ;(this.element = t),
+      (this.type = 6),
+      (this._$AN = void 0),
+      (this._$AM = i),
+      (this.options = s)
+  }
+  get _$AU() {
+    return this._$AM._$AU
+  }
+  _$AI(t) {
+    N(this, t)
+  }
+}
+const Z = t$1.litHtmlPolyfillSupport
+Z?.(V, M), (t$1.litHtmlVersions ??= []).push('3.1.0')
+const j = (t, i, s) => {
+  const e = s?.renderBefore ?? i
+  let h = e._$litPart$
+  if (void 0 === h) {
+    const t = s?.renderBefore ?? null
+    e._$litPart$ = h = new M(i.insertBefore(l$1(), t), t, void 0, s ?? {})
+  }
+  return h._$AI(t), h
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ class s$1 extends b {
+  constructor() {
+    super(...arguments),
+      (this.renderOptions = { host: this }),
+      (this._$Do = void 0)
+  }
+  createRenderRoot() {
+    const t = super.createRenderRoot()
+    return (this.renderOptions.renderBefore ??= t.firstChild), t
+  }
+  update(t) {
+    const i = this.render()
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected),
+      super.update(t),
+      (this._$Do = j(i, this.renderRoot, this.renderOptions))
+  }
+  connectedCallback() {
+    super.connectedCallback(), this._$Do?.setConnected(!0)
+  }
+  disconnectedCallback() {
+    super.disconnectedCallback(), this._$Do?.setConnected(!1)
+  }
+  render() {
+    return w
+  }
+}
+;(s$1._$litElement$ = !0),
+  (s$1['finalized'] = !0),
+  globalThis.litElementHydrateSupport?.({ LitElement: s$1 })
+const r = globalThis.litElementPolyfillSupport
+r?.({ LitElement: s$1 })
+;(globalThis.litElementVersions ??= []).push('4.0.2')
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * A property decorator that helps proxy an aria attribute to an internal node.
- *
- * This decorator is only intended for use with ARIAMixin properties,
- * such as `ariaLabel`, to help with screen readers.
- *
- * This decorator will remove the host `aria-*` attribute at runtime and add it
- * to a `data-aria-*` attribute to avoid screenreader conflicts between the
- * host and internal node.
- *
- * `@ariaProperty` decorated properties should sync with LitElement to the
- * `data-aria-*` attribute, not the native `aria-*` attribute.
+ * A key to retrieve an `Attachable` element's `AttachableController` from a
+ * global `MutationObserver`.
+ */
+const ATTACHABLE_CONTROLLER = Symbol('attachableController')
+let FOR_ATTRIBUTE_OBSERVER
+{
+  /**
+   * A global `MutationObserver` that reacts to `for` attribute changes on
+   * `Attachable` elements. If the `for` attribute changes, the controller will
+   * re-attach to the new referenced element.
+   */
+  FOR_ATTRIBUTE_OBSERVER = new MutationObserver(records => {
+    for (const record of records) {
+      // When a control's `for` attribute changes, inform its
+      // `AttachableController` to update to a new control.
+      record.target[ATTACHABLE_CONTROLLER]?.hostConnected()
+    }
+  })
+}
+/**
+ * A controller that provides an implementation for `Attachable` elements.
  *
  * @example
  * ```ts
- * class MyElement extends LitElement {
- *   \@ariaProperty
- *   // TODO(b/210730484): replace with @soyParam annotation
- *   \@property({ type: String, attribute: 'data-aria-label', noAccessor: true})
- *   ariaLabel!: string;
+ * class MyElement extends LitElement implements Attachable {
+ *   get control() { return this.attachableController.control; }
+ *
+ *   private readonly attachableController = new AttachableController(
+ *     this,
+ *     (previousControl, newControl) => {
+ *       previousControl?.removeEventListener('click', this.handleClick);
+ *       newControl?.addEventListener('click', this.handleClick);
+ *     }
+ *   );
+ *
+ *   // Implement remaining `Attachable` properties/methods that call the
+ *   // controller's properties/methods.
  * }
  * ```
- * @category Decorator
- * @ExportDecoratedItems
  */
-function ariaProperty(prototype, property) {
-  // Replace the ARIAMixin property with data-* attribute syncing instead of
-  // using the native aria-* attribute reflection. This preserves the attribute
-  // for SSR and avoids screenreader conflicts after delegating the attribute
-  // to a child node.
-  Object.defineProperty(prototype, property, {
-    configurable: true,
-    enumerable: true,
-    get() {
-      return this.dataset[property] ?? ''
-    },
-    set(value) {
-      // Coerce non-string values to a string
-      const strValue = String(value ?? '')
-      if (strValue) {
-        this.dataset[property] = strValue
-      } else {
-        delete this.dataset[property]
+class AttachableController {
+  get htmlFor() {
+    return this.host.getAttribute('for')
+  }
+  set htmlFor(htmlFor) {
+    if (htmlFor === null) {
+      this.host.removeAttribute('for')
+    } else {
+      this.host.setAttribute('for', htmlFor)
+    }
+  }
+  get control() {
+    if (this.host.hasAttribute('for')) {
+      if (!this.htmlFor || !this.host.isConnected) {
+        return null
       }
-      // lit will call this setter whenever the data-* attribute changes.
-      // However, this.dataset[property] will automatically be updated to the
-      // current value. To avoid bugs, always request an update regardless of
-      // the old value.
-      this.requestUpdate()
-    },
-  })
-  // Define an internal property that syncs from the `aria-*` attribute with lit
-  // and delegates to the real ARIAMixin property, which renders an update.
-  // This property will immediately remove the `aria-*` attribute, which doesn't
-  // work well with SSR (which is why there's a separate synced property).
-  const internalAriaProperty = Symbol(property)
-  // "ariaLabel" -> "aria-label" / "ariaLabelledBy" -> "aria-labelledby"
-  const ariaAttribute = property.replace('aria', 'aria-').toLowerCase()
-  const constructor = prototype.constructor
-  let removingAttribute = false
-  Object.defineProperty(prototype, internalAriaProperty, {
-    get() {
-      // tslint is failing here, but the types are correct (ARIAMixin
-      // properties do not obfuscate with closure)
-      // tslint:disable-next-line:no-dict-access-on-struct-type
-      return this[property]
-    },
-    set(value) {
-      if (removingAttribute) {
-        // Ignore this update, which is triggered below
-        return
-      }
-      // Set the ARIAMixin property, which will sync the `data-*` attribute
-      // and trigger rendering if the value changed.
-      // tslint is failing here, but the types are correct (ARIAMixin
-      // properties do not obfuscate with closure)
-      // tslint:disable-next-line:no-dict-access-on-struct-type
-      this[property] = value
-      // Remove the `aria-*` attribute, which will call this setter again with
-      // the incorrect value. Ignore these updates.
-      removingAttribute = true
-      this.removeAttribute(ariaAttribute)
-      removingAttribute = false
-    },
-  })
-  // Tell lit to observe the `aria-*` attribute and set the internal property,
-  // which acts as a "aria-* attribute changed" observer.
-  constructor.createProperty(internalAriaProperty, {
-    attribute: ariaAttribute,
-    noAccessor: true,
-  })
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const NAVIGABLE_KEYS = {
-  ArrowDown: 'ArrowDown',
-  ArrowUp: 'ArrowUp',
-  Home: 'Home',
-  End: 'End',
-}
-const navigableKeySet = new Set(Object.values(NAVIGABLE_KEYS))
-function isNavigableKey(key) {
-  return navigableKeySet.has(key)
-}
-// tslint:disable-next-line:enforce-comments-on-exported-symbols
-class List extends s$4 {
-  constructor() {
-    super(...arguments)
-    // @ts-ignore(b/264292293): Use `override` with TS 4.9+
-    this.role = 'list'
-    /**
-     * The tabindex of the underlying list.
-     */
-    this.listTabIndex = 0
+      return this.host.getRootNode().querySelector(`#${this.htmlFor}`)
+    }
+    return this.currentControl || this.host.parentElement
   }
-  render() {
-    return this.renderList()
+  set control(control) {
+    if (control) {
+      this.attach(control)
+    } else {
+      this.detach()
+    }
   }
   /**
-   * Renders the main list element.
-   */
-  renderList() {
-    return y`
-    <ul class="md3-list ${o(this.getListClasses())}"
-        aria-label="${l(this.ariaLabel)}"
-        tabindex=${this.listTabIndex}
-        role=${this.role}
-        @keydown=${this.handleKeydown}
-        >
-      ${this.renderContent()}
-    </ul>
-  `
-  }
-  /**
-   * The classes to be applied to the underlying list.
-   */
-  getListClasses() {
-    return {}
-  }
-  /**
-   * The content to be slotted into the list.
-   */
-  renderContent() {
-    return y`<span><slot @click=${e => {
-      e.stopPropagation()
-    }}></slot></span>`
-  }
-  /**
-   * Handles keyboard navigation in the list.
+   * Creates a new controller for an `Attachable` element.
    *
-   * @param event {KeyboardEvent} The keyboard event that triggers this handler.
+   * @param host The `Attachable` element.
+   * @param onControlChange A callback with two parameters for the previous and
+   *     next control. An `Attachable` element may perform setup or teardown
+   *     logic whenever the control changes.
    */
-  handleKeydown(event) {
-    const key = event.key
-    if (!isNavigableKey(key)) {
+  constructor(host, onControlChange) {
+    this.host = host
+    this.onControlChange = onControlChange
+    this.currentControl = null
+    host.addController(this)
+    host[ATTACHABLE_CONTROLLER] = this
+    FOR_ATTRIBUTE_OBSERVER?.observe(host, { attributeFilter: ['for'] })
+  }
+  attach(control) {
+    if (control === this.currentControl) {
       return
     }
-    // do not use this.items directly so we don't re-query the DOM unnecessarily
-    const items = this.items
-    if (!items.length) {
-      return
-    }
-    const activeItemRecord = List.getActiveItem(items)
-    if (activeItemRecord) {
-      activeItemRecord.item.active = false
-    }
-    event.preventDefault()
-    switch (key) {
-      // Activate the next item
-      case NAVIGABLE_KEYS.ArrowDown:
-        if (activeItemRecord) {
-          const next = List.getNextItem(items, activeItemRecord.index)
-          if (next) next.active = true
-        } else {
-          List.activateFirstItem(items)
-        }
-        break
-      // Activate the previous item
-      case NAVIGABLE_KEYS.ArrowUp:
-        if (activeItemRecord) {
-          const prev = List.getPrevItem(items, activeItemRecord.index)
-          if (prev) prev.active = true
-        } else {
-          items[items.length - 1].active = true
-        }
-        break
-      // Activate the first item
-      case NAVIGABLE_KEYS.Home:
-        List.activateFirstItem(items)
-        break
-      // Activate the last item
-      case NAVIGABLE_KEYS.End:
-        List.activateLastItem(items)
-        break
-    }
+    this.setCurrentControl(control)
+    // When imperatively attaching, remove the `for` attribute so
+    // that the attached control is used instead of a referenced one.
+    this.host.removeAttribute('for')
   }
-  /**
-   * Activates the first non-disabled item of a given array of items.
-   *
-   * @param items {Array<ListItem>} The items from which to activate the
-   * first item.
-   */
-  static activateFirstItem(items) {
-    // NOTE: These selector functions are static and not on the instance such
-    // that multiple operations can be chained and we do not have to re-query
-    // the DOM
-    const firstItem = List.getFirstActivatableItem(items)
-    if (firstItem) {
-      firstItem.active = true
-    }
+  detach() {
+    this.setCurrentControl(null)
+    // When imperatively detaching, add an empty `for=""` attribute. This will
+    // ensure the control is `null` rather than the `parentElement`.
+    this.host.setAttribute('for', '')
   }
-  /**
-   * Activates the last non-disabled item of a given array of items.
-   *
-   * @param items {Array<ListItem>} The items from which to activate the
-   * last item.
-   */
-  static activateLastItem(items) {
-    const lastItem = List.getLastActivatableItem(items)
-    if (lastItem) {
-      lastItem.active = true
-    }
+  /** @private */
+  hostConnected() {
+    this.setCurrentControl(this.control)
   }
-  /**
-   * Deactivates the currently active item of a given array of items.
-   *
-   * @param items {Array<ListItem>} The items from which to deactivate the
-   * active item.
-   * @returns A record of the deleselcted activated item including the item and
-   * the index of the item or `null` if none are deactivated.
-   */
-  static deactivateActiveItem(items) {
-    const activeItem = List.getActiveItem(items)
-    if (activeItem) {
-      activeItem.item.active = false
-    }
-    return activeItem
+  /** @private */
+  hostDisconnected() {
+    this.setCurrentControl(null)
   }
-  focus() {
-    this.listRoot.focus()
-  }
-  /**
-   * Retrieves the the first activated item of a given array of items.
-   *
-   * @param items {Array<ListItem>} The items to search.
-   * @returns A record of the first activated item including the item and the
-   * index of the item or `null` if none are activated.
-   */
-  static getActiveItem(items) {
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i]
-      if (item.active) {
-        return {
-          item,
-          index: i,
-        }
-      }
-    }
-    return null
-  }
-  /**
-   * Retrieves the the first non-disabled item of a given array of items. This
-   * the first item that is not disabled.
-   *
-   * @param items {Array<ListItem>} The items to search.
-   * @returns The first activatable item or `null` if none are activatable.
-   */
-  static getFirstActivatableItem(items) {
-    for (const item of items) {
-      if (!item.disabled) {
-        return item
-      }
-    }
-    return null
-  }
-  /**
-   * Retrieves the the last non-disabled item of a given array of items.
-   *
-   * @param items {Array<ListItem>} The items to search.
-   * @returns The last activatable item or `null` if none are activatable.
-   */
-  static getLastActivatableItem(items) {
-    for (let i = items.length - 1; i >= 0; i--) {
-      const item = items[i]
-      if (!item.disabled) {
-        return item
-      }
-    }
-    return null
-  }
-  /**
-   * Retrieves the the next non-disabled item of a given array of items.
-   *
-   * @param items {Array<ListItem>} The items to search.
-   * @param index {{index: number}} The index to search from.
-   * @returns The next activatable item or `null` if none are activatable.
-   */
-  static getNextItem(items, index) {
-    for (let i = 1; i < items.length; i++) {
-      const nextIndex = (i + index) % items.length
-      const item = items[nextIndex]
-      if (!item.disabled) {
-        return item
-      }
-    }
-    return null
-  }
-  /**
-   * Retrieves the the previous non-disabled item of a given array of items.
-   *
-   * @param items {Array<ListItem>} The items to search.
-   * @param index {{index: number}} The index to search from.
-   * @returns The previous activatable item or `null` if none are activatable.
-   */
-  static getPrevItem(items, index) {
-    for (let i = 1; i < items.length; i++) {
-      const prevIndex = (index - i + items.length) % items.length
-      const item = items[prevIndex]
-      if (!item.disabled) {
-        return item
-      }
-    }
-    return null
+  setCurrentControl(control) {
+    this.onControlChange(this.currentControl, control)
+    this.currentControl = control
   }
 }
-List.shadowRootOptions = { mode: 'open', delegatesFocus: true }
-__decorate(
-  [
-    ariaProperty,
-    e$8({ type: String, attribute: 'data-aria-label', noAccessor: true }),
-    __metadata('design:type', String),
-  ],
-  List.prototype,
-  'ariaLabel',
-  void 0
-)
-__decorate(
-  [
-    ariaProperty,
-    e$8({
-      type: String,
-      attribute: 'data-aria-activedescendant',
-      noAccessor: true,
-    }),
-    __metadata('design:type', String),
-  ],
-  List.prototype,
-  'ariaActivedescendant',
-  void 0
-)
-__decorate(
-  [
-    ariaProperty,
-    // tslint:disable-next-line
-    e$8({ type: String, attribute: 'data-role', noAccessor: true }),
-    // @ts-ignore(b/264292293): Use `override` with TS 4.9+
-    __metadata('design:type', String),
-  ],
-  List.prototype,
-  'role',
-  void 0
-)
-__decorate(
-  [e$8({ type: Number }), __metadata('design:type', Number)],
-  List.prototype,
-  'listTabIndex',
-  void 0
-)
-__decorate(
-  [i$2('.md3-list'), __metadata('design:type', HTMLElement)],
-  List.prototype,
-  'listRoot',
-  void 0
-)
-__decorate(
-  [
-    l$2({ flatten: true, selector: '[md-list-item]' }),
-    __metadata('design:type', Array),
-  ],
-  List.prototype,
-  'items',
-  void 0
-)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$b = i$5`:host{--_container-color: var(--md-list-container-color, var(--md-sys-color-surface, #fffbfe));color:unset}.md3-list{background-color:var(--_container-color);display:block;list-style-type:none;margin:0;min-width:300px;outline:none;padding:8px 0;position:relative}/*# sourceMappingURL=list-styles.css.map */
-`
 
 /**
  * @license
@@ -4897,68 +5480,109 @@ const styles$b = i$5`:host{--_container-color: var(--md-list-container-color, va
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * @summary Lists are continuous, vertical indexes of text or images.
+ * Events that the focus ring listens to.
  *
- * @description
- * Lists consist of one or more list items, and can contain actions represented
- * by icons and text. List items come in three sizes: one-line, two-line, and
- * three-line.
- *
- * __Takeaways:__
- *
- * - Lists should be sorted in logical ways that make content easy to scan, such
- *   as alphabetical, numerical, chronological, or by user preference.
- * - Lists present content in a way that makes it easy to identify a specific
- *   item in a collection and act on it.
- * - Lists should present icons, text, and actions in a consistent format.
- *
- * @final
- * @suppress {visibility}
+ * @fires visibility-changed Fired whenever `visible` changes.
  */
-let MdList = class MdList extends List {}
-MdList.styles = [styles$b]
-MdList = __decorate([e$9('md-list')], MdList)
-
+const EVENTS$1 = ['focusin', 'focusout', 'pointerdown']
 /**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: Apache-2.0
+ * A focus ring component.
  */
-/**
- * @summary An accessible, themable ring designed to be shown on
- * `:focus-visible`.
- *
- * @description
- * An accessible, themable ring designed to be shown on focus-visible.
- * Focus ring is designed to be controlled by the `strong-focus` module in the
- * same package.
- *
- * In most cases, `visible` should be set to
- * `shouldShowStrongFocus()` on `focus` and `pointerdown` (see `pointerPress()`
- * documentation in the `strong-focus` module), and `false` on `blur`.
- */
-class FocusRing extends s$4 {
+class FocusRing extends s$1 {
   constructor() {
     super(...arguments)
     /**
      * Makes the focus ring visible.
      */
     this.visible = false
+    /**
+     * Makes the focus ring animate inwards instead of outwards.
+     */
+    this.inward = false
+    this.attachableController = new AttachableController(
+      this,
+      this.onControlChange.bind(this)
+    )
+  }
+  get htmlFor() {
+    return this.attachableController.htmlFor
+  }
+  set htmlFor(htmlFor) {
+    this.attachableController.htmlFor = htmlFor
+  }
+  get control() {
+    return this.attachableController.control
+  }
+  set control(control) {
+    this.attachableController.control = control
+  }
+  attach(control) {
+    this.attachableController.attach(control)
+  }
+  detach() {
+    this.attachableController.detach()
+  }
+  connectedCallback() {
+    super.connectedCallback()
+    // Needed for VoiceOver, which will create a "group" if the element is a
+    // sibling to other content.
+    this.setAttribute('aria-hidden', 'true')
+  }
+  /** @private */
+  handleEvent(event) {
+    if (event[HANDLED_BY_FOCUS_RING]) {
+      // This ensures the focus ring does not activate when multiple focus rings
+      // are used within a single component.
+      return
+    }
+    switch (event.type) {
+      default:
+        return
+      case 'focusin':
+        this.visible = this.control?.matches(':focus-visible') ?? false
+        break
+      case 'focusout':
+      case 'pointerdown':
+        this.visible = false
+        break
+    }
+    event[HANDLED_BY_FOCUS_RING] = true
+  }
+  onControlChange(prev, next) {
+    for (const event of EVENTS$1) {
+      prev?.removeEventListener(event, this)
+      next?.addEventListener(event, this)
+    }
+  }
+  update(changed) {
+    if (changed.has('visible')) {
+      // This logic can be removed once the `:has` selector has been introduced
+      // to Firefox. This is necessary to allow correct submenu styles.
+      this.dispatchEvent(new Event('visibility-changed'))
+    }
+    super.update(changed)
   }
 }
 __decorate(
-  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  [n$3({ type: Boolean, reflect: true })],
   FocusRing.prototype,
   'visible',
   void 0
 )
+__decorate(
+  [n$3({ type: Boolean, reflect: true })],
+  FocusRing.prototype,
+  'inward',
+  void 0
+)
+const HANDLED_BY_FOCUS_RING = Symbol('handledByFocusRing')
 
 /**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$a = i$5`:host{--_shape-start-start: var(--md-focus-ring-shape-start-start, var(--md-focus-ring-shape, 9999px));--_shape-start-end: var(--md-focus-ring-shape-start-end, var(--md-focus-ring-shape, 9999px));--_shape-end-end: var(--md-focus-ring-shape-end-end, var(--md-focus-ring-shape, 9999px));--_shape-end-start: var(--md-focus-ring-shape-end-start, var(--md-focus-ring-shape, 9999px));--_offset-vertical: var(--md-focus-ring-offset-vertical, 2px);--_offset-horizontal: var(--md-focus-ring-offset-horizontal, 2px);--_width: var(--md-focus-ring-width, 3px);--_color: var(--md-focus-ring-color, var(--md-sys-color-secondary, #625b71));display:none;position:absolute;box-sizing:border-box;pointer-events:none;border:var(--_width) solid var(--_color);border-start-start-radius:var(--_shape-start-start);border-start-end-radius:var(--_shape-start-end);border-end-start-radius:var(--_shape-end-start);border-end-end-radius:var(--_shape-end-end);inset:calc(-1*(var(--_offset-vertical) + var(--_width))) calc(-1*(var(--_offset-horizontal) + var(--_width)))}:host([visible]){display:flex}/*# sourceMappingURL=focus-ring-styles.css.map */
+const styles$a = i$4`:host{animation-delay:0s,calc(var(--md-focus-ring-duration, 600ms)*.25);animation-duration:calc(var(--md-focus-ring-duration, 600ms)*.25),calc(var(--md-focus-ring-duration, 600ms)*.75);animation-timing-function:cubic-bezier(0.2, 0, 0, 1);box-sizing:border-box;color:var(--md-focus-ring-color, var(--md-sys-color-secondary, #625b71));display:none;pointer-events:none;position:absolute}:host([visible]){display:flex}:host(:not([inward])){animation-name:outward-grow,outward-shrink;border-end-end-radius:calc(var(--md-focus-ring-shape-end-end, var(--md-focus-ring-shape, 9999px)) + var(--md-focus-ring-outward-offset, 2px));border-end-start-radius:calc(var(--md-focus-ring-shape-end-start, var(--md-focus-ring-shape, 9999px)) + var(--md-focus-ring-outward-offset, 2px));border-start-end-radius:calc(var(--md-focus-ring-shape-start-end, var(--md-focus-ring-shape, 9999px)) + var(--md-focus-ring-outward-offset, 2px));border-start-start-radius:calc(var(--md-focus-ring-shape-start-start, var(--md-focus-ring-shape, 9999px)) + var(--md-focus-ring-outward-offset, 2px));inset:calc(-1*var(--md-focus-ring-outward-offset, 2px));outline:var(--md-focus-ring-width, 3px) solid currentColor}:host([inward]){animation-name:inward-grow,inward-shrink;border-end-end-radius:calc(var(--md-focus-ring-shape-end-end, var(--md-focus-ring-shape, 9999px)) - var(--md-focus-ring-inward-offset, 0px));border-end-start-radius:calc(var(--md-focus-ring-shape-end-start, var(--md-focus-ring-shape, 9999px)) - var(--md-focus-ring-inward-offset, 0px));border-start-end-radius:calc(var(--md-focus-ring-shape-start-end, var(--md-focus-ring-shape, 9999px)) - var(--md-focus-ring-inward-offset, 0px));border-start-start-radius:calc(var(--md-focus-ring-shape-start-start, var(--md-focus-ring-shape, 9999px)) - var(--md-focus-ring-inward-offset, 0px));border:var(--md-focus-ring-width, 3px) solid currentColor;inset:var(--md-focus-ring-inward-offset, 0px)}@keyframes outward-grow{from{outline-width:0}to{outline-width:var(--md-focus-ring-active-width, 8px)}}@keyframes outward-shrink{from{outline-width:var(--md-focus-ring-active-width, 8px)}}@keyframes inward-grow{from{border-width:0}to{border-width:var(--md-focus-ring-active-width, 8px)}}@keyframes inward-shrink{from{border-width:var(--md-focus-ring-active-width, 8px)}}@media(prefers-reduced-motion){:host{animation:none}}/*# sourceMappingURL=focus-ring-styles.css.map */
 `
 
 /**
@@ -4967,13 +5591,14 @@ const styles$a = i$5`:host{--_shape-start-start: var(--md-focus-ring-shape-start
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * @soyCompatible
+ * TODO(b/267336424): add docs
+ *
  * @final
  * @suppress {visibility}
  */
 let MdFocusRing = class MdFocusRing extends FocusRing {}
 MdFocusRing.styles = [styles$a]
-MdFocusRing = __decorate([e$9('md-focus-ring')], MdFocusRing)
+MdFocusRing = __decorate([t$3('md-focus-ring')], MdFocusRing)
 
 /**
  * @license
@@ -4983,44 +5608,24 @@ MdFocusRing = __decorate([e$9('md-focus-ring')], MdFocusRing)
 /**
  * A component for elevation.
  */
-class Elevation extends s$4 {
-  constructor() {
-    super(...arguments)
-    /**
-     * Whether or not the elevation level should display a shadow.
-     */
-    this.shadow = false
-    /**
-     * Whether or not the elevation level should display a surface tint color.
-     */
-    this.surface = false
+class Elevation extends s$1 {
+  connectedCallback() {
+    super.connectedCallback()
+    // Needed for VoiceOver, which will create a "group" if the element is a
+    // sibling to other content.
+    this.setAttribute('aria-hidden', 'true')
   }
   render() {
-    return y`
-       <span class="surface"></span>
-       <span class="shadow"></span>
-     `
+    return x`<span class="shadow"></span>`
   }
 }
-__decorate(
-  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
-  Elevation.prototype,
-  'shadow',
-  void 0
-)
-__decorate(
-  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
-  Elevation.prototype,
-  'surface',
-  void 0
-)
 
 /**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$9 = i$5`:host{--_duration: var(--md-elevation-duration, 0s);--_easing: var(--md-elevation-easing, cubic-bezier(0.2, 0, 0, 1));--_level: var(--md-elevation-level, 0);--_shadow-color: var(--md-elevation-shadow-color, var(--md-sys-color-shadow, #000));--_surface-tint: var(--md-elevation-surface-tint, var(--md-sys-color-primary, #6750a4));border-radius:inherit;display:flex;position:relative}:host(:not([surface])) .surface,:host(:not([shadow])) .shadow{display:none}.surface,.shadow,.shadow::before,.shadow::after{border-radius:inherit;content:"";inset:0;position:absolute;transition-property:box-shadow,opacity;transition-duration:var(--_duration);transition-timing-function:var(--_easing)}.shadow::before{box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 3,1) + 2*clamp(0,var(--_level) - 4,1))) calc(1px*(2*clamp(0,var(--_level),1) + clamp(0,var(--_level) - 2,1) + clamp(0,var(--_level) - 4,1))) 0px var(--_shadow-color);opacity:.3}.shadow::after{opacity:.15;box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 1,1) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(3*clamp(0,var(--_level),2) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(clamp(0,var(--_level),4) + 2*clamp(0,var(--_level) - 4,1))) var(--_shadow-color)}.surface{background:var(--_surface-tint);opacity:calc(clamp(0,var(--_level),.05) + clamp(0,var(--_level) - 1,.03) + clamp(0,var(--_level) - 2,.03) + clamp(0,var(--_level) - 3,.01) + clamp(0,var(--_level) - 4,.02))}/*# sourceMappingURL=elevation-styles.css.map */
+const styles$9 = i$4`:host{--_level: var(--md-elevation-level, 0);--_shadow-color: var(--md-elevation-shadow-color, var(--md-sys-color-shadow, #000));display:flex;pointer-events:none}:host,.shadow,.shadow::before,.shadow::after{border-radius:inherit;inset:0;position:absolute;transition-duration:inherit;transition-property:inherit;transition-timing-function:inherit}.shadow::before,.shadow::after{content:"";transition-property:box-shadow,opacity}.shadow::before{box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 3,1) + 2*clamp(0,var(--_level) - 4,1))) calc(1px*(2*clamp(0,var(--_level),1) + clamp(0,var(--_level) - 2,1) + clamp(0,var(--_level) - 4,1))) 0px var(--_shadow-color);opacity:.3}.shadow::after{box-shadow:0px calc(1px*(clamp(0,var(--_level),1) + clamp(0,var(--_level) - 1,1) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(3*clamp(0,var(--_level),2) + 2*clamp(0,var(--_level) - 2,3))) calc(1px*(clamp(0,var(--_level),4) + 2*clamp(0,var(--_level) - 4,1))) var(--_shadow-color);opacity:.15}/*# sourceMappingURL=elevation-styles.css.map */
 `
 
 /**
@@ -5035,127 +5640,375 @@ const styles$9 = i$5`:host{--_duration: var(--md-elevation-duration, 0s);--_easi
  */
 let MdElevation = class MdElevation extends Elevation {}
 MdElevation.styles = [styles$9]
-MdElevation = __decorate([e$9('md-elevation')], MdElevation)
+MdElevation = __decorate([t$3('md-elevation')], MdElevation)
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const t = {
+    ATTRIBUTE: 1,
+    CHILD: 2,
+    PROPERTY: 3,
+    BOOLEAN_ATTRIBUTE: 4,
+    EVENT: 5,
+    ELEMENT: 6,
+  },
+  e$2 = t => (...e) => ({ _$litDirective$: t, values: e })
+class i$1 {
+  constructor(t) {}
+  get _$AU() {
+    return this._$AM._$AU
+  }
+  _$AT(t, e, i) {
+    ;(this._$Ct = t), (this._$AM = e), (this._$Ci = i)
+  }
+  _$AS(t, e) {
+    return this.update(t, e)
+  }
+  update(t, e) {
+    return this.render(...e)
+  }
+}
 
 /**
  * @license
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ const i = e$1(
+ */ const e$1 = e$2(
   class extends i$1 {
     constructor(t$1) {
-      var e
       if (
         (super(t$1),
         t$1.type !== t.ATTRIBUTE ||
-          'style' !== t$1.name ||
-          (null === (e = t$1.strings) || void 0 === e ? void 0 : e.length) > 2)
+          'class' !== t$1.name ||
+          t$1.strings?.length > 2)
       )
         throw Error(
-          'The `styleMap` directive must be used in the `style` attribute and must be the only part in the attribute.'
+          '`classMap()` can only be used in the `class` attribute and must be the only part in the attribute.'
         )
     }
     render(t) {
-      return Object.keys(t).reduce((e, r) => {
-        const s = t[r]
-        return null == s
-          ? e
-          : e +
-              `${(r = r
-                .replace(/(?:^(webkit|moz|ms|o)|)(?=[A-Z])/g, '-$&')
-                .toLowerCase())}:${s};`
-      }, '')
+      return (
+        ' ' +
+        Object.keys(t)
+          .filter(s => t[s])
+          .join(' ') +
+        ' '
+      )
     }
-    update(e, [r]) {
-      const { style: s } = e.element
-      if (void 0 === this.vt) {
-        this.vt = new Set()
-        for (const t in r) this.vt.add(t)
-        return this.render(r)
+    update(s, [i]) {
+      if (void 0 === this.it) {
+        ;(this.it = new Set()),
+          void 0 !== s.strings &&
+            (this.st = new Set(
+              s.strings
+                .join(' ')
+                .split(/\s/)
+                .filter(t => '' !== t)
+            ))
+        for (const t in i) i[t] && !this.st?.has(t) && this.it.add(t)
+        return this.render(i)
       }
-      this.vt.forEach(t => {
-        null == r[t] &&
-          (this.vt.delete(t),
-          t.includes('-') ? s.removeProperty(t) : (s[t] = ''))
-      })
-      for (const t in r) {
-        const e = r[t]
-        null != e &&
-          (this.vt.add(t), t.includes('-') ? s.setProperty(t, e) : (s[t] = e))
+      const r = s.element.classList
+      for (const t of this.it) t in i || (r.remove(t), this.it.delete(t))
+      for (const t in i) {
+        const s = !!i[t]
+        s === this.it.has(t) ||
+          this.st?.has(t) ||
+          (s ? (r.add(t), this.it.add(t)) : (r.remove(t), this.it.delete(t)))
       }
-      return x
+      return w
     }
   }
 )
 
 /**
  * @license
- * Copyright 2021 Google LLC
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const n$1 = 'important',
+  i = ' !' + n$1,
+  o$1 = e$2(
+    class extends i$1 {
+      constructor(t$1) {
+        if (
+          (super(t$1),
+          t$1.type !== t.ATTRIBUTE ||
+            'style' !== t$1.name ||
+            t$1.strings?.length > 2)
+        )
+          throw Error(
+            'The `styleMap` directive must be used in the `style` attribute and must be the only part in the attribute.'
+          )
+      }
+      render(t) {
+        return Object.keys(t).reduce((e, r) => {
+          const s = t[r]
+          return null == s
+            ? e
+            : e +
+                `${(r = r.includes('-')
+                  ? r
+                  : r
+                      .replace(/(?:^(webkit|moz|ms|o)|)(?=[A-Z])/g, '-$&')
+                      .toLowerCase())}:${s};`
+        }, '')
+      }
+      update(e, [r]) {
+        const { style: s } = e.element
+        if (void 0 === this.ut)
+          return (this.ut = new Set(Object.keys(r))), this.render(r)
+        for (const t of this.ut)
+          null == r[t] &&
+            (this.ut.delete(t),
+            t.includes('-') ? s.removeProperty(t) : (s[t] = null))
+        for (const t in r) {
+          const e = r[t]
+          if (null != e) {
+            this.ut.add(t)
+            const r = 'string' == typeof e && e.endsWith(i)
+            t.includes('-') || r
+              ? s.setProperty(t, r ? e.slice(0, -11) : e, r ? n$1 : '')
+              : (s[t] = e)
+          }
+        }
+        return w
+      }
+    }
+  )
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-class FocusGlobal {
-  constructor() {
-    this.visible = false
-  }
-  setVisible(visible) {
-    this.visible = visible
-  }
-}
 /**
- * This object can be overwritten by the `setup()` function to use a different
- * focus coordination object.
+ * Accessibility Object Model reflective aria properties.
  */
-let focusObject = new FocusGlobal()
+const ARIA_PROPERTIES = [
+  'ariaAtomic',
+  'ariaAutoComplete',
+  'ariaBusy',
+  'ariaChecked',
+  'ariaColCount',
+  'ariaColIndex',
+  'ariaColSpan',
+  'ariaCurrent',
+  'ariaDisabled',
+  'ariaExpanded',
+  'ariaHasPopup',
+  'ariaHidden',
+  'ariaInvalid',
+  'ariaKeyShortcuts',
+  'ariaLabel',
+  'ariaLevel',
+  'ariaLive',
+  'ariaModal',
+  'ariaMultiLine',
+  'ariaMultiSelectable',
+  'ariaOrientation',
+  'ariaPlaceholder',
+  'ariaPosInSet',
+  'ariaPressed',
+  'ariaReadOnly',
+  'ariaRequired',
+  'ariaRoleDescription',
+  'ariaRowCount',
+  'ariaRowIndex',
+  'ariaRowSpan',
+  'ariaSelected',
+  'ariaSetSize',
+  'ariaSort',
+  'ariaValueMax',
+  'ariaValueMin',
+  'ariaValueNow',
+  'ariaValueText',
+]
 /**
- * Set of keyboard event codes that correspond to keyboard navigation
+ * Accessibility Object Model aria attributes.
  */
-const KEYBOARD_NAVIGATION_KEYS = new Set([
-  'Tab',
-  'ArrowLeft',
-  'ArrowRight',
-  'ArrowUp',
-  'ArrowDown',
-])
-function keydownHandler(e) {
-  if (KEYBOARD_NAVIGATION_KEYS.has(e.key)) {
-    focusObject.setVisible(true)
-  }
-}
+ARIA_PROPERTIES.map(ariaPropertyToAttribute)
 /**
- * Set up integration with alternate global focus tracking object
+ * Converts an AOM aria property into its corresponding attribute.
  *
- * @param focusGlobal A global focus object to coordinate between multiple
- *     systems
- * @param enableKeydownHandler Set to true to let StrongFocusService listen for
- *     keyboard navigation
+ * @example
+ * ariaPropertyToAttribute('ariaLabel'); // 'aria-label'
+ *
+ * @param property The aria property.
+ * @return The aria attribute.
  */
-function setup(focusGlobal, enableKeydownHandler = false) {
-  focusObject = focusGlobal
-  if (enableKeydownHandler) {
-    window.addEventListener('keydown', keydownHandler)
-  } else {
-    window.removeEventListener('keydown', keydownHandler)
+function ariaPropertyToAttribute(property) {
+  return (
+    property
+      .replace('aria', 'aria-')
+      // IDREF attributes also include an "Element" or "Elements" suffix
+      .replace(/Elements?/g, '')
+      .toLowerCase()
+  )
+}
+/**
+ * Enables a host custom element to be the target for aria roles and attributes.
+ * Components should set the `elementInternals.role` property.
+ *
+ * By default, aria components are tab focusable. Provide a `focusable: false`
+ * option for components that should not be tab focusable, such as
+ * `role="listbox"`.
+ *
+ * This function will also polyfill aria `ElementInternals` properties for
+ * Firefox.
+ *
+ * @param ctor The `ReactiveElement` constructor to set up.
+ * @param options Options to configure the element's host aria.
+ */
+function setupHostAria(ctor, { focusable } = {}) {
+  if (focusable !== false) {
+    ctor.addInitializer(host => {
+      host.addController({
+        hostConnected() {
+          if (host.hasAttribute('tabindex')) {
+            return
+          }
+          host.tabIndex = 0
+        },
+      })
+    })
   }
+  if ('role' in Element.prototype) {
+    return
+  }
+  // Polyfill reflective aria properties for Firefox
+  for (const ariaProperty of ARIA_PROPERTIES) {
+    ctor.createProperty(ariaProperty, {
+      attribute: ariaPropertyToAttribute(ariaProperty),
+      reflect: true,
+    })
+  }
+  ctor.createProperty('role', { reflect: true })
 }
 /**
- * Returns `true` if the component should show strong focus.
+ * Polyfills an element and its `ElementInternals` to support `ARIAMixin`
+ * properties on internals. This is needed for Firefox.
  *
- * By default, strong focus is shown only on keyboard navigation, and not on
- * pointer interaction.
- */
-function shouldShowStrongFocus() {
-  return focusObject.visible
-}
-/**
- * Components should call this when a user interacts with a component with a
- * pointing device.
+ * `setupHostAria()` must be called for the element class.
  *
- * By default, this will prevent the strong focus from being shown.
+ * @example
+ * class XButton extends LitElement {
+ *   static {
+ *     setupHostAria(XButton);
+ *   }
+ *
+ *   private internals =
+ *       polyfillElementInternalsAria(this, this.attachInternals());
+ *
+ *   constructor() {
+ *     super();
+ *     this.internals.role = 'button';
+ *   }
+ * }
  */
-function pointerPress() {
-  focusObject.setVisible(false)
+function polyfillElementInternalsAria(host, internals) {
+  if (checkIfElementInternalsSupportsAria(internals)) {
+    return internals
+  }
+  if (!('role' in host)) {
+    throw new Error('Missing setupHostAria()')
+  }
+  let firstConnectedCallbacks = []
+  let hasBeenConnected = false
+  // Add support for Firefox, which has not yet implement ElementInternals aria
+  for (const ariaProperty of ARIA_PROPERTIES) {
+    let internalAriaValue = null
+    Object.defineProperty(internals, ariaProperty, {
+      enumerable: true,
+      configurable: true,
+      get() {
+        return internalAriaValue
+      },
+      set(value) {
+        const setValue = () => {
+          internalAriaValue = value
+          if (!hasBeenConnected) {
+            firstConnectedCallbacks.push({
+              property: ariaProperty,
+              callback: setValue,
+            })
+            return
+          }
+          // Dynamic lookup rather than hardcoding all properties.
+          // tslint:disable-next-line:no-dict-access-on-struct-type
+          host[ariaProperty] = value
+        }
+        setValue()
+      },
+    })
+  }
+  let internalRoleValue = null
+  Object.defineProperty(internals, 'role', {
+    enumerable: true,
+    configurable: true,
+    get() {
+      return internalRoleValue
+    },
+    set(value) {
+      const setRole = () => {
+        internalRoleValue = value
+        if (!hasBeenConnected) {
+          firstConnectedCallbacks.push({
+            property: 'role',
+            callback: setRole,
+          })
+          return
+        }
+        if (value === null) {
+          host.removeAttribute('role')
+        } else {
+          host.setAttribute('role', value)
+        }
+      }
+      setRole()
+    },
+  })
+  host.addController({
+    hostConnected() {
+      if (hasBeenConnected) {
+        return
+      }
+      hasBeenConnected = true
+      const propertiesSetByUser = new Set()
+      // See which properties were set by the user on host before we apply
+      // internals values as attributes to host. Needs to be done in another
+      // for loop because the callbacks set these attributes on host.
+      for (const { property } of firstConnectedCallbacks) {
+        const wasSetByUser =
+          host.getAttribute(ariaPropertyToAttribute(property)) !== null ||
+          // Dynamic lookup rather than hardcoding all properties.
+          // tslint:disable-next-line:no-dict-access-on-struct-type
+          host[property] !== undefined
+        if (wasSetByUser) {
+          propertiesSetByUser.add(property)
+        }
+      }
+      for (const { property, callback } of firstConnectedCallbacks) {
+        // If the user has set the attribute or property, do not override the
+        // user's value
+        if (propertiesSetByUser.has(property)) {
+          continue
+        }
+        callback()
+      }
+      // Remove strong callback references
+      firstConnectedCallbacks = []
+    },
+  })
+  return internals
 }
-setup(focusObject, true)
+// Separate function so that typescript doesn't complain about internals being
+// "never".
+function checkIfElementInternalsSupportsAria(internals) {
+  return 'role' in internals
+}
 
 /**
  * @license
@@ -5235,6 +6088,481 @@ function createAnimationSignal() {
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
+ * Activates the first non-disabled item of a given array of items.
+ *
+ * @param items {Array<ListItem>} The items from which to activate the
+ *     first item.
+ * @param isActivatable Function to determine if an item can be  activated.
+ *     Defaults to non-disabled items.
+ */
+function activateFirstItem(items, isActivatable = isItemNotDisabled) {
+  // NOTE: These selector functions are static and not on the instance such
+  // that multiple operations can be chained and we do not have to re-query
+  // the DOM
+  const firstItem = getFirstActivatableItem(items, isActivatable)
+  if (firstItem) {
+    firstItem.tabIndex = 0
+    firstItem.focus()
+  }
+  return firstItem
+}
+/**
+ * Activates the last non-disabled item of a given array of items.
+ *
+ * @param items {Array<ListItem>} The items from which to activate the
+ *     last item.
+ * @param isActivatable Function to determine if an item can be  activated.
+ *     Defaults to non-disabled items.
+ * @nocollapse
+ */
+function activateLastItem(items, isActivatable = isItemNotDisabled) {
+  const lastItem = getLastActivatableItem(items, isActivatable)
+  if (lastItem) {
+    lastItem.tabIndex = 0
+    lastItem.focus()
+  }
+  return lastItem
+}
+/**
+ * Retrieves the first activated item of a given array of items.
+ *
+ * @param items {Array<ListItem>} The items to search.
+ * @param isActivatable Function to determine if an item can be  activated.
+ *     Defaults to non-disabled items.
+ * @return A record of the first activated item including the item and the
+ *     index of the item or `null` if none are activated.
+ * @nocollapse
+ */
+function getActiveItem(items, isActivatable = isItemNotDisabled) {
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i]
+    if (item.tabIndex === 0 && isActivatable(item)) {
+      return {
+        item,
+        index: i,
+      }
+    }
+  }
+  return null
+}
+/**
+ * Retrieves the first non-disabled item of a given array of items. This
+ * the first item that is not disabled.
+ *
+ * @param items {Array<ListItem>} The items to search.
+ * @param isActivatable Function to determine if an item can be  activated.
+ *     Defaults to non-disabled items.
+ * @return The first activatable item or `null` if none are activatable.
+ * @nocollapse
+ */
+function getFirstActivatableItem(items, isActivatable = isItemNotDisabled) {
+  for (const item of items) {
+    if (isActivatable(item)) {
+      return item
+    }
+  }
+  return null
+}
+/**
+ * Retrieves the last non-disabled item of a given array of items.
+ *
+ * @param items {Array<ListItem>} The items to search.
+ * @param isActivatable Function to determine if an item can be  activated.
+ *     Defaults to non-disabled items.
+ * @return The last activatable item or `null` if none are activatable.
+ * @nocollapse
+ */
+function getLastActivatableItem(items, isActivatable = isItemNotDisabled) {
+  for (let i = items.length - 1; i >= 0; i--) {
+    const item = items[i]
+    if (isActivatable(item)) {
+      return item
+    }
+  }
+  return null
+}
+/**
+ * Retrieves the next non-disabled item of a given array of items.
+ *
+ * @param items {Array<ListItem>} The items to search.
+ * @param index {{index: number}} The index to search from.
+ * @param isActivatable Function to determine if an item can be  activated.
+ *     Defaults to non-disabled items.
+ * @return The next activatable item or `null` if none are activatable.
+ */
+function getNextItem(items, index, isActivatable = isItemNotDisabled) {
+  for (let i = 1; i < items.length; i++) {
+    const nextIndex = (i + index) % items.length
+    const item = items[nextIndex]
+    if (isActivatable(item)) {
+      return item
+    }
+  }
+  return items[index] ? items[index] : null
+}
+/**
+ * Retrieves the previous non-disabled item of a given array of items.
+ *
+ * @param items {Array<ListItem>} The items to search.
+ * @param index {{index: number}} The index to search from.
+ * @param isActivatable Function to determine if an item can be  activated.
+ *     Defaults to non-disabled items.
+ * @return The previous activatable item or `null` if none are activatable.
+ */
+function getPrevItem(items, index, isActivatable = isItemNotDisabled) {
+  for (let i = 1; i < items.length; i++) {
+    const prevIndex = (index - i + items.length) % items.length
+    const item = items[prevIndex]
+    if (isActivatable(item)) {
+      return item
+    }
+  }
+  return items[index] ? items[index] : null
+}
+/**
+ * Activates the next item and focuses it. If nothing is currently activated,
+ * activates the first item.
+ */
+function activateNextItem(
+  items,
+  activeItemRecord,
+  isActivatable = isItemNotDisabled
+) {
+  if (activeItemRecord) {
+    const next = getNextItem(items, activeItemRecord.index, isActivatable)
+    if (next) {
+      next.tabIndex = 0
+      next.focus()
+    }
+    return next
+  } else {
+    return activateFirstItem(items, isActivatable)
+  }
+}
+/**
+ * Activates the previous item and focuses it. If nothing is currently
+ * activated, activates the last item.
+ */
+function activatePreviousItem(
+  items,
+  activeItemRecord,
+  isActivatable = isItemNotDisabled
+) {
+  if (activeItemRecord) {
+    const prev = getPrevItem(items, activeItemRecord.index, isActivatable)
+    if (prev) {
+      prev.tabIndex = 0
+      prev.focus()
+    }
+    return prev
+  } else {
+    return activateLastItem(items, isActivatable)
+  }
+}
+/**
+ * The default `isActivatable` function, which checks if an item is not
+ * disabled.
+ *
+ * @param item The item to check.
+ * @return true if `item.disabled` is `false.
+ */
+function isItemNotDisabled(item) {
+  return !item.disabled
+}
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+// TODO: move this file to List and make List use this
+/**
+ * Default keys that trigger navigation.
+ */
+// tslint:disable:enforce-name-casing Following Enum style
+const NavigableKeys = {
+  ArrowDown: 'ArrowDown',
+  ArrowLeft: 'ArrowLeft',
+  ArrowUp: 'ArrowUp',
+  ArrowRight: 'ArrowRight',
+  Home: 'Home',
+  End: 'End',
+}
+/**
+ * A controller that handles list keyboard navigation and item management.
+ */
+class ListController {
+  constructor(config) {
+    /**
+     * Handles keyboard navigation. Should be bound to the node that will act as
+     * the List.
+     */
+    this.handleKeydown = event => {
+      const key = event.key
+      if (event.defaultPrevented || !this.isNavigableKey(key)) {
+        return
+      }
+      // do not use this.items directly in upcoming calculations so we don't
+      // re-query the DOM unnecessarily
+      const items = this.items
+      if (!items.length) {
+        return
+      }
+      const activeItemRecord = getActiveItem(items, this.isActivatable)
+      if (activeItemRecord) {
+        activeItemRecord.item.tabIndex = -1
+      }
+      event.preventDefault()
+      const isRtl = this.isRtl()
+      const inlinePrevious = isRtl
+        ? NavigableKeys.ArrowRight
+        : NavigableKeys.ArrowLeft
+      const inlineNext = isRtl
+        ? NavigableKeys.ArrowLeft
+        : NavigableKeys.ArrowRight
+      switch (key) {
+        // Activate the next item
+        case NavigableKeys.ArrowDown:
+        case inlineNext:
+          activateNextItem(items, activeItemRecord, this.isActivatable)
+          break
+        // Activate the previous item
+        case NavigableKeys.ArrowUp:
+        case inlinePrevious:
+          activatePreviousItem(items, activeItemRecord, this.isActivatable)
+          break
+        // Activate the first item
+        case NavigableKeys.Home:
+          activateFirstItem(items, this.isActivatable)
+          break
+        // Activate the last item
+        case NavigableKeys.End:
+          activateLastItem(items, this.isActivatable)
+          break
+      }
+    }
+    /**
+     * Listener to be bound to the `deactivate-items` item event.
+     */
+    this.onDeactivateItems = () => {
+      const items = this.items
+      for (const item of items) {
+        this.deactivateItem(item)
+      }
+    }
+    /**
+     * Listener to be bound to the `request-activation` item event..
+     */
+    this.onRequestActivation = event => {
+      this.onDeactivateItems()
+      const target = event.target
+      this.activateItem(target)
+      target.focus()
+    }
+    /**
+     * Listener to be bound to the `slotchange` event for the slot that renders
+     * the items.
+     */
+    this.onSlotchange = () => {
+      const items = this.items
+      // Whether we have encountered an item that has been activated
+      let encounteredActivated = false
+      for (const item of items) {
+        const isActivated = !item.disabled && item.tabIndex > -1
+        if (isActivated && !encounteredActivated) {
+          encounteredActivated = true
+          item.tabIndex = 0
+          continue
+        }
+        // Deactivate the rest including disabled
+        item.tabIndex = -1
+      }
+      if (encounteredActivated) {
+        return
+      }
+      const firstActivatableItem = getFirstActivatableItem(
+        items,
+        this.isActivatable
+      )
+      if (!firstActivatableItem) {
+        return
+      }
+      firstActivatableItem.tabIndex = 0
+    }
+    const {
+      isItem,
+      getPossibleItems,
+      isRtl,
+      deactivateItem,
+      activateItem,
+      isNavigableKey,
+      isActivatable,
+    } = config
+    this.isItem = isItem
+    this.getPossibleItems = getPossibleItems
+    this.isRtl = isRtl
+    this.deactivateItem = deactivateItem
+    this.activateItem = activateItem
+    this.isNavigableKey = isNavigableKey
+    this.isActivatable = isActivatable
+  }
+  /**
+   * The items being managed by the list. Additionally, attempts to see if the
+   * object has a sub-item in the `.item` property.
+   */
+  get items() {
+    const maybeItems = this.getPossibleItems()
+    const items = []
+    for (const itemOrParent of maybeItems) {
+      const isItem = this.isItem(itemOrParent)
+      // if the item is a list item, add it to the list of items
+      if (isItem) {
+        items.push(itemOrParent)
+        continue
+      }
+      // If the item exposes an `item` property check if it is a list item.
+      const subItem = itemOrParent.item
+      if (subItem && this.isItem(subItem)) {
+        items.push(subItem)
+      }
+    }
+    return items
+  }
+  /**
+   * Activates the next item in the list. If at the end of the list, the first
+   * item will be activated.
+   *
+   * @return The activated list item or `null` if there are no items.
+   */
+  activateNextItem() {
+    const items = this.items
+    const activeItemRecord = getActiveItem(items, this.isActivatable)
+    if (activeItemRecord) {
+      activeItemRecord.item.tabIndex = -1
+    }
+    return activateNextItem(items, activeItemRecord, this.isActivatable)
+  }
+  /**
+   * Activates the previous item in the list. If at the start of the list, the
+   * last item will be activated.
+   *
+   * @return The activated list item or `null` if there are no items.
+   */
+  activatePreviousItem() {
+    const items = this.items
+    const activeItemRecord = getActiveItem(items, this.isActivatable)
+    if (activeItemRecord) {
+      activeItemRecord.item.tabIndex = -1
+    }
+    return activatePreviousItem(items, activeItemRecord, this.isActivatable)
+  }
+}
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Creates an event that closes any parent menus.
+ */
+function createCloseMenuEvent(initiator, reason) {
+  return new CustomEvent('close-menu', {
+    bubbles: true,
+    composed: true,
+    detail: { initiator, reason, itemPath: [initiator] },
+  })
+}
+/**
+ * Creates a default close menu event used by md-menu.
+ */
+const createDefaultCloseMenuEvent = createCloseMenuEvent
+/**
+ * Keys that are used for selection in menus.
+ */
+// tslint:disable-next-line:enforce-name-casing We are mimicking enum style
+const SelectionKey = {
+  SPACE: 'Space',
+  ENTER: 'Enter',
+}
+/**
+ * Default close `Reason` kind values.
+ */
+// tslint:disable-next-line:enforce-name-casing We are mimicking enum style
+const CloseReason = {
+  CLICK_SELECTION: 'click-selection',
+  KEYDOWN: 'keydown',
+}
+/**
+ * Keys that can close menus.
+ */
+// tslint:disable-next-line:enforce-name-casing We are mimicking enum style
+const KeydownCloseKey = {
+  ESCAPE: 'Escape',
+  SPACE: SelectionKey.SPACE,
+  ENTER: SelectionKey.ENTER,
+}
+/**
+ * Determines whether the given key code is a key code that should close the
+ * menu.
+ *
+ * @param code The KeyboardEvent code to check.
+ * @return Whether or not the key code is in the predetermined list to close the
+ * menu.
+ */
+function isClosableKey(code) {
+  return Object.values(KeydownCloseKey).some(value => value === code)
+}
+/**
+ * Determines whether a target element is contained inside another element's
+ * composed tree.
+ *
+ * @param target The potential contained element.
+ * @param container The potential containing element of the target.
+ * @returns Whether the target element is contained inside the container's
+ * composed subtree
+ */
+function isElementInSubtree(target, container) {
+  // Dispatch a composed, bubbling event to check its path to see if the
+  // newly-focused element is contained in container's subtree
+  const focusEv = new Event('md-contains', { bubbles: true, composed: true })
+  let composedPath = []
+  const listener = ev => {
+    composedPath = ev.composedPath()
+  }
+  container.addEventListener('md-contains', listener)
+  target.dispatchEvent(focusEv)
+  container.removeEventListener('md-contains', listener)
+  const isContained = composedPath.length > 0
+  return isContained
+}
+/**
+ * Element to focus on when menu is first opened.
+ */
+// tslint:disable-next-line:enforce-name-casing We are mimicking enum style
+const FocusState = {
+  NONE: 'none',
+  LIST_ROOT: 'list-root',
+  FIRST_ITEM: 'first-item',
+  LAST_ITEM: 'last-item',
+}
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * An enum of supported Menu corners
+ */
+// tslint:disable-next-line:enforce-name-casing We are mimicking enum style
+const Corner = {
+  END_START: 'end-start',
+  END_END: 'end-end',
+  START_START: 'start-start',
+  START_END: 'start-end',
+}
+/**
  * Given a surface, an anchor, corners, and some options, this surface will
  * calculate the position of a surface to align the two given corners and keep
  * the surface inside the window viewport. It also provides a StyleInfo map that
@@ -5276,15 +6604,20 @@ class SurfacePositionController {
       anchorEl,
       anchorCorner: anchorCornerRaw,
       surfaceCorner: surfaceCornerRaw,
-      isTopLayer: topLayerRaw,
+      positioning,
       xOffset,
       yOffset,
+      repositionStrategy,
     } = this.getProperties()
-    const anchorCorner = anchorCornerRaw.toUpperCase().trim()
-    const surfaceCorner = surfaceCornerRaw.toUpperCase().trim()
+    const anchorCorner = anchorCornerRaw.toLowerCase().trim()
+    const surfaceCorner = surfaceCornerRaw.toLowerCase().trim()
     if (!surfaceEl || !anchorEl) {
       return
     }
+    // Store these before we potentially resize the window with the next set of
+    // lines
+    const windowInnerWidth = window.innerWidth
+    const windowInnerHeight = window.innerHeight
     // Paint the surface transparently so that we can get the position and the
     // rect info of the surface.
     this.surfaceStylesInternal = {
@@ -5294,22 +6627,16 @@ class SurfacePositionController {
     // Wait for it to be visible.
     this.host.requestUpdate()
     await this.host.updateComplete
-    const surfaceRect = surfaceEl.getBoundingClientRect()
-    const anchorRect = anchorEl.getBoundingClientRect()
-    const [surfaceBlock, surfaceInline] = surfaceCorner.split('_')
-    const [anchorBlock, anchorInline] = anchorCorner.split('_')
-    // We use number booleans to multiply values rather than `if` / ternary
-    // statements because it _heavily_ cuts down on nesting and readability
-    const isTopLayer = topLayerRaw ? 1 : 0
+    const surfaceRect = surfaceEl.getSurfacePositionClientRect
+      ? surfaceEl.getSurfacePositionClientRect()
+      : surfaceEl.getBoundingClientRect()
+    const anchorRect = anchorEl.getSurfacePositionClientRect
+      ? anchorEl.getSurfacePositionClientRect()
+      : anchorEl.getBoundingClientRect()
+    const [surfaceBlock, surfaceInline] = surfaceCorner.split('-')
+    const [anchorBlock, anchorInline] = anchorCorner.split('-')
     // LTR depends on the direction of the SURFACE not the anchor.
-    const isLTR = getComputedStyle(surfaceEl).direction === 'ltr' ? 1 : 0
-    const isRTL = isLTR ? 0 : 1
-    const isSurfaceInlineStart = surfaceInline === 'START' ? 1 : 0
-    const isSurfaceInlineEnd = surfaceInline === 'END' ? 1 : 0
-    const isSurfaceBlockStart = surfaceBlock === 'START' ? 1 : 0
-    const isSurfaceBlockEnd = surfaceBlock === 'END' ? 1 : 0
-    const isOneInlineEnd = anchorInline !== surfaceInline ? 1 : 0
-    const isOneBlockEnd = anchorBlock !== surfaceBlock ? 1 : 0
+    const isLTR = getComputedStyle(surfaceEl).direction === 'ltr'
     /*
      * A diagram that helps describe some of the variables used in the following
      * calculations.
@@ -5341,64 +6668,214 @@ class SurfacePositionController {
      *             └────────────────────────┐▼───┼┘
      *                                      └────┘
      */
+    // Calculate the block positioning properties
+    let {
+      blockInset,
+      blockOutOfBoundsCorrection,
+      surfaceBlockProperty,
+    } = this.calculateBlock({
+      surfaceRect,
+      anchorRect,
+      anchorBlock,
+      surfaceBlock,
+      yOffset,
+      positioning,
+      windowInnerHeight,
+    })
+    // If the surface should be out of bounds in the block direction, flip the
+    // surface and anchor corner block values and recalculate
+    if (blockOutOfBoundsCorrection) {
+      const flippedSurfaceBlock = surfaceBlock === 'start' ? 'end' : 'start'
+      const flippedAnchorBlock = anchorBlock === 'start' ? 'end' : 'start'
+      const flippedBlock = this.calculateBlock({
+        surfaceRect,
+        anchorRect,
+        anchorBlock: flippedAnchorBlock,
+        surfaceBlock: flippedSurfaceBlock,
+        yOffset,
+        positioning,
+        windowInnerHeight,
+      })
+      // In the case that the flipped verion would require less out of bounds
+      // correcting, use the flipped corner block values
+      if (
+        blockOutOfBoundsCorrection > flippedBlock.blockOutOfBoundsCorrection
+      ) {
+        blockInset = flippedBlock.blockInset
+        blockOutOfBoundsCorrection = flippedBlock.blockOutOfBoundsCorrection
+        surfaceBlockProperty = flippedBlock.surfaceBlockProperty
+      }
+    }
+    // Calculate the inline positioning properties
+    let {
+      inlineInset,
+      inlineOutOfBoundsCorrection,
+      surfaceInlineProperty,
+    } = this.calculateInline({
+      surfaceRect,
+      anchorRect,
+      anchorInline,
+      surfaceInline,
+      xOffset,
+      positioning,
+      isLTR,
+      windowInnerWidth,
+    })
+    // If the surface should be out of bounds in the inline direction, flip the
+    // surface and anchor corner inline values and recalculate
+    if (inlineOutOfBoundsCorrection) {
+      const flippedSurfaceInline = surfaceInline === 'start' ? 'end' : 'start'
+      const flippedAnchorInline = anchorInline === 'start' ? 'end' : 'start'
+      const flippedInline = this.calculateInline({
+        surfaceRect,
+        anchorRect,
+        anchorInline: flippedAnchorInline,
+        surfaceInline: flippedSurfaceInline,
+        xOffset,
+        positioning,
+        isLTR,
+        windowInnerWidth,
+      })
+      // In the case that the flipped verion would require less out of bounds
+      // correcting, use the flipped corner inline values
+      if (
+        Math.abs(inlineOutOfBoundsCorrection) >
+        Math.abs(flippedInline.inlineOutOfBoundsCorrection)
+      ) {
+        inlineInset = flippedInline.inlineInset
+        inlineOutOfBoundsCorrection = flippedInline.inlineOutOfBoundsCorrection
+        surfaceInlineProperty = flippedInline.surfaceInlineProperty
+      }
+    }
+    // If we are simply repositioning the surface back inside the viewport,
+    // subtract the out of bounds correction values from the positioning.
+    if (repositionStrategy === 'move') {
+      blockInset = blockInset - blockOutOfBoundsCorrection
+      inlineInset = inlineInset - inlineOutOfBoundsCorrection
+    }
+    this.surfaceStylesInternal = {
+      display: 'block',
+      opacity: '1',
+      [surfaceBlockProperty]: `${blockInset}px`,
+      [surfaceInlineProperty]: `${inlineInset}px`,
+    }
+    // In the case that we are resizing the surface to stay inside the viewport
+    // we need to set height and width on the surface.
+    if (repositionStrategy === 'resize') {
+      // Add a height property to the styles if there is block height correction
+      if (blockOutOfBoundsCorrection) {
+        this.surfaceStylesInternal['height'] = `${surfaceRect.height -
+          blockOutOfBoundsCorrection}px`
+      }
+      // Add a width property to the styles if there is block height correction
+      if (inlineOutOfBoundsCorrection) {
+        this.surfaceStylesInternal['width'] = `${surfaceRect.width -
+          inlineOutOfBoundsCorrection}px`
+      }
+    }
+    this.host.requestUpdate()
+  }
+  /**
+   * Calculates the css property, the inset, and the out of bounds correction
+   * for the surface in the block direction.
+   */
+  calculateBlock(config) {
+    const {
+      surfaceRect,
+      anchorRect,
+      anchorBlock,
+      surfaceBlock,
+      yOffset,
+      positioning,
+      windowInnerHeight,
+    } = config
+    // We use number booleans to multiply values rather than `if` / ternary
+    // statements because it _heavily_ cuts down on nesting and readability
+    const relativeToWindow = positioning === 'fixed' ? 1 : 0
+    const isSurfaceBlockStart = surfaceBlock === 'start' ? 1 : 0
+    const isSurfaceBlockEnd = surfaceBlock === 'end' ? 1 : 0
+    const isOneBlockEnd = anchorBlock !== surfaceBlock ? 1 : 0
+    // Whether or not to apply the height of the anchor
+    const blockAnchorOffset = isOneBlockEnd * anchorRect.height + yOffset
+    // The absolute block position of the anchor relative to window
+    const blockTopLayerOffset =
+      isSurfaceBlockStart * anchorRect.top +
+      isSurfaceBlockEnd * (windowInnerHeight - anchorRect.bottom)
+    // If the surface's block would be out of bounds of the window, move it back
+    // in
+    const blockOutOfBoundsCorrection = Math.abs(
+      Math.min(
+        0,
+        windowInnerHeight -
+          blockTopLayerOffset -
+          blockAnchorOffset -
+          surfaceRect.height
+      )
+    )
+    // The block logical value of the surface
+    const blockInset =
+      relativeToWindow * blockTopLayerOffset + blockAnchorOffset
+    const surfaceBlockProperty =
+      surfaceBlock === 'start' ? 'inset-block-start' : 'inset-block-end'
+    return { blockInset, blockOutOfBoundsCorrection, surfaceBlockProperty }
+  }
+  /**
+   * Calculates the css property, the inset, and the out of bounds correction
+   * for the surface in the inline direction.
+   */
+  calculateInline(config) {
+    const {
+      isLTR: isLTRBool,
+      surfaceInline,
+      anchorInline,
+      anchorRect,
+      surfaceRect,
+      xOffset,
+      positioning,
+      windowInnerWidth,
+    } = config
+    // We use number booleans to multiply values rather than `if` / ternary
+    // statements because it _heavily_ cuts down on nesting and readability
+    const relativeToWindow = positioning === 'fixed' ? 1 : 0
+    const isLTR = isLTRBool ? 1 : 0
+    const isRTL = isLTRBool ? 0 : 1
+    const isSurfaceInlineStart = surfaceInline === 'start' ? 1 : 0
+    const isSurfaceInlineEnd = surfaceInline === 'end' ? 1 : 0
+    const isOneInlineEnd = anchorInline !== surfaceInline ? 1 : 0
     // Whether or not to apply the width of the anchor
     const inlineAnchorOffset = isOneInlineEnd * anchorRect.width + xOffset
     // The inline position of the anchor relative to window in LTR
     const inlineTopLayerOffsetLTR =
       isSurfaceInlineStart * anchorRect.left +
-      isSurfaceInlineEnd * (window.innerWidth - anchorRect.right)
+      isSurfaceInlineEnd * (windowInnerWidth - anchorRect.right)
     // The inline position of the anchor relative to window in RTL
     const inlineTopLayerOffsetRTL =
-      isSurfaceInlineStart * (window.innerWidth - anchorRect.right) +
+      isSurfaceInlineStart * (windowInnerWidth - anchorRect.right) +
       isSurfaceInlineEnd * anchorRect.left
     // The inline position of the anchor relative to window
     const inlineTopLayerOffset =
       isLTR * inlineTopLayerOffsetLTR + isRTL * inlineTopLayerOffsetRTL
     // If the surface's inline would be out of bounds of the window, move it
     // back in
-    const inlineOutOfBoundsCorrection = Math.min(
-      0,
-      window.innerWidth -
-        inlineTopLayerOffset -
-        inlineAnchorOffset -
-        surfaceRect.width
+    const inlineOutOfBoundsCorrection = Math.abs(
+      Math.min(
+        0,
+        windowInnerWidth -
+          inlineTopLayerOffset -
+          inlineAnchorOffset -
+          surfaceRect.width
+      )
     )
     // The inline logical value of the surface
-    const inline =
-      isTopLayer * inlineTopLayerOffset +
-      inlineAnchorOffset +
-      inlineOutOfBoundsCorrection
-    // Whether or not to apply the height of the anchor
-    const blockAnchorOffset = isOneBlockEnd * anchorRect.height + yOffset
-    // The absolute block position of the anchor relative to window
-    const blockTopLayerOffset =
-      isSurfaceBlockStart * anchorRect.top +
-      isSurfaceBlockEnd * (window.innerHeight - anchorRect.bottom)
-    // If the surface's block would be out of bounds of the window, move it back
-    // in
-    const blockOutOfBoundsCorrection = Math.min(
-      0,
-      window.innerHeight -
-        blockTopLayerOffset -
-        blockAnchorOffset -
-        surfaceRect.height
-    )
-    // The block logical value of the surface
-    const block =
-      isTopLayer * blockTopLayerOffset +
-      blockAnchorOffset +
-      blockOutOfBoundsCorrection
-    const surfaceBlockProperty =
-      surfaceBlock === 'START' ? 'inset-block-start' : 'inset-block-end'
+    const inlineInset =
+      relativeToWindow * inlineTopLayerOffset + inlineAnchorOffset
     const surfaceInlineProperty =
-      surfaceInline === 'START' ? 'inset-inline-start' : 'inset-inline-end'
-    this.surfaceStylesInternal = {
-      display: 'block',
-      opacity: '1',
-      [surfaceBlockProperty]: `${block}px`,
-      [surfaceInlineProperty]: `${inline}px`,
+      surfaceInline === 'start' ? 'inset-inline-start' : 'inset-inline-end'
+    return {
+      inlineInset,
+      inlineOutOfBoundsCorrection,
+      surfaceInlineProperty,
     }
-    this.host.requestUpdate()
   }
   hostUpdate() {
     this.onUpdate()
@@ -5456,10 +6933,14 @@ class SurfacePositionController {
  * Copyright 2023 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-// Indicies to access the TypeaheadRecord tuple
-const TYPEAHEAD_INDEX = 0
-const TYPEAHEAD_ITEM = 1
-const TYPEAHEAD_TEXT = 2
+/**
+ * Indicies to access the TypeaheadRecord tuple type.
+ */
+const TYPEAHEAD_RECORD = {
+  INDEX: 0,
+  ITEM: 1,
+  TEXT: 2,
+}
 /**
  * This controller listens to `keydown` events and searches the header text of
  * an array of `MenuItem`s with the corresponding entered keys within the buffer
@@ -5526,13 +7007,13 @@ class TypeaheadController {
      * Apply this listener to the element that will receive `keydown` events that
      * should trigger this controller.
      *
-     * @param e The native browser `KeyboardEvent` from the `keydown` event.
+     * @param event The native browser `KeyboardEvent` from the `keydown` event.
      */
-    this.onKeydown = e => {
+    this.onKeydown = event => {
       if (this.isTypingAhead) {
-        this.typeahead(e)
+        this.typeahead(event)
       } else {
-        this.beginTypeahead(e)
+        this.beginTypeahead(event)
       }
     }
     /**
@@ -5547,22 +7028,25 @@ class TypeaheadController {
   get items() {
     return this.getProperties().getItems()
   }
+  get active() {
+    return this.getProperties().active
+  }
   /**
    * Sets up typingahead
    */
-  beginTypeahead(e) {
+  beginTypeahead(event) {
+    if (!this.active) {
+      return
+    }
     // We don't want to typeahead if the _beginning_ of the typeahead is a menu
     // navigation, or a selection. We will handle "Space" only if it's in the
     // middle of a typeahead
     if (
-      e.code === 'Space' ||
-      e.code === 'Enter' ||
-      e.code.startsWith('Arrow') ||
-      e.code === 'Escape'
+      event.code === 'Space' ||
+      event.code === 'Enter' ||
+      event.code.startsWith('Arrow') ||
+      event.code === 'Escape'
     ) {
-      if (this.lastActiveRecord) {
-        this.lastActiveRecord[TYPEAHEAD_ITEM].active = false
-      }
       return
     }
     this.isTypingAhead = true
@@ -5571,15 +7055,16 @@ class TypeaheadController {
     this.typeaheadRecords = this.items.map((el, index) => [
       index,
       el,
-      el.headline.trim().toLowerCase(),
+      el.typeaheadText.trim().toLowerCase(),
     ])
     this.lastActiveRecord =
-      this.typeaheadRecords.find(record => record[TYPEAHEAD_ITEM].active) ??
-      null
+      this.typeaheadRecords.find(
+        record => record[TYPEAHEAD_RECORD.ITEM].tabIndex === 0
+      ) ?? null
     if (this.lastActiveRecord) {
-      this.lastActiveRecord[TYPEAHEAD_ITEM].active = false
+      this.lastActiveRecord[TYPEAHEAD_RECORD.ITEM].tabIndex = -1
     }
-    this.typeahead(e)
+    this.typeahead(event)
   }
   /**
    * Performs the typeahead. Based on the normalized items and the current text
@@ -5617,33 +7102,34 @@ class TypeaheadController {
    *
    * activates Olive
    */
-  typeahead(e) {
+  typeahead(event) {
+    if (event.defaultPrevented) return
     clearTimeout(this.cancelTypeaheadTimeout)
     // Stop typingahead if one of the navigation or selection keys (except for
     // Space) are pressed
     if (
-      e.code === 'Enter' ||
-      e.code.startsWith('Arrow') ||
-      e.code === 'Escape'
+      event.code === 'Enter' ||
+      event.code.startsWith('Arrow') ||
+      event.code === 'Escape'
     ) {
       this.endTypeahead()
       if (this.lastActiveRecord) {
-        this.lastActiveRecord[TYPEAHEAD_ITEM].active = false
+        this.lastActiveRecord[TYPEAHEAD_RECORD.ITEM].tabIndex = -1
       }
       return
     }
     // If Space is pressed, prevent it from selecting and closing the menu
-    if (e.code === 'Space') {
-      e.stopPropagation()
+    if (event.code === 'Space') {
+      event.preventDefault()
     }
     // Start up a new keystroke buffer timeout
     this.cancelTypeaheadTimeout = setTimeout(
       this.endTypeahead,
       this.getProperties().typeaheadBufferTime
     )
-    this.typaheadBuffer += e.key.toLowerCase()
+    this.typaheadBuffer += event.key.toLowerCase()
     const lastActiveIndex = this.lastActiveRecord
-      ? this.lastActiveRecord[TYPEAHEAD_INDEX]
+      ? this.lastActiveRecord[TYPEAHEAD_RECORD.INDEX]
       : -1
     const numRecords = this.typeaheadRecords.length
     /**
@@ -5670,15 +7156,16 @@ class TypeaheadController {
      */
     const rebaseIndexOnActive = record => {
       return (
-        (record[TYPEAHEAD_INDEX] + numRecords - lastActiveIndex) % numRecords
+        (record[TYPEAHEAD_RECORD.INDEX] + numRecords - lastActiveIndex) %
+        numRecords
       )
     }
     // records filtered and sorted / rebased around the last active index
     const matchingRecords = this.typeaheadRecords
       .filter(
         record =>
-          !record[TYPEAHEAD_ITEM].disabled &&
-          record[TYPEAHEAD_TEXT].startsWith(this.typaheadBuffer)
+          !record[TYPEAHEAD_RECORD.ITEM].disabled &&
+          record[TYPEAHEAD_RECORD.TEXT].startsWith(this.typaheadBuffer)
       )
       .sort((a, b) => rebaseIndexOnActive(a) - rebaseIndexOnActive(b))
     // Just leave if there's nothing that matches. Native select will just
@@ -5687,7 +7174,7 @@ class TypeaheadController {
     if (matchingRecords.length === 0) {
       clearTimeout(this.cancelTypeaheadTimeout)
       if (this.lastActiveRecord) {
-        this.lastActiveRecord[TYPEAHEAD_ITEM].active = false
+        this.lastActiveRecord[TYPEAHEAD_RECORD.ITEM].tabIndex = -1
       }
       this.endTypeahead()
       return
@@ -5702,19 +7189,35 @@ class TypeaheadController {
       nextRecord = matchingRecords[0]
     }
     if (this.lastActiveRecord) {
-      this.lastActiveRecord[TYPEAHEAD_ITEM].active = false
+      this.lastActiveRecord[TYPEAHEAD_RECORD.ITEM].tabIndex = -1
     }
     this.lastActiveRecord = nextRecord
-    nextRecord[TYPEAHEAD_ITEM].active = true
+    nextRecord[TYPEAHEAD_RECORD.ITEM].tabIndex = 0
+    nextRecord[TYPEAHEAD_RECORD.ITEM].focus()
     return
   }
 }
 
 /**
  * @license
- * Copyright 2022 Google LLC
+ * Copyright 2023 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+/**
+ * The default value for the typeahead buffer time in Milliseconds.
+ */
+const DEFAULT_TYPEAHEAD_BUFFER_TIME = 200
+const submenuNavKeys = new Set([
+  NavigableKeys.ArrowDown,
+  NavigableKeys.ArrowUp,
+  NavigableKeys.Home,
+  NavigableKeys.End,
+])
+const menuNavKeys = new Set([
+  NavigableKeys.ArrowLeft,
+  NavigableKeys.ArrowRight,
+  ...submenuNavKeys,
+])
 /**
  * Gets the currently focused element on the page.
  *
@@ -5723,38 +7226,75 @@ class TypeaheadController {
  * @return Returns the currently deeply focused element or `null` if none.
  */
 function getFocusedElement(activeDoc = document) {
-  const activeEl = activeDoc.activeElement
-  if (!activeEl) {
-    return null
-  }
-  if (activeEl.shadowRoot) {
-    return getFocusedElement(activeEl.shadowRoot) ?? activeEl
+  let activeEl = activeDoc.activeElement
+  // Check for activeElement in the case that an element with a shadow root host
+  // is currently focused.
+  while (activeEl && activeEl?.shadowRoot?.activeElement) {
+    activeEl = activeEl.shadowRoot.activeElement
   }
   return activeEl
 }
 /**
- * @fires opening Fired before the opening animation begins (not fired on quick)
+ * @fires opening Fired before the opening animation begins
  * @fires opened Fired once the menu is open, after any animations
- * @fires closing Fired before the closing animation begins (not fired on quick)
+ * @fires closing Fired before the closing animation begins
  * @fires closed Fired once the menu is closed, after any animations
  */
-class Menu extends s$4 {
+class Menu extends s$1 {
+  /**
+   * Whether the menu is animating upwards or downwards when opening. This is
+   * helpful for calculating some animation calculations.
+   */
+  get openDirection() {
+    const menuCornerBlock = this.menuCorner.split('-')[0]
+    return menuCornerBlock === 'start' ? 'DOWN' : 'UP'
+  }
+  /**
+   * The element which the menu should align to. If `anchor` is set to a
+   * non-empty idref string, then `anchorEl` will resolve to the element with
+   * the given id in the same root node. Otherwise, `null`.
+   */
+  get anchorElement() {
+    if (this.anchor) {
+      return this.getRootNode().querySelector(`#${this.anchor}`)
+    }
+    return this.currentAnchorElement
+  }
+  set anchorElement(element) {
+    this.currentAnchorElement = element
+    this.requestUpdate('anchorElement')
+  }
   constructor() {
-    super(...arguments)
+    super()
     /**
-     * The element in which the menu should align to.
+     * The ID of the element in the same root node in which the menu should align
+     * to. Overrides setting `anchorElement = elementReference`.
+     *
+     * __NOTE__: anchor or anchorElement must either be an HTMLElement or resolve
+     * to an HTMLElement in order for menu to open.
      */
-    this.anchor = null
+    this.anchor = ''
     /**
-     * Makes the element use `position:fixed` instead of `position:absolute`. In
-     * most cases, the menu should position itself above most other
-     * `position:absolute` or `position:fixed` elements when placed inside of
-     * them. e.g. using a menu inside of an `md-dialog`.
+     * Whether the positioning algorithim should calculate relative to the parent
+     * of the anchor element (absolute) or relative to the window (fixed).
+     *
+     * Examples for `position = 'fixed'`:
+     *
+     * - If there is no `position:relative` in the given parent tree and the
+     *   surface is `position:absolute`
+     * - If the surface is `position:fixed`
+     * - If the surface is in the "top layer"
+     * - The anchor and the surface do not share a common `position:relative`
+     *   ancestor
+     *
+     * When using positioning = fixed, in most cases, the menu should position
+     * itself above most other `position:absolute` or `position:fixed` elements
+     * when placed inside of them. e.g. using a menu inside of an `md-dialog`.
      *
      * __NOTE__: Fixed menus will not scroll with the page and will be fixed to
      * the window instead.
      */
-    this.fixed = false
+    this.positioning = 'absolute'
     /**
      * Skips the opening and closing animations.
      */
@@ -5789,28 +7329,40 @@ class Menu extends s$4 {
      */
     this.yOffset = 0
     /**
-     * The tabindex of the underlying list element.
-     */
-    this.listTabIndex = 0
-    /**
      * The max time between the keystrokes of the typeahead menu behavior before
      * it clears the typeahead buffer.
      */
-    this.typeaheadBufferTime = 200
+    this.typeaheadDelay = DEFAULT_TYPEAHEAD_BUFFER_TIME
     /**
      * The corner of the anchor which to align the menu in the standard logical
-     * property style of <block>_<inline>.
+     * property style of <block>-<inline> e.g. `'end-start'`.
+     *
+     * NOTE: This value may not be respected by the menu positioning algorithm
+     * if the menu would render outisde the viewport.
      */
-    this.anchorCorner = 'END_START'
+    this.anchorCorner = Corner.END_START
     /**
      * The corner of the menu which to align the anchor in the standard logical
-     * property style of <block>_<inline>.
+     * property style of <block>-<inline> e.g. `'start-start'`.
+     *
+     * NOTE: This value may not be respected by the menu positioning algorithm
+     * if the menu would render outisde the viewport.
      */
-    this.menuCorner = 'START_START'
+    this.menuCorner = Corner.START_START
     /**
-     * Keeps the user clicks outside the menu
+     * Keeps the user clicks outside the menu.
+     *
+     * NOTE: clicking outside may still cause focusout to close the menu so see
+     * `stayOpenOnFocusout`.
      */
     this.stayOpenOnOutsideClick = false
+    /**
+     * Keeps the menu open when focus leaves the menu's composed subtree.
+     *
+     * NOTE: Focusout behavior will stop propagation of the focusout event. Set
+     * this property to true to opt-out of menu's focuout handling altogether.
+     */
+    this.stayOpenOnFocusout = false
     /**
      * After closing, does not restore focus to the last focused element before
      * the menu was opened.
@@ -5818,9 +7370,57 @@ class Menu extends s$4 {
     this.skipRestoreFocus = false
     /**
      * The element that should be focused by default once opened.
+     *
+     * NOTE: When setting default focus to 'LIST_ROOT', remember to change
+     * `tabindex` to `0` and change md-menu's display to something other than
+     * `display: contents` when necessary.
      */
-    this.defaultFocus = 'LIST_ROOT'
+    this.defaultFocus = FocusState.FIRST_ITEM
+    this.typeaheadActive = true
+    /**
+     * Whether or not the current menu is a submenu and should not handle specific
+     * navigation keys.
+     *
+     * @exports
+     */
+    this.isSubmenu = false
+    /**
+     * The event path of the last window pointerdown event.
+     */
+    this.pointerPath = []
     this.openCloseAnimationSignal = createAnimationSignal()
+    this.listController = new ListController({
+      isItem: maybeItem => {
+        return maybeItem.hasAttribute('md-menu-item')
+      },
+      getPossibleItems: () => this.slotItems,
+      isRtl: () => getComputedStyle(this).direction === 'rtl',
+      deactivateItem: item => {
+        item.selected = false
+        item.tabIndex = -1
+      },
+      activateItem: item => {
+        item.selected = true
+        item.tabIndex = 0
+      },
+      isNavigableKey: key => {
+        if (!this.isSubmenu) {
+          return menuNavKeys.has(key)
+        }
+        const isRtl = getComputedStyle(this).direction === 'rtl'
+        // we want md-submenu to handle the submenu's left/right arrow exit
+        // key so it can close the menu instead of navigate the list.
+        // Therefore we need to include all keys but left/right arrow close
+        // key
+        const arrowOpen = isRtl
+          ? NavigableKeys.ArrowLeft
+          : NavigableKeys.ArrowRight
+        if (key === arrowOpen) {
+          return true
+        }
+        return submenuNavKeys.has(key)
+      },
+    })
     /**
      * The element that was focused before the menu opened.
      */
@@ -5831,64 +7431,120 @@ class Menu extends s$4 {
     this.typeaheadController = new TypeaheadController(() => {
       return {
         getItems: () => this.items,
-        typeaheadBufferTime: this.typeaheadBufferTime,
+        typeaheadBufferTime: this.typeaheadDelay,
+        active: this.typeaheadActive,
       }
     })
+    this.currentAnchorElement = null
+    this.internals = polyfillElementInternalsAria(
+      this,
+      this /* needed for closure */.attachInternals()
+    )
     /**
-     * Handles positioning the surface and aligning it to the anchor.
+     * Handles positioning the surface and aligning it to the anchor as well as
+     * keeping it in the viewport.
      */
     this.menuPositionController = new SurfacePositionController(this, () => {
       return {
         anchorCorner: this.anchorCorner,
         surfaceCorner: this.menuCorner,
         surfaceEl: this.surfaceEl,
-        anchorEl: this.anchor,
-        isTopLayer: this.fixed,
+        anchorEl: this.anchorElement,
+        positioning: this.positioning,
         isOpen: this.open,
         xOffset: this.xOffset,
         yOffset: this.yOffset,
         onOpen: this.onOpened,
         beforeClose: this.beforeClose,
         onClose: this.onClosed,
+        // We can't resize components that have overflow like menus with
+        // submenus because the overflow-y will show menu items / content
+        // outside the bounds of the menu. (to be fixed w/ popover API)
+        repositionStrategy: this.hasOverflow ? 'move' : 'resize',
       }
     })
+    this.handleFocusout = async event => {
+      const anchorEl = this.anchorElement
+      // Do not close if we focused out by clicking on the anchor element. We
+      // can't assume anchor buttons can be the related target because of iOS does
+      // not focus buttons.
+      if (
+        this.stayOpenOnFocusout ||
+        !this.open ||
+        this.pointerPath.includes(anchorEl)
+      ) {
+        return
+      }
+      if (event.relatedTarget) {
+        // Don't close the menu if we are switching focus between menu,
+        // md-menu-item, and md-list or if the anchor was click focused.
+        if (
+          isElementInSubtree(event.relatedTarget, this) ||
+          isElementInSubtree(event.relatedTarget, anchorEl)
+        ) {
+          return
+        }
+      } else if (this.pointerPath.includes(this)) {
+        // If menu tabindex == -1 and the user clicks on the menu or a divider, we
+        // want to keep the menu open.
+        return
+      }
+      const oldRestoreFocus = this.skipRestoreFocus
+      // allow focus to continue to the next focused object rather than returning
+      this.skipRestoreFocus = true
+      this.close()
+      // await for close
+      await this.updateComplete
+      // return to previous behavior
+      this.skipRestoreFocus = oldRestoreFocus
+    }
     /**
      * Saves the last focused element focuses the new element based on
      * `defaultFocus`, and animates open.
      */
-    this.onOpened = () => {
+    this.onOpened = async () => {
       this.lastFocusedElement = getFocusedElement()
-      if (!this.listElement) return
-      const items = this.listElement.items
-      const activeItemRecord = List.getActiveItem(items)
-      if (activeItemRecord && this.defaultFocus !== 'NONE') {
-        activeItemRecord.item.active = false
+      const items = this.items
+      const activeItemRecord = getActiveItem(items)
+      if (activeItemRecord && this.defaultFocus !== FocusState.NONE) {
+        activeItemRecord.item.tabIndex = -1
       }
+      let animationAborted = !this.quick
+      if (this.quick) {
+        this.dispatchEvent(new Event('opening'))
+      } else {
+        animationAborted = !!(await this.animateOpen())
+      }
+      // This must come after the opening animation or else it may focus one of
+      // the items before the animation has begun and causes the list to slide
+      // (block-padding-of-the-menu)px at the end of the animation
       switch (this.defaultFocus) {
-        case 'FIRST_ITEM':
-          const first = List.getFirstActivatableItem(items)
+        case FocusState.FIRST_ITEM:
+          const first = getFirstActivatableItem(items)
           if (first) {
-            first.active = true
+            first.tabIndex = 0
+            first.focus()
+            await first.updateComplete
           }
           break
-        case 'LAST_ITEM':
-          const last = List.getLastActivatableItem(items)
+        case FocusState.LAST_ITEM:
+          const last = getLastActivatableItem(items)
           if (last) {
-            last.active = true
+            last.tabIndex = 0
+            last.focus()
+            await last.updateComplete
           }
           break
-        case 'LIST_ROOT':
-          this.listElement?.focus()
+        case FocusState.LIST_ROOT:
+          this.focus()
           break
         default:
-        case 'NONE':
+        case FocusState.NONE:
           // Do nothing.
           break
       }
-      if (this.quick) {
+      if (!animationAborted) {
         this.dispatchEvent(new Event('opened'))
-      } else {
-        this.animateOpen()
       }
     }
     /**
@@ -5896,6 +7552,9 @@ class Menu extends s$4 {
      */
     this.beforeClose = async () => {
       this.open = false
+      if (!this.skipRestoreFocus) {
+        this.lastFocusedElement?.focus?.()
+      }
       if (!this.quick) {
         await this.animateClose()
       }
@@ -5905,36 +7564,77 @@ class Menu extends s$4 {
      */
     this.onClosed = () => {
       if (this.quick) {
+        this.dispatchEvent(new Event('closing'))
         this.dispatchEvent(new Event('closed'))
       }
-      if (!this.skipRestoreFocus) {
-        this.lastFocusedElement?.focus?.()
-      }
     }
-    this.onWindowClick = e => {
-      if (!this.stayOpenOnOutsideClick && !e.composedPath().includes(this)) {
+    this.onWindowPointerdown = event => {
+      this.pointerPath = event.composedPath()
+    }
+    /**
+     * We cannot listen to window click because Safari on iOS will not bubble a
+     * click event on window if the item clicked is not a "clickable" item such as
+     * <body>
+     */
+    this.onDocumentClick = event => {
+      if (!this.open) {
+        return
+      }
+      const path = event.composedPath()
+      if (
+        !this.stayOpenOnOutsideClick &&
+        !path.includes(this) &&
+        !path.includes(this.anchorElement)
+      ) {
         this.open = false
       }
     }
-  }
-  /**
-   * Whether the menu is animating upwards or downwards when opening. This is
-   * helpful for calculating some animation calculations.
-   */
-  get openDirection() {
-    const menuCornerBlock = this.menuCorner.split('_')[0]
-    return menuCornerBlock === 'START' ? 'DOWN' : 'UP'
+    {
+      this.internals.role = 'menu'
+      this.addEventListener('keydown', this.handleKeydown)
+      // Capture so that we can grab the event before it reaches the menu item
+      // istelf. Specifically useful for the case where typeahead encounters a
+      // space and we don't want the menu item to close the menu.
+      this.addEventListener('keydown', this.captureKeydown, { capture: true })
+      this.addEventListener('focusout', this.handleFocusout)
+    }
   }
   /**
    * The menu items associated with this menu. The items must be `MenuItem`s and
    * have both the `md-menu-item` and `md-list-item` attributes.
    */
   get items() {
-    const listElement = this.listElement
-    if (listElement) {
-      return listElement.items.filter(el => el.hasAttribute('md-menu-item'))
+    return this.listController.items
+  }
+  willUpdate(changed) {
+    if (!changed.has('open')) {
+      return
     }
-    return []
+    if (this.open) {
+      this.removeAttribute('aria-hidden')
+      return
+    }
+    this.setAttribute('aria-hidden', 'true')
+  }
+  update(changed) {
+    if (changed.has('open')) {
+      if (this.open) {
+        this.setUpGlobalEventListeners()
+      } else {
+        this.cleanUpGlobalEventListeners()
+      }
+    }
+    super.update(changed)
+  }
+  connectedCallback() {
+    super.connectedCallback()
+    if (this.open) {
+      this.setUpGlobalEventListeners()
+    }
+  }
+  disconnectedCallback() {
+    super.disconnectedCallback()
+    this.cleanUpGlobalEventListeners()
   }
   render() {
     return this.renderSurface()
@@ -5943,79 +7643,69 @@ class Menu extends s$4 {
    * Renders the positionable surface element and its contents.
    */
   renderSurface() {
-    return y`
+    return x`
        <div
-           class="menu ${o(this.getSurfaceClasses())}"
-           style=${i(this.menuPositionController.surfaceStyles)}>
-        ${this.renderList()} 
+          class="menu ${e$1(this.getSurfaceClasses())}"
+          style=${o$1(this.menuPositionController.surfaceStyles)}>
         ${this.renderElevation()}
-        ${this.renderFocusRing()}
+        <div class="items">
+          <div class="item-padding">
+            ${this.renderMenuItems()}
+          </div>
+        </div>
        </div>
      `
-  }
-  /**
-   * Renders the List element and its items
-   */
-  renderList() {
-    return y`
-       <md-list
-          role="menu"
-          class="list"
-          .ariaLabel=${this.ariaLabel}
-          listTabIndex=${this.listTabIndex}
-          @focus=${this.onListFocus}
-          @blur=${this.onListBlur}
-          @click=${this.onListClick}
-          @keydown=${this.typeaheadController.onKeydown}>
-         ${this.renderMenuItems()}
-       </md-list>`
   }
   /**
    * Renders the menu items' slot
    */
   renderMenuItems() {
-    return y`<slot
+    return x`<slot
         @close-menu=${this.onCloseMenu}
-        @deactivate-items=${this.onDeactivateItems}></slot>`
+        @deactivate-items=${this.onDeactivateItems}
+        @request-activation=${this.onRequestActivation}
+        @deactivate-typeahead=${this.handleDeactivateTypeahead}
+        @activate-typeahead=${this.handleActivateTypeahead}
+        @stay-open-on-focusout=${this.handleStayOpenOnFocusout}
+        @close-on-focusout=${this.handleCloseOnFocusout}
+        @slotchange=${this.listController.onSlotchange}></slot>`
   }
   /**
    * Renders the elevation component.
    */
   renderElevation() {
-    return y`<md-elevation shadow surface></md-elevation>`
-  }
-  /**
-   * Renders the focus ring component.
-   */
-  renderFocusRing() {
-    return y`<md-focus-ring></md-focus-ring>`
+    return x`<md-elevation part="elevation"></md-elevation>`
   }
   getSurfaceClasses() {
     return {
       open: this.open,
-      fixed: this.fixed,
+      fixed: this.positioning === 'fixed',
       'has-overflow': this.hasOverflow,
     }
   }
-  onListFocus() {
-    this.focusRing.visible = shouldShowStrongFocus()
-  }
-  onListClick() {
-    pointerPress()
-    this.focusRing.visible = shouldShowStrongFocus()
-  }
-  onListBlur() {
-    this.focusRing.visible = false
+  captureKeydown(event) {
+    if (
+      event.target === this &&
+      !event.defaultPrevented &&
+      isClosableKey(event.code)
+    ) {
+      event.preventDefault()
+      this.close()
+    }
+    this.typeaheadController.onKeydown(event)
   }
   /**
    * Performs the opening animation:
    *
    * https://direct.googleplex.com/#/spec/295000003+271060003
+   *
+   * @return A promise that resolve to `true` if the animation was aborted,
+   *     `false` if it was not aborted.
    */
-  animateOpen() {
+  async animateOpen() {
     const surfaceEl = this.surfaceEl
     const slotEl = this.slotEl
-    if (!surfaceEl || !slotEl) return
+    if (!surfaceEl || !slotEl) return true
     const openDirection = this.openDirection
     this.dispatchEvent(new Event('opening'))
     // needs to be imperative because we don't want to mix animation and Lit
@@ -6064,26 +7754,32 @@ class Menu extends s$4 {
       })
       // Make them all initially hidden and then clean up at the end of each
       // animation.
-      child.classList.toggle('hidden', true)
+      child.classList.toggle('md-menu-hidden', true)
       animation.addEventListener('finish', () => {
-        child.classList.toggle('hidden', false)
+        child.classList.toggle('md-menu-hidden', false)
       })
       childrenAnimations.push([child, animation])
     }
+    let resolveAnimation = value => {}
+    const animationFinished = new Promise(resolve => {
+      resolveAnimation = resolve
+    })
     signal.addEventListener('abort', () => {
       surfaceHeightAnimation.cancel()
       upPositionCorrectionAnimation.cancel()
       surfaceOpacityAnimation.cancel()
       childrenAnimations.forEach(([child, animation]) => {
-        child.classList.toggle('hidden', false)
+        child.classList.toggle('md-menu-hidden', false)
         animation.cancel()
       })
+      resolveAnimation(true)
     })
     surfaceHeightAnimation.addEventListener('finish', () => {
       surfaceEl.classList.toggle('animating', false)
       this.openCloseAnimationSignal.finish()
-      this.dispatchEvent(new Event('opened'))
+      resolveAnimation(false)
     })
+    return await animationFinished
   }
   /**
    * Performs the closing animation:
@@ -6120,7 +7816,7 @@ class Menu extends s$4 {
     const SURFACE_OPACITY_DELAY = FULL_DURATION - SURFACE_OPACITY_DURATION
     const ITEM_OPACITY_DURATION = 50
     const ITEM_OPACITY_INITIAL_DELAY = 50
-    const END_HEIGHT_PRECENTAGE = 0.35
+    const END_HEIGHT_PERCENTAGE = 0.35
     // We want to fit every child fade-out animation within the full duration of
     // the animation.
     const DELAY_BETWEEN_ITEMS =
@@ -6130,7 +7826,7 @@ class Menu extends s$4 {
     const surfaceHeightAnimation = surfaceEl.animate(
       [
         { height: `${height}px` },
-        { height: `${height * END_HEIGHT_PRECENTAGE}px` },
+        { height: `${height * END_HEIGHT_PERCENTAGE}px` },
       ],
       {
         duration: FULL_DURATION,
@@ -6145,7 +7841,7 @@ class Menu extends s$4 {
         { transform: '' },
         {
           transform: closingDownwards
-            ? `translateY(-${height * (1 - END_HEIGHT_PRECENTAGE)}px)`
+            ? `translateY(-${height * (1 - END_HEIGHT_PERCENTAGE)}px)`
             : '',
         },
       ],
@@ -6168,7 +7864,7 @@ class Menu extends s$4 {
       // Make sure the items stay hidden at the end of each child animation.
       // We clean this up at the end of the overall animation.
       animation.addEventListener('finish', () => {
-        child.classList.toggle('hidden', true)
+        child.classList.toggle('md-menu-hidden', true)
       })
       childrenAnimations.push([child, animation])
     }
@@ -6178,14 +7874,14 @@ class Menu extends s$4 {
       surfaceOpacityAnimation.cancel()
       childrenAnimations.forEach(([child, animation]) => {
         animation.cancel()
-        child.classList.toggle('hidden', false)
+        child.classList.toggle('md-menu-hidden', false)
       })
       reject()
     })
     surfaceHeightAnimation.addEventListener('finish', () => {
       surfaceEl.classList.toggle('animating', false)
       childrenAnimations.forEach(([child]) => {
-        child.classList.toggle('hidden', false)
+        child.classList.toggle('md-menu-hidden', false)
       })
       this.openCloseAnimationSignal.finish()
       this.dispatchEvent(new Event('closed'))
@@ -6193,271 +7889,168 @@ class Menu extends s$4 {
     })
     return animationEnded
   }
-  connectedCallback() {
-    super.connectedCallback()
-    if (window && window.addEventListener) {
-      window.addEventListener('click', this.onWindowClick, { capture: true })
-    }
+  handleKeydown(event) {
+    // At any key event, the pointer interaction is done so we need to clear our
+    // cached pointerpath. This handles the case where the user clicks on the
+    // anchor, and then hits shift+tab
+    this.pointerPath = []
+    this.listController.handleKeydown(event)
   }
-  disconnectedCallback() {
-    super.disconnectedCallback()
-    if (window && window.removeEventListener) {
-      window.removeEventListener('click', this.onWindowClick)
-    }
+  setUpGlobalEventListeners() {
+    document.addEventListener('click', this.onDocumentClick, { capture: true })
+    window.addEventListener('pointerdown', this.onWindowPointerdown)
   }
-  onCloseMenu(e) {
+  cleanUpGlobalEventListeners() {
+    document.removeEventListener('click', this.onDocumentClick, {
+      capture: true,
+    })
+    window.removeEventListener('pointerdown', this.onWindowPointerdown)
+  }
+  onCloseMenu() {
     this.close()
   }
-  onDeactivateItems(e) {
-    e.stopPropagation()
-    const items = this.items
-    for (const item of items) {
-      item.active = false
-    }
+  onDeactivateItems(event) {
+    event.stopPropagation()
+    this.listController.onDeactivateItems()
   }
-  focus() {
-    this.listElement?.focus()
+  onRequestActivation(event) {
+    event.stopPropagation()
+    this.listController.onRequestActivation(event)
+  }
+  handleDeactivateTypeahead(event) {
+    // stopPropagation so that this does not deactivate any typeaheads in menus
+    // nested above it e.g. md-sub-menu
+    event.stopPropagation()
+    this.typeaheadActive = false
+  }
+  handleActivateTypeahead(event) {
+    // stopPropagation so that this does not activate any typeaheads in menus
+    // nested above it e.g. md-sub-menu
+    event.stopPropagation()
+    this.typeaheadActive = true
+  }
+  handleStayOpenOnFocusout(event) {
+    event.stopPropagation()
+    this.stayOpenOnFocusout = true
+  }
+  handleCloseOnFocusout(event) {
+    event.stopPropagation()
+    this.stayOpenOnFocusout = false
   }
   close() {
     this.open = false
-    this.items.forEach(item => {
+    const maybeSubmenu = this.slotItems
+    maybeSubmenu.forEach(item => {
       item.close?.()
     })
   }
   show() {
     this.open = true
   }
+  /**
+   * Activates the next item in the menu. If at the end of the menu, the first
+   * item will be activated.
+   *
+   * @return The activated menu item or `null` if there are no items.
+   */
+  activateNextItem() {
+    return this.listController.activateNextItem() ?? null
+  }
+  /**
+   * Activates the previous item in the menu. If at the start of the menu, the
+   * last item will be activated.
+   *
+   * @return The activated menu item or `null` if there are no items.
+   */
+  activatePreviousItem() {
+    return this.listController.activatePreviousItem() ?? null
+  }
 }
+;(() => {
+  // We want to manage tabindex ourselves.
+  setupHostAria(Menu, { focusable: false })
+})()
+__decorate([e$5('.menu')], Menu.prototype, 'surfaceEl', void 0)
+__decorate([e$5('slot')], Menu.prototype, 'slotEl', void 0)
+__decorate([n$3()], Menu.prototype, 'anchor', void 0)
+__decorate([n$3()], Menu.prototype, 'positioning', void 0)
+__decorate([n$3({ type: Boolean })], Menu.prototype, 'quick', void 0)
 __decorate(
-  [i$2('md-list'), __metadata('design:type', List)],
-  Menu.prototype,
-  'listElement',
-  void 0
-)
-__decorate(
-  [i$2('.menu'), __metadata('design:type', HTMLElement)],
-  Menu.prototype,
-  'surfaceEl',
-  void 0
-)
-__decorate(
-  [i$2('slot'), __metadata('design:type', HTMLSlotElement)],
-  Menu.prototype,
-  'slotEl',
-  void 0
-)
-__decorate(
-  [i$2('md-focus-ring'), __metadata('design:type', MdFocusRing)],
-  Menu.prototype,
-  'focusRing',
-  void 0
-)
-__decorate(
-  [
-    ariaProperty,
-    e$8({ type: String, attribute: 'data-aria-label', noAccessor: true }),
-    __metadata('design:type', String),
-  ],
-  Menu.prototype,
-  'ariaLabel',
-  void 0
-)
-__decorate(
-  [e$8({ attribute: false }), __metadata('design:type', HTMLElement)],
-  Menu.prototype,
-  'anchor',
-  void 0
-)
-__decorate(
-  [e$8({ type: Boolean }), __metadata('design:type', Object)],
-  Menu.prototype,
-  'fixed',
-  void 0
-)
-__decorate(
-  [e$8({ type: Boolean }), __metadata('design:type', Object)],
-  Menu.prototype,
-  'quick',
-  void 0
-)
-__decorate(
-  [
-    e$8({ type: Boolean, attribute: 'has-overflow' }),
-    __metadata('design:type', Object),
-  ],
+  [n$3({ type: Boolean, attribute: 'has-overflow' })],
   Menu.prototype,
   'hasOverflow',
   void 0
 )
 __decorate(
-  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  [n$3({ type: Boolean, reflect: true })],
   Menu.prototype,
   'open',
   void 0
 )
 __decorate(
-  [
-    e$8({ type: Number, attribute: 'x-offset' }),
-    __metadata('design:type', Object),
-  ],
+  [n$3({ type: Number, attribute: 'x-offset' })],
   Menu.prototype,
   'xOffset',
   void 0
 )
 __decorate(
-  [
-    e$8({ type: Number, attribute: 'y-offset' }),
-    __metadata('design:type', Object),
-  ],
+  [n$3({ type: Number, attribute: 'y-offset' })],
   Menu.prototype,
   'yOffset',
   void 0
 )
 __decorate(
-  [
-    e$8({ type: Number, attribute: 'list-tab-index' }),
-    __metadata('design:type', Object),
-  ],
+  [n$3({ type: Number, attribute: 'typeahead-delay' })],
   Menu.prototype,
-  'listTabIndex',
+  'typeaheadDelay',
   void 0
 )
 __decorate(
-  [
-    e$8({ type: Number, attribute: 'typeahead-delay' }),
-    __metadata('design:type', Object),
-  ],
-  Menu.prototype,
-  'typeaheadBufferTime',
-  void 0
-)
-__decorate(
-  [
-    e$8({ type: String, attribute: 'anchor-corner' }),
-    __metadata('design:type', String),
-  ],
+  [n$3({ attribute: 'anchor-corner' })],
   Menu.prototype,
   'anchorCorner',
   void 0
 )
 __decorate(
-  [
-    e$8({ type: String, attribute: 'menu-corner' }),
-    __metadata('design:type', String),
-  ],
+  [n$3({ attribute: 'menu-corner' })],
   Menu.prototype,
   'menuCorner',
   void 0
 )
 __decorate(
-  [
-    e$8({ type: Boolean, attribute: 'stay-open-on-outside-click' }),
-    __metadata('design:type', Object),
-  ],
+  [n$3({ type: Boolean, attribute: 'stay-open-on-outside-click' })],
   Menu.prototype,
   'stayOpenOnOutsideClick',
   void 0
 )
 __decorate(
-  [
-    e$8({ type: Boolean, attribute: 'skip-restore-focus' }),
-    __metadata('design:type', Object),
-  ],
+  [n$3({ type: Boolean, attribute: 'stay-open-on-focusout' })],
+  Menu.prototype,
+  'stayOpenOnFocusout',
+  void 0
+)
+__decorate(
+  [n$3({ type: Boolean, attribute: 'skip-restore-focus' })],
   Menu.prototype,
   'skipRestoreFocus',
   void 0
 )
 __decorate(
-  [
-    e$8({ type: String, attribute: 'default-focus' }),
-    __metadata('design:type', String),
-  ],
+  [n$3({ attribute: 'default-focus' })],
   Menu.prototype,
   'defaultFocus',
   void 0
 )
+__decorate([o$3({ flatten: true })], Menu.prototype, 'slotItems', void 0)
+__decorate([r$3()], Menu.prototype, 'typeaheadActive', void 0)
 
 /**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$8 = i$5`:host{--_container-color: var(--md-menu-container-color, var(--md-sys-color-surface, #fffbfe));--_container-elevation: var(--md-menu-container-elevation, 3);--_container-shadow-color: var(--md-menu-container-shadow-color, var(--md-sys-color-shadow, #000));--_container-shape: var(--md-menu-container-shape, 4px);--_container-surface-tint-layer-color: var(--md-menu-container-surface-tint-layer-color, var(--md-sys-color-primary, #6750a4));--md-list-container-color:var(--_container-color);--md-elevation-level:var(--_container-elevation);--md-elevation-shadow-color:var(--_container-shadow-color);--md-elevation-surface-tint:var(--_container-surface-tint-layer-color);--md-focus-ring-shape-start-start:var(--md-focus-ring-shape, var(--_container-shape));--md-focus-ring-shape-start-end:var(--md-focus-ring-shape, var(--_container-shape));--md-focus-ring-shape-end-end:var(--md-focus-ring-shape, var(--_container-shape));--md-focus-ring-shape-end-start:var(--md-focus-ring-shape, var(--_container-shape))}.menu{border-radius:var(--_container-shape);display:none;opacity:0;z-index:20;position:absolute;user-select:none;max-height:inherit;height:inherit}.menu.fixed{position:fixed}.menu md-list{height:inherit;max-height:inherit;display:block;overflow:auto}.menu.has-overflow md-list{overflow:visible}.menu.animating md-list{pointer-events:none;overflow:hidden}.menu.animating ::slotted(.hidden){opacity:0}.menu slot{display:block;height:inherit;max-height:inherit}md-elevation{position:absolute;inset:0;pointer-events:none}/*# sourceMappingURL=menu-styles.css.map */
+const styles$8 = i$4`:host{--md-elevation-level: var(--md-menu-container-elevation, 2);--md-elevation-shadow-color: var(--md-menu-container-shadow-color, var(--md-sys-color-shadow, #000));min-width:112px;color:unset;display:contents}md-focus-ring{--md-focus-ring-shape: var(--md-menu-container-shape, 4px)}.menu{border-radius:var(--md-menu-container-shape, 4px);display:none;opacity:0;z-index:20;position:absolute;user-select:none;max-height:inherit;height:inherit;min-width:inherit;max-width:inherit}.fixed{position:fixed}.items{display:block;list-style-type:none;margin:0;outline:none;box-sizing:border-box;background-color:var(--md-menu-container-color, var(--md-sys-color-surface-container, #f3edf7));height:inherit;max-height:inherit;overflow:auto;min-width:inherit;max-width:inherit;border-radius:inherit}.item-padding{padding-block:8px}.has-overflow .items{overflow:visible}.animating .items{overflow:hidden}.has-overflow.animating .items{pointer-events:none}.animating ::slotted(.md-menu-hidden){opacity:0}slot{display:block;height:inherit;max-height:inherit}::slotted(:is(md-divider,[role=separator])){margin:8px 0}@media(forced-colors: active){.menu{border-style:solid;border-color:CanvasText;border-width:1px}}/*# sourceMappingURL=menu-styles.css.map */
 `
-
-/**
- * @license
- * Copyright 2023 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * The event that closes any parent menus. It is recommended to subclass and
- * dispatch this event rather than creating your own `close-menu` event.
- */
-class CloseMenuEvent extends Event {
-  constructor(initiator, reason) {
-    super('close-menu', { bubbles: true, composed: true })
-    this.initiator = initiator
-    this.reason = reason
-    this.itemPath = [initiator]
-  }
-}
-/**
- * The default close menu event used by md-menu. To create your own `close-menu`
- * event, you should subclass the `CloseMenuEvent` instead.
- */
-// tslint:disable-next-line
-const DefaultCloseMenuEvent = CloseMenuEvent
-/**
- * The event that requests the parent md-menu to deactivate all other items.
- */
-class DeactivateItemsEvent extends Event {
-  constructor() {
-    super('deactivate-items', { bubbles: true, composed: true })
-  }
-}
-/**
- * Keys that are used to navigate menus.
- */
-const NAVIGABLE_KEY = {
-  UP: 'ArrowUp',
-  DOWN: 'ArrowDown',
-  RIGHT: 'ArrowRight',
-  LEFT: 'ArrowLeft',
-}
-/**
- * Keys that are used for selection in menus.
- */
-const SELECTION_KEY = {
-  SPACE: 'Space',
-  ENTER: 'Enter',
-}
-/**
- * Default close `Reason` kind values.
- */
-const CLOSE_REASON = {
-  CLICK_SELECTION: 'CLICK_SELECTION',
-  KEYDOWN: 'KEYDOWN',
-}
-/**
- * Keys that can close menus.
- */
-const KEYDOWN_CLOSE_KEYS = {
-  ESCAPE: 'Escape',
-  SPACE: SELECTION_KEY.SPACE,
-  ENTER: SELECTION_KEY.ENTER,
-}
-/**
- * Determines whether the given key code is a key code that should close the
- * menu.
- *
- * @param code The KeyboardEvent code to check.
- * @return Whether or not the key code is in the predetermined list to close the
- * menu.
- */
-function isClosableKey(code) {
-  return Object.values(KEYDOWN_CLOSE_KEYS).some(value => value === code)
-}
 
 /**
  * @license
@@ -6482,21 +8075,28 @@ function isClosableKey(code) {
  * ```html
  * <div style="position:relative;">
  *   <button
- *       class="anchor"
- *       ${ref(anchorRef)}
+ *       id="anchor"
  *       @click=${() => this.menuRef.value.show()}>
  *     Click to open menu
  *   </button>
  *   <!--
  *     `has-overflow` is required when using a submenu which overflows the
- *     menu's contents
+ *     menu's contents.
+ *
+ *     Additionally, `anchor` ingests an idref which do not pass through shadow
+ *     roots. You can also set `.anchorElement` to an element reference if
+ *     necessary.
  *   -->
- *   <md-menu has-overflow ${ref(menuRef)} ${(el) => el.anchor =
- * anchorRef.value}> <md-menu-item header="This is a header"></md-menu-item>
- *     <md-sub-menu-item header="this is a submenu item">
- *       <md-menu slot="submenu">
- *         <md-menu-item
- *           header="This is an item inside a submenu"></md-menu-item>
+ *   <md-menu anchor="anchor" has-overflow ${ref(menuRef)}>
+ *     <md-menu-item headline="This is a headline"></md-menu-item>
+ *     <md-sub-menu>
+ *       <md-menu-item
+ *           slot="item"
+ *           headline="this is a submenu item">
+ *       </md-menu-item>
+ *       <md-menu slot="menu">
+ *         <md-menu-item headline="This is an item inside a submenu">
+ *         </md-menu-item>
  *       </md-menu>
  *     </md-sub-menu>
  *   </md-menu>
@@ -6508,23 +8108,7 @@ function isClosableKey(code) {
  */
 let MdMenu = class MdMenu extends Menu {}
 MdMenu.styles = [styles$8]
-MdMenu = __decorate([e$9('md-menu')], MdMenu)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$7 = i$5`:host{--_list-item-container-color: var(--md-list-list-item-container-color, var(--md-sys-color-surface, #fffbfe));--_list-item-container-shape: var(--md-list-list-item-container-shape, 0px);--_list-item-disabled-label-text-color: var(--md-list-list-item-disabled-label-text-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-disabled-label-text-opacity: var(--md-list-list-item-disabled-label-text-opacity, 0.3);--_list-item-disabled-leading-icon-color: var(--md-list-list-item-disabled-leading-icon-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-disabled-leading-icon-opacity: var(--md-list-list-item-disabled-leading-icon-opacity, 0.38);--_list-item-disabled-trailing-icon-color: var(--md-list-list-item-disabled-trailing-icon-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-disabled-trailing-icon-opacity: var(--md-list-list-item-disabled-trailing-icon-opacity, 0.38);--_list-item-focus-label-text-color: var(--md-list-list-item-focus-label-text-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-focus-leading-icon-icon-color: var(--md-list-list-item-focus-leading-icon-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-focus-state-layer-color: var(--md-list-list-item-focus-state-layer-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-focus-state-layer-opacity: var(--md-list-list-item-focus-state-layer-opacity, 0.12);--_list-item-focus-trailing-icon-icon-color: var(--md-list-list-item-focus-trailing-icon-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-hover-label-text-color: var(--md-list-list-item-hover-label-text-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-hover-leading-icon-icon-color: var(--md-list-list-item-hover-leading-icon-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-hover-state-layer-color: var(--md-list-list-item-hover-state-layer-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-hover-state-layer-opacity: var(--md-list-list-item-hover-state-layer-opacity, 0.08);--_list-item-hover-trailing-icon-icon-color: var(--md-list-list-item-hover-trailing-icon-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-label-text-color: var(--md-list-list-item-label-text-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-label-text-line-height: var(--md-list-list-item-label-text-line-height, 1.5rem);--_list-item-label-text-type: var(--md-list-list-item-label-text-type, 400 1rem / 1.5rem Roboto);--_list-item-large-leading-video-height: var(--md-list-list-item-large-leading-video-height, 69px);--_list-item-leading-avatar-label-color: var(--md-list-list-item-leading-avatar-label-color, var(--md-sys-color-on-primary-container, #21005d));--_list-item-leading-avatar-label-type: var(--md-list-list-item-leading-avatar-label-type, 500 1rem / 1.5rem Roboto);--_list-item-leading-avatar-color: var(--md-list-list-item-leading-avatar-color, var(--md-sys-color-primary-container, #eaddff));--_list-item-leading-avatar-shape: var(--md-list-list-item-leading-avatar-shape, 9999px);--_list-item-leading-avatar-size: var(--md-list-list-item-leading-avatar-size, 40px);--_list-item-leading-icon-color: var(--md-list-list-item-leading-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-leading-icon-size: var(--md-list-list-item-leading-icon-size, 18px);--_list-item-leading-image-height: var(--md-list-list-item-leading-image-height, 56px);--_list-item-leading-image-shape: var(--md-list-list-item-leading-image-shape, 0px);--_list-item-leading-image-width: var(--md-list-list-item-leading-image-width, 56px);--_list-item-leading-video-shape: var(--md-list-list-item-leading-video-shape, 0px);--_list-item-leading-video-width: var(--md-list-list-item-leading-video-width, 100px);--_list-item-one-line-container-height: var(--md-list-list-item-one-line-container-height, 56px);--_list-item-pressed-label-text-color: var(--md-list-list-item-pressed-label-text-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-pressed-leading-icon-icon-color: var(--md-list-list-item-pressed-leading-icon-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-pressed-state-layer-color: var(--md-list-list-item-pressed-state-layer-color, var(--md-sys-color-on-surface, #1c1b1f));--_list-item-pressed-state-layer-opacity: var(--md-list-list-item-pressed-state-layer-opacity, 0.12);--_list-item-pressed-trailing-icon-icon-color: var(--md-list-list-item-pressed-trailing-icon-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-small-leading-video-height: var(--md-list-list-item-small-leading-video-height, 56px);--_list-item-supporting-text-color: var(--md-list-list-item-supporting-text-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-supporting-text-type: var(--md-list-list-item-supporting-text-type, 400 0.875rem / 1.25rem Roboto);--_list-item-three-line-container-height: var(--md-list-list-item-three-line-container-height, 88px);--_list-item-trailing-icon-color: var(--md-list-list-item-trailing-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-trailing-icon-size: var(--md-list-list-item-trailing-icon-size, 24px);--_list-item-trailing-supporting-text-color: var(--md-list-list-item-trailing-supporting-text-color, var(--md-sys-color-on-surface-variant, #49454f));--_list-item-trailing-supporting-text-line-height: var(--md-list-list-item-trailing-supporting-text-line-height, 1rem);--_list-item-trailing-supporting-text-type: var(--md-list-list-item-trailing-supporting-text-type, 500 0.688rem / 1rem Roboto);--_list-item-two-line-container-height: var(--md-list-list-item-two-line-container-height, 72px)}:host{color:unset;--md-focus-ring-shape-start-start:var(--md-focus-ring-shape, 4px);--md-focus-ring-shape-start-end:var(--md-focus-ring-shape, 4px);--md-focus-ring-shape-end-end:var(--md-focus-ring-shape, 4px);--md-focus-ring-shape-end-start:var(--md-focus-ring-shape, 4px);--md-focus-ring-offset-vertical:-2px;--md-focus-ring-offset-horizontal:-3px;--md-ripple-hover-color:var(--_list-item-hover-state-layer-color);--md-ripple-hover-opacity:var(--_list-item-hover-state-layer-opacity);--md-ripple-pressed-color:var(--_list-item-pressed-state-layer-color);--md-ripple-pressed-opacity:var(--_list-item-pressed-state-layer-opacity);--md-ripple-focus-color:var(--_list-item-focus-state-layer-color);--md-ripple-focus-opacity:var(--_list-item-focus-state-layer-opacity)}.list-item{align-items:center;box-sizing:border-box;display:flex;outline:none;position:relative;width:100%;text-decoration:none;background-color:var(--_list-item-container-color);border-radius:var(--_list-item-container-shape)}.list-item:not(.disabled){cursor:pointer}.list-item.disabled{pointer-events:none}.content-wrapper{display:flex;width:100%}.with-one-line{min-height:var(--_list-item-one-line-container-height)}.with-two-line{min-height:var(--_list-item-two-line-container-height)}.with-three-line{min-height:var(--_list-item-three-line-container-height)}.start{display:inline-flex;flex-direction:column;justify-content:center;align-items:center;flex:0 0 auto;z-index:1}.with-three-line .start{justify-content:start}.with-leading-thumbnail .start,.with-leading-image .start{padding-inline-start:16px}.with-leading-video .start{padding-inline-start:0}.body{display:inline-flex;justify-content:center;flex-direction:column;box-sizing:border-box;flex:1 0 0;padding-inline-start:16px;z-index:1}.end{display:inline-flex;flex-direction:column;justify-content:center;flex:0 0 auto;padding-inline-end:24px;z-index:1}.with-three-line .end{justify-content:start}.label-text{display:flex;color:var(--_list-item-label-text-color);font:var(--_list-item-label-text-type)}:hover .label-text{color:var(--_list-item-hover-label-text-color)}:focus .label-text{color:var(--_list-item-focus-label-text-color)}:active .label-text{color:var(--_list-item-pressed-label-text-color)}.disabled .label-text{color:var(--_list-item-disabled-label-text-color);opacity:var(--_list-item-disabled-label-text-opacity)}.supporting-text{display:block;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:100%;color:var(--_list-item-supporting-text-color);font:var(--_list-item-supporting-text-type)}.disabled .supporting-text{color:var(--_list-item-disabled-label-text-color);opacity:var(--_list-item-disabled-label-text-opacity)}.supporting-text--multi-line{-webkit-box-orient:vertical;-webkit-line-clamp:2;display:-webkit-box;overflow:hidden;white-space:normal}.trailing-supporting-text{padding-inline-start:16px;font:var(--_list-item-trailing-supporting-text-type)}.list-item:not(.disabled) .trailing-supporting-text{color:var(--_list-item-trailing-supporting-text-color)}.disabled .trailing-supporting-text{color:var(--_list-item-disabled-label-text-color);opacity:var(--_list-item-disabled-label-text-opacity)}.with-three-line .trailing-supporting-text{padding-block-start:calc((var(--_list-item-label-text-line-height) - var(--_list-item-trailing-supporting-text-line-height))/2)}.focus-ring{z-index:1}::slotted([data-variant=image]){display:inline-flex;margin-inline-start:16px;height:var(--_list-item-leading-image-height);width:var(--_list-item-leading-image-width);border-radius:var(--_list-item-leading-image-shape);padding-block:calc((var(--_list-item-two-line-container-height) - var(--_list-item-leading-image-height))/2)}.with-three-line ::slotted([data-variant=image]){padding-block:0}slot[name=start]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-leading-icon-color);--md-icon-size:var(--_list-item-leading-icon-size)}.with-three-line slot[name=start]::slotted([data-variant=icon]){padding-block-start:calc((var(--_list-item-label-text-line-height) - var(--_list-item-leading-icon-size))/2)}slot[name=end]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-trailing-icon-color);--md-icon-size:var(--_list-item-trailing-icon-size)}.with-three-line slot[name=end]::slotted([data-variant=icon]){padding-block-start:calc((var(--_list-item-label-text-line-height) - var(--_list-item-trailing-icon-size))/2)}::slotted([data-variant=icon]){padding-inline-start:16px}:hover slot[name=start]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-hover-leading-icon-icon-color)}:hover slot[name=end]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-hover-trailing-icon-icon-color)}:focus slot[name=start]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-focus-leading-icon-icon-color)}:focus slot[name=end]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-focus-trailing-icon-icon-color)}:active slot[name=start]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-pressed-leading-icon-icon-color)}:active slot[name=end]::slotted([data-variant=icon]){--md-icon-color:var(--_list-item-pressed-trailing-icon-icon-color)}.disabled slot[name=start]::slotted([data-variant=icon]){opacity:var(--_list-item-disabled-leading-icon-opacity);--md-icon-color:var(--_list-item-disabled-leading-icon-color)}.disabled slot[name=end]::slotted([data-variant=icon]){opacity:var(--_list-item-disabled-trailing-icon-opacity);--md-icon-color:var(--_list-item-disabled-trailing-icon-color)}::slotted([data-variant=avatar]){display:inline-flex;justify-content:center;align-items:center;margin-inline-start:16px;background-color:var(--_list-item-leading-avatar-color);height:var(--_list-item-leading-avatar-size);width:var(--_list-item-leading-avatar-size);border-radius:var(--_list-item-leading-avatar-shape);color:var(--_list-item-leading-avatar-label-color);font:var(--_list-item-leading-avatar-label-type)}::slotted([data-variant=video]),::slotted([data-variant=video-large]){display:inline-flex;object-fit:cover;height:var(--_list-item-small-leading-video-height);width:var(--_list-item-leading-video-width);border-radius:var(--_list-item-leading-video-shape);padding-block:calc((var(--_list-item-three-line-container-height) - var(--_list-item-small-leading-video-height))/2)}.with-three-line ::slotted([data-variant=video]),.with-three-line ::slotted([data-variant=video-large]){padding-block:0}::slotted([data-variant=video-large]){padding-block:calc((var(--_list-item-three-line-container-height) - var(--_list-item-large-leading-video-height))/2);height:var(--_list-item-large-leading-video-height)}/*# sourceMappingURL=list-item-styles.css.map */
-`
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$6 = i$5`:host{--_list-item-selected-container-color: var(--md-menu-list-item-selected-container-color, var(--md-sys-color-surface-variant, #e7e0ec))}:host([active]) .list-item,:host(:active) .list-item,.list-item:focus{background-color:var(--_list-item-selected-container-color)}.list-item:has(.submenu:hover){--md-ripple-hover-opacity:0}/*# sourceMappingURL=menu-item-styles.css.map */
-`
+MdMenu = __decorate([t$3('md-menu')], MdMenu)
 
 /**
  * @license
@@ -6585,6 +8169,18 @@ var State
   State[(State['WAITING_FOR_CLICK'] = 3)] = 'WAITING_FOR_CLICK'
 })(State || (State = {}))
 /**
+ * Events that the ripple listens to.
+ */
+const EVENTS = [
+  'click',
+  'contextmenu',
+  'pointercancel',
+  'pointerdown',
+  'pointerenter',
+  'pointerleave',
+  'pointerup',
+]
+/**
  * Delay reacting to touch so that we do not show the ripple for a swipe or
  * scroll interaction.
  */
@@ -6592,35 +8188,77 @@ const TOUCH_DELAY_MS = 150
 /**
  * A ripple component.
  */
-class Ripple extends s$4 {
+class Ripple extends s$1 {
   constructor() {
     super(...arguments)
-    // TODO(https://bugs.webkit.org/show_bug.cgi?id=247546)
-    // Remove Safari workaround that requires reflecting `unbounded` so
-    // it can be styled against.
-    /**
-     * Sets the ripple to be an unbounded circle.
-     */
-    this.unbounded = false
     /**
      * Disables the ripple.
      */
     this.disabled = false
     this.hovered = false
-    this.focused = false
     this.pressed = false
     this.rippleSize = ''
     this.rippleScale = ''
     this.initialSize = 0
     this.state = State.INACTIVE
     this.checkBoundsAfterContextMenu = false
+    this.attachableController = new AttachableController(
+      this,
+      this.onControlChange.bind(this)
+    )
   }
+  get htmlFor() {
+    return this.attachableController.htmlFor
+  }
+  set htmlFor(htmlFor) {
+    this.attachableController.htmlFor = htmlFor
+  }
+  get control() {
+    return this.attachableController.control
+  }
+  set control(control) {
+    this.attachableController.control = control
+  }
+  attach(control) {
+    this.attachableController.attach(control)
+  }
+  detach() {
+    this.attachableController.detach()
+  }
+  connectedCallback() {
+    super.connectedCallback()
+    // Needed for VoiceOver, which will create a "group" if the element is a
+    // sibling to other content.
+    this.setAttribute('aria-hidden', 'true')
+  }
+  render() {
+    const classes = {
+      hovered: this.hovered,
+      pressed: this.pressed,
+    }
+    return x`<div class="surface ${e$1(classes)}"></div>`
+  }
+  update(changedProps) {
+    if (changedProps.has('disabled') && this.disabled) {
+      this.hovered = false
+      this.pressed = false
+    }
+    super.update(changedProps)
+  }
+  /**
+   * TODO(b/269799771): make private
+   * @private only public for slider
+   */
   handlePointerenter(event) {
     if (!this.shouldReactToEvent(event)) {
       return
     }
     this.hovered = true
   }
+  /**
+   * TODO(b/269799771): make private
+   * @private only public for slider
+   */
   handlePointerleave(event) {
     if (!this.shouldReactToEvent(event)) {
       return
@@ -6630,12 +8268,6 @@ class Ripple extends s$4 {
     if (this.state !== State.INACTIVE) {
       this.endPressAnimation()
     }
-  }
-  handleFocusin() {
-    this.focused = true
-  }
-  handleFocusout() {
-    this.focused = false
   }
   handlePointerup(event) {
     if (!this.shouldReactToEvent(event)) {
@@ -6708,55 +8340,30 @@ class Ripple extends s$4 {
     this.checkBoundsAfterContextMenu = true
     this.endPressAnimation()
   }
-  render() {
-    const classes = {
-      hovered: this.hovered,
-      focused: this.focused,
-      pressed: this.pressed,
-      unbounded: this.unbounded,
-    }
-    return y`<div class="surface ${o(classes)}"></div>`
-  }
-  update(changedProps) {
-    if (changedProps.has('disabled') && this.disabled) {
-      this.hovered = false
-      this.focused = false
-      this.pressed = false
-    }
-    super.update(changedProps)
-  }
-  getDimensions() {
-    return (this.parentElement ?? this).getBoundingClientRect()
-  }
   determineRippleSize() {
-    const { height, width } = this.getDimensions()
+    const { height, width } = this.getBoundingClientRect()
     const maxDim = Math.max(height, width)
     const softEdgeSize = Math.max(
       SOFT_EDGE_CONTAINER_RATIO * maxDim,
       SOFT_EDGE_MINIMUM_SIZE
     )
-    let maxRadius = maxDim
-    let initialSize = Math.floor(maxDim * INITIAL_ORIGIN_SCALE)
+    const initialSize = Math.floor(maxDim * INITIAL_ORIGIN_SCALE)
     const hypotenuse = Math.sqrt(width ** 2 + height ** 2)
-    maxRadius = hypotenuse + PADDING$1
-    // ensure `initialSize` is even for unbounded
-    if (this.unbounded) {
-      initialSize = initialSize - (initialSize % 2)
-    }
+    const maxRadius = hypotenuse + PADDING$1
     this.initialSize = initialSize
     this.rippleScale = `${(maxRadius + softEdgeSize) / initialSize}`
-    this.rippleSize = `${this.initialSize}px`
+    this.rippleSize = `${initialSize}px`
   }
   getNormalizedPointerEventCoords(pointerEvent) {
     const { scrollX, scrollY } = window
-    const { left, top } = this.getDimensions()
+    const { left, top } = this.getBoundingClientRect()
     const documentX = scrollX + left
     const documentY = scrollY + top
     const { pageX, pageY } = pointerEvent
     return { x: pageX - documentX, y: pageY - documentY }
   }
   getTranslationCoordinates(positionEvent) {
-    const { height, width } = this.getDimensions()
+    const { height, width } = this.getBoundingClientRect()
     // end in the center
     const endPoint = {
       x: (width - this.initialSize) / 2,
@@ -6779,6 +8386,9 @@ class Ripple extends s$4 {
     return { startPoint, endPoint }
   }
   startPressAnimation(positionEvent) {
+    if (!this.mdRoot) {
+      return
+    }
     this.pressed = true
     this.growAnimation?.cancel()
     this.determineRippleSize()
@@ -6807,8 +8417,14 @@ class Ripple extends s$4 {
     )
   }
   async endPressAnimation() {
+    this.state = State.INACTIVE
     const animation = this.growAnimation
-    const pressAnimationPlayState = animation?.currentTime ?? Infinity
+    let pressAnimationPlayState = Infinity
+    if (typeof animation?.currentTime === 'number') {
+      pressAnimationPlayState = animation.currentTime
+    } else if (animation?.currentTime) {
+      pressAnimationPlayState = animation.currentTime.to('ms').value
+    }
     if (pressAnimationPlayState >= MINIMUM_PRESS_MS) {
       this.pressed = false
       return
@@ -6860,50 +8476,55 @@ class Ripple extends s$4 {
   isTouch({ pointerType }) {
     return pointerType === 'touch'
   }
+  /** @private */
+  async handleEvent(event) {
+    switch (event.type) {
+      case 'click':
+        this.handleClick()
+        break
+      case 'contextmenu':
+        this.handleContextmenu()
+        break
+      case 'pointercancel':
+        this.handlePointercancel(event)
+        break
+      case 'pointerdown':
+        await this.handlePointerdown(event)
+        break
+      case 'pointerenter':
+        this.handlePointerenter(event)
+        break
+      case 'pointerleave':
+        this.handlePointerleave(event)
+        break
+      case 'pointerup':
+        this.handlePointerup(event)
+        break
+    }
+  }
+  onControlChange(prev, next) {
+    for (const event of EVENTS) {
+      prev?.removeEventListener(event, this)
+      next?.addEventListener(event, this)
+    }
+  }
 }
 __decorate(
-  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
-  Ripple.prototype,
-  'unbounded',
-  void 0
-)
-__decorate(
-  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  [n$3({ type: Boolean, reflect: true })],
   Ripple.prototype,
   'disabled',
   void 0
 )
-__decorate(
-  [t$3(), __metadata('design:type', Object)],
-  Ripple.prototype,
-  'hovered',
-  void 0
-)
-__decorate(
-  [t$3(), __metadata('design:type', Object)],
-  Ripple.prototype,
-  'focused',
-  void 0
-)
-__decorate(
-  [t$3(), __metadata('design:type', Object)],
-  Ripple.prototype,
-  'pressed',
-  void 0
-)
-__decorate(
-  [i$2('.surface'), __metadata('design:type', HTMLElement)],
-  Ripple.prototype,
-  'mdRoot',
-  void 0
-)
+__decorate([r$3()], Ripple.prototype, 'hovered', void 0)
+__decorate([r$3()], Ripple.prototype, 'pressed', void 0)
+__decorate([e$5('.surface')], Ripple.prototype, 'mdRoot', void 0)
 
 /**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$5 = i$5`:host{--_focus-color: var(--md-ripple-focus-color, var(--md-sys-color-on-surface, #1c1b1f));--_focus-opacity: var(--md-ripple-focus-opacity, 0.12);--_hover-color: var(--md-ripple-hover-color, var(--md-sys-color-on-surface, #1c1b1f));--_hover-opacity: var(--md-ripple-hover-opacity, 0.08);--_pressed-color: var(--md-ripple-pressed-color, var(--md-sys-color-on-surface, #1c1b1f));--_pressed-opacity: var(--md-ripple-pressed-opacity, 0.12);--_shape: var(--md-ripple-shape, 0px)}:host{display:flex}:host([disabled]){opacity:0}:host,.surface{position:absolute;inset:0;pointer-events:none;overflow:hidden}.surface{will-change:transform;border-radius:var(--_shape);outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}.surface::before,.surface::after{position:absolute;opacity:0;pointer-events:none;content:""}.surface::before{background-color:var(--_hover-color);transition:opacity 15ms linear,background-color 15ms linear;inset:0}.surface::after{background:radial-gradient(closest-side, var(--_pressed-color) max(100% - 70px, 65%), transparent 100%);transition:opacity 375ms linear;transform-origin:center center}.hovered::before{background-color:var(--_hover-color);opacity:var(--_hover-opacity)}.focused::before{background-color:var(--_focus-color);opacity:var(--_focus-opacity);transition-duration:75ms}.pressed::after{opacity:var(--_pressed-opacity);transition-duration:105ms}.unbounded{--_shape: var(--md-ripple-shape, 9999px)}@media screen and (forced-colors: active){:host{display:none}}/*# sourceMappingURL=ripple-styles.css.map */
+const styles$7 = i$4`:host{--_hover-color: var(--md-ripple-hover-color, var(--md-sys-color-on-surface, #1d1b20));--_hover-opacity: var(--md-ripple-hover-opacity, 0.08);--_pressed-color: var(--md-ripple-pressed-color, var(--md-sys-color-on-surface, #1d1b20));--_pressed-opacity: var(--md-ripple-pressed-opacity, 0.12);display:flex;margin:auto;pointer-events:none}:host([disabled]){display:none}@media(forced-colors: active){:host{display:none}}:host,.surface{border-radius:inherit;position:absolute;inset:0;overflow:hidden}.surface{-webkit-tap-highlight-color:rgba(0,0,0,0)}.surface::before,.surface::after{content:"";opacity:0;position:absolute}.surface::before{background-color:var(--_hover-color);inset:0;transition:opacity 15ms linear,background-color 15ms linear}.surface::after{background:radial-gradient(closest-side, var(--_pressed-color) max(100% - 70px, 65%), transparent 100%);transform-origin:center center;transition:opacity 375ms linear}.hovered::before{background-color:var(--_hover-color);opacity:var(--_hover-opacity)}.pressed::after{opacity:var(--_pressed-opacity);transition-duration:105ms}/*# sourceMappingURL=ripple-styles.css.map */
 `
 
 /**
@@ -6925,406 +8546,368 @@ const styles$5 = i$5`:host{--_focus-color: var(--md-ripple-focus-color, var(--md
  * @suppress {visibility}
  */
 let MdRipple = class MdRipple extends Ripple {}
-MdRipple.styles = [styles$5]
-MdRipple = __decorate([e$9('md-ripple')], MdRipple)
+MdRipple.styles = [styles$7]
+MdRipple = __decorate([t$3('md-ripple')], MdRipple)
 
 /**
  * @license
- * Copyright 2022 Google LLC
+ * Copyright 2023 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-class RippleDirective extends i$1 {
-  constructor(partInfo) {
-    super(partInfo)
-    this.rippleGetter = async () => null
-    if (partInfo.type !== t.ELEMENT) {
-      throw new Error('The `ripple` directive must be used on an element')
-    }
-  }
-  render(ripple) {
-    return x
-  }
-  // Use EventListenerObject::handleEvent interface to handle events without
-  // generating bound event handlers
-  async handleEvent(event) {
-    const ripple = await this.rippleGetter()
-    if (!ripple) {
-      return
-    }
-    switch (event.type) {
-      case 'click':
-        ripple.handleClick()
-        break
-      case 'contextmenu':
-        ripple.handleContextmenu()
-        break
-      case 'pointercancel':
-        ripple.handlePointercancel(event)
-        break
-      case 'pointerdown':
-        await ripple.handlePointerdown(event)
-        break
-      case 'pointerenter':
-        ripple.handlePointerenter(event)
-        break
-      case 'pointerleave':
-        ripple.handlePointerleave(event)
-        break
-      case 'pointerup':
-        ripple.handlePointerup(event)
-        break
-    }
-  }
-  update(part, [ripple]) {
-    if (!this.element) {
-      // NOTE: addEventListener typing needs to be used with HTMLElements or a
-      // subclass
-      this.element = part.element
-      this.element.addEventListener('click', this)
-      this.element.addEventListener('contextmenu', this)
-      this.element.addEventListener('pointercancel', this)
-      this.element.addEventListener('pointerdown', this)
-      this.element.addEventListener('pointerenter', this)
-      this.element.addEventListener('pointerleave', this)
-      this.element.addEventListener('pointerup', this)
-    }
-    // Normalize given ripple accessor
-    this.rippleGetter = typeof ripple === 'function' ? ripple : () => ripple
-    return x
-  }
-}
 /**
- * Connects a Ripple element to a node that drives the interaction
- *
- * @param rippleGetter A function that returns an `md-ripple` element
- * @param simulateKeyboardClick For elements that do not issue a click on
- *     keyboard interaction, pass `true` to enable press animations on Enter or
- *     Spacebar
+ * An item layout component.
  */
-const ripple = e$1(RippleDirective)
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-// tslint:disable-next-line:enforce-comments-on-exported-symbols
-class ListItemEl extends s$4 {
+class Item extends s$1 {
   constructor() {
     super(...arguments)
-    // @ts-ignore(b/264292293): Use `override` with TS 4.9+
-    this.role = 'listitem'
     /**
-     * The primary, headline text of the list item.
-     */
-    this.headline = ''
-    /**
-     * The one-line supporting text below the headline. Set
-     * `multiLineSupportingText` to `true` to support multiple lines in the
-     * supporting text.
-     */
-    this.supportingText = ''
-    /**
-     * Modifies `supportingText` to support multiple lines.
-     */
-    this.multiLineSupportingText = false
-    /**
-     * The supporting text placed at the end of the item. Overriden by elements
-     * slotted into the `end` slot.
-     */
-    this.trailingSupportingText = ''
-    /**
-     * Disables the item and makes it non-selectable and non-interactive.
-     */
-    this.disabled = false
-    /**
-     * The tabindex of the underlying item.
+     * Only needed for SSR.
      *
-     * __NOTE:__ this is overriden by the keyboard behavior of `md-list` and by
-     * setting `selected`.
+     * Add this attribute when an item has two lines to avoid a Flash Of Unstyled
+     * Content. This attribute is not needed for single line items or items with
+     * three or more lines.
      */
-    this.itemTabIndex = -1
-    /**
-     * Whether or not the element is in the selected visual state. When active,
-     * tabindex is set to 0, and in some list item variants (like md-list-item),
-     * focuses the underlying item.
-     */
-    this.active = false
-    /**
-     * READONLY. Sets the `md-list-item` attribute on the element.
-     */
-    this.isListItem = true
-    this.showFocusRing = false
-    this.showRipple = false
-    /**
-     * Only meant to be overriden by subclassing and not by the user. This is
-     * so that we have control over focus on specific variants such as disabling
-     * focus on <md-autocomplete-item> but enabling it for <md-menu-item>.
-     */
-    this.focusOnSelection = true
-    this.getRipple = () => {
-      this.showRipple = true
-      return this.ripple
-    }
-    this.isFirstUpdate = true
-  }
-  willUpdate(changed) {
-    if (changed.has('active') && !this.disabled) {
-      if (this.active) {
-        this.itemTabIndex = 0
-        if (this.focusOnSelection) {
-          this.showFocusRing = shouldShowStrongFocus()
-        }
-        // Do not reset anything if it's the first render because user could
-        // have set `itemTabIndex` manually.
-      } else if (!this.isFirstUpdate) {
-        this.itemTabIndex = -1
-      }
-    }
+    this.multiline = false
   }
   render() {
-    return this.renderListItem(y`
-      <div class="content-wrapper">
-        ${this.renderStart()}
-        ${this.renderBody()}
-        ${this.renderEnd()}
-        ${this.renderRipple()}
-        ${this.renderFocusRing()}
-      </div>`)
+    return x`
+      <slot name="container"></slot>
+      <slot class="non-text" name="start"></slot>
+      <div class="text">
+        <slot name="overline"
+            @slotchange=${this.handleTextSlotChange}></slot>
+        <slot class="default-slot"
+            @slotchange=${this.handleTextSlotChange}></slot>
+        <slot name="headline"
+            @slotchange=${this.handleTextSlotChange}></slot>
+        <slot name="supporting-text"
+            @slotchange=${this.handleTextSlotChange}></slot>
+      </div>
+      <slot class="non-text" name="trailing-supporting-text"></slot>
+      <slot class="non-text" name="end"></slot>
+    `
   }
-  /**
-   * Renders the root list item.
-   *
-   * @param content {unkown} the child content of the list item.
-   */
-  renderListItem(content) {
-    return y`
-      <li
-          tabindex=${this.disabled ? -1 : this.itemTabIndex}
-          role=${this.role}
-          aria-selected=${this.ariaSelected || b}
-          aria-checked=${this.ariaChecked || b}
-          class="list-item ${o(this.getRenderClasses())}"
-          @pointerdown=${this.onPointerdown}
-          @focus=${this.onFocus}
-          @blur=${this.onBlur}
-          @click=${this.onClick}
-          @pointerenter=${this.onPointerenter}
-          @pointerleave=${this.onPointerleave}
-          @keydown=${this.onKeydown}
-          ${ripple(this.getRipple)}>${content}</li>`
-  }
-  /**
-   * Handles rendering of the ripple element.
-   */
-  renderRipple() {
-    return this.showRipple
-      ? y`<md-ripple ?disabled="${this.disabled}"></md-ripple>`
-      : b
-  }
-  /**
-   * Handles rendering of the focus ring.
-   */
-  renderFocusRing() {
-    return y`<md-focus-ring class="focus-ring" .visible="${this.showFocusRing}"></md-focus-ring>`
-  }
-  /**
-   * Classes applied to the list item root.
-   */
-  getRenderClasses() {
-    return {
-      'with-one-line': this.supportingText === '',
-      'with-two-line':
-        this.supportingText !== '' && !this.multiLineSupportingText,
-      'with-three-line':
-        this.supportingText !== '' && this.multiLineSupportingText,
-      disabled: this.disabled,
+  handleTextSlotChange() {
+    // Check if there's more than one text slot with content. If so, the item is
+    // multiline, which has a different min-height than single line items.
+    let isMultiline = false
+    let slotsWithContent = 0
+    for (const slot of this.textSlots) {
+      if (slotHasContent(slot)) {
+        slotsWithContent += 1
+      }
+      if (slotsWithContent > 1) {
+        isMultiline = true
+        break
+      }
     }
-  }
-  /**
-   * The content rendered at the start of the list item.
-   */
-  renderStart() {
-    return y`<div class="start"><slot name="start"></slot></div>`
-  }
-  /**
-   * Handles rendering the headline and supporting text.
-   */
-  renderBody() {
-    const supportingText =
-      this.supportingText !== '' ? this.renderSupportingText() : ''
-    return y`<div class="body"
-      ><span class="label-text">${this.headline}</span>${supportingText}</div>`
-  }
-  /**
-   * Renders the one-line supporting text.
-   */
-  renderSupportingText() {
-    return y`<span
-        class="supporting-text ${o(this.getSupportingTextClasses())}"
-      >${this.supportingText}</span>`
-  }
-  /**
-   * Gets the classes for the supporting text node
-   */
-  getSupportingTextClasses() {
-    return { 'supporting-text--multi-line': this.multiLineSupportingText }
-  }
-  /**
-   * The content rendered at the end of the list item.
-   */
-  renderEnd() {
-    const supportingText =
-      this.trailingSupportingText !== ''
-        ? this.renderTrailingSupportingText()
-        : ''
-    return y`<div class="end"
-      ><slot name="end">${supportingText}</slot></div>`
-  }
-  /**
-   * Renders the supporting text at the end of the list item.
-   */
-  renderTrailingSupportingText() {
-    return y`<span class="trailing-supporting-text"
-      >${this.trailingSupportingText}</span>`
-  }
-  onPointerdown() {
-    pointerPress()
-    this.showFocusRing = shouldShowStrongFocus()
-  }
-  onFocus() {
-    this.showFocusRing = shouldShowStrongFocus()
-  }
-  onBlur() {
-    this.showFocusRing = false
-  }
-  // For easier overriding in menu-item
-  onClick(e) {}
-  onKeydown(e) {}
-  onPointerenter(e) {}
-  onPointerleave(e) {}
-  updated(changed) {
-    super.updated(changed)
-    // will focus the list item root if it is selected but not on the first
-    // update or else it may cause the page to jump on first load.
-    if (
-      changed.has('active') &&
-      !this.isFirstUpdate &&
-      this.active &&
-      this.focusOnSelection
-    ) {
-      this.listItemRoot.focus()
-    }
-    this.isFirstUpdate = false
+    this.multiline = isMultiline
   }
 }
 __decorate(
-  [
-    ariaProperty,
-    // tslint:disable-next-line
-    e$8({ type: String, attribute: 'data-role', noAccessor: true }),
-    // @ts-ignore(b/264292293): Use `override` with TS 4.9+
-    __metadata('design:type', String),
-  ],
-  ListItemEl.prototype,
-  'role',
+  [n$3({ type: Boolean, reflect: true })],
+  Item.prototype,
+  'multiline',
   void 0
 )
-__decorate(
-  [
-    ariaProperty,
-    e$8({ type: String, attribute: 'data-aria-selected', noAccessor: true }),
-    __metadata('design:type', String),
-  ],
-  ListItemEl.prototype,
-  'ariaSelected',
-  void 0
-)
-__decorate(
-  [
-    ariaProperty,
-    e$8({ type: String, attribute: 'data-aria-checked', noAccessor: true }),
-    __metadata('design:type', String),
-  ],
-  ListItemEl.prototype,
-  'ariaChecked',
-  void 0
-)
-__decorate(
-  [e$8(), __metadata('design:type', Object)],
-  ListItemEl.prototype,
-  'headline',
-  void 0
-)
-__decorate(
-  [e$8(), __metadata('design:type', Object)],
-  ListItemEl.prototype,
-  'supportingText',
-  void 0
-)
-__decorate(
-  [e$8({ type: Boolean }), __metadata('design:type', Object)],
-  ListItemEl.prototype,
-  'multiLineSupportingText',
-  void 0
-)
-__decorate(
-  [e$8(), __metadata('design:type', Object)],
-  ListItemEl.prototype,
-  'trailingSupportingText',
-  void 0
-)
-__decorate(
-  [e$8({ type: Boolean }), __metadata('design:type', Object)],
-  ListItemEl.prototype,
-  'disabled',
-  void 0
-)
-__decorate(
-  [e$8({ type: Number }), __metadata('design:type', Object)],
-  ListItemEl.prototype,
-  'itemTabIndex',
-  void 0
-)
-__decorate(
-  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
-  ListItemEl.prototype,
-  'active',
-  void 0
-)
-__decorate(
-  [
-    e$8({ type: Boolean, attribute: 'md-list-item', reflect: true }),
-    __metadata('design:type', Object),
-  ],
-  ListItemEl.prototype,
-  'isListItem',
-  void 0
-)
-__decorate(
-  [e$7('md-ripple'), __metadata('design:type', Promise)],
-  ListItemEl.prototype,
-  'ripple',
-  void 0
-)
-__decorate(
-  [i$2('.list-item'), __metadata('design:type', HTMLElement)],
-  ListItemEl.prototype,
-  'listItemRoot',
-  void 0
-)
-__decorate(
-  [t$3(), __metadata('design:type', Object)],
-  ListItemEl.prototype,
-  'showFocusRing',
-  void 0
-)
-__decorate(
-  [t$3(), __metadata('design:type', Object)],
-  ListItemEl.prototype,
-  'showRipple',
-  void 0
-)
+__decorate([r$2('.text slot')], Item.prototype, 'textSlots', void 0)
+function slotHasContent(slot) {
+  for (const node of slot.assignedNodes({ flatten: true })) {
+    // Assume there's content if there's an element slotted in
+    const isElement = node.nodeType === Node.ELEMENT_NODE
+    // If there's only text nodes for the default slot, check if there's
+    // non-whitespace.
+    const isTextWithContent =
+      node.nodeType === Node.TEXT_NODE && node.textContent?.match(/\S/)
+    if (isElement || isTextWithContent) {
+      return true
+    }
+  }
+  return false
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$6 = i$4`:host{color:var(--md-sys-color-on-surface, #1d1b20);font-family:var(--md-sys-typescale-body-large-font, var(--md-ref-typeface-plain, Roboto));font-size:var(--md-sys-typescale-body-large-size, 1rem);font-weight:var(--md-sys-typescale-body-large-weight, var(--md-ref-typeface-weight-regular, 400));line-height:var(--md-sys-typescale-body-large-line-height, 1.5rem);align-items:center;box-sizing:border-box;display:flex;gap:16px;min-height:56px;overflow:hidden;padding:12px 16px;position:relative;text-overflow:ellipsis}:host([multiline]){min-height:72px}[name=overline]{color:var(--md-sys-color-on-surface-variant, #49454f);font-family:var(--md-sys-typescale-label-small-font, var(--md-ref-typeface-plain, Roboto));font-size:var(--md-sys-typescale-label-small-size, 0.6875rem);font-weight:var(--md-sys-typescale-label-small-weight, var(--md-ref-typeface-weight-medium, 500));line-height:var(--md-sys-typescale-label-small-line-height, 1rem)}[name=supporting-text]{color:var(--md-sys-color-on-surface-variant, #49454f);font-family:var(--md-sys-typescale-body-medium-font, var(--md-ref-typeface-plain, Roboto));font-size:var(--md-sys-typescale-body-medium-size, 0.875rem);font-weight:var(--md-sys-typescale-body-medium-weight, var(--md-ref-typeface-weight-regular, 400));line-height:var(--md-sys-typescale-body-medium-line-height, 1.25rem)}[name=trailing-supporting-text]{color:var(--md-sys-color-on-surface-variant, #49454f);font-family:var(--md-sys-typescale-label-small-font, var(--md-ref-typeface-plain, Roboto));font-size:var(--md-sys-typescale-label-small-size, 0.6875rem);font-weight:var(--md-sys-typescale-label-small-weight, var(--md-ref-typeface-weight-medium, 500));line-height:var(--md-sys-typescale-label-small-line-height, 1rem)}[name=container]::slotted(*){inset:0;position:absolute}.default-slot{display:inline}.default-slot,.text ::slotted(*){overflow:hidden;text-overflow:ellipsis}.text{display:flex;flex:1;flex-direction:column;overflow:hidden}/*# sourceMappingURL=item-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * An item layout component that can be used inside list items to give them
+ * their customizable structure.
+ *
+ * `<md-item>` does not have any functionality, which must be added by the
+ * component using it.
+ *
+ * All text will wrap unless `white-space: nowrap` is set on the item or any of
+ * its children.
+ *
+ * Slots available:
+ * - `<default>`: The headline, or custom content.
+ * - `headline`: The first line.
+ * - `supporting-text`: Supporting text lines underneath the headline.
+ * - `trailing-supporting-text`: A small text snippet at the end of the item.
+ * - `start`: Any leading content, such as icons, avatars, or checkboxes.
+ * - `end`: Any trailing content, such as icons and buttons.
+ * - `container`: Background container content, intended for adding additional
+ *     styles, such as ripples or focus rings.
+ *
+ * @example
+ * ```html
+ * <md-item>Single line</md-item>
+ *
+ * <md-item>
+ *   <div class="custom-content">...</div>
+ * </md-item>
+ *
+ * <!-- Classic 1 to 3+ line list items -->
+ * <md-item>
+ *   <md-icon slot="start">image</md-icon>
+ *   <div slot="overline">Overline</div>
+ *   <div slot="headline">Headline</div>
+ *   <div="supporting-text">Supporting text</div>
+ *   <div="trailing-supporting-text">Trailing</div>
+ *   <md-icon slot="end">image</md-icon>
+ * </md-item>
+ * ```
+ *
+ * When wrapping `<md-item>`, forward the available slots to use the same slot
+ * structure for the wrapping component (this is what `<md-list-item>` does).
+ *
+ * @example
+ * ```html
+ * <md-item>
+ *   <slot></slot>
+ *   <slot name="overline" slot="overline"></slot>
+ *   <slot name="headline" slot="headline"></slot>
+ *   <slot name="supporting-text" slot="supporting-text"></slot>
+ *   <slot name="trailing-supporting-text"
+ *       slot="trailing-supporting-text"></slot>
+ *   <slot name="start" slot="start"></slot>
+ *   <slot name="end" slot="end"></slot>
+ * </md-item>
+ * ```
+ */
+let MdItem = class MdItem extends Item {}
+MdItem.styles = [styles$6]
+MdItem = __decorate([t$3('md-item')], MdItem)
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const e = Symbol.for(''),
+  o = t => {
+    if (t?.r === e) return t?._$litStatic$
+  },
+  s = (t, ...r) => ({
+    _$litStatic$: r.reduce(
+      (r, e, o) =>
+        r +
+        (t => {
+          if (void 0 !== t._$litStatic$) return t._$litStatic$
+          throw Error(
+            `Value passed to 'literal' function must be a 'literal' result: ${t}. Use 'unsafeStatic' to pass non-literal values, but\n            take care to ensure page security.`
+          )
+        })(e) +
+        t[o + 1],
+      t[0]
+    ),
+    r: e,
+  }),
+  a = new Map(),
+  l = t => (r, ...e) => {
+    const i = e.length
+    let s, l
+    const n = [],
+      u = []
+    let c,
+      $ = 0,
+      f = !1
+    for (; $ < i; ) {
+      for (c = r[$]; $ < i && void 0 !== ((l = e[$]), (s = o(l))); )
+        (c += s + r[++$]), (f = !0)
+      $ !== i && u.push(l), n.push(c), $++
+    }
+    if (($ === i && n.push(r[i]), f)) {
+      const t = n.join('$$lit$$')
+      void 0 === (r = a.get(t)) && ((n.raw = n), a.set(t, (r = n))), (e = u)
+    }
+    return t(r, ...e)
+  },
+  n = l(x)
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Sets up a `ReactiveElement` constructor to enable updates when delegating
+ * aria attributes. Elements may bind `this.aria*` properties to `aria-*`
+ * attributes in their render functions.
+ *
+ * This function will:
+ * - Call `requestUpdate()` when an aria attribute changes.
+ * - Add `role="presentation"` to the host.
+ *
+ * NOTE: The following features are not currently supported:
+ * - Delegating IDREF attributes (ex: `aria-labelledby`, `aria-controls`)
+ * - Delegating the `role` attribute
+ *
+ * @example
+ * class XButton extends LitElement {
+ *   static {
+ *     requestUpdateOnAriaChange(XButton);
+ *   }
+ *
+ *   protected override render() {
+ *     return html`
+ *       <button aria-label=${this.ariaLabel || nothing}>
+ *         <slot></slot>
+ *       </button>
+ *     `;
+ *   }
+ * }
+ *
+ * @param ctor The `ReactiveElement` constructor to patch.
+ */
+function requestUpdateOnAriaChange(ctor) {
+  for (const ariaProperty of ARIA_PROPERTIES) {
+    ctor.createProperty(ariaProperty, {
+      attribute: ariaPropertyToAttribute(ariaProperty),
+      reflect: true,
+    })
+  }
+  ctor.addInitializer(element => {
+    const controller = {
+      hostConnected() {
+        element.setAttribute('role', 'presentation')
+      },
+    }
+    element.addController(controller)
+  })
+}
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * A controller that provides most functionality of an element that implements
+ * the MenuItem interface.
+ */
+class MenuItemController {
+  /**
+   * @param host The MenuItem in which to attach this controller to.
+   * @param config The object that configures this controller's behavior.
+   */
+  constructor(host, config) {
+    this.host = host
+    this.internalTypeaheadText = null
+    /**
+     * Bind this click listener to the interactive element. Handles closing the
+     * menu.
+     */
+    this.onClick = () => {
+      if (this.host.keepOpen) return
+      this.host.dispatchEvent(
+        createDefaultCloseMenuEvent(this.host, {
+          kind: CloseReason.CLICK_SELECTION,
+        })
+      )
+    }
+    /**
+     * Bind this click listener to the interactive element. Handles closing the
+     * menu.
+     */
+    this.onKeydown = event => {
+      // Check if the interactive element is an anchor tag. If so, click it.
+      if (this.host.href && event.code === 'Enter') {
+        const interactiveElement = this.getInteractiveElement()
+        if (interactiveElement instanceof HTMLAnchorElement) {
+          interactiveElement.click()
+        }
+      }
+      if (this.host.keepOpen || event.defaultPrevented) return
+      const keyCode = event.code
+      if (!event.defaultPrevented && isClosableKey(keyCode)) {
+        event.preventDefault()
+        this.host.dispatchEvent(
+          createDefaultCloseMenuEvent(this.host, {
+            kind: CloseReason.KEYDOWN,
+            key: keyCode,
+          })
+        )
+      }
+    }
+    const { getHeadlineElements, getInteractiveElement } = config
+    this.getHeadlineElements = getHeadlineElements
+    this.getInteractiveElement = getInteractiveElement
+    this.host.addController(this)
+  }
+  /**
+   * The text that is selectable via typeahead. If not set, defaults to the
+   * innerText of the item slotted into the `"headline"` slot.
+   */
+  get typeaheadText() {
+    if (this.internalTypeaheadText !== null) {
+      return this.internalTypeaheadText
+    }
+    const headlineElements = this.getHeadlineElements()
+    const textParts = []
+    headlineElements.forEach(headlineElement => {
+      if (headlineElement.textContent && headlineElement.textContent.trim()) {
+        textParts.push(headlineElement.textContent.trim())
+      }
+    })
+    return textParts.join(' ')
+  }
+  /**
+   * The recommended tag name to render as the list item.
+   */
+  get tagName() {
+    const type = this.host.type
+    switch (type) {
+      case 'link':
+        return 'a'
+      case 'button':
+        return 'button'
+      default:
+      case 'menuitem':
+      case 'option':
+        return 'li'
+    }
+  }
+  /**
+   * The recommended role of the menu item.
+   */
+  get role() {
+    return this.host.type === 'option' ? 'option' : 'menuitem'
+  }
+  hostConnected() {
+    this.host.toggleAttribute('md-menu-item', true)
+  }
+  hostUpdate() {
+    if (this.host.href) {
+      this.host.type = 'link'
+    }
+  }
+  /**
+   * Use to set the typeaheadText when it changes.
+   */
+  setTypeaheadText(text) {
+    this.internalTypeaheadText = text
+  }
+}
 
 /**
  * @license
@@ -7334,61 +8917,198 @@ __decorate(
 /**
  * @fires close-menu {CloseMenuEvent}
  */
-class MenuItemEl extends ListItemEl {
+class MenuItemEl extends s$1 {
   constructor() {
     super(...arguments)
-    this.role = 'menuitem'
     /**
-     * READONLY: self-identifies as a menu item and sets its identifying attribute
+     * Disables the item and makes it non-selectable and non-interactive.
      */
-    this.isMenuItem = true
+    this.disabled = false
+    /**
+     * Sets the behavior and role of the menu item, defaults to "menuitem".
+     */
+    this.type = 'menuitem'
+    /**
+     * Sets the underlying `HTMLAnchorElement`'s `href` resource attribute.
+     */
+    this.href = ''
+    /**
+     * Sets the underlying `HTMLAnchorElement`'s `target` attribute when `href` is
+     * set.
+     */
+    this.target = ''
     /**
      * Keeps the menu open if clicked or keyboard selected.
      */
     this.keepOpen = false
     /**
-     * Used for overriding e.g. sub-menu-item.
+     * Sets the item in the selected visual state when a submenu is opened.
      */
-    this.keepOpenOnClick = false
+    this.selected = false
+    this.menuItemController = new MenuItemController(this, {
+      getHeadlineElements: () => {
+        return this.headlineElements
+      },
+      getInteractiveElement: () => this.listItemRoot,
+    })
   }
-  onClick() {
-    if (this.keepOpen || this.keepOpenOnClick) return
-    this.dispatchEvent(
-      new DefaultCloseMenuEvent(this, { kind: CLOSE_REASON.CLICK_SELECTION })
-    )
+  /**
+   * The text that is selectable via typeahead. If not set, defaults to the
+   * innerText of the item slotted into the `"headline"` slot.
+   */
+  get typeaheadText() {
+    return this.menuItemController.typeaheadText
   }
-  onKeydown(e) {
-    if (this.keepOpen) return
-    const keyCode = e.code
-    if (isClosableKey(keyCode)) {
-      e.preventDefault()
-      this.dispatchEvent(
-        new DefaultCloseMenuEvent(this, {
-          kind: CLOSE_REASON.KEYDOWN,
-          key: keyCode,
-        })
-      )
+  set typeaheadText(text) {
+    this.menuItemController.setTypeaheadText(text)
+  }
+  render() {
+    return this.renderListItem(x`
+      <md-item>
+        <div slot="container">
+          ${this.renderRipple()}
+          ${this.renderFocusRing()}
+        </div>
+        <slot name="start" slot="start"></slot>
+        <slot name="end" slot="end"></slot>
+        ${this.renderBody()}
+      </md-item>
+    `)
+  }
+  /**
+   * Renders the root list item.
+   *
+   * @param content the child content of the list item.
+   */
+  renderListItem(content) {
+    const isAnchor = this.type === 'link'
+    let tag
+    switch (this.menuItemController.tagName) {
+      case 'a':
+        tag = s`a`
+        break
+      case 'button':
+        tag = s`button`
+        break
+      default:
+      case 'li':
+        tag = s`li`
+        break
+    }
+    // TODO(b/265339866): announce "button"/"link" inside of a list item. Until
+    // then all are "menuitem" roles for correct announcement.
+    const target = isAnchor && !!this.target ? this.target : T
+    return n`
+      <${tag}
+        id="item"
+        tabindex=${this.disabled && !isAnchor ? -1 : 0}
+        role=${this.menuItemController.role}
+        aria-label=${this.ariaLabel || T}
+        aria-selected=${this.ariaSelected || T}
+        aria-checked=${this.ariaChecked || T}
+        aria-expanded=${this.ariaExpanded || T}
+        aria-haspopup=${this.ariaHasPopup || T}
+        class="list-item ${e$1(this.getRenderClasses())}"
+        href=${this.href || T}
+        target=${target}
+        @click=${this.menuItemController.onClick}
+        @keydown=${this.menuItemController.onKeydown}
+      >${content}</${tag}>
+    `
+  }
+  /**
+   * Handles rendering of the ripple element.
+   */
+  renderRipple() {
+    return x`
+      <md-ripple
+          part="ripple"
+          for="item"
+          ?disabled=${this.disabled}></md-ripple>`
+  }
+  /**
+   * Handles rendering of the focus ring.
+   */
+  renderFocusRing() {
+    return x`
+      <md-focus-ring
+          part="focus-ring"
+          for="item"
+          inward></md-focus-ring>`
+  }
+  /**
+   * Classes applied to the list item root.
+   */
+  getRenderClasses() {
+    return {
+      disabled: this.disabled,
+      selected: this.selected,
     }
   }
+  /**
+   * Handles rendering the headline and supporting text.
+   */
+  renderBody() {
+    return x`
+      <slot></slot>
+      <slot name="overline" slot="overline"></slot>
+      <slot name="headline" slot="headline"></slot>
+      <slot name="supporting-text" slot="supporting-text"></slot>
+      <slot name="trailing-supporting-text"
+          slot="trailing-supporting-text"></slot>
+    `
+  }
+  focus() {
+    // TODO(b/300334509): needed for some cases where delegatesFocus doesn't
+    // work programmatically like in FF and select-option
+    this.listItemRoot?.focus()
+  }
+}
+;(() => {
+  requestUpdateOnAriaChange(MenuItemEl)
+})()
+/** @nocollapse */
+MenuItemEl.shadowRootOptions = {
+  ...s$1.shadowRootOptions,
+  delegatesFocus: true,
 }
 __decorate(
-  [
-    e$8({ type: Boolean, attribute: 'md-menu-item', reflect: true }),
-    __metadata('design:type', Object),
-  ],
+  [n$3({ type: Boolean, reflect: true })],
   MenuItemEl.prototype,
-  'isMenuItem',
+  'disabled',
   void 0
 )
+__decorate([n$3()], MenuItemEl.prototype, 'type', void 0)
+__decorate([n$3()], MenuItemEl.prototype, 'href', void 0)
+__decorate([n$3()], MenuItemEl.prototype, 'target', void 0)
 __decorate(
-  [
-    e$8({ type: Boolean, attribute: 'keep-open' }),
-    __metadata('design:type', Object),
-  ],
+  [n$3({ type: Boolean, attribute: 'keep-open' })],
   MenuItemEl.prototype,
   'keepOpen',
   void 0
 )
+__decorate([n$3({ type: Boolean })], MenuItemEl.prototype, 'selected', void 0)
+__decorate([e$5('.list-item')], MenuItemEl.prototype, 'listItemRoot', void 0)
+__decorate(
+  [o$3({ slot: 'headline' })],
+  MenuItemEl.prototype,
+  'headlineElements',
+  void 0
+)
+__decorate(
+  [n$3({ attribute: 'typeahead-text' })],
+  MenuItemEl.prototype,
+  'typeaheadText',
+  null
+)
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles$5 = i$4`:host{display:flex;--md-ripple-hover-color: var(--md-menu-item-hover-state-layer-color, var(--md-sys-color-on-surface, #1d1b20));--md-ripple-hover-opacity: var(--md-menu-item-hover-state-layer-opacity, 0.08);--md-ripple-pressed-color: var(--md-menu-item-pressed-state-layer-color, var(--md-sys-color-on-surface, #1d1b20));--md-ripple-pressed-opacity: var(--md-menu-item-pressed-state-layer-opacity, 0.12)}:host([disabled]){opacity:var(--md-menu-item-disabled-opacity, 0.3);pointer-events:none}md-focus-ring{z-index:1;--md-focus-ring-shape: 8px}a,button,li{background:none;border:none;padding:0;margin:0;text-align:unset;text-decoration:none}.list-item{border-radius:inherit;display:flex;flex:1;max-width:inherit;min-width:inherit;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}.list-item:not(.disabled){cursor:pointer}[slot=container]{pointer-events:none}md-ripple{border-radius:inherit}md-item{border-radius:inherit;flex:1;color:var(--md-menu-item-label-text-color, var(--md-sys-color-on-surface, #1d1b20));font-family:var(--md-menu-item-label-text-font, var(--md-sys-typescale-body-large-font, var(--md-ref-typeface-plain, Roboto)));font-size:var(--md-menu-item-label-text-size, var(--md-sys-typescale-body-large-size, 1rem));line-height:var(--md-menu-item-label-text-line-height, var(--md-sys-typescale-body-large-line-height, 1.5rem));font-weight:var(--md-menu-item-label-text-weight, var(--md-sys-typescale-body-large-weight, var(--md-ref-typeface-weight-regular, 400)));min-height:var(--md-menu-item-one-line-container-height, 56px);padding-top:var(--md-menu-item-top-space, 12px);padding-bottom:var(--md-menu-item-bottom-space, 12px);padding-inline-start:var(--md-menu-item-leading-space, 16px);padding-inline-end:var(--md-menu-item-trailing-space, 16px)}md-item[multiline]{min-height:var(--md-menu-item-two-line-container-height, 72px)}[slot=supporting-text]{color:var(--md-menu-item-supporting-text-color, var(--md-sys-color-on-surface-variant, #49454f));font-family:var(--md-menu-item-supporting-text-font, var(--md-sys-typescale-body-medium-font, var(--md-ref-typeface-plain, Roboto)));font-size:var(--md-menu-item-supporting-text-size, var(--md-sys-typescale-body-medium-size, 0.875rem));line-height:var(--md-menu-item-supporting-text-line-height, var(--md-sys-typescale-body-medium-line-height, 1.25rem));font-weight:var(--md-menu-item-supporting-text-weight, var(--md-sys-typescale-body-medium-weight, var(--md-ref-typeface-weight-regular, 400)))}[slot=trailing-supporting-text]{color:var(--md-menu-item-trailing-supporting-text-color, var(--md-sys-color-on-surface-variant, #49454f));font-family:var(--md-menu-item-trailing-supporting-text-font, var(--md-sys-typescale-label-small-font, var(--md-ref-typeface-plain, Roboto)));font-size:var(--md-menu-item-trailing-supporting-text-size, var(--md-sys-typescale-label-small-size, 0.6875rem));line-height:var(--md-menu-item-trailing-supporting-text-line-height, var(--md-sys-typescale-label-small-line-height, 1rem));font-weight:var(--md-menu-item-trailing-supporting-text-weight, var(--md-sys-typescale-label-small-weight, var(--md-ref-typeface-weight-medium, 500)))}:is([slot=start],[slot=end])::slotted(*){fill:currentColor}[slot=start]{color:var(--md-menu-item-leading-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}[slot=end]{color:var(--md-menu-item-trailing-icon-color, var(--md-sys-color-on-surface-variant, #49454f))}.list-item.selected{background-color:var(--md-menu-item-selected-container-color, var(--md-sys-color-secondary-container, #e8def8))}.selected:not(.disabled) ::slotted(*){color:var(--md-menu-item-selected-label-text-color, var(--md-sys-color-on-secondary-container, #1d192b))}@media(forced-colors: active){:host([disabled]),:host([disabled]) slot{color:GrayText;opacity:1}.list-item{position:relative}.list-item.selected::before{content:"";position:absolute;inset:0;box-sizing:border-box;border-radius:inherit;pointer-events:none;border:3px double CanvasText}}/*# sourceMappingURL=menu-item-styles.css.map */
+`
 
 /**
  * @license
@@ -7411,342 +9131,20 @@ __decorate(
  * @suppress {visibility}
  */
 let MdMenuItem = class MdMenuItem extends MenuItemEl {}
-MdMenuItem.styles = [styles$7, styles$6]
-MdMenuItem = __decorate([e$9('md-menu-item')], MdMenuItem)
+MdMenuItem.styles = [styles$5]
+MdMenuItem = __decorate([t$3('md-menu-item')], MdMenuItem)
 
-/**
- * @license
- * Copyright 2023 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-function stopPropagation(e) {
-  e.stopPropagation()
-}
-/**
- * @fires deactivate-items {DeactivateItemsEvent} Requests the parent menu to
- *     deselect other items when a submenu opens
- */
-class SubMenuItem extends MenuItemEl {
-  constructor() {
-    super(...arguments)
-    this.role = 'menuitem'
-    /**
-     * The anchorCorner to set on the submenu.
-     */
-    this.anchorCorner = 'START_END'
-    /**
-     * The menuCorner to set on the submenu.
-     */
-    this.menuCorner = 'START_START'
-    /**
-     * The delay between pointerenter and submenu opening.
-     */
-    this.hoverOpenDelay = 400
-    /**
-     * The delay between ponterleave and the submenu closing.
-     */
-    this.hoverCloseDelay = 400
-    this.keepOpenOnClick = true
-    this.previousOpenTimeout = 0
-    this.previousCloseTimeout = 0
-    /**
-     * Starts the default 400ms countdown to open the submenu.
-     */
-    this.onPointerenter = () => {
-      clearTimeout(this.previousOpenTimeout)
-      clearTimeout(this.previousCloseTimeout)
-      if (this.submenuEl?.open) return
-      // Open synchronously if delay is 0. (screenshot tests infra
-      // would never resolve otherwise)
-      if (!this.hoverOpenDelay) {
-        this.show()
-      } else {
-        this.previousOpenTimeout = setTimeout(() => {
-          this.show()
-        }, this.hoverOpenDelay)
-      }
-    }
-    /**
-     * Starts the default 400ms countdown to close the submenu.
-     */
-    this.onPointerleave = () => {
-      clearTimeout(this.previousCloseTimeout)
-      clearTimeout(this.previousOpenTimeout)
-      // Close synchronously if delay is 0. (screenshot tests infra
-      // would never resolve otherwise)
-      if (!this.hoverCloseDelay) {
-        this.close()
-      } else {
-        this.previousCloseTimeout = setTimeout(() => {
-          this.close()
-        }, this.hoverCloseDelay)
-      }
-    }
-  }
-  get submenuEl() {
-    return this.menus[0]
-  }
-  onClick() {
-    this.show()
-  }
-  /**
-   * On item keydown handles opening the submenu.
-   */
-  onKeydown(e) {
-    const shouldOpenSubmenu = this.isSubmenuOpenKey(e.code)
-    if (e.code === SELECTION_KEY.SPACE) {
-      // prevent space from scrolling. Only open the submenu.
-      e.preventDefault()
-    }
-    if (!shouldOpenSubmenu) {
-      super.onKeydown(e)
-      return
-    }
-    const submenu = this.submenuEl
-    if (!submenu) return
-    const submenuItems = submenu.items
-    const firstActivatableItem = List.getFirstActivatableItem(submenuItems)
-    if (firstActivatableItem) {
-      this.show(() => {
-        firstActivatableItem.active = true
-      })
-      return
-    }
-  }
-  /**
-   * Render the submenu at the end
-   */
-  renderEnd() {
-    return y`${super.renderEnd()}${this.renderSubMenu()}`
-  }
-  /**
-   * Renders the slot for the submenu.
-   */
-  renderSubMenu() {
-    return y`<span class="submenu"><slot
-        name="submenu"
-        @pointerdown=${stopPropagation}
-        @click=${stopPropagation}
-        @keydown=${this.onSubMenuKeydown}
-        @close-menu=${this.onCloseSubmenu}
-    ></slot></span>`
-  }
-  onCloseSubmenu(e) {
-    e.itemPath.push(this)
-    // Escape should only close one menu not all of the menus unlike space or
-    // click selection which should close all menus.
-    if (
-      e.reason.kind === CLOSE_REASON.KEYDOWN &&
-      e.reason.key === KEYDOWN_CLOSE_KEYS.ESCAPE
-    ) {
-      e.stopPropagation()
-      this.active = true
-      // It might already be active so manually focus
-      this.listItemRoot.focus()
-      return
-    }
-    this.active = false
-  }
-  async onSubMenuKeydown(e) {
-    // Stop propagation so that we don't accidentally close every parent menu.
-    // Additionally, we want to isolate things like the typeahead keydowns
-    // from bubbling up to the parent menu and confounding things.
-    e.stopPropagation()
-    const shouldClose = this.isSubmenuCloseKey(e.code)
-    if (!shouldClose) return
-    this.close(() => {
-      List.deactivateActiveItem(this.submenuEl.items)
-      this.listItemRoot.focus()
-      this.active = true
-    })
-  }
-  /**
-   * Shows the submenu.
-   *
-   * @param onOpened A function to call after the menu is opened.
-   */
-  show(onOpened = () => {}) {
-    const menu = this.submenuEl
-    if (!menu) return
-    menu.quick = true
-    // Submenus are in overflow when not fixed. Can remove once we have native
-    // popup support
-    menu.hasOverflow = true
-    menu.anchorCorner = this.anchorCorner
-    menu.menuCorner = this.menuCorner
-    menu.anchor = this
-    // We manually set focus with `active` on keyboard navigation. And we
-    // want to focus the root on hover, so the user can pick up navigation with
-    // keyboard after hover.
-    menu.defaultFocus = 'LIST_ROOT'
-    menu.skipRestoreFocus = true
-    // Menu could already be opened because of mouse interaction
-    const menuAlreadyOpen = menu.open
-    menu.show()
-    // Deactivate other items. This can be the case if the user has tabbed
-    // around the menu and then mouses over an md-sub-menu.
-    this.dispatchEvent(new DeactivateItemsEvent())
-    this.active = true
-    // This is the case of mouse hovering when already opened via keyboard or
-    // vice versa
-    if (menuAlreadyOpen) {
-      onOpened()
-    } else {
-      menu.addEventListener('opened', onOpened, { once: true })
-    }
-  }
-  /**
-   * Closes the submenu.
-   *
-   * @param onClosed A function to call after the menu is closed.
-   */
-  close(onClosed = () => {}) {
-    const menu = this.submenuEl
-    if (!menu || !menu.open) return
-    menu.quick = true
-    menu.close()
-    this.active = false
-    menu.addEventListener('closed', onClosed, { once: true })
-  }
-  /**
-   * Determines whether the given KeyboardEvent code is one that should open
-   * the submenu. This is RTL-aware. By default, left, right, space, or enter.
-   *
-   * @param code The native KeyboardEvent code.
-   * @return Whether or not the key code should open the submenu.
-   */
-  isSubmenuOpenKey(code) {
-    const isRtl = getComputedStyle(this).direction === 'rtl'
-    const arrowEnterKey = isRtl ? NAVIGABLE_KEY.LEFT : NAVIGABLE_KEY.RIGHT
-    switch (code) {
-      case arrowEnterKey:
-      case SELECTION_KEY.SPACE:
-      case SELECTION_KEY.ENTER:
-        return true
-      default:
-        return false
-    }
-  }
-  /**
-   * Determines whether the given KeyboardEvent code is one that should close
-   * the submenu. This is RTL-aware. By default right, left, or escape.
-   *
-   * @param code The native KeyboardEvent code.
-   * @return Whether or not the key code should close the submenu.
-   */
-  isSubmenuCloseKey(code) {
-    const isRtl = getComputedStyle(this).direction === 'rtl'
-    const arrowEnterKey = isRtl ? NAVIGABLE_KEY.RIGHT : NAVIGABLE_KEY.LEFT
-    switch (code) {
-      case arrowEnterKey:
-      case KEYDOWN_CLOSE_KEYS.ESCAPE:
-        return true
-      default:
-        return false
-    }
-  }
-}
-__decorate(
-  [e$8({ attribute: 'anchor-corner' }), __metadata('design:type', String)],
-  SubMenuItem.prototype,
-  'anchorCorner',
-  void 0
-)
-__decorate(
-  [e$8({ attribute: 'menu-corner' }), __metadata('design:type', String)],
-  SubMenuItem.prototype,
-  'menuCorner',
-  void 0
-)
-__decorate(
-  [
-    e$8({ type: Number, attribute: 'hover-open-delay' }),
-    __metadata('design:type', Object),
-  ],
-  SubMenuItem.prototype,
-  'hoverOpenDelay',
-  void 0
-)
-__decorate(
-  [
-    e$8({ type: Number, attribute: 'hover-close-delay' }),
-    __metadata('design:type', Object),
-  ],
-  SubMenuItem.prototype,
-  'hoverCloseDelay',
-  void 0
-)
-__decorate(
-  [l$2({ slot: 'submenu' }), __metadata('design:type', Array)],
-  SubMenuItem.prototype,
-  'menus',
-  void 0
-)
-
-/**
- * @license
- * Copyright 2023 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/**
- * @summary Menus display a list of choices on a temporary surface.
- *
- * @description
- * Menu items are the selectable choices within the menu. Menu items must
- * implement the `MenuItem` interface and also have the `md-menu-item`
- * attribute. Additionally menu items are list items so they must also have the
- * `md-list-item` attribute.
- *
- * Menu items can control a menu by selectively firing the `close-menu` and
- * `deselect-items` events.
- *
- * This menu item will open a sub-menu that is slotted in the `submenu` slot.
- * Additionally, the containing menu must either have `has-overflow` or `fixed`
- * set to `true` in order to display the containing menu properly.
- *
- * @example
- * ```html
- * <div style="position:relative;">
- *   <button
- *       class="anchor"
- *       ${ref(anchorRef)}
- *       @click=${() => this.menuRef.value.show()}>
- *     Click to open menu
- *   </button>
- *   <!--
- *     `has-overflow` is required when using a submenu which overflows the
- *     menu's contents
- *   -->
- *   <md-menu has-overflow ${ref(menuRef)} ${(el) => el.anchor =
- * anchorRef.value}> <md-menu-item header="This is a header"></md-menu-item>
- *     <md-sub-menu-item header="this is a submenu item">
- *       <md-menu slot="submenu">
- *         <md-menu-item
- *           header="This is an item inside a submenu"></md-menu-item>
- *       </md-menu>
- *     </md-sub-menu>
- *   </md-menu>
- * </div>
- * ```
- *
- * @final
- * @suppress {visibility}
- */
-let MdSubMenuItem = class MdSubMenuItem extends SubMenuItem {}
-MdSubMenuItem.styles = [styles$7, styles$6]
-MdSubMenuItem = __decorate([e$9('md-sub-menu-item')], MdSubMenuItem)
-
-let LayerSettings = class LayerSettings extends s$4 {
+let LayerSettings = class LayerSettings extends s$8 {
   constructor() {
     super(...arguments)
     this.name = ''
     this.otherImages = []
     this.enable = true
-    this.menuRef = e()
-    this.anchorRef = e()
+    this.menuRef = e$9()
+    this.anchorRef = e$9()
     // avoid overflow: hidden on parents clipping menu
     this.floatingAnchor = makeHtml(`<div class="${style.floater}"></div>`)
-    this.stateService = new s$2(this, viewerContext, undefined, true)
+    this.stateService = new s$6(this, viewerContext, undefined, true)
   }
   connectedCallback() {
     super.connectedCallback()
@@ -7769,8 +9167,8 @@ let LayerSettings = class LayerSettings extends s$4 {
     this.floatingAnchor.style.top = `${top}px`
     this.floatingAnchor.style.left = `${left}px`
     if (this.menuRef.value) {
-      this.menuRef.value.anchor = this.floatingAnchor
       this.floatingAnchor.appendChild(this.menuRef.value)
+      this.menuRef.value.anchorElement = this.floatingAnchor
       this.menuRef.value.show()
     }
   }
@@ -7800,7 +9198,7 @@ let LayerSettings = class LayerSettings extends s$4 {
         })
   }
   render() {
-    return y`
+    return y$2`
       <div
         @click=${() => {
           this.showMenu()
@@ -7809,54 +9207,68 @@ let LayerSettings = class LayerSettings extends s$4 {
         class=${this.enable ? 'clickable' : ''}
       >
         <slot></slot>
-        <div ${n$1(this.anchorRef)} style="position:relative; z-index: 4000;">
-          <md-menu ${n$1(this.menuRef)}>
-            ${o$1(
+        <div ${n$6(this.anchorRef)} style="position:relative; z-index: 4000;">
+          <md-menu ${n$6(this.menuRef)} style="min-width: 280px;">
+            ${o$7(
               this.otherImages,
-              name => y`
+              name => y$2`
                   <md-menu-item
-                    headline="Checkerboard compare with ${name}"
                     @click=${() => this.compareWith(name, 'checkerboard')}
-                  ></md-menu-item>
+                  >
+                    <div slot="headline">
+                      "Checkerboard compare with ${name}"
+                    </div>
+                  </md-menu-item>
                   <md-menu-item
-                    headline="Green-Magenta compare with ${name}"
                     @click=${() => this.compareWith(name, 'green-magenta')}
-                  ></md-menu-item>
+                  >
+                    <div slot="headline">
+                      "Green-Magenta compare with ${name}"
+                    </div>
+                  </md-menu-item>
                   <md-menu-item
-                    headline="Cyan-Red compare with ${name}"
                     @click=${() => this.compareWith(name, 'cyan-red')}
-                  ></md-menu-item>
+                  >
+                    <div slot="headline">
+                      "Cyan-Red compare with ${name}"
+                    </div>
+                  </md-menu-item>
                   <md-menu-item
-                    headline="Cyan-Magenta compare with ${name}"
                     @click=${() => this.compareWith(name, 'cyan-magenta')}
-                  ></md-menu-item>
-                  <md-menu-item
-                    headline="Blend compare with ${name}"
-                    @click=${() => this.compareWith(name, 'blend')}
-                  ></md-menu-item>
+                  >
+                    <div slot="headline">
+                      "Cyan-Magenta compare with ${name}"
+                    </div>
+                  </md-menu-item>
+                  <md-menu-item @click=${() => this.compareWith(name, 'blend')}>
+                    <div slot="headline">
+                      "Blend compare with ${name}"
+                    </div>
+                  </md-menu-item>
                 `
             )}
-            <md-menu-item
-              headline="Stop comparing"
-              @click=${this.stopComparing}
-            ></md-menu-item>
+            <md-menu-item @click=${this.stopComparing}>
+              <div slot="headline">
+                "Stop comparing"
+              </div>
+            </md-menu-item>
           </md-menu>
         </div>
       </div>
     `
   }
 }
-LayerSettings.styles = i$5`
+LayerSettings.styles = i$8`
     .clickable {
       cursor: pointer;
     }
   `
-__decorate([e$8()], LayerSettings.prototype, 'name', void 0)
-__decorate([e$8()], LayerSettings.prototype, 'otherImages', void 0)
-__decorate([e$8()], LayerSettings.prototype, 'enable', void 0)
-LayerSettings = __decorate([e$9('layer-settings')], LayerSettings)
+__decorate([e$f()], LayerSettings.prototype, 'name', void 0)
+__decorate([e$f()], LayerSettings.prototype, 'otherImages', void 0)
+__decorate([e$f()], LayerSettings.prototype, 'enable', void 0)
+LayerSettings = __decorate([e$g('layer-settings')], LayerSettings)
 
-let LayerIcon = class LayerIcon extends s$4 {
+let LayerIcon = class LayerIcon extends s$8 {
   constructor() {
     super(...arguments)
     this.layer = { type: 'image' }
@@ -7904,7 +9316,7 @@ let LayerIcon = class LayerIcon extends s$4 {
   render() {
     const { icon, alt } = this.getIcon()
     const settingsPossible = alt === 'settings'
-    return y`
+    return y$2`
       <div>
         <layer-settings
           .name=${this.name}
@@ -7917,7 +9329,7 @@ let LayerIcon = class LayerIcon extends s$4 {
     `
   }
 }
-LayerIcon.styles = i$5`
+LayerIcon.styles = i$8`
     .icon {
       height: 1.2em;
       width: 1.2em;
@@ -7927,10 +9339,10 @@ LayerIcon.styles = i$5`
       padding-right: 6px;
     }
   `
-__decorate([e$8()], LayerIcon.prototype, 'layer', void 0)
-__decorate([e$8()], LayerIcon.prototype, 'name', void 0)
-__decorate([t$3()], LayerIcon.prototype, 'settingsOpen', void 0)
-LayerIcon = __decorate([e$9('layer-icon')], LayerIcon)
+__decorate([e$f()], LayerIcon.prototype, 'layer', void 0)
+__decorate([e$f()], LayerIcon.prototype, 'name', void 0)
+__decorate([t$7()], LayerIcon.prototype, 'settingsOpen', void 0)
+LayerIcon = __decorate([e$g('layer-icon')], LayerIcon)
 
 function createLayerEntry(context, name, layer) {
   var layerEntry = document.createElement('div')
@@ -8017,7 +9429,7 @@ function createLayerEntry(context, name, layer) {
     .concat(context.id, '-layerBBoxButton" type="checkbox" class="')
     .concat(
       style.toggleInput,
-      '"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Label BBox" class="'
+      '"><label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Bounding Box" class="'
     )
     .concat(style.toggleButton, '" for="')
     .concat(context.id, '-layerBBoxButton"><img src="')
@@ -8044,40 +9456,43 @@ function createLayerEntry(context, name, layer) {
     var actorContext = context.layers.actorContext.get(name)
     layerBBoxButtonInput.checked = actorContext.bbox
   })
-  if (context.layers.showSaveRoiButton) {
-    var downloadImage = document.createElement('div')
-    downloadImage.innerHTML = '\n  <input type="checkbox" checked id='
-      .concat(context.id, '-download-image" class="')
-      .concat(
-        style.toggleInput,
-        '" />\n  <label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Save ROI" class="'
-      )
-      .concat(style.toggleButton, '" for="')
-      .concat(
-        context.id,
-        '-download-image">\n    <img style="height: 23px" src="'
-      )
-      .concat(optimizedSVGDataUri$s, '" />\n  </label>\n  ')
-    var downloadImageLabel = downloadImage.children[1]
-    downloadImage.style.height = '23px'
-    applyContrastSensitiveStyleToElement(
-      context,
-      'invertibleButton',
-      downloadImageLabel
+
+  // if (context.layers.showSaveRoiButton) {
+  var downloadImage = document.createElement('div')
+  downloadImage.innerHTML = '\n  <input type="checkbox" checked id='
+    .concat(context.id, '-download-image" class="')
+    .concat(
+      style.toggleInput,
+      '" />\n  <label itk-vtk-tooltip itk-vtk-tooltip-top itk-vtk-tooltip-content="Save ROI" class="'
     )
-    imageIcons.appendChild(downloadImage)
-    downloadImage.addEventListener('click', function(event) {
-      event.preventDefault()
-      event.stopPropagation()
-      context.service.send({
-        type: 'DOWNLOAD_IMAGE',
-        data: {
-          name: context.images.selectedName,
-          layerName: name,
-        },
-      })
-    })
-  }
+    .concat(style.toggleButton, '" for="')
+    .concat(
+      context.id,
+      '-download-image">\n    <img style="height: 23px" src="'
+    )
+    .concat(optimizedSVGDataUri$s, '" />\n  </label>\n  ')
+  var downloadImageLabel = downloadImage.children[1]
+  downloadImage.style.height = '23px'
+  applyContrastSensitiveStyleToElement(
+    context,
+    'invertibleButton',
+    downloadImageLabel
+  )
+  imageIcons.appendChild(downloadImage)
+  downloadImage.addEventListener('click', function(event) {
+    event.preventDefault()
+    event.stopPropagation()
+    // context.service.send({
+    //   type: 'DOWNLOAD_IMAGE',
+    //   data: {
+    //     name: context.images.selectedName,
+    //     layerName: name,
+    //   },
+    // })
+    console.log('Download image')
+  })
+  // }
+
   var icon = makeHtml(
     '<layer-icon class="'.concat(style.layerIcon, '"></layer-icon>')
   )
@@ -24287,39 +25702,37 @@ function toggleDarkMode(context) {
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-/** @soyCompatible */
-class NavigationDrawer extends s$4 {
+/**
+ * TODO(b/265346501): add docs
+ */
+class NavigationDrawer extends s$1 {
   constructor() {
     super(...arguments)
-    // tslint:disable-next-line:no-new-decorators
-    this.ariaModal = 'false'
     this.opened = false
     this.pivot = 'end'
   }
-  /** @soyTemplate */
   render() {
     const ariaExpanded = this.opened ? 'true' : 'false'
     const ariaHidden = !this.opened ? 'true' : 'false'
-    return y`
+    // Needed for closure conformance
+    const { ariaLabel, ariaModal } = this
+    return x`
       <div
-        aria-describedby="${l(this.ariaDescribedBy)}"
         aria-expanded="${ariaExpanded}"
         aria-hidden="${ariaHidden}"
-        aria-label="${l(this.ariaLabel)}"
-        aria-labelledby="${l(this.ariaLabelledBy)}"
-        aria-modal="${this.ariaModal}"
+        aria-label=${ariaLabel || T}
+        aria-modal="${ariaModal || T}"
         class="md3-navigation-drawer ${this.getRenderClasses()}"
         role="dialog">
-        <md-elevation shadow surface></md-elevation>
+        <md-elevation></md-elevation>
         <div class="md3-navigation-drawer__slot-content">
           <slot></slot>
         </div>
       </div>
     `
   }
-  /** @soyTemplate classMap */
   getRenderClasses() {
-    return o({
+    return e$1({
       'md3-navigation-drawer--opened': this.opened,
       'md3-navigation-drawer--pivot-at-start': this.pivot === 'start',
     })
@@ -24338,68 +25751,23 @@ class NavigationDrawer extends s$4 {
     }
   }
 }
+;(() => {
+  requestUpdateOnAriaChange(NavigationDrawer)
+})()
 __decorate(
-  [
-    ariaProperty,
-    e$8({ type: String, attribute: 'data-aria-describedby', noAccessor: true }),
-    __metadata('design:type', String),
-  ],
-  NavigationDrawer.prototype,
-  'ariaDescribedBy',
-  void 0
-)
-__decorate(
-  [
-    ariaProperty,
-    e$8({ type: String, attribute: 'data-aria-label', noAccessor: true }),
-    __metadata('design:type', String),
-  ],
-  NavigationDrawer.prototype,
-  'ariaLabel',
-  void 0
-)
-__decorate(
-  [
-    ariaProperty,
-    e$8({ attribute: 'data-aria-modal', type: String, noAccessor: true }),
-    __metadata('design:type', String),
-  ],
-  NavigationDrawer.prototype,
-  'ariaModal',
-  void 0
-)
-__decorate(
-  [
-    ariaProperty,
-    e$8({ type: String, attribute: 'data-aria-labelledby', noAccessor: true }),
-    __metadata('design:type', String),
-  ],
-  NavigationDrawer.prototype,
-  'ariaLabelledBy',
-  void 0
-)
-__decorate(
-  [
-    e$8({ type: Boolean }), // tslint:disable-next-line:no-new-decorators
-    __metadata('design:type', Object),
-  ],
+  [n$3({ type: Boolean })],
   NavigationDrawer.prototype,
   'opened',
   void 0
 )
-__decorate(
-  [e$8({ type: String }), __metadata('design:type', String)],
-  NavigationDrawer.prototype,
-  'pivot',
-  void 0
-)
+__decorate([n$3()], NavigationDrawer.prototype, 'pivot', void 0)
 
 /**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$4 = i$5`:host{--_container-shape-start-start: var(--md-navigation-drawer-container-shape-start-start, var(--md-navigation-drawer-container-shape, 0));--_container-shape-start-end: var(--md-navigation-drawer-container-shape-start-end, var(--md-navigation-drawer-container-shape, 16px));--_container-shape-end-end: var(--md-navigation-drawer-container-shape-end-end, var(--md-navigation-drawer-container-shape, 16px));--_container-shape-end-start: var(--md-navigation-drawer-container-shape-end-start, var(--md-navigation-drawer-container-shape, 0));--_container-color: var(--md-navigation-drawer-container-color, #fff);--_container-height: var(--md-navigation-drawer-container-height, 100%);--_container-surface-tint-layer-color: ;--_container-width: var(--md-navigation-drawer-container-width, 360px);--_divider-color: var(--md-navigation-drawer-divider-color, #000);--_modal-container-elevation: var(--md-navigation-drawer-modal-container-elevation, 1);--_standard-container-elevation: var(--md-navigation-drawer-standard-container-elevation, 0);--md-elevation-level:var(--_standard-container-elevation);--md-elevation-shadow-color:var(--_divider-color);--md-elevation-surface-tint:var(--_container-surface-tint-layer-color)}:host{display:flex}.md3-navigation-drawer{inline-size:0;box-sizing:border-box;display:flex;justify-content:flex-end;overflow:hidden;overflow-y:auto;visibility:hidden;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) .25s}md-elevation{inset:0;position:absolute;width:inherit;z-index:0}.md3-navigation-drawer--opened{visibility:visible;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) 0s}.md3-navigation-drawer--pivot-at-start{justify-content:flex-start}.md3-navigation-drawer__slot-content{display:flex;flex-direction:column;position:relative}/*# sourceMappingURL=navigation-drawer-styles.css.map */
+const styles$4 = i$4`:host{--_container-color: var(--md-navigation-drawer-container-color, #fff);--_container-height: var(--md-navigation-drawer-container-height, 100%);--_container-shape: var(--md-navigation-drawer-container-shape, 0 16px 16px 0);--_container-width: var(--md-navigation-drawer-container-width, 360px);--_divider-color: var(--md-navigation-drawer-divider-color, #000);--_modal-container-elevation: var(--md-navigation-drawer-modal-container-elevation, 1);--_standard-container-elevation: var(--md-navigation-drawer-standard-container-elevation, 0);--md-elevation-level: var(--_standard-container-elevation);--md-elevation-shadow-color: var(--_divider-color)}:host{display:flex}.md3-navigation-drawer{inline-size:0;box-sizing:border-box;display:flex;justify-content:flex-end;overflow:hidden;overflow-y:auto;visibility:hidden;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) .25s}md-elevation{z-index:0}.md3-navigation-drawer--opened{visibility:visible;transition:inline-size .25s cubic-bezier(0.4, 0, 0.2, 1) 0s,visibility 0s cubic-bezier(0.4, 0, 0.2, 1) 0s}.md3-navigation-drawer--pivot-at-start{justify-content:flex-start}.md3-navigation-drawer__slot-content{display:flex;flex-direction:column;position:relative}/*# sourceMappingURL=navigation-drawer-styles.css.map */
 `
 
 /**
@@ -24407,7 +25775,7 @@ const styles$4 = i$5`:host{--_container-shape-start-start: var(--md-navigation-d
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$3 = i$5`.md3-navigation-drawer-modal{background-color:var(--_container-color);border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-end-radius:var(--_container-shape-end-end);border-end-start-radius:var(--_container-shape-end-start);height:var(--_container-height)}.md3-navigation-drawer-modal.md3-navigation-drawer-modal--opened{inline-size:var(--_container-width)}.md3-navigation-drawer-modal .md3-navigation-drawer-modal__slot-content{min-inline-size:var(--_container-width);max-inline-size:var(--_container-width)}/*# sourceMappingURL=shared-styles.css.map */
+const styles$3 = i$4`.md3-navigation-drawer-modal{background-color:var(--_container-color);border-radius:var(--_container-shape);height:var(--_container-height)}.md3-navigation-drawer-modal.md3-navigation-drawer-modal--opened{inline-size:var(--_container-width)}.md3-navigation-drawer-modal .md3-navigation-drawer-modal__slot-content{min-inline-size:var(--_container-width);max-inline-size:var(--_container-width)}/*# sourceMappingURL=shared-styles.css.map */
 `
 
 /**
@@ -24416,75 +25784,124 @@ const styles$3 = i$5`.md3-navigation-drawer-modal{background-color:var(--_contai
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * @soyCompatible
  * @final
  * @suppress {visibility}
  */
 let MdNavigationDrawer = class MdNavigationDrawer extends NavigationDrawer {}
 MdNavigationDrawer.styles = [styles$3, styles$4]
 MdNavigationDrawer = __decorate(
-  [e$9('md-navigation-drawer')],
+  [t$3('md-navigation-drawer')],
   MdNavigationDrawer
 )
 
-let ServiceContext = class ServiceContext extends s$4 {
+let ServiceContext = class ServiceContext extends s$8 {
   constructor() {
     super(...arguments)
     // @ts-ignore
-    this.provider = new e$5(this, viewerContext, {
+    this.provider = new e$e(this, viewerContext, {
       service: appContext.service,
     })
   }
   render() {
-    return y`
+    return y$2`
       <slot></slot>
     `
   }
 }
-ServiceContext = __decorate([e$9('service-context')], ServiceContext)
+ServiceContext = __decorate([e$g('service-context')], ServiceContext)
 
 /**
  * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-/** @soyCompatible */
-class Icon extends s$4 {
-  /** @soyTemplate */
-  render() {
-    return y`<span><slot></slot></span>`
-  }
-}
-
-/**
- * @license
- * Copyright 2022 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-const styles$2 = i$5`:host{--_color: var(--md-icon-color, inherit);--_font: var(--md-icon-font, "Material Symbols Outlined");--_font-variation-settings: var(--md-icon-font-variation-settings, inherit);--_size: var(--md-icon-size, 24px);--_weight: var(--md-icon-weight, 400);display:inline-flex;color:var(--_color);font-family:var(--_font);font-weight:var(--_weight);font-style:normal;font-size:var(--_size);font-variation-settings:var(--_font-variation-settings);line-height:1;letter-spacing:normal;text-transform:none;white-space:nowrap;word-wrap:normal;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-moz-osx-font-smoothing:grayscale}span ::slotted(svg){fill:currentColor}span ::slotted(*){height:var(--_size);width:var(--_size)}/*# sourceMappingURL=icon-styles.css.map */
-`
-
-/**
- * @license
- * Copyright 2022 Google LLC
+ * Copyright 2023 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * @soyCompatible
- * @final
- * @suppress {visibility}
+ * A unique symbol used for protected access to an instance's
+ * `ElementInternals`.
+ *
+ * @example
+ * ```ts
+ * class MyElement extends LitElement {
+ *   static formAssociated = true;
+ *
+ *   [internals] = this.attachInternals();
+ * }
+ *
+ * function getForm(element: MyElement) {
+ *   return element[internals].form;
+ * }
+ * ```
  */
-let MdIcon = class MdIcon extends Icon {}
-MdIcon.styles = [styles$2]
-MdIcon = __decorate([e$9('md-icon')], MdIcon)
+const internals = Symbol('internals')
 
 /**
  * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-function n(n, o, r) {
-  return n ? o() : null == r ? void 0 : r()
+/**
+ * Sets up an element's constructor to enable form submission. The element
+ * instance should be form associated and have a `type` property.
+ *
+ * A click listener is added to each element instance. If the click is not
+ * default prevented, it will submit the element's form, if any.
+ *
+ * @example
+ * ```ts
+ * class MyElement extends LitElement {
+ *   static {
+ *     setupFormSubmitter(MyElement);
+ *   }
+ *
+ *   static formAssociated = true;
+ *
+ *   type: FormSubmitterType = 'submit';
+ *
+ *   [internals] = this.attachInternals();
+ * }
+ * ```
+ *
+ * @param ctor The form submitter element's constructor.
+ */
+function setupFormSubmitter(ctor) {
+  ctor.addInitializer(instance => {
+    const submitter = instance
+    submitter.addEventListener('click', async event => {
+      const { type, [internals]: elementInternals } = submitter
+      const { form } = elementInternals
+      if (!form || type === 'button') {
+        return
+      }
+      // Wait a microtask for event bubbling to complete.
+      await new Promise(resolve => {
+        resolve()
+      })
+      if (event.defaultPrevented) {
+        return
+      }
+      if (type === 'reset') {
+        form.reset()
+        return
+      }
+      // form.requestSubmit(submitter) does not work with form associated custom
+      // elements. This patches the dispatched submit event to add the correct
+      // `submitter`.
+      // See https://github.com/WICG/webcomponents/issues/814
+      form.addEventListener(
+        'submit',
+        submitEvent => {
+          Object.defineProperty(submitEvent, 'submitter', {
+            configurable: true,
+            enumerable: true,
+            get: () => submitter,
+          })
+        },
+        { capture: true, once: true }
+      )
+      elementInternals.setFormValue(submitter.value)
+      form.requestSubmit()
+    })
+  })
 }
 
 /**
@@ -24514,8 +25931,9 @@ function isRtl(el, shouldCheck = true) {
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+var _a
 // tslint:disable-next-line:enforce-comments-on-exported-symbols
-class IconButton extends s$4 {
+class IconButton extends s$1 {
   constructor() {
     super(...arguments)
     /**
@@ -24526,133 +25944,195 @@ class IconButton extends s$4 {
      * Flips the icon if it is in an RTL context at startup.
      */
     this.flipIconInRtl = false
+    /**
+     * Sets the underlying `HTMLAnchorElement`'s `href` resource attribute.
+     */
+    this.href = ''
+    /**
+     * Sets the underlying `HTMLAnchorElement`'s `target` attribute.
+     */
+    this.target = ''
+    /**
+     * The `aria-label` of the button when the button is toggleable and selected.
+     */
+    this.ariaLabelSelected = ''
+    /**
+     * When true, the button will toggle between selected and unselected
+     * states
+     */
+    this.toggle = false
+    /**
+     * Sets the selected state. When false, displays the default icon. When true,
+     * displays the selected icon, or the default icon If no `slot="selected"`
+     * icon is provided.
+     */
+    this.selected = false
+    this.type = 'submit'
+    this.value = ''
     this.flipIcon = isRtl(this, this.flipIconInRtl)
-    this.showFocusRing = false
-    this.showRipple = false
-    this.getRipple = () => {
-      this.showRipple = true
-      return this.ripple
-    }
-    this.renderRipple = () => {
-      return y`<md-ripple ?disabled="${this.disabled}"></md-ripple>`
+    /** @private */
+    this[_a] = this /* needed for closure */.attachInternals()
+  }
+  get name() {
+    return this.getAttribute('name') ?? ''
+  }
+  set name(name) {
+    this.setAttribute('name', name)
+  }
+  /**
+   * The associated form element with which this element's value will submit.
+   */
+  get form() {
+    return this[internals].form
+  }
+  /**
+   * The labels this element is associated with.
+   */
+  get labels() {
+    return this[internals].labels
+  }
+  /**
+   * Link buttons cannot be disabled.
+   */
+  willUpdate() {
+    if (this.href) {
+      this.disabled = false
     }
   }
   render() {
-    return y`<button
-        class="md3-icon-button ${o(this.getRenderClasses())}"
-        aria-label="${l(this.ariaLabel)}"
-        aria-haspopup="${l(this.ariaHasPopup)}"
-        ?disabled="${this.disabled}"
-        @focus="${this.handleFocus}"
-        @blur="${this.handleBlur}"
-        @pointerdown="${this.handlePointerDown}"
-        ${ripple(this.getRipple)}>
+    const tag = this.href ? s`div` : s`button`
+    // Needed for closure conformance
+    const { ariaLabel, ariaHasPopup, ariaExpanded } = this
+    const hasToggledAriaLabel = ariaLabel && this.ariaLabelSelected
+    const ariaPressedValue = !this.toggle ? T : this.selected
+    let ariaLabelValue = T
+    if (!this.href) {
+      ariaLabelValue =
+        hasToggledAriaLabel && this.selected
+          ? this.ariaLabelSelected
+          : ariaLabel
+    }
+    return n`<${tag}
+        class="icon-button ${e$1(this.getRenderClasses())}"
+        id="button"
+        aria-label="${ariaLabelValue || T}"
+        aria-haspopup="${(!this.href && ariaHasPopup) || T}"
+        aria-expanded="${(!this.href && ariaExpanded) || T}"
+        aria-pressed="${ariaPressedValue}"
+        ?disabled="${!this.href && this.disabled}"
+        @click="${this.handleClick}">
         ${this.renderFocusRing()}
-        ${n(this.showRipple, this.renderRipple)}
-        ${this.renderIcon()}
+        ${this.renderRipple()}
+        ${!this.selected ? this.renderIcon() : T}
+        ${this.selected ? this.renderSelectedIcon() : T}
         ${this.renderTouchTarget()}
-  </button>`
+        ${this.href && this.renderLink()}
+  </${tag}>`
+  }
+  renderLink() {
+    // Needed for closure conformance
+    const { ariaLabel } = this
+    return x`
+      <a class="link"
+        id="link"
+        href="${this.href}"
+        target="${this.target || T}"
+        aria-label="${ariaLabel || T}"
+      ></a>
+    `
   }
   getRenderClasses() {
     return {
-      'md3-icon-button--flip-icon': this.flipIcon,
+      'flip-icon': this.flipIcon,
+      selected: this.toggle && this.selected,
     }
   }
   renderIcon() {
-    // Note, it's important not to render the icon property as a slot fallback
-    // to avoid any whitespace from overridding it.
-    return y`<md-icon class="md3-icon-button__icon"><slot></slot></md-icon>`
+    return x`<span class="icon"><slot></slot></span>`
+  }
+  renderSelectedIcon() {
+    // Use default slot as fallback to not require specifying multiple icons
+    return x`<span class="icon icon--selected"><slot name="selected"><slot></slot></slot></span>`
   }
   renderTouchTarget() {
-    return y`<span class="md3-icon-button__touch"></span>`
+    return x`<span class="touch"></span>`
   }
   renderFocusRing() {
-    return y`<md-focus-ring .visible="${this.showFocusRing}"></md-focus-ring>`
+    return x`<md-focus-ring part="focus-ring" for=${
+      this.href ? 'link' : 'button'
+    }></md-focus-ring>`
+  }
+  renderRipple() {
+    return x`<md-ripple
+      for=${this.href ? 'link' : T}
+      ?disabled="${!this.href && this.disabled}"
+    ></md-ripple>`
   }
   connectedCallback() {
     this.flipIcon = isRtl(this, this.flipIconInRtl)
     super.connectedCallback()
   }
-  handlePointerDown() {
-    pointerPress()
-    this.showFocusRing = shouldShowStrongFocus()
-  }
-  handleFocus() {
-    this.showFocusRing = shouldShowStrongFocus()
-  }
-  handleBlur() {
-    this.showFocusRing = false
+  async handleClick(event) {
+    // Allow the event to propagate
+    await 0
+    if (!this.toggle || this.disabled || event.defaultPrevented) {
+      return
+    }
+    this.selected = !this.selected
+    this.dispatchEvent(
+      new InputEvent('input', { bubbles: true, composed: true })
+    )
+    // Bubbles but does not compose to mimic native browser <input> & <select>
+    // Additionally, native change event is not an InputEvent.
+    this.dispatchEvent(new Event('change', { bubbles: true }))
   }
 }
+_a = internals
+;(() => {
+  requestUpdateOnAriaChange(IconButton)
+  setupFormSubmitter(IconButton)
+})()
+/** @nocollapse */
+IconButton.formAssociated = true
+/** @nocollapse */
+IconButton.shadowRootOptions = { mode: 'open', delegatesFocus: true }
 __decorate(
-  [e$8({ type: Boolean, reflect: true }), __metadata('design:type', Object)],
+  [n$3({ type: Boolean, reflect: true })],
   IconButton.prototype,
   'disabled',
   void 0
 )
 __decorate(
-  [e$8({ type: Boolean }), __metadata('design:type', Object)],
+  [n$3({ type: Boolean, attribute: 'flip-icon-in-rtl' })],
   IconButton.prototype,
   'flipIconInRtl',
   void 0
 )
+__decorate([n$3()], IconButton.prototype, 'href', void 0)
+__decorate([n$3()], IconButton.prototype, 'target', void 0)
 __decorate(
-  [t$3(), __metadata('design:type', Boolean)],
+  [n$3({ attribute: 'aria-label-selected' })],
   IconButton.prototype,
-  'flipIcon',
+  'ariaLabelSelected',
   void 0
 )
+__decorate([n$3({ type: Boolean })], IconButton.prototype, 'toggle', void 0)
 __decorate(
-  [
-    ariaProperty,
-    e$8({ type: String, attribute: 'data-aria-label' }),
-    __metadata('design:type', String),
-  ],
+  [n$3({ type: Boolean, reflect: true })],
   IconButton.prototype,
-  'ariaLabel',
+  'selected',
   void 0
 )
-__decorate(
-  [
-    ariaProperty,
-    e$8({ type: String, attribute: 'data-aria-haspopup' }),
-    __metadata('design:type', String),
-  ],
-  IconButton.prototype,
-  'ariaHasPopup',
-  void 0
-)
-__decorate(
-  [i$2('button'), __metadata('design:type', HTMLElement)],
-  IconButton.prototype,
-  'buttonElement',
-  void 0
-)
-__decorate(
-  [e$7('md-ripple'), __metadata('design:type', Promise)],
-  IconButton.prototype,
-  'ripple',
-  void 0
-)
-__decorate(
-  [t$3(), __metadata('design:type', Object)],
-  IconButton.prototype,
-  'showFocusRing',
-  void 0
-)
-__decorate(
-  [t$3(), __metadata('design:type', Object)],
-  IconButton.prototype,
-  'showRipple',
-  void 0
-)
+__decorate([n$3()], IconButton.prototype, 'type', void 0)
+__decorate([n$3()], IconButton.prototype, 'value', void 0)
+__decorate([r$3()], IconButton.prototype, 'flipIcon', void 0)
 
 /**
  * @license
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles$1 = i$5`:host{display:inline-flex;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);height:max(48px,var(--_container-size));width:max(48px,var(--_container-size));align-items:center;justify-content:center}:host([disabled]){pointer-events:none}.md3-icon-button{align-items:center;border:none;box-sizing:border-box;cursor:pointer;display:flex;justify-content:center;outline:none;position:relative;text-decoration:none;user-select:none;z-index:0;height:var(--_container-size);width:var(--_container-size);border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.md3-icon-button__icon{--md-icon-size:var(--_icon-size);--md-icon-weight:inherit}md-ripple{z-index:-1;border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.md3-icon-button--flip-icon .md3-icon-button__icon{transform:scaleX(-1)}.md3-icon-button__icon{display:inline-flex}.md3-icon-button__link{height:100%;outline:none;position:absolute;width:100%}.md3-icon-button__touch{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%)}/*# sourceMappingURL=shared-styles.css.map */
+const styles$2 = i$4`:host{display:inline-flex;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);height:var(--_container-height);width:var(--_container-width);justify-content:center}:host([touch-target=wrapper]){margin:max(0px,(48px - var(--_container-height))/2) max(0px,(48px - var(--_container-width))/2)}md-focus-ring{--md-focus-ring-shape-start-start: var(--_container-shape-start-start);--md-focus-ring-shape-start-end: var(--_container-shape-start-end);--md-focus-ring-shape-end-end: var(--_container-shape-end-end);--md-focus-ring-shape-end-start: var(--_container-shape-end-start)}:host([disabled]){pointer-events:none}.icon-button{place-items:center;background:none;border:none;box-sizing:border-box;cursor:pointer;display:flex;place-content:center;outline:none;padding:0;position:relative;text-decoration:none;user-select:none;z-index:0;flex:1;border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.icon ::slotted(*){font-size:var(--_icon-size);height:var(--_icon-size);width:var(--_icon-size);font-weight:inherit}md-ripple{z-index:-1;border-start-start-radius:var(--_container-shape-start-start);border-start-end-radius:var(--_container-shape-start-end);border-end-start-radius:var(--_container-shape-end-start);border-end-end-radius:var(--_container-shape-end-end)}.flip-icon .icon{transform:scaleX(-1)}.icon{display:inline-flex}.link{height:100%;outline:none;position:absolute;width:100%}.touch{position:absolute;height:max(48px,100%);width:max(48px,100%)}:host([touch-target=none]) .touch{display:none}@media(forced-colors: active){:host([disabled]){--_disabled-icon-opacity: 1}}/*# sourceMappingURL=shared-styles.css.map */
 `
 
 /**
@@ -24660,7 +26140,7 @@ const styles$1 = i$5`:host{display:inline-flex;outline:none;-webkit-tap-highligh
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-const styles = i$5`:host{--_state-layer-shape-start-start: var(--md-icon-button-state-layer-shape-start-start, var(--md-icon-button-state-layer-shape, 9999px));--_state-layer-shape-start-end: var(--md-icon-button-state-layer-shape-start-end, var(--md-icon-button-state-layer-shape, 9999px));--_state-layer-shape-end-end: var(--md-icon-button-state-layer-shape-end-end, var(--md-icon-button-state-layer-shape, 9999px));--_state-layer-shape-end-start: var(--md-icon-button-state-layer-shape-end-start, var(--md-icon-button-state-layer-shape, 9999px));--_disabled-icon-color: var(--md-icon-button-disabled-icon-color, rgb(var(--md-sys-color-on-surface-rgb, 28, 27, 31), 0.38));--_icon-size: var(--md-icon-button-icon-size, 24px);--_selected-focus-icon-color: var(--md-icon-button-selected-focus-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-focus-state-layer-color: var(--md-icon-button-selected-focus-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-focus-state-layer-opacity: var(--md-icon-button-selected-focus-state-layer-opacity, 0.12);--_selected-hover-icon-color: var(--md-icon-button-selected-hover-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-color: var(--md-icon-button-selected-hover-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-opacity: var(--md-icon-button-selected-hover-state-layer-opacity, 0.08);--_selected-icon-color: var(--md-icon-button-selected-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-icon-color: var(--md-icon-button-selected-pressed-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-color: var(--md-icon-button-selected-pressed-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-opacity: var(--md-icon-button-selected-pressed-state-layer-opacity, 0.12);--_state-layer-size: var(--md-icon-button-state-layer-size, 40px);--_unselected-focus-icon-color: var(--md-icon-button-unselected-focus-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-focus-state-layer-color: var(--md-icon-button-unselected-focus-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-focus-state-layer-opacity: var(--md-icon-button-unselected-focus-state-layer-opacity, 0.12);--_unselected-hover-icon-color: var(--md-icon-button-unselected-hover-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-hover-state-layer-color: var(--md-icon-button-unselected-hover-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-hover-state-layer-opacity: var(--md-icon-button-unselected-hover-state-layer-opacity, 0.08);--_unselected-icon-color: var(--md-icon-button-unselected-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-pressed-icon-color: var(--md-icon-button-unselected-pressed-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-pressed-state-layer-color: var(--md-icon-button-unselected-pressed-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_unselected-pressed-state-layer-opacity: var(--md-icon-button-unselected-pressed-state-layer-opacity, 0.12);height:max(48px,var(--_state-layer-size));width:max(48px,var(--_state-layer-size));--md-focus-ring-shape-start-start:var(--md-focus-ring-shape, var(--_state-layer-shape-start-start));--md-focus-ring-shape-start-end:var(--md-focus-ring-shape, var(--_state-layer-shape-start-end));--md-focus-ring-shape-end-end:var(--md-focus-ring-shape, var(--_state-layer-shape-end-end));--md-focus-ring-shape-end-start:var(--md-focus-ring-shape, var(--_state-layer-shape-end-start)))))}.md3-icon-button--standard{background-color:rgba(0,0,0,0);color:var(--_unselected-icon-color);height:var(--_state-layer-size);width:var(--_state-layer-size);--md-ripple-focus-color:var(--_unselected-focus-state-layer-color);--md-ripple-focus-opacity:var(--_unselected-focus-state-layer-opacity);--md-ripple-hover-color:var(--_unselected-hover-state-layer-color);--md-ripple-hover-opacity:var(--_unselected-hover-state-layer-opacity);--md-ripple-pressed-color:var(--_unselected-pressed-state-layer-color);--md-ripple-pressed-opacity:var(--_unselected-pressed-state-layer-opacity);--md-ripple-shape:var(--_state-layer-shape-start-start)}.md3-icon-button--standard:hover{color:var(--_unselected-hover-icon-color)}.md3-icon-button--standard:focus{color:var(--_unselected-focus-icon-color)}.md3-icon-button--standard:active{color:var(--_unselected-pressed-icon-color)}.md3-icon-button--standard:disabled{color:var(--_disabled-icon-color)}.md3-icon-button--selected{--md-ripple-focus-color:var(--_selected-focus-state-layer-color);--md-ripple-focus-opacity:var(--_selected-focus-state-layer-opacity);--md-ripple-hover-color:var(--_selected-hover-state-layer-color);--md-ripple-hover-opacity:var(--_selected-hover-state-layer-opacity);--md-ripple-pressed-color:var(--_selected-pressed-state-layer-color);--md-ripple-pressed-opacity:var(--_selected-pressed-state-layer-opacity)}.md3-icon-button--selected:not(:disabled){color:var(--_selected-icon-color)}.md3-icon-button--selected:not(:disabled):hover{color:var(--_selected-hover-icon-color)}.md3-icon-button--selected:not(:disabled):focus{color:var(--_selected-focus-icon-color)}.md3-icon-button--selected:not(:disabled):active{color:var(--_selected-pressed-icon-color)}/*# sourceMappingURL=standard-styles.css.map */
+const styles$1 = i$4`:host{--_disabled-icon-color: var(--md-icon-button-disabled-icon-color, var(--md-sys-color-on-surface, #1d1b20));--_disabled-icon-opacity: var(--md-icon-button-disabled-icon-opacity, 0.38);--_icon-size: var(--md-icon-button-icon-size, 24px);--_selected-focus-icon-color: var(--md-icon-button-selected-focus-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-icon-color: var(--md-icon-button-selected-hover-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-color: var(--md-icon-button-selected-hover-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-hover-state-layer-opacity: var(--md-icon-button-selected-hover-state-layer-opacity, 0.08);--_selected-icon-color: var(--md-icon-button-selected-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-icon-color: var(--md-icon-button-selected-pressed-icon-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-color: var(--md-icon-button-selected-pressed-state-layer-color, var(--md-sys-color-primary, #6750a4));--_selected-pressed-state-layer-opacity: var(--md-icon-button-selected-pressed-state-layer-opacity, 0.12);--_state-layer-height: var(--md-icon-button-state-layer-height, 40px);--_state-layer-shape: var(--md-icon-button-state-layer-shape, 9999px);--_state-layer-width: var(--md-icon-button-state-layer-width, 40px);--_focus-icon-color: var(--md-icon-button-focus-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_hover-icon-color: var(--md-icon-button-hover-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_hover-state-layer-color: var(--md-icon-button-hover-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_hover-state-layer-opacity: var(--md-icon-button-hover-state-layer-opacity, 0.08);--_icon-color: var(--md-icon-button-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_pressed-icon-color: var(--md-icon-button-pressed-icon-color, var(--md-sys-color-on-surface-variant, #49454f));--_pressed-state-layer-color: var(--md-icon-button-pressed-state-layer-color, var(--md-sys-color-on-surface-variant, #49454f));--_pressed-state-layer-opacity: var(--md-icon-button-pressed-state-layer-opacity, 0.12);--_container-shape-start-start: 0;--_container-shape-start-end: 0;--_container-shape-end-end: 0;--_container-shape-end-start: 0;--_container-height: 0;--_container-width: 0;height:var(--_state-layer-height);width:var(--_state-layer-width)}:host([touch-target=wrapper]){margin:max(0px,(48px - var(--_state-layer-height))/2) max(0px,(48px - var(--_state-layer-width))/2)}md-focus-ring{--md-focus-ring-shape-start-start: var(--_state-layer-shape);--md-focus-ring-shape-start-end: var(--_state-layer-shape);--md-focus-ring-shape-end-end: var(--_state-layer-shape);--md-focus-ring-shape-end-start: var(--_state-layer-shape)}.standard{background-color:rgba(0,0,0,0);color:var(--_icon-color);--md-ripple-hover-color: var(--_hover-state-layer-color);--md-ripple-hover-opacity: var(--_hover-state-layer-opacity);--md-ripple-pressed-color: var(--_pressed-state-layer-color);--md-ripple-pressed-opacity: var(--_pressed-state-layer-opacity)}.standard:hover{color:var(--_hover-icon-color)}.standard:focus{color:var(--_focus-icon-color)}.standard:active{color:var(--_pressed-icon-color)}.standard:disabled{color:var(--_disabled-icon-color)}md-ripple{border-radius:var(--_state-layer-shape)}.standard:disabled .icon{opacity:var(--_disabled-icon-opacity)}.selected{--md-ripple-hover-color: var(--_selected-hover-state-layer-color);--md-ripple-hover-opacity: var(--_selected-hover-state-layer-opacity);--md-ripple-pressed-color: var(--_selected-pressed-state-layer-color);--md-ripple-pressed-opacity: var(--_selected-pressed-state-layer-opacity)}.selected:not(:disabled){color:var(--_selected-icon-color)}.selected:not(:disabled):hover{color:var(--_selected-hover-icon-color)}.selected:not(:disabled):focus{color:var(--_selected-focus-icon-color)}.selected:not(:disabled):active{color:var(--_selected-pressed-icon-color)}/*# sourceMappingURL=standard-styles.css.map */
 `
 
 /**
@@ -24683,21 +26163,67 @@ const styles = i$5`:host{--_state-layer-shape-start-start: var(--md-icon-button-
  * - Add to Favorites
  * - Print
  */
-let MdStandardIconButton = class MdStandardIconButton extends IconButton {
+let MdIconButton = class MdIconButton extends IconButton {
   getRenderClasses() {
     return {
       ...super.getRenderClasses(),
-      'md3-icon-button--standard': true,
+      standard: true,
     }
   }
 }
-MdStandardIconButton.styles = [styles$1, styles]
-MdStandardIconButton = __decorate(
-  [e$9('md-standard-icon-button')],
-  MdStandardIconButton
-)
+MdIconButton.styles = [styles$2, styles$1]
+MdIconButton = __decorate([t$3('md-icon-button')], MdIconButton)
 
-let CollapseUi = class CollapseUi extends s$4 {
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * TODO(b/265336902): add docs
+ */
+class Icon extends s$1 {
+  render() {
+    return x`<slot></slot>`
+  }
+  connectedCallback() {
+    super.connectedCallback()
+    const ariaHidden = this.getAttribute('aria-hidden')
+    if (ariaHidden === 'false') {
+      // Allow the user to set `aria-hidden="false"` to create an icon that is
+      // announced by screenreaders.
+      this.removeAttribute('aria-hidden')
+      return
+    }
+    // Needed for VoiceOver, which will create a "group" if the element is a
+    // sibling to other content.
+    this.setAttribute('aria-hidden', 'true')
+  }
+}
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+const styles = i$4`:host{font-size:24px;width:24px;height:24px;color:inherit;font-variation-settings:inherit;font-weight:400;font-family:var(--md-icon-font, Material Symbols Outlined);display:inline-flex;font-style:normal;line-height:1;overflow:hidden;letter-spacing:normal;text-transform:none;user-select:none;white-space:nowrap;word-wrap:normal;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-moz-osx-font-smoothing:grayscale}::slotted(svg){fill:currentColor}::slotted(*){height:100%;width:100%}/*# sourceMappingURL=icon-styles.css.map */
+`
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @final
+ * @suppress {visibility}
+ */
+let MdIcon = class MdIcon extends Icon {}
+/** @nocollapse */
+MdIcon.styles = [styles]
+MdIcon = __decorate([t$3('md-icon')], MdIcon)
+
+let CollapseUi = class CollapseUi extends s$8 {
   constructor() {
     super(...arguments)
     this.service = connectState_1(
@@ -24707,22 +26233,22 @@ let CollapseUi = class CollapseUi extends s$4 {
     )
   }
   render() {
-    return y`
-      <md-standard-icon-button @click=${this.toggleUi}>
+    return y$2`
+      <md-icon-button @click=${this.toggleUi}>
         <img src="${optimizedSVGDataUri$6}" alt="toggle" class="icon" />
-      </md-standard-icon-button>
+      </md-icon-button>
     `
   }
   toggleUi() {
     this.service.value.send('TOGGLE_UI_COLLAPSED')
   }
 }
-CollapseUi.styles = i$5`
+CollapseUi.styles = i$8`
     .icon {
       width: 100%;
     }
   `
-CollapseUi = __decorate([e$9('collapse-ui')], CollapseUi)
+CollapseUi = __decorate([e$g('collapse-ui')], CollapseUi)
 
 function updateDrawer(context) {
   context.drawer.opened = !context.uiCollapsed

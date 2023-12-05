@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit'
 import { customElement } from 'lit/decorators.js'
-import '@material/web/iconbutton/standard-icon-button.js'
+import '@material/web/iconbutton/icon-button.js'
+import '@material/web/icon/icon.js'
 import { toggleIconDataUri } from '@itk-viewer/icons'
 import { connectState } from 'xstate-lit/dist/select-state'
 
@@ -22,9 +23,9 @@ class CollapseUi extends LitElement {
 
   render() {
     return html`
-      <md-standard-icon-button @click=${this.toggleUi}>
+      <md-icon-button @click=${this.toggleUi}>
         <img src="${toggleIconDataUri}" alt="toggle" class="icon" />
-      </md-standard-icon-button>
+      </md-icon-button>
     `
   }
 

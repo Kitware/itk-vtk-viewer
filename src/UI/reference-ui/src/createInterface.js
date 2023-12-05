@@ -1,5 +1,5 @@
 import style from './ItkVtkViewer.module.css'
-import '@material/web/navigationdrawer/navigation-drawer.js'
+import '@material/web/labs/navigationdrawer/navigation-drawer.js'
 import './serviceContext'
 import './collapse-ui'
 import { setContext } from './context'

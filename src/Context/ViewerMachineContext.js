@@ -54,7 +54,6 @@ class ViewerMachineContext {
 
     // Todo: add config serialization / deserializeation
     this.layers = new LayersMachineContext()
-    this.layers.showSaveRoiButton = config?.showSaveRoiButton ?? false
     this.images = new ImagesMachineContext()
     this.widgets = new WidgetsMachineContext()
   }

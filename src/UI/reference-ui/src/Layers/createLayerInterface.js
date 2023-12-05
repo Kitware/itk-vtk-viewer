@@ -1,3 +1,6 @@
+import '@material/web/dialog/dialog.js'
+import '@material/web/button/text-button.js'
+import '@material/web/radio/radio.js'
 import {
   invisibleIconDataUri,
   boundingBoxIconDataUri,
@@ -9,6 +12,7 @@ import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import { makeHtml } from '../utils'
 import './layerIcon.js'
+import { extensions } from './extensionToImageIo.js'
 
 function createLayerEntry(context, name, layer) {
   const layerEntry = document.createElement('div')
@@ -99,7 +103,46 @@ function createLayerEntry(context, name, layer) {
     layerBBoxButtonInput.checked = actorContext.bbox
   })
 
-  // if (context.layers.showSaveRoiButton) {
+  const dialog = makeHtml(`
+    <md-dialog class="${style.saveDialog}">
+      <div slot="headline">Save file format</div>
+      <form id="save-form" slot="content" method="dialog">
+        ${extensions
+          .map(
+            extension =>
+              `<label>
+                <md-radio name="format" value="${extension}" touch-target="wrapper"></md-radio>
+                <span aria-hidden="true">${extension}</span>
+              </label>`
+          )
+          .join('')}
+      </form>
+      <div slot="actions">
+        <md-text-button form="save-form" value="cancel">Cancel</md-text-button>
+        <md-text-button form="save-form" autofocus value="ok">OK</md-text-button>
+      </div>
+    </md-dialog>
+  `)
+
+  imageIcons.appendChild(dialog)
+
+  dialog.addEventListener('close', () => {
+    const okClicked = dialog.returnValue === 'ok'
+
+    if (okClicked) {
+      const radios = document.querySelectorAll('md-radio[name=format]')
+      const format = Array.from(radios).find(radio => radio.checked).value
+      context.service.send({
+        type: 'DOWNLOAD_IMAGE',
+        data: {
+          name: context.images.selectedName,
+          layerName: name,
+          format,
+        },
+      })
+    }
+  })
+
   const downloadImage = document.createElement('div')
   downloadImage.innerHTML = `
   <input type="checkbox" checked id=${context.id}-download-image" class="${style.toggleInput}" />
@@ -118,16 +161,8 @@ function createLayerEntry(context, name, layer) {
   downloadImage.addEventListener('click', event => {
     event.preventDefault()
     event.stopPropagation()
-    // context.service.send({
-    //   type: 'DOWNLOAD_IMAGE',
-    //   data: {
-    //     name: context.images.selectedName,
-    //     layerName: name,
-    //   },
-    // })
-    console.log('Download image')
+    dialog.show()
   })
-  // }
 
   const icon = makeHtml(`<layer-icon class="${style.layerIcon}"></layer-icon>`)
   icon.layer = layer

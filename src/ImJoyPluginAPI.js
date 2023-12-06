@@ -358,6 +358,18 @@ class ImJoyPluginAPI {
   getCompareImages(name) {
     return this.viewer.getCompareImages(name)
   }
+
+  getloadedScale(scale) {
+    return this.viewer.getloadedScale(scale)
+  }
+
+  getCroppedImageWorldBounds() {
+    return this.viewer.getCroppedImageWorldBounds()
+  }
+
+  async getCroppedIndexBounds(scale) {
+    return await this.viewer.getCroppedIndexBounds(scale)
+  }
 }
 
 export default ImJoyPluginAPI

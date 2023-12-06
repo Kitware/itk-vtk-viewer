@@ -1258,10 +1258,8 @@ const createViewer = async (
   }
 
   publicAPI.getloadedScale = name => {
-    if (typeof name === 'undefined') {
-      name = context.images.selectedName
-    }
-    const actorContext = context.images.actorContext.get(name)
+    const imageName = name ?? context.images.selectedName
+    const actorContext = context.images.actorContext.get(imageName)
     return actorContext.loadedScale
   }
 
@@ -1270,10 +1268,8 @@ const createViewer = async (
   }
 
   publicAPI.getCroppedIndexBounds = async (scale, name) => {
-    if (typeof name === 'undefined') {
-      name = context.images.selectedName
-    }
-    const actorContext = context.images.actorContext.get(name)
+    const imageName = name ?? context.images.selectedName
+    const actorContext = context.images.actorContext.get(imageName)
     if (typeof scale === 'undefined' || scale < 0) {
       scale = actorContext.loadedScale
     }

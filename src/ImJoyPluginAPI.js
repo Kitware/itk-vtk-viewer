@@ -359,8 +359,8 @@ class ImJoyPluginAPI {
     return this.viewer.getCompareImages(name)
   }
 
-  getloadedScale(scale) {
-    return this.viewer.getloadedScale(scale)
+  getLoadedScale(scale) {
+    return this.viewer.getLoadedScale(scale)
   }
 
   getCroppedImageWorldBounds() {

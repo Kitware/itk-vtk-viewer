@@ -1257,7 +1257,7 @@ const createViewer = async (
     return context.maxConcurrency
   }
 
-  publicAPI.getloadedScale = name => {
+  publicAPI.getLoadedScale = name => {
     const imageName = name ?? context.images.selectedName
     const actorContext = context.images.actorContext.get(imageName)
     return actorContext.loadedScale

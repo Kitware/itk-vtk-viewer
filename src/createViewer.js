@@ -1,3 +1,4 @@
+import { mat4 } from 'gl-matrix'
 import { inspect } from '@xstate/inspect'
 import { interpret } from 'xstate'
 
@@ -13,11 +14,13 @@ import hex2rgb from './UserInterface/hex2rgb'
 import ViewerStore from './ViewerStore'
 
 import toMultiscaleSpatialImage from './IO/toMultiscaleSpatialImage'
+import { worldBoundsToIndexBounds } from './IO/MultiscaleSpatialImage'
 import viewerMachineOptions from './viewerMachineOptions'
 import createViewerMachine from './createViewerMachine'
 import ViewerMachineContext from './Context/ViewerMachineContext'
 import {
   addCroppingPlanes,
+  getCropWidgetBounds,
   updateCroppingParameters,
 } from './Rendering/VTKJS/Main/croppingPlanes'
 
@@ -1252,6 +1255,37 @@ const createViewer = async (
 
   publicAPI.getMaxConcurrency = () => {
     return context.maxConcurrency
+  }
+
+  publicAPI.getloadedScale = name => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    return actorContext.loadedScale
+  }
+
+  publicAPI.getCroppedImageWorldBounds = () => {
+    return getCropWidgetBounds(context)
+  }
+
+  publicAPI.getCroppedIndexBounds = async (scale, name) => {
+    if (typeof name === 'undefined') {
+      name = context.images.selectedName
+    }
+    const actorContext = context.images.actorContext.get(name)
+    if (typeof scale === 'undefined' || scale < 0) {
+      scale = actorContext.loadedScale
+    }
+    const image = actorContext.image
+    const bounds = getCropWidgetBounds(context)
+    const indexToWorld = await image.scaleIndexToWorld(scale)
+    const fullIndexBounds = image.getIndexBounds(scale)
+    return worldBoundsToIndexBounds({
+      bounds,
+      fullIndexBounds,
+      worldToIndex: mat4.invert([], indexToWorld),
+    })
   }
 
   addKeyboardShortcuts(context.uiContainer, service)

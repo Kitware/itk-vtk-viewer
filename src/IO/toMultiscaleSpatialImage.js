@@ -1,4 +1,4 @@
-import { readImageArrayBuffer } from 'itk-wasm'
+import { readImage } from '@itk-wasm/image-io'
 
 import MultiscaleSpatialImage from './MultiscaleSpatialImage'
 import InMemoryMultiscaleSpatialImage from './InMemoryMultiscaleSpatialImage'
@@ -72,11 +72,14 @@ async function toMultiscaleSpatialImage(
       )
     } else {
       const dataBuffer = await fetchBinaryContent(image)
-      const { image: itkImage, webWorker } = await readImageArrayBuffer(
-        null,
-        dataBuffer,
-        image.pathname.split('/').pop()
-      )
+      // const { image: itkImage, webWorker } = await readImageArrayBuffer(
+      //   null,
+      //   dataBuffer,
+      //   image.pathname.split('/').pop()
+      // )
+
+      const file = new File([dataBuffer], image.pathname.split('/').pop())
+      const { image: itkImage, webWorker } = await readImage(null, file)
       webWorker.terminate()
       multiscaleImage = await itkImageToInMemoryMultiscaleSpatialImage(
         itkImage,

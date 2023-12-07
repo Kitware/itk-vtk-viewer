@@ -105,14 +105,35 @@ module.exports = (env, argv) => [
               'node_modules',
               'itk-wasm',
               'dist',
-              'web-workers'
+              'core',
+              'web-workers',
+              'bundles'
             ),
             to: path.join(__dirname, 'dist', 'itk', 'web-workers'),
           },
           {
-            from: path.join(__dirname, 'node_modules', 'itk-image-io'),
-            to: path.join(__dirname, 'dist', 'itk', 'image-io'),
+            from: path.join(
+              __dirname,
+              'node_modules',
+              '@itk-wasm',
+              'image-io',
+              'dist',
+              'pipelines'
+            ),
+            to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
+            // to: path.join(__dirname, 'dist', 'itk', 'image-io'),
           },
+          // {
+          //   from: path.join(
+          //     __dirname,
+          //     'node_modules',
+          //     '@itk-wasm',
+          //     'image-io',
+          //     'dist',
+          //     'bundle'
+          //   ),
+          //   to: path.join(__dirname, 'dist', 'itk', 'image-io'),
+          // },
           {
             from: path.join(__dirname, 'node_modules', 'itk-mesh-io'),
             to: path.join(__dirname, 'dist', 'itk', 'mesh-io'),

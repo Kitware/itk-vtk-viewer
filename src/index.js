@@ -1,8 +1,14 @@
 import axios from 'axios'
 
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract'
-import { readImageArrayBuffer } from 'itk-wasm'
+import {
+  readImage,
+  // setPipelineWorkerUrl as setPipelineWorkerUrlImageIo,
+  // setPipelinesBaseUrl as setPipelinesBaseUrlImageIo,
+} from '@itk-wasm/image-io'
+import { setPipelineWorkerUrl, setPipelinesBaseUrl } from 'itk-wasm'
 
+import itkConfig from './itkConfig.js'
 import fetchBinaryContent from './IO/fetchBinaryContent'
 import fetchJsonContent from './IO/fetchJsonContent'
 import { processFiles } from './IO/processFiles'
@@ -41,6 +47,17 @@ export async function createViewerFromFiles(el, files, use2D = false) {
   return processFiles(el, { files: files, use2D })
 }
 
+// const workerUrl = new URL(
+//   __webpack_public_path__ + 'itk/web-workers/itk-wasm-pipeline.min.worker.js'
+// )
+setPipelineWorkerUrl(itkConfig.pipelineWorkerUrl)
+
+// const baseUrl = new URL(__webpack_public_path__ + 'itk/pipeline')
+setPipelinesBaseUrl(itkConfig.pipelinesUrl)
+
+// setPipelineWorkerUrlImageIo(itkConfig.pipelineWorkerUrl)
+// setPipelinesBaseUrlImageIo(itkConfig.pipelinesUrl)
+
 async function makeImage({ image, progressCallback, isLabelImage = false }) {
   if (!image) return null
 
@@ -50,11 +67,11 @@ async function makeImage({ image, progressCallback, isLabelImage = false }) {
     return toMultiscaleSpatialImage(imageUrlObj, isLabelImage)
   }
 
-  const result = await readImageArrayBuffer(
-    null,
-    await fetchBinaryContent(imageUrlObj, progressCallback),
+  const file = new File(
+    [await fetchBinaryContent(imageUrlObj, progressCallback)],
     imageUrlObj.pathname.split('/').pop()
   )
+  const result = await readImage(null, file)
   result.webWorker.terminate()
 
   return toMultiscaleSpatialImage(result.image, isLabelImage)

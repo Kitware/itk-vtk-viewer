@@ -1,4 +1,5 @@
 import { runPipeline, InterfaceTypes, WorkerPool } from 'itk-wasm'
+import itkConfig from '../itkConfig'
 import { getSize } from '../IO/dtypeUtils'
 
 const cores = navigator.hardwareConcurrency ? navigator.hardwareConcurrency : 4
@@ -24,6 +25,11 @@ const workerPool = new WorkerPool(numberOfWorkers, runPipeline)
  */
 async function bloscZarrDecompress(chunkData) {
   const desiredOutputs = [{ type: InterfaceTypes.BinaryStream }]
+
+  const options = {
+    pipelineWorkerUrl: itkConfig.pipelineWorkerUrl,
+    pipelineBaseUrl: itkConfig.pipelinesUrl,
+  }
   const taskArgsArray = []
   let dtype = null
   for (let index = 0; index < chunkData.length; index++) {
@@ -50,7 +56,7 @@ async function bloscZarrDecompress(chunkData) {
       '--decompress',
       '--memory-io',
     ]
-    taskArgsArray.push(['BloscZarr', args, desiredOutputs, inputs])
+    taskArgsArray.push(['BloscZarr', args, desiredOutputs, inputs, options])
   }
   const results = await workerPool.runTasks(taskArgsArray).promise
 

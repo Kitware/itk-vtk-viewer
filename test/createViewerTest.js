@@ -1,7 +1,6 @@
 import test from 'tape-catch'
 import axios from 'axios'
 
-import { readImageArrayBuffer } from 'itk-wasm'
 import testUtils from 'vtk.js/Sources/Testing/testUtils'
 import vtk from 'vtk.js/Sources/vtk'
 
@@ -9,6 +8,7 @@ import createViewer from '../src/createViewer'
 import './customElementsDefineOverride.js'
 import referenceUIMachineOptions from '../src/UI/reference-ui'
 import { MAX_CONCURRENCY } from '../src/Context/ViewerMachineContext'
+import { readImage } from '@itk-wasm/image-io'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
 const testLabelImage3DPath = 'base/test/data/input/HeadMRVolumeLabels.nrrd'
@@ -82,20 +82,19 @@ test('Test createViewer', async t => {
   const response = await axios.get(testImage3DPath, {
     responseType: 'arraybuffer',
   })
-  const { image: itkImage, webWorker } = await readImageArrayBuffer(
+  const { image: itkImage, webWorker } = await readImage(
     null,
-    response.data,
-    'data.nrrd'
+    new File([response.data], 'data.nrrd')
   )
   webWorker.terminate()
 
   const labelResponse = await axios.get(testLabelImage3DPath, {
     responseType: 'arraybuffer',
   })
-  const {
-    image: itkLabelImage,
-    webWorker: labelWebWorker,
-  } = await readImageArrayBuffer(null, labelResponse.data, 'data.nrrd')
+  const { image: itkLabelImage, webWorker: labelWebWorker } = await readImage(
+    null,
+    new File([labelResponse.data], 'data.nrrd')
+  )
   labelWebWorker.terminate()
 
   const uiMachineOptions = { ...referenceUIMachineOptions }
@@ -453,10 +452,9 @@ test('Test createViewer.setImage', async t => {
   const response = await axios.get(testImage3DPath, {
     responseType: 'arraybuffer',
   })
-  const { image: itkImage, webWorker } = await readImageArrayBuffer(
+  const { image: itkImage, webWorker } = await readImage(
     null,
-    response.data,
-    'data.nrrd'
+    new File([response.data], 'data.nrrd')
   )
   webWorker.terminate()
 
@@ -469,10 +467,11 @@ test('Test createViewer.setImage', async t => {
   const response2 = await axios.get(testImage3DPath2, {
     responseType: 'arraybuffer',
   })
-  const {
-    image: itkImage2,
-    webWorker: webWorker2,
-  } = await readImageArrayBuffer(null, response2.data, 'data.nrrd')
+  const { image: itkImage2, webWorker: webWorker2 } = await readImage(
+    null,
+    new File([response2.data], 'data.nrrd')
+  )
+
   webWorker2.terminate()
 
   viewer.setImage(itkImage2)
@@ -511,10 +510,9 @@ test('Test createViewer with just labelImage', async t => {
   const response = await axios.get(testLabelImage3DPath, {
     responseType: 'arraybuffer',
   })
-  const { image: labelImage, webWorker } = await readImageArrayBuffer(
+  const { image: labelImage, webWorker } = await readImage(
     null,
-    response.data,
-    'data.nrrd'
+    new File([response.data], 'data.nrrd')
   )
   webWorker.terminate()
 
@@ -540,10 +538,9 @@ test('Test setImage and setLabelImage after createViewer', async t => {
   const labelImageResponse = await axios.get(testLabelImage3DPath, {
     responseType: 'arraybuffer',
   })
-  const { image: labelImage, webWorker } = await readImageArrayBuffer(
+  const { image: labelImage, webWorker } = await readImage(
     null,
-    labelImageResponse.data,
-    'data.nrrd'
+    new File([labelImageResponse.data], 'data.nrrd')
   )
   webWorker.terminate()
 
@@ -551,10 +548,9 @@ test('Test setImage and setLabelImage after createViewer', async t => {
     responseType: 'arraybuffer',
   })
 
-  const { image, webWorker: webWorkerForImage } = await readImageArrayBuffer(
+  const { image, webWorker: webWorkerForImage } = await readImage(
     null,
-    imageResponse.data,
-    'data.nrrd'
+    new File([imageResponse.data], 'data.nrrd')
   )
   webWorkerForImage.terminate()
 
@@ -584,10 +580,9 @@ test('Test createViewer custom UI options', async t => {
   const response = await axios.get(testImage3DPath, {
     responseType: 'arraybuffer',
   })
-  const { image: itkImage, webWorker } = await readImageArrayBuffer(
+  const { image: itkImage, webWorker } = await readImage(
     null,
-    response.data,
-    'data.nrrd'
+    new File([response.data], 'data.nrrd')
   )
   webWorker.terminate()
 
@@ -652,10 +647,9 @@ const makeImages = async paths => {
       const response = await axios.get(path, {
         responseType: 'arraybuffer',
       })
-      const { image, webWorker } = await readImageArrayBuffer(
+      const { image, webWorker } = await readImage(
         null,
-        response.data,
-        'data.nrrd'
+        new File([response.data], 'data.nrrd')
       )
       webWorker.terminate()
       return image

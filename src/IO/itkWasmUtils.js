@@ -5,6 +5,7 @@ import {
   WorkerPool,
   stackImages,
 } from 'itk-wasm'
+import itkConfig from '../itkConfig'
 
 export async function runWasm({
   pipeline,
@@ -22,6 +23,10 @@ export async function runWasm({
     maxSplits
   )
 
+  const options = {
+    pipelineWorkerUrl: itkConfig.pipelineWorkerUrl,
+    pipelineBaseUrl: itkConfig.pipelinesUrl,
+  }
   const tasks = [...Array(splits).keys()].map(split => {
     const taskArgs = [
       ...[...Array(images.length).keys()].map(num => num.toString()),
@@ -41,7 +46,7 @@ export async function runWasm({
       data: imageSharedBufferOrCopy(image),
     }))
 
-    return [pipeline, taskArgs, outputs, inputs]
+    return [pipeline, taskArgs, outputs, inputs, options]
   })
 
   const workerPool = new WorkerPool(numberOfWorkers, runPipeline)

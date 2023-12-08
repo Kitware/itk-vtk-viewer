@@ -1,13 +1,13 @@
 import test from 'tape-catch'
 import axios from 'axios'
 
-import { readImageArrayBuffer } from 'itk-wasm'
 import testUtils from 'vtk.js/Sources/Testing/testUtils'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
 
 import * as imjoyCore from 'imjoy-core'
 import ndarray from 'ndarray'
+import { readImage } from '@itk-wasm/image-io'
 
 const TEST_STYLE_RENDERING_VIEW_CONTAINER = {
   position: 'relative',
@@ -52,10 +52,9 @@ test('Test ImJoy Plugin', async t => {
   const response = await axios.get(testImage3DPath, {
     responseType: 'arraybuffer',
   })
-  const { image: itkImage, webWorker } = await readImageArrayBuffer(
+  const { image: itkImage, webWorker } = await readImage(
     null,
-    response.data,
-    'data.nrrd'
+    new File([response.data], 'data.nrrd')
   )
   webWorker.terminate()
   const array = ndarray(itkImage.data, itkImage.size.slice().reverse())

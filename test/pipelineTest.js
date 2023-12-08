@@ -1,11 +1,11 @@
 import test from 'tape-catch'
 import axios from 'axios'
 
-import { readImageArrayBuffer } from 'itk-wasm'
 import testUtils from 'vtk.js/Sources/Testing/testUtils'
 
 import createViewer from '../src/createViewer'
 import './customElementsDefineOverride.js'
+import { readImage } from '@itk-wasm/image-io'
 
 const testImage3DPath = 'base/test/data/input/HeadMRVolume.nrrd'
 const testLabelImage3DPath =
@@ -21,20 +21,19 @@ test('Test createViewer with smaller size label image', async t => {
   const imageResponse = await axios.get(testImage3DPath, {
     responseType: 'arraybuffer',
   })
-  const { image, webWorker: imageWorker } = await readImageArrayBuffer(
+  const { image, webWorker: imageWorker } = await readImage(
     null,
-    imageResponse.data,
-    'data.nrrd'
+    new File([imageResponse.data], 'data.nrrd')
   )
   imageWorker.terminate()
 
   const labelResponse = await axios.get(testLabelImage3DPath, {
     responseType: 'arraybuffer',
   })
-  const {
-    image: labelImage,
-    webWorker: labelWorker,
-  } = await readImageArrayBuffer(null, labelResponse.data, 'data.nrrd')
+  const { image: labelImage, webWorker: labelWorker } = await readImage(
+    null,
+    new File([labelResponse.data], 'data.nrrd')
+  )
   labelWorker.terminate()
 
   const viewer = await createViewer(container, {

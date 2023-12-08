@@ -30,6 +30,7 @@ const moduleConfigRules = [
   { test: /\.js$/, loader: 'babel-loader', dependency: { not: ['url'] } },
   {
     test: /\.worker.js$/,
+    exclude: /node_modules/, // Skip itk-wasm worker in node modules.  Copy plugin pulls prebuild itk-wasm-pipeline.worker.js
     use: [{ loader: 'worker-loader', options: { inline: 'no-fallback' } }],
   },
   {
@@ -57,12 +58,6 @@ module.exports = function init(config) {
     frameworks: ['tap', 'webpack'],
     files: [
       './test/tests.js',
-      {
-        pattern: './dist/itk/image-io/**',
-        watched: true,
-        served: true,
-        included: false,
-      },
       {
         pattern: './dist/itk/mesh-io/**',
         watched: true,

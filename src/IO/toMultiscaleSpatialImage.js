@@ -72,11 +72,6 @@ async function toMultiscaleSpatialImage(
       )
     } else {
       const dataBuffer = await fetchBinaryContent(image)
-      // const { image: itkImage, webWorker } = await readImageArrayBuffer(
-      //   null,
-      //   dataBuffer,
-      //   image.pathname.split('/').pop()
-      // )
 
       const file = new File([dataBuffer], image.pathname.split('/').pop())
       const { image: itkImage, webWorker } = await readImage(null, file)

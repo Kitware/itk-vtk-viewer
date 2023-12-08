@@ -24,6 +24,8 @@ class ImJoyPluginAPI {
       this.viewer = await itkVtkViewer.createViewer(container, {
         image: ctx.data.image,
         labelImage: ctx.data.labelImage,
+        fixedImage: ctx.data?.fixedImage,
+        compare: ctx.data?.compare,
         pointSets,
         geometries: null,
         rotate: false,

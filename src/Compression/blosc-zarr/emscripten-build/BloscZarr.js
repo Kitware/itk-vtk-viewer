@@ -371,10 +371,10 @@ var BloscZarr = (() => {
       function receiveInstance(instance, module) {
         var exports = instance.exports
         Module['asm'] = exports
-        wasmMemory = Module['asm']['t']
+        wasmMemory = Module['asm']['s']
         updateMemoryViews()
-        wasmTable = Module['asm']['x']
-        addOnInit(Module['asm']['u'])
+        wasmTable = Module['asm']['D']
+        addOnInit(Module['asm']['t'])
         removeRunDependency('wasm-instantiate')
         return exports
       }
@@ -3538,10 +3538,6 @@ var BloscZarr = (() => {
         return e.errno
       }
     }
-    function _getpwnam() {
-      err('missing function: getpwnam')
-      abort(-1)
-    }
     function isLeapYear(year) {
       return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
     }
@@ -3932,6 +3928,12 @@ var BloscZarr = (() => {
         return ccall(ident, returnType, argTypes, arguments, opts)
       }
     }
+    function writeAsciiToMemory(str, buffer, dontAddNull) {
+      for (var i = 0; i < str.length; ++i) {
+        HEAP8[buffer++ >>> 0] = str.charCodeAt(i)
+      }
+      if (!dontAddNull) HEAP8[buffer >>> 0] = 0
+    }
     function AsciiToString(ptr) {
       ptr >>>= 0
       var str = ''
@@ -4123,29 +4125,28 @@ var BloscZarr = (() => {
       a: ___cxa_throw,
       d: ___syscall_fcntl64,
       r: ___syscall_getcwd,
-      h: ___syscall_ioctl,
-      i: ___syscall_openat,
+      i: ___syscall_ioctl,
+      j: ___syscall_openat,
       n: ___syscall_readlinkat,
       o: ___syscall_stat64,
       b: _abort,
-      j: _emscripten_memcpy_big,
+      f: _emscripten_memcpy_big,
       m: _emscripten_resize_heap,
       p: _environ_get,
       q: _environ_sizes_get,
       c: _exit,
       e: _fd_close,
-      g: _fd_read,
+      h: _fd_read,
       k: _fd_seek,
-      s: _fd_write,
-      f: _getpwnam,
+      g: _fd_write,
       l: _strftime_l,
     }
     var asm = createWasm()
     var ___wasm_call_ctors = function() {
-      return (___wasm_call_ctors = Module['asm']['u']).apply(null, arguments)
+      return (___wasm_call_ctors = Module['asm']['t']).apply(null, arguments)
     }
     var _main = (Module['_main'] = function() {
-      return (_main = Module['_main'] = Module['asm']['v']).apply(
+      return (_main = Module['_main'] = Module['asm']['u']).apply(
         null,
         arguments
       )
@@ -4157,65 +4158,65 @@ var BloscZarr = (() => {
       return (_free = Module['asm']['free']).apply(null, arguments)
     }
     var ___errno_location = function() {
-      return (___errno_location = Module['asm']['w']).apply(null, arguments)
+      return (___errno_location = Module['asm']['v']).apply(null, arguments)
     }
     var _itk_wasm_input_array_alloc = (Module[
       '_itk_wasm_input_array_alloc'
     ] = function() {
       return (_itk_wasm_input_array_alloc = Module[
         '_itk_wasm_input_array_alloc'
-      ] = Module['asm']['y']).apply(null, arguments)
+      ] = Module['asm']['w']).apply(null, arguments)
     })
     var _itk_wasm_input_json_alloc = (Module[
       '_itk_wasm_input_json_alloc'
     ] = function() {
       return (_itk_wasm_input_json_alloc = Module[
         '_itk_wasm_input_json_alloc'
-      ] = Module['asm']['z']).apply(null, arguments)
+      ] = Module['asm']['x']).apply(null, arguments)
     })
     var _itk_wasm_output_json_address = (Module[
       '_itk_wasm_output_json_address'
     ] = function() {
       return (_itk_wasm_output_json_address = Module[
         '_itk_wasm_output_json_address'
-      ] = Module['asm']['A']).apply(null, arguments)
+      ] = Module['asm']['y']).apply(null, arguments)
     })
     var _itk_wasm_output_json_size = (Module[
       '_itk_wasm_output_json_size'
     ] = function() {
       return (_itk_wasm_output_json_size = Module[
         '_itk_wasm_output_json_size'
-      ] = Module['asm']['B']).apply(null, arguments)
+      ] = Module['asm']['z']).apply(null, arguments)
     })
     var _itk_wasm_output_array_address = (Module[
       '_itk_wasm_output_array_address'
     ] = function() {
       return (_itk_wasm_output_array_address = Module[
         '_itk_wasm_output_array_address'
-      ] = Module['asm']['C']).apply(null, arguments)
+      ] = Module['asm']['A']).apply(null, arguments)
     })
     var _itk_wasm_output_array_size = (Module[
       '_itk_wasm_output_array_size'
     ] = function() {
       return (_itk_wasm_output_array_size = Module[
         '_itk_wasm_output_array_size'
-      ] = Module['asm']['D']).apply(null, arguments)
+      ] = Module['asm']['B']).apply(null, arguments)
     })
     var _itk_wasm_free_all = (Module['_itk_wasm_free_all'] = function() {
       return (_itk_wasm_free_all = Module['_itk_wasm_free_all'] =
-        Module['asm']['E']).apply(null, arguments)
+        Module['asm']['C']).apply(null, arguments)
     })
     var stackSave = function() {
-      return (stackSave = Module['asm']['F']).apply(null, arguments)
+      return (stackSave = Module['asm']['E']).apply(null, arguments)
     }
     var stackRestore = function() {
-      return (stackRestore = Module['asm']['G']).apply(null, arguments)
+      return (stackRestore = Module['asm']['F']).apply(null, arguments)
     }
     var stackAlloc = function() {
-      return (stackAlloc = Module['asm']['H']).apply(null, arguments)
+      return (stackAlloc = Module['asm']['G']).apply(null, arguments)
     }
     var ___cxa_is_pointer_type = function() {
-      return (___cxa_is_pointer_type = Module['asm']['I']).apply(
+      return (___cxa_is_pointer_type = Module['asm']['H']).apply(
         null,
         arguments
       )
@@ -4235,6 +4236,7 @@ var BloscZarr = (() => {
     Module['cwrap'] = cwrap
     Module['AsciiToString'] = AsciiToString
     Module['writeArrayToMemory'] = writeArrayToMemory
+    Module['writeAsciiToMemory'] = writeAsciiToMemory
     var calledRun
     dependenciesFulfilled = function runCaller() {
       if (!calledRun) run()

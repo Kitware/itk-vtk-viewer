@@ -8,10 +8,6 @@ set(BUILD_BENCHMARKS OFF CACHE BOOL "Build benchmark programs form the blosc com
 if(EMSCRIPTEN OR WASI)
   set(HAVE_THREADS OFF CACHE BOOL "Whether we use threading")
 endif()
-if(EMSCRIPTEN)
-  set(CMAKE_C_FLAGS "-s STRICT=1")
-  set(CMAKE_EXE_LINKER_FLAGS "-s STRICT=1")
-endif()
 add_subdirectory(c-blosc)
 
 find_package(ITK REQUIRED

@@ -4,7 +4,7 @@ import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract'
 import { readImage } from '@itk-wasm/image-io'
 import { setPipelineWorkerUrl, setPipelinesBaseUrl } from 'itk-wasm'
 
-import itkConfig from './itkConfig.js'
+import itkConfig from '../itkConfig.js'
 import fetchBinaryContent from './IO/fetchBinaryContent'
 import fetchJsonContent from './IO/fetchJsonContent'
 import { processFiles } from './IO/processFiles'

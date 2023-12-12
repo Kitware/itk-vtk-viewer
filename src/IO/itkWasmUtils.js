@@ -5,7 +5,7 @@ import {
   WorkerPool,
   stackImages,
 } from 'itk-wasm'
-import itkConfig from '../itkConfig'
+import itkConfig from '../itkConfig.js'
 
 export async function runWasm({
   pipeline,

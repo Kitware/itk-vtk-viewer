@@ -1,5 +1,6 @@
 /* eslint-disable global-require */
 const path = require('path')
+const os = require('os')
 
 const vtkRules = require('vtk.js/Utilities/config/dependency.js').webpack.core
   .rules
@@ -43,6 +44,13 @@ const moduleConfigRules = [
 
 const entry = path.join(__dirname, './src/index.js')
 
+// fixes 404 errors getting worker bundles https://github.com/ryanclark/karma-webpack/issues/498#issuecomment-790040818
+const output = {
+  path:
+    path.join(os.tmpdir(), '_karma_webpack_') +
+    Math.floor(Math.random() * 1000000),
+}
+
 module.exports = function init(config) {
   config.set({
     plugins: [
@@ -56,6 +64,10 @@ module.exports = function init(config) {
 
     basePath: '',
     frameworks: ['tap', 'webpack'],
+    proxies: {
+      '/itk/web-workers/itk-wasm-pipeline.min.worker.js':
+        '/base/dist/itk/web-workers/itk-wasm-pipeline.min.worker.js',
+    },
     files: [
       './test/tests.js',
       {
@@ -101,6 +113,12 @@ module.exports = function init(config) {
         included: false,
       },
       {
+        pattern: './dist/**',
+        watched: true,
+        served: true,
+        included: false,
+      },
+      {
         pattern: './src/UI/reference-ui/dist/referenceUIMachineOptions.js',
         watched: true,
         served: true,
@@ -118,6 +136,11 @@ module.exports = function init(config) {
         served: true,
         included: false,
       },
+      {
+        pattern: `${output.path}/**/*`,
+        watched: false,
+        included: false,
+      },
     ],
 
     preprocessors: {
@@ -125,6 +148,7 @@ module.exports = function init(config) {
     },
 
     webpack: {
+      output,
       mode: 'development',
       devtool: 'eval-source-map',
       module: {

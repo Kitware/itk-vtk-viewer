@@ -1,7 +1,7 @@
 import WebworkerPromise from 'webworker-promise'
 import ComposeImageWorker from './ComposeImage.worker.js'
 
-import itkConfig from '../../../itkConfig.js'
+import itkConfig from '../itkConfig.js'
 
 export const fuseImages = async ({
   imageAtScale, //could be array if Conglomerate

@@ -11,7 +11,7 @@ import {
   imageSharedBufferOrCopy,
   stackImages,
 } from 'itk-wasm'
-import itkConfig from '../itkConfig'
+import itkConfig from '../itkConfig.js'
 import { chunkArray, CXYZT, orderBy, toDimensionMap } from './dimensionUtils'
 import { computeRanges } from './Analyze/computeRanges'
 

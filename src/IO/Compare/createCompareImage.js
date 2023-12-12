@@ -1,4 +1,5 @@
 import { runWasm } from '../itkWasmUtils.js'
+import itkConfig from '../itkConfig.js'
 
 export async function createCompareImage(
   movingImage,
@@ -17,11 +18,17 @@ export async function createCompareImage(
     clampedPattern.join(','),
   ]
 
+  const itkWasmOptions = {
+    pipelineWorkerUrl: itkConfig.pipelineWorkerUrl,
+    pipelineBaseUrl: itkConfig.pipelinesUrl,
+  }
+  console.log('createCompare', itkWasmOptions)
   const image = await runWasm({
     pipeline: 'Compare',
     args,
     images: [movingImage, fixedImage],
     maxSplits: 1,
+    itkWasmOptions,
   })
   image.ranges = [minMax, minMax]
 

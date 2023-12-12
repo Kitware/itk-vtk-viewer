@@ -1,5 +1,5 @@
 import { runPipeline, InterfaceTypes, WorkerPool } from 'itk-wasm'
-import itkConfig from '../itkConfig'
+import itkConfig from '../itkConfig.js'
 import { getSize } from '../IO/dtypeUtils'
 
 const cores = navigator.hardwareConcurrency ? navigator.hardwareConcurrency : 4

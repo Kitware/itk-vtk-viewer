@@ -10737,6 +10737,7 @@ __decorate([t$3()], LayerIcon.prototype, 'settingsOpen', void 0)
 LayerIcon = __decorate([e$7('layer-icon')], LayerIcon)
 
 // from itk-wasm/packages/image-io/typescript/src/extension-to-image-io.ts
+// Commented out formats failed roundtrip test
 var extensionToImageIo = new Map([
   // ['bmp', 'bmp'],
 

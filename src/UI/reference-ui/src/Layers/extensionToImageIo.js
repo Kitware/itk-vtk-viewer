@@ -1,4 +1,5 @@
 // from itk-wasm/packages/image-io/typescript/src/extension-to-image-io.ts
+// Commented out formats failed roundtrip test
 const extensionToImageIo = new Map([
   // ['bmp', 'bmp'],
 

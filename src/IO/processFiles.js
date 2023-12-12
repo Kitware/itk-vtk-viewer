@@ -1,12 +1,12 @@
 import {
   extensionToMeshIO,
-  readImageFile,
   readImageDICOMFileSeries,
   readMeshFile,
   FloatTypes,
   getFileExtension,
   meshToPolyData,
 } from 'itk-wasm'
+import { readImage } from '@itk-wasm/image-io'
 import vtk from 'vtk.js/Sources/vtk'
 import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader'
 import vtkXMLImageDataReader from 'vtk.js/Sources/IO/XML/XMLImageDataReader'
@@ -61,7 +61,7 @@ const readDataFromFiles = async files => {
         const polyData = vtkITKHelper.convertItkToVtkPolyData(itkPolyData)
         return { is3D, data: vtk(polyData) }
       } catch (error) {
-        return readImageFile(null, file)
+        return readImage(null, file)
           .then(({ image: itkImage, webWorker }) => {
             webWorker.terminate()
             is3D = itkImage.imageType.dimension === 3
@@ -72,7 +72,7 @@ const readDataFromFiles = async files => {
           })
       }
     }
-    const { image: itkImage, webWorker } = await readImageFile(null, file)
+    const { image: itkImage, webWorker } = await readImage(null, file)
     itkImage.name = file.name
     webWorker.terminate()
     const is3D = itkImage.imageType.dimension === 3

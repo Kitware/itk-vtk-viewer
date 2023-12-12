@@ -1,8 +1,10 @@
 import axios from 'axios'
 
 import vtkURLExtract from 'vtk.js/Sources/Common/Core/URLExtract'
-import { readImageArrayBuffer } from 'itk-wasm'
+import { readImage } from '@itk-wasm/image-io'
+import { setPipelineWorkerUrl, setPipelinesBaseUrl } from 'itk-wasm'
 
+import itkConfig from '../itkConfig.js'
 import fetchBinaryContent from './IO/fetchBinaryContent'
 import fetchJsonContent from './IO/fetchJsonContent'
 import { processFiles } from './IO/processFiles'
@@ -41,6 +43,9 @@ export async function createViewerFromFiles(el, files, use2D = false) {
   return processFiles(el, { files: files, use2D })
 }
 
+setPipelineWorkerUrl(itkConfig.pipelineWorkerUrl)
+setPipelinesBaseUrl(itkConfig.pipelinesUrl)
+
 async function makeImage({ image, progressCallback, isLabelImage = false }) {
   if (!image) return null
 
@@ -50,11 +55,11 @@ async function makeImage({ image, progressCallback, isLabelImage = false }) {
     return toMultiscaleSpatialImage(imageUrlObj, isLabelImage)
   }
 
-  const result = await readImageArrayBuffer(
-    null,
-    await fetchBinaryContent(imageUrlObj, progressCallback),
+  const file = new File(
+    [await fetchBinaryContent(imageUrlObj, progressCallback)],
     imageUrlObj.pathname.split('/').pop()
   )
+  const result = await readImage(null, file)
   result.webWorker.terminate()
 
   return toMultiscaleSpatialImage(result.image, isLabelImage)

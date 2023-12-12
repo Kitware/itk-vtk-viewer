@@ -58,6 +58,7 @@ const moduleConfigRules = [
   { test: /\.js$/, loader: 'babel-loader', dependency: { not: ['url'] } },
   {
     test: /\.worker.js$/,
+    exclude: /node_modules/, // Skip itk-wasm worker in node modules.  Copy plugin pulls prebuild itk-wasm-pipeline.worker.js
     use: [{ loader: 'worker-loader', options: { inline: 'no-fallback' } }],
   },
   {
@@ -105,30 +106,41 @@ module.exports = (env, argv) => [
               'node_modules',
               'itk-wasm',
               'dist',
-              'web-workers'
+              'core',
+              'web-workers',
+              'bundles'
             ),
             to: path.join(__dirname, 'dist', 'itk', 'web-workers'),
           },
           {
-            from: path.join(__dirname, 'node_modules', 'itk-image-io'),
-            to: path.join(__dirname, 'dist', 'itk', 'image-io'),
+            from: path.join(
+              __dirname,
+              'node_modules',
+              '@itk-wasm',
+              'image-io',
+              'dist',
+              'pipelines'
+            ),
+            to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
           },
           {
             from: path.join(__dirname, 'node_modules', 'itk-mesh-io'),
             to: path.join(__dirname, 'dist', 'itk', 'mesh-io'),
           },
           {
-            from: path.join(
+            from: '*',
+            context: path.join(
               __dirname,
               'src',
               'Compression',
               'blosc-zarr',
-              'web-build'
+              'emscripten-build'
             ),
             to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
           },
           {
-            from: path.join(
+            from: '*',
+            context: path.join(
               __dirname,
               'src',
               'IO',
@@ -138,7 +150,8 @@ module.exports = (env, argv) => [
             to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
           },
           {
-            from: path.join(
+            from: '*',
+            context: path.join(
               __dirname,
               'src',
               'IO',
@@ -148,7 +161,8 @@ module.exports = (env, argv) => [
             to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
           },
           {
-            from: path.join(
+            from: '*',
+            context: path.join(
               __dirname,
               'src',
               'IO',
@@ -156,6 +170,10 @@ module.exports = (env, argv) => [
               'emscripten-build'
             ),
             to: path.join(__dirname, 'dist', 'itk', 'pipeline'),
+          },
+          {
+            from: path.join(__dirname, 'public'),
+            to: path.join(__dirname, 'dist'),
           },
         ],
       }),

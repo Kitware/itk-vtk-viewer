@@ -11,6 +11,7 @@ import {
   imageSharedBufferOrCopy,
   stackImages,
 } from 'itk-wasm'
+import itkConfig from '../itkConfig.js'
 import { chunkArray, CXYZT, orderBy, toDimensionMap } from './dimensionUtils'
 import { computeRanges } from './Analyze/computeRanges'
 
@@ -246,6 +247,10 @@ class InMemoryMultiscaleSpatialImage extends MultiscaleSpatialImage {
       })
 
       const downsampleTaskArgs = []
+      const options = {
+        pipelineWorkerUrl: itkConfig.pipelineWorkerUrl,
+        pipelineBaseUrl: itkConfig.pipelinesUrl,
+      }
       for (let index = 0; index < maxTotalSplits; index++) {
         const data = imageSharedBufferOrCopy(currentImage)
         const inputs = [
@@ -271,7 +276,13 @@ class InMemoryMultiscaleSpatialImage extends MultiscaleSpatialImage {
           '' + maxTotalSplits,
           '--memory-io',
         ]
-        downsampleTaskArgs.push([pipelinePath, args, desiredOutputs, inputs])
+        downsampleTaskArgs.push([
+          pipelinePath,
+          args,
+          desiredOutputs,
+          inputs,
+          options,
+        ])
       }
       const results = await downsampleWorkerPool.runTasks(downsampleTaskArgs)
         .promise

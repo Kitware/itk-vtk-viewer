@@ -8,7 +8,7 @@
 
 int main(int argc, char * argv[]){
 
-  itk::wasm::Pipeline pipeline ("Compress or decompress binaries with Blosc", argc, argv);
+  itk::wasm::Pipeline pipeline ("BloscZarr", "Compress or decompress binaries with Blosc", argc, argv);
 
   itk::wasm::InputBinaryStream input_binary_stream;
   pipeline.add_option("input-binary-stream", input_binary_stream, "The input binary stream")->required();

@@ -1,5 +1,6 @@
 /* eslint-disable global-require */
 const path = require('path')
+const os = require('os')
 
 const vtkRules = require('vtk.js/Utilities/config/dependency.js').webpack.core
   .rules
@@ -30,6 +31,7 @@ const moduleConfigRules = [
   { test: /\.js$/, loader: 'babel-loader', dependency: { not: ['url'] } },
   {
     test: /\.worker.js$/,
+    exclude: /node_modules/, // Skip itk-wasm worker in node modules.  Copy plugin pulls prebuild itk-wasm-pipeline.worker.js
     use: [{ loader: 'worker-loader', options: { inline: 'no-fallback' } }],
   },
   {
@@ -42,6 +44,13 @@ const moduleConfigRules = [
 
 const entry = path.join(__dirname, './src/index.js')
 
+// fixes 404 errors getting worker bundles https://github.com/ryanclark/karma-webpack/issues/498#issuecomment-790040818
+const output = {
+  path:
+    path.join(os.tmpdir(), '_karma_webpack_') +
+    Math.floor(Math.random() * 1000000),
+}
+
 module.exports = function init(config) {
   config.set({
     plugins: [
@@ -52,17 +61,10 @@ module.exports = function init(config) {
       require('karma-tap-pretty-reporter'),
       require('karma-junit-reporter'),
     ],
-
     basePath: '',
     frameworks: ['tap', 'webpack'],
     files: [
       './test/tests.js',
-      {
-        pattern: './dist/itk/image-io/**',
-        watched: true,
-        served: true,
-        included: false,
-      },
       {
         pattern: './dist/itk/mesh-io/**',
         watched: true,
@@ -106,6 +108,12 @@ module.exports = function init(config) {
         included: false,
       },
       {
+        pattern: './dist/**',
+        watched: true,
+        served: true,
+        included: false,
+      },
+      {
         pattern: './src/UI/reference-ui/dist/referenceUIMachineOptions.js',
         watched: true,
         served: true,
@@ -123,6 +131,11 @@ module.exports = function init(config) {
         served: true,
         included: false,
       },
+      {
+        pattern: `${output.path}/**/*`,
+        watched: false,
+        included: false,
+      },
     ],
 
     preprocessors: {
@@ -130,6 +143,7 @@ module.exports = function init(config) {
     },
 
     webpack: {
+      output,
       mode: 'development',
       devtool: 'eval-source-map',
       module: {

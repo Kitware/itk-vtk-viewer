@@ -1,9 +1,7 @@
 var Compare = (() => {
   var _scriptDir = import.meta.url
 
-  return async function(Compare) {
-    Compare = Compare || {}
-
+  return async function(Compare = {}) {
     var Module = typeof Compare != 'undefined' ? Compare : {}
     var readyPromiseResolve, readyPromiseReject
     Module['ready'] = new Promise(function(resolve, reject) {
@@ -52,11 +50,6 @@ var Compare = (() => {
       return scriptDirectory + path
     }
     var read_, readAsync, readBinary, setWindowTitle
-    function logExceptionOnExit(e) {
-      if (e instanceof ExitStatus) return
-      let toLog = e
-      err('exiting due to exception: ' + toLog)
-    }
     if (ENVIRONMENT_IS_NODE) {
       const { createRequire: createRequire } = await import('module')
       var require = createRequire(import.meta.url)
@@ -91,25 +84,13 @@ var Compare = (() => {
           else onload(data.buffer)
         })
       }
-      if (process['argv'].length > 1) {
-        thisProgram = process['argv'][1].replace(/\\/g, '/')
+      if (!Module['thisProgram'] && process.argv.length > 1) {
+        thisProgram = process.argv[1].replace(/\\/g, '/')
       }
-      arguments_ = process['argv'].slice(2)
-      process['on']('uncaughtException', function(ex) {
-        if (!(ex instanceof ExitStatus)) {
-          throw ex
-        }
-      })
-      process['on']('unhandledRejection', function(reason) {
-        throw reason
-      })
+      arguments_ = process.argv.slice(2)
       quit_ = (status, toThrow) => {
-        if (keepRuntimeAlive()) {
-          process['exitCode'] = status
-          throw toThrow
-        }
-        logExceptionOnExit(toThrow)
-        process['exit'](status)
+        process.exitCode = status
+        throw toThrow
       }
       Module['inspect'] = function() {
         return '[Emscripten Module object]'
@@ -186,131 +167,27 @@ var Compare = (() => {
         abort(text)
       }
     }
-    var UTF8Decoder =
-      typeof TextDecoder != 'undefined' ? new TextDecoder('utf8') : undefined
-    function UTF8ArrayToString(heapOrArray, idx, maxBytesToRead) {
-      var endIdx = idx + maxBytesToRead
-      var endPtr = idx
-      while (heapOrArray[endPtr] && !(endPtr >= endIdx)) ++endPtr
-      if (endPtr - idx > 16 && heapOrArray.buffer && UTF8Decoder) {
-        return UTF8Decoder.decode(heapOrArray.subarray(idx, endPtr))
-      }
-      var str = ''
-      while (idx < endPtr) {
-        var u0 = heapOrArray[idx++]
-        if (!(u0 & 128)) {
-          str += String.fromCharCode(u0)
-          continue
-        }
-        var u1 = heapOrArray[idx++] & 63
-        if ((u0 & 224) == 192) {
-          str += String.fromCharCode(((u0 & 31) << 6) | u1)
-          continue
-        }
-        var u2 = heapOrArray[idx++] & 63
-        if ((u0 & 240) == 224) {
-          u0 = ((u0 & 15) << 12) | (u1 << 6) | u2
-        } else {
-          u0 =
-            ((u0 & 7) << 18) |
-            (u1 << 12) |
-            (u2 << 6) |
-            (heapOrArray[idx++] & 63)
-        }
-        if (u0 < 65536) {
-          str += String.fromCharCode(u0)
-        } else {
-          var ch = u0 - 65536
-          str += String.fromCharCode(55296 | (ch >> 10), 56320 | (ch & 1023))
-        }
-      }
-      return str
+    var HEAP8, HEAPU8, HEAP16, HEAPU16, HEAP32, HEAPU32, HEAPF32, HEAPF64
+    function updateMemoryViews() {
+      var b = wasmMemory.buffer
+      Module['HEAP8'] = HEAP8 = new Int8Array(b)
+      Module['HEAP16'] = HEAP16 = new Int16Array(b)
+      Module['HEAP32'] = HEAP32 = new Int32Array(b)
+      Module['HEAPU8'] = HEAPU8 = new Uint8Array(b)
+      Module['HEAPU16'] = HEAPU16 = new Uint16Array(b)
+      Module['HEAPU32'] = HEAPU32 = new Uint32Array(b)
+      Module['HEAPF32'] = HEAPF32 = new Float32Array(b)
+      Module['HEAPF64'] = HEAPF64 = new Float64Array(b)
     }
-    function UTF8ToString(ptr, maxBytesToRead) {
-      return ptr ? UTF8ArrayToString(HEAPU8, ptr, maxBytesToRead) : ''
-    }
-    function stringToUTF8Array(str, heap, outIdx, maxBytesToWrite) {
-      if (!(maxBytesToWrite > 0)) return 0
-      var startIdx = outIdx
-      var endIdx = outIdx + maxBytesToWrite - 1
-      for (var i = 0; i < str.length; ++i) {
-        var u = str.charCodeAt(i)
-        if (u >= 55296 && u <= 57343) {
-          var u1 = str.charCodeAt(++i)
-          u = (65536 + ((u & 1023) << 10)) | (u1 & 1023)
-        }
-        if (u <= 127) {
-          if (outIdx >= endIdx) break
-          heap[outIdx++] = u
-        } else if (u <= 2047) {
-          if (outIdx + 1 >= endIdx) break
-          heap[outIdx++] = 192 | (u >> 6)
-          heap[outIdx++] = 128 | (u & 63)
-        } else if (u <= 65535) {
-          if (outIdx + 2 >= endIdx) break
-          heap[outIdx++] = 224 | (u >> 12)
-          heap[outIdx++] = 128 | ((u >> 6) & 63)
-          heap[outIdx++] = 128 | (u & 63)
-        } else {
-          if (outIdx + 3 >= endIdx) break
-          heap[outIdx++] = 240 | (u >> 18)
-          heap[outIdx++] = 128 | ((u >> 12) & 63)
-          heap[outIdx++] = 128 | ((u >> 6) & 63)
-          heap[outIdx++] = 128 | (u & 63)
-        }
-      }
-      heap[outIdx] = 0
-      return outIdx - startIdx
-    }
-    function stringToUTF8(str, outPtr, maxBytesToWrite) {
-      return stringToUTF8Array(str, HEAPU8, outPtr, maxBytesToWrite)
-    }
-    function lengthBytesUTF8(str) {
-      var len = 0
-      for (var i = 0; i < str.length; ++i) {
-        var c = str.charCodeAt(i)
-        if (c <= 127) {
-          len++
-        } else if (c <= 2047) {
-          len += 2
-        } else if (c >= 55296 && c <= 57343) {
-          len += 4
-          ++i
-        } else {
-          len += 3
-        }
-      }
-      return len
-    }
-    var buffer,
-      HEAP8,
-      HEAPU8,
-      HEAP16,
-      HEAPU16,
-      HEAP32,
-      HEAPU32,
-      HEAPF32,
-      HEAPF64
-    function updateGlobalBufferAndViews(buf) {
-      buffer = buf
-      Module['HEAP8'] = HEAP8 = new Int8Array(buf)
-      Module['HEAP16'] = HEAP16 = new Int16Array(buf)
-      Module['HEAP32'] = HEAP32 = new Int32Array(buf)
-      Module['HEAPU8'] = HEAPU8 = new Uint8Array(buf)
-      Module['HEAPU16'] = HEAPU16 = new Uint16Array(buf)
-      Module['HEAPU32'] = HEAPU32 = new Uint32Array(buf)
-      Module['HEAPF32'] = HEAPF32 = new Float32Array(buf)
-      Module['HEAPF64'] = HEAPF64 = new Float64Array(buf)
-    }
-    var INITIAL_MEMORY = Module['INITIAL_MEMORY'] || 16777216
     var wasmTable
     var __ATPRERUN__ = []
     var __ATINIT__ = []
     var __ATMAIN__ = []
     var __ATPOSTRUN__ = []
     var runtimeInitialized = false
+    var runtimeKeepaliveCounter = 0
     function keepRuntimeAlive() {
-      return noExitRuntime
+      return noExitRuntime || runtimeKeepaliveCounter > 0
     }
     function preRun() {
       if (Module['preRun']) {
@@ -422,26 +299,24 @@ var Compare = (() => {
         abort(err)
       }
     }
-    function getBinaryPromise() {
+    function getBinaryPromise(binaryFile) {
       if (!wasmBinary && (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER)) {
-        if (typeof fetch == 'function' && !isFileURI(wasmBinaryFile)) {
-          return fetch(wasmBinaryFile, { credentials: 'same-origin' })
+        if (typeof fetch == 'function' && !isFileURI(binaryFile)) {
+          return fetch(binaryFile, { credentials: 'same-origin' })
             .then(function(response) {
               if (!response['ok']) {
-                throw "failed to load wasm binary file at '" +
-                  wasmBinaryFile +
-                  "'"
+                throw "failed to load wasm binary file at '" + binaryFile + "'"
               }
               return response['arrayBuffer']()
             })
             .catch(function() {
-              return getBinary(wasmBinaryFile)
+              return getBinary(binaryFile)
             })
         } else {
           if (readAsync) {
             return new Promise(function(resolve, reject) {
               readAsync(
-                wasmBinaryFile,
+                binaryFile,
                 function(response) {
                   resolve(new Uint8Array(response))
                 },
@@ -452,70 +327,75 @@ var Compare = (() => {
         }
       }
       return Promise.resolve().then(function() {
-        return getBinary(wasmBinaryFile)
+        return getBinary(binaryFile)
       })
     }
+    function instantiateArrayBuffer(binaryFile, imports, receiver) {
+      return getBinaryPromise(binaryFile)
+        .then(function(binary) {
+          return WebAssembly.instantiate(binary, imports)
+        })
+        .then(function(instance) {
+          return instance
+        })
+        .then(receiver, function(reason) {
+          err('failed to asynchronously prepare wasm: ' + reason)
+          abort(reason)
+        })
+    }
+    function instantiateAsync(binary, binaryFile, imports, callback) {
+      if (
+        !binary &&
+        typeof WebAssembly.instantiateStreaming == 'function' &&
+        !isDataURI(binaryFile) &&
+        !isFileURI(binaryFile) &&
+        !ENVIRONMENT_IS_NODE &&
+        typeof fetch == 'function'
+      ) {
+        return fetch(binaryFile, { credentials: 'same-origin' }).then(function(
+          response
+        ) {
+          var result = WebAssembly.instantiateStreaming(response, imports)
+          return result.then(callback, function(reason) {
+            err('wasm streaming compile failed: ' + reason)
+            err('falling back to ArrayBuffer instantiation')
+            return instantiateArrayBuffer(binaryFile, imports, callback)
+          })
+        })
+      } else {
+        return instantiateArrayBuffer(binaryFile, imports, callback)
+      }
+    }
     function createWasm() {
-      var info = { a: asmLibraryArg }
+      var info = { a: wasmImports }
       function receiveInstance(instance, module) {
         var exports = instance.exports
         Module['asm'] = exports
         wasmMemory = Module['asm']['s']
-        updateGlobalBufferAndViews(wasmMemory.buffer)
+        updateMemoryViews()
         wasmTable = Module['asm']['D']
         addOnInit(Module['asm']['t'])
         removeRunDependency('wasm-instantiate')
+        return exports
       }
       addRunDependency('wasm-instantiate')
       function receiveInstantiationResult(result) {
         receiveInstance(result['instance'])
       }
-      function instantiateArrayBuffer(receiver) {
-        return getBinaryPromise()
-          .then(function(binary) {
-            return WebAssembly.instantiate(binary, info)
-          })
-          .then(function(instance) {
-            return instance
-          })
-          .then(receiver, function(reason) {
-            err('failed to asynchronously prepare wasm: ' + reason)
-            abort(reason)
-          })
-      }
-      function instantiateAsync() {
-        if (
-          !wasmBinary &&
-          typeof WebAssembly.instantiateStreaming == 'function' &&
-          !isDataURI(wasmBinaryFile) &&
-          !isFileURI(wasmBinaryFile) &&
-          !ENVIRONMENT_IS_NODE &&
-          typeof fetch == 'function'
-        ) {
-          return fetch(wasmBinaryFile, { credentials: 'same-origin' }).then(
-            function(response) {
-              var result = WebAssembly.instantiateStreaming(response, info)
-              return result.then(receiveInstantiationResult, function(reason) {
-                err('wasm streaming compile failed: ' + reason)
-                err('falling back to ArrayBuffer instantiation')
-                return instantiateArrayBuffer(receiveInstantiationResult)
-              })
-            }
-          )
-        } else {
-          return instantiateArrayBuffer(receiveInstantiationResult)
-        }
-      }
       if (Module['instantiateWasm']) {
         try {
-          var exports = Module['instantiateWasm'](info, receiveInstance)
-          return exports
+          return Module['instantiateWasm'](info, receiveInstance)
         } catch (e) {
           err('Module.instantiateWasm callback failed with error: ' + e)
           readyPromiseReject(e)
         }
       }
-      instantiateAsync().catch(readyPromiseReject)
+      instantiateAsync(
+        wasmBinary,
+        wasmBinaryFile,
+        info,
+        receiveInstantiationResult
+      ).catch(readyPromiseReject)
       return {}
     }
     var tempDouble
@@ -534,33 +414,33 @@ var Compare = (() => {
       this.excPtr = excPtr
       this.ptr = excPtr - 24
       this.set_type = function(type) {
-        HEAPU32[(this.ptr + 4) >> 2] = type
+        HEAPU32[(this.ptr + 4) >>> 2] = type
       }
       this.get_type = function() {
-        return HEAPU32[(this.ptr + 4) >> 2]
+        return HEAPU32[(this.ptr + 4) >>> 2]
       }
       this.set_destructor = function(destructor) {
-        HEAPU32[(this.ptr + 8) >> 2] = destructor
+        HEAPU32[(this.ptr + 8) >>> 2] = destructor
       }
       this.get_destructor = function() {
-        return HEAPU32[(this.ptr + 8) >> 2]
+        return HEAPU32[(this.ptr + 8) >>> 2]
       }
       this.set_refcount = function(refcount) {
-        HEAP32[this.ptr >> 2] = refcount
+        HEAP32[this.ptr >>> 2] = refcount
       }
       this.set_caught = function(caught) {
         caught = caught ? 1 : 0
-        HEAP8[(this.ptr + 12) >> 0] = caught
+        HEAP8[(this.ptr + 12) >>> 0] = caught
       }
       this.get_caught = function() {
-        return HEAP8[(this.ptr + 12) >> 0] != 0
+        return HEAP8[(this.ptr + 12) >>> 0] != 0
       }
       this.set_rethrown = function(rethrown) {
         rethrown = rethrown ? 1 : 0
-        HEAP8[(this.ptr + 13) >> 0] = rethrown
+        HEAP8[(this.ptr + 13) >>> 0] = rethrown
       }
       this.get_rethrown = function() {
-        return HEAP8[(this.ptr + 13) >> 0] != 0
+        return HEAP8[(this.ptr + 13) >>> 0] != 0
       }
       this.init = function(type, destructor) {
         this.set_adjusted_ptr(0)
@@ -571,24 +451,24 @@ var Compare = (() => {
         this.set_rethrown(false)
       }
       this.add_ref = function() {
-        var value = HEAP32[this.ptr >> 2]
-        HEAP32[this.ptr >> 2] = value + 1
+        var value = HEAP32[this.ptr >>> 2]
+        HEAP32[this.ptr >>> 2] = value + 1
       }
       this.release_ref = function() {
-        var prev = HEAP32[this.ptr >> 2]
-        HEAP32[this.ptr >> 2] = prev - 1
+        var prev = HEAP32[this.ptr >>> 2]
+        HEAP32[this.ptr >>> 2] = prev - 1
         return prev === 1
       }
       this.set_adjusted_ptr = function(adjustedPtr) {
-        HEAPU32[(this.ptr + 16) >> 2] = adjustedPtr
+        HEAPU32[(this.ptr + 16) >>> 2] = adjustedPtr
       }
       this.get_adjusted_ptr = function() {
-        return HEAPU32[(this.ptr + 16) >> 2]
+        return HEAPU32[(this.ptr + 16) >>> 2]
       }
       this.get_exception_ptr = function() {
         var isPointer = ___cxa_is_pointer_type(this.get_type())
         if (isPointer) {
-          return HEAPU32[this.excPtr >> 2]
+          return HEAPU32[this.excPtr >>> 2]
         }
         var adjusted = this.get_adjusted_ptr()
         if (adjusted !== 0) return adjusted
@@ -602,10 +482,10 @@ var Compare = (() => {
       info.init(type, destructor)
       exceptionLast = ptr
       uncaughtExceptionCount++
-      throw ptr
+      throw exceptionLast
     }
     function setErrNo(value) {
-      HEAP32[___errno_location() >> 2] = value
+      HEAP32[___errno_location() >>> 2] = value
       return value
     }
     var PATH = {
@@ -678,23 +558,27 @@ var Compare = (() => {
         return PATH.normalize(l + '/' + r)
       },
     }
-    function getRandomDevice() {
+    function initRandomFill() {
       if (
         typeof crypto == 'object' &&
         typeof crypto['getRandomValues'] == 'function'
       ) {
-        var randomBuffer = new Uint8Array(1)
-        return () => {
-          crypto.getRandomValues(randomBuffer)
-          return randomBuffer[0]
-        }
+        return view => crypto.getRandomValues(view)
       } else if (ENVIRONMENT_IS_NODE) {
         try {
           var crypto_module = require('crypto')
-          return () => crypto_module['randomBytes'](1)[0]
+          var randomFillSync = crypto_module['randomFillSync']
+          if (randomFillSync) {
+            return view => crypto_module['randomFillSync'](view)
+          }
+          var randomBytes = crypto_module['randomBytes']
+          return view => (view.set(randomBytes(view.byteLength)), view)
         } catch (e) {}
       }
-      return () => abort('randomDevice')
+      abort('initRandomDevice')
+    }
+    function randomFill(view) {
+      return (randomFill = initRandomFill())(view)
     }
     var PATH_FS = {
       resolve: function() {
@@ -748,6 +632,57 @@ var Compare = (() => {
         outputParts = outputParts.concat(toParts.slice(samePartsLength))
         return outputParts.join('/')
       },
+    }
+    function lengthBytesUTF8(str) {
+      var len = 0
+      for (var i = 0; i < str.length; ++i) {
+        var c = str.charCodeAt(i)
+        if (c <= 127) {
+          len++
+        } else if (c <= 2047) {
+          len += 2
+        } else if (c >= 55296 && c <= 57343) {
+          len += 4
+          ++i
+        } else {
+          len += 3
+        }
+      }
+      return len
+    }
+    function stringToUTF8Array(str, heap, outIdx, maxBytesToWrite) {
+      outIdx >>>= 0
+      if (!(maxBytesToWrite > 0)) return 0
+      var startIdx = outIdx
+      var endIdx = outIdx + maxBytesToWrite - 1
+      for (var i = 0; i < str.length; ++i) {
+        var u = str.charCodeAt(i)
+        if (u >= 55296 && u <= 57343) {
+          var u1 = str.charCodeAt(++i)
+          u = (65536 + ((u & 1023) << 10)) | (u1 & 1023)
+        }
+        if (u <= 127) {
+          if (outIdx >= endIdx) break
+          heap[outIdx++ >>> 0] = u
+        } else if (u <= 2047) {
+          if (outIdx + 1 >= endIdx) break
+          heap[outIdx++ >>> 0] = 192 | (u >> 6)
+          heap[outIdx++ >>> 0] = 128 | (u & 63)
+        } else if (u <= 65535) {
+          if (outIdx + 2 >= endIdx) break
+          heap[outIdx++ >>> 0] = 224 | (u >> 12)
+          heap[outIdx++ >>> 0] = 128 | ((u >> 6) & 63)
+          heap[outIdx++ >>> 0] = 128 | (u & 63)
+        } else {
+          if (outIdx + 3 >= endIdx) break
+          heap[outIdx++ >>> 0] = 240 | (u >> 18)
+          heap[outIdx++ >>> 0] = 128 | ((u >> 12) & 63)
+          heap[outIdx++ >>> 0] = 128 | ((u >> 6) & 63)
+          heap[outIdx++ >>> 0] = 128 | (u & 63)
+        }
+      }
+      heap[outIdx >>> 0] = 0
+      return outIdx - startIdx
     }
     function intArrayFromString(stringy, dontAddNull, length) {
       var len = length > 0 ? length : lengthBytesUTF8(stringy) + 1
@@ -987,6 +922,7 @@ var Compare = (() => {
         return new Uint8Array(node.contents)
       },
       expandFileStorage: function(node, newCapacity) {
+        newCapacity >>>= 0
         var prevCapacity = node.contents ? node.contents.length : 0
         if (prevCapacity >= newCapacity) return
         var CAPACITY_DOUBLING_MAX = 1024 * 1024
@@ -1003,6 +939,7 @@ var Compare = (() => {
           node.contents.set(oldContents.subarray(0, node.usedBytes), 0)
       },
       resizeFileStorage: function(node, newSize) {
+        newSize >>>= 0
         if (node.usedBytes == newSize) return
         if (newSize == 0) {
           node.contents = null
@@ -1193,7 +1130,7 @@ var Compare = (() => {
           var ptr
           var allocated
           var contents = stream.node.contents
-          if (!(flags & 2) && contents.buffer === buffer) {
+          if (!(flags & 2) && contents.buffer === HEAP8.buffer) {
             allocated = false
             ptr = contents.byteOffset
           } else {
@@ -1213,7 +1150,8 @@ var Compare = (() => {
             if (!ptr) {
               throw new FS.ErrnoError(48)
             }
-            HEAP8.set(contents, ptr)
+            ptr >>>= 0
+            HEAP8.set(contents, ptr >>> 0)
           }
           return { ptr: ptr, allocated: allocated }
         },
@@ -1250,7 +1188,7 @@ var Compare = (() => {
       isWindows: false,
       staticInit: () => {
         NODEFS.isWindows = !!process.platform.match(/^win/)
-        var flags = process['binding']('constants')
+        var flags = process.binding('constants')
         if (flags['fs']) {
           flags = flags['fs']
         }
@@ -2362,6 +2300,7 @@ var Compare = (() => {
         return stream.position
       },
       read: (stream, buffer, offset, length, position) => {
+        offset >>>= 0
         if (length < 0 || position < 0) {
           throw new FS.ErrnoError(28)
         }
@@ -2394,6 +2333,7 @@ var Compare = (() => {
         return bytesRead
       },
       write: (stream, buffer, offset, length, position, canOwn) => {
+        offset >>>= 0
         if (length < 0 || position < 0) {
           throw new FS.ErrnoError(28)
         }
@@ -2464,6 +2404,7 @@ var Compare = (() => {
         return stream.stream_ops.mmap(stream, length, position, prot, flags)
       },
       msync: (stream, buffer, offset, length, mmapFlags) => {
+        offset >>>= 0
         if (!stream.stream_ops.msync) {
           return 0
         }
@@ -2547,9 +2488,16 @@ var Compare = (() => {
         TTY.register(FS.makedev(6, 0), TTY.default_tty1_ops)
         FS.mkdev('/dev/tty', FS.makedev(5, 0))
         FS.mkdev('/dev/tty1', FS.makedev(6, 0))
-        var random_device = getRandomDevice()
-        FS.createDevice('/dev', 'random', random_device)
-        FS.createDevice('/dev', 'urandom', random_device)
+        var randomBuffer = new Uint8Array(1024),
+          randomLeft = 0
+        var randomByte = () => {
+          if (randomLeft === 0) {
+            randomLeft = randomFill(randomBuffer).byteLength
+          }
+          return randomBuffer[--randomLeft]
+        }
+        FS.createDevice('/dev', 'random', randomByte)
+        FS.createDevice('/dev', 'urandom', randomByte)
         FS.mkdir('/dev/shm')
         FS.mkdir('/dev/shm/tmp')
       },
@@ -2605,6 +2553,7 @@ var Compare = (() => {
       ensureErrnoError: () => {
         if (FS.ErrnoError) return
         FS.ErrnoError = function ErrnoError(errno, node) {
+          this.name = 'ErrnoError'
           this.node = node
           this.setErrno = function(errno) {
             this.errno = errno
@@ -3027,114 +2976,51 @@ var Compare = (() => {
           processData(url)
         }
       },
-      indexedDB: () => {
-        return (
-          window.indexedDB ||
-          window.mozIndexedDB ||
-          window.webkitIndexedDB ||
-          window.msIndexedDB
-        )
-      },
-      DB_NAME: () => {
-        return 'EM_FS_' + window.location.pathname
-      },
-      DB_VERSION: 20,
-      DB_STORE_NAME: 'FILE_DATA',
-      saveFilesToDB: (paths, onload, onerror) => {
-        onload = onload || (() => {})
-        onerror = onerror || (() => {})
-        var indexedDB = FS.indexedDB()
-        try {
-          var openRequest = indexedDB.open(FS.DB_NAME(), FS.DB_VERSION)
-        } catch (e) {
-          return onerror(e)
+    }
+    var UTF8Decoder =
+      typeof TextDecoder != 'undefined' ? new TextDecoder('utf8') : undefined
+    function UTF8ArrayToString(heapOrArray, idx, maxBytesToRead) {
+      idx >>>= 0
+      var endIdx = idx + maxBytesToRead
+      var endPtr = idx
+      while (heapOrArray[endPtr] && !(endPtr >= endIdx)) ++endPtr
+      if (endPtr - idx > 16 && heapOrArray.buffer && UTF8Decoder) {
+        return UTF8Decoder.decode(heapOrArray.subarray(idx, endPtr))
+      }
+      var str = ''
+      while (idx < endPtr) {
+        var u0 = heapOrArray[idx++]
+        if (!(u0 & 128)) {
+          str += String.fromCharCode(u0)
+          continue
         }
-        openRequest.onupgradeneeded = () => {
-          out('creating db')
-          var db = openRequest.result
-          db.createObjectStore(FS.DB_STORE_NAME)
+        var u1 = heapOrArray[idx++] & 63
+        if ((u0 & 224) == 192) {
+          str += String.fromCharCode(((u0 & 31) << 6) | u1)
+          continue
         }
-        openRequest.onsuccess = () => {
-          var db = openRequest.result
-          var transaction = db.transaction([FS.DB_STORE_NAME], 'readwrite')
-          var files = transaction.objectStore(FS.DB_STORE_NAME)
-          var ok = 0,
-            fail = 0,
-            total = paths.length
-          function finish() {
-            if (fail == 0) onload()
-            else onerror()
-          }
-          paths.forEach(path => {
-            var putRequest = files.put(
-              FS.analyzePath(path).object.contents,
-              path
-            )
-            putRequest.onsuccess = () => {
-              ok++
-              if (ok + fail == total) finish()
-            }
-            putRequest.onerror = () => {
-              fail++
-              if (ok + fail == total) finish()
-            }
-          })
-          transaction.onerror = onerror
+        var u2 = heapOrArray[idx++] & 63
+        if ((u0 & 240) == 224) {
+          u0 = ((u0 & 15) << 12) | (u1 << 6) | u2
+        } else {
+          u0 =
+            ((u0 & 7) << 18) |
+            (u1 << 12) |
+            (u2 << 6) |
+            (heapOrArray[idx++] & 63)
         }
-        openRequest.onerror = onerror
-      },
-      loadFilesFromDB: (paths, onload, onerror) => {
-        onload = onload || (() => {})
-        onerror = onerror || (() => {})
-        var indexedDB = FS.indexedDB()
-        try {
-          var openRequest = indexedDB.open(FS.DB_NAME(), FS.DB_VERSION)
-        } catch (e) {
-          return onerror(e)
+        if (u0 < 65536) {
+          str += String.fromCharCode(u0)
+        } else {
+          var ch = u0 - 65536
+          str += String.fromCharCode(55296 | (ch >> 10), 56320 | (ch & 1023))
         }
-        openRequest.onupgradeneeded = onerror
-        openRequest.onsuccess = () => {
-          var db = openRequest.result
-          try {
-            var transaction = db.transaction([FS.DB_STORE_NAME], 'readonly')
-          } catch (e) {
-            onerror(e)
-            return
-          }
-          var files = transaction.objectStore(FS.DB_STORE_NAME)
-          var ok = 0,
-            fail = 0,
-            total = paths.length
-          function finish() {
-            if (fail == 0) onload()
-            else onerror()
-          }
-          paths.forEach(path => {
-            var getRequest = files.get(path)
-            getRequest.onsuccess = () => {
-              if (FS.analyzePath(path).exists) {
-                FS.unlink(path)
-              }
-              FS.createDataFile(
-                PATH.dirname(path),
-                PATH.basename(path),
-                getRequest.result,
-                true,
-                true,
-                true
-              )
-              ok++
-              if (ok + fail == total) finish()
-            }
-            getRequest.onerror = () => {
-              fail++
-              if (ok + fail == total) finish()
-            }
-          })
-          transaction.onerror = onerror
-        }
-        openRequest.onerror = onerror
-      },
+      }
+      return str
+    }
+    function UTF8ToString(ptr, maxBytesToRead) {
+      ptr >>>= 0
+      return ptr ? UTF8ArrayToString(HEAPU8, ptr, maxBytesToRead) : ''
     }
     var SYSCALLS = {
       DEFAULT_POLLMASK: 5,
@@ -3170,13 +3056,13 @@ var Compare = (() => {
           }
           throw e
         }
-        HEAP32[buf >> 2] = stat.dev
-        HEAP32[(buf + 8) >> 2] = stat.ino
-        HEAP32[(buf + 12) >> 2] = stat.mode
-        HEAPU32[(buf + 16) >> 2] = stat.nlink
-        HEAP32[(buf + 20) >> 2] = stat.uid
-        HEAP32[(buf + 24) >> 2] = stat.gid
-        HEAP32[(buf + 28) >> 2] = stat.rdev
+        HEAP32[buf >>> 2] = stat.dev
+        HEAP32[(buf + 8) >>> 2] = stat.ino
+        HEAP32[(buf + 12) >>> 2] = stat.mode
+        HEAPU32[(buf + 16) >>> 2] = stat.nlink
+        HEAP32[(buf + 20) >>> 2] = stat.uid
+        HEAP32[(buf + 24) >>> 2] = stat.gid
+        HEAP32[(buf + 28) >>> 2] = stat.rdev
         ;(tempI64 = [
           stat.size >>> 0,
           ((tempDouble = stat.size),
@@ -3190,10 +3076,10 @@ var Compare = (() => {
                 ) >>> 0
             : 0),
         ]),
-          (HEAP32[(buf + 40) >> 2] = tempI64[0]),
-          (HEAP32[(buf + 44) >> 2] = tempI64[1])
-        HEAP32[(buf + 48) >> 2] = 4096
-        HEAP32[(buf + 52) >> 2] = stat.blocks
+          (HEAP32[(buf + 40) >>> 2] = tempI64[0]),
+          (HEAP32[(buf + 44) >>> 2] = tempI64[1])
+        HEAP32[(buf + 48) >>> 2] = 4096
+        HEAP32[(buf + 52) >>> 2] = stat.blocks
         var atime = stat.atime.getTime()
         var mtime = stat.mtime.getTime()
         var ctime = stat.ctime.getTime()
@@ -3210,9 +3096,9 @@ var Compare = (() => {
                 ) >>> 0
             : 0),
         ]),
-          (HEAP32[(buf + 56) >> 2] = tempI64[0]),
-          (HEAP32[(buf + 60) >> 2] = tempI64[1])
-        HEAPU32[(buf + 64) >> 2] = (atime % 1e3) * 1e3
+          (HEAP32[(buf + 56) >>> 2] = tempI64[0]),
+          (HEAP32[(buf + 60) >>> 2] = tempI64[1])
+        HEAPU32[(buf + 64) >>> 2] = (atime % 1e3) * 1e3
         ;(tempI64 = [
           Math.floor(mtime / 1e3) >>> 0,
           ((tempDouble = Math.floor(mtime / 1e3)),
@@ -3226,9 +3112,9 @@ var Compare = (() => {
                 ) >>> 0
             : 0),
         ]),
-          (HEAP32[(buf + 72) >> 2] = tempI64[0]),
-          (HEAP32[(buf + 76) >> 2] = tempI64[1])
-        HEAPU32[(buf + 80) >> 2] = (mtime % 1e3) * 1e3
+          (HEAP32[(buf + 72) >>> 2] = tempI64[0]),
+          (HEAP32[(buf + 76) >>> 2] = tempI64[1])
+        HEAPU32[(buf + 80) >>> 2] = (mtime % 1e3) * 1e3
         ;(tempI64 = [
           Math.floor(ctime / 1e3) >>> 0,
           ((tempDouble = Math.floor(ctime / 1e3)),
@@ -3242,9 +3128,9 @@ var Compare = (() => {
                 ) >>> 0
             : 0),
         ]),
-          (HEAP32[(buf + 88) >> 2] = tempI64[0]),
-          (HEAP32[(buf + 92) >> 2] = tempI64[1])
-        HEAPU32[(buf + 96) >> 2] = (ctime % 1e3) * 1e3
+          (HEAP32[(buf + 88) >>> 2] = tempI64[0]),
+          (HEAP32[(buf + 92) >>> 2] = tempI64[1])
+        HEAPU32[(buf + 96) >>> 2] = (ctime % 1e3) * 1e3
         ;(tempI64 = [
           stat.ino >>> 0,
           ((tempDouble = stat.ino),
@@ -3258,8 +3144,8 @@ var Compare = (() => {
                 ) >>> 0
             : 0),
         ]),
-          (HEAP32[(buf + 104) >> 2] = tempI64[0]),
-          (HEAP32[(buf + 108) >> 2] = tempI64[1])
+          (HEAP32[(buf + 104) >>> 2] = tempI64[0]),
+          (HEAP32[(buf + 108) >>> 2] = tempI64[1])
         return 0
       },
       doMsync: function(addr, stream, len, flags, offset) {
@@ -3269,13 +3155,14 @@ var Compare = (() => {
         if (flags & 2) {
           return 0
         }
+        addr >>>= 0
         var buffer = HEAPU8.slice(addr, addr + len)
         FS.msync(stream, buffer, offset, len, flags)
       },
       varargs: undefined,
       get: function() {
         SYSCALLS.varargs += 4
-        var ret = HEAP32[(SYSCALLS.varargs - 4) >> 2]
+        var ret = HEAP32[(SYSCALLS.varargs - 4) >>> 2]
         return ret
       },
       getStr: function(ptr) {
@@ -3315,7 +3202,7 @@ var Compare = (() => {
           case 5: {
             var arg = SYSCALLS.get()
             var offset = 0
-            HEAP16[(arg + offset) >> 1] = 2
+            HEAP16[(arg + offset) >>> 1] = 2
             return 0
           }
           case 6:
@@ -3332,9 +3219,12 @@ var Compare = (() => {
           }
         }
       } catch (e) {
-        if (typeof FS == 'undefined' || !(e instanceof FS.ErrnoError)) throw e
+        if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e
         return -e.errno
       }
+    }
+    function stringToUTF8(str, outPtr, maxBytesToWrite) {
+      return stringToUTF8Array(str, HEAPU8, outPtr, maxBytesToWrite)
     }
     function ___syscall_getcwd(buf, size) {
       try {
@@ -3345,7 +3235,7 @@ var Compare = (() => {
         stringToUTF8(cwd, buf, size)
         return cwdLengthInBytes
       } catch (e) {
-        if (typeof FS == 'undefined' || !(e instanceof FS.ErrnoError)) throw e
+        if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e
         return -e.errno
       }
     }
@@ -3371,7 +3261,7 @@ var Compare = (() => {
           case 21519: {
             if (!stream.tty) return -59
             var argp = SYSCALLS.get()
-            HEAP32[argp >> 2] = 0
+            HEAP32[argp >>> 2] = 0
             return 0
           }
           case 21520: {
@@ -3394,7 +3284,7 @@ var Compare = (() => {
             return -28
         }
       } catch (e) {
-        if (typeof FS == 'undefined' || !(e instanceof FS.ErrnoError)) throw e
+        if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e
         return -e.errno
       }
     }
@@ -3406,7 +3296,7 @@ var Compare = (() => {
         var mode = varargs ? SYSCALLS.get() : 0
         return FS.open(path, flags, mode).fd
       } catch (e) {
-        if (typeof FS == 'undefined' || !(e instanceof FS.ErrnoError)) throw e
+        if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e
         return -e.errno
       }
     }
@@ -3417,12 +3307,12 @@ var Compare = (() => {
         if (bufsize <= 0) return -28
         var ret = FS.readlink(path)
         var len = Math.min(bufsize, lengthBytesUTF8(ret))
-        var endChar = HEAP8[buf + len]
+        var endChar = HEAP8[(buf + len) >>> 0]
         stringToUTF8(ret, buf, bufsize + 1)
-        HEAP8[buf + len] = endChar
+        HEAP8[(buf + len) >>> 0] = endChar
         return len
       } catch (e) {
-        if (typeof FS == 'undefined' || !(e instanceof FS.ErrnoError)) throw e
+        if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e
         return -e.errno
       }
     }
@@ -3431,7 +3321,7 @@ var Compare = (() => {
         path = SYSCALLS.getStr(path)
         return SYSCALLS.doStat(FS.stat, path, buf)
       } catch (e) {
-        if (typeof FS == 'undefined' || !(e instanceof FS.ErrnoError)) throw e
+        if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e
         return -e.errno
       }
     }
@@ -3439,15 +3329,16 @@ var Compare = (() => {
       abort('')
     }
     function _emscripten_memcpy_big(dest, src, num) {
-      HEAPU8.copyWithin(dest, src, src + num)
+      HEAPU8.copyWithin(dest >>> 0, src >>> 0, (src + num) >>> 0)
     }
     function getHeapMax() {
-      return 2147483648
+      return 4294901760
     }
     function emscripten_realloc_buffer(size) {
+      var b = wasmMemory.buffer
       try {
-        wasmMemory.grow((size - buffer.byteLength + 65535) >>> 16)
-        updateGlobalBufferAndViews(wasmMemory.buffer)
+        wasmMemory.grow((size - b.byteLength + 65535) >>> 16)
+        updateMemoryViews()
         return 1
       } catch (e) {}
     }
@@ -3511,30 +3402,30 @@ var Compare = (() => {
       }
       return getEnvStrings.strings
     }
-    function writeAsciiToMemory(str, buffer, dontAddNull) {
+    function stringToAscii(str, buffer) {
       for (var i = 0; i < str.length; ++i) {
-        HEAP8[buffer++ >> 0] = str.charCodeAt(i)
+        HEAP8[buffer++ >>> 0] = str.charCodeAt(i)
       }
-      if (!dontAddNull) HEAP8[buffer >> 0] = 0
+      HEAP8[buffer >>> 0] = 0
     }
     function _environ_get(__environ, environ_buf) {
       var bufSize = 0
       getEnvStrings().forEach(function(string, i) {
         var ptr = environ_buf + bufSize
-        HEAPU32[(__environ + i * 4) >> 2] = ptr
-        writeAsciiToMemory(string, ptr)
+        HEAPU32[(__environ + i * 4) >>> 2] = ptr
+        stringToAscii(string, ptr)
         bufSize += string.length + 1
       })
       return 0
     }
     function _environ_sizes_get(penviron_count, penviron_buf_size) {
       var strings = getEnvStrings()
-      HEAPU32[penviron_count >> 2] = strings.length
+      HEAPU32[penviron_count >>> 2] = strings.length
       var bufSize = 0
       strings.forEach(function(string) {
         bufSize += string.length + 1
       })
-      HEAPU32[penviron_buf_size >> 2] = bufSize
+      HEAPU32[penviron_buf_size >>> 2] = bufSize
       return 0
     }
     function _proc_exit(code) {
@@ -3556,20 +3447,23 @@ var Compare = (() => {
         FS.close(stream)
         return 0
       } catch (e) {
-        if (typeof FS == 'undefined' || !(e instanceof FS.ErrnoError)) throw e
+        if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e
         return e.errno
       }
     }
     function doReadv(stream, iov, iovcnt, offset) {
       var ret = 0
       for (var i = 0; i < iovcnt; i++) {
-        var ptr = HEAPU32[iov >> 2]
-        var len = HEAPU32[(iov + 4) >> 2]
+        var ptr = HEAPU32[iov >>> 2]
+        var len = HEAPU32[(iov + 4) >>> 2]
         iov += 8
         var curr = FS.read(stream, HEAP8, ptr, len, offset)
         if (curr < 0) return -1
         ret += curr
         if (curr < len) break
+        if (typeof offset !== 'undefined') {
+          offset += curr
+        }
       }
       return ret
     }
@@ -3577,10 +3471,10 @@ var Compare = (() => {
       try {
         var stream = SYSCALLS.getStreamFromFD(fd)
         var num = doReadv(stream, iov, iovcnt)
-        HEAPU32[pnum >> 2] = num
+        HEAPU32[pnum >>> 2] = num
         return 0
       } catch (e) {
-        if (typeof FS == 'undefined' || !(e instanceof FS.ErrnoError)) throw e
+        if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e
         return e.errno
       }
     }
@@ -3608,25 +3502,28 @@ var Compare = (() => {
                 ) >>> 0
             : 0),
         ]),
-          (HEAP32[newOffset >> 2] = tempI64[0]),
-          (HEAP32[(newOffset + 4) >> 2] = tempI64[1])
+          (HEAP32[newOffset >>> 2] = tempI64[0]),
+          (HEAP32[(newOffset + 4) >>> 2] = tempI64[1])
         if (stream.getdents && offset === 0 && whence === 0)
           stream.getdents = null
         return 0
       } catch (e) {
-        if (typeof FS == 'undefined' || !(e instanceof FS.ErrnoError)) throw e
+        if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e
         return e.errno
       }
     }
     function doWritev(stream, iov, iovcnt, offset) {
       var ret = 0
       for (var i = 0; i < iovcnt; i++) {
-        var ptr = HEAPU32[iov >> 2]
-        var len = HEAPU32[(iov + 4) >> 2]
+        var ptr = HEAPU32[iov >>> 2]
+        var len = HEAPU32[(iov + 4) >>> 2]
         iov += 8
         var curr = FS.write(stream, HEAP8, ptr, len, offset)
         if (curr < 0) return -1
         ret += curr
+        if (typeof offset !== 'undefined') {
+          offset += curr
+        }
       }
       return ret
     }
@@ -3634,31 +3531,31 @@ var Compare = (() => {
       try {
         var stream = SYSCALLS.getStreamFromFD(fd)
         var num = doWritev(stream, iov, iovcnt)
-        HEAPU32[pnum >> 2] = num
+        HEAPU32[pnum >>> 2] = num
         return 0
       } catch (e) {
-        if (typeof FS == 'undefined' || !(e instanceof FS.ErrnoError)) throw e
+        if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e
         return e.errno
       }
     }
-    function __isLeapYear(year) {
+    function isLeapYear(year) {
       return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
     }
-    function __arraySum(array, index) {
+    function arraySum(array, index) {
       var sum = 0
       for (var i = 0; i <= index; sum += array[i++]) {}
       return sum
     }
-    var __MONTH_DAYS_LEAP = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    var __MONTH_DAYS_REGULAR = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    function __addDays(date, days) {
+    var MONTH_DAYS_LEAP = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    var MONTH_DAYS_REGULAR = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    function addDays(date, days) {
       var newDate = new Date(date.getTime())
       while (days > 0) {
-        var leap = __isLeapYear(newDate.getFullYear())
+        var leap = isLeapYear(newDate.getFullYear())
         var currentMonth = newDate.getMonth()
-        var daysInCurrentMonth = (leap
-          ? __MONTH_DAYS_LEAP
-          : __MONTH_DAYS_REGULAR)[currentMonth]
+        var daysInCurrentMonth = (leap ? MONTH_DAYS_LEAP : MONTH_DAYS_REGULAR)[
+          currentMonth
+        ]
         if (days > daysInCurrentMonth - newDate.getDate()) {
           days -= daysInCurrentMonth - newDate.getDate() + 1
           newDate.setDate(1)
@@ -3676,21 +3573,21 @@ var Compare = (() => {
       return newDate
     }
     function writeArrayToMemory(array, buffer) {
-      HEAP8.set(array, buffer)
+      HEAP8.set(array, buffer >>> 0)
     }
     function _strftime(s, maxsize, format, tm) {
-      var tm_zone = HEAP32[(tm + 40) >> 2]
+      var tm_zone = HEAP32[(tm + 40) >>> 2]
       var date = {
-        tm_sec: HEAP32[tm >> 2],
-        tm_min: HEAP32[(tm + 4) >> 2],
-        tm_hour: HEAP32[(tm + 8) >> 2],
-        tm_mday: HEAP32[(tm + 12) >> 2],
-        tm_mon: HEAP32[(tm + 16) >> 2],
-        tm_year: HEAP32[(tm + 20) >> 2],
-        tm_wday: HEAP32[(tm + 24) >> 2],
-        tm_yday: HEAP32[(tm + 28) >> 2],
-        tm_isdst: HEAP32[(tm + 32) >> 2],
-        tm_gmtoff: HEAP32[(tm + 36) >> 2],
+        tm_sec: HEAP32[tm >>> 2],
+        tm_min: HEAP32[(tm + 4) >>> 2],
+        tm_hour: HEAP32[(tm + 8) >>> 2],
+        tm_mday: HEAP32[(tm + 12) >>> 2],
+        tm_mon: HEAP32[(tm + 16) >>> 2],
+        tm_year: HEAP32[(tm + 20) >>> 2],
+        tm_wday: HEAP32[(tm + 24) >>> 2],
+        tm_yday: HEAP32[(tm + 28) >>> 2],
+        tm_isdst: HEAP32[(tm + 32) >>> 2],
+        tm_gmtoff: HEAP32[(tm + 36) >>> 2],
         tm_zone: tm_zone ? UTF8ToString(tm_zone) : '',
       }
       var pattern = UTF8ToString(format)
@@ -3794,7 +3691,7 @@ var Compare = (() => {
         }
       }
       function getWeekBasedYear(date) {
-        var thisDate = __addDays(
+        var thisDate = addDays(
           new Date(date.tm_year + 1900, 0, 1),
           date.tm_yday
         )
@@ -3853,10 +3750,10 @@ var Compare = (() => {
         '%j': function(date) {
           return leadingNulls(
             date.tm_mday +
-              __arraySum(
-                __isLeapYear(date.tm_year + 1900)
-                  ? __MONTH_DAYS_LEAP
-                  : __MONTH_DAYS_REGULAR,
+              arraySum(
+                isLeapYear(date.tm_year + 1900)
+                  ? MONTH_DAYS_LEAP
+                  : MONTH_DAYS_REGULAR,
                 date.tm_mon - 1
               ),
             3
@@ -3902,13 +3799,13 @@ var Compare = (() => {
             var dec31 = (date.tm_wday + 7 - date.tm_yday - 1) % 7
             if (
               dec31 == 4 ||
-              (dec31 == 5 && __isLeapYear((date.tm_year % 400) - 1))
+              (dec31 == 5 && isLeapYear((date.tm_year % 400) - 1))
             ) {
               val++
             }
           } else if (val == 53) {
             var jan1 = (date.tm_wday + 371 - date.tm_yday) % 7
-            if (jan1 != 4 && (jan1 != 3 || !__isLeapYear(date.tm_year))) val = 1
+            if (jan1 != 4 && (jan1 != 3 || !isLeapYear(date.tm_year))) val = 1
           }
           return leadingNulls(val, 2)
         },
@@ -3965,10 +3862,10 @@ var Compare = (() => {
       }
       quit_(1, e)
     }
-    function allocateUTF8OnStack(str) {
+    function stringToUTF8OnStack(str) {
       var size = lengthBytesUTF8(str) + 1
       var ret = stackAlloc(size)
-      stringToUTF8Array(str, HEAP8, ret, size)
+      stringToUTF8(str, ret, size)
       return ret
     }
     function getCFunc(ident) {
@@ -3980,9 +3877,7 @@ var Compare = (() => {
         string: str => {
           var ret = 0
           if (str !== null && str !== undefined && str !== 0) {
-            var len = (str.length << 2) + 1
-            ret = stackAlloc(len)
-            stringToUTF8(str, ret, len)
+            ret = stringToUTF8OnStack(str)
           }
           return ret
         },
@@ -4022,10 +3917,9 @@ var Compare = (() => {
       return ret
     }
     function cwrap(ident, returnType, argTypes, opts) {
-      argTypes = argTypes || []
-      var numericArgs = argTypes.every(
-        type => type === 'number' || type === 'boolean'
-      )
+      var numericArgs =
+        !argTypes ||
+        argTypes.every(type => type === 'number' || type === 'boolean')
       var numericRet = returnType !== 'string'
       if (numericRet && numericArgs && !opts) {
         return getCFunc(ident)
@@ -4034,10 +3928,17 @@ var Compare = (() => {
         return ccall(ident, returnType, argTypes, arguments, opts)
       }
     }
+    function writeAsciiToMemory(str, buffer, dontAddNull) {
+      for (var i = 0; i < str.length; ++i) {
+        HEAP8[buffer++ >>> 0] = str.charCodeAt(i)
+      }
+      if (!dontAddNull) HEAP8[buffer >>> 0] = 0
+    }
     function AsciiToString(ptr) {
+      ptr >>>= 0
       var str = ''
       while (1) {
-        var ch = HEAPU8[ptr++ >> 0]
+        var ch = HEAPU8[ptr++ >>> 0]
         if (!ch) return str
         str += String.fromCharCode(ch)
       }
@@ -4220,7 +4121,7 @@ var Compare = (() => {
       EOWNERDEAD: 62,
       ESTRPIPE: 135,
     }
-    var asmLibraryArg = {
+    var wasmImports = {
       b: ___cxa_throw,
       d: ___syscall_fcntl64,
       r: ___syscall_getcwd,
@@ -4241,20 +4142,24 @@ var Compare = (() => {
       l: _strftime_l,
     }
     var asm = createWasm()
-    var ___wasm_call_ctors = (Module['___wasm_call_ctors'] = function() {
-      return (___wasm_call_ctors = Module['___wasm_call_ctors'] =
-        Module['asm']['t']).apply(null, arguments)
-    })
+    var ___wasm_call_ctors = function() {
+      return (___wasm_call_ctors = Module['asm']['t']).apply(null, arguments)
+    }
     var _main = (Module['_main'] = function() {
       return (_main = Module['_main'] = Module['asm']['u']).apply(
         null,
         arguments
       )
     })
-    var ___errno_location = (Module['___errno_location'] = function() {
-      return (___errno_location = Module['___errno_location'] =
-        Module['asm']['v']).apply(null, arguments)
-    })
+    var ___errno_location = function() {
+      return (___errno_location = Module['asm']['v']).apply(null, arguments)
+    }
+    var _malloc = function() {
+      return (_malloc = Module['asm']['malloc']).apply(null, arguments)
+    }
+    var _free = function() {
+      return (_free = Module['asm']['free']).apply(null, arguments)
+    }
     var _itk_wasm_input_array_alloc = (Module[
       '_itk_wasm_input_array_alloc'
     ] = function() {
@@ -4301,30 +4206,21 @@ var Compare = (() => {
       return (_itk_wasm_free_all = Module['_itk_wasm_free_all'] =
         Module['asm']['C']).apply(null, arguments)
     })
-    var stackSave = (Module['stackSave'] = function() {
-      return (stackSave = Module['stackSave'] = Module['asm']['E']).apply(
+    var stackSave = function() {
+      return (stackSave = Module['asm']['E']).apply(null, arguments)
+    }
+    var stackRestore = function() {
+      return (stackRestore = Module['asm']['F']).apply(null, arguments)
+    }
+    var stackAlloc = function() {
+      return (stackAlloc = Module['asm']['G']).apply(null, arguments)
+    }
+    var ___cxa_is_pointer_type = function() {
+      return (___cxa_is_pointer_type = Module['asm']['H']).apply(
         null,
         arguments
       )
-    })
-    var stackRestore = (Module['stackRestore'] = function() {
-      return (stackRestore = Module['stackRestore'] = Module['asm']['F']).apply(
-        null,
-        arguments
-      )
-    })
-    var stackAlloc = (Module['stackAlloc'] = function() {
-      return (stackAlloc = Module['stackAlloc'] = Module['asm']['G']).apply(
-        null,
-        arguments
-      )
-    })
-    var ___cxa_is_pointer_type = (Module[
-      '___cxa_is_pointer_type'
-    ] = function() {
-      return (___cxa_is_pointer_type = Module['___cxa_is_pointer_type'] =
-        Module['asm']['H']).apply(null, arguments)
-    })
+    }
     Module['addRunDependency'] = addRunDependency
     Module['removeRunDependency'] = removeRunDependency
     Module['FS_createPath'] = FS.createPath
@@ -4334,6 +4230,8 @@ var Compare = (() => {
     Module['FS_createDevice'] = FS.createDevice
     Module['FS_unlink'] = FS.unlink
     Module['callMain'] = callMain
+    Module['stackSave'] = stackSave
+    Module['stackRestore'] = stackRestore
     Module['ccall'] = ccall
     Module['cwrap'] = cwrap
     Module['AsciiToString'] = AsciiToString
@@ -4344,17 +4242,16 @@ var Compare = (() => {
       if (!calledRun) run()
       if (!calledRun) dependenciesFulfilled = runCaller
     }
-    function callMain(args) {
-      var entryFunction = Module['_main']
-      args = args || []
+    function callMain(args = []) {
+      var entryFunction = _main
       args.unshift(thisProgram)
       var argc = args.length
       var argv = stackAlloc((argc + 1) * 4)
       var argv_ptr = argv >> 2
       args.forEach(arg => {
-        HEAP32[argv_ptr++] = allocateUTF8OnStack(arg)
+        HEAP32[argv_ptr++ >>> 0] = stringToUTF8OnStack(arg)
       })
-      HEAP32[argv_ptr] = 0
+      HEAP32[argv_ptr >>> 0] = 0
       try {
         var ret = entryFunction(argc, argv)
         exitJS(ret, true)
@@ -4363,8 +4260,7 @@ var Compare = (() => {
         return handleException(e)
       }
     }
-    function run(args) {
-      args = args || arguments_
+    function run(args = arguments_) {
       if (runDependencies > 0) {
         return
       }
@@ -4412,8 +4308,8 @@ var Compare = (() => {
       }
       var path = require('path')
       var containingDir = path.dirname(filePath)
-      if (FS.isDir(containingDir) || containingDir === '/') {
-        return
+      if (containingDir === '/') {
+        throw new Error('Cannot mount root directory')
       }
       var currentDir = '/'
       var splitContainingDir = containingDir.split(path.sep)
@@ -4434,6 +4330,32 @@ var Compare = (() => {
       var path = require('path')
       var containingDir = path.dirname(filePath)
       FS.unmount(containingDir)
+    }
+    Module.mountDir = function(dir) {
+      if (!ENVIRONMENT_IS_NODE) {
+        return
+      }
+      if (dir === '/') {
+        throw new Error('Cannot mount root directory')
+      }
+      var currentDir = '/'
+      var path = require('path')
+      var splitDir = dir.split(path.sep)
+      for (var ii = 1; ii < splitDir.length; ii++) {
+        currentDir += splitDir[ii]
+        if (!FS.analyzePath(currentDir).exists) {
+          FS.mkdir(currentDir)
+        }
+        currentDir += '/'
+      }
+      FS.mount(NODEFS, { root: dir }, currentDir)
+      return currentDir
+    }
+    Module.unmountDir = function(dir) {
+      if (!ENVIRONMENT_IS_NODE) {
+        return
+      }
+      FS.unmount(dir)
     }
     Module.fs_mkdirs = function(dirs) {
       var currentDir = '/'

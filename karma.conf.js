@@ -61,13 +61,8 @@ module.exports = function init(config) {
       require('karma-tap-pretty-reporter'),
       require('karma-junit-reporter'),
     ],
-
     basePath: '',
     frameworks: ['tap', 'webpack'],
-    proxies: {
-      '/itk/web-workers/itk-wasm-pipeline.min.worker.js':
-        '/base/dist/itk/web-workers/itk-wasm-pipeline.min.worker.js',
-    },
     files: [
       './test/tests.js',
       {

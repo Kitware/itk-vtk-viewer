@@ -1,7 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import { blendModeIconDataUri } from 'itk-viewer-icons'
+import { blendModeIconDataUri } from '@itk-viewer/icons'
 
 function createBlendModeSelector(context, uiContainer) {
   const blendModeEntry = document.createElement('div')

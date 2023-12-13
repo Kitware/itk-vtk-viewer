@@ -1,7 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import { cropIconDataUri, resetCropIconDataUri } from 'itk-viewer-icons'
+import { cropIconDataUri, resetCropIconDataUri } from '@itk-viewer/icons'
 import toggleCroppingPlanes from './toggleCroppingPlanes'
 
 function createCroppingButtons(context, mainUIRow) {

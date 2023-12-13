@@ -1,5 +1,5 @@
 import style from '../ItkVtkViewer.module.css'
-import { volumeScatteringIconDataUri } from 'itk-viewer-icons'
+import { volumeScatteringIconDataUri } from '@itk-viewer/icons'
 
 const sliderMap = new Map()
 

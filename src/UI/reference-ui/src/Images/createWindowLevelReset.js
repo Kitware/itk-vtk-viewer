@@ -1,7 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import { resetImageIconDataUri } from 'itk-viewer-icons'
+import { resetImageIconDataUri } from '@itk-viewer/icons'
 
 function createWindowLevelReset(context, uiContainer) {
   const windowLevelResetButton = document.createElement('div')

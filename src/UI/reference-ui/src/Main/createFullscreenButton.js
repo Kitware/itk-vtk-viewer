@@ -1,6 +1,6 @@
 import style from '../ItkVtkViewer.module.css'
 
-import { fullscreenIconDataUri } from 'itk-viewer-icons'
+import { fullscreenIconDataUri } from '@itk-viewer/icons'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 import fullscreenMethods from './fullscreenMethods'
 

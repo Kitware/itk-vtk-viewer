@@ -1,7 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import { windowingIconDataUri } from 'itk-viewer-icons'
+import { windowingIconDataUri } from '@itk-viewer/icons'
 
 function createWindowLevelToggle(context, uiContainer) {
   const windowLevelToggle = document.createElement('div')

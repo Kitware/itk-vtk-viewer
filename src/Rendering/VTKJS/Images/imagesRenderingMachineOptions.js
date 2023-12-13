@@ -1,3 +1,5 @@
+import { convertVtkToItkImage } from 'vtk.js/Sources/Common/DataModel/ITKHelper'
+import { writeImageArrayBuffer, copyImage } from 'itk-wasm'
 import createImageRenderer from './createImageRenderer'
 import toggleLayerVisibility from './toggleLayerVisibility'
 import toggleLayerBBox from './toggleLayerBBox'
@@ -64,6 +66,23 @@ const isTargetScaleLoaded = context => {
   return loadedScale === targetScale
 }
 
+function downloadArray(content, filename = 'download') {
+  const url = URL.createObjectURL(new Blob([content]))
+  const a = document.createElement('a')
+  a.href = url
+  a.download = filename
+  document.body.appendChild(a)
+  function clickHandler() {
+    setTimeout(() => {
+      URL.revokeObjectURL(url)
+      a.removeEventListener('click', clickHandler)
+    }, 200)
+  }
+  a.addEventListener('click', clickHandler, false)
+  a.click()
+  return a
+}
+
 const imagesRenderingMachineOptions = {
   imageRenderingActor: {
     services: {
@@ -117,6 +136,21 @@ const imagesRenderingMachineOptions = {
 
   actions: {
     selectImageLayer,
+    downloadImage: (context, event) => {
+      const { name, format } = event.data
+      const fileName = `${name}.${format}`
+      const actorContext = context.images.actorContext.get(name)
+      const fusedImage = actorContext.fusedImage
+      if (!fusedImage) {
+        console.warn('No image to download')
+      }
+      const itkImage = copyImage(convertVtkToItkImage(fusedImage, true))
+      writeImageArrayBuffer(null, itkImage, fileName).then(
+        ({ arrayBuffer }) => {
+          downloadArray(arrayBuffer, fileName)
+        }
+      )
+    },
   },
 }
 

@@ -148,6 +148,9 @@ function createImagesRenderingMachine(options, context) {
                 to: (c, e) => `imageRenderingActor-${e.data}`,
               }),
             },
+            DOWNLOAD_IMAGE: {
+              actions: ['downloadImage'],
+            },
             ...makeTransitions(
               [
                 'IMAGE_GRADIENT_OPACITY_CHANGED',

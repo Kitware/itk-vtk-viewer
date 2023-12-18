@@ -1,7 +1,7 @@
 import style from '../ItkVtkViewer.module.css'
 import applyContrastSensitiveStyleToElement from '../applyContrastSensitiveStyleToElement'
 
-import { sampleDistanceIconDataUri } from 'itk-viewer-icons'
+import { sampleDistanceIconDataUri } from '@itk-viewer/icons'
 
 function createSampleDistanceSlider(context, uiContainer) {
   const sliderEntry = document.createElement('div')

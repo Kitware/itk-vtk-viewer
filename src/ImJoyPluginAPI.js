@@ -24,6 +24,8 @@ class ImJoyPluginAPI {
       this.viewer = await itkVtkViewer.createViewer(container, {
         image: ctx.data.image,
         labelImage: ctx.data.labelImage,
+        fixedImage: ctx.data?.fixedImage,
+        compare: ctx.data?.compare,
         pointSets,
         geometries: null,
         rotate: false,
@@ -357,6 +359,18 @@ class ImJoyPluginAPI {
 
   getCompareImages(name) {
     return this.viewer.getCompareImages(name)
+  }
+
+  getLoadedScale(scale) {
+    return this.viewer.getLoadedScale(scale)
+  }
+
+  getCroppedImageWorldBounds() {
+    return this.viewer.getCroppedImageWorldBounds()
+  }
+
+  async getCroppedIndexBounds(scale) {
+    return await this.viewer.getCroppedIndexBounds(scale)
   }
 }
 

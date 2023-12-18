@@ -266,6 +266,9 @@ const createRenderingMachine = (options, context) => {
             TOGGLE_LAYER_BBOX: {
               actions: forwardTo('images'),
             },
+            DOWNLOAD_IMAGE: {
+              actions: forwardTo('images'),
+            },
           },
         },
       },

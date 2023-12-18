@@ -6,7 +6,6 @@ import { ContextConsumer } from '@lit-labs/context'
 import '@material/web/menu/menu.js'
 import { MdMenu } from '@material/web/menu/menu.js'
 import '@material/web/menu/menu-item.js'
-import '@material/web/menu/sub-menu-item.js'
 import { makeHtml } from '../utils'
 import style from '../ItkVtkViewer.module.css'
 import { viewerContext } from '../context'
@@ -46,8 +45,8 @@ class LayerSettings extends LitElement {
     this.floatingAnchor.style.top = `${top}px`
     this.floatingAnchor.style.left = `${left}px`
     if (this.menuRef.value) {
-      this.menuRef.value.anchor = this.floatingAnchor
       this.floatingAnchor.appendChild(this.menuRef.value)
+      this.menuRef.value.anchorElement = this.floatingAnchor
       this.menuRef.value.show()
     }
   }
@@ -84,37 +83,51 @@ class LayerSettings extends LitElement {
       >
         <slot></slot>
         <div ${ref(this.anchorRef)} style="position:relative; z-index: 4000;">
-          <md-menu ${ref(this.menuRef)}>
+          <md-menu ${ref(this.menuRef)} style="min-width: 280px;">
             ${map(
               this.otherImages,
               name =>
                 html`
                   <md-menu-item
-                    headline="Checkerboard compare with ${name}"
                     @click=${() => this.compareWith(name, 'checkerboard')}
-                  ></md-menu-item>
+                  >
+                    <div slot="headline">
+                      "Checkerboard compare with ${name}"
+                    </div>
+                  </md-menu-item>
                   <md-menu-item
-                    headline="Green-Magenta compare with ${name}"
                     @click=${() => this.compareWith(name, 'green-magenta')}
-                  ></md-menu-item>
+                  >
+                    <div slot="headline">
+                      "Green-Magenta compare with ${name}"
+                    </div>
+                  </md-menu-item>
                   <md-menu-item
-                    headline="Cyan-Red compare with ${name}"
                     @click=${() => this.compareWith(name, 'cyan-red')}
-                  ></md-menu-item>
+                  >
+                    <div slot="headline">
+                      "Cyan-Red compare with ${name}"
+                    </div>
+                  </md-menu-item>
                   <md-menu-item
-                    headline="Cyan-Magenta compare with ${name}"
                     @click=${() => this.compareWith(name, 'cyan-magenta')}
-                  ></md-menu-item>
-                  <md-menu-item
-                    headline="Blend compare with ${name}"
-                    @click=${() => this.compareWith(name, 'blend')}
-                  ></md-menu-item>
+                  >
+                    <div slot="headline">
+                      "Cyan-Magenta compare with ${name}"
+                    </div>
+                  </md-menu-item>
+                  <md-menu-item @click=${() => this.compareWith(name, 'blend')}>
+                    <div slot="headline">
+                      "Blend compare with ${name}"
+                    </div>
+                  </md-menu-item>
                 `
             )}
-            <md-menu-item
-              headline="Stop comparing"
-              @click=${this.stopComparing}
-            ></md-menu-item>
+            <md-menu-item @click=${this.stopComparing}>
+              <div slot="headline">
+                "Stop comparing"
+              </div>
+            </md-menu-item>
           </md-menu>
         </div>
       </div>

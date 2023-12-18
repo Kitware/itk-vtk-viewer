@@ -2,7 +2,7 @@ import {
   playIconDataUri,
   pauseIconDataUri,
   rotateIconDataUri,
-} from 'itk-viewer-icons'
+} from '@itk-viewer/icons'
 import style from '../ItkVtkViewer.module.css'
 import { makeHtml } from '../utils'
 

@@ -5,7 +5,7 @@ import {
   imageIconDataUri,
   labelsIconDataUri,
   toggleIconDataUri,
-} from 'itk-viewer-icons'
+} from '@itk-viewer/icons'
 import { viewerContext } from '../context'
 
 import './layerSettings.js'

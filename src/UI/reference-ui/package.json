@@ -45,7 +45,7 @@
     "@lit-labs/context": "^0.2.0",
     "@material/web": "1.0.1",
     "itk-viewer-color-maps": "^1.2.0",
-    "itk-viewer-transfer-function-editor": "^1.2.5",
+    "itk-viewer-transfer-function-editor": "^1.3.0",
     "lit": "^2.4.0",
     "xstate-lit": "^1.3.1"
   }

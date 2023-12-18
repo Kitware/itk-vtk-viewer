@@ -197,6 +197,9 @@ const createRenderingMachine = (options, context) => {
             IMAGE_COLOR_RANGE_CHANGED: {
               actions: forwardTo('images'),
             },
+            IMAGE_COLOR_RANGE_POINTS_CHANGED: {
+              actions: forwardTo('images'),
+            },
             IMAGE_COLOR_MAP_CHANGED: {
               actions: forwardTo('images'),
             },

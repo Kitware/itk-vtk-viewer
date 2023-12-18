@@ -481,6 +481,9 @@ const eventResponses = {
   IMAGE_COLOR_RANGE_CHANGED: {
     actions: [assignColorRange, 'applyColorRange'],
   },
+  IMAGE_COLOR_RANGE_POINTS_CHANGED: {
+    actions: 'mapToColorFunctionRange',
+  },
   IMAGE_COLOR_RANGE_BOUNDS_CHANGED: {
     actions: ['applyColorRangeBounds'],
   },

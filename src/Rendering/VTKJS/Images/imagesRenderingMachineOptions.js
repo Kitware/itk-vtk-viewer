@@ -24,6 +24,7 @@ import applyLabelNames from './applyLabelNames'
 import applyLabelImageWeights from './applyLabelImageWeights'
 import applySelectedLabel from './applySelectedLabel'
 import mapToPiecewiseFunctionNodes from './mapToPiecewiseFunctionNodes'
+import mapToColorFunctionRange from './mapToColorFunctionRange'
 import { getBoundsOfFullImage } from '../Main/croppingPlanes'
 import { computeRenderedBounds } from '../Main/computeRenderedBounds'
 import { applyCinematicChanged } from './applyCinematicChanged'
@@ -105,6 +106,7 @@ const imagesRenderingMachineOptions = {
       applyColorRangeBounds,
       applyColorMap,
       mapToPiecewiseFunctionNodes,
+      mapToColorFunctionRange,
 
       toggleInterpolation,
       applyShadow,

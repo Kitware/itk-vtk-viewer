@@ -12,6 +12,8 @@ const updateHistogramWorkerPool = webWorkerPromiseWorkerPool(
   'updateHistogram'
 )
 
+const BIN_COUNT_DEFAULT = 256
+
 export const computeHistogram = async (
   values,
   component,
@@ -20,16 +22,12 @@ export const computeHistogram = async (
 ) => {
   const numberOfSplits = numberOfWorkers
 
-  let numberOfBins = 256
-  if (
-    typeof values !== typeof Float32Array ||
-    typeof values !== typeof Float64Array
-  ) {
-    const intBins = max - min + 1
-    if (intBins < numberOfBins) {
-      numberOfBins = intBins
-    }
-  }
+  const isFloatValues =
+    values instanceof Float32Array || values instanceof Float64Array
+  const numberOfBins = isFloatValues
+    ? BIN_COUNT_DEFAULT
+    : // only need a bin for each possible integer value
+      Math.min(max - min + 1, BIN_COUNT_DEFAULT)
 
   const taskArgs = new Array(numberOfSplits)
   if (haveSharedArrayBuffer && values.buffer instanceof SharedArrayBuffer) {

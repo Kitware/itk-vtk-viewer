@@ -145,6 +145,7 @@ const imagesRenderingMachineOptions = {
       const fusedImage = actorContext.fusedImage
       if (!fusedImage) {
         console.warn('No image to download')
+        return
       }
       const itkImage = copyImage(convertVtkToItkImage(fusedImage, true))
       writeImageArrayBuffer(null, itkImage, fileName).then(

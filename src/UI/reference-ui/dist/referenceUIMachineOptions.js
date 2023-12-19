@@ -10806,6 +10806,7 @@ var extensionToImageIo = new Map([
 
 var extensions = Array.from(extensionToImageIo.keys())
 
+var dialog
 function createLayerEntry(context, name, layer) {
   var layerEntry = document.createElement('div')
   layerEntry.setAttribute('class', style.layerEntryCommon)
@@ -10918,45 +10919,48 @@ function createLayerEntry(context, name, layer) {
     var actorContext = context.layers.actorContext.get(name)
     layerBBoxButtonInput.checked = actorContext.bbox
   })
-  var dialog = makeHtml(
-    '\n    <md-dialog class="'
-      .concat(
-        style.saveDialog,
-        '">\n      <div slot="headline">Save file format</div>\n      <form id="save-form" slot="content" method="dialog">\n        '
-      )
-      .concat(
-        extensions
-          .map(function(extension, i) {
-            return '<label>\n                <md-radio name="format" value="'
-              .concat(extension, '" ')
-              .concat(
-                i === 0 ? 'checked' : '',
-                ' touch-target="wrapper"></md-radio>\n                <span aria-hidden="true">'
-              )
-              .concat(extension, '</span>\n              </label>')
-          })
-          .join(''),
-        '\n      </form>\n      <div slot="actions">\n        <md-text-button form="save-form" value="cancel">Cancel</md-text-button>\n        <md-text-button form="save-form" autofocus value="ok">OK</md-text-button>\n      </div>\n    </md-dialog>\n  '
-      )
-  )
-  imageIcons.appendChild(dialog)
-  dialog.addEventListener('close', function() {
-    var okClicked = dialog.returnValue === 'ok'
-    if (okClicked) {
-      var radios = document.querySelectorAll('md-radio[name=format]')
-      var format = Array.from(radios).find(function(radio) {
-        return radio.checked
-      }).value
-      context.service.send({
-        type: 'DOWNLOAD_IMAGE',
-        data: {
-          name: context.images.selectedName,
-          layerName: name,
-          format: format,
-        },
-      })
-    }
-  })
+
+  // There can only be one dialog in app?  OK/Cancel buttons don't work if multiple layers...
+  if (!dialog) {
+    dialog = makeHtml(
+      '\n    <md-dialog class="'
+        .concat(
+          style.saveDialog,
+          '">\n      <div slot="headline">Save file format</div>\n      <form id="save-form" slot="content" method="dialog">\n        '
+        )
+        .concat(
+          extensions
+            .map(function(extension, i) {
+              return '<label>\n                <md-radio name="format" value="'
+                .concat(extension, '" ')
+                .concat(
+                  i === 0 ? 'checked' : '',
+                  ' touch-target="wrapper"></md-radio>\n                <span aria-hidden="true">'
+                )
+                .concat(extension, '</span>\n              </label>')
+            })
+            .join(''),
+          '\n      </form>\n      <div slot="actions">\n        <md-text-button form="save-form" value="cancel">Cancel</md-text-button>\n        <md-text-button form="save-form" autofocus value="ok">OK</md-text-button>\n      </div>\n    </md-dialog>\n  '
+        )
+    )
+    dialog.addEventListener('close', function() {
+      var okClicked = dialog.returnValue === 'ok'
+      if (okClicked) {
+        var radios = document.querySelectorAll('md-radio[name=format]')
+        var format = Array.from(radios).find(function(radio) {
+          return radio.checked
+        }).value
+        context.service.send({
+          type: 'DOWNLOAD_IMAGE',
+          data: {
+            name: context.images.selectedName,
+            format: format,
+          },
+        })
+      }
+    })
+    imageIcons.appendChild(dialog)
+  }
   var downloadImage = document.createElement('div')
   downloadImage.innerHTML = '\n  <input type="checkbox" checked id='
     .concat(context.id, '-download-image" class="')
@@ -10979,7 +10983,6 @@ function createLayerEntry(context, name, layer) {
   )
   imageIcons.appendChild(downloadImage)
   downloadImage.addEventListener('click', function(event) {
-    event.preventDefault()
     event.stopPropagation()
     dialog.show()
   })

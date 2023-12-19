@@ -1,7 +1,7 @@
 function applyPiecewiseFunction(context, event) {
   const name = event.data.name
   const component = event.data.component
-  const range = event.data.range
+  // const range = event.data.range
   const nodes = event.data.nodes
 
   const actorContext = context.images.actorContext.get(name)
@@ -16,12 +16,6 @@ function applyPiecewiseFunction(context, event) {
 
     const sliceNodes = nodes.length > 2 ? nodes.slice(1, -1) : nodes // if more than 2, remove "window" nodes with y = 0
     slicePiecewiseFunction.setNodes(sliceNodes)
-
-    const colorTransferFunction = context.images.colorTransferFunctions.get(
-      component
-    )
-    colorTransferFunction.setMappingRange(...range)
-    colorTransferFunction.updateRange()
 
     context.service.send('RENDER')
   }

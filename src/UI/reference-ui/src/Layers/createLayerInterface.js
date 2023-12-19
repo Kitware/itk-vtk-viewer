@@ -14,6 +14,8 @@ import { makeHtml } from '../utils'
 import './layerIcon.js'
 import { extensions } from './extensionToImageIo.js'
 
+let dialog
+
 function createLayerEntry(context, name, layer) {
   const layerEntry = document.createElement('div')
   layerEntry.setAttribute('class', style.layerEntryCommon)
@@ -103,7 +105,9 @@ function createLayerEntry(context, name, layer) {
     layerBBoxButtonInput.checked = actorContext.bbox
   })
 
-  const dialog = makeHtml(`
+  // There can only be one dialog in app?  OK/Cancel buttons don't work if multiple layers...
+  if (!dialog) {
+    dialog = makeHtml(`
     <md-dialog class="${style.saveDialog}">
       <div slot="headline">Save file format</div>
       <form id="save-form" slot="content" method="dialog">
@@ -125,25 +129,23 @@ function createLayerEntry(context, name, layer) {
       </div>
     </md-dialog>
   `)
+    dialog.addEventListener('close', () => {
+      const okClicked = dialog.returnValue === 'ok'
 
-  imageIcons.appendChild(dialog)
-
-  dialog.addEventListener('close', () => {
-    const okClicked = dialog.returnValue === 'ok'
-
-    if (okClicked) {
-      const radios = document.querySelectorAll('md-radio[name=format]')
-      const format = Array.from(radios).find(radio => radio.checked).value
-      context.service.send({
-        type: 'DOWNLOAD_IMAGE',
-        data: {
-          name: context.images.selectedName,
-          layerName: name,
-          format,
-        },
-      })
-    }
-  })
+      if (okClicked) {
+        const radios = document.querySelectorAll('md-radio[name=format]')
+        const format = Array.from(radios).find(radio => radio.checked).value
+        context.service.send({
+          type: 'DOWNLOAD_IMAGE',
+          data: {
+            name: context.images.selectedName,
+            format,
+          },
+        })
+      }
+    })
+    imageIcons.appendChild(dialog)
+  }
 
   const downloadImage = document.createElement('div')
   downloadImage.innerHTML = `
@@ -161,7 +163,6 @@ function createLayerEntry(context, name, layer) {
   )
   imageIcons.appendChild(downloadImage)
   downloadImage.addEventListener('click', event => {
-    event.preventDefault()
     event.stopPropagation()
     dialog.show()
   })

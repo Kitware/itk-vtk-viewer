@@ -2780,7 +2780,7 @@ class n$d {
     return this.cssText
   }
 }
-const r$b = t => new n$d('string' == typeof t ? t : t + '', void 0, s$b),
+const r$c = t => new n$d('string' == typeof t ? t : t + '', void 0, s$b),
   i$8 = (t, ...e) => {
     const o =
       1 === t.length
@@ -2823,7 +2823,7 @@ const r$b = t => new n$d('string' == typeof t ? t : t + '', void 0, s$b),
           ? (t => {
               let e = ''
               for (const s of t.cssRules) e += s.cssText
-              return r$b(e)
+              return r$c(e)
             })(t)
           : t
 
@@ -2834,7 +2834,7 @@ const r$b = t => new n$d('string' == typeof t ? t : t + '', void 0, s$b),
  */ const {
     is: i$7,
     defineProperty: e$i,
-    getOwnPropertyDescriptor: r$a,
+    getOwnPropertyDescriptor: r$b,
     getOwnPropertyNames: h$5,
     getOwnPropertySymbols: o$e,
     getPrototypeOf: n$c,
@@ -2886,7 +2886,7 @@ const r$b = t => new n$d('string' == typeof t ? t : t + '', void 0, s$b),
   }
 ;(Symbol.metadata ??= Symbol('metadata')),
   (a$4.litPropertyMetadata ??= new WeakMap())
-class b$1 extends HTMLElement {
+class b$2 extends HTMLElement {
   static addInitializer(t) {
     this._$Ei(), (this.l ??= []).push(t)
   }
@@ -2906,7 +2906,7 @@ class b$1 extends HTMLElement {
     }
   }
   static getPropertyDescriptor(t, s, i) {
-    const { get: e, set: h } = r$a(this.prototype, t) ?? {
+    const { get: e, set: h } = r$b(this.prototype, t) ?? {
       get() {
         return this[s]
       },
@@ -3133,11 +3133,11 @@ class b$1 extends HTMLElement {
   updated(t) {}
   firstUpdated(t) {}
 }
-;(b$1.elementStyles = []),
-  (b$1.shadowRootOptions = { mode: 'open' }),
-  (b$1[d$3('elementProperties')] = new Map()),
-  (b$1[d$3('finalized')] = new Map()),
-  p$2?.({ ReactiveElement: b$1 }),
+;(b$2.elementStyles = []),
+  (b$2.shadowRootOptions = { mode: 'open' }),
+  (b$2[d$3('elementProperties')] = new Map()),
+  (b$2[d$3('finalized')] = new Map()),
+  p$2?.({ ReactiveElement: b$2 }),
   (a$4.reactiveElementVersions ??= []).push('2.0.2')
 
 /**
@@ -3151,7 +3151,7 @@ class b$1 extends HTMLElement {
     reflect: !1,
     hasChanged: f$2,
   },
-  r$9 = (t = o$d, e, r) => {
+  r$a = (t = o$d, e, r) => {
     const { kind: n, metadata: i } = r
     let s = globalThis.litPropertyMetadata.get(i)
     if (
@@ -3182,7 +3182,7 @@ class b$1 extends HTMLElement {
 function n$b(t) {
   return (e, o) =>
     'object' == typeof o
-      ? r$9(t, e, o)
+      ? r$a(t, e, o)
       : ((t, e, o) => {
           const r = e.hasOwnProperty(o)
           return (
@@ -3196,7 +3196,7 @@ function n$b(t) {
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ function r$8(r) {
+ */ function r$9(r) {
   return n$b({ ...r, state: !0, attribute: !1 })
 }
 
@@ -3261,7 +3261,7 @@ const e$h = (e, t, c) => (
  * SPDX-License-Identifier: BSD-3-Clause
  */
 let e$f
-function r$7(r) {
+function r$8(r) {
   return (n, o) =>
     e$h(n, o, {
       get() {
@@ -3302,15 +3302,15 @@ const t$7 = globalThis,
   h$4 = `lit$${(Math.random() + '').slice(9)}$`,
   o$b = '?' + h$4,
   n$a = `<${o$b}>`,
-  r$6 = document,
-  l$5 = () => r$6.createComment(''),
+  r$7 = document,
+  l$5 = () => r$7.createComment(''),
   c$3 = t => null === t || ('object' != typeof t && 'function' != typeof t),
   a$3 = Array.isArray,
   u$1 = t => a$3(t) || 'function' == typeof t?.[Symbol.iterator],
   d$2 = '[ \t\n\f\r]',
   f$1 = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
   v$1 = /-->/g,
-  _$1 = />/g,
+  _$2 = />/g,
   m$1 = RegExp(
     `>|${d$2}(?:([^\\s"'>=/]+)(${d$2}*=${d$2}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,
     'g'
@@ -3319,11 +3319,11 @@ const t$7 = globalThis,
   g$1 = /"/g,
   $$1 = /^(?:script|style|textarea|title)$/i,
   y$1 = t => (i, ...s) => ({ _$litType$: t, strings: i, values: s }),
-  x$1 = y$1(1),
+  x$2 = y$1(1),
   w = Symbol.for('lit-noChange'),
   T$1 = Symbol.for('lit-nothing'),
   A$1 = new WeakMap(),
-  E$1 = r$6.createTreeWalker(r$6, 129)
+  E$1 = r$7.createTreeWalker(r$7, 129)
 function C$1(t, i) {
   if (!Array.isArray(t) || !t.hasOwnProperty('raw'))
     throw Error('invalid template strings array')
@@ -3347,7 +3347,7 @@ const P$1 = (t, i) => {
           ? '!--' === u[1]
             ? (c = v$1)
             : void 0 !== u[1]
-            ? (c = _$1)
+            ? (c = _$2)
             : void 0 !== u[2]
             ? ($$1.test(u[2]) && (r = RegExp('</' + u[2], 'g')), (c = m$1))
             : void 0 !== u[3] && (c = m$1)
@@ -3361,7 +3361,7 @@ const P$1 = (t, i) => {
               (c = void 0 === u[3] ? m$1 : '"' === u[3] ? g$1 : p$1))
           : c === g$1 || c === p$1
           ? (c = m$1)
-          : c === v$1 || c === _$1
+          : c === v$1 || c === _$2
           ? (c = f$1)
           : ((c = m$1), (r = void 0))
     const x = c === m$1 && t[i + 1].startsWith('/>') ? ' ' : ''
@@ -3374,7 +3374,7 @@ const P$1 = (t, i) => {
   }
   return [C$1(t, l + (t[s] || '<?>') + (2 === i ? '</svg>' : '')), o]
 }
-class V$1 {
+class V$2 {
   constructor({ strings: t, _$litType$: s }, n) {
     let r
     this.parts = []
@@ -3384,7 +3384,7 @@ class V$1 {
       d = this.parts,
       [f, v] = P$1(t, s)
     if (
-      ((this.el = V$1.createElement(f, n)),
+      ((this.el = V$2.createElement(f, n)),
       (E$1.currentNode = this.el.content),
       2 === s)
     ) {
@@ -3406,9 +3406,9 @@ class V$1 {
                 strings: s,
                 ctor:
                   '.' === e[1]
-                    ? k$1
+                    ? k$2
                     : '?' === e[1]
-                    ? H$1
+                    ? H$2
                     : '@' === e[1]
                     ? I$1
                     : R$1,
@@ -3440,11 +3440,11 @@ class V$1 {
     }
   }
   static createElement(t, i) {
-    const s = r$6.createElement('template')
+    const s = r$7.createElement('template')
     return (s.innerHTML = t), s
   }
 }
-function N$1(t, i, s = t, e) {
+function N$2(t, i, s = t, e) {
   if (i === w) return i
   let h = void 0 !== e ? s._$Co?.[e] : s._$Cl
   const o = c$3(i) ? void 0 : i._$litDirective$
@@ -3453,7 +3453,7 @@ function N$1(t, i, s = t, e) {
       (h?._$AO?.(!1),
       void 0 === o ? (h = void 0) : ((h = new o(t)), h._$AT(t, s, e)),
       void 0 !== e ? ((s._$Co ??= [])[e] = h) : (s._$Cl = h)),
-    void 0 !== h && (i = N$1(t, h._$AS(t, i.values), h, e)),
+    void 0 !== h && (i = N$2(t, h._$AS(t, i.values), h, e)),
     i
   )
 }
@@ -3472,7 +3472,7 @@ class S$2 {
         el: { content: i },
         parts: s,
       } = this._$AD,
-      e = (t?.creationScope ?? r$6).importNode(i, !0)
+      e = (t?.creationScope ?? r$7).importNode(i, !0)
     E$1.currentNode = e
     let h = E$1.nextNode(),
       o = 0,
@@ -3491,7 +3491,7 @@ class S$2 {
       }
       o !== l?.index && ((h = E$1.nextNode()), o++)
     }
-    return (E$1.currentNode = r$6), e
+    return (E$1.currentNode = r$7), e
   }
   p(t) {
     let i = 0
@@ -3529,7 +3529,7 @@ class M$1 {
     return this._$AB
   }
   _$AI(t, i = this) {
-    ;(t = N$1(this, t, i)),
+    ;(t = N$2(this, t, i)),
       c$3(t)
         ? t === T$1 || null == t || '' === t
           ? (this._$AH !== T$1 && this._$AR(), (this._$AH = T$1))
@@ -3551,7 +3551,7 @@ class M$1 {
   _(t) {
     this._$AH !== T$1 && c$3(this._$AH)
       ? (this._$AA.nextSibling.data = t)
-      : this.$(r$6.createTextNode(t)),
+      : this.$(r$7.createTextNode(t)),
       (this._$AH = t)
   }
   g(t) {
@@ -3560,7 +3560,7 @@ class M$1 {
         'number' == typeof s
           ? this._$AC(t)
           : (void 0 === s.el &&
-              (s.el = V$1.createElement(C$1(s.h, s.h[0]), this.options)),
+              (s.el = V$2.createElement(C$1(s.h, s.h[0]), this.options)),
             s)
     if (this._$AH?._$AD === e) this._$AH.p(i)
     else {
@@ -3571,7 +3571,7 @@ class M$1 {
   }
   _$AC(t) {
     let i = A$1.get(t.strings)
-    return void 0 === i && A$1.set(t.strings, (i = new V$1(t))), i
+    return void 0 === i && A$1.set(t.strings, (i = new V$2(t))), i
   }
   T(t) {
     a$3(this._$AH) || ((this._$AH = []), this._$AR())
@@ -3622,14 +3622,14 @@ class R$1 {
     const h = this.strings
     let o = !1
     if (void 0 === h)
-      (t = N$1(this, t, i, 0)),
+      (t = N$2(this, t, i, 0)),
         (o = !c$3(t) || (t !== this._$AH && t !== w)),
         o && (this._$AH = t)
     else {
       const e = t
       let n, r
       for (t = h[0], n = 0; n < h.length - 1; n++)
-        (r = N$1(this, e[s + n], i, n)),
+        (r = N$2(this, e[s + n], i, n)),
           r === w && (r = this._$AH[n]),
           (o ||= !c$3(r) || r !== this._$AH[n]),
           r === T$1 ? (t = T$1) : t !== T$1 && (t += (r ?? '') + h[n + 1]),
@@ -3643,7 +3643,7 @@ class R$1 {
       : this.element.setAttribute(this.name, t ?? '')
   }
 }
-class k$1 extends R$1 {
+class k$2 extends R$1 {
   constructor() {
     super(...arguments), (this.type = 3)
   }
@@ -3651,7 +3651,7 @@ class k$1 extends R$1 {
     this.element[this.name] = t === T$1 ? void 0 : t
   }
 }
-class H$1 extends R$1 {
+class H$2 extends R$1 {
   constructor() {
     super(...arguments), (this.type = 4)
   }
@@ -3664,7 +3664,7 @@ class I$1 extends R$1 {
     super(t, i, s, e, h), (this.type = 5)
   }
   _$AI(t, i = this) {
-    if ((t = N$1(this, t, i, 0) ?? T$1) === w) return
+    if ((t = N$2(this, t, i, 0) ?? T$1) === w) return
     const s = this._$AH,
       e =
         (t === T$1 && s !== T$1) ||
@@ -3694,11 +3694,11 @@ class L {
     return this._$AM._$AU
   }
   _$AI(t) {
-    N$1(this, t)
+    N$2(this, t)
   }
 }
-const Z$1 = t$7.litHtmlPolyfillSupport
-Z$1?.(V$1, M$1), (t$7.litHtmlVersions ??= []).push('3.1.0')
+const Z$2 = t$7.litHtmlPolyfillSupport
+Z$2?.(V$2, M$1), (t$7.litHtmlVersions ??= []).push('3.1.0')
 const j = (t, i, s) => {
   const e = s?.renderBefore ?? i
   let h = e._$litPart$
@@ -3713,7 +3713,7 @@ const j = (t, i, s) => {
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */ class s$9 extends b$1 {
+ */ class s$9 extends b$2 {
   constructor() {
     super(...arguments),
       (this.renderOptions = { host: this }),
@@ -3742,8 +3742,8 @@ const j = (t, i, s) => {
 ;(s$9._$litElement$ = !0),
   (s$9['finalized'] = !0),
   globalThis.litElementHydrateSupport?.({ LitElement: s$9 })
-const r$5 = globalThis.litElementPolyfillSupport
-r$5?.({ LitElement: s$9 })
+const r$6 = globalThis.litElementPolyfillSupport
+r$6?.({ LitElement: s$9 })
 ;(globalThis.litElementVersions ??= []).push('4.0.2')
 
 /**
@@ -4670,7 +4670,7 @@ class Dialog extends s$9 {
       'show-bottom-divider': scrollable && !this.isAtScrollBottom,
     }
     const { ariaLabel } = this
-    return x$1`
+    return x$2`
       <div class="scrim"></div>
       <dialog
         class=${e$c(classes)}
@@ -4839,14 +4839,14 @@ __decorate([e$g('.container')], Dialog.prototype, 'container', void 0)
 __decorate([e$g('.headline')], Dialog.prototype, 'headline', void 0)
 __decorate([e$g('.content')], Dialog.prototype, 'content', void 0)
 __decorate([e$g('.actions')], Dialog.prototype, 'actions', void 0)
-__decorate([r$8()], Dialog.prototype, 'isAtScrollTop', void 0)
-__decorate([r$8()], Dialog.prototype, 'isAtScrollBottom', void 0)
+__decorate([r$9()], Dialog.prototype, 'isAtScrollTop', void 0)
+__decorate([r$9()], Dialog.prototype, 'isAtScrollBottom', void 0)
 __decorate([e$g('.scroller')], Dialog.prototype, 'scroller', void 0)
 __decorate([e$g('.top.anchor')], Dialog.prototype, 'topAnchor', void 0)
 __decorate([e$g('.bottom.anchor')], Dialog.prototype, 'bottomAnchor', void 0)
-__decorate([r$8()], Dialog.prototype, 'hasHeadline', void 0)
-__decorate([r$8()], Dialog.prototype, 'hasActions', void 0)
-__decorate([r$8()], Dialog.prototype, 'hasIcon', void 0)
+__decorate([r$9()], Dialog.prototype, 'hasHeadline', void 0)
+__decorate([r$9()], Dialog.prototype, 'hasActions', void 0)
+__decorate([r$9()], Dialog.prototype, 'hasIcon', void 0)
 
 /**
  * @license
@@ -5149,7 +5149,7 @@ MdFocusRing = __decorate([t$9('md-focus-ring')], MdFocusRing)
 const PRESS_GROW_MS = 450
 const MINIMUM_PRESS_MS = 225
 const INITIAL_ORIGIN_SCALE = 0.2
-const PADDING$1 = 10
+const PADDING = 10
 const SOFT_EDGE_MINIMUM_SIZE = 75
 const SOFT_EDGE_CONTAINER_RATIO = 0.35
 const PRESS_PSEUDO = '::after'
@@ -5267,7 +5267,7 @@ class Ripple extends s$9 {
       hovered: this.hovered,
       pressed: this.pressed,
     }
-    return x$1`<div class="surface ${e$c(classes)}"></div>`
+    return x$2`<div class="surface ${e$c(classes)}"></div>`
   }
   update(changedProps) {
     if (changedProps.has('disabled') && this.disabled) {
@@ -5380,7 +5380,7 @@ class Ripple extends s$9 {
     )
     const initialSize = Math.floor(maxDim * INITIAL_ORIGIN_SCALE)
     const hypotenuse = Math.sqrt(width ** 2 + height ** 2)
-    const maxRadius = hypotenuse + PADDING$1
+    const maxRadius = hypotenuse + PADDING
     this.initialSize = initialSize
     this.rippleScale = `${(maxRadius + softEdgeSize) / initialSize}`
     this.rippleSize = `${initialSize}px`
@@ -5546,8 +5546,8 @@ __decorate(
   'disabled',
   void 0
 )
-__decorate([r$8()], Ripple.prototype, 'hovered', void 0)
-__decorate([r$8()], Ripple.prototype, 'pressed', void 0)
+__decorate([r$9()], Ripple.prototype, 'hovered', void 0)
+__decorate([r$9()], Ripple.prototype, 'pressed', void 0)
 __decorate([e$g('.surface')], Ripple.prototype, 'mdRoot', void 0)
 
 /**
@@ -5623,7 +5623,7 @@ MdRipple = __decorate([t$9('md-ripple')], MdRipple)
     }
     return t(r, ...e)
   },
-  n$9 = l$4(x$1)
+  n$9 = l$4(x$2)
 
 /**
  * @license
@@ -5814,8 +5814,8 @@ class Button extends s$9 {
   renderContent() {
     // Link buttons may not be disabled
     const isDisabled = this.disabled && !this.href
-    const icon = x$1`<slot name="icon" @slotchange="${this.handleSlotChange}"></slot>`
-    return x$1`
+    const icon = x$2`<slot name="icon" @slotchange="${this.handleSlotChange}"></slot>`
+    return x$2`
       ${this.renderElevation?.()}
       ${this.renderOutline?.()}
       <md-focus-ring part="focus-ring"></md-focus-ring>
@@ -6194,7 +6194,7 @@ class Radio extends s$9 {
   }
   render() {
     const classes = { checked: this.checked }
-    return x$1`
+    return x$2`
       <div class="container ${e$c(classes)}" aria-hidden="true">
         <md-ripple part="ripple" .control=${this}
             ?disabled=${this.disabled}></md-ripple>
@@ -6346,7 +6346,7 @@ class o$9 {
     return this.cssText
   }
 }
-const r$4 = t => new o$9('string' == typeof t ? t : t + '', void 0, s$7),
+const r$5 = t => new o$9('string' == typeof t ? t : t + '', void 0, s$7),
   i$4 = (t, ...e) => {
     const n =
       1 === t.length
@@ -6388,7 +6388,7 @@ const r$4 = t => new o$9('string' == typeof t ? t : t + '', void 0, s$7),
           ? (t => {
               let e = ''
               for (const s of t.cssRules) e += s.cssText
-              return r$4(e)
+              return r$5(e)
             })(t)
           : t
 
@@ -6398,8 +6398,8 @@ const r$4 = t => new o$9('string' == typeof t ? t : t + '', void 0, s$7),
  * SPDX-License-Identifier: BSD-3-Clause
  */ var s$6
 const e$9 = window,
-  r$3 = e$9.trustedTypes,
-  h$3 = r$3 ? r$3.emptyScript : '',
+  r$4 = e$9.trustedTypes,
+  h$3 = r$4 ? r$4.emptyScript : '',
   o$8 = e$9.reactiveElementPolyfillSupport,
   n$7 = {
     toAttribute(t, i) {
@@ -6741,7 +6741,7 @@ const i$3 = window,
   n$6 = '?' + o$7,
   l$2 = `<${n$6}>`,
   h$2 = document,
-  r$2 = (t = '') => h$2.createComment(t),
+  r$3 = (t = '') => h$2.createComment(t),
   d = t => null === t || ('object' != typeof t && 'function' != typeof t),
   u = Array.isArray,
   c$1 = t =>
@@ -6749,7 +6749,7 @@ const i$3 = window,
   v = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
   a = /-->/g,
   f = />/g,
-  _ = RegExp(
+  _$1 = RegExp(
     '>|[ \t\n\f\r](?:([^\\s"\'>=/]+)([ \t\n\f\r]*=[ \t\n\f\r]*(?:[^ \t\n\f\r"\'`<>=]|("|\')|))|$)',
     'g'
   ),
@@ -6758,8 +6758,8 @@ const i$3 = window,
   $ = /^(?:script|style|textarea|title)$/i,
   g = t => (i, ...s) => ({ _$litType$: t, strings: i, values: s }),
   y = g(1),
-  x = Symbol.for('lit-noChange'),
-  b = Symbol.for('lit-nothing'),
+  x$1 = Symbol.for('lit-noChange'),
+  b$1 = Symbol.for('lit-nothing'),
   T = new WeakMap(),
   A = h$2.createTreeWalker(h$2, 129, null, !1),
   E = (t, i) => {
@@ -6782,22 +6782,22 @@ const i$3 = window,
               : void 0 !== u[1]
               ? (d = f)
               : void 0 !== u[2]
-              ? ($.test(u[2]) && (h = RegExp('</' + u[2], 'g')), (d = _))
-              : void 0 !== u[3] && (d = _)
-            : d === _
+              ? ($.test(u[2]) && (h = RegExp('</' + u[2], 'g')), (d = _$1))
+              : void 0 !== u[3] && (d = _$1)
+            : d === _$1
             ? '>' === u[0]
               ? ((d = null != h ? h : v), (c = -1))
               : void 0 === u[1]
               ? (c = -2)
               : ((c = d.lastIndex - u[2].length),
                 (e = u[1]),
-                (d = void 0 === u[3] ? _ : '"' === u[3] ? p : m))
+                (d = void 0 === u[3] ? _$1 : '"' === u[3] ? p : m))
             : d === p || d === m
-            ? (d = _)
+            ? (d = _$1)
             : d === a || d === f
             ? (d = v)
-            : ((d = _), (h = void 0))
-      const y = d === _ && t[i + 1].startsWith('/>') ? ' ' : ''
+            : ((d = _$1), (h = void 0))
+      const y = d === _$1 && t[i + 1].startsWith('/>') ? ' ' : ''
       r +=
         d === v
           ? s + l$2
@@ -6844,7 +6844,13 @@ class C {
                   name: i[2],
                   strings: t,
                   ctor:
-                    '.' === i[1] ? M : '?' === i[1] ? k : '@' === i[1] ? H : S,
+                    '.' === i[1]
+                      ? M
+                      : '?' === i[1]
+                      ? k$1
+                      : '@' === i[1]
+                      ? H$1
+                      : S,
                 })
               } else c.push({ type: 6, index: h })
             }
@@ -6856,10 +6862,10 @@ class C {
           if (i > 0) {
             l.textContent = s$5 ? s$5.emptyScript : ''
             for (let s = 0; s < i; s++)
-              l.append(t[s], r$2()),
+              l.append(t[s], r$3()),
                 A.nextNode(),
                 c.push({ type: 2, index: ++h })
-            l.append(t[i], r$2())
+            l.append(t[i], r$3())
           }
         }
       } else if (8 === l.nodeType)
@@ -6879,7 +6885,7 @@ class C {
 }
 function P(t, i, s = t, e) {
   var o, n, l, h
-  if (i === x) return i
+  if (i === x$1) return i
   let r =
     void 0 !== e
       ? null === (o = s._$Co) || void 0 === o
@@ -6902,7 +6908,7 @@ function P(t, i, s = t, e) {
     i
   )
 }
-class V {
+class V$1 {
   constructor(t, i) {
     ;(this.u = []), (this._$AN = void 0), (this._$AD = t), (this._$AM = i)
   }
@@ -6931,7 +6937,7 @@ class V {
       if (l === d.index) {
         let i
         2 === d.type
-          ? (i = new N(n, n.nextSibling, this, t))
+          ? (i = new N$1(n, n.nextSibling, this, t))
           : 1 === d.type
           ? (i = new d.ctor(n, d.name, d.strings, this, t))
           : 6 === d.type && (i = new I(n, this, t)),
@@ -6952,11 +6958,11 @@ class V {
         i++
   }
 }
-class N {
+class N$1 {
   constructor(t, i, s, e) {
     var o
     ;(this.type = 2),
-      (this._$AH = b),
+      (this._$AH = b$1),
       (this._$AN = void 0),
       (this._$AA = t),
       (this._$AB = i),
@@ -6987,9 +6993,9 @@ class N {
   _$AI(t, i = this) {
     ;(t = P(this, t, i)),
       d(t)
-        ? t === b || null == t || '' === t
-          ? (this._$AH !== b && this._$AR(), (this._$AH = b))
-          : t !== this._$AH && t !== x && this.g(t)
+        ? t === b$1 || null == t || '' === t
+          ? (this._$AH !== b$1 && this._$AR(), (this._$AH = b$1))
+          : t !== this._$AH && t !== x$1 && this.g(t)
         : void 0 !== t._$litType$
         ? this.$(t)
         : void 0 !== t.nodeType
@@ -7005,7 +7011,7 @@ class N {
     this._$AH !== t && (this._$AR(), (this._$AH = this.O(t)))
   }
   g(t) {
-    this._$AH !== b && d(this._$AH)
+    this._$AH !== b$1 && d(this._$AH)
       ? (this._$AA.nextSibling.data = t)
       : this.T(h$2.createTextNode(t)),
       (this._$AH = t)
@@ -7020,7 +7026,7 @@ class N {
     if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o)
       this._$AH.p(s)
     else {
-      const t = new V(o, this),
+      const t = new V$1(o, this),
         i = t.v(this.options)
       t.p(s), this.T(i), (this._$AH = t)
     }
@@ -7036,7 +7042,9 @@ class N {
       e = 0
     for (const o of t)
       e === i.length
-        ? i.push((s = new N(this.O(r$2()), this.O(r$2()), this, this.options)))
+        ? i.push(
+            (s = new N$1(this.O(r$3()), this.O(r$3()), this, this.options))
+          )
         : (s = i[e]),
         s._$AI(o),
         e++
@@ -7063,7 +7071,7 @@ class N {
 class S {
   constructor(t, i, s, e, o) {
     ;(this.type = 1),
-      (this._$AH = b),
+      (this._$AH = b$1),
       (this._$AN = void 0),
       (this.element = t),
       (this.name = i),
@@ -7072,7 +7080,7 @@ class S {
       s.length > 2 || '' !== s[0] || '' !== s[1]
         ? ((this._$AH = Array(s.length - 1).fill(new String())),
           (this.strings = s))
-        : (this._$AH = b)
+        : (this._$AH = b$1)
   }
   get tagName() {
     return this.element.tagName
@@ -7085,22 +7093,24 @@ class S {
     let n = !1
     if (void 0 === o)
       (t = P(this, t, i, 0)),
-        (n = !d(t) || (t !== this._$AH && t !== x)),
+        (n = !d(t) || (t !== this._$AH && t !== x$1)),
         n && (this._$AH = t)
     else {
       const e = t
       let l, h
       for (t = o[0], l = 0; l < o.length - 1; l++)
         (h = P(this, e[s + l], i, l)),
-          h === x && (h = this._$AH[l]),
+          h === x$1 && (h = this._$AH[l]),
           n || (n = !d(h) || h !== this._$AH[l]),
-          h === b ? (t = b) : t !== b && (t += (null != h ? h : '') + o[l + 1]),
+          h === b$1
+            ? (t = b$1)
+            : t !== b$1 && (t += (null != h ? h : '') + o[l + 1]),
           (this._$AH[l] = h)
     }
     n && !e && this.j(t)
   }
   j(t) {
-    t === b
+    t === b$1
       ? this.element.removeAttribute(this.name)
       : this.element.setAttribute(this.name, null != t ? t : '')
   }
@@ -7110,35 +7120,35 @@ class M extends S {
     super(...arguments), (this.type = 3)
   }
   j(t) {
-    this.element[this.name] = t === b ? void 0 : t
+    this.element[this.name] = t === b$1 ? void 0 : t
   }
 }
 const R = s$5 ? s$5.emptyScript : ''
-class k extends S {
+class k$1 extends S {
   constructor() {
     super(...arguments), (this.type = 4)
   }
   j(t) {
-    t && t !== b
+    t && t !== b$1
       ? this.element.setAttribute(this.name, R)
       : this.element.removeAttribute(this.name)
   }
 }
-class H extends S {
+class H$1 extends S {
   constructor(t, i, s, e, o) {
     super(t, i, s, e, o), (this.type = 5)
   }
   _$AI(t, i = this) {
     var s
-    if ((t = null !== (s = P(this, t, i, 0)) && void 0 !== s ? s : b) === x)
+    if ((t = null !== (s = P(this, t, i, 0)) && void 0 !== s ? s : b$1) === x$1)
       return
     const e = this._$AH,
       o =
-        (t === b && e !== b) ||
+        (t === b$1 && e !== b$1) ||
         t.capture !== e.capture ||
         t.once !== e.once ||
         t.passive !== e.passive,
-      n = t !== b && (e === b || o)
+      n = t !== b$1 && (e === b$1 || o)
     o && this.element.removeEventListener(this.name, this, e),
       n && this.element.addEventListener(this.name, this, t),
       (this._$AH = t)
@@ -7174,12 +7184,12 @@ class I {
   }
 }
 const z = i$3.litHtmlPolyfillSupport
-null == z || z(C, N),
+null == z || z(C, N$1),
   (null !== (t$4 = i$3.litHtmlVersions) && void 0 !== t$4
     ? t$4
     : (i$3.litHtmlVersions = [])
   ).push('2.6.1')
-const Z = (t, i, s) => {
+const Z$1 = (t, i, s) => {
   var e, o
   const n =
     null !== (e = null == s ? void 0 : s.renderBefore) && void 0 !== e ? e : i
@@ -7189,8 +7199,8 @@ const Z = (t, i, s) => {
       null !== (o = null == s ? void 0 : s.renderBefore) && void 0 !== o
         ? o
         : null
-    n._$litPart$ = l = new N(
-      i.insertBefore(r$2(), t),
+    n._$litPart$ = l = new N$1(
+      i.insertBefore(r$3(), t),
       t,
       void 0,
       null != s ? s : {}
@@ -7223,7 +7233,7 @@ class s$4 extends d$1 {
     const i = this.render()
     this.hasUpdated || (this.renderOptions.isConnected = this.isConnected),
       super.update(t),
-      (this._$Do = Z(i, this.renderRoot, this.renderOptions))
+      (this._$Do = Z$1(i, this.renderRoot, this.renderOptions))
   }
   connectedCallback() {
     var t
@@ -7236,7 +7246,7 @@ class s$4 extends d$1 {
       null === (t = this._$Do) || void 0 === t || t.setConnected(!1)
   }
   render() {
-    return x
+    return x$1
   }
 }
 ;(s$4.finalized = !0),
@@ -7577,11 +7587,11 @@ class e$5 extends t$2 {
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */ const e$3 = o$4,
-  r$1 = t$1
+  r$2 = t$1
 
 var context = /*#__PURE__*/ Object.freeze({
   __proto__: null,
-  contextProvided: r$1,
+  contextProvided: r$2,
   contextProvider: e$3,
   ContextEvent: s$3,
   createContext: n$3,
@@ -7789,7 +7799,7 @@ class i$1 {
       ;(e = t._$AN), e.delete(i), (i = t)
     } while (0 === (null == e ? void 0 : e.size))
   },
-  r = i => {
+  r$1 = i => {
     for (let t; (t = i._$AM); i = t) {
       let e = t._$AN
       if (void 0 === e) t._$AN = e = new Set()
@@ -7798,7 +7808,9 @@ class i$1 {
     }
   }
 function n$2(i) {
-  void 0 !== this._$AN ? (o$3(this), (this._$AM = i), r(this)) : (this._$AM = i)
+  void 0 !== this._$AN
+    ? (o$3(this), (this._$AM = i), r$1(this))
+    : (this._$AM = i)
 }
 function h$1(i, t = !1, e = 0) {
   const r = this._$AH,
@@ -7821,7 +7833,7 @@ class c extends i$1 {
     super(...arguments), (this._$AN = void 0)
   }
   _$AT(i, t, e) {
-    super._$AT(i, t, e), r(this), (this.isConnected = i._$AU)
+    super._$AT(i, t, e), r$1(this), (this.isConnected = i._$AU)
   }
   _$AO(i, t = !0) {
     var e, r
@@ -7853,7 +7865,7 @@ const h = new WeakMap(),
   n$1 = e$1(
     class extends c {
       render(t) {
-        return b
+        return b$1
       }
       update(t, [s]) {
         var e
@@ -7865,7 +7877,7 @@ const h = new WeakMap(),
             (this.dt =
               null === (e = t.options) || void 0 === e ? void 0 : e.host),
             this.rt((this.ct = t.element))),
-          b
+          b$1
         )
       }
       rt(i) {
@@ -7929,7 +7941,7 @@ class Elevation extends s$9 {
     this.setAttribute('aria-hidden', 'true')
   }
   render() {
-    return x$1`<span class="shadow"></span>`
+    return x$2`<span class="shadow"></span>`
   }
 }
 
@@ -9571,7 +9583,7 @@ class Menu extends s$9 {
    * Renders the positionable surface element and its contents.
    */
   renderSurface() {
-    return x$1`
+    return x$2`
        <div
           class="menu ${e$c(this.getSurfaceClasses())}"
           style=${o(this.menuPositionController.surfaceStyles)}>
@@ -9588,7 +9600,7 @@ class Menu extends s$9 {
    * Renders the menu items' slot
    */
   renderMenuItems() {
-    return x$1`<slot
+    return x$2`<slot
         @close-menu=${this.onCloseMenu}
         @deactivate-items=${this.onDeactivateItems}
         @request-activation=${this.onRequestActivation}
@@ -9602,7 +9614,7 @@ class Menu extends s$9 {
    * Renders the elevation component.
    */
   renderElevation() {
-    return x$1`<md-elevation part="elevation"></md-elevation>`
+    return x$2`<md-elevation part="elevation"></md-elevation>`
   }
   getSurfaceClasses() {
     return {
@@ -9970,7 +9982,7 @@ __decorate(
   void 0
 )
 __decorate([o$c({ flatten: true })], Menu.prototype, 'slotItems', void 0)
-__decorate([r$8()], Menu.prototype, 'typeaheadActive', void 0)
+__decorate([r$9()], Menu.prototype, 'typeaheadActive', void 0)
 
 /**
  * @license
@@ -10059,7 +10071,7 @@ class Item extends s$9 {
     this.multiline = false
   }
   render() {
-    return x$1`
+    return x$2`
       <slot name="container"></slot>
       <slot class="non-text" name="start"></slot>
       <div class="text">
@@ -10099,7 +10111,7 @@ __decorate(
   'multiline',
   void 0
 )
-__decorate([r$7('.text slot')], Item.prototype, 'textSlots', void 0)
+__decorate([r$8('.text slot')], Item.prototype, 'textSlots', void 0)
 function slotHasContent(slot) {
   for (const node of slot.assignedNodes({ flatten: true })) {
     // Assume there's content if there's an element slotted in
@@ -10355,7 +10367,7 @@ class MenuItemEl extends s$9 {
     this.menuItemController.setTypeaheadText(text)
   }
   render() {
-    return this.renderListItem(x$1`
+    return this.renderListItem(x$2`
       <md-item>
         <div slot="container">
           ${this.renderRipple()}
@@ -10412,7 +10424,7 @@ class MenuItemEl extends s$9 {
    * Handles rendering of the ripple element.
    */
   renderRipple() {
-    return x$1`
+    return x$2`
       <md-ripple
           part="ripple"
           for="item"
@@ -10422,7 +10434,7 @@ class MenuItemEl extends s$9 {
    * Handles rendering of the focus ring.
    */
   renderFocusRing() {
-    return x$1`
+    return x$2`
       <md-focus-ring
           part="focus-ring"
           for="item"
@@ -10441,7 +10453,7 @@ class MenuItemEl extends s$9 {
    * Handles rendering the headline and supporting text.
    */
   renderBody() {
-    return x$1`
+    return x$2`
       <slot></slot>
       <slot name="overline" slot="overline"></slot>
       <slot name="headline" slot="headline"></slot>
@@ -10794,6 +10806,7 @@ var extensionToImageIo = new Map([
 
 var extensions = Array.from(extensionToImageIo.keys())
 
+var dialog
 function createLayerEntry(context, name, layer) {
   var layerEntry = document.createElement('div')
   layerEntry.setAttribute('class', style.layerEntryCommon)
@@ -10906,45 +10919,48 @@ function createLayerEntry(context, name, layer) {
     var actorContext = context.layers.actorContext.get(name)
     layerBBoxButtonInput.checked = actorContext.bbox
   })
-  var dialog = makeHtml(
-    '\n    <md-dialog class="'
-      .concat(
-        style.saveDialog,
-        '">\n      <div slot="headline">Save file format</div>\n      <form id="save-form" slot="content" method="dialog">\n        '
-      )
-      .concat(
-        extensions
-          .map(function(extension, i) {
-            return '<label>\n                <md-radio name="format" value="'
-              .concat(extension, '" ')
-              .concat(
-                i === 0 ? 'checked' : '',
-                ' touch-target="wrapper"></md-radio>\n                <span aria-hidden="true">'
-              )
-              .concat(extension, '</span>\n              </label>')
-          })
-          .join(''),
-        '\n      </form>\n      <div slot="actions">\n        <md-text-button form="save-form" value="cancel">Cancel</md-text-button>\n        <md-text-button form="save-form" autofocus value="ok">OK</md-text-button>\n      </div>\n    </md-dialog>\n  '
-      )
-  )
-  imageIcons.appendChild(dialog)
-  dialog.addEventListener('close', function() {
-    var okClicked = dialog.returnValue === 'ok'
-    if (okClicked) {
-      var radios = document.querySelectorAll('md-radio[name=format]')
-      var format = Array.from(radios).find(function(radio) {
-        return radio.checked
-      }).value
-      context.service.send({
-        type: 'DOWNLOAD_IMAGE',
-        data: {
-          name: context.images.selectedName,
-          layerName: name,
-          format: format,
-        },
-      })
-    }
-  })
+
+  // There can only be one dialog in app?  OK/Cancel buttons don't work if multiple layers...
+  if (!dialog) {
+    dialog = makeHtml(
+      '\n    <md-dialog class="'
+        .concat(
+          style.saveDialog,
+          '">\n      <div slot="headline">Save file format</div>\n      <form id="save-form" slot="content" method="dialog">\n        '
+        )
+        .concat(
+          extensions
+            .map(function(extension, i) {
+              return '<label>\n                <md-radio name="format" value="'
+                .concat(extension, '" ')
+                .concat(
+                  i === 0 ? 'checked' : '',
+                  ' touch-target="wrapper"></md-radio>\n                <span aria-hidden="true">'
+                )
+                .concat(extension, '</span>\n              </label>')
+            })
+            .join(''),
+          '\n      </form>\n      <div slot="actions">\n        <md-text-button form="save-form" value="cancel">Cancel</md-text-button>\n        <md-text-button form="save-form" autofocus value="ok">OK</md-text-button>\n      </div>\n    </md-dialog>\n  '
+        )
+    )
+    dialog.addEventListener('close', function() {
+      var okClicked = dialog.returnValue === 'ok'
+      if (okClicked) {
+        var radios = document.querySelectorAll('md-radio[name=format]')
+        var format = Array.from(radios).find(function(radio) {
+          return radio.checked
+        }).value
+        context.service.send({
+          type: 'DOWNLOAD_IMAGE',
+          data: {
+            name: context.images.selectedName,
+            format: format,
+          },
+        })
+      }
+    })
+    imageIcons.appendChild(dialog)
+  }
   var downloadImage = document.createElement('div')
   downloadImage.innerHTML = '\n  <input type="checkbox" checked id='
     .concat(context.id, '-download-image" class="')
@@ -10967,7 +10983,6 @@ function createLayerEntry(context, name, layer) {
   )
   imageIcons.appendChild(downloadImage)
   downloadImage.addEventListener('click', function(event) {
-    event.preventDefault()
     event.stopPropagation()
     dialog.show()
   })
@@ -24809,47 +24824,34 @@ function throttle(func, wait, options) {
   }
 }
 
-var __defProp = Object.defineProperty
-var __defNormalProp = (obj, key, value) =>
-  key in obj
-    ? __defProp(obj, key, {
-        enumerable: true,
-        configurable: true,
-        writable: true,
-        value,
-      })
-    : (obj[key] = value)
-var __publicField = (obj, key, value) => {
-  __defNormalProp(obj, typeof key !== 'symbol' ? key + '' : key, value)
-  return value
-}
-const clamp0to1 = x => Math.max(0, Math.min(1, x))
-class Point {
-  constructor(x, y) {
-    __publicField(this, '_x')
-    __publicField(this, '_y')
-    __publicField(this, 'eventTarget', new EventTarget())
-    this.x = x
-    this.y = y
+var K = Object.defineProperty
+var Z = (n, t, e) =>
+  t in n
+    ? K(n, t, { enumerable: !0, configurable: !0, writable: !0, value: e })
+    : (n[t] = e)
+var r = (n, t, e) => (Z(n, typeof t != 'symbol' ? t + '' : t, e), e)
+const D = n => Math.max(0, Math.min(1, n))
+class N {
+  constructor(t, e) {
+    r(this, '_x')
+    r(this, '_y')
+    r(this, 'eventTarget', new EventTarget())
+    ;(this.x = t), (this.y = e)
   }
   get x() {
     return this._x
   }
-  set x(newX) {
-    this._x = clamp0to1(newX)
-    this.dispatchUpdatedEvent()
+  set x(t) {
+    ;(this._x = D(t)), this.dispatchUpdatedEvent()
   }
   get y() {
     return this._y
   }
-  set y(newY) {
-    this._y = clamp0to1(newY)
-    this.dispatchUpdatedEvent()
+  set y(t) {
+    ;(this._y = D(t)), this.dispatchUpdatedEvent()
   }
-  setPosition(x, y) {
-    this.x = x
-    this.y = y
-    this.dispatchUpdatedEvent()
+  setPosition(t, e) {
+    ;(this.x = t), (this.y = e), this.dispatchUpdatedEvent()
   }
   dispatchUpdatedEvent() {
     this.eventTarget.dispatchEvent(
@@ -24857,426 +24859,433 @@ class Point {
     )
   }
 }
-const windowPoints = points => {
-  if (points.length === 0) {
-    return [
-      [0, 1],
-      [1, 1],
-    ]
-  }
-  if (points.length === 1) {
-    const [, y] = points[0]
-    return [
-      [0, y],
-      [1, y],
-    ]
-  }
-  const head = points[0]
-  const tail = points[points.length - 1]
-  return [[head[0], 0], ...points, [tail[0], 0]]
-}
-const pointsToWindowedPoints = points =>
-  windowPoints(points.map(({ x, y }) => [x, y]))
-class Points {
+const O = (n, t = !1) => {
+    if (n.length === 0)
+      return [
+        [0, 1],
+        [1, 1],
+      ]
+    if (n.length === 1) {
+      const [, o] = n[0]
+      return [
+        [0, o],
+        [1, o],
+      ]
+    }
+    const e = n[0],
+      i = n[n.length - 1]
+    return t ? [[e[0], 0], ...n, [i[0], 0]] : [[0, e[1]], ...n, [1, i[1]]]
+  },
+  V = n => O(n.map(({ x: t, y: e }) => [t, e]))
+class q {
   constructor() {
-    __publicField(this, '_points', [])
-    __publicField(this, 'eventTarget', new EventTarget())
+    r(this, '_points', [])
+    r(this, 'eventTarget', new EventTarget())
   }
   get points() {
     return [...this._points]
   }
-  addPoint(x, y) {
-    const pointToAdd = this.createPoint(x, y)
-    this.dispatchUpdatedEvent()
-    return pointToAdd
+  // in normalized coordinates
+  addPoint(t, e) {
+    const i = this.createPoint(t, e)
+    return this.dispatchUpdatedEvent(), i
   }
-  addPoints(points) {
-    const pointsMade = points.map(([x, y]) => this.createPoint(x, y))
-    return pointsMade
+  // does not call this.dispatchUpdatedEvent() assuming setPoints() holds external point state and will update downstream function
+  addPoints(t) {
+    return t.map(([i, o]) => this.createPoint(i, o))
   }
-  setPoints(points) {
-    ;[...this._points].forEach(point => this.deletePoint(point))
-    return this.addPoints(points)
+  setPoints(t) {
+    return (
+      [...this._points].forEach(e => this.deletePoint(e)), this.addPoints(t)
+    )
   }
-  removePoint(point) {
-    this.deletePoint(point)
-    this.dispatchUpdatedEvent()
+  removePoint(t) {
+    this.deletePoint(t), this.dispatchUpdatedEvent()
   }
   dispatchUpdatedEvent() {
     this.eventTarget.dispatchEvent(
       new CustomEvent('updated', { detail: this._points })
     )
   }
-  createPoint(x, y) {
-    const pointToAdd = new Point(x, y)
-    pointToAdd.eventTarget.addEventListener('updated', () => {
-      this._points.sort((a, b) => a.x - b.x)
-      this.dispatchUpdatedEvent()
-    })
-    this._points.push(pointToAdd)
-    this._points.sort((a, b) => a.x - b.x)
-    return pointToAdd
-  }
-  deletePoint(point) {
-    this._points = this._points.filter(p => p !== point)
-  }
-}
-const drawChart = (
-  ctx,
-  area,
-  values,
-  style = {
-    lineWidth: 1,
-    strokeStyle: '#000',
-    fillStyle: void 0,
-    clip: false,
-  }
-) => {
-  const verticalScale = area[3]
-  const horizontalScale = area[2] / (values.length - 1)
-  const offset = verticalScale + area[1]
-  ctx.lineWidth = style.lineWidth
-  ctx.strokeStyle = style.strokeStyle
-  ctx.beginPath()
-  ctx.moveTo(area[0], area[1] + area[3])
-  for (let index = 0; index < values.length; index++) {
-    ctx.lineTo(
-      area[0] + index * horizontalScale,
-      Math.max(area[1], offset - values[index] * verticalScale)
+  createPoint(t, e) {
+    const i = new N(t, e)
+    return (
+      i.eventTarget.addEventListener('updated', () => {
+        this._points.sort((o, a) => o.x - a.x), this.dispatchUpdatedEvent()
+      }),
+      this._points.push(i),
+      this._points.sort((o, a) => o.x - a.x),
+      i
     )
   }
-  if (style.fillStyle) {
-    ctx.fillStyle = style.fillStyle
-    ctx.lineTo(area[0] + area[2], area[1] + area[3])
-    if (style.clip) {
-      ctx.clip()
-      return
+  deletePoint(t) {
+    this._points = this._points.filter(e => e !== t)
+  }
+}
+const J = (
+    n,
+    t,
+    e,
+    i = {
+      lineWidth: 1,
+      strokeStyle: '#000',
+      fillStyle: void 0,
+      clip: !1,
     }
-    ctx.fill()
-  }
-  ctx.stroke()
-}
-const CANVAS_HEIGHT = 1
-const updateColorCanvas = (
-  colorTransferFunction,
-  width,
-  renderedDataRange,
-  canvas
-) => {
-  const workCanvas = canvas || document.createElement('canvas')
-  workCanvas.setAttribute('width', String(width))
-  workCanvas.setAttribute('height', String(CANVAS_HEIGHT))
-  if (colorTransferFunction.getSize() === 0) return workCanvas
-  const rgba = colorTransferFunction.getUint8Table(
-    renderedDataRange[0],
-    renderedDataRange[1],
-    width,
-    true
-  )
-  const ctx = workCanvas.getContext('2d')
-  if (ctx) {
-    const pixelsArea = ctx.getImageData(0, 0, width, CANVAS_HEIGHT)
-    for (let lineIdx = 0; lineIdx < CANVAS_HEIGHT; lineIdx++) {
-      pixelsArea.data.set(rgba, lineIdx * 4 * width)
+  ) => {
+    const o = t[3],
+      a = t[2] / (e.length - 1),
+      d = o + t[1]
+    ;(n.lineWidth = i.lineWidth),
+      (n.strokeStyle = i.strokeStyle),
+      n.beginPath(),
+      n.moveTo(t[0], t[1] + t[3])
+    for (let s = 0; s < e.length; s++)
+      n.lineTo(t[0] + s * a, Math.max(t[1], d - e[s] * o))
+    if (i.fillStyle) {
+      if (
+        ((n.fillStyle = i.fillStyle),
+        n.lineTo(t[0] + t[2], t[1] + t[3]),
+        i.clip)
+      ) {
+        n.clip()
+        return
+      }
+      n.fill()
     }
-    const nbValues = CANVAS_HEIGHT * width * 4
-    for (let i = 3; i < nbValues; i += 4) {
-      pixelsArea.data[i] = 255
+    n.stroke()
+  },
+  _ = 1,
+  Q = (n, t, e, i) => {
+    const o = i || document.createElement('canvas')
+    if (
+      (o.setAttribute('width', String(t)),
+      o.setAttribute('height', String(_)),
+      n.getSize() === 0)
+    )
+      return o
+    const a = n.getUint8Table(e[0], e[1], t, !0),
+      d = o.getContext('2d')
+    if (d) {
+      const s = d.getImageData(0, 0, t, _)
+      for (let h = 0; h < _; h++) s.data.set(a, h * 4 * t)
+      const c = _ * t * 4
+      for (let h = 3; h < c; h += 4) s.data[h] = 255
+      d.putImageData(s, 0, 0)
     }
-    ctx.putImageData(pixelsArea, 0, 0)
+    return o
+  },
+  tt = n => {
+    if (!n) return []
+    const t = n.map(s => (s === 0 ? 0 : Math.log(s))),
+      e = t.filter(Boolean),
+      i = Math.min(...e),
+      a = Math.max(...e) - i
+    return t.map(s => (s === 0 ? 0 : (s - i) / a))
   }
-  return workCanvas
+function et(n, t) {
+  if (n.length !== t.length) return !1
+  for (let e = 0; e < n.length; e++) if (n[e] !== t[e]) return !1
+  return !0
 }
-const logTransform = histogram => {
-  if (!histogram) return []
-  const loged = histogram.map(v => (v === 0 ? 0 : Math.log(v)))
-  const noZeros = loged.filter(Boolean)
-  const min = Math.min(...noZeros)
-  const max = Math.max(...noZeros)
-  const delta = max - min
-  const normalized = loged.map(v => (v === 0 ? 0 : (v - min) / delta))
-  return normalized
+function B(n) {
+  return `#${n
+    .map(e => Math.floor(e * 255))
+    .map(e => `0${e.toString(16)}`.slice(-2))
+    .join('')}`
 }
-function arrayEquals(a, b) {
-  if (a.length !== b.length) return false
-  for (let i = 0; i < a.length; i++) {
-    if (a[i] !== b[i]) return false
+const x = 10,
+  nt = () => {
+    const n = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    return (
+      n.setAttribute(
+        'style',
+        'position: absolute; top: 0; left: 0; z-index: 2; box-sizing: border-box; width: 100%; height: 100%;'
+      ),
+      n
+    )
+  },
+  it = n => {
+    const t = document.createElement('div')
+    t.setAttribute(
+      'style',
+      'position: relative; width: 100%; height: 100%; user-select: none;'
+    ),
+      n.appendChild(t)
+    const e = nt()
+    t.appendChild(e)
+    const i = new EventTarget(),
+      o = l => {
+        i.addEventListener('sizeupdated', l)
+      }
+    new ResizeObserver(() => {
+      i.dispatchEvent(new Event('sizeupdated'))
+    }).observe(t)
+    const d = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+    e.appendChild(d),
+      d.setAttribute('fill', 'none'),
+      d.setAttribute('stroke', 'black')
+    const s = l => {
+        e.appendChild(l)
+      },
+      c = l => {
+        e.removeChild(l)
+      }
+    let h = [0, 1, 0, 1]
+    const y = () => h,
+      p = (l, u, m = 0, g = 1) => {
+        const v = h
+        ;(h = [l, u, m, g]),
+          et(v, h) || i.dispatchEvent(new Event('sizeupdated'))
+      },
+      S = () => {
+        const {
+          top: l,
+          left: u,
+          width: m,
+          height: g,
+        } = t.getBoundingClientRect()
+        return {
+          width: m - 2 * x,
+          height: g - 2 * x,
+          top: l + x,
+          left: u + x,
+        }
+      },
+      R = (l, u) => {
+        const { top: m, left: g, width: v, height: T } = S(),
+          C = h[1] - h[0] || 1e-3,
+          E = h[3] - h[2] || 1e-3
+        return [((l - g) / v) * C + h[0], (1 - (u - m) / T) * E + h[2]]
+      },
+      w = (l, u) => {
+        const { width: m, height: g } = S(),
+          v = h[1] - h[0] || 1e-3,
+          T = ((l - h[0]) / v) * m + x,
+          C = h[3] - h[2] || 1e-3,
+          E = (1 - (u - h[2]) / C) * g + x
+        return [T, E]
+      },
+      f = () => {
+        const [l, u] = w(0, 0),
+          [m, g] = w(1, 1)
+        return { left: l, bottom: u, right: m, top: g }
+      }
+    return (
+      o(() => {
+        const { left: l, bottom: u, right: m, top: g } = f()
+        d.setAttribute('x', `${l}`),
+          d.setAttribute('y', `${g}`),
+          d.setAttribute('width', `${Math.max(0, m - l)}`),
+          d.setAttribute('height', `${Math.max(0, u - g)}`)
+      }),
+      {
+        appendChild: s,
+        removeChild: c,
+        addSizeObserver: o,
+        getViewBox: y,
+        setViewBox: p,
+        domToNormalized: R,
+        normalizedToSvg: w,
+        borderSize: f,
+        remove: () => n.removeChild(t),
+        root: t,
+      }
+    )
+  },
+  ot = 'controlPoint',
+  k = 2,
+  st = 8,
+  X = 14,
+  b = X,
+  rt = () => {
+    const n = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    n.setAttribute('width', String(b * 2)),
+      n.setAttribute('height', String(b * 2)),
+      n.setAttribute('viewBox', `-${b} -${b} ${b * 2} ${b * 2}`)
+    const t = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+    t.setAttribute('r', String(st)),
+      t.setAttribute('fill', 'white'),
+      t.setAttribute('stroke', 'black'),
+      t.setAttribute('stroke-width', String(k)),
+      t.setAttribute('class', ot),
+      n.appendChild(t)
+    const e = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+    return (
+      e.setAttribute('r', String(X)),
+      e.setAttribute('fill', 'transparent'),
+      e.setAttribute('stroke', 'transparent'),
+      e.setAttribute('style', 'cursor: move;'),
+      n.appendChild(e),
+      { group: n, circle: t, clickTarget: e }
+    )
   }
-  return true
-}
-const PADDING = 10
-const makeSvg = () => {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-  svg.setAttribute(
-    'style',
-    'position: absolute; top: 0; left: 0; z-index: 2; box-sizing: border-box; width: 100%; height: 100%;'
-  )
-  return svg
-}
-const Container = parent => {
-  const root = document.createElement('div')
-  root.setAttribute('style', 'position: relative; width: 100%; height: 100%')
-  parent.appendChild(root)
-  const svg = makeSvg()
-  root.appendChild(svg)
-  const sizeEmitter = new EventTarget()
-  const addSizeObserver = cb => {
-    sizeEmitter.addEventListener('sizeupdated', cb)
-  }
-  const resizeObserver = new ResizeObserver(() => {
-    sizeEmitter.dispatchEvent(new Event('sizeupdated'))
-  })
-  resizeObserver.observe(root)
-  const paddedBorder = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'rect'
-  )
-  svg.appendChild(paddedBorder)
-  paddedBorder.setAttribute('fill', 'none')
-  paddedBorder.setAttribute('stroke', 'black')
-  const appendChild = shape => {
-    svg.appendChild(shape)
-  }
-  const removeChild = shape => {
-    svg.removeChild(shape)
-  }
-  let viewBox = [0, 1, 0, 1]
-  const getViewBox = () => viewBox
-  const setViewBox = (valueStart, valueEnd, opacityMin = 0, opacityMax = 1) => {
-    const oldViewBox = viewBox
-    viewBox = [valueStart, valueEnd, opacityMin, opacityMax]
-    if (!arrayEquals(oldViewBox, viewBox)) {
-      sizeEmitter.dispatchEvent(new Event('sizeupdated'))
-    }
-  }
-  const getSize = () => {
-    const { top, left, width, height } = root.getBoundingClientRect()
-    return {
-      width: width - 2 * PADDING,
-      height: height - 2 * PADDING,
-      top: top + PADDING,
-      left: left + PADDING,
-    }
-  }
-  const domToNormalized = (x, y) => {
-    const { top, left, width, height } = getSize()
-    const valueRange = viewBox[1] - viewBox[0] || 1e-3
-    const opacityRange = viewBox[3] - viewBox[2] || 1e-3
-    return [
-      ((x - left) / width) * valueRange + viewBox[0],
-      (1 - (y - top) / height) * opacityRange + viewBox[2],
-    ]
-  }
-  const normalizedToSvg = (x, y) => {
-    const { width, height } = getSize()
-    const valueRange = viewBox[1] - viewBox[0] || 1e-3
-    const xSvg = ((x - viewBox[0]) / valueRange) * width + PADDING
-    const opacityRange = viewBox[3] - viewBox[2] || 1e-3
-    const ySvg = (1 - (y - viewBox[2]) / opacityRange) * height + PADDING
-    return [xSvg, ySvg]
-  }
-  const borderSize = () => {
-    const [left, bottom] = normalizedToSvg(0, 0)
-    const [right, top] = normalizedToSvg(1, 1)
-    return { left, bottom, right, top }
-  }
-  const updateBorder = () => {
-    const { left, bottom, right, top } = borderSize()
-    paddedBorder.setAttribute('x', `${left}`)
-    paddedBorder.setAttribute('y', `${top}`)
-    paddedBorder.setAttribute('width', `${Math.max(0, right - left)}`)
-    paddedBorder.setAttribute('height', `${Math.max(0, bottom - top)}`)
-  }
-  addSizeObserver(updateBorder)
-  const remove = () => parent.removeChild(root)
-  return {
-    appendChild,
-    removeChild,
-    addSizeObserver,
-    getViewBox,
-    setViewBox,
-    domToNormalized,
-    normalizedToSvg,
-    borderSize,
-    remove,
-    root,
-  }
-}
-const CONTROL_POINT_CLASS = 'controlPoint'
-const makeCircle = () => {
-  const circle = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'circle'
-  )
-  circle.setAttribute('r', '9')
-  circle.setAttribute('fill', 'white')
-  circle.setAttribute('stroke', 'black')
-  circle.setAttribute('stroke-width', '2')
-  circle.setAttribute('class', CONTROL_POINT_CLASS)
-  circle.setAttribute('style', 'cursor: move;')
-  return circle
-}
-class ControlPoint {
-  constructor(
-    container,
-    point,
-    deleteEventCallback,
-    isNewPointFromPointer = false
-  ) {
-    __publicField(this, 'element')
-    __publicField(this, 'container')
-    __publicField(this, 'isDragging', false)
-    __publicField(this, 'isHovered', false)
-    __publicField(this, 'point')
-    __publicField(this, 'DELETE_EVENT', 'deleteme')
-    __publicField(this, 'eventTarget', new EventTarget())
-    this.element = makeCircle()
-    this.point = point
-    this.container = container
-    container.addSizeObserver(() => {
-      this.positionElement()
-    })
-    if (deleteEventCallback) {
-      this.eventTarget.addEventListener(this.DELETE_EVENT, e => {
-        deleteEventCallback(e)
-      })
-    }
-    container.appendChild(this.element)
-    this.positionElement()
-    this.setupInteraction()
-    if (isNewPointFromPointer) this.startInteraction(true)
+class H {
+  constructor(t, e, i, o = !1) {
+    r(this, 'element')
+    r(this, 'circle')
+    r(this, 'container')
+    r(this, 'isDragging', !1)
+    r(this, 'isHovered', !1)
+    r(this, 'point')
+    r(this, 'deletable', !0)
+    r(this, 'DELETE_EVENT', 'deleteme')
+    r(this, 'eventTarget', new EventTarget())
+    r(this, 'grabX', 0)
+    r(this, 'grabY', 0)
+    const { group: a, circle: d } = rt()
+    ;(this.element = a),
+      (this.circle = d),
+      (this.point = e),
+      (this.container = t),
+      t.addSizeObserver(() => {
+        this.positionElement()
+      }),
+      i &&
+        this.eventTarget.addEventListener(this.DELETE_EVENT, s => {
+          i(s)
+        }),
+      t.appendChild(this.element),
+      this.positionElement(),
+      this.point.eventTarget.addEventListener('updated', () =>
+        this.positionElement()
+      ),
+      this.setupInteraction(),
+      o && this.startInteraction(!0)
   }
   remove() {
     this.container.removeChild(this.element)
   }
   positionElement() {
-    const { x, y } = this.point
-    const [xSvg, ySvg] = this.container.normalizedToSvg(x, y)
-    this.element.setAttribute('cx', String(xSvg))
-    this.element.setAttribute('cy', String(ySvg))
+    const { x: t, y: e } = this.point,
+      [i, o] = this.container.normalizedToSvg(t, e)
+    this.element.setAttribute('x', String(i - b)),
+      this.element.setAttribute('y', String(o - b))
   }
-  movePoint(e) {
-    const [x, y] = this.container.domToNormalized(e.clientX, e.clientY)
-    this.point.setPosition(x, y)
-    this.positionElement()
+  movePoint(t) {
+    const [e, i] = this.container.domToNormalized(t.clientX, t.clientY)
+    this.point.setPosition(e + this.grabX, i + this.grabY),
+      this.positionElement()
   }
-  startInteraction(forceDragging = false) {
-    this.isDragging = forceDragging
-    if (!this.isDragging) {
-      this.element.setAttribute('stroke', 'red')
+  updateStrokeWidth() {
+    this.circle.setAttribute('stroke-width', String(k)),
+      this.isHovered && this.circle.setAttribute('stroke-width', String(k + 1)),
+      this.isDragging && this.circle.setAttribute('stroke-width', String(k * 2))
+  }
+  startInteraction(t = !1) {
+    ;(this.isDragging = t),
+      !this.isDragging &&
+        this.deletable &&
+        this.circle.setAttribute('stroke', 'red')
+    const e = o => {
+      ;(this.isDragging = !0),
+        this.circle.setAttribute('stroke', 'black'),
+        this.movePoint(o)
     }
-    const onPointerMove = e => {
-      this.isDragging = true
-      this.element.setAttribute('stroke', 'black')
-      this.movePoint(e)
-    }
-    document.addEventListener('pointermove', onPointerMove)
-    const onPointerUp = () => {
-      document.removeEventListener('pointermove', onPointerMove)
-      document.removeEventListener('pointerup', onPointerUp)
-      if (!this.isDragging) {
-        const delEvent = new CustomEvent(this.DELETE_EVENT, { detail: this })
-        this.eventTarget.dispatchEvent(delEvent)
+    document.addEventListener('pointermove', e)
+    const i = () => {
+      if (
+        (document.removeEventListener('pointermove', e),
+        document.removeEventListener('pointerup', i),
+        !this.isDragging)
+      ) {
+        const o = new CustomEvent(this.DELETE_EVENT, { detail: this })
+        this.eventTarget.dispatchEvent(o)
       }
-      if (!this.isHovered) this.element.setAttribute('stroke-width', '2')
-      this.isDragging = false
+      ;(this.isDragging = !1), this.updateStrokeWidth()
     }
-    document.addEventListener('pointerup', onPointerUp)
+    document.addEventListener('pointerup', i)
   }
   setupInteraction() {
-    this.element.addEventListener('pointerdown', event => {
-      event.stopPropagation()
-      event.preventDefault()
-      this.startInteraction()
-    })
-    this.element.addEventListener('pointerenter', () => {
-      this.isHovered = true
-      this.element.setAttribute('stroke-width', '4')
-    })
-    this.element.addEventListener('pointerleave', () => {
-      this.isHovered = false
-      if (!this.isDragging) {
-        this.element.setAttribute('stroke-width', '2')
-      }
-    })
+    this.element.addEventListener('pointerdown', t => {
+      t.stopPropagation(),
+        this.circle.setAttribute('stroke-width', String(k * 2))
+      const [e, i] = this.container.domToNormalized(t.clientX, t.clientY)
+      ;(this.grabX = this.point.x - e),
+        (this.grabY = this.point.y - i),
+        this.startInteraction()
+    }),
+      this.element.addEventListener('pointerenter', () => {
+        ;(this.isHovered = !0), this.updateStrokeWidth()
+      }),
+      this.element.addEventListener('pointerleave', () => {
+        ;(this.isHovered = !1), this.updateStrokeWidth()
+      })
+  }
+  setColor(t) {
+    this.circle.setAttribute('fill', t)
   }
 }
-class PointsController {
-  constructor(container, points) {
-    __publicField(this, 'container')
-    __publicField(this, 'points')
-    __publicField(this, 'onPointsUpdated')
-    __publicField(this, 'controlPoints', [])
-    __publicField(this, 'isNewPointFromPointer', false)
-    this.container = container
-    this.points = points
-    const { root } = container
-    root.addEventListener('pointerdown', e => this.onPointerDown(e))
-    this.onPointsUpdated = () => this.updatePoints()
-    this.points.eventTarget.addEventListener('updated', this.onPointsUpdated)
-    this.updatePoints()
+class at {
+  constructor(t, e) {
+    r(this, 'container')
+    r(this, 'points')
+    r(this, 'onPointsUpdated')
+    r(this, 'controlPoints', [])
+    r(this, 'isNewPointFromPointer', !1)
+    ;(this.container = t), (this.points = e)
+    const { root: i } = t
+    i.addEventListener('pointerdown', o => this.onPointerDown(o)),
+      (this.onPointsUpdated = () => this.updatePoints()),
+      this.points.eventTarget.addEventListener('updated', this.onPointsUpdated),
+      this.updatePoints()
   }
   remove() {
     this.points.eventTarget.removeEventListener('updated', this.onPointsUpdated)
   }
-  onPointerDown(event) {
-    event.preventDefault()
-    const [x, y] = this.container.domToNormalized(event.clientX, event.clientY)
-    this.isNewPointFromPointer = true
-    this.points.addPoint(x, y)
-    this.isNewPointFromPointer = false
+  onPointerDown(t) {
+    const [e, i] = this.container.domToNormalized(t.clientX, t.clientY)
+    ;(this.isNewPointFromPointer = !0),
+      this.points.addPoint(e, i),
+      (this.isNewPointFromPointer = !1)
   }
-  onControlPointDelete(event) {
-    this.points.removePoint(event.detail.point)
+  onControlPointDelete(t) {
+    this.points.removePoint(t.detail.point)
   }
   updatePoints() {
-    const orphans = this.controlPoints.filter(
-      cp => !this.points.points.find(point => point === cp.point)
+    const t = this.controlPoints.filter(
+      o => !this.points.points.find(a => a === o.point)
     )
-    orphans.forEach(cp => cp.remove())
-    this.controlPoints = this.controlPoints.filter(cp => !orphans.includes(cp))
-    const isPointInControlPoints = point =>
-      this.controlPoints.find(cp => cp.point === point)
-    const addNewControlPoint = point =>
-      this.controlPoints.push(
-        new ControlPoint(
-          this.container,
-          point,
-          e => this.onControlPointDelete(e),
-          this.isNewPointFromPointer
+    t.forEach(o => o.remove()),
+      (this.controlPoints = this.controlPoints.filter(o => !t.includes(o)))
+    const e = o => this.controlPoints.find(a => a.point === o),
+      i = o =>
+        this.controlPoints.push(
+          new H(
+            this.container,
+            o,
+            a => this.onControlPointDelete(a),
+            this.isNewPointFromPointer
+          )
         )
-      )
-    this.points.points
-      .filter(pointModel => !isPointInControlPoints(pointModel))
-      .forEach(addNewControlPoint)
+    this.points.points.filter(o => !e(o)).forEach(i)
   }
 }
-const createLine = () => {
-  const line = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'polyline'
+const dt = () => {
+  const n = document.createElementNS('http://www.w3.org/2000/svg', 'polyline')
+  return (
+    n.setAttribute('fill', 'none'),
+    n.setAttribute('stroke', 'black'),
+    n.setAttribute('stroke-width', '2'),
+    n
   )
-  line.setAttribute('fill', 'none')
-  line.setAttribute('stroke', 'black')
-  line.setAttribute('stroke-width', '2')
-  return line
 }
-class Line {
-  constructor(container, points) {
-    __publicField(this, 'points')
-    __publicField(this, 'container')
-    __publicField(this, 'onPointsUpdated')
-    __publicField(this, 'element')
-    this.container = container
-    this.points = points
-    this.element = createLine()
-    this.container.appendChild(this.element)
-    this.onPointsUpdated = () => this.update()
-    this.points.eventTarget.addEventListener('updated', this.onPointsUpdated)
-    this.container.addSizeObserver(() => {
+class ht {
+  constructor(t, e) {
+    r(this, 'points')
+    r(this, 'container')
+    r(this, 'onPointsUpdated')
+    r(this, 'element')
+    ;(this.container = t),
+      (this.points = e),
+      (this.element = dt()),
+      this.container.appendChild(this.element),
+      (this.onPointsUpdated = () => this.update()),
+      this.points.eventTarget.addEventListener('updated', this.onPointsUpdated),
+      this.container.addSizeObserver(() => {
+        this.update()
+      }),
       this.update()
-    })
-    this.update()
   }
   remove() {
     this.points.eventTarget.removeEventListener('updated', this.onPointsUpdated)
@@ -25286,172 +25295,257 @@ class Line {
       this.element.setAttribute('points', '')
       return
     }
-    const stringPoints = pointsToWindowedPoints(this.points.points)
-      .map(([x, y]) => this.container.normalizedToSvg(x, y))
-      .map(([x, y]) => `${x},${y}`)
+    const t = V(this.points.points)
+      .map(([e, i]) => this.container.normalizedToSvg(e, i))
+      .map(([e, i]) => `${e},${i}`)
       .join(' ')
-    this.element.setAttribute('points', stringPoints)
+    this.element.setAttribute('points', t)
   }
 }
-const SCALE_SENSITIVITY = 1.1
-const WheelZoom = container => {
-  container.root.addEventListener('wheel', e => {
-    const scaleFactor = e.deltaY > 0 ? SCALE_SENSITIVITY : 1 / SCALE_SENSITIVITY
-    const [targetX] = container.domToNormalized(e.clientX, e.clientY)
-    const [left, right] = container.getViewBox()
-    const newLeft = Math.max(
-      0,
-      left - Math.max(0, targetX - left) * (scaleFactor - 1)
-    )
-    const newRight = Math.min(1, (right - left) * scaleFactor + newLeft)
-    if (newLeft === left && newRight === right) {
-      return
-    }
-    e.preventDefault()
-    e.stopPropagation()
-    container.setViewBox(newLeft, newRight)
-  })
-}
-const HISTOGRAM_COLOR = 'rgba(50, 50, 50, 0.3)'
-const Background = (container, points) => {
-  const canvas = document.createElement('canvas')
-  container.root.appendChild(canvas)
-  canvas.setAttribute('style', 'width: 100%; height: 100%; ')
-  const ctx = canvas.getContext('2d')
-  let colorTransferFunction
-  let histogram
-  const colorCanvas = document.createElement('canvas')
-  const render = () => {
-    if (!ctx) return
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    if (colorTransferFunction) {
-      const { width, height } = container.root.getBoundingClientRect()
-      canvas.setAttribute('width', String(width))
-      canvas.setAttribute('height', String(height))
-      const { left, right, bottom, top } = container.borderSize()
-      const borderWidth = Math.ceil(right - left)
-      if (borderWidth < 0) return
-      const windowed = pointsToWindowedPoints(points.points)
-      const linePoints = [[0, 0], ...windowed, [1, 0]].map(([x, y]) =>
-        container.normalizedToSvg(x, y)
-      )
-      ctx.save()
-      ctx.beginPath()
-      linePoints.forEach(([x, y]) => {
-        ctx.lineTo(x, y)
-      })
-      ctx.clip()
-      const [headX] = linePoints[1]
-      const [tailX] = linePoints[linePoints.length - 2]
-      const headXClamped = Math.min(width, Math.max(0, headX))
-      const tailXClamped = Math.min(width, Math.max(0, tailX))
-      const colorCanvasWidth = Math.ceil(tailXClamped - headXClamped)
-      if (colorCanvasWidth) {
-        const pointPixelWidth = tailX - headX
-        const headClampAmount = (headXClamped - headX) / pointPixelWidth
-        const tailClampAmount = (tailXClamped - tailX) / pointPixelWidth
-        const dataRange = colorTransferFunction.getMappingRange()
-        const dataWidth = dataRange[1] - dataRange[0]
-        const visibleDataRange = [
-          dataRange[0] + dataWidth * headClampAmount,
-          dataRange[1] + dataWidth * tailClampAmount,
-        ]
-        updateColorCanvas(
-          colorTransferFunction,
-          colorCanvasWidth,
-          visibleDataRange,
-          colorCanvas
-        )
-        ctx.drawImage(
-          colorCanvas,
-          0,
-          0,
-          colorCanvas.width,
-          colorCanvas.height,
-          Math.floor(headXClamped),
-          Math.floor(top),
-          colorCanvasWidth,
-          Math.ceil(bottom - top)
-        )
+const W = 1.1,
+  lt = n => {
+    n.root.addEventListener('wheel', t => {
+      const e = t.deltaY > 0 ? W : 1 / W,
+        [i] = n.domToNormalized(t.clientX, t.clientY),
+        [o, a] = n.getViewBox(),
+        d = Math.max(0, o - Math.max(0, i - o) * (e - 1)),
+        s = Math.min(1, (a - o) * e + d)
+      ;(d === o && s === a) ||
+        (t.preventDefault(), t.stopPropagation(), n.setViewBox(d, s))
+    })
+  },
+  F = 'rgba(50, 50, 50, 0.3)',
+  ct = (n, t, e) => {
+    const i = document.createElement('canvas')
+    n.root.appendChild(i),
+      i.setAttribute('style', 'width: 100%; height: 100%; ')
+    const o = i.getContext('2d')
+    let a, d
+    const s = document.createElement('canvas'),
+      c = () => {
+        if (o) {
+          if ((o.clearRect(0, 0, i.width, i.height), a)) {
+            const { width: p, height: S } = n.root.getBoundingClientRect()
+            i.setAttribute('width', String(p)),
+              i.setAttribute('height', String(S))
+            const { left: R, right: w, bottom: f, top: P } = n.borderSize()
+            if (Math.ceil(w - R) < 0) return
+            const l = V(t.points),
+              u = [[0, 0], ...l, [1, 0]].map(([A, L]) =>
+                n.normalizedToSvg(A, L)
+              )
+            o.save(),
+              o.beginPath(),
+              u.forEach(([A, L]) => {
+                o.lineTo(A, L)
+              }),
+              o.clip()
+            const [m, g] = e.getColorRange(),
+              [v] = n.normalizedToSvg(m, 1),
+              [T] = n.normalizedToSvg(g, 1),
+              C = T - v < 2 ? v + 2 : T,
+              E = Math.min(p, Math.max(0, v)),
+              M = Math.min(p, Math.max(0, C)),
+              I = Math.ceil(M - E)
+            if (I && a) {
+              const A = C - v,
+                L = (E - v) / A,
+                Y = (M - C) / A,
+                z = a.getMappingRange(),
+                U = z[1] - z[0],
+                G = [z[0] + U * L, z[1] + U * Y]
+              Q(a, I, G, s),
+                o.drawImage(
+                  s,
+                  0,
+                  0,
+                  s.width,
+                  s.height,
+                  Math.floor(E),
+                  Math.floor(P),
+                  I,
+                  Math.ceil(f - P)
+                )
+              const j = o.imageSmoothingEnabled
+              ;(o.imageSmoothingEnabled = !1),
+                o.drawImage(
+                  s,
+                  0,
+                  0,
+                  1,
+                  1,
+                  0,
+                  Math.floor(P),
+                  Math.floor(E),
+                  Math.ceil(f - P)
+                ),
+                o.drawImage(
+                  s,
+                  s.width - 1,
+                  0,
+                  1,
+                  1,
+                  Math.floor(M),
+                  Math.floor(P),
+                  p - M,
+                  Math.ceil(f - P)
+                ),
+                (o.imageSmoothingEnabled = j)
+            }
+            o.restore()
+          }
+          if (d) {
+            const { left: p, right: S, bottom: R, top: w } = n.borderSize(),
+              f = [p, w, S - p, R - w]
+            J(o, f, d, {
+              lineWidth: 1,
+              strokeStyle: F,
+              fillStyle: F,
+            })
+          }
+        }
       }
-      ctx.restore()
-    }
-    if (histogram) {
-      const { left, right, bottom, top } = container.borderSize()
-      const graphArea = [left, top, right - left, bottom - top]
-      drawChart(ctx, graphArea, histogram, {
-        lineWidth: 1,
-        strokeStyle: HISTOGRAM_COLOR,
-        fillStyle: HISTOGRAM_COLOR,
+    return (
+      n.addSizeObserver(c),
+      t.eventTarget.addEventListener('updated', c),
+      e.eventTarget.addEventListener('updated', c),
+      {
+        container: n,
+        canvas: i,
+        setColorTransferFunction: p => {
+          ;(a = p), c()
+        },
+        setHistogram: p => {
+          ;(d = p), c()
+        },
+        render: c,
+        remove: () => n.root.removeChild(i),
+      }
+    )
+  },
+  pt = () => {
+    const n = [new N(0, 0), new N(1, 0)],
+      t = () => n.sort((s, c) => s.x - c.x),
+      e = () => t().map(s => s.x),
+      i = new EventTarget(),
+      o = () => i.dispatchEvent(new CustomEvent('updated', { detail: e() }))
+    let a = !1
+    const d = s => {
+      s.eventTarget.addEventListener('updated', () => {
+        s.y !== 0 && (s.y = 0), a || o()
       })
     }
+    return (
+      n.forEach(d),
+      {
+        getPoints: t,
+        getColorRange: e,
+        setColorRange: s => {
+          ;(a = !0),
+            t().forEach((c, h) => {
+              c.x = s[h]
+            }),
+            (a = !1),
+            o()
+        },
+        eventTarget: i,
+      }
+    )
+  },
+  gt = (n, t) => {
+    const e = t.getPoints().map(d => {
+      const s = new H(n, d)
+      return (s.deletable = !1), s
+    })
+    let i
+    const o = () => {
+        if (!i) return
+        const d = i.getMappingRange(),
+          s = []
+        i.getColor(d[0], s)
+        const c = []
+        i.getColor(d[1], c)
+        const h = e.sort((y, p) => y.point.x - p.point.x)
+        h[0].setColor(B(s)), h[1].setColor(B(c))
+      },
+      a = d => {
+        ;(i = d), o()
+      }
+    return (
+      t.eventTarget.addEventListener('updated', () => {
+        o()
+      }),
+      {
+        points: e,
+        setColorTransferFunction: a,
+      }
+    )
   }
-  container.addSizeObserver(render)
-  points.eventTarget.addEventListener('updated', render)
-  const setColorTransferFunction = ctf => {
-    colorTransferFunction = ctf
-    render()
-  }
-  const setHistogram = newHistogram => {
-    histogram = newHistogram
-    render()
-  }
-  return {
-    container,
-    canvas,
-    setColorTransferFunction,
-    setHistogram,
-    render,
-    remove: () => container.root.removeChild(canvas),
-  }
-}
-class TransferFunctionEditor {
-  constructor(root) {
-    __publicField(this, 'points')
-    __publicField(this, 'line')
-    __publicField(this, 'pointController')
-    __publicField(this, 'container')
-    __publicField(this, 'background')
-    this.container = Container(root)
-    WheelZoom(this.container)
-    this.points = new Points()
-    const startPoints = [
+class vt {
+  constructor(t) {
+    r(this, 'eventTarget', new EventTarget())
+    r(this, 'points')
+    r(this, 'colorRange')
+    r(this, 'colorRangeController')
+    r(this, 'line')
+    r(this, 'pointController')
+    r(this, 'container')
+    r(this, 'background')
+    ;(this.container = it(t)), lt(this.container), (this.points = new q())
+    const e = [
       [0, 0],
       [1, 1],
     ]
-    this.points.setPoints(startPoints)
-    this.background = Background(this.container, this.points)
-    this.line = new Line(this.container, this.points)
-    this.pointController = new PointsController(this.container, this.points)
+    this.points.setPoints(e),
+      (this.line = new ht(this.container, this.points)),
+      (this.pointController = new at(this.container, this.points)),
+      (this.colorRange = pt()),
+      (this.colorRangeController = gt(this.container, this.colorRange)),
+      (this.background = ct(this.container, this.points, this.colorRange)),
+      this.points.eventTarget.addEventListener('updated', i => {
+        this.eventTarget.dispatchEvent(
+          new CustomEvent('updated', { detail: i.detail })
+        )
+      }),
+      this.colorRange.eventTarget.addEventListener('updated', i => {
+        this.eventTarget.dispatchEvent(
+          new CustomEvent('colorRange', { detail: i.detail })
+        )
+      })
   }
   remove() {
-    this.background.remove()
-    this.container.remove()
+    this.background.remove(), this.container.remove()
   }
   getPoints() {
-    return this.points.points.map(({ x, y }) => [x, y])
+    return this.points.points.map(({ x: t, y: e }) => [t, e])
   }
-  setPoints(points) {
-    this.points.setPoints(points)
-    this.pointController.updatePoints()
-    this.line.update()
-    this.background.render()
+  // No Points update event on setPoints to avoid emitting 'update' event to user code.
+  // User code responsible for updating downstream piecewise function without update in setPoints case.
+  setPoints(t) {
+    this.points.setPoints(t),
+      this.pointController.updatePoints(),
+      this.line.update(),
+      this.background.render()
   }
-  get eventTarget() {
-    return this.points.eventTarget
+  getColorRange() {
+    return this.colorRange.getColorRange()
   }
-  setViewBox(valueStart, valueEnd, opacityMin = 0, opacityMax = 1) {
-    this.container.setViewBox(valueStart, valueEnd, opacityMin, opacityMax)
+  setColorRange(t) {
+    return this.colorRange.setColorRange(t)
   }
-  setColorTransferFunction(ctf) {
-    this.background.setColorTransferFunction(ctf)
+  setViewBox(t, e, i = 0, o = 1) {
+    this.container.setViewBox(t, e, i, o)
   }
-  setHistogram(histogram) {
-    this.background.setHistogram(logTransform(histogram))
+  setColorTransferFunction(t) {
+    this.background.setColorTransferFunction(t),
+      this.colorRangeController.setColorTransferFunction(t)
+  }
+  setHistogram(t) {
+    this.background.setHistogram(tt(t))
   }
 }
 
-var PIECEWISE_UPDATE_DELAY = 100
+var PIECEWISE_UPDATE_DELAY = 200
 var updateContextPiecewiseFunction = function updateContextPiecewiseFunction(
   context,
   points
@@ -25471,15 +25565,36 @@ var updateContextPiecewiseFunction = function updateContextPiecewiseFunction(
     },
   })
 }
+var updateContextColorRange = function updateContextColorRange(
+  context,
+  points
+) {
+  if (!context.images.piecewiseFunctions) return // not ready yet
+
+  var name = context.images.selectedName
+  var actorContext = context.images.actorContext.get(name)
+  var component = actorContext.selectedComponent
+  context.service.send({
+    type: 'IMAGE_COLOR_RANGE_POINTS_CHANGED',
+    data: {
+      name: name,
+      component: component,
+      points: points,
+    },
+  })
+}
 var vtkPiecewiseGaussianWidgetFacade = function vtkPiecewiseGaussianWidgetFacade(
   tfEditor,
   context
 ) {
-  var update = function update() {
+  var throttledUpdate = throttle(function() {
     return updateContextPiecewiseFunction(context, tfEditor.getPoints())
-  }
-  var throttledUpdate = throttle(update, PIECEWISE_UPDATE_DELAY)
+  }, PIECEWISE_UPDATE_DELAY)
   tfEditor.eventTarget.addEventListener('updated', throttledUpdate)
+  var throttledColorRangeUpdate = throttle(function() {
+    return updateContextColorRange(context, tfEditor.getColorRange())
+  }, PIECEWISE_UPDATE_DELAY)
+  tfEditor.eventTarget.addEventListener('colorRange', throttledColorRangeUpdate)
   return {
     setColorTransferFunction: function setColorTransferFunction(tf) {
       tfEditor.setColorTransferFunction(tf)
@@ -25504,6 +25619,17 @@ var vtkPiecewiseGaussianWidgetFacade = function vtkPiecewiseGaussianWidgetFacade
     getPoints: function getPoints() {
       return tfEditor.getPoints()
     },
+    setColorRange: function setColorRange(newRange) {
+      var displayedRange = tfEditor.getColorRange()
+      // if same, avoid infinite event loop
+      if (
+        displayedRange.some(function(v, i) {
+          return v !== newRange[i]
+        })
+      ) {
+        tfEditor.setColorRange(newRange)
+      }
+    },
     setRangeZoom: function setRangeZoom(newRange) {
       tfEditor.setViewBox.apply(tfEditor, _toConsumableArray(newRange))
     },
@@ -25526,7 +25652,7 @@ var createTransferFunctionEditor = function createTransferFunctionEditor(
   context,
   mount
 ) {
-  var editor = new TransferFunctionEditor(mount)
+  var editor = new vt(mount)
   return vtkPiecewiseGaussianWidgetFacade(editor, context)
 }
 
@@ -26279,7 +26405,7 @@ function applyColorRange(context, event) {
     (colorRange[0] - fullRange[0]) / diff,
     (colorRange[1] - fullRange[0]) / diff,
   ]
-  context.images.transferFunctionWidget.setRangeZoom(colorRangeNormalized)
+  context.images.transferFunctionWidget.setColorRange(colorRangeNormalized)
 }
 
 function applyColorRangeBounds(context, event) {
@@ -27194,7 +27320,7 @@ class NavigationDrawer extends s$9 {
     const ariaHidden = !this.opened ? 'true' : 'false'
     // Needed for closure conformance
     const { ariaLabel, ariaModal } = this
-    return x$1`
+    return x$2`
       <div
         aria-expanded="${ariaExpanded}"
         aria-hidden="${ariaHidden}"
@@ -27416,7 +27542,7 @@ class IconButton extends s$9 {
   renderLink() {
     // Needed for closure conformance
     const { ariaLabel } = this
-    return x$1`
+    return x$2`
       <a class="link"
         id="link"
         href="${this.href}"
@@ -27432,22 +27558,22 @@ class IconButton extends s$9 {
     }
   }
   renderIcon() {
-    return x$1`<span class="icon"><slot></slot></span>`
+    return x$2`<span class="icon"><slot></slot></span>`
   }
   renderSelectedIcon() {
     // Use default slot as fallback to not require specifying multiple icons
-    return x$1`<span class="icon icon--selected"><slot name="selected"><slot></slot></slot></span>`
+    return x$2`<span class="icon icon--selected"><slot name="selected"><slot></slot></slot></span>`
   }
   renderTouchTarget() {
-    return x$1`<span class="touch"></span>`
+    return x$2`<span class="touch"></span>`
   }
   renderFocusRing() {
-    return x$1`<md-focus-ring part="focus-ring" for=${
+    return x$2`<md-focus-ring part="focus-ring" for=${
       this.href ? 'link' : 'button'
     }></md-focus-ring>`
   }
   renderRipple() {
-    return x$1`<md-ripple
+    return x$2`<md-ripple
       for=${this.href ? 'link' : T$1}
       ?disabled="${!this.href && this.disabled}"
     ></md-ripple>`
@@ -27509,7 +27635,7 @@ __decorate(
 )
 __decorate([n$b()], IconButton.prototype, 'type', void 0)
 __decorate([n$b()], IconButton.prototype, 'value', void 0)
-__decorate([r$8()], IconButton.prototype, 'flipIcon', void 0)
+__decorate([r$9()], IconButton.prototype, 'flipIcon', void 0)
 
 /**
  * @license
@@ -27568,7 +27694,7 @@ MdIconButton = __decorate([t$9('md-icon-button')], MdIconButton)
  */
 class Icon extends s$9 {
   render() {
-    return x$1`<slot></slot>`
+    return x$2`<slot></slot>`
   }
   connectedCallback() {
     super.connectedCallback()

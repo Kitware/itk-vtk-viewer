@@ -1,4 +1,10 @@
-function applyColorRange(context, { data: { component, range } }) {
+function applyColorRange(context, e) {
+  const {
+    data: { component, range },
+  } = e
+  if (!context.images.colorTransferFunctions) {
+    return
+  }
   const colorTransferFunction = context.images.colorTransferFunctions.get(
     component
   )

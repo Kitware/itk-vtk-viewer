@@ -281,6 +281,35 @@ function applyRenderedImage(context, { data: { name } }) {
           ? getDefaultRangeByDataType(dataArray.getDataType())
           : [dataMin, dataMax]
 
+      const storedColorRange = colorRanges.get(componentIndex)
+      if (colorRangesAutoAdjust.get(componentIndex) || !storedColorRange) {
+        const fullRange = actorContext.colorRangeBounds.get(componentIndex) ?? [
+          0,
+          1,
+        ]
+        const range = storedColorRange ?? [0.2, 0.8]
+        // rescale to new range
+        const diff = fullRange[1] - fullRange[0]
+        const colorRangeNormalized = [
+          (range[0] - fullRange[0]) / diff,
+          (range[1] - fullRange[0]) / diff,
+        ]
+        const newDelta = newMax - newMin
+        const newRange = colorRangeNormalized.map(x => {
+          return x * newDelta + newMin
+        })
+
+        context.service.send({
+          type: 'IMAGE_COLOR_RANGE_CHANGED',
+          data: {
+            name,
+            component: componentIndex,
+            range: newRange,
+            keepAutoAdjusting: true,
+          },
+        })
+      }
+
       if (colorRangeBoundsAutoAdjust.get(componentIndex)) {
         const oldRange = colorRangeBounds.get(componentIndex) ?? [
           Number.POSITIVE_INFINITY,
@@ -295,32 +324,6 @@ function applyRenderedImage(context, { data: { name } }) {
         if (hasChanged) {
           context.service.send({
             type: 'IMAGE_COLOR_RANGE_BOUNDS_CHANGED',
-            data: {
-              name,
-              component: componentIndex,
-              range: newRange,
-              keepAutoAdjusting: true,
-            },
-          })
-        }
-      }
-
-      const storedColorRange = colorRanges.get(componentIndex)
-      const oldRange = storedColorRange ?? [
-        Number.POSITIVE_INFINITY,
-        Number.NEGATIVE_INFINITY,
-      ]
-      if (colorRangesAutoAdjust.get(componentIndex) || !storedColorRange) {
-        // only grow range
-        const newRange = [
-          Math.min(newMin, oldRange[0]),
-          Math.max(newMax, oldRange[1]),
-        ]
-        const hasChanged = newRange.some((value, i) => value !== oldRange[i])
-
-        if (hasChanged) {
-          context.service.send({
-            type: 'IMAGE_COLOR_RANGE_CHANGED',
             data: {
               name,
               component: componentIndex,

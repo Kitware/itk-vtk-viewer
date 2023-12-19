@@ -201,9 +201,9 @@ const assignImageContext = assign({
       actorContext.colorMaps.set(component, colorMap)
     }
 
-    // Assign default piecewiseFunction
     for (let component = 0; component < components; component++) {
       if (!actorContext.piecewiseFunctionPoints.has(component)) {
+        // Assign default piecewiseFunction
         const points = context.use2D
           ? [
               [0, 1],
@@ -215,6 +215,7 @@ const assignImageContext = assign({
             ]
         actorContext.piecewiseFunctionPoints.set(component, points)
       }
+      actorContext.colorRanges.set(component, [0.2, 0.8])
     }
 
     actorContext.colorRangesAutoAdjust = new Map(

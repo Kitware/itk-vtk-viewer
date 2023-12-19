@@ -389,6 +389,16 @@ function applyRenderedImage(context, { data: { name } }) {
       type: 'IMAGE_COLOR_MAP_CHANGED',
       data: { name, component, colorMap },
     })
+
+    // Update piecewise function nodes after we have data range
+    // Without this piecewise functions are never "applied"
+    const points = context.images.actorContext
+      .get(name)
+      .piecewiseFunctionPoints.get(component)
+    context.service.send({
+      type: 'IMAGE_PIECEWISE_FUNCTION_POINTS_CHANGED',
+      data: { name, component, points },
+    })
   }
 
   // call after representations are created

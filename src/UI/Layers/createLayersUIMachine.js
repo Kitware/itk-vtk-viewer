@@ -211,7 +211,7 @@ const assignImageContext = assign({
             ]
           : [
               [0, 0],
-              [1, 1],
+              [0.9, 0.9],
             ]
         actorContext.piecewiseFunctionPoints.set(component, points)
       }

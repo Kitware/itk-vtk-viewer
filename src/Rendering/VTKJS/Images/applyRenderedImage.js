@@ -348,7 +348,7 @@ function applyRenderedImage(context, { data: { name } }) {
       if (!labelImageWeights.has(label)) {
         // 0 is usually the background label -- suppress it
         label === 0
-          ? labelImageWeights.set(label, 0.1)
+          ? labelImageWeights.set(label, 0.0)
           : labelImageWeights.set(label, 1.0)
         labelImageWeightAdded = true
       }

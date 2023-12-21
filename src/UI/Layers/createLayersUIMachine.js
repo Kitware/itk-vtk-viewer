@@ -218,15 +218,12 @@ const assignImageContext = assign({
       actorContext.colorRanges.set(component, [0.2, 0.8])
     }
 
-    actorContext.colorRangesAutoAdjust = new Map(
-      [...Array(components).keys()].map(c => [c, true]) // { 0: true, 1: true, ... n: true}
-    )
-    actorContext.colorRangeBoundsAutoAdjust = new Map(
-      [...Array(components).keys()].map(c => [c, true])
-    )
-    actorContext.piecewiseFunctionPointsAutoAdjust = new Map(
-      [...Array(components).keys()].map(c => [c, true])
-    )
+    // make Maps like this: { 0: true, 1: true, ... n: true}
+    const trueForAll = [...Array(components).keys()].map(c => [c, true])
+    actorContext.colorRangeMinAutoAdjust = new Map([...trueForAll])
+    actorContext.colorRangeMaxAutoAdjust = new Map([...trueForAll])
+    actorContext.colorRangeBoundsAutoAdjust = new Map([...trueForAll])
+    actorContext.piecewiseFunctionPointsAutoAdjust = new Map([...trueForAll])
 
     return images
   },

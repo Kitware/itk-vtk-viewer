@@ -53,7 +53,8 @@ class ImageActorContext {
 
   // Keep growing component ranges as new parts of the image are loaded
   // Map of image intensity component to Boolean
-  colorRangesAutoAdjust = null
+  colorRangeMinAutoAdjust = null
+  colorRangeMaxAutoAdjust = null
 
   // Map of image intensity component to array of [minBound, maxBound] for
   // limiting the color range in the UI

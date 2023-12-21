@@ -809,6 +809,24 @@ const createViewer = async (
     return actorContext.colorRanges.get(component)
   }
 
+  publicAPI.setImageColorRangeMin = (value, component, name) => {
+    const selectedComponent = component ?? 0
+    const selectedName = name ?? context.images.selectedName
+    service.send({
+      type: 'IMAGE_COLOR_RANGE_MIN_CHANGED',
+      data: { name: selectedName, component: selectedComponent, value },
+    })
+  }
+
+  publicAPI.setImageColorRangeMax = (value, component, name) => {
+    const selectedComponent = component ?? 0
+    const selectedName = name ?? context.images.selectedName
+    service.send({
+      type: 'IMAGE_COLOR_RANGE_MAX_CHANGED',
+      data: { name: selectedName, component: selectedComponent, value },
+    })
+  }
+
   publicAPI.setImageColorRangeBounds = (range, component, name) => {
     if (typeof name === 'undefined') {
       name = context.images.selectedName

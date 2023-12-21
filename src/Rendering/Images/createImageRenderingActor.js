@@ -19,18 +19,76 @@ const assignColorRange = assign({
     { images },
     { data: { name, component, range, keepAutoAdjusting = false } }
   ) => {
-    const { colorRanges, colorRangesAutoAdjust } = images.actorContext.get(name)
+    const {
+      colorRanges,
+      colorRangeMinAutoAdjust,
+      colorRangeMaxAutoAdjust,
+    } = images.actorContext.get(name)
 
     colorRanges.set(component, range)
 
-    colorRangesAutoAdjust.set(
+    colorRangeMinAutoAdjust.set(
       component,
-      colorRangesAutoAdjust.get(component) && keepAutoAdjusting
+      colorRangeMinAutoAdjust.get(component) && keepAutoAdjusting
+    )
+    colorRangeMaxAutoAdjust.set(
+      component,
+      colorRangeMaxAutoAdjust.get(component) && keepAutoAdjusting
     )
 
     return images
   },
 })
+
+const assignColorRangeMin = assign({
+  images: ({ images }, { data: { name, component } }) => {
+    const { colorRangeMinAutoAdjust } = images.actorContext.get(name)
+    colorRangeMinAutoAdjust.set(component, false)
+    return images
+  },
+})
+
+const updateColorRangeMin = (context, e) => {
+  const {
+    data: { name, component, value },
+  } = e
+  const { colorRanges } = context.images.actorContext.get(name)
+  const [, max] = colorRanges.get(component)
+  context.service.send({
+    type: 'IMAGE_COLOR_RANGE_CHANGED',
+    data: {
+      name,
+      component,
+      range: [value, max],
+      keepAutoAdjusting: true, // let max change
+    },
+  })
+}
+
+const assignColorRangeMax = assign({
+  images: ({ images }, { data: { name, component } }) => {
+    const { colorRangeMaxAutoAdjust } = images.actorContext.get(name)
+    colorRangeMaxAutoAdjust.set(component, false)
+    return images
+  },
+})
+
+const updateColorRangeMax = (context, e) => {
+  const {
+    data: { name, component, value },
+  } = e
+  const { colorRanges } = context.images.actorContext.get(name)
+  const [min] = colorRanges.get(component)
+  context.service.send({
+    type: 'IMAGE_COLOR_RANGE_CHANGED',
+    data: {
+      name,
+      component,
+      range: [min, value],
+      keepAutoAdjusting: true, // let min change
+    },
+  })
+}
 
 const assignUpdateRenderedName = assign({
   images: (context, event) => {
@@ -316,7 +374,10 @@ const cleanColorRanges = (c, { data: { name } }) => {
     actorContext.colorRangeBoundsAutoAdjust = new Map(
       [...Array(componentCount).keys()].map(c => [c, true])
     )
-    actorContext.colorRangesAutoAdjust = new Map(
+    actorContext.colorRangeMinAutoAdjust = new Map(
+      [...Array(componentCount).keys()].map(c => [c, true])
+    )
+    actorContext.colorRangeMaxAutoAdjust = new Map(
       [...Array(componentCount).keys()].map(c => [c, true])
     )
     actorContext.piecewiseFunctionPointsAutoAdjust = new Map(
@@ -480,6 +541,12 @@ const eventResponses = {
   },
   IMAGE_COLOR_RANGE_CHANGED: {
     actions: [assignColorRange, 'applyColorRange'],
+  },
+  IMAGE_COLOR_RANGE_MIN_CHANGED: {
+    actions: [assignColorRangeMin, updateColorRangeMin],
+  },
+  IMAGE_COLOR_RANGE_MAX_CHANGED: {
+    actions: [assignColorRangeMax, updateColorRangeMax],
   },
   IMAGE_COLOR_RANGE_POINTS_CHANGED: {
     actions: 'mapToColorFunctionRange',

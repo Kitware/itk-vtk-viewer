@@ -173,6 +173,8 @@ function createImagesRenderingMachine(options, context) {
                 'IMAGE_COLOR_RANGE_RESET',
                 'ANIMATE_IMAGE_MIX',
                 'TOGGLE_LAYER_BBOX',
+                'IMAGE_COLOR_RANGE_MIN_CHANGED',
+                'IMAGE_COLOR_RANGE_MAX_CHANGED',
               ],
               { actions: forwardToNamedActor }
             ),

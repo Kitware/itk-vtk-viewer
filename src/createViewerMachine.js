@@ -216,6 +216,12 @@ const createViewerMachine = (options, context, eventEmitterCallback) => {
                 forwardTo('eventEmitter'),
               ],
             },
+            IMAGE_COLOR_RANGE_MIN_CHANGED: {
+              actions: [forwardTo('rendering')],
+            },
+            IMAGE_COLOR_RANGE_MAX_CHANGED: {
+              actions: [forwardTo('rendering')],
+            },
             IMAGE_COLOR_RANGE_POINTS_CHANGED: {
               actions: [forwardTo('rendering')],
             },

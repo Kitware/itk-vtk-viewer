@@ -221,6 +221,14 @@ class ImJoyPluginAPI {
     return this.viewer.getImageColorRange(component, name)
   }
 
+  setImageColorRangeMin(min, component, name) {
+    this.viewer.setImageColorRangeMin(min, component, name)
+  }
+
+  setImageColorRangeMax(max, component, name) {
+    this.viewer.setImageColorRangeMax(max, component, name)
+  }
+
   setImageColorRangeBounds(bounds, component, name) {
     this.viewer.setImageColorRangeBounds(bounds, component, name)
   }

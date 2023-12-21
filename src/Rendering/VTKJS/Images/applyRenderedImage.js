@@ -270,7 +270,8 @@ function applyRenderedImage(context, { data: { name } }) {
         colorRangeBoundsAutoAdjust,
         colorRangeBounds,
         colorRanges,
-        colorRangesAutoAdjust,
+        colorRangeMinAutoAdjust,
+        colorRangeMaxAutoAdjust,
       } = actorContext
 
       const dataArray = actorContext.fusedImage.getPointData().getScalars()
@@ -282,7 +283,9 @@ function applyRenderedImage(context, { data: { name } }) {
           : [dataMin, dataMax]
 
       const storedColorRange = colorRanges.get(componentIndex)
-      if (colorRangesAutoAdjust.get(componentIndex) || !storedColorRange) {
+      const minAutoAdjust = colorRangeMinAutoAdjust.get(componentIndex)
+      const maxAutoAdjust = colorRangeMaxAutoAdjust.get(componentIndex)
+      if (minAutoAdjust || maxAutoAdjust || !storedColorRange) {
         const fullRange = actorContext.colorRangeBounds.get(componentIndex) ?? [
           0,
           1,
@@ -298,6 +301,9 @@ function applyRenderedImage(context, { data: { name } }) {
         const newRange = colorRangeNormalized.map(x => {
           return x * newDelta + newMin
         })
+
+        if (!minAutoAdjust) newRange[0] = range[0]
+        if (!maxAutoAdjust) newRange[1] = range[1]
 
         context.service.send({
           type: 'IMAGE_COLOR_RANGE_CHANGED',

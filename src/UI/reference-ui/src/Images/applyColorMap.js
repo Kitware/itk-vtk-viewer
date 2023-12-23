@@ -13,6 +13,14 @@ function applyColorMap(context, { data: { component, name } }) {
         colorTransferFunction
       )
     }
+    if (actorContext.fusedImage) {
+      const range = actorContext.fusedImage
+        .getPointData()
+        .getScalars()
+        .getRange(component)
+
+      context.images.transferFunctionWidget.setRange(range)
+    }
   }
 }
 

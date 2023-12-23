@@ -80,6 +80,10 @@ const vtkPiecewiseGaussianWidgetFacade = (tfEditor, context) => {
       }
     },
 
+    setRange: range => {
+      tfEditor.setRange(range)
+    },
+
     setRangeZoom: newRange => {
       tfEditor.setViewBox(...newRange)
     },

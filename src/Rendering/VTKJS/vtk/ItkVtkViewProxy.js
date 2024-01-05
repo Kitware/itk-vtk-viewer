@@ -19,7 +19,7 @@ export const VOLUME_DIFFUSE_DEFAULT = 1.0
 export const VOLUME_AMBIENT_DEFAULT = 0.4
 
 const CursorCornerAnnotation =
-  '<table class="corner-annotation" style="margin-left: 0;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
+  '<table class="corner-annotation" style="margin-left: auto; margin-right: 6px; margin-top: 2em;"><tr><td style="margin-left: auto; margin-right: 0;">Index:</td><td>${iIndex},</td><td>${jIndex},</td><td>${kIndex}</td></tr><tr><td style="margin-left: auto; margin-right: 0;">Position:</td><td>${xPosition},</td><td>${yPosition},</td><td>${zPosition}</td></tr><tr><td style="margin-left: auto; margin-right: 0;"">Value:</td><td style="text-align:center;" colspan="3">${value}</td></tr><tr ${annotationLabelStyle}><td style="margin-left: auto; margin-right: 0;">Label:</td><td style="text-align:center;" colspan="3">${annotation}</td></tr></table>'
 
 const { vtkErrorMacro } = macro
 
@@ -623,8 +623,8 @@ function ItkVtkViewProxy(publicAPI, model) {
 
   model.scaleBarCanvas = document.createElement('canvas')
   model.scaleBarCanvas.style.position = 'absolute'
-  model.scaleBarCanvas.style.left = '50%'
-  model.scaleBarCanvas.style.bottom = '15.0%'
+  model.scaleBarCanvas.style.right = '3em'
+  model.scaleBarCanvas.style.top = '12px'
   model.scaleBarCanvas.style.width = '100px'
   model.scaleBarCanvas.style.height = '30px'
   model.scaleBarCanvas.width = 100 * window.devicePixelRatio

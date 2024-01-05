@@ -1,15 +1,4 @@
-import { windowPointsForSort } from 'itk-viewer-transfer-function-editor'
-
-const getNodes = (range, points) => {
-  const delta = range[1] - range[0]
-  const windowedPoints = windowPointsForSort(points)
-  return windowedPoints.map(([x, y]) => ({
-    x: range[0] + delta * x,
-    y,
-    midpoint: 0.5,
-    sharpness: 0,
-  }))
-}
+import { getNodes } from 'itk-viewer-transfer-function-editor'
 
 // grab head and tail or fallback to data range if 1 or less points
 const getRange = nodes =>

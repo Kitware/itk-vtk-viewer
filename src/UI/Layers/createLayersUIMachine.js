@@ -205,14 +205,17 @@ const assignImageContext = assign({
       if (!actorContext.piecewiseFunctionPoints.has(component)) {
         // Assign default piecewiseFunction
         const points = context.use2D
-          ? [
-              [0, 1],
-              [1, 1],
-            ]
+          ? [[0.5, 1]]
           : [
               [0, 0],
               [0.9, 0.9],
             ]
+        if (context.use2D && components === 1) {
+          // For 2D ImageMapper, if multiple components,
+          // opacity function sets component contribution factor.
+          // If just 1 component, opacity function is irrelevant.
+          points.length = 0
+        }
         actorContext.piecewiseFunctionPoints.set(component, points)
       }
       actorContext.colorRanges.set(component, [0.2, 0.8])

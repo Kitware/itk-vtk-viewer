@@ -26877,7 +26877,11 @@ function applyColorMap(context, _ref) {
         colorTransferFunction
       )
     }
-    if (actorContext.fusedImage) {
+    if (
+      actorContext.fusedImage &&
+      // When comparing images, getScalars is null first time
+      actorContext.fusedImage.getPointData().getScalars()
+    ) {
       var range = actorContext.fusedImage
         .getPointData()
         .getScalars()

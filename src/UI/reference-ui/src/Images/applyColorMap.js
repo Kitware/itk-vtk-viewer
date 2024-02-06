@@ -13,7 +13,11 @@ function applyColorMap(context, { data: { component, name } }) {
         colorTransferFunction
       )
     }
-    if (actorContext.fusedImage) {
+    if (
+      actorContext.fusedImage &&
+      // When comparing images, getScalars is null first time
+      actorContext.fusedImage.getPointData().getScalars()
+    ) {
       const range = actorContext.fusedImage
         .getPointData()
         .getScalars()

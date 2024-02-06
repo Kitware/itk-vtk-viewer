@@ -97,7 +97,7 @@
     "postcss-loader": "^4.1.0",
     "prettier": "^1.19.1",
     "process": "^0.11.10",
-    "puppeteer": "^5.0.0",
+    "puppeteer": "^22.0.0",
     "raw-loader": "^4.0.2",
     "readable-stream": "^3.6.0",
     "request": "^2.88.2",

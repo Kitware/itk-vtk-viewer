@@ -1,3 +1,8 @@
+import structuredClone from 'core-js/actual/structured-clone'
+if (!('structuredClone' in window)) {
+  // Attach the polyfill as a Global function
+  window.structuredClone = structuredClone
+}
 import { mat4 } from 'gl-matrix'
 import { inspect } from '@xstate/inspect'
 import { interpret } from 'xstate'

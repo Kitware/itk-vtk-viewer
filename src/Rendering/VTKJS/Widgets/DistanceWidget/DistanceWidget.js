@@ -1,12 +1,7 @@
 import macro from 'vtk.js/Sources/macros'
-import vtkSphereHandleRepresentation from 'vtk.js/Sources/Widgets/Representations/SphereHandleRepresentation'
-import vtkDistanceWidget from 'vtk.js/Sources/Widgets/Widgets3D/DistanceWidget'
-import vtkDistanceWidgetBehavoir from 'vtk.js/Sources/Widgets/Widgets3D/DistanceWidget/behavior'
-import vtkPolyLineRepresentation from 'vtk.js/Sources/Widgets/Representations/PolyLineRepresentation'
-
-import stateGenerator from './state'
-
-import { ViewTypes } from 'vtk.js/Sources/Widgets/Core/WidgetManager/Constants'
+import vtkLineWidget from 'vtk.js/Sources/Widgets/Widgets3D/LineWidget'
+import vtkLineWidgetBehavior from 'vtk.js/Sources/Widgets/Widgets3D/LineWidget/behavior'
+import stateGenerator from 'vtk.js/Sources/Widgets/Widgets3D/LineWidget/state'
 
 // ----------------------------------------------------------------------------
 // Factory
@@ -25,37 +20,8 @@ function DistanceWidget(publicAPI, model) {
     'text',
     'textStateIndex',
   ]
-  model.behavior = vtkDistanceWidgetBehavoir
+  model.behavior = vtkLineWidgetBehavior
   model.widgetState = stateGenerator()
-  publicAPI.getRepresentationsForViewType = viewType => {
-    switch (viewType) {
-      case ViewTypes.DEFAULT:
-      case ViewTypes.GEOMETRY:
-      case ViewTypes.SLICE:
-      case ViewTypes.VOLUME:
-      default:
-        return [
-          {
-            builder: vtkSphereHandleRepresentation,
-            labels: ['handles'],
-            initialValues: {
-              scaleInPixels: true,
-            },
-          },
-          {
-            builder: vtkSphereHandleRepresentation,
-            labels: ['moveHandle'],
-            initialValues: {
-              scaleInPixels: true,
-            },
-          },
-          {
-            builder: vtkPolyLineRepresentation,
-            labels: ['handles', 'moveHandle'],
-          },
-        ]
-    }
-  }
 }
 
 // ----------------------------------------------------------------------------
@@ -67,7 +33,7 @@ const DEFAULT_VALUES = {}
 export function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues)
 
-  vtkDistanceWidget.extend(publicAPI, model, {
+  vtkLineWidget.extend(publicAPI, model, {
     ...initialValues,
     useCameraFocalPoint: true,
   })

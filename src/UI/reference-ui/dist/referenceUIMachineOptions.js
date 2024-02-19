@@ -296,11 +296,11 @@ function getAugmentedNamespace(n) {
   return a
 }
 
-var toConsumableArray$1 = { exports: {} }
+var toConsumableArray = { exports: {} }
 
-var arrayWithoutHoles$1 = { exports: {} }
+var arrayWithoutHoles = { exports: {} }
 
-var arrayLikeToArray$1 = { exports: {} }
+var arrayLikeToArray = { exports: {} }
 
 ;(function(module) {
   function _arrayLikeToArray(arr, len) {
@@ -316,21 +316,21 @@ var arrayLikeToArray$1 = { exports: {} }
   ;(module.exports = _arrayLikeToArray),
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
-})(arrayLikeToArray$1)
+})(arrayLikeToArray)
 
 ;(function(module) {
-  var arrayLikeToArray = arrayLikeToArray$1.exports
+  var arrayLikeToArray$1 = arrayLikeToArray.exports
 
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return arrayLikeToArray(arr)
+    if (Array.isArray(arr)) return arrayLikeToArray$1(arr)
   }
 
   ;(module.exports = _arrayWithoutHoles),
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
-})(arrayWithoutHoles$1)
+})(arrayWithoutHoles)
 
-var iterableToArray$1 = { exports: {} }
+var iterableToArray = { exports: {} }
 
 ;(function(module) {
   function _iterableToArray(iter) {
@@ -344,29 +344,29 @@ var iterableToArray$1 = { exports: {} }
   ;(module.exports = _iterableToArray),
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
-})(iterableToArray$1)
+})(iterableToArray)
 
-var unsupportedIterableToArray$1 = { exports: {} }
+var unsupportedIterableToArray = { exports: {} }
 
 ;(function(module) {
-  var arrayLikeToArray = arrayLikeToArray$1.exports
+  var arrayLikeToArray$1 = arrayLikeToArray.exports
 
   function _unsupportedIterableToArray(o, minLen) {
     if (!o) return
-    if (typeof o === 'string') return arrayLikeToArray(o, minLen)
+    if (typeof o === 'string') return arrayLikeToArray$1(o, minLen)
     var n = Object.prototype.toString.call(o).slice(8, -1)
     if (n === 'Object' && o.constructor) n = o.constructor.name
     if (n === 'Map' || n === 'Set') return Array.from(o)
     if (n === 'Arguments' || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-      return arrayLikeToArray(o, minLen)
+      return arrayLikeToArray$1(o, minLen)
   }
 
   ;(module.exports = _unsupportedIterableToArray),
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
-})(unsupportedIterableToArray$1)
+})(unsupportedIterableToArray)
 
-var nonIterableSpread$1 = { exports: {} }
+var nonIterableSpread = { exports: {} }
 
 ;(function(module) {
   function _nonIterableSpread() {
@@ -378,33 +378,33 @@ var nonIterableSpread$1 = { exports: {} }
   ;(module.exports = _nonIterableSpread),
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
-})(nonIterableSpread$1)
+})(nonIterableSpread)
 
 ;(function(module) {
-  var arrayWithoutHoles = arrayWithoutHoles$1.exports
+  var arrayWithoutHoles$1 = arrayWithoutHoles.exports
 
-  var iterableToArray = iterableToArray$1.exports
+  var iterableToArray$1 = iterableToArray.exports
 
-  var unsupportedIterableToArray = unsupportedIterableToArray$1.exports
+  var unsupportedIterableToArray$1 = unsupportedIterableToArray.exports
 
-  var nonIterableSpread = nonIterableSpread$1.exports
+  var nonIterableSpread$1 = nonIterableSpread.exports
 
   function _toConsumableArray(arr) {
     return (
-      arrayWithoutHoles(arr) ||
-      iterableToArray(arr) ||
-      unsupportedIterableToArray(arr) ||
-      nonIterableSpread()
+      arrayWithoutHoles$1(arr) ||
+      iterableToArray$1(arr) ||
+      unsupportedIterableToArray$1(arr) ||
+      nonIterableSpread$1()
     )
   }
 
   ;(module.exports = _toConsumableArray),
     (module.exports.__esModule = true),
     (module.exports['default'] = module.exports)
-})(toConsumableArray$1)
+})(toConsumableArray)
 
 var _toConsumableArray = /*@__PURE__*/ getDefaultExportFromCjs(
-  toConsumableArray$1.exports
+  toConsumableArray.exports
 )
 
 var fullscreenMethods = []
@@ -641,336 +641,6 @@ function createViewPlanesToggle(context, volumeRow) {
   })
   volumeRow.appendChild(viewPlanesButton)
 }
-
-var slicedToArray$1 = { exports: {} }
-
-var arrayWithHoles$1 = { exports: {} }
-
-;(function(module) {
-  function _arrayWithHoles(arr) {
-    if (Array.isArray(arr)) return arr
-  }
-
-  ;(module.exports = _arrayWithHoles),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(arrayWithHoles$1)
-
-var iterableToArrayLimit$1 = { exports: {} }
-
-;(function(module) {
-  function _iterableToArrayLimit(arr, i) {
-    var _i =
-      arr == null
-        ? null
-        : (typeof Symbol !== 'undefined' && arr[Symbol.iterator]) ||
-          arr['@@iterator']
-
-    if (_i == null) return
-    var _arr = []
-    var _n = true
-    var _d = false
-
-    var _s, _e
-
-    try {
-      for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-        _arr.push(_s.value)
-
-        if (i && _arr.length === i) break
-      }
-    } catch (err) {
-      _d = true
-      _e = err
-    } finally {
-      try {
-        if (!_n && _i['return'] != null) _i['return']()
-      } finally {
-        if (_d) throw _e
-      }
-    }
-
-    return _arr
-  }
-
-  ;(module.exports = _iterableToArrayLimit),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(iterableToArrayLimit$1)
-
-var unsupportedIterableToArray = { exports: {} }
-
-var arrayLikeToArray = { exports: {} }
-
-;(function(module) {
-  function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length
-
-    for (var i = 0, arr2 = new Array(len); i < len; i++) {
-      arr2[i] = arr[i]
-    }
-
-    return arr2
-  }
-
-  ;(module.exports = _arrayLikeToArray),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(arrayLikeToArray)
-
-;(function(module) {
-  var arrayLikeToArray$1 = arrayLikeToArray.exports
-
-  function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return
-    if (typeof o === 'string') return arrayLikeToArray$1(o, minLen)
-    var n = Object.prototype.toString.call(o).slice(8, -1)
-    if (n === 'Object' && o.constructor) n = o.constructor.name
-    if (n === 'Map' || n === 'Set') return Array.from(o)
-    if (n === 'Arguments' || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-      return arrayLikeToArray$1(o, minLen)
-  }
-
-  ;(module.exports = _unsupportedIterableToArray),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(unsupportedIterableToArray)
-
-var nonIterableRest$1 = { exports: {} }
-
-;(function(module) {
-  function _nonIterableRest() {
-    throw new TypeError(
-      'Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
-    )
-  }
-
-  ;(module.exports = _nonIterableRest),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(nonIterableRest$1)
-
-;(function(module) {
-  var arrayWithHoles = arrayWithHoles$1.exports
-
-  var iterableToArrayLimit = iterableToArrayLimit$1.exports
-
-  var unsupportedIterableToArray$1 = unsupportedIterableToArray.exports
-
-  var nonIterableRest = nonIterableRest$1.exports
-
-  function _slicedToArray(arr, i) {
-    return (
-      arrayWithHoles(arr) ||
-      iterableToArrayLimit(arr, i) ||
-      unsupportedIterableToArray$1(arr, i) ||
-      nonIterableRest()
-    )
-  }
-
-  ;(module.exports = _slicedToArray),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(slicedToArray$1)
-
-var _typeof = { exports: {} }
-
-;(function(module) {
-  function _typeof(obj) {
-    '@babel/helpers - typeof'
-
-    return (
-      ((module.exports = _typeof =
-        'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
-          ? function(obj) {
-              return typeof obj
-            }
-          : function(obj) {
-              return obj &&
-                'function' == typeof Symbol &&
-                obj.constructor === Symbol &&
-                obj !== Symbol.prototype
-                ? 'symbol'
-                : typeof obj
-            }),
-      (module.exports.__esModule = true),
-      (module.exports['default'] = module.exports)),
-      _typeof(obj)
-    )
-  }
-
-  ;(module.exports = _typeof),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(_typeof)
-
-var defineProperty$2 = { exports: {} }
-
-;(function(module) {
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true,
-      })
-    } else {
-      obj[key] = value
-    }
-
-    return obj
-  }
-
-  ;(module.exports = _defineProperty),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(defineProperty$2)
-
-var toConsumableArray = { exports: {} }
-
-var arrayWithoutHoles = { exports: {} }
-
-;(function(module) {
-  var arrayLikeToArray$1 = arrayLikeToArray.exports
-
-  function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return arrayLikeToArray$1(arr)
-  }
-
-  ;(module.exports = _arrayWithoutHoles),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(arrayWithoutHoles)
-
-var iterableToArray = { exports: {} }
-
-;(function(module) {
-  function _iterableToArray(iter) {
-    if (
-      (typeof Symbol !== 'undefined' && iter[Symbol.iterator] != null) ||
-      iter['@@iterator'] != null
-    )
-      return Array.from(iter)
-  }
-
-  ;(module.exports = _iterableToArray),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(iterableToArray)
-
-var nonIterableSpread = { exports: {} }
-
-;(function(module) {
-  function _nonIterableSpread() {
-    throw new TypeError(
-      'Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
-    )
-  }
-
-  ;(module.exports = _nonIterableSpread),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(nonIterableSpread)
-
-;(function(module) {
-  var arrayWithoutHoles$1 = arrayWithoutHoles.exports
-
-  var iterableToArray$1 = iterableToArray.exports
-
-  var unsupportedIterableToArray$1 = unsupportedIterableToArray.exports
-
-  var nonIterableSpread$1 = nonIterableSpread.exports
-
-  function _toConsumableArray(arr) {
-    return (
-      arrayWithoutHoles$1(arr) ||
-      iterableToArray$1(arr) ||
-      unsupportedIterableToArray$1(arr) ||
-      nonIterableSpread$1()
-    )
-  }
-
-  ;(module.exports = _toConsumableArray),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(toConsumableArray)
-
-var construct = { exports: {} }
-
-var setPrototypeOf = { exports: {} }
-
-;(function(module) {
-  function _setPrototypeOf(o, p) {
-    ;(module.exports = _setPrototypeOf =
-      Object.setPrototypeOf ||
-      function _setPrototypeOf(o, p) {
-        o.__proto__ = p
-        return o
-      }),
-      (module.exports.__esModule = true),
-      (module.exports['default'] = module.exports)
-    return _setPrototypeOf(o, p)
-  }
-
-  ;(module.exports = _setPrototypeOf),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(setPrototypeOf)
-
-var isNativeReflectConstruct = { exports: {} }
-
-;(function(module) {
-  function _isNativeReflectConstruct() {
-    if (typeof Reflect === 'undefined' || !Reflect.construct) return false
-    if (Reflect.construct.sham) return false
-    if (typeof Proxy === 'function') return true
-
-    try {
-      Boolean.prototype.valueOf.call(
-        Reflect.construct(Boolean, [], function() {})
-      )
-      return true
-    } catch (e) {
-      return false
-    }
-  }
-
-  ;(module.exports = _isNativeReflectConstruct),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(isNativeReflectConstruct)
-
-;(function(module) {
-  var setPrototypeOf$1 = setPrototypeOf.exports
-
-  var isNativeReflectConstruct$1 = isNativeReflectConstruct.exports
-
-  function _construct(Parent, args, Class) {
-    if (isNativeReflectConstruct$1()) {
-      ;(module.exports = _construct = Reflect.construct),
-        (module.exports.__esModule = true),
-        (module.exports['default'] = module.exports)
-    } else {
-      ;(module.exports = _construct = function _construct(Parent, args, Class) {
-        var a = [null]
-        a.push.apply(a, args)
-        var Constructor = Function.bind.apply(Parent, a)
-        var instance = new Constructor()
-        if (Class) setPrototypeOf$1(instance, Class.prototype)
-        return instance
-      }),
-        (module.exports.__esModule = true),
-        (module.exports['default'] = module.exports)
-    }
-
-    return _construct.apply(null, arguments)
-  }
-
-  ;(module.exports = _construct),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(construct)
 
 var toStr$2 = Object.prototype.toString
 
@@ -1281,266 +951,16 @@ defineProperties(getGlobal, {
 
 var globalthis = getGlobal
 
-var vtkGlobal = globalthis() // returns native globalThis if compliant
+const vtkGlobal = globalthis() // returns native globalThis if compliant
 
-var classCallCheck = { exports: {} }
-
-;(function(module) {
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError('Cannot call a class as a function')
-    }
-  }
-
-  ;(module.exports = _classCallCheck),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(classCallCheck)
-
-var createClass = { exports: {} }
-
-;(function(module) {
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i]
-      descriptor.enumerable = descriptor.enumerable || false
-      descriptor.configurable = true
-      if ('value' in descriptor) descriptor.writable = true
-      Object.defineProperty(target, descriptor.key, descriptor)
-    }
-  }
-
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps)
-    if (staticProps) _defineProperties(Constructor, staticProps)
-    Object.defineProperty(Constructor, 'prototype', {
-      writable: false,
-    })
-    return Constructor
-  }
-
-  ;(module.exports = _createClass),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(createClass)
-
-var get = { exports: {} }
-
-var superPropBase = { exports: {} }
-
-var getPrototypeOf = { exports: {} }
-
-;(function(module) {
-  function _getPrototypeOf(o) {
-    ;(module.exports = _getPrototypeOf = Object.setPrototypeOf
-      ? Object.getPrototypeOf
-      : function _getPrototypeOf(o) {
-          return o.__proto__ || Object.getPrototypeOf(o)
-        }),
-      (module.exports.__esModule = true),
-      (module.exports['default'] = module.exports)
-    return _getPrototypeOf(o)
-  }
-
-  ;(module.exports = _getPrototypeOf),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(getPrototypeOf)
-
-;(function(module) {
-  var getPrototypeOf$1 = getPrototypeOf.exports
-
-  function _superPropBase(object, property) {
-    while (!Object.prototype.hasOwnProperty.call(object, property)) {
-      object = getPrototypeOf$1(object)
-      if (object === null) break
-    }
-
-    return object
-  }
-
-  ;(module.exports = _superPropBase),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(superPropBase)
-
-;(function(module) {
-  var superPropBase$1 = superPropBase.exports
-
-  function _get() {
-    if (typeof Reflect !== 'undefined' && Reflect.get) {
-      ;(module.exports = _get = Reflect.get),
-        (module.exports.__esModule = true),
-        (module.exports['default'] = module.exports)
-    } else {
-      ;(module.exports = _get = function _get(target, property, receiver) {
-        var base = superPropBase$1(target, property)
-        if (!base) return
-        var desc = Object.getOwnPropertyDescriptor(base, property)
-
-        if (desc.get) {
-          return desc.get.call(arguments.length < 3 ? target : receiver)
-        }
-
-        return desc.value
-      }),
-        (module.exports.__esModule = true),
-        (module.exports['default'] = module.exports)
-    }
-
-    return _get.apply(this, arguments)
-  }
-
-  ;(module.exports = _get),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(get)
-
-var inherits = { exports: {} }
-
-;(function(module) {
-  var setPrototypeOf$1 = setPrototypeOf.exports
-
-  function _inherits(subClass, superClass) {
-    if (typeof superClass !== 'function' && superClass !== null) {
-      throw new TypeError('Super expression must either be null or a function')
-    }
-
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        writable: true,
-        configurable: true,
-      },
-    })
-    Object.defineProperty(subClass, 'prototype', {
-      writable: false,
-    })
-    if (superClass) setPrototypeOf$1(subClass, superClass)
-  }
-
-  ;(module.exports = _inherits),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(inherits)
-
-var possibleConstructorReturn = { exports: {} }
-
-var assertThisInitialized = { exports: {} }
-
-;(function(module) {
-  function _assertThisInitialized(self) {
-    if (self === void 0) {
-      throw new ReferenceError(
-        "this hasn't been initialised - super() hasn't been called"
-      )
-    }
-
-    return self
-  }
-
-  ;(module.exports = _assertThisInitialized),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(assertThisInitialized)
-
-;(function(module) {
-  var _typeof$1 = _typeof.exports['default']
-
-  var assertThisInitialized$1 = assertThisInitialized.exports
-
-  function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof$1(call) === 'object' || typeof call === 'function')) {
-      return call
-    } else if (call !== void 0) {
-      throw new TypeError(
-        'Derived constructors may only return object or undefined'
-      )
-    }
-
-    return assertThisInitialized$1(self)
-  }
-
-  ;(module.exports = _possibleConstructorReturn),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(possibleConstructorReturn)
-
-var wrapNativeSuper = { exports: {} }
-
-var isNativeFunction = { exports: {} }
-
-;(function(module) {
-  function _isNativeFunction(fn) {
-    return Function.toString.call(fn).indexOf('[native code]') !== -1
-  }
-
-  ;(module.exports = _isNativeFunction),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(isNativeFunction)
-
-;(function(module) {
-  var getPrototypeOf$1 = getPrototypeOf.exports
-
-  var setPrototypeOf$1 = setPrototypeOf.exports
-
-  var isNativeFunction$1 = isNativeFunction.exports
-
-  var construct$1 = construct.exports
-
-  function _wrapNativeSuper(Class) {
-    var _cache = typeof Map === 'function' ? new Map() : undefined
-
-    ;(module.exports = _wrapNativeSuper = function _wrapNativeSuper(Class) {
-      if (Class === null || !isNativeFunction$1(Class)) return Class
-
-      if (typeof Class !== 'function') {
-        throw new TypeError(
-          'Super expression must either be null or a function'
-        )
-      }
-
-      if (typeof _cache !== 'undefined') {
-        if (_cache.has(Class)) return _cache.get(Class)
-
-        _cache.set(Class, Wrapper)
-      }
-
-      function Wrapper() {
-        return construct$1(Class, arguments, getPrototypeOf$1(this).constructor)
-      }
-
-      Wrapper.prototype = Object.create(Class.prototype, {
-        constructor: {
-          value: Wrapper,
-          enumerable: false,
-          writable: true,
-          configurable: true,
-        },
-      })
-      return setPrototypeOf$1(Wrapper, Class)
-    }),
-      (module.exports.__esModule = true),
-      (module.exports['default'] = module.exports)
-    return _wrapNativeSuper(Class)
-  }
-
-  ;(module.exports = _wrapNativeSuper),
-    (module.exports.__esModule = true),
-    (module.exports['default'] = module.exports)
-})(wrapNativeSuper)
-
+// ----------------------------------------------------------------------------
 // Logging function calls
 // ----------------------------------------------------------------------------
-
 /* eslint-disable no-prototype-builtins                                      */
 
-var fakeConsole = {}
-
+const fakeConsole = {}
 function noOp() {}
-
-var consoleMethods = [
+const consoleMethods = [
   'log',
   'debug',
   'info',
@@ -1551,7 +971,7 @@ var consoleMethods = [
   'group',
   'groupEnd',
 ]
-consoleMethods.forEach(function(methodName) {
+consoleMethods.forEach(methodName => {
   fakeConsole[methodName] = noOp
 })
 vtkGlobal.console = console.hasOwnProperty('log') ? console : fakeConsole
@@ -1563,10 +983,12 @@ vtkGlobal.console = console.hasOwnProperty('log') ? console : fakeConsole
   log: vtkGlobal.console.log || noOp,
   warn: vtkGlobal.console.warn || noOp,
 })
+
+// ----------------------------------------------------------------------------
 // TypedArray
 // ----------------------------------------------------------------------------
 
-var TYPED_ARRAYS = Object.create(null)
+const TYPED_ARRAYS = Object.create(null)
 TYPED_ARRAYS.Float32Array = Float32Array
 TYPED_ARRAYS.Float64Array = Float64Array
 TYPED_ARRAYS.Uint8Array = Uint8Array
@@ -1576,11 +998,10 @@ TYPED_ARRAYS.Int16Array = Int16Array
 TYPED_ARRAYS.Uint32Array = Uint32Array
 TYPED_ARRAYS.Int32Array = Int32Array
 TYPED_ARRAYS.Uint8ClampedArray = Uint8ClampedArray
-
 try {
   TYPED_ARRAYS.BigInt64Array = BigInt64Array
   TYPED_ARRAYS.BigUint64Array = BigUint64Array
-} catch (_unused) {
+} catch {
   // ignore
 }
 
@@ -11134,17 +10555,17 @@ var nonIterableRest = { exports: {} }
 ;(function(module) {
   var arrayWithHoles$1 = arrayWithHoles.exports
 
-  var iterableToArray = iterableToArray$1.exports
+  var iterableToArray$1 = iterableToArray.exports
 
-  var unsupportedIterableToArray = unsupportedIterableToArray$1.exports
+  var unsupportedIterableToArray$1 = unsupportedIterableToArray.exports
 
   var nonIterableRest$1 = nonIterableRest.exports
 
   function _toArray(arr) {
     return (
       arrayWithHoles$1(arr) ||
-      iterableToArray(arr) ||
-      unsupportedIterableToArray(arr) ||
+      iterableToArray$1(arr) ||
+      unsupportedIterableToArray$1(arr) ||
       nonIterableRest$1()
     )
   }
@@ -11232,7 +10653,7 @@ var iterableToArrayLimit = { exports: {} }
 
   var iterableToArrayLimit$1 = iterableToArrayLimit.exports
 
-  var unsupportedIterableToArray = unsupportedIterableToArray$1.exports
+  var unsupportedIterableToArray$1 = unsupportedIterableToArray.exports
 
   var nonIterableRest$1 = nonIterableRest.exports
 
@@ -11240,7 +10661,7 @@ var iterableToArrayLimit = { exports: {} }
     return (
       arrayWithHoles$1(arr) ||
       iterableToArrayLimit$1(arr, i) ||
-      unsupportedIterableToArray(arr, i) ||
+      unsupportedIterableToArray$1(arr, i) ||
       nonIterableRest$1()
     )
   }
@@ -26877,7 +26298,11 @@ function applyColorMap(context, _ref) {
         colorTransferFunction
       )
     }
-    if (actorContext.fusedImage) {
+    if (
+      actorContext.fusedImage &&
+      // When comparing images, getScalars is null first time
+      actorContext.fusedImage.getPointData().getScalars()
+    ) {
       var range = actorContext.fusedImage
         .getPointData()
         .getScalars()

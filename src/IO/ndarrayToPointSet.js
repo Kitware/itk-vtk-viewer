@@ -45,6 +45,7 @@ function ndarrayToPointSet(array) {
     verts[i] = 1
     verts[i + 1] = i / 2
   }
+  const size = array._rshape.reduce((a, b) => a * b, 1)
   return vtk({
     vtkClass: 'vtkPolyData',
     points: {
@@ -52,7 +53,7 @@ function ndarrayToPointSet(array) {
       name: '_points',
       numberOfComponents: 3,
       dataType: arrayType.name,
-      size: array._rshape[0],
+      size,
       values: new arrayType(array._rvalue),
     },
     verts: {

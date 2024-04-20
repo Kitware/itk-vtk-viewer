@@ -11,24 +11,6 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/shortcuts.html</loc>
-    
-    <lastmod>2024-04-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/itk-vtk-viewer/docs/viewer.html</loc>
-    
-    <lastmod>2024-04-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/api/index.html</loc>
     
     <lastmod>2024-04-20</lastmod>
@@ -84,6 +66,24 @@
   
   <url>
     <loc>https://kitware.github.io/itk-vtk-viewer/docs/index.html</loc>
+    
+    <lastmod>2024-04-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/shortcuts.html</loc>
+    
+    <lastmod>2024-04-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/itk-vtk-viewer/docs/viewer.html</loc>
     
     <lastmod>2024-04-20</lastmod>
     

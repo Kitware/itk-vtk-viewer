@@ -245,12 +245,12 @@ class ImJoyPluginAPI {
     return this.viewer.getImageColorMap(component, name)
   }
 
-  setImagePiecewiseFunctionGaussians(gaussians, component, name) {
-    this.viewer.setImagePiecewiseFunctionGaussians(gaussians, component, name)
+  setImagePiecewiseFunctionPoints(points, component, name) {
+    this.viewer.setImagePiecewiseFunctionPoints(points, component, name)
   }
 
-  getImagePiecewiseFunctionGaussians(component, name) {
-    return this.viewer.getImagePiecewiseFunctionGaussians(component, name)
+  getImagePiecewiseFunctionPoints(component, name) {
+    return this.viewer.getImagePiecewiseFunctionPoints(component, name)
   }
 
   setImageShadowEnabled(shadow, name) {

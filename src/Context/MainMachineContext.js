@@ -80,7 +80,7 @@ class MainMachineContext {
       step: 0.1,
       scroll: false,
       scrollDirection: 1,
-      visible: false,
+      visible: true,
     },
     y: {
       min: 0.0,
@@ -88,7 +88,7 @@ class MainMachineContext {
       step: 0.1,
       scroll: false,
       scrollDirection: 1,
-      visible: false,
+      visible: true,
     },
     z: {
       min: 0.0,
@@ -96,7 +96,7 @@ class MainMachineContext {
       step: 0.1,
       scroll: false,
       scrollDirection: 1,
-      visible: false,
+      visible: true,
     },
   }
 

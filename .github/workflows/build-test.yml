@@ -6,14 +6,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, macos-11, windows-2019]
-        node: [16, 18]
+        os: [ubuntu-22.04, macos-13, windows-2022]
+        node: [20, 22]
     name: ${{ matrix.os }} and node ${{ matrix.node }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
 
@@ -37,15 +37,3 @@ jobs:
           sudo chmod -R 777 test
           # To debug, run `./test/run.sh -d`
           npm run test:headless
-
-      - uses: ashley-taylor/junit-report-annotations-action@v1.0
-        if: ${{ always() && runner.os == 'ubuntu-18.04' }}
-        with:
-          access-token: ${{ secrets.GITHUB_TOKEN }}
-          path: 'test/TESTS-*.xml'
-
-      - uses: actions/upload-artifact@v1
-        if: ${{ always() && runner.os == 'ubuntu-18.04' }}
-        with:
-          name: 'Node${{ matrix.node}}TestOutput'
-          path: test/output.html
